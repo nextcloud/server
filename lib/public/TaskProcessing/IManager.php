@@ -47,7 +47,7 @@ interface IManager {
 	public function getPreferredProvider(string $taskTypeId);
 
 	/**
-	 * @param bool $showDisabled if false, disabled task types will be filtered
+	 * @param bool $showDisabled if false, disabled task types will be filtered out
 	 * @param ?string $userId to check if the user is a guest. Will be obtained from session if left to default
 	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 * @since 30.0.0
@@ -55,6 +55,14 @@ interface IManager {
 	 * @since 31.0.7 Added the `userId` argument
 	 */
 	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array;
+
+	/**
+	 * @param bool $showDisabled if false, disabled task types will be filtered out
+	 * @param ?string $userId to check if the user is a guest. Will be obtained from session if left to default
+	 * @return list<string>
+	 * @since 32.0.0
+	 */
+	public function getAvailableTaskTypeIds(bool $showDisabled = false, ?string $userId = null): array;
 
 	/**
 	 * @param Task $task The task to run

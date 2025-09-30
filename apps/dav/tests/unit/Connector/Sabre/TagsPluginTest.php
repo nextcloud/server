@@ -262,8 +262,8 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// then tag as tag1 and tag2
 		$calls = [
-			[123, 'tag1'],
-			[123, 'tag2'],
+			[123, 'tag1', '/dummypath'],
+			[123, 'tag2', '/dummypath'],
 		];
 		$this->tagger->expects($this->exactly(count($calls)))
 			->method('tagAs')
@@ -315,8 +315,8 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// then tag as tag1 and tag2
 		$calls = [
-			[123, 'tag1'],
-			[123, 'tag2'],
+			[123, 'tag1', '/dummypath'],
+			[123, 'tag2', '/dummypath'],
 		];
 		$this->tagger->expects($this->exactly(count($calls)))
 			->method('tagAs')

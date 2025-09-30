@@ -55,6 +55,6 @@ class Version1008Date20181105104826 extends SimpleMigrationStep {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('calendarsubscriptions')
 			->set('source_copy', 'source')
-			->execute();
+			->executeStatement();
 	}
 }

@@ -31,6 +31,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	private ?IUserManager $userManager = null;
 
+	private bool $wasDeleted = false;
+
 	/**
 	 * Creates a Folder that represents a non-existing path
 	 *
@@ -162,6 +164,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
+		$this->recreateIfNeeded();
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
@@ -377,6 +380,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->view->rmdir($this->path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path, $fileInfo);
 			$this->sendHooks(['postDelete'], [$nonExisting]);
+			$this->wasDeleted = true;
 		} else {
 			throw new NotPermittedException('No delete permission for path "' . $this->path . '"');
 		}
@@ -468,5 +472,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$fileName,
 			$readonly,
 		);
+	}
+
+	private function recreateIfNeeded(): void {
+		if ($this->wasDeleted) {
+			$this->newFolder('');
+			$this->wasDeleted = false;
+		}
 	}
 }

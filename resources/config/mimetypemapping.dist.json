@@ -199,6 +199,7 @@
 	"tif": ["image/tiff"],
 	"tiff": ["image/tiff"],
 	"ttf": ["application/font-sfnt"],
+	"text": ["text/plain"],
 	"txt": ["text/plain"],
 	"url": ["application/internet-shortcut"],
 	"vcard": ["text/vcard"],

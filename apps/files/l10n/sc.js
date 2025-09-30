@@ -84,6 +84,7 @@ OC.L10N.register(
     "New folder" : "Cartella noa",
     "Create new folder" : "Crea cartella noa",
     "Create" : "Crea",
+    "Refresh" : "Agiorna",
     "Submit" : "Imbia",
     "Choose a file or folder to transfer" : "Sèbera un'archìviu o una cartella de tramudare",
     "Transfer" : "Tràmuda",

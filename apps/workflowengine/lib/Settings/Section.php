@@ -17,36 +17,36 @@ class Section implements IIconSection {
 	 * @param IL10N $l
 	 */
 	public function __construct(
-		private IURLGenerator $url,
-		private IL10N $l,
+		private readonly IURLGenerator $url,
+		private readonly IL10N $l,
 	) {
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getID() {
+	public function getID(): string {
 		return 'workflow';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->l->t('Flow');
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 55;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIcon() {
+	public function getIcon(): string {
 		return $this->url->imagePath(Application::APP_ID, 'app-dark.svg');
 	}
 }

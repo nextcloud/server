@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Template;
 
+use OC\SystemConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -79,7 +80,7 @@ class TemplateManager implements ITemplateManager {
 			$this->eventDispatcher->dispatchTyped($event);
 			print($response->render());
 		} catch (\Throwable $e1) {
-			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->error('Rendering themed error page failed. Falling back to un-themed error page.', [
 				'app' => 'core',
 				'exception' => $e1,
@@ -112,8 +113,8 @@ class TemplateManager implements ITemplateManager {
 		$debug = false;
 		http_response_code($statusCode);
 		try {
-			$debug = (bool)Server::get(\OC\SystemConfig::class)->getValue('debug', false);
-			$serverLogsDocumentation = Server::get(\OC\SystemConfig::class)->getValue('documentation_url.server_logs', '');
+			$debug = (bool)Server::get(SystemConfig::class)->getValue('debug', false);
+			$serverLogsDocumentation = Server::get(SystemConfig::class)->getValue('documentation_url.server_logs', '');
 			$request = Server::get(IRequest::class);
 			$content = $this->getTemplate('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));

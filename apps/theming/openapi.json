@@ -182,12 +182,8 @@
                         "in": "query",
                         "description": "Let the browser decide the CSS priority",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -195,12 +191,8 @@
                         "in": "query",
                         "description": "Include custom CSS",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -260,12 +252,8 @@
                         "in": "query",
                         "description": "Return image as SVG",
                         "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],

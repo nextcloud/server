@@ -50,7 +50,6 @@
     "Clipboard not available. Please copy the cloud ID manually." : "Буфер обміну недоступний. Будь ласка, скопіюйте ідентифікатор хмари вручну.",
     "Copied!" : "Скопійовано!",
     "Federated Cloud" : "Об'єднана хмара",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Ви можете поділитися з будь-ким, хто використовує сервер Nextcloud або інші сервери та служби, сумісні з Open Cloud Mesh (OCM). Просто введіть їхній Federated Cloud ID у діалоговому вікні спільного доступу. Це виглядає як person@cloud.example.com",
     "Your Federated Cloud ID" : "Ваш ідентифікатор Federated Cloud",
     "Share it so your friends can share files with you:" : "Поділіться ним, щоб ваші друзі могли ділитися з вами файлами:",
     "Facebook" : "Facebook",
@@ -67,6 +66,7 @@
     "Remote share password" : "Пароль для віддаленого каталогу",
     "Incoming share could not be processed" : "Неможливо обробити вхідну частку",
     "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
-    "Copy to clipboard" : "Копіювати до буферу обміну"
+    "Copy to clipboard" : "Копіювати до буферу обміну",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Ви можете поділитися з будь-ким, хто використовує сервер Nextcloud або інші сервери та служби, сумісні з Open Cloud Mesh (OCM). Просто введіть їхній Federated Cloud ID у діалоговому вікні спільного доступу. Це виглядає як person@cloud.example.com"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -72,7 +72,7 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 
 		$result = $this->createMock(IResult::class);
 
-		$qb->method('execute')
+		$qb->method('executeQuery')
 			->willReturn($result);
 
 		$result->expects($this->once())

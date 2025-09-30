@@ -7,7 +7,6 @@
  */
 namespace OC\Files\Cache;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\Files\Cache\Wrapper\CacheJail;
@@ -16,6 +15,7 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\SystemConfig;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -173,7 +173,7 @@ class Cache implements ICache {
 			$data['storage_mtime'] = $data['mtime'];
 		}
 		if (isset($data['f_permissions'])) {
-			$data['scan_permissions'] = $data['f_permissions'];
+			$data['scan_permissions'] ??= $data['f_permissions'];
 		}
 		$data['permissions'] = (int)$data['permissions'];
 		if (isset($data['creation_time'])) {
@@ -249,7 +249,7 @@ class Cache implements ICache {
 	 * @param array $data
 	 *
 	 * @return int file id
-	 * @throws \RuntimeException
+	 * @throws \RuntimeException|Exception
 	 */
 	public function insert($file, array $data) {
 		// normalize file
@@ -289,7 +289,7 @@ class Cache implements ICache {
 				$builder->setValue($column, $builder->createNamedParameter($value));
 			}
 
-			if ($builder->execute()) {
+			if ($builder->executeStatement()) {
 				$fileId = $builder->getLastInsertId();
 
 				if (count($extensionValues)) {
@@ -309,15 +309,19 @@ class Cache implements ICache {
 				$this->eventDispatcher->dispatchTyped($event);
 				return $fileId;
 			}
-		} catch (UniqueConstraintViolationException $e) {
-			// entry exists already
-			if ($this->connection->inTransaction()) {
-				$this->connection->commit();
-				$this->connection->beginTransaction();
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				// entry exists already
+				if ($this->connection->inTransaction()) {
+					$this->connection->commit();
+					$this->connection->beginTransaction();
+				}
+			} else {
+				throw $e;
 			}
 		}
 
-		// The file was created in the mean time
+		// The file was created in the meantime
 		if (($id = $this->getId($file)) > -1) {
 			$this->update($id, $data);
 			return $id;
@@ -376,8 +380,11 @@ class Cache implements ICache {
 					$query->setValue($column, $query->createNamedParameter($value));
 				}
 
-				$query->execute();
-			} catch (UniqueConstraintViolationException $e) {
+				$query->executeStatement();
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
 				$query = $this->getQueryBuilder();
 				$query->update('filecache_extended')
 					->whereFileId($id)
@@ -646,6 +653,13 @@ class Cache implements ICache {
 
 	protected function hasEncryptionWrapper(): bool {
 		return $this->storage->instanceOfStorage(Encryption::class);
+	}
+
+	protected function shouldEncrypt(string $targetPath): bool {
+		if (!$this->storage->instanceOfStorage(Encryption::class)) {
+			return false;
+		}
+		return $this->storage->shouldEncrypt($targetPath);
 	}
 
 	/**
@@ -1166,7 +1180,9 @@ class Cache implements ICache {
 		$data = $this->cacheEntryToArray($sourceEntry);
 
 		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
-		if ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+		if ($sourceCache instanceof Cache
+			&& $sourceCache->hasEncryptionWrapper()
+			&& !$this->shouldEncrypt($targetPath)) {
 			$data['encrypted'] = 0;
 		}
 

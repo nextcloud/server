@@ -20,9 +20,9 @@ OC.L10N.register(
     "Edit widgets" : "ویرایش ابزارک‌ها",
     "Get more widgets from the App Store" : "گرفتن ابزارک‌های بیش‌تر از فروشگاه کاره",
     "Weather service" : "خدمت هواشناسی",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "برای محرمانگیتان، داده‌های آب و هوا از طرف کارساز نکست‌کلودتان درخواست می‌شود تا خدمت آب و هوا هیچ اطّلاعات شخصی‌ای دریافت نکند.",
     "Weather data from Met.no" : "اطلاعات هواشناسی از Met.no",
     "geocoding with Nominatim" : "کدگذاری جغرافیایی با Nominatim",
-    "elevation data from OpenTopoData" : "داده‌های ارتفاع از OpenTopoData"
+    "elevation data from OpenTopoData" : "داده‌های ارتفاع از OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "برای محرمانگیتان، داده‌های آب و هوا از طرف کارساز نکست‌کلودتان درخواست می‌شود تا خدمت آب و هوا هیچ اطّلاعات شخصی‌ای دریافت نکند."
 },
 "nplurals=2; plural=(n > 1);");

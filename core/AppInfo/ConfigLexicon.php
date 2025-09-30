@@ -28,8 +28,12 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
 	public const USER_LANGUAGE = 'lang';
 	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
+	public const OCM_INVITE_ACCEPT_DIALOG = 'ocm_invite_accept_dialog';
+
 	public const USER_LOCALE = 'locale';
 	public const USER_TIMEZONE = 'timezone';
+
+	public const UNIFIED_SEARCH_MIN_SEARCH_LENGTH = 'unified_search_min_search_length';
 
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
@@ -87,6 +91,8 @@ class ConfigLexicon implements ILexicon {
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM', lazy: true),
+			new Entry(self::OCM_INVITE_ACCEPT_DIALOG, ValueType::STRING, '', 'route to local invite accept dialog', lazy: true, note: 'set as empty string to disable feature'),
+			new Entry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', lazy: false, rename: 'unified-search.min-search-length'),
 		];
 	}
 

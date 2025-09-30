@@ -76,7 +76,7 @@ class SessionTest extends TestCase {
 	public function testGetDecryptAllUidException2(): void {
 		$this->expectException(\Exception::class);
 
-		$this->instance->prepareDecryptAll(null, 'key');
+		$this->instance->prepareDecryptAll('', 'key');
 		$this->instance->getDecryptAllUid();
 	}
 
@@ -95,7 +95,7 @@ class SessionTest extends TestCase {
 	public function testGetDecryptAllKeyException2(): void {
 		$this->expectException(PrivateKeyMissingException::class);
 
-		$this->instance->prepareDecryptAll('user', null);
+		$this->instance->prepareDecryptAll('user', '');
 		$this->instance->getDecryptAllKey();
 	}
 

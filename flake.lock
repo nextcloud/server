@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1755879377,
-        "narHash": "sha256-Mt6WJ44i5NeFWvCK8NYFnoMune3EWZb4oVE4K61VJB8=",
+        "lastModified": 1756917470,
+        "narHash": "sha256-pKCABwNBrydxa7fScvq+5WDVgjR0QGqtU1MI025k+Tg=",
         "ref": "refs/heads/main",
-        "rev": "89280d93716f4532de7a5f437e0f675cd17f9996",
-        "revCount": 289,
+        "rev": "43481a596050a6e4e1f4541ef28f356687d76174",
+        "revCount": 301,
         "type": "git",
         "url": "https://codeberg.org/icewind/haze.git"
       },

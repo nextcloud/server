@@ -6,6 +6,8 @@
 import { showError } from '@nextcloud/dialogs'
 import rebuildNavigation from '../service/rebuild-navigation.js'
 
+const productName = window.OC.theme.productName
+
 export default {
 	computed: {
 		appGroups() {
@@ -96,7 +98,9 @@ export default {
 			return null
 		},
 		forceEnableButtonTooltip() {
-			const base = t('settings', 'This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.')
+			const base = t('settings', 'This app is not marked as compatible with your {productName} version.', { productName })
+				+ ' '
+				+ t('settings', 'If you continue you will still be able to install the app. Note that the app might not work as expected.')
 			if (this.app.needsDownload) {
 				return base + ' ' + t('settings', 'The app will be downloaded from the App Store')
 			}

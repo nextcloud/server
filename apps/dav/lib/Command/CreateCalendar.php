@@ -16,6 +16,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -82,6 +83,7 @@ class CreateCalendar extends Command {
 			$config,
 			Server::get(Backend::class),
 			Server::get(FederatedCalendarMapper::class),
+			Server::get(ICacheFactory::class),
 		);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 		return self::SUCCESS;

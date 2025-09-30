@@ -131,7 +131,6 @@
     "Unknown backend: {backendName}" : "Невідомий бекенд: {backendName}",
     "Admin defined" : "Визначено адміністратором",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Автоматична перевірка статусу вимкнена через велику кількість налаштованих сховищ, натисніть, щоб перевірити статус",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати це зовнішнє сховище? Це призведе до того, що сховище стане недоступним у хмарі Nextcloud, а також вилучить файли та каталоги на клієнтських пристроях, які наразі синхронізуються з хмарою. Файли та каталоги у зовнішньому сховищі не буде вилучено.",
     "Delete storage?" : "Вилучити сховище?",
     "Click to recheck the configuration" : "Клацніть для повторної перевірки налаштувань",
     "Saved" : "Збережено",
@@ -155,6 +154,7 @@
     "Please provide a valid app key and secret." : "Будь ласка, надайте дійсний ключ застосунку та пароль.",
     "OAuth1" : "OAuth1",
     "App key" : "Ключ застосунку",
-    "App secret" : "Секретний ключ застосунку"
+    "App secret" : "Секретний ключ застосунку",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати це зовнішнє сховище? Це призведе до того, що сховище стане недоступним у хмарі Nextcloud, а також вилучить файли та каталоги на клієнтських пристроях, які наразі синхронізуються з хмарою. Файли та каталоги у зовнішньому сховищі не буде вилучено."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

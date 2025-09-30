@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Hledat štítek",
     "Change tag color" : "Změnit barvu štítku",
     "Create new tag" : "Vytvořit nový  štítek",
+    "Choose tags for the selected files" : "Zvolte štítky, kterými opatřit označené soubory",
     "Cancel" : "Storno",
     "Apply" : "Použít",
     "Failed to load tags" : "Štítky se nepodařilo načíst",

@@ -61,7 +61,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('users')
 			->where($query->expr()->like($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals($match, $column);
@@ -98,7 +98,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('users')
 			->where($query->expr()->iLike($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals($match, $column);
@@ -204,7 +204,7 @@ class ExpressionBuilderDBTest extends TestCase {
 				'configkey' => $query->createNamedParameter((string)$key),
 				'configvalue' => $query->createNamedParameter((string)$value),
 			])
-			->execute();
+			->executeStatement();
 	}
 
 	protected function prepareTestingTable(): void {

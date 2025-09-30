@@ -37,7 +37,6 @@ OC.L10N.register(
     "Copy" : "Kopi",
     "Copied!" : "Kopiert!",
     "Federated Cloud" : "Sammenknyttet sky",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle som bruker en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Bare legg inn deres ID for sammenknyttet sky i delingsdialogen. Det ser ut som person@cloud.example.com.",
     "Share it so your friends can share files with you:" : "Del den slik at venner kan dele filer med deg:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (tidligere Twitter)",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du å legge til ekstern ressurs {name} fra {owner}@{remote}?",
     "Remote share password" : "Passord for ekstern ressurs",
     "Cloud ID copied to the clipboard" : "Sky-ID kopiert til utklippstavlen",
-    "Copy to clipboard" : "Kopiert til utklippstavlen"
+    "Copy to clipboard" : "Kopiert til utklippstavlen",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle som bruker en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Bare legg inn deres ID for sammenknyttet sky i delingsdialogen. Det ser ut som person@cloud.example.com."
 },
 "nplurals=2; plural=(n != 1);");

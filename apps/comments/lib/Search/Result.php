@@ -47,6 +47,10 @@ class Result extends BaseResult {
 		 */
 		public string $authorName,
 		string $path,
+		/**
+		 * @deprecated 20.0.0
+		 */
+		public int $fileId,
 	) {
 		parent::__construct(
 			$comment->getId(),

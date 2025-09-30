@@ -14,6 +14,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
+use OCP\Files\Folder;
 use OCP\IDBConnection;
 use OCP\ITags;
 use OCP\IUserSession;
@@ -65,6 +66,7 @@ class Tags implements ITags {
 		private IDBConnection $db,
 		private IEventDispatcher $dispatcher,
 		private IUserSession $userSession,
+		private Folder $userFolder,
 		array $defaultTags = [],
 	) {
 		$this->owners = [$this->user];
@@ -495,12 +497,8 @@ class Tags implements ITags {
 
 	/**
 	 * Creates a tag/object relation.
-	 *
-	 * @param int $objid The id of the object
-	 * @param string $tag The id or name of the tag
-	 * @return boolean Returns false on error.
 	 */
-	public function tagAs($objid, $tag, string $path = '') {
+	public function tagAs($objid, $tag, ?string $path = null) {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
@@ -531,6 +529,15 @@ class Tags implements ITags {
 			return false;
 		}
 		if ($tag === ITags::TAG_FAVORITE) {
+			if ($path === null) {
+				$node = $this->userFolder->getFirstNodeById($objid);
+				if ($node !== null) {
+					$path = $node->getPath();
+				} else {
+					throw new Exception('Failed to favorite: node with id ' . $objid . ' not found');
+				}
+			}
+
 			$this->dispatcher->dispatchTyped(new NodeAddedToFavorite($this->userSession->getUser(), $objid, $path));
 		}
 		return true;
@@ -538,12 +545,8 @@ class Tags implements ITags {
 
 	/**
 	 * Delete single tag/object relation from the db
-	 *
-	 * @param int $objid The id of the object
-	 * @param string $tag The id or name of the tag
-	 * @return boolean
 	 */
-	public function unTag($objid, $tag, string $path = '') {
+	public function unTag($objid, $tag, ?string $path = null) {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
@@ -571,6 +574,15 @@ class Tags implements ITags {
 			return false;
 		}
 		if ($tag === ITags::TAG_FAVORITE) {
+			if ($path === null) {
+				$node = $this->userFolder->getFirstNodeById($objid);
+				if ($node !== null) {
+					$path = $node->getPath();
+				} else {
+					throw new Exception('Failed to unfavorite: node with id ' . $objid . ' not found');
+				}
+			}
+
 			$this->dispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userSession->getUser(), $objid, $path));
 		}
 		return true;

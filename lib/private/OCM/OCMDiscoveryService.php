@@ -84,9 +84,11 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 					throw new OCMProviderException('Previous discovery failed.');
 				}
 
-				$provider->import(json_decode($cached ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				$this->remoteProviders[$remote] = $provider;
-				return $provider;
+				if ($cached !== null) {
+					$provider->import(json_decode($cached, true, 8, JSON_THROW_ON_ERROR) ?? []);
+					$this->remoteProviders[$remote] = $provider;
+					return $provider;
+				}
 			} catch (JsonException|OCMProviderException $e) {
 				$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 			}
@@ -151,6 +153,12 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
 		$provider->setCapabilities(['/invite-accepted', '/notifications', '/shares']);
+
+		// The inviteAcceptDialog is available from the contacts app, if this config value is set
+		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
+		if ($inviteAcceptDialog !== '') {
+			$provider->setInviteAcceptDialog($this->urlGenerator->linkToRouteAbsolute($inviteAcceptDialog));
+		}
 
 		$resource = $provider->createNewResourceType();
 		$resource->setName('file')

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,34 +14,24 @@ use OC\Collaboration\Collaborators\UserPlugin;
 use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\IConfig;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserPluginTest extends TestCase {
-	/** @var IConfig|MockObject */
-	protected $config;
-
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-
-	/** @var IUserSession|MockObject */
-	protected $session;
-
-	/** @var KnownUserService|MockObject */
-	protected $knownUserService;
-
-	/** @var IUserStatusManager|MockObject */
-	protected $userStatusManager;
+	private IConfig&MockObject $config;
+	private IUserManager&MockObject $userManager;
+	private IGroupManager&MockObject $groupManager;
+	private IUserSession&MockObject $session;
+	private KnownUserService&MockObject $knownUserService;
+	private IUserStatusManager&MockObject $userStatusManager;
+	private IUser&MockObject $user;
 
 	/** @var UserPlugin */
 	protected $plugin;
@@ -50,9 +42,6 @@ class UserPluginTest extends TestCase {
 	protected int $limit = 2;
 
 	protected int $offset = 0;
-
-	/** @var IUser|MockObject */
-	protected $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -74,7 +63,7 @@ class UserPluginTest extends TestCase {
 		$this->user = $this->getUserMock('admin', 'Administrator');
 	}
 
-	public function instantiatePlugin() {
+	public function instantiatePlugin(): void {
 		// cannot be done within setUp, because dependent mocks needs to be set
 		// up with configuration etc. first
 		$this->plugin = new UserPlugin(
@@ -87,7 +76,7 @@ class UserPluginTest extends TestCase {
 		);
 	}
 
-	public function mockConfig($mockedSettings) {
+	public function mockConfig($mockedSettings): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -97,7 +86,7 @@ class UserPluginTest extends TestCase {
 			);
 	}
 
-	public function getUserMock($uid, $displayName, $enabled = true, $groups = []) {
+	public function getUserMock(string $uid, string $displayName, bool $enabled = true, array $groups = []): IUser&MockObject {
 		$user = $this->createMock(IUser::class);
 
 		$user->expects($this->any())
@@ -115,17 +104,7 @@ class UserPluginTest extends TestCase {
 		return $user;
 	}
 
-	public function getGroupMock($gid) {
-		$group = $this->createMock(IGroup::class);
-
-		$group->expects($this->any())
-			->method('getGID')
-			->willReturn($gid);
-
-		return $group;
-	}
-
-	public function dataGetUsers(): array {
+	public static function dataGetUsers(): array {
 		return [
 			['test', false, true, [], [], [], [], true, false],
 			['test', false, false, [], [], [], [], true, false],
@@ -135,33 +114,33 @@ class UserPluginTest extends TestCase {
 				'test', false, true, [], [],
 				[
 					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
-				], [], true, $this->getUserMock('test', 'Test'),
+				], [], true, ['test', 'Test'],
 			],
 			[
 				'test', false, false, [], [],
 				[
 					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
-				], [], true, $this->getUserMock('test', 'Test'),
+				], [], true, ['test', 'Test'],
 			],
 			[
 				'test', true, true, [], [],
-				[], [], true, $this->getUserMock('test', 'Test'),
+				[], [], true, ['test', 'Test'],
 			],
 			[
 				'test', true, false, [], [],
-				[], [], true, $this->getUserMock('test', 'Test'),
+				[], [], true, ['test', 'Test'],
 			],
 			[
 				'test', true, true, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
 					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
-				], [], true, $this->getUserMock('test', 'Test'),
+				], [], true, ['test', 'Test'],
 			],
 			[
 				'test', true, false, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
 					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
-				], [], true, $this->getUserMock('test', 'Test'),
+				], [], true, ['test', 'Test'],
 			],
 			[
 				'test',
@@ -169,7 +148,7 @@ class UserPluginTest extends TestCase {
 				true,
 				[],
 				[
-					$this->getUserMock('test1', 'Test One'),
+					['test1', 'Test One'],
 				],
 				[],
 				[
@@ -184,7 +163,7 @@ class UserPluginTest extends TestCase {
 				false,
 				[],
 				[
-					$this->getUserMock('test1', 'Test One'),
+					['test1', 'Test One'],
 				],
 				[],
 				[],
@@ -197,8 +176,8 @@ class UserPluginTest extends TestCase {
 				true,
 				[],
 				[
-					$this->getUserMock('test1', 'Test One'),
-					$this->getUserMock('test2', 'Test Two'),
+					['test1', 'Test One'],
+					['test2', 'Test Two'],
 				],
 				[],
 				[
@@ -214,8 +193,8 @@ class UserPluginTest extends TestCase {
 				false,
 				[],
 				[
-					$this->getUserMock('test1', 'Test One'),
-					$this->getUserMock('test2', 'Test Two'),
+					['test1', 'Test One'],
+					['test2', 'Test Two'],
 				],
 				[],
 				[],
@@ -228,9 +207,9 @@ class UserPluginTest extends TestCase {
 				true,
 				[],
 				[
-					$this->getUserMock('test0', 'Test'),
-					$this->getUserMock('test1', 'Test One'),
-					$this->getUserMock('test2', 'Test Two'),
+					['test0', 'Test'],
+					['test1', 'Test One'],
+					['test2', 'Test Two'],
 				],
 				[
 					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
@@ -248,9 +227,9 @@ class UserPluginTest extends TestCase {
 				true,
 				[],
 				[
-					$this->getUserMock('test0', 'Test'),
-					$this->getUserMock('test1', 'Test One'),
-					$this->getUserMock('test2', 'Test Two'),
+					['test0', 'Test'],
+					['test1', 'Test One'],
+					['test2', 'Test Two'],
 				],
 				[
 					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
@@ -270,9 +249,9 @@ class UserPluginTest extends TestCase {
 				false,
 				[],
 				[
-					$this->getUserMock('test0', 'Test'),
-					$this->getUserMock('test1', 'Test One'),
-					$this->getUserMock('test2', 'Test Two'),
+					['test0', 'Test'],
+					['test1', 'Test One'],
+					['test2', 'Test Two'],
 				],
 				[
 					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
@@ -296,7 +275,7 @@ class UserPluginTest extends TestCase {
 				],
 				true,
 				false,
-				[['test1', $this->getUserMock('test1', 'Test One')]],
+				[['test1', ['test1', 'Test One']]],
 			],
 			[
 				'test',
@@ -311,7 +290,7 @@ class UserPluginTest extends TestCase {
 				[],
 				true,
 				false,
-				[['test1', $this->getUserMock('test1', 'Test One')]],
+				[['test1', ['test1', 'Test One']]],
 			],
 			[
 				'test',
@@ -336,8 +315,8 @@ class UserPluginTest extends TestCase {
 				true,
 				false,
 				[
-					['test1', $this->getUserMock('test1', 'Test One')],
-					['test2', $this->getUserMock('test2', 'Test Two')],
+					['test1', ['test1', 'Test One']],
+					['test2', ['test2', 'Test Two']],
 				],
 			],
 			[
@@ -360,8 +339,8 @@ class UserPluginTest extends TestCase {
 				true,
 				false,
 				[
-					['test1', $this->getUserMock('test1', 'Test One')],
-					['test2', $this->getUserMock('test2', 'Test Two')],
+					['test1', ['test1', 'Test One']],
+					['test2', ['test2', 'Test Two']],
 				],
 			],
 			[
@@ -386,8 +365,8 @@ class UserPluginTest extends TestCase {
 				false,
 				false,
 				[
-					['test', $this->getUserMock('test', 'Test One')],
-					['test2', $this->getUserMock('test2', 'Test Two')],
+					['test', ['test', 'Test One']],
+					['test2', ['test2', 'Test Two']],
 				],
 			],
 			[
@@ -410,40 +389,34 @@ class UserPluginTest extends TestCase {
 				true,
 				false,
 				[
-					['test', $this->getUserMock('test', 'Test One')],
-					['test2', $this->getUserMock('test2', 'Test Two')],
+					['test', ['test', 'Test One']],
+					['test2', ['test2', 'Test Two']],
 				],
 			],
 		];
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param bool $shareWithGroupOnly
-	 * @param bool $shareeEnumeration
-	 * @param array $groupResponse
-	 * @param array $userResponse
-	 * @param array $exactExpected
-	 * @param array $expected
-	 * @param bool $reachedEnd
-	 * @param bool|IUser $singleUser
-	 * @param array $users
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsers')]
+	#[DataProvider('dataGetUsers')]
 	public function testSearch(
-		$searchTerm,
-		$shareWithGroupOnly,
-		$shareeEnumeration,
+		string $searchTerm,
+		bool $shareWithGroupOnly,
+		bool $shareeEnumeration,
 		array $groupResponse,
 		array $userResponse,
 		array $exactExpected,
 		array $expected,
-		$reachedEnd,
-		$singleUser,
+		bool $reachedEnd,
+		array|false $singleUser,
 		array $users = [],
-		$shareeEnumerationPhone = false,
+		bool $shareeEnumerationPhone = false,
 	): void {
+		if ($singleUser !== false) {
+			$singleUser = $this->getUserMock(...$singleUser);
+		}
+		$users = array_map(
+			fn ($args) => [$args[0], $this->getUserMock(...$args[1])],
+			$users
+		);
 		$this->mockConfig(['core' => [
 			'shareapi_only_share_with_group_members' => $shareWithGroupOnly ? 'yes' : 'no',
 			'shareapi_allow_share_dialog_user_enumeration' => $shareeEnumeration? 'yes' : 'no',
@@ -458,6 +431,10 @@ class UserPluginTest extends TestCase {
 			->willReturn($this->user);
 
 		if (!$shareWithGroupOnly) {
+			$userResponse = array_map(
+				fn ($args) => $this->getUserMock(...$args),
+				$userResponse
+			);
 			if ($shareeEnumerationPhone) {
 				$this->userManager->expects($this->once())
 					->method('searchKnownUsersByDisplayName')
@@ -470,12 +447,11 @@ class UserPluginTest extends TestCase {
 						[$this->user->getUID(), 'test1', true],
 						[$this->user->getUID(), 'test2', true],
 					]);
-			} else {
-				$this->userManager->expects($this->once())
-					->method('searchDisplayName')
-					->with($searchTerm, $this->limit, $this->offset)
-					->willReturn($userResponse);
 			}
+			$this->userManager->expects($this->once())
+				->method('searchDisplayName')
+				->with($searchTerm, $this->limit, $this->offset)
+				->willReturn($userResponse);
 		} else {
 			$this->groupManager->method('getUserGroupIds')
 				->with($this->user)
@@ -534,13 +510,8 @@ class UserPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param array $users
-	 * @param array $expectedUIDs
-	 * @param $currentUserId
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('takeOutCurrentUserProvider')]
-	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId): void {
+	#[DataProvider('takeOutCurrentUserProvider')]
+	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, ?string $currentUserId): void {
 		$this->instantiatePlugin();
 
 		$this->session->expects($this->once())
@@ -717,8 +688,8 @@ class UserPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEnumeration')]
-	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
+	#[DataProvider('dataSearchEnumeration')]
+	public function testSearchEnumerationLimit(string $search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
 		$this->mockConfig($mockedSettings);
 
 		$userResults = [];
@@ -765,10 +736,10 @@ class UserPluginTest extends TestCase {
 			->willReturnCallback(function ($search) use ($matchingUsers) {
 				$users = array_filter(
 					$matchingUsers,
-					fn ($user) => str_contains(strtolower($user['displayName']), strtolower($search))
+					fn ($user) => str_contains(strtolower($user['displayName'] ?? ''), strtolower($search))
 				);
 				return array_map(
-					fn ($user) => $this->getUserMock($user['uid'], $user['displayName']),
+					fn ($user) => $this->getUserMock($user['uid'], $user['displayName'] ?? ''),
 					$users);
 			});
 

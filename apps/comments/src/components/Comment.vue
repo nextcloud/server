@@ -95,7 +95,7 @@
 				:class="{'comment__message--expanded': expanded}"
 				:text="richContent.message"
 				:arguments="richContent.mentions"
-				@click="onExpand" />
+				@click.native="onExpand" />
 		</div>
 	</component>
 </template>
@@ -320,6 +320,7 @@ $comment-padding: 10px;
 		display: flex;
 		flex-grow: 1;
 		flex-direction: column;
+		container-type: inline-size;
 	}
 
 	&__header {

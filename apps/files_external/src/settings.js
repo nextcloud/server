@@ -1272,23 +1272,32 @@ MountConfigListView.prototype = _.extend({
 		}
 		const storage = new this._storageConfigClass(configId)
 
-		OC.dialogs.confirm(t('files_external', 'Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.', {
-			storage: this.mountPoint,
-		}), t('files_external', 'Delete storage?'), function(confirm) {
-			if (confirm) {
-				self.updateStatus($tr, StorageConfig.Status.IN_PROGRESS)
+		OC.dialogs.confirm(
+			t('files_external', 'Are you sure you want to disconnect this external storage?')
+			+ ' '
+			+ t('files_external', 'It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.',
+				{
+					storage: this.mountPoint,
+					instanceName: window.OC.theme.name,
+				},
+			),
+			t('files_external', 'Delete storage?'),
+			function(confirm) {
+				if (confirm) {
+					self.updateStatus($tr, StorageConfig.Status.IN_PROGRESS)
 
-				storage.destroy({
-					success() {
-						$tr.remove()
-					},
-					error(result) {
-						const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined
-						self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage)
-					},
-				})
-			}
-		})
+					storage.destroy({
+						success() {
+							$tr.remove()
+						},
+						error(result) {
+							const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined
+							self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage)
+						},
+					})
+				}
+			},
+		)
 	},
 
 	/**

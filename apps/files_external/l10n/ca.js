@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Backend desconegut: {backendName}",
     "Admin defined" : "S'ha definit l'administrador",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprovació automàtica de l'estat està inhabilitada a causa del gran nombre d'emmagatzematges configurats; feu clic per a comprovar l'estat",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Segur que voleu desconnectar aquest emmagatzematge extern? Això farà que l'emmagatzematge no estigui disponible en el Nextcloud i provocarà la supressió d'aquests fitxers i carpetes en qualsevol client que s'hi sincronitzi, però no se suprimirà cap fitxer ni carpeta en l'emmagatzematge extern en si.",
     "Delete storage?" : "Voleu suprimir l'emmagatzematge?",
     "Click to recheck the configuration" : "Feu clic per a tornar a comprovar la configuració",
     "Saved" : "S'ha desat",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Proporcioneu una clau d'aplicació i un secret vàlids.",
     "OAuth1" : "OAuth1",
     "App key" : "Clau d'aplicació",
-    "App secret" : "Secret d'aplicació"
+    "App secret" : "Secret d'aplicació",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Segur que voleu desconnectar aquest emmagatzematge extern? Això farà que l'emmagatzematge no estigui disponible en el Nextcloud i provocarà la supressió d'aquests fitxers i carpetes en qualsevol client que s'hi sincronitzi, però no se suprimirà cap fitxer ni carpeta en l'emmagatzematge extern en si."
 },
 "nplurals=2; plural=(n != 1);");

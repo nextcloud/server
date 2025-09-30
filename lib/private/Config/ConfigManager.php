@@ -83,6 +83,21 @@ class ConfigManager {
 	}
 
 	/**
+	 * Upgrade stored data in case of changes in the lexicon.
+	 * Heavy process to be executed on core and app upgrade.
+	 *
+	 * - upgrade UserConfig entries if set as indexed
+	 */
+	public function updateLexiconEntries(string $appId): void {
+		$this->loadConfigServices();
+		$lexicon = $this->userConfig->getConfigDetailsFromLexicon($appId);
+		foreach ($lexicon['entries'] as $entry) {
+			// upgrade based on index flag
+			$this->userConfig->updateGlobalIndexed($appId, $entry->getKey(), $entry->isFlagged(IUserConfig::FLAG_INDEXED));
+		}
+	}
+
+	/**
 	 * config services cannot be load at __construct() or install will fail
 	 */
 	private function loadConfigServices(): void {

@@ -7,7 +7,6 @@
 style('settings', 'settings');
 \OCP\Util::addScript('settings', 'settings', 'core');
 \OCP\Util::addScript('settings', 'legacy-admin');
-\OCP\Util::addScript('core', 'setupchecks', 'core');
 
 ?>
 

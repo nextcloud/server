@@ -380,10 +380,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			throw new Exception('Relative path not found for node with path: ' . $source->getPath());
 		}
 
-		$versionFolder = $this->rootFolder->get($userId . '/files_versions');
-		if (!$versionFolder instanceof Folder) {
-			throw new Exception('User versions folder does not exist');
-		}
+		$versionFolder = $this->getVersionFolder($user);
 
 		$versions = Storage::getVersions($userId, $relativePath);
 		foreach ($versions as $version) {

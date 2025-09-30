@@ -126,9 +126,9 @@ class Swift extends Common {
 	}
 
 	public function __construct(array $parameters) {
-		if ((empty($parameters['key']) and empty($parameters['password']))
-			or (empty($parameters['user']) && empty($parameters['userid'])) or empty($parameters['bucket'])
-			or empty($parameters['region'])
+		if ((empty($parameters['key']) && empty($parameters['password']))
+			|| (empty($parameters['user']) && empty($parameters['userid'])) || empty($parameters['bucket'])
+			|| empty($parameters['region'])
 		) {
 			throw new StorageBadConfigException('API Key or password, Login, Bucket and Region have to be configured.');
 		}

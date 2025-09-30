@@ -7,6 +7,7 @@
  */
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
@@ -576,8 +577,11 @@ class MigrationService {
 						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
 					}
 
-					if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
-						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
+					if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+						// Oracle doesn't support boolean column with non-null value
+						if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+							$thing->setNotnull(false);
+						}
 					}
 
 					$sourceColumn = null;

@@ -20,10 +20,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate} - Open changelog" : "Tarkistettu {lastCheckedDate} - Avaa muutosloki",
     "Checking apps for compatible versions" : "Tarkistetaan sovellusten yhteensopivat versiot ",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Varmista, ettei config.php-tiedosto aseta valintaa <samp>appstoreenabled</samp> arvoon false.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kaikilla</strong> sovelluksilla on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
     "Enterprise" : "Enterprise",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Yrityskäyttöön. Tarjoaa aina viimeisimmän korjaustason, mutta ei päivitä välittömästi seuraavaan pääversioon. Päivitys tapahtuu, kun Nextcloud GmbH on tehnyt lisävahvistuksia ja -testejä laajamittaisia ja kriittisiä käyttöönottoja varten. Tämä kanava on vain sopimusasiakkaiden käytettävissä, ja se tarjoaa Nextcloud Enterprise -paketin.",
     "Stable" : "Vakaa",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Viimeisin vakaa versio. Sopii säännölliseen käyttöön ja päivittyy aina uusimpaan pääversioon.",
     "Beta" : "Beta",
@@ -50,6 +47,9 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Valittu päivityskanava ei tue palvelimen päivityksiä.",
     "Changelog for app {app}" : "Sovelluksen {app} muutosloki",
     "What's new in {app} version {version}" : "Katso mitä uutta sovelluksen {app} versio {version} sisältää",
-    "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä."
+    "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kaikilla</strong> sovelluksilla on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.","<strong>%n</strong> sovelluksella on yhteensopiva versio saatavilla tälle Nextcloud-versiolle."],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Yrityskäyttöön. Tarjoaa aina viimeisimmän korjaustason, mutta ei päivitä välittömästi seuraavaan pääversioon. Päivitys tapahtuu, kun Nextcloud GmbH on tehnyt lisävahvistuksia ja -testejä laajamittaisia ja kriittisiä käyttöönottoja varten. Tämä kanava on vain sopimusasiakkaiden käytettävissä, ja se tarjoaa Nextcloud Enterprise -paketin."
 },
 "nplurals=2; plural=(n != 1);");

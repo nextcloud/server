@@ -54,7 +54,7 @@ updates:
 # Latest stable release
 # Composer dependencies for linting and testing
 - package-ecosystem: composer
-  target-branch: stable31
+  target-branch: stable32
   directories:
     - "/"
     - "/build/integration"
@@ -78,7 +78,7 @@ updates:
 # Latest stable branch
 # frontend dependencies
 - package-ecosystem: npm
-  target-branch: stable31
+  target-branch: stable32
   directory: "/"
   schedule:
     interval: weekly
@@ -99,6 +99,28 @@ updates:
 # Older stable releases
 
 # Composer dependencies for linting and testing
+- package-ecosystem: composer
+  target-branch: stable31
+  directories:
+    - "/"
+    - "/build/integration"
+    - "/vendor-bin/cs-fixer"
+    - "/vendor-bin/openapi-extractor"
+    - "/vendor-bin/phpunit"
+    - "/vendor-bin/psalm"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:00"
+    timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  ignore:
+    # only patch updates on stable branches
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
 - package-ecosystem: composer
   target-branch: stable30
   directories:
@@ -122,6 +144,25 @@ updates:
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
 
 # frontend dependencies
+- package-ecosystem: npm
+  target-branch: stable31
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 20
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+  ignore:
+    # no major updates on stable branches
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major"]
+
 - package-ecosystem: npm
   target-branch: stable30
   directory: "/"

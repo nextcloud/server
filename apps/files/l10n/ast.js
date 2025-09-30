@@ -96,6 +96,8 @@ OC.L10N.register(
     "New folder" : "Carpeta nueva",
     "Create new folder" : "Crear una carpeta",
     "Create" : "Crear",
+    "Refresh" : "Anovar",
+    "Limit" : "Llende",
     "Submit" : "Unviar",
     "Choose a file or folder to transfer" : "Escueyi un ficheru o una carpeta a tresferir",
     "Transfer" : "Tresferir",

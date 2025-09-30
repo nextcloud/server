@@ -24,6 +24,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -78,6 +79,7 @@ $calDavBackend = new CalDavBackend(
 	$config,
 	Server::get(\OCA\DAV\CalDAV\Sharing\Backend::class),
 	Server::get(FederatedCalendarMapper::class),
+	Server::get(ICacheFactory::class),
 	true
 );
 

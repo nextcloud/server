@@ -12,6 +12,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
@@ -111,6 +112,8 @@ class Application extends App implements IBootstrap {
 		$context->registerSearchProvider(SectionSearch::class);
 		$context->registerSearchProvider(AppSearch::class);
 		$context->registerSearchProvider(UserSearch::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		// Register listeners
 		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);

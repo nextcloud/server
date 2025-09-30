@@ -30,6 +30,7 @@ OC.L10N.register(
     "User is not a sub-admin of this group" : "Użytkownik nie jest podadministratorem tej grupy",
     "Email address not available" : "Adres e-mail niedostępny",
     "Sending email failed" : "Wysyłanie e-maila nie powiodło się",
+    "Logged in account is not mail address owner" : "Zalogowane konto nie jest właścicielem adresu email",
     "Email confirmation" : "Potwierdzenie e-mailem",
     "To enable the email address %s please click the button below." : "Aby włączyć adres e-mail %s, kliknij poniższy przycisk.",
     "Confirm" : "Potwierdź",

@@ -47,6 +47,6 @@ class Version1011Date20201120125158 extends SimpleMigrationStep {
 		$qb->update('federated_reshares')
 			->set('remote_id', $qb->createNamedParameter(''))
 			->where($qb->expr()->eq('remote_id', $qb->createNamedParameter('-1')));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 }

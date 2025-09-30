@@ -42,7 +42,7 @@ class Put extends Command {
 			$output->writeln("<error>$fileOutput is a folder</error>");
 			return self::FAILURE;
 		}
-		if (!$node and is_numeric($fileOutput)) {
+		if (!$node && is_numeric($fileOutput)) {
 			$output->writeln("<error>$fileOutput not found</error>");
 			return self::FAILURE;
 		}

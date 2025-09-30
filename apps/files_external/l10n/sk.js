@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Neznámy backend: {backendName}",
     "Admin defined" : "Nastavené správcom",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatická kontrola stavu je zakázaná z dôvodu veľkého počtu nakonfigurovaných úložísk, kliknutím skontrolujte stav",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Naozaj chcete odpojiť toto externé úložisko? Úložisko bude nedostupné v Nextcloud a povedie k vymazaniu súborov a priečinkov na akomkoľvek synchronizovanom klientovi, ktorý je aktuálne pripojený, ale neodstráni žiadne súbory a priečinky na samotnom externom úložisku.",
     "Delete storage?" : "Zmazať externé úložisko?",
     "Click to recheck the configuration" : "Kliknite na opätovnú kontrolu konfigurácie",
     "Saved" : "Uložené",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Zadajte prosím platný aplikačný kľúč a heslo (secret).",
     "OAuth1" : "OAuth1",
     "App key" : "Kľúč aplikácie",
-    "App secret" : "Heslo aplikácie"
+    "App secret" : "Heslo aplikácie",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Naozaj chcete odpojiť toto externé úložisko? Úložisko bude nedostupné v Nextcloud a povedie k vymazaniu súborov a priečinkov na akomkoľvek synchronizovanom klientovi, ktorý je aktuálne pripojený, ale neodstráni žiadne súbory a priečinky na samotnom externom úložisku."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

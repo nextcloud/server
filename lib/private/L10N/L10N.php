@@ -117,7 +117,7 @@ class L10N implements IL10N {
 	/**
 	 * Localization
 	 * @param string $type Type of localization
-	 * @param \DateTime|int|string $data parameters for this localization
+	 * @param \DateTime|int|string|null $data parameters for this localization
 	 * @param array $options
 	 * @return string|int|false
 	 *

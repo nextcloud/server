@@ -131,7 +131,6 @@
     "Unknown backend: {backendName}" : "واجهة خلفية غير معروفة: {backendName}",
     "Admin defined" : "المدير تمّ تعريفه",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "تمّ تعطيل الفحص التلقائي للحالة بسبب العدد الكبير من المخازن المُكوّنة configured storages. أُنقر للتحقق من الحالة.",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "هل أنت متأكد أنك تريد قطع الاتصال بوحدة التخزين الخارجية هذه؟ سيتسبب ذلك في  جعل وحدة التخزين هذه غير مُتاحة في نكست كلاود، و سيؤدي إلى منع الوصول إلى هذه الملفات والمجلدات عن أي عميل مزامنة مُتصلٍ حاليّاً، و لكنه لن يحذف أي ملفات أو مجلدات على وحدة التخزين الخارجية نفسها.",
     "Delete storage?" : "حذف وحدة التخزين؟",
     "Click to recheck the configuration" : "أنقر لإعادة فحص التكوين",
     "Saved" : "حفظ",
@@ -155,6 +154,7 @@
     "Please provide a valid app key and secret." : "يرجى توفير مفتاح للتطبيق وكلمة سر صالحين.",
     "OAuth1" : "OAuth1",
     "App key" : "مفتاح التطبيق",
-    "App secret" : "كلمة مرور التطبيق"
+    "App secret" : "كلمة مرور التطبيق",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "هل أنت متأكد أنك تريد قطع الاتصال بوحدة التخزين الخارجية هذه؟ سيتسبب ذلك في  جعل وحدة التخزين هذه غير مُتاحة في نكست كلاود، و سيؤدي إلى منع الوصول إلى هذه الملفات والمجلدات عن أي عميل مزامنة مُتصلٍ حاليّاً، و لكنه لن يحذف أي ملفات أو مجلدات على وحدة التخزين الخارجية نفسها."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

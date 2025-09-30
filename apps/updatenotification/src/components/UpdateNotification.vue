@@ -190,6 +190,8 @@ const logger = getLoggerBuilder()
 	.detectUser()
 	.build()
 
+const productName = window.OC.theme.productName
+
 export default {
 	name: 'UpdateNotification',
 	components: {
@@ -272,8 +274,13 @@ export default {
 			}
 
 			return this.missingAppUpdates.length === 0
-				? t('updatenotification', '<strong>All</strong> apps have a compatible version for this Nextcloud version available.', this)
-				: n('updatenotification', '<strong>%n</strong> app has no compatible version for this Nextcloud version available.', '<strong>%n</strong> apps have no compatible version for this Nextcloud version available.', this.missingAppUpdates.length)
+				? t('updatenotification', '<strong>All</strong> apps have a compatible version for this {productName} version available.', { productName })
+				: n('updatenotification',
+					'<strong>%n</strong> app has no compatible version for this {productName} version available.',
+					'<strong>%n</strong> apps have no compatible version for this {productName} version available.',
+					this.missingAppUpdates.length,
+					{ productName },
+				)
 		},
 
 		channelList() {
@@ -281,7 +288,11 @@ export default {
 
 			channelList.push({
 				text: t('updatenotification', 'Enterprise'),
-				longtext: t('updatenotification', 'For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.'),
+				longtext: t('updatenotification', 'For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately.')
+					+ ' '
+					+ t('updatenotification', 'That update happens once {vendor} has done additional hardening and testing for large-scale and mission-critical deployments.', { vendor: 'Nextcloud GmbH' })
+					+ ' '
+					+ t('updatenotification', 'This channel is only available to customers and provides the {enterprise} package.', { enterprise: 'Nextcloud Enterprise' }),
 				icon: IconStar,
 				active: this.currentChannel === 'enterprise',
 				disabled: !this.hasValidSubscription,

@@ -53,7 +53,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	/** @inheritDoc */
 	protected function markRelease(string $path, int $type): void {
 		if ($type === self::LOCK_SHARED) {
-			if (isset($this->acquiredLocks['shared'][$path]) and $this->acquiredLocks['shared'][$path] > 0) {
+			if (isset($this->acquiredLocks['shared'][$path]) && $this->acquiredLocks['shared'][$path] > 0) {
 				$this->acquiredLocks['shared'][$path]--;
 				if ($this->acquiredLocks['shared'][$path] === 0) {
 					unset($this->acquiredLocks['shared'][$path]);

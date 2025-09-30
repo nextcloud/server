@@ -59,6 +59,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 	protected RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
 	protected FederationSharingService&MockObject $federationSharingService;
 	protected FederatedCalendarMapper&MockObject $federatedCalendarMapper;
+	protected ICacheFactory $cacheFactory;
+
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -83,9 +85,9 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->onlyMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
+			->onlyMethods(['getPrincipalPropertiesByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
-		$this->principal->expects($this->any())->method('getPrincipalByPath')
+		$this->principal->expects($this->any())->method('getPrincipalPropertiesByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend',
 				'{DAV:}displayname' => 'User\'s displayname',
@@ -110,6 +112,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			new Service(new SharingMapper($this->db)),
 			$this->federationSharingService,
 			$this->logger);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->backend = new CalDavBackend(
 			$this->db,
 			$this->principal,
@@ -120,6 +123,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->config,
 			$this->sharingBackend,
 			$this->federatedCalendarMapper,
+			$this->cacheFactory,
 			false,
 		);
 

@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import logger from './logger.ts'
+
 export default class ExternalShareActions {
 
 	_state
@@ -13,7 +15,7 @@ export default class ExternalShareActions {
 
 		// init default values
 		this._state.actions = []
-		console.debug('OCA.Sharing.ExternalShareActions initialized')
+		logger.debug('OCA.Sharing.ExternalShareActions initialized')
 	}
 
 	/**
@@ -44,6 +46,8 @@ export default class ExternalShareActions {
 	 * @return {boolean}
 	 */
 	registerAction(action) {
+		logger.warn('OCA.Sharing.ExternalShareActions is deprecated, use `registerSidebarAction` from `@nextcloud/sharing` instead')
+
 		// Validate action
 		if (typeof action !== 'object'
 			|| typeof action.id !== 'string'
@@ -51,14 +55,14 @@ export default class ExternalShareActions {
 			|| !Array.isArray(action.shareType) // [\@nextcloud/sharing.Types.Link, ...]
 			|| typeof action.handlers !== 'object' // {click: () => {}, ...}
 			|| !Object.values(action.handlers).every(handler => typeof handler === 'function')) {
-			console.error('Invalid action provided', action)
+			logger.error('Invalid action provided', action)
 			return false
 		}
 
 		// Check duplicates
 		const hasDuplicate = this._state.actions.findIndex(check => check.id === action.id) > -1
 		if (hasDuplicate) {
-			console.error(`An action with the same id ${action.id} already exists`, action)
+			logger.error(`An action with the same id ${action.id} already exists`, action)
 			return false
 		}
 

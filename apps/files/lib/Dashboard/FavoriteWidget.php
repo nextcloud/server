@@ -53,12 +53,12 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 	}
 
 	public function getIconClass(): string {
-		return 'icon-star-dark';
+		return 'icon-starred-dark';
 	}
 
 	public function getIconUrl(): string {
 		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath('core', 'actions/star.svg')
+			$this->urlGenerator->imagePath('core', 'actions/star-dark.svg')
 		);
 	}
 

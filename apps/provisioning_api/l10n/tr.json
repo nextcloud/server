@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "Kullanıcı bu grubun bir alt yöneticisi değil",
     "Email address not available" : "E-posta adresi kullanılamaz",
     "Sending email failed" : "E-posta gönderilemedi",
+    "Logged in account is not mail address owner" : "Oturum açmış hesabın e-posta adresi yok",
     "Email confirmation" : "E-posta doğrulaması",
     "To enable the email address %s please click the button below." : "%s e-posta adresini doğrulamak için aşağıdaki düğmeye tıklayın.",
     "Confirm" : "Onayla",

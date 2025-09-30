@@ -20,7 +20,6 @@ class PhpModules implements ISetupCheck {
 		'dom',
 		'fileinfo',
 		'gd',
-		'json',
 		'mbstring',
 		'openssl',
 		'posix',

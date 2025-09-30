@@ -14,41 +14,32 @@ use OCP\WorkflowEngine\ICheck;
 
 class FileSize implements ICheck {
 
-	/** @var int */
-	protected $size;
+	protected int|float|null $size = null;
 
-	/**
-	 * @param IL10N $l
-	 * @param IRequest $request
-	 */
 	public function __construct(
-		protected IL10N $l,
-		protected IRequest $request,
+		protected readonly IL10N $l,
+		protected readonly IRequest $request,
 	) {
 	}
 
 	/**
 	 * @param string $operator
 	 * @param string $value
-	 * @return bool
 	 */
-	public function executeCheck($operator, $value) {
+	public function executeCheck($operator, $value): bool {
 		$size = $this->getFileSizeFromHeader();
+		if ($size === false) {
+			return false;
+		}
 
 		$value = Util::computerFileSize($value);
-		if ($size !== false) {
-			switch ($operator) {
-				case 'less':
-					return $size < $value;
-				case '!less':
-					return $size >= $value;
-				case 'greater':
-					return $size > $value;
-				case '!greater':
-					return $size <= $value;
-			}
-		}
-		return false;
+		return match ($operator) {
+			'less' => $size < $value,
+			'!less' => $size >= $value,
+			'greater' => $size > $value,
+			'!greater' => $size <= $value,
+			default => false,
+		};
 	}
 
 	/**
@@ -56,7 +47,7 @@ class FileSize implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateCheck($operator, $value) {
+	public function validateCheck($operator, $value): void {
 		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
@@ -67,25 +58,35 @@ class FileSize implements ICheck {
 	}
 
 	/**
-	 * @return string
+	 * Gets the file size from HTTP headers.
+	 *
+	 * Checks 'OC-Total-Length' first; if unavailable and the method is POST or PUT,
+	 * checks 'Content-Length'. Returns the size as int, float, or false if not found or invalid.
+	 *
+	 * @return int|float|false File size in bytes, or false if unavailable.
 	 */
-	protected function getFileSizeFromHeader() {
+	protected function getFileSizeFromHeader(): int|float|false {
+		// Already have it cached?
 		if ($this->size !== null) {
 			return $this->size;
 		}
 
 		$size = $this->request->getHeader('OC-Total-Length');
 		if ($size === '') {
-			if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
+			// Try fallback for upload methods
+			$method = $this->request->getMethod();
+			if (in_array($method, ['POST', 'PUT'], true)) {
 				$size = $this->request->getHeader('Content-Length');
 			}
 		}
 
-		if ($size === '') {
-			$size = false;
+		if ($size !== '' && is_numeric($size)) {
+			$this->size = Util::numericToNumber($size);
+		} else {
+			// No valid size header found
+			$this->size = false;
 		}
 
-		$this->size = $size;
 		return $this->size;
 	}
 

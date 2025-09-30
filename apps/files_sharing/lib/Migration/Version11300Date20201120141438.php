@@ -114,11 +114,11 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 		return $schema;
 	}
 
-	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('share_external')
 			->set('remote_id', $qb->createNamedParameter(''))
 			->where($qb->expr()->eq('remote_id', $qb->createNamedParameter('-1')));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 }

@@ -31,7 +31,7 @@ class EventSource implements IEventSource {
 		\OC_Util::obEnd();
 		header('Cache-Control: no-cache');
 		header('X-Accel-Buffering: no');
-		$this->fallback = isset($_GET['fallback']) and $_GET['fallback'] == 'true';
+		$this->fallback = isset($_GET['fallback']) && $_GET['fallback'] == 'true';
 		if ($this->fallback) {
 			$this->fallBackId = (int)$_GET['fallback_id'];
 			/**
@@ -73,7 +73,7 @@ class EventSource implements IEventSource {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public function send($type, $data = null) {
-		if ($data and !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
+		if ($data && !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
 			throw new \BadMethodCallException('Type needs to be alphanumeric (' . $type . ')');
 		}
 		$this->init();

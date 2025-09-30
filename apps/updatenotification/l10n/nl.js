@@ -13,7 +13,6 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Zorg ervoor dat je in config.php <samp>appstoreenabled</samp> niet op 'false' zet.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kan niet verbinden met de App Store of er zijn geen updates teruggegeven. Zoek handmatig naar updates of verifieer dat je server internettoegang heeft en kan verbinden met de App Store.",
     "Enterprise" : "Zakelijk",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Voor zakelijk gebruik. Biedt altijd het laatste patch level, maar zal niet meteen naar de laatste hoofdrelease bijwerken. Die update vindt pas plaats nadat Nextcloud GmbH aanvullende hardening en tests voor grootschalige en bedrijfskritische installaties heeft uitgevoerd. Dit kanaal is alleen beschikbaar voor klanten en levert het Nextcloud Enterprise pakket.",
     "Stable" : "Stabiel",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "De meest recente stabiele versie. Het is geschikt voor normaal gebruik en werkt altijd bij naar de laatste hoofdversie.",
     "Beta" : "Beta",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Only notifications for app updates are available." : "Er zijn alleen meldingen voor apps beschikbaar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Het geselecteerde updatekanaal maakt overbodig om serverspecifieke meldingen apart te genereren.",
     "The selected update channel does not support updates of the server." : "Het geselecteerde updatekanaal ondersteunt geen updates voor de server.",
-    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken."
+    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Voor zakelijk gebruik. Biedt altijd het laatste patch level, maar zal niet meteen naar de laatste hoofdrelease bijwerken. Die update vindt pas plaats nadat Nextcloud GmbH aanvullende hardening en tests voor grootschalige en bedrijfskritische installaties heeft uitgevoerd. Dit kanaal is alleen beschikbaar voor klanten en levert het Nextcloud Enterprise pakket."
 },
 "nplurals=2; plural=(n != 1);");

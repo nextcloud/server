@@ -10,7 +10,7 @@
 	<name>Federation</name>
 	<summary>Federation allows you to connect with other trusted servers to exchange the account directory.</summary>
 	<description>Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing.</description>
-	<version>1.22.0</version>
+	<version>1.23.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>Federation</namespace>
@@ -22,7 +22,7 @@
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="32" max-version="32"/>
+		<nextcloud min-version="33" max-version="33"/>
 	</dependencies>
 
 	<background-jobs>

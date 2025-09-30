@@ -52,7 +52,7 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Clipboard not available. Please copy the cloud ID manually.",
     "Copied!" : "Copied!",
     "Federated Cloud" : "Federated Cloud",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialogue. It looks like person@cloud.example.com",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com",
     "Your Federated Cloud ID" : "Your Federated Cloud ID",
     "Share it so your friends can share files with you:" : "Share it so your friends can share files with you:",
     "Facebook" : "Facebook",
@@ -61,6 +61,7 @@ OC.L10N.register(
     "Mastodon" : "Mastodon",
     "Bluesky" : "Bluesky",
     "Add to your website" : "Add to your website",
+    "Share with me via {productName}" : "Share with me via {productName}",
     "HTML Code:" : "HTML Code:",
     "Cancel" : "Cancel",
     "Add remote share" : "Add remote share",
@@ -69,6 +70,7 @@ OC.L10N.register(
     "Remote share password" : "Remote share password",
     "Incoming share could not be processed" : "Incoming share could not be processed",
     "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
-    "Copy to clipboard" : "Copy to clipboard"
+    "Copy to clipboard" : "Copy to clipboard",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialogue. It looks like person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

@@ -433,7 +433,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param string $value
 	 */
 	public function set($setting, $value): void {
-		$this->config->setAppValue('theming', $setting, $value);
+		$this->appConfig->setValueString('theming', $setting, $value);
 		$this->increaseCacheBuster();
 	}
 

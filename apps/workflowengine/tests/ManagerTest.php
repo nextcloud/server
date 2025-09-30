@@ -7,21 +7,19 @@
 namespace OCA\WorkflowEngine\Tests;
 
 use OC\Files\Config\UserMountCache;
-use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -34,6 +32,7 @@ use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -44,31 +43,21 @@ use Test\TestCase;
  * @group DB
  */
 class ManagerTest extends TestCase {
-	/** @var Manager */
-	protected $manager;
-	/** @var MockObject|IDBConnection */
-	protected $db;
-	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
-	protected $logger;
-	/** @var MockObject|IServerContainer */
-	protected $container;
-	/** @var MockObject|IUserSession */
-	protected $session;
-	/** @var MockObject|L10N */
-	protected $l;
-	/** @var MockObject|IEventDispatcher */
-	protected $dispatcher;
-	/** @var MockObject|IConfig */
-	protected $config;
-	/** @var MockObject|ICacheFactory */
-	protected $cacheFactory;
+	protected Manager $manager;
+	protected IDBConnection $db;
+	protected LoggerInterface&MockObject $logger;
+	protected ContainerInterface&MockObject $container;
+	protected IUserSession&MockObject $session;
+	protected IL10N&MockObject $l;
+	protected IEventDispatcher&MockObject $dispatcher;
+	protected IAppConfig&MockObject $config;
+	protected ICacheFactory&MockObject $cacheFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = Server::get(IDBConnection::class);
-		$this->container = $this->createMock(IServerContainer::class);
-		/** @var IL10N|MockObject $l */
+		$this->container = $this->createMock(ContainerInterface::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
@@ -78,11 +67,11 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->session = $this->createMock(IUserSession::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->config = $this->createMock(IAppConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
 		$this->manager = new Manager(
-			Server::get(IDBConnection::class),
+			$this->db,
 			$this->container,
 			$this->l,
 			$this->logger,
@@ -99,10 +88,7 @@ class ManagerTest extends TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @return MockObject|ScopeContext
-	 */
-	protected function buildScope(?string $scopeId = null): MockObject {
+	protected function buildScope(?string $scopeId = null): MockObject&ScopeContext {
 		$scopeContext = $this->createMock(ScopeContext::class);
 		$scopeContext->expects($this->any())
 			->method('getScope')
@@ -201,7 +187,7 @@ class ManagerTest extends TestCase {
 			]);
 
 		$this->container->expects($this->any())
-			->method('query')
+			->method('get')
 			->willReturnCallback(function ($className) use ($adminOperation, $userOperation) {
 				switch ($className) {
 					case 'OCA\WFE\TestAdminOp':
@@ -297,7 +283,7 @@ class ManagerTest extends TestCase {
 			]);
 
 		$this->container->expects($this->any())
-			->method('query')
+			->method('get')
 			->willReturnCallback(function ($className) use ($operation) {
 				switch ($className) {
 					case 'OCA\WFE\TestOp':
@@ -382,7 +368,7 @@ class ManagerTest extends TestCase {
 			});
 
 		$this->container->expects($this->any())
-			->method('query')
+			->method('get')
 			->willReturnCallback(function ($class) use ($operationMock) {
 				if (substr($class, -2) === 'Op') {
 					return $operationMock;
@@ -496,7 +482,7 @@ class ManagerTest extends TestCase {
 		$fileEntityMock = $this->createMock(File::class);
 
 		$this->container->expects($this->once())
-			->method('query')
+			->method('get')
 			->with(File::class)
 			->willReturn($fileEntityMock);
 
@@ -510,11 +496,10 @@ class ManagerTest extends TestCase {
 		$fileEntityMock = $this->createMock(File::class);
 
 		$this->container->expects($this->once())
-			->method('query')
+			->method('get')
 			->with(File::class)
 			->willReturn($fileEntityMock);
 
-		/** @var MockObject|IEntity $extraEntity */
 		$extraEntity = $this->createMock(IEntity::class);
 
 		$this->dispatcher->expects($this->once())
@@ -581,7 +566,7 @@ class ManagerTest extends TestCase {
 			->method('validateCheck');
 
 		$this->container->expects($this->any())
-			->method('query')
+			->method('get')
 			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
 				switch ($className) {
 					case IOperation::class:
@@ -641,7 +626,7 @@ class ManagerTest extends TestCase {
 			->method('validateCheck');
 
 		$this->container->expects($this->any())
-			->method('query')
+			->method('get')
 			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
 				switch ($className) {
 					case IOperation::class:
@@ -705,7 +690,7 @@ class ManagerTest extends TestCase {
 			->method('validateCheck');
 
 		$this->container->expects($this->any())
-			->method('query')
+			->method('get')
 			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
 				switch ($className) {
 					case IOperation::class:
@@ -769,7 +754,7 @@ class ManagerTest extends TestCase {
 			->method('validateCheck');
 
 		$this->container->expects($this->any())
-			->method('query')
+			->method('get')
 			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
 				switch ($className) {
 					case IOperation::class:

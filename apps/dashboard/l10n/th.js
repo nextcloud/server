@@ -17,9 +17,9 @@ OC.L10N.register(
     "Edit widgets" : "แก้ไขวิดเจ็ต",
     "Get more widgets from the App Store" : "เลือกวิดเจ็ตจาก App Store",
     "Weather service" : "บริการสภาพอากาศ",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "เพื่อความเป็นส่วนตัวของคุณ ข้อมูลสภาพอากาศถูกขอโดยเซิร์ฟเวอร์ Nextcloud ในนามของคุณ ดังนั้นบริการสภาพอากาศจึงไม่ได้รับข้อมูลส่วนบุคคลใด ๆ",
     "Weather data from Met.no" : "ข้อมูลสภาพอากาศจาก Met.no",
     "geocoding with Nominatim" : "พิกัดภูมิศาสตร์จาก Nominatim",
-    "elevation data from OpenTopoData" : "ข้อมูลความสูงจาก OpenTopoData"
+    "elevation data from OpenTopoData" : "ข้อมูลความสูงจาก OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "เพื่อความเป็นส่วนตัวของคุณ ข้อมูลสภาพอากาศถูกขอโดยเซิร์ฟเวอร์ Nextcloud ในนามของคุณ ดังนั้นบริการสภาพอากาศจึงไม่ได้รับข้อมูลส่วนบุคคลใด ๆ"
 },
 "nplurals=1; plural=0;");

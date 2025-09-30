@@ -10,13 +10,14 @@ namespace OCA\DAV\CardDAV;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Constants;
 use OCP\IAddressBookEnabled;
+use OCP\ICreateContactFromString;
 use OCP\IURLGenerator;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
-class AddressBookImpl implements IAddressBookEnabled {
+class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 
 	/**
 	 * AddressBookImpl constructor.
@@ -335,5 +336,9 @@ class AddressBookImpl implements IAddressBookEnabled {
 			return (bool)$properties[0]->getPropertyvalue();
 		}
 		return true;
+	}
+
+	public function createFromString(string $name, string $vcfData): void {
+		$this->backend->createCard($this->getKey(), $name, $vcfData);
 	}
 }

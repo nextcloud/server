@@ -563,6 +563,10 @@ export default {
 </script>
 
 <style lang="scss">
+.icon-weather-status {
+	background-image: url('../img/app-dark.svg');
+}
+
 .weather-action-image-container {
 	width: var(--default-clickable-area);
 	height: var(--default-clickable-area);

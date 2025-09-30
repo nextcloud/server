@@ -42,6 +42,7 @@ class JsController extends Controller {
 
 	/**
 	 * @NoSameSiteCookieRequired
+	 * @NoTwoFactorRequired
 	 *
 	 * @param string $fileName js filename with extension
 	 * @param string $appName js folder name
@@ -75,6 +76,8 @@ class JsController extends Controller {
 	}
 
 	/**
+	 * @NoTwoFactorRequired
+	 *
 	 * @param ISimpleFolder $folder
 	 * @param string $fileName
 	 * @param bool $gzip is set to true if we use the gzip file

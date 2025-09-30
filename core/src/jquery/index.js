@@ -6,7 +6,6 @@
 import $ from 'jquery'
 
 import './avatar.js'
-import './contactsmenu.js'
 import './exists.js'
 import './filterattr.js'
 import './ocdialog.js'

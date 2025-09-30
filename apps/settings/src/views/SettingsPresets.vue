@@ -42,15 +42,15 @@ async function saveSelectedPreset() {
 </script>
 
 <template>
-	<NcSettingsSection :name="t('settings', 'Settings presets')"
+	<NcSettingsSection :name="t('settings', 'Quick presets')"
 		:description="t('settings', 'Select a configuration preset for easy setup.')">
 		<PresetsSelectionForm v-model="selectedPreset" :presets="presets" />
 
 		<PresetVisualisation :presets="presets" :selected-preset="selectedPreset" />
 
 		<NcButton class="save-button"
-			variant="primary"
 			:disabled="selectedPreset === currentPreset || savingPreset"
+			variant="primary"
 			@click="saveSelectedPreset()">
 			{{ t('settings', 'Apply') }}
 

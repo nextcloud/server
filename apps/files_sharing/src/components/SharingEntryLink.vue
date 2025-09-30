@@ -159,7 +159,16 @@
 				<NcActionSeparator />
 
 				<!-- external actions -->
-				<ExternalShareAction v-for="action in externalLinkActions"
+				<NcActionButton v-for="action in sortedExternalShareActions"
+					:key="action.id"
+					@click="action.exec(share, fileInfo.node)">
+					<template #icon>
+						<NcIconSvgWrapper :svg="action.iconSvg" />
+					</template>
+					{{ action.label(share, fileInfo.node) }}
+				</NcActionButton>
+
+				<SidebarTabExternalActionLegacy v-for="action in externalLegacyShareActions"
 					:id="action.id"
 					:key="action.id"
 					:action="action"
@@ -230,6 +239,8 @@ import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
+import { getSidebarInlineActions } from '@nextcloud/sharing/ui'
+import { toRaw } from 'vue'
 
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -255,8 +266,8 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 import ShareExpiryTime from './ShareExpiryTime.vue'
+import SidebarTabExternalActionLegacy from './SidebarTabExternal/SidebarTabExternalActionLegacy.vue'
 
-import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.ts'
 import SharesMixin from '../mixins/SharesMixin.js'
@@ -267,7 +278,6 @@ export default {
 	name: 'SharingEntryLink',
 
 	components: {
-		ExternalShareAction,
 		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
@@ -290,6 +300,7 @@ export default {
 		PlusIcon,
 		SharingEntryQuickShareSelect,
 		ShareExpiryTime,
+		SidebarTabExternalActionLegacy,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -323,6 +334,7 @@ export default {
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
+			externalShareActions: getSidebarInlineActions(),
 
 			// tracks whether modal should be opened or not
 			showQRCode: false,
@@ -517,7 +529,7 @@ export default {
 				return true
 			}
 			// Check if either password or expiration date is missing and enforced
-			const isPasswordMissing = this.config.enforcePasswordForPublicLink && !this.share.password
+			const isPasswordMissing = this.config.enforcePasswordForPublicLink && !this.share.newPassword
 			const isExpireDateMissing = this.config.isDefaultExpireDateEnforced && !this.share.expireDate
 
 			return isPasswordMissing || isExpireDateMissing
@@ -568,11 +580,23 @@ export default {
 		 *
 		 * @return {Array}
 		 */
-		externalLinkActions() {
+		externalLegacyShareActions() {
 			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && !action.advanced
 			// filter only the registered actions for said link
+			console.error('external legacy', this.ExternalShareActions, this.ExternalShareActions.actions.filter(filterValidAction))
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
+		},
+
+		/**
+		 * Additional actions for the menu
+		 *
+		 * @return {import('@nextcloud/sharing/ui').ISidebarInlineAction[]}
+		 */
+		sortedExternalShareActions() {
+			return this.externalShareActions
+				.filter((action) => action.enabled(toRaw(this.share), toRaw(this.fileInfo.node)))
+				.sort((a, b) => a.order - b.order)
 		},
 
 		isPasswordPolicyEnabled() {
@@ -639,15 +663,12 @@ export default {
 
 				logger.info('Share policy requires a review or has mandated properties (password, expirationDate)...')
 
-				// ELSE, show the pending popovermenu
+				const share = new Share(shareDefaults)
 				// if password default or enforced, pre-fill with random one
 				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
-					shareDefaults.password = await GeneratePassword(true)
+					this.$set(share, 'newPassword', await GeneratePassword(true))
 				}
 
-				// create share & close menu
-				const share = new Share(shareDefaults)
-				share.newPassword = share.password
 				const component = await new Promise(resolve => {
 					this.$emit('add:share', share, resolve)
 				})
@@ -711,7 +732,7 @@ export default {
 				const options = {
 					path,
 					shareType: ShareType.Link,
-					password: share.password,
+					password: share.newPassword,
 					expireDate: share.expireDate ?? '',
 					attributes: JSON.stringify(this.fileInfo.shareAttributes),
 					// we do not allow setting the publicUpload
@@ -815,10 +836,8 @@ export default {
 		 * cannot ensure data is up-to-date
 		 */
 		onPasswordDisable() {
-			this.share.password = ''
-
 			// reset password state after sync
-			this.$delete(this.share, 'newPassword')
+			this.$set(this.share, 'newPassword', '')
 
 			// only update if valid share.
 			if (this.share.id) {

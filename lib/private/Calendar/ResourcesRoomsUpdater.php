@@ -102,8 +102,15 @@ class ResourcesRoomsUpdater {
 
 				$id = $this->addToCache($dbTable, $backendId, $resource);
 				$this->addMetadataToCache($dbTableMetadata, $foreignKey, $id, $metadata);
-				// we don't create the calendar here, it is created lazily
-				// when an event is actually scheduled with this resource / room
+
+				$principalName = implode('-', [$backendId, $newId]);
+				$this->calDavBackend->createCalendar(
+					implode('/', [$principalPrefix, $principalName]),
+					CalDavBackend::RESOURCE_BOOKING_CALENDAR_URI,
+					[
+						'{DAV:}displayname' => CalDavBackend::RESOURCE_BOOKING_CALENDAR_NAME,
+					],
+				);
 			}
 
 			foreach ($deletedIds as $deletedId) {

@@ -13,6 +13,8 @@ use OC\Memcache\ArrayCache;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ITempManager;
+use OCP\Server;
 
 class BinaryFinderTest extends TestCase {
 	private ICache $cache;
@@ -43,8 +45,8 @@ class BinaryFinderTest extends TestCase {
 				return $default;
 			});
 		$finder = new BinaryFinder($this->cacheFactory, $config);
-		$this->assertEquals($finder->findBinaryPath('cat'), '/usr/bin/cat');
-		$this->assertEquals($this->cache->get('cat'), '/usr/bin/cat');
+		$this->assertStringEndsWith('/cat', $finder->findBinaryPath('cat'));
+		$this->assertStringEndsWith('/cat', $this->cache->get('cat'));
 	}
 
 	public function testDefaultDoesNotFindCata() {
@@ -61,22 +63,28 @@ class BinaryFinderTest extends TestCase {
 	}
 
 	public function testCustomPathFindsCat() {
+		$tmpdir = Server::get(ITempManager::class)->getTemporaryFolder();
+		touch($tmpdir . '/cat');
+		chmod($tmpdir . '/cat', 100);
+
 		$config = $this->createMock(IConfig::class);
 		$config
 			->method('getSystemValue')
 			->with('binary_search_paths', $this->anything())
-			->willReturn(['/usr/bin']);
+			->willReturn([$tmpdir]);
 		$finder = new BinaryFinder($this->cacheFactory, $config);
-		$this->assertEquals($finder->findBinaryPath('cat'), '/usr/bin/cat');
-		$this->assertEquals($this->cache->get('cat'), '/usr/bin/cat');
+		$this->assertEquals($tmpdir . '/cat', $finder->findBinaryPath('cat'));
+		$this->assertEquals($tmpdir . '/cat', $this->cache->get('cat'));
 	}
 
 	public function testWrongCustomPathDoesNotFindCat() {
+		$tmpdir = Server::get(ITempManager::class)->getTemporaryFolder();
+
 		$config = $this->createMock(IConfig::class);
 		$config
 			->method('getSystemValue')
 			->with('binary_search_paths')
-			->willReturn(['/wrong']);
+			->willReturn([$tmpdir]);
 		$finder = new BinaryFinder($this->cacheFactory, $config);
 		$this->assertFalse($finder->findBinaryPath('cat'));
 		$this->assertFalse($this->cache->get('cat'));

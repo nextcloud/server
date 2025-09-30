@@ -308,6 +308,12 @@ class ViewControllerTest extends TestCase {
 				}
 			});
 
+		$this->config
+			->method('getUserValue')
+			->willReturnMap([
+				[$this->user->getUID(), 'files', 'files_sorting_configs', '{}', '{}'],
+			]);
+
 		$this->viewController->index('', '', null);
 	}
 }

@@ -502,7 +502,7 @@ class AppManager implements IAppManager {
 		}
 
 		if (!empty($info['settings'])) {
-			$settingsManager = \OC::$server->get(ISettingsManager::class);
+			$settingsManager = \OCP\Server::get(ISettingsManager::class);
 			if (!empty($info['settings']['admin'])) {
 				foreach ($info['settings']['admin'] as $setting) {
 					$settingsManager->registerSetting('admin', $setting);
@@ -521,6 +521,16 @@ class AppManager implements IAppManager {
 			if (!empty($info['settings']['personal-section'])) {
 				foreach ($info['settings']['personal-section'] as $section) {
 					$settingsManager->registerSection('personal', $section);
+				}
+			}
+			if (!empty($info['settings']['admin-delegation'])) {
+				foreach ($info['settings']['admin-delegation'] as $setting) {
+					$settingsManager->registerSetting(ISettingsManager::SETTINGS_DELEGATION, $setting);
+				}
+			}
+			if (!empty($info['settings']['admin-delegation-section'])) {
+				foreach ($info['settings']['admin-delegation-section'] as $section) {
+					$settingsManager->registerSection(ISettingsManager::SETTINGS_DELEGATION, $section);
 				}
 			}
 		}
@@ -1021,7 +1031,7 @@ class AppManager implements IAppManager {
 	 */
 	public function cleanAppId(string $app): string {
 		/* Only lowercase alphanumeric is allowed */
-		return preg_replace('/(^[0-9_]|[^a-z0-9_]+|_$)/', '', $app);
+		return preg_replace('/(^[0-9_-]+|[^a-z0-9_-]+|[_-]+$)/', '', $app);
 	}
 
 	/**
@@ -1089,6 +1099,7 @@ class AppManager implements IAppManager {
 		// migrate eventual new config keys in the process
 		/** @psalm-suppress InternalMethod */
 		$this->configManager->migrateConfigLexiconKeys($appId);
+		$this->configManager->updateLexiconEntries($appId);
 
 		$this->dispatcher->dispatchTyped(new AppUpdateEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(

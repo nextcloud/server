@@ -315,7 +315,7 @@ class Util {
 	}
 
 	/**
-	 * Converts string to int of float depending if it fits an int
+	 * Converts string to int of float depending on if it fits an int
 	 * @param numeric-string|float|int $number numeric string
 	 * @return int|float int if it fits, float if it is too big
 	 * @since 26.0.0
@@ -514,7 +514,7 @@ class Util {
 		$it = new \RecursiveIteratorIterator($aIt);
 
 		while ($it->valid()) {
-			if (((isset($index) and ($it->key() == $index)) or !isset($index)) and ($it->current() == $needle)) {
+			if (((isset($index) && ($it->key() == $index)) || !isset($index)) && ($it->current() == $needle)) {
 				return $aIt->key();
 			}
 

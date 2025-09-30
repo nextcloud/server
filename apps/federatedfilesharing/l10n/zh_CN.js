@@ -52,7 +52,7 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "剪贴板不可用，请手动复制云 ID。",
     "Copied!" : "已复制！",
     "Federated Cloud" : "联合云",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以和使用了 Nextcloud 服务器或其他兼容 Open Cloud Mesh（OCM）的服务器和服务的任何人共享！只需将他们的联合云 ID 放在共享对话框中。联合云 ID 看起来像 person@cloud.example.com",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以与使用 {productName} 服务器或其他 Open Cloud Mesh（OCM）兼容服务器和服务的任何人共享！只需在共享对话框中输入对方的联合云 ID 即可。其格式为：person@cloud.example.com",
     "Your Federated Cloud ID" : "您的联合云 ID",
     "Share it so your friends can share files with you:" : "使用共享，以便您的朋友可以与您共享文件：",
     "Facebook" : "Facebook",
@@ -61,6 +61,7 @@ OC.L10N.register(
     "Mastodon" : "Mastodon",
     "Bluesky" : "Bluesky",
     "Add to your website" : "添加到您的网站",
+    "Share with me via {productName}" : "通过 {productName} 与我分享",
     "HTML Code:" : "HTML 代码：",
     "Cancel" : "取消",
     "Add remote share" : "添加远程共享",
@@ -69,6 +70,7 @@ OC.L10N.register(
     "Remote share password" : "远程共享密码",
     "Incoming share could not be processed" : "无法处理传入共享",
     "Cloud ID copied to the clipboard" : "云端 ID 已复制至剪切板",
-    "Copy to clipboard" : "复制到剪贴板"
+    "Copy to clipboard" : "复制到剪贴板",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以和使用了 Nextcloud 服务器或其他兼容 Open Cloud Mesh（OCM）的服务器和服务的任何人共享！只需将他们的联合云 ID 放在共享对话框中。联合云 ID 看起来像 person@cloud.example.com"
 },
 "nplurals=1; plural=0;");

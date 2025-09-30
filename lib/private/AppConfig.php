@@ -69,6 +69,8 @@ class AppConfig implements IAppConfig {
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
+	private array $strictnessApplied = [];
+
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
 	private ?ICache $localCache = null;
@@ -1698,7 +1700,7 @@ class AppConfig implements IAppConfig {
 		}
 
 		if (!array_key_exists($key, $configDetails['entries'])) {
-			return $this->applyLexiconStrictness($configDetails['strictness'], 'The app config key ' . $app . '/' . $key . ' is not defined in the config lexicon');
+			return $this->applyLexiconStrictness($configDetails['strictness'], $app . '/' . $key);
 		}
 
 		// if lazy is NULL, we ignore all check on the type/lazyness/default from Lexicon
@@ -1743,22 +1745,26 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigUnknownKeyException if strictness implies exception
 	 * @see \OCP\Config\Lexicon\ILexicon::getStrictness()
 	 */
-	private function applyLexiconStrictness(
-		?Strictness $strictness,
-		string $line = '',
-	): bool {
+	private function applyLexiconStrictness(?Strictness $strictness, string $configAppKey): bool {
 		if ($strictness === null) {
 			return true;
 		}
 
+		$line = 'The app config key ' . $configAppKey . ' is not defined in the config lexicon';
 		switch ($strictness) {
 			case Strictness::IGNORE:
 				return true;
 			case Strictness::NOTICE:
-				$this->logger->notice($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->notice($line);
+				}
 				return true;
 			case Strictness::WARNING:
-				$this->logger->warning($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->warning($line);
+				}
 				return false;
 		}
 

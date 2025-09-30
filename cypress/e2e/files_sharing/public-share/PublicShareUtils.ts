@@ -158,7 +158,7 @@ function adjustSharePermission(): void {
  */
 export function setupPublicShare(shareName = 'shared'): Cypress.Chainable<string> {
 
-	return cy.task('getVariable', { key: 'public-share-data' })
+	return cy.task('getVariable', { key: `public-share-data--${shareName}` })
 		.then((data) => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const { dataSnapshot, shareUrl } = data as any || {}
@@ -183,7 +183,7 @@ export function setupPublicShare(shareName = 'shared'): Cypress.Chainable<string
 							shareData.dataSnapshot = snapshot
 						}),
 					)
-					.then(() => cy.task('setVariable', { key: 'public-share-data', value: shareData }))
+					.then(() => cy.task('setVariable', { key: `public-share-data--${shareName}`, value: shareData }))
 					.then(() => cy.log(`Public share setup, URL: ${shareData.shareUrl}`))
 					.then(() => cy.wrap(defaultShareContext.url))
 			}

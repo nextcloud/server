@@ -18,21 +18,17 @@ use OCA\Files_External\Lib\Storage\SFTP;
  * @package OCA\Files_External\Tests\Storage
  */
 class SftpTest extends \Test\Files\Storage\Storage {
+	use ConfigurableStorageTrait;
 	/**
 	 * @var SFTP instance
 	 */
 	protected $instance;
 
-	private $config;
-
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.sftp.php');
-		if (!is_array($this->config) or !$this->config['run']) {
-			$this->markTestSkipped('SFTP backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.sftp.php');
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new SFTP($this->config);
 		$this->instance->mkdir('/');

@@ -29,7 +29,7 @@ class Presets implements IIconSection {
 	}
 
 	public function getName(): string {
-		return $this->l->t('Settings presets');
+		return $this->l->t('Quick presets');
 	}
 
 	public function getPriority(): int {

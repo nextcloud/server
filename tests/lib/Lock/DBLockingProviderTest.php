@@ -59,7 +59,8 @@ class DBLockingProviderTest extends LockingProvider {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->executeQuery('DELETE FROM `*PREFIX*file_locks`');
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('file_locks')->executeStatement();
 		parent::tearDown();
 	}
 
@@ -81,10 +82,12 @@ class DBLockingProviderTest extends LockingProvider {
 		$this->assertEquals(2, $this->getLockEntryCount());
 	}
 
-	private function getLockEntryCount() {
-		$query = $this->connection->prepare('SELECT count(*) FROM `*PREFIX*file_locks`');
-		$query->execute();
-		return $query->fetchOne();
+	private function getLockEntryCount(): int {
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select($qb->func()->count('*'))
+			->from('file_locks')
+			->executeQuery();
+		return (int)$result->fetchOne();
 	}
 
 	protected function getLockValue($key) {
@@ -93,7 +96,7 @@ class DBLockingProviderTest extends LockingProvider {
 			->from('file_locks')
 			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchOne();
 		$result->closeCursor();
 

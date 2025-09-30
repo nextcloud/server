@@ -306,7 +306,6 @@ OC.L10N.register(
     "Link shares" : "Jaoslingid",
     "Shares" : "Jagamisi",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Jagamine oma organisatsiooni sees. Need, kes juba saavad faili nähe, võivad ka mugavaks ligipääsuks otselinki kasutada.",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "Failide jagamine avalike linkide või e-postiga erinevate osalejatega väljaspool oma organisatsiooni. Lisaks saad jagada kasutajatele muudes Nextcloudi serverites ehk liitpilves.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Jagamine rakendustest ja muudest allikatest, mis pole sisemise või välise jaosmeedia osa.",
     "Type names, teams, federated cloud IDs" : "Sisesta kasutajanimi, tiimi nimi, kasutajatunnus liitpilves",
     "Type names or teams" : "Sisesta kasutajanimi või tiimi nimi",

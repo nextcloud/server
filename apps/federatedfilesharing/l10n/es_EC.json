@@ -26,7 +26,6 @@
     "Copy" : "Copiar",
     "Copied!" : "¡Copiado!",
     "Federated Cloud" : "Nube Federada",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "¡Puedes compartir con cualquier persona que utilice un servidor Nextcloud u otros servidores y servicios compatibles con Open Cloud Mesh (OCM)! Simplemente ingresa su ID de Nube Federada en el diálogo de compartición. Se ve como person@cloud.example.com",
     "Share it so your friends can share files with you:" : "Compártelo para que tus amigos puedan compartir archivos contigo:",
     "Facebook" : "Facebook",
     "Mastodon" : "Mastodon",
@@ -38,6 +37,7 @@
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
     "Remote share password" : "Contraseña del elemento compartido remoto",
     "Cloud ID copied to the clipboard" : "ID de Nube copiado al portapapeles",
-    "Copy to clipboard" : "Copiar al portapapeles"
+    "Copy to clipboard" : "Copiar al portapapeles",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "¡Puedes compartir con cualquier persona que utilice un servidor Nextcloud u otros servidores y servicios compatibles con Open Cloud Mesh (OCM)! Simplemente ingresa su ID de Nube Federada en el diálogo de compartición. Se ve como person@cloud.example.com"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

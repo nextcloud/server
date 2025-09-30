@@ -19,7 +19,7 @@
     "%1$s shared %2$s with you" : "%1$s сподели %2$s со вас",
     "Note:" : "Белешка:",
     "This share is valid until %s at midnight" : "Ова споделување е валидно до %s на полноќ",
-    "Expiration:" : "Истекување:",
+    "Expiration:" : "Рок на траење:",
     "Open %s" : "Отвори %s",
     "%1$s via %2$s" : "%1$s преку %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s сподели %2$s со вас. Веќе имате добиено посебна е-пошта со линк за пристап до неа.",

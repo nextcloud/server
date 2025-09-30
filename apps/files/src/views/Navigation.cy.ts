@@ -28,6 +28,9 @@ const createView = (id: string, name: string, parent?: string) => new View({
 	parent,
 })
 
+/**
+ *
+ */
 function mockWindow() {
 	window.OCP ??= {}
 	window.OCP.Files ??= {}

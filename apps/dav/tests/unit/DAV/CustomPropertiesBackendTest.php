@@ -67,7 +67,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	protected function tearDown(): void {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->delete('properties');
-		$query->execute();
+		$query->executeStatement();
 
 		parent::tearDown();
 	}
@@ -102,7 +102,7 @@ class CustomPropertiesBackendTest extends TestCase {
 				'propertyvalue' => $query->createNamedParameter($value),
 				'valuetype' => $query->createNamedParameter($type, IQueryBuilder::PARAM_INT)
 			]);
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	protected function getProps(string $user, string $path): array {
@@ -112,7 +112,7 @@ class CustomPropertiesBackendTest extends TestCase {
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
 			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$data = [];
 		while ($row = $result->fetch()) {
 			$value = $row['propertyvalue'];
