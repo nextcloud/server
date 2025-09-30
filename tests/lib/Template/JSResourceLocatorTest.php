@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,42 +9,37 @@
 
 namespace Test\Template;
 
-use OC\SystemConfig;
 use OC\Template\JSCombiner;
 use OC\Template\JSResourceLocator;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class JSResourceLocatorTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appData;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $cacheFactory;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appManager;
+	private IAppData&MockObject $appData;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IConfig&MockObject $config;
+	private ICacheFactory&MockObject $cacheFactory;
+	private LoggerInterface&MockObject $logger;
+	private IAppManager&MockObject $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->config = $this->createMock(SystemConfig::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 	}
 
-	private function jsResourceLocator() {
+	private function jsResourceLocator(): JSResourceLocator {
 		$jsCombiner = new JSCombiner(
 			$this->appData,
 			$this->urlGenerator,
@@ -52,6 +49,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		);
 		return new JSResourceLocator(
 			$this->logger,
+			$this->config,
 			$jsCombiner,
 			$this->appManager,
 		);
@@ -69,8 +67,8 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		return rmdir($directory);
 	}
 
-	private function randomString() {
-		return sha1(uniqid(mt_rand(), true));
+	private function randomString(): string {
+		return sha1(random_bytes(10));
 	}
 
 	public function testFindWithAppPathSymlink(): void {

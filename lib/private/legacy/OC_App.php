@@ -249,41 +249,6 @@ class OC_App {
 	}
 
 	/**
-	 * Get the directory for the given app.
-	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
-	 *
-	 * @psalm-taint-specialize
-	 *
-	 * @param string $appId
-	 * @param bool $refreshAppPath should be set to true only during install/upgrade
-	 * @return string|false
-	 * @deprecated 11.0.0 use Server::get(IAppManager)->getAppPath()
-	 */
-	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
-		try {
-			return Server::get(IAppManager::class)->getAppPath($appId, $refreshAppPath);
-		} catch (AppPathNotFoundException) {
-			return false;
-		}
-	}
-
-	/**
-	 * Get the path for the given app on the access
-	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
-	 *
-	 * @param string $appId
-	 * @return string|false
-	 * @deprecated 18.0.0 use Server::get(IAppManager)->getAppWebPath()
-	 */
-	public static function getAppWebPath(string $appId) {
-		try {
-			return Server::get(IAppManager::class)->getAppWebPath($appId);
-		} catch (AppPathNotFoundException) {
-			return false;
-		}
-	}
-
-	/**
 	 * get app's version based on it's path
 	 *
 	 * @deprecated 32.0.0 use Server::get(IAppManager)->getAppInfoByPath() with the path to info.xml directly
@@ -462,7 +427,11 @@ class OC_App {
 					$info['level'] = self::supportedApp;
 				}
 
-				$appPath = self::getAppPath($app);
+				try {
+					$appPath = $appManager->getAppPath($app);
+				} catch (AppPathNotFoundException) {
+					$appPath = false;
+				}
 				if ($appPath !== false) {
 					$appIcon = $appPath . '/img/' . $app . '.svg';
 					if (file_exists($appIcon)) {

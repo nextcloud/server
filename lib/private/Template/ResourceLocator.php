@@ -1,56 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Template;
 
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 abstract class ResourceLocator {
-	protected $theme;
+	protected string $theme;
 
-	protected $mapping;
-	protected $serverroot;
-	protected $webroot;
+	protected array $mapping;
+	protected string $serverroot;
 
-	protected $resources = [];
+	protected array $resources = [];
 
-	protected LoggerInterface $logger;
-
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		protected LoggerInterface $logger,
+		IConfig $config,
+	) {
 		$this->mapping = [
 			\OC::$SERVERROOT => \OC::$WEBROOT
 		];
 		$this->serverroot = \OC::$SERVERROOT;
-		$this->webroot = \OC::$WEBROOT;
-		$this->theme = \OC_Util::getTheme();
+
+		$this->theme = $config->getSystemValueString('theme', '');
+
+		if ($this->theme === '') {
+			if (is_dir(\OC::$SERVERROOT . '/themes/default')) {
+				$this->theme = 'default';
+			}
+		}
 	}
 
-	/**
-	 * @param string $resource
-	 */
-	abstract public function doFind($resource);
+	abstract public function doFind(string $resource): void;
 
-	/**
-	 * @param string $resource
-	 */
-	abstract public function doFindTheme($resource);
+	abstract public function doFindTheme(string $resource): void;
 
 	/**
 	 * Finds the resources and adds them to the list
-	 *
-	 * @param array $resources
 	 */
-	public function find($resources) {
+	public function find(array $resources): void {
 		foreach ($resources as $resource) {
 			try {
 				$this->doFind($resource);
 			} catch (ResourceNotFoundException $e) {
-				$resourceApp = substr($resource, 0, strpos($resource, '/'));
+				[$resourceApp] = explode('/', $resource, 2);
 				$this->logger->debug('Could not find resource file "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
 			}
 		}
@@ -59,7 +60,7 @@ abstract class ResourceLocator {
 				try {
 					$this->doFindTheme($resource);
 				} catch (ResourceNotFoundException $e) {
-					$resourceApp = substr($resource, 0, strpos($resource, '/'));
+					[$resourceApp] = explode('/', $resource, 2);
 					$this->logger->debug('Could not find resource file in theme "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
 				}
 			}
@@ -74,8 +75,8 @@ abstract class ResourceLocator {
 	 * @param string|null $webRoot base for path, default map $root to $webRoot
 	 * @return bool True if the resource was found, false otherwise
 	 */
-	protected function appendIfExist($root, $file, $webRoot = null) {
-		if ($root !== false && is_file($root . '/' . $file)) {
+	protected function appendIfExist(string $root, string $file, ?string $webRoot = null): bool {
+		if (is_file($root . '/' . $file)) {
 			$this->append($root, $file, $webRoot, false);
 			return true;
 		}
@@ -95,10 +96,9 @@ abstract class ResourceLocator {
 	 * then /srv/www/apps, /srv/www/apps, /srv/www, ... until we find a
 	 * valid web root
 	 *
-	 * @param string $root
 	 * @return string|null The web root or null on failure
 	 */
-	protected function findWebRoot($root) {
+	protected function findWebRoot(string $root): ?string {
 		$webRoot = null;
 		$tmpRoot = $root;
 
@@ -135,15 +135,8 @@ abstract class ResourceLocator {
 	 * @param bool $throw Throw an exception, when the route does not exist
 	 * @throws ResourceNotFoundException Only thrown when $throw is true and the resource is missing
 	 */
-	protected function append($root, $file, $webRoot = null, $throw = true) {
-		if (!is_string($root)) {
-			if ($throw) {
-				throw new ResourceNotFoundException($file, $webRoot);
-			}
-			return;
-		}
-
-		if (!$webRoot) {
+	protected function append(string $root, string $file, ?string $webRoot = null, bool $throw = true): void {
+		if ($webRoot === null || $webRoot === '') {
 			$webRoot = $this->findWebRoot($root);
 
 			if ($webRoot === null) {
@@ -166,9 +159,8 @@ abstract class ResourceLocator {
 
 	/**
 	 * Returns the list of all resources that should be loaded
-	 * @return array
 	 */
-	public function getResources() {
+	public function getResources(): array {
 		return $this->resources;
 	}
 }
