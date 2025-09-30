@@ -175,10 +175,10 @@ export default {
 		}
 	},
 
-	data() {
+	data(props) {
 		return {
 			loading: false,
-			user: '',
+			user: props.username,
 			password: '',
 		}
 	},
@@ -234,7 +234,7 @@ export default {
 			return generateUrl('login')
 		},
 		emailEnabled() {
-			return this.emailStates ? this.emailStates.every((state) => state === '1') : 1
+			return this.emailStates.every((state) => state === '1')
 		},
 		loginText() {
 			if (this.emailEnabled) {
@@ -257,7 +257,6 @@ export default {
 		if (this.username === '') {
 			this.$refs.user.$refs.inputField.$refs.input.focus()
 		} else {
-			this.user = this.username
 			this.$refs.password.$refs.inputField.$refs.input.focus()
 		}
 	},
