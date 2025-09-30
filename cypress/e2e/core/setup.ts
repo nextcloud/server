@@ -113,6 +113,9 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 function sharedSetup() {
 	const randAdmin = 'admin-' + Math.random().toString(36).substring(2, 15)
 
+	// mock appstore
+	cy.intercept('**/settings/apps/list', { fixture: 'appstore/apps.json' })
+
 	// Fill in the form
 	cy.get('[data-cy-setup-form-field="adminlogin"]').type(randAdmin)
 	cy.get('[data-cy-setup-form-field="adminpass"]').type(randAdmin)
