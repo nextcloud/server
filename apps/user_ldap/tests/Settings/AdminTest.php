@@ -10,6 +10,7 @@ namespace OCA\User_LDAP\Tests\Settings;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
@@ -23,16 +24,19 @@ use Test\TestCase;
 class AdminTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private ITemplateManager $templateManager;
+	private IInitialState&MockObject $initialState;
 	private Admin $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->templateManager = Server::get(ITemplateManager::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Admin(
 			$this->l10n,
 			$this->templateManager,
+			$this->initialState,
 		);
 	}
 
@@ -46,10 +50,6 @@ class AdminTest extends TestCase {
 		$sControls = $sControls->fetchPage();
 
 		$parameters = [];
-		$parameters['serverConfigurationPrefixes'] = $prefixes;
-		$parameters['serverConfigurationHosts'] = $hosts;
-		$parameters['settingControls'] = $sControls;
-		$parameters['wizardControls'] = $wControls;
 
 		// assign default values
 		$config = new Configuration('', false);

@@ -117,6 +117,8 @@ OCA = OCA || {};
 		 * @returns {jqXHR}
 		 */
 		callWizard: function(params, callback, detector) {
+			console.debug('[LDAP - Legacy] Called wizard action', { params })
+
 			return this.callAjax('wizard.php', params, callback, detector);
 		},
 
@@ -180,6 +182,7 @@ OCA = OCA || {};
 			var strParams = OC.buildQueryString(objParams);
 			var model = this;
 			$.post(url, strParams, function(result) { model._processSetResult(model, result, objParams) });
+			console.debug('[LDAP - Legacy] Saved value', { objParams })
 			return true;
 		},
 
@@ -321,6 +324,7 @@ OCA = OCA || {};
 			var params = OC.buildQueryString({ldap_serverconfig_chooser: this.configID});
 			var model = this;
 			$.post(url, params, function(result) { model._processTestResult(model, result) });
+			console.debug('[LDAP - Legacy] Tested configuration', { params })
 			//TODO: make sure only one test is running at a time
 		},
 
