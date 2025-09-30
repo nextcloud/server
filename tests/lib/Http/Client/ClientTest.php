@@ -276,6 +276,13 @@ class ClientTest extends \Test\TestCase {
 			->with()
 			->willReturn('/my/path.crt');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
+		// compute curl http version hint like in production code
+		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
+			? \CURL_HTTP_VERSION_2TLS
+			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
+
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -284,11 +291,15 @@ class ClientTest extends \Test\TestCase {
 			],
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
 				'allow_local_address' => true,
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => $curlVersion,
 			],
 		];
 	}
@@ -466,11 +477,18 @@ class ClientTest extends \Test\TestCase {
 			->expects($this->never())
 			->method('listCertificates');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
+		// compute curl http version hint like in production code
+		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
+			? \CURL_HTTP_VERSION_2TLS
+			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
+
 		$this->assertEquals([
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -483,6 +501,10 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\UriInterface $uri,
 				): void {
 				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => $curlVersion,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
@@ -513,6 +535,13 @@ class ClientTest extends \Test\TestCase {
 			->with()
 			->willReturn('/my/path.crt');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
+		// compute curl http version hint like in production code
+		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
+			? \CURL_HTTP_VERSION_2TLS
+			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
+
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -521,7 +550,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -534,6 +563,10 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\UriInterface $uri,
 				): void {
 				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => $curlVersion,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
@@ -564,6 +597,13 @@ class ClientTest extends \Test\TestCase {
 			->with()
 			->willReturn('/my/path.crt');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
+		// compute curl http version hint like in production code
+		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
+			? \CURL_HTTP_VERSION_2TLS
+			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
+
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -573,7 +613,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'headers' => [
 				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -586,6 +626,10 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\UriInterface $uri,
 				): void {
 				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => $curlVersion,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
