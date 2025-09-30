@@ -61,3 +61,6 @@
 [submodule "apps-external/deck"]
 	path = apps-external/deck
 	url = git@github.com:nextcloud/deck.git
+[submodule "apps-external/forms"]
+	path = apps-external/forms
+	url = git@github.com:IONOS-Productivity/nc-forms.git
