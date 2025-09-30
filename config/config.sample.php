@@ -154,9 +154,9 @@ $CONFIG = [
 	/**
 	 * Prefix for the Nextcloud tables in the database.
 	 *
-	 * Default to ``oc_``
+	 * Default to ``nc_``
 	 */
-	'dbtableprefix' => 'oc_',
+	'dbtableprefix' => 'nc_',
 
 	/**
 	 * Enable persistent connections to the database.

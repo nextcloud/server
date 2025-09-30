@@ -8,6 +8,7 @@
 namespace Test\AppFramework\Db;
 
 use Doctrine\DBAL\Schema\SchemaException;
+use OC\DB\ConnectionFactory;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -132,7 +133,7 @@ class QBMapperDBTest extends TestCase {
 			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
 		}
 
-		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', 'oc_');
+		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX);
 		$schema = $this->connection->createSchema();
 		try {
 			$schema->getTable($prefix . 'testing');

@@ -8,6 +8,7 @@
 namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Schema\SchemaException;
+use OC\DB\ConnectionFactory;
 use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
@@ -212,7 +213,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
 		}
 
-		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', 'oc_');
+		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX);
 		$schema = $this->connection->createSchema();
 		try {
 			$schema->getTable($prefix . 'testing');

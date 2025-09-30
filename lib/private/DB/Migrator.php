@@ -158,7 +158,7 @@ class Migrator {
 	}
 
 	protected function getFilterExpression() {
-		return '/^' . preg_quote($this->config->getSystemValueString('dbtableprefix', 'oc_'), '/') . '/';
+		return '/^' . preg_quote($this->config->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX), '/') . '/';
 	}
 
 	protected function emit(string $sql, int $step, int $max): void {

@@ -25,7 +25,7 @@ class ConnectionFactory {
 	public const DEFAULT_DBNAME = 'owncloud';
 
 	/** @var string default database table prefix */
-	public const DEFAULT_DBTABLEPREFIX = 'oc_';
+	public const DEFAULT_DBTABLEPREFIX = 'nc_';
 
 	/**
 	 * @var array
