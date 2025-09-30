@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>sharing</id>
+	<name>Sharing</name>
+	<summary>TODO</summary>
+	<description>TODO</description>
+	<version>1.0.0</version>
+	<licence>AGPL-3.0-or-later</licence>
+	<author>Kate Döen</author>
+	<namespace>Sharing</namespace>
+	<category>customization</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="33" max-version="33"/>
+	</dependencies>
+	<commands>
+		<command>\OCA\Sharing\Command\Create</command>
+		<command>\OCA\Sharing\Command\Delete</command>
+		<command>\OCA\Sharing\Command\Get</command>
+		<command>\OCA\Sharing\Command\Update</command>
+	</commands>
+</info>

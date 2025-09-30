@@ -16,12 +16,14 @@
 	phpVersion="8.2"
 >
 	<projectFiles>
+		<directory name="apps/sharing"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
+			<file name="lib/public/AppFramework/OCSController.php"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>

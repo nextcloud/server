@@ -400,7 +400,7 @@ SPDX-FileCopyrightText = "2019 Fabian Wiktor <https://www.pexels.com/photo/green
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["openapi.json", ".envrc", "flake.nix", "flake.lock", "build/eslint-baseline.json", "build/eslint-baseline-legacy.json"]
+path = ["openapi.json", ".envrc", "flake.nix", "flake.lock", "build/eslint-baseline.json", "build/eslint-baseline-legacy.json", "apps/sharing/openapi.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
