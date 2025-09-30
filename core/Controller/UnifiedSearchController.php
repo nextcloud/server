@@ -78,6 +78,7 @@ class UnifiedSearchController extends OCSController {
 	 * @param int|null $sortOrder Order of entries
 	 * @param int|null $limit Maximum amount of entries (capped by configurable unified-search.max-results-per-request, default: 25)
 	 * @param int|string|null $cursor Offset for searching
+	 * @param int|null $offset Skip this many results
 	 * @param string $from The current user URL
 	 *
 	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchResult, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
@@ -95,6 +96,7 @@ class UnifiedSearchController extends OCSController {
 		?int $sortOrder = null,
 		?int $limit = null,
 		$cursor = null,
+		?int $offset = null,
 		string $from = '',
 	): DataResponse {
 		[$route, $routeParameters] = $this->getRouteInformation($from);
@@ -123,7 +125,8 @@ class UnifiedSearchController extends OCSController {
 					$limit,
 					$cursor,
 					$route,
-					$routeParameters
+					$routeParameters,
+					$offset
 				)
 			)->jsonSerialize()
 		);

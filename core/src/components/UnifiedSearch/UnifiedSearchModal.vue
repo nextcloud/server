@@ -260,7 +260,6 @@ export default defineComponent({
 			providers: [],
 			providerActionMenuIsOpen: false,
 			dateActionMenuIsOpen: false,
-			providerResultLimit: 5,
 			dateFilter: {
 				id: 'date',
 				type: 'date',
@@ -414,9 +413,9 @@ export default defineComponent({
 				return
 			}
 
-			// Reset the provider result limit when performing a new search
+			// Reset results when performing a new search
 			if (query !== this.lastSearchQuery) {
-				this.providerResultLimit = 5
+				this.results = []
 			}
 			this.lastSearchQuery = query
 
@@ -453,10 +452,7 @@ export default defineComponent({
 					}
 				})
 
-				if (this.providerResultLimit > 5) {
-					params.limit = this.providerResultLimit
-					unifiedSearchLogger.debug('Limiting search to', params.limit)
-				}
+				params.limit = 5
 
 				const shouldSkipSearch = !this.searchExternalResources && provider.isExternalProvider
 				const wasManuallySelected = this.filteredProviders.some(filteredProvider => filteredProvider.id === provider.id)
@@ -472,12 +468,82 @@ export default defineComponent({
 					newResults.push({
 						...provider,
 						results: response.data.ocs.data.entries,
-						limit: params.limit ?? 5,
+						limit: 5,
 					})
 
 					unifiedSearchLogger.debug('Unified search results:', { results: this.results, newResults })
 
 					this.updateResults(newResults)
+					this.searching = false
+				})
+			}
+
+			providersToSearch.forEach(searchProvider)
+		},
+		findWithOffset(query: string, providersToSearch, offset: number, limit: number) {
+			if (this.isSearchQueryTooShort) {
+				return
+			}
+
+			this.searching = true
+			const newResults = []
+			const searchProvider = (provider) => {
+				const params = {
+					type: provider.searchFrom ?? provider.id,
+					query,
+					cursor: null,
+					offset,
+					limit,
+					extraQueries: provider.extraParams,
+				}
+
+				// Apply filters same as regular find method
+				const activeFilters = this.filters.filter(filter => {
+					return filter.type !== 'provider' && this.providerIsCompatibleWithFilters(provider, [filter.type])
+				})
+
+				activeFilters.forEach(filter => {
+					switch (filter.type) {
+					case 'date':
+						if (provider.filters?.since && provider.filters?.until) {
+							params.since = this.dateFilter.startFrom
+							params.until = this.dateFilter.endAt
+						}
+						break
+					case 'person':
+						if (provider.filters?.person) {
+							params.person = this.personFilter.user
+						}
+						break
+					}
+				})
+
+				const shouldSkipSearch = !this.searchExternalResources && provider.isExternalProvider
+				const wasManuallySelected = this.filteredProviders.some(filteredProvider => filteredProvider.id === provider.id)
+				if (shouldSkipSearch && !wasManuallySelected) {
+					this.searching = false
+					return
+				}
+
+				const request = unifiedSearch(params).request
+
+				request().then((response) => {
+					// For offset-based pagination, we need to append results to existing ones
+					const existingResults = this.results.find(result => result.id === provider.id)
+					if (existingResults) {
+						existingResults.results.push(...response.data.ocs.data.entries)
+						existingResults.limit = existingResults.results.length
+					} else {
+						newResults.push({
+							...provider,
+							results: response.data.ocs.data.entries,
+							limit: response.data.ocs.data.entries.length,
+						})
+					}
+
+					if (newResults.length > 0) {
+						this.updateResults(newResults)
+					}
 					this.searching = false
 				})
 			}
@@ -561,8 +627,11 @@ export default defineComponent({
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
 		async loadMoreResultsForProvider(provider) {
-			this.providerResultLimit += 5
-			this.find(this.searchQuery, [provider])
+			// Calculate offset based on current results count for this provider
+			const currentResults = this.results.find(result => result.id === provider.id)
+			const offset = currentResults ? currentResults.results.length : 0
+			// Use fixed limit of 5 with proper offset
+			this.findWithOffset(this.searchQuery, [provider], offset, 5)
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
 			unifiedSearchLogger.debug('Applying provider filter', { providerFilter, loadMoreResultsForProvider })
@@ -575,7 +644,6 @@ export default defineComponent({
 				const isProviderFilterApplied = this.filteredProviders.some(provider => provider.id === providerFilter.id)
 				providerFilter.callback(!isProviderFilterApplied)
 			}
-			this.providerResultLimit = loadMoreResultsForProvider ? this.providerResultLimit : 5
 			this.providerActionMenuIsOpen = false
 			// With the possibility for other apps to add new filters
 			// Resulting in a possible id/provider collision
