@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<psalm
+	errorLevel="1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config"
+	resolveFromConfigFile="false"
+	findUnusedBaselineEntry="true"
+	findUnusedCode="false"
+	findUnusedPsalmSuppress="true"
+	findUnusedVariablesAndParams="true"
+	phpVersion="8.2"
+>
+	<projectFiles>
+		<directory name="apps/sharing/lib"/>
+		<ignoreFiles>
+			<directory name="lib"/>
+		</ignoreFiles>
+	</projectFiles>
+	<extraFiles>
+		<directory name="3rdparty"/>
+		<directory name="core"/>
+	</extraFiles>
+</psalm>
