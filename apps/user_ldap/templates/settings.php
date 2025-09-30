@@ -6,10 +6,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-style('user_ldap', 'vendor/ui-multiselect/jquery.multiselect');
+style('user_ldap');
 
 script('user_ldap', [
-	'vendor/ui-multiselect/src/jquery.multiselect',
 	'wizard/controller',
 	'wizard/configModel',
 	'wizard/view',
