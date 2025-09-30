@@ -8511,7 +8511,7 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Maximum amount of entries, limited to 25",
+                        "description": "Maximum amount of entries",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
