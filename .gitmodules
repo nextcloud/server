@@ -67,3 +67,6 @@
 [submodule "apps-external/text"]
 	path = apps-external/text
 	url = git@github.com:nextcloud/text.git
+[submodule "apps-external/whiteboard"]
+	path = apps-external/whiteboard
+	url = git@github.com:nextcloud/whiteboard.git
