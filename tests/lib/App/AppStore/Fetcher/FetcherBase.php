@@ -442,6 +442,12 @@ abstract class FetcherBase extends TestCase {
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
 
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
+
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$this->appData
@@ -487,7 +493,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
-					'timeout' => 60,
+					'timeout' => 120,
 					'headers' => [
 						'If-None-Match' => '"myETag"'
 					]
@@ -520,6 +526,12 @@ abstract class FetcherBase extends TestCase {
 			});
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -564,7 +576,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
-					'timeout' => 60,
+					'timeout' => 120,
 					'headers' => [
 						'If-None-Match' => '"myETag"',
 					]
@@ -606,6 +618,12 @@ abstract class FetcherBase extends TestCase {
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
 
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
+
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$this->appData
@@ -642,7 +660,7 @@ abstract class FetcherBase extends TestCase {
 			->with(
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
-					'timeout' => 60,
+					'timeout' => 120,
 				])
 			)
 			->willReturn($response);
