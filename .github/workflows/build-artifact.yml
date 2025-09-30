@@ -157,6 +157,13 @@ jobs:
               "makefile_target": "build_ncw_mailtemplate_app"
             },
             {
+              "name": "notes",
+              "path": "apps-external/notes",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_notes_app"
+            },
+            {
               "name": "groupfolders",
               "path": "apps-external/groupfolders",
               "has_npm": true,
