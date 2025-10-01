@@ -38,6 +38,10 @@ interface IUserConfig {
 	 * @since 32.0.0
 	 */
 	public const FLAG_INDEXED = 2;    // value should be indexed
+	/**
+	 * @since 33.0.0
+	 */
+	public const FLAG_INTERNAL = 4;   // value is considered internal and can be hidden from listing
 
 	/**
 	 * Get list of all userIds with config stored in database.

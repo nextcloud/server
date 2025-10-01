@@ -61,6 +61,12 @@ class SetConfig extends Base {
 				'Set value as sensitive',
 			)
 			->addOption(
+				'internal',
+				null,
+				InputOption::VALUE_NONE,
+				'Confirm the edit of an internal value',
+			)
+			->addOption(
 				'update-only',
 				null,
 				InputOption::VALUE_NONE,
@@ -157,6 +163,12 @@ class SetConfig extends Base {
 				}
 			} catch (AppConfigUnknownKeyException) {
 				$sensitive = $sensitive ?? false;
+			}
+
+			if (!$input->getOption('internal') && ($this->appConfig->getKeyDetails($appName, $configName)['internal'] ?? false)) {
+				$output->writeln('<error>Config key is set as INTERNAL and modifying it might induce strange behavior or break user experience.</error>');
+				$output->writeln('please use option <comment>--internal</comment> to confirm your action');
+				return self::FAILURE;
 			}
 
 			$value = (string)$input->getOption('value');
