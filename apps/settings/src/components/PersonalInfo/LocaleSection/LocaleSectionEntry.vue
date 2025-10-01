@@ -5,7 +5,8 @@
 
 <template>
 	<div class="locale">
-		<NcSelect :aria-label-listbox="t('settings', 'Locales')"
+		<NcSelect
+			:aria-label-listbox="t('settings', 'Locales')"
 			class="locale__select"
 			:clearable="false"
 			:input-id="inputId"
@@ -34,13 +35,12 @@
 import moment from '@nextcloud/moment'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import MapClock from 'vue-material-design-icons/MapClock.vue'
-
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
 export default {
-	name: 'Locale',
+	name: 'LocaleSectionEntry',
 
 	components: {
 		MapClock,
@@ -52,14 +52,17 @@ export default {
 			type: String,
 			default: null,
 		},
+
 		locale: {
 			type: Object,
 			required: true,
 		},
+
 		localesForLanguage: {
 			type: Array,
 			required: true,
 		},
+
 		otherLocales: {
 			type: Array,
 			required: true,
@@ -83,8 +86,8 @@ export default {
 		 * All available locale, sorted like: current, common, other
 		 */
 		allLocales() {
-			const common = this.localesForLanguage.filter(l => l.code !== this.locale.code)
-			const other = this.otherLocales.filter(l => l.code !== this.locale.code)
+			const common = this.localesForLanguage.filter((l) => l.code !== this.locale.code)
+			const other = this.otherLocales.filter((l) => l.code !== this.locale.code)
 			return [this.locale, ...common, ...other]
 		},
 	},

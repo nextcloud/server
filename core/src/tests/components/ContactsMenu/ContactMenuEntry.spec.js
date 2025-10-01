@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { describe, expect, it } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
-
-import Contact from '../../../components/ContactsMenu/Contact.vue'
+import { describe, expect, it } from 'vitest'
+import ContactMenuEntry from '../../../components/ContactsMenu/ContactMenuEntry.vue'
 
 describe('Contact', function() {
 	it('links to the top action', () => {
-		const view = shallowMount(Contact, {
+		const view = shallowMount(ContactMenuEntry, {
 			propsData: {
 				contact: {
 					id: null,

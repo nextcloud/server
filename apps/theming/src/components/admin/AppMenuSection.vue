@@ -15,8 +15,9 @@
 
 		<template v-if="hasCustomDefaultApp">
 			<h4>{{ t('theming', 'Global default app') }}</h4>
-			<NcSelect v-model="selectedApps"
-				:close-on-select="false"
+			<NcSelect
+				v-model="selectedApps"
+				keep-open
 				:placeholder="t('theming', 'Global default apps')"
 				:options="allApps"
 				:multiple="true" />
@@ -30,16 +31,14 @@
 </template>
 
 <script lang="ts">
-import type { INavigationEntry } from '../../../../../core/src/types/navigation'
+import type { INavigationEntry } from '../../../../../core/src/types/navigation.ts'
 
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { computed, defineComponent } from 'vue'
-
-import axios from '@nextcloud/axios'
-
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
@@ -53,16 +52,37 @@ export default defineComponent({
 		NcSelect,
 		NcSettingsSection,
 	},
+
 	props: {
 		defaultApps: {
 			type: Array,
 			required: true,
 		},
 	},
+
 	emits: {
 		'update:defaultApps': (value: string[]) => Array.isArray(value) && value.every((id) => typeof id === 'string'),
 	},
+
 	setup(props, { emit }) {
+		/**
+		 * All enabled apps which can be navigated
+		 */
+		const allApps = loadState<INavigationEntry[]>('core', 'apps')
+			.map(({ id, name, icon }) => ({ label: name, id, icon }))
+
+		/**
+		 * Currently selected app, wrapps the setter
+		 */
+		const selectedApps = computed({
+			get: () => props.defaultApps.map((id) => allApps.filter((app) => app.id === id)[0]),
+			set(value) {
+				saveSetting('defaultApps', value.map((app) => app.id))
+					.then(() => emit('update:defaultApps', value.map((app) => app.id)))
+					.catch(() => showError(t('theming', 'Could not set global default apps')))
+			},
+		})
+
 		const hasCustomDefaultApp = computed({
 			get: () => props.defaultApps.length > 0,
 			set: (checked: boolean) => {
@@ -75,24 +95,10 @@ export default defineComponent({
 		})
 
 		/**
-		 * All enabled apps which can be navigated
+		 * @param key
+		 * @param value
 		 */
-		const allApps = loadState<INavigationEntry[]>('core', 'apps')
-			.map(({ id, name, icon }) => ({ label: name, id, icon }))
-
-		/**
-		 * Currently selected app, wrapps the setter
-		 */
-		const selectedApps = computed({
-			get: () => props.defaultApps.map((id) => allApps.filter(app => app.id === id)[0]),
-			set(value) {
-				saveSetting('defaultApps', value.map(app => app.id))
-					.then(() => emit('update:defaultApps', value.map(app => app.id)))
-					.catch(() => showError(t('theming', 'Could not set global default apps')))
-			},
-		})
-
-		const saveSetting = async (key: string, value: unknown) => {
+		async function saveSetting(key: string, value: unknown) {
 			const url = generateUrl('/apps/theming/ajax/updateAppMenu')
 			return await axios.put(url, {
 				setting: key,

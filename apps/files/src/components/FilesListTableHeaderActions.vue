@@ -4,7 +4,8 @@
 -->
 <template>
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
-		<NcActions ref="actionsMenu"
+		<NcActions
+			ref="actionsMenu"
 			container="#app-content-vue"
 			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
@@ -14,12 +15,13 @@
 			:open.sync="openedMenu"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
-			<NcActionButton v-for="action in enabledMenuActions"
+			<NcActionButton
+				v-for="action in enabledMenuActions"
 				:key="action.id"
 				:ref="`action-batch-${action.id}`"
 				:class="{
 					[`files-list__row-actions-batch-${action.id}`]: true,
-					[`files-list__row-actions-batch--menu`]: isValidMenu(action)
+					[`files-list__row-actions-batch--menu`]: isValidMenu(action),
 				}"
 				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-selection-action="action.id"
@@ -46,7 +48,8 @@
 				<NcActionSeparator />
 
 				<!-- Submenu actions -->
-				<NcActionButton v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
+				<NcActionButton
+					v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
 					:key="action.id"
 					:class="`files-list__row-actions-batch-${action.id}`"
 					class="files-list__row-actions-batch--submenu"
@@ -69,26 +72,24 @@
 <script lang="ts">
 import type { FileAction, Node, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
-import type { FileSource } from '../types'
+import type { FileSource } from '../types.ts'
 
-import { getFileActions, NodeStatus, DefaultType } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { DefaultType, getFileActions, NodeStatus } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import logger from '../logger.ts'
+import actionsMixins from '../mixins/actionsMixin.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import actionsMixins from '../mixins/actionsMixin.ts'
-import logger from '../logger.ts'
 
 // The registered actions list
 const actions = getFileActions()
@@ -111,6 +112,7 @@ export default defineComponent({
 			type: Object as PropType<View>,
 			required: true,
 		},
+
 		selectedNodes: {
 			type: Array as PropType<FileSource[]>,
 			default: () => ([]),
@@ -148,14 +150,14 @@ export default defineComponent({
 		enabledFileActions(): FileAction[] {
 			return actions
 				// We don't handle renderInline actions in this component
-				.filter(action => !action.renderInline)
+				.filter((action) => !action.renderInline)
 				// We don't handle actions that are not visible
-				.filter(action => action.default !== DefaultType.HIDDEN)
+				.filter((action) => action.default !== DefaultType.HIDDEN)
 				// We allow top-level actions that have no execBatch method
 				// but children actions always need to have it
-				.filter(action => action.execBatch || !action.parent)
+				.filter((action) => action.execBatch || !action.parent)
 				// We filter out actions that are not enabled for the current selection
-				.filter(action => !action.enabled || action.enabled(this.nodes, this.currentView))
+				.filter((action) => !action.enabled || action.enabled(this.nodes, this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
@@ -168,11 +170,11 @@ export default defineComponent({
 		enabledInlineActions(): FileAction[] {
 			return this.enabledFileActions
 				// Remove all actions that are not top-level actions
-				.filter(action => action.parent === undefined)
+				.filter((action) => action.parent === undefined)
 				// Remove all actions that are not batch actions
-				.filter(action => action.execBatch !== undefined)
+				.filter((action) => action.execBatch !== undefined)
 				// Remove all top-menu entries
-				.filter(action => !this.isValidMenu(action))
+				.filter((action) => !this.isValidMenu(action))
 				// Return a maximum actions to fit the screen
 				.slice(0, this.inlineActions)
 		},
@@ -190,18 +192,18 @@ export default defineComponent({
 
 			// We filter duplicates to prevent inline actions to be shown twice
 			const actions = this.enabledFileActions.filter((value, index, self) => {
-				return index === self.findIndex(action => action.id === value.id)
+				return index === self.findIndex((action) => action.id === value.id)
 			})
 
 			// Generate list of all top-level actions ids
 			const childrenActionsIds = actions
-				.filter(action => action.parent)
+				.filter((action) => action.parent)
 				// Filter out all actions that are not batch actions
-				.filter(action => action.execBatch)
-				.map(action => action.parent) as string[]
+				.filter((action) => action.execBatch)
+				.map((action) => action.parent) as string[]
 
 			const menuActions = actions
-				.filter(action => {
+				.filter((action) => {
 					// If the action is not a batch action, we need
 					// to make sure it's a top-level parent entry
 					// and that we have some children actions bound to it
@@ -217,7 +219,7 @@ export default defineComponent({
 
 					return true
 				})
-				.filter(action => !this.enabledInlineActions.includes(action))
+				.filter((action) => !this.enabledInlineActions.includes(action))
 
 			// Make sure we render the inline actions first
 			// and then the rest of the actions.
@@ -227,18 +229,19 @@ export default defineComponent({
 
 		nodes() {
 			return this.selectedNodes
-				.map(source => this.getNode(source))
+				.map((source) => this.getNode(source))
 				.filter(Boolean) as Node[]
 		},
 
 		areSomeNodesLoading() {
-			return this.nodes.some(node => node.status === NodeStatus.LOADING)
+			return this.nodes.some((node) => node.status === NodeStatus.LOADING)
 		},
 
 		openedMenu: {
 			get() {
 				return this.actionsMenuStore.opened === 'global'
 			},
+
 			set(opened) {
 				this.actionsMenuStore.opened = opened ? 'global' : null
 			},
@@ -264,7 +267,7 @@ export default defineComponent({
 		 *
 		 * @param source The source of the node to get
 		 */
-		getNode(source: string): Node|undefined {
+		getNode(source: string): Node | undefined {
 			return this.filesStore.getNode(source)
 		},
 
@@ -286,7 +289,7 @@ export default defineComponent({
 			try {
 				// Set loading markers
 				this.loading = action.id
-				this.nodes.forEach(node => {
+				this.nodes.forEach((node) => {
 					this.$set(node, 'status', NodeStatus.LOADING)
 				})
 
@@ -294,20 +297,20 @@ export default defineComponent({
 				const results = await action.execBatch(this.nodes, this.currentView, this.directory)
 
 				// Check if all actions returned null
-				if (!results.some(result => result !== null)) {
+				if (!results.some((result) => result !== null)) {
 					// If the actions returned null, we stay silent
 					this.selectionStore.reset()
 					return
 				}
 
 				// Handle potential failures
-				if (results.some(result => result === false)) {
+				if (results.some((result) => result === false)) {
 					// Remove the failed ids from the selection
 					const failedSources = selectionSources
 						.filter((source, index) => results[index] === false)
 					this.selectionStore.set(failedSources)
 
-					if (results.some(result => result === null)) {
+					if (results.some((result) => result === null)) {
 						// If some actions returned null, we assume that the dev
 						// is handling the error messages and we stay silent
 						return
@@ -326,7 +329,7 @@ export default defineComponent({
 			} finally {
 				// Remove loading markers
 				this.loading = null
-				this.nodes.forEach(node => {
+				this.nodes.forEach((node) => {
 					this.$set(node, 'status', undefined)
 				})
 			}

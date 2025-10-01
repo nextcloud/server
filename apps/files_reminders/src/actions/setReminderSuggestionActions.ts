@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
 import type { Node, View } from '@nextcloud/files'
 
-import { FileAction } from '@nextcloud/files'
-import { emit } from '@nextcloud/event-bus'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { emit } from '@nextcloud/event-bus'
+import { FileAction } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import Vue from 'vue'
+import { setReminder } from '../services/reminderService.ts'
+import { logger } from '../shared/logger.ts'
+import { DateTimePreset, getDateString, getDateTime, getVerboseDateString } from '../shared/utils.ts'
+import { SET_REMINDER_MENU_ID } from './setReminderMenuAction.ts'
 
-import { DateTimePreset, getDateString, getDateTime, getVerboseDateString } from '../shared/utils'
-import { logger } from '../shared/logger'
-import { SET_REMINDER_MENU_ID } from './setReminderMenuAction'
-import { setReminder } from '../services/reminderService'
 import './setReminderSuggestionActions.scss'
 
 interface ReminderOption {
@@ -64,8 +64,7 @@ const nextWeek: ReminderOption = {
  * @param option The option to generate the action for
  * @return The file action or null if the option should not be shown
  */
-const generateFileAction = (option: ReminderOption): FileAction|null => {
-
+function generateFileAction(option: ReminderOption): FileAction | null {
 	return new FileAction({
 		id: `set-reminder-${option.dateTimePreset}`,
 		displayName: () => `${option.label} – ${option.dateString}`,

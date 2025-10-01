@@ -4,7 +4,8 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { deselectAllFiles, selectAllFiles, selectRowForFile } from './FilesUtils'
+
+import { deselectAllFiles, selectAllFiles, selectRowForFile } from './FilesUtils.ts'
 
 const files = {
 	'image.jpg': 'image/jpeg',
@@ -57,7 +58,7 @@ describe('files: Select all files', { testIsolation: true }, () => {
 			return acc
 		}, [] as string[])
 
-		randomFiles.forEach(name => selectRowForFile(name))
+		randomFiles.forEach((name) => selectRowForFile(name))
 
 		cy.get('.files-list__selected').should('contain.text', `${randomFiles.length} selected`)
 		cy.get('[data-cy-files-list-row-checkbox] input[type="checkbox"]:checked').should('have.length', randomFiles.length)
@@ -72,6 +73,5 @@ describe('files: Select all files', { testIsolation: true }, () => {
 
 		cy.get('.files-list__selected').should('contain.text', '4 selected')
 		cy.get('[data-cy-files-list-row-checkbox] input[type="checkbox"]:checked').should('have.length', 4)
-
 	})
 })

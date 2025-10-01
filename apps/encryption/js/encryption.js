@@ -5,29 +5,28 @@
  */
 
 /**
- * @namespace
- * @memberOf OC
+ * @namespace OC
  */
 OC.Encryption = _.extend(OC.Encryption || {}, {
-	displayEncryptionWarning: function () {
+	displayEncryptionWarning: function() {
 		if (!OC.currentUser || !OC.Notification.isHidden()) {
-			return;
+			return
 		}
 
 		$.get(
 			OC.generateUrl('/apps/encryption/ajax/getStatus'),
-			function (result) {
-				if (result.status === "interactionNeeded") {
-					OC.Notification.show(result.data.message);
+			function(result) {
+				if (result.status === 'interactionNeeded') {
+					OC.Notification.show(result.data.message)
 				}
-			}
-		);
-	}
-});
+			},
+		)
+	},
+})
 window.addEventListener('DOMContentLoaded', function() {
 	// wait for other apps/extensions to register their event handlers and file actions
 	// in the "ready" clause
 	_.defer(function() {
-		OC.Encryption.displayEncryptionWarning();
-	});
-});
+		OC.Encryption.displayEncryptionWarning()
+	})
+})

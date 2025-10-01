@@ -4,8 +4,8 @@
  */
 
 import type { Node } from '@nextcloud/files'
-import Vue from 'vue'
 
+import Vue from 'vue'
 import SetCustomReminderModal from '../components/SetCustomReminderModal.vue'
 
 const View = Vue.extend(SetCustomReminderModal)
@@ -19,7 +19,11 @@ const CustomReminderModal = new View({
 	el: mount,
 })
 
-export const pickCustomDate = (node: Node): Promise<void> => {
+/**
+ *
+ * @param node
+ */
+export function pickCustomDate(node: Node): Promise<void> {
 	CustomReminderModal.open(node)
 
 	// Wait for the modal to close

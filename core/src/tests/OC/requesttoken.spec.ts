@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { setupServer } from 'msw/node'
 import { http, HttpResponse } from 'msw'
+import { setupServer } from 'msw/node'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { fetchRequestToken, getRequestToken, setRequestToken } from '../../OC/requesttoken.ts'
 
@@ -48,7 +48,7 @@ describe('setRequestToken', () => {
 	})
 
 	it('throws if the token is not a string', () => {
-		// @ts-expect-error mocking
+		// @ts-expect-error test invalid values
 		expect(() => setRequestToken(123)).toThrowError('Invalid CSRF token given')
 	})
 

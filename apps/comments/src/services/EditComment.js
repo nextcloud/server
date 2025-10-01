@@ -16,7 +16,7 @@ import client from './DavClient.js'
 export default async function(resourceType, resourceId, commentId, message) {
 	const commentPath = ['', resourceType, resourceId, commentId].join('/')
 
-	return await client.customRequest(commentPath, Object.assign({
+	return await client.customRequest(commentPath, {
 		method: 'PROPPATCH',
 		data: `<?xml version="1.0"?>
 			<d:propertyupdate
@@ -28,5 +28,5 @@ export default async function(resourceType, resourceId, commentId, message) {
 				</d:prop>
 			</d:set>
 			</d:propertyupdate>`,
-	}))
+	})
 }

@@ -6,24 +6,27 @@
 	<form class="ldap-wizard">
 		<h2>{{ t('user_ldap', 'LDAP/AD integration') }}</h2>
 
-		<NcNoteCard v-if="!ldapModuleInstalled"
+		<NcNoteCard
+			v-if="!ldapModuleInstalled"
 			type="warning"
 			:text="t('user_ldap', 'The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.')" />
 
 		<template v-if="ldapModuleInstalled">
 			<div class="ldap-wizard__config-selection">
-				<NcSelect v-if="selectedConfigId !== undefined"
+				<NcSelect
+					v-if="selectedConfigId !== undefined"
 					v-model="selectedConfigId"
 					:options="Object.keys(ldapConfigs)"
 					:input-label="t('user_ldap', 'Select LDAP Config')">
-					<template #option="{label: configId}">
+					<template #option="{ label: configId }">
 						{{ `${configId}: ${ldapConfigs[configId].ldapHost}` }}
 					</template>
-					<template #selected-option="{label: configId}">
+					<template #selected-option="{ label: configId }">
 						{{ `${configId}: ${ldapConfigs[configId].ldapHost}` }}
 					</template>
 				</NcSelect>
-				<NcButton :label="t('user_ldap','Create New Config')"
+				<NcButton
+					:label="t('user_ldap', 'Create New Config')"
 					class="ldap-wizard__config-selection__create-button"
 					@click="ldapConfigsStore.create">
 					<template #icon>
@@ -36,7 +39,8 @@
 			<div v-if="selectedConfigId !== undefined" class="ldap-wizard__tab-container">
 				<div class="ldap-wizard__tab-selection-container">
 					<div class="ldap-wizard__tab-selection">
-						<NcCheckboxRadioSwitch v-for="(tabLabel, tabId) in tabs"
+						<NcCheckboxRadioSwitch
+							v-for="(tabLabel, tabId) in tabs"
 							:key="tabId"
 							:button-variant="true"
 							:checked.sync="selectedTab"
@@ -64,12 +68,14 @@
 				{{ t('user_ldap', 'Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.') }}
 
 				<div class="ldap-wizard__clear-mapping__buttons">
-					<NcButton variant="error"
+					<NcButton
+						variant="error"
 						:disabled="clearMappingLoading"
 						@click="requestClearMapping('user')">
 						{{ t('user_ldap', 'Clear Username-LDAP User Mapping') }}
 					</NcButton>
-					<NcButton variant="error"
+					<NcButton
+						variant="error"
 						:disabled="clearMappingLoading"
 						@click="requestClearMapping('group')">
 						{{ t('user_ldap', 'Clear Groupname-LDAP Group Mapping') }}
@@ -81,24 +87,23 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint vue/multi-word-component-names: "warn" */
 
-import Plus from 'vue-material-design-icons/Plus.vue'
-import { computed, ref } from 'vue'
-import { storeToRefs } from 'pinia'
-
-import { t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
-import { NcCheckboxRadioSwitch, NcSelect, NcButton, NcNoteCard } from '@nextcloud/vue'
-
+import { t } from '@nextcloud/l10n'
+import { NcButton, NcCheckboxRadioSwitch, NcNoteCard, NcSelect } from '@nextcloud/vue'
+import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
+import AdvancedTab from '../components/SettingsTabs/AdvancedTab.vue'
+import ExpertTab from '../components/SettingsTabs/ExpertTab.vue'
+import GroupsTab from '../components/SettingsTabs/GroupsTab.vue'
+import LoginTab from '../components/SettingsTabs/LoginTab.vue'
 import ServerTab from '../components/SettingsTabs/ServerTab.vue'
 import UsersTab from '../components/SettingsTabs/UsersTab.vue'
-import LoginTab from '../components/SettingsTabs/LoginTab.vue'
-import GroupsTab from '../components/SettingsTabs/GroupsTab.vue'
-import ExpertTab from '../components/SettingsTabs/ExpertTab.vue'
-import AdvancedTab from '../components/SettingsTabs/AdvancedTab.vue'
 import WizardControls from '../components/WizardControls.vue'
-import { useLDAPConfigsStore } from '../store/configs'
-import { clearMapping } from '../services/ldapConfigService'
+import { clearMapping } from '../services/ldapConfigService.ts'
+import { useLDAPConfigsStore } from '../store/configs.ts'
 
 const ldapModuleInstalled = loadState('user_ldap', 'ldapModuleInstalled')
 
@@ -125,7 +130,11 @@ const selectedConfigHasServerInfo = computed(() => {
 		&& selectedConfig.value.ldapAgentPassword !== ''
 })
 
-async function requestClearMapping(subject: 'user'|'group') {
+/**
+ *
+ * @param subject
+ */
+async function requestClearMapping(subject: 'user' | 'group') {
 	try {
 		clearMappingLoading.value = true
 		await clearMapping(subject)
@@ -134,6 +143,7 @@ async function requestClearMapping(subject: 'user'|'group') {
 	}
 }
 </script>
+
 <style lang="scss" scoped>
 .ldap-wizard {
 	padding: 16px;

@@ -3,13 +3,15 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<FileListFilter :is-active="isActive"
+	<FileListFilter
+		:is-active="isActive"
 		:filter-name="t('files', 'Modified')"
 		@reset-filter="resetFilter">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiCalendarRangeOutline" />
 		</template>
-		<NcActionButton v-for="preset of timePresets"
+		<NcActionButton
+			v-for="preset of timePresets"
 			:key="preset.id"
 			type="radio"
 			close-after-click
@@ -28,7 +30,6 @@ import type { ITimePreset } from '../../filters/ModifiedFilter.ts'
 import { mdiCalendarRangeOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import FileListFilter from './FileListFilter.vue'

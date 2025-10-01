@@ -4,7 +4,8 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils'
+
+import { getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils.ts'
 
 describe('Login', () => {
 	let user: User

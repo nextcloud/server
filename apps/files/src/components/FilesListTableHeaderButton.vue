@@ -3,12 +3,14 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcButton :class="['files-list__column-sort-button', {
+	<NcButton
+		class="files-list__column-sort-button"
+		:class="[{
 			'files-list__column-sort-button--active': sortingMode === mode,
 			'files-list__column-sort-button--size': sortingMode === 'size',
 		}]"
 		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
-		type="tertiary"
+		variant="tertiary"
 		:title="name"
 		@click="toggleSortBy(mode)">
 		<template #icon>
@@ -22,11 +24,9 @@
 <script lang="ts">
 import { translate } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
+import NcButton from '@nextcloud/vue/components/NcButton'
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-
 import filesSortingMixin from '../mixins/filesSorting.ts'
 
 export default defineComponent({
@@ -47,6 +47,7 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
+
 		mode: {
 			type: String,
 			required: true,

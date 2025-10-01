@@ -6,12 +6,12 @@ import type { ContentsWithRoot, Node } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed, SearchResult } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { Folder, Permission, davGetRecentSearch, davRootPath, davRemoteURL, davResultToNode } from '@nextcloud/files'
-import { CancelablePromise } from 'cancelable-promise'
-import { useUserConfigStore } from '../store/userconfig.ts'
-import { getPinia } from '../store/index.ts'
-import { client } from './WebdavClient.ts'
+import { davGetRecentSearch, davRemoteURL, davResultToNode, davRootPath, Folder, Permission } from '@nextcloud/files'
 import { getBaseUrl } from '@nextcloud/router'
+import { CancelablePromise } from 'cancelable-promise'
+import { getPinia } from '../store/index.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
+import { client } from './WebdavClient.ts'
 
 const lastTwoWeeksTimestamp = Math.round((Date.now() / 1000) - (60 * 60 * 24 * 14))
 
@@ -31,15 +31,15 @@ const resultToNode = (stat: FileStat) => davResultToNode(stat, davRootPath, getB
  *
  * @param path Path to search for recent changes
  */
-export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
+export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
 	const store = useUserConfigStore(getPinia())
 
 	/**
 	 * Filter function that returns only the visible nodes - or hidden if explicitly configured
+	 *
 	 * @param node The node to check
 	 */
-	const filterHidden = (node: Node) =>
-		path !== '/' // We need to hide files from hidden directories in the root if not configured to show
+	const filterHidden = (node: Node) => path !== '/' // We need to hide files from hidden directories in the root if not configured to show
 		|| store.userConfig.show_hidden // If configured to show hidden files we can early return
 		|| !node.dirname.split('/').some((dir) => dir.startsWith('.')) // otherwise only include the file if non of the parent directories is hidden
 

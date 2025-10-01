@@ -2,25 +2,28 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Node, View } from '@nextcloud/files'
 
-import { FileAction, registerFileAction } from '@nextcloud/files'
-import { generateUrl } from '@nextcloud/router'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { t } from '@nextcloud/l10n'
-
 import AutoRenewSvg from '@mdi/svg/svg/autorenew.svg?raw'
-
-import { convertFile, convertFiles } from './convertUtils'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { FileAction, registerFileAction } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { convertFile, convertFiles } from './convertUtils.ts'
 
 type ConversionsProvider = {
-	from: string,
-	to: string,
-	displayName: string,
+	from: string
+	to: string
+	displayName: string
 }
 
 export const ACTION_CONVERT = 'convert'
-export const registerConvertActions = () => {
+
+/**
+ *
+ */
+export function registerConvertActions() {
 	// Generate sub actions
 	const convertProviders = getCapabilities()?.files?.file_conversions as ConversionsProvider[] ?? []
 	const actions = convertProviders.map(({ to, from, displayName }) => {
@@ -30,7 +33,7 @@ export const registerConvertActions = () => {
 			iconSvgInline: () => generateIconSvg(to),
 			enabled: (nodes: Node[]) => {
 				// Check that all nodes have the same mime type
-				return nodes.every(node => from === node.mime)
+				return nodes.every((node) => from === node.mime)
 			},
 
 			async exec(node: Node) {
@@ -42,7 +45,7 @@ export const registerConvertActions = () => {
 			},
 
 			async execBatch(nodes: Node[]) {
-				const fileIds = nodes.map(node => node.fileid).filter(Boolean) as number[]
+				const fileIds = nodes.map((node) => node.fileid).filter(Boolean) as number[]
 				convertFiles(fileIds, to)
 
 				// Silently terminate, we'll handle the UI in the background
@@ -56,10 +59,10 @@ export const registerConvertActions = () => {
 	// Register main action
 	registerFileAction(new FileAction({
 		id: ACTION_CONVERT,
-		displayName: () => t('files', 'Save as …'),
+		displayName: () => t('files', 'Save as …'),
 		iconSvgInline: () => AutoRenewSvg,
 		enabled: (nodes: Node[], view: View) => {
-			return actions.some(action => action.enabled!(nodes, view))
+			return actions.some((action) => action.enabled!(nodes, view))
 		},
 		async exec() {
 			return null
@@ -71,7 +74,11 @@ export const registerConvertActions = () => {
 	actions.forEach(registerFileAction)
 }
 
-export const generateIconSvg = (mime: string) => {
+/**
+ *
+ * @param mime
+ */
+export function generateIconSvg(mime: string) {
 	// Generate icon based on mime type
 	const url = generateUrl('/core/mimeicon?mime=' + encodeURIComponent(mime))
 	return `<svg width="32" height="32" viewBox="0 0 32 32"

@@ -2,48 +2,74 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Capabilities } from '../types'
-import type { Node, View } from '@nextcloud/files'
 
+import type { Node, View } from '@nextcloud/files'
+import type { Capabilities } from '../types.ts'
+
+import axios from '@nextcloud/axios'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { emit } from '@nextcloud/event-bus'
 import { FileType } from '@nextcloud/files'
-import { getCapabilities } from '@nextcloud/capabilities'
 import { n, t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-import { useUserConfigStore } from '../store/userconfig'
-import { getPinia } from '../store'
+import { getPinia } from '../store/index.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 export const isTrashbinEnabled = () => (getCapabilities() as Capabilities)?.files?.undelete === true
 
-export const canUnshareOnly = (nodes: Node[]) => {
-	return nodes.every(node => node.attributes['is-mount-root'] === true
+/**
+ *
+ * @param nodes
+ */
+export function canUnshareOnly(nodes: Node[]) {
+	return nodes.every((node) => node.attributes['is-mount-root'] === true
 		&& node.attributes['mount-type'] === 'shared')
 }
 
-export const canDisconnectOnly = (nodes: Node[]) => {
-	return nodes.every(node => node.attributes['is-mount-root'] === true
+/**
+ *
+ * @param nodes
+ */
+export function canDisconnectOnly(nodes: Node[]) {
+	return nodes.every((node) => node.attributes['is-mount-root'] === true
 		&& node.attributes['mount-type'] === 'external')
 }
 
-export const isMixedUnshareAndDelete = (nodes: Node[]) => {
+/**
+ *
+ * @param nodes
+ */
+export function isMixedUnshareAndDelete(nodes: Node[]) {
 	if (nodes.length === 1) {
 		return false
 	}
 
-	const hasSharedItems = nodes.some(node => canUnshareOnly([node]))
-	const hasDeleteItems = nodes.some(node => !canUnshareOnly([node]))
+	const hasSharedItems = nodes.some((node) => canUnshareOnly([node]))
+	const hasDeleteItems = nodes.some((node) => !canUnshareOnly([node]))
 	return hasSharedItems && hasDeleteItems
 }
 
-export const isAllFiles = (nodes: Node[]) => {
-	return !nodes.some(node => node.type !== FileType.File)
+/**
+ *
+ * @param nodes
+ */
+export function isAllFiles(nodes: Node[]) {
+	return !nodes.some((node) => node.type !== FileType.File)
 }
 
-export const isAllFolders = (nodes: Node[]) => {
-	return !nodes.some(node => node.type !== FileType.Folder)
+/**
+ *
+ * @param nodes
+ */
+export function isAllFolders(nodes: Node[]) {
+	return !nodes.some((node) => node.type !== FileType.Folder)
 }
 
-export const displayName = (nodes: Node[], view: View) => {
+/**
+ *
+ * @param nodes
+ * @param view
+ */
+export function displayName(nodes: Node[], view: View) {
 	/**
 	 * If those nodes are all the root node of a
 	 * share, we can only unshare them.
@@ -103,17 +129,25 @@ export const displayName = (nodes: Node[], view: View) => {
 	return t('files', 'Delete')
 }
 
-export const shouldAskForConfirmation = () => {
+/**
+ *
+ */
+export function shouldAskForConfirmation() {
 	const userConfig = useUserConfigStore(getPinia())
 	return userConfig.userConfig.show_dialog_deletion !== false
 }
 
-export const askConfirmation = async (nodes: Node[], view: View) => {
+/**
+ *
+ * @param nodes
+ * @param view
+ */
+export async function askConfirmation(nodes: Node[], view: View) {
 	const message = view.id === 'trashbin' || !isTrashbinEnabled()
 		? n('files', 'You are about to permanently delete {count} item', 'You are about to permanently delete {count} items', nodes.length, { count: nodes.length })
 		: n('files', 'You are about to delete {count} item', 'You are about to delete {count} items', nodes.length, { count: nodes.length })
 
-	return new Promise<boolean>(resolve => {
+	return new Promise<boolean>((resolve) => {
 		// TODO: Use the new dialog API
 		window.OC.dialogs.confirmDestructive(
 			message,
@@ -131,7 +165,11 @@ export const askConfirmation = async (nodes: Node[], view: View) => {
 	})
 }
 
-export const deleteNode = async (node: Node) => {
+/**
+ *
+ * @param node
+ */
+export async function deleteNode(node: Node) {
 	await axios.delete(node.encodedSource)
 
 	// Let's delete even if it's moved to the trashbin

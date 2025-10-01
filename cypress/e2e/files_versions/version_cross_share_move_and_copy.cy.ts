@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { assertVersionContent, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions, nameVersion } from './filesVersionsUtils'
-import { clickOnBreadcrumbs, closeSidebar, copyFile, moveFile, navigateToFolder } from '../files/FilesUtils'
 import type { User } from '@nextcloud/cypress'
+
+import { clickOnBreadcrumbs, closeSidebar, copyFile, moveFile, navigateToFolder } from '../files/FilesUtils.ts'
+import { assertVersionContent, nameVersion, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 /**
  *

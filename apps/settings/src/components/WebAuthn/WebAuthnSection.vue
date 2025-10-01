@@ -17,7 +17,8 @@
 			{{ t('settings', 'The following devices are configured for your account:') }}
 		</h3>
 		<ul aria-labelledby="security-webauthn__active-devices" class="security-webauthn__device-list">
-			<Device v-for="device in sortedDevices"
+			<WebAuthnDevice
+				v-for="device in sortedDevices"
 				:key="device.id"
 				:name="device.name"
 				@delete="deleteDevice(device.id)" />
@@ -27,7 +28,8 @@
 			{{ t('settings', 'Your browser does not support WebAuthn.') }}
 		</NcNoteCard>
 
-		<AddDevice v-if="supportsWebauthn"
+		<WebAuthnAddDevice
+			v-if="supportsWebauthn"
 			:is-https="isHttps"
 			:is-localhost="isLocalhost"
 			@added="deviceAdded" />
@@ -35,13 +37,14 @@
 </template>
 
 <script>
-import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
-import { confirmPassword } from '@nextcloud/password-confirmation'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import sortBy from 'lodash/fp/sortBy.js'
+/* eslint vue/multi-word-component-names: "warn" */
 
-import AddDevice from './AddDevice.vue'
-import Device from './Device.vue'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
+import sortBy from 'lodash/fp/sortBy.js'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import WebAuthnAddDevice from './WebAuthnAddDevice.vue'
+import WebAuthnDevice from './WebAuthnDevice.vue'
 import logger from '../../logger.ts'
 import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.js'
 
@@ -50,20 +53,25 @@ import '@nextcloud/password-confirmation/dist/style.css'
 const sortByName = sortBy('name')
 
 export default {
+	name: 'WebAuthnSection',
+
 	components: {
-		AddDevice,
-		Device,
+		WebAuthnAddDevice,
+		WebAuthnDevice,
 		NcNoteCard,
 	},
+
 	props: {
 		initialDevices: {
 			type: Array,
 			required: true,
 		},
+
 		isHttps: {
 			type: Boolean,
 			default: false,
 		},
+
 		isLocalhost: {
 			type: Boolean,
 			default: false,
@@ -82,24 +90,27 @@ export default {
 			devices: this.initialDevices,
 		}
 	},
+
 	computed: {
 		sortedDevices() {
 			return sortByName(this.devices)
 		},
 	},
+
 	methods: {
 		deviceAdded(device) {
 			logger.debug(`adding new device to the list ${device.id}`)
 
 			this.devices.push(device)
 		},
+
 		async deleteDevice(id) {
 			logger.info(`deleting webauthn device ${id}`)
 
 			await confirmPassword()
 			await removeRegistration(id)
 
-			this.devices = this.devices.filter(d => d.id !== id)
+			this.devices = this.devices.filter((d) => d.id !== id)
 
 			logger.info(`webauthn device ${id} removed successfully`)
 		},

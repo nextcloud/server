@@ -13,8 +13,9 @@
 						<h2>{{ displayname || userId }}</h2>
 						<span v-if="pronouns">·</span>
 						<span v-if="pronouns" class="profile__header__container__pronouns">{{ pronouns }}</span>
-						<NcButton v-if="isCurrentUser"
-							type="primary"
+						<NcButton
+							v-if="isCurrentUser"
+							variant="primary"
 							:href="settingsUrl">
 							<template #icon>
 								<PencilIcon :size="20" />
@@ -22,9 +23,10 @@
 							{{ t('profile', 'Edit Profile') }}
 						</NcButton>
 					</div>
-					<NcButton v-if="status.icon || status.message"
+					<NcButton
+						v-if="status.icon || status.message"
 						:disabled="!isCurrentUser"
-						:type="isCurrentUser ? 'tertiary' : 'tertiary-no-background'"
+						:variant="isCurrentUser ? 'tertiary' : 'tertiary-no-background'"
 						@click="openStatusModal">
 						{{ status.icon }} {{ status.message }}
 					</NcButton>
@@ -34,12 +36,11 @@
 			<div class="profile__wrapper">
 				<div class="profile__content">
 					<div class="profile__sidebar">
-						<NcAvatar class="avatar"
+						<NcAvatar
+							class="avatar"
 							:class="{ interactive: isCurrentUser }"
 							:user="userId"
 							:size="180"
-							:show-user-status="true"
-							:show-user-status-compact="false"
 							:disable-menu="true"
 							:disable-tooltip="true"
 							:is-no-user="!isUserAvatarVisible"
@@ -47,12 +48,13 @@
 
 						<div class="user-actions">
 							<!-- When a tel: URL is opened with target="_blank", a blank new tab is opened which is inconsistent with the handling of other URLs so we set target="_self" for the phone action -->
-							<NcButton v-if="primaryAction"
-								type="primary"
+							<NcButton
+								v-if="primaryAction"
+								variant="primary"
 								class="user-actions__primary"
 								:href="primaryAction.target"
 								:icon="primaryAction.icon"
-								:target="primaryAction.id === 'phone' ? '_self' :'_blank'">
+								:target="primaryAction.id === 'phone' ? '_self' : '_blank'">
 								<template #icon>
 									<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 									<img :src="primaryAction.icon" alt="" class="user-actions__primary__icon">
@@ -60,11 +62,12 @@
 								{{ primaryAction.title }}
 							</NcButton>
 							<NcActions class="user-actions__other" :inline="4">
-								<NcActionLink v-for="action in otherActions"
+								<NcActionLink
+									v-for="action in otherActions"
 									:key="action.id"
 									:close-after-click="true"
 									:href="action.target"
-									:target="action.id === 'phone' ? '_self' :'_blank'">
+									:target="action.id === 'phone' ? '_self' : '_blank'">
 									<template #icon>
 										<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 										<img :src="action.icon" alt="" class="user-actions__other__icon">
@@ -82,7 +85,8 @@
 							</div>
 							<div v-if="address" class="detail">
 								<p>
-									<MapMarkerIcon class="map-icon"
+									<MapMarkerIcon
+										class="map-icon"
 										:size="16" />
 									{{ address }}
 								</p>
@@ -95,14 +99,16 @@
 							<NcRichText v-if="biography" :text="biography" use-extended-markdown />
 
 							<!-- additional entries, use it with cautious -->
-							<div v-for="(section, index) in sections"
+							<div
+								v-for="(section, index) in sections"
 								:ref="'section-' + index"
 								:key="index"
 								class="profile__additionalContent">
-								<component :is="section($refs['section-'+index], userId)" :user-id="userId" />
+								<component :is="section($refs['section-' + index], userId)" :user-id="userId" />
 							</div>
 						</template>
-						<NcEmptyContent v-else
+						<NcEmptyContent
+							v-else
 							class="profile__blocks-empty-info"
 							:name="emptyProfileMessage"
 							:description="t('profile', 'The headline and about sections will show up here')">
@@ -118,16 +124,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-
-import NcActions from '@nextcloud/vue/components/NcActions'
+import { generateUrl } from '@nextcloud/router'
+import { defineComponent } from 'vue'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -146,13 +151,13 @@ interface IProfileAction {
 }
 
 interface IStatus {
-	icon: string,
-	message: string,
-	userId: string,
+	icon: string
+	message: string
+	userId: string
 }
 
 export default defineComponent({
-	name: 'Profile',
+	name: 'ProfileApp',
 
 	components: {
 		AccountIcon,
@@ -176,16 +181,16 @@ export default defineComponent({
 
 	data() {
 		const profileParameters = loadState('profile', 'profileParameters', {
-			userId: null as string|null,
-			displayname: null as string|null,
-			address: null as string|null,
-			organisation: null as string|null,
-			role: null as string|null,
-			headline: null as string|null,
-			biography: null as string|null,
+			userId: null as string | null,
+			displayname: null as string | null,
+			address: null as string | null,
+			organisation: null as string | null,
+			role: null as string | null,
+			headline: null as string | null,
+			biography: null as string | null,
 			actions: [] as IProfileAction[],
 			isUserAvatarVisible: false,
-			pronouns: null as string|null,
+			pronouns: null as string | null,
 		})
 
 		return {

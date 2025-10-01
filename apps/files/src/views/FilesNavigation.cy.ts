@@ -2,31 +2,33 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Navigation } from '@nextcloud/files'
+
+import type { Folder, Navigation } from '@nextcloud/files'
+
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+import { getNavigation, View } from '@nextcloud/files'
 import { createTestingPinia } from '@pinia/testing'
-
-import NavigationView from './Navigation.vue'
-import { useViewConfigStore } from '../store/viewConfig'
-import { Folder, View, getNavigation } from '@nextcloud/files'
-
+import NavigationView from './FilesNavigation.vue'
 import router from '../router/router.ts'
-import RouterService from '../services/RouterService'
+import RouterService from '../services/RouterService.ts'
+import { useViewConfigStore } from '../store/viewConfig.ts'
 
-const resetNavigation = () => {
+function resetNavigation() {
 	const nav = getNavigation()
 	;[...nav.views].forEach(({ id }) => nav.remove(id))
 	nav.setActive(null)
 }
 
-const createView = (id: string, name: string, parent?: string) => new View({
-	id,
-	name,
-	getContents: async () => ({ folder: {} as Folder, contents: [] }),
-	icon: FolderSvg,
-	order: 1,
-	parent,
-})
+function createView(id: string, name: string, parent?: string) {
+	return new View({
+		id,
+		name,
+		getContents: async () => ({ folder: {} as Folder, contents: [] }),
+		icon: FolderSvg,
+		order: 1,
+		parent,
+	})
+}
 
 /**
  *

@@ -4,8 +4,8 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { getUserListRow } from './usersUtils'
-import { clearState } from '../../support/commonUtils'
+import { clearState } from '../../support/commonUtils.ts'
+import { getUserListRow } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 

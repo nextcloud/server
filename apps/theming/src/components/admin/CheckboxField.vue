@@ -7,7 +7,8 @@
 	<div class="field">
 		<label :for="id">{{ displayName }}</label>
 		<div class="field__row">
-			<NcCheckboxRadioSwitch :id="id"
+			<NcCheckboxRadioSwitch
+				:id="id"
 				type="switch"
 				:checked.sync="localValue"
 				@update:checked="save">
@@ -19,7 +20,8 @@
 			{{ description }}
 		</p>
 
-		<NcNoteCard v-if="errorMessage"
+		<NcNoteCard
+			v-if="errorMessage"
 			type="error"
 			:show-alert="true">
 			<p>{{ errorMessage }}</p>
@@ -30,7 +32,6 @@
 <script>
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 
 export default {
@@ -50,22 +51,27 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: Boolean,
 			required: true,
 		},
+
 		defaultValue: {
 			type: Boolean,
 			required: true,
 		},
+
 		displayName: {
 			type: String,
 			required: true,
 		},
+
 		label: {
 			type: String,
 			required: true,
 		},
+
 		description: {
 			type: String,
 			required: true,

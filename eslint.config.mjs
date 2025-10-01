@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { includeIgnoreFile } from "@eslint/compat";
+import { includeIgnoreFile } from '@eslint/compat'
 import { recommendedVue2 } from '@nextcloud/eslint-config'
 import { defineConfig } from 'eslint/config'
-import { fileURLToPath } from "node:url";
 import * as globals from 'globals'
+import { fileURLToPath } from 'node:url'
 
-const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 
 export default defineConfig([
 	...recommendedVue2,
-	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
+	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	{
 		ignores: [
 			'3rdparty/', // PHP tests
@@ -36,6 +36,6 @@ export default defineConfig([
 				...globals.node,
 				...globals.nodeBuiltin,
 			},
-		}
+		},
 	},
 ])

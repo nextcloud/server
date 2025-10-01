@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import type { Node as NcNode } from '@nextcloud/files'
 import type { IFilePickerButton } from '@nextcloud/dialogs'
+import type { Node as NcNode } from '@nextcloud/files'
 
 import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
 import { translate as t } from '@nextcloud/l10n'
@@ -23,20 +23,24 @@ export default defineComponent({
 	components: {
 		FilePicker,
 	},
+
 	props: {
 		providerId: {
 			type: String,
 			required: true,
 		},
+
 		accessible: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	computed: {
 		containerId() {
 			return `filepicker-${Math.random().toString(36).slice(7)}`
 		},
+
 		filepickerOptions() {
 			return {
 				allowPickDirectory: true,
@@ -47,6 +51,7 @@ export default defineComponent({
 			}
 		},
 	},
+
 	methods: {
 		t,
 

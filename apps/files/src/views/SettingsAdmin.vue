@@ -9,11 +9,11 @@ import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
+import { ref } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import SettingsSanitizeFilenames from '../components/Settings/SettingsSanitizeFilenames.vue'
-import { ref } from 'vue'
-import logger from '../logger'
+import logger from '../logger.ts'
 
 const {
 	docUrl,
@@ -51,10 +51,12 @@ async function toggleWindowsFilenameSupport(enabled: boolean) {
 </script>
 
 <template>
-	<NcSettingsSection :doc-url="docUrl"
+	<NcSettingsSection
+		:doc-url="docUrl"
 		:name="t('files', 'Files compatibility')"
 		:description="description">
-		<NcCheckboxRadioSwitch :model-value="hasWindowsSupport"
+		<NcCheckboxRadioSwitch
+			:model-value="hasWindowsSupport"
 			:disabled="isRunningSanitization"
 			:loading="loading"
 			type="switch"

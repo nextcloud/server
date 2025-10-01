@@ -5,7 +5,7 @@
 
 <template>
 	<div id="security" class="section">
-		<h2>{{ t('settings', 'Devices & sessions', {}, undefined, {sanitize: false}) }}</h2>
+		<h2>{{ t('settings', 'Devices & sessions', {}, undefined, { sanitize: false }) }}</h2>
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}
 		</p>
@@ -18,7 +18,6 @@
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
 import AuthTokenList from './AuthTokenList.vue'
 import AuthTokenSetup from './AuthTokenSetup.vue'
 
@@ -28,11 +27,13 @@ export default defineComponent({
 		AuthTokenList,
 		AuthTokenSetup,
 	},
+
 	data() {
 		return {
 			canCreateToken: loadState('settings', 'can_create_app_token'),
 		}
 	},
+
 	methods: {
 		t,
 	},

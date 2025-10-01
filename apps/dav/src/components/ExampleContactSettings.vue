@@ -5,7 +5,8 @@
 
 <template>
 	<div class="example-contact-settings">
-		<NcCheckboxRadioSwitch :checked="enableDefaultContact"
+		<NcCheckboxRadioSwitch
+			:checked="enableDefaultContact"
 			type="switch"
 			@update:model-value="updateEnableDefaultContact">
 			{{ $t('dav', "Add example contact to user's address book when they first log in") }}
@@ -17,15 +18,17 @@
 				</template>
 				example_contact.vcf
 			</ExampleContentDownloadButton>
-			<NcButton type="secondary"
+			<NcButton
+				variant="secondary"
 				@click="toggleModal">
 				<template #icon>
 					<IconUpload :size="20" />
 				</template>
 				{{ $t('dav', 'Import contact') }}
 			</NcButton>
-			<NcButton v-if="hasCustomDefaultContact"
-				type="tertiary"
+			<NcButton
+				v-if="hasCustomDefaultContact"
+				variant="tertiary"
 				@click="resetContact">
 				<template #icon>
 					<IconRestore :size="20" />
@@ -33,14 +36,16 @@
 				{{ $t('dav', 'Reset to default') }}
 			</NcButton>
 		</div>
-		<NcDialog :open.sync="isModalOpen"
+		<NcDialog
+			:open.sync="isModalOpen"
 			:name="$t('dav', 'Import contacts')"
 			:buttons="buttons">
 			<div>
 				<p>{{ $t('dav', 'Importing a new .vcf file will delete the existing default contact and replace it with the new one. Do you want to continue?') }}</p>
 			</div>
 		</NcDialog>
-		<input id="example-contact-import"
+		<input
+			id="example-contact-import"
 			ref="exampleContactImportInput"
 			:disabled="loading"
 			type="file"
@@ -49,19 +54,20 @@
 			@change="processFile">
 	</div>
 </template>
+
 <script>
-import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
-import { NcDialog, NcButton, NcCheckboxRadioSwitch } from '@nextcloud/vue'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
-import IconRestore from 'vue-material-design-icons/Restore.vue'
-import IconAccount from 'vue-material-design-icons/Account.vue'
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconCheck from '@mdi/svg/svg/check.svg?raw'
-import logger from '../service/logger.js'
+import axios from '@nextcloud/axios'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
+import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
+import IconAccount from 'vue-material-design-icons/Account.vue'
+import IconRestore from 'vue-material-design-icons/Restore.vue'
+import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
+import logger from '../service/logger.js'
 
 const enableDefaultContact = loadState('dav', 'enableDefaultContact')
 const hasCustomDefaultContact = loadState('dav', 'hasCustomDefaultContact')
@@ -77,6 +83,7 @@ export default {
 		IconAccount,
 		ExampleContentDownloadButton,
 	},
+
 	data() {
 		return {
 			enableDefaultContact,
@@ -98,11 +105,13 @@ export default {
 			],
 		}
 	},
+
 	computed: {
 		downloadUrl() {
 			return generateUrl('/apps/dav/api/defaultcontact/contact')
 		},
 	},
+
 	methods: {
 		updateEnableDefaultContact() {
 			axios.put(generateUrl('apps/dav/api/defaultcontact/config'), {
@@ -113,12 +122,15 @@ export default {
 				showError(this.$t('dav', 'Error while saving settings'))
 			})
 		},
+
 		toggleModal() {
 			this.isModalOpen = !this.isModalOpen
 		},
+
 		clickImportInput() {
 			this.$refs.exampleContactImportInput.click()
 		},
+
 		resetContact() {
 			this.loading = true
 			axios.put(generateUrl('/apps/dav/api/defaultcontact/contact'))
@@ -134,6 +146,7 @@ export default {
 					this.loading = false
 				})
 		},
+
 		processFile(event) {
 			this.loading = true
 
@@ -159,6 +172,7 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss" scoped>
 .example-contact-settings {
 	margin-block-start: 2rem;

@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcDialog :open.sync="open"
+	<NcDialog
+		:open.sync="open"
 		:name="t('settings', 'New app password')"
 		content-classes="token-dialog">
 		<p>
@@ -11,7 +12,8 @@
 		</p>
 		<div class="token-dialog__name">
 			<NcTextField :label="t('settings', 'Login')" :value="loginName" readonly />
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:title="copyLoginNameLabel"
 				:aria-label="copyLoginNameLabel"
 				@click="copyLoginName">
@@ -21,11 +23,13 @@
 			</NcButton>
 		</div>
 		<div class="token-dialog__password">
-			<NcTextField ref="appPassword"
+			<NcTextField
+				ref="appPassword"
 				:label="t('settings', 'Password')"
 				:value="appPassword"
 				readonly />
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:title="copyPasswordLabel"
 				:aria-label="copyPasswordLabel"
 				@click="copyPassword">
@@ -44,21 +48,20 @@
 </template>
 
 <script lang="ts">
-import type { ITokenResponse } from '../store/authtoken'
+import type { PropType } from 'vue'
+import type { ITokenResponse } from '../store/authtoken.ts'
 
+import QR from '@chenfengyuan/vue-qrcode'
 import { mdiCheck, mdiContentCopy } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { getRootUrl } from '@nextcloud/router'
-import { defineComponent, type PropType } from 'vue'
-
-import QR from '@chenfengyuan/vue-qrcode'
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
-import logger from '../logger'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'AuthTokenSetupDialog',
@@ -69,13 +72,15 @@ export default defineComponent({
 		NcTextField,
 		QR,
 	},
+
 	props: {
 		token: {
-			type: Object as PropType<ITokenResponse|null>,
+			type: Object as PropType<ITokenResponse | null>,
 			required: false,
 			default: null,
 		},
 	},
+
 	data() {
 		return {
 			isNameCopied: false,
@@ -83,39 +88,48 @@ export default defineComponent({
 			showQRCode: false,
 		}
 	},
+
 	computed: {
 		open: {
 			get() {
 				return this.token !== null
 			},
+
 			set(value: boolean) {
 				if (!value) {
 					this.$emit('close')
 				}
 			},
 		},
+
 		copyPasswordIcon() {
 			return this.isPasswordCopied ? mdiCheck : mdiContentCopy
 		},
+
 		copyNameIcon() {
 			return this.isNameCopied ? mdiCheck : mdiContentCopy
 		},
+
 		appPassword() {
 			return this.token?.token ?? ''
 		},
+
 		loginName() {
 			return this.token?.loginName ?? ''
 		},
+
 		qrUrl() {
 			const server = window.location.protocol + '//' + window.location.host + getRootUrl()
 			return `nc://login/user:${this.loginName}&password:${this.appPassword}&server:${server}`
 		},
+
 		copyPasswordLabel() {
 			if (this.isPasswordCopied) {
 				return t('settings', 'App password copied!')
 			}
 			return t('settings', 'Copy app password')
 		},
+
 		copyLoginNameLabel() {
 			if (this.isNameCopied) {
 				return t('settings', 'Login name copied!')
@@ -123,11 +137,13 @@ export default defineComponent({
 			return t('settings', 'Copy login name')
 		},
 	},
+
 	watch: {
 		token() {
 			// reset showing the QR code on token change
 			this.showQRCode = false
 		},
+
 		open() {
 			if (this.open) {
 				this.$nextTick(() => {
@@ -136,6 +152,7 @@ export default defineComponent({
 			}
 		},
 	},
+
 	methods: {
 		t,
 		async copyPassword() {
@@ -152,6 +169,7 @@ export default defineComponent({
 				}, 4000)
 			}
 		},
+
 		async copyLoginName() {
 			try {
 				await navigator.clipboard.writeText(this.loginName)

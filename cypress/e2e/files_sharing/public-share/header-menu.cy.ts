@@ -9,7 +9,6 @@ import { getShareUrl, setupPublicShare } from './PublicShareUtils.ts'
  * This tests ensures that on public shares the header actions menu correctly works
  */
 describe('files_sharing: Public share - header actions menu', { testIsolation: true }, () => {
-
 	before(() => setupPublicShare())
 	beforeEach(() => {
 		cy.logout()
@@ -109,7 +108,10 @@ describe('files_sharing: Public share - header actions menu', { testIsolation: t
 			const { promise, resolve } = Promise.withResolvers()
 			cy.intercept('POST', '**/apps/federatedfilesharing/createFederatedShare', (request) => {
 				// we need to wait in the onResponse handler as the intercept handler times out otherwise
-				request.on('response', async (response) => { await promise; response.statusCode = 503 })
+				request.on('response', async (response) => {
+					await promise
+					response.statusCode = 503
+				})
 			}).as('createFederatedShare')
 
 			// create the share

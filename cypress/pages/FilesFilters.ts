@@ -7,7 +7,6 @@
  * Page object model for the files filters
  */
 export class FilesFilterPage {
-
 	filterContainter() {
 		return cy.get('[data-cy-files-filters]')
 	}
@@ -30,5 +29,4 @@ export class FilesFilterPage {
 			.should('exist')
 			.click({ force: true })
 	}
-
 }

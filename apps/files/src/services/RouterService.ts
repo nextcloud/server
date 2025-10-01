@@ -2,11 +2,10 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Route, Location } from 'vue-router'
+import type { Location, Route } from 'vue-router'
 import type VueRouter from 'vue-router'
 
 export default class RouterService {
-
 	// typescript compiles this to `#router` to make it private even in JS,
 	// but in TS it needs to be called without the visibility specifier
 	private router: VueRouter
@@ -29,7 +28,7 @@ export default class RouterService {
 
 	/**
 	 * This is a protected getter only for internal use
-	 * @private
+	 *
 	 */
 	get _router() {
 		return this.router
@@ -71,5 +70,4 @@ export default class RouterService {
 			replace,
 		} as Location)
 	}
-
 }

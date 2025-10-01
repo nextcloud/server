@@ -2,17 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// eslint-disable-next-line n/no-extraneous-import
+
 import type { AxiosResponse } from '@nextcloud/axios'
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
-import { Folder, Permission } from '@nextcloud/files'
-import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-
-import { STORAGE_STATUS } from '../utils/credentialsUtils'
+import { Folder, Permission } from '@nextcloud/files'
+import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
 
@@ -38,17 +37,21 @@ export type StorageConfig = {
  */
 export type MountEntry = {
 	name: string
-	path: string,
-	type: 'dir',
-	backend: 'SFTP',
-	scope: 'system' | 'personal',
-	permissions: number,
-	id: number,
+	path: string
+	type: 'dir'
+	backend: 'SFTP'
+	scope: 'system' | 'personal'
+	permissions: number
+	id: number
 	class: string
 	config: StorageConfig
 }
 
-const entryToFolder = (ocsEntry: MountEntry): Folder => {
+/**
+ *
+ * @param ocsEntry
+ */
+function entryToFolder(ocsEntry: MountEntry): Folder {
 	const path = (ocsEntry.path + '/' + ocsEntry.name).replace(/^\//gm, '')
 	return new Folder({
 		id: ocsEntry.id,
@@ -65,7 +68,10 @@ const entryToFolder = (ocsEntry: MountEntry): Folder => {
 	})
 }
 
-export const getContents = async (): Promise<ContentsWithRoot> => {
+/**
+ *
+ */
+export async function getContents(): Promise<ContentsWithRoot> {
 	const response = await axios.get(generateOcsUrl('apps/files_external/api/v1/mounts')) as AxiosResponse<OCSResponse<MountEntry[]>>
 	const contents = response.data.ocs.data.map(entryToFolder)
 
@@ -81,7 +87,12 @@ export const getContents = async (): Promise<ContentsWithRoot> => {
 	}
 }
 
-export const getStatus = function(id: number, global = true) {
+/**
+ *
+ * @param id
+ * @param global
+ */
+export function getStatus(id: number, global = true) {
 	const type = global ? 'userglobalstorages' : 'userstorages'
 	return axios.get(generateUrl(`apps/files_external/${type}/${id}?testOnly=false`)) as Promise<AxiosResponse<StorageConfig>>
 }

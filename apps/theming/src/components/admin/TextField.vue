@@ -5,7 +5,8 @@
 
 <template>
 	<div class="field">
-		<NcTextField :value.sync="localValue"
+		<NcTextField
+			:value.sync="localValue"
 			:label="displayName"
 			:placeholder="placeholder"
 			:type="type"
@@ -24,7 +25,6 @@
 
 <script>
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 
 export default {
@@ -43,26 +43,32 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: String,
 			required: true,
 		},
+
 		defaultValue: {
 			type: String,
 			required: true,
 		},
+
 		type: {
 			type: String,
 			required: true,
 		},
+
 		displayName: {
 			type: String,
 			required: true,
 		},
+
 		placeholder: {
 			type: String,
 			required: true,
 		},
+
 		maxlength: {
 			type: Number,
 			required: true,

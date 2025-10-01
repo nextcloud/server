@@ -96,15 +96,17 @@ $.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 			{
 				user,
 				size: Math.ceil(size * window.devicePixelRatio),
-				version: oc_userconfig.avatar.version,
-			})
+				version: window.oc_userconfig.avatar.version,
+			},
+		)
 	} else {
 		url = generateUrl(
 			'/avatar/{user}/{size}',
 			{
 				user,
 				size: Math.ceil(size * window.devicePixelRatio),
-			})
+			},
+		)
 	}
 
 	const img = new Image()

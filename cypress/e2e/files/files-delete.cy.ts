@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+
 import { getRowForFile, navigateToFolder, selectAllFiles, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Delete files using file actions', { testIsolation: true }, () => {
@@ -64,7 +65,7 @@ describe('files: Delete files using file actions', { testIsolation: true }, () =
 		cy.wait('@deleteFile')
 		cy.get('@deleteFile.all')
 			.should('have.length', 5)
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 			.should((all: any) => {
 				for (const call of all) {
 					expect(call.response.statusCode).to.equal(204)

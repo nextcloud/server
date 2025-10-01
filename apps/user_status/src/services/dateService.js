@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-const dateFactory = () => {
+/**
+ *
+ */
+function dateFactory() {
 	return new Date()
 }
 

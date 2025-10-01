@@ -4,10 +4,12 @@
 -->
 
 <template>
-	<NcActions :aria-label="t('settings', 'Toggle account actions menu')"
+	<NcActions
+		:aria-label="t('settings', 'Toggle account actions menu')"
 		:disabled="disabled"
 		:inline="1">
-		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`"
+		<NcActionButton
+			:data-cy-user-list-action-toggle-edit="`${edit}`"
 			:disabled="disabled"
 			@click="toggleEdit">
 			{{ edit ? t('settings', 'Done') : t('settings', 'Edit') }}
@@ -15,7 +17,8 @@
 				<NcIconSvgWrapper :key="editSvg" :svg="editSvg" aria-hidden="true" />
 			</template>
 		</NcActionButton>
-		<NcActionButton v-for="({ action, icon, text }, index) in enabledActions"
+		<NcActionButton
+			v-for="({ action, icon, text }, index) in enabledActions"
 			:key="index"
 			:disabled="disabled"
 			:aria-label="text"
@@ -32,20 +35,20 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import { defineComponent } from 'vue'
-import isSvg from 'is-svg'
 
+import SvgCheck from '@mdi/svg/svg/check.svg?raw'
+import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
+import isSvg from 'is-svg'
+import { defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import SvgCheck from '@mdi/svg/svg/check.svg?raw'
-import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
 
 interface UserAction {
-	action: (event: MouseEvent, user: Record<string, unknown>) => void,
-	enabled?: (user: Record<string, unknown>) => boolean,
-	icon: string,
-	text: string,
+	action: (event: MouseEvent, user: Record<string, unknown>) => void
+	enabled?: (user: Record<string, unknown>) => boolean
+	icon: string
+	text: string
 }
 
 export default defineComponent({
@@ -101,7 +104,7 @@ export default defineComponent({
 		 * Enabled user row actions
 		 */
 		enabledActions(): UserAction[] {
-			return this.actions.filter(action => typeof action.enabled === 'function' ? action.enabled(this.user) : true)
+			return this.actions.filter((action) => typeof action.enabled === 'function' ? action.enabled(this.user) : true)
 		},
 	},
 

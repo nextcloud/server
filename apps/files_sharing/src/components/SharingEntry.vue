@@ -5,15 +5,17 @@
 
 <template>
 	<li class="sharing-entry">
-		<NcAvatar class="sharing-entry__avatar"
+		<NcAvatar
+			class="sharing-entry__avatar"
 			:is-no-user="share.type !== ShareType.User"
 			:user="share.shareWith"
 			:display-name="share.shareWithDisplayName"
-			:menu-position="'left'"
+			menu-position="left"
 			:url="share.shareWithAvatar" />
 
 		<div class="sharing-entry__summary">
-			<component :is="share.shareWithLink ? 'a' : 'div'"
+			<component
+				:is="share.shareWithLink ? 'a' : 'div'"
 				:title="tooltip"
 				:aria-label="tooltip"
 				:href="share.shareWithLink"
@@ -25,16 +27,18 @@
 					<small v-if="hasStatus && share.status.message">({{ share.status.message }})</small>
 				</span>
 			</component>
-			<SharingEntryQuickShareSelect :share="share"
+			<SharingEntryQuickShareSelect
+				:share="share"
 				:file-info="fileInfo"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
 		<ShareExpiryTime v-if="share && share.expireDate" :share="share" />
-		<NcButton v-if="share.canEdit"
+		<NcButton
+			v-if="share.canEdit"
 			class="sharing-entry__action"
 			data-cy-files-sharing-share-actions
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
-			type="tertiary"
+			variant="tertiary"
 			@click="openSharingDetails(share)">
 			<template #icon>
 				<DotsHorizontalIcon :size="20" />
@@ -45,17 +49,14 @@
 
 <script>
 import { ShareType } from '@nextcloud/sharing'
-
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
-
 import ShareExpiryTime from './ShareExpiryTime.vue'
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
-
-import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
+import SharesMixin from '../mixins/SharesMixin.js'
 
 export default {
 	name: 'SharingEntry',
@@ -96,6 +97,7 @@ export default {
 			}
 			return title
 		},
+
 		tooltip() {
 			if (this.share.owner !== this.share.uidFileOwner) {
 				const data = {

@@ -2,24 +2,25 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ViewConfigs, ViewId, ViewConfig } from '../types'
+
+import type { ViewConfig, ViewConfigs, ViewId } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { ref, set } from 'vue'
-import axios from '@nextcloud/axios'
 
 const initialViewConfig = loadState('files', 'viewConfigs', {}) as ViewConfigs
 
 export const useViewConfigStore = defineStore('viewconfig', () => {
-
 	const viewConfigs = ref({ ...initialViewConfig })
 
 	/**
 	 * Get the config for a specific view
+	 *
 	 * @param viewid Id of the view to fet the config for
 	 */
 	function getConfig(viewid: ViewId): ViewConfig {
@@ -28,6 +29,7 @@ export const useViewConfigStore = defineStore('viewconfig', () => {
 
 	/**
 	 * Update the view config local store
+	 *
 	 * @param viewId The id of the view to update
 	 * @param key The config key to update
 	 * @param value The new value
@@ -41,6 +43,7 @@ export const useViewConfigStore = defineStore('viewconfig', () => {
 
 	/**
 	 * Update the view config local store AND on server side
+	 *
 	 * @param view Id of the view to update
 	 * @param key Config key to update
 	 * @param value New value
@@ -61,6 +64,7 @@ export const useViewConfigStore = defineStore('viewconfig', () => {
 	 * Set the sorting key AND sort by ASC
 	 * The key param must be a valid key of a File object
 	 * If not found, will be searched within the File attributes
+	 *
 	 * @param key Key to sort by
 	 * @param view View to set the sorting key for
 	 */
@@ -72,6 +76,7 @@ export const useViewConfigStore = defineStore('viewconfig', () => {
 
 	/**
 	 * Toggle the sorting direction
+	 *
 	 * @param viewId id of the view to set the sorting order for
 	 */
 	function toggleSortingDirection(viewId = 'files'): void {

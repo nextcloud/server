@@ -2,12 +2,13 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import Vue from 'vue'
+
 import { loadState } from '@nextcloud/initial-state'
-import { translate } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
+import Vue from 'vue'
 import CalDavSettings from './views/CalDavSettings.vue'
 
-Vue.prototype.$t = translate
+Vue.prototype.$t = t
 
 const View = Vue.extend(CalDavSettings)
 const CalDavSettingsView = new View({

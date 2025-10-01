@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+
 import {
 	clickOnBreadcrumbs,
 	copyFile,
@@ -15,8 +16,8 @@ import {
 	renameFile,
 	triggerActionForFile,
 	triggerInlineActionForFileId,
-} from './FilesUtils'
-import { setShowHiddenFiles, setupLivePhotos } from './LivePhotosUtils'
+} from './FilesUtils.ts'
+import { setShowHiddenFiles, setupLivePhotos } from './LivePhotosUtils.ts'
 
 describe('Files: Live photos', { testIsolation: true }, () => {
 	let user: User

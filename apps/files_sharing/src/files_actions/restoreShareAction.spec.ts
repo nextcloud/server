@@ -2,13 +2,15 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { ShareType } from '@nextcloud/sharing'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import type { View } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import { action } from './restoreShareAction'
+import { File, FileAction, Permission } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { action } from './restoreShareAction.ts'
+
 import '../main.ts'
 
 vi.mock('@nextcloud/auth')
@@ -26,7 +28,6 @@ const deletedShareView = {
 
 // Mock webroot variable
 beforeAll(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = ''
 })
 
@@ -96,7 +97,9 @@ describe('Restore share action enabled tests', () => {
 })
 
 describe('Restore share action execute tests', () => {
-	beforeEach(() => { vi.resetAllMocks() })
+	beforeEach(() => {
+		vi.resetAllMocks()
+	})
 
 	test('Restore share action', async () => {
 		vi.spyOn(axios, 'post')

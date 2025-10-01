@@ -4,18 +4,31 @@
 -->
 
 <script setup lang="ts">
-import Domain from 'vue-material-design-icons/Domain.vue'
-import CloudCircleOutline from 'vue-material-design-icons/CloudCircleOutline.vue'
-import SchoolOutline from 'vue-material-design-icons/SchoolOutline.vue'
-import Crowd from 'vue-material-design-icons/Crowd.vue'
-import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
-import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
-import MinusCircleOutline from 'vue-material-design-icons/MinusCircleOutline.vue'
-
 import { t } from '@nextcloud/l10n'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-
+import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
+import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
+import CloudCircleOutline from 'vue-material-design-icons/CloudCircleOutline.vue'
+import Crowd from 'vue-material-design-icons/Crowd.vue'
+import Domain from 'vue-material-design-icons/Domain.vue'
+import MinusCircleOutline from 'vue-material-design-icons/MinusCircleOutline.vue'
+import SchoolOutline from 'vue-material-design-icons/SchoolOutline.vue'
 import { type PresetAppConfigs, type PresetIds } from './models.ts'
+
+defineProps({
+	presets: {
+		type: Object as () => PresetAppConfigs,
+		required: true,
+	},
+	value: {
+		type: String as () => PresetIds,
+		default: '',
+	},
+})
+
+const emit = defineEmits<{
+	(e: 'input', option: string): void
+}>()
 
 const PresetNames = {
 	LARGE: t('settings', 'Large organization'),
@@ -43,31 +56,19 @@ const PresetsIcons = {
 	NONE: MinusCircleOutline,
 }
 
-defineProps({
-	presets: {
-		type: Object as () => PresetAppConfigs,
-		required: true,
-	},
-	value: {
-		type: String as () => PresetIds,
-		default: '',
-	},
-})
-
-const emit = defineEmits<{
-	(e: 'input', option: string): void
-}>()
 </script>
 
 <template>
 	<form class="presets-form">
-		<label v-for="(presetName, presetId) in PresetNames"
+		<label
+			v-for="(presetName, presetId) in PresetNames"
 			:key="presetId"
 			class="presets-form__option">
 
 			<components :is="PresetsIcons[presetId]" :size="32" />
 
-			<NcCheckboxRadioSwitch type="radio"
+			<NcCheckboxRadioSwitch
+				type="radio"
 				:model-value="value"
 				:value="presetId"
 				name="preset"

@@ -5,7 +5,8 @@
 
 <template>
 	<div id="app-content-inner">
-		<div id="apps-list"
+		<div
+			id="apps-list"
 			class="apps-list"
 			:class="{
 				'apps-list--list-view': (useBundleView || useListView),
@@ -14,9 +15,10 @@
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="apps-list__toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
-					<NcButton v-if="showUpdateAll"
+					<NcButton
+						v-if="showUpdateAll"
 						id="app-list-update-all"
-						type="primary"
+						variant="primary"
 						@click="updateAll">
 						{{ n('settings', 'Update', 'Update all', counter) }}
 					</NcButton>
@@ -44,14 +46,16 @@
 							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 						</th>
 					</tr>
-					<AppItem v-for="app in apps"
+					<AppItem
+						v-for="app in apps"
 						:key="app.id"
 						:app="app"
 						:category="category" />
 				</TransitionGroup>
 			</template>
 
-			<table v-if="useBundleView"
+			<table
+				v-if="useBundleView"
 				class="apps-list__list-container">
 				<tr key="app-list-view-header">
 					<th id="app-table-col-icon">
@@ -77,13 +81,14 @@
 								<span class="apps-list__bundle-header">
 									{{ bundle.name }}
 								</span>
-								<NcButton type="secondary" @click="toggleBundle(bundle.id)">
+								<NcButton variant="secondary" @click="toggleBundle(bundle.id)">
 									{{ t('settings', bundleToggleText(bundle.id)) }}
 								</NcButton>
 							</div>
 						</th>
 					</tr>
-					<AppItem v-for="app in bundleApps(bundle.id)"
+					<AppItem
+						v-for="app in bundleApps(bundle.id)"
 						:key="bundle.id + app.id"
 						:use-bundle-view="true"
 						:headers="`app-table-rowgroup-${bundle.id}`"
@@ -92,7 +97,8 @@
 				</template>
 			</table>
 			<ul v-if="useAppStoreView" class="apps-list__store-container">
-				<AppItem v-for="app in apps"
+				<AppItem
+					v-for="app in apps"
 					:key="app.id"
 					:app="app"
 					:category="category"
@@ -123,7 +129,8 @@
 							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 						</th>
 					</tr>
-					<AppItem v-for="app in searchApps"
+					<AppItem
+						v-for="app in searchApps"
 						:key="app.id"
 						:app="app"
 						:category="category" />
@@ -143,9 +150,10 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import AppItem from './AppList/AppItem.vue'
-import AppManagement from '../mixins/AppManagement'
-import { useAppApiStore } from '../store/app-api-store'
-import { useAppsStore } from '../store/apps-store'
+import logger from '../logger.ts'
+import AppManagement from '../mixins/AppManagement.js'
+import { useAppApiStore } from '../store/app-api-store.ts'
+import { useAppsStore } from '../store/apps-store.ts'
 
 export default {
 	name: 'AppList',
@@ -178,27 +186,32 @@ export default {
 			search: '',
 		}
 	},
+
 	computed: {
 		counter() {
-			return this.apps.filter(app => app.update).length
+			return this.apps.filter((app) => app.update).length
 		},
+
 		loading() {
 			if (!this.$store.getters['appApiApps/isAppApiEnabled']) {
 				return this.$store.getters.loading('list')
 			}
 			return this.$store.getters.loading('list') || this.appApiStore.getLoading('list')
 		},
+
 		hasPendingUpdate() {
-			return this.apps.filter(app => app.update).length > 0
+			return this.apps.filter((app) => app.update).length > 0
 		},
+
 		showUpdateAll() {
 			return this.hasPendingUpdate && this.useListView
 		},
+
 		apps() {
 			// Exclude ExApps from the list if AppAPI is disabled
 			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
 			const apps = [...this.$store.getters.getAllApps, ...exApps]
-				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
+				.filter((app) => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
 					const natSortDiff = OC.Util.naturalSortCompare(a, b)
 					if (natSortDiff === 0) {
@@ -210,73 +223,81 @@ export default {
 				})
 
 			if (this.category === 'installed') {
-				return apps.filter(app => app.installed)
+				return apps.filter((app) => app.installed)
 			}
 			if (this.category === 'enabled') {
-				return apps.filter(app => app.active && app.installed)
+				return apps.filter((app) => app.active && app.installed)
 			}
 			if (this.category === 'disabled') {
-				return apps.filter(app => !app.active && app.installed)
+				return apps.filter((app) => !app.active && app.installed)
 			}
 			if (this.category === 'app-bundles') {
-				return apps.filter(app => app.bundles)
+				return apps.filter((app) => app.bundles)
 			}
 			if (this.category === 'updates') {
-				return apps.filter(app => app.update)
+				return apps.filter((app) => app.update)
 			}
 			if (this.category === 'supported') {
 				// For customers of the Nextcloud GmbH the app level will be set to `300` for apps that are supported in their subscription
-				return apps.filter(app => app.level === 300)
+				return apps.filter((app) => app.level === 300)
 			}
 			if (this.category === 'featured') {
 				// An app level of `200` will be set for apps featured on the app store
-				return apps.filter(app => app.level === 200)
+				return apps.filter((app) => app.level === 200)
 			}
 
 			// filter app store categories
-			return apps.filter(app => {
+			return apps.filter((app) => {
 				return app.appstore && app.category !== undefined
 					&& (app.category === this.category || app.category.indexOf(this.category) > -1)
 			})
 		},
+
 		bundles() {
-			return this.$store.getters.getAppBundles.filter(bundle => this.bundleApps(bundle.id).length > 0)
+			return this.$store.getters.getAppBundles.filter((bundle) => this.bundleApps(bundle.id).length > 0)
 		},
+
 		bundleApps() {
 			return function(bundle) {
 				return this.$store.getters.getAllApps
-					.filter(app => {
+					.filter((app) => {
 						return app.bundleIds !== undefined && app.bundleIds.includes(bundle)
 					})
 			}
 		},
+
 		searchApps() {
 			if (this.search === '') {
 				return []
 			}
 			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
 			return [...this.$store.getters.getAllApps, ...exApps]
-				.filter(app => {
+				.filter((app) => {
 					if (app.name.toLowerCase().search(this.search.toLowerCase()) !== -1) {
-						return (!this.apps.find(_app => _app.id === app.id))
+						return (!this.apps.find((_app) => _app.id === app.id))
 					}
 					return false
 				})
 		},
+
 		useAppStoreView() {
 			return !this.useListView && !this.useBundleView
 		},
+
 		useListView() {
 			return (this.category === 'installed' || this.category === 'enabled' || this.category === 'disabled' || this.category === 'updates' || this.category === 'featured' || this.category === 'supported')
 		},
+
 		useBundleView() {
 			return (this.category === 'app-bundles')
 		},
+
 		allBundlesEnabled() {
 			return (id) => {
-				return this.bundleApps(id).filter(app => !app.active).length === 0
+				return this.bundleApps(id).filter((app) => !app.active).length === 0
 			}
 		},
+
 		bundleToggleText() {
 			return (id) => {
 				if (this.allBundlesEnabled(id)) {
@@ -301,34 +322,39 @@ export default {
 		setSearch({ query }) {
 			this.search = query
 		},
+
 		resetSearch() {
 			this.search = ''
 		},
+
 		toggleBundle(id) {
 			if (this.allBundlesEnabled(id)) {
 				return this.disableBundle(id)
 			}
 			return this.enableBundle(id)
 		},
+
 		enableBundle(id) {
-			const apps = this.bundleApps(id).map(app => app.id)
+			const apps = this.bundleApps(id).map((app) => app.id)
 			this.$store.dispatch('enableApp', { appId: apps, groups: [] })
 				.catch((error) => {
-					console.error(error)
+					logger.error(error)
 					OC.Notification.show(error)
 				})
 		},
+
 		disableBundle(id) {
-			const apps = this.bundleApps(id).map(app => app.id)
+			const apps = this.bundleApps(id).map((app) => app.id)
 			this.$store.dispatch('disableApp', { appId: apps, groups: [] })
 				.catch((error) => {
 					OC.Notification.show(error)
 				})
 		},
+
 		updateAll() {
 			const limit = pLimit(1)
 			this.apps
-				.filter(app => app.update)
+				.filter((app) => app.update)
 				.map((app) => limit(() => {
 					this.update(app.id)
 				}))

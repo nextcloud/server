@@ -7,7 +7,6 @@
  * Page object model for the files app navigation
  */
 export class FilesNavigationPage {
-
 	navigation() {
 		return cy.findByRole('navigation', { name: 'Files' })
 	}
@@ -42,5 +41,4 @@ export class FilesNavigationPage {
 	quota() {
 		return this.navigation().find('[data-cy-files-navigation-settings-quota]')
 	}
-
 }

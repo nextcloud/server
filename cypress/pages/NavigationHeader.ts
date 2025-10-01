@@ -7,7 +7,6 @@
  * Page object model for the Nextcloud navigation header
  */
 export class NavigationHeader {
-
 	/**
 	 * Locator of the header bar wrapper
 	 */
@@ -48,11 +47,11 @@ export class NavigationHeader {
 
 	/**
 	 * Get the navigation entry for a given app
+	 *
 	 * @param name The app name
 	 */
 	getNavigationEntry(name: string) {
 		return this.navigation()
 			.findByRole('listitem', { name })
 	}
-
 }

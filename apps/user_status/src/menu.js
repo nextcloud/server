@@ -6,11 +6,9 @@
 import { getCSPNonce } from '@nextcloud/auth'
 import { subscribe } from '@nextcloud/event-bus'
 import Vue from 'vue'
-
 import UserStatus from './UserStatus.vue'
 import store from './store/index.js'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t
@@ -18,12 +16,15 @@ Vue.prototype.$t = t
 
 const mountPoint = document.getElementById('user_status-menu-entry')
 
-const mountMenuEntry = () => {
+/**
+ *
+ */
+function mountMenuEntry() {
 	const mountPoint = document.getElementById('user_status-menu-entry')
-	// eslint-disable-next-line no-new
+
 	new Vue({
 		el: mountPoint,
-		render: h => h(UserStatus),
+		render: (h) => h(UserStatus),
 		store,
 	})
 }

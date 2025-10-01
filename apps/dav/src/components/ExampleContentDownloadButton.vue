@@ -4,7 +4,7 @@
  -->
 
 <template>
-	<NcButton type="tertiary" :href="href">
+	<NcButton variant="tertiary" :href="href">
 		<template #icon>
 			<slot name="icon" />
 		</template>
@@ -12,7 +12,8 @@
 			<span class="download-button__label">
 				<slot name="default" />
 			</span>
-			<IconDownload class="download-button__icon"
+			<IconDownload
+				class="download-button__icon"
 				:size="20" />
 		</div>
 	</NcButton>
@@ -28,6 +29,7 @@ export default {
 		NcButton,
 		IconDownload,
 	},
+
 	props: {
 		href: {
 			type: String,

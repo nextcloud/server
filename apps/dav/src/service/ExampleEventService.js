@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 
 /**
  * Configure the creation of example events on a user's first login.

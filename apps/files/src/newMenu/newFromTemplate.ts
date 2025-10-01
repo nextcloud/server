@@ -3,22 +3,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Entry } from '@nextcloud/files'
+import type { Folder, NewMenuEntry, Node } from '@nextcloud/files'
 import type { ComponentInstance } from 'vue'
 import type { TemplateFile } from '../types.ts'
 
-import { Folder, Node, Permission, addNewFileMenuEntry } from '@nextcloud/files'
+import { addNewFileMenuEntry, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import { isPublicShare } from '@nextcloud/sharing/public'
-import { newNodeName } from '../utils/newNodeDialog'
 import { translate as t } from '@nextcloud/l10n'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import Vue, { defineAsyncComponent } from 'vue'
+import { newNodeName } from '../utils/newNodeDialog.ts'
 
 // async to reduce bundle size
 const TemplatePickerVue = defineAsyncComponent(() => import('../views/TemplatePicker.vue'))
 let TemplatePicker: ComponentInstance & { open: (n: string, t: TemplateFile) => void } | null = null
 
-const getTemplatePicker = async (context: Folder) => {
+/**
+ *
+ * @param context
+ */
+async function getTemplatePicker(context: Folder) {
 	if (TemplatePicker === null) {
 		// Create document root
 		const mountingPoint = document.createElement('div')
@@ -78,6 +82,6 @@ export function registerTemplateEntries() {
 					picker.open(name.trim(), provider)
 				}
 			},
-		} as Entry)
+		} satisfies NewMenuEntry)
 	})
 }

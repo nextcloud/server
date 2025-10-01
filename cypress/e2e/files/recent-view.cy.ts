@@ -4,7 +4,8 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, triggerActionForFile } from './FilesUtils'
+
+import { getRowForFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Recent view', { testIsolation: true }, () => {
 	let user: User

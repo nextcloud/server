@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { Ref } from 'vue'
+
 import { onMounted, readonly, ref } from 'vue'
 
 /** The element we observe */

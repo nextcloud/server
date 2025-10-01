@@ -4,7 +4,8 @@
 -->
 <template>
 	<form class="sharing">
-		<NcCheckboxRadioSwitch aria-controls="settings-sharing-api settings-sharing-api-settings settings-sharing-default-permissions settings-sharing-privacy-related"
+		<NcCheckboxRadioSwitch
+			aria-controls="settings-sharing-api settings-sharing-api-settings settings-sharing-default-permissions settings-sharing-privacy-related"
 			type="switch"
 			:checked.sync="settings.enabled">
 			{{ t('settings', 'Allow apps to use the Share API') }}
@@ -22,7 +23,8 @@
 			</NcCheckboxRadioSwitch>
 			<div v-show="settings.onlyShareWithGroupMembers" id="settings-sharing-api-excluded-groups" class="sharing__labeled-entry sharing__input">
 				<label for="settings-sharing-only-group-members-excluded-groups">{{ t('settings', 'Ignore the following groups when checking group membership') }}</label>
-				<NcSettingsSelectGroup id="settings-sharing-only-group-members-excluded-groups"
+				<NcSettingsSelectGroup
+					id="settings-sharing-only-group-members-excluded-groups"
 					v-model="settings.onlyShareWithGroupMembersExcludeGroupList"
 					:label="t('settings', 'Ignore the following groups when checking group membership')"
 					style="width: 100%" />
@@ -30,7 +32,8 @@
 			<NcCheckboxRadioSwitch :checked.sync="settings.allowViewWithoutDownload">
 				{{ t('settings', 'Allow users to preview files even if download is disabled') }}
 			</NcCheckboxRadioSwitch>
-			<NcNoteCard v-show="settings.allowViewWithoutDownload"
+			<NcNoteCard
+				v-show="settings.allowViewWithoutDownload"
 				id="settings-sharing-api-view-without-download-hint"
 				class="sharing__note"
 				type="warning">
@@ -39,7 +42,8 @@
 		</div>
 
 		<div v-show="settings.enabled" id="settings-sharing-api" class="sharing__section">
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				aria-controls="settings-sharing-api-public-link"
 				:checked.sync="settings.allowLinks">
 				{{ t('settings', 'Allow users to share via link and emails') }}
@@ -60,30 +64,35 @@
 				</NcCheckboxRadioSwitch>
 				<label v-if="settings.enforceLinksPasswordExcludedGroupsEnabled" class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from password requirements') }}</span>
-					<NcSettingsSelectGroup v-model="settings.enforceLinksPasswordExcludedGroups"
+					<NcSettingsSelectGroup
+						v-model="settings.enforceLinksPasswordExcludedGroups"
 						style="width: 100%"
 						:disabled="!settings.enforceLinksPassword || !settings.enableLinkPasswordByDefault" />
 				</label>
 				<label class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from creating link shares') }}</span>
-					<NcSettingsSelectGroup v-model="settings.allowLinksExcludeGroups"
+					<NcSettingsSelectGroup
+						v-model="settings.allowLinksExcludeGroups"
 						:label="t('settings', 'Exclude groups from creating link shares')"
 						style="width: 100%" />
 				</label>
 			</fieldset>
 
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				aria-describedby="settings-sharing-custom-token-disable-hint settings-sharing-custom-token-access-hint"
 				:checked.sync="settings.allowCustomTokens">
 				{{ t('settings', 'Allow users to set custom share link tokens') }}
 			</NcCheckboxRadioSwitch>
 			<div class="sharing__sub-section">
-				<NcNoteCard id="settings-sharing-custom-token-disable-hint"
+				<NcNoteCard
+					id="settings-sharing-custom-token-disable-hint"
 					class="sharing__note"
 					type="info">
 					{{ t('settings', 'Shares with custom tokens will continue to be accessible after this setting has been disabled') }}
 				</NcNoteCard>
-				<NcNoteCard id="settings-sharing-custom-token-access-hint"
+				<NcNoteCard
+					id="settings-sharing-custom-token-access-hint"
 					class="sharing__note"
 					type="warning">
 					{{ t('settings', 'Shares with guessable tokens may be accessed easily') }}
@@ -92,21 +101,24 @@
 
 			<label>{{ t('settings', 'Limit sharing based on groups') }}</label>
 			<div class="sharing__sub-section">
-				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+				<NcCheckboxRadioSwitch
+					:checked.sync="settings.excludeGroups"
 					name="excludeGroups"
 					value="no"
 					type="radio"
 					@update:checked="onUpdateExcludeGroups">
 					{{ t('settings', 'Allow sharing for everyone (default)') }}
 				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+				<NcCheckboxRadioSwitch
+					:checked.sync="settings.excludeGroups"
 					name="excludeGroups"
 					value="yes"
 					type="radio"
 					@update:checked="onUpdateExcludeGroups">
 					{{ t('settings', 'Exclude some groups from sharing') }}
 				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+				<NcCheckboxRadioSwitch
+					:checked.sync="settings.excludeGroups"
 					name="excludeGroups"
 					value="allow"
 					type="radio"
@@ -114,7 +126,8 @@
 					{{ t('settings', 'Limit sharing to some groups') }}
 				</NcCheckboxRadioSwitch>
 				<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
-					<NcSettingsSelectGroup id="settings-sharing-excluded-groups"
+					<NcSettingsSelectGroup
+						id="settings-sharing-excluded-groups"
 						v-model="settings.excludeGroupsList"
 						aria-describedby="settings-sharing-excluded-groups-desc"
 						:label="settings.excludeGroups === 'allow' ? t('settings', 'Groups allowed to share') : t('settings', 'Groups excluded from sharing')"
@@ -124,7 +137,8 @@
 				</div>
 			</div>
 
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				aria-controls="settings-sharing-api-expiration"
 				:checked.sync="settings.defaultInternalExpireDate">
 				{{ t('settings', 'Set default expiration date for internal shares') }}
@@ -133,14 +147,16 @@
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceInternalExpireDate">
 					{{ t('settings', 'Enforce expiration date') }}
 				</NcCheckboxRadioSwitch>
-				<NcTextField type="number"
+				<NcTextField
+					type="number"
 					class="sharing__input"
 					:label="t('settings', 'Default expiration time of new shares in days')"
 					:placeholder="t('settings', 'Expire shares after x days')"
 					:value.sync="settings.internalExpireAfterNDays" />
 			</fieldset>
 
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				aria-controls="settings-sharing-remote-api-expiration"
 				:checked.sync="settings.defaultRemoteExpireDate">
 				{{ t('settings', 'Set default expiration date for shares to other servers') }}
@@ -149,14 +165,16 @@
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceRemoteExpireDate">
 					{{ t('settings', 'Enforce expiration date for remote shares') }}
 				</NcCheckboxRadioSwitch>
-				<NcTextField type="number"
+				<NcTextField
+					type="number"
 					class="sharing__input"
 					:label="t('settings', 'Default expiration time of remote shares in days')"
 					:placeholder="t('settings', 'Expire remote shares after x days')"
 					:value.sync="settings.remoteExpireAfterNDays" />
 			</fieldset>
 
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				aria-controls="settings-sharing-api-api-expiration"
 				:checked.sync="settings.defaultExpireDate"
 				:disabled="!settings.allowLinks">
@@ -166,7 +184,8 @@
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceExpireDate">
 					{{ t('settings', 'Enforce expiration date for link or mail shares') }}
 				</NcCheckboxRadioSwitch>
-				<NcTextField type="number"
+				<NcTextField
+					type="number"
 					class="sharing__input"
 					:label="t('settings', 'Default expiration time of shares in days')"
 					:placeholder="t('settings', 'Expire shares after x days')"
@@ -177,7 +196,8 @@
 		<div v-show="settings.enabled" id="settings-sharing-privacy-related" class="sharing__section">
 			<h3>{{ t('settings', 'Privacy settings for sharing') }}</h3>
 
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				aria-controls="settings-sharing-privacy-user-enumeration"
 				:checked.sync="settings.allowShareDialogUserEnumeration">
 				{{ t('settings', 'Allow account name autocompletion in share dialog and allow access to the system address book') }}
@@ -197,7 +217,8 @@
 				</NcCheckboxRadioSwitch>
 			</fieldset>
 
-			<NcCheckboxRadioSwitch v-model="settings.restrictUserEnumerationFullMatch"
+			<NcCheckboxRadioSwitch
+				v-model="settings.restrictUserEnumerationFullMatch"
 				type="switch"
 				aria-controls="settings-sharing-privacy-autocomplete">
 				{{ t('settings', 'Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)') }}
@@ -220,10 +241,12 @@
 			<NcCheckboxRadioSwitch type="switch" :checked.sync="publicShareDisclaimerEnabled">
 				{{ t('settings', 'Show disclaimer text on the public link upload page (only shown when the file list is hidden)') }}
 			</NcCheckboxRadioSwitch>
-			<div v-if="publicShareDisclaimerEnabled"
+			<div
+				v-if="publicShareDisclaimerEnabled"
 				aria-describedby="settings-sharing-privacy-related-disclaimer-hint"
 				class="sharing__sub-section">
-				<NcTextArea class="sharing__input"
+				<NcTextArea
+					class="sharing__input"
 					:label="t('settings', 'Disclaimer text')"
 					aria-describedby="settings-sharing-privacy-related-disclaimer-hint"
 					:value="settings.publicShareDisclaimerText"
@@ -245,10 +268,9 @@
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
+import debounce from 'debounce'
 import { snakeCase } from 'lodash'
 import { defineComponent } from 'vue'
-import debounce from 'debounce'
-
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSelectGroup from '@nextcloud/vue/components/NcSettingsSelectGroup'
@@ -304,6 +326,7 @@ export default defineComponent({
 		NcTextField,
 		SelectSharingPermissions,
 	},
+
 	data() {
 		const settingsData = loadState<IShareSettings>('settings', 'sharingSettings')
 		return {
@@ -311,13 +334,14 @@ export default defineComponent({
 			publicShareDisclaimerEnabled: settingsData.publicShareDisclaimerText !== '',
 		}
 	},
+
 	computed: {
 		settings() {
-			console.warn('new proxy')
 			return new Proxy(this.settingsData, {
 				get(target, property) {
 					return target[property]
 				},
+
 				set(target, property: string, newValue) {
 					const configName = `shareapi_${snakeCase(property)}`
 					const value = typeof newValue === 'boolean' ? (newValue ? 'yes' : 'no') : (typeof newValue === 'string' ? newValue : JSON.stringify(newValue))
@@ -361,6 +385,7 @@ export default defineComponent({
 			}
 			this.settingsData.publicShareDisclaimerText = value
 		}, 500) as (v?: string) => void,
+
 		onUpdateExcludeGroups: debounce(function(value: string) {
 			window.OCP.AppConfig.setValue('core', 'excludeGroups', value)
 			this.settings.excludeGroups = value

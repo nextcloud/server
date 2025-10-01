@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import _ from 'underscore'
-import $ from 'jquery'
 import { generateOcsUrl } from '@nextcloud/router'
+import $ from 'jquery'
+import _ from 'underscore'
+import logger from '../logger.js'
 
 /**
  * @param {any} options -
@@ -47,8 +48,7 @@ export function dismiss(version, options) {
  * @param {any} dismissOptions -
  */
 function onQuerySuccess(data, statusText, xhr, dismissOptions) {
-	console.debug('querying Whats New data was successful: ' + statusText)
-	console.debug(data)
+	logger.debug('querying Whats New data was successful: ' + statusText, { data })
 
 	if (xhr.status !== 200) {
 		return
@@ -132,14 +132,13 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
  * @param {any} e -
  */
 function onQueryError(x, t, e) {
-	console.debug('querying Whats New Data resulted in an error: ' + t + e)
-	console.debug(x)
+	logger.debug('querying Whats New Data resulted in an error: ' + t + e)
+	logger.debug(x)
 }
 
 /**
- * @param {any} data -
  */
-function onDismissSuccess(data) {
+function onDismissSuccess() {
 	// noop
 }
 
@@ -147,5 +146,5 @@ function onDismissSuccess(data) {
  * @param {any} data -
  */
 function onDismissError(data) {
-	console.debug('dismissing Whats New data resulted in an error: ' + data)
+	logger.debug('dismissing Whats New data resulted in an error: ' + data)
 }

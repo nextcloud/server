@@ -29,7 +29,8 @@ const shownChecks = computed(() => props.setupChecks.filter(({ severity }) => se
 
 <template>
 	<ul class="settings-setup-checks-list" :aria-label="ariaLabel">
-		<SettingsSetupChecksListItem v-for="(setupCheck, index) in shownChecks"
+		<SettingsSetupChecksListItem
+			v-for="(setupCheck, index) in shownChecks"
 			:key="index"
 			class="settings-setup-checks-list__item"
 			:setup-check="setupCheck" />

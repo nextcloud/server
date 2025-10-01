@@ -2,14 +2,15 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Folder, Permission, View, FileAction, DefaultType } from '@nextcloud/files'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { action } from './downloadAction'
+import type { View } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as dialogs from '@nextcloud/dialogs'
 import * as eventBus from '@nextcloud/event-bus'
+import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { action } from './downloadAction.ts'
 
 vi.mock('@nextcloud/axios')
 vi.mock('@nextcloud/dialogs')
@@ -22,7 +23,6 @@ const view = {
 
 // Mock webroot variable
 beforeAll(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = ''
 })
 

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { calculateViewportHeight, enableGridMode, getRowForFile } from './FilesUtils.ts'
 import { beFullyInViewport, notBeFullyInViewport } from '../core-utils.ts'
+import { calculateViewportHeight, enableGridMode, getRowForFile } from './FilesUtils.ts'
 
 describe('files: Scrolling to selected file in file list', () => {
 	const fileIds = new Map<number, string>()
@@ -236,10 +236,8 @@ function beOverlappedByTableHeader($el: JQuery<HTMLElement>, expected = true) {
 		|| headerRect.top > elementRect.bottom)
 
 	if (expected) {
-		// eslint-disable-next-line no-unused-expressions
 		expect(overlap, 'Overlapped by table header').to.be.true
 	} else {
-		// eslint-disable-next-line no-unused-expressions
 		expect(overlap, 'Not overlapped by table header').to.be.false
 	}
 }

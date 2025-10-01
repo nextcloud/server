@@ -11,17 +11,9 @@ import { getPinia } from '../store/index.ts'
 import { useSearchStore } from '../store/search.ts'
 
 /**
- * Register the filename filter
- */
-export function registerFilenameFilter() {
-	registerFileListFilter(new FilenameFilter())
-}
-
-/**
  * Simple file list filter controlled by the Navigation search box
  */
 class FilenameFilter extends FileListFilter {
-
 	private searchQuery = ''
 
 	constructor() {
@@ -71,5 +63,11 @@ class FilenameFilter extends FileListFilter {
 			this.updateChips(chips)
 		}
 	}
+}
 
+/**
+ * Register the filename filter
+ */
+export function registerFilenameFilter() {
+	registerFileListFilter(new FilenameFilter())
 }

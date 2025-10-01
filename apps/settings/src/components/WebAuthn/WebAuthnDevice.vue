@@ -16,15 +16,17 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
 
 export default {
-	name: 'Device',
+	name: 'WebAuthnDevice',
+
 	components: {
 		NcActionButton,
 		NcActions,
 	},
+
 	props: {
 		name: {
 			type: String,

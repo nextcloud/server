@@ -6,7 +6,6 @@
 import logger from './logger.ts'
 
 export default class ExternalLinkActions {
-
 	_state
 
 	constructor() {
@@ -46,5 +45,4 @@ export default class ExternalLinkActions {
 		logger.error('Invalid action provided', action)
 		return false
 	}
-
 }

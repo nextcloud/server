@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcDialog :buttons="dialogButtons"
+	<NcDialog
+		:buttons="dialogButtons"
 		content-classes="version-label-modal"
 		is-form
 		:open="open"
@@ -11,7 +12,8 @@
 		:name="t('files_versions', 'Name this version')"
 		@update:open="$emit('update:open', $event)"
 		@submit="setVersionLabel(editedVersionLabel)">
-		<NcTextField ref="labelInput"
+		<NcTextField
+			ref="labelInput"
 			class="version-label-modal__input"
 			:label="t('files_versions', 'Version name')"
 			:placeholder="t('files_versions', 'Version name')"
@@ -24,10 +26,9 @@
 </template>
 
 <script lang="ts">
+import svgCheck from '@mdi/svg/svg/check.svg?raw'
 import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-import svgCheck from '@mdi/svg/svg/check.svg?raw'
-
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
@@ -39,21 +40,25 @@ export default defineComponent({
 		NcDialog,
 		NcTextField,
 	},
+
 	props: {
 		open: {
 			type: Boolean,
 			default: false,
 		},
+
 		versionLabel: {
 			type: String,
 			default: '',
 		},
 	},
+
 	data() {
 		return {
 			editedVersionLabel: '',
 		}
 	},
+
 	computed: {
 		dialogButtons() {
 			const buttons: unknown[] = []
@@ -82,6 +87,7 @@ export default defineComponent({
 			]
 		},
 	},
+
 	watch: {
 		versionLabel: {
 			immediate: true,
@@ -89,6 +95,7 @@ export default defineComponent({
 				this.editedVersionLabel = label ?? ''
 			},
 		},
+
 		open: {
 			immediate: true,
 			handler(open) {
@@ -99,6 +106,7 @@ export default defineComponent({
 			},
 		},
 	},
+
 	methods: {
 		setVersionLabel(label: string) {
 			this.$emit('label-update', label)

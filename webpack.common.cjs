@@ -1,33 +1,35 @@
-/* eslint-disable camelcase */
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-const { VueLoaderPlugin } = require('vue-loader')
-const { readFileSync } = require('fs')
-const path = require('path')
 
-const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
-const webpack = require('webpack')
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
-const WorkboxPlugin = require('workbox-webpack-plugin')
-const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
-
-const modules = require('./webpack.modules.cjs')
 const { codecovWebpackPlugin } = require('@codecov/webpack-plugin')
+const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
+const { readFileSync } = require('fs')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
+const webpack = require('webpack')
+const WorkboxPlugin = require('workbox-webpack-plugin')
+const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.cjs')
+const modules = require('./webpack.modules.cjs')
 
 const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
 const isDev = process.env.NODE_ENV === 'development'
-const isTesting = process.env.TESTING === "true"
+const isTesting = process.env.TESTING === 'true'
 
-const formatOutputFromModules = (modules) => {
+/**
+ *
+ * @param modules
+ */
+function formatOutputFromModules(modules) {
 	// merge all configs into one object, and use AppID to generate the fileNames
 	// with the following format:
 	// AppId-fileName: path/to/js-file.js
-	const moduleEntries = Object.keys(modules).map(moduleKey => {
+	const moduleEntries = Object.keys(modules).map((moduleKey) => {
 		const module = modules[moduleKey]
 
-		const entries = Object.keys(module).map(entryKey => {
+		const entries = Object.keys(module).map((entryKey) => {
 			const entry = module[entryKey]
 			return { [`${moduleKey}-${entryKey}`]: entry }
 		})
@@ -37,7 +39,10 @@ const formatOutputFromModules = (modules) => {
 	return Object.assign({}, ...Object.values(moduleEntries))
 }
 
-const modulesToBuild = () => {
+/**
+ *
+ */
+function modulesToBuild() {
 	const MODULE = process?.env?.MODULE
 	if (MODULE) {
 		if (!modules[MODULE]) {
@@ -214,6 +219,7 @@ const config = {
 			}],
 		}),
 
+		new webpack.DefinePlugin({ PRODUCTION: JSON.stringify(process.env.NODE_ENV === 'production') }),
 		// Make appName & appVersion available as a constants for '@nextcloud/vue' components
 		new webpack.DefinePlugin({ appName: JSON.stringify('Nextcloud') }),
 		new webpack.DefinePlugin({ appVersion: JSON.stringify(appVersion) }),
@@ -283,7 +289,7 @@ if (!isDev) {
 						passes: 2,
 					},
 				},
-		  }).apply(compiler)
+			}).apply(compiler)
 		},
 	}]
 }

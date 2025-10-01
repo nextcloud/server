@@ -4,21 +4,20 @@
  */
 import type { FileAction } from '@nextcloud/files'
 
-import { NodeStatus } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { NodeStatus } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
-
-import { getPinia } from '../store'
-import { useActiveStore } from '../store/active'
-import logger from '../logger'
+import logger from '../logger.ts'
+import { useActiveStore } from '../store/active.ts'
+import { getPinia } from '../store/index.ts'
 
 /**
  * Execute an action on the current active node
  *
  * @param action The action to execute
  */
-export const executeAction = async (action: FileAction) => {
+export async function executeAction(action: FileAction) {
 	const activeStore = useActiveStore(getPinia())
 	const currentDir = (window?.OCP?.Files?.Router?.query?.dir || '/') as string
 	const currentNode = activeStore.activeNode

@@ -1,13 +1,13 @@
+import type { View } from '@nextcloud/files'
+
+import { File, Permission } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { describe, it, vi, expect, beforeEach, beforeAll } from 'vitest'
-import { File, Permission, View } from '@nextcloud/files'
-
-import { getPinia } from '../../../files/src/store/index.ts'
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useActiveStore } from '../../../files/src/store/active.ts'
-
+import { getPinia } from '../../../files/src/store/index.ts'
 import { action as bulkSystemTagsAction } from '../files_actions/bulkSystemTagsAction.ts'
 import { registerHotkeys } from './HotKeysService.ts'
 

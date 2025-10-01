@@ -4,20 +4,19 @@
  */
 import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
+// TODO: Create a modern replacement for OC.MimeType...
+import svgDocument from '@mdi/svg/svg/file-document.svg?raw'
+import svgPDF from '@mdi/svg/svg/file-pdf-box.svg?raw'
+import svgPresentation from '@mdi/svg/svg/file-presentation-box.svg?raw'
+import svgSpreadsheet from '@mdi/svg/svg/file-table-box.svg?raw'
+import svgFolder from '@mdi/svg/svg/folder.svg?raw'
+import svgImage from '@mdi/svg/svg/image.svg?raw'
+import svgMovie from '@mdi/svg/svg/movie.svg?raw'
+import svgAudio from '@mdi/svg/svg/music.svg?raw'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
 import FileListFilterType from '../components/FileListFilter/FileListFilterType.vue'
-
-// TODO: Create a modern replacement for OC.MimeType...
-import svgDocument from '@mdi/svg/svg/file-document.svg?raw'
-import svgSpreadsheet from '@mdi/svg/svg/file-table-box.svg?raw'
-import svgPresentation from '@mdi/svg/svg/file-presentation-box.svg?raw'
-import svgPDF from '@mdi/svg/svg/file-pdf-box.svg?raw'
-import svgFolder from '@mdi/svg/svg/folder.svg?raw'
-import svgAudio from '@mdi/svg/svg/music.svg?raw'
-import svgImage from '@mdi/svg/svg/image.svg?raw'
-import svgMovie from '@mdi/svg/svg/movie.svg?raw'
 
 export interface ITypePreset {
 	id: string
@@ -26,67 +25,73 @@ export interface ITypePreset {
 	mime: string[]
 }
 
-const colorize = (svg: string, color: string) => {
+/**
+ *
+ * @param svg
+ * @param color
+ */
+function colorize(svg: string, color: string) {
 	return svg.replace('<path ', `<path fill="${color}" `)
 }
 
 /**
  * Available presets
  */
-const getTypePresets = async () => [
-	{
-		id: 'document',
-		label: t('files', 'Documents'),
-		icon: colorize(svgDocument, '#49abea'),
-		mime: ['x-office/document'],
-	},
-	{
-		id: 'spreadsheet',
-		label: t('files', 'Spreadsheets'),
-		icon: colorize(svgSpreadsheet, '#9abd4e'),
-		mime: ['x-office/spreadsheet'],
-	},
-	{
-		id: 'presentation',
-		label: t('files', 'Presentations'),
-		icon: colorize(svgPresentation, '#f0965f'),
-		mime: ['x-office/presentation'],
-	},
-	{
-		id: 'pdf',
-		label: t('files', 'PDFs'),
-		icon: colorize(svgPDF, '#dc5047'),
-		mime: ['application/pdf'],
-	},
-	{
-		id: 'folder',
-		label: t('files', 'Folders'),
-		icon: colorize(svgFolder, window.getComputedStyle(document.body).getPropertyValue('--color-primary-element')),
-		mime: ['httpd/unix-directory'],
-	},
-	{
-		id: 'audio',
-		label: t('files', 'Audio'),
-		icon: svgAudio,
-		mime: ['audio'],
-	},
-	{
-		id: 'image',
-		// TRANSLATORS: This is for filtering files, e.g. PNG or JPEG, so photos, drawings, or images in general
-		label: t('files', 'Images'),
-		icon: svgImage,
-		mime: ['image'],
-	},
-	{
-		id: 'video',
-		label: t('files', 'Videos'),
-		icon: svgMovie,
-		mime: ['video'],
-	},
-] as ITypePreset[]
+async function getTypePresets() {
+	return [
+		{
+			id: 'document',
+			label: t('files', 'Documents'),
+			icon: colorize(svgDocument, '#49abea'),
+			mime: ['x-office/document'],
+		},
+		{
+			id: 'spreadsheet',
+			label: t('files', 'Spreadsheets'),
+			icon: colorize(svgSpreadsheet, '#9abd4e'),
+			mime: ['x-office/spreadsheet'],
+		},
+		{
+			id: 'presentation',
+			label: t('files', 'Presentations'),
+			icon: colorize(svgPresentation, '#f0965f'),
+			mime: ['x-office/presentation'],
+		},
+		{
+			id: 'pdf',
+			label: t('files', 'PDFs'),
+			icon: colorize(svgPDF, '#dc5047'),
+			mime: ['application/pdf'],
+		},
+		{
+			id: 'folder',
+			label: t('files', 'Folders'),
+			icon: colorize(svgFolder, window.getComputedStyle(document.body).getPropertyValue('--color-primary-element')),
+			mime: ['httpd/unix-directory'],
+		},
+		{
+			id: 'audio',
+			label: t('files', 'Audio'),
+			icon: svgAudio,
+			mime: ['audio'],
+		},
+		{
+			id: 'image',
+			// TRANSLATORS: This is for filtering files, e.g. PNG or JPEG, so photos, drawings, or images in general
+			label: t('files', 'Images'),
+			icon: svgImage,
+			mime: ['image'],
+		},
+		{
+			id: 'video',
+			label: t('files', 'Videos'),
+			icon: svgMovie,
+			mime: ['video'],
+		},
+	] as ITypePreset[]
+}
 
 class TypeFilter extends FileListFilter {
-
 	private currentInstance?: Vue
 	private currentPresets: ITypePreset[]
 	private allPresets?: ITypePreset[]
@@ -175,13 +180,13 @@ class TypeFilter extends FileListFilter {
 	/**
 	 * Helper callback that removed a preset from selected.
 	 * This is used when clicking on "remove" on a filter-chip.
+	 *
 	 * @param presetId Id of preset to remove
 	 */
 	private removeFilterPreset(presetId: string) {
 		const filtered = this.currentPresets.filter(({ id }) => id !== presetId)
 		this.setPresets(filtered)
 	}
-
 }
 
 /**

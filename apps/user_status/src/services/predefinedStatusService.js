@@ -11,7 +11,7 @@ import { generateOcsUrl } from '@nextcloud/router'
  *
  * @return {Promise<void>}
  */
-const fetchAllPredefinedStatuses = async () => {
+async function fetchAllPredefinedStatuses() {
 	const url = generateOcsUrl('apps/user_status/api/v1/predefined_statuses?format=json')
 	const response = await HttpClient.get(url)
 

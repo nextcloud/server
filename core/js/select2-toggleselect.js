@@ -7,43 +7,42 @@
 
 /**
  * Select2 extension for toggling values in a multi-select dropdown
+ *
+ * @param Select2
  */
 (function(Select2) {
-
-	var Select2FindHighlightableChoices = Select2.class.multi.prototype.findHighlightableChoices;
-	Select2.class.multi.prototype.findHighlightableChoices = function () {
+	const Select2FindHighlightableChoices = Select2.class.multi.prototype.findHighlightableChoices
+	Select2.class.multi.prototype.findHighlightableChoices = function() {
 		if (this.opts.toggleSelect) {
-			return this.results.find('.select2-result-selectable:not(.select2-disabled)');
+			return this.results.find('.select2-result-selectable:not(.select2-disabled)')
 		}
-		return Select2FindHighlightableChoices.apply(this, arguments);
-	};
+		return Select2FindHighlightableChoices.apply(this, arguments)
+	}
 
-	var Select2TriggerSelect = Select2.class.multi.prototype.triggerSelect;
-	Select2.class.multi.prototype.triggerSelect = function (data) {
+	const Select2TriggerSelect = Select2.class.multi.prototype.triggerSelect
+	Select2.class.multi.prototype.triggerSelect = function(data) {
 		if (this.opts.toggleSelect && this.val().indexOf(this.id(data)) !== -1) {
-			var self = this;
-			var val = this.id(data);
+			const self = this
+			const val = this.id(data)
 
-			var selectionEls = this.container.find('.select2-search-choice').filter(function() {
-				return (self.id($(this).data('select2-data')) === val);
-			});
+			const selectionEls = this.container.find('.select2-search-choice').filter(function() {
+				return (self.id($(this).data('select2-data')) === val)
+			})
 
 			if (this.unselect(selectionEls)) {
 				// also unselect in dropdown
-				this.results.find('.select2-result.select2-selected').each(function () {
-					var $this = $(this);
+				this.results.find('.select2-result.select2-selected').each(function() {
+					const $this = $(this)
 					if (self.id($this.data('select2-data')) === val) {
-						$this.removeClass('select2-selected');
+						$this.removeClass('select2-selected')
 					}
-				});
-				this.clearSearch();
+				})
+				this.clearSearch()
 			}
 
-			return false;
+			return false
 		} else {
-			return Select2TriggerSelect.apply(this, arguments);
+			return Select2TriggerSelect.apply(this, arguments)
 		}
-	};
-
-})(Select2);
-
+	}
+})(Select2)

@@ -4,37 +4,44 @@
 -->
 
 <template>
-	<form ref="loginForm"
+	<form
+		ref="loginForm"
 		class="login-form"
 		method="post"
 		name="login"
 		:action="loginActionUrl"
 		@submit="submit">
 		<fieldset class="login-form__fieldset" data-login-form>
-			<NcNoteCard v-if="apacheAuthFailed"
+			<NcNoteCard
+				v-if="apacheAuthFailed"
 				:title="t('core', 'Server side authentication failed!')"
 				type="warning">
 				{{ t('core', 'Please contact your administrator.') }}
 			</NcNoteCard>
-			<NcNoteCard v-if="csrfCheckFailed"
+			<NcNoteCard
+				v-if="csrfCheckFailed"
 				:heading="t('core', 'Session error')"
 				type="error">
 				{{ t('core', 'It appears your session token has expired, please refresh the page and try again.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="messages.length > 0">
-				<div v-for="(message, index) in messages"
+				<div
+					v-for="(message, index) in messages"
 					:key="index">
 					{{ message }}<br>
 				</div>
 			</NcNoteCard>
-			<NcNoteCard v-if="internalException"
+			<NcNoteCard
+				v-if="internalException"
 				:class="t('core', 'An internal error occurred.')"
 				type="warning">
 				{{ t('core', 'Please try again or contact your administrator.') }}
 			</NcNoteCard>
-			<div id="message"
+			<div
+				id="message"
 				class="hidden">
-				<img class="float-spinner"
+				<img
+					class="float-spinner"
 					alt=""
 					:src="loadingIcon">
 				<span id="messageText" />
@@ -44,13 +51,14 @@
 			<h2 class="login-form__headline" data-login-form-headline>
 				{{ headlineText }}
 			</h2>
-			<NcTextField id="user"
+			<NcTextField
+				id="user"
 				ref="user"
 				:label="loginText"
 				name="user"
 				:maxlength="255"
 				:value.sync="user"
-				:class="{shake: invalidPassword}"
+				:class="{ shake: invalidPassword }"
 				autocapitalize="none"
 				:spellchecking="false"
 				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
@@ -60,10 +68,11 @@
 				data-login-form-input-user
 				@change="updateUsername" />
 
-			<NcPasswordField id="password"
+			<NcPasswordField
+				id="password"
 				ref="password"
 				name="password"
-				:class="{shake: invalidPassword}"
+				:class="{ shake: invalidPassword }"
 				:value.sync="password"
 				:spellchecking="false"
 				autocapitalize="none"
@@ -76,20 +85,25 @@
 
 			<LoginButton data-login-form-submit :loading="loading" />
 
-			<input v-if="redirectUrl"
+			<input
+				v-if="redirectUrl"
 				type="hidden"
 				name="redirect_url"
 				:value="redirectUrl">
-			<input type="hidden"
+			<input
+				type="hidden"
 				name="timezone"
 				:value="timezone">
-			<input type="hidden"
+			<input
+				type="hidden"
 				name="timezone_offset"
 				:value="timezoneOffset">
-			<input type="hidden"
+			<input
+				type="hidden"
 				name="requesttoken"
 				:value="requestToken">
-			<input v-if="directLogin"
+			<input
+				v-if="directLogin"
 				type="hidden"
 				name="direct"
 				value="1">
@@ -102,13 +116,11 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import debounce from 'debounce'
-
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-
-import AuthMixin from '../../mixins/auth.js'
 import LoginButton from './LoginButton.vue'
+import AuthMixin from '../../mixins/auth.js'
 
 export default {
 	name: 'LoginForm',
@@ -127,30 +139,37 @@ export default {
 			type: String,
 			default: '',
 		},
+
 		redirectUrl: {
-			type: [String, Boolean],
+			type: [Boolean, String],
 			default: false,
 		},
+
 		errors: {
 			type: Array,
 			default: () => [],
 		},
+
 		messages: {
 			type: Array,
 			default: () => [],
 		},
+
 		throttleDelay: {
 			type: Number,
 			default: 0,
 		},
+
 		autoCompleteAllowed: {
 			type: Boolean,
 			default: true,
 		},
+
 		directLogin: {
 			type: Boolean,
 			default: false,
 		},
+
 		emailStates: {
 			type: Array,
 			default() {
@@ -200,6 +219,7 @@ export default {
 			return this.invalidPassword || this.userDisabled
 				|| this.throttleDelay > 5000
 		},
+
 		errorLabel() {
 			if (this.invalidPassword) {
 				return t('core', 'Wrong login or password.')
@@ -212,30 +232,39 @@ export default {
 			}
 			return undefined
 		},
+
 		apacheAuthFailed() {
 			return this.errors.indexOf('apacheAuthFailed') !== -1
 		},
+
 		csrfCheckFailed() {
 			return this.errors.indexOf('csrfCheckFailed') !== -1
 		},
+
 		internalException() {
 			return this.errors.indexOf('internalexception') !== -1
 		},
+
 		invalidPassword() {
 			return this.errors.indexOf('invalidpassword') !== -1
 		},
+
 		userDisabled() {
 			return this.errors.indexOf('userdisabled') !== -1
 		},
+
 		loadingIcon() {
 			return imagePath('core', 'loading-dark.gif')
 		},
+
 		loginActionUrl() {
 			return generateUrl('login')
 		},
+
 		emailEnabled() {
 			return this.emailStates ? this.emailStates.every((state) => state === '1') : 1
 		},
+
 		loginText() {
 			if (this.emailEnabled) {
 				return t('core', 'Account name or email')
@@ -274,6 +303,7 @@ export default {
 		updateUsername() {
 			this.$emit('update:username', this.user)
 		},
+
 		submit(event) {
 			if (this.loading) {
 				// Prevent the form from being submitted twice

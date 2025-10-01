@@ -8,23 +8,27 @@
 		{{ t('settings', 'Passwordless authentication requires a secure connection.') }}
 	</div>
 	<div v-else>
-		<NcButton v-if="step === RegistrationSteps.READY"
-			type="primary"
+		<NcButton
+			v-if="step === RegistrationSteps.READY"
+			variant="primary"
 			@click="start">
 			{{ t('settings', 'Add WebAuthn device') }}
 		</NcButton>
 
-		<div v-else-if="step === RegistrationSteps.REGISTRATION"
+		<div
+			v-else-if="step === RegistrationSteps.REGISTRATION"
 			class="new-webauthn-device">
 			<span class="icon-loading-small webauthn-loading" />
 			{{ t('settings', 'Please authorize your WebAuthn device.') }}
 		</div>
 
-		<div v-else-if="step === RegistrationSteps.NAMING"
+		<div
+			v-else-if="step === RegistrationSteps.NAMING"
 			class="new-webauthn-device">
 			<span class="icon-loading-small webauthn-loading" />
 			<form @submit.prevent="submit">
-				<NcTextField ref="nameInput"
+				<NcTextField
+					ref="nameInput"
 					class="new-webauthn-device__name"
 					:label="t('settings', 'Device name')"
 					:value.sync="name"
@@ -35,10 +39,11 @@
 			</form>
 		</div>
 
-		<div v-else-if="step === RegistrationSteps.PERSIST"
+		<div
+			v-else-if="step === RegistrationSteps.PERSIST"
 			class="new-webauthn-device">
 			<span class="icon-loading-small webauthn-loading" />
-			{{ t('settings', 'Adding your device …') }}
+			{{ t('settings', 'Adding your device …') }}
 		</div>
 
 		<div v-else>
@@ -52,18 +57,22 @@ import { showError } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
 import logger from '../../logger.ts'
 import {
-	startRegistration,
 	finishRegistration,
+	startRegistration,
 } from '../../service/WebAuthnRegistrationSerice.ts'
 
 import '@nextcloud/password-confirmation/dist/style.css'
 
-const logAndPass = (text) => (data) => {
-	logger.debug(text)
-	return data
+/**
+ * @param {string} text
+ */
+function logAndPass(text) {
+	return (data) => {
+		logger.debug(text)
+		return data
+	}
 }
 
 const RegistrationSteps = Object.freeze({
@@ -74,7 +83,7 @@ const RegistrationSteps = Object.freeze({
 })
 
 export default {
-	name: 'AddDevice',
+	name: 'WebAuthnAddDevice',
 
 	components: {
 		NcButton,
@@ -87,6 +96,7 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+
 		isLocalhost: {
 			type: Boolean,
 			default: false,
@@ -126,7 +136,7 @@ export default {
 		 */
 		async start() {
 			this.step = RegistrationSteps.REGISTRATION
-			console.debug('Starting WebAuthn registration')
+			logger.debug('Starting WebAuthn registration')
 
 			try {
 				await confirmPassword()
@@ -150,7 +160,7 @@ export default {
 				.then(logAndPass('registration data saved'))
 				.then(() => this.reset())
 				.then(logAndPass('app reset'))
-				.catch(console.error)
+				.catch(logger.error)
 		},
 
 		async saveRegistrationData() {

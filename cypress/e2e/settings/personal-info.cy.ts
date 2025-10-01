@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+
 import { handlePasswordConfirmation } from './usersUtils.ts'
 
 let user: User
@@ -12,7 +13,7 @@ enum Visibility {
 	Private = 'Private',
 	Local = 'Local',
 	Federated = 'Federated',
-	Public = 'Published'
+	Public = 'Published',
 }
 
 const ALL_VISIBILITIES = [Visibility.Public, Visibility.Private, Visibility.Local, Visibility.Federated]
@@ -34,7 +35,7 @@ const getVisibilityButton = (property: string) => cy.get(`button[aria-label*="Ch
  * @param property The property
  * @param active The active visibility
  */
-const validateActiveVisibility = (property: string, active: Visibility) => {
+function validateActiveVisibility(property: string, active: Visibility) {
 	getVisibilityButton(property)
 		.should('have.attr', 'aria-label')
 		.and('match', new RegExp(`current scope is ${active}`, 'i'))
@@ -54,7 +55,7 @@ const validateActiveVisibility = (property: string, active: Visibility) => {
  * @param property The property
  * @param active The visibility to set
  */
-const setActiveVisibility = (property: string, active: Visibility) => {
+function setActiveVisibility(property: string, active: Visibility) {
 	getVisibilityButton(property)
 		.click()
 	cy.get('ul[role="menu"]')
@@ -71,7 +72,7 @@ const setActiveVisibility = (property: string, active: Visibility) => {
  * @param defaultVisibility The default visibility of that property
  * @param allowedVisibility Visibility that is allowed and need to be checked
  */
-const checkSettingsVisibility = (property: string, defaultVisibility: Visibility = Visibility.Local, allowedVisibility: Visibility[] = ALL_VISIBILITIES) => {
+function checkSettingsVisibility(property: string, defaultVisibility: Visibility = Visibility.Local, allowedVisibility: Visibility[] = ALL_VISIBILITIES) {
 	getVisibilityButton(property)
 		.scrollIntoView()
 

@@ -1,13 +1,13 @@
+import type { ContentsWithRoot, File, Folder } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import type { ContentsWithRoot } from '@nextcloud/files'
 
-import { File, Folder, davResultToNode, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
-import { client, rootPath } from './client'
+import { davResultToNode, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
+import { client, rootPath } from './client.ts'
 
 const data = `<?xml version="1.0"?>
 <d:propfind ${getDavNameSpaces()}>
@@ -21,13 +21,21 @@ const data = `<?xml version="1.0"?>
 	</d:prop>
 </d:propfind>`
 
-const resultToNode = (stat: FileStat): File | Folder => {
+/**
+ *
+ * @param stat
+ */
+function resultToNode(stat: FileStat): File | Folder {
 	const node = davResultToNode(stat, rootPath)
 	node.attributes.previewUrl = generateUrl('/apps/files_trashbin/preview?fileId={fileid}&x=32&y=32', { fileid: node.fileid })
 	return node
 }
 
-export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
+/**
+ *
+ * @param path
+ */
+export async function getContents(path = '/'): Promise<ContentsWithRoot> {
 	const contentsResponse = await client.getDirectoryContents(`${rootPath}${path}`, {
 		details: true,
 		data,

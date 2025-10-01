@@ -1,13 +1,12 @@
+import svgDelete from '@mdi/svg/svg/trash-can-outline.svg?raw'
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import { deleted, deletedBy, originalLocation } from './columns.ts'
 import { getContents } from '../services/trashbin.ts'
-
-import svgDelete from '@mdi/svg/svg/trash-can-outline.svg?raw'
+import { deleted, deletedBy, originalLocation } from './columns.ts'
 
 export const TRASHBIN_VIEW_ID = 'trashbin'
 

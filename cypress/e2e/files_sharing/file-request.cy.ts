@@ -4,10 +4,11 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { createFolder, getRowForFile, navigateToFolder } from '../files/FilesUtils'
-import { createFileRequest } from './FilesSharingUtils'
 
-const enterGuestName = (name: string) => {
+import { createFolder, getRowForFile, navigateToFolder } from '../files/FilesUtils.ts'
+import { createFileRequest } from './FilesSharingUtils.ts'
+
+function enterGuestName(name: string) {
 	cy.findByRole('dialog', { name: /Upload files to/ })
 		.should('be.visible')
 		.within(() => {

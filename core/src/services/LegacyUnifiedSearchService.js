@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
+import logger from '../logger.js'
 
 export const defaultLimit = loadState('unified-search', 'limit-default')
 export const minSearchLength = loadState('unified-search', 'min-search-length', 1)
@@ -39,7 +40,7 @@ export async function getTypes() {
 			return data.ocs.data
 		}
 	} catch (error) {
-		console.error(error)
+		logger.error(error)
 	}
 	return []
 }

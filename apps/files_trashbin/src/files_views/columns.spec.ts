@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import * as ncAuth from '@nextcloud/auth'
 import { File } from '@nextcloud/files'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { deleted, deletedBy, originalLocation } from './columns.ts'
 import { trashbinView } from './trashbinView.ts'
-import * as ncAuth from '@nextcloud/auth'
 
 vi.mock('@nextcloud/l10n', async (originalModule) => ({
 	...(await originalModule()),
@@ -16,7 +16,6 @@ vi.mock('@nextcloud/l10n', async (originalModule) => ({
 }))
 
 describe('files_trashbin: file list columns', () => {
-
 	describe('column: original location', () => {
 		it('has id set', () => {
 			expect(originalLocation.id).toBe('files_trashbin--original-location')
@@ -211,7 +210,5 @@ describe('files_trashbin: file list columns', () => {
 				expect(el.textContent).toBe('You')
 			})
 		})
-
 	})
-
 })

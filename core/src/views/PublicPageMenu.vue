@@ -4,29 +4,33 @@
  -->
 <template>
 	<div class="public-page-menu__wrapper">
-		<NcButton v-if="primaryAction"
+		<NcButton
+			v-if="primaryAction"
 			id="public-page-menu--primary"
 			class="public-page-menu__primary"
 			:href="primaryAction.href"
-			type="primary"
+			variant="primary"
 			@click="openDialogIfNeeded">
 			<template v-if="primaryAction.icon" #icon>
-				<div :class="['icon', primaryAction.icon, 'public-page-menu__primary-icon']" />
+				<div class="icon public-page-menu__primary-icon" :class="[primaryAction.icon]" />
 			</template>
 			{{ primaryAction.label }}
 		</NcButton>
 
-		<NcHeaderMenu v-if="secondaryActions.length > 0"
+		<NcHeaderMenu
+			v-if="secondaryActions.length > 0"
 			id="public-page-menu"
 			:aria-label="t('core', 'More actions')"
 			:open.sync="showMenu">
 			<template #trigger>
 				<IconMore :size="20" />
 			</template>
-			<ul :aria-label="t('core', 'More actions')"
+			<ul
+				:aria-label="t('core', 'More actions')"
 				class="public-page-menu"
 				role="menu">
-				<component :is="getComponent(entry)"
+				<component
+					:is="getComponent(entry)"
 					v-for="entry, index in secondaryActions"
 					:key="index"
 					v-bind="entry"
@@ -41,14 +45,18 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import { computed, ref, type Ref } from 'vue'
+import {
+	type Ref,
+
+	computed, ref,
+} from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import IconMore from 'vue-material-design-icons/DotsHorizontal.vue'
-import PublicPageMenuEntry from '../components/PublicPageMenu/PublicPageMenuEntry.vue'
 import PublicPageMenuCustomEntry from '../components/PublicPageMenu/PublicPageMenuCustomEntry.vue'
-import PublicPageMenuExternalEntry from '../components/PublicPageMenu/PublicPageMenuExternalEntry.vue'
+import PublicPageMenuEntry from '../components/PublicPageMenu/PublicPageMenuEntry.vue'
 import PublicPageMenuExternalDialog from '../components/PublicPageMenu/PublicPageMenuExternalDialog.vue'
+import PublicPageMenuExternalEntry from '../components/PublicPageMenu/PublicPageMenuExternalEntry.vue'
 import PublicPageMenuLinkEntry from '../components/PublicPageMenu/PublicPageMenuLinkEntry.vue'
 
 interface IPublicPageMenu {
@@ -73,6 +81,7 @@ const secondaryActions = computed(() => isMobile.value ? menuEntries : menuEntri
 
 /**
  * Get the render component for an entry
+ *
  * @param entry The entry to get the component for
  */
 function getComponent(entry: IPublicPageMenu) {
@@ -80,12 +89,12 @@ function getComponent(entry: IPublicPageMenu) {
 		return PublicPageMenuCustomEntry
 	}
 	switch (entry.id) {
-	case 'save':
-		return PublicPageMenuExternalEntry
-	case 'directLink':
-		return PublicPageMenuLinkEntry
-	default:
-		return PublicPageMenuEntry
+		case 'save':
+			return PublicPageMenuExternalEntry
+		case 'directLink':
+			return PublicPageMenuLinkEntry
+		default:
+			return PublicPageMenuEntry
 	}
 }
 

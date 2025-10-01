@@ -3,20 +3,23 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppNavigation data-cy-files-navigation
+	<NcAppNavigation
+		data-cy-files-navigation
 		class="files-navigation"
 		:aria-label="t('files', 'Files')">
 		<template #search>
 			<FilesNavigationSearch />
 		</template>
 		<template #default>
-			<NcAppNavigationList class="files-navigation__list"
+			<NcAppNavigationList
+				class="files-navigation__list"
 				:aria-label="t('files', 'Views')">
 				<FilesNavigationItem :views="viewMap" />
 			</NcAppNavigationList>
 
 			<!-- Settings modal-->
-			<SettingsModal :open.sync="settingsOpened"
+			<FilesAppSettings
+				:open.sync="settingsOpened"
 				data-cy-files-navigation-settings
 				@close="onSettingsClose" />
 		</template>
@@ -28,7 +31,8 @@
 				<NavigationQuota />
 
 				<!-- Files settings modal toggle-->
-				<NcAppNavigationItem :name="t('files', 'Files settings')"
+				<NcAppNavigationItem
+					:name="t('files', 'Files settings')"
 					data-cy-files-navigation-settings-button
 					@click.prevent.stop="openSettings">
 					<IconCog slot="icon" :size="20" />
@@ -44,22 +48,20 @@ import type { ViewConfig } from '../types.ts'
 
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
-import { t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
+import { getCanonicalLocale, getLanguage, t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
-import IconCog from 'vue-material-design-icons/CogOutline.vue'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
-import NavigationQuota from '../components/NavigationQuota.vue'
-import SettingsModal from './Settings.vue'
+import IconCog from 'vue-material-design-icons/CogOutline.vue'
 import FilesNavigationItem from '../components/FilesNavigationItem.vue'
 import FilesNavigationSearch from '../components/FilesNavigationSearch.vue'
-
-import { useNavigation } from '../composables/useNavigation'
+import NavigationQuota from '../components/NavigationQuota.vue'
+import FilesAppSettings from './FilesAppSettings.vue'
+import { useNavigation } from '../composables/useNavigation.ts'
+import logger from '../logger.ts'
 import { useFiltersStore } from '../store/filters.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import logger from '../logger.ts'
 
 const collator = Intl.Collator(
 	[getLanguage(), getCanonicalLocale()],
@@ -70,10 +72,11 @@ const collator = Intl.Collator(
 )
 
 export default defineComponent({
-	name: 'Navigation',
+	name: 'FilesNavigation',
 
 	components: {
 		IconCog,
+		FilesAppSettings,
 		FilesNavigationItem,
 		FilesNavigationSearch,
 
@@ -81,7 +84,6 @@ export default defineComponent({
 		NcAppNavigation,
 		NcAppNavigationItem,
 		NcAppNavigationList,
-		SettingsModal,
 	},
 
 	setup() {
@@ -159,8 +161,8 @@ export default defineComponent({
 		async loadExpandedViews() {
 			const viewsToLoad: View[] = (Object.entries(this.viewConfigStore.viewConfigs) as Array<[string, ViewConfig]>)
 				.filter(([, config]) => config.expanded === true)
-				.map(([viewId]) => this.views.find(view => view.id === viewId))
-				// eslint-disable-next-line no-use-before-define
+				.map(([viewId]) => this.views.find((view) => view.id === viewId))
+
 				.filter(Boolean as unknown as ((u: unknown) => u is View))
 				.filter((view) => view.loadChildViews && !view.loaded)
 			for (const view of viewsToLoad) {
@@ -170,6 +172,7 @@ export default defineComponent({
 
 		/**
 		 * Set the view as active on the navigation and handle internal state
+		 *
 		 * @param view View to set active
 		 */
 		showView(view: View) {

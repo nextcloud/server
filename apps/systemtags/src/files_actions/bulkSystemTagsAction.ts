@@ -1,27 +1,30 @@
+import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
+import { spawnDialog } from '@nextcloud/dialogs'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, type Node } from '@nextcloud/files'
+import {
+	type Node,
 
-import { defineAsyncComponent } from 'vue'
+	Permission,
+} from '@nextcloud/files'
 import { FileAction } from '@nextcloud/files'
-import { isPublicShare } from '@nextcloud/sharing/public'
-import { spawnDialog } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-
-import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { defineAsyncComponent } from 'vue'
 
 /**
  * Spawn a dialog to add or remove tags from multiple nodes.
+ *
  * @param nodes Nodes to modify tags for
  */
-async function execBatch(nodes: Node[]): Promise<(null|boolean)[]> {
-	const response = await new Promise<null|boolean>((resolve) => {
+async function execBatch(nodes: Node[]): Promise<(null | boolean)[]> {
+	const response = await new Promise<null | boolean>((resolve) => {
 		spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
 			nodes,
 		}, (status) => {
-			resolve(status as null|boolean)
+			resolve(status as null | boolean)
 		})
 	})
 	return Array(nodes.length).fill(response)

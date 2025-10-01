@@ -5,23 +5,27 @@
 
 <template>
 	<li class="contact">
-		<NcAvatar class="contact__avatar"
+		<NcAvatar
+			class="contact__avatar"
 			:user="contact.isUser ? contact.uid : undefined"
 			:is-no-user="!contact.isUser"
 			:disable-menu="true"
 			:display-name="contact.avatarLabel"
 			:preloaded-user-status="preloadedUserStatus" />
-		<a class="contact__body"
+		<a
+			class="contact__body"
 			:href="contact.profileUrl || contact.topAction?.hyperlink">
 			<div class="contact__body__full-name">{{ contact.fullName }}</div>
 			<div v-if="contact.lastMessage" class="contact__body__last-message">{{ contact.lastMessage }}</div>
 			<div v-if="contact.statusMessage" class="contact__body__status-message">{{ contact.statusMessage }}</div>
 			<div v-else class="contact__body__email-address">{{ contact.emailAddresses[0] }}</div>
 		</a>
-		<NcActions v-if="actions.length"
+		<NcActions
+			v-if="actions.length"
 			:inline="contact.topAction ? 1 : 0">
 			<template v-for="(action, idx) in actions">
-				<NcActionLink v-if="action.hyperlink !== '#'"
+				<NcActionLink
+					v-if="action.hyperlink !== '#'"
 					:key="`${idx}-link`"
 					:href="action.hyperlink"
 					class="other-actions">
@@ -37,7 +41,8 @@
 					{{ action.title }}
 				</NcActionText>
 			</template>
-			<NcActionButton v-for="action in jsActions"
+			<NcActionButton
+				v-for="action in jsActions"
 				:key="action.id"
 				:close-after-click="true"
 				class="other-actions"
@@ -52,16 +57,16 @@
 </template>
 
 <script>
-import NcActionLink from '@nextcloud/vue/components/NcActionLink'
-import NcActionText from '@nextcloud/vue/components/NcActionText'
+import { getEnabledContactsMenuActions } from '@nextcloud/vue/functions/contactsMenu'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import { getEnabledContactsMenuActions } from '@nextcloud/vue/functions/contactsMenu'
 
 export default {
-	name: 'Contact',
+	name: 'ContactMenuEntry',
 	components: {
 		NcActionLink,
 		NcActionText,
@@ -70,12 +75,14 @@ export default {
 		NcAvatar,
 		NcIconSvgWrapper,
 	},
+
 	props: {
 		contact: {
 			required: true,
 			type: Object,
 		},
 	},
+
 	computed: {
 		actions() {
 			if (this.contact.topAction) {
@@ -83,9 +90,11 @@ export default {
 			}
 			return this.contact.actions
 		},
+
 		jsActions() {
 			return getEnabledContactsMenuActions(this.contact)
 		},
+
 		preloadedUserStatus() {
 			if (this.contact.status) {
 				return {

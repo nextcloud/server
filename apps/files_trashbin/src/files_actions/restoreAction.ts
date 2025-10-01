@@ -1,19 +1,20 @@
+import type { Node, View } from '@nextcloud/files'
+
+import svgHistory from '@mdi/svg/svg/history.svg?raw'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { Permission, Node, View, FileAction } from '@nextcloud/files'
+import { FileAction, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
-import svgHistory from '@mdi/svg/svg/history.svg?raw'
-
-import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
 import logger from '../../../files/src/logger.ts'
+import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
 
 export const restoreAction = new FileAction({
 	id: 'restore',
@@ -62,7 +63,7 @@ export const restoreAction = new FileAction({
 	},
 
 	async execBatch(nodes: Node[], view: View, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+		return Promise.all(nodes.map((node) => this.exec(node, view, dir)))
 	},
 
 	order: 1,

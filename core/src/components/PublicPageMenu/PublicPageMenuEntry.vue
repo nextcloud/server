@@ -3,7 +3,8 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcListItem :anchor-id="`${id}--link`"
+	<NcListItem
+		:anchor-id="`${id}--link`"
 		compact
 		:details="details"
 		:href="href"
@@ -12,14 +13,17 @@
 		@click="$emit('click')">
 		<template #icon>
 			<slot v-if="$scopedSlots.icon" name="icon" />
-			<div v-else role="presentation" :class="['icon', icon, 'public-page-menu-entry__icon']" />
+			<div
+				v-else
+				role="presentation"
+				class="icon public-page-menu-entry__icon"
+				:class="[icon]" />
 		</template>
 	</NcListItem>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 
 const props = defineProps<{

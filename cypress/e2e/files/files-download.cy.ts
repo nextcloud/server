@@ -4,11 +4,11 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils'
-import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
-import { zipFileContains } from '../../support/utils/assertions.ts'
 
 import randomString from 'crypto-random-string'
+import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
+import { zipFileContains } from '../../support/utils/assertions.ts'
+import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Download files using file actions', { testIsolation: true }, () => {
 	let user: User
@@ -171,7 +171,6 @@ describe('files: Download files using default action', { testIsolation: true }, 
 })
 
 describe('files: Download files using selection', () => {
-
 	deleteDownloadsFolderBeforeEach()
 
 	it('can download selected files', () => {

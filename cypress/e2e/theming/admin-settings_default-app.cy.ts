@@ -4,7 +4,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { NavigationHeader } from '../../pages/NavigationHeader'
+import { NavigationHeader } from '../../pages/NavigationHeader.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -42,7 +42,7 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('See the default app order selector', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then((elements) => {
 			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
 			expect(appIDs).to.deep.eq(['dashboard', 'files'])
 		})
@@ -54,11 +54,10 @@ describe('Admin theming set default apps', () => {
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('be.visible')
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
-
 	})
 
 	it('See the default app is changed', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then((elements) => {
 			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
 			expect(appIDs).to.deep.eq(['files', 'dashboard'])
 		})

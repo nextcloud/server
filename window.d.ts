@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type RouterService from './apps/files/src/services/RouterService'
-import type Settings from './apps/files/src/services/Settings'
-import type Sidebar from './apps/files/src/services/Sidebar'
+import type RouterService from './apps/files/src/services/RouterService.ts'
+import type Settings from './apps/files/src/services/Settings.js'
+import type Sidebar from './apps/files/src/services/Sidebar.js'
 
 type SidebarAPI = Sidebar & {
 	open: (path: string) => Promise<void>

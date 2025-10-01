@@ -4,14 +4,16 @@
 -->
 <template>
 	<div class="app-discover">
-		<NcEmptyContent v-if="hasError"
+		<NcEmptyContent
+			v-if="hasError"
 			:name="t('settings', 'Nothing to show')"
 			:description="t('settings', 'Could not load section content from app store.')">
 			<template #icon>
 				<NcIconSvgWrapper :path="mdiEyeOffOutline" :size="64" />
 			</template>
 		</NcEmptyContent>
-		<NcEmptyContent v-else-if="elements.length === 0"
+		<NcEmptyContent
+			v-else-if="elements.length === 0"
 			:name="t('settings', 'Loading')"
 			:description="t('settings', 'Fetching the latest news…')">
 			<template #icon>
@@ -19,7 +21,8 @@
 			</template>
 		</NcEmptyContent>
 		<template v-else>
-			<component :is="getComponent(entry.type)"
+			<component
+				:is="getComponent(entry.type)"
 				v-for="entry, index in elements"
 				:key="entry.id ?? index"
 				v-bind="entry" />
@@ -31,18 +34,16 @@
 import type { IAppDiscoverElements } from '../../constants/AppDiscoverTypes.ts'
 
 import { mdiEyeOffOutline } from '@mdi/js'
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineAsyncComponent, defineComponent, onBeforeMount, ref } from 'vue'
-
-import axios from '@nextcloud/axios'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import logger from '../../logger'
-import { parseApiResponse, filterElements } from '../../utils/appDiscoverParser.ts'
+import logger from '../../logger.ts'
+import { filterElements, parseApiResponse } from '../../utils/appDiscoverParser.ts'
 
 const PostType = defineAsyncComponent(() => import('./PostType.vue'))
 const CarouselType = defineAsyncComponent(() => import('./CarouselType.vue'))
@@ -53,9 +54,10 @@ const elements = ref<IAppDiscoverElements[]>([])
 
 /**
  * Shuffle using the Fisher-Yates algorithm
+ *
  * @param array The array to shuffle (in place)
  */
-const shuffleArray = <T, >(array: T[]): T[] => {
+function shuffleArray<T>(array: T[]): T[] {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
 		[array[i], array[j]] = [array[j], array[i]]
@@ -89,7 +91,10 @@ onBeforeMount(async () => {
 	}
 })
 
-const getComponent = (type) => {
+/**
+ * @param {string} type
+ */
+function getComponent(type) {
 	if (type === 'post') {
 		return PostType
 	} else if (type === 'carousel') {

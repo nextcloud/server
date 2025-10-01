@@ -1,12 +1,11 @@
+import LinkSvg from '@mdi/svg/svg/link.svg?raw'
+import { getNavigation, View } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate as t } from '@nextcloud/l10n'
-import { View, getNavigation } from '@nextcloud/files'
-import LinkSvg from '@mdi/svg/svg/link.svg?raw'
-
-import { getContents } from '../../../files/src/services/Files'
+import { getContents } from '../../../files/src/services/Files.ts'
 
 export default () => {
 	const view = new View({

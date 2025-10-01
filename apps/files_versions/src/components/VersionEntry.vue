@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcListItem class="version"
+	<NcListItem
+		class="version"
 		:force-display-actions="true"
 		:actions-aria-label="t('files_versions', 'Actions for version from {versionHumanExplicitDate}', { versionHumanExplicitDate })"
 		:data-files-versions-version="version.fileVersion"
@@ -11,7 +12,8 @@
 		<!-- Icon -->
 		<template #icon>
 			<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
-			<img v-else-if="version.previewUrl && !previewErrored"
+			<img
+				v-else-if="version.previewUrl && !previewErrored"
 				:src="version.previewUrl"
 				alt=""
 				decoding="async"
@@ -20,7 +22,8 @@
 				class="version__image"
 				@load="previewLoaded = true"
 				@error="previewErrored = true">
-			<div v-else
+			<div
+				v-else
 				class="version__image">
 				<ImageOffOutline :size="20" />
 			</div>
@@ -29,23 +32,27 @@
 		<!-- author -->
 		<template #name>
 			<div class="version__info">
-				<div v-if="versionLabel"
+				<div
+					v-if="versionLabel"
 					class="version__info__label"
 					data-cy-files-version-label
 					:title="versionLabel">
 					{{ versionLabel }}
 				</div>
-				<div v-if="versionAuthor"
+				<div
+					v-if="versionAuthor"
 					class="version__info"
 					data-cy-files-version-author-name>
 					<span v-if="versionLabel">•</span>
-					<NcAvatar class="avatar"
+					<NcAvatar
+						class="avatar"
 						:user="version.author"
 						:size="20"
 						disable-menu
 						disable-tooltip
-						:show-user-status="false" />
-					<div class="version__info__author_name"
+						hide-status />
+					<div
+						class="version__info__author_name"
 						:title="versionAuthor">
 						{{ versionAuthor }}
 					</div>
@@ -56,7 +63,8 @@
 		<!-- Version file size as subline -->
 		<template #subname>
 			<div class="version__info version__info__subline">
-				<NcDateTime class="version__info__date"
+				<NcDateTime
+					class="version__info__date"
 					relative-time="short"
 					:timestamp="version.mtime" />
 				<!-- Separate dot to improve alignment -->
@@ -67,7 +75,8 @@
 
 		<!-- Actions -->
 		<template #actions>
-			<NcActionButton v-if="enableLabeling && hasUpdatePermissions"
+			<NcActionButton
+				v-if="enableLabeling && hasUpdatePermissions"
 				data-cy-files-versions-version-action="label"
 				:close-after-click="true"
 				@click="labelUpdate">
@@ -76,7 +85,8 @@
 				</template>
 				{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
 			</NcActionButton>
-			<NcActionButton v-if="!isCurrent && canView && canCompare"
+			<NcActionButton
+				v-if="!isCurrent && canView && canCompare"
 				data-cy-files-versions-version-action="compare"
 				:close-after-click="true"
 				@click="compareVersion">
@@ -85,7 +95,8 @@
 				</template>
 				{{ t('files_versions', 'Compare to current version') }}
 			</NcActionButton>
-			<NcActionButton v-if="!isCurrent && hasUpdatePermissions"
+			<NcActionButton
+				v-if="!isCurrent && hasUpdatePermissions"
 				data-cy-files-versions-version-action="restore"
 				:close-after-click="true"
 				@click="restoreVersion">
@@ -94,7 +105,8 @@
 				</template>
 				{{ t('files_versions', 'Restore version') }}
 			</NcActionButton>
-			<NcActionLink v-if="isDownloadable"
+			<NcActionLink
+				v-if="isDownloadable"
 				data-cy-files-versions-version-action="download"
 				:href="downloadURL"
 				:close-after-click="true"
@@ -104,7 +116,8 @@
 				</template>
 				{{ t('files_versions', 'Download version') }}
 			</NcActionLink>
-			<NcActionButton v-if="!isCurrent && enableDeletion && hasDeletePermissions"
+			<NcActionButton
+				v-if="!isCurrent && enableDeletion && hasDeletePermissions"
 				data-cy-files-versions-version-action="delete"
 				:close-after-click="true"
 				@click="deleteVersion">
@@ -116,38 +129,36 @@
 		</template>
 	</NcListItem>
 </template>
+
 <script lang="ts">
 import type { PropType } from 'vue'
-import type { Version } from '../utils/versions'
+import type { Version } from '../utils/versions.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { Permission, formatFileSize } from '@nextcloud/files'
+import { formatFileSize, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
+import moment from '@nextcloud/moment'
 import { joinPaths } from '@nextcloud/paths'
 import { getRootUrl } from '@nextcloud/router'
+import Tooltip from '@nextcloud/vue/directives/Tooltip'
 import { defineComponent } from 'vue'
-
-import moment from '@nextcloud/moment'
-
-import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import Download from 'vue-material-design-icons/TrayArrowDown.vue'
-import FileCompare from 'vue-material-design-icons/FileCompare.vue'
-import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
-import Pencil from 'vue-material-design-icons/PencilOutline.vue'
-
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
-import Tooltip from '@nextcloud/vue/directives/Tooltip'
+import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
+import FileCompare from 'vue-material-design-icons/FileCompare.vue'
+import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 
 const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
 
 export default defineComponent({
-	name: 'Version',
+	name: 'VersionEntry',
 
 	components: {
 		NcActionLink,
@@ -172,26 +183,32 @@ export default defineComponent({
 			type: Object as PropType<Version>,
 			required: true,
 		},
+
 		fileInfo: {
 			type: Object,
 			required: true,
 		},
+
 		isCurrent: {
 			type: Boolean,
 			default: false,
 		},
+
 		isFirstVersion: {
 			type: Boolean,
 			default: false,
 		},
+
 		loadPreview: {
 			type: Boolean,
 			default: false,
 		},
+
 		canView: {
 			type: Boolean,
 			default: false,
 		},
+
 		canCompare: {
 			type: Boolean,
 			default: false,

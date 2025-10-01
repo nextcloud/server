@@ -3,7 +3,8 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<div class="files-list"
+	<div
+		class="files-list"
 		:class="{ 'files-list--grid': gridMode }"
 		data-cy-files-list
 		@scroll.passive="onScroll">
@@ -20,12 +21,14 @@
 			<slot name="header-overlay" />
 		</div>
 
-		<div v-if="dataSources.length === 0"
+		<div
+			v-if="dataSources.length === 0"
 			class="files-list__empty">
 			<slot name="empty" />
 		</div>
 
-		<table :aria-hidden="dataSources.length === 0"
+		<table
+			:aria-hidden="dataSources.length === 0"
 			:inert="dataSources.length === 0"
 			class="files-list__table"
 			:class="{
@@ -43,11 +46,13 @@
 			</thead>
 
 			<!-- Body -->
-			<tbody :style="tbodyStyle"
+			<tbody
+				:style="tbodyStyle"
 				class="files-list__tbody"
 				data-cy-files-list-tbody>
-				<component :is="dataComponent"
-					v-for="({key, item}, i) in renderedItems"
+				<component
+					:is="dataComponent"
+					v-for="({ key, item }, i) in renderedItems"
 					:key="key"
 					:source="item"
 					:index="i"
@@ -55,7 +60,8 @@
 			</tbody>
 
 			<!-- Footer -->
-			<tfoot ref="footer"
+			<tfoot
+				ref="footer"
 				class="files-list__tfoot"
 				data-cy-files-list-tfoot>
 				<slot name="footer" />
@@ -68,15 +74,14 @@
 import type { File, Folder, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { defineComponent } from 'vue'
 import debounce from 'debounce'
-
+import { defineComponent } from 'vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import logger from '../logger.ts'
 
 interface RecycledPoolItem {
-	key: string,
-	item: Node,
+	key: string
+	item: Node
 }
 
 type DataSource = File | Folder
@@ -90,26 +95,32 @@ export default defineComponent({
 			type: [Object, Function],
 			required: true,
 		},
+
 		dataKey: {
 			type: String as PropType<DataSourceKey>,
 			required: true,
 		},
+
 		dataSources: {
 			type: Array as PropType<DataSource[]>,
 			required: true,
 		},
+
 		extraProps: {
 			type: Object as PropType<Record<string, unknown>>,
 			default: () => ({}),
 		},
+
 		scrollToIndex: {
 			type: Number,
 			default: 0,
 		},
+
 		gridMode: {
 			type: Boolean,
 			default: false,
 		},
+
 		/**
 		 * Visually hidden caption for the table accessibility
 		 */
@@ -223,11 +234,11 @@ export default defineComponent({
 
 			const items = this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems) as Node[]
 
-			const oldItems = items.filter(item => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
-			const oldItemsKeys = oldItems.map(item => item[this.dataKey] as string)
-			const unusedKeys = Object.keys(this.$_recycledPool).filter(key => !oldItemsKeys.includes(this.$_recycledPool[key]))
+			const oldItems = items.filter((item) => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
+			const oldItemsKeys = oldItems.map((item) => item[this.dataKey] as string)
+			const unusedKeys = Object.keys(this.$_recycledPool).filter((key) => !oldItemsKeys.includes(this.$_recycledPool[key]))
 
-			return items.map(item => {
+			return items.map((item) => {
 				const index = Object.values(this.$_recycledPool).indexOf(item[this.dataKey])
 				// If defined, let's keep the key
 				if (index !== -1) {
@@ -264,6 +275,7 @@ export default defineComponent({
 			}
 		},
 	},
+
 	watch: {
 		scrollToIndex(index) {
 			this.scrollTo(index)

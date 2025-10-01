@@ -3,10 +3,12 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<td class="files-list__row-actions"
+	<td
+		class="files-list__row-actions"
 		data-cy-files-list-row-actions>
 		<!-- Render actions -->
-		<CustomElementRender v-for="action in enabledRenderActions"
+		<CustomElementRender
+			v-for="action in enabledRenderActions"
 			:key="action.id"
 			:class="'files-list__row-action-' + action.id"
 			:current-view="currentView"
@@ -15,11 +17,12 @@
 			class="files-list__row-action--inline" />
 
 		<!-- Menu actions -->
-		<NcActions ref="actionsMenu"
+		<NcActions
+			ref="actionsMenu"
 			:boundaries-element="getBoundariesElement"
 			:container="getBoundariesElement"
 			:force-name="true"
-			type="tertiary"
+			variant="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
 			:open="openedMenu"
@@ -27,7 +30,8 @@
 			@closed="onMenuClosed">
 			<!-- Non-destructive actions list -->
 			<!-- Please keep this block in sync with the destructive actions block below -->
-			<NcActionButton v-for="action, index in renderedNonDestructiveActions"
+			<NcActionButton
+				v-for="action, index in renderedNonDestructiveActions"
 				:key="action.id"
 				:ref="`action-${action.id}`"
 				class="files-list__row-action"
@@ -44,7 +48,8 @@
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="isLoadingAction(action)" />
-					<NcIconSvgWrapper v-else
+					<NcIconSvgWrapper
+						v-else
 						class="files-list__row-action-icon"
 						:svg="action.iconSvgInline([source], currentView)" />
 				</template>
@@ -54,15 +59,15 @@
 			<!-- Destructive actions list -->
 			<template v-if="renderedDestructiveActions.length > 0">
 				<NcActionSeparator />
-				<NcActionButton v-for="action, index in renderedDestructiveActions"
+				<NcActionButton
+					v-for="action, index in renderedDestructiveActions"
 					:key="action.id"
 					:ref="`action-${action.id}`"
-					class="files-list__row-action"
+					class="files-list__row-action files-list__row-action--destructive"
 					:class="{
 						[`files-list__row-action-${action.id}`]: true,
 						'files-list__row-action--inline': index < enabledInlineActions.length,
 						'files-list__row-action--menu': isValidMenu(action),
-						'files-list__row-action--destructive': true,
 					}"
 					:close-after-click="!isValidMenu(action)"
 					:data-cy-files-list-row-action="action.id"
@@ -72,7 +77,8 @@
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="isLoadingAction(action)" />
-						<NcIconSvgWrapper v-else
+						<NcIconSvgWrapper
+							v-else
 							class="files-list__row-action-icon"
 							:svg="action.iconSvgInline([source], currentView)" />
 					</template>
@@ -92,7 +98,8 @@
 				<NcActionSeparator />
 
 				<!-- Submenu actions -->
-				<NcActionButton v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
+				<NcActionButton
+					v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
@@ -113,29 +120,27 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import type { FileAction, Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
-import { defineComponent, inject } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import CustomElementRender from '../CustomElementRender.vue'
+import { defineComponent, inject } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import { executeAction } from '../../utils/actionUtils.ts'
-import { useActiveStore } from '../../store/active.ts'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import CustomElementRender from '../CustomElementRender.vue'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import { useNavigation } from '../../composables/useNavigation'
+import { useNavigation } from '../../composables/useNavigation.ts'
 import { useRouteParameters } from '../../composables/useRouteParameters.ts'
-import actionsMixins from '../../mixins/actionsMixin.ts'
 import logger from '../../logger.ts'
+import actionsMixins from '../../mixins/actionsMixin.ts'
+import { useActiveStore } from '../../store/active.ts'
+import { executeAction } from '../../utils/actionUtils.ts'
 
 export default defineComponent({
 	name: 'FileEntryActions',
@@ -157,10 +162,12 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
 		},
+
 		gridMode: {
 			type: Boolean,
 			default: false,
@@ -199,7 +206,7 @@ export default defineComponent({
 			if (this.filesListWidth < 768 || this.gridMode) {
 				return []
 			}
-			return this.enabledFileActions.filter(action => {
+			return this.enabledFileActions.filter((action) => {
 				try {
 					return action?.inline?.(this.source, this.currentView)
 				} catch (error) {
@@ -214,7 +221,7 @@ export default defineComponent({
 			if (this.gridMode) {
 				return []
 			}
-			return this.enabledFileActions.filter(action => typeof action.renderInline === 'function')
+			return this.enabledFileActions.filter((action) => typeof action.renderInline === 'function')
 		},
 
 		// Actions shown in the menu
@@ -229,31 +236,32 @@ export default defineComponent({
 				// Showing inline first for the NcActions inline prop
 				...this.enabledInlineActions,
 				// Then the rest
-				...this.enabledFileActions.filter(action => action.default !== DefaultType.HIDDEN && typeof action.renderInline !== 'function'),
+				...this.enabledFileActions.filter((action) => action.default !== DefaultType.HIDDEN && typeof action.renderInline !== 'function'),
 			].filter((value, index, self) => {
 				// Then we filter duplicates to prevent inline actions to be shown twice
-				return index === self.findIndex(action => action.id === value.id)
+				return index === self.findIndex((action) => action.id === value.id)
 			})
 
 			// Generate list of all top-level actions ids
-			const topActionsIds = actions.filter(action => !action.parent).map(action => action.id) as string[]
+			const topActionsIds = actions.filter((action) => !action.parent).map((action) => action.id) as string[]
 
 			// Filter actions that are not top-level AND have a valid parent
-			return actions.filter(action => !(action.parent && topActionsIds.includes(action.parent)))
+			return actions.filter((action) => !(action.parent && topActionsIds.includes(action.parent)))
 		},
 
 		renderedNonDestructiveActions() {
-			return this.enabledMenuActions.filter(action => !action.destructive)
+			return this.enabledMenuActions.filter((action) => !action.destructive)
 		},
 
 		renderedDestructiveActions() {
-			return this.enabledMenuActions.filter(action => action.destructive)
+			return this.enabledMenuActions.filter((action) => action.destructive)
 		},
 
 		openedMenu: {
 			get() {
 				return this.opened
 			},
+
 			set(value) {
 				this.$emit('update:opened', value)
 			},
@@ -295,7 +303,9 @@ export default defineComponent({
 					// if an inline action is rendered in the menu for
 					// lack of space we use the title first if defined
 					const title = action.title([this.source], this.currentView)
-					if (title) return title
+					if (title) {
+						return title
+					}
 				}
 				return action.displayName([this.source], this.currentView)
 			} catch (error) {

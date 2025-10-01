@@ -5,7 +5,6 @@
 
 import { getCSPNonce } from '@nextcloud/auth'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 if (!window.TESTING && !OC?.config?.no_unsupported_browser_warning) {

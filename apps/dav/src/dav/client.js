@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createClient } from 'webdav'
-import memoize from 'lodash/fp/memoize.js'
-import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser, getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
+import { generateRemoteUrl } from '@nextcloud/router'
+import memoize from 'lodash/fp/memoize.js'
+import { createClient } from 'webdav'
 
 export const getClient = memoize((service) => {
 	// init webdav client

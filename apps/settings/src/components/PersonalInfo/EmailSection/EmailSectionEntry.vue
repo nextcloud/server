@@ -8,7 +8,8 @@
 		<div class="email" :class="{ 'email--additional': !primary }">
 			<div v-if="!primary" class="email__label-container">
 				<label :for="inputIdWithDefault">{{ inputPlaceholder }}</label>
-				<FederationControl v-if="!federationDisabled && !primary"
+				<FederationControl
+					v-if="!federationDisabled && !primary"
 					:readable="propertyReadable"
 					:additional="true"
 					:additional-value="email"
@@ -18,7 +19,8 @@
 					@update:scope="onScopeChange" />
 			</div>
 			<div class="email__input-container">
-				<NcTextField :id="inputIdWithDefault"
+				<NcTextField
+					:id="inputIdWithDefault"
 					ref="email"
 					class="email__input"
 					autocapitalize="none"
@@ -34,7 +36,8 @@
 
 				<div class="email__actions">
 					<NcActions :aria-label="actionsLabel">
-						<NcActionButton v-if="!primary || !isNotificationEmail"
+						<NcActionButton
+							v-if="!primary || !isNotificationEmail"
 							close-after-click
 							:disabled="!isConfirmedAddress"
 							@click="setNotificationMail">
@@ -44,7 +47,8 @@
 							</template>
 							{{ setNotificationMailLabel }}
 						</NcActionButton>
-						<NcActionButton close-after-click
+						<NcActionButton
+							close-after-click
 							:disabled="deleteDisabled"
 							@click="deleteEmail">
 							<template #icon>
@@ -64,18 +68,13 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/components/NcActions'
+import { mdiArrowLeft, mdiLockOutline, mdiStar, mdiStarOutline, mdiTrashCanOutline } from '@mdi/js'
+import debounce from 'debounce'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
-import debounce from 'debounce'
-
-import { mdiArrowLeft, mdiLockOutline, mdiStar, mdiStarOutline, mdiTrashCanOutline } from '@mdi/js'
-
 import FederationControl from '../shared/FederationControl.vue'
-import { handleError } from '../../../utils/handlers.ts'
-
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import {
 	removeAdditionalEmail,
@@ -85,10 +84,11 @@ import {
 	savePrimaryEmail,
 	updateAdditionalEmail,
 } from '../../../service/PersonalInfo/EmailService.js'
+import { handleError } from '../../../utils/handlers.ts'
 import { validateEmail } from '../../../utils/validate.js'
 
 export default {
-	name: 'Email',
+	name: 'EmailSectionEntry',
 
 	components: {
 		NcActions,
@@ -103,26 +103,32 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		index: {
 			type: Number,
 			default: 0,
 		},
+
 		primary: {
 			type: Boolean,
 			default: false,
 		},
+
 		scope: {
 			type: String,
 			required: true,
 		},
+
 		activeNotificationEmail: {
 			type: String,
 			default: '',
 		},
+
 		localVerificationState: {
 			type: Number,
 			default: VERIFICATION_ENUM.NOT_VERIFIED,
 		},
+
 		inputId: {
 			type: String,
 			required: false,
@@ -227,6 +233,7 @@ export default {
 			get() {
 				return this.email
 			},
+
 			set(value) {
 				this.$emit('update:email', value)
 				this.debounceEmailChange(value.trim())
@@ -311,19 +318,19 @@ export default {
 		},
 
 		async setNotificationMail() {
-		  try {
-			  const newNotificationMailValue = (this.primary || this.isNotificationEmail) ? '' : this.initialEmail
-			  const responseData = await saveNotificationEmail(newNotificationMailValue)
-			  this.handleResponse({
-				  notificationEmail: newNotificationMailValue,
-				  status: responseData.ocs?.meta?.status,
-			  })
-		  } catch (e) {
-			  this.handleResponse({
-				  errorMessage: 'Unable to choose this email for notifications',
-				  error: e,
-			  })
-		  }
+			try {
+				const newNotificationMailValue = (this.primary || this.isNotificationEmail) ? '' : this.initialEmail
+				const responseData = await saveNotificationEmail(newNotificationMailValue)
+				this.handleResponse({
+					notificationEmail: newNotificationMailValue,
+					status: responseData.ocs?.meta?.status,
+				})
+			} catch (e) {
+				this.handleResponse({
+					errorMessage: 'Unable to choose this email for notifications',
+					error: e,
+				})
+			}
 		},
 
 		async updateAdditionalEmail(email) {
@@ -375,11 +382,15 @@ export default {
 					this.$emit('update:notification-email', notificationEmail)
 				}
 				this.isSuccess = true
-				setTimeout(() => { this.isSuccess = false }, 2000)
+				setTimeout(() => {
+					this.isSuccess = false
+				}, 2000)
 			} else {
 				handleError(error, errorMessage)
 				this.hasError = true
-				setTimeout(() => { this.hasError = false }, 2000)
+				setTimeout(() => {
+					this.hasError = false
+				}, 2000)
 			}
 		},
 

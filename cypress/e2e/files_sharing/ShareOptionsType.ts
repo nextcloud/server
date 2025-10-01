@@ -4,10 +4,10 @@
  */
 
 export type ShareOptions = {
-    enforcePassword?: boolean
-    enforceExpirationDate?: boolean
-    alwaysAskForPassword?: boolean
-    defaultExpirationDateSet?: boolean
+	enforcePassword?: boolean
+	enforceExpirationDate?: boolean
+	alwaysAskForPassword?: boolean
+	defaultExpirationDateSet?: boolean
 }
 
 export const defaultShareOptions: ShareOptions = {

@@ -3,25 +3,29 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppSettingsDialog :open="open"
+	<NcAppSettingsDialog
+		:open="open"
 		:show-navigation="true"
 		:name="t('files', 'Files settings')"
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :name="t('files', 'General')">
-			<fieldset class="files-settings__default-view"
+			<fieldset
+				class="files-settings__default-view"
 				data-cy-files-settings-setting="default_view">
 				<legend>
 					{{ t('files', 'Default view') }}
 				</legend>
-				<NcCheckboxRadioSwitch :model-value="userConfig.default_view"
+				<NcCheckboxRadioSwitch
+					:model-value="userConfig.default_view"
 					name="default_view"
 					type="radio"
 					value="files"
 					@update:model-value="setConfig('default_view', $event)">
 					{{ t('files', 'All files') }}
 				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :model-value="userConfig.default_view"
+				<NcCheckboxRadioSwitch
+					:model-value="userConfig.default_view"
 					name="default_view"
 					type="radio"
 					value="personal"
@@ -29,17 +33,20 @@
 					{{ t('files', 'Personal files') }}
 				</NcCheckboxRadioSwitch>
 			</fieldset>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_favorites_first"
+			<NcCheckboxRadioSwitch
+				data-cy-files-settings-setting="sort_favorites_first"
 				:checked="userConfig.sort_favorites_first"
 				@update:checked="setConfig('sort_favorites_first', $event)">
 				{{ t('files', 'Sort favorites first') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_folders_first"
+			<NcCheckboxRadioSwitch
+				data-cy-files-settings-setting="sort_folders_first"
 				:checked="userConfig.sort_folders_first"
 				@update:checked="setConfig('sort_folders_first', $event)">
 				{{ t('files', 'Sort folders before files') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="folder_tree"
+			<NcCheckboxRadioSwitch
+				data-cy-files-settings-setting="folder_tree"
 				:checked="userConfig.folder_tree"
 				@update:checked="setConfig('folder_tree', $event)">
 				{{ t('files', 'Folder tree') }}
@@ -48,22 +55,26 @@
 
 		<!-- Appearance -->
 		<NcAppSettingsSection id="settings" :name="t('files', 'Appearance')">
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_hidden"
+			<NcCheckboxRadioSwitch
+				data-cy-files-settings-setting="show_hidden"
 				:checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_mime_column"
+			<NcCheckboxRadioSwitch
+				data-cy-files-settings-setting="show_mime_column"
 				:checked="userConfig.show_mime_column"
 				@update:checked="setConfig('show_mime_column', $event)">
 				{{ t('files', 'Show file type column') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_files_extensions"
+			<NcCheckboxRadioSwitch
+				data-cy-files-settings-setting="show_files_extensions"
 				:checked="userConfig.show_files_extensions"
 				@update:checked="setConfig('show_files_extensions', $event)">
 				{{ t('files', 'Show file extensions') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="crop_image_previews"
+			<NcCheckboxRadioSwitch
+				data-cy-files-settings-setting="crop_image_previews"
 				:checked="userConfig.crop_image_previews"
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
@@ -71,17 +82,17 @@
 		</NcAppSettingsSection>
 
 		<!-- Settings API-->
-		<NcAppSettingsSection v-if="settings.length !== 0"
+		<NcAppSettingsSection
+			v-if="settings.length !== 0"
 			id="more-settings"
 			:name="t('files', 'Additional settings')">
-			<template v-for="setting in settings">
-				<Setting :key="setting.name" :el="setting.el" />
-			</template>
+			<FilesAppSettingsEntry v-for="setting in settings" :key="setting.name" :el="setting.el" />
 		</NcAppSettingsSection>
 
 		<!-- Webdav URL-->
 		<NcAppSettingsSection id="webdav" :name="t('files', 'WebDAV')">
-			<NcInputField id="webdav-url-input"
+			<NcInputField
+				id="webdav-url-input"
 				:label="t('files', 'WebDAV URL')"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"
@@ -97,7 +108,8 @@
 				</template>
 			</NcInputField>
 			<em>
-				<a class="setting-link"
+				<a
+					class="setting-link"
 					:href="webdavDocs"
 					target="_blank"
 					rel="noreferrer noopener">
@@ -113,19 +125,22 @@
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="warning" :name="t('files', 'Warnings')">
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				:checked="userConfig.show_dialog_file_extension"
 				@update:checked="setConfig('show_dialog_file_extension', $event)">
 				{{ t('files', 'Warn before changing a file extension') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				type="switch"
 				:checked="userConfig.show_dialog_deletion"
 				@update:checked="setConfig('show_dialog_deletion', $event)">
 				{{ t('files', 'Warn before deleting files') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
-		<NcAppSettingsSection id="shortcuts"
+		<NcAppSettingsSection
+			id="shortcuts"
 			:name="t('files', 'Keyboard shortcuts')">
 			<h3>{{ t('files', 'Actions') }}</h3>
 			<dl>
@@ -290,25 +305,23 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-
-import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
 import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
 import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
-
+import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
+import FilesAppSettingsEntry from '../components/FilesAppSettingsEntry.vue'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import Setting from '../components/Setting.vue'
 
 export default {
-	name: 'Settings',
+	name: 'FilesAppSettings',
 	components: {
 		Clipboard,
+		FilesAppSettingsEntry,
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
 		NcCheckboxRadioSwitch,
 		NcInputField,
-		Setting,
 	},
 
 	props: {
@@ -369,12 +382,12 @@ export default {
 
 	beforeMount() {
 		// Update the settings API entries state
-		this.settings.forEach(setting => setting.open())
+		this.settings.forEach((setting) => setting.open())
 	},
 
 	beforeDestroy() {
 		// Update the settings API entries state
-		this.settings.forEach(setting => setting.close())
+		this.settings.forEach((setting) => setting.close())
 	},
 
 	methods: {

@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
-import { openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
+
 import { navigateToFolder, triggerActionForFile } from '../files/FilesUtils.ts'
+import { setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions on shares', () => {
 	const randomSharedFolderName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)

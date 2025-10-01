@@ -3,30 +3,32 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Store } from 'vuex'
-import users from './users.js'
-import apps from './apps.js'
-import settings from './users-settings.js'
-import oc from './oc.js'
 import { showError } from '@nextcloud/dialogs'
-
-const debug = process.env.NODE_ENV !== 'production'
+import { Store } from 'vuex'
+import logger from '../logger.js'
+import apps from './apps.js'
+import oc from './oc.js'
+import settings from './users-settings.js'
+import users from './users.js'
 
 const mutations = {
 	API_FAILURE(state, error) {
 		try {
 			const message = error.error.response.data.ocs.meta.message
 			showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + message, { isHTML: true })
-		} catch (e) {
+		} catch {
 			showError(t('settings', 'An error occurred during the request. Unable to proceed.'))
 		}
-		console.error(state, error)
+		logger.error('An error occurred during the request.', { state, error })
 	},
 }
 
 let store = null
 
-export const useStore = () => {
+/**
+ *
+ */
+export function useStore() {
 	if (store === null) {
 		store = new Store({
 			modules: {
@@ -35,7 +37,7 @@ export const useStore = () => {
 				settings,
 				oc,
 			},
-			strict: debug,
+			strict: !PRODUCTION,
 			mutations,
 		})
 	}

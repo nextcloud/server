@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { ShareContext } from './PublicShareUtils.ts'
+
 import { createLinkShare, setupData } from './PublicShareUtils.ts'
 
 /**
@@ -171,8 +172,8 @@ describe('files_sharing: Public share - header avatar menu', { testIsolation: tr
 
 		// Check that the note states the current name
 		// cy.get('@guestIdentificationDialog')
-		// 	.findByRole('note')
-		// 	.should('contain', 'are currently identified as Jane Doe')
+		// .findByRole('note')
+		// .should('contain', 'are currently identified as Jane Doe')
 
 		// Change the name
 		cy.get('@guestIdentificationDialog')

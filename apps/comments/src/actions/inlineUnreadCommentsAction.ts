@@ -2,11 +2,13 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { FileAction, Node } from '@nextcloud/files'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
 
-import logger from '../logger'
+import type { Node } from '@nextcloud/files'
+
+import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
+import { FileAction } from '@nextcloud/files'
+import { n, t } from '@nextcloud/l10n'
+import logger from '../logger.js'
 
 export const action = new FileAction({
 	id: 'comments-unread',
@@ -25,7 +27,7 @@ export const action = new FileAction({
 	iconSvgInline: () => CommentProcessingSvg,
 
 	enabled(nodes: Node[]) {
-		const unread = nodes[0].attributes['comments-unread'] as number|undefined
+		const unread = nodes[0].attributes['comments-unread'] as number | undefined
 		return typeof unread === 'number' && unread > 0
 	},
 

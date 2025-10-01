@@ -4,11 +4,12 @@
  */
 
 import type { Node } from '@nextcloud/files'
-import { emit } from '@nextcloud/event-bus'
+
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
-import { imagePath } from '@nextcloud/router'
+import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
-import logger from '../../logger'
+import { imagePath } from '@nextcloud/router'
+import logger from '../../logger.ts'
 
 /**
  * Initialize the unified search plugin.

@@ -5,14 +5,14 @@
 
 <script setup lang="ts">
 import type { IDialogButton } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
-import { computed, ref } from 'vue'
-import { useUserConfigStore } from '../store/userconfig.ts'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcDialog from '@nextcloud/vue/components/NcDialog'
 import svgIconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import svgIconCheck from '@mdi/svg/svg/check.svg?raw'
+import { t } from '@nextcloud/l10n'
+import { computed, ref } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 const props = defineProps<{
 	oldExtension?: string
@@ -53,6 +53,7 @@ const open = ref(true)
 
 /**
  * Close the dialog and emit the response
+ *
  * @param value User selected response
  */
 function closeDialog(value: boolean) {
@@ -62,9 +63,10 @@ function closeDialog(value: boolean) {
 </script>
 
 <template>
-	<NcDialog :buttons="buttons"
+	<NcDialog
+		:buttons="buttons"
 		:open="open"
-		:can-close="false"
+		no-close
 		:name="t('files', 'Change file extension')"
 		size="small">
 		<p v-if="newExtension && oldExtension">
@@ -77,7 +79,8 @@ function closeDialog(value: boolean) {
 			{{ t('files', 'Adding the file extension "{new}" may render the file unreadable.', { new: newExtension }) }}
 		</p>
 
-		<NcCheckboxRadioSwitch v-model="dontShowAgain"
+		<NcCheckboxRadioSwitch
+			v-model="dontShowAgain"
 			class="dialog-confirm-file-extension__checkbox"
 			type="checkbox">
 			{{ t('files', 'Do not show this dialog again.') }}

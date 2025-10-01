@@ -6,7 +6,6 @@
 import type { IContactsMenuAction } from '../types/contactsMenuAction.ts'
 
 export default class ContactsMenuService {
-
 	private _actions: IContactsMenuAction[]
 
 	constructor() {
@@ -24,5 +23,4 @@ export default class ContactsMenuService {
 	addAction(action: IContactsMenuAction): void {
 		this._actions.push(action)
 	}
-
 }

@@ -43,6 +43,7 @@ export enum UnifiedSearchFilter {
 
 /**
  * Get a filter action from the unified search
+ *
  * @param filter The filter to get
  */
 export function getUnifiedSearchFilter(filter: UnifiedSearchFilter) {
@@ -51,6 +52,7 @@ export function getUnifiedSearchFilter(filter: UnifiedSearchFilter) {
 
 /**
  * Assertion that an element is fully within the current viewport.
+ *
  * @param $el The element
  * @param expected If the element is expected to be fully in viewport or not fully
  * @example
@@ -68,16 +70,15 @@ export function beFullyInViewport($el: JQuery<HTMLElement>, expected = true) {
 	console.debug(`fullyVisible: ${fullyVisible}, top: ${top >= 0}, left: ${left >= 0}, bottom: ${bottom <= innerHeight}, right: ${right <= innerWidth}`)
 
 	if (expected) {
-		// eslint-disable-next-line no-unused-expressions
 		expect(fullyVisible, 'Fully within viewport').to.be.true
 	} else {
-		// eslint-disable-next-line no-unused-expressions
 		expect(fullyVisible, 'Not fully within viewport').to.be.false
 	}
 }
 
 /**
  * Opposite of `beFullyInViewport` - resolves when element is not or only partially in viewport.
+ *
  * @param $el The element
  * @example
  * ```js

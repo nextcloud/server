@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="actions__item" :class="{'colored': colored}" :style="{ backgroundColor: colored ? operation.color : 'transparent' }">
+	<div class="actions__item" :class="{ colored: colored }" :style="{ backgroundColor: colored ? operation.color : 'transparent' }">
 		<div class="icon" :class="operation.iconClass" :style="{ backgroundImage: operation.iconClass ? '' : `url(${operation.icon})` }" />
 		<div class="actions__item__description">
 			<h3>{{ operation.name }}</h3>
@@ -22,15 +22,18 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Operation',
 	components: {
 		NcButton,
 	},
+
 	props: {
 		operation: {
 			type: Object,
 			required: true,
 		},
+
 		colored: {
 			type: Boolean,
 			default: true,

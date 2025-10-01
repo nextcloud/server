@@ -6,8 +6,8 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import predefinedStatuses from './predefinedStatuses.js'
-import userStatus from './userStatus.js'
 import userBackupStatus from './userBackupStatus.js'
+import userStatus from './userStatus.js'
 
 Vue.use(Vuex)
 

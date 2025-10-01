@@ -14,6 +14,10 @@ type SetupInfo = {
 }
 
 /**
+ * @param user
+ * @param fileName
+ * @param requesttoken
+ * @param metadata
  */
 function setMetadata(user: User, fileName: string, requesttoken: string, metadata: object) {
 	const base = Cypress.config('baseUrl')!.replace(/\/index\.php\/?/, '')
@@ -70,20 +74,24 @@ export function setupLivePhotos(): Cypress.Chainable<SetupInfo> {
 
 				setupInfo.fileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
 
-				cy.createRandomUser().then(_user => { setupInfo.user = _user })
+				cy.createRandomUser().then((_user) => {
+					setupInfo.user = _user
+				})
 
 				cy.then(() => {
 					cy.uploadContent(setupInfo.user, new Blob(['jpg file'], { type: 'image/jpg' }), 'image/jpg', `/${setupInfo.fileName}.jpg`)
-						.then(response => { setupInfo.jpgFileId = parseInt(response.headers['oc-fileid']) })
+						.then((response) => { setupInfo.jpgFileId = parseInt(response.headers['oc-fileid']) })
 					cy.uploadContent(setupInfo.user, new Blob(['mov file'], { type: 'video/mov' }), 'video/mov', `/${setupInfo.fileName}.mov`)
-						.then(response => { setupInfo.movFileId = parseInt(response.headers['oc-fileid']) })
+						.then((response) => { setupInfo.movFileId = parseInt(response.headers['oc-fileid']) })
 
 					cy.login(setupInfo.user)
 				})
 
 				cy.visit('/apps/files')
 
-				cy.get('head').invoke('attr', 'data-requesttoken').then(_requesttoken => { requesttoken = _requesttoken as string })
+				cy.get('head').invoke('attr', 'data-requesttoken').then((_requesttoken) => {
+					requesttoken = _requesttoken as string
+				})
 
 				cy.then(() => {
 					setMetadata(setupInfo.user, `${setupInfo.fileName}.jpg`, requesttoken, { 'nc:metadata-files-live-photo': setupInfo.movFileId })
@@ -91,7 +99,9 @@ export function setupLivePhotos(): Cypress.Chainable<SetupInfo> {
 				})
 
 				cy.then(() => {
-					cy.saveState().then((value) => { setupInfo.snapshot = value })
+					cy.saveState().then((value) => {
+						setupInfo.snapshot = value
+					})
 					cy.task('setVariable', { key: 'live-photos-data', value: setupInfo })
 				})
 			}

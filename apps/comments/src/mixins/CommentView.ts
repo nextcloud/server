@@ -1,9 +1,9 @@
+import { getCurrentUser } from '@nextcloud/auth'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import axios from '@nextcloud/axios'
-import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
@@ -33,8 +33,8 @@ export default defineComponent({
 		/**
 		 * Autocomplete @mentions
 		 *
-		 * @param {string} search the query
-		 * @param {Function} callback the callback to process the results with
+		 * @param search the query
+		 * @param callback the callback to process the results with
 		 */
 		async autoComplete(search, callback) {
 			const { data } = await axios.get(generateOcsUrl('core/autocomplete/get'), {
@@ -47,7 +47,9 @@ export default defineComponent({
 				},
 			})
 			// Save user data so it can be used by the editor to replace mentions
-			data.ocs.data.forEach(user => { this.userData[user.id] = user })
+			data.ocs.data.forEach((user) => {
+				this.userData[user.id] = user
+			})
 			return callback(Object.values(this.userData))
 		},
 
@@ -60,7 +62,7 @@ export default defineComponent({
 		genMentionsData(mentions: any[]): Record<string, object> {
 			Object.values(mentions)
 				.flat()
-				.forEach(mention => {
+				.forEach((mention) => {
 					this.userData[mention.mentionId] = {
 						// TODO: support groups
 						icon: 'icon-user',

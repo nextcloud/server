@@ -2,13 +2,13 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { defineStore } from 'pinia'
-import Vue, { computed, ref } from 'vue'
+
+import type { LDAPConfig } from '../models/index.ts'
 
 import { loadState } from '@nextcloud/initial-state'
-
-import { callWizard, copyConfig, createConfig, deleteConfig, getConfig } from '../services/ldapConfigService'
-import type { LDAPConfig } from '../models'
+import { defineStore } from 'pinia'
+import Vue, { computed, ref } from 'vue'
+import { callWizard, copyConfig, createConfig, deleteConfig, getConfig } from '../services/ldapConfigService.ts'
 
 export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	const ldapConfigs = ref(loadState('user_ldap', 'ldapConfigs') as Record<string, LDAPConfig>)
@@ -16,7 +16,12 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	const selectedConfig = computed(() => ldapConfigs.value[selectedConfigId.value])
 	const updatingConfig = ref(0)
 
-	function getConfigProxy<J>(configId: string, postSetHooks: Partial<Record<keyof LDAPConfig, (value: J) => void >> = {}) {
+	/**
+	 *
+	 * @param configId
+	 * @param postSetHooks
+	 */
+	function getConfigProxy<J>(configId: string, postSetHooks: Partial<Record<keyof LDAPConfig, (value: J) => void>> = {}) {
 		return new Proxy(ldapConfigs.value[configId], {
 			get(target, property) {
 				return target[property]
@@ -39,6 +44,9 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 		})
 	}
 
+	/**
+	 *
+	 */
 	async function create() {
 		const configId = await createConfig()
 		Vue.set(ldapConfigs.value, configId, await getConfig(configId))
@@ -46,6 +54,10 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 		return configId
 	}
 
+	/**
+	 *
+	 * @param fromConfigId
+	 */
 	async function _copyConfig(fromConfigId: string) {
 		const configId = await copyConfig(fromConfigId)
 		Vue.set(ldapConfigs.value, configId, { ...ldapConfigs.value[fromConfigId] })
@@ -53,6 +65,10 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 		return configId
 	}
 
+	/**
+	 *
+	 * @param configId
+	 */
 	async function removeConfig(configId: string) {
 		const result = await deleteConfig(configId)
 		if (result === true) {

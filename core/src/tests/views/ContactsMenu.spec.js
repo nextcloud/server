@@ -5,7 +5,6 @@
 
 import { mount, shallowMount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-
 import ContactsMenu from '../../views/ContactsMenu.vue'
 
 const axios = vi.hoisted(() => ({
@@ -37,7 +36,7 @@ describe('ContactsMenu', function() {
 		const opening = view.vm.handleOpen()
 
 		expect(view.vm.contacts).toEqual([])
-		expect(view.vm.loadingText).toBe('Loading your contacts …')
+		expect(view.vm.loadingText).toBe('Loading your contacts …')
 		await opening
 	})
 
@@ -50,7 +49,7 @@ describe('ContactsMenu', function() {
 			await view.vm.handleOpen()
 
 			throw new Error('should not be reached')
-		} catch (error) {
+		} catch {
 			expect(console.error).toHaveBeenCalled()
 			console.error.mockRestore()
 			expect(view.vm.error).toBe(true)

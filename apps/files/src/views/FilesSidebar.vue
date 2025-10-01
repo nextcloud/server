@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcAppSidebar v-if="file"
+	<NcAppSidebar
+		v-if="file"
 		ref="sidebar"
 		data-cy-sidebar
 		v-bind="appSidebar"
@@ -18,7 +19,8 @@
 		@closed="handleClosed">
 		<template v-if="fileInfo" #subname>
 			<div class="sidebar__subname">
-				<NcIconSvgWrapper v-if="fileInfo.isFavourited"
+				<NcIconSvgWrapper
+					v-if="fileInfo.isFavourited"
 					:path="mdiStar"
 					:name="t('files', 'Favorite')"
 					inline />
@@ -27,7 +29,8 @@
 				<NcDateTime :timestamp="fileInfo.mtime" />
 				<span class="sidebar__subname-separator">•</span>
 				<span>{{ t('files', 'Owner') }}</span>
-				<NcUserBubble :user="ownerId"
+				<NcUserBubble
+					:user="ownerId"
 					:display-name="nodeOwnerLabel" />
 			</div>
 		</template>
@@ -35,11 +38,13 @@
 		<!-- TODO: create a standard to allow multiple elements here? -->
 		<template v-if="fileInfo" #description>
 			<div class="sidebar__description">
-				<SystemTags v-if="isSystemTagsEnabled && showTagsDefault"
+				<SystemTags
+					v-if="isSystemTagsEnabled && showTagsDefault"
 					v-show="showTags"
 					:disabled="!fileInfo?.canEdit()"
 					:file-id="fileInfo.id" />
-				<LegacyView v-for="view in views"
+				<LegacyView
+					v-for="view in views"
 					:key="view.cid"
 					:component="view"
 					:file-info="fileInfo" />
@@ -48,7 +53,8 @@
 
 		<!-- Actions menu -->
 		<template v-if="fileInfo" #secondary-actions>
-			<NcActionButton :close-after-click="true"
+			<NcActionButton
+				:close-after-click="true"
 				@click="toggleStarred(!fileInfo.isFavourited)">
 				<template #icon>
 					<NcIconSvgWrapper :path="fileInfo.isFavourited ? mdiStar : mdiStarOutline" />
@@ -57,7 +63,8 @@
 			</NcActionButton>
 			<!-- TODO: create proper api for apps to register actions
 			And inject themselves here. -->
-			<NcActionButton v-if="isSystemTagsEnabled"
+			<NcActionButton
+				v-if="isSystemTagsEnabled"
 				:close-after-click="true"
 				@click="toggleTags">
 				<template #icon>
@@ -75,7 +82,8 @@
 		<!-- If fileInfo fetch is complete, render tabs -->
 		<template v-for="tab in tabs" v-else-if="fileInfo">
 			<!-- Hide them if we're loading another file but keep them mounted -->
-			<SidebarTab v-if="tab.enabled(fileInfo)"
+			<SidebarTab
+				v-if="tab.enabled(fileInfo)"
 				v-show="!loading"
 				:id="tab.id"
 				:key="tab.id"
@@ -94,38 +102,37 @@
 		</template>
 	</NcAppSidebar>
 </template>
+
 <script lang="ts">
 import type { INode } from '@nextcloud/files'
 
-import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
-import { defineComponent } from 'vue'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { encodePath } from '@nextcloud/paths'
-import { fetchNode } from '../services/WebdavClient.ts'
-import { generateUrl } from '@nextcloud/router'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { getCurrentUser } from '@nextcloud/auth'
 import { mdiStar, mdiStarOutline, mdiTagMultipleOutline } from '@mdi/js'
-import { ShareType } from '@nextcloud/sharing'
-import { showError } from '@nextcloud/dialogs'
-import $ from 'jquery'
+import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-
-import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { showError } from '@nextcloud/dialogs'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
+import { encodePath } from '@nextcloud/paths'
+import { generateUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
+import $ from 'jquery'
+import { defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
-
-import FileInfo from '../services/FileInfo.js'
+import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 import LegacyView from '../components/LegacyView.vue'
 import SidebarTab from '../components/SidebarTab.vue'
-import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 import logger from '../logger.ts'
+import FileInfo from '../services/FileInfo.js'
+import { fetchNode } from '../services/WebdavClient.ts'
 
 export default defineComponent({
-	name: 'Sidebar',
+	name: 'FilesSidebar',
 
 	components: {
 		LegacyView,
@@ -248,6 +255,7 @@ export default defineComponent({
 						'app-sidebar--has-preview': this.fileInfo.hasPreview && !this.isFullScreen,
 						'app-sidebar--full': this.isFullScreen,
 					},
+
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
 					name: this.node?.displayname ?? this.fileInfo.name,
@@ -286,7 +294,6 @@ export default defineComponent({
 				&& OCA.Files.App.fileList.fileActions.getDefaultFileAction
 				&& OCA.Files.App.fileList
 					.fileActions.getDefaultFileAction(this.fileInfo.mimetype, this.fileInfo.type, OC.PERMISSION_READ)
-
 		},
 
 		/**
@@ -303,12 +310,15 @@ export default defineComponent({
 		isSystemTagsEnabled() {
 			return getCapabilities()?.systemtags?.enabled === true
 		},
+
 		ownerId() {
 			return this.node?.attributes?.['owner-id'] ?? this.currentUser.uid
 		},
+
 		currentUserIsOwner() {
 			return this.ownerId === this.currentUser.uid
 		},
+
 		nodeOwnerLabel() {
 			let ownerDisplayName = this.node?.attributes?.['owner-display-name']
 			if (this.currentUserIsOwner) {
@@ -316,6 +326,7 @@ export default defineComponent({
 			}
 			return ownerDisplayName
 		},
+
 		sharedMultipleTimes() {
 			if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
 				return t('files', 'Shared multiple times with different people')
@@ -323,12 +334,14 @@ export default defineComponent({
 			return null
 		},
 	},
+
 	created() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
 
 		window.addEventListener('resize', this.handleWindowResize)
 		this.handleWindowResize()
 	},
+
 	beforeDestroy() {
 		unsubscribe('file:node:deleted', this.onNodeDeleted)
 		window.removeEventListener('resize', this.handleWindowResize)
@@ -344,6 +357,7 @@ export default defineComponent({
 		canDisplay(tab) {
 			return tab.enabled(this.fileInfo)
 		},
+
 		resetData() {
 			this.error = null
 			this.fileInfo = null
@@ -399,7 +413,7 @@ export default defineComponent({
 		 */
 		setActiveTab(id) {
 			OCA.Files.Sidebar.setActiveTab(id)
-			this.tabs.forEach(tab => {
+			this.tabs.forEach((tab) => {
 				try {
 					tab.setIsActive(id === tab.id)
 				} catch (error) {
@@ -431,6 +445,7 @@ export default defineComponent({
 
 				/**
 				 * TODO: adjust this when the Sidebar is finally using File/Folder classes
+				 *
 				 * @see https://github.com/nextcloud/server/blob/8a75cb6e72acd42712ab9fea22296aa1af863ef5/apps/files/src/views/favorites.ts#L83-L115
 				 */
 				const isDir = this.fileInfo.type === 'dir'
@@ -506,7 +521,7 @@ export default defineComponent({
 
 				// DEPRECATED legacy views
 				// TODO: remove
-				this.views.forEach(view => {
+				this.views.forEach((view) => {
 					view.setFileInfo(this.fileInfo)
 				})
 
@@ -524,7 +539,7 @@ export default defineComponent({
 			} catch (error) {
 				this.loading = false
 				this.error = t('files', 'Error while loading the file data')
-				console.error('Error while loading the file data', error)
+				logger.error('Error while loading the file data', { error })
 
 				throw new Error(error)
 			}
@@ -541,6 +556,7 @@ export default defineComponent({
 
 		/**
 		 * Handle if the current node was deleted
+		 *
 		 * @param {import('@nextcloud/files').Node} node The deleted node
 		 */
 		onNodeDeleted(node) {
@@ -556,12 +572,11 @@ export default defineComponent({
 		 */
 		setFullScreenMode(isFullScreen) {
 			this.isFullScreen = isFullScreen
+			const content = document.querySelector('#content') || document.querySelector('#content-vue')
 			if (isFullScreen) {
-				document.querySelector('#content')?.classList.add('with-sidebar--full')
-					|| document.querySelector('#content-vue')?.classList.add('with-sidebar--full')
+				content?.classList.add('with-sidebar--full')
 			} else {
-				document.querySelector('#content')?.classList.remove('with-sidebar--full')
-					|| document.querySelector('#content-vue')?.classList.remove('with-sidebar--full')
+				content?.classList.remove('with-sidebar--full')
 			}
 		},
 
@@ -580,21 +595,26 @@ export default defineComponent({
 		handleOpening() {
 			emit('files:sidebar:opening')
 		},
+
 		handleOpened() {
 			emit('files:sidebar:opened')
 		},
+
 		handleClosing() {
 			emit('files:sidebar:closing')
 		},
+
 		handleClosed() {
 			emit('files:sidebar:closed')
 		},
+
 		handleWindowResize() {
 			this.hasLowHeight = document.documentElement.clientHeight < 1024
 		},
 	},
 })
 </script>
+
 <style lang="scss" scoped>
 .app-sidebar {
 	&--has-preview:deep {

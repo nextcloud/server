@@ -4,22 +4,25 @@
 -->
 
 <template>
-	<NcDialog :buttons="dialogButtons"
+	<NcDialog
+		:buttons="dialogButtons"
 		class="external-storage-auth"
 		close-on-click-outside
 		data-cy-external-storage-auth
 		is-form
 		:name="t('files_external', 'Storage credentials')"
 		out-transition
-		@submit="$emit('close', {login, password})"
+		@submit="$emit('close', { login, password })"
 		@update:open="$emit('close')">
 		<!-- Header -->
-		<NcNoteCard class="external-storage-auth__header"
+		<NcNoteCard
+			class="external-storage-auth__header"
 			:text="t('files_external', 'To access the storage, you need to provide the authentication credentials.')"
 			type="info" />
 
 		<!-- Login -->
-		<NcTextField ref="login"
+		<NcTextField
+			ref="login"
 			class="external-storage-auth__login"
 			data-cy-external-storage-auth-dialog-login
 			:label="t('files_external', 'Login')"
@@ -30,7 +33,8 @@
 			:value.sync="login" />
 
 		<!-- Password -->
-		<NcPasswordField ref="password"
+		<NcPasswordField
+			ref="password"
 			class="external-storage-auth__password"
 			data-cy-external-storage-auth-dialog-password
 			:label="t('files_external', 'Password')"
@@ -42,9 +46,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { t } from '@nextcloud/l10n'
-
+import { defineComponent } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'

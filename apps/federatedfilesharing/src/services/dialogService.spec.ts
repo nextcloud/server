@@ -4,8 +4,8 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { showRemoteShareDialog } from './dialogService'
 import { nextTick } from 'vue'
+import { showRemoteShareDialog } from './dialogService.ts'
 
 describe('federatedfilesharing: dialog service', () => {
 	it('mounts dialog', async () => {

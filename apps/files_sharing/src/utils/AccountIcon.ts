@@ -4,12 +4,20 @@
  */
 import { generateUrl } from '@nextcloud/router'
 
-const isDarkMode = () => {
+/**
+ *
+ */
+function isDarkMode() {
 	return window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches === true
 		|| document.querySelector('[data-themes*=dark]') !== null
 }
 
-export const generateAvatarSvg = (userId: string, isGuest = false) => {
+/**
+ *
+ * @param userId
+ * @param isGuest
+ */
+export function generateAvatarSvg(userId: string, isGuest = false) {
 	// normal avatar url: /avatar/{userId}/32?guestFallback=true
 	// dark avatar url: /avatar/{userId}/32/dark?guestFallback=true
 	// guest avatar url: /avatar/guest/{userId}/32

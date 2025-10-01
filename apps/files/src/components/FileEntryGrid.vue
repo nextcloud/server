@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<tr :class="{'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading}"
+	<tr
+		:class="{ 'files-list__row--active': isActive, 'files-list__row--dragover': dragover, 'files-list__row--loading': isLoading }"
 		data-cy-files-list-row
 		:data-cy-files-list-row-fileid="fileid"
 		:data-cy-files-list-row-name="source.basename"
@@ -20,7 +21,8 @@
 		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<FileEntryCheckbox :fileid="fileid"
+		<FileEntryCheckbox
+			:fileid="fileid"
 			:is-loading="isLoading"
 			:nodes="nodes"
 			:source="source" />
@@ -28,14 +30,16 @@
 		<!-- Link to file -->
 		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
-			<FileEntryPreview ref="preview"
+			<FileEntryPreview
+				ref="preview"
 				:dragover="dragover"
 				:grid-mode="true"
 				:source="source"
 				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
-			<FileEntryName ref="name"
+			<FileEntryName
+				ref="name"
 				:basename="basename"
 				:extension="extension"
 				:grid-mode="true"
@@ -46,18 +50,21 @@
 		</td>
 
 		<!-- Mtime -->
-		<td v-if="!compact && isMtimeAvailable"
+		<td
+			v-if="!compact && isMtimeAvailable"
 			:style="mtimeOpacity"
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="mtime"
+			<NcDateTime
+				v-if="mtime"
 				ignore-seconds
 				:timestamp="mtime" />
 		</td>
 
 		<!-- Actions -->
-		<FileEntryActions ref="actions"
+		<FileEntryActions
+			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
 			:grid-mode="true"
 			:opened.sync="openedMenu"
@@ -67,9 +74,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
-
+import FileEntryActions from './FileEntry/FileEntryActions.vue'
+import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
+import FileEntryName from './FileEntry/FileEntryName.vue'
+import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -78,10 +87,6 @@ import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import FileEntryMixin from './FileEntryMixin.ts'
-import FileEntryActions from './FileEntry/FileEntryActions.vue'
-import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
-import FileEntryName from './FileEntry/FileEntryName.vue'
-import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 
 export default defineComponent({
 	name: 'FileEntryGrid',

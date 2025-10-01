@@ -5,17 +5,18 @@
 import type { ContentsWithRoot, File, Folder, Node } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { defaultRootPath, getDefaultPropfind, resultToNode as davResultToNode } from '@nextcloud/files/dav'
+import { resultToNode as davResultToNode, defaultRootPath, getDefaultPropfind } from '@nextcloud/files/dav'
 import { CancelablePromise } from 'cancelable-promise'
 import { join } from 'path'
+import logger from '../logger.ts'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
+import { useSearchStore } from '../store/search.ts'
 import { client } from './WebdavClient.ts'
 import { searchNodes } from './WebDavSearch.ts'
-import { getPinia } from '../store/index.ts'
-import { useFilesStore } from '../store/files.ts'
-import { useSearchStore } from '../store/search.ts'
-import logger from '../logger.ts'
 /**
  * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
+ *
  * @param stat The result returned by the webdav library
  */
 export const resultToNode = (stat: FileStat): Node => davResultToNode(stat)

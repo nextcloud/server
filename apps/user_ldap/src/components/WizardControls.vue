@@ -4,11 +4,12 @@
  -->
 <template>
 	<div class="ldap-wizard__controls">
-		<NcButton type="primary" :disabled="loading" @click="testSelectedConfig">
+		<NcButton variant="primary" :disabled="loading" @click="testSelectedConfig">
 			{{ t('user_ldap', 'Test Configuration') }}
 		</NcButton>
 
-		<NcButton variant="tertiary"
+		<NcButton
+			variant="tertiary"
 			href="https://docs.nextcloud.com/server/stable/go.php?to=admin-ldap"
 			target="_blank"
 			rel="noreferrer noopener">
@@ -19,8 +20,9 @@
 		</NcButton>
 
 		<template v-if="result !== null && !loading">
-			<span class="ldap-wizard__controls__state_indicator"
-				:class="{'ldap-wizard__controls__state_indicator--valid': isValide}" />
+			<span
+				class="ldap-wizard__controls__state_indicator"
+				:class="{ 'ldap-wizard__controls__state_indicator--valid': isValide }" />
 
 			<span class="ldap-wizard__controls__state_message">
 				{{ result.message }}
@@ -32,30 +34,30 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-
-import Information from 'vue-material-design-icons/ContentCopy.vue'
-
 import { t } from '@nextcloud/l10n'
 import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
+import { storeToRefs } from 'pinia'
+import { computed, ref, watch } from 'vue'
+import Information from 'vue-material-design-icons/ContentCopy.vue'
+import { testConfiguration } from '../services/ldapConfigService.ts'
+import { useLDAPConfigsStore } from '../store/configs.ts'
 
-import { testConfiguration } from '../services/ldapConfigService'
-import { useLDAPConfigsStore } from '../store/configs'
-
-const props = defineProps<{configId: string}>()
+const props = defineProps<{ configId: string }>()
 
 const ldapConfigsStore = useLDAPConfigsStore()
 const { updatingConfig } = storeToRefs(ldapConfigsStore)
 
 const loading = ref(false)
-const result = ref<{message: string, status: 'error'|'success'}|null>(null)
+const result = ref<{ message: string, status: 'error' | 'success' } | null>(null)
 const isValide = computed(() => result.value?.status === 'success')
 
 watch(updatingConfig, () => {
 	result.value = null
 })
 
+/**
+ *
+ */
 async function testSelectedConfig() {
 	try {
 		loading.value = true
@@ -65,6 +67,7 @@ async function testSelectedConfig() {
 	}
 }
 </script>
+
 <style lang="scss" scoped>
 .ldap-wizard__controls {
 	display: flex;

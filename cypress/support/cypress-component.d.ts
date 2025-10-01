@@ -6,7 +6,7 @@
 import type { mount } from '@cypress/vue2'
 
 declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
+
 	namespace Cypress {
 		interface Chainable {
 			mount: typeof mount

@@ -3,22 +3,19 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import 'core-js/stable/index.js'
-import 'regenerator-runtime/runtime.js'
-
-// If you remove the line below, tests won't pass
-// eslint-disable-next-line no-unused-vars
-import OC from './OC/index.js'
-
-import './globals.js'
-import './jquery/index.js'
+import { getCSPNonce } from '@nextcloud/auth'
+import Axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
+import _ from 'underscore'
 import { initCore } from './init.js'
 import { registerAppsSlideToggle } from './OC/apps.js'
-import { getCSPNonce } from '@nextcloud/auth'
-import { generateUrl } from '@nextcloud/router'
-import Axios from '@nextcloud/axios'
+import OC from './OC/index.js'
 
-// eslint-disable-next-line camelcase
+import 'core-js/stable/index.js'
+import 'regenerator-runtime/runtime.js'
+import './globals.js'
+import './jquery/index.js'
+
 __webpack_nonce__ = getCSPNonce()
 
 window.addEventListener('DOMContentLoaded', function() {

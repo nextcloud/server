@@ -52,7 +52,7 @@ export function installTestApp() {
 		const version = output.stdout.match(/(\d\d+)\.\d+\.\d+/)?.[1]
 		cy.wrap(version).should('not.be.undefined')
 		getContainerName()
-			.then(containerName => {
+			.then((containerName) => {
 				cy.exec(`docker cp '${testAppPath}' ${containerName}:/var/www/html/apps`, { log: true })
 				cy.exec(`docker exec --workdir /var/www/html ${containerName} chown -R www-data:www-data /var/www/html/apps/testapp`)
 			})

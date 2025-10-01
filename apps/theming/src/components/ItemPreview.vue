@@ -15,7 +15,8 @@
 			</span>
 
 			<!-- Only show checkbox if we can change themes -->
-			<NcCheckboxRadioSwitch v-show="!enforced"
+			<NcCheckboxRadioSwitch
+				v-show="!enforced"
 				class="theming__preview-toggle"
 				:checked.sync="checked"
 				:disabled="enforced"
@@ -30,34 +31,41 @@
 <script>
 import { generateFilePath } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import { logger } from '../logger.ts'
 
 export default {
 	name: 'ItemPreview',
 	components: {
 		NcCheckboxRadioSwitch,
 	},
+
 	props: {
 		enforced: {
 			type: Boolean,
 			default: false,
 		},
+
 		selected: {
 			type: Boolean,
 			default: false,
 		},
+
 		theme: {
 			type: Object,
 			required: true,
 		},
+
 		type: {
 			type: String,
 			default: '',
 		},
+
 		unique: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	computed: {
 		switchType() {
 			return this.unique ? 'switch' : 'radio'
@@ -75,12 +83,13 @@ export default {
 			get() {
 				return this.selected
 			},
+
 			set(checked) {
 				if (this.enforced) {
 					return
 				}
 
-				console.debug('Changed theme', this.theme.id, checked)
+				logger.debug('Changed theme', this.theme.id, checked)
 
 				// If this is a radio, we can only enable
 				if (!this.unique) {
@@ -111,6 +120,7 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss" scoped>
 @use 'sass:math';
 

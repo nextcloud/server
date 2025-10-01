@@ -6,15 +6,17 @@
 <template>
 	<div />
 </template>
+
 <script>
 export default {
-	name: 'Setting',
+	name: 'FilesAppSettingsEntry',
 	props: {
 		el: {
 			type: Function,
 			required: true,
 		},
 	},
+
 	mounted() {
 		this.$el.appendChild(this.el())
 	},

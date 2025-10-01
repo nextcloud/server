@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div v-show="dragover"
+	<div
+		v-show="dragover"
 		data-cy-files-drag-drop-area
 		class="files-list__drag-drop-notice"
 		@drop="onDrop">
@@ -27,20 +28,19 @@
 
 <script lang="ts">
 import type { Folder } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { RawLocation } from 'vue-router'
 
-import { Permission } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
+import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { UploadStatus } from '@nextcloud/upload'
-import { defineComponent, type PropType } from 'vue'
 import debounce from 'debounce'
-
+import { defineComponent } from 'vue'
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-
-import { useNavigation } from '../composables/useNavigation'
-import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
+import { useNavigation } from '../composables/useNavigation.ts'
 import logger from '../logger.ts'
-import type { RawLocation } from 'vue-router'
+import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -77,6 +77,7 @@ export default defineComponent({
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
@@ -169,7 +170,7 @@ export default defineComponent({
 			event.stopPropagation()
 
 			// Caching the selection
-			const items: DataTransferItem[] = [...event.dataTransfer?.items || []]
+			const items: DataTransferItem[] = Array.from(event.dataTransfer?.items || [])
 
 			// We need to process the dataTransfer ASAP before the
 			// browser clears it. This is why we cache the items too.
@@ -210,12 +211,13 @@ export default defineComponent({
 						...this.$route.params,
 						fileid: String(lastUpload.response!.headers['oc-fileid']),
 					},
+
 					query: {
 						...this.$route.query,
 					},
 				}
 				// Remove open file from query
-				delete location.query.openfile
+				delete location.query?.openfile
 				this.$router.push(location)
 			}
 

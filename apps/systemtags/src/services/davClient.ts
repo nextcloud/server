@@ -3,16 +3,20 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createClient } from 'webdav'
-import { generateRemoteUrl } from '@nextcloud/router'
 import { getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { createClient } from 'webdav'
 
 // init webdav client
 const rootUrl = generateRemoteUrl('dav')
 export const davClient = createClient(rootUrl)
 
 // set CSRF token header
-const setHeaders = (token: string | null) => {
+/**
+ *
+ * @param token
+ */
+function setHeaders(token: string | null) {
 	davClient.setHeaders({
 		// Add this so the server knows it is an request from the browser
 		'X-Requested-With': 'XMLHttpRequest',

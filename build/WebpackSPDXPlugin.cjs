@@ -13,7 +13,6 @@ const path = require('node:path')
 const webpack = require('webpack')
 
 class WebpackSPDXPlugin {
-
 	#options
 
 	/**
@@ -41,6 +40,7 @@ class WebpackSPDXPlugin {
 
 	/**
 	 * Find the nearest package.json
+	 *
 	 * @param {string} dir Directory to start checking
 	 */
 	async #findPackage(dir) {
@@ -51,7 +51,7 @@ class WebpackSPDXPlugin {
 		const packageJson = `${dir}/package.json`
 		try {
 			await fs.access(packageJson, constants.F_OK)
-		} catch (e) {
+		} catch {
 			return await this.#findPackage(path.dirname(dir))
 		}
 
@@ -66,6 +66,7 @@ class WebpackSPDXPlugin {
 
 	/**
 	 * Emit licenses found in compilation to '.license' files
+	 *
 	 * @param {webpack.Compilation} compilation Webpack compilation object
 	 * @param {*} callback Callback for old webpack versions
 	 */
@@ -139,6 +140,7 @@ class WebpackSPDXPlugin {
 
 			/**
 			 * packages used by the current asset
+			 *
 			 * @type {Set<string>}
 			 */
 			const packages = new Set()
@@ -233,7 +235,6 @@ class WebpackSPDXPlugin {
 			return callback()
 		}
 	}
-
 }
 
 module.exports = WebpackSPDXPlugin

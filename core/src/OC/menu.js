@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import _ from 'underscore'
 /** @typedef {import('jquery')} jQuery */
 import $ from 'jquery'
-
+import _ from 'underscore'
 import { menuSpeed } from './constants.js'
 
 export let currentMenu = null
@@ -21,7 +20,7 @@ export let currentMenuToggle = null
  * @param {boolean} headerMenu is this a top right header menu?
  * @return {void}
  */
-export const registerMenu = function($toggle, $menuEl, toggle, headerMenu) {
+export function registerMenu($toggle, $menuEl, toggle, headerMenu) {
 	$menuEl.addClass('menu')
 	const isClickableElement = $toggle.prop('tagName') === 'A' || $toggle.prop('tagName') === 'BUTTON'
 
@@ -64,7 +63,7 @@ export const registerMenu = function($toggle, $menuEl, toggle, headerMenu) {
  * @param {jQuery} $toggle the toggle element
  * @param {jQuery} $menuEl the menu container element
  */
-export const unregisterMenu = ($toggle, $menuEl) => {
+export function unregisterMenu($toggle, $menuEl) {
 	// close menu if opened
 	if ($menuEl.is(currentMenu)) {
 		hideMenus()
@@ -78,7 +77,7 @@ export const unregisterMenu = ($toggle, $menuEl) => {
  *
  * @param {Function} complete callback when the hiding animation is done
  */
-export const hideMenus = function(complete) {
+export function hideMenus(complete) {
 	if (currentMenu) {
 		const lastMenu = currentMenu
 		currentMenu.trigger(new $.Event('beforeHide'))
@@ -108,7 +107,7 @@ export const hideMenus = function(complete) {
  * @param {object} $menuEl menu element
  * @param {Function} complete callback when the showing animation is done
  */
-export const showMenu = ($toggle, $menuEl, complete) => {
+export function showMenu($toggle, $menuEl, complete) {
 	if ($menuEl.is(currentMenu)) {
 		return
 	}

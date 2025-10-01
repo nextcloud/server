@@ -4,12 +4,14 @@
 -->
 <template>
 	<div class="versions-tab__container">
-		<VirtualScrolling v-slot="{ visibleSections }"
+		<VirtualScrolling
+			v-slot="{ visibleSections }"
 			:sections="sections"
 			:header-height="0">
 			<ul :aria-label="t('files_versions', 'File versions')" data-files-versions-versions-list>
 				<template v-if="visibleSections.length === 1">
-					<Version v-for="(row) of visibleSections[0].rows"
+					<VersionEntry
+						v-for="(row) of visibleSections[0].rows"
 						:key="row.items[0].mtime"
 						:can-view="canView"
 						:can-compare="canCompare"
@@ -27,7 +29,8 @@
 			</ul>
 			<NcLoadingIcon v-if="loading" slot="loader" class="files-list-viewer__loader" />
 		</VirtualScrolling>
-		<VersionLabelDialog v-if="editedVersion"
+		<VersionLabelDialog
+			v-if="editedVersion"
 			:open.sync="showVersionLabelForm"
 			:version-label="editedVersion.label"
 			@label-update="handleLabelUpdate" />
@@ -35,23 +38,21 @@
 </template>
 
 <script>
-import path from 'path'
-
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
+import path from 'path'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.ts'
-import Version from '../components/Version.vue'
-import VirtualScrolling from '../components/VirtualScrolling.vue'
+import VersionEntry from '../components/VersionEntry.vue'
 import VersionLabelDialog from '../components/VersionLabelDialog.vue'
+import VirtualScrolling from '../components/VirtualScrolling.vue'
+import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel } from '../utils/versions.ts'
 
 export default {
 	name: 'VersionTab',
 	components: {
-		Version,
+		VersionEntry,
 		VirtualScrolling,
 		VersionLabelDialog,
 		NcLoadingIcon,
@@ -74,9 +75,10 @@ export default {
 			editedVersion: null,
 		}
 	},
+
 	computed: {
 		sections() {
-			const rows = this.orderedVersions.map(version => ({ key: version.mtime, height: 68, sectionKey: 'versions', items: [version] }))
+			const rows = this.orderedVersions.map((version) => ({ key: version.mtime, height: 68, sectionKey: 'versions', items: [version] }))
 			return [{ key: 'versions', rows, height: 68 * this.orderedVersions.length }]
 		},
 
@@ -105,7 +107,7 @@ export default {
 		 */
 		initialVersionMtime() {
 			return this.versions
-				.map(version => version.mtime)
+				.map((version) => version.mtime)
 				.reduce((a, b) => Math.min(a, b))
 		},
 
@@ -140,12 +142,15 @@ export default {
 			return !this.isMobile
 		},
 	},
+
 	mounted() {
 		subscribe('files_versions:restore:restored', this.fetchVersions)
 	},
+
 	beforeUnmount() {
 		unsubscribe('files_versions:restore:restored', this.fetchVersions)
 	},
+
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
@@ -211,7 +216,7 @@ export default {
 					showSuccess(t('files_versions', 'Version restored'))
 				}
 				emit('files_versions:restore:restored', version)
-			} catch (exception) {
+			} catch {
 				this.fileInfo = oldFileInfo
 				showError(t('files_versions', 'Could not restore version'))
 				emit('files_versions:restore:failed', version)
@@ -220,6 +225,7 @@ export default {
 
 		/**
 		 * Handle label-updated event from Version.vue
+		 *
 		 * @param {import('../utils/versions.ts').Version} version The version to update
 		 */
 		handleLabelUpdateRequest(version) {
@@ -229,6 +235,7 @@ export default {
 
 		/**
 		 * Handle label-updated event from Version.vue
+		 *
 		 * @param {string} newLabel The new label
 		 */
 		async handleLabelUpdate(newLabel) {
@@ -257,7 +264,7 @@ export default {
 
 			try {
 				await deleteVersion(version)
-			} catch (exception) {
+			} catch {
 				this.versions.push(version)
 				showError(t('files_versions', 'Could not delete version'))
 			}
@@ -280,26 +287,27 @@ export default {
 			// Versions previews are too small for our use case, so we override previewUrl
 			// which makes the viewer render the original file.
 			// We also point to the original filename if the version is the current one.
-			const versions = this.versions.map(version => ({
+			const versions = this.versions.map((version) => ({
 				...version,
 				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', this.fileInfo.path, this.fileInfo.name) : version.filename,
 				previewUrl: undefined,
 			}))
 
 			OCA.Viewer.open({
-				fileInfo: versions.find(v => v.source === version.source),
+				fileInfo: versions.find((v) => v.source === version.source),
 				enableSidebar: false,
 			})
 		},
 
 		compareVersion({ version }) {
-			const versions = this.versions.map(version => ({ ...version, previewUrl: undefined }))
+			const versions = this.versions.map((version) => ({ ...version, previewUrl: undefined }))
 
-			OCA.Viewer.compare(this.viewerFileInfo, versions.find(v => v.source === version.source))
+			OCA.Viewer.compare(this.viewerFileInfo, versions.find((v) => v.source === version.source))
 		},
 	},
 }
 </script>
+
 <style lang="scss">
 .versions-tab__container {
 	height: 100%;

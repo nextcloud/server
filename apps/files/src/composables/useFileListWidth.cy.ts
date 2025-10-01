@@ -22,7 +22,6 @@ const FileListMock = defineComponent({
 })
 
 describe('composable: fileListWidth', () => {
-
 	it('Has initial value', () => {
 		cy.viewport(600, 400)
 

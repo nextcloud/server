@@ -2,33 +2,33 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Folder, Node, View } from '@nextcloud/files'
-import type { IFilePickerButton } from '@nextcloud/dialogs'
-import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
-import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
+import type { IFilePickerButton } from '@nextcloud/dialogs'
+import type { Folder, Node, View } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
+import type { MoveCopyResult } from './moveOrCopyActionUtils.ts'
+
+import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
+import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 import { isAxiosError } from '@nextcloud/axios'
 import { FilePickerClosed, getFilePickerBuilder, showError, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName, Permission } from '@nextcloud/files'
+import { davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath, FileAction, FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { openConflictPicker, hasConflict } from '@nextcloud/upload'
+import { hasConflict, openConflictPicker } from '@nextcloud/upload'
 import { basename, join } from 'path'
 import Vue from 'vue'
-
-import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
-import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
-
-import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
-import { getContents } from '../services/Files'
-import logger from '../logger'
+import logger from '../logger.ts'
+import { getContents } from '../services/Files.ts'
+import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUtils.ts'
 
 /**
  * Return the action that is possible for the given nodes
- * @param {Node[]} nodes The nodes to check against
- * @return {MoveCopyAction} The action that is possible for the given nodes
+ *
+ * @param nodes The nodes to check against
+ * @return The action that is possible for the given nodes
  */
-const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
+function getActionForNodes(nodes: Node[]): MoveCopyAction {
 	if (canMove(nodes)) {
 		if (canCopy(nodes)) {
 			return MoveCopyAction.MOVE_OR_COPY
@@ -42,21 +42,25 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
 
 /**
  * Create a loading notification toast
+ *
  * @param mode The move or copy mode
  * @param source Name of the node that is copied / moved
  * @param destination Destination path
- * @return {() => void} Function to hide the notification
+ * @return Function to hide the notification
  */
 function createLoadingNotification(mode: MoveCopyAction, source: string, destination: string): () => void {
-	const text = mode === MoveCopyAction.MOVE ? t('files', 'Moving "{source}" to "{destination}" …', { source, destination }) : t('files', 'Copying "{source}" to "{destination}" …', { source, destination })
+	const text = mode === MoveCopyAction.MOVE ? t('files', 'Moving "{source}" to "{destination}" …', { source, destination }) : t('files', 'Copying "{source}" to "{destination}" …', { source, destination })
 
-	let toast: ReturnType<typeof showInfo>|undefined
+	let toast: ReturnType<typeof showInfo> | undefined
 	toast = showInfo(
 		`<span class="icon icon-loading-small toast-loading-icon"></span> ${text}`,
 		{
 			isHTML: true,
 			timeout: TOAST_PERMANENT_TIMEOUT,
-			onRemove: () => { toast?.hideToast(); toast = undefined },
+			onRemove() {
+				toast?.hideToast()
+				toast = undefined
+			},
 		},
 	)
 	return () => toast && toast.hideToast()
@@ -65,13 +69,14 @@ function createLoadingNotification(mode: MoveCopyAction, source: string, destina
 /**
  * Handle the copy/move of a node to a destination
  * This can be imported and used by other scripts/components on server
- * @param {Node} node The node to copy/move
- * @param {Folder} destination The destination to copy/move the node to
- * @param {MoveCopyAction} method The method to use for the copy/move
- * @param {boolean} overwrite Whether to overwrite the destination if it exists
- * @return {Promise<void>} A promise that resolves when the copy/move is done
+ *
+ * @param node The node to copy/move
+ * @param destination The destination to copy/move the node to
+ * @param method The method to use for the copy/move
+ * @param overwrite Whether to overwrite the destination if it exists
+ * @return A promise that resolves when the copy/move is done
  */
-export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, method: MoveCopyAction.COPY | MoveCopyAction.MOVE, overwrite = false) => {
+export async function handleCopyMoveNodeTo(node: Node, destination: Folder, method: MoveCopyAction.COPY | MoveCopyAction.MOVE, overwrite = false) {
 	if (!destination) {
 		return
 	}
@@ -156,7 +161,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 							if (!selected.length && !renamed.length) {
 								return
 							}
-						} catch (error) {
+						} catch {
 							// User cancelled
 							return
 						}
@@ -203,6 +208,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 
 /**
  * Open a file picker for the given action
+ *
  * @param action The action to open the file picker for
  * @param dir The directory to start the file picker in
  * @param nodes The nodes to move/copy
@@ -214,7 +220,7 @@ async function openFilePickerForAction(
 	nodes: Node[],
 ): Promise<MoveCopyResult | false> {
 	const { resolve, reject, promise } = Promise.withResolvers<MoveCopyResult | false>()
-	const fileIDs = nodes.map(node => node.fileid).filter(Boolean)
+	const fileIDs = nodes.map((node) => node.fileid).filter(Boolean)
 	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
 		.setFilter((n: Node) => {
@@ -228,8 +234,8 @@ async function openFilePickerForAction(
 			const buttons: IFilePickerButton[] = []
 			const target = basename(path)
 
-			const dirnames = nodes.map(node => node.dirname)
-			const paths = nodes.map(node => node.path)
+			const dirnames = nodes.map((node) => node.dirname)
+			const paths = nodes.map((node) => node.path)
 
 			if (action === MoveCopyAction.COPY || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
@@ -298,12 +304,12 @@ export const action = new FileAction({
 	id: ACTION_COPY_MOVE,
 	displayName(nodes: Node[]) {
 		switch (getActionForNodes(nodes)) {
-		case MoveCopyAction.MOVE:
-			return t('files', 'Move')
-		case MoveCopyAction.COPY:
-			return t('files', 'Copy')
-		case MoveCopyAction.MOVE_OR_COPY:
-			return t('files', 'Move or copy')
+			case MoveCopyAction.MOVE:
+				return t('files', 'Move')
+			case MoveCopyAction.COPY:
+				return t('files', 'Copy')
+			case MoveCopyAction.MOVE_OR_COPY:
+				return t('files', 'Move or copy')
 		}
 	},
 	iconSvgInline: () => FolderMoveSvg,
@@ -313,7 +319,7 @@ export const action = new FileAction({
 			return false
 		}
 		// We only support moving/copying files within the user folder
-		if (!nodes.every(node => node.root?.startsWith('/files/'))) {
+		if (!nodes.every((node) => node.root?.startsWith('/files/'))) {
 			return false
 		}
 		return nodes.length > 0 && (canMove(nodes) || canCopy(nodes))
@@ -353,7 +359,7 @@ export const action = new FileAction({
 			return nodes.map(() => null)
 		}
 
-		const promises = nodes.map(async node => {
+		const promises = nodes.map(async (node) => {
 			try {
 				await handleCopyMoveNodeTo(node, result.destination, result.action)
 				return true

@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-export default class Sidebar {
+import logger from '../logger.ts'
 
+export default class Sidebar {
 	_state
 
 	constructor() {
@@ -16,7 +17,7 @@ export default class Sidebar {
 		this._state.views = []
 		this._state.file = ''
 		this._state.activeTab = ''
-		console.debug('OCA.Files.Sidebar initialized')
+		logger.debug('OCA.Files.Sidebar initialized')
 	}
 
 	/**
@@ -38,22 +39,22 @@ export default class Sidebar {
 	 * @return {boolean}
 	 */
 	registerTab(tab) {
-		const hasDuplicate = this._state.tabs.findIndex(check => check.id === tab.id) > -1
+		const hasDuplicate = this._state.tabs.findIndex((check) => check.id === tab.id) > -1
 		if (!hasDuplicate) {
 			this._state.tabs.push(tab)
 			return true
 		}
-		console.error(`An tab with the same id ${tab.id} already exists`, tab)
+		logger.error(`An tab with the same id ${tab.id} already exists`, { tab })
 		return false
 	}
 
 	registerSecondaryView(view) {
-		const hasDuplicate = this._state.views.findIndex(check => check.id === view.id) > -1
+		const hasDuplicate = this._state.views.findIndex((check) => check.id === view.id) > -1
 		if (!hasDuplicate) {
 			this._state.views.push(view)
 			return true
 		}
-		console.error('A similar view already exists', view)
+		logger.error('A similar view already exists', { view })
 		return false
 	}
 
@@ -76,5 +77,4 @@ export default class Sidebar {
 	setActiveTab(id) {
 		this._state.activeTab = id
 	}
-
 }
