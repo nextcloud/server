@@ -27,6 +27,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
+use OCP\ICertificateManager;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -66,6 +67,7 @@ class ManagerTest extends TestCase {
 	protected IGroupManager&MockObject $groupManager;
 	protected IUserManager&MockObject $userManager;
 	protected SetupManager&MockObject $setupManager;
+	protected ICertificateManager&MockObject $certificateManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -96,6 +98,8 @@ class ManagerTest extends TestCase {
 		$this->contactsManager->expects($this->any())
 			->method('search')
 			->willReturn([]);
+
+		$this->certificateManager = $this->createMock(ICertificateManager::class);
 
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->logger->expects($this->never())->method('emergency');
@@ -158,6 +162,7 @@ class ManagerTest extends TestCase {
 					$this->logger,
 					$this->rootFolder,
 					$this->setupManager,
+					$this->certificateManager,
 				]
 			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
