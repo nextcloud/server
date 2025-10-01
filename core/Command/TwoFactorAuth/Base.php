@@ -40,7 +40,7 @@ class Base extends \OC\Core\Command\Base {
 		if ($argumentName === 'uid') {
 			return array_map(function (IUser $user) {
 				return $user->getUID();
-			}, $this->userManager->search($context->getCurrentWord(), 100));
+			}, $this->userManager->searchDisplayName($context->getCurrentWord(), 100));
 		}
 		return [];
 	}
