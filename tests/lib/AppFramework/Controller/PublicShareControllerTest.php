@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,6 +12,7 @@ namespace Test\AppFramework\Controller;
 use OCP\AppFramework\PublicShareController;
 use OCP\IRequest;
 use OCP\ISession;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TestController extends PublicShareController {
 	public function __construct(
@@ -36,10 +39,8 @@ class TestController extends PublicShareController {
 }
 
 class PublicShareControllerTest extends \Test\TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
+	private IRequest&MockObject $request;
+	private ISession&MockObject $session;
 
 	protected function setUp(): void {
 		parent::setUp();

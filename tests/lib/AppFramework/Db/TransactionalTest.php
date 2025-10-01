@@ -15,8 +15,7 @@ use RuntimeException;
 use Test\TestCase;
 
 class TransactionalTest extends TestCase {
-	/** @var IDBConnection|MockObject */
-	private IDBConnection $db;
+	private IDBConnection&MockObject $db;
 
 	protected function setUp(): void {
 		parent::setUp();

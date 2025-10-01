@@ -16,11 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BootContextTest extends TestCase {
-	/** @var IAppContainer|MockObject */
-	private $appContainer;
+	private IAppContainer&MockObject $appContainer;
 
-	/** @var BootContext */
-	private $context;
+	private BootContext $context;
 
 	protected function setUp(): void {
 		parent::setUp();

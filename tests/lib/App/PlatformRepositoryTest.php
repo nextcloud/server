@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2020-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -10,12 +12,8 @@ namespace Test\App;
 use OC\App\PlatformRepository;
 
 class PlatformRepositoryTest extends \Test\TestCase {
-	/**
-	 * @param $expected
-	 * @param $input
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('providesVersions')]
-	public function testVersion($input, $expected): void {
+	public function testVersion(string $input, string $expected): void {
 		$pr = new PlatformRepository();
 		$normalizedVersion = $pr->normalizeVersion($input);
 		$this->assertEquals($expected, $normalizedVersion);

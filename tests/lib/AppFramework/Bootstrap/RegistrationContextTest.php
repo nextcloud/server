@@ -20,11 +20,8 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistrationContextTest extends TestCase {
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var RegistrationContext */
-	private $context;
+	private LoggerInterface&MockObject $logger;
+	private RegistrationContext $context;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -73,7 +73,7 @@ class TestEntity extends Entity {
 
 
 class EntityTest extends \Test\TestCase {
-	private $entity;
+	private TestEntity $entity;
 
 	protected function setUp(): void {
 		parent::setUp();

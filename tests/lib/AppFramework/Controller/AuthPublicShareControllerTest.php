@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,17 +15,13 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AuthPublicShareControllerTest extends \Test\TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var AuthPublicShareController|\PHPUnit\Framework\MockObject\MockObject */
-	private $controller;
+	private IRequest&MockObject $request;
+	private ISession&MockObject $session;
+	private IURLGenerator&MockObject $urlGenerator;
+	private AuthPublicShareController&MockObject $controller;
 
 
 	protected function setUp(): void {
