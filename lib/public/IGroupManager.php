@@ -75,7 +75,7 @@ interface IGroupManager {
 	 * @param string $search
 	 * @param ?int $limit
 	 * @param ?int $offset
-	 * @return \OCP\IGroup[]
+	 * @return list<IGroup>
 	 * @since 8.0.0
 	 */
 	public function search(string $search, ?int $limit = null, ?int $offset = 0);

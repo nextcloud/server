@@ -269,14 +269,6 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $users;
 	}
 
-	/**
-	 * Search by displayName
-	 *
-	 * @param string $pattern
-	 * @param int $limit
-	 * @param int $offset
-	 * @return IUser[]
-	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
