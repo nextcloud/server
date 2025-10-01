@@ -5,6 +5,7 @@
 
 import { includeIgnoreFile } from '@eslint/compat'
 import { recommendedVue2 } from '@nextcloud/eslint-config'
+import CypressEslint from 'eslint-plugin-cypress'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
 import { fileURLToPath } from 'node:url'
@@ -12,30 +13,72 @@ import { fileURLToPath } from 'node:url'
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 
 export default defineConfig([
-	...recommendedVue2,
-	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	{
-		ignores: [
-			'3rdparty/', // PHP tests
-			'tests/', // PHP tests
-			'**/l10n/', // all translations (config only ignored in root)
-		],
-	},
-	{
-		files: ['cypress/**'],
-		rules: {
-			'no-console': 'off',
+		linterOptions: {
+			reportUnusedDisableDirectives: 'error',
+			reportUnusedInlineConfigs: 'error',
 		},
 	},
-	// scripts are cjs
+
+	...recommendedVue2,
+
+	// respect .gitignore
+	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
+
 	{
-		files: ['*.js', 'build/**/*.js'],
+		name: 'server/custom-webpack-globals',
+		files: ['**/*.js', '**/*.ts', '**/*.vue'],
+		languageOptions: {
+			globals: {
+				PRODUCTION: 'readonly',
+			},
+		},
+	},
+
+	{
+		name: 'server/scripts-are-cjs',
+		files: [
+			'*.js',
+			'build/**/*.js',
+			'**/core/src/icons.cjs',
+		],
+
 		languageOptions: {
 			globals: {
 				...globals.es2023,
 				...globals.node,
-				...globals.nodeBuiltin,
 			},
 		},
+
+		rules: {
+			'no-console': 'off',
+			'jsdoc/require-jsdoc': 'off',
+		},
+	},
+	// Cypress setup
+	CypressEslint.configs.recommended,
+	{
+		name: 'server/cypress',
+		files: ['cypress/**', '**/*.cy.*'],
+		rules: {
+			'no-console': 'off',
+			'jsdoc/require-jsdoc': 'off',
+			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-unused-expressions': 'off',
+		},
+	},
+	// customer server ignore files
+	{
+		name: 'server/ignored-files',
+		ignores: [
+			'.devcontainer/',
+			'composer.json',
+			'**/*.php',
+			'3rdparty/',
+			'tests/', // PHP tests
+			'**/js/',
+			'**/l10n/', // all translations (config only ignored in root)
+			'**/vendor/', // different vendors
+		],
 	},
 ])
