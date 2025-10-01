@@ -11,12 +11,14 @@ namespace OCA\Dashboard\Service;
 use JsonException;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 
 class DashboardService {
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private ?string $userId,
 		private IUserManager $userManager,
 		private IAccountManager $accountManager,
@@ -28,7 +30,7 @@ class DashboardService {
 	 * @return list<string>
 	 */
 	public function getLayout(): array {
-		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
+		$systemDefault = $this->appConfig->getAppValueString('layout', 'recommendations,spreed,mail,calendar');
 		return array_values(array_filter(explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault)), fn (string $value) => $value !== ''));
 	}
 

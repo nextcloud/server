@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Dashboard\IAPIWidget;
 use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IButtonWidget;
@@ -43,6 +44,7 @@ class DashboardApiController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private IManager $dashboardManager,
+		private IAppConfig $appConfig,
 		private IConfig $config,
 		private ?string $userId,
 		private DashboardService $service,
@@ -56,7 +58,7 @@ class DashboardApiController extends OCSController {
 	 */
 	private function getShownWidgets(array $widgetIds): array {
 		if (empty($widgetIds)) {
-			$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
+			$systemDefault = $this->appConfig->getAppValueString('layout', 'recommendations,spreed,mail,calendar');
 			$widgetIds = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
 		}
 
