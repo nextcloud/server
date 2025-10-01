@@ -113,7 +113,7 @@ interface IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @return list<IUser>
 	 * @since 8.0.0
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null);
