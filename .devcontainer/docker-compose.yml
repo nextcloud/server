@@ -15,23 +15,95 @@ services:
       - 8025:8025
 
   db:
+    read_only: true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
     image: postgres
+    read_only: true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
     restart: always
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run/mysqld
+    read_only: true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
     environment:
       POSTGRES_PASSWORD: postgres
       PGDATA: /data/postgres
+    read_only: true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
     volumes:
       - db:/data/postgres
+    read_only: true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/mysqld
     network_mode: service:nextclouddev
 
   adminer:
     image: adminer
     restart: always
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run/mysqld
     network_mode: service:nextclouddev
 
   mailhog:
     image: mailhog/mailhog
     restart: always
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run/mysqld
     network_mode: service:nextclouddev
 
 volumes:
