@@ -11,9 +11,6 @@
 script('settings', [
 	'usersettings',
 	'templates',
-	'federationsettingsview',
-	'federationscopemenu',
-	'settings/personalInfo',
 	'vue-settings-personal-info',
 ]);
 ?>
