@@ -1,18 +1,14 @@
 #header {
 	box-shadow: var(--ion-shadow-header);
-	background-color: var(--ion-color-main-background);
+	background-color: var(--ion-color-main-background) !important;
 
 	#nextcloud {
 		padding-inline-start: 220px;
+	}
 
-		.logo {
-			width: 200px;
-			filter: none;
-
-			@media (prefers-color-scheme: dark) {
-				filter: invert(100%) saturate(1%) brightness(99%) contrast(200%);
-			}
-		}
+	.logo {
+	width: 200px;
+	filter: none;
 	}
 
 	.app-menu-entry--active::before {
@@ -30,7 +26,36 @@
 		@media (prefers-color-scheme: light) {
 			filter: var(--background-invert-if-bright);
 		}
+	}
 
+	.contactsmenu__menu {
+		.contact__action__icon {
+			filter: invert(100%);
+			@media (prefers-color-scheme: light) {
+				filter: none;
+			}
+		}
+
+		.contactsmenu__menu__content__footer .button-vue--vue-tertiary {
+			background-color: var(--ion-button-secondary-background-default);
+			color: var(--ion-button-secondary-text);
+			border: var(--ion-button-secondary-border-default);
+
+			&:hover {
+				background-color: var(--ion-button-secondary-background-hover);
+				color: var(--ion-button-secondary-text-hover);
+			}
+			&:active {
+				background-color: var(--ion-button-secondary-background-active);
+				color: var(--ion-button-secondary-text-active);
+			}
+		}
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	#header .logo {
+		filter: invert(100%) saturate(1%) brightness(99%) contrast(200%);
 	}
 }
 
@@ -48,5 +73,35 @@
 
 	.app-content .chatView .wrapper {
 		bottom: 50px;
+	}
+}
+
+#content.app-dashboard {
+	background-color: var(--ion-color-main-background);
+	margin-right: 0;
+	margin-left: 0;
+	width: 100%;
+	border-radius: 0;
+
+	h2 {
+		color: var(--ion-text) !important;
+	}
+
+	.panel {
+		background-color: var(--ion-surface-secondary);
+		.panel--header img {
+			filter: none;
+			@media (prefers-color-scheme: dark) {
+				filter: var(--background-invert-if-bright);
+			}
+		}
+	}
+}
+
+#body-login {
+	background-color: var(--ion-color-main-background);
+
+	.guest-box.login-box {
+		background-color: var(--ion-surface-secondary);
 	}
 }

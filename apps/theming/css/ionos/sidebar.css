@@ -13,7 +13,7 @@ div.app-navigation, div#app-navigation {
 
 	&:has(nav#app-navigation-vue), &:not(.vue) {
 		background-color: var(--ion-surface-secondary);
-		.app-navigation-entry, nav[class*="app-navigation-"] ul li a, nav.app-navigation-personal ul li {
+		.app-navigation-entry, nav[class*="app-navigation-"] ul li a, nav[class*="app-navigation-"] ul li {
 			span[role=img]>svg {
 				color: var(--ion-button-sidebar-text);
 				height: 16px;
@@ -26,6 +26,7 @@ div.app-navigation, div#app-navigation {
 			.app-navigation-entry__name, a {
 				font-weight: 600;
 				color: var(--ion-button-sidebar-text) !important;
+				background-color: transparent;
 			}
 			border-radius: var(--border-radius-pill);
 			&.active {
@@ -33,12 +34,22 @@ div.app-navigation, div#app-navigation {
 				.app-navigation-entry-link {
 					color: var(--ion-button-sidebar-text) !important;
 				}
+				img {
+					filter: none;
+				}
+				@media (prefers-color-scheme: dark) {
+					img {
+						filter: invert(100%);
+					}
+				}
 			}
 			&:hover {
 				background-color: var(--ion-button-sidebar-background-hover);
 			}
-			& img {
-				filter: invert(100%);
+			@media (prefers-color-scheme: dark) {
+				img {
+					filter: invert(100%);
+				}
 			}
 		}
 

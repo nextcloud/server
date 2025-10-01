@@ -18,6 +18,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	// CSS file paths for custom styling
 	private const CSS_FILES = [
 		'variables.css',
+		'buttons.css',
 		'sidebar.css',
 		'files.css',
 		'settings.css',
@@ -29,11 +30,11 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	}
 
 	public function getTitle(): string {
-		return $this->l->t('IONOS theme');
+		return $this->l->t('IONOS Theme');
 	}
 
 	public function getEnableLabel(): string {
-		return $this->l->t('Enable the default IONOS theme');
+		return $this->l->t('Enable the default IONOS Theme');
 	}
 
 	public function getDescription(): string {

@@ -1,0 +1,435 @@
+#body-user, #body-settings {
+	.button-vue {
+		border-radius: 30px;
+
+		&.button-vue--icon-and-text {
+			min-height: 36px;
+			min-width: 98px;
+			padding: 0 16px;
+
+			.button-vue__wrapper {
+				height: 36px;
+				gap: 8px;
+
+				.button-vue__text {
+					font-size: 14px;
+					font-weight: 600;
+				}
+
+				.button-vue__icon, .button-vue__icon span[role=img] {
+					min-height: 16px;
+					min-width: auto;
+					width: auto;
+				}
+			}
+
+			&.button-vue--vue-primary[aria-label*="Copy"],
+			&.button-vue--vue-secondary, &.button-vue--vue-tertiary[aria-label="Cancel"] {
+				background-color: var(--ion-button-secondary-background-default);
+				border: var(--ion-button-secondary-border-default);
+
+				&:not(.action-item__menutoggle) {
+					.button-vue__text, .button-vue__icon svg {
+						color: var(--ion-button-secondary-text);
+					}
+				}
+
+				&:hover:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-secondary-background-hover);
+					border-color: var(--ion-button-secondary-background-hover);
+
+					&:not(.action-item--single) {
+						.button-vue__text, .button-vue__icon svg {
+							color: var(--ion-button-secondary-text-hover);
+						}
+					}
+				}
+
+				&:active:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-secondary-background-active);
+
+					&:not(.action-item--single) {
+						.button-vue__text, .button-vue__icon svg {
+							color: var(--ion-button-secondary-text-active);
+						}
+					}
+				}
+			}
+
+			&.button-vue--vue-primary, &.button-vue--vue-error,
+				/* ensure primary type styling of "new" button */
+			&.action-item__menutoggle, &.files-list__header-upload-button--disabled {
+				background-color: var(--ion-button-primary-background-default);
+				border: none;
+
+				.button-vue__text, .button-vue__icon svg {
+					color: var(--ion-button-primary-text);
+				}
+
+				&:disabled {
+					background-color: var(--ion-button-primary-background-disabled);
+					color: var(--ion-button-primary-text-disabled);
+				}
+
+				&:hover:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-primary-background-hover);
+					border-color: var(--ion-button-primary-background-hover);
+				}
+
+				&:active:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-primary-background-active);
+					border-color: var(--ion-button-primary-background-active);
+				}
+			}
+
+			&.button-vue--vue-tertiary:not(.files-list__row-action-sharing-status):not(table th button):not(li.vue-crumb a):not([aria-label="Cancel"]),
+			&[class*="files-list__row-actions-"] {
+				background-color: var(--ion-button-tertiary-background-default);
+				border: none;
+
+				.button-vue__text, .button-vue__icon svg {
+					color: var(--ion-button-tertiary-text);
+				}
+
+				&:hover {
+					background-color: var(--ion-button-tertiary-background-hover);
+				}
+
+				&:active {
+					background-color: var(--ion-button-tertiary-background-active);
+				}
+			}
+
+			.action-item {
+				.button-vue__text, .button-vue__icon svg {
+					color: var(--ion-color-blue-b4);
+				}
+
+				&:hover {
+					.button-vue__text, .button-vue__icon svg {
+						color: var(--ion-color-blue-b5);
+					}
+				}
+
+				&:active {
+					.button-vue__text, .button-vue__icon svg {
+						color: var(--ion-color-primary);
+					}
+				}
+			}
+
+			/* mobile and tablet */
+			@media only screen and (max-width: 1023px) {
+				min-height: 48px;
+			}
+		}
+
+		&.button-vue--text-only {
+			&.button-vue--vue-primary, &.button-vue--vue-error {
+				background-color: var(--ion-button-primary-background-default);
+				color: var(--ion-button-primary-text);
+
+				&:disabled {
+					background-color: var(--ion-button-primary-background-disabled);
+					color: var(--ion-button-primary-text-disabled);
+				}
+
+				&:hover:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-primary-background-hover);
+					border-color: var(--ion-button-primary-background-hover);
+				}
+
+				&:active:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-primary-background-active);
+					border-color: var(--ion-button-primary-background-active);
+				}
+			}
+
+			&.button-vue--vue-secondary, &.button-vue--vue-tertiary[aria-label="Cancel"] {
+				background-color: var(--ion-button-secondary-background-default);
+				border: var(--ion-button-secondary-border-default);
+
+				.button-vue__text {
+					color: var(--ion-button-secondary-text);
+				}
+
+				&:hover:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-secondary-background-hover);
+					border-color: var(--ion-button-secondary-background-hover);
+
+					.button-vue__text {
+						color: var(--ion-button-secondary-text-hover);
+					}
+				}
+
+				&:active:not(:disabled):not(.button-vue--disabled) {
+					background-color: var(--ion-button-secondary-background-active);
+
+					.button-vue__text {
+						color: var(--ion-button-secondary-text-active);
+					}
+				}
+			}
+
+			/* mobile and tablet */
+			@media only screen and (max-width: 1023px) {
+				min-height: 48px;
+			}
+		}
+
+		&.button-vue--icon-only,
+		.button-vue__icon {
+			height: 32px !important;
+			width: 32px !important;
+			min-width: 32px;
+			min-height: 32px;
+			margin: auto 0;
+			span[role=img] {
+				color: light-dark(var(--ion-color-blue-b4), var(--ion-color-cool-grey-c3));
+			}
+			&.button-vue--vue-tertiary {
+				.button-vue__icon span[role=img]>svg {
+					color: var(--ion-button--icon-only-text)
+				}
+
+				&[class^="files-list__header-"], &.app-navigation-toggle {
+					.button-vue__icon span[role=img]>svg {
+						color: var(--ion-button-tertiary-text);
+					}
+				}
+
+				&:hover:not(:disabled):not(.button-vue--disabled):not(&.modal-container__close):not(.icon-collapse):not(.files-list__header-grid-button) {
+					background-color: var(--ion-button--icon-only-background-hover);
+
+					.button-vue__icon span[role=img]>svg {
+						color: var(--ion-button--icon-only-text-hover);
+					}
+				}
+
+				&:active:not(:disabled):not(.button-vue--disabled):not(&.modal-container__close):not(.icon-collapse):not(.files-list__header-grid-button) {
+					background-color: var(--ion-button--icon-only-background-active);
+
+					.button-vue__icon span[role=img]>svg {
+						color: var(--ion-button--icon-only-text-hover);
+					}
+				}
+
+				&.files-list__header-grid-button {
+					&:hover {
+						background-color: transparent;
+						.button-vue__icon span[role=img]>svg {
+							color: var(--ion-color-blue-b5);
+						}
+					}
+					&:active {
+						background-color: transparent;
+						.button-vue__icon span[role=img]>svg {
+							color: var(--ion-color-typo-mild);
+						}
+					}
+				}
+				&.modal-container__close {
+					margin: 4px;
+					.button-vue__icon span[role=img]>svg {
+						width: 24px;
+						height: 24px;
+						color: light-dark(var(--ion-color-cool-grey-c5), var(--ion-color-cool-grey-c1));
+					}
+
+					&:hover {
+						background-color: transparent;
+
+						.button-vue__icon span[role=img]>svg {
+							color: light-dark(var(--ion-color-cool-grey-c6), var(--ion-color-cool-grey-c4));
+						}
+					}
+
+					&:active {
+						background-color: transparent;
+
+						.button-vue__icon span[role=img]>svg {
+							color: var(--ion-color-typo-mild);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/* files list checkbox buttons */
+	.checkbox-radio-switch {
+		.checkbox-content__icon svg {
+			color: var(--ion-color-cool-grey-c5);
+		}
+
+		:not(span[data-cy-files-sharing-share-permissions-bundle])&:hover {
+			.checkbox-content {
+				background: transparent;
+			}
+
+			.checkbox-content__icon svg {
+				color: var(--ion-color-blue-b4);
+			}
+		}
+
+		.checkbox-content__icon--checked svg, &.checkbox-radio-switch--indeterminate svg {
+			color: var(--ion-color-blue-b4);
+		}
+	}
+
+	/* files list column sorting buttons */
+	.files-list, .file-picker__files {
+		table th.files-list__column, th[class^="row-"] {
+			.button-vue--vue-tertiary {
+				padding: 0 12px;
+
+				.button-vue__text, .files-list__column-sort-button-text {
+					color: var(--ion-color-typo-mild);
+					font-weight: 600;
+				}
+				.button-vue__icon {
+					flex: 1;
+					min-width: 16px;
+					max-width: max-content;
+
+					span[role=img]>svg {
+						color: var(--ion-color-typo-mild);
+					}
+				}
+
+				&:hover {
+					background: transparent;
+
+					.button-vue__text, .files-list__column-sort-button-text, span[role=img]>svg {
+						color: var(--ion-color-blue-b5);
+					}
+				}
+
+				&:active {
+					background: transparent;
+
+					.files-list__column-sort-button-text, span[role=img]>svg {
+						color: var(--ion-color-primary);
+					}
+				}
+			}
+
+			&.files-list__row-size span.button-vue__wrapper {
+				flex-direction: row-reverse;
+			}
+		}
+	}
+
+	.files-list__breadcrumbs, .breadcrumb__actions {
+		align-items: center;
+		gap: 8px;
+	}
+
+	/* drop down chevron-up and down icon */
+	.vs__open-indicator-button svg{
+		height: 24px;
+		width: 24px;
+	}
+}
+
+#body-user, #body-public, #body-login {
+	div.modal-mask .modal-header {
+		.modal-header__name {
+			color: var(--background-image-color-text);
+		}
+		div.icons-menu {
+			button, .header-actions {
+				span[role=img]>svg {
+					color: var(--background-image-color-text);
+				}
+			}
+		}
+	}
+
+	button.toast-close {
+		@media (prefers-color-scheme: dark) {
+			background-color: transparent;
+			filter: var(--ion-icon-filter-cool-grey-c1);
+		}
+	}
+
+	/* share settings icons */
+	.avatar-external.icon-external-white {
+		background-size: 16px;
+	}
+	.avatar-class-icon.avatar-link-share.icon-public-white {
+		background-size: 18px;
+		@media (prefers-color-scheme: dark) {
+			background-image: var(--original-icon-public-white);
+		}
+	}
+	.avatar-shared.icon-more-white {
+		background-size: 18px;
+	}
+
+	/* image editor buttons */
+	.viewer__image-editor, div#SfxPopper, div.SfxModal-Wrapper {
+		@media (prefers-color-scheme: dark) {
+			div.FIE_tab, .FIE_tools-items div, .SfxPopper-root div, .SfxSelect-root {
+				background-color: var(--ion-surface-secondary);
+
+				&[aria-selected="true"] {
+					border: var(--ion-button-secondary-border-default);
+					box-shadow: none;
+				}
+
+				svg {
+					color: var(--color-main-text);
+				}
+			}
+
+			button, .SfxMenuItem-root {
+				background-color: var(--ion-surface-secondary);
+				color: var(--ion-button-secondary-text);
+
+				&:disabled {
+					background-color: transparent !important;
+				}
+
+				&:hover {
+					background-color: var(--color-background-hover);
+
+					&:not(:disabled), svg, .SfxSelect-tickIcon, &::before {
+						color: var(--color-main-text);
+					}
+				}
+
+				&[color="primary"] {
+					background-color: var(--ion-button-primary-background-default) !important;
+
+					&:hover {
+						background-color: var(--ion-button-primary-background-hover) !important;
+					}
+				}
+			}
+
+			.SfxInput-root:not(.SfxSelect-root) {
+				background-color: transparent;
+				border: none;
+			}
+		}
+
+		.FIE_topbar-buttons-wrapper {
+			gap: 12px;
+		}
+
+		.SfxCrossButton-root svg path {
+			transform: scale(1);
+		}
+	}
+}
+
+#body-login {
+	a.button:hover {
+		background-color: var(--ion-button-tertiary-background-hover);
+		color: var(--ion-button-tertiary-text-hover);
+	}
+	a.button:focus {
+		background-color: var(--color-main-background);
+	}
+}
