@@ -112,6 +112,7 @@ class Show extends Base {
 			return [
 				'name' => $setting->getName() ?: 'Global',
 				'className' => $className,
+				'priority' => $setting->getPriority(),
 				'delegatedGroups' => $groups,
 			];
 		}, $settings);
