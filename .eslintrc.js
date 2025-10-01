@@ -32,6 +32,8 @@ module.exports = {
 			ignores: ['/^[a-z]+(?:-[a-z]+)*:[a-z]+(?:-[a-z]+)*$/u'],
 		}],
 		'vue/html-self-closing': 'error',
+		'jsdoc/require-jsdoc': 'off',
+		'jsdoc/require-param-description': 'off',
 	},
 	settings: {
 		jsdoc: {

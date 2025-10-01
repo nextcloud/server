@@ -214,6 +214,9 @@ This file is generated from multiple sources. Included packages:
 - axios
 	- version: 1.12.2
 	- license: MIT
+- bail
+	- version: 2.0.2
+	- license: MIT
 - balanced-match
 	- version: 1.0.2
 	- license: MIT
@@ -387,6 +390,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-generator-function
 	- version: 1.1.0
+	- license: MIT
+- is-plain-obj
+	- version: 4.1.0
 	- license: MIT
 - is-regex
 	- version: 1.2.1

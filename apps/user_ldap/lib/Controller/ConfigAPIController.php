@@ -14,6 +14,7 @@ use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -58,6 +59,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config created successfully
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config')]
 	public function create() {
 		try {
 			$configPrefix = $this->ldapHelper->getNextServerConfigurationPrefix();
@@ -82,6 +84,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config deleted successfully
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'DELETE', url: '/api/v1/config/{configID}')]
 	public function delete($configID) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -103,7 +106,7 @@ class ConfigAPIController extends OCSController {
 	 *
 	 * @param string $configID ID of the config
 	 * @param array<string, mixed> $configData New config
-	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
 	 * @throws OCSException
 	 * @throws OCSBadRequestException Modifying config is not possible
 	 * @throws OCSNotFoundException Config not found
@@ -111,6 +114,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config returned
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/config/{configID}')]
 	public function modify($configID, $configData) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -137,7 +141,7 @@ class ConfigAPIController extends OCSController {
 			throw new OCSException('An issue occurred when modifying the config.');
 		}
 
-		return new DataResponse();
+		return $this->show($configID, false);
 	}
 
 	/**
@@ -215,6 +219,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config returned
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'GET', url: '/api/v1/config/{configID}')]
 	public function show($configID, $showPassword = false) {
 		try {
 			$this->ensureConfigIDExists($configID);

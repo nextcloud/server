@@ -127,7 +127,6 @@
 
 		<NcAppSettingsSection id="shortcuts"
 			:name="t('files', 'Keyboard shortcuts')">
-
 			<h3>{{ t('files', 'Actions') }}</h3>
 			<dl>
 				<div>
