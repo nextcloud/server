@@ -1,4 +1,3 @@
-/* eslint-disable n/no-extraneous-require */
 /* eslint-disable camelcase */
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
@@ -14,7 +13,7 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
 const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
 
-const modules = require('./webpack.modules.js')
+const modules = require('./webpack.modules.cjs')
 const { codecovWebpackPlugin } = require('@codecov/webpack-plugin')
 
 const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
