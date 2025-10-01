@@ -90,7 +90,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 			try {
 				await confirmPassword()
 
-				const { data } = await axios.post<ITokenResponse>(BASE_URL, { name })
+				const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true })
 				this.tokens.push(data.deviceToken)
 				logger.debug('App token created')
 				return data
