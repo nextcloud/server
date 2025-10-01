@@ -14,7 +14,6 @@ use OC\User\NoUserException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\ResponseDefinitions;
-use OCP\AppFramework\Http;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -34,7 +33,6 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Notification\IManager;
-use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
 use OCP\Share;
@@ -56,8 +54,7 @@ use Psr\Log\LoggerInterface;
  *      accepted: bool,
  *      share_type:int,
  *      password: string,
- *      mountpoint_hash:
- *      string
+ *      mountpoint_hash: string
  *  }
  */
 class Manager {
@@ -80,6 +77,7 @@ class Manager {
 		private LoggerInterface $logger,
 		private IRootFolder $rootFolder,
 		private SetupManager $setupManager,
+		private ICertificateManager $certificateManager,
 	) {
 		$this->user = $userSession->getUser();
 	}
@@ -524,7 +522,6 @@ class Manager {
 	 * @return array|false
 	 */
 	protected function tryOCMEndPoint(string $remoteDomain, string $token, string $remoteId, string $feedback) {
-		$response = null;
 		switch ($feedback) {
 			case 'accept':
 				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
@@ -538,11 +535,7 @@ class Manager {
 					]
 
 				);
-				try {
-					$response = $this->cloudFederationProviderManager->sendCloudNotification($remoteDomain, $notification);
-				} catch (OCMProviderException) {
-				}
-				break;
+				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
 			case 'decline':
 				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 				$notification->setMessage(
@@ -553,26 +546,9 @@ class Manager {
 						'sharedSecret' => $token,
 						'message' => 'Recipient declined the share'
 					]
-
 				);
-				try {
-					$response = $this->cloudFederationProviderManager->sendCloudNotification($remoteDomain, $notification);
-				} catch (OCMProviderException) {
-				}
-				break;
-			default:
-				throw new \RuntimeException('Unknown feedback');
+				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
 		}
-
-		if ($response !== null && $response->getStatusCode() === Http::STATUS_CREATED) {
-			$result = json_decode($response->getBody(), true);
-			if (is_array($result)) {
-				return $result;
-			} else {
-				return [];
-			}
-		}
-
 		return false;
 	}
 
@@ -589,7 +565,7 @@ class Manager {
 		$data['manager'] = $this;
 		$mountPoint = '/' . $user->getUID() . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
-		$data['certificateManager'] = Server::get(ICertificateManager::class);
+		$data['certificateManager'] = $this->certificateManager;
 		return new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 	}
 
