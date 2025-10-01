@@ -14,6 +14,8 @@ use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
+use OCA\Files\AppInfo\Application;
+use OCA\Files\ConfigLexicon;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
@@ -24,6 +26,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUser;
@@ -51,43 +54,30 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Node
  */
 class Root extends Folder implements IRootFolder {
-	private Manager $mountManager;
 	private PublicEmitter $emitter;
-	private ?IUser $user;
 	private CappedMemoryCache $userFolderCache;
-	private IUserMountCache $userMountCache;
-	private LoggerInterface $logger;
-	private IUserManager $userManager;
-	private IEventDispatcher $eventDispatcher;
 	private ICache $pathByIdCache;
+	private bool $useDefaultHomeFoldersPermissions = true;
 
-	/**
-	 * @param Manager $manager
-	 * @param View $view
-	 * @param IUser|null $user
-	 */
 	public function __construct(
-		$manager,
-		$view,
-		$user,
-		IUserMountCache $userMountCache,
-		LoggerInterface $logger,
-		IUserManager $userManager,
+		private Manager $mountManager,
+		View $view,
+		private ?IUser $user,
+		private IUserMountCache $userMountCache,
+		private LoggerInterface $logger,
+		private IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,
 		ICacheFactory $cacheFactory,
+		IAppConfig $appConfig,
 	) {
 		parent::__construct($this, $view, '');
-		$this->mountManager = $manager;
-		$this->user = $user;
 		$this->emitter = new PublicEmitter();
 		$this->userFolderCache = new CappedMemoryCache();
-		$this->userMountCache = $userMountCache;
-		$this->logger = $logger;
-		$this->userManager = $userManager;
 		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
 			$this->userFolderCache = new CappedMemoryCache();
 		});
 		$this->pathByIdCache = $cacheFactory->createLocal('path-by-id');
+		$this->useDefaultHomeFoldersPermissions = count($appConfig->getValueArray(Application::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS)) === 0;
 	}
 
 	/**
@@ -367,7 +357,7 @@ class Root extends Folder implements IRootFolder {
 					$folder = $this->newFolder('/' . $userId . '/files');
 				}
 			} else {
-				$folder = new LazyUserFolder($this, $userObject, $this->mountManager);
+				$folder = new LazyUserFolder($this, $userObject, $this->mountManager, $this->useDefaultHomeFoldersPermissions);
 			}
 
 			$this->userFolderCache->set($userId, $folder);
