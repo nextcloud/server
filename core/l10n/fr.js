@@ -49,6 +49,7 @@ OC.L10N.register(
     "No translation provider available" : "Aucun fournisseur de traduction n’est disponible",
     "Could not detect language" : "Impossible de détecter la langue",
     "Unable to translate" : "Impossible de traduire",
+    "No valid filters provided" : "Aucun filtre valide fourni",
     "[%d / %d]: %s" : "[%d / %d] : %s",
     "Repair step:" : "Étape de réparation :",
     "Repair info:" : "Informations de réparation :",

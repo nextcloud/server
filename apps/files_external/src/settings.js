@@ -120,7 +120,7 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
 		dropdownCssClass: 'files-external-select2',
 		// minimumInputLength: 1,
 		ajax: {
-			url: OC.generateUrl('apps/files_external/applicable'),
+			url: OC.generateUrl('apps/files_external/ajax/applicable'),
 			dataType: 'json',
 			quietMillis: 100,
 			data(term, page) { // page is the one-based page number tracked by Select2
@@ -131,26 +131,21 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
 				}
 			},
 			results(data) {
-				if (data.status === 'success') {
+				const results = []
+				let userCount = 0 // users is an object
 
-					const results = []
-					let userCount = 0 // users is an object
+				// add groups
+				$.each(data.groups, function(gid, group) {
+					results.push({ name: gid + '(group)', displayname: group, type: 'group' })
+				})
+				// add users
+				$.each(data.users, function(id, user) {
+					userCount++
+					results.push({ name: id, displayname: user, type: 'user' })
+				})
 
-					// add groups
-					$.each(data.groups, function(gid, group) {
-						results.push({ name: gid + '(group)', displayname: group, type: 'group' })
-					})
-					// add users
-					$.each(data.users, function(id, user) {
-						userCount++
-						results.push({ name: id, displayname: user, type: 'user' })
-					})
-
-					const more = (userCount >= userListLimit) || (data.groups.length >= userListLimit)
-					return { results, more }
-				} else {
-					// FIXME add error handling
-				}
+				const more = (userCount >= userListLimit) || (data.groups.length >= userListLimit)
+				return { results, more }
 			},
 		},
 		initSelection(element, callback) {

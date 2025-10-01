@@ -188,7 +188,7 @@
     "new" : "новы",
     "_download %n file_::_download %n files_" : ["спампаваць %n файл","спампаваць %n файлы","спампаваць %n файлаў","спампаваць %n файлаў"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "Абнаўленне яшчэ ідзе. У некаторых асяроддзях, калі пакінуць гэтую старонку, працэс можа быць перапынены.",
-    "Update to {version}" : "Абнаўленне да {version}",
+    "Update to {version}" : "Абнавіць да {version}",
     "An error occurred." : "Узнікла памылка.",
     "Please reload the page." : "Перазагрузіце старонку.",
     "Applications menu" : "Меню праграм",

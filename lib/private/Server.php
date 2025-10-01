@@ -402,6 +402,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->get(IUserManager::class),
 				$this->get(IEventDispatcher::class),
 				$this->get(ICacheFactory::class),
+				$this->get(IAppConfig::class),
 			);
 
 			$previewConnector = new \OC\Preview\WatcherConnector(
@@ -1048,7 +1049,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getAppDataDir('js'),
 				$c->get(IURLGenerator::class),
 				$this->get(ICacheFactory::class),
-				$c->get(SystemConfig::class),
+				$c->get(\OCP\IConfig::class),
 				$c->get(LoggerInterface::class)
 			);
 		});

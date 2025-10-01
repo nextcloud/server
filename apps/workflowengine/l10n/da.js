@@ -57,6 +57,7 @@ OC.L10N.register(
     "Delete" : "Slet",
     "Browse the App Store" : "Gennemse App Store",
     "Show less" : "Vis mindre",
+    "Show more" : "Vis mere",
     "matches" : "er lig med",
     "does not match" : "er ikke lig med",
     "is" : "er",

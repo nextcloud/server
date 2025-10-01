@@ -252,15 +252,6 @@ class Manager extends PublicEmitter implements IUserManager {
 		return false;
 	}
 
-	/**
-	 * Search by user id
-	 *
-	 * @param string $pattern
-	 * @param int $limit
-	 * @param int $offset
-	 * @return IUser[]
-	 * @deprecated 27.0.0, use searchDisplayName instead
-	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -278,14 +269,6 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $users;
 	}
 
-	/**
-	 * Search by displayName
-	 *
-	 * @param string $pattern
-	 * @param int $limit
-	 * @param int $offset
-	 * @return IUser[]
-	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {

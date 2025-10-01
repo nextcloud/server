@@ -2179,7 +2179,6 @@ return array(
     'OC_Helper' => $baseDir . '/lib/private/legacy/OC_Helper.php',
     'OC_Hook' => $baseDir . '/lib/private/legacy/OC_Hook.php',
     'OC_JSON' => $baseDir . '/lib/private/legacy/OC_JSON.php',
-    'OC_Response' => $baseDir . '/lib/private/legacy/OC_Response.php',
     'OC_Template' => $baseDir . '/lib/private/legacy/OC_Template.php',
     'OC_User' => $baseDir . '/lib/private/legacy/OC_User.php',
     'OC_Util' => $baseDir . '/lib/private/legacy/OC_Util.php',

@@ -26,6 +26,7 @@ class Show extends Base {
 	}
 
 	protected function configure(): void {
+		parent::configure();
 		$this
 			->setName('admin-delegation:show')
 			->setDescription('show delegated settings')
@@ -34,37 +35,119 @@ class Show extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
-		$io->title('Current delegations');
+		$outputFormat = $input->getOption('output');
 
-		$sections = $this->settingManager->getAdminSections();
-		$settings = [];
-		$headers = ['Name', 'SettingId', 'Delegated to groups'];
-		foreach ($sections as $sectionPriority) {
-			foreach ($sectionPriority as $section) {
-				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
-				$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
-				if (empty($sectionSettings)) {
-					continue;
-				}
+		// Validate output format
+		if (!$this->validateOutputFormat($outputFormat)) {
+			$io->error("Invalid output format: {$outputFormat}. Valid formats are: plain, json, json_pretty");
+			return 1;
+		}
 
-				$io->section('Section: ' . $section->getID());
-				$io->table($headers, array_map(function (IDelegatedSettings $setting) use ($section) {
-					$className = get_class($setting);
-					$groups = array_map(
-						static fn (AuthorizedGroup $group) => $group->getGroupId(),
-						$this->authorizedGroupService->findExistingGroupsForClass($className)
-					);
-					natsort($groups);
-					return [
-						$setting->getName() ?: 'Global',
-						$className,
-						implode(', ', $groups),
-					];
-				}, $sectionSettings));
+		// Collect delegation data
+		$delegationData = $this->collectDelegationData();
+
+		// Handle empty results
+		if (empty($delegationData)) {
+			if ($outputFormat === self::OUTPUT_FORMAT_PLAIN) {
+				$io->info('No delegated settings found.');
+			} else {
+				$this->writeArrayInOutputFormat($input, $io, []);
 			}
+			return 0;
+		}
+
+		// Output based on format
+		switch ($outputFormat) {
+			case self::OUTPUT_FORMAT_JSON:
+			case self::OUTPUT_FORMAT_JSON_PRETTY:
+				$this->writeArrayInOutputFormat($input, $io, $delegationData);
+				break;
+			default:
+				$this->outputPlainFormat($io, $delegationData);
+				break;
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Collect all delegation data in a structured format
+	 */
+	private function collectDelegationData(): array {
+		$result = [];
+		$sections = $this->settingManager->getAdminSections();
+
+		foreach ($sections as $sectionPriority) {
+			foreach ($sectionPriority as $section) {
+				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
+				$delegatedSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
+
+				if (empty($delegatedSettings)) {
+					continue;
+				}
+
+				$result[] = [
+					'id' => $section->getID(),
+					'name' => $section->getName() ?: $section->getID(),
+					'settings' => $this->formatSettingsData($delegatedSettings)
+				];
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Format settings data for consistent output
+	 */
+	private function formatSettingsData(array $settings): array {
+		return array_map(function (IDelegatedSettings $setting) {
+			$className = get_class($setting);
+			$groups = array_map(
+				static fn (AuthorizedGroup $group) => $group->getGroupId(),
+				$this->authorizedGroupService->findExistingGroupsForClass($className)
+			);
+			natsort($groups);
+
+			return [
+				'name' => $setting->getName() ?: 'Global',
+				'className' => $className,
+				'delegatedGroups' => $groups,
+			];
+		}, $settings);
+	}
+
+	/**
+	 * Output data in plain table format
+	 */
+	private function outputPlainFormat(SymfonyStyle $io, array $data): void {
+		$io->title('Current delegations');
+		$headers = ['Name', 'SettingId', 'Delegated to groups'];
+
+		foreach ($data as $section) {
+			$io->section('Section: ' . $section['id']);
+
+			$tableData = array_map(static function (array $setting) {
+				return [
+					$setting['name'],
+					$setting['className'],
+					implode(', ', $setting['delegatedGroups']),
+				];
+			}, $section['settings']);
+
+			$io->table($headers, $tableData);
+		}
+	}
+
+	/**
+	 * Validate the output format parameter
+	 */
+	private function validateOutputFormat(string $format): bool {
+		return in_array($format, [
+			self::OUTPUT_FORMAT_PLAIN,
+			self::OUTPUT_FORMAT_JSON,
+			self::OUTPUT_FORMAT_JSON_PRETTY
+		], true);
 	}
 
 	/**

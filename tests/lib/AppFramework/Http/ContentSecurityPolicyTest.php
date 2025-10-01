@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,8 +18,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
  * @package OC\AppFramework\Http
  */
 class ContentSecurityPolicyTest extends \Test\TestCase {
-	/** @var ContentSecurityPolicy */
-	private $contentSecurityPolicy;
+	private ContentSecurityPolicy $contentSecurityPolicy;
 
 	protected function setUp(): void {
 		parent::setUp();

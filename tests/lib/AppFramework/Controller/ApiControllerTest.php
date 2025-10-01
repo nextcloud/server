@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,8 +20,7 @@ class ChildApiController extends ApiController {
 
 
 class ApiControllerTest extends \Test\TestCase {
-	/** @var ChildApiController */
-	protected $controller;
+	protected ChildApiController $controller;
 
 	public function testCors(): void {
 		$request = new Request(

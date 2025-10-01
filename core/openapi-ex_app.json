@@ -1368,6 +1368,10 @@
     },
     "tags": [
         {
+            "name": "ocs",
+            "description": "If you are here because you can't extend the OCSController class, you got the wrong one. Please use {@see \\OCP\\AppFramework\\OCSController}!"
+        },
+        {
             "name": "avatar",
             "description": "Class AvatarController"
         },

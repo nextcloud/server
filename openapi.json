@@ -18,6 +18,10 @@
     ],
     "tags": [
         {
+            "name": "core/ocs",
+            "description": "If you are here because you can't extend the OCSController class, you got the wrong one. Please use {@see \\OCP\\AppFramework\\OCSController}!"
+        },
+        {
             "name": "core/avatar",
             "description": "Class AvatarController"
         },
@@ -34429,10 +34433,10 @@
             }
         },
         "/ocs/v2.php/apps/user_ldap/api/v1/config/{configID}": {
-            "get": {
-                "operationId": "user_ldap-configapi-show",
-                "summary": "Get a configuration",
-                "description": "Output can look like this: <?xml version=\"1.0\"?> <ocs> <meta> <status>ok</status> <statuscode>200</statuscode> <message>OK</message> </meta> <data> <ldapHost>ldaps://my.ldap.server</ldapHost> <ldapPort>7770</ldapPort> <ldapBackupHost></ldapBackupHost> <ldapBackupPort></ldapBackupPort> <ldapBase>ou=small,dc=my,dc=ldap,dc=server</ldapBase> <ldapBaseUsers>ou=users,ou=small,dc=my,dc=ldap,dc=server</ldapBaseUsers> <ldapBaseGroups>ou=small,dc=my,dc=ldap,dc=server</ldapBaseGroups> <ldapAgentName>cn=root,dc=my,dc=ldap,dc=server</ldapAgentName> <ldapAgentPassword>clearTextWithShowPassword=1</ldapAgentPassword> <ldapTLS>1</ldapTLS> <turnOffCertCheck>0</turnOffCertCheck> <ldapIgnoreNamingRules/> <ldapUserDisplayName>displayname</ldapUserDisplayName> <ldapUserDisplayName2>uid</ldapUserDisplayName2> <ldapUserFilterObjectclass>inetOrgPerson</ldapUserFilterObjectclass> <ldapUserFilterGroups></ldapUserFilterGroups> <ldapUserFilter>(&amp;(objectclass=nextcloudUser)(nextcloudEnabled=TRUE))</ldapUserFilter> <ldapUserFilterMode>1</ldapUserFilterMode> <ldapGroupFilter>(&amp;(|(objectclass=nextcloudGroup)))</ldapGroupFilter> <ldapGroupFilterMode>0</ldapGroupFilterMode> <ldapGroupFilterObjectclass>nextcloudGroup</ldapGroupFilterObjectclass> <ldapGroupFilterGroups></ldapGroupFilterGroups> <ldapGroupDisplayName>cn</ldapGroupDisplayName> <ldapGroupMemberAssocAttr>memberUid</ldapGroupMemberAssocAttr> <ldapLoginFilter>(&amp;(|(objectclass=inetOrgPerson))(uid=%uid))</ldapLoginFilter> <ldapLoginFilterMode>0</ldapLoginFilterMode> <ldapLoginFilterEmail>0</ldapLoginFilterEmail> <ldapLoginFilterUsername>1</ldapLoginFilterUsername> <ldapLoginFilterAttributes></ldapLoginFilterAttributes> <ldapQuotaAttribute></ldapQuotaAttribute> <ldapQuotaDefault></ldapQuotaDefault> <ldapEmailAttribute>mail</ldapEmailAttribute> <ldapCacheTTL>20</ldapCacheTTL> <ldapUuidUserAttribute>auto</ldapUuidUserAttribute> <ldapUuidGroupAttribute>auto</ldapUuidGroupAttribute> <ldapOverrideMainServer></ldapOverrideMainServer> <ldapConfigurationActive>1</ldapConfigurationActive> <ldapAttributesForUserSearch>uid;sn;givenname</ldapAttributesForUserSearch> <ldapAttributesForGroupSearch></ldapAttributesForGroupSearch> <ldapExperiencedAdmin>0</ldapExperiencedAdmin> <homeFolderNamingRule></homeFolderNamingRule> <hasMemberOfFilterSupport></hasMemberOfFilterSupport> <useMemberOfToDetectMembership>1</useMemberOfToDetectMembership> <ldapExpertUsernameAttr>uid</ldapExpertUsernameAttr> <ldapExpertUUIDUserAttr>uid</ldapExpertUUIDUserAttr> <ldapExpertUUIDGroupAttr></ldapExpertUUIDGroupAttr> <lastJpegPhotoLookup>0</lastJpegPhotoLookup> <ldapNestedGroups>0</ldapNestedGroups> <ldapPagingSize>500</ldapPagingSize> <turnOnPasswordChange>1</turnOnPasswordChange> <ldapDynamicGroupMemberURL></ldapDynamicGroupMemberURL> </data> </ocs>\nThis endpoint requires admin access",
+            "delete": {
+                "operationId": "user_ldap-configapi-delete",
+                "summary": "Delete a LDAP configuration",
+                "description": "This endpoint requires admin access",
                 "tags": [
                     "user_ldap/configapi"
                 ],
@@ -34455,15 +34459,6 @@
                         }
                     },
                     {
-                        "name": "showPassword",
-                        "in": "query",
-                        "description": "Whether to show the password",
-                        "schema": {
-                            "type": "boolean",
-                            "default": false
-                        }
-                    },
-                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -34476,7 +34471,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Config returned",
+                        "description": "Config deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -34495,12 +34490,7 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {
-                                                    "type": "object",
-                                                    "additionalProperties": {
-                                                        "type": "object"
-                                                    }
-                                                }
+                                                "data": {}
                                             }
                                         }
                                     }
@@ -34673,7 +34663,12 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {}
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "object"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -34795,10 +34790,10 @@
                     }
                 }
             },
-            "delete": {
-                "operationId": "user_ldap-configapi-delete",
-                "summary": "Delete a LDAP configuration",
-                "description": "This endpoint requires admin access",
+            "get": {
+                "operationId": "user_ldap-configapi-show",
+                "summary": "Get a configuration",
+                "description": "Output can look like this: <?xml version=\"1.0\"?> <ocs> <meta> <status>ok</status> <statuscode>200</statuscode> <message>OK</message> </meta> <data> <ldapHost>ldaps://my.ldap.server</ldapHost> <ldapPort>7770</ldapPort> <ldapBackupHost></ldapBackupHost> <ldapBackupPort></ldapBackupPort> <ldapBase>ou=small,dc=my,dc=ldap,dc=server</ldapBase> <ldapBaseUsers>ou=users,ou=small,dc=my,dc=ldap,dc=server</ldapBaseUsers> <ldapBaseGroups>ou=small,dc=my,dc=ldap,dc=server</ldapBaseGroups> <ldapAgentName>cn=root,dc=my,dc=ldap,dc=server</ldapAgentName> <ldapAgentPassword>clearTextWithShowPassword=1</ldapAgentPassword> <ldapTLS>1</ldapTLS> <turnOffCertCheck>0</turnOffCertCheck> <ldapIgnoreNamingRules/> <ldapUserDisplayName>displayname</ldapUserDisplayName> <ldapUserDisplayName2>uid</ldapUserDisplayName2> <ldapUserFilterObjectclass>inetOrgPerson</ldapUserFilterObjectclass> <ldapUserFilterGroups></ldapUserFilterGroups> <ldapUserFilter>(&amp;(objectclass=nextcloudUser)(nextcloudEnabled=TRUE))</ldapUserFilter> <ldapUserFilterMode>1</ldapUserFilterMode> <ldapGroupFilter>(&amp;(|(objectclass=nextcloudGroup)))</ldapGroupFilter> <ldapGroupFilterMode>0</ldapGroupFilterMode> <ldapGroupFilterObjectclass>nextcloudGroup</ldapGroupFilterObjectclass> <ldapGroupFilterGroups></ldapGroupFilterGroups> <ldapGroupDisplayName>cn</ldapGroupDisplayName> <ldapGroupMemberAssocAttr>memberUid</ldapGroupMemberAssocAttr> <ldapLoginFilter>(&amp;(|(objectclass=inetOrgPerson))(uid=%uid))</ldapLoginFilter> <ldapLoginFilterMode>0</ldapLoginFilterMode> <ldapLoginFilterEmail>0</ldapLoginFilterEmail> <ldapLoginFilterUsername>1</ldapLoginFilterUsername> <ldapLoginFilterAttributes></ldapLoginFilterAttributes> <ldapQuotaAttribute></ldapQuotaAttribute> <ldapQuotaDefault></ldapQuotaDefault> <ldapEmailAttribute>mail</ldapEmailAttribute> <ldapCacheTTL>20</ldapCacheTTL> <ldapUuidUserAttribute>auto</ldapUuidUserAttribute> <ldapUuidGroupAttribute>auto</ldapUuidGroupAttribute> <ldapOverrideMainServer></ldapOverrideMainServer> <ldapConfigurationActive>1</ldapConfigurationActive> <ldapAttributesForUserSearch>uid;sn;givenname</ldapAttributesForUserSearch> <ldapAttributesForGroupSearch></ldapAttributesForGroupSearch> <ldapExperiencedAdmin>0</ldapExperiencedAdmin> <homeFolderNamingRule></homeFolderNamingRule> <hasMemberOfFilterSupport></hasMemberOfFilterSupport> <useMemberOfToDetectMembership>1</useMemberOfToDetectMembership> <ldapExpertUsernameAttr>uid</ldapExpertUsernameAttr> <ldapExpertUUIDUserAttr>uid</ldapExpertUUIDUserAttr> <ldapExpertUUIDGroupAttr></ldapExpertUUIDGroupAttr> <lastJpegPhotoLookup>0</lastJpegPhotoLookup> <ldapNestedGroups>0</ldapNestedGroups> <ldapPagingSize>500</ldapPagingSize> <turnOnPasswordChange>1</turnOnPasswordChange> <ldapDynamicGroupMemberURL></ldapDynamicGroupMemberURL> </data> </ocs>\nThis endpoint requires admin access",
                 "tags": [
                     "user_ldap/configapi"
                 ],
@@ -34821,6 +34816,15 @@
                         }
                     },
                     {
+                        "name": "showPassword",
+                        "in": "query",
+                        "description": "Whether to show the password",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -34833,7 +34837,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Config deleted successfully",
+                        "description": "Config returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -34852,7 +34856,12 @@
                                                 "meta": {
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
-                                                "data": {}
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "object"
+                                                    }
+                                                }
                                             }
                                         }
                                     }

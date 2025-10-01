@@ -64,9 +64,8 @@ class QBDBTestMapper extends QBMapper {
  * @group DB
  */
 class QBMapperDBTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|IDBConnection */
-	protected $connection;
-	protected $schemaSetup = false;
+	protected IDBConnection $connection;
+	protected bool $schemaSetup = false;
 
 	protected function setUp(): void {
 		parent::setUp();

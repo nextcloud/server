@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,30 +14,25 @@ use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\CSSResourceLocator;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class CSSResourceLocatorTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appData;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
-	protected $themingDefaults;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $cacheFactory;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	/** @var AppConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $appConfig;
+	private IAppData&MockObject $appData;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IConfig&MockObject $config;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private ICacheFactory&MockObject $cacheFactory;
+	private LoggerInterface&MockObject $logger;
+	private ITimeFactory&MockObject $timeFactory;
+	private AppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,6 +53,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$factory->method('get')->with('css')->willReturn($this->appData);
 		return new CSSResourceLocator(
 			$this->logger,
+			$this->createMock(IConfig::class),
+			Server::get(IAppManager::class),
 			'theme',
 			['core' => 'map'],
 			['3rd' => 'party'],
@@ -74,8 +73,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		return rmdir($directory);
 	}
 
-	private function randomString() {
-		return sha1(uniqid(mt_rand(), true));
+	private function randomString(): string {
+		return sha1(random_bytes(10));
 	}
 
 	public function testFindWithAppPathSymlink(): void {

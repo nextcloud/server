@@ -1,60 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Template;
 
-use OC\SystemConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class JSCombiner {
-	/** @var IAppData */
-	protected $appData;
+	protected ICache $depsCache;
 
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var ICache */
-	protected $depsCache;
-
-	/** @var SystemConfig */
-	protected $config;
-
-	protected LoggerInterface $logger;
-
-	/** @var ICacheFactory */
-	private $cacheFactory;
-
-	public function __construct(IAppData $appData,
-		IURLGenerator $urlGenerator,
-		ICacheFactory $cacheFactory,
-		SystemConfig $config,
-		LoggerInterface $logger) {
-		$this->appData = $appData;
-		$this->urlGenerator = $urlGenerator;
-		$this->cacheFactory = $cacheFactory;
+	public function __construct(
+		protected IAppData $appData,
+		protected IURLGenerator $urlGenerator,
+		protected ICacheFactory $cacheFactory,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+	) {
 		$this->depsCache = $this->cacheFactory->createDistributed('JS-' . md5($this->urlGenerator->getBaseUrl()));
-		$this->config = $config;
-		$this->logger = $logger;
 	}
 
-	/**
-	 * @param string $root
-	 * @param string $file
-	 * @param string $app
-	 * @return bool
-	 */
-	public function process($root, $file, $app) {
-		if ($this->config->getValue('debug') || !$this->config->getValue('installed')) {
+	public function process(string $root, string $file, string $app): bool {
+		if ($this->config->getSystemValueBool('debug') || !$this->config->getSystemValueBool('installed')) {
 			return false;
 		}
 
@@ -76,12 +55,7 @@ class JSCombiner {
 		return $this->cache($path, $fileName, $folder);
 	}
 
-	/**
-	 * @param string $fileName
-	 * @param ISimpleFolder $folder
-	 * @return bool
-	 */
-	protected function isCached($fileName, ISimpleFolder $folder) {
+	protected function isCached(string $fileName, ISimpleFolder $folder): bool {
 		$fileName = str_replace('.json', '.js', $fileName);
 
 		if (!$folder->fileExists($fileName)) {
@@ -126,13 +100,7 @@ class JSCombiner {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param string $fileName
-	 * @param ISimpleFolder $folder
-	 * @return bool
-	 */
-	protected function cache($path, $fileName, ISimpleFolder $folder) {
+	protected function cache(string $path, string $fileName, ISimpleFolder $folder): bool {
 		$deps = [];
 		$fullPath = $path . '/' . $fileName;
 		$data = json_decode(file_get_contents($fullPath));
@@ -183,12 +151,7 @@ class JSCombiner {
 		}
 	}
 
-	/**
-	 * @param string $appName
-	 * @param string $fileName
-	 * @return string
-	 */
-	public function getCachedJS($appName, $fileName) {
+	public function getCachedJS(string $appName, string $fileName): string {
 		$tmpfileLoc = explode('/', $fileName);
 		$fileName = array_pop($tmpfileLoc);
 		$fileName = str_replace('.json', '.js', $fileName);
@@ -197,12 +160,9 @@ class JSCombiner {
 	}
 
 	/**
-	 * @param string $root
-	 * @param string $file
 	 * @return string[]
 	 */
-	public function getContent($root, $file) {
-		/** @var array $data */
+	public function getContent(string $root, string $file): array {
 		$data = json_decode(file_get_contents($root . '/' . $file));
 		if (!is_array($data)) {
 			return [];
@@ -226,7 +186,7 @@ class JSCombiner {
 	 *
 	 * @throws NotFoundException
 	 */
-	public function resetCache() {
+	public function resetCache(): void {
 		$this->cacheFactory->createDistributed('JS-')->clear();
 		$appDirectory = $this->appData->getDirectoryListing();
 		foreach ($appDirectory as $folder) {

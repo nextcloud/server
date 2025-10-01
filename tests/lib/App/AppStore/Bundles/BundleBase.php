@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,19 +11,15 @@ namespace Test\App\AppStore\Bundles;
 
 use OC\App\AppStore\Bundles\Bundle;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 abstract class BundleBase extends TestCase {
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-	/** @var Bundle */
-	protected $bundle;
-	/** @var string */
-	protected $bundleIdentifier;
-	/** @var string */
-	protected $bundleName;
-	/** @var array */
-	protected $bundleAppIds;
+	protected IL10N&MockObject $l10n;
+	protected Bundle $bundle;
+	protected string $bundleIdentifier;
+	protected string $bundleName;
+	protected array $bundleAppIds;
 
 	protected function setUp(): void {
 		parent::setUp();

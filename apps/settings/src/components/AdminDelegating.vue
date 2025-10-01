@@ -42,6 +42,6 @@ label {
 	color: var(--color-text-maxcontrast);
 	display: block;
 	font-size: 16px;
-	margin: 12px 0;
+	margin: 12px 0 6px 0;
 }
 </style>

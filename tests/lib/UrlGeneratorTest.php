@@ -116,16 +116,16 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	public static function provideDocRootAppUrlParts(): array {
 		return [
-			['files_external', 'ajax/oauth2.php', [], '/index.php/apps/files_external/ajax/oauth2.php'],
-			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
+			['user_ldap', 'ajax/wizard.php', [], '/index.php/apps/user_ldap/ajax/wizard.php'],
+			['user_ldap', 'ajax/wizard.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/user_ldap/ajax/wizard.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php?trut=trat&dut=dat'],
 		];
 	}
 
 	public static function provideSubDirAppUrlParts(): array {
 		return [
-			['files_external', 'ajax/oauth2.php', [], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php'],
-			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
+			['user_ldap', 'ajax/wizard.php', [], '/nextcloud/index.php/apps/user_ldap/ajax/wizard.php'],
+			['user_ldap', 'ajax/wizard.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/user_ldap/ajax/wizard.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php?trut=trat&dut=dat'],
 		];
 	}
