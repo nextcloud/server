@@ -104,6 +104,7 @@ interface IUserManager {
 	 * @param int $offset
 	 * @return \OCP\IUser[]
 	 * @since 8.0.0
+	 * @deprecated 27.0.0, use searchDisplayName instead
 	 */
 	public function search($pattern, $limit = null, $offset = null);
 

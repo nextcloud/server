@@ -731,6 +731,9 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Principal.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
@@ -744,8 +747,7 @@
       <code><![CDATA[$results]]></code>
     </InvalidScalarArgument>
     <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
+      <code><![CDATA[$this->getPrincipalPropertiesByPath($path)]]></code>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
@@ -1364,6 +1366,7 @@
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
+      <code><![CDATA[search]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files/lib/Command/ScanAppData.php">
@@ -1981,6 +1984,8 @@
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
+      <code><![CDATA[search]]></code>
+      <code><![CDATA[search]]></code>
     </DeprecatedMethod>
     <TypeDoesNotContainNull>
       <code><![CDATA[$groupid === null]]></code>
@@ -2391,7 +2396,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
@@ -2866,6 +2870,11 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/BackgroundJobs/GenerateMetadataJob.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="core/Command/App/ListApps.php">
     <LessSpecificImplementedReturnType>
       <code><![CDATA[array]]></code>
@@ -2988,6 +2997,11 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/Group/AddUser.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="core/Command/Log/File.php">
     <InvalidReturnStatement>
       <code><![CDATA[[0]]]></code>
@@ -3013,6 +3027,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Command/Preview/ResetRenderedTexts.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
     <InvalidReturnStatement>
       <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
@@ -3026,6 +3043,11 @@
   <file src="core/Command/Security/BruteforceResetAttempts.php">
     <DeprecatedMethod>
       <code><![CDATA[resetDelayForIP]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Command/TwoFactorAuth/Base.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Upgrade.php">
@@ -3069,6 +3091,21 @@
       <code><![CDATA[IToken]]></code>
     </DeprecatedInterface>
   </file>
+  <file src="core/Command/User/Delete.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/Disable.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/Enable.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="core/Command/User/Info.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
@@ -3076,10 +3113,27 @@
     </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/LastSeen.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/Profile.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/ResetPassword.php">
+    <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/User/Setting.php">
     <DeprecatedMethod>
+      <code><![CDATA[search]]></code>
       <code><![CDATA[setEMailAddress]]></code>
     </DeprecatedMethod>
   </file>
