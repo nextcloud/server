@@ -84,7 +84,6 @@ abstract class QBMapper {
 		return $entity;
 	}
 
-
 	/**
 	 * Creates a new entry in the db from an entity
 	 *
