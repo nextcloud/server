@@ -505,6 +505,10 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setLastCheck($this->time->getTime());
 		$dbToken->setVersion(PublicKeyToken::VERSION);
 
+		if ($type === OCPIToken::ONETIME_TOKEN) {
+			$dbToken->setExpires($this->time->getTime() + 120);
+		}
+
 		return $dbToken;
 	}
 

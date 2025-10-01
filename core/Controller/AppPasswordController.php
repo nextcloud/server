@@ -186,4 +186,56 @@ class AppPasswordController extends OCSController {
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'sudo', ['loginName' => $loginName]);
 		return new DataResponse(['lastLogin' => $confirmTimestamp], Http::STATUS_OK);
 	}
+
+	/**
+	 * Get app password with one-time password
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
+	 * @throws OCSForbiddenException Creating app password is not allowed
+	 *
+	 * 200: App password returned
+	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
+	#[ApiRoute(verb: 'GET', url: '/getapppassword-onetime', root: '/core')]
+	public function getAppPasswordWithOneTimePassword(): DataResponse {
+		// Only allow with one-time app passwords
+		if (!$this->session->exists('one_time_token')) {
+			throw new OCSForbiddenException('could not get one-time app password');
+		}
+
+		try {
+			$credentials = $this->credentialStore->getLoginCredentials();
+		} catch (CredentialsUnavailableException) {
+			throw new OCSForbiddenException();
+		}
+
+		try {
+			$password = $credentials->getPassword();
+		} catch (PasswordUnavailableException) {
+			$password = null;
+		}
+
+		$userAgent = $this->request->getHeader('user-agent');
+
+		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+
+		$generatedToken = $this->tokenProvider->generateToken(
+			$token,
+			$credentials->getUID(),
+			$credentials->getLoginName(),
+			$password,
+			$userAgent,
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER
+		);
+
+		$this->eventDispatcher->dispatchTyped(
+			new AppPasswordCreatedEvent($generatedToken)
+		);
+
+		return new DataResponse([
+			'apppassword' => $token
+		]);
+	}
 }

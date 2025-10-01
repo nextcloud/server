@@ -70,19 +70,18 @@ class AuthSettingsController extends Controller {
 	/**
 	 * @NoSubAdminRequired
 	 *
-	 * @param string $name
-	 * @return JSONResponse
+	 * @param bool $oneTime If set to true, the returned token can only be used to get the actual app password a single time
 	 */
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
-	public function create($name) {
+	public function create(string $name = '', bool $oneTime = false): JSONResponse {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
 		try {
 			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException $ex) {
+		} catch (SessionNotAvailableException) {
 			return $this->getServiceNotAvailableResponse();
 		}
 		if ($this->userSession->getImpersonatingUserID() !== null) {
@@ -94,11 +93,23 @@ class AuthSettingsController extends Controller {
 			$loginName = $sessionToken->getLoginName();
 			try {
 				$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
-			} catch (PasswordlessTokenException $ex) {
+			} catch (PasswordlessTokenException) {
 				$password = null;
 			}
-		} catch (InvalidTokenException $ex) {
+		} catch (InvalidTokenException) {
 			return $this->getServiceNotAvailableResponse();
+		}
+
+		if ($oneTime) {
+			$name = 'One time login';
+			$type = IToken::ONETIME_TOKEN;
+			$scope = [];
+		} elseif ($name === '') {
+			// No name is only allowed for one time logins
+			return $this->getServiceNotAvailableResponse();
+		} else {
+			$type = IToken::PERMANENT_TOKEN;
+			$scope = null;
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -106,7 +117,15 @@ class AuthSettingsController extends Controller {
 		}
 
 		$token = $this->generateRandomDeviceToken();
-		$deviceToken = $this->tokenProvider->generateToken($token, $this->userId, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
+		$deviceToken = $this->tokenProvider->generateToken(
+			$token,
+			$this->userId,
+			$loginName,
+			$password,
+			$name,
+			$type,
+			scope: $scope,
+		);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
 		$tokenData['canRename'] = true;
