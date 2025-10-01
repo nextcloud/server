@@ -1041,4 +1041,102 @@ class FolderTest extends NodeTestCase {
 		}, $result);
 		$this->assertEquals($expectedPaths, $ids);
 	}
+
+	private function callBuildNotExistingFileNameForView(string $path, string $name, View&MockObject $view): string {
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$folder = new Folder($rootFolder, $view, $path);
+		return $path . (str_ends_with('/', $path) ? '' : '/') . $folder->getNonExistingName($name);
+	}
+
+	public function testBuildNotExistingFileNameForView(): void {
+		$viewMock = $this->createMock(View::class);
+		$this->assertEquals('/filename', $this->callBuildNotExistingFileNameForView('/', 'filename', $viewMock));
+		$this->assertEquals('dir/filename.ext', $this->callBuildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+			->method('file_exists')
+			->willReturnMap([
+				// Conflict on filename.ext
+				['dir/filename.ext', true],
+				['dir/filename (2).ext', false],
+			]);
+		$this->assertEquals('dir/filename (2).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(3))
+			->method('file_exists')
+			->willReturnMap([
+				// Conflict on filename.ext
+				['dir/filename.ext', true],
+				['dir/filename (2).ext', true],
+				['dir/filename (3).ext', false],
+			]);
+		$this->assertEquals('dir/filename (3).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+			->method('file_exists')
+			->willReturnMap([
+				['dir/filename (1).ext', true],
+				['dir/filename (2).ext', false],
+			]);
+		$this->assertEquals('dir/filename (2).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename (1).ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+			->method('file_exists')
+			->willReturnMap([
+				['dir/filename (2).ext', true],
+				['dir/filename (3).ext', false],
+			]);
+		$this->assertEquals('dir/filename (3).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(3))
+			->method('file_exists')
+			->willReturnMap([
+				['dir/filename (2).ext', true],
+				['dir/filename (3).ext', true],
+				['dir/filename (4).ext', false],
+			]);
+		$this->assertEquals('dir/filename (4).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+			->method('file_exists')
+			->willReturnMap([
+				['dir/filename(1).ext', true],
+				['dir/filename(2).ext', false],
+			]);
+		$this->assertEquals('dir/filename(2).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename(1).ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+			->method('file_exists')
+			->willReturnMap([
+				['dir/filename(1) (1).ext', true],
+				['dir/filename(1) (2).ext', false],
+			]);
+		$this->assertEquals('dir/filename(1) (2).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(3))
+			->method('file_exists')
+			->willReturnMap([
+				['dir/filename(1) (1).ext', true],
+				['dir/filename(1) (2).ext', true],
+				['dir/filename(1) (3).ext', false],
+			]);
+		$this->assertEquals('dir/filename(1) (3).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
+
+		$viewMock = $this->createMock(View::class);
+		$viewMock->expects($this->exactly(2))
+			->method('file_exists')
+			->willReturnMap([
+				['dir/filename(1) (2) (3).ext', true],
+				['dir/filename(1) (2) (4).ext', false],
+			]);
+		$this->assertEquals('dir/filename(1) (2) (4).ext', $this->callBuildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));
+	}
 }

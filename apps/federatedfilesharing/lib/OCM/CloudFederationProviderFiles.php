@@ -9,6 +9,7 @@ namespace OCA\FederatedFileSharing\OCM;
 use NCU\Federation\ISignedCloudFederationProvider;
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Federation\TrustedServers;
@@ -32,8 +33,10 @@ use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
@@ -68,6 +71,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		private LoggerInterface $logger,
 		private IFilenameValidator $filenameValidator,
 		private readonly IProviderFactory $shareProviderFactory,
+		private readonly SetupManager $setupManager,
 	) {
 	}
 
@@ -128,6 +132,8 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 				throw new ProviderCouldNotAddShareException('The mountpoint name contains invalid characters.', '', Http::STATUS_BAD_REQUEST);
 			}
 
+			$userOrGroup = null;
+
 			// FIXME this should be a method in the user management instead
 			if ($shareType === IShare::TYPE_USER) {
 				$this->logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
@@ -138,19 +144,23 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 				);
 				$this->logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
 
-				if (!$this->userManager->userExists($shareWith)) {
+				$userOrGroup = $this->userManager->get($shareWith);
+				if ($userOrGroup === null) {
 					throw new ProviderCouldNotAddShareException('User does not exists', '', Http::STATUS_BAD_REQUEST);
 				}
 
-				\OC_Util::setupFS($shareWith);
+				$this->setupManager->setupForUser($userOrGroup);
 			}
 
-			if ($shareType === IShare::TYPE_GROUP && !$this->groupManager->groupExists($shareWith)) {
-				throw new ProviderCouldNotAddShareException('Group does not exists', '', Http::STATUS_BAD_REQUEST);
+			if ($shareType === IShare::TYPE_GROUP) {
+				$userOrGroup = $this->groupManager->get($shareWith);
+				if ($userOrGroup === null) {
+					throw new ProviderCouldNotAddShareException('Group does not exists', '', Http::STATUS_BAD_REQUEST);
+				}
 			}
 
 			try {
-				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType, false, $shareWith, $remoteId);
+				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType, false, $userOrGroup, $remoteId);
 				$shareId = Server::get(IDBConnection::class)->lastInsertId('*PREFIX*share_external');
 
 				// get DisplayName about the owner of the share
@@ -168,6 +178,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 
 				if ($shareType === IShare::TYPE_USER) {
+					/** @var IUser $userOrGroup */
 					$event = $this->activityManager->generateEvent();
 					$event->setApp('files_sharing')
 						->setType('remote_share')
@@ -179,10 +190,12 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 					// If auto-accept is enabled, accept the share
 					if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $trustedServers?->isTrustedServer($remote) === true) {
-						$this->externalShareManager->acceptShare($shareId, $shareWith);
+						/** @var IUser $userOrGroup */
+						$this->externalShareManager->acceptShare($shareId, $userOrGroup);
 					}
 				} else {
-					$groupMembers = $this->groupManager->get($shareWith)->getUsers();
+					/** @var IGroup $userOrGroup */
+					$groupMembers = $userOrGroup->getUsers();
 					foreach ($groupMembers as $user) {
 						$event = $this->activityManager->generateEvent();
 						$event->setApp('files_sharing')
@@ -195,7 +208,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 						// If auto-accept is enabled, accept the share
 						if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $trustedServers?->isTrustedServer($remote) === true) {
-							$this->externalShareManager->acceptShare($shareId, $user->getUID());
+							$this->externalShareManager->acceptShare($shareId, $user);
 						}
 					}
 				}

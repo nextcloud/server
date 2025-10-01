@@ -11,11 +11,14 @@ use OC\SystemConfig;
 use OCA\Files_Sharing\ExpireSharesJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
+use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class ExpireSharesJobTest
@@ -26,31 +29,29 @@ use OCP\Share\IShare;
  */
 class ExpireSharesJobTest extends \Test\TestCase {
 
-	/** @var ExpireSharesJob */
-	private $job;
+	private ExpireSharesJob $job;
 
-	/** @var IDBConnection */
-	private $connection;
+	private IDBConnection $connection;
+	private IRootFolder $rootFolder;
 
-	/** @var string */
-	private $user1;
+	private IUser $user1;
 
-	/** @var string */
-	private $user2;
+	private IUser $user2;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = Server::get(IDBConnection::class);
+		$this->rootFolder = Server::get(IRootFolder::class);
 		// clear occasional leftover shares from other tests
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
 
-		$this->user1 = $this->getUniqueID('user1_');
-		$this->user2 = $this->getUniqueID('user2_');
+		$user1 = $this->getUniqueID('user1_');
+		$user2 = $this->getUniqueID('user2_');
 
 		$userManager = Server::get(IUserManager::class);
-		$userManager->createUser($this->user1, 'longrandompassword');
-		$userManager->createUser($this->user2, 'longrandompassword');
+		$this->user1 = $userManager->createUser($user1, 'longrandompassword');
+		$this->user2 = $userManager->createUser($user2, 'longrandompassword');
 
 		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
@@ -58,24 +59,17 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
 
-		$userManager = Server::get(IUserManager::class);
-		$user1 = $userManager->get($this->user1);
-		if ($user1) {
-			$user1->delete();
-		}
-		$user2 = $userManager->get($this->user2);
-		if ($user2) {
-			$user2->delete();
-		}
+		$this->user1->delete();
+		$this->user2->delete();
 
 		$this->logout();
 
 		parent::tearDown();
 	}
 
-	private function getShares() {
+	private function getShares(): array {
 		$shares = [];
 		$qb = $this->connection->getQueryBuilder();
 
@@ -106,26 +100,25 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	}
 
 	/**
-	 *
 	 * @param bool addExpiration Should we add an expire date
 	 * @param string $interval The dateInterval
 	 * @param bool $addInterval If true add to the current time if false subtract
 	 * @param bool $shouldExpire Should this share be expired
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExpireLinkShare')]
-	public function testExpireLinkShare($addExpiration, $interval, $addInterval, $shouldExpire): void {
-		$this->loginAsUser($this->user1);
+	#[DataProvider('dataExpireLinkShare')]
+	public function testExpireLinkShare(bool $addExpiration, string $interval, bool $addInterval, bool $shouldExpire): void {
+		$this->loginAsUser($this->user1->getUID());
 
-		$user1Folder = \OC::$server->getUserFolder($this->user1);
+		$user1Folder = $this->rootFolder->getUserFolder($this->user1->getUID());
 		$testFolder = $user1Folder->newFolder('test');
 
-		$shareManager = Server::get(\OCP\Share\IManager::class);
+		$shareManager = Server::get(IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)
 			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(Constants::PERMISSION_READ)
-			->setSharedBy($this->user1);
+			->setSharedBy($this->user1->getUID());
 
 		$shareManager->createShare($share);
 
@@ -171,19 +164,19 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	}
 
 	public function testDoNotExpireOtherShares(): void {
-		$this->loginAsUser($this->user1);
+		$this->loginAsUser($this->user1->getUID());
 
-		$user1Folder = \OC::$server->getUserFolder($this->user1);
+		$user1Folder = $this->rootFolder->getUserFolder($this->user1->getUID());
 		$testFolder = $user1Folder->newFolder('test');
 
-		$shareManager = Server::get(\OCP\Share\IManager::class);
+		$shareManager = Server::get(IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(Constants::PERMISSION_READ)
-			->setSharedBy($this->user1)
-			->setSharedWith($this->user2);
+			->setSharedBy($this->user1->getUID())
+			->setSharedWith($this->user2->getUID());
 
 		$shareManager->createShare($share);
 

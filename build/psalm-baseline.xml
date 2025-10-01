@@ -1194,7 +1194,6 @@
   </file>
   <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
     <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($shareWith)]]></code>
       <code><![CDATA[\OC_Util::setupFS($user)]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
@@ -1488,20 +1487,7 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
-    <DeprecatedClass>
-      <code><![CDATA[Files::buildNotExistingFileName($shareFolder, $share['name'])]]></code>
-      <code><![CDATA[Files::buildNotExistingFileName('/', $name)]]></code>
-      <code><![CDATA[Share::RESPONSE_FORMAT]]></code>
-      <code><![CDATA[\OC_Util::setupFS($user)]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
-      <code><![CDATA[Files::buildNotExistingFileName($shareFolder, $share['name'])]]></code>
-      <code><![CDATA[Files::buildNotExistingFileName('/', $name)]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[insertIfNotExist]]></code>
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>
@@ -4055,10 +4041,6 @@
     </InvalidArgument>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$matches[0][$last_match]]]></code>
-      <code><![CDATA[$matches[1][$last_match]]]></code>
-    </InvalidArrayOffset>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getQuota]]></code>
     </UndefinedInterfaceMethod>
