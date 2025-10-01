@@ -6,11 +6,16 @@
 namespace OCA\SystemTags\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 use OCP\Util;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
+	public function __construct(
+		private IL10N $l10n,
+	) {
+	}
 	/**
 	 * @return TemplateResponse
 	 */
@@ -35,5 +40,13 @@ class Admin implements ISettings {
 	 */
 	public function getPriority() {
 		return 70;
+	}
+
+	public function getName(): string {
+		return $this->l10n->t('Collaborative tags');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [];
 	}
 }
