@@ -12,8 +12,6 @@ $expectedFiles = [
 	'.devcontainer',
 	'.editorconfig',
 	'.envrc',
-	'.eslintignore',
-	'.eslintrc.js',
 	'.git',
 	'.git-blame-ignore-revs',
 	'.gitattributes',
@@ -62,6 +60,7 @@ $expectedFiles = [
 	'cypress.d.ts',
 	'cypress',
 	'dist',
+	'eslint.config.mjs',
 	'flake.lock',
 	'flake.nix',
 	'index.html',
@@ -89,9 +88,9 @@ $expectedFiles = [
 	'vendor-bin',
 	'version.php',
 	'vitest.config.mts',
-	'webpack.common.js',
+	'webpack.common.cjs',
 	'webpack.config.js',
-	'webpack.modules.js',
+	'webpack.modules.cjs',
 	'window.d.ts',
 ];
 $actualFiles = [];
