@@ -8,12 +8,12 @@
 
 namespace OCA\Encryption\Command;
 
+use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
 use OCA\Encryption\Util;
 use OCP\Encryption\Exceptions\InvalidHeaderException;
-use OCP\Files\IRootFolder;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IUser;
@@ -29,12 +29,12 @@ class FixEncryptedVersion extends Command {
 	private bool $supportLegacy = false;
 
 	public function __construct(
-		private IConfig $config,
-		private LoggerInterface $logger,
-		private IRootFolder $rootFolder,
-		private IUserManager $userManager,
-		private Util $util,
-		private View $view,
+		private readonly IConfig $config,
+		private readonly LoggerInterface $logger,
+		private readonly IUserManager $userManager,
+		private readonly Util $util,
+		private readonly View $view,
+		private readonly SetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
@@ -91,45 +91,43 @@ class FixEncryptedVersion extends Command {
 				return self::FAILURE;
 			}
 
-			if ($this->userManager->get($user) === null) {
+			$user = $this->userManager->get($user);
+			if ($user === null) {
 				$output->writeln("<error>User id $user does not exist. Please provide a valid user id</error>");
 				return self::FAILURE;
 			}
 
-			return $this->runForUser($user, $pathOption, $output);
+			return $this->runForUser($user, $pathOption, $output) ? self::SUCCESS : self::FAILURE;
 		}
 
-		$result = 0;
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
+		foreach ($this->userManager->getSeenUsers() as $user) {
 			$output->writeln('Processing files for ' . $user->getUID());
-			$result = $this->runForUser($user->getUID(), $pathOption, $output);
-			return $result === 0;
-		});
-		return $result;
+			if (!$this->runForUser($user, $pathOption, $output)) {
+				return self::FAILURE;
+			}
+		}
+		return self::SUCCESS;
 	}
 
-	private function runForUser(string $user, string $pathOption, OutputInterface $output): int {
-		$pathToWalk = "/$user/files";
+	private function runForUser(IUser $user, string $pathOption, OutputInterface $output): bool {
+		$pathToWalk = '/' . $user->getUID() . '/files';
 		if ($pathOption !== '') {
 			$pathToWalk = "$pathToWalk/$pathOption";
 		}
 		return $this->walkPathOfUser($user, $pathToWalk, $output);
 	}
 
-	/**
-	 * @return int 0 for success, 1 for error
-	 */
-	private function walkPathOfUser(string $user, string $path, OutputInterface $output): int {
-		$this->setupUserFs($user);
+	private function walkPathOfUser(IUser $user, string $path, OutputInterface $output): bool {
+		$this->setupUserFileSystem($user);
 		if (!$this->view->file_exists($path)) {
 			$output->writeln("<error>Path \"$path\" does not exist. Please provide a valid path.</error>");
-			return self::FAILURE;
+			return false;
 		}
 
 		if ($this->view->is_file($path)) {
 			$output->writeln("Verifying the content of file \"$path\"");
 			$this->verifyFileContent($path, $output);
-			return self::SUCCESS;
+			return true;
 		}
 		$directories = [];
 		$directories[] = $path;
@@ -145,7 +143,7 @@ class FixEncryptedVersion extends Command {
 				}
 			}
 		}
-		return self::SUCCESS;
+		return true;
 	}
 
 	/**
@@ -309,8 +307,8 @@ class FixEncryptedVersion extends Command {
 	/**
 	 * Setup user file system
 	 */
-	private function setupUserFs(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+	private function setupUserFileSystem(IUser $user): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 	}
 }
