@@ -16,6 +16,7 @@ use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -48,6 +49,9 @@ class IMipServiceTest extends TestCase {
 	/** @var IMipService */
 	private $service;
 
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
 	/** @var VCalendar */
 	private $vCalendar1a;
 	/** @var VCalendar */
@@ -67,6 +71,7 @@ class IMipServiceTest extends TestCase {
 		$this->l10nFactory = $this->createMock(L10NFactory::class);
 		$this->l10n = $this->createMock(LazyL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
@@ -80,11 +85,13 @@ class IMipServiceTest extends TestCase {
 			$this->db,
 			$this->random,
 			$this->l10nFactory,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->userManager
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
 		$this->vCalendar1a = new VCalendar();
+		/** @var \Sabre\VObject\Component\VEvent $vEvent */
 		$vEvent = $this->vCalendar1a->add('VEVENT', []);
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
@@ -101,6 +108,7 @@ class IMipServiceTest extends TestCase {
 
 		// construct calendar with a 1 hour event and different start/end time zones
 		$this->vCalendar1b = new VCalendar();
+		/** @var \Sabre\VObject\Component\VEvent $vEvent */
 		$vEvent = $this->vCalendar1b->add('VEVENT', []);
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
@@ -118,9 +126,11 @@ class IMipServiceTest extends TestCase {
 		// construct calendar with a full day event
 		$this->vCalendar2 = new VCalendar();
 		// time zone component
+		/** @var \Sabre\VObject\Component\VTimeZone $vTimeZone */
 		$vTimeZone = $this->vCalendar2->add('VTIMEZONE');
 		$vTimeZone->add('TZID', 'America/Toronto');
 		// event component
+		/** @var \Sabre\VObject\Component\VEvent $vEvent */
 		$vEvent = $this->vCalendar2->add('VEVENT', []);
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701');
@@ -138,9 +148,11 @@ class IMipServiceTest extends TestCase {
 		// construct calendar with a multi day event
 		$this->vCalendar3 = new VCalendar();
 		// time zone component
+		/** @var \Sabre\VObject\Component\VTimeZone $vTimeZone */
 		$vTimeZone = $this->vCalendar3->add('VTIMEZONE');
 		$vTimeZone->add('TZID', 'America/Toronto');
 		// event component
+		/** @var \Sabre\VObject\Component\VEvent $vEvent */
 		$vEvent = $this->vCalendar3->add('VEVENT', []);
 		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
 		$vEvent->add('DTSTART', '20240701');
