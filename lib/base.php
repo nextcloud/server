@@ -77,8 +77,7 @@ class OC {
 	private static \OC\Config $config;
 
 	/**
-	 * @throws \RuntimeException when the 3rdparty directory is missing or
-	 *                           the app path list is empty or contains an invalid path
+	 * @throws \RuntimeException when the app path list is empty or contains an invalid path
 	 */
 	public static function initPaths(): void {
 		if (defined('PHPUNIT_CONFIG_DIR')) {
@@ -639,18 +638,14 @@ class OC {
 		self::$CLI = (php_sapi_name() == 'cli');
 
 		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
-		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
+		self::$composerAutoloader = require_once OC::$SERVERROOT . '/vendor/autoload.php';
 		self::$composerAutoloader->setApcuPrefix(null);
 
 
 		try {
 			self::initPaths();
-			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
-			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
-			}
-			require_once $vendorAutoLoad;
+			// setup vendor autoloader
+			require_once OC::$SERVERROOT . '/vendor/autoload.php';
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
 				http_response_code(503);

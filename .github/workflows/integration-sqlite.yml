@@ -32,7 +32,7 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '3rdparty/**'
+              - 'vendor/**'
               - '**/*.php'
               - '**/lib/**'
               - '**/tests/**'

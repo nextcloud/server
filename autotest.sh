@@ -22,8 +22,8 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 if [ -z "$PHPUNIT_EXE" ]; then
-	if [ -f lib/composer/bin/phpunit ]; then
-		PHPUNIT_EXE="./lib/composer/bin/phpunit"
+	if [ -f vendor/bin/phpunit ]; then
+		PHPUNIT_EXE="./vendor/bin/phpunit"
 		PHPUNIT=$(readlink -f "$PHPUNIT_EXE")
 	else
 		PHPUNIT_EXE=phpunit

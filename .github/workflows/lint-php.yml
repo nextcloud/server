@@ -30,7 +30,7 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '3rdparty/**'
+              - 'vendor/**'
               - '**/lib/**'
               - '**/tests/**'
               - '**/vendor-bin/**'

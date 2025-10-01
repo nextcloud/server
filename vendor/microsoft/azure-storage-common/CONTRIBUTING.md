@@ -1,0 +1,1 @@
+This [repository](https://github.com/azure/azure-storage-common-php) is currently used for releasing only, please go to [azure-storage-php](https://github.com/azure/azure-storage-php) for submitting issues or contribution.

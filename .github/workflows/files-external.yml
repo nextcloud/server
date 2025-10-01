@@ -28,7 +28,7 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '3rdparty/**'
+              - 'vendor/**'
               - 'apps/files_external/**'
               - 'vendor/**'
               - 'vendor-bin/**'

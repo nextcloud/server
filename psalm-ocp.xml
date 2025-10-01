@@ -20,7 +20,7 @@
 	<projectFiles>
 		<directory name="lib/public"/>
 		<ignoreFiles>
-			<directory name="lib/composer/bin"/>
+			<directory name="vendor/bin"/>
 		</ignoreFiles>
 	</projectFiles>
 	<stubs>
@@ -29,6 +29,6 @@
 		<file name="build/stubs/psr_container.php"/>
 	</stubs>
 	<extraFiles>
-		<directory name="3rdparty"/>
+		<directory name="vendor"/>
 	</extraFiles>
 </psalm>

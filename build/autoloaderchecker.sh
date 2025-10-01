@@ -34,7 +34,7 @@ echo
 echo "Regenerating main autoloader"
 $COMPOSER_COMMAND dump-autoload -d $REPODIR
 
-FOUND_COMPOSER_BIN=$(grep --recursive --fixed-strings 'Bamarni\\Composer\\Bin' $REPODIR/lib/composer/composer/)
+FOUND_COMPOSER_BIN=$(grep --recursive --fixed-strings 'Bamarni\\Composer\\Bin' $REPODIR/vendor/composer/)
 if [ -n "$FOUND_COMPOSER_BIN" ]; then
     echo "The main autoloader contains the composer bin plugin"
     echo "Run composer again with --no-dev and commit the result"

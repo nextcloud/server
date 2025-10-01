@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-export const coreApps = ['', 'admin', 'log', 'core/search', 'core', '3rdparty']
+export const coreApps = ['', 'admin', 'log', 'core/search', 'core', 'vendor']
 export const menuSpeed = 50
 export const PERMISSION_NONE = 0
 export const PERMISSION_CREATE = 4
