@@ -207,7 +207,7 @@
 					{{ t('settings', 'Full match autocompletion restrictions') }}
 				</legend>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationFullMatchUserId">
-					{{ t('settings', 'Also allow autocompletion on full match of the user id') }}
+					{{ t('settings', 'Also allow autocompletion on full match of the user ID') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationFullMatchEmail">
 					{{ t('settings', 'Also allow autocompletion on full match of the user email') }}
