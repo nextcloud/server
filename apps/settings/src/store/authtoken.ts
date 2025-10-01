@@ -31,6 +31,7 @@ export enum TokenType {
 	TEMPORARY_TOKEN = 0,
 	PERMANENT_TOKEN = 1,
 	WIPING_TOKEN = 2,
+	ONETIME_TOKEN = 3,
 }
 
 export interface IToken {
