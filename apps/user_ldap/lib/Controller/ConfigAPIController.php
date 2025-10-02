@@ -301,6 +301,34 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
+	 * Copy a configuration
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{configID:string}, array{}>
+	 * @throws OCSException An unexpected error happened
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Test was run and results are returned
+	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/copy')]
+	public function copyConfiguration(string $configID) {
+		try {
+			$this->ensureConfigIDExists($configID);
+			$configPrefix = $this->ldapHelper->getNextServerConfigurationPrefix();
+			$newConfig = new Configuration($configPrefix, false);
+			$originalConfig = new Configuration($configID);
+			$newConfig->setConfiguration($originalConfig->getConfiguration());
+			$newConfig->saveConfiguration();
+			return new DataResponse(['configID' => $configPrefix]);
+		} catch (OCSException $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSException('An issue occurred when creating the new config.');
+		}
+	}
+
+	/**
 	 * If the given config ID is not available, an exception is thrown
 	 *
 	 * @param string $configID
