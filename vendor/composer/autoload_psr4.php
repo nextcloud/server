@@ -88,6 +88,7 @@ return array(
     'Cose\\' => array($vendorDir . '/web-auth/cose-lib/src'),
     'CBOR\\' => array($vendorDir . '/spomky-labs/cbor-php/src'),
     'Brick\\Math\\' => array($vendorDir . '/brick/math/src'),
+    'Bamarni\\Composer\\Bin\\' => array($vendorDir . '/bamarni/composer-bin-plugin/src'),
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
     '' => array($baseDir . '/lib/private/legacy'),
 );
