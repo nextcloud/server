@@ -186,7 +186,6 @@ class ComposerStaticInit2f23f73bc0cc116b4b1eee1521aa8652
         'B' => 
         array (
             'Brick\\Math\\' => 11,
-            'Bamarni\\Composer\\Bin\\' => 21,
         ),
         'A' => 
         array (
@@ -523,10 +522,6 @@ class ComposerStaticInit2f23f73bc0cc116b4b1eee1521aa8652
         'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
         'Aws\\' => 
         array (

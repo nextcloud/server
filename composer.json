@@ -2,7 +2,6 @@
 	"config": {
 		"vendor-dir": "vendor",
 		"optimize-autoloader": true,
-		"classmap-authoritative": true,
 		"sort-packages": true,
 		"platform": {
 			"php": "8.1"
