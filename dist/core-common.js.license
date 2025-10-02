@@ -57,6 +57,7 @@ SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
 SPDX-FileCopyrightText: John Hiesey
+SPDX-FileCopyrightText: Jeremy Ashkenas <jeremy@documentcloud.org>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
@@ -648,6 +649,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - typescript-event-target
 	- version: 1.1.1
+	- license: MIT
+- underscore
+	- version: 1.13.7
 	- license: MIT
 - unified
 	- version: 11.0.5
