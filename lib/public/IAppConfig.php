@@ -537,7 +537,7 @@ interface IAppConfig {
 	 * @since 7.0.0
 	 * @deprecated 29.0.0 Use {@see getAllValues()} or {@see searchValues()}
 	 */
-	public function getValues($app, $key);
+	public function getValues(string|false $app, string|false $key);
 
 	/**
 	 * get all values of the app or and filters out sensitive data
@@ -548,13 +548,5 @@ interface IAppConfig {
 	 * @since 12.0.0
 	 * @deprecated 29.0.0 Use {@see getAllValues()} or {@see searchValues()}
 	 */
-	public function getFilteredValues($app);
-
-	/**
-	 * Returns the installed version of all apps
-	 *
-	 * @return array<string, string>
-	 * @since 32.0.0
-	 */
-	public function getAppInstalledVersions(bool $onlyEnabled = false): array;
+	public function getFilteredValues(string $app);
 }

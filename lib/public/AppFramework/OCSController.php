@@ -53,11 +53,13 @@ abstract class OCSController extends ApiController {
 	 *                        request should be cached, defaults to 1728000 seconds
 	 * @since 8.1.0
 	 */
-	public function __construct($appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
-		$corsAllowedHeaders = 'Authorization, Content-Type, Accept, OCS-APIRequest',
-		$corsMaxAge = 1728000) {
+		string $corsMethods = 'PUT, POST, GET, DELETE, PATCH',
+		string $corsAllowedHeaders = 'Authorization, Content-Type, Accept, OCS-APIRequest',
+		int $corsMaxAge = 1728000,
+	) {
 		parent::__construct($appName, $request, $corsMethods,
 			$corsAllowedHeaders, $corsMaxAge);
 		$this->registerResponder('json', function ($data) {
@@ -73,7 +75,7 @@ abstract class OCSController extends ApiController {
 	 * @since 11.0.0
 	 * @internal
 	 */
-	public function setOCSVersion($version) {
+	public function setOCSVersion(int $version) {
 		$this->ocsVersion = $version;
 	}
 
@@ -87,7 +89,7 @@ abstract class OCSController extends ApiController {
 	 * @return Response
 	 * @since 9.1.0
 	 */
-	public function buildResponse($response, $format = 'xml') {
+	public function buildResponse($response, string $format = 'xml') {
 		return parent::buildResponse($response, $format);
 	}
 
@@ -98,7 +100,7 @@ abstract class OCSController extends ApiController {
 	 * @since 8.1.0
 	 * @return \OC\AppFramework\OCS\BaseResponse
 	 */
-	private function buildOCSResponse($format, DataResponse $data) {
+	private function buildOCSResponse(string $format, DataResponse $data) {
 		if ($this->ocsVersion === 1) {
 			return new \OC\AppFramework\OCS\V1Response($data, $format);
 		}

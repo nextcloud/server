@@ -24,7 +24,7 @@ interface IInitialState {
 	 * @param string $key
 	 * @param bool|int|float|string|array|\JsonSerializable $data
 	 */
-	public function provideInitialState(string $key, $data): void;
+	public function provideInitialState(string $key, bool|int|float|string|array|\JsonSerializable $data): void;
 
 	/**
 	 * Allows an app to provide its initial state via a lazy method.

@@ -36,11 +36,13 @@ abstract class ApiController extends Controller {
 	 *                        request should be cached, defaults to 1728000 seconds
 	 * @since 7.0.0
 	 */
-	public function __construct($appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
-		$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
-		$corsMaxAge = 1728000) {
+		string $corsMethods = 'PUT, POST, GET, DELETE, PATCH',
+		string $corsAllowedHeaders = 'Authorization, Content-Type, Accept',
+		int $corsMaxAge = 1728000,
+	) {
 		parent::__construct($appName, $request);
 		$this->corsMethods = $corsMethods;
 		$this->corsAllowedHeaders = $corsAllowedHeaders;

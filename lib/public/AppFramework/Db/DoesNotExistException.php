@@ -15,11 +15,9 @@ namespace OCP\AppFramework\Db;
  */
 class DoesNotExistException extends \Exception implements IMapperException {
 	/**
-	 * Constructor
-	 * @param string $msg the error message
 	 * @since 7.0.0
 	 */
-	public function __construct($msg) {
+	public function __construct(string $msg) {
 		parent::__construct($msg);
 	}
 }
