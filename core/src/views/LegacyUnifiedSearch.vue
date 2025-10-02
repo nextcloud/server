@@ -124,6 +124,7 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import SearchResult from '../components/UnifiedSearch/LegacySearchResult.vue'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders.vue'
+import logger from '../logger.js'
 import { defaultLimit, enableLiveSearch, getTypes, minSearchLength, regexFilterIn, regexFilterNot, search } from '../services/LegacyUnifiedSearchService.js'
 
 const REQUEST_FAILED = 0
@@ -323,7 +324,7 @@ export default {
 
 	async created() {
 		this.types = await getTypes()
-		this.logger.debug('Unified Search initialized with the following providers', this.types)
+		logger.debug('Unified Search initialized with the following providers', this.types)
 	},
 
 	beforeDestroy() {

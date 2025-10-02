@@ -44,6 +44,7 @@ import ShareDetails from '../mixins/ShareDetails.js'
 import ShareRequests from '../mixins/ShareRequests.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'SharingInput',

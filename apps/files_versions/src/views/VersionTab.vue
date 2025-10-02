@@ -47,6 +47,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import VersionEntry from '../components/VersionEntry.vue'
 import VersionLabelDialog from '../components/VersionLabelDialog.vue'
 import VirtualScrolling from '../components/VirtualScrolling.vue'
+import logger from '../utils/logger.js'
 import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel } from '../utils/versions.ts'
 
 export default {
