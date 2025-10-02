@@ -68,7 +68,7 @@ interface IContainer extends ContainerInterface {
 	 * @since 6.0.0
 	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerParameter
 	 */
-	public function registerParameter($name, $value);
+	public function registerParameter(string $name, mixed $value): void;
 
 	/**
 	 * A service is registered in the container where a closure is passed in which will actually
@@ -84,7 +84,7 @@ interface IContainer extends ContainerInterface {
 	 * @since 6.0.0
 	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerService
 	 */
-	public function registerService($name, Closure $closure, $shared = true);
+	public function registerService(string $name, Closure $closure, bool $shared = true): void;
 
 	/**
 	 * Shortcut for returning a service from a service under a different key,
@@ -95,5 +95,5 @@ interface IContainer extends ContainerInterface {
 	 * @since 8.2.0
 	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerServiceAlias
 	 */
-	public function registerAlias($alias, $target);
+	public function registerAlias(string $alias, string $target): void;
 }

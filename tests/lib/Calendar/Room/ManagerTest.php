@@ -52,10 +52,10 @@ class ManagerTest extends TestCase {
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
 		$this->server->expects(self::exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnMap([
-				['calendar_room_backend1', true, $backend1,],
-				['calendar_room_backend2', true, $backend2,],
+				['calendar_room_backend1', $backend1,],
+				['calendar_room_backend2', $backend2,],
 			]);
 
 		$this->manager->registerBackend('calendar_room_backend1');
@@ -86,7 +86,7 @@ class ManagerTest extends TestCase {
 				new ServiceRegistration('calendar_room_foo', $backendClass)
 			]);
 		$this->server->expects(self::once())
-			->method('query')
+			->method('get')
 			->with($backendClass)
 			->willReturn($backend);
 
@@ -99,10 +99,10 @@ class ManagerTest extends TestCase {
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
 		$this->server->expects(self::exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnMap([
-				['calendar_room_backend1', true, $backend1,],
-				['calendar_room_backend2', true, $backend2,],
+				['calendar_room_backend1', $backend1,],
+				['calendar_room_backend2', $backend2,],
 			]);
 
 		$this->manager->registerBackend('calendar_room_backend1');
@@ -118,7 +118,7 @@ class ManagerTest extends TestCase {
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
 		$this->server->expects(self::exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnMap([
 				['calendar_room_backend1', true, $backend1,],
 				['calendar_room_backend2', true, $backend2,],
