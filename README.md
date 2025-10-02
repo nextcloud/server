@@ -17,7 +17,7 @@
 
 * 📁 **Access your Data** You can store your files, contacts, calendars, and more on a server of your choosing.
 * 🔄 **Sync your Data** You keep your files, contacts, calendars, and more synchronized amongst your devices.
-* 🙌 **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
+* 🙌 **Share your Data** …by giving others access to the data you want them to see or to collaborate with.
 * 🚀 **Expandable with hundreds of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com)
 * 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
@@ -44,7 +44,7 @@ You can also [get support for Nextcloud](https://nextcloud.com/support)!
 
 ## Join the team 👪
 
-There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/), including as a translator, designer, tester, helping others, and much more! 😍
+There are many ways to contribute, of which development is only one! Find out [how to get involved](https://nextcloud.com/contribute/), including as a translator, designer, tester, helping others, and much more! 
 
 
 ### Development setup 👩‍💻
@@ -56,7 +56,7 @@ There are many ways to contribute, of which development is only one! Find out [h
 5. 👍 Fix things that come up during a review
 6. 🎉 Wait for it to get merged!
 
-Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
+Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking **\git submodule update --init`** or a similar command is needed, for details see Git documentation.`
 
 Several apps that are included by default in regular releases such as [First run wizard](https://github.com/nextcloud/firstrunwizard) or [Activity](https://github.com/nextcloud/activity) are missing in `master` and have to be installed manually by cloning them into the `apps` subfolder.
 
