@@ -12,6 +12,7 @@ SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
@@ -57,11 +58,17 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
 - @nextcloud/auth
 	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.1
+	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -96,8 +103,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.0
+	- license: AGPL-3.0-or-later
+- vue
+	- version: 3.5.22
+	- license: MIT
 - @nextcloud/password-confirmation
-	- version: 5.3.1
+	- version: 6.0.0
 	- license: MIT
 - @nextcloud/paths
 	- version: 2.2.1
@@ -108,14 +121,23 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/sharing
 	- version: 0.3.0
 	- license: GPL-3.0-or-later
-- @nextcloud/initial-state
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.31.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.22
+	- license: MIT
+- @vue/shared
+	- version: 3.5.22
 	- license: MIT
 - @vueuse/core
 	- version: 11.3.0

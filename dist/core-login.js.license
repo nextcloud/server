@@ -9,6 +9,7 @@ SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -27,6 +28,7 @@ SPDX-FileCopyrightText: Jeremy Ashkenas <jeremy@documentcloud.org>
 SPDX-FileCopyrightText: Jeremy Ashkenas
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evert Pot
@@ -41,6 +43,12 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
 - @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0
@@ -48,7 +56,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.1
+	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -83,8 +91,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.0
+	- license: AGPL-3.0-or-later
+- vue
+	- version: 3.5.22
+	- license: MIT
 - @nextcloud/password-confirmation
-	- version: 5.3.1
+	- version: 6.0.0
 	- license: MIT
 - @nextcloud/paths
 	- version: 2.2.1
@@ -100,6 +114,21 @@ This file is generated from multiple sources. Included packages:
 	- license: AGPL-3.0-or-later
 - @simplewebauthn/browser
 	- version: 13.2.0
+	- license: MIT
+- @vue/devtools-api
+	- version: 6.6.4
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.22
+	- license: MIT
+- @vue/shared
+	- version: 3.5.22
 	- license: MIT
 - @vueuse/core
 	- version: 11.3.0

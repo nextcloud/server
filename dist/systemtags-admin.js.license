@@ -41,6 +41,7 @@ SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
@@ -69,7 +70,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.1
+	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -98,8 +99,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.0
+	- license: AGPL-3.0-or-later
+- vue
+	- version: 3.5.22
+	- license: MIT
 - @nextcloud/password-confirmation
-	- version: 5.3.1
+	- version: 6.0.0
 	- license: MIT
 - @nextcloud/router
 	- version: 3.0.1
@@ -113,6 +120,21 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.31.0
 	- license: AGPL-3.0-or-later
+- @vue/devtools-api
+	- version: 6.6.4
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.22
+	- license: MIT
+- @vue/shared
+	- version: 3.5.22
+	- license: MIT
 - @vueuse/components
 	- version: 11.3.0
 	- license: MIT
