@@ -269,6 +269,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 			'version' => $this->getApiVersion(), // informative but real version
 			'endPoint' => $this->getEndPoint(),
 			'publicKey' => $this->getSignatory()?->jsonSerialize(),
+			'provider' => $this->getProvider(),
 			'resourceTypes' => $resourceTypes
 		];
 
