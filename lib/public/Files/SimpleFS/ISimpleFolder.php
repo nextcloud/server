@@ -10,74 +10,90 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
 /**
- * Interface ISimpleFolder
+ * Interface for representing and manipulating simple folders in Nextcloud's virtual filesystem.
+ *
+ * Provides methods for listing, creating, retrieving, and deleting folders.
  *
  * @since 11.0.0
+ * @api
  */
 interface ISimpleFolder {
 	/**
-	 * Get all the files in a folder
+	 * Get all the files in this folder.
 	 *
-	 * @return ISimpleFile[]
+	 * @return ISimpleFile[] Array of files contained in the folder.
 	 * @since 11.0.0
 	 */
 	public function getDirectoryListing(): array;
 
-	/**
-	 * Check if a file with $name exists
-	 *
-	 * @param string $name
-	 * @return bool
-	 * @since 11.0.0
-	 */
+    /**
+     * Check if a file with the given name exists in this folder.
+     *
+     * @param string $name Name of the file to check.
+     * @return bool True if the file exists, false otherwise.
+     * @since 11.0.0
+     */
 	public function fileExists(string $name): bool;
 
-	/**
-	 * Get the file named $name from the folder
+    /**
+     * Get the file named $name from this folder.
 	 *
-	 * @throws NotFoundException
-	 * @since 11.0.0
-	 */
+     * @param string $name Name of the file to retrieve.
+     * @return ISimpleFile The file object.
+     * @throws NotFoundException If the file does not exist.
+	 * @throws NotPermittedException If access to the file is not permitted. 
+     * @since 11.0.0
+     */
 	public function getFile(string $name): ISimpleFile;
 
-	/**
-	 * Creates a new file with $name in the folder
-	 *
-	 * @param string|resource|null $content @since 19.0.0
-	 * @throws NotPermittedException
-	 * @since 11.0.0
-	 */
+    /**
+     * Creates a new file with the given name in this folder.
+     *
+     * @param string $name Name of the new file.
+     * @param string|resource|null $content Initial content for the file (optional).
+     * @return ISimpleFile The newly created file object.
+     * @throws NotPermittedException If file creation is not permitted.
+     * @since 11.0.0
+     */
 	public function newFile(string $name, $content = null): ISimpleFile;
 
-	/**
-	 * Remove the folder and all the files in it
-	 *
-	 * @throws NotPermittedException
-	 * @since 11.0.0
-	 */
+    /**
+     * Remove this folder and all its contents.
+     *
+     * @return void
+     * @throws NotPermittedException If deletion is not permitted.
+     * @since 11.0.0
+     */
 	public function delete(): void;
 
-	/**
-	 * Get the folder name
-	 *
-	 * @since 11.0.0
-	 */
+    /**
+     * Get the name of this folder.
+     *
+     * @return string The folder name.
+     * @since 11.0.0
+     */
 	public function getName(): string;
 
-	/**
-	 * Get the folder named $name from the current folder
-	 *
-	 * @throws NotFoundException
-	 * @since 25.0.0
-	 */
+    /**
+     * Get the subfolder named $name from this folder.
+     *
+     * @param string $name Name of the subfolder to retrieve.
+     * @return ISimpleFolder The subfolder object.
+     * @throws NotFoundException If the subfolder does not exist.
+     * @since 25.0.0
+     */
 	public function getFolder(string $name): ISimpleFolder;
 
-	/**
-	 * Creates a new folder with $name in the current folder
-	 *
-	 * @param string|resource|null $content @since 19.0.0
-	 * @throws NotPermittedException
-	 * @since 25.0.0
-	 */
+    /**
+     * Creates a new subfolder with the given path in this folder.
+     *
+     * @param string $path Path (name) of the new subfolder.
+     * @return ISimpleFolder The newly created subfolder object.
+     * @throws NotPermittedException If folder creation is not permitted.
+     * @since 25.0.0
+     */
+	// TODO: rename $path -> $name for consistency (already the case in parallel interfaces such as ISimpleRoot).
+	// Alternatively/related, clarify whether nested paths/names are officially accepted here (versus for getFolder() where they're not).
+	// Same technically applies to some other methods with different behavior, such as fileExists().
 	public function newFolder(string $path): ISimpleFolder;
 }
