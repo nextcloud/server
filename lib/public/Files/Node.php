@@ -203,7 +203,7 @@ interface Node extends FileInfo {
 	/**
 	 * Get the parent folder of the file or folder
 	 *
-	 * @return Folder
+	 * @return Folder|IRootFolder
 	 * @since 6.0.0
 	 */
 	public function getParent();

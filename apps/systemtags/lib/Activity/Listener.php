@@ -127,7 +127,7 @@ class Listener {
 
 		// Get all mount point owners
 		$cache = $this->mountCollection->getMountCache();
-		$mounts = $cache->getMountsForFileId($event->getObjectId());
+		$mounts = $cache->getMountsForFileId((int)$event->getObjectId());
 		if (empty($mounts)) {
 			return;
 		}

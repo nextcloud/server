@@ -7,12 +7,14 @@
  */
 namespace OC\Files\Node;
 
+use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
+use OC\Files\View;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\FileInfo;
+use OCP\Files\Folder as IFolder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node as INode;
@@ -21,42 +23,22 @@ use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 
-// FIXME: this class really should be abstract (+1)
+// FIXME: this class really should be abstract (+2)
 class Node implements INode {
 	/**
-	 * @var \OC\Files\View $view
+	 * @param string $path Absolute path to the node (e.g. /admin/files/folder/file)
 	 */
-	protected $view;
-
-	protected IRootFolder $root;
-
-	/**
-	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
-	 */
-	protected $path;
-
-	protected ?FileInfo $fileInfo;
-
-	protected ?INode $parent;
-
-	private bool $infoHasSubMountsIncluded;
-
-	/**
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\IRootFolder $root
-	 * @param string $path
-	 * @param FileInfo $fileInfo
-	 */
-	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?INode $parent = null, bool $infoHasSubMountsIncluded = true) {
+	public function __construct(
+		protected IRootFolder $root,
+		protected View $view,
+		protected string $path,
+		protected ?\OCP\Files\FileInfo $fileInfo = null,
+		protected ?IFolder $parent = null,
+		protected bool $infoHasSubMountsIncluded = true,
+	) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
-		$this->view = $view;
-		$this->root = $root;
-		$this->path = $path;
-		$this->fileInfo = $fileInfo;
-		$this->parent = $parent;
-		$this->infoHasSubMountsIncluded = $infoHasSubMountsIncluded;
 	}
 
 	/**
@@ -73,11 +55,10 @@ class Node implements INode {
 	/**
 	 * Returns the matching file info
 	 *
-	 * @return FileInfo
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getFileInfo(bool $includeMountPoint = true) {
+	public function getFileInfo(bool $includeMountPoint = true): \OCP\Files\FileInfo {
 		if (!$this->fileInfo) {
 			if (!Filesystem::isValidPath($this->path)) {
 				throw new InvalidPathException();
@@ -144,7 +125,7 @@ class Node implements INode {
 			$this->sendHooks(['preTouch']);
 			$this->view->touch($this->path, $mtime);
 			$this->sendHooks(['postTouch']);
-			if ($this->fileInfo) {
+			if ($this->fileInfo instanceof \OC\Files\FileInfo) {
 				if (is_null($mtime)) {
 					$mtime = time();
 				}
@@ -364,6 +345,7 @@ class Node implements INode {
 	}
 
 	public function getChecksum() {
+		return '';
 	}
 
 	public function getExtension(): string {
@@ -382,8 +364,8 @@ class Node implements INode {
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @throws LockedException
 	 */
-	public function changeLock($type) {
-		$this->view->changeLock($this->path, $type);
+	public function changeLock($targetType) {
+		$this->view->changeLock($this->path, $targetType);
 	}
 
 	/**

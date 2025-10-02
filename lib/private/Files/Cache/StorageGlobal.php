@@ -49,7 +49,7 @@ class StorageGlobal {
 
 	/**
 	 * @param string $storageId
-	 * @return array|null
+	 * @return array{id: int, numeric_id: int, available: bool, last_checked: int}|null
 	 */
 	public function getStorageInfo(string $storageId): ?array {
 		if (!isset($this->cache[$storageId])) {
@@ -63,8 +63,12 @@ class StorageGlobal {
 			$result->closeCursor();
 
 			if ($row) {
+				$row['numeric_id'] = (int)$row['numeric_id'];
+				$row['available'] = $row['available'] === 1;
+				$row['last_checked'] = (int)$row['last_checked'];
+				$row['id'] = (int)$row['id'];
 				$this->cache[$storageId] = $row;
-				$this->numericIdCache[(int)$row['numeric_id']] = $row;
+				$this->numericIdCache[$row['numeric_id']] = $row;
 			}
 		}
 		return $this->cache[$storageId] ?? null;
