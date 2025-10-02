@@ -55,12 +55,12 @@ export async function copyConfig(configId: string) {
 	params.set('copyConfig', configId)
 
 	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'getNewServerConfigPrefix.php'),
+		generateOcsUrl('apps/user_ldap/api/v1/config/{configId}/copy', { configId }),
 		params,
-	) as AxiosResponse<{ status: 'error' | 'success', configPrefix: string }>
+	) as AxiosResponse<OCSResponse<{ configID: string }>>
 
-	logger.debug('Created configuration', { configId: response.data.configPrefix })
-	return response.data.configPrefix
+	logger.debug('Created configuration', { configId: response.data.ocs.data.configID })
+	return response.data.ocs.data.configID
 }
 
 /**
@@ -119,16 +119,14 @@ export async function deleteConfig(configId: string): Promise<boolean> {
  */
 export async function testConfiguration(configId: string) {
 	const params = new FormData()
-	params.set('ldap_serverconfig_chooser', configId)
 
 	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'testConfiguration.php'),
-		params,
-	) as AxiosResponse<{ message: string, status: 'error' | 'success' }>
+		generateOcsUrl('apps/user_ldap/api/v1/config/{configId}/test', { configId }),
+	) as AxiosResponse<OCSResponse<{ success: boolean, message: string }>>
 
-	logger.debug(`Configuration is ${response.data.status === 'success' ? 'valide' : 'invalide'}`, { configId, params, response })
+	logger.debug(`Configuration is ${response.data.ocs.data.success ? 'valide' : 'invalide'}`, { configId, params, response })
 
-	return response.data
+	return response.data.ocs.data
 }
 
 /**
@@ -168,27 +166,25 @@ export async function clearMapping(subject: 'user' | 'group') {
  */
 export async function callWizard(action: WizardAction, configId: string, extraParams: Record<string, string> = {}) {
 	const params = new FormData()
-	params.set('action', action)
-	params.set('ldap_serverconfig_chooser', configId)
 
 	Object.entries(extraParams).forEach(([key, value]) => {
 		params.set(key, value)
 	})
 
 	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'wizard.php'),
+		generateOcsUrl('apps/user_ldap/api/v1/wizard/{configId}/{action}', { configId, action }),
 		params,
-	) as AxiosResponse<{ status: 'error', message?: string } | { status: 'success', changes?: Record<string, unknown>, options?: Record<string, []> }>
+	) as AxiosResponse<OCSResponse<{ changes?: Record<string, unknown>, options?: Record<string, []> }>>
 
 	logger.debug(`Called wizard action: ${action}`, { configId, params, response })
 
-	if (response.data.status === 'error') {
-		const message = response.data.message ?? t('user_ldap', 'An error occurred')
+	if (response.data.ocs.meta.status === 'failure') {
+		const message = response.data.ocs.meta.message ?? t('user_ldap', 'An error occurred')
 		showError(message)
 		throw new Error(message)
 	}
 
-	return response.data
+	return response.data.ocs.data
 }
 
 /**

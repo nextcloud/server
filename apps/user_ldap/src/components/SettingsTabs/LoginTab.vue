@@ -111,7 +111,7 @@ async function getUserLoginFilter() {
  */
 async function verifyLoginName() {
 	try {
-		const response = await callWizard('testLoginName', props.configId, { ldap_test_loginname: testUsername.value })
+		const response = await callWizard('testLoginName', props.configId, { loginName: testUsername.value })
 
 		const testLoginName = response.changes!.ldap_test_loginname as number
 		const testEffectiveFilter = response.changes!.ldap_test_effective_filter as string

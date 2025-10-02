@@ -31,7 +31,7 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 
 				;(async () => {
 					updatingConfig.value++
-					await callWizard('save', configId, { cfgkey: property, cfgval: newValue })
+					await callWizard('save', configId, { key: property, val: newValue })
 					updatingConfig.value--
 
 					if (postSetHooks[property] !== undefined) {
