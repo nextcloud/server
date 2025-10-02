@@ -8,7 +8,10 @@ namespace OCA\User_LDAP\Controller;
 
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
+use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -18,7 +21,9 @@ use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\IL10N;
 use OCP\IRequest;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class ConfigAPIController extends OCSController {
@@ -28,6 +33,7 @@ class ConfigAPIController extends OCSController {
 		private Helper $ldapHelper,
 		private LoggerInterface $logger,
 		private ConnectionFactory $connectionFactory,
+		private IL10N $l,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -225,6 +231,73 @@ class ConfigAPIController extends OCSController {
 		}
 
 		return new DataResponse($data);
+	}
+
+	/**
+	 * Test a configuration
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{success:bool,message:string}, array{}>
+	 * @throws OCSException An unexpected error happened
+	 * @throws OCSNotFoundException Config not found
+	 *
+	 * 200: Test was run and results are returned
+	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/test')]
+	public function testConfiguration(string $configID) {
+		try {
+			$this->ensureConfigIDExists($configID);
+			$connection = $this->connectionFactory->get($configID);
+			$conf = $connection->getConfiguration();
+			if ($conf['ldap_configuration_active'] === '0') {
+				//needs to be true, otherwise it will also fail with an irritating message
+				$conf['ldap_configuration_active'] = '1';
+			}
+			try {
+				$connection->setConfiguration($conf, throw: true);
+			} catch (ConfigurationIssueException $e) {
+				return new DataResponse([
+					'success' => false,
+					'message' => $this->l->t('Invalid configuration: %s', $e->getHint()),
+				]);
+			}
+			// Configuration is okay
+			if (!$connection->bind()) {
+				return new DataResponse([
+					'success' => false,
+					'message' => $this->l->t('Valid configuration, but binding failed. Please check the server settings and credentials.'),
+				]);
+			}
+			/*
+			* This shiny if block is an ugly hack to find out whether anonymous
+			* bind is possible on AD or not. Because AD happily and constantly
+			* replies with success to any anonymous bind request, we need to
+			* fire up a broken operation. If AD does not allow anonymous bind,
+			* it will end up with LDAP error code 1 which is turned into an
+			* exception by the LDAP wrapper. We catch this. Other cases may
+			* pass (like e.g. expected syntax error).
+			*/
+			try {
+				$ldapWrapper = Server::get(ILDAPWrapper::class);
+				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
+			} catch (\Exception $e) {
+				if ($e->getCode() === 1) {
+					return new DataResponse([
+						'success' => false,
+						'message' => $this->l->t('Invalid configuration: Anonymous binding is not allowed.'),
+					]);
+				}
+			}
+			return new DataResponse([
+				'success' => true,
+				'message' => $this->l->t('Valid configuration, connection established!'),
+			]);
+		} catch (OCSException $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSException('An issue occurred when testing the config.');
+		}
 	}
 
 	/**
