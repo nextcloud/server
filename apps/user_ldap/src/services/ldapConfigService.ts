@@ -10,11 +10,11 @@ import type { LDAPConfig } from '../models/index.ts'
 import axios, { type AxiosResponse } from '@nextcloud/axios'
 import { DialogSeverity, getDialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { generateOcsUrl, getAppRootUrl } from '@nextcloud/router'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import path from 'path'
 import logger from './logger.ts'
 
-const AJAX_ENDPOINT = path.join(getAppRootUrl('user_ldap'), '/ajax')
+const AJAX_ENDPOINT = generateUrl('apps/user_ldap/ajax')
 
 export type WizardAction
 	= 'guessPortAndTLS'
