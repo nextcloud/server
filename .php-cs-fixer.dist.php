@@ -16,7 +16,7 @@ $config
 	->getFinder()
 	->in(__DIR__)
 	->exclude([
-		'3rdparty',
+		'vendor',
 		'build/stubs',
 		'composer',
 	])

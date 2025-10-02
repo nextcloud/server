@@ -292,7 +292,7 @@ SPDX-FileCopyrightText = "2019 Simran-B <https://pictogrammers.com/contributor/S
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["lib/composer/**", "apps/**/composer/autoload.php", "apps/**/composer/composer/**.php", "apps/files_external/3rdparty/autoload.php", "apps/files_external/3rdparty/composer/**"]
+path = ["vendor/**", "apps/**/composer/autoload.php", "apps/**/composer/composer/**.php", "apps/files_external/3rdparty/autoload.php", "apps/files_external/3rdparty/composer/**"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Nils Adermann, Jordi Boggiano"
 SPDX-License-Identifier = "MIT"

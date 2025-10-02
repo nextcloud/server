@@ -22,12 +22,11 @@
 			<directory>..</directory>
 		</include>
 		<exclude>
-			<directory>../3rdparty</directory>
+			<directory>../vendor</directory>
 			<directory>../apps/*/composer</directory>
 			<directory>../apps/*/tests</directory>
 			<directory>../apps/files_external/3rdparty</directory>
 			<directory>../build</directory>
-			<directory>../lib/composer</directory>
 			<directory>../tests</directory>
 			<directory>../vendor-bin</directory>
 		</exclude>

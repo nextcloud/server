@@ -27,7 +27,7 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '3rdparty/**'
+              - 'vendor/**'
               - '**/appinfo/**'
               - '**/lib/**'
               - '**/templates/**'

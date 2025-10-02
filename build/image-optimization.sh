@@ -39,8 +39,8 @@ function recursive_optimize_images() {
 	cd "$1" || return
 	DIR_NAME=${PWD##*/}
 
-	if [[ "$DIR_NAME" == "3rdparty" ]]; then
-		echo -e "\033[0;36mIgnoring 3rdparty for image optimization\033[0m"
+	if [[ "$DIR_NAME" == "vendor" ]]; then
+		echo -e "\033[0;36mIgnoring vendor for image optimization\033[0m"
 		return
 	elif [[ "$DIR_NAME" == "build" ]]; then
 		echo -e "\033[0;36mIgnoring build for image optimization\033[0m"

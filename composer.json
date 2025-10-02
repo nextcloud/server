@@ -1,13 +1,14 @@
 {
 	"config": {
-		"vendor-dir": "lib/composer",
+		"vendor-dir": "vendor",
 		"optimize-autoloader": true,
 		"sort-packages": true,
 		"platform": {
 			"php": "8.1"
 		},
 		"allow-plugins": {
-			"bamarni/composer-bin-plugin": true
+			"bamarni/composer-bin-plugin": true,
+			"cweagans/composer-patches": true
 		}
 	},
 	"autoload": {
@@ -42,10 +43,61 @@
 		"ext-xmlreader": "*",
 		"ext-xmlwriter": "*",
 		"ext-zip": "*",
-		"ext-zlib": "*"
+		"ext-zlib": "*",
+		"aws/aws-sdk-php": "^3.349",
+		"bantu/ini-get-wrapper": "v1.0.1",
+		"cweagans/composer-patches": "^1.7",
+		"deepdiver/zipstreamer": "^2.0.3",
+		"deepdiver1975/tarstreamer": "^2.1.0",
+		"doctrine/dbal": "^3.10.2",
+		"egulias/email-validator": "^4.0.4",
+		"fusonic/opengraph": "^3.0.0",
+		"giggsey/libphonenumber-for-php-lite": "^9.0.9",
+		"guzzlehttp/guzzle": "^7.9.3",
+		"icewind/searchdav": "^3.2.0",
+		"icewind/smb": "^3.7",
+		"icewind/streams": "^0.7.8",
+		"kornrunner/blurhash": "^1.2",
+		"laravel/serializable-closure": "^2.0.4",
+		"mexitek/phpcolors": "^1.0",
+		"microsoft/azure-storage-blob": "^1.5.4",
+		"mlocati/ip-lib": "^1.20",
+		"nextcloud/lognormalizer": "^1.0",
+		"pear/archive_tar": "^1.4.9",
+		"pear/pear-core-minimal": "^1.10",
+		"php-http/guzzle7-adapter": "^1.1.0",
+		"php-opencloud/openstack": "^3.14",
+		"phpseclib/phpseclib": "^2.0.45",
+		"pimple/pimple": "^3.5.0",
+		"psr/clock": "^1.0",
+		"psr/container": "^2.0.2",
+		"psr/event-dispatcher": "^1.0",
+		"psr/log": "^3.0.2",
+		"punic/punic": "^3.8",
+		"sabre/dav": "^4.7.0",
+		"stecman/symfony-console-completion": "^0.14.0",
+		"symfony/console": "^6.4.12",
+		"symfony/event-dispatcher": "^6.4.8",
+		"symfony/http-foundation": "^6.4.14",
+		"symfony/mailer": "^6.4",
+		"symfony/polyfill-intl-normalizer": "^1.32.0",
+		"symfony/polyfill-php82": "^1.32.0",
+		"symfony/polyfill-php83": "^1.32.0",
+		"symfony/polyfill-php84": "^1.32.0",
+		"symfony/process": "^6.4.15",
+		"symfony/routing": "^6.4.12",
+		"symfony/translation": "^6.4.4",
+		"wapmorgan/mp3info": "^0.1.1",
+		"web-auth/webauthn-lib": "^4.9.1"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4"
+	},
+	"replace": {
+		"symfony/polyfill-php80": "*",
+		"symfony/polyfill-php81": "*",
+		"symfony/polyfill-ctype": "*",
+		"symfony/polyfill-mbstring": "*"
 	},
 	"scripts": {
 		"post-install-cmd": [
@@ -58,7 +110,7 @@
 		],
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
-		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
+		"lint": "find . -name \\*.php -not -path './vendor/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
 		"psalm": "psalm --no-cache --threads=$(nproc)",
 		"psalm:ocp": "psalm --no-cache --threads=$(nproc) -c psalm-ocp.xml",
 		"psalm:ncu": "psalm --no-cache --threads=$(nproc) -c psalm-ncu.xml",
@@ -75,9 +127,13 @@
 		"openapi": "./build/openapi-checker.sh"
 	},
 	"extra": {
+		"patches-file": "composer.patches.json",
 		"bamarni-bin": {
 			"bin-links": true,
 			"forward-command": false
-		}
+		},
+		"aws/aws-sdk-php": [
+			"S3"
+		]
 	}
 }

@@ -50,7 +50,7 @@ jobs:
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff --exit-code -- . ':!lib/composer'
+        run: git diff --exit-code -- . ':!vendor'
 
   static-code-analysis-security:
     runs-on: ubuntu-latest
@@ -79,7 +79,7 @@ jobs:
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff --exit-code -- . ':!lib/composer'
+        run: git diff --exit-code -- . ':!vendor'
 
       - name: Upload Security Analysis results to GitHub
         if: always()
@@ -116,7 +116,7 @@ jobs:
 
       - name: Show potential changes in Psalm baseline
         if: always()
-        run: git diff --exit-code -- . ':!lib/composer'
+        run: git diff --exit-code -- . ':!vendor'
 
   static-code-analysis-ncu:
     runs-on: ubuntu-latest

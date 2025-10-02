@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Ignoring folders for eslint
 node_modules/
-3rdparty/
+vendor/
 **/vendor/
 **/l10n/
 **/js/*

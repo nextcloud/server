@@ -1,0 +1,12 @@
+{
+    "version": "1.0",
+    "name": "php-http/httplug",
+    "binding-types": {
+        "Http\\Client\\HttpAsyncClient": {
+            "description": "Async HTTP Client"
+        },
+        "Http\\Client\\HttpClient": {
+            "description": "HTTP Client"
+        }
+    }
+}

@@ -15,7 +15,7 @@
 
    <fileset dir="${basedir}">
     <include name="**/*.php" />
-    <exclude name="**/3rdparty/**" />
+    <exclude name="**/vendor/**" />
     <exclude name="**/l10n/**" />
     <!-- modified / -->
    </fileset>
@@ -29,7 +29,7 @@
 
     <fileset dir="${basedir}/build">
       <include name="**/*.php" />
-      <exclude name="**/3rdparty/**" />
+      <exclude name="**/vendor/**" />
       <exclude name="**/l10n/**" />
     </fileset>
   </apply>

@@ -1,0 +1,388 @@
+# RELAX NG Schema for vCard in XML
+# Extract from RFC6351.
+# Erratum 2994 applied.
+# Erratum 3047 applied.
+# Erratum 3008 applied.
+# Erratum 4247 applied.
+
+default namespace = "urn:ietf:params:xml:ns:vcard-4.0"
+
+### Section 3.3: vCard Format Specification
+#
+# 3.3
+iana-token = xsd:string { pattern = "[a-zA-Z0-9\-]+" }
+x-name = xsd:string { pattern = "x-[a-zA-Z0-9\-]+" }
+
+### Section 4: Value types
+#
+# 4.1
+value-text = element text { text }
+value-text-list = value-text+
+
+# 4.2
+value-uri = element uri { xsd:anyURI }
+
+# 4.3.1
+value-date = element date {
+    xsd:string { pattern = "\d{8}|\d{4}-\d\d|--\d\d(\d\d)?|---\d\d" }
+  }
+
+# 4.3.2
+value-time = element time {
+    xsd:string { pattern = "(\d\d(\d\d(\d\d)?)?|-\d\d(\d\d)?|--\d\d)"
+                         ~ "(Z|[+\-]\d\d(\d\d)?)?" }
+  }
+
+# 4.3.3
+value-date-time = element date-time {
+    xsd:string { pattern = "(\d{8}|--\d{4}|---\d\d)T\d\d(\d\d(\d\d)?)?"
+                         ~ "(Z|[+\-]\d\d(\d\d)?)?" }
+  }
+
+# 4.3.4
+value-date-and-or-time = value-date | value-date-time | value-time
+
+# 4.3.5
+value-timestamp = element timestamp {
+    xsd:string { pattern = "\d{8}T\d{6}(Z|[+\-]\d\d(\d\d)?)?" }
+  }
+
+# 4.4
+value-boolean = element boolean { xsd:boolean }
+
+# 4.5
+value-integer = element integer { xsd:integer }
+
+# 4.6
+value-float = element float { xsd:float }
+
+# 4.7
+value-utc-offset = element utc-offset {
+    xsd:string { pattern = "[+\-]\d\d(\d\d)?" }
+  }
+
+# 4.8
+value-language-tag = element language-tag {
+    xsd:string { pattern = "([a-z]{2,3}((-[a-z]{3}){0,3})?|[a-z]{4,8})"
+                         ~ "(-[a-z]{4})?(-([a-z]{2}|\d{3}))?"
+                         ~ "(-([0-9a-z]{5,8}|\d[0-9a-z]{3}))*"
+                         ~ "(-[0-9a-wyz](-[0-9a-z]{2,8})+)*"
+                         ~ "(-x(-[0-9a-z]{1,8})+)?|x(-[0-9a-z]{1,8})+|"
+                         ~ "[a-z]{1,3}(-[0-9a-z]{2,8}){1,2}" }
+  }
+
+### Section 5: Parameters
+#
+# 5.1
+param-language = element language { value-language-tag }?
+
+# 5.2
+param-pref = element pref {
+    element integer {
+      xsd:integer { minInclusive = "1" maxInclusive = "100" }
+    }
+  }?
+
+# 5.4
+param-altid = element altid { value-text }?
+
+# 5.5
+param-pid = element pid {
+    element text { xsd:string { pattern = "\d+(\.\d+)?" } }+
+  }?
+
+# 5.6
+param-type = element type { element text { "work" | "home" }+ }?
+
+# 5.7
+param-mediatype = element mediatype { value-text }?
+
+# 5.8
+param-calscale = element calscale { element text { "gregorian" } }?
+
+# 5.9
+param-sort-as = element sort-as { value-text+ }?
+
+# 5.10
+param-geo = element geo { value-uri }?
+
+# 5.11
+param-tz = element tz { value-text | value-uri }?
+
+### Section 6: Properties
+#
+# 6.1.3
+property-source = element source {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-mediatype }?,
+    value-uri
+  }
+
+# 6.1.4
+property-kind = element kind {
+    element text { "individual" | "group" | "org" | "location" |
+                   x-name | iana-token }*
+  }
+
+# 6.2.1
+property-fn = element fn {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type }?,
+    value-text
+  }
+
+# 6.2.2
+property-n = element n {
+    element parameters { param-language, param-sort-as, param-altid }?,
+    element surname { text }+,
+    element given { text }+,
+    element additional { text }+,
+    element prefix { text }+,
+    element suffix { text }+
+  }
+
+# 6.2.3
+property-nickname = element nickname {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type }?,
+    value-text-list
+  }
+
+# 6.2.4
+property-photo = element photo {
+    element parameters { param-altid, param-pid, param-pref, param-type,
+                         param-mediatype }?,
+    value-uri
+  }
+
+# 6.2.5
+property-bday = element bday {
+    element parameters { param-altid, param-calscale }?,
+    (value-date-and-or-time | value-text)
+  }
+
+# 6.2.6
+property-anniversary = element anniversary {
+    element parameters { param-altid, param-calscale }?,
+    (value-date-and-or-time | value-text)
+  }
+
+# 6.2.7
+property-gender = element gender {
+    element sex { "" | "M" | "F" | "O" | "N" | "U" },
+    element identity { text }?
+  }
+
+# 6.3.1
+param-label = element label { value-text }?
+property-adr = element adr {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type, param-geo, param-tz,
+                         param-label }?,
+    element pobox { text }+,
+    element ext { text }+,
+    element street { text }+,
+    element locality { text }+,
+    element region { text }+,
+    element code { text }+,
+    element country { text }+
+  }
+
+# 6.4.1
+property-tel = element tel {
+    element parameters {
+      param-altid,
+      param-pid,
+      param-pref,
+      element type {
+        element text { "work" | "home" | "text" | "voice"
+                     | "fax" | "cell" | "video" | "pager"
+                     | "textphone" | x-name | iana-token }+
+      }?,
+      param-mediatype
+    }?,
+    (value-text | value-uri)
+  }
+
+# 6.4.2
+property-email = element email {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type }?,
+    value-text
+  }
+
+# 6.4.3
+property-impp = element impp {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    value-uri
+  }
+
+# 6.4.4
+property-lang = element lang {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type }?,
+    value-language-tag
+  }
+
+# 6.5.1
+property-tz = element tz {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    (value-text | value-uri | value-utc-offset)
+  }
+
+# 6.5.2
+property-geo = element geo {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    value-uri
+  }
+
+# 6.6.1
+property-title = element title {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type }?,
+    value-text
+  }
+
+# 6.6.2
+property-role = element role {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type }?,
+    value-text
+  }
+
+# 6.6.3
+property-logo = element logo {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type, param-mediatype }?,
+    value-uri
+  }
+
+# 6.6.4
+property-org = element org {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type, param-sort-as }?,
+    value-text-list
+  }
+
+# 6.6.5
+property-member = element member {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-mediatype }?,
+    value-uri
+  }
+
+# 6.6.6
+property-related = element related {
+    element parameters {
+      param-altid,
+      param-pid,
+      param-pref,
+      element type {
+        element text {
+          "work" | "home" | "contact" | "acquaintance" |
+          "friend" | "met" | "co-worker" | "colleague" | "co-resident" |
+          "neighbor" | "child" | "parent" | "sibling" | "spouse" |
+          "kin" | "muse" | "crush" | "date" | "sweetheart" | "me" |
+          "agent" | "emergency"
+        }+
+      }?,
+      param-mediatype
+    }?,
+    (value-uri | value-text)
+  }
+
+# 6.7.1
+property-categories = element categories {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type }?,
+    value-text-list
+  }
+
+# 6.7.2
+property-note = element note {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type }?,
+    value-text
+  }
+
+# 6.7.3
+property-prodid = element prodid { value-text }
+
+# 6.7.4
+property-rev = element rev { value-timestamp }
+
+# 6.7.5
+property-sound = element sound {
+    element parameters { param-language, param-altid, param-pid,
+                         param-pref, param-type, param-mediatype }?,
+    value-uri
+  }
+
+# 6.7.6
+property-uid = element uid { value-uri }
+
+# 6.7.7
+property-clientpidmap = element clientpidmap {
+    element sourceid { xsd:positiveInteger },
+    value-uri
+  }
+
+# 6.7.8
+property-url = element url {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    value-uri
+  }
+
+# 6.8.1
+property-key = element key {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    (value-uri | value-text)
+  }
+
+# 6.9.1
+property-fburl = element fburl {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    value-uri
+  }
+
+# 6.9.2
+property-caladruri = element caladruri {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    value-uri
+  }
+
+# 6.9.3
+property-caluri = element caluri {
+    element parameters { param-altid, param-pid, param-pref,
+                         param-type, param-mediatype }?,
+    value-uri
+  }
+
+# Top-level grammar
+property = property-adr | property-anniversary | property-bday
+         | property-caladruri | property-caluri | property-categories
+         | property-clientpidmap | property-email | property-fburl
+         | property-fn | property-geo | property-impp | property-key
+         | property-kind | property-lang | property-logo
+         | property-member | property-n | property-nickname
+         | property-note | property-org | property-photo
+         | property-prodid | property-related | property-rev
+         | property-role | property-gender | property-sound
+         | property-source | property-tel | property-title
+         | property-tz | property-uid | property-url
+start = element vcards {
+    element vcard {
+      (property
+       | element group {
+           attribute name { text },
+           property*
+         })+
+    }+
+  }

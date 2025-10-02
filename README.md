@@ -69,10 +69,6 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 - [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
 - [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing performance, accessibility, and more
 
-#### Helpful bots at GitHub :robot:
-
-- Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
-
 #### Ignore code style updates in git blame
 
 `git config blame.ignoreRevsFile .git-blame-ignore-revs`
@@ -83,7 +79,7 @@ All contributions to this repository from June 16, 2016, and onward are consider
 licensed under the AGPLv3 or any later version.
 
 Nextcloud doesn't require a CLA (Contributor License Agreement).
-The copyright belongs to all the individual contributors. 
+The copyright belongs to all the individual contributors.
 Therefore we recommend that every contributor adds the following line to the [AUTHORS](AUTHORS) file if they made substantial changes to the code:
 
 ```

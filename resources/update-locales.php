@@ -12,7 +12,7 @@ if (!extension_loaded('intl')) {
 	exit(1);
 }
 
-require '../3rdparty/autoload.php';
+require '../vendor/autoload.php';
 
 $locales = array_map(static function (string $localeCode) {
 	return [

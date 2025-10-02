@@ -63,13 +63,12 @@
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
-			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
-			<directory name="3rdparty"/>
+			<directory name="vendor"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
-		<directory name="3rdparty"/>
+		<directory name="vendor"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
@@ -90,7 +89,7 @@
 		<file name="build/stubs/pcntl.php"/>
 		<file name="build/stubs/zip.php"/>
 		<file name="build/stubs/psr_container.php"/>
-		<file name="3rdparty/sabre/uri/lib/functions.php" />
+		<file name="vendor/sabre/uri/lib/functions.php" />
 		<file name="build/stubs/app_api.php" />
 	</stubs>
 	<issueHandlers>
