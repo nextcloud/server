@@ -3073,13 +3073,6 @@
       <code><![CDATA[listen]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="cron.php">
-    <DeprecatedMethod>
-      <code><![CDATA[OC_JSON::error(['data' => ['message' => 'Background jobs disabled!']])]]></code>
-      <code><![CDATA[OC_JSON::error(['data' => ['message' => 'Backgroundjobs are using system cron!']])]]></code>
-      <code><![CDATA[OC_JSON::success()]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="lib/base.php">
     <InvalidArgument>
       <code><![CDATA[$restrictions]]></code>
