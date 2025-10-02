@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
@@ -9,8 +10,10 @@ import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
-import $ from 'jquery'
 import _ from 'underscore'
+
+// we cannot use this as we need the global jQuery here for select2
+// import $ from 'jquery'
 
 addPasswordConfirmationInterceptors(axios)
 
