@@ -54,6 +54,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\Themes\\DyslexiaFont' => __DIR__ . '/..' . '/../lib/Themes/DyslexiaFont.php',
         'OCA\\Theming\\Themes\\HighContrastTheme' => __DIR__ . '/..' . '/../lib/Themes/HighContrastTheme.php',
         'OCA\\Theming\\Themes\\LightTheme' => __DIR__ . '/..' . '/../lib/Themes/LightTheme.php',
+        'OCA\\Theming\\Themes\\MotionSickness' => __DIR__ . '/..' . '/../lib/Themes/MotionSickness.php',
         'OCA\\Theming\\ThemingDefaults' => __DIR__ . '/..' . '/../lib/ThemingDefaults.php',
         'OCA\\Theming\\Util' => __DIR__ . '/..' . '/../lib/Util.php',
     );
