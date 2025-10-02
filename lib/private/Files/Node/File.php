@@ -55,6 +55,13 @@ class File extends Node implements \OCP\Files\File {
 			$this->fileInfo = null;
 			$this->sendHooks(['postWrite']);
 		} else {
+			$fileInfo = $this->getFileInfo(false);
+			$meta = [
+				'id' => $fileInfo?->getId(),
+				'data' => method_exists($fileInfo, 'getData') ? $fileInfo?->getData() : null,
+				'owner' => $fileInfo?->getOwner(),
+			];
+			\OCP\Log\logger('debug')->error('NotPermittedException details: {data}', ['data' => $meta]);
 			throw new NotPermittedException();
 		}
 	}
