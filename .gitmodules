@@ -73,3 +73,6 @@
 [submodule "apps-external/circles"]
 	path = apps-external/circles
 	url = git@github.com:nextcloud/circles.git
+[submodule "apps-external/assistant"]
+	path = apps-external/assistant
+	url = git@github.com:IONOS-Productivity/nc-assistant.git
