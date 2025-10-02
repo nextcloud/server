@@ -34,15 +34,9 @@ class MountPoint implements IMountPoint {
 
 	/**
 	 * Mount specific options
-	 *
-	 * @var array
 	 */
-	protected $mountOptions = [];
-
-	/**
-	 * @var \OC\Files\Storage\StorageFactory $loader
-	 */
-	private $loader;
+	protected array $mountOptions = [];
+	private IStorageFactory $loader;
 
 	/**
 	 * Specified whether the storage is invalid after failing to
@@ -83,6 +77,7 @@ class MountPoint implements IMountPoint {
 		if (is_null($loader)) {
 			$this->loader = new StorageFactory();
 		} else {
+			/** @var StorageFactory $loader */
 			$this->loader = $loader;
 		}
 

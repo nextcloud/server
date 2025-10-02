@@ -7,6 +7,7 @@
  */
 namespace OCP\Files\Cache;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -14,6 +15,7 @@ use OCP\Files\Storage\IStorage;
  *
  * @since 9.0.0
  */
+#[Consumable(since: '9.0.0')]
 interface IUpdater {
 	/**
 	 * Get the propagator for etags and mtime for the view the updater works on
@@ -21,7 +23,7 @@ interface IUpdater {
 	 * @return IPropagator
 	 * @since 9.0.0
 	 */
-	public function getPropagator();
+	public function getPropagator(): IPropagator;
 
 	/**
 	 * Propagate etag and mtime changes for the parent folders of $path up to the root of the filesystem
@@ -30,16 +32,14 @@ interface IUpdater {
 	 * @param int|null $time the timestamp to set as mtime for the parent folders, if left out the current time is used
 	 * @since 9.0.0
 	 */
-	public function propagate($path, $time = null);
+	public function propagate(string $path, ?int $time = null): void;
 
 	/**
 	 * Update the cache for $path and update the size, etag and mtime of the parent folders
 	 *
-	 * @param string $path
-	 * @param int $time
 	 * @since 9.0.0
 	 */
-	public function update($path, $time = null, ?int $sizeDifference = null);
+	public function update(string $path, ?int $time = null, ?int $sizeDifference = null): void;
 
 	/**
 	 * Remove $path from the cache and update the size, etag and mtime of the parent folders
@@ -47,17 +47,14 @@ interface IUpdater {
 	 * @param string $path
 	 * @since 9.0.0
 	 */
-	public function remove($path);
+	public function remove(string $path): void;
 
 	/**
 	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
 	 *
-	 * @param IStorage $sourceStorage
-	 * @param string $source
-	 * @param string $target
 	 * @since 9.0.0
 	 */
-	public function renameFromStorage(IStorage $sourceStorage, $source, $target);
+	public function renameFromStorage(IStorage $sourceStorage, string $source, string $target): void;
 
 	/**
 	 * Copy a file or folder in the cache and update the size, etag and mtime of the parent folders

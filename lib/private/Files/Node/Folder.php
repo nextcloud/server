@@ -25,7 +25,10 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
+use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
+use Override;
 
 class Folder extends Node implements \OCP\Files\Folder {
 
@@ -64,22 +67,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
 
-	/**
-	 * check if a node is a (grand-)child of the folder
-	 *
-	 * @param \OC\Files\Node\Node $node
-	 * @return bool
-	 */
-	public function isSubNode($node) {
+	#[Override]
+	public function isSubNode($node): bool {
 		return str_starts_with($node->getPath(), $this->path . '/');
 	}
 
-	/**
-	 * get the content of this directory
-	 *
-	 * @return Node[]
-	 * @throws \OCP\Files\NotFoundException
-	 */
+	#[Override]
 	public function getDirectoryListing() {
 		$folderContent = $this->view->getDirectoryContent($this->path, '', $this->getFileInfo(false));
 
@@ -106,10 +99,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 	}
 
+	#[Override]
 	public function get($path) {
 		return $this->root->get($this->getFullPath($path));
 	}
 
+	#[Override]
 	public function nodeExists($path) {
 		try {
 			$this->get($path);
@@ -189,18 +184,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$user = null;
 		} else {
 			/** @var IUserManager $userManager */
-			$userManager = \OCP\Server::get(IUserManager::class);
+			$userManager = Server::get(IUserManager::class);
 			$user = $userManager->get($uid);
 		}
 		return new SearchQuery($operator, $limit, $offset, [], $user);
 	}
 
-	/**
-	 * search for files with the name matching $query
-	 *
-	 * @param string|ISearchQuery $query
-	 * @return \OC\Files\Node\Node[]
-	 */
 	public function search($query) {
 		if (is_string($query)) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
@@ -262,7 +251,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($ownerId !== false) {
 			// Cache the user manager (for performance)
 			if ($this->userManager === null) {
-				$this->userManager = \OCP\Server::get(IUserManager::class);
+				$this->userManager = Server::get(IUserManager::class);
 			}
 			$owner = new LazyUser($ownerId, $this->userManager);
 		}
@@ -277,12 +266,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		);
 	}
 
-	/**
-	 * search for files by mimetype
-	 *
-	 * @param string $mimetype
-	 * @return Node[]
-	 */
+	#[Override]
 	public function searchByMime($mimetype) {
 		if (!str_contains($mimetype, '/')) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%'));
@@ -292,37 +276,30 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $this->search($query);
 	}
 
-	/**
-	 * search for files by tag
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return Node[]
-	 */
+	#[Override]
 	public function searchByTag($tag, $userId) {
 		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'tagname', $tag), $userId);
 		return $this->search($query);
 	}
 
+	#[Override]
 	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0): array {
 		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'systemtag', $tagName), $userId, $limit, $offset);
 		return $this->search($query);
 	}
 
-	/**
-	 * @param int $id
-	 * @return \OCP\Files\Node[]
-	 */
+	#[Override]
 	public function getById($id) {
 		return $this->root->getByIdInPath((int)$id, $this->getPath());
 	}
 
+	#[Override]
 	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
 		return $this->root->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	public function getAppDataDirectoryName(): string {
-		$instanceId = \OC::$server->getConfig()->getSystemValueString('instanceid');
+		$instanceId = Server::get(IConfig::class)->getSystemValueString('instanceid');
 		return 'appdata_' . $instanceId;
 	}
 

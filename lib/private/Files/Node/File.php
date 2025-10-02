@@ -8,6 +8,7 @@
 namespace OC\Files\Node;
 
 use OCP\Files\GenericFileException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 
@@ -124,7 +125,11 @@ class File extends Node implements \OCP\Files\File {
 	 * @return string
 	 */
 	public function hash($type, $raw = false) {
-		return $this->view->hash($type, $this->path, $raw);
+		$hash = $this->view->hash($type, $this->path, $raw);
+		if ($hash === false) {
+			throw new NotFoundException('Trying to compute hash for a non valid path: ' . $this->path);
+		}
+		return $hash;
 	}
 
 	/**

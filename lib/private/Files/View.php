@@ -1127,7 +1127,7 @@ class View {
 	 * @param string $path
 	 * @param bool $raw
 	 */
-	public function hash($type, $path, $raw = false): string|bool {
+	public function hash($type, $path, $raw = false): string|false {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)) {
@@ -1467,7 +1467,7 @@ class View {
 	 */
 	public function addSubMounts(FileInfo $info, $extOnly = false): void {
 		$mounts = Filesystem::getMountManager()->findIn($info->getPath());
-		$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
+		$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly): bool {
 			return !($extOnly && $mount instanceof SharedMount);
 		}));
 	}
