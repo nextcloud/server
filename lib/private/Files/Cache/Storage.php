@@ -7,6 +7,7 @@
  */
 namespace OC\Files\Cache;
 
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
@@ -55,13 +56,20 @@ class Storage {
 			$this->numericId = $row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
-			if ($this->connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = $this->connection->lastInsertId('*PREFIX*storages');
+			if ($row = self::getStorageById($this->storageId)) {
+				$this->numericId = $row['numeric_id'];
 			} else {
-				if ($row = self::getStorageById($this->storageId)) {
-					$this->numericId = $row['numeric_id'];
-				} else {
-					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
+				try {
+					$qb = $this->connection->getQueryBuilder();
+					$qb->insert('storages')
+						->values([
+							'id' => $qb->createNamedParameter($this->storageId, IQueryBuilder::PARAM_STR),
+							'available' => $qb->createNamedParameter($available, IQueryBuilder::PARAM_INT),
+						])
+						->executeStatement();
+					$this->numericId = $qb->getLastInsertId();
+				} catch (Exception $e) {
+					throw new \RuntimeException("Could not insert new storage nor fetch existing one", previous: $e);
 				}
 			}
 		}
