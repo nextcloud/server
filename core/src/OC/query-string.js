@@ -11,7 +11,7 @@ import $ from 'jquery'
  * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
  * @return {Record<string, string>} map containing key/values matching the URL parameters
  */
-export const parse = queryString => {
+export function parse(queryString) {
 	let pos
 	let components
 	const result = {}
@@ -61,7 +61,7 @@ export const parse = queryString => {
  * @param {Record<string, string>} params map containing key/values matching the URL parameters
  * @return {string} String containing a URL query (without question) mark
  */
-export const build = params => {
+export function build(params) {
 	if (!params) {
 		return ''
 	}

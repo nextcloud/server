@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<Comment v-bind="editorData"
+	<Comment
+		v-bind="editorData"
 		:auto-complete="autoComplete"
 		:resource-type="resourceType"
 		:editor="true"
@@ -15,17 +16,18 @@
 </template>
 
 <script lang="ts">
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import Comment from '../components/Comment.vue'
+import logger from '../logger.js'
 import CommentView from '../mixins/CommentView.js'
-import logger from '../logger'
-import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 
 export default defineComponent({
 	components: {
 		Comment,
 	},
+
 	mixins: [CommentView],
 	props: {
 		reloadCallback: {
@@ -33,14 +35,15 @@ export default defineComponent({
 			required: true,
 		},
 	},
+
 	methods: {
 		onNewComment() {
 			try {
 				// just force reload
 				this.reloadCallback()
-			} catch (e) {
+			} catch (error) {
 				showError(t('comments', 'Could not reload comments'))
-				logger.debug(e)
+				logger.error('Could not reload comments', { error })
 			}
 		},
 	},

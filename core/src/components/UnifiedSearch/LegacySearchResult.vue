@@ -3,7 +3,8 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<a :href="resourceUrl || '#'"
+	<a
+		:href="resourceUrl || '#'"
 		class="unified-search__result"
 		:class="{
 			'unified-search__result--focused': focused,
@@ -12,7 +13,8 @@
 		@focus="reEmitEvent">
 
 		<!-- Icon describing the result -->
-		<div class="unified-search__result-icon"
+		<div
+			class="unified-search__result-icon"
 			:class="{
 				'unified-search__result-icon--rounded': rounded,
 				'unified-search__result-icon--no-preview': !hasValidThumbnail && !loaded,
@@ -23,7 +25,8 @@
 				backgroundImage: isIconUrl ? `url(${icon})` : '',
 			}">
 
-			<img v-if="hasValidThumbnail"
+			<img
+				v-if="hasValidThumbnail"
 				v-show="loaded"
 				:src="thumbnailUrl"
 				alt=""
@@ -56,26 +59,32 @@ export default {
 			type: String,
 			default: null,
 		},
+
 		title: {
 			type: String,
 			required: true,
 		},
+
 		subline: {
 			type: String,
 			default: null,
 		},
+
 		resourceUrl: {
 			type: String,
 			default: null,
 		},
+
 		icon: {
 			type: String,
 			default: '',
 		},
+
 		rounded: {
 			type: Boolean,
 			default: false,
 		},
+
 		query: {
 			type: String,
 			default: '',
@@ -108,7 +117,6 @@ export default {
 
 			// Otherwise, let's check if this is a valid url
 			try {
-				// eslint-disable-next-line no-new
 				new URL(this.icon)
 			} catch {
 				return false

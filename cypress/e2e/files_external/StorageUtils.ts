@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from "@nextcloud/cypress"
+import type { User } from '@nextcloud/cypress'
 
 export type StorageConfig = {
 	[key: string]: string
@@ -32,9 +32,15 @@ export enum AuthBackend {
 
 /**
  * Create a storage via occ
+ *
+ * @param mountPoint
+ * @param storageBackend
+ * @param authBackend
+ * @param configs
+ * @param user
  */
 export function createStorageWithConfig(mountPoint: string, storageBackend: StorageBackend, authBackend: AuthBackend, configs: StorageConfig, user?: User): Cypress.Chainable {
-	const configsFlag = Object.keys(configs).map(key => `--config "${key}=${configs[key]}"`).join(' ')
+	const configsFlag = Object.keys(configs).map((key) => `--config "${key}=${configs[key]}"`).join(' ')
 	const userFlag = user ? `--user ${user.userId}` : ''
 
 	const command = `files_external:create "${mountPoint}" "${storageBackend}" "${authBackend}" ${configsFlag} ${userFlag}`
@@ -46,12 +52,20 @@ export function createStorageWithConfig(mountPoint: string, storageBackend: Stor
 		})
 }
 
+/**
+ *
+ * @param mountId
+ * @param options
+ */
 export function setStorageMountOptions(mountId: string, options: StorageMountOption) {
 	for (const [key, value] of Object.entries(options)) {
 		cy.runOccCommand(`files_external:option ${mountId} ${key} ${value}`)
 	}
 }
 
+/**
+ *
+ */
 export function deleteAllExternalStorages() {
 	cy.runOccCommand('files_external:list --all --output=json').then(({ stdout }) => {
 		const list = JSON.parse(stdout)

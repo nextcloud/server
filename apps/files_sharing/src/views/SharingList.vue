@@ -5,7 +5,8 @@
 
 <template>
 	<ul class="sharing-sharee-list" :aria-label="t('files_sharing', 'Shares')">
-		<SharingEntry v-for="share in shares"
+		<SharingEntry
+			v-for="share in shares"
 			:key="share.id"
 			:file-info="fileInfo"
 			:share="share"
@@ -16,9 +17,9 @@
 
 <script>
 import { t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
 import SharingEntry from '../components/SharingEntry.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
-import { ShareType } from '@nextcloud/sharing'
 
 export default {
 	name: 'SharingList',
@@ -32,12 +33,11 @@ export default {
 	props: {
 		fileInfo: {
 			type: Object,
-			default: () => { },
 			required: true,
 		},
+
 		shares: {
 			type: Array,
-			default: () => [],
 			required: true,
 		},
 	},
@@ -47,10 +47,12 @@ export default {
 			t,
 		}
 	},
+
 	computed: {
 		hasShares() {
 			return this.shares.length === 0
 		},
+
 		isUnique() {
 			return (share) => {
 				return [...this.shares].filter((item) => {

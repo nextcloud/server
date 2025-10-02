@@ -4,7 +4,6 @@
  */
 import { getCSPNonce } from '@nextcloud/auth'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 window.OCP.Collaboration.registerType('file', {

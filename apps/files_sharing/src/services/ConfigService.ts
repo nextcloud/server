@@ -14,71 +14,71 @@ type PasswordPolicyCapabilities = {
 }
 
 type FileSharingCapabilities = {
-	api_enabled: boolean,
+	api_enabled: boolean
 	public: {
-		enabled: boolean,
+		enabled: boolean
 		password: {
-			enforced: boolean,
-			askForOptionalPassword: boolean
-		},
-		expire_date: {
-			enabled: boolean,
-			days: number,
 			enforced: boolean
-		},
-		multiple_links: boolean,
+			askForOptionalPassword: boolean
+		}
+		expire_date: {
+			enabled: boolean
+			days: number
+			enforced: boolean
+		}
+		multiple_links: boolean
 		expire_date_internal: {
 			enabled: boolean
-		},
+		}
 		expire_date_remote: {
 			enabled: boolean
-		},
-		send_mail: boolean,
-		upload: boolean,
-		upload_files_drop: boolean,
-		custom_tokens: boolean,
-	},
-	resharing: boolean,
+		}
+		send_mail: boolean
+		upload: boolean
+		upload_files_drop: boolean
+		custom_tokens: boolean
+	}
+	resharing: boolean
 	user: {
-		send_mail: boolean,
+		send_mail: boolean
 		expire_date: {
 			enabled: boolean
 		}
-	},
-	group_sharing: boolean,
+	}
+	group_sharing: boolean
 	group: {
-		enabled: boolean,
+		enabled: boolean
 		expire_date: {
 			enabled: true
 		}
-	},
-	default_permissions: number,
+	}
+	default_permissions: number
 	federation: {
-		outgoing: boolean,
-		incoming: boolean,
+		outgoing: boolean
+		incoming: boolean
 		expire_date: {
 			enabled: boolean
-		},
+		}
 		expire_date_supported: {
 			enabled: boolean
 		}
-	},
+	}
 	sharee: {
-		query_lookup_default: boolean,
+		query_lookup_default: boolean
 		always_show_unique: boolean
-	},
+	}
 	sharebymail: {
-		enabled: boolean,
-		send_password_by_mail: boolean,
+		enabled: boolean
+		send_password_by_mail: boolean
 		upload_files_drop: {
 			enabled: boolean
-		},
+		}
 		password: {
-			enabled: boolean,
+			enabled: boolean
 			enforced: boolean
-		},
+		}
 		expire_date: {
-			enabled: boolean,
+			enabled: boolean
 			enforced: boolean
 		}
 	}
@@ -90,7 +90,6 @@ type Capabilities = {
 }
 
 export default class Config {
-
 	_capabilities: Capabilities
 
 	constructor() {
@@ -100,7 +99,7 @@ export default class Config {
 	/**
 	 * Get default share permissions, if any
 	 */
-	 get defaultPermissions(): number {
+	get defaultPermissions(): number {
 		return this._capabilities.files_sharing?.default_permissions
 	}
 
@@ -122,7 +121,7 @@ export default class Config {
 	/**
 	 * Get the default link share expiration date
 	 */
-	get defaultExpirationDate(): Date|null {
+	get defaultExpirationDate(): Date | null {
 		if (this.isDefaultExpireDateEnabled && this.defaultExpireDate !== null) {
 			return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate))
 		}
@@ -132,7 +131,7 @@ export default class Config {
 	/**
 	 * Get the default internal expiration date
 	 */
-	get defaultInternalExpirationDate(): Date|null {
+	get defaultInternalExpirationDate(): Date | null {
 		if (this.isDefaultInternalExpireDateEnabled && this.defaultInternalExpireDate !== null) {
 			return new Date(new Date().setDate(new Date().getDate() + this.defaultInternalExpireDate))
 		}
@@ -142,7 +141,7 @@ export default class Config {
 	/**
 	 * Get the default remote expiration date
 	 */
-	get defaultRemoteExpirationDateString(): Date|null {
+	get defaultRemoteExpirationDateString(): Date | null {
 		if (this.isDefaultRemoteExpireDateEnabled && this.defaultRemoteExpireDate !== null) {
 			return new Date(new Date().setDate(new Date().getDate() + this.defaultRemoteExpireDate))
 		}
@@ -230,30 +229,29 @@ export default class Config {
 	 * Is sharing my mail (link share) enabled ?
 	 */
 	get isMailShareAllowed(): boolean {
-		// eslint-disable-next-line camelcase
 		return this._capabilities?.files_sharing?.sharebymail?.enabled === true
-			// eslint-disable-next-line camelcase
+
 			&& this.isPublicShareAllowed === true
 	}
 
 	/**
 	 * Get the default days to link shares expiration
 	 */
-	get defaultExpireDate(): number|null {
+	get defaultExpireDate(): number | null {
 		return window.OC.appConfig.core.defaultExpireDate
 	}
 
 	/**
 	 * Get the default days to internal shares expiration
 	 */
-	get defaultInternalExpireDate(): number|null {
+	get defaultInternalExpireDate(): number | null {
 		return window.OC.appConfig.core.defaultInternalExpireDate
 	}
 
 	/**
 	 * Get the default days to remote shares expiration
 	 */
-	get defaultRemoteExpireDate(): number|null {
+	get defaultRemoteExpireDate(): number | null {
 		return window.OC.appConfig.core.defaultRemoteExpireDate
 	}
 
@@ -316,7 +314,8 @@ export default class Config {
 
 	/**
 	 * Show federated shares as internal shares
-	 * @return {boolean}
+	 *
+	 * @return
 	 */
 	get showFederatedSharesAsInternal(): boolean {
 		return loadState('files_sharing', 'showFederatedSharesAsInternal', false)
@@ -324,10 +323,10 @@ export default class Config {
 
 	/**
 	 * Show federated shares to trusted servers as internal shares
-	 * @return {boolean}
+	 *
+	 * @return
 	 */
 	get showFederatedSharesToTrustedServersAsInternal(): boolean {
 		return loadState('files_sharing', 'showFederatedSharesToTrustedServersAsInternal', false)
 	}
-
 }

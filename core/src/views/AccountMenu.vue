@@ -3,27 +3,31 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcHeaderMenu id="user-menu"
+	<NcHeaderMenu
+		id="user-menu"
 		class="account-menu"
 		is-nav
 		:aria-label="t('core', 'Settings menu')"
 		:description="avatarDescription">
 		<template #trigger>
 			<!-- The `key` is a hack as NcAvatar does not handle updating the preloaded status on show status change -->
-			<NcAvatar :key="String(showUserStatus)"
+			<NcAvatar
+				:key="String(showUserStatus)"
 				class="account-menu__avatar"
 				disable-menu
 				disable-tooltip
-				:show-user-status="showUserStatus"
+				:hide-user-status="!showUserStatus"
 				:user="currentUserId"
 				:preloaded-user-status="userStatus" />
 		</template>
 		<ul class="account-menu__list">
-			<AccountMenuProfileEntry :id="profileEntry.id"
+			<AccountMenuProfileEntry
+				:id="profileEntry.id"
 				:name="profileEntry.name"
 				:href="profileEntry.href"
 				:active="profileEntry.active" />
-			<AccountMenuEntry v-for="entry in otherEntries"
+			<AccountMenuEntry
+				v-for="entry in otherEntries"
 				:id="entry.id"
 				:key="entry.id"
 				:name="entry.name"
@@ -36,21 +40,19 @@
 
 <script lang="ts">
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getCapabilities } from '@nextcloud/capabilities'
 import { defineComponent } from 'vue'
-import { getAllStatusOptions } from '../../../apps/user_status/src/services/statusOptionsService.js'
-
-import axios from '@nextcloud/axios'
-import logger from '../logger.js'
-
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
-import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
+import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
+import { getAllStatusOptions } from '../../../apps/user_status/src/services/statusOptionsService.js'
+import logger from '../logger.js'
 
 interface ISettingsNavigationEntry {
 	/**
@@ -68,7 +70,7 @@ interface ISettingsNavigationEntry {
 	/**
 	 * Type of the entry
 	 */
-	type: 'settings'|'link'|'guest'
+	type: 'settings' | 'link' | 'guest'
 	/**
 	 * Link of the entry, for example, "/settings/user"
 	 */
@@ -156,8 +158,8 @@ export default defineComponent({
 			const response = await axios.get(url)
 			const { status, icon, message } = response.data.ocs.data
 			this.userStatus = { status, icon, message }
-		} catch (e) {
-			logger.error('Failed to load user status')
+		} catch (error) {
+			logger.error('Failed to load user status', { error })
 		}
 		this.showUserStatus = true
 	},
@@ -179,9 +181,7 @@ export default defineComponent({
 		},
 
 		translateStatus(status) {
-			const statusMap = Object.fromEntries(
-				USER_DEFINABLE_STATUSES.map(({ type, label }) => [type, label]),
-			)
+			const statusMap = Object.fromEntries(USER_DEFINABLE_STATUSES.map(({ type, label }) => [type, label]))
 			if (statusMap[status]) {
 				return statusMap[status]
 			}

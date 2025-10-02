@@ -3,9 +3,10 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcAppNavigationItem v-if="storageStats"
+	<NcAppNavigationItem
+		v-if="storageStats"
 		:aria-description="t('files', 'Storage information')"
-		:class="{ 'app-navigation-entry__settings-quota--not-unlimited': storageStats.quota >= 0}"
+		:class="{ 'app-navigation-entry__settings-quota--not-unlimited': storageStats.quota >= 0 }"
 		:loading="loadingStorageStats"
 		:name="storageStatsTitle"
 		:title="storageStatsTooltip"
@@ -15,7 +16,8 @@
 		<ChartPie slot="icon" :size="20" />
 
 		<!-- Progress bar -->
-		<NcProgressBar v-if="storageStats.quota >= 0"
+		<NcProgressBar
+			v-if="storageStats.quota >= 0"
 			slot="extra"
 			:aria-label="t('files', 'Storage quota')"
 			:error="storageStats.relative > 80"
@@ -24,19 +26,17 @@
 </template>
 
 <script>
-import { debounce, throttle } from 'throttle-debounce'
-import { formatFileSize } from '@nextcloud/files'
-import { generateUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe } from '@nextcloud/event-bus'
+import { formatFileSize } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { translate } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-
-import ChartPie from 'vue-material-design-icons/ChartPieOutline.vue'
+import { generateUrl } from '@nextcloud/router'
+import { debounce, throttle } from 'throttle-debounce'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-
+import ChartPie from 'vue-material-design-icons/ChartPieOutline.vue'
 import logger from '../logger.ts'
 
 export default {
@@ -70,6 +70,7 @@ export default {
 				quota: quotaByte,
 			})
 		},
+
 		storageStatsTooltip() {
 			if (!this.storageStats.relative) {
 				return ''
@@ -113,6 +114,7 @@ export default {
 		debounceUpdateStorageStats: debounce(200, function(event) {
 			this.updateStorageStats(event)
 		}),
+
 		// From interval or event bus
 		throttleUpdateStorageStats: throttle(1000, function(event) {
 			this.updateStorageStats(event)

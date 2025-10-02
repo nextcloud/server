@@ -17,7 +17,7 @@ import logger from '../logger.ts'
  * @param app The app to get the icon for
  */
 export function useAppIcon(app: Ref<IAppstoreApp>) {
-	const appIcon = ref<string|null>(null)
+	const appIcon = ref<string | null>(null)
 
 	/**
 	 * Fallback value if no app icon available

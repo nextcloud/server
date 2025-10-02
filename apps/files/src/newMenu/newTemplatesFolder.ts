@@ -2,32 +2,33 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Entry, Folder, Node } from '@nextcloud/files'
 
+import type { Folder, NewMenuEntry, Node } from '@nextcloud/files'
+
+import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { Permission, removeNewFileMenuEntry } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { join } from 'path'
-import { newNodeName } from '../utils/newNodeDialog'
-
-import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
-import axios from '@nextcloud/axios'
 import logger from '../logger.ts'
+import { newNodeName } from '../utils/newNodeDialog.ts'
 
 const templatesEnabled = loadState<boolean>('files', 'templates_enabled', true)
-let templatesPath = loadState<string|false>('files', 'templates_path', false)
+let templatesPath = loadState<string | false>('files', 'templates_path', false)
 logger.debug('Templates folder enabled', { templatesEnabled })
 logger.debug('Initial templates folder', { templatesPath })
 
 /**
  * Init template folder
+ *
  * @param directory Folder where to create the templates folder
  * @param name Name to use or the templates folder
  */
-const initTemplatesFolder = async function(directory: Folder, name: string) {
+async function initTemplatesFolder(directory: Folder, name: string) {
 	const templatePath = join(directory.path, name)
 	try {
 		logger.debug('Initializing the templates directory', { templatePath })
@@ -48,12 +49,12 @@ const initTemplatesFolder = async function(directory: Folder, name: string) {
 		})
 		templatesPath = data.ocs.data.templates_path as string
 	} catch (error) {
-		logger.error('Unable to initialize the templates directory')
+		logger.error('Unable to initialize the templates directory', { error })
 		showError(t('files', 'Unable to initialize the templates directory'))
 	}
 }
 
-export const entry = {
+export const entry: NewMenuEntry = {
 	id: 'template-picker',
 	displayName: t('files', 'Create templates folder'),
 	iconSvgInline: PlusSvg,
@@ -80,4 +81,4 @@ export const entry = {
 			removeNewFileMenuEntry('template-picker')
 		}
 	},
-} as Entry
+}

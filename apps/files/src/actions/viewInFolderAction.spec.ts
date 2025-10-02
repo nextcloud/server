@@ -2,9 +2,11 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Folder, Node, Permission, View, FileAction } from '@nextcloud/files'
+import type { Node, View } from '@nextcloud/files'
+
+import { File, FileAction, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
-import { action } from './viewInFolderAction'
+import { action } from './viewInFolderAction.ts'
 
 const view = {
 	id: 'trashbin',
@@ -126,7 +128,6 @@ describe('View in folder action enabled tests', () => {
 describe('View in folder action execute tests', () => {
 	test('View in folder', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -146,7 +147,6 @@ describe('View in folder action execute tests', () => {
 
 	test('View in (sub) folder', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -167,7 +167,6 @@ describe('View in folder action execute tests', () => {
 
 	test('View in folder fails without node', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const exec = await action.exec(null as unknown as Node, view, '/')
@@ -177,7 +176,6 @@ describe('View in folder action execute tests', () => {
 
 	test('View in folder fails without File', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const folder = new Folder({

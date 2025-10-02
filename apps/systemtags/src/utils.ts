@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import camelCase from 'camelcase'
-
-import type { DAVResultResponseProps } from 'webdav'
-
-import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
 import type { Node } from '@nextcloud/files'
+import type { DAVResultResponseProps } from 'webdav'
+import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
+
+import camelCase from 'camelcase'
 import Vue from 'vue'
 
 export const defaultBaseTag: BaseTag = {
@@ -17,18 +16,21 @@ export const defaultBaseTag: BaseTag = {
 	canAssign: true,
 }
 
-export const parseTags = (tags: { props: DAVResultResponseProps }[]): TagWithId[] => {
-	return tags.map(({ props }) => Object.fromEntries(
-		Object.entries(props)
-			.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? String(value) : value]),
-	)) as TagWithId[]
+/**
+ *
+ * @param tags
+ */
+export function parseTags(tags: { props: DAVResultResponseProps }[]): TagWithId[] {
+	return tags.map(({ props }) => Object.fromEntries(Object.entries(props)
+		.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? String(value) : value]))) as TagWithId[]
 }
 
 /**
  * Parse id from `Content-Location` header
+ *
  * @param url URL to parse
  */
-export const parseIdFromLocation = (url: string): number => {
+export function parseIdFromLocation(url: string): number {
 	const queryPos = url.indexOf('?')
 	if (queryPos > 0) {
 		url = url.substring(0, queryPos)
@@ -46,7 +48,11 @@ export const parseIdFromLocation = (url: string): number => {
 	return Number(result)
 }
 
-export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
+/**
+ *
+ * @param initialTag
+ */
+export function formatTag(initialTag: Tag | ServerTag): ServerTag {
 	if ('name' in initialTag && !('displayName' in initialTag)) {
 		return { ...initialTag }
 	}
@@ -58,7 +64,11 @@ export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
 	return tag as unknown as ServerTag
 }
 
-export const getNodeSystemTags = function(node: Node): string[] {
+/**
+ *
+ * @param node
+ */
+export function getNodeSystemTags(node: Node): string[] {
 	const attribute = node.attributes?.['system-tags']?.['system-tag']
 	if (attribute === undefined) {
 		return []
@@ -68,7 +78,7 @@ export const getNodeSystemTags = function(node: Node): string[] {
 	// if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
 	return [attribute]
 		.flat()
-		.map((tag: string|{ text: string }) => (
+		.map((tag: string | { text: string }) => (
 			typeof tag === 'string'
 				// its a plain text prop (the tag name) without prop attributes
 				? tag
@@ -77,7 +87,12 @@ export const getNodeSystemTags = function(node: Node): string[] {
 		))
 }
 
-export const setNodeSystemTags = function(node: Node, tags: string[]): void {
+/**
+ *
+ * @param node
+ * @param tags
+ */
+export function setNodeSystemTags(node: Node, tags: string[]): void {
 	Vue.set(node.attributes, 'system-tags', {
 		'system-tag': tags,
 	})

@@ -10,7 +10,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, type Component, type PropType } from 'vue'
+import {
+	type Component, type PropType,
+
+	computed,
+} from 'vue'
 
 const props = defineProps({
 	fileInfo: {

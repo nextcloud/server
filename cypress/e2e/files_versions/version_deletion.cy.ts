@@ -4,8 +4,9 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions, deleteVersion } from './filesVersionsUtils'
-import { navigateToFolder, getRowForFile } from '../files/FilesUtils'
+
+import { getRowForFile, navigateToFolder } from '../files/FilesUtils.ts'
+import { deleteVersion, doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions restoration', () => {
 	const folderName = 'shared_folder'
@@ -59,11 +60,11 @@ describe('Versions restoration', () => {
 		})
 
 		it('Does not work without delete permission through direct API access', () => {
-			let fileId: string|undefined
-			let versionId: string|undefined
+			let fileId: string | undefined
+			let versionId: string | undefined
 
 			setupTestSharedFileFromUser(user, folderName, { delete: false })
-				.then(recipient => {
+				.then((recipient) => {
 					navigateToFolder(folderName)
 					openVersionsPanel(randomFilePath)
 

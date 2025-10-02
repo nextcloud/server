@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import MessageReplyText from '@mdi/svg/svg/message-reply-text.svg?raw'
 import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'

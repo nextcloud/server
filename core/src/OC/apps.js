@@ -46,7 +46,7 @@ Apps.hideAppSidebar = function($el) {
  * <button data-apps-slide-toggle=".slide-area">slide</button>
  * <div class=".slide-area" class="hidden">I'm sliding up</div>
  */
-export const registerAppsSlideToggle = () => {
+export function registerAppsSlideToggle() {
 	let buttons = $('[data-apps-slide-toggle]')
 
 	if (buttons.length === 0) {
@@ -54,13 +54,11 @@ export const registerAppsSlideToggle = () => {
 	}
 
 	$(document).click(function(event) {
-
 		if (dynamicSlideToggleEnabled) {
 			buttons = $('[data-apps-slide-toggle]')
 		}
 
 		buttons.each(function(index, button) {
-
 			const areaSelector = $(button).data('apps-slide-toggle')
 			const area = $(areaSelector)
 
@@ -94,7 +92,6 @@ export const registerAppsSlideToggle = () => {
 
 			// do nothing if the area is animated
 			if (!area.is(':animated')) {
-
 				// button toggles the area
 				if ($(button).is($(event.target).closest('[data-apps-slide-toggle]'))) {
 					if (area.is(':visible')) {
@@ -113,7 +110,6 @@ export const registerAppsSlideToggle = () => {
 				}
 			}
 		})
-
 	})
 }
 

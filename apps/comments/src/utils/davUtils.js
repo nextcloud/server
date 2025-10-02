@@ -5,7 +5,10 @@
 
 import { generateRemoteUrl } from '@nextcloud/router'
 
-const getRootPath = function() {
+/**
+ *
+ */
+function getRootPath() {
 	return generateRemoteUrl('dav/comments')
 }
 

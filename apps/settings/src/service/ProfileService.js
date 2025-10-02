@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
-import { generateOcsUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
+import { generateOcsUrl } from '@nextcloud/router'
+
 import '@nextcloud/password-confirmation/dist/style.css'
 
 /**
@@ -16,7 +17,7 @@ import '@nextcloud/password-confirmation/dist/style.css'
  * @param {string} visibility the visibility
  * @return {object}
  */
-export const saveProfileParameterVisibility = async (paramId, visibility) => {
+export async function saveProfileParameterVisibility(paramId, visibility) {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('/profile/{userId}', { userId })
 
@@ -36,7 +37,7 @@ export const saveProfileParameterVisibility = async (paramId, visibility) => {
  * @param {boolean} isEnabled the default
  * @return {object}
  */
-export const saveProfileDefault = async (isEnabled) => {
+export async function saveProfileDefault(isEnabled) {
 	// Convert to string for compatibility
 	isEnabled = isEnabled ? '1' : '0'
 

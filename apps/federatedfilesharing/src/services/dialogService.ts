@@ -19,8 +19,8 @@ export function showRemoteShareDialog(
 	owner: string,
 	remote: string,
 	passwordRequired = false,
-): Promise<string|void> {
-	const { promise, reject, resolve } = Promise.withResolvers<string|void>()
+): Promise<string | void> {
+	const { promise, reject, resolve } = Promise.withResolvers<string | void>()
 
 	spawnDialog(RemoteShareDialog, { name, owner, remote, passwordRequired }, (status, password) => {
 		if (passwordRequired && status) {

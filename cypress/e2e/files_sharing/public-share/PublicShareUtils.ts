@@ -4,6 +4,7 @@
  */
 import type { User } from '@nextcloud/cypress'
 import type { ShareOptions } from '../ShareOptionsType.ts'
+
 import { openSharingPanel } from '../FilesSharingUtils.ts'
 
 export interface ShareContext {
@@ -33,6 +34,7 @@ export function getShareUrl(context: ShareContext = defaultShareContext): string
 
 /**
  * Setup the available data
+ *
  * @param user The current share context
  * @param shareName The name of the shared folder
  */
@@ -79,7 +81,6 @@ function checkExpirationDateState(enforced: boolean, hasDefault: boolean) {
 	cy.get('input[data-cy-files-sharing-expiration-date-input]')
 		.invoke('val')
 		.then((val) => {
-			// eslint-disable-next-line no-unused-expressions
 			expect(val).to.not.be.undefined
 
 			const inputDate = new Date(typeof val === 'number' ? val : String(val))
@@ -87,11 +88,11 @@ function checkExpirationDateState(enforced: boolean, hasDefault: boolean) {
 			expectedDate.setDate(expectedDate.getDate() + 2)
 			expect(inputDate.toDateString()).to.eq(expectedDate.toDateString())
 		})
-
 }
 
 /**
  * Create a public link share
+ *
  * @param context The current share context
  * @param shareName The name of the shared folder
  * @param options The share options
@@ -157,10 +158,8 @@ function adjustSharePermission(): void {
  * @return The URL of the share
  */
 export function setupPublicShare(shareName = 'shared'): Cypress.Chainable<string> {
-
 	return cy.task('getVariable', { key: `public-share-data--${shareName}` })
 		.then((data) => {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const { dataSnapshot, shareUrl } = data as any || {}
 			if (dataSnapshot) {
 				cy.restoreState(dataSnapshot)
@@ -178,11 +177,9 @@ export function setupPublicShare(shareName = 'shared'): Cypress.Chainable<string
 						shareData.shareUrl = url
 					})
 					.then(() => adjustSharePermission())
-					.then(() =>
-						cy.saveState().then((snapshot) => {
-							shareData.dataSnapshot = snapshot
-						}),
-					)
+					.then(() => cy.saveState().then((snapshot) => {
+						shareData.dataSnapshot = snapshot
+					}))
 					.then(() => cy.task('setVariable', { key: `public-share-data--${shareName}`, value: shareData }))
 					.then(() => cy.log(`Public share setup, URL: ${shareData.shareUrl}`))
 					.then(() => cy.wrap(defaultShareContext.url))

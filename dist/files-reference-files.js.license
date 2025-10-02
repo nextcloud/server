@@ -5,7 +5,6 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: BSD-2-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
-SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
@@ -28,7 +27,6 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
@@ -42,7 +40,6 @@ SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
@@ -90,12 +87,6 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
-- @nextcloud/files
-	- version: 3.12.0
-	- license: AGPL-3.0-or-later
-- @nextcloud/initial-state
 	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
@@ -103,9 +94,6 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
-	- license: GPL-3.0-or-later
-- @nextcloud/paths
-	- version: 2.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
@@ -142,12 +130,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- buffer
-	- version: 5.7.1
-	- license: MIT
-- cancelable-promise
-	- version: 4.3.1
 	- license: MIT
 - charenc
 	- version: 0.0.2
@@ -323,14 +305,8 @@ This file is generated from multiple sources. Included packages:
 - remark-unlink-protocols
 	- version: 1.0.0
 	- license: MIT
-- safe-buffer
-	- version: 5.2.1
-	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
-	- license: MIT
-- string_decoder
-	- version: 1.3.0
 	- license: MIT
 - striptags
 	- version: 3.2.0
@@ -352,9 +328,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - trough
 	- version: 2.2.0
-	- license: MIT
-- typescript-event-target
-	- version: 1.1.1
 	- license: MIT
 - unified
 	- version: 11.0.5

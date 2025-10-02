@@ -8,18 +8,19 @@ import type { User } from '@nextcloud/cypress'
 /**
  * Assert that `element` does not exist or is not visible
  * Useful in cases such as when NcModal is opened/closed rapidly
+ *
  * @param element Element that is inspected
  */
 export function assertNotExistOrNotVisible(element: JQuery<HTMLElement>) {
 	const doesNotExist = element.length === 0
 	const isNotVisible = !element.is(':visible')
 
-	// eslint-disable-next-line no-unused-expressions
 	expect(doesNotExist || isNotVisible, 'does not exist or is not visible').to.be.true
 }
 
 /**
  * Get the settings users list
+ *
  * @return Cypress chainable object
  */
 export function getUserList() {
@@ -36,6 +37,10 @@ export function getUserListRow(userId: string) {
 	return getUserList().find(`[data-cy-user-row="${userId}"]`)
 }
 
+/**
+ *
+ * @param selector
+ */
 export function waitLoading(selector: string) {
 	// We need to make sure the element is loading, otherwise the "done loading" will succeed even if we did not start loading.
 	// But Cypress might also be simply too slow to catch the loading phase. Thats why we need to wait in this case.
@@ -47,6 +52,7 @@ export function waitLoading(selector: string) {
 
 /**
  * Toggle the edit button of the user row
+ *
  * @param user The user row to edit
  * @param toEdit True if it should be switch to edit mode, false to switch to read-only
  */
@@ -62,12 +68,12 @@ export function toggleEditButton(user: User, toEdit = true) {
 		// otherwise ensure the button is already in edit mode
 		.then(() => getUserListRow(user.userId)
 			.find(`[data-cy-user-list-action-toggle-edit="${toEdit}"]`)
-			.should('exist'),
-		)
+			.should('exist'))
 }
 
 /**
  * Handle the confirm password dialog (if needed)
+ *
  * @param adminPassword The admin password for the dialog
  */
 export function handlePasswordConfirmation(adminPassword = 'admin') {

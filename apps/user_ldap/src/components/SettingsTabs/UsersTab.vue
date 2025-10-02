@@ -7,7 +7,8 @@
 		{{ t('user_ldap', 'Listing and searching for users is constrained by these criteria:') }}
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter-object-class">
-			<NcSelect v-model="ldapUserFilterObjectclass"
+			<NcSelect
+				v-model="ldapUserFilterObjectclass"
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				class="ldap-wizard__users__user-filter-object-class__select"
 				:options="userObjectClasses"
@@ -17,7 +18,8 @@
 		</div>
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter-groups">
-			<NcSelect v-model="ldapUserFilterGroups"
+			<NcSelect
+				v-model="ldapUserFilterGroups"
 				class="ldap-wizard__users__user-filter-groups__select"
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				:options="userGroups"
@@ -26,13 +28,15 @@
 		</div>
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter">
-			<NcCheckboxRadioSwitch :checked="ldapConfigProxy.ldapUserFilterMode === '1'"
+			<NcCheckboxRadioSwitch
+				:checked="ldapConfigProxy.ldapUserFilterMode === '1'"
 				@update:checked="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
 			<div v-if="ldapConfigProxy.ldapUserFilterMode === '1'">
-				<NcTextArea :value.sync="ldapConfigProxy.ldapUserFilter"
+				<NcTextArea
+					:value.sync="ldapConfigProxy.ldapUserFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
 					:helper-text="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
@@ -54,17 +58,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
-import { storeToRefs } from 'pinia'
-
-import { t } from '@nextcloud/l10n'
-import { NcButton, NcTextArea, NcCheckboxRadioSwitch, NcSelect, NcLoadingIcon } from '@nextcloud/vue'
 import { getCapabilities } from '@nextcloud/capabilities'
+import { t } from '@nextcloud/l10n'
+import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect, NcTextArea } from '@nextcloud/vue'
+import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
+import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
+import { useLDAPConfigsStore } from '../../store/configs.ts'
 
-import { useLDAPConfigsStore } from '../../store/configs'
-import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService'
-
-const props = defineProps<{configId: string}>()
+const props = defineProps<{ configId: string }>()
 
 const ldapConfigsStore = useLDAPConfigsStore()
 const { ldapConfigs } = storeToRefs(ldapConfigsStore)
@@ -73,10 +75,10 @@ const ldapConfigProxy = computed(() => ldapConfigsStore.getConfigProxy(props.con
 	ldapUserFilterGroups: reloadFilters,
 }))
 
-const usersCount = ref<number|undefined>(undefined)
+const usersCount = ref<number | undefined>(undefined)
 const loadingUserCount = ref(false)
 
-const instanceName = (getCapabilities() as { theming: { name:string } }).theming.name
+const instanceName = (getCapabilities() as { theming: { name: string } }).theming.name
 
 const userObjectClasses = ref([] as string[])
 const userGroups = ref([] as string[])
@@ -90,6 +92,9 @@ const ldapUserFilterGroups = computed({
 	set(value) { ldapConfigProxy.value.ldapUserFilterGroups = value.join(';') },
 })
 
+/**
+ *
+ */
 async function init() {
 	const response1 = await callWizard('determineUserObjectClasses', props.configId)
 	userObjectClasses.value = response1.options!.ldap_userfilter_objectclass
@@ -104,6 +109,9 @@ async function init() {
 
 init()
 
+/**
+ *
+ */
 async function reloadFilters() {
 	if (ldapConfigProxy.value.ldapUserFilterMode === '0') {
 		const response1 = await callWizard('getUserListFilter', props.configId)
@@ -116,6 +124,9 @@ async function reloadFilters() {
 	}
 }
 
+/**
+ *
+ */
 async function countUsers() {
 	try {
 		loadingUserCount.value = true
@@ -126,6 +137,10 @@ async function countUsers() {
 	}
 }
 
+/**
+ *
+ * @param value
+ */
 async function toggleFilterMode(value: boolean) {
 	if (value) {
 		ldapConfigProxy.value.ldapUserFilterMode = '1'
@@ -134,6 +149,7 @@ async function toggleFilterMode(value: boolean) {
 	}
 }
 </script>
+
 <style lang="scss" scoped>
 .ldap-wizard__users {
 	display: flex;

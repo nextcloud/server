@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="website"
+	<AccountPropertySection
+		v-bind.sync="website"
 		:placeholder="t('settings', 'Your website')"
 		autocomplete="url"
 		type="url"
@@ -13,9 +14,7 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 import { validateUrl } from '../../utils/validate.js'
 

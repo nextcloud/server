@@ -4,7 +4,6 @@
  */
 
 export default class Setting {
-
 	_close
 	_el
 	_name
@@ -69,5 +68,4 @@ export default class Setting {
 	get order() {
 		return this._order
 	}
-
 }

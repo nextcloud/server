@@ -5,15 +5,14 @@
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { dirname } from 'path'
 import { useRoute, useRouter } from 'vue-router/composables'
-
 import { action as deleteAction } from '../actions/deleteAction.ts'
 import { action as favoriteAction } from '../actions/favoriteAction.ts'
 import { action as renameAction } from '../actions/renameAction.ts'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useUserConfigStore } from '../store/userconfig.ts'
-import { useRouteParameters } from './useRouteParameters.ts'
-import { executeAction } from '../utils/actionUtils.ts'
 import logger from '../logger.ts'
+import { useUserConfigStore } from '../store/userconfig.ts'
+import { executeAction } from '../utils/actionUtils.ts'
+import { useRouteParameters } from './useRouteParameters.ts'
 
 /**
  * This register the hotkeys for the Files app.

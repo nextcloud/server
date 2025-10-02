@@ -1,22 +1,23 @@
-/**
+/* eslint-disable no-console */
+/*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Configuration } from 'webpack'
-import { defineConfig } from 'cypress'
-import { join } from 'path'
-import { removeDirectory } from 'cypress-delete-downloads-folder'
 
-import cypressSplit from 'cypress-split'
 import webpackPreprocessor from '@cypress/webpack-preprocessor'
-
+import { defineConfig } from 'cypress'
+import { removeDirectory } from 'cypress-delete-downloads-folder'
+import cypressSplit from 'cypress-split'
+import { join } from 'path'
 import {
 	applyChangesToNextcloud,
 	configureNextcloud,
 	startNextcloud,
 	stopNextcloud,
 	waitOnNextcloud,
-} from './cypress/dockerNode'
+} from './cypress/dockerNode.ts'
 import webpackConfig from './webpack.config.js'
 
 export default defineConfig({
@@ -150,6 +151,7 @@ export default defineConfig({
 				 * @see https://github.com/sinonjs/sinon/issues/1121
 				 * @see https://github.com/cypress-io/cypress/issues/18662
 				 */
+				// eslint-disable-next-line @typescript-eslint/no-require-imports
 				const babel = require('./babel.config.js')
 				babel.plugins.push([
 					'@babel/plugin-transform-modules-commonjs',

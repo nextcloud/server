@@ -9,7 +9,8 @@
 		<form @submit.prevent="submit">
 			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
-				<NcButton v-if="directory === undefined"
+				<NcButton
+					v-if="directory === undefined"
 					class="transfer-select-row__choose_button"
 					@click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
@@ -22,7 +23,8 @@
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
-				<NcSelect v-model="selectedUser"
+				<NcSelect
+					v-model="selectedUser"
 					input-id="targetUser"
 					:options="formatedUserSuggestions"
 					:multiple="false"
@@ -31,8 +33,9 @@
 					@search="findUserDebounced" />
 			</p>
 			<p>
-				<NcButton native-type="submit"
-					type="primary"
+				<NcButton
+					type="submit"
+					variant="primary"
 					:disabled="!canSubmit">
 					{{ submitButtonText }}
 				</NcButton>
@@ -43,13 +46,12 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import debounce from 'debounce'
+import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getFilePickerBuilder, showSuccess, showError } from '@nextcloud/dialogs'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
+import debounce from 'debounce'
 import Vue from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
-
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import logger from '../logger.ts'
 
 const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
@@ -64,6 +66,7 @@ export default {
 		NcSelect,
 		NcButton,
 	},
+
 	data() {
 		return {
 			directory: undefined,
@@ -77,10 +80,12 @@ export default {
 			},
 		}
 	},
+
 	computed: {
 		canSubmit() {
 			return !!this.directory && !!this.selectedUser
 		},
+
 		formatedUserSuggestions() {
 			return Object.keys(this.userSuggestions).map((uid) => {
 				const user = this.userSuggestions[uid]
@@ -92,6 +97,7 @@ export default {
 				}
 			})
 		},
+
 		submitButtonText() {
 			if (!this.canSubmit) {
 				return t('files', 'Transfer')
@@ -99,6 +105,7 @@ export default {
 			const components = this.readableDirectory.split('/')
 			return t('files', 'Transfer {path} to {userid}', { path: components[components.length - 1], userid: this.selectedUser.displayName })
 		},
+
 		readableDirectory() {
 			if (!this.directory) {
 				return ''
@@ -106,17 +113,19 @@ export default {
 			return this.directory.substring(1)
 		},
 	},
+
 	created() {
 		this.findUserDebounced = debounce(this.findUser, 300)
 		this.findUser('')
 	},
+
 	methods: {
 		start() {
 			this.directoryPickerError = undefined
 
 			picker.pick()
-				.then(dir => dir === '' ? '/' : dir)
-				.then(dir => {
+				.then((dir) => dir === '' ? '/' : dir)
+				.then((dir) => {
 					logger.debug(`path ${dir} selected for transferring ownership`)
 					if (!dir.startsWith('/')) {
 						throw new Error(t('files', 'Invalid path selected'))
@@ -124,13 +133,14 @@ export default {
 					// /ocs/v2.php/apps/files/api/v1/transferownership
 					// /ocs/v2.php/apps/files/api/v1/transferownership
 					this.directory = dir
-				}).catch(error => {
+				}).catch((error) => {
 					logger.error(`Selecting object for transfer aborted: ${error.message || 'Unknown error'}`, { error })
 
 					this.directoryPickerError = error.message || t('files', 'Unknown error')
 					showError(this.directoryPickerError)
 				})
 		},
+
 		async findUser(query) {
 			this.query = query.trim()
 
@@ -151,7 +161,7 @@ export default {
 				})
 
 				this.userSuggestions = {}
-				response.data.ocs.data.exact.users.concat(response.data.ocs.data.users).forEach(user => {
+				response.data.ocs.data.exact.users.concat(response.data.ocs.data.users).forEach((user) => {
 					Vue.set(this.userSuggestions, user.value.shareWith, {
 						uid: user.value.shareWith,
 						displayName: user.label,
@@ -164,6 +174,7 @@ export default {
 				this.loadingUsers = false
 			}
 		},
+
 		submit() {
 			if (!this.canSubmit) {
 				logger.warn('ignoring form submit')
@@ -179,15 +190,15 @@ export default {
 			const url = generateOcsUrl('apps/files/api/v1/transferownership')
 
 			axios.post(url, data)
-				.then(resp => resp.data)
-				.then(data => {
+				.then((resp) => resp.data)
+				.then((data) => {
 					logger.info('Transfer ownership request sent', { data })
 
 					this.directory = undefined
 					this.selectedUser = null
 					showSuccess(t('files', 'Ownership transfer request sent'))
 				})
-				.catch(error => {
+				.catch((error) => {
 					logger.error('Could not send ownership transfer request', { error })
 
 					if (error?.response?.status === 403) {

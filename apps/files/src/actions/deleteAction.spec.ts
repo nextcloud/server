@@ -2,16 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import type { View } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as capabilities from '@nextcloud/capabilities'
 import * as eventBus from '@nextcloud/event-bus'
-
-import { action } from './deleteAction'
-import logger from '../logger'
-import { shouldAskForConfirmation } from './deleteUtils'
+import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import logger from '../logger.ts'
+import { action } from './deleteAction.ts'
+import { shouldAskForConfirmation } from './deleteUtils.ts'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
@@ -389,7 +389,9 @@ describe('Delete action execute tests', () => {
 	})
 
 	test('Delete fails', async () => {
-		vi.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(axios, 'delete').mockImplementation(() => {
+			throw new Error('Mock error')
+		})
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 		vi.spyOn(eventBus, 'emit')
 

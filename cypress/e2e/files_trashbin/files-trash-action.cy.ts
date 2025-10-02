@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
+
 import { deleteFileWithRequest, triggerFileListAction } from '../files/FilesUtils.ts'
 
 const FILE_COUNT = 5
@@ -65,5 +66,4 @@ describe('files_trashbin: Empty trashbin action', { testIsolation: true }, () =>
 		cy.get('@emptyTrash').should('not.exist')
 		cy.get('[data-cy-files-list-row-fileid]').should('have.length', FILE_COUNT)
 	})
-
 })

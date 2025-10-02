@@ -2,21 +2,21 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View, Folder } from '@nextcloud/files'
+import type { Folder, Node, View } from '@nextcloud/files'
 
-import { emit } from '@nextcloud/event-bus'
-import { FileListAction } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
 import {
 	DialogSeverity,
 	getDialogBuilder,
 } from '@nextcloud/dialogs'
-import { emptyTrash } from '../services/api.ts'
+import { emit } from '@nextcloud/event-bus'
+import { FileListAction } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
+import { emptyTrash } from '../services/api.ts'
 
 export type FilesTrashbinConfigState = {
-	allow_delete: boolean;
+	allow_delete: boolean
 }
 
 export const emptyTrashAction = new FileListAction({

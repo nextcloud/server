@@ -5,13 +5,15 @@
 
 <template>
 	<div class="example-event-settings">
-		<NcCheckboxRadioSwitch :checked="createExampleEvent"
+		<NcCheckboxRadioSwitch
+			:checked="createExampleEvent"
 			:disabled="savingConfig"
 			type="switch"
 			@update:model-value="updateCreateExampleEvent">
 			{{ t('dav', "Add example event to user's calendar when they first log in") }}
 		</NcCheckboxRadioSwitch>
-		<div v-if="createExampleEvent"
+		<div
+			v-if="createExampleEvent"
 			class="example-event-settings__buttons">
 			<ExampleContentDownloadButton :href="downloadUrl">
 				<template #icon>
@@ -19,15 +21,17 @@
 				</template>
 				example_event.ics
 			</ExampleContentDownloadButton>
-			<NcButton type="secondary"
+			<NcButton
+				variant="secondary"
 				@click="showImportModal = true">
 				<template #icon>
 					<IconUpload :size="20" />
 				</template>
 				{{ t('dav', 'Import calendar event') }}
 			</NcButton>
-			<NcButton v-if="hasCustomEvent"
-				type="tertiary"
+			<NcButton
+				v-if="hasCustomEvent"
+				variant="tertiary"
 				:disabled="deleting"
 				@click="deleteCustomEvent">
 				<template #icon>
@@ -36,21 +40,24 @@
 				{{ t('dav', 'Reset to default') }}
 			</NcButton>
 		</div>
-		<NcDialog :open.sync="showImportModal"
+		<NcDialog
+			:open.sync="showImportModal"
 			:name="t('dav', 'Import calendar event')">
 			<div class="import-event-modal">
 				<p>
 					{{ t('dav', 'Uploading a new event will overwrite the existing one.') }}
 				</p>
-				<input ref="event-file"
+				<input
+					ref="event-file"
 					:disabled="uploading"
 					type="file"
 					accept=".ics,text/calendar"
 					class="import-event-modal__file-picker"
 					@change="selectFile">
 				<div class="import-event-modal__buttons">
-					<NcButton :disabled="uploading || !selectedFile"
-						type="primary"
+					<NcButton
+						:disabled="uploading || !selectedFile"
+						variant="primary"
 						@click="uploadCustomEvent()">
 						<template #icon>
 							<IconUpload :size="20" />
@@ -64,16 +71,16 @@
 </template>
 
 <script>
-import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
-import { loadState } from '@nextcloud/initial-state'
-import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
-import IconRestore from 'vue-material-design-icons/Restore.vue'
-import * as ExampleEventService from '../service/ExampleEventService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import logger from '../service/logger.js'
+import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
+import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
+import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import IconRestore from 'vue-material-design-icons/Restore.vue'
+import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
+import * as ExampleEventService from '../service/ExampleEventService.js'
+import logger from '../service/logger.js'
 
 export default {
 	name: 'ExampleEventSettings',
@@ -86,6 +93,7 @@ export default {
 		IconRestore,
 		ExampleContentDownloadButton,
 	},
+
 	data() {
 		return {
 			createExampleEvent: loadState('dav', 'create_example_event', false),
@@ -97,15 +105,18 @@ export default {
 			selectedFile: undefined,
 		}
 	},
+
 	computed: {
 		downloadUrl() {
 			return generateUrl('/apps/dav/api/exampleEvent/event')
 		},
 	},
+
 	methods: {
 		selectFile() {
 			this.selectedFile = this.$refs['event-file']?.files[0]
 		},
+
 		async updateCreateExampleEvent() {
 			this.savingConfig = true
 
@@ -124,6 +135,7 @@ export default {
 
 			this.createExampleEvent = enable
 		},
+
 		uploadCustomEvent() {
 			if (!this.selectedFile) {
 				return
@@ -154,6 +166,7 @@ export default {
 			})
 			reader.readAsText(this.selectedFile)
 		},
+
 		async deleteCustomEvent() {
 			this.deleting = true
 

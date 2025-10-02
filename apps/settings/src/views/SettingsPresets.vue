@@ -4,26 +4,29 @@
 -->
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import type { PresetAppConfigs, PresetIds } from '../components/SettingsPresets/models.ts'
+
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
-
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import PresetsSelectionForm from '../components/SettingsPresets/PresetsSelectionForm.vue'
 import PresetVisualisation from '../components/SettingsPresets/PresetVisualisation.vue'
-import type { PresetAppConfigs, PresetIds } from '../components/SettingsPresets/models'
-import logger from '../logger'
+import logger from '../logger.ts'
 
 const presets = loadState('settings', 'settings-presets', {}) as PresetAppConfigs
 const currentPreset = ref(loadState('settings', 'settings-selected-preset', 'NONE') as PresetIds)
 const selectedPreset = ref(currentPreset.value)
 const savingPreset = ref(false)
 
+/**
+ *
+ */
 async function saveSelectedPreset() {
 	try {
 		savingPreset.value = true
@@ -42,13 +45,15 @@ async function saveSelectedPreset() {
 </script>
 
 <template>
-	<NcSettingsSection :name="t('settings', 'Quick presets')"
+	<NcSettingsSection
+		:name="t('settings', 'Quick presets')"
 		:description="t('settings', 'Select a configuration preset for easy setup.')">
 		<PresetsSelectionForm v-model="selectedPreset" :presets="presets" />
 
 		<PresetVisualisation :presets="presets" :selected-preset="selectedPreset" />
 
-		<NcButton class="save-button"
+		<NcButton
+			class="save-button"
 			:disabled="selectedPreset === currentPreset || savingPreset"
 			variant="primary"
 			@click="saveSelectedPreset()">

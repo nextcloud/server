@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import _ from 'underscore'
-import $ from 'jquery'
-
-import OC from './index.js'
-import Notification from './notification.js'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showWarning } from '@nextcloud/dialogs'
+import $ from 'jquery'
+import _ from 'underscore'
+import OC from './index.js'
+import Notification from './notification.js'
 
 /**
  * Warn users that the connection to the server was lost temporarily
@@ -28,7 +27,7 @@ export const ajaxConnectionLostHandler = _.throttle(() => {
  *
  * @param {XMLHttpRequest} xhr xhr request
  */
-export const processAjaxError = xhr => {
+export function processAjaxError(xhr) {
 	// purposefully aborted request ?
 	// OC._userIsNavigatingAway needed to distinguish Ajax calls cancelled by navigating away
 	// from calls cancelled by failed cross-domain Ajax due to SSO redirect
@@ -42,14 +41,16 @@ export const processAjaxError = xhr => {
 			if (!OC._userIsNavigatingAway && !OC._reloadCalled) {
 				let timer = 0
 				const seconds = 5
-				const interval = setInterval(function() {
-					Notification.showUpdate(n('core', 'Problem loading page, reloading in %n second', 'Problem loading page, reloading in %n seconds', seconds - timer))
-					if (timer >= seconds) {
-						clearInterval(interval)
-						OC.reload()
-					}
-					timer++
-				}, 1000, // 1 second interval
+				const interval = setInterval(
+					function() {
+						Notification.showUpdate(n('core', 'Problem loading page, reloading in %n second', 'Problem loading page, reloading in %n seconds', seconds - timer))
+						if (timer >= seconds) {
+							clearInterval(interval)
+							OC.reload()
+						}
+						timer++
+					},
+					1000, // 1 second interval
 				)
 
 				// only call reload once
@@ -75,7 +76,7 @@ export const processAjaxError = xhr => {
  *
  * @param {XMLHttpRequest} xhr xhr request
  */
-export const registerXHRForErrorProcessing = xhr => {
+export function registerXHRForErrorProcessing(xhr) {
 	const loadCallback = () => {
 		if (xhr.readyState !== 4) {
 			return
@@ -98,5 +99,4 @@ export const registerXHRForErrorProcessing = xhr => {
 		xhr.addEventListener('load', loadCallback)
 		xhr.addEventListener('error', errorCallback)
 	}
-
 }

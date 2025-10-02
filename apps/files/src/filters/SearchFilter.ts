@@ -12,7 +12,6 @@ import Vue from 'vue'
 import FileListFilterToSearch from '../components/FileListFilter/FileListFilterToSearch.vue'
 
 class SearchFilter extends FileListFilter {
-
 	private currentInstance?: ComponentPublicInstance<typeof FileListFilterToSearch>
 
 	constructor() {
@@ -38,7 +37,6 @@ class SearchFilter extends FileListFilter {
 	public filter(nodes: INode[]): INode[] {
 		return nodes
 	}
-
 }
 
 /**

@@ -6,9 +6,9 @@
 import type { DAVResultResponseProps } from 'webdav'
 import type { ServerTag, Tag } from './types.js'
 
-import { describe, expect, it } from 'vitest'
-import { formatTag, getNodeSystemTags, parseIdFromLocation, parseTags } from './utils'
 import { Folder } from '@nextcloud/files'
+import { describe, expect, it } from 'vitest'
+import { formatTag, getNodeSystemTags, parseIdFromLocation, parseTags } from './utils.ts'
 
 describe('systemtags - utils', () => {
 	describe('parseTags', () => {

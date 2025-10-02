@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IAppDiscoverElement } from '../constants/AppDiscoverTypes'
+import type { IAppDiscoverElement } from '../constants/AppDiscoverTypes.ts'
 
 import { describe, expect, it } from 'vitest'
-import { filterElements, parseApiResponse } from './appDiscoverParser'
+import { filterElements, parseApiResponse } from './appDiscoverParser.ts'
 
 describe('App Discover API parser', () => {
 	describe('filterElements', () => {

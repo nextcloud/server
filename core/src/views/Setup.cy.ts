@@ -2,7 +2,9 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { SetupConfig, SetupLinks } from '../install'
+
+import type { SetupConfig, SetupLinks } from '../install.ts'
+
 import SetupView from './Setup.vue'
 
 import '../../css/guest.css'

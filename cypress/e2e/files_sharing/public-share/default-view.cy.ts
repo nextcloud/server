@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
+
 import { getRowForFile } from '../../files/FilesUtils.ts'
 import { createLinkShare, setupData } from './PublicShareUtils.ts'
 
 describe('files_sharing: Public share - setting the default view mode', () => {
-
 	let user: User
 
 	beforeEach(() => {

@@ -5,7 +5,8 @@
 
 <template>
 	<Fragment>
-		<NcAppNavigationItem v-for="view in currentViews"
+		<NcAppNavigationItem
+			v-for="view in currentViews"
 			:key="view.id"
 			class="files-navigation__item"
 			allow-collapse
@@ -27,7 +28,8 @@
 			<li v-if="view.loadChildViews && !view.loaded" style="display: none" />
 
 			<!-- Recursively nest child views -->
-			<FilesNavigationItem v-if="hasChildViews(view)"
+			<FilesNavigationItem
+				v-if="hasChildViews(view)"
 				:parent="view"
 				:level="level + 1"
 				:views="filterView(views, parent.id)" />
@@ -36,15 +38,13 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import type { View } from '@nextcloud/files'
+import type { PropType } from 'vue'
 
 import { defineComponent } from 'vue'
 import { Fragment } from 'vue-frag'
-
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-
 import { useNavigation } from '../composables/useNavigation.js'
 import { useViewConfigStore } from '../store/viewConfig.js'
 
@@ -64,10 +64,12 @@ export default defineComponent({
 			type: Object as PropType<View>,
 			default: () => ({}),
 		},
+
 		level: {
 			type: Number,
 			default: 0,
 		},
+
 		views: {
 			type: Object as PropType<Record<string, View[]>>,
 			default: () => ({}),
@@ -87,7 +89,7 @@ export default defineComponent({
 		currentViews(): View[] {
 			if (this.level >= maxLevel) { // Filter for all remaining decendants beyond the max level
 				return (Object.values(this.views).reduce((acc, views) => [...acc, ...views], []) as View[])
-					.filter(view => view.params?.dir.startsWith(this.parent.params?.dir))
+					.filter((view) => view.params?.dir.startsWith(this.parent.params?.dir))
 			}
 			return this.filterVisible(this.views[this.parent.id] ?? [])
 		},
@@ -118,6 +120,7 @@ export default defineComponent({
 		 * Only use exact route matching on routes with child views
 		 * Because if a view does not have children (like the files view) then multiple routes might be matched for it
 		 * Like for the 'files' view this does not work because of optional 'fileid' param so /files and /files/1234 are both in the 'files' view
+		 *
 		 * @param view The view to check
 		 */
 		useExactRouteMatching(view: View): boolean {
@@ -126,6 +129,7 @@ export default defineComponent({
 
 		/**
 		 * Generate the route to a view
+		 *
 		 * @param view View to generate "to" navigation for
 		 */
 		generateToNavigation(view: View) {
@@ -139,6 +143,7 @@ export default defineComponent({
 		/**
 		 * Check if a view is expanded by user config
 		 * or fallback to the default value.
+		 *
 		 * @param view View to check if expanded
 		 */
 		isExpanded(view: View): boolean {
@@ -150,6 +155,7 @@ export default defineComponent({
 		/**
 		 * Expand/collapse a a view with children and permanently
 		 * save this setting in the server.
+		 *
 		 * @param open True if open
 		 * @param view View
 		 */
@@ -171,11 +177,9 @@ export default defineComponent({
 		 * @param id View id
 		 */
 		filterView(viewMap: Record<string, View[]>, id: string): Record<string, View[]> {
-			return Object.fromEntries(
-				Object.entries(viewMap)
-					// eslint-disable-next-line @typescript-eslint/no-unused-vars
-					.filter(([viewId, _views]) => viewId !== id),
-			)
+			return Object.fromEntries(Object.entries(viewMap)
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				.filter(([viewId, _views]) => viewId !== id))
 		},
 	},
 })

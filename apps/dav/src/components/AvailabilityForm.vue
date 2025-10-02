@@ -4,7 +4,8 @@
 -->
 <template>
 	<div>
-		<CalendarAvailability :slots.sync="slots"
+		<CalendarAvailability
+			:slots.sync="slots"
 			:loading="loading"
 			:l10n-to="t('dav', 'to')"
 			:l10n-delete-slot="t('dav', 'Delete slot')"
@@ -25,7 +26,8 @@
 			{{ t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}
 		</NcCheckboxRadioSwitch>
 
-		<NcButton :disabled="loading || saving"
+		<NcButton
+			:disabled="loading || saving"
 			variant="primary"
 			@click="save">
 			{{ t('dav', 'Save') }}
@@ -35,26 +37,26 @@
 
 <script setup lang="ts">
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import { loadState } from '@nextcloud/initial-state'
+import { getCapabilities } from '@nextcloud/capabilities'
 import {
 	showError,
 	showSuccess,
 } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { onMounted, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import {
 	findScheduleInboxAvailability,
 	getEmptySlots,
 	saveScheduleInboxAvailability,
 } from '../service/CalendarService.js'
-import {
-	enableUserStatusAutomation,
-	disableUserStatusAutomation,
-} from '../service/PreferenceService.js'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { onMounted, ref } from 'vue'
 import logger from '../service/logger.js'
-import { t } from '@nextcloud/l10n'
+import {
+	disableUserStatusAutomation,
+	enableUserStatusAutomation,
+} from '../service/PreferenceService.js'
 
 // @ts-expect-error capabilities is missing the capability to type it...
 const timezone = getCapabilities().core.user?.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -95,9 +97,8 @@ async function save() {
 		}
 
 		showSuccess(t('dav', 'Saved availability'))
-	} catch (e) {
-		console.error('could not save availability', e)
-
+	} catch (error) {
+		logger.error('could not save availability', { error })
 		showError(t('dav', 'Failed to save availability'))
 	} finally {
 		saving.value = false

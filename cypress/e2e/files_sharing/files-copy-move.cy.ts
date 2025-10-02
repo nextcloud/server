@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
-import { createShare } from './FilesSharingUtils.ts'
+
+import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
 import {
-	getRowForFile,
 	copyFile,
+	getRowForFile,
 	navigateToFolder,
 	triggerActionForFile,
 } from '../files/FilesUtils.ts'
-import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
+import { createShare } from './FilesSharingUtils.ts'
 
-export const copyFileForbidden = (fileName: string, dirPath: string) => {
+export function copyFileForbidden(fileName: string, dirPath: string) {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
@@ -31,7 +32,7 @@ export const copyFileForbidden = (fileName: string, dirPath: string) => {
 	})
 }
 
-export const moveFileForbidden = (fileName: string, dirPath: string) => {
+export function moveFileForbidden(fileName: string, dirPath: string) {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 

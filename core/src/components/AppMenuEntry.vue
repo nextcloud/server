@@ -4,13 +4,15 @@
  -->
 
 <template>
-	<li ref="containerElement"
+	<li
+		ref="containerElement"
 		class="app-menu-entry"
 		:class="{
 			'app-menu-entry--active': app.active,
 			'app-menu-entry--truncated': needsSpace,
 		}">
-		<a class="app-menu-entry__link"
+		<a
+			class="app-menu-entry__link"
 			:href="app.href"
 			:title="app.name"
 			:aria-current="app.active ? 'page' : false"
@@ -25,7 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import type { INavigationEntry } from '../types/navigation'
+import type { INavigationEntry } from '../types/navigation.d.ts'
+
 import { onMounted, ref, watch } from 'vue'
 import AppMenuIcon from './AppMenuIcon.vue'
 

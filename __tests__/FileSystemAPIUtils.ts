@@ -2,11 +2,11 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { basename } from 'node:path'
+
 import mime from 'mime'
+import { basename } from 'node:path'
 
 class FileSystemEntry {
-
 	private _isFile: boolean
 	private _fullPath: string
 
@@ -26,11 +26,9 @@ class FileSystemEntry {
 	get name() {
 		return basename(this._fullPath)
 	}
-
 }
 
 export class FileSystemFileEntry extends FileSystemEntry {
-
 	private _contents: string
 	private _lastModified: number
 
@@ -46,11 +44,9 @@ export class FileSystemFileEntry extends FileSystemEntry {
 		const type = mime.getType(this.name) || ''
 		success(new File([this._contents], this.name, { lastModified, type }))
 	}
-
 }
 
 export class FileSystemDirectoryEntry extends FileSystemEntry {
-
 	private _entries: FileSystemEntry[]
 
 	constructor(fullPath: string, entries: FileSystemEntry[]) {
@@ -70,7 +66,6 @@ export class FileSystemDirectoryEntry extends FileSystemEntry {
 			},
 		}
 	}
-
 }
 
 /**
@@ -79,7 +74,6 @@ export class FileSystemDirectoryEntry extends FileSystemEntry {
  * File API in the same test suite.
  */
 export class DataTransferItem {
-
 	private _type: string
 	private _entry: FileSystemEntry
 
@@ -104,7 +98,7 @@ export class DataTransferItem {
 		return this._type
 	}
 
-	getAsFile(): File|null {
+	getAsFile(): File | null {
 		if (this._entry.isFile && this._entry instanceof FileSystemFileEntry) {
 			let file: File | null = null
 			this._entry.file((f) => {
@@ -116,10 +110,9 @@ export class DataTransferItem {
 		// The browser will return an empty File object if the entry is a directory
 		return new File([], this._entry.name, { type: '' })
 	}
-
 }
 
-export const fileSystemEntryToDataTransferItem = (entry: FileSystemEntry, isFileSystemAPIAvailable = true): DataTransferItem => {
+export function fileSystemEntryToDataTransferItem(entry: FileSystemEntry, isFileSystemAPIAvailable = true): DataTransferItem {
 	return new DataTransferItem(
 		entry.isFile ? 'text/plain' : 'httpd/unix-directory',
 		entry,

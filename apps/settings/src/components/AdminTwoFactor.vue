@@ -3,14 +3,16 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcSettingsSection :name="t('settings', 'Two-Factor Authentication')"
+	<NcSettingsSection
+		:name="t('settings', 'Two-Factor Authentication')"
 		:description="t('settings', 'Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
 		:doc-url="twoFactorAdminDoc">
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
 			<span>{{ t('settings', 'Enforce two-factor authentication') }}</span>
 		</p>
-		<NcCheckboxRadioSwitch v-else
+		<NcCheckboxRadioSwitch
+			v-else
 			id="two-factor-enforced"
 			:checked.sync="enforced"
 			type="switch">
@@ -26,13 +28,14 @@
 				<label for="enforcedGroups">
 					<span>{{ t('settings', 'Enforced groups') }}</span>
 				</label>
-				<NcSelect v-model="enforcedGroups"
+				<NcSelect
+					v-model="enforcedGroups"
 					input-id="enforcedGroups"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"
 					:loading="loadingGroups"
-					:close-on-select="false"
+					keep-open
 					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
@@ -42,13 +45,14 @@
 				<label for="excludedGroups">
 					<span>{{ t('settings', 'Excluded groups') }}</span>
 				</label>
-				<NcSelect v-model="excludedGroups"
+				<NcSelect
+					v-model="excludedGroups"
 					input-id="excludedGroups"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"
 					:loading="loadingGroups"
-					:close-on-select="false"
+					keep-open
 					@search="searchGroup" />
 			</p>
 			<p class="top-margin">
@@ -59,8 +63,9 @@
 			</p>
 		</template>
 		<p class="top-margin">
-			<NcButton v-if="dirty"
-				type="primary"
+			<NcButton
+				v-if="dirty"
+				variant="primary"
 				:disabled="loading"
 				@click="saveChanges">
 				{{ t('settings', 'Save changes') }}
@@ -71,16 +76,16 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
-
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+import debounce from 'lodash/debounce.js'
 import sortedUniq from 'lodash/sortedUniq.js'
 import uniq from 'lodash/uniq.js'
-import debounce from 'lodash/debounce.js'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import logger from '../logger.ts'
 
 export default {
 	name: 'AdminTwoFactor',
@@ -90,6 +95,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 	},
+
 	data() {
 		return {
 			loading: false,
@@ -99,35 +105,42 @@ export default {
 			twoFactorAdminDoc: loadState('settings', 'two-factor-admin-doc'),
 		}
 	},
+
 	computed: {
 		enforced: {
 			get() {
 				return this.$store.state.enforced
 			},
+
 			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforced', val)
 			},
 		},
+
 		enforcedGroups: {
 			get() {
 				return this.$store.state.enforcedGroups
 			},
+
 			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforcedGroups', val)
 			},
 		},
+
 		excludedGroups: {
 			get() {
 				return this.$store.state.excludedGroups
 			},
+
 			set(val) {
 				this.dirty = true
 				this.$store.commit('setExcludedGroups', val)
 			},
 		},
 	},
+
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
 		// be valid groups, so let's add them as initial state
@@ -137,14 +150,15 @@ export default {
 		// when opening the page the first time
 		this.searchGroup('')
 	},
+
 	methods: {
 		searchGroup: debounce(function(query) {
 			this.loadingGroups = true
 			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
-				.then(res => res.data.ocs)
-				.then(ocs => ocs.data.groups)
-				.then(groups => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })
-				.catch(err => console.error('could not search groups', err))
+				.then((res) => res.data.ocs)
+				.then((ocs) => ocs.data.groups)
+				.then((groups) => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })
+				.catch((error) => logger.error('could not search groups', { error }))
 				.then(() => { this.loadingGroups = false })
 		}, 500),
 
@@ -157,13 +171,13 @@ export default {
 				excludedGroups: this.excludedGroups,
 			}
 			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data)
-				.then(resp => resp.data)
-				.then(state => {
+				.then((resp) => resp.data)
+				.then((state) => {
 					this.state = state
 					this.dirty = false
 				})
-				.catch(err => {
-					console.error('could not save changes', err)
+				.catch((error) => {
+					logger.error('could not save changes', { error })
 				})
 				.then(() => { this.loading = false })
 		},

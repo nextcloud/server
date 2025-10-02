@@ -7,9 +7,9 @@
 import type { IRichObjectParameters, ISetupCheck } from '../../settings-types.ts'
 
 import { mdiAlert, mdiClose, mdiInformation } from '@mdi/js'
+import escapeHTML from 'escape-html'
 import { computed } from 'vue'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import escapeHTML from 'escape-html'
 
 const props = defineProps<{
 	setupCheck: ISetupCheck
@@ -60,7 +60,8 @@ function parseRichObject(message: string, parameters?: IRichObjectParameters): s
 </script>
 
 <template>
-	<li class="settings-setup-checks-item"
+	<li
+		class="settings-setup-checks-item"
 		:class="{
 			[`settings-setup-checks-item--${setupCheck.severity}`]: true,
 		}">

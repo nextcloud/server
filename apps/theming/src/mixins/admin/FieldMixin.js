@@ -38,7 +38,9 @@ export default {
 
 		handleSuccess() {
 			this.showSuccess = true
-			setTimeout(() => { this.showSuccess = false }, 2000)
+			setTimeout(() => {
+				this.showSuccess = false
+			}, 2000)
 			if (styleRefreshFields.includes(this.name)) {
 				this.$emit('update:theming')
 			}

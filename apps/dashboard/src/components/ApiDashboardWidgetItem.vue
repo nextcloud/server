@@ -34,25 +34,29 @@ const loadingImageFailed = ref(false)
 </script>
 
 <template>
-	<NcDashboardWidgetItem :target-url="item.link"
+	<NcDashboardWidgetItem
+		:target-url="item.link"
 		:overlay-icon-url="item.overlayIconUrl ? item.overlayIconUrl : ''"
 		:main-text="item.title"
 		:sub-text="item.subtitle">
 		<template #avatar>
 			<template v-if="item.iconUrl">
-				<NcAvatar v-if="roundedIcons"
+				<NcAvatar
+					v-if="roundedIcons"
 					:size="iconSize"
 					:url="item.iconUrl" />
 				<template v-else>
-					<img v-show="!loadingImageFailed"
+					<img
+						v-show="!loadingImageFailed"
 						alt=""
 						class="api-dashboard-widget-item__icon"
-						:class="{'hidden-visually': !imageLoaded }"
+						:class="{ 'hidden-visually': !imageLoaded }"
 						:src="item.iconUrl"
 						@error="loadingImageFailed = true"
 						@load="imageLoaded = true">
 					<!-- Placeholder while the image is loaded and also the fallback if the URL is broken -->
-					<IconFile v-if="!imageLoaded"
+					<IconFile
+						v-if="!imageLoaded"
 						:size="iconSize" />
 				</template>
 			</template>

@@ -2,10 +2,11 @@
  * SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: CC0-1.0
  */
-import { defaultExclude, defineConfig } from 'vitest/config'
+
 import vue from '@vitejs/plugin-vue2'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
+import { defaultExclude, defineConfig } from 'vitest/config'
 
 const gitIgnore: string[] = []
 // get all files ignored in the apps directory (e.g. if putting `view` app there).

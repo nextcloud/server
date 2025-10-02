@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Capabilities } from '../../apps/files/src/types'
 
-export const getCapabilities = (): Capabilities => {
+import type { Capabilities } from '../../apps/files/src/types.ts'
+
+export function getCapabilities(): Capabilities {
 	return {
 		files: {
 			bigfilechunking: true,

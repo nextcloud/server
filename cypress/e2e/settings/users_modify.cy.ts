@@ -4,8 +4,8 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils'
-import { clearState } from '../../support/commonUtils'
+import { clearState } from '../../support/commonUtils.ts'
+import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -14,7 +14,9 @@ describe('Settings: Change user properties', function() {
 
 	beforeEach(function() {
 		clearState()
-		cy.createRandomUser().then(($user) => { user = $user })
+		cy.createRandomUser().then(($user) => {
+			user = $user
+		})
 		cy.login(admin)
 	})
 

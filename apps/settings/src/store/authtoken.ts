@@ -1,3 +1,4 @@
+import axios from '@nextcloud/axios'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,16 +9,17 @@ import { translate as t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-
-import axios from '@nextcloud/axios'
-import logger from '../logger'
+import logger from '../logger.ts'
 
 import '@nextcloud/password-confirmation/dist/style.css'
 
 const BASE_URL = generateUrl('/settings/personal/authtokens')
 
-const confirm = () => {
-	return new Promise(resolve => {
+/**
+ *
+ */
+function confirm() {
+	return new Promise((resolve) => {
 		window.OC.dialogs.confirm(
 			t('settings', 'Do you really want to wipe your data from this device?'),
 			t('settings', 'Confirm wipe'),
@@ -71,6 +73,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 	actions: {
 		/**
 		 * Update a token on server
+		 *
 		 * @param token Token to update
 		 */
 		async updateToken(token: IToken) {
@@ -80,6 +83,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Add a new token
+		 *
 		 * @param name The token name
 		 */
 		async addToken(name: string) {
@@ -92,13 +96,14 @@ export const useAuthTokenStore = defineStore('auth-token', {
 				this.tokens.push(data.deviceToken)
 				logger.debug('App token created')
 				return data
-			} catch (error) {
+			} catch {
 				return null
 			}
 		},
 
 		/**
 		 * Delete a given app token
+		 *
 		 * @param token Token to delete
 		 */
 		async deleteToken(token: IToken) {
@@ -121,6 +126,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Wipe a token and the connected device
+		 *
 		 * @param token Token to wipe
 		 */
 		async wipeToken(token: IToken) {
@@ -149,6 +155,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Rename an existing token
+		 *
 		 * @param token The token to rename
 		 * @param newName The new name to set
 		 */
@@ -173,6 +180,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 		/**
 		 * Set scope of the token
+		 *
 		 * @param token Token to set scope
 		 * @param scope scope to set
 		 * @param value value to set

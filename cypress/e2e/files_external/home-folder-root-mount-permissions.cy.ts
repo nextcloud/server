@@ -3,15 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { AuthBackend, createStorageWithConfig, deleteAllExternalStorages, setStorageMountOptions, StorageBackend } from './StorageUtils'
+import type { User } from '@nextcloud/cypress'
+
+import { AuthBackend, createStorageWithConfig, deleteAllExternalStorages, setStorageMountOptions, StorageBackend } from './StorageUtils.ts'
 
 describe('Home folder root mount permissions', { testIsolation: true }, () => {
 	let user1: User
 
 	before(() => {
 		cy.runOccCommand('app:enable files_external')
-		cy.createRandomUser().then((user) => { user1 = user })
+		cy.createRandomUser().then((user) => {
+			user1 = user
+		})
 	})
 
 	after(() => {

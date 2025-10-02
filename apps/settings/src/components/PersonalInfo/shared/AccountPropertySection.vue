@@ -5,14 +5,16 @@
 
 <template>
 	<section>
-		<HeaderBar :scope="scope"
+		<HeaderBar
+			:scope="scope"
 			:readable="readable"
 			:input-id="inputId"
 			:is-editable="isEditable"
 			@update:scope="(scope) => $emit('update:scope', scope)" />
 
 		<div v-if="isEditable" class="property">
-			<NcTextArea v-if="multiLine"
+			<NcTextArea
+				v-if="multiLine"
 				:id="inputId"
 				autocapitalize="none"
 				autocomplete="off"
@@ -24,7 +26,8 @@
 				spellcheck="false"
 				:success="isSuccess"
 				:value.sync="inputValue" />
-			<NcInputField v-else
+			<NcInputField
+				v-else
 				:id="inputId"
 				ref="input"
 				autocapitalize="none"
@@ -48,9 +51,7 @@
 import debounce from 'debounce'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
-
 import HeaderBar from './HeaderBar.vue'
-
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
@@ -68,42 +69,52 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: String,
 			required: true,
 		},
+
 		scope: {
 			type: String,
 			required: true,
 		},
+
 		readable: {
 			type: String,
 			required: true,
 		},
+
 		placeholder: {
 			type: String,
 			required: true,
 		},
+
 		type: {
 			type: String,
 			default: 'text',
 		},
+
 		isEditable: {
 			type: Boolean,
 			default: true,
 		},
+
 		multiLine: {
 			type: Boolean,
 			default: false,
 		},
+
 		onValidate: {
 			type: Function,
 			default: null,
 		},
+
 		onSave: {
 			type: Function,
 			default: null,
 		},
+
 		autocomplete: {
 			type: String,
 			default: null,
@@ -130,6 +141,7 @@ export default {
 			get() {
 				return this.value
 			},
+
 			set(value) {
 				this.$emit('update:value', value)
 				this.debouncePropertyChange(value.trim())
@@ -179,7 +191,9 @@ export default {
 					this.onSave(value)
 				}
 				this.isSuccess = true
-				setTimeout(() => { this.isSuccess = false }, 2000)
+				setTimeout(() => {
+					this.isSuccess = false
+				}, 2000)
 			} else {
 				handleError(error, errorMessage)
 				this.hasError = true

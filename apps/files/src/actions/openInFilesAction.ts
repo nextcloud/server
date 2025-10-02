@@ -5,9 +5,9 @@
 
 import type { Node } from '@nextcloud/files'
 
+import { DefaultType, FileAction, FileType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import { FileType, FileAction, DefaultType } from '@nextcloud/files'
-import { VIEW_ID as SEARCH_VIEW_ID } from '../views/search'
+import { VIEW_ID as SEARCH_VIEW_ID } from '../views/search.ts'
 
 export const action = new FileAction({
 	id: 'open-in-files',

@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import { createTestingPinia } from '@pinia/testing'
 import DialogConfirmFileExtension from './DialogConfirmFileExtension.vue'
-import { useUserConfigStore } from '../store/userconfig'
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 describe('DialogConfirmFileExtension', () => {
 	it('renders with both extensions', () => {

@@ -4,7 +4,8 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getActionButtonForFile, getRowForFile, triggerActionForFile } from './FilesUtils'
+
+import { getActionButtonForFile, getRowForFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Favorites', { testIsolation: true }, () => {
 	let user: User

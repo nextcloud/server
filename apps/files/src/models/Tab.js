@@ -5,7 +5,6 @@
 import DOMPurify from 'dompurify'
 
 export default class Tab {
-
 	_id
 	_name
 	_icon
@@ -82,7 +81,6 @@ export default class Tab {
 		if (typeof iconSvg === 'string') {
 			this._iconSvgSanitized = DOMPurify.sanitize(iconSvg)
 		}
-
 	}
 
 	get id() {
@@ -124,5 +122,4 @@ export default class Tab {
 	get scrollBottomReached() {
 		return this._scrollBottomReached
 	}
-
 }

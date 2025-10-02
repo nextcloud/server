@@ -3,13 +3,15 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcListItem class="result-item"
+	<NcListItem
+		class="result-item"
 		:name="title"
 		:bold="false"
 		:href="resourceUrl"
 		target="_self">
 		<template #icon>
-			<div aria-hidden="true"
+			<div
+				aria-hidden="true"
 				class="result-item__icon"
 				:class="{
 					'result-item__icon--rounded': rounded,
@@ -20,7 +22,8 @@
 				:style="{
 					backgroundImage: isValidIconOrPreviewUrl(icon) ? `url(${icon})` : '',
 				}">
-				<img v-if="isValidIconOrPreviewUrl(thumbnailUrl) && !thumbnailHasError"
+				<img
+					v-if="isValidIconOrPreviewUrl(thumbnailUrl) && !thumbnailHasError"
 					:src="thumbnailUrl"
 					@error="thumbnailErrorHandler">
 			</div>
@@ -39,31 +42,38 @@ export default {
 	components: {
 		NcListItem,
 	},
+
 	props: {
 		thumbnailUrl: {
 			type: String,
 			default: null,
 		},
+
 		title: {
 			type: String,
 			required: true,
 		},
+
 		subline: {
 			type: String,
 			default: null,
 		},
+
 		resourceUrl: {
 			type: String,
 			default: null,
 		},
+
 		icon: {
 			type: String,
 			default: '',
 		},
+
 		rounded: {
 			type: Boolean,
 			default: false,
 		},
+
 		query: {
 			type: String,
 			default: '',
@@ -79,20 +89,24 @@ export default {
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			thumbnailHasError: false,
 		}
 	},
+
 	watch: {
 		thumbnailUrl() {
 			this.thumbnailHasError = false
 		},
 	},
+
 	methods: {
 		isValidIconOrPreviewUrl(url) {
 			return /^https?:\/\//.test(url) || url.startsWith('/')
 		},
+
 		thumbnailErrorHandler() {
 			this.thumbnailHasError = true
 		},

@@ -2,17 +2,17 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-/* eslint-disable n/no-extraneous-import */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import type { Navigation, View } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
-import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
-import * as ncInitialState from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
+import { Folder, getNavigation } from '@nextcloud/files'
+import * as ncInitialState from '@nextcloud/initial-state'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
+import registerSharingViews from './shares.ts'
 
-import '../main'
-import registerSharingViews from './shares'
+import '../main.ts'
 
 declare global {
 	interface Window {
@@ -34,8 +34,8 @@ describe('Sharing views definition', () => {
 		expect(Navigation.views.length).toBe(0)
 
 		registerSharingViews()
-		const shareOverviewView = Navigation.views.find(view => view.id === 'shareoverview') as View
-		const sharesChildViews = Navigation.views.filter(view => view.parent === 'shareoverview') as View[]
+		const shareOverviewView = Navigation.views.find((view) => view.id === 'shareoverview') as View
+		const sharesChildViews = Navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
 
 		expect(Navigation.register).toHaveBeenCalledTimes(7)
 
@@ -84,15 +84,15 @@ describe('Sharing views definition', () => {
 		expect(Navigation.register).toHaveBeenCalledTimes(6)
 		expect(Navigation.views.length).toBe(6)
 
-		const shareOverviewView = Navigation.views.find(view => view.id === 'shareoverview') as View
-		const sharesChildViews = Navigation.views.filter(view => view.parent === 'shareoverview') as View[]
+		const shareOverviewView = Navigation.views.find((view) => view.id === 'shareoverview') as View
+		const sharesChildViews = Navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
 		expect(shareOverviewView).toBeDefined()
 		expect(sharesChildViews.length).toBe(5)
 
 		expect(spy).toHaveBeenCalled()
 		expect(spy).toHaveBeenCalledWith('files', 'storageStats', { quota: -1 })
 
-		const sharedWithOthersView = Navigation.views.find(view => view.id === 'sharingout')
+		const sharedWithOthersView = Navigation.views.find((view) => view.id === 'sharingout')
 		expect(sharedWithOthersView).toBeUndefined()
 	})
 })

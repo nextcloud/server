@@ -25,10 +25,8 @@ export async function enableUserStatusAutomation() {
  * Disable user status automation based on availability
  */
 export async function disableUserStatusAutomation() {
-	return await axios.delete(
-		generateOcsUrl('/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
-			appId: 'dav',
-			configKey: 'user_status_automation',
-		}),
-	)
+	return await axios.delete(generateOcsUrl('/apps/provisioning_api/api/v1/config/users/{appId}/{configKey}', {
+		appId: 'dav',
+		configKey: 'user_status_automation',
+	}))
 }

@@ -22,21 +22,25 @@
 		<td class="files-list__row-actions" />
 
 		<!-- Mime -->
-		<td v-if="isMimeAvailable"
+		<td
+			v-if="isMimeAvailable"
 			class="files-list__column files-list__row-mime" />
 
 		<!-- Size -->
-		<td v-if="isSizeAvailable"
+		<td
+			v-if="isSizeAvailable"
 			class="files-list__column files-list__row-size">
 			<span>{{ totalSize }}</span>
 		</td>
 
 		<!-- Mtime -->
-		<td v-if="isMtimeAvailable"
+		<td
+			v-if="isMtimeAvailable"
 			class="files-list__column files-list__row-mtime" />
 
 		<!-- Custom views columns -->
-		<th v-for="column in columns"
+		<th
+			v-for="column in columns"
 			:key="column.id"
 			:class="classForColumn(column)">
 			<span>{{ column.summary?.(nodes, currentView) }}</span>
@@ -48,13 +52,12 @@
 import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { View, formatFileSize } from '@nextcloud/files'
+import { formatFileSize, View } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
 
 export default defineComponent({
 	name: 'FilesListTableFooter',
@@ -64,26 +67,32 @@ export default defineComponent({
 			type: View,
 			required: true,
 		},
+
 		isMimeAvailable: {
 			type: Boolean,
 			default: false,
 		},
+
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
 		},
+
 		isSizeAvailable: {
 			type: Boolean,
 			default: false,
 		},
+
 		nodes: {
 			type: Array as PropType<Node[]>,
 			required: true,
 		},
+
 		summary: {
 			type: String,
 			default: '',
 		},
+
 		filesListWidth: {
 			type: Number,
 			default: 0,

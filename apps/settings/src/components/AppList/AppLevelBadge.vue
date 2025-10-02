@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<span v-if="isSupported || isFeatured"
+	<span
+		v-if="isSupported || isFeatured"
 		class="app-level-badge"
 		:class="{ 'app-level-badge--supported': isSupported }"
 		:title="badgeTitle">
@@ -13,11 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-
 import { mdiCheck, mdiStarShootingOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { computed } from 'vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 const props = defineProps<{
 	/**

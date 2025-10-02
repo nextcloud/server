@@ -4,12 +4,12 @@
  */
 
 import type { Folder, Node } from '@nextcloud/files'
-import type { ShareAttribute } from '../../../files_sharing/src/sharing'
+import type { ShareAttribute } from '../../../files_sharing/src/sharing.ts'
 
 import { Permission } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import PQueue from 'p-queue'
-import { loadState } from '@nextcloud/initial-state'
 
 const sharePermissions = loadState<number>('files_sharing', 'sharePermissions', Permission.NONE)
 
@@ -22,7 +22,7 @@ const MAX_CONCURRENCY = 5
 /**
  * Get the processing queue
  */
-export const getQueue = () => {
+export function getQueue() {
 	if (!queue) {
 		queue = new PQueue({ concurrency: MAX_CONCURRENCY })
 	}
@@ -40,20 +40,31 @@ export type MoveCopyResult = {
 	action: MoveCopyAction.COPY | MoveCopyAction.MOVE
 }
 
-export const canMove = (nodes: Node[]) => {
+/**
+ *
+ * @param nodes
+ */
+export function canMove(nodes: Node[]) {
 	const minPermission = nodes.reduce((min, node) => Math.min(min, node.permissions), Permission.ALL)
 	return Boolean(minPermission & Permission.DELETE)
 }
 
-export const canDownload = (nodes: Node[]) => {
-	return nodes.every(node => {
+/**
+ *
+ * @param nodes
+ */
+export function canDownload(nodes: Node[]) {
+	return nodes.every((node) => {
 		const shareAttributes = JSON.parse(node.attributes?.['share-attributes'] ?? '[]') as Array<ShareAttribute>
-		return !shareAttributes.some(attribute => attribute.scope === 'permissions' && attribute.value === false && attribute.key === 'download')
-
+		return !shareAttributes.some((attribute) => attribute.scope === 'permissions' && attribute.value === false && attribute.key === 'download')
 	})
 }
 
-export const canCopy = (nodes: Node[]) => {
+/**
+ *
+ * @param nodes
+ */
+export function canCopy(nodes: Node[]) {
 	// a shared file cannot be copied if the download is disabled
 	if (!canDownload(nodes)) {
 		return false

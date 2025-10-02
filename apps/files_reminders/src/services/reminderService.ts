@@ -10,7 +10,11 @@ interface Reminder {
 	dueDate: null | Date
 }
 
-export const getReminder = async (fileId: number): Promise<Reminder> => {
+/**
+ *
+ * @param fileId
+ */
+export async function getReminder(fileId: number): Promise<Reminder> {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
 	const response = await axios.get(url)
 	const dueDate = response.data.ocs.data.dueDate ? new Date(response.data.ocs.data.dueDate) : null
@@ -20,7 +24,12 @@ export const getReminder = async (fileId: number): Promise<Reminder> => {
 	}
 }
 
-export const setReminder = async (fileId: number, dueDate: Date): Promise<[]> => {
+/**
+ *
+ * @param fileId
+ * @param dueDate
+ */
+export async function setReminder(fileId: number, dueDate: Date): Promise<[]> {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
 
 	const response = await axios.put(url, {
@@ -30,7 +39,11 @@ export const setReminder = async (fileId: number, dueDate: Date): Promise<[]> =>
 	return response.data.ocs.data
 }
 
-export const clearReminder = async (fileId: number): Promise<[]> => {
+/**
+ *
+ * @param fileId
+ */
+export async function clearReminder(fileId: number): Promise<[]> {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
 	const response = await axios.delete(url)
 

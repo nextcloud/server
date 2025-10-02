@@ -1,14 +1,15 @@
+import type { View } from '@nextcloud/files'
+
+import axios from '@nextcloud/axios'
+import * as eventBus from '@nextcloud/event-bus'
+import { File, FileAction, Permission } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-
-import { action } from './acceptShareAction'
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { ShareType } from '@nextcloud/sharing'
-import * as eventBus from '@nextcloud/event-bus'
-import axios from '@nextcloud/axios'
+import { action } from './acceptShareAction.ts'
 
 import '../main.ts'
 
@@ -26,7 +27,6 @@ const pendingShareView = {
 
 // Mock webroot variable
 beforeAll(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = ''
 })
 
@@ -96,7 +96,9 @@ describe('Accept share action enabled tests', () => {
 })
 
 describe('Accept share action execute tests', () => {
-	beforeEach(() => { vi.resetAllMocks() })
+	beforeEach(() => {
+		vi.resetAllMocks()
+	})
 
 	test('Accept share action', async () => {
 		vi.spyOn(axios, 'post')
@@ -192,7 +194,9 @@ describe('Accept share action execute tests', () => {
 	})
 
 	test('Accept fails', async () => {
-		vi.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(axios, 'post').mockImplementation(() => {
+			throw new Error('Mock error')
+		})
 
 		const file = new File({
 			id: 1,

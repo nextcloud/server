@@ -2,12 +2,14 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { StorageConfig } from '../services/externalStorage'
 
-import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+import type { View } from '@nextcloud/files'
+import type { StorageConfig } from '../services/externalStorage.ts'
+
+import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
-import { action } from './enterCredentialsAction'
-import { STORAGE_STATUS } from '../utils/credentialsUtils'
+import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
+import { action } from './enterCredentialsAction.ts'
 
 const view = {
 	id: 'files',

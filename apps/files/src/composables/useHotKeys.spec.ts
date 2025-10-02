@@ -3,24 +3,23 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { View } from '@nextcloud/files'
 import type { Location } from 'vue-router'
 
-import { File, Folder, Permission, View } from '@nextcloud/files'
-import { enableAutoDestroy, mount } from '@vue/test-utils'
-import { describe, it, vi, expect, beforeEach, afterEach } from 'vitest'
-import { defineComponent, nextTick } from 'vue'
 import axios from '@nextcloud/axios'
-
-import { getPinia } from '../store/index.ts'
-import { useActiveStore } from '../store/active.ts'
-import { useFilesStore } from '../store/files'
-
+import { File, Folder, Permission } from '@nextcloud/files'
+import { enableAutoDestroy, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { defineComponent, nextTick } from 'vue'
 import { action as deleteAction } from '../actions/deleteAction.ts'
 import { action as favoriteAction } from '../actions/favoriteAction.ts'
 import { action as renameAction } from '../actions/renameAction.ts'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useHotKeys } from './useHotKeys.ts'
+import { useActiveStore } from '../store/active.ts'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { useHotKeys } from './useHotKeys.ts'
 
 // this is the mocked current route
 const route = vi.hoisted(() => ({
@@ -95,7 +94,8 @@ describe('HotKeysService testing', () => {
 		activeStore.activeView = view
 		activeStore.activeNode = file
 
-		window.OCA = { Files: { Sidebar: { open: () => {}, setActiveTab: () => {} } } }
+		// @ts-expect-error mocking for tests
+		window.OCA = { Files: { Sidebar: { async open() {}, setActiveTab: () => {} } } }
 		initialState = document.createElement('input')
 		initialState.setAttribute('type', 'hidden')
 		initialState.setAttribute('id', 'initial-state-files_trashbin-config')

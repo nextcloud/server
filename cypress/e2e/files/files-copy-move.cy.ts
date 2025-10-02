@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getRowForFile, moveFile, copyFile, navigateToFolder } from './FilesUtils.ts'
+import { copyFile, getRowForFile, moveFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('Files: Move or copy files', { testIsolation: true }, () => {
 	let currentUser
@@ -17,7 +17,6 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		// nice to have cleanup
 		cy.deleteUser(currentUser)
 	})
-
 
 	it('Can copy a file to new folder', () => {
 		// Prepare initial state

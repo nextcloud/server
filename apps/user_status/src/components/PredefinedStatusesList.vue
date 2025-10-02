@@ -4,10 +4,12 @@
 -->
 
 <template>
-	<ul v-if="statusesHaveLoaded"
+	<ul
+		v-if="statusesHaveLoaded"
 		class="predefined-statuses-list"
 		:aria-label="t('user_status', 'Predefined statuses')">
-		<PredefinedStatus v-for="status in predefinedStatuses"
+		<PredefinedStatus
+			v-for="status in predefinedStatuses"
 			:key="status.id"
 			:message-id="status.id"
 			:icon="status.icon"
@@ -16,41 +18,45 @@
 			:selected="lastSelected === status.id"
 			@select="selectStatus(status)" />
 	</ul>
-	<div v-else
+	<div
+		v-else
 		class="predefined-statuses-list">
 		<div class="icon icon-loading-small" />
 	</div>
 </template>
 
 <script>
-import PredefinedStatus from './PredefinedStatus.vue'
 import { mapGetters, mapState } from 'vuex'
+import PredefinedStatus from './PredefinedStatus.vue'
 
 export default {
 	name: 'PredefinedStatusesList',
 	components: {
 		PredefinedStatus,
 	},
+
 	data() {
 		return {
 			lastSelected: null,
 		}
 	},
+
 	computed: {
 		...mapState({
-			predefinedStatuses: state => state.predefinedStatuses.predefinedStatuses,
-			messageId: state => state.userStatus.messageId,
+			predefinedStatuses: (state) => state.predefinedStatuses.predefinedStatuses,
+			messageId: (state) => state.userStatus.messageId,
 		}),
+
 		...mapGetters(['statusesHaveLoaded']),
 	},
 
 	watch: {
 		messageId: {
-		   immediate: true,
-		   handler() {
-			   this.lastSelected = this.messageId
-		   },
-	   },
+			immediate: true,
+			handler() {
+				this.lastSelected = this.messageId
+			},
+		},
 	},
 
 	/**
@@ -60,6 +66,7 @@ export default {
 	created() {
 		this.$store.dispatch('loadAllPredefinedStatuses')
 	},
+
 	methods: {
 		/**
 		 * Emits an event when the user selects a status

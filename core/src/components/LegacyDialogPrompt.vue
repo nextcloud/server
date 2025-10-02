@@ -3,19 +3,22 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcDialog dialog-classes="legacy-prompt__dialog"
+	<NcDialog
+		dialog-classes="legacy-prompt__dialog"
 		:buttons="buttons"
 		:name="name"
 		@update:open="$emit('close', false, inputValue)">
 		<p class="legacy-prompt__text" v-text="text" />
-		<NcPasswordField v-if="isPassword"
+		<NcPasswordField
+			v-if="isPassword"
 			ref="input"
 			autocomplete="new-password"
 			class="legacy-prompt__input"
 			:label="name"
 			:name="inputName"
 			:value.sync="inputValue" />
-		<NcTextField v-else
+		<NcTextField
+			v-else
 			ref="input"
 			class="legacy-prompt__input"
 			:label="name"
@@ -27,10 +30,9 @@
 <script lang="ts">
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
 import NcDialog from '@nextcloud/vue/components/NcDialog'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default defineComponent({
 	name: 'LegacyDialogPrompt',

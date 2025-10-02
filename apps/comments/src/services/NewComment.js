@@ -4,9 +4,9 @@
  */
 
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { getRootPath } from '../utils/davUtils.js'
 import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.js'
-import axios from '@nextcloud/axios'
 import client from './DavClient.js'
 
 /**

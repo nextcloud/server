@@ -4,17 +4,21 @@
 -->
 
 <template>
-	<nav ref="appMenu"
+	<nav
+		ref="appMenu"
 		class="app-menu"
 		:aria-label="t('core', 'Applications menu')">
-		<ul :aria-label="t('core', 'Apps')"
+		<ul
+			:aria-label="t('core', 'Apps')"
 			class="app-menu__list">
-			<AppMenuEntry v-for="app in mainAppList"
+			<AppMenuEntry
+				v-for="app in mainAppList"
 				:key="app.id"
 				:app="app" />
 		</ul>
 		<NcActions class="app-menu__overflow" :aria-label="t('core', 'More apps')">
-			<NcActionLink v-for="app in popoverAppList"
+			<NcActionLink
+				v-for="app in popoverAppList"
 				:key="app.id"
 				:aria-current="app.active ? 'page' : false"
 				:href="app.href"
@@ -27,18 +31,17 @@
 </template>
 
 <script lang="ts">
-import type { INavigationEntry } from '../types/navigation'
+import type { INavigationEntry } from '../types/navigation.d.ts'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { n, t } from '@nextcloud/l10n'
 import { useElementSize } from '@vueuse/core'
 import { defineComponent, ref } from 'vue'
-
-import AppMenuEntry from './AppMenuEntry.vue'
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
-import logger from '../logger'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import AppMenuEntry from './AppMenuEntry.vue'
+import logger from '../logger.js'
 
 export default defineComponent({
 	name: 'AppMenu',
@@ -104,7 +107,7 @@ export default defineComponent({
 			}
 		},
 
-		setApps({ apps }: { apps: INavigationEntry[]}) {
+		setApps({ apps }: { apps: INavigationEntry[] }) {
 			this.appList = apps
 		},
 	},

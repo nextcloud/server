@@ -1,15 +1,14 @@
+import {
+	slotsToVavailability,
+	vavailabilityToSlots,
+} from '@nextcloud/calendar-availability-vue'
+import { parseXML } from 'webdav'
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getClient } from '../dav/client.js'
 import logger from './logger.js'
-import { parseXML } from 'webdav'
-
-import {
-	slotsToVavailability,
-	vavailabilityToSlots,
-} from '@nextcloud/calendar-availability-vue'
 
 /**
  *
@@ -61,7 +60,7 @@ export async function findScheduleInboxAvailability() {
  * @param {any} timezoneId -
  */
 export async function saveScheduleInboxAvailability(slots, timezoneId) {
-	const all = [...Object.keys(slots).flatMap(dayId => slots[dayId].map(slot => ({
+	const all = [...Object.keys(slots).flatMap((dayId) => slots[dayId].map((slot) => ({
 		...slot,
 		day: dayId,
 	})))]

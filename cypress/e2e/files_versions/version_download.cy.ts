@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { assertVersionContent, doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils'
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile } from '../files/FilesUtils'
+
+import { getRowForFile } from '../files/FilesUtils.ts'
+import { assertVersionContent, doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions download', () => {
 	let randomFileName = ''
@@ -57,8 +58,8 @@ describe('Versions download', () => {
 		})
 
 		it('Does not work without download permission through direct API access', () => {
-			let fileId: string|undefined
-			let versionId: string|undefined
+			let fileId: string | undefined
+			let versionId: string | undefined
 
 			setupTestSharedFileFromUser(user, randomFileName, { download: false })
 				.then((recipient) => {

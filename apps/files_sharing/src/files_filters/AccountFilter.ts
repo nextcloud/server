@@ -2,16 +2,16 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
-import Vue from 'vue'
-
-import FileListFilterAccount from '../components/FileListFilterAccount.vue'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView'
+import Vue from 'vue'
+import FileListFilterAccount from '../components/FileListFilterAccount.vue'
+import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
 
 export interface IAccountData {
 	uid: string
@@ -28,7 +28,6 @@ type CurrentInstance = Vue & {
  * File list filter to filter by owner / sharee
  */
 class AccountFilter extends FileListFilter {
-
 	private availableAccounts: IAccountData[]
 	private currentInstance?: CurrentInstance
 	private filterAccounts?: IAccountData[]
@@ -167,7 +166,6 @@ class AccountFilter extends FileListFilter {
 			this.currentInstance.setAvailableAccounts(this.availableAccounts)
 		}
 	}
-
 }
 
 /**

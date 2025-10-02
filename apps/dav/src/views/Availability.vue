@@ -4,12 +4,14 @@
 -->
 <template>
 	<div>
-		<NcSettingsSection id="availability"
+		<NcSettingsSection
+			id="availability"
 			:name="$t('dav', 'Availability')"
 			:description="$t('dav', 'If you configure your working hours, other people will see when you are out of office when they book a meeting.')">
 			<AvailabilityForm />
 		</NcSettingsSection>
-		<NcSettingsSection v-if="!hideAbsenceSettings"
+		<NcSettingsSection
+			v-if="!hideAbsenceSettings"
 			id="absence"
 			:name="$t('dav', 'Absence')"
 			:description="$t('dav', 'Configure your next absence period.')">
@@ -19,11 +21,12 @@
 </template>
 
 <script>
+import { loadState } from '@nextcloud/initial-state'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AbsenceForm from '../components/AbsenceForm.vue'
 import AvailabilityForm from '../components/AvailabilityForm.vue'
-import { loadState } from '@nextcloud/initial-state'
 
+/* eslint vue/multi-word-component-names: "warn" */
 export default {
 	name: 'Availability',
 	components: {
@@ -31,6 +34,7 @@ export default {
 		AbsenceForm,
 		AvailabilityForm,
 	},
+
 	data() {
 		return {
 			hideAbsenceSettings: loadState('dav', 'hide_absence_settings', true),

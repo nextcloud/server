@@ -4,12 +4,12 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { FileAction } from '@nextcloud/files'
 
-import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils'
-import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction'
-import { ACTION_DELETE } from '../../../apps/files/src/actions/deleteAction'
-import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction'
+import { FileAction } from '@nextcloud/files'
+import { ACTION_DELETE } from '../../../apps/files/src/actions/deleteAction.ts'
+import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
+import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction.ts'
+import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils.ts'
 
 declare global {
 	interface Window {
@@ -83,7 +83,9 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here
 			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) win._nc_fileactions = []
+				if (!win._nc_fileactions) {
+					win._nc_fileactions = []
+				}
 				// Cannot use registerFileAction here
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
@@ -172,7 +174,9 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here
 			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) win._nc_fileactions = []
+				if (!win._nc_fileactions) {
+					win._nc_fileactions = []
+				}
 				// Cannot use registerFileAction here
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
@@ -241,7 +245,9 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here
 			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) win._nc_fileactions = []
+				if (!win._nc_fileactions) {
+					win._nc_fileactions = []
+				}
 				// Cannot use registerFileAction here
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)

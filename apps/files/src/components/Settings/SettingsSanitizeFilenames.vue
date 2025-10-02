@@ -17,8 +17,8 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-import { SanitizeFilenameStatus } from '../../models/SanitizeFilenameStatus.ts'
 import logger from '../../logger.ts'
+import { SanitizeFilenameStatus } from '../../models/SanitizeFilenameStatus.ts'
 
 type ApiStatus = { total: number, processed: number, errors?: Record<string, string[]>, status: SanitizeFilenameStatus }
 
@@ -95,7 +95,7 @@ async function refreshStatus() {
 					{{ t('files', 'Currently {processedUsers} of {totalUsers} accounts are already processed.', { processedUsers, totalUsers }) }}
 				</template>
 				<template v-else>
-					{{ t('files', 'Preparing …') }}
+					{{ t('files', 'Preparing …') }}
 				</template>
 			</p>
 			<NcProgressBar :value="progress" :size="12" />
@@ -112,7 +112,8 @@ async function refreshStatus() {
 		{{ t('files', 'All files have been santized for Windows filename support.') }}
 	</NcNoteCard>
 
-	<form v-else
+	<form
+		v-else
 		class="sanitize-filenames__form"
 		:disabled="loading"
 		@submit.stop.prevent="startSanitization">
@@ -138,7 +139,8 @@ async function refreshStatus() {
 		</NcNoteCard>
 
 		<fieldset class="sanitize-filenames__fields">
-			<NcInputField v-model="renameLimit"
+			<NcInputField
+				v-model="renameLimit"
 				:label="t('files', 'Limit')"
 				:helper-text="t('files', 'This allows to configure how many users should be processed in one background job run.')"
 				min="1"

@@ -3,6 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-export const loadState = function(app: string, key: string, fallback?: any) {
+export function loadState(app: string, key: string, fallback?: any) {
 	return fallback
 }

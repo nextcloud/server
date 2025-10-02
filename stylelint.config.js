@@ -12,12 +12,13 @@ const config = {
 			{
 				except: [
 					// For now ignore block rules for logical properties
-					/(^|-)(height|width)$/, /(^|-)(top|bottom)(-|$)/,
+					/(^|-)(height|width)$/,
+					/(^|-)(top|bottom)(-|$)/,
 					// Also ignore float as this is not well supported (I look at you Samsung)
-					'clear', 'float',
+					'clear',
+					'float',
 				],
-			},
-		],
+			}],
 	},
 	overrides: [
 		{
@@ -38,8 +39,8 @@ const config = {
 						ignorePseudoClasses: ['deep', 'global'],
 					},
 				],
-			}
-		}
+			},
+		},
 	],
 }
 

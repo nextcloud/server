@@ -4,8 +4,8 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils'
-import { clearState } from '../../support/commonUtils'
+import { clearState } from '../../support/commonUtils.ts'
+import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -70,7 +70,7 @@ describe('Settings: User Manager Management', function() {
 			expect(interception.request.url).to.match(/\/cloud\/users\/.+/)
 			expect(interception.request.body).to.deep.equal({
 				key: 'manager',
-				value: manager.userId
+				value: manager.userId,
 			})
 			expect(interception.response?.statusCode).to.equal(200)
 		})

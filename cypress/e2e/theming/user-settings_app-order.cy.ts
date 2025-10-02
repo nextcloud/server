@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { installTestApp, uninstallTestApp } from '../../support/commonUtils'
-import { NavigationHeader } from '../../pages/NavigationHeader'
+import type { User } from '@nextcloud/cypress'
+
+import { NavigationHeader } from '../../pages/NavigationHeader.ts'
+import { installTestApp, uninstallTestApp } from '../../support/commonUtils.ts'
 
 /**
  * Intercept setting the app order as `updateAppOrder`

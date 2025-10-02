@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import _ from 'underscore'
-/** @typedef {import('jquery')} jQuery */
-import $ from 'jquery'
 import { showMessage, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
+import $ from 'jquery'
+import _ from 'underscore'
+import logger from '../logger.js'
+
+/** @typedef {import('jquery')} jQuery */
 
 /**
  * @todo Write documentation
@@ -45,7 +47,7 @@ export default {
 		}
 
 		if (!$row) {
-			console.error('Missing argument $row in OC.Notification.hide() call, caller needs to be adjusted to only dismiss its own notification')
+			logger.error('Missing argument $row in OC.Notification.hide() call, caller needs to be adjusted to only dismiss its own notification')
 			return
 		}
 
@@ -54,7 +56,7 @@ export default {
 			if ($(this)[0].toastify) {
 				$(this)[0].toastify.hideToast()
 			} else {
-				console.error('cannot hide toast because object is not set')
+				logger.error('cannot hide toast because object is not set')
 			}
 			if (this === this.updatableNotification) {
 				this.updatableNotification = null

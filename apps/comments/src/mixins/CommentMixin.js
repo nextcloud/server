@@ -4,12 +4,12 @@
  */
 
 import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
-import NewComment from '../services/NewComment.js'
+import { mapStores } from 'pinia'
+import logger from '../logger.js'
 import DeleteComment from '../services/DeleteComment.js'
 import EditComment from '../services/EditComment.js'
-import { mapStores } from 'pinia'
+import NewComment from '../services/NewComment.js'
 import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
-import logger from '../logger.js'
 
 export default {
 	props: {
@@ -62,7 +62,7 @@ export default {
 				this.editing = false
 			} catch (error) {
 				showError(t('comments', 'An error occurred while trying to edit the comment'))
-				console.error(error)
+				logger.error('An error occurred while trying to edit the comment', { error })
 			} finally {
 				this.loading = false
 			}
@@ -87,7 +87,7 @@ export default {
 				this.$emit('delete', this.id)
 			} catch (error) {
 				showError(t('comments', 'An error occurred while trying to delete the comment'))
-				console.error(error)
+				logger.error('An error occurred while trying to delete the comment', { error })
 				this.deleted = false
 				this.deletedCommentLimboStore.removeId(this.id)
 			}
@@ -106,7 +106,7 @@ export default {
 				this.localMessage = ''
 			} catch (error) {
 				showError(t('comments', 'An error occurred while trying to create the comment'))
-				console.error(error)
+				logger.error('An error occurred while trying to create the comment', { error })
 			} finally {
 				this.loading = false
 			}

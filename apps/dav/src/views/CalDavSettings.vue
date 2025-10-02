@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcSettingsSection :name="$t('dav', 'Calendar server')"
+	<NcSettingsSection
+		:name="$t('dav', 'Calendar server')"
 		:doc-url="userSyncCalendarsDocUrl">
 		<!-- Can use v-html as:
 			- $t passes the translated string through DOMPurify.sanitize,
@@ -11,7 +12,8 @@
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<p class="settings-hint" v-html="hint" />
 		<p>
-			<NcCheckboxRadioSwitch id="caldavSendInvitations"
+			<NcCheckboxRadioSwitch
+				id="caldavSendInvitations"
 				:checked.sync="sendInvitations"
 				type="switch">
 				{{ $t('dav', 'Send invitations to attendees') }}
@@ -23,7 +25,8 @@
 			<em v-html="sendInvitationsHelpText" />
 		</p>
 		<p>
-			<NcCheckboxRadioSwitch id="caldavGenerateBirthdayCalendar"
+			<NcCheckboxRadioSwitch
+				id="caldavGenerateBirthdayCalendar"
 				:checked.sync="generateBirthdayCalendar"
 				type="switch"
 				class="checkbox">
@@ -38,7 +41,8 @@
 			</em>
 		</p>
 		<p>
-			<NcCheckboxRadioSwitch id="caldavSendEventReminders"
+			<NcCheckboxRadioSwitch
+				id="caldavSendEventReminders"
 				:checked.sync="sendEventReminders"
 				type="switch">
 				{{ $t('dav', 'Send notifications for events') }}
@@ -54,18 +58,20 @@
 			</em>
 		</p>
 		<p class="indented">
-			<NcCheckboxRadioSwitch id="caldavSendEventRemindersToSharedGroupMembers"
+			<NcCheckboxRadioSwitch
+				id="caldavSendEventRemindersToSharedGroupMembers"
 				:checked.sync="sendEventRemindersToSharedUsers"
 				type="switch"
 				:disabled="!sendEventReminders">
-				{{ $t('dav', 'Send reminder notifications to calendar sharees as well' ) }}
+				{{ $t('dav', 'Send reminder notifications to calendar sharees as well') }}
 			</NcCheckboxRadioSwitch>
 			<em>
-				{{ $t('dav', 'Reminders are always sent to organizers and attendees.' ) }}
+				{{ $t('dav', 'Reminders are always sent to organizers and attendees.') }}
 			</em>
 		</p>
 		<p class="indented">
-			<NcCheckboxRadioSwitch id="caldavSendEventRemindersPush"
+			<NcCheckboxRadioSwitch
+				id="caldavSendEventRemindersPush"
 				:checked.sync="sendEventRemindersPush"
 				type="switch"
 				:disabled="!sendEventReminders">
@@ -77,10 +83,10 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import { generateUrl } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
 const userSyncCalendarsDocUrl = loadState('dav', 'userSyncCalendarsDocUrl', '#')
 
@@ -90,11 +96,13 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 	},
+
 	data() {
 		return {
 			userSyncCalendarsDocUrl,
 		}
 	},
+
 	computed: {
 		hint() {
 			const translated = this.$t(
@@ -106,12 +114,14 @@ export default {
 				.replace('{calendardocopen}', `<a target="_blank" href="${userSyncCalendarsDocUrl}" rel="noreferrer noopener">`)
 				.replace(/\{linkclose\}/g, '</a>')
 		},
+
 		sendInvitationsHelpText() {
 			const translated = this.$t('dav', 'Please make sure to properly set up {emailopen}the email server{linkclose}.')
 			return translated
 				.replace('{emailopen}', '<a href="../admin#mail_general_settings">')
 				.replace('{linkclose}', '</a>')
 		},
+
 		sendEventRemindersHelpText() {
 			const translated = this.$t('dav', 'Please make sure to properly set up {emailopen}the email server{linkclose}.')
 			return translated
@@ -119,11 +129,13 @@ export default {
 				.replace('{linkclose}', '</a>')
 		},
 	},
+
 	watch: {
 		generateBirthdayCalendar(value) {
 			const baseUrl = value ? '/apps/dav/enableBirthdayCalendar' : '/apps/dav/disableBirthdayCalendar'
 			axios.post(generateUrl(baseUrl))
 		},
+
 		sendInvitations(value) {
 			OCP.AppConfig.setValue(
 				'dav',
@@ -131,9 +143,11 @@ export default {
 				value ? 'yes' : 'no',
 			)
 		},
+
 		sendEventReminders(value) {
 			OCP.AppConfig.setValue('dav', 'sendEventReminders', value ? 'yes' : 'no')
 		},
+
 		sendEventRemindersToSharedUsers(value) {
 			OCP.AppConfig.setValue(
 				'dav',
@@ -141,6 +155,7 @@ export default {
 				value ? 'yes' : 'no',
 			)
 		},
+
 		sendEventRemindersPush(value) {
 			OCP.AppConfig.setValue('dav', 'sendEventRemindersPush', value ? 'yes' : 'no')
 		},

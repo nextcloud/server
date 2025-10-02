@@ -2,11 +2,13 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { describe, expect, test, vi } from 'vitest'
 
-import { action } from './inlineUnreadCommentsAction'
-import logger from '../logger'
+import type { View } from '@nextcloud/files'
+
+import { File, FileAction, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import logger from '../logger.js'
+import { action } from './inlineUnreadCommentsAction.ts'
 
 const view = {
 	id: 'files',
@@ -120,6 +122,7 @@ describe('Inline unread comments action execute tests', () => {
 		const setActiveTabMock = vi.fn()
 		window.OCA = {
 			Files: {
+				// @ts-expect-error Mocking for testing
 				Sidebar: {
 					open: openMock,
 					setActiveTab: setActiveTabMock,
@@ -146,10 +149,13 @@ describe('Inline unread comments action execute tests', () => {
 	})
 
 	test('Action handles sidebar open failure', async () => {
-		const openMock = vi.fn(() => { throw new Error('Mock error') })
+		const openMock = vi.fn(() => {
+			throw new Error('Mock error')
+		})
 		const setActiveTabMock = vi.fn()
 		window.OCA = {
 			Files: {
+				// @ts-expect-error Mocking for testing
 				Sidebar: {
 					open: openMock,
 					setActiveTab: setActiveTabMock,

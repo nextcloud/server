@@ -12,7 +12,8 @@
 				{{ subtitle }}
 			</p>
 		</div>
-		<NcActions v-if="$slots['default']"
+		<NcActions
+			v-if="$slots['default']"
 			ref="actionsComponent"
 			class="sharing-entry__actions"
 			menu-align="right"
@@ -35,17 +36,19 @@ export default {
 	props: {
 		title: {
 			type: String,
-			default: '',
 			required: true,
 		},
+
 		subtitle: {
 			type: String,
 			default: '',
 		},
+
 		isUnique: {
 			type: Boolean,
 			default: true,
 		},
+
 		ariaExpanded: {
 			type: Boolean,
 			default: null,

@@ -2,16 +2,13 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-/* eslint-disable no-console */
-/* eslint-disable n/no-unpublished-import */
-/* eslint-disable n/no-extraneous-import */
 
-import Docker from 'dockerode'
-import waitOn from 'wait-on'
-import { c as createTar } from 'tar'
-import path, { basename } from 'path'
 import { execSync } from 'child_process'
+import Docker from 'dockerode'
 import { existsSync } from 'fs'
+import path, { basename } from 'path'
+import { c as createTar } from 'tar'
+import waitOn from 'wait-on'
 
 export const docker = new Docker()
 
@@ -21,10 +18,9 @@ const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
 /**
  * Start the testing container
  *
- * @param {string} branch the branch of your current work
+ * @param branch the branch of your current work
  */
-export const startNextcloud = async function(branch: string = getCurrentGitBranch()): Promise<any> {
-
+export async function startNextcloud(branch: string = getCurrentGitBranch()): Promise<any> {
 	try {
 		try {
 			// Pulling images
@@ -41,6 +37,10 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 				// https://github.com/apocas/dockerode/issues/357
 				docker.modem.followProgress(stream, onFinished)
 
+				/**
+				 *
+				 * @param err
+				 */
 				function onFinished(err) {
 					if (!err) {
 						resolve(true)
@@ -71,7 +71,7 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 				await oldContainer.remove({ force: true })
 				console.log('└─ Done')
 			}
-		} catch (error) {
+		} catch {
 			console.log('└─ None found!')
 		}
 
@@ -125,7 +125,7 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 /**
  * Configure Nextcloud
  */
-export const configureNextcloud = async function() {
+export async function configureNextcloud() {
 	console.log('\nConfiguring nextcloud...')
 	const container = docker.getContainer(CONTAINER_NAME)
 	await runExec(container, ['php', 'occ', '--version'], true)
@@ -169,7 +169,7 @@ export const configureNextcloud = async function() {
  * continuous-integration-shallow-server image will
  * already fetch the proper branch.
  */
-export const applyChangesToNextcloud = async function() {
+export async function applyChangesToNextcloud() {
 	console.log('\nApply local changes to nextcloud...')
 
 	const htmlPath = '/var/www/html'
@@ -225,7 +225,7 @@ export const applyChangesToNextcloud = async function() {
 /**
  * Force stop the testing container
  */
-export const stopNextcloud = async function() {
+export async function stopNextcloud() {
 	try {
 		const container = docker.getContainer(CONTAINER_NAME)
 		console.log('Stopping Nextcloud container...')
@@ -239,11 +239,9 @@ export const stopNextcloud = async function() {
 /**
  * Get the testing container's IP
  *
- * @param {Docker.Container} container the container to get the IP from
+ * @param container the container to get the IP from
  */
-export const getContainerIP = async function(
-	container = docker.getContainer(CONTAINER_NAME),
-): Promise<string> {
+export async function getContainerIP(container = docker.getContainer(CONTAINER_NAME)): Promise<string> {
 	let ip = ''
 	let tries = 0
 	while (ip === '' && tries < 10) {
@@ -276,7 +274,11 @@ export const getContainerIP = async function(
 // Until we can properly configure the baseUrl retry intervals,
 // We need to make sure the server is already running before cypress
 // https://github.com/cypress-io/cypress/issues/22676
-export const waitOnNextcloud = async function(ip: string) {
+/**
+ *
+ * @param ip
+ */
+export async function waitOnNextcloud(ip: string) {
 	console.log('├─ Waiting for Nextcloud to be ready... ⏳')
 	await waitOn({
 		resources: [`http://${ip}/index.php`],
@@ -290,7 +292,15 @@ export const waitOnNextcloud = async function(ip: string) {
 	console.log('└─ Done')
 }
 
-const runExec = async function(
+/**
+ *
+ * @param container
+ * @param command
+ * @param verbose
+ * @param user
+ * @param workdir
+ */
+async function runExec(
 	container: Docker.Container,
 	command: string[],
 	verbose = false,
@@ -313,9 +323,10 @@ const runExec = async function(
 			}
 			if (stream) {
 				stream.setEncoding('utf-8')
-				stream.on('data', str => {
+				stream.on('data', (str) => {
 					str = str.trim()
 						// Remove non printable characters
+						// eslint-disable-next-line no-control-regex
 						.replace(/[^\x0A\x0D\x20-\x7E]+/g, '')
 						// Remove non alphanumeric leading characters
 						.replace(/^[^a-z]/gi, '')
@@ -330,11 +341,18 @@ const runExec = async function(
 	})
 }
 
-const sleep = function(milliseconds: number) {
+/**
+ *
+ * @param milliseconds
+ */
+function sleep(milliseconds: number) {
 	return new Promise((resolve) => setTimeout(resolve, milliseconds))
 }
 
-const getCurrentGitBranch = function() {
+/**
+ *
+ */
+function getCurrentGitBranch() {
 	return execSync('git rev-parse --abbrev-ref HEAD').toString().trim() || 'master'
 }
 
@@ -343,7 +361,7 @@ const getCurrentGitBranch = function() {
  * This is used to connect to the database services
  * started by github actions
  */
-const getGithubNetwork = async function(): Promise<string|undefined> {
+async function getGithubNetwork(): Promise<string | undefined> {
 	console.log('├─ Looking for github actions network... 🔍')
 	const networks = await docker.listNetworks()
 	const network = networks.find((network) => network.Name.startsWith('github_network'))

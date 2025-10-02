@@ -5,8 +5,7 @@
 
 import { getCSPNonce } from '@nextcloud/auth'
 import Vue from 'vue'
-
-import Profile from './views/Profile.vue'
+import ProfileApp from './views/ProfileApp.vue'
 import ProfileSections from './services/ProfileSections.js'
 
 __webpack_nonce__ = getCSPNonce()
@@ -20,7 +19,7 @@ if (!window.OCA.Core) {
 }
 Object.assign(window.OCA.Core, { ProfileSections: new ProfileSections() })
 
-const View = Vue.extend(Profile)
+const View = Vue.extend(ProfileApp)
 
 window.addEventListener('DOMContentLoaded', () => {
 	new View().$mount('#content')

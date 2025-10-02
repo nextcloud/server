@@ -3,27 +3,36 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getBuilder } from '@nextcloud/browser-storage'
-import { getGuestNickname, type NextcloudUser } from '@nextcloud/auth'
-import { getUploader } from '@nextcloud/upload'
-import { loadState } from '@nextcloud/initial-state'
-import { showGuestUserPrompt } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
+import type { NextcloudUser } from '@nextcloud/auth'
 
-import logger from './services/logger'
+import { getGuestNickname } from '@nextcloud/auth'
+import { getBuilder } from '@nextcloud/browser-storage'
+import { showGuestUserPrompt } from '@nextcloud/dialogs'
 import { subscribe } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { getUploader } from '@nextcloud/upload'
+import logger from './services/logger.ts'
 
 const storage = getBuilder('files_sharing').build()
 
 // Setup file-request nickname header for the uploader
-const registerFileRequestHeader = (nickname: string) => {
+/**
+ *
+ * @param nickname
+ */
+function registerFileRequestHeader(nickname: string) {
 	const uploader = getUploader()
 	uploader.setCustomHeader('X-NC-Nickname', encodeURIComponent(nickname))
 	logger.debug('Nickname header registered for uploader', { headers: uploader.customHeaders })
 }
 
 // Callback when a nickname was chosen
-const onUserInfoChanged = (guest: NextcloudUser) => {
+/**
+ *
+ * @param guest
+ */
+function onUserInfoChanged(guest: NextcloudUser) {
 	logger.debug('User info changed', { guest })
 	registerFileRequestHeader(guest.displayName ?? '')
 }

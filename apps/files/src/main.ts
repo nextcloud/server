@@ -2,16 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import { getCSPNonce } from '@nextcloud/auth'
 import { PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
-
-import { getPinia } from './store/index.ts'
 import FilesApp from './FilesApp.vue'
-import router from './router/router'
-import RouterService from './services/RouterService'
 import SettingsModel from './models/Setting.js'
+import router from './router/router.ts'
+import RouterService from './services/RouterService.ts'
 import SettingsService from './services/Settings.js'
+import { getPinia } from './store/index.ts'
 
 __webpack_nonce__ = getCSPNonce()
 

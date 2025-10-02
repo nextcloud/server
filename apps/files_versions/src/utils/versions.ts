@@ -7,33 +7,32 @@
  */
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { joinPaths, encodePath } from '@nextcloud/paths'
-import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
-
+import moment from '@nextcloud/moment'
+import { encodePath, joinPaths } from '@nextcloud/paths'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
 import logger from '../utils/logger.js'
 
 export interface Version {
-	fileId: string, // The id of the file associated to the version.
-	label: string, // 'Current version' or ''
-	author: string|null, // UID for the author of the version
-	authorName: string|null, // Display name of the author
-	filename: string, // File name relative to the version DAV endpoint
-	basename: string, // A base name generated from the mtime
-	mime: string, // Empty for the current version, else the actual mime type of the version
-	etag: string, // Empty for the current version, else the actual mime type of the version
-	size: string, // Human readable size
-	type: string, // 'file'
-	mtime: number, // Version creation date as a timestamp
-	permissions: string, // Only readable: 'R'
-	previewUrl: string, // Preview URL of the version
-	url: string, // Download URL of the version
-	source: string, // The WebDAV endpoint of the resource
-	fileVersion: string|null, // The version id, null for the current version
+	fileId: string // The id of the file associated to the version.
+	label: string // 'Current version' or ''
+	author: string | null // UID for the author of the version
+	authorName: string | null // Display name of the author
+	filename: string // File name relative to the version DAV endpoint
+	basename: string // A base name generated from the mtime
+	mime: string // Empty for the current version, else the actual mime type of the version
+	etag: string // Empty for the current version, else the actual mime type of the version
+	size: string // Human readable size
+	type: string // 'file'
+	mtime: number // Version creation date as a timestamp
+	permissions: string // Only readable: 'R'
+	previewUrl: string // Preview URL of the version
+	url: string // Download URL of the version
+	source: string // The WebDAV endpoint of the resource
+	fileVersion: string | null // The version id, null for the current version
 }
 
 export async function fetchVersions(fileInfo: any): Promise<Version[]> {
@@ -48,9 +47,9 @@ export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 		const versions = response.data
 			// Filter out root
 			.filter(({ mime }) => mime !== '')
-			.map(version => formatVersion(version, fileInfo))
+			.map((version) => formatVersion(version, fileInfo))
 
-		const authorIds = new Set(versions.map(version => String(version.author)))
+		const authorIds = new Set(versions.map((version) => String(version.author)))
 		const authors = await axios.post(generateUrl('/displaynames'), { users: [...authorIds] })
 
 		for (const version of versions) {

@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="displayName"
+	<AccountPropertySection
+		v-bind.sync="displayName"
 		:placeholder="t('settings', 'Your full name')"
 		autocomplete="username"
 		:is-editable="displayNameChangeSupported"
@@ -13,11 +14,9 @@
 </template>
 
 <script>
-import { loadState } from '@nextcloud/initial-state'
 import { emit } from '@nextcloud/event-bus'
-
+import { loadState } from '@nextcloud/initial-state'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { displayName } = loadState('settings', 'personalInfoParameters', {})
@@ -43,9 +42,9 @@ export default {
 		},
 
 		onSave(value) {
-			if (oc_userconfig.avatar.generated) {
+			if (window.oc_userconfig.avatar.generated) {
 				// Update the avatar version so that avatar update handlers refresh correctly
-				oc_userconfig.avatar.version = Date.now()
+				window.oc_userconfig.avatar.version = Date.now()
 			}
 			emit('settings:display-name:updated', value)
 		},

@@ -8,20 +8,23 @@
 import type { AxiosPromise } from '@nextcloud/axios'
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
-import type { ShareAttribute } from '../sharing'
+import type { ShareAttribute } from '../sharing.d.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { Folder, File, Permission, davRemoteURL, davRootPath } from '@nextcloud/files'
-import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-
-import logger from './logger'
+import { davRemoteURL, davRootPath, File, Folder, Permission } from '@nextcloud/files'
+import { generateOcsUrl } from '@nextcloud/router'
+import logger from './logger.ts'
 
 const headers = {
 	'Content-Type': 'application/json',
 }
 
-const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | null> {
+/**
+ *
+ * @param ocsEntry
+ */
+async function ocsEntryToNode(ocsEntry: any): Promise<Folder | File | null> {
 	try {
 		// Federated share handling
 		if (ocsEntry?.remote_id !== undefined) {
@@ -110,7 +113,11 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 	}
 }
 
-const getShares = function(shareWithMe = false): AxiosPromise<OCSResponse<any>> {
+/**
+ *
+ * @param shareWithMe
+ */
+function getShares(shareWithMe = false): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares')
 	return axios.get(url, {
 		headers,
@@ -121,15 +128,24 @@ const getShares = function(shareWithMe = false): AxiosPromise<OCSResponse<any>> 
 	})
 }
 
-const getSharedWithYou = function(): AxiosPromise<OCSResponse<any>> {
+/**
+ *
+ */
+function getSharedWithYou(): AxiosPromise<OCSResponse<any>> {
 	return getShares(true)
 }
 
-const getSharedWithOthers = function(): AxiosPromise<OCSResponse<any>> {
+/**
+ *
+ */
+function getSharedWithOthers(): AxiosPromise<OCSResponse<any>> {
 	return getShares()
 }
 
-const getRemoteShares = function(): AxiosPromise<OCSResponse<any>> {
+/**
+ *
+ */
+function getRemoteShares(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/remote_shares')
 	return axios.get(url, {
 		headers,
@@ -139,7 +155,10 @@ const getRemoteShares = function(): AxiosPromise<OCSResponse<any>> {
 	})
 }
 
-const getPendingShares = function(): AxiosPromise<OCSResponse<any>> {
+/**
+ *
+ */
+function getPendingShares(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares/pending')
 	return axios.get(url, {
 		headers,
@@ -149,7 +168,10 @@ const getPendingShares = function(): AxiosPromise<OCSResponse<any>> {
 	})
 }
 
-const getRemotePendingShares = function(): AxiosPromise<OCSResponse<any>> {
+/**
+ *
+ */
+function getRemotePendingShares(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/remote_shares/pending')
 	return axios.get(url, {
 		headers,
@@ -159,7 +181,10 @@ const getRemotePendingShares = function(): AxiosPromise<OCSResponse<any>> {
 	})
 }
 
-const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
+/**
+ *
+ */
+function getDeletedShares(): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/deletedshares')
 	return axios.get(url, {
 		headers,
@@ -171,9 +196,10 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 
 /**
  * Check if a file request is enabled
+ *
  * @param attributes the share attributes json-encoded array
  */
-export const isFileRequest = (attributes = '[]'): boolean => {
+export function isFileRequest(attributes = '[]'): boolean {
 	const isFileRequest = (attribute) => {
 		return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true
 	}
@@ -190,17 +216,26 @@ export const isFileRequest = (attributes = '[]'): boolean => {
 /**
  * Group an array of objects (here Nodes) by a key
  * and return an array of arrays of them.
+ *
  * @param nodes Nodes to group
  * @param key The attribute to group by
  */
-const groupBy = function(nodes: (Folder | File)[], key: string) {
+function groupBy(nodes: (Folder | File)[], key: string) {
 	return Object.values(nodes.reduce(function(acc, curr) {
 		(acc[curr[key]] = acc[curr[key]] || []).push(curr)
 		return acc
 	}, {})) as (Folder | File)[][]
 }
 
-export const getContents = async (sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> => {
+/**
+ *
+ * @param sharedWithYou
+ * @param sharedWithOthers
+ * @param pendingShares
+ * @param deletedshares
+ * @param filterTypes
+ */
+export async function getContents(sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> {
 	const promises = [] as AxiosPromise<OCSResponse<any>>[]
 
 	if (sharedWithYou) {
@@ -229,7 +264,7 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 	// Also check the sharingStatusAction.ts code
 	contents = groupBy(contents, 'source').map((nodes) => {
 		const node = nodes[0]
-		node.attributes['share-types'] = nodes.map(node => node.attributes['share-types'])
+		node.attributes['share-types'] = nodes.map((node) => node.attributes['share-types'])
 		return node
 	})
 

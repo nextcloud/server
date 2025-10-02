@@ -4,7 +4,8 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils'
+
+import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
@@ -87,7 +88,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			/\/remote.php\/dav\/files\//,
 			(request) => {
 				// we need to wait in the onResponse handler as the intercept handler times out otherwise
-				request.on('response', async () => { await promise })
+				request.on('response', async () => {
+					await promise
+				})
 			},
 		).as('moveFile')
 

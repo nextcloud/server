@@ -4,16 +4,19 @@
 -->
 
 <template>
-	<NcDialog v-if="opened"
+	<NcDialog
+		v-if="opened"
 		:name="name"
 		:out-transition="true"
 		size="small"
 		close-on-click-outside
 		@closing="onClose">
-		<form id="set-custom-reminder-form"
+		<form
+			id="set-custom-reminder-form"
 			class="custom-reminder-modal"
 			@submit.prevent="setCustom">
-			<NcDateTimePickerNative id="set-custom-reminder"
+			<NcDateTimePickerNative
+				id="set-custom-reminder"
 				v-model="customDueDate"
 				:label="label"
 				:min="nowDate"
@@ -32,7 +35,7 @@
 		</form>
 		<template #actions>
 			<!-- Cancel pick -->
-			<NcButton type="tertiary" @click="onClose">
+			<NcButton variant="tertiary" @click="onClose">
 				{{ t('files_reminders', 'Cancel') }}
 			</NcButton>
 
@@ -42,10 +45,11 @@
 			</NcButton>
 
 			<!-- Set reminder -->
-			<NcButton :disabled="!isValid"
-				type="primary"
+			<NcButton
+				:disabled="!isValid"
+				variant="primary"
 				form="set-custom-reminder-form"
-				native-type="submit">
+				type="submit">
 				{{ t('files_reminders', 'Set reminder') }}
 			</NcButton>
 		</template>
@@ -53,21 +57,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import type { Node } from '@nextcloud/files'
-import { emit } from '@nextcloud/event-bus'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { translate as t } from '@nextcloud/l10n'
+import Vue from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-
-import { getDateString, getInitialCustomDueDate } from '../shared/utils.ts'
-import { logger } from '../shared/logger.ts'
 import { clearReminder, setReminder } from '../services/reminderService.ts'
+import { logger } from '../shared/logger.ts'
+import { getDateString, getInitialCustomDueDate } from '../shared/utils.ts'
 
 export default Vue.extend({
 	name: 'SetCustomReminderModal',
@@ -93,11 +96,11 @@ export default Vue.extend({
 	},
 
 	computed: {
-		fileId(): number|undefined {
+		fileId(): number | undefined {
 			return this.node?.fileid
 		},
 
-		fileName(): string|undefined {
+		fileName(): string | undefined {
 			return this.node?.basename
 		},
 
@@ -121,6 +124,7 @@ export default Vue.extend({
 		/**
 		 * Open the modal to set a custom reminder
 		 * and reset the state.
+		 *
 		 * @param node The node to set a reminder for
 		 */
 		open(node: Node): void {

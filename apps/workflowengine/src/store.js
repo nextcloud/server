@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import axios from '@nextcloud/axios'
-import { confirmPassword } from '@nextcloud/password-confirmation'
-import { loadState } from '@nextcloud/initial-state'
 import { getApiUrl } from './helpers/api.js'
 
 import '@nextcloud/password-confirmation/dist/style.css'
@@ -28,7 +28,7 @@ const store = new Store({
 
 		entities: loadState('workflowengine', 'entities'),
 		events: loadState('workflowengine', 'entities')
-			.map((entity) => entity.events.map(event => {
+			.map((entity) => entity.events.map((event) => {
 				return {
 					id: `${entity.id}::${event.eventName}`,
 					entity,
@@ -43,7 +43,7 @@ const store = new Store({
 		},
 		updateRule(state, rule) {
 			const index = state.rules.findIndex((item) => rule.id === item.id)
-			const newRule = Object.assign({}, rule)
+			const newRule = { ...rule }
 			Vue.set(state.rules, index, newRule)
 		},
 		removeRule(state, rule) {
@@ -54,9 +54,11 @@ const store = new Store({
 			Vue.set(state.plugins.checks, plugin.class, plugin)
 		},
 		addPluginOperator(state, plugin) {
-			plugin = Object.assign(
-				{ color: 'var(--color-primary-element)' },
-				plugin, state.operations[plugin.id] || {})
+			plugin = {
+				color: 'var(--color-primary-element)',
+				...plugin,
+				...state.operations[plugin.id] || {},
+			}
 			if (typeof state.operations[plugin.id] !== 'undefined') {
 				Vue.set(state.operations, plugin.id, plugin)
 			}
@@ -138,7 +140,7 @@ const store = new Store({
 			return (operation) => state.entities.find((entity) => operation.fixedEntity === entity.id)
 		},
 		getEventsForOperation(state) {
-			return (operation) => state.events
+			return () => state.events
 		},
 
 		/**

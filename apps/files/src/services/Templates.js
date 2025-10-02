@@ -3,15 +3,22 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
 
-export const getTemplates = async function() {
+/**
+ *
+ */
+export async function getTemplates() {
 	const response = await axios.get(generateOcsUrl('apps/files/api/v1/templates'))
 	return response.data.ocs.data
 }
 
-export const getTemplateFields = async function(fileId) {
+/**
+ *
+ * @param fileId
+ */
+export async function getTemplateFields(fileId) {
 	const response = await axios.get(generateOcsUrl(`apps/files/api/v1/templates/fields/${fileId}`))
 	return response.data.ocs.data
 }
@@ -24,7 +31,7 @@ export const getTemplateFields = async function(fileId) {
  * @param {string} templateType The template type e.g 'user'
  * @param {object} templateFields The template fields to fill in (if any)
  */
-export const createFromTemplate = async function(filePath, templatePath, templateType, templateFields) {
+export async function createFromTemplate(filePath, templatePath, templateType, templateFields) {
 	const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates/create'), {
 		filePath,
 		templatePath,

@@ -5,14 +5,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Handlebars from 'handlebars'
 import {
 	loadTranslations,
+	register,
 	translate,
 	translatePlural,
-	register,
 	unregister,
 } from '@nextcloud/l10n'
+import Handlebars from 'handlebars'
 
 /**
  * L10N namespace with localization functions.

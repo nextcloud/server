@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { generateOcsUrl } from '@nextcloud/router'
+import Share from '../models/Share.ts'
+import logger from '../services/logger.ts'
+
 // TODO: remove when ie not supported
 import 'url-search-params-polyfill'
-
-import { emit } from '@nextcloud/event-bus'
-import { showError } from '@nextcloud/dialogs'
-import { generateOcsUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
-
-import Share from '../models/Share.ts'
 
 const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 
@@ -45,7 +45,7 @@ export default {
 				emit('files_sharing:share:created', { share })
 				return share
 			} catch (error) {
-				console.error('Error while creating share', error)
+				logger.error('Error while creating share', { error })
 				const errorMessage = error?.response?.data?.ocs?.meta?.message
 				showError(
 					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
@@ -70,7 +70,7 @@ export default {
 				emit('files_sharing:share:deleted', { id })
 				return true
 			} catch (error) {
-				console.error('Error while deleting share', error)
+				logger.error('Error while deleting share', { error })
 				const errorMessage = error?.response?.data?.ocs?.meta?.message
 				OC.Notification.showTemporary(
 					errorMessage ? t('files_sharing', 'Error deleting the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error deleting the share'),
@@ -96,7 +96,7 @@ export default {
 					return request.data.ocs.data
 				}
 			} catch (error) {
-				console.error('Error while updating share', error)
+				logger.error('Error while updating share', { error })
 				if (error.response.status !== 400) {
 					const errorMessage = error?.response?.data?.ocs?.meta?.message
 					OC.Notification.showTemporary(

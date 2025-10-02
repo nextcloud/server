@@ -3,14 +3,16 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<component :is="tag"
+	<component
+		:is="tag"
 		v-show="!deleted && !isLimbo"
-		:class="{'comment--loading': loading}"
+		:class="{ 'comment--loading': loading }"
 		class="comment">
 		<!-- Comment header toolbar -->
 		<div class="comment__side">
 			<!-- Author -->
-			<NcAvatar class="comment__avatar"
+			<NcAvatar
+				class="comment__avatar"
 				:display-name="actorDisplayName"
 				:user="actorId"
 				:size="32" />
@@ -23,7 +25,8 @@
 					show if we have a message id and current user is author -->
 				<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
 					<template v-if="!editing">
-						<NcActionButton close-after-click
+						<NcActionButton
+							close-after-click
 							@click="onEdit">
 							<template #icon>
 								<IconPencilOutline :size="20" />
@@ -31,7 +34,8 @@
 							{{ t('comments', 'Edit comment') }}
 						</NcActionButton>
 						<NcActionSeparator />
-						<NcActionButton close-after-click
+						<NcActionButton
+							close-after-click
 							@click="onDeleteWithUndo">
 							<template #icon>
 								<IconTrashCanOutline :size="20" />
@@ -52,7 +56,8 @@
 				<div v-if="id && loading" class="comment_loading icon-loading-small" />
 
 				<!-- Relative time to the comment creation -->
-				<NcDateTime v-else-if="creationDateTime"
+				<NcDateTime
+					v-else-if="creationDateTime"
 					class="comment__timestamp"
 					:timestamp="timestamp"
 					:ignore-seconds="true" />
@@ -61,19 +66,21 @@
 			<!-- Message editor -->
 			<form v-if="editor || editing" class="comment__editor" @submit.prevent>
 				<div class="comment__editor-group">
-					<NcRichContenteditable ref="editor"
+					<NcRichContenteditable
+						ref="editor"
 						:auto-complete="autoComplete"
 						:contenteditable="!loading"
 						:label="editor ? t('comments', 'New comment') : t('comments', 'Edit comment')"
-						:placeholder="t('comments', 'Write a comment …')"
+						:placeholder="t('comments', 'Write a comment …')"
 						:value="localMessage"
 						:user-data="userData"
 						aria-describedby="tab-comments__editor-description"
 						@update:value="updateLocalMessage"
 						@submit="onSubmit" />
 					<div class="comment__submit">
-						<NcButton type="tertiary-no-background"
-							native-type="submit"
+						<NcButton
+							variant="tertiary-no-background"
+							type="submit"
 							:aria-label="t('comments', 'Post comment')"
 							:disabled="isEmptyMessage"
 							@click="onSubmit">
@@ -90,9 +97,10 @@
 			</form>
 
 			<!-- Message content -->
-			<NcRichText v-else
+			<NcRichText
+				v-else
 				class="comment__message"
-				:class="{'comment__message--expanded': expanded}"
+				:class="{ 'comment__message--expanded': expanded }"
 				:text="richContent.message"
 				:arguments="richContent.mentions"
 				@click.native="onExpand" />
@@ -103,7 +111,7 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
-
+import { mapStores } from 'pinia'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
@@ -112,14 +120,11 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
-
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
-import IconTrashCanOutline from 'vue-material-design-icons/TrashCanOutline.vue'
 import IconPencilOutline from 'vue-material-design-icons/PencilOutline.vue'
-
+import IconTrashCanOutline from 'vue-material-design-icons/TrashCanOutline.vue'
 import CommentMixin from '../mixins/CommentMixin.js'
-import { mapStores } from 'pinia'
 import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 
 // Dynamic loading
@@ -127,6 +132,7 @@ const NcRichContenteditable = () => import('@nextcloud/vue/components/NcRichCont
 const NcRichText = () => import('@nextcloud/vue/components/NcRichText')
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Comment',
 
 	components: {
@@ -144,6 +150,7 @@ export default {
 		NcRichContenteditable,
 		NcRichText,
 	},
+
 	mixins: [CommentMixin],
 
 	inheritAttrs: false,
@@ -153,10 +160,12 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		actorId: {
 			type: String,
 			required: true,
 		},
+
 		creationDateTime: {
 			type: String,
 			default: null,
@@ -177,6 +186,7 @@ export default {
 			type: Function,
 			required: true,
 		},
+
 		userData: {
 			type: Object,
 			default: () => ({}),

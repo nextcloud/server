@@ -4,13 +4,14 @@
  */
 
 import type { FileAction } from '@nextcloud/files'
+
 import { defineComponent } from 'vue'
 
 export default defineComponent({
 
 	data() {
 		return {
-			openedSubmenu: null as FileAction|null,
+			openedSubmenu: null as FileAction | null,
 		}
 	},
 
@@ -41,7 +42,7 @@ export default defineComponent({
 			return this.enabledSubmenuActions[action.id]?.length > 0
 		},
 
-		async onBackToMenuClick(action: FileAction|null) {
+		async onBackToMenuClick(action: FileAction | null) {
 			if (!action) {
 				return
 			}

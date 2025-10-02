@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcAppSidebarTab id="desc"
+	<NcAppSidebarTab
+		id="desc"
 		:name="t('settings', 'Description')"
 		:order="0">
 		<template #icon>
@@ -17,17 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import type { IAppstoreApp } from '../../app-types'
+import type { IAppstoreApp } from '../../app-types.ts'
 
 import { mdiTextShort } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
-
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import Markdown from '../Markdown.vue'
 
 defineProps<{
-	app: IAppstoreApp,
+	app: IAppstoreApp
 }>()
 </script>
 

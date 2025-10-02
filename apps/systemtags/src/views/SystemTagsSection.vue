@@ -4,13 +4,16 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('systemtags', 'Collaborative tags')"
+	<NcSettingsSection
+		:name="t('systemtags', 'Collaborative tags')"
 		:description="t('systemtags', 'Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.')">
 		<SystemTagsCreationControl />
-		<NcLoadingIcon v-if="loadingTags"
-			:name="t('systemtags', 'Loading collaborative tags …')"
+		<NcLoadingIcon
+			v-if="loadingTags"
+			:name="t('systemtags', 'Loading collaborative tags …')"
 			:size="32" />
-		<SystemTagForm v-else
+		<SystemTagForm
+			v-else
 			:tags="tags"
 			@tag:created="handleCreate"
 			@tag:updated="handleUpdate"
@@ -19,21 +22,17 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable */
-import Vue from 'vue'
+import type { TagWithId } from '../types.js'
 
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import Vue from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-
-import { translate as t } from '@nextcloud/l10n'
-import { showError } from '@nextcloud/dialogs'
-
 import SystemTagForm from '../components/SystemTagForm.vue'
 import SystemTagsCreationControl from '../components/SystemTagsCreationControl.vue'
-
+import logger from '../logger.js'
 import { fetchTags } from '../services/api.js'
-
-import type { TagWithId } from '../types.js'
 
 export default Vue.extend({
 	name: 'SystemTagsSection',
@@ -58,6 +57,7 @@ export default Vue.extend({
 			this.tags = await fetchTags()
 		} catch (error) {
 			showError(t('systemtags', 'Failed to load tags'))
+			logger.error('Failed to load tags', { error })
 		}
 		this.loadingTags = false
 	},
@@ -70,13 +70,13 @@ export default Vue.extend({
 		},
 
 		handleUpdate(tag: TagWithId) {
-			const tagIndex = this.tags.findIndex(currTag => currTag.id === tag.id)
+			const tagIndex = this.tags.findIndex((currTag) => currTag.id === tag.id)
 			this.tags.splice(tagIndex, 1)
 			this.tags.unshift(tag)
 		},
 
 		handleDelete(tag: TagWithId) {
-			const tagIndex = this.tags.findIndex(currTag => currTag.id === tag.id)
+			const tagIndex = this.tags.findIndex((currTag) => currTag.id === tag.id)
 			this.tags.splice(tagIndex, 1)
 		},
 	},

@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppSidebarTab v-if="hasChangelog"
+	<NcAppSidebarTab
+		v-if="hasChangelog"
 		id="changelog"
 		:name="t('settings', 'Changelog')"
 		:order="2">
@@ -12,7 +13,8 @@
 		</template>
 		<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
 			<h2>{{ release.version }}</h2>
-			<Markdown class="app-sidebar-tabs__release-text"
+			<Markdown
+				class="app-sidebar-tabs__release-text"
 				:text="createChangelogFromRelease(release)" />
 		</div>
 	</NcAppSidebarTab>
@@ -24,12 +26,10 @@ import type { IAppstoreApp, IAppstoreAppRelease } from '../../app-types.ts'
 import { mdiClockFast } from '@mdi/js'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
 import { computed } from 'vue'
-
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import Markdown from '../Markdown.vue'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{ app: IAppstoreApp }>()
 
 const hasChangelog = computed(() => Object.values(props.app.releases?.[0]?.translations ?? {}).some(({ changelog }) => !!changelog))

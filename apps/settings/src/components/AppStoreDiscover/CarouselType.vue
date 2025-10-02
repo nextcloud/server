@@ -9,8 +9,9 @@
 		</h3>
 		<div class="app-discover-carousel__wrapper">
 			<div class="app-discover-carousel__button-wrapper">
-				<NcButton class="app-discover-carousel__button app-discover-carousel__button--previous"
-					type="tertiary-no-background"
+				<NcButton
+					class="app-discover-carousel__button app-discover-carousel__button--previous"
+					variant="tertiary-no-background"
 					:aria-label="t('settings', 'Previous slide')"
 					:disabled="!hasPrevious"
 					@click="currentIndex -= 1">
@@ -21,7 +22,8 @@
 			</div>
 
 			<Transition :name="transitionName" mode="out-in">
-				<PostType v-bind="shownElement"
+				<PostType
+					v-bind="shownElement"
 					:key="shownElement.id ?? currentIndex"
 					:aria-labelledby="`${internalId}-tab-${currentIndex}`"
 					:dom-id="`${internalId}-tabpanel-${currentIndex}`"
@@ -30,8 +32,9 @@
 			</Transition>
 
 			<div class="app-discover-carousel__button-wrapper">
-				<NcButton class="app-discover-carousel__button app-discover-carousel__button--next"
-					type="tertiary-no-background"
+				<NcButton
+					class="app-discover-carousel__button app-discover-carousel__button--next"
+					variant="tertiary-no-background"
 					:aria-label="t('settings', 'Next slide')"
 					:disabled="!hasNext"
 					@click="currentIndex += 1">
@@ -42,14 +45,15 @@
 			</div>
 		</div>
 		<div class="app-discover-carousel__tabs" role="tablist" :aria-label="t('settings', 'Choose slide to display')">
-			<NcButton v-for="index of content.length"
+			<NcButton
+				v-for="index of content.length"
 				:id="`${internalId}-tab-${index}`"
 				:key="index"
 				:aria-label="t('settings', '{index} of {total}', { index, total: content.length })"
 				:aria-controls="`${internalId}-tabpanel-${index}`"
 				:aria-selected="`${currentIndex === (index - 1)}`"
 				role="tab"
-				type="tertiary-no-background"
+				variant="tertiary-no-background"
 				@click="currentIndex = index - 1">
 				<template #icon>
 					<NcIconSvgWrapper :path="currentIndex === (index - 1) ? mdiCircleSlice8 : mdiCircleOutline" />
@@ -66,12 +70,11 @@ import type { IAppDiscoverCarousel } from '../../constants/AppDiscoverTypes.ts'
 import { mdiChevronLeft, mdiChevronRight, mdiCircleOutline, mdiCircleSlice8 } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
-import { commonAppDiscoverProps } from './common.ts'
-import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
-
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import PostType from './PostType.vue'
+import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
+import { commonAppDiscoverProps } from './common.ts'
 
 export default defineComponent({
 	name: 'CarouselType',

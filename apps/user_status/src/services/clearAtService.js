@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import moment from '@nextcloud/moment'
 import {
 	dateFactory,
 } from './dateService.js'
-import moment from '@nextcloud/moment'
 
 /**
  * Calculates the actual clearAt timestamp
@@ -14,7 +14,7 @@ import moment from '@nextcloud/moment'
  * @param {object | null} clearAt The clear-at config
  * @return {number | null}
  */
-const getTimestampForClearAt = (clearAt) => {
+function getTimestampForClearAt(clearAt) {
 	if (clearAt === null) {
 		return null
 	}
@@ -27,9 +27,9 @@ const getTimestampForClearAt = (clearAt) => {
 	}
 	if (clearAt.type === 'end-of') {
 		switch (clearAt.time) {
-		case 'day':
-		case 'week':
-			return Number(moment(date).endOf(clearAt.time).format('X'))
+			case 'day':
+			case 'week':
+				return Number(moment(date).endOf(clearAt.time).format('X'))
 		}
 	}
 	// This is not an officially supported type

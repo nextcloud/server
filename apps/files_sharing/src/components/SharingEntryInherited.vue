@@ -4,23 +4,27 @@
 -->
 
 <template>
-	<SharingEntrySimple :key="share.id"
+	<SharingEntrySimple
+		:key="share.id"
 		class="sharing-entry__inherited"
 		:title="share.shareWithDisplayName">
 		<template #avatar>
-			<NcAvatar :user="share.shareWith"
+			<NcAvatar
+				:user="share.shareWith"
 				:display-name="share.shareWithDisplayName"
 				class="sharing-entry__avatar" />
 		</template>
 		<NcActionText icon="icon-user">
 			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
 		</NcActionText>
-		<NcActionLink v-if="share.viaPath && share.viaFileid"
+		<NcActionLink
+			v-if="share.viaPath && share.viaFileid"
 			icon="icon-folder"
 			:href="viaFileTargetUrl">
-			{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
+			{{ t('files_sharing', 'Via “{folder}”', { folder: viaFolderName }) }}
 		</NcActionLink>
-		<NcActionButton v-if="share.canDelete"
+		<NcActionButton
+			v-if="share.canDelete"
 			icon="icon-close"
 			@click.prevent="onDelete">
 			{{ t('files_sharing', 'Unshare') }}
@@ -29,17 +33,15 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
 import { basename } from '@nextcloud/paths'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import { generateUrl } from '@nextcloud/router'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
-
-// eslint-disable-next-line no-unused-vars
-import Share from '../models/Share.js'
-import SharesMixin from '../mixins/SharesMixin.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
+import SharesMixin from '../mixins/SharesMixin.js'
+import Share from '../models/Share.js'
 
 export default {
 	name: 'SharingEntryInherited',

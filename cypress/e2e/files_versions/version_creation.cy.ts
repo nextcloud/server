@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils'
+import { openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions creation', () => {
 	let randomFileName = ''

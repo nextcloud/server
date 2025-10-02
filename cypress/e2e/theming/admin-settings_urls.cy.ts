@@ -71,7 +71,6 @@ describe('Admin theming: Setting custom project URLs', function() {
 			.should('be.visible')
 			.and('have.attr', 'href', 'http://privacy.local/path?query#fragment')
 	})
-
 })
 
 describe('Admin theming: Web link corner cases', function() {
@@ -139,5 +138,4 @@ describe('Admin theming: Web link corner cases', function() {
 			.should('be.visible')
 			.and('have.attr', 'href', 'http://example.com/%22the%20path%22')
 	})
-
 })

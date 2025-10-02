@@ -5,19 +5,22 @@
 
 <template>
 	<section>
-		<NcSettingsSection :name="t('theming', 'Theming')"
+		<NcSettingsSection
+			:name="t('theming', 'Theming')"
 			:description="t('theming', 'Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users.')"
 			:doc-url="docUrl"
 			data-admin-theming-settings>
 			<div class="admin-theming">
-				<NcNoteCard v-if="!isThemable"
+				<NcNoteCard
+					v-if="!isThemable"
 					type="error"
 					:show-alert="true">
 					<p>{{ notThemableErrorMessage }}</p>
 				</NcNoteCard>
 
 				<!-- Name, web link, slogan... fields -->
-				<TextField v-for="field in textFields"
+				<TextField
+					v-for="field in textFields"
 					:key="field.name"
 					:data-admin-theming-setting-field="field.name"
 					:default-value="field.defaultValue"
@@ -30,7 +33,8 @@
 					@update:theming="refreshStyles" />
 
 				<!-- Primary color picker -->
-				<ColorPickerField :name="primaryColorPickerField.name"
+				<ColorPickerField
+					:name="primaryColorPickerField.name"
 					:description="primaryColorPickerField.description"
 					:default-value="primaryColorPickerField.defaultValue"
 					:display-name="primaryColorPickerField.displayName"
@@ -39,7 +43,8 @@
 					@update:theming="refreshStyles" />
 
 				<!-- Background color picker -->
-				<ColorPickerField name="background_color"
+				<ColorPickerField
+					name="background_color"
 					:description="t('theming', 'Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons.')"
 					:default-value.sync="defaultBackgroundColor"
 					:display-name="t('theming', 'Background color')"
@@ -48,7 +53,8 @@
 					@update:theming="refreshStyles" />
 
 				<!-- Default background picker -->
-				<FileInputField :aria-label="t('theming', 'Upload new logo')"
+				<FileInputField
+					:aria-label="t('theming', 'Upload new logo')"
 					data-admin-theming-setting-file="logo"
 					:display-name="t('theming', 'Logo')"
 					mime-name="logoMime"
@@ -56,7 +62,8 @@
 					name="logo"
 					@update:theming="refreshStyles" />
 
-				<FileInputField :aria-label="t('theming', 'Upload new background and login image')"
+				<FileInputField
+					:aria-label="t('theming', 'Upload new background and login image')"
 					data-admin-theming-setting-file="background"
 					:display-name="t('theming', 'Background and login image')"
 					mime-name="backgroundMime"
@@ -73,7 +80,8 @@
 
 		<NcSettingsSection :name="t('theming', 'Advanced options')">
 			<div class="admin-theming-advanced">
-				<TextField v-for="field in advancedTextFields"
+				<TextField
+					v-for="field in advancedTextFields"
 					:key="field.name"
 					:name="field.name"
 					:value.sync="field.value"
@@ -83,7 +91,8 @@
 					:placeholder="field.placeholder"
 					:maxlength="field.maxlength"
 					@update:theming="refreshStyles" />
-				<FileInputField v-for="field in advancedFileInputFields"
+				<FileInputField
+					v-for="field in advancedFileInputFields"
 					:key="field.name"
 					:name="field.name"
 					:mime-name="field.mimeName"
@@ -92,7 +101,8 @@
 					:display-name="field.displayName"
 					:aria-label="field.ariaLabel"
 					@update:theming="refreshStyles" />
-				<CheckboxField :name="userThemingField.name"
+				<CheckboxField
+					:name="userThemingField.name"
 					:value="userThemingField.value"
 					:default-value="userThemingField.defaultValue"
 					:display-name="userThemingField.displayName"
@@ -100,7 +110,8 @@
 					:description="userThemingField.description"
 					data-admin-theming-setting-disable-user-theming
 					@update:theming="refreshStyles" />
-				<a v-if="!canThemeIcons"
+				<a
+					v-if="!canThemeIcons"
 					:href="docUrlIcons"
 					rel="noreferrer noopener">
 					<em>{{ t('theming', 'Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.') }}</em>
@@ -113,15 +124,14 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import { refreshStyles } from './helpers/refreshStyles.js'
-
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import AppMenuSection from './components/admin/AppMenuSection.vue'
 import CheckboxField from './components/admin/CheckboxField.vue'
 import ColorPickerField from './components/admin/ColorPickerField.vue'
 import FileInputField from './components/admin/FileInputField.vue'
 import TextField from './components/admin/TextField.vue'
-import AppMenuSection from './components/admin/AppMenuSection.vue'
+import { refreshStyles } from './helpers/refreshStyles.js'
 
 const {
 	defaultBackgroundURL,
@@ -290,6 +300,7 @@ export default {
 				this.backgroundURL = ''
 			}
 		},
+
 		async backgroundURL() {
 			// When the background is changed we need to emulate the background color change
 			if (this.backgroundURL !== '') {

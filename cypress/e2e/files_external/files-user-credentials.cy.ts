@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils'
-import { getInlineActionEntryForFile, getRowForFile, navigateToFolder, triggerInlineActionForFile } from '../files/FilesUtils'
+import type { User } from '@nextcloud/cypress'
 
-import { ACTION_CREDENTIALS_EXTERNAL_STORAGE } from '../../../apps/files_external/src/actions/enterCredentialsAction'
-import { handlePasswordConfirmation } from '../settings/usersUtils'
+import { ACTION_CREDENTIALS_EXTERNAL_STORAGE } from '../../../apps/files_external/src/actions/enterCredentialsAction.ts'
+import { getInlineActionEntryForFile, getRowForFile, navigateToFolder, triggerInlineActionForFile } from '../files/FilesUtils.ts'
+import { handlePasswordConfirmation } from '../settings/usersUtils.ts'
+import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils.ts'
 
 describe('Files user credentials', { testIsolation: true }, () => {
 	let user1: User
@@ -19,8 +19,12 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		cy.runOccCommand('app:enable files_external')
 
 		// Create some users
-		cy.createRandomUser().then((user) => { user1 = user })
-		cy.createRandomUser().then((user) => { user2 = user })
+		cy.createRandomUser().then((user) => {
+			user1 = user
+		})
+		cy.createRandomUser().then((user) => {
+			user2 = user
+		})
 
 		// This user will hold the webdav storage
 		cy.createRandomUser().then((user) => {
