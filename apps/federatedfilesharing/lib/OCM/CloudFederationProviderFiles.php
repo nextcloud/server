@@ -781,7 +781,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		try {
 			$slaveService = Server::get(SlaveService::class);
 		} catch (\Throwable $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->logger->error(
 				$e->getMessage(),
 				['exception' => $e]
 			);
