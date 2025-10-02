@@ -9,18 +9,31 @@ declare(strict_types=1);
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class AbstractMappingTestCase extends \Test\TestCase {
-	abstract public function getMapper(IDBConnection $dbMock);
+
+	private ICacheFactory|MockObject $cacheFactoryMock;
+
+	private IAppConfig|MockObject $configMock;
+
+	abstract public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): AbstractMapping;
+
+	protected function setUp(): void {
+		$this->cacheFactoryMock = $this->createMock(ICacheFactory::class);
+		$this->configMock = $this->createMock(IAppConfig::class);
+	}
 
 	/**
 	 * kiss test on isColNameValid
 	 */
 	public function testIsColNameValid(): void {
 		$dbMock = $this->createMock(IDBConnection::class);
-		$mapper = $this->getMapper($dbMock);
+		$mapper = $this->getMapper($dbMock, $this->cacheFactoryMock, $this->configMock);
 
 		$this->assertTrue($mapper->isColNameValid('ldap_dn'));
 		$this->assertFalse($mapper->isColNameValid('foobar'));
@@ -71,7 +84,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	 */
 	private function initTest(): array {
 		$dbc = Server::get(IDBConnection::class);
-		$mapper = $this->getMapper($dbc);
+		$mapper = $this->getMapper($dbc, $this->cacheFactoryMock, $this->configMock);
 		$data = $this->getTestData();
 		// make sure DB is pristine, then fill it with test entries
 		$mapper->clear();
