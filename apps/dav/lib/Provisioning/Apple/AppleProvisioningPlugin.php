@@ -11,6 +11,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Theming\IDefaults;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -23,22 +24,16 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * @var \OC_Defaults
-	 */
-	protected $themingDefaults;
-
-	/**
 	 * AppleProvisioningPlugin constructor.
 	 */
 	public function __construct(
 		protected IUserSession $userSession,
 		protected IURLGenerator $urlGenerator,
-		\OC_Defaults $themingDefaults,
+		protected IDefaults $themingDefaults,
 		protected IRequest $request,
 		protected IL10N $l10n,
 		protected \Closure $uuidClosure,
 	) {
-		$this->themingDefaults = $themingDefaults;
 	}
 
 	/**

@@ -354,7 +354,7 @@ class OC {
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
 		$tmpl->assign('incompatibleAppsList', $incompatibleDisabledApps);
 		try {
-			$defaults = new \OC_Defaults();
+			$defaults = Server::get(\OCP\Theming\IDefaults::class);
 			$tmpl->assign('productName', $defaults->getName());
 		} catch (Throwable $error) {
 			$tmpl->assign('productName', 'Nextcloud');

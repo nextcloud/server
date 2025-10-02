@@ -85,18 +85,6 @@ class OC_Defaults {
 	}
 
 	/**
-	 * Returns the URL where the sync clients are listed
-	 * @return string URL
-	 */
-	public function getSyncClientUrl() {
-		if ($this->themeExist('getSyncClientUrl')) {
-			return $this->theme->getSyncClientUrl();
-		} else {
-			return $this->defaultSyncClientUrl;
-		}
-	}
-
-	/**
 	 * Returns the URL to the App Store for the iOS Client
 	 * @return string URL
 	 */
