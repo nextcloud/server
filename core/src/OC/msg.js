@@ -19,7 +19,7 @@ export default {
 	 * @param {object} selector    Placeholder to display the message in
 	 */
 	startSaving(selector) {
-		this.startAction(selector, t('core', 'Saving …'))
+		this.startAction(selector, t('core', 'Saving …'))
 	},
 
 	/**

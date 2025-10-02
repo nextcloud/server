@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="value"
+	<AccountPropertySection
+		v-bind.sync="value"
 		:readable="readable"
 		:on-validate="onValidate"
 		:placeholder="t('settings', 'Bluesky handle')" />
@@ -16,8 +17,8 @@ import type { AccountProperties } from '../../constants/AccountPropertyConstants
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { ref } from 'vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.ts'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
+import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.ts'
 
 const { bluesky } = loadState<AccountProperties>('settings', 'personalInfoParameters')
 
@@ -26,10 +27,13 @@ const readable = NAME_READABLE_ENUM[bluesky.name]
 
 /**
  * Validate that the text might be a bluesky handle
+ *
  * @param text The potential bluesky handle
  */
 function onValidate(text: string): boolean {
-	if (text === '') return true
+	if (text === '') {
+		return true
+	}
 
 	const lowerText = text.toLowerCase()
 

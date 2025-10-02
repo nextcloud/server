@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import { File, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
-import { isNodeExternalStorage } from './externalStorageUtils'
+import { isNodeExternalStorage } from './externalStorageUtils.ts'
 
 describe('Is node an external storage', () => {
 	test('A Folder with a backend and a valid scope is an external storage', () => {

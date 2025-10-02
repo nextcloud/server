@@ -2,7 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FileSource, SelectionStore } from '../types'
+
+import type { FileSource, SelectionStore } from '../types.ts'
+
 import { defineStore } from 'pinia'
 import Vue from 'vue'
 
@@ -16,6 +18,7 @@ export const useSelectionStore = defineStore('selection', {
 	actions: {
 		/**
 		 * Set the selection of fileIds
+		 *
 		 * @param selection
 		 */
 		set(selection = [] as FileSource[]) {
@@ -24,6 +27,7 @@ export const useSelectionStore = defineStore('selection', {
 
 		/**
 		 * Set the last selected index
+		 *
 		 * @param lastSelectedIndex
 		 */
 		setLastIndex(lastSelectedIndex = null as number | null) {

@@ -26,7 +26,8 @@ const {
 	loggingSectionUrl,
 } = loadState<Record<string, string>>('settings', 'setup-checks-section')
 
-const adminDocsHtml = t('settings',
+const adminDocsHtml = t(
+	'settings',
 	'Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}.',
 	{
 		linkEnd: ' ↗</a>',
@@ -36,7 +37,8 @@ const adminDocsHtml = t('settings',
 	{ escape: false },
 )
 
-const footerHtml = t('settings',
+const footerHtml = t(
+	'settings',
 	'Check the security of your {productName} over {linkStart}our security scan{linkEnd}.',
 	{
 		linkStart: '<a target="_blank" rel="noreferrer noopener" href="https://scan.nextcloud.com">',
@@ -69,7 +71,6 @@ async function loadSetupChecks() {
 			.map((mapping) => Object.values(mapping))
 			.flat()
 			.filter(({ severity }) => severity !== 'success')
-
 	} catch (error) {
 		loadingFailed.value = true
 		logger.error('Failed to load setup checks', { error })
@@ -80,7 +81,8 @@ async function loadSetupChecks() {
 </script>
 
 <template>
-	<NcSettingsSection id="security-warning"
+	<NcSettingsSection
+		id="security-warning"
 		:name="t('settings', 'Security & setup warnings')"
 		:description="t('settings', 'It is important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.')"
 		:doc-url="sectionDocsUrl">

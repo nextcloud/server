@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
-import { createShare, openSharingPanel } from './FilesSharingUtils.ts'
+
 import { navigateToFolder } from '../files/FilesUtils.ts'
+import { createShare, openSharingPanel } from './FilesSharingUtils.ts'
 
 describe('files_sharing: Note to recipient', { testIsolation: true }, () => {
 	let user: User
@@ -88,5 +89,4 @@ describe('files_sharing: Note to recipient', { testIsolation: true }, () => {
 				.and('have.value', 'Hello, this is the note.')
 		})
 	})
-
 })

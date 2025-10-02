@@ -4,13 +4,15 @@
 -->
 
 <template>
-	<ul v-if="canLinkShare"
+	<ul
+		v-if="canLinkShare"
 		:aria-label="t('files_sharing', 'Link shares')"
 		class="sharing-link-list">
 		<!-- Else we display the list -->
 		<template v-if="hasShares">
 			<!-- using shares[index] to work with .sync -->
-			<SharingEntryLink v-for="(share, index) in shares"
+			<SharingEntryLink
+				v-for="(share, index) in shares"
 				:key="share.id"
 				:index="shares.length > 1 ? index + 1 : null"
 				:can-reshare="canReshare"
@@ -23,7 +25,8 @@
 		</template>
 
 		<!-- If no link shares, show the add link default entry -->
-		<SharingEntryLink v-if="!hasLinkShares && canReshare"
+		<SharingEntryLink
+			v-if="!hasLinkShares && canReshare"
 			:can-reshare="canReshare"
 			:file-info="fileInfo"
 			@add:share="addShare" />
@@ -32,14 +35,12 @@
 
 <script>
 import { getCapabilities } from '@nextcloud/capabilities'
-
 import { t } from '@nextcloud/l10n'
-
-import Share from '../models/Share.js'
+import { ShareType } from '@nextcloud/sharing'
 import SharingEntryLink from '../components/SharingEntryLink.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
-import { ShareType } from '@nextcloud/sharing'
 
+/** @typedef {import('../models/Share.js').default} Share */
 export default {
 	name: 'SharingLinkList',
 
@@ -52,14 +53,14 @@ export default {
 	props: {
 		fileInfo: {
 			type: Object,
-			default: () => {},
 			required: true,
 		},
+
 		shares: {
 			type: Array,
-			default: () => [],
 			required: true,
 		},
+
 		canReshare: {
 			type: Boolean,
 			required: true,
@@ -81,7 +82,7 @@ export default {
 		 * @return {Array}
 		 */
 		hasLinkShares() {
-			return this.shares.filter(share => share.type === ShareType.Link).length > 0
+			return this.shares.filter((share) => share.type === ShareType.Link).length > 0
 		},
 
 		/**
@@ -120,7 +121,7 @@ export default {
 		 */
 		awaitForShare(share, resolve) {
 			this.$nextTick(() => {
-				const newShare = this.$children.find(component => component.share === share)
+				const newShare = this.$children.find((component) => component.share === share)
 				if (newShare) {
 					resolve(newShare)
 				}
@@ -133,7 +134,7 @@ export default {
 		 * @param {Share} share the share to remove
 		 */
 		removeShare(share) {
-			const index = this.shares.findIndex(item => item === share)
+			const index = this.shares.findIndex((item) => item === share)
 			// eslint-disable-next-line vue/no-mutating-props
 			this.shares.splice(index, 1)
 		},

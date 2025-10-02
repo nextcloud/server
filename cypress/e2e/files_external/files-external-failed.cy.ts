@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils'
-import { getRowForFile } from '../files/FilesUtils'
+import type { User } from '@nextcloud/cypress'
+
+import { getRowForFile } from '../files/FilesUtils.ts'
+import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils.ts'
 
 describe('Files user credentials', { testIsolation: true }, () => {
 	let currentUser: User
@@ -15,7 +16,9 @@ describe('Files user credentials', { testIsolation: true }, () => {
 
 	before(() => {
 		cy.runOccCommand('app:enable files_external')
-		cy.createRandomUser().then((user) => { currentUser = user })
+		cy.createRandomUser().then((user) => {
+			currentUser = user
+		})
 	})
 
 	afterEach(() => {
@@ -56,7 +59,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 			user: 'invaliduser',
 			password: 'invalidpassword',
 			secure: 'false',
-		 })
+		})
 
 		cy.login(currentUser)
 		cy.visit('/apps/files')

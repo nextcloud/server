@@ -3,45 +3,52 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import path from 'path'
-
-import { DialogSeverity, getDialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import axios, { AxiosError, type AxiosResponse } from '@nextcloud/axios'
-import { getAppRootUrl, generateOcsUrl } from '@nextcloud/router'
+import type { AxiosError } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
-import { t } from '@nextcloud/l10n'
+import type { LDAPConfig } from '../models/index.ts'
 
-import type { LDAPConfig } from '../models'
-import logger from './logger'
+import axios, { type AxiosResponse } from '@nextcloud/axios'
+import { DialogSeverity, getDialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { generateOcsUrl, getAppRootUrl } from '@nextcloud/router'
+import path from 'path'
+import logger from './logger.ts'
 
 const AJAX_ENDPOINT = path.join(getAppRootUrl('user_ldap'), '/ajax')
 
-export type WizardAction =
-	'guessPortAndTLS' |
-	'guessBaseDN' |
-	'detectEmailAttribute' |
-	'detectUserDisplayNameAttribute' |
-	'determineGroupMemberAssoc' |
-	'determineUserObjectClasses' |
-	'determineGroupObjectClasses' |
-	'determineGroupsForUsers' |
-	'determineGroupsForGroups' |
-	'determineAttributes' |
-	'getUserListFilter' |
-	'getUserLoginFilter' |
-	'getGroupFilter' |
-	'countUsers' |
-	'countGroups' |
-	'countInBaseDN' |
-	'testLoginName' |
-	'save'
+export type WizardAction
+	= 'guessPortAndTLS'
+		| 'guessBaseDN'
+		| 'detectEmailAttribute'
+		| 'detectUserDisplayNameAttribute'
+		| 'determineGroupMemberAssoc'
+		| 'determineUserObjectClasses'
+		| 'determineGroupObjectClasses'
+		| 'determineGroupsForUsers'
+		| 'determineGroupsForGroups'
+		| 'determineAttributes'
+		| 'getUserListFilter'
+		| 'getUserLoginFilter'
+		| 'getGroupFilter'
+		| 'countUsers'
+		| 'countGroups'
+		| 'countInBaseDN'
+		| 'testLoginName'
+		| 'save'
 
+/**
+ *
+ */
 export async function createConfig() {
-	const response = await axios.post(generateOcsUrl('apps/user_ldap/api/v1/config')) as AxiosResponse<OCSResponse<{configID: string}>>
+	const response = await axios.post(generateOcsUrl('apps/user_ldap/api/v1/config')) as AxiosResponse<OCSResponse<{ configID: string }>>
 	logger.debug('Created configuration', { configId: response.data.ocs.data.configID })
 	return response.data.ocs.data.configID
 }
 
+/**
+ *
+ * @param configId
+ */
 export async function copyConfig(configId: string) {
 	const params = new FormData()
 	params.set('copyConfig', configId)
@@ -49,18 +56,27 @@ export async function copyConfig(configId: string) {
 	const response = await axios.post(
 		path.join(AJAX_ENDPOINT, 'getNewServerConfigPrefix.php'),
 		params,
-	) as AxiosResponse<{status: 'error'|'success', configPrefix: string}>
+	) as AxiosResponse<{ status: 'error' | 'success', configPrefix: string }>
 
 	logger.debug('Created configuration', { configId: response.data.configPrefix })
 	return response.data.configPrefix
 }
 
+/**
+ *
+ * @param configId
+ */
 export async function getConfig(configId: string): Promise<LDAPConfig> {
 	const response = await axios.get(generateOcsUrl('apps/user_ldap/api/v1/config/{configId}', { configId })) as AxiosResponse<OCSResponse<LDAPConfig>>
 	logger.debug('Fetched configuration', { configId, config: response.data.ocs.data })
 	return response.data.ocs.data
 }
 
+/**
+ *
+ * @param configId
+ * @param config
+ */
 export async function updateConfig(configId: string, config: LDAPConfig): Promise<LDAPConfig> {
 	const response = await axios.put(
 		generateOcsUrl('apps/user_ldap/api/v1/config/{configId}', { configId }),
@@ -72,6 +88,10 @@ export async function updateConfig(configId: string, config: LDAPConfig): Promis
 	return response.data.ocs.data
 }
 
+/**
+ *
+ * @param configId
+ */
 export async function deleteConfig(configId: string): Promise<boolean> {
 	try {
 		const isConfirmed = await confirmOperation(
@@ -92,6 +112,10 @@ export async function deleteConfig(configId: string): Promise<boolean> {
 	return true
 }
 
+/**
+ *
+ * @param configId
+ */
 export async function testConfiguration(configId: string) {
 	const params = new FormData()
 	params.set('ldap_serverconfig_chooser', configId)
@@ -99,13 +123,17 @@ export async function testConfiguration(configId: string) {
 	const response = await axios.post(
 		path.join(AJAX_ENDPOINT, 'testConfiguration.php'),
 		params,
-	) as AxiosResponse<{message: string, status: 'error'|'success'}>
+	) as AxiosResponse<{ message: string, status: 'error' | 'success' }>
 
 	logger.debug(`Configuration is ${response.data.status === 'success' ? 'valide' : 'invalide'}`, { configId, params, response })
 
 	return response.data
 }
 
+/**
+ *
+ * @param subject
+ */
 export async function clearMapping(subject: 'user' | 'group') {
 	const isConfirmed = await confirmOperation(
 		t('user_ldap', 'Confirm action'),
@@ -131,6 +159,12 @@ export async function clearMapping(subject: 'user' | 'group') {
 	}
 }
 
+/**
+ *
+ * @param action
+ * @param configId
+ * @param extraParams
+ */
 export async function callWizard(action: WizardAction, configId: string, extraParams: Record<string, string> = {}) {
 	const params = new FormData()
 	params.set('action', action)
@@ -143,7 +177,7 @@ export async function callWizard(action: WizardAction, configId: string, extraPa
 	const response = await axios.post(
 		path.join(AJAX_ENDPOINT, 'wizard.php'),
 		params,
-	) as AxiosResponse<{ status: 'error', message?: string} | {status: 'success', changes?: Record<string, unknown>, options?: Record<string, []>}>
+	) as AxiosResponse<{ status: 'error', message?: string } | { status: 'success', changes?: Record<string, unknown>, options?: Record<string, []> }>
 
 	logger.debug(`Called wizard action: ${action}`, { configId, params, response })
 
@@ -156,6 +190,9 @@ export async function callWizard(action: WizardAction, configId: string, extraPa
 	return response.data
 }
 
+/**
+ *
+ */
 export async function showEnableAutomaticFilterInfo() {
 	return await confirmOperation(
 		t('user_ldap', 'Mode switch'),
@@ -163,6 +200,11 @@ export async function showEnableAutomaticFilterInfo() {
 	)
 }
 
+/**
+ *
+ * @param name
+ * @param text
+ */
 export async function confirmOperation(name: string, text: string): Promise<boolean> {
 	return new Promise((resolve) => {
 		const dialog = getDialogBuilder(name)

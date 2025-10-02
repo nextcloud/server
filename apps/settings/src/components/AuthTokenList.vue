@@ -21,7 +21,8 @@
 			</tr>
 		</thead>
 		<tbody class="token-list__body">
-			<AuthToken v-for="token in sortedTokens"
+			<AuthToken
+				v-for="token in sortedTokens"
 				:key="token.id"
 				:token="token" />
 		</tbody>
@@ -31,24 +32,26 @@
 <script lang="ts">
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-import { useAuthTokenStore } from '../store/authtoken'
-
 import AuthToken from './AuthToken.vue'
+import { useAuthTokenStore } from '../store/authtoken.ts'
 
 export default defineComponent({
 	name: 'AuthTokenList',
 	components: {
 		AuthToken,
 	},
+
 	setup() {
 		const authTokenStore = useAuthTokenStore()
 		return { authTokenStore }
 	},
+
 	computed: {
 		sortedTokens() {
 			return [...this.authTokenStore.tokens].sort((t1, t2) => t2.lastActivity - t1.lastActivity)
 		},
 	},
+
 	methods: {
 		t,
 	},

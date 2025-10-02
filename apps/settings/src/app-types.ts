@@ -36,7 +36,7 @@ export interface IAppstoreApp {
 	author: string[] | Record<string, string>
 	level: number
 	version: string
-	category: string|string[]
+	category: string | string[]
 
 	preview?: string
 	screenshot?: string
@@ -57,25 +57,25 @@ export interface IAppstoreApp {
 }
 
 export interface IComputeDevice {
-	id: string,
-	label: string,
+	id: string
+	label: string
 }
 
 export interface IDeployConfig {
-	computeDevice: IComputeDevice,
-	net: string,
-	nextcloud_url: string,
+	computeDevice: IComputeDevice
+	net: string
+	nextcloud_url: string
 }
 
 export interface IDeployDaemon {
-	accepts_deploy_id: string,
-	deploy_config: IDeployConfig,
-	display_name: string,
-	host: string,
-	id: number,
-	name: string,
-	protocol: string,
-	exAppsCount: number,
+	accepts_deploy_id: string
+	deploy_config: IDeployConfig
+	display_name: string
+	host: string
+	id: number
+	name: string
+	protocol: string
+	exAppsCount: number
 }
 
 export interface IExAppStatus {

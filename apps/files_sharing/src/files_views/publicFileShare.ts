@@ -2,14 +2,15 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import { Folder, Permission, View, davGetDefaultPropfind, davRemoteURL, davResultToNode, davRootPath, getNavigation } from '@nextcloud/files'
+
+import LinkSvg from '@mdi/svg/svg/link.svg?raw'
+import { davGetDefaultPropfind, davRemoteURL, davResultToNode, davRootPath, Folder, getNavigation, Permission, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { CancelablePromise } from 'cancelable-promise'
-import LinkSvg from '@mdi/svg/svg/link.svg?raw'
-
-import { client } from '../../../files/src/services/WebdavClient'
-import logger from '../services/logger'
+import { client } from '../../../files/src/services/WebdavClient.ts'
+import logger from '../services/logger.ts'
 
 export default () => {
 	const view = new View({

@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
-import { FileAction, type Node } from '@nextcloud/files'
-import { emit } from '@nextcloud/event-bus'
-import { translate as t } from '@nextcloud/l10n'
-
 import AlarmOffSvg from '@mdi/svg/svg/alarm-off.svg?raw'
+import { emit } from '@nextcloud/event-bus'
+import {
+	type Node,
 
+	FileAction,
+} from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import Vue from 'vue'
 import { clearReminder } from '../services/reminderService.ts'
 import { getVerboseDateString } from '../shared/utils.ts'
 
@@ -43,7 +45,7 @@ export const action = new FileAction({
 				Vue.set(node.attributes, 'reminder-due-date', '')
 				emit('files:node:updated', node)
 				return true
-			} catch (error) {
+			} catch {
 				return false
 			}
 		}

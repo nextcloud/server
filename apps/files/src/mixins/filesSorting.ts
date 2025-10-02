@@ -1,12 +1,11 @@
+import { mapState } from 'pinia'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import Vue from 'vue'
-
-import { mapState } from 'pinia'
-import { useViewConfigStore } from '../store/viewConfig'
-import { useNavigation } from '../composables/useNavigation'
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useViewConfigStore } from '../store/viewConfig.ts'
 
 export default Vue.extend({
 	setup() {

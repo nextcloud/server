@@ -4,9 +4,10 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder } from './FilesUtils'
-import { FilesNavigationPage } from '../../pages/FilesNavigation'
-import { FilesFilterPage } from '../../pages/FilesFilters'
+
+import { FilesFilterPage } from '../../pages/FilesFilters.ts'
+import { FilesNavigationPage } from '../../pages/FilesNavigation.ts'
+import { getRowForFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('files: Filter in files list', { testIsolation: true }, () => {
 	const appNavigation = new FilesNavigationPage()

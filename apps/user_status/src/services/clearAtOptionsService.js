@@ -10,7 +10,7 @@ import { translate as t } from '@nextcloud/l10n'
  *
  * @return {object[]}
  */
-const getAllClearAtOptions = () => {
+function getAllClearAtOptions() {
 	return [{
 		label: t('user_status', 'Don\'t clear'),
 		clearAt: null,

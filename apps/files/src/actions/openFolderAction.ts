@@ -2,9 +2,11 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, Node, FileType, View, FileAction, DefaultType } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import type { Node, View } from '@nextcloud/files'
+
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+import { DefaultType, FileAction, FileType, Permission } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
 
 export const action = new FileAction({
 	id: 'open-folder',

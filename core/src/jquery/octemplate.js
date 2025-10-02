@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
 import escapeHTML from 'escape-html'
+import $ from 'jquery'
+import logger from '../logger.js'
 
 /**
  * jQuery plugin for micro templates
@@ -85,14 +86,15 @@ const Template = {
 	_build(o) {
 		const data = this.elem.attr('type') === 'text/template' ? this.elem.html() : this.elem.get(0).outerHTML
 		try {
-			return data.replace(/{([^{}]*)}/g,
+			return data.replace(
+				/{([^{}]*)}/g,
 				function(a, b) {
 					const r = o[b]
 					return typeof r === 'string' || typeof r === 'number' ? r : a
 				},
 			)
-		} catch (e) {
-			console.error(e, 'data:', data)
+		} catch (error) {
+			logger.error('failed to build octemplate', { data, error })
 		}
 	},
 	options: {

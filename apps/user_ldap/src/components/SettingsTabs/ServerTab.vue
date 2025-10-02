@@ -5,21 +5,24 @@
 <template>
 	<fieldset class="ldap-wizard__server">
 		<div class="ldap-wizard__server__line">
-			<NcCheckboxRadioSwitch :checked="ldapConfigProxy.ldapConfigurationActive === '1'"
+			<NcCheckboxRadioSwitch
+				:checked="ldapConfigProxy.ldapConfigurationActive === '1'"
 				type="switch"
 				:aria-label="t('user_ldap', 'When unchecked, this configuration will be skipped.')"
 				@update:checked="ldapConfigProxy.ldapConfigurationActive = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Configuration Active') }}
 			</NcCheckboxRadioSwitch>
 
-			<NcButton :title="t('user_ldap', 'Copy current configuration into new directory binding')"
+			<NcButton
+				:title="t('user_ldap', 'Copy current configuration into new directory binding')"
 				@click="ldapConfigsStore.copyConfig(configId)">
 				<template #icon>
 					<ContentCopy :size="20" />
 				</template>
 				{{ t('user_ldap', 'Copy configuration') }}
 			</NcButton>
-			<NcButton variant="error"
+			<NcButton
+				variant="error"
 				@click="ldapConfigsStore.removeConfig(configId)">
 				<template #icon>
 					<Delete :size="20" />
@@ -29,13 +32,15 @@
 		</div>
 
 		<div class="ldap-wizard__server__line">
-			<NcTextField :value="ldapConfigProxy.ldapHost"
+			<NcTextField
+				:value="ldapConfigProxy.ldapHost"
 				:helper-text="t('user_ldap', 'You can omit the protocol, unless you require SSL. If so, start with ldaps://')"
 				:placeholder="t('user_ldap', 'Host')"
 				autocomplete="off"
 				@change.native="(event) => ldapConfigProxy.ldapHost = event.target.value" />
 			<div class="ldap-wizard__server__host__port">
-				<NcTextField :value="ldapConfigProxy.ldapPort"
+				<NcTextField
+					:value="ldapConfigProxy.ldapPort"
 					:placeholder="t('user_ldap', 'Port')"
 					type="number"
 					autocomplete="off"
@@ -47,14 +52,16 @@
 		</div>
 
 		<div class="ldap-wizard__server__line">
-			<NcTextField v-model="localLdapAgentName"
+			<NcTextField
+				v-model="localLdapAgentName"
 				:helper-text="t('user_ldap', 'The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.')"
 				:placeholder="t('user_ldap', 'User DN')"
 				autocomplete="off" />
 		</div>
 
 		<div class="ldap-wizard__server__line">
-			<NcTextField v-model="localLdapAgentPassword"
+			<NcTextField
+				v-model="localLdapAgentPassword"
 				type="password"
 				:helper-text="t('user_ldap', 'For anonymous access, leave DN and Password empty.')"
 				:placeholder="t('user_ldap', 'Password')"
@@ -66,7 +73,8 @@
 		</div>
 
 		<div class="ldap-wizard__server__line">
-			<NcTextArea :label="t('user_ldap', 'Base DN')"
+			<NcTextArea
+				:label="t('user_ldap', 'Base DN')"
 				:value="ldapConfigProxy.ldapBase"
 				:placeholder="t('user_ldap', 'One Base DN per line')"
 				:helper-text="t('user_ldap', 'You can specify Base DN for users and groups in the Advanced tab')"
@@ -83,20 +91,17 @@
 </template>
 
 <script lang="ts" setup>
+import { showInfo } from '@nextcloud/dialogs'
+import { n, t } from '@nextcloud/l10n'
+import { NcButton, NcCheckboxRadioSwitch, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
-
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
+import { callWizard } from '../../services/ldapConfigService.ts'
+import { useLDAPConfigsStore } from '../../store/configs.ts'
 
-import { n, t } from '@nextcloud/l10n'
-import { NcButton, NcTextField, NcTextArea, NcCheckboxRadioSwitch } from '@nextcloud/vue'
-import { showInfo } from '@nextcloud/dialogs'
-
-import { useLDAPConfigsStore } from '../../store/configs'
-import { callWizard } from '../../services/ldapConfigService'
-import { storeToRefs } from 'pinia'
-
-const props = defineProps<{configId: string}>()
+const props = defineProps<{ configId: string }>()
 
 const ldapConfigsStore = useLDAPConfigsStore()
 const { ldapConfigs } = storeToRefs(ldapConfigsStore)
@@ -112,11 +117,17 @@ const needsToSaveCredentials = computed(() => {
 	return ldapConfigProxy.value.ldapAgentName !== localLdapAgentName.value || ldapConfigProxy.value.ldapAgentPassword !== localLdapAgentPassword.value
 })
 
+/**
+ *
+ */
 function updateCredentials() {
 	ldapConfigProxy.value.ldapAgentName = localLdapAgentName.value
 	ldapConfigProxy.value.ldapAgentPassword = localLdapAgentPassword.value
 }
 
+/**
+ *
+ */
 async function guessPortAndTLS() {
 	try {
 		loadingGuessPortAndTLS.value = true
@@ -128,6 +139,9 @@ async function guessPortAndTLS() {
 	}
 }
 
+/**
+ *
+ */
 async function guessBaseDN() {
 	try {
 		loadingGuessBaseDN.value = true
@@ -139,6 +153,9 @@ async function guessBaseDN() {
 	}
 }
 
+/**
+ *
+ */
 async function countInBaseDN() {
 	try {
 		loadingCountInBaseDN.value = true
@@ -150,22 +167,20 @@ async function countInBaseDN() {
 		} else if (ldapTestBase > 1000) {
 			showInfo(t('user_ldap', 'More than 1,000 directory entries available.'))
 		} else {
-			showInfo(
-				n(
-					'user_ldap',
-					'{ldapTestBase} entry available within the provided Base DN',
-					'{ldapTestBase} entries available within the provided Base DN',
-					ldapTestBase,
-					{ ldapTestBase },
-				),
-			)
+			showInfo(n(
+				'user_ldap',
+				'{ldapTestBase} entry available within the provided Base DN',
+				'{ldapTestBase} entries available within the provided Base DN',
+				ldapTestBase,
+				{ ldapTestBase },
+			))
 		}
 	} finally {
 		loadingCountInBaseDN.value = false
 	}
-
 }
 </script>
+
 <style lang="scss" scoped>
 .ldap-wizard__server {
 	display: flex;

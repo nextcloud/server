@@ -9,12 +9,13 @@
 			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
 					<!-- Sharing button -->
-					<NcButton v-if="canShare && fileListWidth >= 512"
+					<NcButton
+						v-if="canShare && fileListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
 						:title="shareButtonLabel"
 						class="files-list__header-share-button"
-						type="tertiary"
+						variant="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
 							<LinkIcon v-if="shareButtonType === ShareType.Link" />
@@ -23,7 +24,8 @@
 					</NcButton>
 
 					<!-- Uploader -->
-					<UploadPicker v-if="canUpload && !isQuotaExceeded && currentFolder"
+					<UploadPicker
+						v-if="canUpload && !isQuotaExceeded && currentFolder"
 						allow-folders
 						:no-label="fileListWidth <= 511"
 						class="files-list__header-upload-button"
@@ -39,11 +41,13 @@
 			<!-- Secondary loading indicator -->
 			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 
-			<NcActions class="files-list__header-actions"
+			<NcActions
+				class="files-list__header-actions"
 				:inline="1"
-				type="tertiary"
+				variant="tertiary"
 				force-name>
-				<NcActionButton v-for="action in enabledFileListActions"
+				<NcActionButton
+					v-for="action in enabledFileListActions"
 					:key="action.id"
 					:disabled="!!loadingAction"
 					:data-cy-files-list-action="action.id"
@@ -51,18 +55,20 @@
 					@click="execFileListAction(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loadingAction === action.id" :size="18" />
-						<NcIconSvgWrapper v-else-if="action.iconSvgInline !== undefined && currentView"
+						<NcIconSvgWrapper
+							v-else-if="action.iconSvgInline !== undefined && currentView"
 							:svg="action.iconSvgInline(currentView)" />
 					</template>
 					{{ actionDisplayName(action) }}
 				</NcActionButton>
 			</NcActions>
 
-			<NcButton v-if="enableGridView"
+			<NcButton
+				v-if="enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
-				type="tertiary"
+				variant="tertiary"
 				@click="toggleGridView">
 				<template #icon>
 					<ListViewIcon v-if="userConfig.grid_view" />
@@ -79,13 +85,15 @@
 			views are supposed to be registered far earlier in the lifecycle.
 			In case the URL is bad or a view is missing, we show a loading icon.
 		-->
-		<NcLoadingIcon v-if="!currentView"
+		<NcLoadingIcon
+			v-if="!currentView"
 			class="files-list__loading-icon"
 			:size="38"
 			:name="t('files', 'Loading current folder')" />
 
 		<!-- File list - always mounted -->
-		<FilesListVirtual v-else
+		<FilesListVirtual
+			v-else
 			ref="filesListVirtual"
 			:current-folder="currentFolder"
 			:current-view="currentView"
@@ -93,7 +101,8 @@
 			:summary="summary">
 			<template #empty>
 				<!-- Initial loading -->
-				<NcLoadingIcon v-if="loading && !isRefreshing"
+				<NcLoadingIcon
+					v-if="loading && !isRefreshing"
 					class="files-list__loading-icon"
 					:size="38"
 					:name="t('files', 'Loading current folder')" />
@@ -101,7 +110,7 @@
 				<!-- Empty due to error -->
 				<NcEmptyContent v-else-if="error" :name="error" data-cy-files-content-error>
 					<template #action>
-						<NcButton type="secondary" @click="fetchContent">
+						<NcButton variant="secondary" @click="fetchContent">
 							<template #icon>
 								<IconReload :size="20" />
 							</template>
@@ -119,13 +128,15 @@
 				</div>
 
 				<!-- Default empty directory view -->
-				<NcEmptyContent v-else
+				<NcEmptyContent
+					v-else
 					:name="currentView?.emptyTitle || t('files', 'No files in here')"
 					:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 					data-cy-files-content-empty>
 					<template v-if="directory !== '/'" #action>
 						<!-- Uploader -->
-						<UploadPicker v-if="canUpload && !isQuotaExceeded"
+						<UploadPicker
+							v-if="canUpload && !isQuotaExceeded"
 							allow-folders
 							class="files-list__header-upload-button"
 							:content="getContent"
@@ -134,7 +145,7 @@
 							multiple
 							@failed="onUploadFail"
 							@uploaded="onUpload" />
-						<NcButton v-else :to="toPreviousDir" type="primary">
+						<NcButton v-else :to="toPreviousDir" variant="primary">
 							{{ t('files', 'Go back') }}
 						</NcButton>
 					</template>
@@ -148,7 +159,7 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, FileListAction, INode } from '@nextcloud/files'
+import type { ContentsWithRoot, FileListAction, INode, Node } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
@@ -157,37 +168,39 @@ import type { UserConfig } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
-import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
-import { translate as t } from '@nextcloud/l10n'
-import { join, dirname, normalize, relative } from 'path'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { Folder, getFileListActions, Permission, sortNodes } from '@nextcloud/files'
+import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
-import { loadState } from '@nextcloud/initial-state'
 import { useThrottleFn } from '@vueuse/core'
+import { dirname, join, normalize, relative } from 'path'
 import { defineComponent } from 'vue'
-
-import NcAppContent from '@nextcloud/vue/components/NcAppContent'
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlusOutline.vue'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
-import IconReload from 'vue-material-design-icons/Reload.vue'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import IconReload from 'vue-material-design-icons/Reload.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGridOutline.vue'
-
+import BreadCrumbs from '../components/BreadCrumbs.vue'
+import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import FilesListVirtual from '../components/FilesListVirtual.vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import logger from '../logger.ts'
+import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -197,13 +210,8 @@ import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import { humanizeWebDAVError } from '../utils/davUtils.ts'
-import { getSummaryFor } from '../utils/fileUtils.ts'
 import { defaultView } from '../utils/filesViews.ts'
-import BreadCrumbs from '../components/BreadCrumbs.vue'
-import DragAndDropNotice from '../components/DragAndDropNotice.vue'
-import FilesListVirtual from '../components/FilesListVirtual.vue'
-import filesSortingMixin from '../mixins/filesSorting.ts'
-import logger from '../logger.ts'
+import { getSummaryFor } from '../utils/fileUtils.ts'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -362,7 +370,7 @@ export default defineComponent({
 			}
 
 			const customColumn = (this.currentView?.columns || [])
-				.find(column => column.id === this.sortingMode)
+				.find((column) => column.id === this.sortingMode)
 
 			// Custom column must provide their own sorting methods
 			if (customColumn?.sort && typeof customColumn.sort === 'function') {
@@ -426,6 +434,7 @@ export default defineComponent({
 			}
 			return Object.values(this.currentFolder?.attributes?.['share-types'] || {}).flat() as number[]
 		},
+
 		shareButtonLabel() {
 			if (!this.shareTypesAttributes) {
 				return t('files', 'Share')
@@ -436,13 +445,14 @@ export default defineComponent({
 			}
 			return t('files', 'Shared')
 		},
+
 		shareButtonType(): ShareType | null {
 			if (!this.shareTypesAttributes) {
 				return null
 			}
 
 			// If all types are links, show the link icon
-			if (this.shareTypesAttributes.some(type => type === ShareType.Link)) {
+			if (this.shareTypesAttributes.some((type) => type === ShareType.Link)) {
 				return ShareType.Link
 			}
 
@@ -461,6 +471,7 @@ export default defineComponent({
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
@@ -484,7 +495,7 @@ export default defineComponent({
 
 			const actions = getFileListActions()
 			const enabledActions = actions
-				.filter(action => {
+				.filter((action) => {
 					if (action.enabled === undefined) {
 						return true
 					}
@@ -514,6 +525,7 @@ export default defineComponent({
 	watch: {
 		/**
 		 * Handle rendering the custom empty view
+		 *
 		 * @param show The current state if the custom empty view should be rendered
 		 */
 		showCustomEmptyView(show: boolean) {
@@ -580,7 +592,7 @@ export default defineComponent({
 		await this.fetchContent()
 		if (this.fileId) {
 			// If we have a fileId, let's check if the file exists
-			const node = this.dirContents.find(node => node.fileid?.toString() === this.fileId?.toString())
+			const node = this.dirContents.find((node) => node.fileid?.toString() === this.fileId?.toString())
 			// If the file isn't in the current directory nor if
 			// the current directory is the file, we show an error
 			if (!node && this.currentFolder?.fileid?.toString() !== this.fileId.toString()) {
@@ -643,7 +655,7 @@ export default defineComponent({
 
 				// Define current directory children
 				// TODO: make it more official
-				this.$set(folder, '_children', contents.map(node => node.source))
+				this.$set(folder, '_children', contents.map((node) => node.source))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
@@ -660,7 +672,7 @@ export default defineComponent({
 				}
 
 				// Update paths store
-				const folders = contents.filter(node => node.type === 'folder')
+				const folders = contents.filter((node) => node.type === 'folder')
 				folders.forEach((node) => {
 					this.pathsStore.addPath({ service: currentView.id, source: node.source, path: join(dir, node.basename) })
 				})
@@ -670,14 +682,14 @@ export default defineComponent({
 			} finally {
 				this.loading = false
 			}
-
 		},
 
 		/**
 		 * Handle the node deleted event to reset open file
+		 *
 		 * @param node The deleted node
 		 */
-		 onNodeDeleted(node: Node) {
+		onNodeDeleted(node: Node) {
 			if (node.fileid && node.fileid === this.fileId) {
 				if (node.fileid === this.currentFolder?.fileid) {
 					// Handle the edge case that the current directory is deleted
@@ -700,7 +712,8 @@ export default defineComponent({
 
 		/**
 		 * The upload manager have finished handling the queue
-		 * @param {Upload} upload the uploaded data
+		 *
+		 * @param upload the uploaded data
 		 */
 		onUpload(upload: Upload) {
 			// Let's only refresh the current Folder

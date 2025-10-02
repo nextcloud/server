@@ -11,7 +11,9 @@ const productName = window.OC.theme.productName
 export default {
 	computed: {
 		appGroups() {
-			return this.app.groups.map(group => { return { id: group, name: group } })
+			return this.app.groups.map((group) => {
+				return { id: group, name: group }
+			})
 		},
 		installing() {
 			if (this.app?.app_api) {
@@ -52,10 +54,10 @@ export default {
 		enableButtonText() {
 			if (this.app?.app_api) {
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
-					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy ?? 0 })
+					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy ?? 0 })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
-					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init ?? 0 })
+					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init ?? 0 })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
 					return t('settings', 'Health checking')
@@ -74,10 +76,10 @@ export default {
 		disableButtonText() {
 			if (this.app?.app_api) {
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
-					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy })
+					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
-					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init })
+					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
 					return t('settings', 'Health checking')
@@ -137,7 +139,7 @@ export default {
 		asyncFindGroup(query) {
 			return this.$store.dispatch('getGroups', { search: query, limit: 5, offset: 0 })
 		},
-		isLimitedToGroups(app) {
+		isLimitedToGroups() {
 			if (this.app?.app_api) {
 				return false
 			}
@@ -153,11 +155,11 @@ export default {
 		},
 		canLimitToGroups(app) {
 			if ((app.types && app.types.includes('filesystem'))
-					|| app.types.includes('prelogin')
-					|| app.types.includes('authentication')
-					|| app.types.includes('logging')
-					|| app.types.includes('prevent_group_restriction')
-					|| app?.app_api) {
+				|| app.types.includes('prelogin')
+				|| app.types.includes('authentication')
+				|| app.types.includes('logging')
+				|| app.types.includes('prevent_group_restriction')
+				|| app?.app_api) {
 				return false
 			}
 			return true
@@ -188,7 +190,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('forceEnableApp', { appId, groups: [] })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},
@@ -199,7 +201,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('enableApp', { appId, groups: [] })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},
@@ -210,7 +212,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('disableApp', { appId })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},
@@ -233,7 +235,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('enableApp', { appId })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},

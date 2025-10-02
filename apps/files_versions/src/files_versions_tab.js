@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-
-import VersionTab from './views/VersionTab.vue'
-import VTooltipPlugin from 'v-tooltip'
-// eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
+import { n, t } from '@nextcloud/l10n'
+import VTooltipPlugin from 'v-tooltip'
+import Vue from 'vue'
+import VersionTab from './views/VersionTab.vue'
 
 Vue.prototype.t = t
 Vue.prototype.n = n

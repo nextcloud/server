@@ -2,13 +2,13 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { beforeAll, describe, expect, it, vi } from 'vitest'
 
-import { FileSystemDirectoryEntry, FileSystemFileEntry, fileSystemEntryToDataTransferItem, DataTransferItem as DataTransferItemMock } from '../../../../__tests__/FileSystemAPIUtils'
 import { join } from 'node:path'
-import { Directory, traverseTree } from './DropServiceUtils'
-import { dataTransferToFileTree } from './DropService'
-import logger from '../logger'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { DataTransferItem as DataTransferItemMock, FileSystemDirectoryEntry, fileSystemEntryToDataTransferItem, FileSystemFileEntry } from '../../../../__tests__/FileSystemAPIUtils.ts'
+import logger from '../logger.ts'
+import { dataTransferToFileTree } from './DropService.ts'
+import { Directory, traverseTree } from './DropServiceUtils.ts'
 
 const dataTree = {
 	'file0.txt': ['Hello, world!', 1234567890],
@@ -22,7 +22,7 @@ const dataTree = {
 }
 
 // This is mocking a file tree using the FileSystem API
-const buildFileSystemDirectoryEntry = (path: string, tree: any): FileSystemDirectoryEntry => {
+function buildFileSystemDirectoryEntry(path: string, tree: any): FileSystemDirectoryEntry {
 	const entries = Object.entries(tree).map(([name, contents]) => {
 		const fullPath = join(path, name)
 		if (Array.isArray(contents)) {
@@ -34,7 +34,7 @@ const buildFileSystemDirectoryEntry = (path: string, tree: any): FileSystemDirec
 	return new FileSystemDirectoryEntry(path, entries)
 }
 
-const buildDataTransferItemArray = (path: string, tree: any, isFileSystemAPIAvailable = true): DataTransferItemMock[] => {
+function buildDataTransferItemArray(path: string, tree: any, isFileSystemAPIAvailable = true): DataTransferItemMock[] {
 	return Object.entries(tree).map(([name, contents]) => {
 		const fullPath = join(path, name)
 		if (Array.isArray(contents)) {
@@ -86,7 +86,6 @@ describe('Filesystem API traverseTree', () => {
 })
 
 describe('DropService dataTransferToFileTree', () => {
-
 	beforeAll(() => {
 		// @ts-expect-error jsdom doesn't have DataTransferItem
 		delete window.DataTransferItem

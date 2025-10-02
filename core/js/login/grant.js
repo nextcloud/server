@@ -16,7 +16,7 @@ form.addEventListener('submit', function(event) {
 		event.stopPropagation()
 
 		// handle password confirmation
-		OC.PasswordConfirmation.requirePasswordConfirmation(function () {
+		OC.PasswordConfirmation.requirePasswordConfirmation(function() {
 			// when password is confirmed we submit the form
 			form.submit()
 		})

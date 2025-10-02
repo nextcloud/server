@@ -10,7 +10,8 @@
 			<legend>
 				{{ t('files_sharing', 'What are you requesting?') }}
 			</legend>
-			<NcTextField :value="label"
+			<NcTextField
+				:value="label"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Request subject')"
 				:placeholder="t('files_sharing', 'Birthday party photos, History assignment…')"
@@ -24,7 +25,8 @@
 			<legend>
 				{{ t('files_sharing', 'Where should these files go?') }}
 			</legend>
-			<NcTextField :value="destination"
+			<NcTextField
+				:value="destination"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Upload destination')"
 				:minlength="2/* cannot share root */"
@@ -32,7 +34,7 @@
 				:readonly="false /* cannot validate a readonly input */"
 				:required="true /* cannot be empty */"
 				:show-trailing-button="destination !== context.path"
-				:trailing-button-icon="'undo'"
+				trailing-button-icon="undo"
 				:trailing-button-label="t('files_sharing', 'Revert to default')"
 				name="destination"
 				@click="onPickDestination"
@@ -53,7 +55,8 @@
 			<legend>
 				{{ t('files_sharing', 'Add a note') }}
 			</legend>
-			<NcTextArea :value="note"
+			<NcTextArea
+				:value="note"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Note for recipient')"
 				:placeholder="t('files_sharing', 'Add a note to help people understand what you are requesting.')"
@@ -70,18 +73,17 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import type { Folder, Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
 
-import { defineComponent } from 'vue'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-
+import { defineComponent } from 'vue'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import IconFolder from 'vue-material-design-icons/Folder.vue'
 import IconInfo from 'vue-material-design-icons/InformationOutline.vue'
 import IconLock from 'vue-material-design-icons/Lock.vue'
-import NcTextArea from '@nextcloud/vue/components/NcTextArea'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default defineComponent({
 	name: 'NewFileRequestDialogIntro',
@@ -100,18 +102,22 @@ export default defineComponent({
 			required: false,
 			default: false,
 		},
+
 		context: {
 			type: Object as PropType<Folder>,
 			required: true,
 		},
+
 		label: {
 			type: String,
 			required: true,
 		},
+
 		destination: {
 			type: String,
 			required: true,
 		},
+
 		note: {
 			type: String,
 			required: true,
@@ -139,12 +145,12 @@ export default defineComponent({
 					label: t('files_sharing', 'Select'),
 					callback: this.onPickedDestination,
 				})
-				.setFilter(node => node.path !== '/')
+				.setFilter((node) => node.path !== '/')
 				.startAt(this.destination)
 				.build()
 			try {
 				filepicker.pick()
-			} catch (e) {
+			} catch {
 				// ignore cancel
 			}
 		},
@@ -158,6 +164,7 @@ export default defineComponent({
 	},
 })
 </script>
+
 <style scoped>
 .file-request-dialog__note :deep(textarea) {
 	width: 100% !important;

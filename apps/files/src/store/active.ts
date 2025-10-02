@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction, View, Node, Folder } from '@nextcloud/files'
+import type { FileAction, Folder, Node, View } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-
 import logger from '../logger.ts'
 
 export const useActiveStore = defineStore('active', () => {
@@ -39,7 +38,6 @@ export const useActiveStore = defineStore('active', () => {
 	 * Unset the active node if deleted
 	 *
 	 * @param node - The node thats deleted
-	 * @private
 	 */
 	function onDeletedNode(node: Node) {
 		if (activeNode.value && activeNode.value.source === node.source) {
@@ -51,9 +49,8 @@ export const useActiveStore = defineStore('active', () => {
 	 * Callback to update the current active view
 	 *
 	 * @param view - The new active view
-	 * @private
 	 */
-	function onChangedView(view: View|null = null) {
+	function onChangedView(view: View | null = null) {
 		logger.debug('Setting active view', { view })
 		activeView.value = view ?? undefined
 		activeNode.value = undefined
@@ -61,7 +58,7 @@ export const useActiveStore = defineStore('active', () => {
 
 	/**
 	 * Initalize the store - connect all event listeners.
-	 * @private
+	 *
 	 */
 	function initialize() {
 		const navigation = getNavigation()

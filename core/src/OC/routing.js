@@ -13,6 +13,6 @@ import {
  * @param {string} service id
  * @return {string} the url
  */
-export const linkToRemoteBase = service => {
+export function linkToRemoteBase(service) {
 	return realGetRootUrl() + '/remote.php/' + service
 }

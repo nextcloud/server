@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
-import { createShare } from './FilesSharingUtils.ts'
+
 import { closeSidebar, enableGridMode, getActionButtonForFile, getInlineActionEntryForFile, getRowForFile } from '../files/FilesUtils.ts'
+import { createShare } from './FilesSharingUtils.ts'
 
 describe('files_sharing: Sharing status action', { testIsolation: true }, () => {
 	/**

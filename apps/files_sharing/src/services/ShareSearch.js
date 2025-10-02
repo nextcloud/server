@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-export default class ShareSearch {
+import logger from './logger.ts'
 
+export default class ShareSearch {
 	_state
 
 	constructor() {
@@ -13,7 +14,7 @@ export default class ShareSearch {
 
 		// init default values
 		this._state.results = []
-		console.debug('OCA.Sharing.ShareSearch initialized')
+		logger.debug('OCA.Sharing.ShareSearch initialized')
 	}
 
 	/**
@@ -47,8 +48,7 @@ export default class ShareSearch {
 			this._state.results.push(result)
 			return true
 		}
-		console.error('Invalid search result provided', result)
+		logger.error('Invalid search result provided', { result })
 		return false
 	}
-
 }

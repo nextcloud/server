@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 import {
 	fetchBackupStatus,
 	revertToBackupStatus,
 } from '../services/statusService.js'
-import { getCurrentUser } from '@nextcloud/auth'
-import { emit } from '@nextcloud/event-bus'
 
 const state = {
 	// Status (online / away / dnd / invisible / offline)
@@ -78,7 +78,7 @@ const actions = {
 		try {
 			const status = await fetchBackupStatus(getCurrentUser()?.uid)
 			commit('loadBackupStatusFromServer', status)
-		} catch (e) {
+		} catch {
 			// Ignore missing user backup status
 		}
 	},

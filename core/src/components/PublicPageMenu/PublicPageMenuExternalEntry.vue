@@ -3,7 +3,8 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<PublicPageMenuEntry :id="id"
+	<PublicPageMenuEntry
+		:id="id"
 		:icon="icon"
 		href="#"
 		:label="label"

@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import { render } from '@testing-library/vue'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-
 import CalDavSettings from './CalDavSettings.vue'
 
 vi.mock('@nextcloud/axios')
@@ -45,29 +45,19 @@ describe('CalDavSettings', () => {
 					}
 				},
 			},
-			Vue => {
+			(Vue) => {
 				Vue.prototype.$t = vi.fn((app, text) => text)
 			},
 		)
-		const sendInvitations = TLUtils.getByLabelText(
-			'Send invitations to attendees',
-		)
+		const sendInvitations = TLUtils.getByLabelText('Send invitations to attendees')
 		expect(sendInvitations).toBeChecked()
-		const generateBirthdayCalendar = TLUtils.getByLabelText(
-			'Automatically generate a birthday calendar',
-		)
+		const generateBirthdayCalendar = TLUtils.getByLabelText('Automatically generate a birthday calendar')
 		expect(generateBirthdayCalendar).toBeChecked()
-		const sendEventReminders = TLUtils.getByLabelText(
-			'Send notifications for events',
-		)
+		const sendEventReminders = TLUtils.getByLabelText('Send notifications for events')
 		expect(sendEventReminders).toBeChecked()
-		const sendEventRemindersToSharedUsers = TLUtils.getByLabelText(
-			'Send reminder notifications to calendar sharees as well',
-		)
+		const sendEventRemindersToSharedUsers = TLUtils.getByLabelText('Send reminder notifications to calendar sharees as well')
 		expect(sendEventRemindersToSharedUsers).toBeChecked()
-		const sendEventRemindersPush = TLUtils.getByLabelText(
-			'Enable notifications for events via push',
-		)
+		const sendEventRemindersPush = TLUtils.getByLabelText('Enable notifications for events via push')
 		expect(sendEventRemindersPush).toBeChecked()
 
 		/*

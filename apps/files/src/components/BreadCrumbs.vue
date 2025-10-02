@@ -4,12 +4,14 @@
 -->
 
 <template>
-	<NcBreadcrumbs data-cy-files-content-breadcrumbs
+	<NcBreadcrumbs
+		data-cy-files-content-breadcrumbs
 		:aria-label="t('files', 'Current directory path')"
 		class="files-list__breadcrumbs"
 		:class="{ 'files-list__breadcrumbs--with-progress': wrapUploadProgressBar }">
 		<!-- Current path sections -->
-		<NcBreadcrumb v-for="(section, index) in sections"
+		<NcBreadcrumb
+			v-for="(section, index) in sections"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
@@ -21,7 +23,8 @@
 			@dragover.native="onDragOver($event, section.dir)"
 			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
-				<NcIconSvgWrapper :size="20"
+				<NcIconSvgWrapper
+					:size="20"
 					:svg="viewIcon" />
 			</template>
 		</NcBreadcrumb>
@@ -37,25 +40,24 @@
 import type { Node } from '@nextcloud/files'
 import type { FileSource } from '../types.ts'
 
-import { basename } from 'path'
-import { defineComponent } from 'vue'
+import HomeSvg from '@mdi/svg/svg/home.svg?raw'
+import { showError } from '@nextcloud/dialogs'
 import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import HomeSvg from '@mdi/svg/svg/home.svg?raw'
+import { basename } from 'path'
+import { defineComponent } from 'vue'
 import NcBreadcrumb from '@nextcloud/vue/components/NcBreadcrumb'
 import NcBreadcrumbs from '@nextcloud/vue/components/NcBreadcrumbs'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-
-import { useNavigation } from '../composables/useNavigation.ts'
-import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { showError } from '@nextcloud/dialogs'
+import { useNavigation } from '../composables/useNavigation.ts'
+import logger from '../logger.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
-import logger from '../logger'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
@@ -148,9 +150,11 @@ export default defineComponent({
 		getNodeFromSource(source: FileSource): Node | undefined {
 			return this.filesStore.getNode(source)
 		},
+
 		getFileSourceFromPath(path: string): FileSource | null {
 			return (this.currentView && this.pathsStore.getPath(this.currentView.id, path)) ?? null
 		},
+
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
 				return this.currentView?.name || t('files', 'Home')
@@ -170,7 +174,7 @@ export default defineComponent({
 				}
 			}
 			if (node === undefined) {
-				const view = this.views.find(view => view.params?.dir === dir)
+				const view = this.views.find((view) => view.params?.dir === dir)
 				return {
 					...this.$route,
 					params: { fileid: view?.params?.fileid ?? '' },
@@ -254,12 +258,12 @@ export default defineComponent({
 			}
 
 			// Else we're moving/copying files
-			const nodes = selection.map(source => this.filesStore.getNode(source)) as Node[]
+			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
 			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
-			if (selection.some(source => this.selectedFiles.includes(source))) {
+			if (selection.some((source) => this.selectedFiles.includes(source))) {
 				logger.debug('Dropped selection, resetting select store...')
 				this.selectionStore.reset()
 			}

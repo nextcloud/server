@@ -10,7 +10,7 @@ import type { IAppDiscoverCarousel, IAppDiscoverElement, IAppDiscoverElements, I
  *
  * @param element The JSON API element to transform
  */
-export const parseApiResponse = (element: Record<string, unknown>): IAppDiscoverElements => {
+export function parseApiResponse(element: Record<string, unknown>): IAppDiscoverElements {
 	const appElement = { ...element }
 	if (appElement.date) {
 		appElement.date = Date.parse(appElement.date as string)
@@ -31,9 +31,10 @@ export const parseApiResponse = (element: Record<string, unknown>): IAppDiscover
 
 /**
  * Filter outdated or upcoming elements
+ *
  * @param element Element to check
  */
-export const filterElements = (element: IAppDiscoverElement) => {
+export function filterElements(element: IAppDiscoverElement) {
 	const now = Date.now()
 	// Element not yet published
 	if (element.date && element.date > now) {

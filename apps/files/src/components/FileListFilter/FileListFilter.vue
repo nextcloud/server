@@ -3,8 +3,9 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcActions force-menu
-		:type="isActive ? 'secondary' : 'tertiary'"
+	<NcActions
+		force-menu
+		:variant="isActive ? 'secondary' : 'tertiary'"
 		:menu-name="filterName">
 		<template #icon>
 			<slot name="icon" />
@@ -13,7 +14,8 @@
 
 		<template v-if="isActive">
 			<NcActionSeparator />
-			<NcActionButton class="files-list-filter__clear-button"
+			<NcActionButton
+				class="files-list-filter__clear-button"
 				close-after-click
 				@click="$emit('reset-filter')">
 				{{ t('files', 'Clear filter') }}
@@ -24,8 +26,8 @@
 
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 
 defineProps<{

@@ -2,22 +2,29 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Node } from '@nextcloud/files'
-import type { TagWithId } from '../types'
-import { FileAction } from '@nextcloud/files'
+import type { TagWithId } from '../types.ts'
+
 import { subscribe } from '@nextcloud/event-bus'
+import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import logger from '../logger.ts'
+import { fetchTags } from '../services/api.ts'
+import { getNodeSystemTags } from '../utils.ts'
+import { elementColor, isDarkModeEnabled } from '../utils/colorUtils.ts'
 
 import '../css/fileEntryInlineSystemTags.scss'
-import { elementColor, isDarkModeEnabled } from '../utils/colorUtils'
-import { fetchTags } from '../services/api'
-import { getNodeSystemTags } from '../utils'
-import logger from '../logger.ts'
 
 // Init tag cache
 const cache: TagWithId[] = []
 
-const renderTag = function(tag: string, isMore = false): HTMLElement {
+/**
+ *
+ * @param tag
+ * @param isMore
+ */
+function renderTag(tag: string, isMore = false): HTMLElement {
 	const tagElement = document.createElement('li')
 	tagElement.classList.add('files-list__system-tag')
 	tagElement.setAttribute('data-systemtag-name', tag)
@@ -42,7 +49,11 @@ const renderTag = function(tag: string, isMore = false): HTMLElement {
 	return tagElement
 }
 
-const renderInline = async function(node: Node): Promise<HTMLElement> {
+/**
+ *
+ * @param node
+ */
+async function renderInline(node: Node): Promise<HTMLElement> {
 	// Ensure we have the system tags as an array
 	const tags = getNodeSystemTags(node)
 
@@ -116,7 +127,11 @@ export const action = new FileAction({
 })
 
 // Update the system tags html when the node is updated
-const updateSystemTagsHtml = function(node: Node) {
+/**
+ *
+ * @param node
+ */
+function updateSystemTagsHtml(node: Node) {
 	renderInline(node).then((systemTagsHtml) => {
 		document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach((element) => {
 			element.replaceWith(systemTagsHtml)
@@ -125,13 +140,25 @@ const updateSystemTagsHtml = function(node: Node) {
 }
 
 // Add and remove tags from the cache
-const addTag = function(tag: TagWithId) {
+/**
+ *
+ * @param tag
+ */
+function addTag(tag: TagWithId) {
 	cache.push(tag)
 }
-const removeTag = function(tag: TagWithId) {
+/**
+ *
+ * @param tag
+ */
+function removeTag(tag: TagWithId) {
 	cache.splice(cache.findIndex((t) => t.id === tag.id), 1)
 }
-const updateTag = function(tag: TagWithId) {
+/**
+ *
+ * @param tag
+ */
+function updateTag(tag: TagWithId) {
 	const index = cache.findIndex((t) => t.id === tag.id)
 	if (index !== -1) {
 		cache[index] = tag
@@ -139,7 +166,11 @@ const updateTag = function(tag: TagWithId) {
 	updateSystemTagsColorAttribute(tag)
 }
 // Update the color attribute of the system tags
-const updateSystemTagsColorAttribute = function(tag: TagWithId) {
+/**
+ *
+ * @param tag
+ */
+function updateSystemTagsColorAttribute(tag: TagWithId) {
 	document.querySelectorAll(`[data-systemtag-name="${tag.displayName}"]`).forEach((element) => {
 		(element as HTMLElement).style.setProperty('--systemtag-color', `#${tag.color}`)
 	})

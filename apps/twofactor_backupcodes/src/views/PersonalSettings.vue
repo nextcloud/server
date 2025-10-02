@@ -4,7 +4,8 @@
 -->
 <template>
 	<div class="backupcodes-settings">
-		<NcButton v-if="!enabled"
+		<NcButton
+			v-if="!enabled"
 			id="generate-backup-codes"
 			:disabled="generatingCodes"
 			@click="generateBackupCodes">
@@ -16,12 +17,13 @@
 		<template v-else>
 			<p class="backupcodes-settings__codes">
 				<template v-if="!haveCodes">
-					{{ t('twofactor_backupcodes', 'Backup codes have been generated. {used} of {total} codes have been used.', {used, total}) }}
+					{{ t('twofactor_backupcodes', 'Backup codes have been generated. {used} of {total} codes have been used.', { used, total }) }}
 				</template>
 				<template v-else>
 					{{ t('twofactor_backupcodes', 'These are your backup codes. Please save and/or print them as you will not be able to read the codes again later.') }}
 					<ul>
-						<li v-for="code in codes"
+						<li
+							v-for="code in codes"
 							:key="code"
 							class="backupcodes-settings__codes__code">
 							{{ code }}
@@ -31,16 +33,18 @@
 			</p>
 			<p class="backupcodes-settings__actions">
 				<template v-if="haveCodes">
-					<NcButton :href="downloadUrl"
+					<NcButton
+						:href="downloadUrl"
 						:download="downloadFilename"
-						type="primary">
+						variant="primary">
 						{{ t('twofactor_backupcodes', 'Save backup codes') }}
 					</NcButton>
 					<NcButton @click="printCodes">
 						{{ t('twofactor_backupcodes', 'Print backup codes') }}
 					</NcButton>
 				</template>
-				<NcButton id="generate-backup-codes"
+				<NcButton
+					id="generate-backup-codes"
 					@click="generateBackupCodes">
 					{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}
 				</NcButton>
@@ -56,9 +60,10 @@
 
 <script>
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import { print } from '../service/PrintService.js'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { logger } from '../logger.ts'
+import { print } from '../service/PrintService.js'
 
 import '@nextcloud/password-confirmation/dist/style.css'
 
@@ -68,11 +73,13 @@ export default {
 		NcButton,
 		NcLoadingIcon,
 	},
+
 	data() {
 		return {
 			generatingCodes: false,
 		}
 	},
+
 	computed: {
 		downloadUrl() {
 			if (!this.codes) {
@@ -82,29 +89,37 @@ export default {
 				return prev + code + '\r\n'
 			}, ''))
 		},
+
 		downloadFilename() {
 			const name = OC.theme.name || 'Nextcloud'
 			return name + '-backup-codes.txt'
 		},
+
 		enabled() {
 			return this.$store.state.enabled
 		},
+
 		total() {
 			return this.$store.state.total
 		},
+
 		used() {
 			return this.$store.state.used
 		},
+
 		codes() {
 			return this.$store.state.codes
 		},
+
 		name() {
 			return OC.theme.name || 'Nextcloud'
 		},
+
 		haveCodes() {
 			return this.codes && this.codes.length > 0
 		},
 	},
+
 	methods: {
 		generateBackupCodes() {
 			confirmPassword().then(() => {
@@ -113,12 +128,12 @@ export default {
 
 				this.$store.dispatch('generate').then(() => {
 					this.generatingCodes = false
-				}).catch(err => {
+				}).catch((err) => {
 					OC.Notification.showTemporary(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'))
 					this.generatingCodes = false
 					throw err
 				})
-			}).catch(console.error.bind(this))
+			}).catch(logger.error)
 		},
 
 		getPrintData(codes) {

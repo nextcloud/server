@@ -4,11 +4,13 @@
 -->
 <template>
 	<section>
-		<HeaderBar :scope="birthdate.scope"
+		<HeaderBar
+			:scope="birthdate.scope"
 			:input-id="inputId"
 			:readable="birthdate.readable" />
 
-		<NcDateTimePickerNative :id="inputId"
+		<NcDateTimePickerNative
+			:id="inputId"
 			type="date"
 			label=""
 			:value="value"
@@ -22,14 +24,12 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
-import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService'
-import { handleError } from '../../utils/handlers'
-
 import debounce from 'debounce'
-
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import HeaderBar from './shared/HeaderBar.vue'
+import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../utils/handlers.js'
 
 const { birthdate } = loadState('settings', 'personalInfoParameters', {})
 
@@ -52,6 +52,7 @@ export default {
 				...birthdate,
 				readable: NAME_READABLE_ENUM[birthdate.name],
 			},
+
 			initialValue,
 		}
 	},
@@ -60,10 +61,12 @@ export default {
 		inputId() {
 			return `account-property-${birthdate.name}`
 		},
+
 		value: {
 			get() {
 				return new Date(this.birthdate.value)
 			},
+
 			/** @param {Date} value The date to set */
 			set(value) {
 				const day = value.getDate().toString().padStart(2, '0')

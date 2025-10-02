@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { registerCustomElement } from '../../helpers/window.js'
-import RequestUserAgent from './RequestUserAgent.vue'
 import RequestTime from './RequestTime.vue'
 import RequestURL from './RequestURL.vue'
+import RequestUserAgent from './RequestUserAgent.vue'
 import RequestUserGroup from './RequestUserGroup.vue'
+import { registerCustomElement } from '../../helpers/window.js'
 
 const RequestChecks = [
 	{

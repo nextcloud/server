@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+
 import { join } from 'path'
 import { getRowForFileId } from './FilesUtils.ts'
 

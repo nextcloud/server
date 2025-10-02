@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 import App from './App.vue'
-import { loadState } from '@nextcloud/initial-state'
 
 Vue.prototype.t = t
 Vue.prototype.OC = OC

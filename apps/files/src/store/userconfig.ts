@@ -2,14 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { UserConfig } from '../types'
+
+import type { UserConfig } from '../types.ts'
+
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { ref, set } from 'vue'
-import axios from '@nextcloud/axios'
 
 const initialUserConfig = loadState<UserConfig>('files', 'config', {
 	crop_image_previews: true,
@@ -30,6 +32,7 @@ export const useUserConfigStore = defineStore('userconfig', () => {
 
 	/**
 	 * Update the user config local store
+	 *
 	 * @param key The config key
 	 * @param value The new value
 	 */
@@ -39,6 +42,7 @@ export const useUserConfigStore = defineStore('userconfig', () => {
 
 	/**
 	 * Update the user config local store AND on server side
+	 *
 	 * @param key The config key
 	 * @param value The new value
 	 */

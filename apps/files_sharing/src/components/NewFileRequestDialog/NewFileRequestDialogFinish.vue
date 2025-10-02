@@ -11,7 +11,8 @@
 		</NcNoteCard>
 
 		<!-- Copy share link -->
-		<NcInputField ref="clipboard"
+		<NcInputField
+			ref="clipboard"
 			:value="shareLink"
 			:label="t('files_sharing', 'Share link')"
 			:readonly="true"
@@ -28,7 +29,8 @@
 
 		<template v-if="isShareByMailEnabled">
 			<!-- Email share-->
-			<NcTextField :value.sync="email"
+			<NcTextField
+				:value.sync="email"
 				:label="t('files_sharing', 'Send link via email')"
 				:placeholder="t('files_sharing', 'Enter an email address or paste a list')"
 				data-cy-file-request-dialog-fieldset="email"
@@ -39,17 +41,19 @@
 
 			<!-- Email list -->
 			<div v-if="emails.length > 0" class="file-request-dialog__emails">
-				<NcChip v-for="mail in emails"
+				<NcChip
+					v-for="mail in emails"
 					:key="mail"
 					:aria-label-close="t('files_sharing', 'Remove email')"
 					:text="mail"
 					@close="$emit('remove-email', mail)">
 					<template #icon>
-						<NcAvatar :disable-menu="true"
-							:disable-tooltip="true"
+						<NcAvatar
+							disable-menu
+							disable-tooltip
 							:display-name="mail"
-							:is-no-user="true"
-							:show-user-status="false"
+							is-no-user
+							hide-status
 							:size="24" />
 					</template>
 				</NcChip>
@@ -60,19 +64,17 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import Share from '../../models/Share.ts'
+import type Share from '../../models/Share.ts'
 
-import { defineComponent } from 'vue'
-import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { n, t } from '@nextcloud/l10n'
-
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
+import { defineComponent } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcChip from '@nextcloud/vue/components/NcChip'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import NcChip from '@nextcloud/vue/components/NcChip'
-
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconClipboard from 'vue-material-design-icons/ClipboardText.vue'
 
@@ -94,10 +96,12 @@ export default defineComponent({
 			type: Object as PropType<Share>,
 			required: true,
 		},
+
 		emails: {
 			type: Array as PropType<string[]>,
 			required: true,
 		},
+
 		isShareByMailEnabled: {
 			type: Boolean,
 			required: true,
@@ -222,6 +226,7 @@ export default defineComponent({
 	},
 })
 </script>
+
 <style scoped>
 .input-field,
 .file-request-dialog__emails {

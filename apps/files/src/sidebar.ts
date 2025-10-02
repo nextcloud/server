@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'
-
-import SidebarView from './views/Sidebar.vue'
-import Sidebar from './services/Sidebar.js'
+import Vue from 'vue'
+import SidebarView from './views/FilesSidebar.vue'
 import Tab from './models/Tab.js'
+import Sidebar from './services/Sidebar.js'
 
 Vue.prototype.t = t
 

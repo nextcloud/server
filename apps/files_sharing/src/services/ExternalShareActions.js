@@ -6,7 +6,6 @@
 import logger from './logger.ts'
 
 export default class ExternalShareActions {
-
 	_state
 
 	constructor() {
@@ -54,13 +53,13 @@ export default class ExternalShareActions {
 			|| typeof action.data !== 'function' // () => {disabled: true}
 			|| !Array.isArray(action.shareType) // [\@nextcloud/sharing.Types.Link, ...]
 			|| typeof action.handlers !== 'object' // {click: () => {}, ...}
-			|| !Object.values(action.handlers).every(handler => typeof handler === 'function')) {
+			|| !Object.values(action.handlers).every((handler) => typeof handler === 'function')) {
 			logger.error('Invalid action provided', action)
 			return false
 		}
 
 		// Check duplicates
-		const hasDuplicate = this._state.actions.findIndex(check => check.id === action.id) > -1
+		const hasDuplicate = this._state.actions.findIndex((check) => check.id === action.id) > -1
 		if (hasDuplicate) {
 			logger.error(`An action with the same id ${action.id} already exists`, action)
 			return false
@@ -69,5 +68,4 @@ export default class ExternalShareActions {
 		this._state.actions.push(action)
 		return true
 	}
-
 }

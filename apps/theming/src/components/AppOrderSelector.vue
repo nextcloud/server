@@ -4,14 +4,16 @@
 -->
 <template>
 	<Fragment>
-		<div :id="statusInfoId"
+		<div
+			:id="statusInfoId"
 			aria-live="polite"
 			class="hidden-visually"
 			role="status">
 			{{ statusInfo }}
 		</div>
 		<ol ref="listElement" data-cy-app-order class="order-selector">
-			<AppOrderSelectorElement v-for="app,index in appList"
+			<AppOrderSelectorElement
+				v-for="app, index in appList"
 				:key="`${app.id}${renderCount}`"
 				ref="selectorElements"
 				:app="app"
@@ -19,11 +21,13 @@
 				:aria-describedby="statusInfoId"
 				:is-first="index === 0 || !!appList[index - 1].default"
 				:is-last="index === value.length - 1"
-				v-on="app.default ? {} : {
-					'move:up': () => moveUp(index),
-					'move:down': () => moveDown(index),
-					'update:focus': () => updateStatusInfo(index),
-				}" />
+				v-on="app.default
+					? {}
+					: {
+						'move:up': () => moveUp(index),
+						'move:down': () => moveDown(index),
+						'update:focus': () => updateStatusInfo(index),
+					}" />
 		</ol>
 	</Fragment>
 </template>
@@ -35,7 +39,6 @@ import { translate as t } from '@nextcloud/l10n'
 import { useSortable } from '@vueuse/integrations/useSortable'
 import { computed, defineComponent, onUpdated, ref } from 'vue'
 import { Fragment } from 'vue-frag'
-
 import AppOrderSelectorElement from './AppOrderSelectorElement.vue'
 
 export interface IApp {
@@ -52,6 +55,7 @@ export default defineComponent({
 		AppOrderSelectorElement,
 		Fragment,
 	},
+
 	props: {
 		/**
 		 * Details like status information that need to be forwarded to the interactive elements
@@ -60,6 +64,7 @@ export default defineComponent({
 			type: String,
 			default: null,
 		},
+
 		/**
 		 * List of apps to reorder
 		 */
@@ -68,18 +73,26 @@ export default defineComponent({
 			required: true,
 		},
 	},
+
 	emits: {
 		/**
 		 * Update the apps list on reorder
+		 *
 		 * @param value The new value of the app list
 		 */
 		'update:value': (value: IApp[]) => Array.isArray(value),
 	},
+
 	setup(props, { emit }) {
 		/**
 		 * The Element that contains the app list
 		 */
 		const listElement = ref<HTMLElement | null>(null)
+
+		/**
+		 * Helper to force rerender the list in case of a invalid drag event
+		 */
+		const renderCount = ref(0)
 
 		/**
 		 * The app list with setter that will ement the `update:value` event
@@ -99,11 +112,6 @@ export default defineComponent({
 		})
 
 		/**
-		 * Helper to force rerender the list in case of a invalid drag event
-		 */
-		const renderCount = ref(0)
-
-		/**
 		 * Handle drag & drop sorting
 		 */
 		useSortable(listElement, appList, { filter: '.order-selector-element--disabled' })
@@ -118,11 +126,12 @@ export default defineComponent({
 		 * This is needed to be done in this component to make sure Sortable.JS has finished sorting the elements before focussing an element
 		 */
 		onUpdated(() => {
-			selectorElements.value.forEach(element => element.keepFocus())
+			selectorElements.value.forEach((element) => element.keepFocus())
 		})
 
 		/**
 		 * Handle element is moved up
+		 *
 		 * @param index The index of the element that is moved
 		 */
 		const moveUp = (index: number) => {
@@ -141,6 +150,7 @@ export default defineComponent({
 
 		/**
 		 * Handle element is moved down
+		 *
 		 * @param index The index of the element that is moved
 		 */
 		const moveDown = (index: number) => {
@@ -163,6 +173,7 @@ export default defineComponent({
 
 		/**
 		 * Update the status information for the currently selected app
+		 *
 		 * @param index Index of the app that is currently selected
 		 */
 		const updateStatusInfo = (index: number) => {

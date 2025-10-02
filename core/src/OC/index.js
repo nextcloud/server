@@ -4,16 +4,11 @@
  */
 
 import { subscribe } from '@nextcloud/event-bus'
-
 import {
-	ajaxConnectionLostHandler,
-	processAjaxError,
-	registerXHRForErrorProcessing,
-} from './xhr-error.js'
-import Apps from './apps.js'
-import { AppConfig, appConfig } from './appconfig.js'
-import appswebroots from './appswebroots.js'
-import Backbone from './backbone.js'
+	getCanonicalLocale,
+	getLanguage,
+	getLocale,
+} from '@nextcloud/l10n'
 import {
 	basename,
 	dirname,
@@ -22,9 +17,21 @@ import {
 	joinPaths,
 } from '@nextcloud/paths'
 import {
-	build as buildQueryString,
-	parse as parseQueryString,
-} from './query-string.js'
+	generateFilePath,
+	generateOcsUrl,
+	generateRemoteUrl,
+	generateUrl,
+	getRootUrl,
+	imagePath,
+	linkTo,
+} from '@nextcloud/router'
+import logger from '../logger.js'
+import { isUserAdmin } from './admin.js'
+import { AppConfig, appConfig } from './appconfig.js'
+import Apps from './apps.js'
+import appswebroots from './appswebroots.js'
+import Backbone from './backbone.js'
+import { getCapabilities } from './capabilities.js'
 import Config from './config.js'
 import {
 	coreApps,
@@ -39,53 +46,44 @@ import {
 	TAG_FAVORITE,
 } from './constants.js'
 import { currentUser, getCurrentUser } from './currentuser.js'
+import { debug } from './debug.js'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
 import { get, set } from './get_set.js'
-import { getCapabilities } from './capabilities.js'
 import {
 	getHost,
 	getHostName,
 	getPort,
 	getProtocol,
 } from './host.js'
-import { getRequestToken } from './requesttoken.ts'
+import L10N from './l10n.js'
 import {
 	hideMenus,
 	registerMenu,
 	showMenu,
 	unregisterMenu,
 } from './menu.js'
-import { isUserAdmin } from './admin.js'
-import L10N from './l10n.js'
-import {
-	getCanonicalLocale,
-	getLanguage,
-	getLocale,
-} from '@nextcloud/l10n'
-
-import {
-	generateUrl,
-	generateFilePath,
-	generateOcsUrl,
-	generateRemoteUrl,
-	getRootUrl,
-	imagePath,
-	linkTo,
-} from '@nextcloud/router'
-
-import {
-	linkToRemoteBase,
-} from './routing.js'
 import msg from './msg.js'
+import { redirect, reload } from './navigation.js'
 import Notification from './notification.js'
 import PasswordConfirmation from './password-confirmation.js'
 import Plugins from './plugins.js'
+import {
+	build as buildQueryString,
+	parse as parseQueryString,
+} from './query-string.js'
+import { getRequestToken } from './requesttoken.ts'
+import {
+	linkToRemoteBase,
+} from './routing.js'
 import { theme } from './theme.js'
 import Util from './util.js'
-import { debug } from './debug.js'
-import { redirect, reload } from './navigation.js'
 import webroot from './webroot.js'
+import {
+	ajaxConnectionLostHandler,
+	processAjaxError,
+	registerXHRForErrorProcessing,
+} from './xhr-error.js'
 
 /** @namespace OC */
 export default {
@@ -113,7 +111,7 @@ export default {
 	 * @return {boolean}
 	 * @deprecated 17.0.0
 	 */
-	fileIsBlacklisted: file => !!(file.match(Config.blacklist_files_regex)),
+	fileIsBlacklisted: (file) => !!(file.match(Config.blacklist_files_regex)),
 	Apps,
 	AppConfig,
 	appConfig,
@@ -286,9 +284,9 @@ export default {
 }
 
 // Keep the request token prop in sync
-subscribe('csrf-token-update', e => {
+subscribe('csrf-token-update', (e) => {
 	OC.requestToken = e.token
 
 	// Logging might help debug (Sentry) issues
-	console.info('OC.requestToken changed', e.token)
+	logger.info('OC.requestToken changed', e.token)
 })

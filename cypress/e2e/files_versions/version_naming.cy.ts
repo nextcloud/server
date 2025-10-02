@@ -4,8 +4,9 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { nameVersion, openVersionsPanel, uploadThreeVersions, doesNotHaveAction, setupTestSharedFileFromUser } from './filesVersionsUtils'
-import { getRowForFile } from '../files/FilesUtils'
+
+import { getRowForFile } from '../files/FilesUtils.ts'
+import { doesNotHaveAction, nameVersion, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions naming', () => {
 	let randomFileName = ''
@@ -88,8 +89,8 @@ describe('Versions naming', () => {
 			})
 
 			it('Does not work without update permission through direct API access', () => {
-				let fileId: string|undefined
-				let versionId: string|undefined
+				let fileId: string | undefined
+				let versionId: string | undefined
 
 				getRowForFile(randomFileName)
 					.should('be.visible')

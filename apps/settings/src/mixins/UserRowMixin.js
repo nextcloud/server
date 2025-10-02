@@ -43,10 +43,10 @@ export default {
 	},
 	data() {
 		return {
-			selectedGroups: this.user.groups.map(id => ({ id, name: id })),
-			selectedSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
-			userGroups: this.user.groups.map(id => ({ id, name: id })),
-			userSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
+			selectedGroups: this.user.groups.map((id) => ({ id, name: id })),
+			selectedSubAdminGroups: this.user.subadmin.map((id) => ({ id, name: id })),
+			userGroups: this.user.groups.map((id) => ({ id, name: id })),
+			userSubAdminGroups: this.user.subadmin.map((id) => ({ id, name: id })),
 		}
 	},
 	computed: {
@@ -77,7 +77,7 @@ export default {
 			if (this.user.quota.quota >= 0) {
 				// if value is valid, let's map the quotaOptions or return custom quota
 				const humanQuota = formatFileSize(this.user.quota.quota)
-				const userQuota = this.quotaOptions.find(quota => quota.id === humanQuota)
+				const userQuota = this.quotaOptions.find((quota) => quota.id === humanQuota)
 				return userQuota || { id: humanQuota, label: humanQuota }
 			} else if (this.user.quota.quota === 'default') {
 				// default quota is replaced by the proper value on load
@@ -94,7 +94,7 @@ export default {
 		/* LANGUAGE */
 		userLanguage() {
 			const availableLanguages = this.languages[0].languages.concat(this.languages[1].languages)
-			const userLang = availableLanguages.find(lang => lang.code === this.user.language)
+			const userLang = availableLanguages.find((lang) => lang.code === this.user.language)
 			if (typeof userLang !== 'object' && this.user.language !== '') {
 				return {
 					code: this.user.language,

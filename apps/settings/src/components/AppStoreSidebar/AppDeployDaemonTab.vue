@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcAppSidebarTab v-if="app?.daemon"
+	<NcAppSidebarTab
+		v-if="app?.daemon"
 		id="daemon"
 		:name="t('settings', 'Daemon')"
 		:order="3">
@@ -23,16 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import type { IAppstoreExApp } from '../../app-types'
-
-import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import type { IAppstoreExApp } from '../../app-types.ts'
 
 import { mdiFileChart } from '@mdi/js'
 import { ref } from 'vue'
+import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 const props = defineProps<{
-	app: IAppstoreExApp,
+	app: IAppstoreExApp
 }>()
 
 const gpuSupport = ref(props.app?.daemon?.deploy_config?.computeDevice?.id !== 'cpu' || false)

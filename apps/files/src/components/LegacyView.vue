@@ -6,6 +6,7 @@
 <template>
 	<div />
 </template>
+
 <script>
 export default {
 	name: 'LegacyView',
@@ -14,23 +15,26 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		fileInfo: {
 			type: Object,
-			default: () => {},
 			required: true,
 		},
 	},
+
 	watch: {
 		fileInfo(fileInfo) {
 			// update the backbone model FileInfo
 			this.setFileInfo(fileInfo)
 		},
 	},
+
 	mounted() {
 		// append the backbone element and set the FileInfo
 		this.component.$el.replaceAll(this.$el)
 		this.setFileInfo(this.fileInfo)
 	},
+
 	methods: {
 		setFileInfo(fileInfo) {
 			this.component.setFileInfo(fileInfo)

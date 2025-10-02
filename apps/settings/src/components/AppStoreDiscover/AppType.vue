@@ -3,13 +3,15 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<AppItem v-if="app"
+	<AppItem
+		v-if="app"
 		:app="app"
 		category="discover"
 		class="app-discover-app"
 		inline
 		:list-view="false" />
-	<a v-else
+	<a
+		v-else
 		class="app-discover-app app-discover-app__skeleton"
 		:href="appStoreLink"
 		target="_blank"
@@ -25,12 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import type { IAppDiscoverApp } from '../../constants/AppDiscoverTypes'
+import type { IAppDiscoverApp } from '../../constants/AppDiscoverTypes.ts'
 
 import { computed } from 'vue'
-import { useAppsStore } from '../../store/apps-store.ts'
-
 import AppItem from '../AppList/AppItem.vue'
+import { useAppsStore } from '../../store/apps-store.ts'
 
 const props = defineProps<{
 	modelValue: IAppDiscoverApp

@@ -3,48 +3,47 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-OC.Settings = OC.Settings || {};
+OC.Settings = OC.Settings || {}
 OC.Settings = _.extend(OC.Settings, {
 
 	_cachedGroups: null,
 
-	escapeHTML: function (text) {
+	escapeHTML: function(text) {
 		return text.toString()
 			.split('&').join('&amp;')
 			.split('<').join('&lt;')
 			.split('>').join('&gt;')
 			.split('"').join('&quot;')
-			.split('\'').join('&#039;');
+			.split('\'').join('&#039;')
 	},
 
 	/**
-     * Setup selection box for group selection.
-     *
-     * Values need to be separated by a pipe "|" character.
-     * (mostly because a comma is more likely to be used
-     * for groups)
-     *
-     * @param $elements jQuery element (hidden input) to setup select2 on
-     * @param {Array} [extraOptions] extra options hash to pass to select2
-     * @param {Array} [options] extra options
-     * @param {Array} [options.excludeAdmins=false] flag whether to exclude admin groups
-     */
+	 * Setup selection box for group selection.
+	 *
+	 * Values need to be separated by a pipe "|" character.
+	 * (mostly because a comma is more likely to be used
+	 * for groups)
+	 *
+	 * @param $elements jQuery element (hidden input) to setup select2 on
+	 * @param {Array} [extraOptions] extra options hash to pass to select2
+	 * @param {Array} [options] extra options
+	 * @param {Array} [options.excludeAdmins] flag whether to exclude admin groups
+	 */
 	setupGroupsSelect: function($elements, extraOptions, options) {
-		var self = this;
-		options = options || {};
+		const self = this
+		options = options || {}
 		if ($elements.length > 0) {
 			// Let's load the data and THEN init our select
 			$.ajax({
 				url: OC.linkToOCS('cloud/groups', 2) + 'details',
 				dataType: 'json',
 				success: function(data) {
-					var results = [];
+					const results = []
 
 					if (data.ocs.data.groups && data.ocs.data.groups.length > 0) {
-
 						data.ocs.data.groups.forEach(function(group) {
 							if (!options.excludeAdmins || group.id !== 'admin') {
-								results.push({ id: group.id, displayname: group.displayname });
+								results.push({ id: group.id, displayname: group.displayname })
 							}
 						})
 
@@ -56,10 +55,10 @@ OC.Settings = _.extend(OC.Settings, {
 							multiple: true,
 							toggleSelect: true,
 							separator: '|',
-							data: { results: results, text: 'displayname' },
+							data: { results, text: 'displayname' },
 							initSelection: function(element, callback) {
-								var groups = $(element).val();
-								var selection;
+								const groups = $(element).val()
+								let selection
 								if (groups && results.length > 0) {
 									selection = _.map(_.filter((groups || []).split('|').sort(), function(groupId) {
 										return results.find(function(group) {
@@ -70,40 +69,40 @@ OC.Settings = _.extend(OC.Settings, {
 											id: groupId,
 											displayname: results.find(function(group) {
 												return group.id === groupId
-											}).displayname
+											}).displayname,
 										}
 									})
 								} else if (groups) {
 									selection = _.map((groups || []).split('|').sort(), function(groupId) {
 										return {
 											id: groupId,
-											displayname: groupId
-										};
-									});
+											displayname: groupId,
+										}
+									})
 								}
-								callback(selection);
+								callback(selection)
 							},
 							formatResult: function(element) {
-								return self.escapeHTML(element.displayname);
+								return self.escapeHTML(element.displayname)
 							},
 							formatSelection: function(element) {
-								return self.escapeHTML(element.displayname);
+								return self.escapeHTML(element.displayname)
 							},
 							escapeMarkup: function(m) {
 								// prevent double markup escape
-								return m;
-							}
-						}, extraOptions || {}));
+								return m
+							},
+						}, extraOptions || {}))
 					} else {
-						OC.Notification.show(t('settings', 'Group list is empty'), { type: 'error' });
-						console.log(data);
+						OC.Notification.show(t('settings', 'Group list is empty'), { type: 'error' })
+						console.log(data)
 					}
 				},
 				error: function(data) {
-					OC.Notification.show(t('settings', 'Unable to retrieve the group list'), { type: 'error' });
-					console.log(data);
-				}
-			});
+					OC.Notification.show(t('settings', 'Unable to retrieve the group list'), { type: 'error' })
+					console.log(data)
+				},
+			})
 		}
-	}
-});
+	},
+})

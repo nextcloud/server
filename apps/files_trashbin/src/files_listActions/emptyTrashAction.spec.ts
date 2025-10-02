@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Folder } from '@nextcloud/files'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { emptyTrashAction } from './emptyTrashAction.ts'
-import { trashbinView } from '../files_views/trashbinView.ts'
 import * as ncDialogs from '@nextcloud/dialogs'
 import * as ncEventBus from '@nextcloud/event-bus'
+import { Folder } from '@nextcloud/files'
 import * as ncInitialState from '@nextcloud/initial-state'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { trashbinView } from '../files_views/trashbinView.ts'
 import * as api from '../services/api.ts'
+import { emptyTrashAction } from './emptyTrashAction.ts'
 
 describe('files_trashbin: file list actions - empty trashbin', () => {
 	it('has id set', () => {

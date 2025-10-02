@@ -104,7 +104,6 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 
 		sharedSetup()
 	})
-
 })
 
 /**

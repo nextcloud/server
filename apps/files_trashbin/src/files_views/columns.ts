@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { Node } from '@nextcloud/files'
+
 import { getCurrentUser } from '@nextcloud/auth'
-import { Column, Node } from '@nextcloud/files'
+import { Column } from '@nextcloud/files'
 import { formatRelativeTime, getCanonicalLocale, getLanguage, t } from '@nextcloud/l10n'
 import { dirname } from '@nextcloud/paths'
-
 import Vue from 'vue'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
@@ -115,7 +116,7 @@ function parseDeletedBy(node: Node) {
 	const userId = stringOrNull(node.attributes?.['trashbin-deleted-by-id'])
 	const displayName = stringOrNull(node.attributes?.['trashbin-deleted-by-display-name'])
 
-	let label: string|undefined
+	let label: string | undefined
 	const currentUserId = getCurrentUser()?.uid
 	if (userId === currentUserId) {
 		label = t('files_trashbin', 'You')

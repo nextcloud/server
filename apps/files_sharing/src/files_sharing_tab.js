@@ -3,19 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
+import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
 import { getCSPNonce } from '@nextcloud/auth'
-import { t, n } from '@nextcloud/l10n'
-
-import ShareSearch from './services/ShareSearch.js'
+import { n, t } from '@nextcloud/l10n'
+import Vue from 'vue'
 import ExternalLinkActions from './services/ExternalLinkActions.js'
 import ExternalShareActions from './services/ExternalShareActions.js'
+import ShareSearch from './services/ShareSearch.js'
 import TabSections from './services/TabSections.js'
 
-// eslint-disable-next-line n/no-missing-import, import/no-unresolved
-import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
-
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 // Init Sharing Tab Service

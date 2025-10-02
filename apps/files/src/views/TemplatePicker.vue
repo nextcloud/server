@@ -4,25 +4,29 @@
 -->
 
 <template>
-	<NcModal v-if="opened"
+	<NcModal
+		v-if="opened"
 		:clear-view-delay="-1"
 		class="templates-picker"
 		size="large"
 		@close="close">
-		<form class="templates-picker__form"
+		<form
+			class="templates-picker__form"
 			:style="style"
 			@submit.prevent.stop="onSubmit">
 			<h2>{{ t('files', 'Pick a template for {name}', { name: nameWithoutExt }) }}</h2>
 
 			<!-- Templates list -->
 			<ul class="templates-picker__list">
-				<TemplatePreview v-bind="emptyTemplate"
+				<TemplatePreview
+					v-bind="emptyTemplate"
 					ref="emptyTemplatePreview"
 					:checked="checked === emptyTemplate.fileid"
 					@confirm-click="onConfirmClick"
 					@check="onCheck" />
 
-				<TemplatePreview v-for="template in provider.templates"
+				<TemplatePreview
+					v-for="template in provider.templates"
 					:key="template.fileid"
 					v-bind="template"
 					:checked="checked === template.fileid"
@@ -33,7 +37,8 @@
 
 			<!-- Cancel and submit -->
 			<div class="templates-picker__buttons">
-				<input type="submit"
+				<input
+					type="submit"
 					class="primary"
 					:value="t('files', 'Create')"
 					:aria-label="t('files', 'Create a new file with the selected template')">
@@ -47,25 +52,25 @@
 </template>
 
 <script lang="ts">
+import type { Node } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { TemplateFile } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError, spawnDialog } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { File, Node } from '@nextcloud/files'
-import { getClient, getRootPath, resultToNode, getDefaultPropfind } from '@nextcloud/files/dav'
+import { File } from '@nextcloud/files'
+import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { normalize, extname, join } from 'path'
+import { extname, join, normalize } from 'path'
 import { defineComponent } from 'vue'
-import { createFromTemplate, getTemplates, getTemplateFields } from '../services/Templates.js'
-
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcModal from '@nextcloud/vue/components/NcModal'
-import TemplatePreview from '../components/TemplatePreview.vue'
 import TemplateFiller from '../components/TemplateFiller.vue'
+import TemplatePreview from '../components/TemplatePreview.vue'
 import logger from '../logger.ts'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
+import { createFromTemplate, getTemplateFields, getTemplates } from '../services/Templates.js'
 
 const border = 2
 const margin = 8
@@ -94,9 +99,9 @@ export default defineComponent({
 			// Check empty template by default
 			checked: -1,
 			loading: false,
-			name: null as string|null,
+			name: null as string | null,
 			opened: false,
-			provider: null as TemplateFile|null,
+			provider: null as TemplateFile | null,
 		}
 	},
 
@@ -161,8 +166,8 @@ export default defineComponent({
 		/**
 		 * Open the picker
 		 *
-		 * @param {string} name the file name to create
-		 * @param {object} provider the template provider picked
+		 * @param name the file name to create
+		 * @param provider the template provider picked
 		 */
 		async open(name: string, provider) {
 			this.checked = this.emptyTemplate.fileid

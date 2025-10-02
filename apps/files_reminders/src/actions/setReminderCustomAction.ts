@@ -5,12 +5,11 @@
 
 import type { Node, View } from '@nextcloud/files'
 
+import CalendarClockSvg from '@mdi/svg/svg/calendar-clock.svg?raw'
 import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import CalendarClockSvg from '@mdi/svg/svg/calendar-clock.svg?raw'
-
-import { SET_REMINDER_MENU_ID } from './setReminderMenuAction'
-import { pickCustomDate } from '../services/customPicker'
+import { pickCustomDate } from '../services/customPicker.ts'
+import { SET_REMINDER_MENU_ID } from './setReminderMenuAction.ts'
 
 export const action = new FileAction({
 	id: 'set-reminder-custom',

@@ -4,15 +4,18 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('sharebymail', 'Share by mail')"
+	<NcSettingsSection
+		:name="t('sharebymail', 'Share by mail')"
 		:description="t('sharebymail', 'Allows people to share a personalized link to a file or folder by putting in an email address.')">
-		<NcCheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch
+			type="switch"
 			:checked.sync="sendPasswordMail"
 			@update:checked="update('sendpasswordmail', sendPasswordMail)">
 			{{ t('sharebymail', 'Send password by mail') }}
 		</NcCheckboxRadioSwitch>
 
-		<NcCheckboxRadioSwitch type="switch"
+		<NcCheckboxRadioSwitch
+			type="switch"
 			:checked.sync="replyToInitiator"
 			@update:checked="update('replyToInitiator', replyToInitiator)">
 			{{ t('sharebymail', 'Reply to initiator') }}
@@ -21,13 +24,14 @@
 </template>
 
 <script>
-import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
-import { generateOcsUrl } from '@nextcloud/router'
-import { confirmPassword } from '@nextcloud/password-confirmation'
 import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import { generateOcsUrl } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import { logger } from '../logger.ts'
 
 import '@nextcloud/password-confirmation/dist/style.css'
 
@@ -37,12 +41,14 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 	},
+
 	data() {
 		return {
 			sendPasswordMail: loadState('sharebymail', 'sendPasswordMail'),
 			replyToInitiator: loadState('sharebymail', 'replyToInitiator'),
 		}
 	},
+
 	methods: {
 		async update(key, value) {
 			await confirmPassword()
@@ -65,10 +71,11 @@ export default {
 				})
 			}
 		},
+
 		async handleResponse({ status, errorMessage, error }) {
 			if (status !== 'ok') {
 				showError(errorMessage)
-				console.error(errorMessage, error)
+				logger.error(errorMessage, { error })
 			}
 		},
 	},

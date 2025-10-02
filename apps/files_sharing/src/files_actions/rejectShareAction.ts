@@ -4,15 +4,14 @@
  */
 import type { Node, View } from '@nextcloud/files'
 
-import { emit } from '@nextcloud/event-bus'
-import { generateOcsUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction } from '@nextcloud/files'
-import { translatePlural as n } from '@nextcloud/l10n'
-import { ShareType } from '@nextcloud/sharing'
-import { pendingSharesViewId } from '../files_views/shares'
-
-import axios from '@nextcloud/axios'
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
+import axios from '@nextcloud/axios'
+import { emit } from '@nextcloud/event-bus'
+import { FileAction, registerFileAction } from '@nextcloud/files'
+import { translatePlural as n } from '@nextcloud/l10n'
+import { generateOcsUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
+import { pendingSharesViewId } from '../files_views/shares.ts'
 
 export const action = new FileAction({
 	id: 'reject-share',
@@ -30,7 +29,7 @@ export const action = new FileAction({
 
 		// disable rejecting group shares from the pending list because they anyway
 		// land back into that same list after rejecting them
-		if (nodes.some(node => node.attributes.remote_id
+		if (nodes.some((node) => node.attributes.remote_id
 			&& node.attributes.share_type === ShareType.RemoteGroup)) {
 			return false
 		}
@@ -61,12 +60,12 @@ export const action = new FileAction({
 			emit('files:node:deleted', node)
 
 			return true
-		} catch (error) {
+		} catch {
 			return false
 		}
 	},
 	async execBatch(nodes: Node[], view: View, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+		return Promise.all(nodes.map((node) => this.exec(node, view, dir)))
 	},
 
 	order: 2,

@@ -6,11 +6,12 @@
 <template>
 	<div class="background-selector" data-user-theming-background-settings>
 		<!-- Custom background -->
-		<button :aria-pressed="backgroundImage === 'custom'"
+		<button
+			:aria-pressed="backgroundImage === 'custom'"
+			class="background background__filepicker"
 			:class="{
 				'icon-loading': loading === 'custom',
-				'background background__filepicker': true,
-				'background--active': backgroundImage === 'custom'
+				'background--active': backgroundImage === 'custom',
 			}"
 			data-user-theming-background-custom
 			tabindex="0"
@@ -22,15 +23,16 @@
 
 		<!-- Custom color picker -->
 		<NcColorPicker v-model="Theming.backgroundColor" @update:value="debouncePickColor">
-			<button :class="{
+			<button
+				class="background background__color"
+				:class="{
 					'icon-loading': loading === 'color',
-					'background background__color': true,
-					'background--active': backgroundImage === 'color'
+					'background--active': backgroundImage === 'color',
 				}"
 				:aria-pressed="backgroundImage === 'color'"
 				:data-color="Theming.backgroundColor"
 				:data-color-bright="invertTextColor(Theming.backgroundColor)"
-				:style="{ backgroundColor: Theming.backgroundColor, '--border-color': Theming.backgroundColor}"
+				:style="{ backgroundColor: Theming.backgroundColor, '--border-color': Theming.backgroundColor }"
 				data-user-theming-background-color
 				tabindex="0"
 				@click="backgroundImage !== 'color' && debouncePickColor(Theming.backgroundColor)">
@@ -41,11 +43,12 @@
 		</NcColorPicker>
 
 		<!-- Default background -->
-		<button :aria-pressed="backgroundImage === 'default'"
+		<button
+			:aria-pressed="backgroundImage === 'default'"
+			class="background background__default"
 			:class="{
 				'icon-loading': loading === 'default',
-				'background background__default': true,
-				'background--active': backgroundImage === 'default'
+				'background--active': backgroundImage === 'default',
 			}"
 			:data-color-bright="invertTextColor(Theming.defaultBackgroundColor)"
 			:style="{ '--border-color': Theming.defaultBackgroundColor }"
@@ -57,15 +60,16 @@
 		</button>
 
 		<!-- Background set selection -->
-		<button v-for="shippedBackground in shippedBackgrounds"
+		<button
+			v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
 			:title="shippedBackground.details.attribution"
 			:aria-label="shippedBackground.details.description"
 			:aria-pressed="backgroundImage === shippedBackground.name"
+			class="background background__shipped"
 			:class="{
-				'background background__shipped': true,
 				'icon-loading': loading === shippedBackground.name,
-				'background--active': backgroundImage === shippedBackground.name
+				'background--active': backgroundImage === shippedBackground.name,
 			}"
 			:data-color-bright="invertTextColor(shippedBackground.details.background_color)"
 			:data-user-theming-background-shipped="shippedBackground.name"
@@ -78,16 +82,16 @@
 </template>
 
 <script>
-import { generateFilePath, generateUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import axios from '@nextcloud/axios'
+import { generateFilePath, generateUrl } from '@nextcloud/router'
 import debounce from 'debounce'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
-
 import Check from 'vue-material-design-icons/Check.vue'
 import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
 import ColorPalette from 'vue-material-design-icons/PaletteOutline.vue'
+import { logger } from '../logger.ts'
 
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 const backgroundImage = loadState('theming', 'userBackgroundImage')
@@ -255,7 +259,7 @@ export default {
 
 		async applyFile(path) {
 			if (!path || typeof path !== 'string' || path.trim().length === 0 || path === '/') {
-				console.error('No valid background have been selected', { path })
+				logger.error('No valid background have been selected', { path })
 				showError(t('theming', 'No background has been selected'))
 				return
 			}

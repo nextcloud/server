@@ -25,7 +25,7 @@ describe('Create system tags', () => {
 
 		// see that the created tag is in the list
 		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then(id => {
+		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id}`).within(() => {
 				cy.contains('li', tagName).should('exist')
 				// ensure only one tag exists
@@ -44,7 +44,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 	it('select the tag', () => {
 		// select the tag to edit
 		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then(id => {
+		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id}`).within(() => {
 				cy.contains('li', tagName).should('exist').click()
 			})
@@ -62,7 +62,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 		cy.get('input#system-tag-name').should('have.value', updatedTagName)
 		// select the new tag level
 		cy.get('input#system-tag-level').focus()
-		cy.get('input#system-tag-level').invoke('attr', 'aria-controls').then(id => {
+		cy.get('input#system-tag-level').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id}`).within(() => {
 				cy.contains('li', 'Invisible').should('exist').click()
 			})
@@ -73,7 +73,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 
 	it('see the tag was successfully updated', () => {
 		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then(id => {
+		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id}`).within(() => {
 				cy.contains('li', `${updatedTagName} (invisible)`).should('exist')
 				// ensure only one tag exists
@@ -92,7 +92,7 @@ describe('Delete system tags', { testIsolation: false }, () => {
 	it('select the tag', () => {
 		// select the tag to edit
 		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then(id => {
+		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id}`).within(() => {
 				cy.contains('li', `${updatedTagName} (invisible)`).should('exist').click()
 			})
@@ -112,7 +112,7 @@ describe('Delete system tags', { testIsolation: false }, () => {
 
 	it('see that the deleted tag is not present', () => {
 		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then(id => {
+		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id}`).within(() => {
 				cy.contains('li', updatedTagName).should('not.exist')
 			})

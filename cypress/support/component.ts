@@ -3,15 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { mount } from '@cypress/vue2'
+
 import '@testing-library/cypress/add-commands'
 import 'cypress-axe'
-
 // styles
 import '../../apps/theming/css/default.css'
 import '../../core/css/server.css'
-
-/* eslint-disable */
-import { mount } from '@cypress/vue2'
 
 Cypress.Commands.add('mount', (component, options = {}) => {
 	// Setup options object

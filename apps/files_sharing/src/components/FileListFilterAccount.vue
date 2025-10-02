@@ -3,20 +3,23 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<FileListFilter class="file-list-filter-accounts"
+	<FileListFilter
+		class="file-list-filter-accounts"
 		:is-active="selectedAccounts.length > 0"
 		:filter-name="t('files_sharing', 'People')"
 		@reset-filter="resetFilter">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiAccountMultipleOutline" />
 		</template>
-		<NcActionInput v-if="availableAccounts.length > 1"
+		<NcActionInput
+			v-if="availableAccounts.length > 1"
 			:label="t('files_sharing', 'Filter accounts')"
 			:label-outside="false"
 			:show-trailing-button="false"
 			type="search"
 			:value.sync="accountFilter" />
-		<NcActionButton v-for="account of shownAccounts"
+		<NcActionButton
+			v-for="account of shownAccounts"
 			:key="account.id"
 			class="file-list-filter-accounts__item"
 			type="radio"
@@ -24,11 +27,12 @@
 			:value="account.id"
 			@click="toggleAccount(account.id)">
 			<template #icon>
-				<NcAvatar class="file-list-filter-accounts__avatar"
+				<NcAvatar
+					class="file-list-filter-accounts__avatar"
 					v-bind="account"
 					:size="24"
 					disable-menu
-					:show-user-status="false" />
+					hide-status />
 			</template>
 			{{ account.displayName }}
 		</NcActionButton>
@@ -38,15 +42,14 @@
 <script setup lang="ts">
 import type { IAccountData } from '../files_filters/AccountFilter.ts'
 
-import { translate as t } from '@nextcloud/l10n'
 import { mdiAccountMultipleOutline } from '@mdi/js'
+import { translate as t } from '@nextcloud/l10n'
 import { computed, ref, watch } from 'vue'
-
-import FileListFilter from '../../../files/src/components/FileListFilter/FileListFilter.vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import FileListFilter from '../../../files/src/components/FileListFilter/FileListFilter.vue'
 
 interface IUserSelectData {
 	id: string
@@ -70,16 +73,13 @@ const shownAccounts = computed(() => {
 		return availableAccounts.value
 	}
 	const queryParts = accountFilter.value.toLocaleLowerCase().trim().split(' ')
-	return availableAccounts.value.filter((account) =>
-		queryParts.every((part) =>
-			account.user.toLocaleLowerCase().includes(part)
-			|| account.displayName.toLocaleLowerCase().includes(part),
-		),
-	)
+	return availableAccounts.value.filter((account) => queryParts.every((part) => account.user.toLocaleLowerCase().includes(part)
+		|| account.displayName.toLocaleLowerCase().includes(part)))
 })
 
 /**
  * Toggle an account as selected
+ *
  * @param accountId The account to toggle
  */
 function toggleAccount(accountId: string) {

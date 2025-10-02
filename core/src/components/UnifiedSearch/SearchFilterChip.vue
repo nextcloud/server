@@ -23,16 +23,19 @@ export default {
 	components: {
 		CloseIcon,
 	},
+
 	props: {
 		text: {
 			type: String,
 			required: true,
 		},
+
 		pretext: {
 			type: String,
 			required: true,
 		},
 	},
+
 	methods: {
 		deleteChip() {
 			this.$emit('delete', this.filter)

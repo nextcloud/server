@@ -9,10 +9,10 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
 import { defaultRemoteURL } from '@nextcloud/files/dav'
 import { CancelablePromise } from 'cancelable-promise'
-import { searchNodes } from './WebDavSearch.ts'
 import logger from '../logger.ts'
-import { useSearchStore } from '../store/search.ts'
 import { getPinia } from '../store/index.ts'
+import { useSearchStore } from '../store/search.ts'
+import { searchNodes } from './WebDavSearch.ts'
 
 /**
  * Get the contents for a search view

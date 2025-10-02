@@ -7,13 +7,12 @@ import type { RawLocation, Route } from 'vue-router'
 import { generateUrl } from '@nextcloud/router'
 import { relative } from 'path'
 import queryString from 'query-string'
-import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import Vue from 'vue'
-
+import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
+import logger from '../logger.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { defaultView } from '../utils/filesViews.ts'
-import logger from '../logger.ts'
 
 Vue.use(Router)
 
@@ -36,6 +35,7 @@ Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof or
 
 /**
  * Ignore duplicated-navigation error but forward real exceptions
+ *
  * @param error The thrown error
  */
 function ignoreDuplicateNavigation(error: unknown): void {

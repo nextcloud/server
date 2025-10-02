@@ -2,11 +2,11 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { View, getNavigation } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import HistorySvg from '@mdi/svg/svg/history.svg?raw'
 
-import { getContents } from '../services/Recent'
+import HistorySvg from '@mdi/svg/svg/history.svg?raw'
+import { getNavigation, View } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { getContents } from '../services/Recent.ts'
 
 export default () => {
 	const Navigation = getNavigation()

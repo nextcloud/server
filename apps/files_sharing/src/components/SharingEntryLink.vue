@@ -4,9 +4,11 @@
 -->
 
 <template>
-	<li :class="{ 'sharing-entry--share': share }"
+	<li
+		:class="{ 'sharing-entry--share': share }"
 		class="sharing-entry sharing-entry__link">
-		<NcAvatar :is-no-user="true"
+		<NcAvatar
+			:is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
 
@@ -18,7 +20,8 @@
 				<p v-if="subtitle">
 					{{ subtitle }}
 				</p>
-				<SharingEntryQuickShareSelect v-if="share && share.permissions !== undefined"
+				<SharingEntryQuickShareSelect
+					v-if="share && share.permissions !== undefined"
 					:share="share"
 					:file-info="fileInfo"
 					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
@@ -30,12 +33,14 @@
 				<!-- clipboard -->
 				<div>
 					<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
-						<NcActionButton :aria-label="copyLinkLabel"
+						<NcActionButton
+							:aria-label="copyLinkLabel"
 							:title="copySuccess ? t('files_sharing', 'Successfully copied public link') : undefined"
 							:href="shareLink"
 							@click.prevent="copyLink">
 							<template #icon>
-								<NcIconSvgWrapper class="sharing-entry__copy-icon"
+								<NcIconSvgWrapper
+									class="sharing-entry__copy-icon"
 									:class="{ 'sharing-entry__copy-icon--success': copySuccess }"
 									:path="copySuccess ? mdiCheck : mdiContentCopy" />
 							</template>
@@ -46,14 +51,16 @@
 		</div>
 
 		<!-- pending actions -->
-		<NcActions v-if="!pending && pendingDataIsMissing"
+		<NcActions
+			v-if="!pending && pendingDataIsMissing"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
 			@close="onCancel">
 			<!-- pending data menu -->
-			<NcActionText v-if="errors.pending"
+			<NcActionText
+				v-if="errors.pending"
 				class="error">
 				<template #icon>
 					<ErrorIcon :size="20" />
@@ -65,7 +72,8 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionCheckbox v-if="pendingPassword"
+			<NcActionCheckbox
+				v-if="pendingPassword"
 				:checked.sync="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
@@ -73,7 +81,8 @@
 				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Password protection (enforced)') : t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
-			<NcActionInput v-if="pendingEnforcedPassword || isPasswordProtected"
+			<NcActionInput
+				v-if="pendingEnforcedPassword || isPasswordProtected"
 				class="share-link-password"
 				:label="t('files_sharing', 'Enter a password')"
 				:value.sync="share.newPassword"
@@ -87,7 +96,8 @@
 				</template>
 			</NcActionInput>
 
-			<NcActionCheckbox v-if="pendingDefaultExpirationDate"
+			<NcActionCheckbox
+				v-if="pendingDefaultExpirationDate"
 				:checked.sync="defaultExpirationDateEnabled"
 				:disabled="pendingEnforcedExpirationDate || saving"
 				class="share-link-expiration-date-checkbox"
@@ -96,7 +106,8 @@
 			</NcActionCheckbox>
 
 			<!-- expiration date -->
-			<NcActionInput v-if="(pendingDefaultExpirationDate || pendingEnforcedExpirationDate) && defaultExpirationDateEnabled"
+			<NcActionInput
+				v-if="(pendingDefaultExpirationDate || pendingEnforcedExpirationDate) && defaultExpirationDateEnabled"
 				data-cy-files-sharing-expiration-date-input
 				class="share-link-expire-date"
 				:label="pendingEnforcedExpirationDate ? t('files_sharing', 'Enter expiration date (enforced)') : t('files_sharing', 'Enter expiration date')"
@@ -114,7 +125,8 @@
 				</template>
 			</NcActionInput>
 
-			<NcActionButton :disabled="pendingEnforcedPassword && !share.newPassword"
+			<NcActionButton
+				:disabled="pendingEnforcedPassword && !share.newPassword"
 				@click.prevent.stop="onNewLinkShare(true)">
 				<template #icon>
 					<CheckIcon :size="20" />
@@ -130,7 +142,8 @@
 		</NcActions>
 
 		<!-- actions -->
-		<NcActions v-else-if="!loading"
+		<NcActions
+			v-else-if="!loading"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
@@ -138,7 +151,8 @@
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
-					<NcActionButton :disabled="saving"
+					<NcActionButton
+						:disabled="saving"
 						:close-after-click="true"
 						@click.prevent="openSharingDetails">
 						<template #icon>
@@ -148,7 +162,8 @@
 					</NcActionButton>
 				</template>
 
-				<NcActionButton :close-after-click="true"
+				<NcActionButton
+					:close-after-click="true"
 					@click.prevent="showQRCode = true">
 					<template #icon>
 						<IconQr :size="20" />
@@ -159,7 +174,8 @@
 				<NcActionSeparator />
 
 				<!-- external actions -->
-				<NcActionButton v-for="action in sortedExternalShareActions"
+				<NcActionButton
+					v-for="action in sortedExternalShareActions"
 					:key="action.id"
 					@click="action.exec(share, fileInfo.node)">
 					<template #icon>
@@ -168,7 +184,8 @@
 					{{ action.label(share, fileInfo.node) }}
 				</NcActionButton>
 
-				<SidebarTabExternalActionLegacy v-for="action in externalLegacyShareActions"
+				<SidebarTabExternalActionLegacy
+					v-for="action in externalLegacyShareActions"
 					:id="action.id"
 					:key="action.id"
 					:action="action"
@@ -176,7 +193,8 @@
 					:share="share" />
 
 				<!-- external legacy sharing via url (social...) -->
-				<NcActionLink v-for="({ icon, url, name }, actionIndex) in externalLegacyLinkActions"
+				<NcActionLink
+					v-for="({ icon, url, name }, actionIndex) in externalLegacyLinkActions"
 					:key="actionIndex"
 					:href="url(shareLink)"
 					:icon="icon"
@@ -184,7 +202,8 @@
 					{{ name }}
 				</NcActionLink>
 
-				<NcActionButton v-if="!isEmailShareType && canReshare"
+				<NcActionButton
+					v-if="!isEmailShareType && canReshare"
 					class="new-share-link"
 					@click.prevent.stop="onNewLinkShare">
 					<template #icon>
@@ -193,7 +212,8 @@
 					{{ t('files_sharing', 'Add another link') }}
 				</NcActionButton>
 
-				<NcActionButton v-if="share.canDelete"
+				<NcActionButton
+					v-if="share.canDelete"
 					:disabled="saving"
 					@click.prevent="onDelete">
 					<template #icon>
@@ -204,7 +224,8 @@
 			</template>
 
 			<!-- Create new share -->
-			<NcActionButton v-else-if="canReshare"
+			<NcActionButton
+				v-else-if="canReshare"
 				class="new-share-link"
 				:title="t('files_sharing', 'Create a new share link')"
 				:aria-label="t('files_sharing', 'Create a new share link')"
@@ -216,14 +237,16 @@
 		<NcLoadingIcon v-else class="sharing-entry__loading" />
 
 		<!-- Modal to open whenever we have a QR code -->
-		<NcDialog v-if="showQRCode"
+		<NcDialog
+			v-if="showQRCode"
 			size="normal"
 			:open.sync="showQRCode"
 			:name="title"
 			:close-on-click-outside="true"
 			@close="showQRCode = false">
 			<div class="qr-code-dialog">
-				<VueQrcode tag="img"
+				<VueQrcode
+					tag="img"
 					:value="shareLink"
 					class="qr-code-dialog__img" />
 			</div>
@@ -232,6 +255,7 @@
 </template>
 
 <script>
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 import { mdiCheck, mdiContentCopy } from '@mdi/js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
@@ -241,38 +265,33 @@ import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { getSidebarInlineActions } from '@nextcloud/sharing/ui'
 import { toRaw } from 'vue'
-
-import VueQrcode from '@chenfengyuan/vue-qrcode'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
-import NcActionText from '@nextcloud/vue/components/NcActionText'
-import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import Tune from 'vue-material-design-icons/Tune.vue'
 import IconCalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import IconQr from 'vue-material-design-icons/Qrcode.vue'
-import ErrorIcon from 'vue-material-design-icons/Exclamation.vue'
-import LockIcon from 'vue-material-design-icons/LockOutline.vue'
 import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
+import ErrorIcon from 'vue-material-design-icons/Exclamation.vue'
+import LockIcon from 'vue-material-design-icons/LockOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-
-import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import IconQr from 'vue-material-design-icons/Qrcode.vue'
+import Tune from 'vue-material-design-icons/Tune.vue'
 import ShareExpiryTime from './ShareExpiryTime.vue'
+import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 import SidebarTabExternalActionLegacy from './SidebarTabExternal/SidebarTabExternalActionLegacy.vue'
-
-import GeneratePassword from '../utils/GeneratePassword.ts'
-import Share from '../models/Share.ts'
-import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
+import SharesMixin from '../mixins/SharesMixin.js'
+import Share from '../models/Share.ts'
 import logger from '../services/logger.ts'
+import GeneratePassword from '../utils/GeneratePassword.ts'
 
 export default {
 	name: 'SharingEntryLink',
@@ -310,6 +329,7 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+
 		index: {
 			type: Number,
 			default: null,
@@ -453,6 +473,7 @@ export default {
 			get() {
 				return this.share.sendPasswordByTalk
 			},
+
 			async set(enabled) {
 				this.share.sendPasswordByTalk = enabled
 			},
@@ -493,21 +514,27 @@ export default {
 		pendingDataIsMissing() {
 			return this.pendingPassword || this.pendingEnforcedPassword || this.pendingDefaultExpirationDate || this.pendingEnforcedExpirationDate
 		},
+
 		pendingPassword() {
 			return this.config.enableLinkPasswordByDefault && this.isPendingShare
 		},
+
 		pendingEnforcedPassword() {
 			return this.config.enforcePasswordForPublicLink && this.isPendingShare
 		},
+
 		pendingEnforcedExpirationDate() {
 			return this.config.isDefaultExpireDateEnforced && this.isPendingShare
 		},
+
 		pendingDefaultExpirationDate() {
 			return (this.config.defaultExpirationDate instanceof Date || !isNaN(new Date(this.config.defaultExpirationDate).getTime())) && this.isPendingShare
 		},
+
 		isPendingShare() {
 			return !!(this.share && !this.share.id)
 		},
+
 		sharePolicyHasEnforcedProperties() {
 			return this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced
 		},
@@ -534,6 +561,7 @@ export default {
 
 			return isPasswordMissing || isExpireDateMissing
 		},
+
 		// if newPassword exists, but is empty, it means
 		// the user deleted the original password
 		hasUnsavedPassword() {
@@ -583,7 +611,9 @@ export default {
 		externalLegacyShareActions() {
 			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && !action.advanced
 			// filter only the registered actions for said link
-			console.error('external legacy', this.ExternalShareActions, this.ExternalShareActions.actions.filter(filterValidAction))
+			logger.error('external legacy actions', {
+				ExternalShareActions: this.ExternalShareActions,
+			})
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
 		},
@@ -612,6 +642,7 @@ export default {
 			return this.share.isFileRequest
 		},
 	},
+
 	mounted() {
 		this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
 		if (this.share && this.isNewShare) {
@@ -633,8 +664,10 @@ export default {
 			}
 			return this.defaultExpirationDateEnabled || this.config.enableLinkPasswordByDefault
 		},
+
 		/**
 		 * Create a new share link and append it to the list
+		 *
 		 * @param {boolean} shareReviewComplete if the share was reviewed
 		 */
 		async onNewLinkShare(shareReviewComplete = false) {
@@ -669,7 +702,7 @@ export default {
 					this.$set(share, 'newPassword', await GeneratePassword(true))
 				}
 
-				const component = await new Promise(resolve => {
+				const component = await new Promise((resolve) => {
 					this.$emit('add:share', share, resolve)
 				})
 
@@ -681,7 +714,6 @@ export default {
 
 				// Nothing is enforced, creating share directly
 			} else {
-
 				// if a share already exists, pushing it
 				if (this.share && !this.share.id) {
 					// if the share is valid, create it on the server
@@ -742,23 +774,23 @@ export default {
 					// (currently not supported on create, only update)
 				}
 
-				console.debug('Creating link share with options', options)
+				logger.debug('Creating link share with options', { options })
 				const newShare = await this.createShare(options)
 
 				this.open = false
 				this.shareCreationComplete = true
-				console.debug('Link share created', newShare)
+				logger.debug('Link share created', { newShare })
 				// if share already exists, copy link directly on next tick
 				let component
 				if (update) {
-					component = await new Promise(resolve => {
+					component = await new Promise((resolve) => {
 						this.$emit('update:share', newShare, resolve)
 					})
 				} else {
 					// adding new share to the array and copying link to clipboard
 					// using promise so that we can copy link in the same click function
 					// and avoid firefox copy permissions issue
-					component = await new Promise(resolve => {
+					component = await new Promise((resolve) => {
 						this.$emit('add:share', newShare, resolve)
 					})
 				}
@@ -775,12 +807,11 @@ export default {
 					component.copyLink()
 				}
 				showSuccess(t('files_sharing', 'Link share created'))
-
 			} catch (data) {
 				const message = data?.response?.data?.ocs?.meta?.message
 				if (!message) {
 					showError(t('files_sharing', 'Error while creating the share'))
-					console.error(data)
+					logger.error('Error while creating the share', { error: data })
 					return
 				}
 
@@ -792,12 +823,12 @@ export default {
 					this.onSyncError('pending', message)
 				}
 				throw data
-
 			} finally {
 				this.loading = false
 				this.shareCreationComplete = true
 			}
 		},
+
 		async copyLink() {
 			try {
 				await navigator.clipboard.writeText(this.shareLink)
@@ -886,7 +917,7 @@ export default {
 		},
 
 		/**
-		 * @param enabled True if expiration is enabled
+		 * @param {boolean} enabled True if expiration is enabled
 		 */
 		onExpirationDateToggleUpdate(enabled) {
 			this.share.expireDate = enabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''

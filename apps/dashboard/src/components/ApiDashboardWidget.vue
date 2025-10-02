@@ -3,7 +3,8 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcDashboardWidget :items="items"
+	<NcDashboardWidget
+		:items="items"
 		:show-more-label="showMoreLabel"
 		:show-more-url="showMoreUrl"
 		:loading="loading"
@@ -13,7 +14,8 @@
 			<ApiDashboardWidgetItem :item="item" :icon-size="iconSize" :rounded-icons="widget.item_icons_round" />
 		</template>
 		<template #empty-content>
-			<NcEmptyContent v-if="items.length === 0"
+			<NcEmptyContent
+				v-if="items.length === 0"
 				:description="emptyContentMessage">
 				<template #icon>
 					<CheckIcon v-if="emptyContentMessage" :size="65" />
@@ -44,25 +46,30 @@ export default {
 		NcEmptyContent,
 		NcButton,
 	},
+
 	props: {
 		widget: {
 			type: [Object, undefined],
 			default: undefined,
 		},
+
 		data: {
 			type: [Object, undefined],
 			default: undefined,
 		},
+
 		loading: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			iconSize: 44,
 		}
 	},
+
 	computed: {
 		/** @return {object[]} */
 		items() {
@@ -84,17 +91,17 @@ export default {
 			// TODO: Render new button in the template
 			// I couldn't find a widget that makes use of the button. Furthermore, there is no convenient
 			// way to render such a button using the official widget component.
-			return this.widget?.buttons?.find(button => button.type === 'new')
+			return this.widget?.buttons?.find((button) => button.type === 'new')
 		},
 
 		/** @return {object|undefined} */
 		moreButton() {
-			return this.widget?.buttons?.find(button => button.type === 'more')
+			return this.widget?.buttons?.find((button) => button.type === 'more')
 		},
 
 		/** @return {object|undefined} */
 		setupButton() {
-			return this.widget?.buttons?.find(button => button.type === 'setup')
+			return this.widget?.buttons?.find((button) => button.type === 'setup')
 		},
 
 		/** @return {string|undefined} */
@@ -107,6 +114,7 @@ export default {
 			return this.moreButton?.link
 		},
 	},
+
 	mounted() {
 		const size = window.getComputedStyle(document.body).getPropertyValue('--default-clickable-area')
 		const numeric = Number.parseFloat(size)

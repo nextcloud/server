@@ -2,7 +2,8 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-export const getCurrentUser = function() {
+
+export function getCurrentUser() {
 	return {
 		uid: 'test',
 		displayName: 'Test',
@@ -10,8 +11,8 @@ export const getCurrentUser = function() {
 	}
 }
 
-export const getRequestToken = function() {
+export function getRequestToken() {
 	return 'test-token-1234'
 }
 
-export const onRequestTokenUpdate = function() {}
+export function onRequestTokenUpdate() {}

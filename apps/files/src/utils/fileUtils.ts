@@ -2,7 +2,11 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { FileType, type Node } from '@nextcloud/files'
+import {
+	type Node,
+
+	FileType,
+} from '@nextcloud/files'
 import { n } from '@nextcloud/l10n'
 
 /**
@@ -25,8 +29,8 @@ export function extractFilePaths(path: string): [string, string] {
  * @param hidden - The number of hidden nodes
  */
 export function getSummaryFor(nodes: Node[], hidden = 0): string {
-	const fileCount = nodes.filter(node => node.type === FileType.File).length
-	const folderCount = nodes.filter(node => node.type === FileType.Folder).length
+	const fileCount = nodes.filter((node) => node.type === FileType.File).length
+	const folderCount = nodes.filter((node) => node.type === FileType.Folder).length
 
 	const summary: string[] = []
 	if (fileCount > 0 || folderCount === 0) {

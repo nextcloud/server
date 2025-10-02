@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcListItem :id="profileEnabled ? undefined : id"
+	<NcListItem
+		:id="profileEnabled ? undefined : id"
 		:anchor-id="id"
 		:active="active"
 		compact
@@ -21,11 +22,10 @@
 </template>
 
 <script lang="ts">
-import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
-
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
@@ -44,14 +44,17 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
+
 		name: {
 			type: String,
 			required: true,
 		},
+
 		href: {
 			type: String,
 			required: true,
 		},
+
 		active: {
 			type: Boolean,
 			required: true,

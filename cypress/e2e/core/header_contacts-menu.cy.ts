@@ -4,10 +4,8 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { clearState, getNextcloudHeader } from '../../support/commonUtils'
-
-// eslint-disable-next-line n/no-extraneous-import
 import randomString from 'crypto-random-string'
+import { clearState, getNextcloudHeader } from '../../support/commonUtils.ts'
 
 const admin = new User('admin', 'admin')
 

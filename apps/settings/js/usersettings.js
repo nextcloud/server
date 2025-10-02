@@ -7,54 +7,54 @@
  */
 
 (function() {
-	'use strict';
+	'use strict'
 
-	var errorNotification;
+	let errorNotification
 
 	/**
 	 * Model for storing and saving user settings
 	 *
 	 * @class UserSettings
 	 */
-	var UserSettings = OC.Backbone.Model.extend({
-		url: OC.generateUrl('/settings/users/{id}/settings', {id: OC.currentUser}),
+	const UserSettings = OC.Backbone.Model.extend({
+		url: OC.generateUrl('/settings/users/{id}/settings', { id: OC.currentUser }),
 		isNew: function() {
-			return false; // Force PUT on .save()
+			return false // Force PUT on .save()
 		},
 		parse: function(data) {
 			if (_.isUndefined(data)) {
-				return null;
+				return null
 			}
 
 			if (errorNotification) {
-				errorNotification.hide();
+				errorNotification.hide()
 			}
 
 			if (data.status && data.status === 'error') {
-				errorNotification = OC.Notification.show(data.data.message, { type: 'error' });
+				errorNotification = OC.Notification.show(data.data.message, { type: 'error' })
 			}
 
 			if (_.isUndefined(data.data)) {
-				return null;
+				return null
 			}
-			data = data.data;
+			data = data.data
 
-			var ignored = [
+			const ignored = [
 				'userId',
-				'message'
-			];
+				'message',
+			]
 
 			_.each(ignored, function(ign) {
 				if (!_.isUndefined(data[ign])) {
-					delete data[ign];
+					delete data[ign]
 				}
-			});
+			})
 
-			return data;
-		}
-	});
+			return data
+		},
+	})
 
-	OC.Settings = OC.Settings || {};
+	OC.Settings = OC.Settings || {}
 
-	OC.Settings.UserSettings = UserSettings;
-})();
+	OC.Settings.UserSettings = UserSettings
+})()

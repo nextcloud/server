@@ -5,9 +5,9 @@
 
 import type { Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction, DefaultType, FileType } from '@nextcloud/files'
+import { DefaultType, FileAction, FileType, registerFileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { sharesViewId, sharedWithYouViewId, sharedWithOthersViewId, sharingByLinksViewId } from '../files_views/shares'
+import { sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares.ts'
 
 export const action = new FileAction({
 	id: 'files_sharing:open-in-files',

@@ -4,10 +4,8 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils'
-
-// eslint-disable-next-line n/no-extraneous-import
 import randomString from 'crypto-random-string'
+import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -243,7 +241,7 @@ describe('Settings: Sort groups in the UI', () => {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 	})
 
 	it('See that the groups are sorted by the member count', () => {
@@ -271,7 +269,7 @@ describe('Settings: Sort groups in the UI', () => {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 	})
 
 	it('See that the groups are sorted by the user count', () => {

@@ -4,7 +4,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { handlePasswordConfirmation } from './usersUtils'
+import { handlePasswordConfirmation } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 

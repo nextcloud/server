@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable */
 import escapeHTML from 'escape-html'
+import $ from 'jquery'
+import _ from 'underscore'
+import logger from '../logger.js'
 
 /* global dav */
 
@@ -14,17 +16,17 @@ import escapeHTML from 'escape-html'
 	 * @class OC.Files.Client
 	 * @classdesc Client to access files on the server
 	 *
-	 * @param {Object} options
-	 * @param {String} options.host host name
+	 * @param {object} options
+	 * @param {string} options.host host name
 	 * @param {number} [options.port] port
 	 * @param {boolean} [options.useHTTPS] whether to use https
-	 * @param {String} [options.root] root path
-	 * @param {String} [options.userName] user name
-	 * @param {String} [options.password] password
+	 * @param {string} [options.root] root path
+	 * @param {string} [options.userName] user name
+	 * @param {string} [options.password] password
 	 *
 	 * @since 8.2
 	 */
-	var Client = function(options) {
+	const Client = function(options) {
 		this._root = options.root
 		if (this._root.charAt(this._root.length - 1) === '/') {
 			this._root = this._root.substr(0, this._root.length - 1)
@@ -39,7 +41,7 @@ import escapeHTML from 'escape-html'
 		this._host = options.host
 		this._defaultHeaders = options.defaultHeaders || {
 			'X-Requested-With': 'XMLHttpRequest',
-			'requesttoken': OC.requestToken,
+			requesttoken: OC.requestToken,
 		}
 		this._baseUrl = url
 
@@ -68,21 +70,21 @@ import escapeHTML from 'escape-html'
 	Client.NS_DAV = 'DAV:'
 	Client.NS_OCS = 'http://open-collaboration-services.org/ns'
 
-	Client.PROPERTY_GETLASTMODIFIED	= '{' + Client.NS_DAV + '}getlastmodified'
-	Client.PROPERTY_GETETAG	= '{' + Client.NS_DAV + '}getetag'
-	Client.PROPERTY_GETCONTENTTYPE	= '{' + Client.NS_DAV + '}getcontenttype'
-	Client.PROPERTY_RESOURCETYPE	= '{' + Client.NS_DAV + '}resourcetype'
-	Client.PROPERTY_INTERNAL_FILEID	= '{' + Client.NS_OWNCLOUD + '}fileid'
-	Client.PROPERTY_PERMISSIONS	= '{' + Client.NS_OWNCLOUD + '}permissions'
-	Client.PROPERTY_SIZE	= '{' + Client.NS_OWNCLOUD + '}size'
-	Client.PROPERTY_GETCONTENTLENGTH	= '{' + Client.NS_DAV + '}getcontentlength'
-	Client.PROPERTY_ISENCRYPTED	= '{' + Client.NS_DAV + '}is-encrypted'
-	Client.PROPERTY_SHARE_PERMISSIONS	= '{' + Client.NS_OCS + '}share-permissions'
-	Client.PROPERTY_SHARE_ATTRIBUTES	= '{' + Client.NS_NEXTCLOUD + '}share-attributes'
-	Client.PROPERTY_QUOTA_AVAILABLE_BYTES	= '{' + Client.NS_DAV + '}quota-available-bytes'
+	Client.PROPERTY_GETLASTMODIFIED = '{' + Client.NS_DAV + '}getlastmodified'
+	Client.PROPERTY_GETETAG = '{' + Client.NS_DAV + '}getetag'
+	Client.PROPERTY_GETCONTENTTYPE = '{' + Client.NS_DAV + '}getcontenttype'
+	Client.PROPERTY_RESOURCETYPE = '{' + Client.NS_DAV + '}resourcetype'
+	Client.PROPERTY_INTERNAL_FILEID = '{' + Client.NS_OWNCLOUD + '}fileid'
+	Client.PROPERTY_PERMISSIONS = '{' + Client.NS_OWNCLOUD + '}permissions'
+	Client.PROPERTY_SIZE = '{' + Client.NS_OWNCLOUD + '}size'
+	Client.PROPERTY_GETCONTENTLENGTH = '{' + Client.NS_DAV + '}getcontentlength'
+	Client.PROPERTY_ISENCRYPTED = '{' + Client.NS_DAV + '}is-encrypted'
+	Client.PROPERTY_SHARE_PERMISSIONS = '{' + Client.NS_OCS + '}share-permissions'
+	Client.PROPERTY_SHARE_ATTRIBUTES = '{' + Client.NS_NEXTCLOUD + '}share-attributes'
+	Client.PROPERTY_QUOTA_AVAILABLE_BYTES = '{' + Client.NS_DAV + '}quota-available-bytes'
 
-	Client.PROTOCOL_HTTP	= 'http'
-	Client.PROTOCOL_HTTPS	= 'https'
+	Client.PROTOCOL_HTTP = 'http'
+	Client.PROTOCOL_HTTPS = 'https'
 
 	Client._PROPFIND_PROPERTIES = [
 		/**
@@ -169,7 +171,8 @@ import escapeHTML from 'escape-html'
 
 		/**
 		 * Returns the configured XHR provider for davclient
-		 * @returns {XMLHttpRequest}
+		 *
+		 * @return {XMLHttpRequest}
 		 */
 		_xhrProvider: function() {
 			const headers = this._defaultHeaders
@@ -191,9 +194,9 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Prepends the base url to the given path sections
 		 *
-		 * @param {...String} path sections
+		 * @param {...string} path sections
 		 *
-		 * @returns {String} base url + joined path, any leading or trailing slash
+		 * @return {string} base url + joined path, any leading or trailing slash
 		 * will be kept
 		 */
 		_buildUrl: function() {
@@ -211,9 +214,9 @@ import escapeHTML from 'escape-html'
 		 * Append the path to the root and also encode path
 		 * sections
 		 *
-		 * @param {...String} path sections
+		 * @param {...string} path sections
 		 *
-		 * @returns {String} joined path, any leading or trailing slash
+		 * @return {string} joined path, any leading or trailing slash
 		 * will be kept
 		 */
 		_buildPath: function() {
@@ -232,7 +235,7 @@ import escapeHTML from 'escape-html'
 		 *
 		 * @param {string} headersString headers list as string
 		 *
-		 * @returns {Object.<String,Array>} map of header name to header contents
+		 * @return {Object<string, Array>} map of header name to header contents
 		 */
 		_parseHeaders: function(headersString) {
 			const headerRows = headersString.split('\n')
@@ -261,7 +264,7 @@ import escapeHTML from 'escape-html'
 		 *
 		 * @param {string} etag etag value in double quotes
 		 *
-		 * @returns {string} etag without double quotes
+		 * @return {string} etag without double quotes
 		 */
 		_parseEtag: function(etag) {
 			if (etag.charAt(0) === '"') {
@@ -273,9 +276,9 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Parse Webdav result
 		 *
-		 * @param {Object} response XML object
+		 * @param {object} response XML object
 		 *
-		 * @returns {Array.<FileInfo>} array of file info
+		 * @return {Array.<FileInfo>} array of file info
 		 */
 		_parseFileInfo: function(response) {
 			let path = decodeURIComponent(response.href)
@@ -358,34 +361,34 @@ import escapeHTML from 'escape-html'
 					const c = permString.charAt(i)
 					switch (c) {
 					// FIXME: twisted permissions
-					case 'C':
-					case 'K':
-						data.permissions |= OC.PERMISSION_CREATE
-						break
-					case 'G':
-						data.permissions |= OC.PERMISSION_READ
-						break
-					case 'W':
-					case 'N':
-					case 'V':
-						data.permissions |= OC.PERMISSION_UPDATE
-						break
-					case 'D':
-						data.permissions |= OC.PERMISSION_DELETE
-						break
-					case 'R':
-						data.permissions |= OC.PERMISSION_SHARE
-						break
-					case 'M':
-						if (!data.mountType) {
+						case 'C':
+						case 'K':
+							data.permissions |= OC.PERMISSION_CREATE
+							break
+						case 'G':
+							data.permissions |= OC.PERMISSION_READ
+							break
+						case 'W':
+						case 'N':
+						case 'V':
+							data.permissions |= OC.PERMISSION_UPDATE
+							break
+						case 'D':
+							data.permissions |= OC.PERMISSION_DELETE
+							break
+						case 'R':
+							data.permissions |= OC.PERMISSION_SHARE
+							break
+						case 'M':
+							if (!data.mountType) {
 							// TODO: how to identify external-root ?
-							data.mountType = 'external'
-						}
-						break
-					case 'S':
+								data.mountType = 'external'
+							}
+							break
+						case 'S':
 						// TODO: how to identify shared-root ?
-						data.mountType = 'shared'
-						break
+							data.mountType = 'shared'
+							break
 					}
 				}
 			}
@@ -399,12 +402,12 @@ import escapeHTML from 'escape-html'
 			if (!_.isUndefined(shareAttributesProp)) {
 				try {
 					data.shareAttributes = JSON.parse(shareAttributesProp)
-				} catch (e) {
-					console.warn('Could not parse share attributes returned by server: "' + shareAttributesProp + '"')
-					data.shareAttributes = [];
+				} catch {
+					logger.warn('Could not parse share attributes returned by server: "' + shareAttributesProp + '"')
+					data.shareAttributes = []
 				}
 			} else {
-				data.shareAttributes = [];
+				data.shareAttributes = []
 			}
 
 			const mounTypeProp = props['{' + Client.NS_NEXTCLOUD + '}mount-type']
@@ -442,7 +445,7 @@ import escapeHTML from 'escape-html'
 		 *
 		 * @param {number} status status code
 		 *
-		 * @returns true if status code is between 200 and 299 included
+		 * @return true if status code is between 200 and 299 included
 		 */
 		_isSuccessStatus: function(status) {
 			return status >= 200 && status <= 299
@@ -451,8 +454,8 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Parse the Sabre exception out of the given response, if any
 		 *
-		 * @param {Object} response object
-		 * @returns {Object} array of parsed message and exception (only the first one)
+		 * @param {object} response object
+		 * @return {object} array of parsed message and exception (only the first one)
 		 */
 		_getSabreException: function(response) {
 			const result = {}
@@ -474,7 +477,7 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Returns the default PROPFIND properties to use during a call.
 		 *
-		 * @returns {Array.<Object>} array of properties
+		 * @return {Array.<object>} array of properties
 		 */
 		getPropfindProperties: function() {
 			if (!this._propfindProperties) {
@@ -488,13 +491,13 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Lists the contents of a directory
 		 *
-		 * @param {String} path path to retrieve
-		 * @param {Object} [options] options
-		 * @param {boolean} [options.includeParent=false] set to true to keep
+		 * @param {string} path path to retrieve
+		 * @param {object} [options] options
+		 * @param {boolean} [options.includeParent] set to true to keep
 		 * the parent folder in the result list
 		 * @param {Array} [options.properties] list of Webdav properties to retrieve
 		 *
-		 * @returns {Promise} promise
+		 * @return {Promise} promise
 		 */
 		getFolderContents: function(path, options) {
 			if (!path) {
@@ -514,7 +517,7 @@ import escapeHTML from 'escape-html'
 			this._client.propFind(
 				this._buildUrl(path),
 				properties,
-				1
+				1,
 			).then(function(result) {
 				if (self._isSuccessStatus(result.status)) {
 					const results = self._parseResult(result.body)
@@ -535,13 +538,13 @@ import escapeHTML from 'escape-html'
 		 * Fetches a flat list of files filtered by a given filter criteria.
 		 * (currently system tags and circles are supported)
 		 *
-		 * @param {Object} filter filter criteria
-		 * @param {Object} [filter.systemTagIds] list of system tag ids to filter by
+		 * @param {object} filter filter criteria
+		 * @param {object} [filter.systemTagIds] list of system tag ids to filter by
 		 * @param {boolean} [filter.favorite] set it to filter by favorites
-		 * @param {Object} [options] options
+		 * @param {object} [options] options
 		 * @param {Array} [options.properties] list of Webdav properties to retrieve
 		 *
-		 * @returns {Promise} promise
+		 * @return {Promise} promise
 		 */
 		getFilteredFiles: function(filter, options) {
 			options = options || {}
@@ -578,7 +581,7 @@ import escapeHTML from 'escape-html'
 			body += '    </' + this._client.xmlNamespaces['DAV:'] + ':prop>\n'
 
 			// rules block
-			body +=	'    <oc:filter-rules>\n'
+			body += '    <oc:filter-rules>\n'
 			_.each(filter.systemTagIds, function(systemTagIds) {
 				body += '        <oc:systemtag>' + escapeHTML(systemTagIds) + '</oc:systemtag>\n'
 			})
@@ -597,7 +600,7 @@ import escapeHTML from 'escape-html'
 				'REPORT',
 				this._buildUrl(),
 				{},
-				body
+				body,
 			).then(function(result) {
 				if (self._isSuccessStatus(result.status)) {
 					const results = self._parseResult(result.body)
@@ -613,10 +616,11 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Returns the file info of a given path.
 		 *
-		 * @param {String} path path
+		 * @param {string} path path
 		 * @param {Array} [options.properties] list of Webdav properties to retrieve
 		 *
-		 * @returns {Promise} promise
+		 * @param options
+		 * @return {Promise} promise
 		 */
 		getFileInfo: function(path, options) {
 			if (!path) {
@@ -637,26 +641,24 @@ import escapeHTML from 'escape-html'
 			this._client.propFind(
 				this._buildUrl(path),
 				properties,
-				0
-			).then(
-				function(result) {
-					if (self._isSuccessStatus(result.status)) {
-						deferred.resolve(result.status, self._parseResult([result.body])[0])
-					} else {
-						result = _.extend(result, self._getSabreException(result))
-						deferred.reject(result.status, result)
-					}
+				0,
+			).then(function(result) {
+				if (self._isSuccessStatus(result.status)) {
+					deferred.resolve(result.status, self._parseResult([result.body])[0])
+				} else {
+					result = _.extend(result, self._getSabreException(result))
+					deferred.reject(result.status, result)
 				}
-			)
+			})
 			return promise
 		},
 
 		/**
 		 * Returns the contents of the given file.
 		 *
-		 * @param {String} path path to file
+		 * @param {string} path path to file
 		 *
-		 * @returns {Promise}
+		 * @return {Promise}
 		 */
 		getFileContents: function(path) {
 			if (!path) {
@@ -668,30 +670,28 @@ import escapeHTML from 'escape-html'
 
 			this._client.request(
 				'GET',
-				this._buildUrl(path)
-			).then(
-				function(result) {
-					if (self._isSuccessStatus(result.status)) {
-						deferred.resolve(result.status, result.body)
-					} else {
-						result = _.extend(result, self._getSabreException(result))
-						deferred.reject(result.status, result)
-					}
+				this._buildUrl(path),
+			).then(function(result) {
+				if (self._isSuccessStatus(result.status)) {
+					deferred.resolve(result.status, result.body)
+				} else {
+					result = _.extend(result, self._getSabreException(result))
+					deferred.reject(result.status, result)
 				}
-			)
+			})
 			return promise
 		},
 
 		/**
 		 * Puts the given data into the given file.
 		 *
-		 * @param {String} path path to file
-		 * @param {String} body file body
-		 * @param {Object} [options]
-		 * @param {String} [options.contentType='text/plain'] content type
-		 * @param {boolean} [options.overwrite=true] whether to overwrite an existing file
+		 * @param {string} path path to file
+		 * @param {string} body file body
+		 * @param {object} [options]
+		 * @param {string} [options.contentType] content type
+		 * @param {boolean} [options.overwrite] whether to overwrite an existing file
 		 *
-		 * @returns {Promise}
+		 * @return {Promise}
 		 */
 		putFileContents: function(path, body, options) {
 			if (!path) {
@@ -718,17 +718,15 @@ import escapeHTML from 'escape-html'
 				'PUT',
 				this._buildUrl(path),
 				headers,
-				body || ''
-			).then(
-				function(result) {
-					if (self._isSuccessStatus(result.status)) {
-						deferred.resolve(result.status)
-					} else {
-						result = _.extend(result, self._getSabreException(result))
-						deferred.reject(result.status, result)
-					}
+				body || '',
+			).then(function(result) {
+				if (self._isSuccessStatus(result.status)) {
+					deferred.resolve(result.status)
+				} else {
+					result = _.extend(result, self._getSabreException(result))
+					deferred.reject(result.status, result)
 				}
-			)
+			})
 			return promise
 		},
 
@@ -744,26 +742,25 @@ import escapeHTML from 'escape-html'
 			this._client.request(
 				method,
 				this._buildUrl(path),
-				headers ? headers : {}
-			).then(
-				function(result) {
-					if (self._isSuccessStatus(result.status)) {
-						deferred.resolve(result.status)
-					} else {
-						result = _.extend(result, self._getSabreException(result))
-						deferred.reject(result.status, result)
-					}
+				headers ? headers : {},
+			).then(function(result) {
+				if (self._isSuccessStatus(result.status)) {
+					deferred.resolve(result.status)
+				} else {
+					result = _.extend(result, self._getSabreException(result))
+					deferred.reject(result.status, result)
 				}
-			)
+			})
 			return promise
 		},
 
 		/**
 		 * Creates a directory
 		 *
-		 * @param {String} path path to create
+		 * @param {string} path path to create
 		 *
-		 * @returns {Promise}
+		 * @param headers
+		 * @return {Promise}
 		 */
 		createDirectory: function(path, headers) {
 			return this._simpleCall('MKCOL', path, headers)
@@ -772,9 +769,9 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Deletes a file or directory
 		 *
-		 * @param {String} path path to delete
+		 * @param {string} path path to delete
 		 *
-		 * @returns {Promise}
+		 * @return {Promise}
 		 */
 		remove: function(path) {
 			return this._simpleCall('DELETE', path)
@@ -783,13 +780,13 @@ import escapeHTML from 'escape-html'
 		/**
 		 * Moves path to another path
 		 *
-		 * @param {String} path path to move
-		 * @param {String} destinationPath destination path
-		 * @param {boolean} [allowOverwrite=false] true to allow overwriting,
+		 * @param {string} path path to move
+		 * @param {string} destinationPath destination path
+		 * @param {boolean} [allowOverwrite] true to allow overwriting,
 		 * false otherwise
-		 * @param {Object} [headers=null] additional headers
+		 * @param {object} [headers] additional headers
 		 *
-		 * @returns {Promise} promise
+		 * @return {Promise} promise
 		 */
 		move: function(path, destinationPath, allowOverwrite, headers) {
 			if (!path) {
@@ -803,7 +800,7 @@ import escapeHTML from 'escape-html'
 			const deferred = $.Deferred()
 			const promise = deferred.promise()
 			headers = _.extend({}, headers, {
-				'Destination': this._buildUrl(destinationPath),
+				Destination: this._buildUrl(destinationPath),
 			})
 
 			if (!allowOverwrite) {
@@ -813,29 +810,27 @@ import escapeHTML from 'escape-html'
 			this._client.request(
 				'MOVE',
 				this._buildUrl(path),
-				headers
-			).then(
-				function(result) {
-					if (self._isSuccessStatus(result.status)) {
-						deferred.resolve(result.status)
-					} else {
-						result = _.extend(result, self._getSabreException(result))
-						deferred.reject(result.status, result)
-					}
+				headers,
+			).then(function(result) {
+				if (self._isSuccessStatus(result.status)) {
+					deferred.resolve(result.status)
+				} else {
+					result = _.extend(result, self._getSabreException(result))
+					deferred.reject(result.status, result)
 				}
-			)
+			})
 			return promise
 		},
 
 		/**
 		 * Copies path to another path
 		 *
-		 * @param {String} path path to copy
-		 * @param {String} destinationPath destination path
-		 * @param {boolean} [allowOverwrite=false] true to allow overwriting,
+		 * @param {string} path path to copy
+		 * @param {string} destinationPath destination path
+		 * @param {boolean} [allowOverwrite] true to allow overwriting,
 		 * false otherwise
 		 *
-		 * @returns {Promise} promise
+		 * @return {Promise} promise
 		 */
 		copy: function(path, destinationPath, allowOverwrite) {
 			if (!path) {
@@ -849,7 +844,7 @@ import escapeHTML from 'escape-html'
 			const deferred = $.Deferred()
 			const promise = deferred.promise()
 			const headers = {
-				'Destination': this._buildUrl(destinationPath),
+				Destination: this._buildUrl(destinationPath),
 			}
 
 			if (!allowOverwrite) {
@@ -859,16 +854,14 @@ import escapeHTML from 'escape-html'
 			this._client.request(
 				'COPY',
 				this._buildUrl(path),
-				headers
-			).then(
-				function(response) {
-					if (self._isSuccessStatus(response.status)) {
-						deferred.resolve(response.status)
-					} else {
-						deferred.reject(response.status)
-					}
+				headers,
+			).then(function(response) {
+				if (self._isSuccessStatus(response.status)) {
+					deferred.resolve(response.status)
+				} else {
+					deferred.reject(response.status)
 				}
-			)
+			})
 			return promise
 		},
 
@@ -885,7 +878,7 @@ import escapeHTML from 'escape-html'
 		 * Returns the dav.Client instance used internally
 		 *
 		 * @since 11.0.0
-		 * @returns {dav.Client}
+		 * @return {dav.Client}
 		 */
 		getClient: function() {
 			return this._client
@@ -895,7 +888,7 @@ import escapeHTML from 'escape-html'
 		 * Returns the user name
 		 *
 		 * @since 11.0.0
-		 * @returns {String} userName
+		 * @return {string} userName
 		 */
 		getUserName: function() {
 			return this._client.userName
@@ -905,7 +898,7 @@ import escapeHTML from 'escape-html'
 		 * Returns the password
 		 *
 		 * @since 11.0.0
-		 * @returns {String} password
+		 * @return {string} password
 		 */
 		getPassword: function() {
 			return this._client.password
@@ -915,7 +908,7 @@ import escapeHTML from 'escape-html'
 		 * Returns the base URL
 		 *
 		 * @since 11.0.0
-		 * @returns {String} base URL
+		 * @return {string} base URL
 		 */
 		getBaseUrl: function() {
 			return this._client.baseUrl
@@ -925,7 +918,7 @@ import escapeHTML from 'escape-html'
 		 * Returns the host
 		 *
 		 * @since 13.0.0
-		 * @returns {String} base URL
+		 * @return {string} base URL
 		 */
 		getHost: function() {
 			return this._host
@@ -939,8 +932,8 @@ import escapeHTML from 'escape-html'
 	 * should return a hash array of parsed properties, if applicable.
 	 *
 	 * @callback OC.Files.Client~parseFileInfo
-	 * @param {Object} XML Webdav properties
-     * @return {Array} array of parsed property values
+	 * @param {object} XML Webdav properties
+	 * @return {Array} array of parsed property values
 	 */
 
 	if (!OC.Files) {
@@ -955,7 +948,7 @@ import escapeHTML from 'escape-html'
 	/**
 	 * Returns the default instance of the files client
 	 *
-	 * @returns {OC.Files.Client} default client
+	 * @return {OC.Files.Client} default client
 	 *
 	 * @since 8.2
 	 */

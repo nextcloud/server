@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppSidebarTab :id="id"
+	<NcAppSidebarTab
+		:id="id"
 		ref="tab"
 		:name="name"
 		:icon="icon"
@@ -35,17 +36,19 @@ export default {
 	props: {
 		fileInfo: {
 			type: Object,
-			default: () => {},
 			required: true,
 		},
+
 		id: {
 			type: String,
 			required: true,
 		},
+
 		name: {
 			type: String,
 			required: true,
 		},
+
 		icon: {
 			type: String,
 			default: '',
@@ -60,14 +63,17 @@ export default {
 			type: Function,
 			required: true,
 		},
+
 		onUpdate: {
 			type: Function,
 			required: true,
 		},
+
 		onDestroy: {
 			type: Function,
 			required: true,
 		},
+
 		onScrollBottomReached: {
 			type: Function,
 			default: () => {},

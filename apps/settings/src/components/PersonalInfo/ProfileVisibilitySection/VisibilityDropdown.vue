@@ -4,12 +4,14 @@
 -->
 
 <template>
-	<div class="visibility-container"
+	<div
+		class="visibility-container"
 		:class="{ disabled }">
 		<label :for="inputId">
 			{{ displayId }}
 		</label>
-		<NcSelect :input-id="inputId"
+		<NcSelect
+			:input-id="inputId"
 			class="visibility-container__select"
 			:clearable="false"
 			:options="visibilityOptions"
@@ -20,13 +22,11 @@
 </template>
 
 <script>
-import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-
+import { loadState } from '@nextcloud/initial-state'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-
-import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants.js'
+import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
@@ -43,10 +43,12 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		displayId: {
 			type: String,
 			required: true,
 		},
+
 		visibility: {
 			type: String,
 			required: true,

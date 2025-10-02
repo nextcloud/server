@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { translate as t } from '@nextcloud/l10n'
-import { View, getNavigation } from '@nextcloud/files'
-import { getContents } from '../services/systemtags.js'
-
 import svgTagMultiple from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
+import { getNavigation, View } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { getContents } from '../services/systemtags.js'
 
 export const systemTagsViewId = 'tags'
 

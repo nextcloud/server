@@ -3,11 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { FileAction, type Node } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-
 import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
+import {
+	type Node,
 
+	FileAction,
+} from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
 import { pickCustomDate } from '../services/customPicker.ts'
 import { getVerboseDateString } from '../shared/utils.ts'
 

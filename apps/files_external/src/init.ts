@@ -1,16 +1,15 @@
+import FolderNetworkSvg from '@mdi/svg/svg/folder-network-outline.svg?raw'
+import { Column, getNavigation, registerFileAction, View } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import { View, getNavigation, Column, registerFileAction } from '@nextcloud/files'
-import FolderNetworkSvg from '@mdi/svg/svg/folder-network-outline.svg?raw'
-
-import { action as enterCredentialsAction } from './actions/enterCredentialsAction'
-import { action as inlineStorageCheckAction } from './actions/inlineStorageCheckAction'
-import { action as openInFilesAction } from './actions/openInFilesAction'
-import { getContents } from './services/externalStorage'
+import { action as enterCredentialsAction } from './actions/enterCredentialsAction.ts'
+import { action as inlineStorageCheckAction } from './actions/inlineStorageCheckAction.ts'
+import { action as openInFilesAction } from './actions/openInFilesAction.ts'
+import { getContents } from './services/externalStorage.ts'
 
 const allowUserMounting = loadState('files_external', 'allowUserMounting', false)
 

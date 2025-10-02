@@ -2,18 +2,18 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { AxiosResponse, AxiosError } from '@nextcloud/axios'
+
+import type { AxiosError, AxiosResponse } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
-import { emit } from '@nextcloud/event-bus'
-import { generateOcsUrl } from '@nextcloud/router'
-import { showError, showLoading, showSuccess } from '@nextcloud/dialogs'
-import { n, t } from '@nextcloud/l10n'
 import axios, { isAxiosError } from '@nextcloud/axios'
+import { showError, showLoading, showSuccess } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { n, t } from '@nextcloud/l10n'
+import { generateOcsUrl } from '@nextcloud/router'
 import PQueue from 'p-queue'
-
+import logger from '../logger.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
-import logger from '../logger'
 
 type ConversionResponse = {
 	path: string
@@ -25,30 +25,40 @@ interface PromiseRejectedResult<T> {
 	reason: T
 }
 
-type PromiseSettledResult<T, E> = PromiseFulfilledResult<T> | PromiseRejectedResult<E>;
+type PromiseSettledResult<T, E> = PromiseFulfilledResult<T> | PromiseRejectedResult<E>
 type ConversionSuccess = AxiosResponse<OCSResponse<ConversionResponse>>
 type ConversionError = AxiosError<OCSResponse<ConversionResponse>>
 
 const queue = new PQueue({ concurrency: 5 })
-const requestConversion = function(fileId: number, targetMimeType: string): Promise<AxiosResponse> {
+/**
+ *
+ * @param fileId
+ * @param targetMimeType
+ */
+function requestConversion(fileId: number, targetMimeType: string): Promise<AxiosResponse> {
 	return axios.post(generateOcsUrl('/apps/files/api/v1/convert'), {
 		fileId,
 		targetMimeType,
 	})
 }
 
-export const convertFiles = async function(fileIds: number[], targetMimeType: string) {
-	const conversions = fileIds.map(fileId => queue.add(() => requestConversion(fileId, targetMimeType)))
+/**
+ *
+ * @param fileIds
+ * @param targetMimeType
+ */
+export async function convertFiles(fileIds: number[], targetMimeType: string) {
+	const conversions = fileIds.map((fileId) => queue.add(() => requestConversion(fileId, targetMimeType)))
 
 	// Start conversion
-	const toast = showLoading(t('files', 'Converting files …'))
+	const toast = showLoading(t('files', 'Converting files …'))
 
 	// Handle results
 	try {
 		const results = await Promise.allSettled(conversions) as PromiseSettledResult<ConversionSuccess, ConversionError>[]
-		const failed = results.filter(result => result.status === 'rejected') as PromiseRejectedResult<ConversionError>[]
+		const failed = results.filter((result) => result.status === 'rejected') as PromiseRejectedResult<ConversionError>[]
 		if (failed.length > 0) {
-			const messages = failed.map(result => result.reason?.response?.data?.ocs?.meta?.message)
+			const messages = failed.map((result) => result.reason?.response?.data?.ocs?.meta?.message)
 			logger.error('Failed to convert files', { fileIds, targetMimeType, messages })
 
 			// If all failed files have the same error message, show it
@@ -84,16 +94,16 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 		// might have changed as the user navigated away
 		const currentDir = window.OCP.Files.Router.query.dir as string
 		const newPaths = results
-			.filter(result => result.status === 'fulfilled')
-			.map(result => result.value.data.ocs.data.path)
-			.filter(path => path.startsWith(currentDir))
+			.filter((result) => result.status === 'fulfilled')
+			.map((result) => result.value.data.ocs.data.path)
+			.filter((path) => path.startsWith(currentDir))
 
 		// Fetch the new files
 		logger.debug('Files to fetch', { newPaths })
-		const newFiles = await Promise.all(newPaths.map(path => fetchNode(path)))
+		const newFiles = await Promise.all(newPaths.map((path) => fetchNode(path)))
 
 		// Inform the file list about the new files
-		newFiles.forEach(file => emit('files:node:created', file))
+		newFiles.forEach((file) => emit('files:node:created', file))
 
 		// Switch to the new files
 		const firstSuccess = results[0] as PromiseFulfilledResult<ConversionSuccess>
@@ -109,8 +119,13 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 	}
 }
 
-export const convertFile = async function(fileId: number, targetMimeType: string) {
-	const toast = showLoading(t('files', 'Converting file …'))
+/**
+ *
+ * @param fileId
+ * @param targetMimeType
+ */
+export async function convertFile(fileId: number, targetMimeType: string) {
+	const toast = showLoading(t('files', 'Converting file …'))
 
 	try {
 		const result = await queue.add(() => requestConversion(fileId, targetMimeType)) as AxiosResponse<OCSResponse<ConversionResponse>>

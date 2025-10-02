@@ -9,8 +9,8 @@
  */
 
 // from core/js/config.php
-window.TESTING = true;
-window.datepickerFormatDate = 'MM d, yy';
+window.TESTING = true
+window.datepickerFormatDate = 'MM d, yy'
 window.dayNames = [
 	'Sunday',
 	'Monday',
@@ -18,8 +18,8 @@ window.dayNames = [
 	'Wednesday',
 	'Thursday',
 	'Friday',
-	'Saturday'
-];
+	'Saturday',
+]
 window.dayNamesShort = [
 	'Sun.',
 	'Mon.',
@@ -27,8 +27,8 @@ window.dayNamesShort = [
 	'Wed.',
 	'Thu.',
 	'Fri.',
-	'Sat.'
-];
+	'Sat.',
+]
 window.dayNamesMin = [
 	'Su',
 	'Mo',
@@ -36,8 +36,8 @@ window.dayNamesMin = [
 	'We',
 	'Th',
 	'Fr',
-	'Sa'
-];
+	'Sa',
+]
 window.monthNames = [
 	'January',
 	'February',
@@ -50,8 +50,8 @@ window.monthNames = [
 	'September',
 	'October',
 	'November',
-	'December'
-];
+	'December',
+]
 window.monthNamesShort = [
 	'Jan.',
 	'Feb.',
@@ -64,72 +64,72 @@ window.monthNamesShort = [
 	'Sep.',
 	'Oct.',
 	'Nov.',
-	'Dec.'
-];
-window.firstDay = 0;
+	'Dec.',
+]
+window.firstDay = 0
 
 // setup dummy webroots
 /* jshint camelcase: false */
-window.oc_debug = true;
+window.oc_debug = true
 
 // Mock @nextcloud/capabilities
 window._oc_capabilities = {
 	files_sharing: {
-		api_enabled: true
-	}
+		api_enabled: true,
+	},
 }
 
 // FIXME: OC.webroot is supposed to be only the path!!!
-window._oc_webroot = location.href + '/';
+window._oc_webroot = location.href + '/'
 window._oc_appswebroots = {
-	"files": window.webroot + '/apps/files/',
-	"files_sharing": window.webroot + '/apps/files_sharing/'
-};
+	files: window.webroot + '/apps/files/',
+	files_sharing: window.webroot + '/apps/files_sharing/',
+}
 
-window.OC ??= {};
+window.OC ??= {}
 
 OC.config = {
 	session_lifetime: 600 * 1000,
 	session_keepalive: false,
 	blacklist_files_regex: '\.(part|filepart)$',
 	version: '32.0.0',
-};
+}
 OC.appConfig = {
-	core: {}
-};
+	core: {},
+}
 OC.theme = {
-	docPlaceholderUrl: 'https://docs.example.org/PLACEHOLDER'
-};
+	docPlaceholderUrl: 'https://docs.example.org/PLACEHOLDER',
+}
 window.oc_capabilities = {
 }
 
 /* jshint camelcase: true */
 
 // mock for Snap.js plugin
-window.Snap = function() {};
+window.Snap = function() {}
 window.Snap.prototype = {
 	enable: function() {},
 	disable: function() {},
-	close: function() {}
-};
+	close: function() {},
+}
 
-window.isPhantom = /phantom/i.test(navigator.userAgent);
-document.documentElement.lang = navigator.language;
-const el = document.createElement('input');
-el.id = 'initial-state-core-config';
+window.isPhantom = /phantom/i.test(navigator.userAgent)
+document.documentElement.lang = navigator.language
+const el = document.createElement('input')
+el.id = 'initial-state-core-config'
 el.value = btoa(JSON.stringify(window.OC.config))
 document.body.append(el);
 
 // global setup for all tests
 (function setupTests() {
-	var fakeServer = null,
+	let fakeServer = null,
 		$testArea = null,
-		ajaxErrorStub = null;
+		ajaxErrorStub = null
 
 	/**
 	 * Utility functions for testing
 	 */
-	var TestUtil = {
+	const TestUtil = {
 		/**
 		 * Returns the image URL set on the given element
 		 * @param $el element
@@ -137,57 +137,55 @@ document.body.append(el);
 		 */
 		getImageUrl: function($el) {
 			// might be slightly different cross-browser
-			var url = $el.css('background-image');
-			var r = url.match(/url\(['"]?([^'")]*)['"]?\)/);
+			const url = $el.css('background-image')
+			const r = url.match(/url\(['"]?([^'")]*)['"]?\)/)
 			if (!r) {
-				return url;
+				return url
 			}
-			return r[1];
-		}
-	};
+			return r[1]
+		},
+	}
 
 	beforeEach(function() {
 		// test area for elements that need absolute selector access or measure widths/heights
 		// which wouldn't work for detached or hidden elements
-		$testArea = $('<div id="testArea" style="position: absolute; width: 1280px; height: 800px; top: -3000px; left: -3000px; opacity: 0;"></div>');
-		$('body').append($testArea);
+		$testArea = $('<div id="testArea" style="position: absolute; width: 1280px; height: 800px; top: -3000px; left: -3000px; opacity: 0;"></div>')
+		$('body').append($testArea)
 		// enforce fake XHR, tests should not depend on the server and
 		// must use fake responses for expected calls
-		fakeServer = sinon.fakeServer.create();
+		fakeServer = sinon.fakeServer.create()
 
 		// make it globally available, so that other tests can define
 		// custom responses
-		window.fakeServer = fakeServer;
+		window.fakeServer = fakeServer
 
 		if (!OC.TestUtil) {
-			OC.TestUtil = TestUtil;
+			OC.TestUtil = TestUtil
 		}
 
-		moment.locale('en');
+		moment.locale('en')
 
 		// reset plugins
-		OC.Plugins._plugins = [];
+		OC.Plugins._plugins = []
 
 		// dummy select2 (which isn't loaded during the tests)
-		$.fn.select2 = function() { return this; };
+		$.fn.select2 = function() { return this }
 
-		ajaxErrorStub = sinon.stub(OC, '_processAjaxError');
-	});
+		ajaxErrorStub = sinon.stub(OC, '_processAjaxError')
+	})
 
 	afterEach(function() {
 		// uncomment this to log requests
 		// console.log(window.fakeServer.requests);
-		fakeServer.restore();
+		fakeServer.restore()
 
-		$testArea.remove();
+		$testArea.remove()
 
-		delete($.fn.select2);
+		delete ($.fn.select2)
 
-		ajaxErrorStub.restore();
+		ajaxErrorStub.restore()
 
 		// reset pop state handlers
-		OC.Util.History._handlers = [];
-
-	});
-})();
-
+		OC.Util.History._handlers = []
+	})
+})()

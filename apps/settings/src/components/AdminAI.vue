@@ -4,9 +4,11 @@
 -->
 <template>
 	<div class="ai-settings">
-		<NcSettingsSection :name="t('settings', 'Unified task processing')"
+		<NcSettingsSection
+			:name="t('settings', 'Unified task processing')"
 			:description="t('settings', 'AI tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
-			<NcCheckboxRadioSwitch v-model="settings['ai.taskprocessing_guests']"
+			<NcCheckboxRadioSwitch
+				v-model="settings['ai.taskprocessing_guests']"
 				type="switch"
 				@update:modelValue="saveChanges">
 				{{ t('settings', 'Allow AI usage for guest users') }}
@@ -17,20 +19,22 @@
 					<p class="tasktype-name">
 						{{ type.name }}
 					</p>
-					<NcCheckboxRadioSwitch v-model="settings['ai.taskprocessing_type_preferences'][type.id]"
+					<NcCheckboxRadioSwitch
+						v-model="settings['ai.taskprocessing_type_preferences'][type.id]"
 						type="switch"
 						@update:modelValue="saveChanges">
 						{{ t('settings', 'Enable') }}
-					</NcCheckboxRadioSwitch><NcSelect v-model="settings['ai.taskprocessing_provider_preferences'][type.id]"
+					</NcCheckboxRadioSwitch><NcSelect
+						v-model="settings['ai.taskprocessing_provider_preferences'][type.id]"
 						class="provider-select"
 						:clearable="false"
 						:disabled="!settings['ai.taskprocessing_type_preferences'][type.id]"
 						:options="taskProcessingProviders.filter(p => p.taskType === type.id).map(p => p.id)"
 						@input="saveChanges">
-						<template #option="{label}">
+						<template #option="{ label }">
 							{{ taskProcessingProviders.find(p => p.id === label)?.name }}
 						</template>
-						<template #selected-option="{label}">
+						<template #selected-option="{ label }">
 							{{ taskProcessingProviders.find(p => p.id === label)?.name }}
 						</template>
 					</NcSelect>
@@ -42,17 +46,18 @@
 				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Machine translation')"
+		<NcSettingsSection
+			:name="t('settings', 'Machine translation')"
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
 					<DragVerticalIcon /> <span class="draggable__number">{{ i + 1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}
-					<NcButton aria-label="Move up" type="tertiary" @click="moveUp(i)">
+					<NcButton aria-label="Move up" variant="tertiary" @click="moveUp(i)">
 						<template #icon>
 							<ArrowUpIcon />
 						</template>
 					</NcButton>
-					<NcButton aria-label="Move down" type="tertiary" @click="moveDown(i)">
+					<NcButton aria-label="Move down" variant="tertiary" @click="moveDown(i)">
 						<template #icon>
 							<ArrowDownIcon />
 						</template>
@@ -60,10 +65,12 @@
 				</div>
 			</draggable>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Image generation')"
+		<NcSettingsSection
+			:name="t('settings', 'Image generation')"
 			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
 			<template v-for="provider in text2imageProviders">
-				<NcCheckboxRadioSwitch :key="provider.id"
+				<NcCheckboxRadioSwitch
+					:key="provider.id"
 					:checked.sync="settings['ai.text2image_provider']"
 					:value="provider.id"
 					name="text2image_provider"
@@ -78,22 +85,24 @@
 				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Text processing')"
+		<NcSettingsSection
+			:name="t('settings', 'Text processing')"
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
 			<template v-for="type in tpTaskTypes">
 				<div :key="type">
 					<h3>{{ t('settings', 'Task:') }} {{ getTextProcessingTaskType(type).name }}</h3>
 					<p>{{ getTextProcessingTaskType(type).description }}</p>
 					<p>&nbsp;</p>
-					<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"
+					<NcSelect
+						v-model="settings['ai.textprocessing_provider_preferences'][type]"
 						class="provider-select"
 						:clearable="false"
 						:options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)"
 						@input="saveChanges">
-						<template #option="{label}">
+						<template #option="{ label }">
 							{{ textProcessingProviders.find(p => p.class === label)?.name }}
 						</template>
-						<template #selected-option="{label}">
+						<template #selected-option="{ label }">
 							{{ textProcessingProviders.find(p => p.class === label)?.name }}
 						</template>
 					</NcSelect>
@@ -112,18 +121,19 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
+import { nextTick } from 'vue'
 import draggable from 'vuedraggable'
-import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
-import { loadState } from '@nextcloud/initial-state'
-import { nextTick } from 'vue'
-import { generateUrl } from '@nextcloud/router'
+import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
+import logger from '../logger.ts'
 
 export default {
 	name: 'AdminAI',
@@ -138,6 +148,7 @@ export default {
 		NcButton,
 		NcNoteCard,
 	},
+
 	data() {
 		return {
 			loading: false,
@@ -154,10 +165,12 @@ export default {
 			settings: loadState('settings', 'ai-settings'),
 		}
 	},
+
 	computed: {
 		hasTextProcessing() {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
 		},
+
 		tpTaskTypes() {
 			const builtinTextProcessingTypes = [
 				'OCP\\TextProcessing\\FreePromptTaskType',
@@ -166,25 +179,29 @@ export default {
 				'OCP\\TextProcessing\\TopicsTaskType',
 			]
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences'])
-				.filter(type => !!this.getTextProcessingTaskType(type))
-				.filter(type => !builtinTextProcessingTypes.includes(type))
+				.filter((type) => !!this.getTextProcessingTaskType(type))
+				.filter((type) => !builtinTextProcessingTypes.includes(type))
 		},
+
 		hasText2ImageProviders() {
-		  return this.text2imageProviders.length > 0
+			return this.text2imageProviders.length > 0
 		},
+
 		hasTaskProcessing() {
 			return Object.keys(this.settings['ai.taskprocessing_provider_preferences']).length > 0 && Array.isArray(this.taskProcessingTaskTypes)
 		},
 	},
+
 	methods: {
-	  moveUp(i) {
+		moveUp(i) {
 			this.settings['ai.translation_provider_preferences'].splice(
-			  Math.min(i - 1, 0),
+				Math.min(i - 1, 0),
 				0,
 				...this.settings['ai.translation_provider_preferences'].splice(i, 1),
 			)
 			this.saveChanges()
 		},
+
 		moveDown(i) {
 			this.settings['ai.translation_provider_preferences'].splice(
 				i + 1,
@@ -193,26 +210,29 @@ export default {
 			)
 			this.saveChanges()
 		},
+
 		async saveChanges() {
 			this.loading = true
 			await nextTick()
 			const data = { settings: this.settings }
 			try {
 				await axios.put(generateUrl('/settings/api/admin/ai'), data)
-			} catch (err) {
-				console.error('could not save changes', err)
+			} catch (error) {
+				logger.error('could not save changes', { error })
 			}
 			this.loading = false
 		},
+
 		getTextProcessingTaskType(type) {
-		  if (!Array.isArray(this.textProcessingTaskTypes)) {
+			if (!Array.isArray(this.textProcessingTaskTypes)) {
 				return null
 			}
-			return this.textProcessingTaskTypes.find(taskType => taskType.class === type)
+			return this.textProcessingTaskTypes.find((taskType) => taskType.class === type)
 		},
 	},
 }
 </script>
+
 <style scoped>
 .draggable__item {
 	margin-bottom: 5px;

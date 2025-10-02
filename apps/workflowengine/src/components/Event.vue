@@ -8,7 +8,8 @@
 			<img class="option__icon" :src="entity.icon" alt="">
 			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
 		</div>
-		<NcSelect v-else
+		<NcSelect
+			v-else
 			:disabled="allEvents.length <= 1"
 			:multiple="true"
 			:options="allEvents"
@@ -30,38 +31,46 @@
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { showWarning } from '@nextcloud/dialogs'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Event',
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		rule: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	computed: {
 		entity() {
 			return this.$store.getters.getEntityForOperation(this.operation)
 		},
+
 		operation() {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
+
 		allEvents() {
 			return this.$store.getters.getEventsForOperation(this.operation)
 		},
+
 		currentEvent() {
-			return this.allEvents.filter(event => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
+			return this.allEvents.filter((event) => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
 		},
+
 		placeholderString() {
 			// TRANSLATORS: Users should select a trigger for a workflow action
 			return t('workflowengine', 'Select a trigger')
 		},
 	},
+
 	methods: {
 		updateEvent(events) {
 			if (events.length === 0) {
@@ -70,16 +79,16 @@ export default {
 				return
 			}
 			const existingEntity = this.rule.entity
-			const newEntities = events.map(event => event.entity.id).filter((value, index, self) => self.indexOf(value) === index)
+			const newEntities = events.map((event) => event.entity.id).filter((value, index, self) => self.indexOf(value) === index)
 			let newEntity = null
 			if (newEntities.length > 1) {
-				newEntity = newEntities.filter(entity => entity !== existingEntity)[0]
+				newEntity = newEntities.filter((entity) => entity !== existingEntity)[0]
 			} else {
 				newEntity = newEntities[0]
 			}
 
 			this.$set(this.rule, 'entity', newEntity)
-			this.$set(this.rule, 'events', events.filter(event => event.entity.id === newEntity).map(event => event.eventName))
+			this.$set(this.rule, 'events', events.filter((event) => event.entity.id === newEntity).map((event) => event.eventName))
 			this.$emit('update', this.rule)
 		},
 	},

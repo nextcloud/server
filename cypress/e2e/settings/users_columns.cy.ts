@@ -27,7 +27,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 	})
 
 	it('Can show a column', function() {
@@ -50,7 +50,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 
 		// see that the language column is in the header
 		cy.get('[data-cy-user-list-header-languages]').should('exist')
@@ -81,7 +81,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.contains('.modal-container', 'Account management settings').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.contains('.modal-container', 'Account management settings').should((el) => assertNotExistOrNotVisible(el)))
 
 		// see that the last login column is not in the header
 		cy.get('[data-cy-user-list-header-last-login]').should('not.exist')

@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<component :is="listView ? 'tr' : (inline ? 'article' : 'li')"
+	<component
+		:is="listView ? 'tr' : (inline ? 'article' : 'li')"
 		class="app-item"
 		:class="{
 			'app-item--list-view': listView,
@@ -11,20 +12,24 @@
 			'app-item--selected': isSelected,
 			'app-item--with-sidebar': withSidebar,
 		}">
-		<component :is="dataItemTag"
+		<component
+			:is="dataItemTag"
 			class="app-image app-image-icon"
 			:headers="getDataItemHeaders(`app-table-col-icon`)">
 			<div v-if="!app?.app_api && shouldDisplayDefaultIcon" class="icon-settings-dark" />
-			<NcIconSvgWrapper v-else-if="app.app_api && shouldDisplayDefaultIcon"
+			<NcIconSvgWrapper
+				v-else-if="app.app_api && shouldDisplayDefaultIcon"
 				:path="mdiCogOutline"
 				:size="listView ? 24 : 48"
 				style="min-width: auto; min-height: auto; height: 100%;" />
 
-			<svg v-else-if="listView && app.preview && !app.app_api"
+			<svg
+				v-else-if="listView && app.preview && !app.app_api"
 				width="32"
 				height="32"
 				viewBox="0 0 32 32">
-				<image x="0"
+				<image
+					x="0"
 					y="0"
 					width="32"
 					height="32"
@@ -35,28 +40,32 @@
 
 			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" alt="">
 		</component>
-		<component :is="dataItemTag"
+		<component
+			:is="dataItemTag"
 			class="app-name"
 			:headers="getDataItemHeaders(`app-table-col-name`)">
-			<router-link class="app-name--link"
+			<router-link
+				class="app-name--link"
 				:to="{
 					name: 'apps-details',
 					params: {
 						category: category,
-						id: app.id
+						id: app.id,
 					},
 				}"
-				:aria-label="t('settings', 'Show details for {appName} app', { appName:app.name })">
+				:aria-label="t('settings', 'Show details for {appName} app', { appName: app.name })">
 				{{ app.name }}
 			</router-link>
 		</component>
-		<component :is="dataItemTag"
+		<component
+			:is="dataItemTag"
 			v-if="!listView"
 			class="app-summary"
 			:headers="getDataItemHeaders(`app-version`)">
 			{{ app.summary }}
 		</component>
-		<component :is="dataItemTag"
+		<component
+			:is="dataItemTag"
 			v-if="listView"
 			class="app-version"
 			:headers="getDataItemHeaders(`app-table-col-version`)">
@@ -68,7 +77,8 @@
 			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</component>
-		<component :is="dataItemTag"
+		<component
+			:is="dataItemTag"
 			v-if="!inline"
 			:headers="getDataItemHeaders(`app-table-col-actions`)"
 			class="app-actions">
@@ -76,43 +86,49 @@
 				{{ app.error }}
 			</div>
 			<div v-if="isLoading || isInitializing" class="icon icon-loading-small" />
-			<NcButton v-if="app.update"
-				type="primary"
+			<NcButton
+				v-if="app.update"
+				variant="primary"
 				:disabled="installing || isLoading || !defaultDeployDaemonAccessible || isManualInstall"
 				:title="updateButtonText"
 				@click.stop="update(app.id)">
-				{{ t('settings', 'Update to {update}', {update:app.update}) }}
+				{{ t('settings', 'Update to {update}', { update: app.update }) }}
 			</NcButton>
-			<NcButton v-if="app.canUnInstall"
+			<NcButton
+				v-if="app.canUnInstall"
 				class="uninstall"
-				type="tertiary"
+				variant="tertiary"
 				:disabled="installing || isLoading"
 				@click.stop="remove(app.id)">
 				{{ t('settings', 'Remove') }}
 			</NcButton>
-			<NcButton v-if="app.active"
+			<NcButton
+				v-if="app.active"
 				:disabled="installing || isLoading || isInitializing || isDeploying"
 				@click.stop="disable(app.id)">
 				{{ disableButtonText }}
 			</NcButton>
-			<NcButton v-if="!app.active && (app.canInstall || app.isCompatible)"
+			<NcButton
+				v-if="!app.active && (app.canInstall || app.isCompatible)"
 				:title="enableButtonTooltip"
 				:aria-label="enableButtonTooltip"
-				type="primary"
+				variant="primary"
 				:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
 				@click.stop="enableButtonAction">
 				{{ enableButtonText }}
 			</NcButton>
-			<NcButton v-else-if="!app.active"
+			<NcButton
+				v-else-if="!app.active"
 				:title="forceEnableButtonTooltip"
 				:aria-label="forceEnableButtonTooltip"
-				type="secondary"
+				variant="secondary"
 				:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
 				@click.stop="forceEnable(app.id)">
 				{{ forceEnableButtonText }}
 			</NcButton>
 
-			<DaemonSelectionDialog v-if="app?.app_api && showSelectDaemonModal"
+			<DaemonSelectionDialog
+				v-if="app?.app_api && showSelectDaemonModal"
 				:show.sync="showSelectDaemonModal"
 				:app="app" />
 		</component>
@@ -120,17 +136,16 @@
 </template>
 
 <script>
-import { useAppsStore } from '../../store/apps-store.js'
-
-import AppScore from './AppScore.vue'
-import AppLevelBadge from './AppLevelBadge.vue'
-import AppManagement from '../../mixins/AppManagement.js'
-import SvgFilterMixin from '../SvgFilterMixin.vue'
+import { mdiCogOutline } from '@mdi/js'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import { mdiCogOutline } from '@mdi/js'
-import { useAppApiStore } from '../../store/app-api-store.ts'
 import DaemonSelectionDialog from '../AppAPI/DaemonSelectionDialog.vue'
+import SvgFilterMixin from '../SvgFilterMixin.vue'
+import AppLevelBadge from './AppLevelBadge.vue'
+import AppScore from './AppScore.vue'
+import AppManagement from '../../mixins/AppManagement.js'
+import { useAppApiStore } from '../../store/app-api-store.ts'
+import { useAppsStore } from '../../store/apps-store.js'
 
 export default {
 	name: 'AppItem',
@@ -141,33 +156,40 @@ export default {
 		NcIconSvgWrapper,
 		DaemonSelectionDialog,
 	},
+
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
 		app: {
 			type: Object,
 			required: true,
 		},
+
 		category: {
 			type: String,
 			required: true,
 		},
+
 		listView: {
 			type: Boolean,
 			default: true,
 		},
+
 		useBundleView: {
 			type: Boolean,
 			default: false,
 		},
+
 		headers: {
 			type: String,
 			default: null,
 		},
+
 		inline: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	setup() {
 		const store = useAppsStore()
 		const appApiStore = useAppApiStore()
@@ -178,6 +200,7 @@ export default {
 			mdiCogOutline,
 		}
 	},
+
 	data() {
 		return {
 			isSelected: false,
@@ -186,25 +209,31 @@ export default {
 			showSelectDaemonModal: false,
 		}
 	},
+
 	computed: {
 		hasRating() {
 			return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5
 		},
+
 		dataItemTag() {
 			return this.listView ? 'td' : 'div'
 		},
+
 		withSidebar() {
 			return !!this.$route.params.id
 		},
+
 		shouldDisplayDefaultIcon() {
 			return (this.listView && !this.app.preview) || (!this.listView && !this.screenshotLoaded)
 		},
 	},
+
 	watch: {
-		'$route.params.id'(id) {
+		'$route.params.id': function(id) {
 			this.isSelected = (this.app.id === id)
 		},
 	},
+
 	mounted() {
 		this.isSelected = (this.app.id === this.$route.params.id)
 		if (this.app.releases && this.app.screenshot) {
@@ -215,9 +244,11 @@ export default {
 			image.src = this.app.screenshot
 		}
 	},
+
 	watchers: {
 
 	},
+
 	methods: {
 		prefix(prefix, content) {
 			return prefix + '_' + content
@@ -226,9 +257,11 @@ export default {
 		getDataItemHeaders(columnName) {
 			return this.useBundleView ? [this.headers, columnName].join(' ') : null
 		},
+
 		showSelectionModal() {
 			this.showSelectDaemonModal = true
 		},
+
 		async enableButtonAction() {
 			if (!this.app?.app_api) {
 				this.enable(this.app.id)

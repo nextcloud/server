@@ -20,7 +20,8 @@
 	</div>
 
 	<!-- Live preview if a handler is available -->
-	<component :is="viewerHandler.component"
+	<component
+		:is="viewerHandler.component"
 		v-else-if="interactive && viewerHandler && !failedViewer"
 		:active="false /* prevent video from autoplaying */"
 		:can-swipe="false"
@@ -34,7 +35,8 @@
 		@error="failedViewer = true" />
 
 	<!-- The file is accessible -->
-	<a v-else
+	<a
+		v-else
 		class="widget-file widget-file--link"
 		:href="richObject.link"
 		target="_blank"
@@ -54,14 +56,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type Component, type PropType } from 'vue'
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import type { Node } from '@nextcloud/files'
+import type { Component, PropType } from 'vue'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
-import { Node } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import path from 'path'
+import { defineComponent } from 'vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import path from 'path'
+import logger from '../logger.ts'
 
 // see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
 type Ressource = {
@@ -106,15 +112,18 @@ export default defineComponent({
 		FolderIcon,
 		FileIcon,
 	},
+
 	props: {
 		richObject: {
 			type: Object as PropType<Ressource>,
 			required: true,
 		},
+
 		accessible: {
 			type: Boolean,
 			default: true,
 		},
+
 		interactive: {
 			type: Boolean,
 			default: true,
@@ -132,10 +141,12 @@ export default defineComponent({
 		availableViewerHandlers(): ViewerHandler[] {
 			return (window?.OCA?.Viewer?.availableHandlers || []) as ViewerHandler[]
 		},
+
 		viewerHandler(): ViewerHandler | undefined {
 			return this.availableViewerHandlers
-				.find(handler => handler.mimes.includes(this.richObject.mimetype))
+				.find((handler) => handler.mimes.includes(this.richObject.mimetype))
 		},
+
 		viewerFile(): ViewerFile {
 			const davSource = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
 				.replace(/\/\/$/, '/')
@@ -157,12 +168,15 @@ export default defineComponent({
 		fileSize() {
 			return window.OC.Util.humanFileSize(this.richObject.size)
 		},
+
 		fileMtime() {
 			return window.OC.Util.relativeModifiedDate(this.richObject.mtime * 1000)
 		},
+
 		filePath() {
 			return path.dirname(this.richObject.path)
 		},
+
 		filePreviewStyle() {
 			if (this.previewUrl) {
 				return {
@@ -171,13 +185,14 @@ export default defineComponent({
 			}
 			return {}
 		},
+
 		filePreviewClass() {
 			if (this.previewUrl) {
 				return 'widget-file__image--preview'
 			}
 			return 'widget-file__image--icon'
-
 		},
+
 		isFolder() {
 			return this.richObject.mimetype === 'httpd/unix-directory'
 		},
@@ -192,12 +207,13 @@ export default defineComponent({
 			img.onload = () => {
 				this.previewUrl = previewUrl
 			}
-			img.onerror = err => {
-				console.error('could not load recommendation preview', err)
+			img.onerror = (error) => {
+				logger.error('could not load recommendation preview', { error })
 			}
 			img.src = previewUrl
 		}
 	},
+
 	methods: {
 		navigate(event) {
 			if (this.isFolder) {

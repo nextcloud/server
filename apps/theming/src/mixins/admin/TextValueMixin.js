@@ -5,7 +5,7 @@
 
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-
+import { logger } from '../../logger.ts'
 import FieldMixin from './FieldMixin.js'
 
 export default {
@@ -46,6 +46,7 @@ export default {
 	methods: {
 		/**
 		 * Check if URL is percent-encoded
+		 *
 		 * @param {string} url The URL to check
 		 * @return {boolean}
 		 */
@@ -68,9 +69,9 @@ export default {
 				})
 				this.$emit('update:value', this.localValue)
 				this.handleSuccess()
-			} catch (e) {
-				console.error('Failed to save changes', e)
-				this.errorMessage = e.response?.data.data?.message
+			} catch (error) {
+				logger.error('Failed to save changes', { error })
+				this.errorMessage = error.response?.data.data?.message
 			}
 		},
 

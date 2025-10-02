@@ -4,15 +4,14 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="headline"
+	<AccountPropertySection
+		v-bind.sync="headline"
 		:placeholder="t('settings', 'Your headline')" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { headline } = loadState('settings', 'personalInfoParameters', {})

@@ -4,8 +4,9 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils'
-import { assertNotExistOrNotVisible } from '../settings/usersUtils'
+
+import { assertNotExistOrNotVisible } from '../settings/usersUtils.ts'
+import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils.ts'
 
 describe('Files: Sidebar', { testIsolation: true }, () => {
 	let user: User

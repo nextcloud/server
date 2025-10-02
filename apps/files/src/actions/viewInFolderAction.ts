@@ -4,11 +4,10 @@
  */
 import type { Node, View } from '@nextcloud/files'
 
-import { isPublicShare } from '@nextcloud/sharing/public'
+import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
 import { FileAction, FileType, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-
-import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 export const action = new FileAction({
 	id: 'view-in-folder',

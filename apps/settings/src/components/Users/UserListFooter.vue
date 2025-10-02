@@ -10,13 +10,15 @@
 			<span class="hidden-visually">{{ t('settings', 'Total rows summary') }}</span>
 		</th>
 		<td class="footer__cell footer__cell--loading">
-			<NcLoadingIcon v-if="loading"
-				:title="t('settings', 'Loading accounts …')"
+			<NcLoadingIcon
+				v-if="loading"
+				:title="t('settings', 'Loading accounts …')"
 				:size="32" />
 		</td>
 		<td class="footer__cell footer__cell--count footer__cell--multiline">
 			<span aria-describedby="user-count-desc">{{ userCount }}</span>
-			<span id="user-count-desc"
+			<span
+				id="user-count-desc"
 				class="hidden-visually">
 				{{ t('settings', 'Scroll to load more rows') }}
 			</span>
@@ -25,13 +27,12 @@
 </template>
 
 <script lang="ts">
+import {
+	translatePlural as n,
+	translate as t,
+} from '@nextcloud/l10n'
 import Vue from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import {
-	translate as t,
-	translatePlural as n,
-} from '@nextcloud/l10n'
 
 export default Vue.extend({
 	name: 'UserListFooter',
@@ -45,6 +46,7 @@ export default Vue.extend({
 			type: Boolean,
 			required: true,
 		},
+
 		filteredUsers: {
 			type: Array,
 			required: true,
@@ -56,8 +58,8 @@ export default Vue.extend({
 			if (this.loading) {
 				return this.n(
 					'settings',
-					'{userCount} account …',
-					'{userCount} accounts …',
+					'{userCount} account …',
+					'{userCount} accounts …',
 					this.filteredUsers.length,
 					{
 						userCount: this.filteredUsers.length,
@@ -68,7 +70,7 @@ export default Vue.extend({
 				'settings',
 				'{userCount} account',
 				'{userCount} accounts',
-				 this.filteredUsers.length,
+				this.filteredUsers.length,
 				{
 					userCount: this.filteredUsers.length,
 				},

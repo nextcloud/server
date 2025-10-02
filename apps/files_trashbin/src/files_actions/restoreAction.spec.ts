@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Folder } from '@nextcloud/files'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as ncEventBus from '@nextcloud/event-bus'
+import { Folder } from '@nextcloud/files'
 import isSvg from 'is-svg'
-
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { PERMISSION_ALL, PERMISSION_NONE } from '../../../../core/src/OC/constants.js'
 import { trashbinView } from '../files_views/trashbinView.ts'
 import { restoreAction } from './restoreAction.ts'
-import { PERMISSION_ALL, PERMISSION_NONE } from '../../../../core/src/OC/constants.js'
 
 const axiosMock = vi.hoisted(() => ({
 	request: vi.fn(),
@@ -119,7 +118,9 @@ describe('files_trashbin: file actions - restore action', () => {
 		it('does not delete node from view if reuest failed', async () => {
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
-			axiosMock.request.mockImplementationOnce(() => { throw new Error() })
+			axiosMock.request.mockImplementationOnce(() => {
+				throw new Error()
+			})
 			const emitSpy = vi.spyOn(ncEventBus, 'emit')
 
 			expect(await restoreAction.exec(node, trashbinView, '/')).toBe(false)
@@ -137,7 +138,9 @@ describe('files_trashbin: file actions - restore action', () => {
 		it('batch: only returns success if all requests worked - one failed', async () => {
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
-			axiosMock.request.mockImplementationOnce(() => { throw new Error() })
+			axiosMock.request.mockImplementationOnce(() => {
+				throw new Error()
+			})
 			expect(await restoreAction.execBatch!([node, node], trashbinView, '/')).toStrictEqual([false, true])
 			expect(axiosMock.request).toBeCalledTimes(2)
 		})

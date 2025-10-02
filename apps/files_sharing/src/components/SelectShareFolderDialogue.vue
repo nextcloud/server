@@ -7,14 +7,16 @@
 	<div class="share-folder">
 		<!-- Folder picking form -->
 		<form class="share-folder__form" @reset.prevent.stop="resetFolder">
-			<NcTextField class="share-folder__picker"
+			<NcTextField
+				class="share-folder__picker"
 				type="text"
 				:label="t('files_sharing', 'Set default folder for accepted shares')"
 				:value="readableDirectory"
 				@click.prevent="pickFolder" />
 
 			<!-- Show reset button if folder is different -->
-			<input v-if="readableDirectory !== defaultDirectory"
+			<input
+				v-if="readableDirectory !== defaultDirectory"
 				class="share-folder__reset"
 				type="reset"
 				:value="t('files_sharing', 'Reset')"
@@ -25,10 +27,10 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import path from 'path'
-import { generateUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
+import path from 'path'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 const defaultDirectory = loadState('files_sharing', 'default_share_folder', '/')
@@ -39,12 +41,14 @@ export default {
 	components: {
 		NcTextField,
 	},
+
 	data() {
 		return {
 			directory,
 			defaultDirectory,
 		}
 	},
+
 	computed: {
 		readableDirectory() {
 			if (!this.directory) {
@@ -53,9 +57,9 @@ export default {
 			return this.directory
 		},
 	},
+
 	methods: {
 		async pickFolder() {
-
 			// Setup file picker
 			const picker = getFilePickerBuilder(t('files_sharing', 'Choose a default folder for accepted shares'))
 				.startAt(this.readableDirectory)

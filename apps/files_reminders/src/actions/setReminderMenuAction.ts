@@ -5,9 +5,9 @@
 
 import type { Node, View } from '@nextcloud/files'
 
+import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
 import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
 
 export const SET_REMINDER_MENU_ID = 'set-reminder-menu'
 

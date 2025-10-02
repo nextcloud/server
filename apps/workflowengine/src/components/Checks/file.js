@@ -3,12 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.js'
-import { registerCustomElement } from '../../helpers/window.js'
 import FileMimeType from './FileMimeType.vue'
 import FileSystemTag from './FileSystemTag.vue'
+import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.js'
+import { registerCustomElement } from '../../helpers/window.js'
 
-const stringOrRegexOperators = () => {
+/**
+ *
+ */
+function stringOrRegexOperators() {
 	return [
 		{ operator: 'matches', name: t('workflowengine', 'matches') },
 		{ operator: '!matches', name: t('workflowengine', 'does not match') },
@@ -47,7 +50,7 @@ const FileChecks = [
 			{ operator: '!less', name: t('workflowengine', 'greater or equals') },
 			{ operator: 'greater', name: t('workflowengine', 'greater') },
 		],
-		placeholder: (check) => '5 MB',
+		placeholder: () => '5 MB',
 		validate: (check) => check.value ? check.value.match(/^[0-9]+[ ]?[kmgt]?b$/i) !== null : false,
 	},
 

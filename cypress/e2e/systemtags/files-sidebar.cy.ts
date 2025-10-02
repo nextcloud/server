@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+
 import { randomBytes } from 'crypto'
 import { getRowForFile, triggerActionForFile } from '../files/FilesUtils.ts'
 

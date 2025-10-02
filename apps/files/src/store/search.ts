@@ -11,8 +11,8 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
-import { VIEW_ID } from '../views/search.ts'
 import logger from '../logger.ts'
+import { VIEW_ID } from '../views/search.ts'
 
 export const useSearchStore = defineStore('search', () => {
 	/**
@@ -45,7 +45,7 @@ export const useSearchStore = defineStore('search', () => {
 
 	/**
 	 * Debounced update of the current route
-	 * @private
+	 *
 	 */
 	const updateRouter = debounce((isSearch: boolean) => {
 		const router = window.OCP.Files.Router as RouterService
@@ -65,7 +65,6 @@ export const useSearchStore = defineStore('search', () => {
 	 * Handle updating the filter if needed.
 	 * Also update the search view by updating the current route if needed.
 	 *
-	 * @private
 	 */
 	function updateSearch() {
 		// emit the search event to update the filter
@@ -103,7 +102,6 @@ export const useSearchStore = defineStore('search', () => {
 	 * Event handler that resets the store if the file list view was changed.
 	 *
 	 * @param view - The new view that is active
-	 * @private
 	 */
 	function onViewChanged(view: View) {
 		if (view.id !== VIEW_ID) {

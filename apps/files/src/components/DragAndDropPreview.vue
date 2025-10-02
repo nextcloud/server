@@ -14,12 +14,12 @@
 </template>
 
 <script lang="ts">
-import { FileType, Node, formatFileSize } from '@nextcloud/files'
-import Vue from 'vue'
+import type { Node } from '@nextcloud/files'
 
+import { FileType, formatFileSize } from '@nextcloud/files'
+import Vue from 'vue'
 import FileMultipleIcon from 'vue-material-design-icons/FileMultiple.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-
 import { getSummaryFor } from '../utils/fileUtils.ts'
 
 export default Vue.extend({
@@ -40,6 +40,7 @@ export default Vue.extend({
 		isSingleNode() {
 			return this.nodes.length === 1
 		},
+
 		isSingleFolder() {
 			return this.isSingleNode
 				&& this.nodes[0].type === FileType.Folder
@@ -51,6 +52,7 @@ export default Vue.extend({
 			}
 			return `${this.summary} – ${this.size}`
 		},
+
 		size() {
 			const totalSize = this.nodes.reduce((total, node) => total + node.size || 0, 0)
 			const size = parseInt(totalSize, 10) || 0
@@ -59,6 +61,7 @@ export default Vue.extend({
 			}
 			return formatFileSize(size, true)
 		},
+
 		summary(): string {
 			if (this.isSingleNode) {
 				const node = this.nodes[0]
@@ -75,7 +78,7 @@ export default Vue.extend({
 			this.$refs.previewImg.replaceChildren()
 
 			// Clone icon node from the list
-			nodes.slice(0, 3).forEach(node => {
+			nodes.slice(0, 3).forEach((node) => {
 				const preview = document.querySelector(`[data-cy-files-list-row-fileid="${node.fileid}"] .files-list__row-icon img`)
 				if (preview) {
 					const previewElmt = this.$refs.previewImg as HTMLElement

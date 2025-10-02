@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// eslint-disable-next-line n/no-extraneous-import
-import axios from 'axios'
+
 import { addCommands, User } from '@nextcloud/cypress'
+import axios from 'axios'
 import { basename } from 'path'
 
 // Add custom commands
@@ -63,7 +63,6 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 })
 
 Cypress.Commands.add('setFileAsFavorite', (user: User, target: string, favorite = true) => {
-	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	cy.clearAllCookies()
 		.then(async () => {
 			try {
@@ -97,7 +96,6 @@ Cypress.Commands.add('setFileAsFavorite', (user: User, target: string, favorite 
 })
 
 Cypress.Commands.add('mkdir', (user: User, target: string) => {
-	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	return cy.clearCookies()
 		.then(async () => {
 			try {
@@ -121,7 +119,6 @@ Cypress.Commands.add('mkdir', (user: User, target: string) => {
 })
 
 Cypress.Commands.add('rm', (user: User, target: string) => {
-	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	cy.clearCookies()
 		.then(async () => {
 			try {
@@ -249,13 +246,10 @@ Cypress.Commands.add('userFileExists', (user: string, path: string) => {
 
 Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
 	return cy.runCommand(`php ./occ ${command}`, options)
-		.then((context) =>
+		.then((context) => {
 			// OCC cannot clear the APCu cache
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
-			cy.wait(
-				command.startsWith('app:') || command.startsWith('config:')
-					? 3000 // clear APCu cache
-					: 0,
-			).then(() => context),
-		)
+			return cy.wait(command.startsWith('app:') || command.startsWith('config:')
+				? 3000 // clear APCu cache
+				: 0).then(() => context)
+		})
 })

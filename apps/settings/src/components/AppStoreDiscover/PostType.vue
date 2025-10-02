@@ -3,14 +3,16 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<article :id="domId"
+	<article
+		:id="domId"
 		ref="container"
 		class="app-discover-post"
 		:class="{
 			'app-discover-post--reverse': media && media.alignment === 'start',
-			'app-discover-post--small': isSmallWidth
+			'app-discover-post--small': isSmallWidth,
 		}">
-		<component :is="link ? 'AppLink' : 'div'"
+		<component
+			:is="link ? 'AppLink' : 'div'"
 			v-if="headline || text"
 			:href="link"
 			class="app-discover-post__text">
@@ -19,7 +21,8 @@
 			</component>
 			<p>{{ translatedText }}</p>
 		</component>
-		<component :is="mediaLink ? 'AppLink' : 'div'"
+		<component
+			:is="mediaLink ? 'AppLink' : 'div'"
 			v-if="mediaSources"
 			:href="mediaLink"
 			class="app-discover-post__media"
@@ -28,24 +31,28 @@
 				'app-discover-post__media--start': media?.alignment === 'start',
 				'app-discover-post__media--end': media?.alignment === 'end',
 			}">
-			<component :is="isImage ? 'picture' : 'video'"
+			<component
+				:is="isImage ? 'picture' : 'video'"
 				ref="mediaElement"
 				class="app-discover-post__media-element"
 				:muted="!isImage"
 				:playsinline="!isImage"
 				:preload="!isImage && 'auto'"
 				@ended="hasPlaybackEnded = true">
-				<source v-for="source of mediaSources"
+				<source
+					v-for="source of mediaSources"
 					:key="source.src"
 					:src="isImage ? undefined : generatePrivacyUrl(source.src)"
 					:srcset="isImage ? generatePrivacyUrl(source.src) : undefined"
 					:type="source.mime">
-				<img v-if="isImage"
+				<img
+					v-if="isImage"
 					:src="generatePrivacyUrl(mediaSources[0].src)"
 					:alt="mediaAlt">
 			</component>
 			<div class="app-discover-post__play-icon-wrapper">
-				<NcIconSvgWrapper v-if="!isImage && showPlayVideo"
+				<NcIconSvgWrapper
+					v-if="!isImage && showPlayVideo"
 					class="app-discover-post__play-icon"
 					:path="mdiPlayCircleOutline"
 					:size="92" />
@@ -55,18 +62,17 @@
 </template>
 
 <script lang="ts">
-import type { IAppDiscoverPost } from '../../constants/AppDiscoverTypes.ts'
 import type { PropType } from 'vue'
+import type { IAppDiscoverPost } from '../../constants/AppDiscoverTypes.ts'
 
 import { mdiPlayCircleOutline } from '@mdi/js'
 import { generateUrl } from '@nextcloud/router'
 import { useElementSize, useElementVisibility } from '@vueuse/core'
 import { computed, defineComponent, ref, watchEffect } from 'vue'
-import { commonAppDiscoverProps } from './common'
-import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
-
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AppLink from './AppLink.vue'
+import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
+import { commonAppDiscoverProps } from './common.ts'
 
 export default defineComponent({
 	components: {
@@ -135,11 +141,12 @@ export default defineComponent({
 
 		/**
 		 * Generate URL for cached media to prevent user can be tracked
+		 *
 		 * @param url The URL to resolve
 		 */
 		const generatePrivacyUrl = (url: string) => url.startsWith('/') ? url : generateUrl('/settings/api/apps/media?fileName={fileName}', { fileName: url })
 
-		const mediaElement = ref<HTMLVideoElement|HTMLPictureElement>()
+		const mediaElement = ref<HTMLVideoElement | HTMLPictureElement>()
 		const mediaIsVisible = useElementVisibility(mediaElement, { threshold: 0.3 })
 		watchEffect(() => {
 			// Only if media is video

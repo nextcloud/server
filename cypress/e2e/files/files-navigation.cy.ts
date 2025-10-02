@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
+
 import { getRowForFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('files: Navigate through folders and observe behavior', () => {

@@ -5,7 +5,8 @@
 
 <template>
 	<div class="template-field__checkbox">
-		<NcCheckboxRadioSwitch :id="fieldId"
+		<NcCheckboxRadioSwitch
+			:id="fieldId"
 			:checked.sync="value"
 			type="switch"
 			@update:checked="input">
@@ -44,6 +45,7 @@ export default defineComponent({
 
 			return label.charAt(0).toUpperCase() + label.slice(1)
 		},
+
 		fieldId() {
 			return 'checkbox-field' + this.field.index
 		},

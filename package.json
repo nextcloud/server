@@ -1,9 +1,17 @@
 {
   "name": "nextcloud",
   "version": "1.0.0",
-  "description": "Nextcloud Server",
-  "author": "Nextcloud GmbH and Nextcloud contributors",
   "private": true,
+  "description": "Nextcloud Server",
+  "keywords": [
+    "nextcloud"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nextcloud/server.git"
+  },
+  "license": "AGPL-3.0-or-later",
+  "author": "Nextcloud GmbH and Nextcloud contributors",
   "directories": {
     "lib": "lib",
     "test": "tests"
@@ -11,34 +19,32 @@
   "scripts": {
     "build": "webpack --node-env production --progress",
     "postbuild": "build/npm-post-build.sh",
-    "dev": "webpack --node-env development --progress",
-    "watch": "webpack --node-env development --progress --watch",
-    "lint": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q \"apps/$appdir\"); then printf \"apps/$appdir \"; fi; done) core --no-error-on-unmatched-pattern",
-    "lint:fix": "npm run lint -- --fix",
-    "stylelint": "stylelint $(for appdir in $(ls apps); do if ! $(git check-ignore -q \"apps/$appdir\"); then printf \"'apps/$appdir/**/*.{scss,vue}' \"; fi; done) 'core/**/*.{scss,vue}'",
-    "stylelint:fix": "npm run stylelint -- --fix",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage --reporter=default --reporter=junit --outputFile=test-report.junit.xml",
-    "test:update-snapshots": "vitest run --update",
-    "test:jsunit": "karma start tests/karma.config.js --single-run",
-    "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
-    "sass:watch": "sass --watch --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
-    "sass:icons": "babel-node core/src/icons.js",
     "cypress": "npm run cypress:component && npm run cypress:e2e",
     "cypress:component": "cypress run --component",
     "cypress:e2e": "cypress run --e2e",
     "cypress:gui": "cypress open",
-    "cypress:version": "cypress version"
+    "cypress:version": "cypress version",
+    "dev": "webpack --node-env development --progress",
+    "lint": "eslint --suppressions-location build/eslint-baseline.json",
+    "lint:fix": "eslint --suppressions-location build/eslint-baseline.json --fix",
+    "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
+    "sass:icons": "babel-node core/src/icons.cjs",
+    "sass:watch": "sass --watch --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
+    "stylelint": "stylelint $(for appdir in $(ls apps); do if ! $(git check-ignore -q \"apps/$appdir\"); then printf \"'apps/$appdir/**/*.{scss,vue}' \"; fi; done) 'core/**/*.{scss,vue}'",
+    "stylelint:fix": "npm run stylelint -- --fix",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage --reporter=default --reporter=junit --outputFile=test-report.junit.xml",
+    "test:jsunit": "karma start tests/karma.config.js --single-run",
+    "test:update-snapshots": "vitest run --update",
+    "test:watch": "vitest watch",
+    "watch": "webpack --node-env development --progress --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nextcloud/server.git"
-  },
-  "keywords": [
-    "nextcloud"
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
   ],
-  "license": "AGPL-3.0-or-later",
+  "overrides": {
+    "colors": "1.4.0"
+  },
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@mdi/js": "^7.4.47",
@@ -127,7 +133,7 @@
     "@cypress/webpack-preprocessor": "^7.0.0",
     "@nextcloud/babel-config": "^1.2.0",
     "@nextcloud/cypress": "^1.0.0-beta.15",
-    "@nextcloud/eslint-config": "^8.4.2",
+    "@nextcloud/eslint-config": "^9.0.0-rc.5",
     "@nextcloud/stylelint-config": "^3.1.0",
     "@nextcloud/typings": "^1.9.1",
     "@nextcloud/webpack-vue-config": "^6.3.0",
@@ -153,8 +159,8 @@
     "cypress-split": "^1.24.23",
     "cypress-wait-until": "^3.0.2",
     "dockerode": "^4.0.8",
-    "eslint-plugin-cypress": "^3.6.0",
-    "eslint-plugin-es": "^4.1.0",
+    "eslint": "^9.36.0",
+    "eslint-plugin-cypress": "^5.1.1",
     "exports-loader": "^5.0.0",
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.3",
@@ -190,14 +196,8 @@
     "webpack-merge": "^6.0.1",
     "workbox-webpack-plugin": "^7.3.0"
   },
-  "browserslist": [
-    "extends @nextcloud/browserslist-config"
-  ],
   "engines": {
     "node": "^22.0.0",
     "npm": "^10.5.0"
-  },
-  "overrides": {
-    "colors": "1.4.0"
   }
 }

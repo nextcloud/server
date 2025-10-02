@@ -1,15 +1,17 @@
+import type { Folder } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { ShareAttribute } from './sharing.d.ts'
+
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, getNavigation } from '@nextcloud/files'
+import { getNavigation } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import registerFileDropView from './files_views/publicFileDrop.ts'
-import registerPublicShareView from './files_views/publicShare.ts'
-import registerPublicFileShareView from './files_views/publicFileShare.ts'
 import RouterService from '../../files/src/services/RouterService.ts'
+import registerFileDropView from './files_views/publicFileDrop.ts'
+import registerPublicFileShareView from './files_views/publicFileShare.ts'
+import registerPublicShareView from './files_views/publicShare.ts'
 import router from './router/index.ts'
 import logger from './services/logger.ts'
 
@@ -27,7 +29,7 @@ window.OCP.Files = window.OCP.Files ?? {}
 window.OCP.Files.Router = new RouterService(router)
 
 // If this is a single file share, so set the fileid as active in the URL
-const fileId = loadState<number|null>('files_sharing', 'fileId', null)
+const fileId = loadState<number | null>('files_sharing', 'fileId', null)
 const token = loadState<string>('files_sharing', 'sharingToken')
 if (fileId !== null) {
 	window.OCP.Files.Router.goToRoute(

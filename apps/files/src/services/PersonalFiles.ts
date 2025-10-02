@@ -2,11 +2,12 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, ContentsWithRoot } from '@nextcloud/files'
-import type { CancelablePromise } from 'cancelable-promise'
-import { getCurrentUser } from '@nextcloud/auth'
 
-import { getContents as getFiles } from './Files'
+import type { ContentsWithRoot, Node } from '@nextcloud/files'
+import type { CancelablePromise } from 'cancelable-promise'
+
+import { getCurrentUser } from '@nextcloud/auth'
+import { getContents as getFiles } from './Files.ts'
 
 const currentUserId = getCurrentUser()?.uid
 
@@ -17,10 +18,11 @@ const currentUserId = getCurrentUser()?.uid
  * 1. the current user owns
  * 2. the file is not shared with anyone
  * 3. the file is not a group folder
+ *
  * @todo Move to `@nextcloud/files`
  * @param node The node to check
  */
-export const isPersonalFile = function(node: Node): boolean {
+export function isPersonalFile(node: Node): boolean {
 	// the type of mounts that determine whether the file is shared
 	const sharedMountTypes = ['group', 'shared']
 	const mountType = node.attributes['mount-type']
@@ -28,7 +30,11 @@ export const isPersonalFile = function(node: Node): boolean {
 	return currentUserId === node.owner && !sharedMountTypes.includes(mountType)
 }
 
-export const getContents = (path: string = '/'): CancelablePromise<ContentsWithRoot> => {
+/**
+ *
+ * @param path
+ */
+export function getContents(path: string = '/'): CancelablePromise<ContentsWithRoot> {
 	// get all the files from the current path as a cancellable promise
 	// then filter the files that the user does not own, or has shared / is a group folder
 	return getFiles(path)

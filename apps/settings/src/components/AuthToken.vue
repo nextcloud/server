@@ -4,21 +4,23 @@
 -->
 
 <template>
-	<tr :class="['auth-token', { 'auth-token--wiping': wiping }]" :data-id="token.id">
+	<tr class="auth-token" :class="[{ 'auth-token--wiping': wiping }]" :data-id="token.id">
 		<td class="auth-token__name">
 			<NcIconSvgWrapper :path="tokenIcon" />
 			<div class="auth-token__name-wrapper">
-				<form v-if="token.canRename && renaming"
+				<form
+					v-if="token.canRename && renaming"
 					class="auth-token__name-form"
 					@submit.prevent.stop="rename">
-					<NcTextField ref="input"
+					<NcTextField
+						ref="input"
 						:value.sync="newName"
 						:label="t('settings', 'Device name')"
 						:show-trailing-button="true"
 						:trailing-button-label="t('settings', 'Cancel renaming')"
 						@trailing-button-click="cancelRename"
 						@keyup.esc="cancelRename" />
-					<NcButton :aria-label="t('settings', 'Save new name')" type="tertiary" native-type="submit">
+					<NcButton :aria-label="t('settings', 'Save new name')" variant="tertiary" type="submit">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiCheck" />
 						</template>
@@ -29,22 +31,26 @@
 			</div>
 		</td>
 		<td>
-			<NcDateTime class="auth-token__last-activity"
+			<NcDateTime
+				class="auth-token__last-activity"
 				:ignore-seconds="true"
 				:timestamp="tokenLastActivity" />
 		</td>
 		<td class="auth-token__actions">
-			<NcActions v-if="!token.current"
+			<NcActions
+				v-if="!token.current"
 				:title="t('settings', 'Device settings')"
 				:aria-label="t('settings', 'Device settings')"
 				:open.sync="actionOpen">
-				<NcActionCheckbox v-if="canChangeScope"
+				<NcActionCheckbox
+					v-if="canChangeScope"
 					:checked="token.scope.filesystem"
 					@update:checked="updateFileSystemScope">
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}
 				</NcActionCheckbox>
-				<NcActionButton v-if="token.canRename"
+				<NcActionButton
+					v-if="token.canRename"
 					icon="icon-rename"
 					@click.stop.prevent="startRename">
 					<!-- TODO: add text/longtext with some description -->
@@ -54,17 +60,20 @@
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
 					<template v-if="token.type !== 2">
-						<NcActionButton icon="icon-delete"
+						<NcActionButton
+							icon="icon-delete"
 							@click.stop.prevent="revoke">
 							<!-- TODO: add text/longtext with some description -->
 							{{ t('settings', 'Revoke') }}
 						</NcActionButton>
-						<NcActionButton icon="icon-delete"
+						<NcActionButton
+							icon="icon-delete"
 							@click.stop.prevent="wipe">
 							{{ t('settings', 'Wipe device') }}
 						</NcActionButton>
 					</template>
-					<NcActionButton v-else-if="token.type === 2"
+					<NcActionButton
+						v-else-if="token.type === 2"
 						icon="icon-delete"
 						:name="t('settings', 'Revoke')"
 						@click.stop.prevent="revoke">
@@ -78,20 +87,19 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import type { IToken } from '../store/authtoken'
+import type { IToken } from '../store/authtoken.ts'
 
-import { mdiCheck, mdiCellphone, mdiTablet, mdiMonitor, mdiWeb, mdiKeyOutline, mdiMicrosoftEdge, mdiFirefox, mdiGoogleChrome, mdiAppleSafari, mdiAndroid, mdiAppleIos } from '@mdi/js'
+import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiTablet, mdiWeb } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
-
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 
 // When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
 const userAgentMap = {
@@ -151,16 +159,19 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcTextField,
 	},
+
 	props: {
 		token: {
 			type: Object as PropType<IToken>,
 			required: true,
 		},
 	},
+
 	setup() {
 		const authTokenStore = useAuthTokenStore()
 		return { authTokenStore }
 	},
+
 	data() {
 		return {
 			actionOpen: false,
@@ -170,10 +181,12 @@ export default defineComponent({
 			mdiCheck,
 		}
 	},
+
 	computed: {
 		canChangeScope() {
 			return this.token.type === TokenType.PERMANENT_TOKEN
 		},
+
 		/**
 		 * Object ob the current user agent used by the token
 		 * This either returns an object containing user agent information or `null` if unknown
@@ -203,12 +216,14 @@ export default defineComponent({
 
 			return null
 		},
+
 		/**
 		 * Last activity of the token as ECMA timestamp (in ms)
 		 */
 		tokenLastActivity() {
 			return this.token.lastActivity * 1000
 		},
+
 		/**
 		 * Icon to use for the current token
 		 */
@@ -219,34 +234,35 @@ export default defineComponent({
 			}
 
 			switch (this.client?.id) {
-			case 'edge':
-				return mdiMicrosoftEdge
-			case 'firefox':
-				return mdiFirefox
-			case 'chrome':
-				return mdiGoogleChrome
-			case 'safari':
-				return mdiAppleSafari
-			case 'androidChrome':
-			case 'androidClient':
-			case 'androidTalkClient':
-				return mdiAndroid
-			case 'iphone':
-			case 'iosClient':
-			case 'iosTalkClient':
-				return mdiAppleIos
-			case 'ipad':
-				return mdiTablet
-			case 'davx5':
-				return mdiCellphone
-			case 'syncClient':
-				return mdiMonitor
-			case 'webPirate':
-			case 'sailfishBrowser':
-			default:
-				return mdiWeb
+				case 'edge':
+					return mdiMicrosoftEdge
+				case 'firefox':
+					return mdiFirefox
+				case 'chrome':
+					return mdiGoogleChrome
+				case 'safari':
+					return mdiAppleSafari
+				case 'androidChrome':
+				case 'androidClient':
+				case 'androidTalkClient':
+					return mdiAndroid
+				case 'iphone':
+				case 'iosClient':
+				case 'iosTalkClient':
+					return mdiAppleIos
+				case 'ipad':
+					return mdiTablet
+				case 'davx5':
+					return mdiCellphone
+				case 'syncClient':
+					return mdiMonitor
+				case 'webPirate':
+				case 'sailfishBrowser':
+				default:
+					return mdiWeb
 			}
 		},
+
 		/**
 		 * Label to be shown for current token
 		 */
@@ -266,6 +282,7 @@ export default defineComponent({
 			}
 			return name
 		},
+
 		/**
 		 * If the current token is considered for remote wiping
 		 */
@@ -273,11 +290,13 @@ export default defineComponent({
 			return this.token.type === TokenType.WIPING_TOKEN
 		},
 	},
+
 	methods: {
 		t,
 		updateFileSystemScope(state: boolean) {
 			this.authTokenStore.setTokenScope(this.token, 'filesystem', state)
 		},
+
 		startRename() {
 			// Close action (popover menu)
 			this.actionOpen = false
@@ -289,17 +308,21 @@ export default defineComponent({
 				this.$refs.input!.select()
 			})
 		},
+
 		cancelRename() {
 			this.renaming = false
 		},
+
 		revoke() {
 			this.actionOpen = false
 			this.authTokenStore.deleteToken(this.token)
 		},
+
 		rename() {
 			this.renaming = false
 			this.authTokenStore.renameToken(this.token, this.newName)
 		},
+
 		wipe() {
 			this.actionOpen = false
 			this.authTokenStore.wipeToken(this.token)

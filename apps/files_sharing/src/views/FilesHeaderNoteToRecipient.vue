@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcNoteCard v-if="note.length > 0"
+	<NcNoteCard
+		v-if="note.length > 0"
 		class="note-to-recipient"
 		type="info">
 		<p v-if="displayName" class="note-to-recipient__heading">
@@ -19,10 +20,10 @@
 
 <script setup lang="ts">
 import type { Folder } from '@nextcloud/files'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
-
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
@@ -42,6 +43,7 @@ const user = computed(() => {
 
 /**
  * Update the current folder
+ *
  * @param newFolder the new folder to show note for
  */
 function updateFolder(newFolder: Folder) {

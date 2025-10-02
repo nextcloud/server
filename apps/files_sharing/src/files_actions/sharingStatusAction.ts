@@ -2,24 +2,29 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getCurrentUser } from '@nextcloud/auth'
-import { Node, View, registerFileAction, FileAction, Permission } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import { ShareType } from '@nextcloud/sharing'
-import { isPublicShare } from '@nextcloud/sharing/public'
+
+import type { Node, View } from '@nextcloud/files'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { FileAction, Permission, registerFileAction } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
-
-import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
-import { generateAvatarSvg } from '../utils/AccountIcon'
+import { action as sidebarAction } from '../../../files/src/actions/sidebarAction.ts'
+import { generateAvatarSvg } from '../utils/AccountIcon.ts'
 
 import './sharingStatusAction.scss'
-import { showError } from '@nextcloud/dialogs'
 
-const isExternal = (node: Node) => {
+/**
+ *
+ * @param node
+ */
+function isExternal(node: Node) {
 	return node.attributes?.['is-federated'] ?? false
 }
 
@@ -59,12 +64,12 @@ export const action = new FileAction({
 
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
 		switch (sharee.type) {
-		case ShareType.User:
-			return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
-		case ShareType.Group:
-			return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
-		default:
-			return t('files_sharing', 'Shared with others')
+			case ShareType.User:
+				return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
+			case ShareType.Group:
+				return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
+			default:
+				return t('files_sharing', 'Shared with others')
 		}
 	},
 

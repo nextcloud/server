@@ -5,7 +5,8 @@
 <template>
 	<div class="custom-input" role="group">
 		<NcEmojiPicker container=".custom-input" @select="setIcon">
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:aria-label="t('user_status', 'Emoji for your status message')">
 				<template #icon>
 					{{ visibleIcon }}
@@ -13,7 +14,8 @@
 			</NcButton>
 		</NcEmojiPicker>
 		<div class="custom-input__container">
-			<NcTextField ref="input"
+			<NcTextField
+				ref="input"
 				maxlength="80"
 				:disabled="disabled"
 				:placeholder="t('user_status', 'What is your status?')"
@@ -44,11 +46,12 @@ export default {
 			type: String,
 			default: '😀',
 		},
+
 		message: {
 			type: String,
-			required: true,
-			default: () => '',
+			default: '',
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,

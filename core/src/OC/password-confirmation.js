@@ -4,6 +4,7 @@
  */
 
 import { confirmPassword, isPasswordConfirmationRequired } from '@nextcloud/password-confirmation'
+
 import '@nextcloud/password-confirmation/dist/style.css'
 
 /**
