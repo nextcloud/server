@@ -73,6 +73,23 @@ interface ISearchQuery {
 	public function getCursor();
 
 	/**
+	 * Get the offset for pagination (number of results to skip)
+	 *
+	 * @return int|null
+	 * @since 33.0.0
+	 */
+	public function getOffset(): ?int;
+
+	/**
+	 * Get the effective offset for pagination (offset or cursor as fallback)
+	 * This method helps with backward compatibility for providers that use cursor as offset
+	 *
+	 * @return int
+	 * @since 33.0.0
+	 */
+	public function getEffectiveOffset(): int;
+
+	/**
 	 * @return string
 	 * @since 20.0.0
 	 */

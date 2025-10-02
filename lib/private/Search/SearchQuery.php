@@ -26,6 +26,7 @@ class SearchQuery implements ISearchQuery {
 		private int|string|null $cursor = null,
 		private string $route = '',
 		private array $routeParameters = [],
+		private ?int $offset = null,
 	) {
 	}
 
@@ -53,6 +54,21 @@ class SearchQuery implements ISearchQuery {
 
 	public function getCursor(): int|string|null {
 		return $this->cursor;
+	}
+
+	public function getOffset(): ?int {
+		return $this->offset;
+	}
+
+	public function getEffectiveOffset(): int {
+		// Prefer explicit offset, fall back to cursor if numeric, otherwise 0
+		if ($this->offset !== null) {
+			return $this->offset;
+		}
+		if (is_numeric($this->cursor)) {
+			return (int)$this->cursor;
+		}
+		return 0;
 	}
 
 	public function getRoute(): string {

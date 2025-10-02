@@ -49,9 +49,10 @@ export async function getProviders() {
  * @param {string} options.limit the search
  * @param {string} options.person the search
  * @param {object} options.extraQueries additional queries to filter search results
+ * @param options.offset
  * @return {object} {request: Promise, cancel: Promise}
  */
-export function search({ type, query, cursor, since, until, limit, person, extraQueries = {} }) {
+export function search({ type, query, cursor, since, until, limit, person, offset, extraQueries = {} }) {
 	/**
 	 * Generate an axios cancel token
 	 */
@@ -66,6 +67,7 @@ export function search({ type, query, cursor, since, until, limit, person, extra
 			until,
 			limit,
 			person,
+			offset,
 			// Sending which location we're currently at
 			from: window.location.pathname.replace('/index.php', '') + window.location.search,
 			...extraQueries,
