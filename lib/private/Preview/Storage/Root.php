@@ -27,7 +27,7 @@ class Root extends AppData {
 	 */
 	public function __construct(
 		IRootFolder $rootFolder,
-		private SystemConfig $systemConfig
+		private SystemConfig $systemConfig,
 	) {
 		parent::__construct($rootFolder, $systemConfig, 'preview');
 	}
@@ -44,11 +44,11 @@ class Root extends AppData {
 	 *
 	 * @param string $name File identifier (fileId) as a string.
 	 * @return ISimpleFolder Preview folder instance.
-	 * @throws NotFoundException If no folder is found. 
+	 * @throws NotFoundException If no folder is found.
 	 */
 	public function getFolder(string $name): ISimpleFolder {
 		$searchTargets = $this->buildSearchTargets($name);
-		
+
 		foreach ($searchTargets as $target) {
 			try {
 				return parent::getFolder($target);
@@ -97,7 +97,7 @@ class Root extends AppData {
 	/**
 	 * Directory listing is disallowed for this root due to performance.
 	 *
-	 * @return array An empty array.
+	 * @return array<ISimpleFolder> An empty array.
 	 */
 	public function getDirectoryListing(): array {
 		return [];
