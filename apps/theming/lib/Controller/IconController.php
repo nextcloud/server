@@ -21,6 +21,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IRequest;
 
 class IconController extends Controller {
@@ -30,6 +31,7 @@ class IconController extends Controller {
 	public function __construct(
 		$appName,
 		IRequest $request,
+		private IConfig $config,
 		private ThemingDefaults $themingDefaults,
 		private IconBuilder $iconBuilder,
 		private ImageManager $imageManager,
@@ -79,7 +81,7 @@ class IconController extends Controller {
 	 * Return a 32x32 favicon as png
 	 *
 	 * @param string $app ID of the app
-	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
+	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
 	 *
 	 * 200: Favicon returned
@@ -95,12 +97,14 @@ class IconController extends Controller {
 
 		$response = null;
 		$iconFile = null;
+		// retrieve instance favorite icon
 		try {
 			$iconFile = $this->imageManager->getImage('favicon', false);
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		} catch (NotFoundException $e) {
 		}
-		if ($iconFile === null && $this->imageManager->shouldReplaceIcons()) {
+		// retrieve or generate app specific favorite icon
+		if (($this->imageManager->canConvert('PNG') || $this->imageManager->canConvert('SVG')) && $this->imageManager->canConvert('ICO')) {
 			$color = $this->themingDefaults->getColorPrimary();
 			try {
 				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app . $color);
@@ -113,9 +117,10 @@ class IconController extends Controller {
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		}
+		// fallback to core favorite icon
 		if ($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
-			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}
 		$response->cacheFor(86400);
 		return $response;
@@ -125,7 +130,7 @@ class IconController extends Controller {
 	 * Return a 512x512 icon for touch devices
 	 *
 	 * @param string $app ID of the app
-	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'|'image/png'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
+	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
 	 *
 	 * 200: Touch icon returned
@@ -140,12 +145,14 @@ class IconController extends Controller {
 		}
 
 		$response = null;
+		// retrieve instance favorite icon
 		try {
 			$iconFile = $this->imageManager->getImage('favicon');
-			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => $iconFile->getMimeType()]);
 		} catch (NotFoundException $e) {
 		}
-		if ($this->imageManager->shouldReplaceIcons()) {
+		// retrieve or generate app specific touch icon
+		if ($this->imageManager->canConvert('PNG')) {
 			$color = $this->themingDefaults->getColorPrimary();
 			try {
 				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app . $color);
@@ -158,6 +165,7 @@ class IconController extends Controller {
 			}
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		}
+		// fallback to core touch icon
 		if ($response === null) {
 			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
 			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
