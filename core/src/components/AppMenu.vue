@@ -88,10 +88,12 @@ export default defineComponent({
 
 	mounted() {
 		subscribe('nextcloud:app-menu.refresh', this.setApps)
+		subscribe('nextcloud:app-menu.active', this.setActive)
 	},
 
 	beforeDestroy() {
 		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
+		unsubscribe('nextcloud:app-menu.active', this.setActive)
 	},
 
 	methods: {
@@ -99,6 +101,19 @@ export default defineComponent({
 			const app = this.appList.find(({ app }) => app === id)
 			if (app) {
 				this.$set(app, 'unread', counter)
+			} else {
+				logger.warn(`Could not find app "${id}" for setting navigation count`)
+			}
+		},
+
+		setActive(id: string) {
+			this.appList.forEach((app) => {
+				this.$set(app, 'active', false)
+			})
+
+			const app = this.appList.find(({ id: menuItemId }) => menuItemId === id)
+			if (app) {
+				this.$set(app, 'active', true)
 			} else {
 				logger.warn(`Could not find app "${id}" for setting navigation count`)
 			}
