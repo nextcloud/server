@@ -55,6 +55,6 @@ class Version18000Date20190920085628 extends SimpleMigrationStep {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('groups')
 			->set('displayname', 'gid');
-		$query->execute();
+		$query->executeStatement();
 	}
 }
