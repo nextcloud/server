@@ -13,46 +13,44 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
+/**
+ * Concrete implementation of {@see \OCP\Files\SimpleFS\ISimpleFolder}.
+ *
+ * Wraps a Folder object to expose simplified filesystem operations.
+ *
+ * @internal This class is not part of the public API and may change without notice.
+ */
 class SimpleFolder implements ISimpleFolder {
-	/** @var Folder */
-	private $folder;
+	public function __construct(private Folder $folder) {
+	}
 
 	/**
-	 * Folder constructor.
-	 *
-	 * @param Folder $folder
+	 * {@inheritdoc}
 	 */
-	public function __construct(Folder $folder) {
-		$this->folder = $folder;
-	}
-
-	public function getName(): string {
-		return $this->folder->getName();
-	}
-
 	public function getDirectoryListing(): array {
-		$listing = $this->folder->getDirectoryListing();
-
-		$fileListing = array_map(function (Node $file) {
-			if ($file instanceof File) {
-				return new SimpleFile($file);
-			}
-			return null;
-		}, $listing);
-
-		$fileListing = array_filter($fileListing);
-
-		return array_values($fileListing);
+    	$nodes = $this->folder->getDirectoryListing();
+    	$files = [];
+    	foreach ($nodes as $node) {
+        	if ($node instanceof File) {
+            	$files[] = new SimpleFile($node);
+        	}
+    	}
+    	return $files;
 	}
 
-	public function delete(): void {
-		$this->folder->delete();
-	}
-
+	/**
+	 * {@inheritdoc}
+	 *
+	 * (NotFoundException|NotPermittedException) are treated equally in the underlying class and not passed up;
+	 * Both situations will return false here.
+	 */
 	public function fileExists(string $name): bool {
 		return $this->folder->nodeExists($name);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFile(string $name): ISimpleFile {
 		$file = $this->folder->get($name);
 
@@ -63,6 +61,9 @@ class SimpleFolder implements ISimpleFolder {
 		return new SimpleFile($file);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function newFile(string $name, $content = null): ISimpleFile {
 		if ($content === null) {
 			// delay creating the file until it's written to
@@ -73,6 +74,23 @@ class SimpleFolder implements ISimpleFolder {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function delete(): void {
+		$this->folder->delete();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getName(): string {
+		return $this->folder->getName();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getFolder(string $name): ISimpleFolder {
 		$folder = $this->folder->get($name);
 
@@ -83,6 +101,12 @@ class SimpleFolder implements ISimpleFolder {
 		return new SimpleFolder($folder);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 *
+	 * (AlreadyExistsException|InvalidPathException) and other storage-specific exceptions may bubble up here.
+	 * The implementation does not handle them and the interface does not define if we should.
+	 */
 	public function newFolder(string $path): ISimpleFolder {
 		$folder = $this->folder->newFolder($path);
 		return new SimpleFolder($folder);
