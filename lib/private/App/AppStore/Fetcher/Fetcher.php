@@ -6,7 +6,9 @@
  */
 namespace OC\App\AppStore\Fetcher;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -86,7 +88,7 @@ abstract class Fetcher {
 		$client = $this->clientService->newClient();
 		try {
 			$response = $client->get($this->getEndpoint(), $options);
-		} catch (ConnectException $e) {
+		} catch (ConnectException|ClientException|ServerException $e) {
 			$this->config->setAppValue('settings', 'appstore-fetcher-lastFailure', (string) time());
 			$this->logger->error('Failed to connect to the app store', ['exception' => $e]);
 			return [];
