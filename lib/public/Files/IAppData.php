@@ -8,6 +8,7 @@
 namespace OCP\Files;
 
 use OCP\Files\SimpleFS\ISimpleRoot;
+use OCP\Files\SimpleFS\ISimpleFolder;
 
 /**
  * Interface for accessing app-specific data storage in Nextcloud.
