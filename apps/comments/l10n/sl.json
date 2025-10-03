@@ -15,7 +15,6 @@
     "Delete comment" : "Izbriši opombo",
     "Cancel edit" : "Prekliči urejanje",
     "New comment" : "Nova opomba",
-    "Write a comment …" : "Dopišite opombo ...",
     "Post comment" : "Objavi opombo",
     "@ for mentions, : for emoji, / for smart picker" : "@ za omenjanje osebe, : za izris izraznih ikon, / za pametni izbirnik",
     "Could not reload comments" : "Opomb ni mogoče posodobiti",
@@ -29,6 +28,7 @@
     "An error occurred while trying to edit the comment" : "Prišlo je do napake med poskusom urejanja opombe",
     "Comment deleted" : "Opomba je izbrisana",
     "An error occurred while trying to delete the comment" : "Prišlo je do napake med brisanjem opombe",
-    "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe"
+    "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe",
+    "Write a comment …" : "Dopišite opombo ..."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

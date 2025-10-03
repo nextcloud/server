@@ -92,7 +92,7 @@ OC.L10N.register(
     "Delete storage?" : "Ištrinti saugyklą?",
     "Click to recheck the configuration" : "Spustelėkite norėdami iš naujo patikrinti konfigūraciją",
     "Saved" : "Įrašyta",
-    "Saving …" : "Įrašoma …",
+    "Saving …" : "Įrašoma…",
     "Save" : "Įrašyti",
     "No external storage configured or you don't have the permission to configure them" : "Nėra sukonfigūruota jokia išorinė saugykla arba jūs neturite leidimo jų konfigūruoti",
     "Open documentation" : "Atverti dokumentaciją",
@@ -106,6 +106,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Prašome naudoti teisingus trečiųjų šalių programinės įrangos identifikacijos numerį ir slaptažodį.",
     "OAuth1" : "OAuth1",
     "App key" : "Trečiųjų šalių programinės įrangos identifikacijos raktas",
-    "App secret" : "Trečiųjų šalių programinės įrangos slaptažodis"
+    "App secret" : "Trečiųjų šalių programinės įrangos slaptažodis",
+    "Saving …" : "Įrašoma …"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

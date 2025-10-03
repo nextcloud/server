@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "باھانى ئۆچۈرۈڭ",
     "Cancel edit" : "تەھرىرلەشنى ئەمەلدىن قالدۇرۇڭ",
     "New comment" : "يېڭى باھا",
-    "Write a comment …" : "باھا يېزىڭ…",
     "Post comment" : "ئىنكاس يېزىڭ",
     "@ for mentions, : for emoji, / for smart picker" : "@ تىلغا ئېلىش ئۈچۈن ،: emoji ئۈچۈن ، / ئەقلىي ئىقتىدارلىق تاللىغۇچ ئۈچۈن",
     "Could not reload comments" : "ئىنكاسلارنى قايتا يۈكلىيەلمىدى",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "باھانى تەھرىرلىمەكچى بولغاندا خاتالىق كۆرۈلدى",
     "Comment deleted" : "باھا ئۆچۈرۈلدى",
     "An error occurred while trying to delete the comment" : "باھانى ئۆچۈرمەكچى بولغاندا خاتالىق كۆرۈلدى",
-    "An error occurred while trying to create the comment" : "باھا قۇرماقچى بولغاندا خاتالىق كۆرۈلدى"
+    "An error occurred while trying to create the comment" : "باھا قۇرماقچى بولغاندا خاتالىق كۆرۈلدى",
+    "Write a comment …" : "باھا يېزىڭ…"
 },
 "nplurals=2; plural=(n != 1);");

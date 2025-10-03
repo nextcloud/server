@@ -15,7 +15,6 @@
     "Delete comment" : "Обриши коментар",
     "Cancel edit" : "Поништи измену",
     "New comment" : "Нови коментар",
-    "Write a comment …" : "Напишите коментар…",
     "Post comment" : "Објави коментар",
     "@ for mentions, : for emoji, / for smart picker" : "@ за помињања, : за емођи, / за паметни бирач",
     "Could not reload comments" : "Коментари не могу поново да се учитају",
@@ -29,6 +28,7 @@
     "An error occurred while trying to edit the comment" : "Грешка приликом покушаја мењања коментара",
     "Comment deleted" : "Коментар обрисан",
     "An error occurred while trying to delete the comment" : "Грешка приликом покушаја брисања коментара",
-    "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара"
+    "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара",
+    "Write a comment …" : "Напишите коментар…"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

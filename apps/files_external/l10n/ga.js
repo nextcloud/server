@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Cuir isteach dintiúir atá in easnamh",
     "Credentials successfully set" : "Socraíodh na dintiúir go rathúil",
     "Error while setting credentials: {error}" : "Earráid agus na dintiúir á socrú: {error}",
-    "Checking storage …" : "Stóras á sheiceáil…",
     "There was an error with this external storage." : "Tharla earráid leis an stóras seachtrach seo.",
     "We were unable to check the external storage {basename}" : "Níorbh fhéidir linn an stóras seachtrach {basename} a sheiceáil",
     "Examine this faulty external storage configuration" : "Scrúdaigh an chumraíocht stórála seachtrach lochtach seo",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "An bhfuil fonn ort an stóras a scriosadh?",
     "Click to recheck the configuration" : "Cliceáil chun an chumraíocht a athsheiceáil",
     "Saved" : "Shábháil",
-    "Saving …" : "Shábháil …",
+    "Saving …" : "Shábháil …",
     "Save" : "Sábháil",
     "Failed to save global credentials" : "Theip ar shábháil dintiúir dhomhanda",
     "Failed to save global credentials: {message}" : "Theip ar shábháil sonraí domhanda: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Eochair aip",
     "App secret" : "Rúnda aip",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "An bhfuil tú cinnte gur mhaith leat an stóras seachtrach seo a dhínascadh? Fágfaidh sé nach mbeidh an stóráil ar fáil in Nextcloud agus scriosfar na comhaid agus na fillteáin seo ar aon chliant sioncronaithe atá ceangailte faoi láthair ach ní scriosfaidh sé aon chomhaid agus fillteáin ar an stóráil sheachtrach féin."
+    "Checking storage …" : "Stóras á sheiceáil…",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "An bhfuil tú cinnte gur mhaith leat an stóras seachtrach seo a dhínascadh? Fágfaidh sé nach mbeidh an stóráil ar fáil in Nextcloud agus scriosfar na comhaid agus na fillteáin seo ar aon chliant sioncronaithe atá ceangailte faoi láthair ach ní scriosfaidh sé aon chomhaid agus fillteáin ar an stóráil sheachtrach féin.",
+    "Saving …" : "Shábháil …"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

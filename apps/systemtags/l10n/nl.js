@@ -50,7 +50,6 @@ OC.L10N.register(
     "Update" : "Update",
     "Delete" : "Verwijder",
     "Reset" : "Herstellen",
-    "Loading …" : "Laden …",
     "Manage tags" : "Berichttags",
     "Search or create tag" : "Zoek of maak een tag",
     "Search tag" : "Zoek tag",
@@ -63,6 +62,7 @@ OC.L10N.register(
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samenwerkingstags zijn beschikbaar voor alle gebruikers. Beperkte tags zijn zichtbaar voor gebruikers, maar kunnen niet door hen worden toegewezen. Onzichtbare tags zijn er alleen voor intern gebruik, aangezien gebruikers ze niet kunnen zien of toewijzen.",
     "Assigned collaborative tags" : "Samenwerkingstags toewijzen",
     "Open in Files" : "Open in Bestanden",
-    "No tags found" : "Geen tags gevonden"
+    "No tags found" : "Geen tags gevonden",
+    "Loading …" : "Laden …"
 },
 "nplurals=2; plural=(n != 1);");

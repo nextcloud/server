@@ -84,7 +84,7 @@ OC.L10N.register(
     "Delete storage?" : "Избриши складиште?",
     "Click to recheck the configuration" : "Кликни за проверка на конфигурацијата",
     "Saved" : "Снимено",
-    "Saving …" : "Зачувува ...",
+    "Saving …" : "Зачувува  …",
     "Save" : "Сними",
     "No external storage configured or you don't have the permission to configure them" : "Немате конфигурирано надворешно складиште или немате дозвола да го конфигурирате",
     "Open documentation" : "Отвори ја документацијата",
@@ -99,6 +99,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Внесете валиден клуч на апликацијата и лозинка.",
     "OAuth1" : "OAuth1",
     "App key" : "Клуч на апликацијата",
-    "App secret" : "Тајна на апликацијата"
+    "App secret" : "Тајна на апликацијата",
+    "Saving …" : "Зачувува ..."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

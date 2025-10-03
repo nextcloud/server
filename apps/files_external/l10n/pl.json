@@ -101,7 +101,6 @@
     "Enter missing credentials" : "Wprowadź brakujące dane uwierzytelniające",
     "Credentials successfully set" : "Dane uwierzytelniające zostały pomyślnie ustawione",
     "Error while setting credentials: {error}" : "Błąd podczas ustawiania danych uwierzytelniających: {error}",
-    "Checking storage …" : "Sprawdzanie pamięci masowej…",
     "There was an error with this external storage." : "Wystąpił błąd związany z pamięcią zewnętrzną.",
     "We were unable to check the external storage {basename}" : "Nie można sprawdzić pamięci zewnętrznej {basename}",
     "Examine this faulty external storage configuration" : "Sprawdź wadliwą konfigurację pamięci zewnętrznej",
@@ -136,7 +135,7 @@
     "Delete storage?" : "Usunąć magazyn?",
     "Click to recheck the configuration" : "Kliknij, aby ponownie sprawdzić konfigurację",
     "Saved" : "Zapisano",
-    "Saving …" : "Zapisywanie…",
+    "Saving …" : "Zapisywanie…",
     "Save" : "Zapisz",
     "Failed to save global credentials" : "Nie udało się zapisać globalnych danych uwierzytelniających",
     "Failed to save global credentials: {message}" : "Nie udało się zapisać globalnych danych uwierzytelniających: {message}",
@@ -157,6 +156,8 @@
     "OAuth1" : "OAuth1",
     "App key" : "Klucz aplikacji",
     "App secret" : "Tajny klucz aplikacji",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Czy na pewno chcesz odłączyć tę pamięć zewnętrzną? Spowoduje to, że pamięć będzie niedostępna w Nextcloud i doprowadzi do usunięcia tych plików i katalogów na dowolnym kliencie synchronizacji, który jest aktualnie podłączony, ale nie usunie żadnych plików i katalogów z samej pamięci zewnętrznej."
+    "Checking storage …" : "Sprawdzanie pamięci masowej…",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Czy na pewno chcesz odłączyć tę pamięć zewnętrzną? Spowoduje to, że pamięć będzie niedostępna w Nextcloud i doprowadzi do usunięcia tych plików i katalogów na dowolnym kliencie synchronizacji, który jest aktualnie podłączony, ale nie usunie żadnych plików i katalogów z samej pamięci zewnętrznej.",
+    "Saving …" : "Zapisywanie…"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

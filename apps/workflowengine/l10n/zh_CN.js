@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "选择一个用户代理",
     "Select groups" : "选择用户组",
     "Groups" : "用户组",
-    "Type to search for group …" : "输入以搜索群组...",
     "Select a trigger" : "选择一个触发器",
     "At least one event must be selected" : "必须至少选择一个事件",
     "Add new flow" : "添加新的流程",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "请求用户代理",
     "Group membership" : "组成员资格",
     "is member of" : "是成员",
-    "is not member of" : "不是成员"
+    "is not member of" : "不是成员",
+    "Type to search for group …" : "输入以搜索群组..."
 },
 "nplurals=1; plural=0;");

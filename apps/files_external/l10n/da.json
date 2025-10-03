@@ -101,7 +101,6 @@
     "Enter missing credentials" : "angiv manglende legitimationsoplysninger",
     "Credentials successfully set" : "Legitimationsoplysningerne er angivet",
     "Error while setting credentials: {error}" : "Fejl under indstilling af legitimationsoplysninger: {error}",
-    "Checking storage …" : "Kontrollerer lager ...",
     "There was an error with this external storage." : "Der er en fejl med dette eksterne lager.",
     "We were unable to check the external storage {basename}" : "Det var ikke muligt at kontrollerer det eksterne lager {basename}",
     "Examine this faulty external storage configuration" : "Gennemgå fejl konfiguration af eksternt lager ",
@@ -136,7 +135,7 @@
     "Delete storage?" : "Slet lager?",
     "Click to recheck the configuration" : "Klik for at kontrollere konfigurationen igen",
     "Saved" : "Gemt",
-    "Saving …" : "Gemmer…",
+    "Saving …" : "Gemmer …",
     "Save" : "Gem",
     "Failed to save global credentials" : "Kunne ikke gemme globale legitimationsoplysninger",
     "Failed to save global credentials: {message}" : "Kunne ikke gemme globale legitimationsoplysninger: {message}",
@@ -157,6 +156,8 @@
     "OAuth1" : "OAuth1",
     "App key" : "App-nøgle",
     "App secret" : "App-hemmelighed",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på, at du vil frakoble dette eksterne lager? Det vil gøre lageret utilgængeligt i Nextcloud og vil føre til en sletning af disse filer og mapper på enhver synkroniseringsklient, der i øjeblikket er tilsluttet, men vil ikke slette nogen filer og mapper på selve det eksterne lager."
+    "Checking storage …" : "Kontrollerer lager ...",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på, at du vil frakoble dette eksterne lager? Det vil gøre lageret utilgængeligt i Nextcloud og vil føre til en sletning af disse filer og mapper på enhver synkroniseringsklient, der i øjeblikket er tilsluttet, men vil ikke slette nogen filer og mapper på selve det eksterne lager.",
+    "Saving …" : "Gemmer…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

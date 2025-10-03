@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "コメントを削除",
     "Cancel edit" : "編集をキャンセル",
     "New comment" : "新しいコメント",
-    "Write a comment …" : "コメントを書く...",
     "Post comment" : "コメントを投稿",
     "@ for mentions, : for emoji, / for smart picker" : "メンションには@、絵文字には:、スマートピッカーには/",
     "Could not reload comments" : "コメントをリロードできませんでした",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "コメント編集中にエラーが発生しました",
     "Comment deleted" : "コメントが削除されました",
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
-    "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました"
+    "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
+    "Write a comment …" : "コメントを書く..."
 },
 "nplurals=1; plural=0;");
