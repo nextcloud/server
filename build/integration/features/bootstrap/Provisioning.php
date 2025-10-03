@@ -17,6 +17,12 @@ trait Provisioning {
 	use BasicStructure;
 
 	/** @var array */
+	private $appsToEnableAfterScenario = [];
+
+	/** @var array */
+	private $appsToDisableAfterScenario = [];
+
+	/** @var array */
 	private $createdUsers = [];
 
 	/** @var array */
@@ -27,6 +33,19 @@ trait Provisioning {
 
 	/** @var array */
 	private $createdGroups = [];
+
+	/** @AfterScenario */
+	public function restoreAppsEnabledStateAfterScenario() {
+		$this->asAn('admin');
+
+		foreach ($this->appsToEnableAfterScenario as $app) {
+			$this->sendingTo('POST', '/cloud/apps/' . $app);
+		}
+
+		foreach ($this->appsToDisableAfterScenario as $app) {
+			$this->sendingTo('DELETE', '/cloud/apps/' . $app);
+		}
+	}
 
 	/**
 	 * @Given /^user "([^"]*)" exists$/
@@ -801,6 +820,21 @@ trait Provisioning {
 		$listCheckedElements = simplexml_load_string($resp->getBody())->data[0]->element;
 		$extractedElementsArray = json_decode(json_encode($listCheckedElements), 1);
 		return $extractedElementsArray;
+	}
+
+	/**
+	 * @Given /^app "([^"]*)" enabled state will be restored once the scenario finishes$/
+	 * @param string $app
+	 */
+	public function appEnabledStateWillBeRestoredOnceTheScenarioFinishes($app) {
+		if (in_array($app, $this->getAppsWithFilter('enabled'))) {
+			$this->appsToEnableAfterScenario[] = $app;
+		} elseif (in_array($app, $this->getAppsWithFilter('disabled'))) {
+			$this->appsToDisableAfterScenario[] = $app;
+		}
+
+		// Apps that were not installed before the scenario will not be
+		// disabled nor uninstalled after the scenario.
 	}
 
 	private function getAppsWithFilter($filter) {
