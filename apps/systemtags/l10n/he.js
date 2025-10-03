@@ -50,12 +50,12 @@ OC.L10N.register(
     "Update" : "עדכון",
     "Delete" : "מחיקה",
     "Reset" : "איפוס",
-    "Loading …" : "בטעינה…",
     "Manage tags" : "ניהול תגיות",
     "Cancel" : "ביטול",
     "Apply" : "החלה",
     "Failed to load tags" : "טעינת התגיות נכשלה",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "תגיות שיתופיות זמינות לכל המשתמשים. תגיות מוגבלות חשופות למשתמשים אך אין להם אפשרות להקצות אותן. תגיות בלתי נראות הן לשימוש פנימי כיוון שמשתמשים לא יכולים לראות אות להקצות אותן.",
-    "No tags found" : "לא נמצאו תגיות"
+    "No tags found" : "לא נמצאו תגיות",
+    "Loading …" : "בטעינה…"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

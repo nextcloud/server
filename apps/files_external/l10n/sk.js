@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Zadajte chýbajúce prihlasovacie údaje",
     "Credentials successfully set" : "Prístupové údaje boli úspešne nastavené",
     "Error while setting credentials: {error}" : "Chyba pri nastavovaní prístupových údajov: {error}",
-    "Checking storage …" : "Kontrolujem úložisko ...",
     "There was an error with this external storage." : "Vyskytla sa chyba s externým úložiskom.",
     "We were unable to check the external storage {basename}" : "Nepodarilo sa nám skontrolovať externé úložisko {basename}",
     "Examine this faulty external storage configuration" : "Skúste preskúmať chybnú konfiguráciu externého úložiska",
@@ -136,7 +135,7 @@ OC.L10N.register(
     "Delete storage?" : "Zmazať externé úložisko?",
     "Click to recheck the configuration" : "Kliknite na opätovnú kontrolu konfigurácie",
     "Saved" : "Uložené",
-    "Saving …" : "Ukladá sa...",
+    "Saving …" : "Ukladanie …",
     "Save" : "Uložiť",
     "Failed to save global credentials" : "Nepodarilo sa uložiť globálne prihlasovacie údaje",
     "Failed to save global credentials: {message}" : "Nepodarilo sa uložiť globálne prihlasovacie údaje: {message}",
@@ -157,6 +156,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Kľúč aplikácie",
     "App secret" : "Heslo aplikácie",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Naozaj chcete odpojiť toto externé úložisko? Úložisko bude nedostupné v Nextcloud a povedie k vymazaniu súborov a priečinkov na akomkoľvek synchronizovanom klientovi, ktorý je aktuálne pripojený, ale neodstráni žiadne súbory a priečinky na samotnom externom úložisku."
+    "Checking storage …" : "Kontrolujem úložisko ...",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Naozaj chcete odpojiť toto externé úložisko? Úložisko bude nedostupné v Nextcloud a povedie k vymazaniu súborov a priečinkov na akomkoľvek synchronizovanom klientovi, ktorý je aktuálne pripojený, ale neodstráni žiadne súbory a priečinky na samotnom externom úložisku.",
+    "Saving …" : "Ukladá sa..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

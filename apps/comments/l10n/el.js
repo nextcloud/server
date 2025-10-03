@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Διαγραφή σχολίου",
     "Cancel edit" : "Ακύρωση επεξεργασίας",
     "New comment" : "Νέο σχόλιο",
-    "Write a comment …" : "Γράψτε ένα σχόλιο …",
     "Post comment" : "Αναρτήστε σχόλιο",
     "@ for mentions, : for emoji, / for smart picker" : "@ για αναφορές, : για emoji, / για έξυπνο επιλογέα",
     "Could not reload comments" : "Αδυναμία επανάφόρτωσης σχολίων",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια επεξεργασίας του σχολίου",
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
-    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου"
+    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
+    "Write a comment …" : "Γράψτε ένα σχόλιο …"
 },
 "nplurals=2; plural=(n != 1);");

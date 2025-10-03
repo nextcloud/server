@@ -101,7 +101,6 @@
     "Enter missing credentials" : "Digite as credenciais ausentes",
     "Credentials successfully set" : "Credenciais definidas com sucesso",
     "Error while setting credentials: {error}" : "Erro ao definir as credenciais: {error}",
-    "Checking storage …" : "Verificação do armazenamento …",
     "There was an error with this external storage." : "Ocorreu um erro com este armazenamento externo.",
     "We were unable to check the external storage {basename}" : "Não foi possível verificar o armazenamento externo {basename}",
     "Examine this faulty external storage configuration" : "Examine esta configuração de armazenamento externo com falha",
@@ -136,7 +135,7 @@
     "Delete storage?" : "Excluir armazenamento?",
     "Click to recheck the configuration" : "Clique para rechecar a configuração",
     "Saved" : "Salvo",
-    "Saving …" : "Salvando...",
+    "Saving …" : "Salvando …",
     "Save" : "Salvar",
     "Failed to save global credentials" : "Falha ao salvar as credenciais globais",
     "Failed to save global credentials: {message}" : "Falha ao salvar as credenciais globais: {message}",
@@ -157,6 +156,8 @@
     "OAuth1" : "OAuth1",
     "App key" : "Chave do aplicativo",
     "App secret" : "Segredo do aplicativo",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Tem certeza de que deseja desconectar este armazenamento externo? Isso tornará o armazenamento indisponível no Nextcloud e levará à exclusão destes arquivos e pastas em qualquer cliente de sincronização que esteja conectado no momento, mas não excluirá nenhum arquivo e pasta do armazenamento externo em si."
+    "Checking storage …" : "Verificação do armazenamento …",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Tem certeza de que deseja desconectar este armazenamento externo? Isso tornará o armazenamento indisponível no Nextcloud e levará à exclusão destes arquivos e pastas em qualquer cliente de sincronização que esteja conectado no momento, mas não excluirá nenhum arquivo e pasta do armazenamento externo em si.",
+    "Saving …" : "Salvando..."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

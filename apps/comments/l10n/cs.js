@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Smazat komentář",
     "Cancel edit" : "Zrušit úpravu",
     "New comment" : "Nový komentář",
-    "Write a comment …" : "Napsat komentář…",
     "Post comment" : "Odeslat komentář",
     "@ for mentions, : for emoji, / for smart picker" : "@ pro zmínění, : pro emotikony, / pro inteligentní výběr",
     "Could not reload comments" : "Znovunačtení komentářů se nezdařilo",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Došlo k chybě při pokusu o úpravu komentáře",
     "Comment deleted" : "Komentář smazán",
     "An error occurred while trying to delete the comment" : "Došlo k chybě při pokusu o smazání komentáře",
-    "An error occurred while trying to create the comment" : "Došlo k chybě při pokusu o vytvoření komentáře"
+    "An error occurred while trying to create the comment" : "Došlo k chybě při pokusu o vytvoření komentáře",
+    "Write a comment …" : "Napsat komentář…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "Одаберите агента захтева",
     "Select groups" : "Изаберите групе",
     "Groups" : "Групе",
-    "Type to search for group …" : "Куцајте да претражите групу",
     "Select a trigger" : "Изаберите окидач",
     "At least one event must be selected" : "Мора бити одабран бар један догађај",
     "Add new flow" : "Додај нови ток",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "Кориснички агент захтева",
     "Group membership" : "Припадност групи",
     "is member of" : "је члан групе",
-    "is not member of" : "није члан групе"
+    "is not member of" : "није члан групе",
+    "Type to search for group …" : "Куцајте да претражите групу"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

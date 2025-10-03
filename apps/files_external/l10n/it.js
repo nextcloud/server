@@ -101,7 +101,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Digita le credenziali mancanti",
     "Credentials successfully set" : "Credenziali impostate correttamente",
     "Error while setting credentials: {error}" : "Errore durante l'impostazione delle credenziali: {error}",
-    "Checking storage …" : "Controllo spazio di archiviazione…",
     "There was an error with this external storage." : "Si è verificato un errore con questa archiviazione esterna.",
     "We were unable to check the external storage {basename}" : "Non è stato possibile controllare l'archiviazione esterna {basename}",
     "Examine this faulty external storage configuration" : "Esamina questa configurazione errata di archiviazione esterna",
@@ -134,7 +133,7 @@ OC.L10N.register(
     "Delete storage?" : "Vuoi eliminare l'archiviazione?",
     "Click to recheck the configuration" : "Clic per controllare di nuovo la configurazione",
     "Saved" : "Salvato",
-    "Saving …" : "Salvataggio…",
+    "Saving …" : "Salvataggio…",
     "Save" : "Salva",
     "No external storage configured or you don't have the permission to configure them" : "Nessuna archiviazione esterna configurata o non hai i permessi per configurarle",
     "Open documentation" : "Apri la documentazione",
@@ -153,6 +152,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Chiave applicazione",
     "App secret" : "Segreto applicazione",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Sei sicuro di voler disconnettere questo spazio di archiviazione esterno? Ciò renderà lo spazio di archiviazione non disponibile in Nextcloud e comporterà l'eliminazione di questi file e cartelle su qualsiasi client di sincronizzazione attualmente connesso, ma non eliminerà alcun file e cartella sullo spazio di archiviazione esterno stesso."
+    "Checking storage …" : "Controllo spazio di archiviazione…",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Sei sicuro di voler disconnettere questo spazio di archiviazione esterno? Ciò renderà lo spazio di archiviazione non disponibile in Nextcloud e comporterà l'eliminazione di questi file e cartelle su qualsiasi client di sincronizzazione attualmente connesso, ma non eliminerà alcun file e cartella sullo spazio di archiviazione esterno stesso.",
+    "Saving …" : "Salvataggio…"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

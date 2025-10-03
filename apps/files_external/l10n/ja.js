@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "不足している資格情報を入力",
     "Credentials successfully set" : "認証情報は正常に設定されました",
     "Error while setting credentials: {error}" : "認証情報の設定中にエラーが発生しました: {error}",
-    "Checking storage …" : "ストレージのチェック...",
     "There was an error with this external storage." : "この外部ストレージでエラーが発生しました。",
     "We were unable to check the external storage {basename}" : "外部ストレージ {basename} をチェックできませんでした。",
     "Examine this faulty external storage configuration" : "この問題のある外部ストレージの設定を調べる",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "ストレージを削除しますか?",
     "Click to recheck the configuration" : "クリックすると設定が再確認されます",
     "Saved" : "保存しました",
-    "Saving …" : "保存中...",
+    "Saving …" : "保存中 …",
     "Save" : "保存",
     "Failed to save global credentials" : "グローバル認証情報の保存に失敗しました",
     "Failed to save global credentials: {message}" : "グローバル認証情報の保存に失敗しました: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "アプリキー",
     "App secret" : "アプリシークレット",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "本当にこの外部ストレージを切断しますか？これにより、Nextcloudでストレージが使用できなくなり、現在接続されている同期クライアント上のこれらのファイルとフォルダーが削除されますが、外部ストレージ自体のファイルとフォルダーは削除されません。"
+    "Checking storage …" : "ストレージのチェック...",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "本当にこの外部ストレージを切断しますか？これにより、Nextcloudでストレージが使用できなくなり、現在接続されている同期クライアント上のこれらのファイルとフォルダーが削除されますが、外部ストレージ自体のファイルとフォルダーは削除されません。",
+    "Saving …" : "保存中..."
 },
 "nplurals=1; plural=0;");

@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Introduzca las credenciales requeridas",
     "Credentials successfully set" : "Se han establecido las credenciales exitosamente",
     "Error while setting credentials: {error}" : "Error al establecer credenciales: {error}",
-    "Checking storage …" : "Comprobando el almacenamiento …",
     "There was an error with this external storage." : "Se presentó un problema con este almacenamiento externo.",
     "We were unable to check the external storage {basename}" : "No nos fue posible chequear el almacenamiento externo {basename}",
     "Examine this faulty external storage configuration" : "Examinar la configuración de este almacenamiento externo con fallas",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Click to recheck the configuration" : "Clic para volver a comprobar la configuración",
     "Saved" : "Guardado",
-    "Saving …" : "Guardando…",
+    "Saving …" : "Guardando …",
     "Save" : "Guardar",
     "Failed to save global credentials" : "Fallo al guardar las credenciales globales",
     "Failed to save global credentials: {message}" : "Fallo al guardar las credenciales globales: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App principal",
     "App secret" : "App secreta",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Estás seguro de que quieres desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y provocará la eliminación de estos archivos y carpetas en cualquier cliente de sincronización que esté conectado en ese momento, pero no eliminará ningún archivo ni carpeta en el propio almacenamiento externo."
+    "Checking storage …" : "Comprobando el almacenamiento …",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Estás seguro de que quieres desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y provocará la eliminación de estos archivos y carpetas en cualquier cliente de sincronización que esté conectado en ese momento, pero no eliminará ningún archivo ni carpeta en el propio almacenamiento externo.",
+    "Saving …" : "Guardando…"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

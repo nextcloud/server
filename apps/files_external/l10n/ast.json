@@ -123,7 +123,6 @@
     "Delete storage?" : "¿Quies desaniciar l'almacenamientu?",
     "Click to recheck the configuration" : "Calca pa volver comprobar la configuración",
     "Saved" : "Guardóse",
-    "Saving …" : "Guardando…",
     "Save" : "Guardar",
     "No external storage configured or you don't have the permission to configure them" : "Nun se configuró nengún almacenamientu esternu y tampoco tienes permisu pa configuralos",
     "Open documentation" : "Abrir la documentación",
@@ -142,6 +141,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "Clave d'aplicación",
     "App secret" : "Secretu d'aplicación",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿De xuru que quies desconectar esti almacenamientu esternu? Esta aición va facer que l'almacenamientu dexe de tar disponible en Nextcloud y va facer que se desanicien los ficheros y carpetes en cualesquier veceru sincronizáu que tea conectáu mas nun se va desaniciar nengún ficheru nin carpeta del almacenamientu esternu."
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿De xuru que quies desconectar esti almacenamientu esternu? Esta aición va facer que l'almacenamientu dexe de tar disponible en Nextcloud y va facer que se desanicien los ficheros y carpetes en cualesquier veceru sincronizáu que tea conectáu mas nun se va desaniciar nengún ficheru nin carpeta del almacenamientu esternu.",
+    "Saving …" : "Guardando…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
