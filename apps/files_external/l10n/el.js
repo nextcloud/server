@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Εισαγάγετε τα ελλιπή διαπιστευτήρια.",
     "Credentials successfully set" : "Τα διαπιστευτήρια ορίστηκαν επιτυχώς.",
     "Error while setting credentials: {error}" : "Σφάλμα κατά τον ορισμό των διαπιστευτήριων: {error}",
-    "Checking storage …" : "Έλεγχος αποθήκευσης...",
     "There was an error with this external storage." : "Υπήρξε ένα σφάλμα με αυτήν την εξωτερική αποθήκευση.",
     "We were unable to check the external storage {basename}" : "Δεν ήταν δυνατός ο έλεγχος της εξωτερικής αποθήκευσης {basename}.",
     "Examine this faulty external storage configuration" : "Εξετάστε αυτήν την ελαττωματική διαμόρφωση εξωτερικής αποθήκευσης.",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "Διαγραφή αποθηκευτικού χώρου;",
     "Click to recheck the configuration" : "Κλίκ για επανέλεγχο ρυθμίσεων",
     "Saved" : "Αποθηκεύτηκαν",
-    "Saving …" : "Γίνεται αποθήκευση …",
+    "Saving …" : "Αποθήκευση ...",
     "Save" : "Αποθήκευση",
     "Failed to save global credentials" : "Αποτυχία αποθήκευσης παγκόσμιων διαπιστευτηρίων",
     "Failed to save global credentials: {message}" : "Αποτυχία αποθήκευσης παγκόσμιων διαπιστευτηρίων: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Κλειδί εφαρμογής",
     "App secret" : "Μυστικό εφαρμογής",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Είστε σίγουροι ότι θέλετε να αποσυνδέσετε αυτήν την εξωτερική αποθήκευση; Αυτό θα καταστήσει την αποθήκευση μη διαθέσιμη στο Nextcloud και θα οδηγήσει στη διαγραφή αυτών των αρχείων και φακέλων σε οποιοδήποτε συγχρονισμένο πελάτη που είναι επί του παρόντος συνδεδεμένος, αλλά δεν θα διαγράψει κανένα αρχείο ή φάκελο στην ίδια την εξωτερική αποθήκευση."
+    "Checking storage …" : "Έλεγχος αποθήκευσης...",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Είστε σίγουροι ότι θέλετε να αποσυνδέσετε αυτήν την εξωτερική αποθήκευση; Αυτό θα καταστήσει την αποθήκευση μη διαθέσιμη στο Nextcloud και θα οδηγήσει στη διαγραφή αυτών των αρχείων και φακέλων σε οποιοδήποτε συγχρονισμένο πελάτη που είναι επί του παρόντος συνδεδεμένος, αλλά δεν θα διαγράψει κανένα αρχείο ή φάκελο στην ίδια την εξωτερική αποθήκευση.",
+    "Saving …" : "Γίνεται αποθήκευση …"
 },
 "nplurals=2; plural=(n != 1);");

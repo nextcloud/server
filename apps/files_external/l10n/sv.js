@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Ange saknade inloggningsuppgifter",
     "Credentials successfully set" : "Autentiseringsuppgifter har sparats",
     "Error while setting credentials: {error}" : "Fel vid inställning av autentiseringsuppgifter: {error}",
-    "Checking storage …" : "Kontrollerar lagring …",
     "There was an error with this external storage." : "Det uppstod ett fel med denna externa lagring.",
     "We were unable to check the external storage {basename}" : "Vi kunde inte kontrollera den externa lagringen {basename}",
     "Examine this faulty external storage configuration" : "Undersök denna felaktiga externa lagringskonfiguration",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "Ta bort lagring?",
     "Click to recheck the configuration" : "Klicka för att kontrollera inställningarna igen",
     "Saved" : "Sparad",
-    "Saving …" : "Sparar ...",
+    "Saving …" : "Sparar …",
     "Save" : "Spara",
     "Failed to save global credentials" : "Kunde inte spara globala autentiseringsuppgifter",
     "Failed to save global credentials: {message}" : "Kunde inte spara globala autentiseringsuppgifter: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Appnyckel",
     "App secret" : "Apphemlighet",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Är du säker på att du vill koppla bort den här externa lagringen? Det kommer att göra lagringen otillgänglig i Nextcloud och kommer att leda till en radering av dessa filer och mappar på alla synkroniseringsklienter som för närvarande är anslutna men kommer inte att radera några filer och mappar på den externa lagringen i sig."
+    "Checking storage …" : "Kontrollerar lagring …",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Är du säker på att du vill koppla bort den här externa lagringen? Det kommer att göra lagringen otillgänglig i Nextcloud och kommer att leda till en radering av dessa filer och mappar på alla synkroniseringsklienter som för närvarande är anslutna men kommer inte att radera några filer och mappar på den externa lagringen i sig.",
+    "Saving …" : "Sparar ..."
 },
 "nplurals=2; plural=(n != 1);");

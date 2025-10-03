@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Weka vitambulisho ambavyo havipo",
     "Credentials successfully set" : "Vitambulisho vimewekwa kikamilifu",
     "Error while setting credentials: {error}" : "Hitilafu wakati wa kuweka vitambulisho: {error}",
-    "Checking storage …" : "Inakagua hifadhi...",
     "There was an error with this external storage." : "Kulikuwa na hitilafu na hifadhi hii ya nje.",
     "We were unable to check the external storage {basename}" : " Hatukuweza kuangalia hifadhi ya nje {basename}",
     "Examine this faulty external storage configuration" : "Chunguza usanidi huu wa hifadhi ya nje wenye hitilafu",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "Futa hifadhi?",
     "Click to recheck the configuration" : "Bofya ili kuangalia upya usanidi",
     "Saved" : "Imehifadhiwa",
-    "Saving …" : "Inahifadhi...",
+    "Saving …" : "Inahifadhi …",
     "Save" : "Hifadhi",
     "Failed to save global credentials" : " Imeshindwa kuhifadhi vitambulisho vya kimataifa",
     "Failed to save global credentials: {message}" : "Imeshindwa kuhifadhi vitambulisho vya kimataifa: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Kitufe cha programu",
     "App secret" : "Siri ya programu",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Je, una uhakika unataka kukata hifadhi hii ya nje? Itafanya hifadhi isipatikane katika Nextcloud na itasababisha kufutwa kwa faili na folda hizi kwenye kiteja chochote cha kusawazisha ambacho kimeunganishwa kwa sasa lakini hakitafuta faili na folda zozote kwenye hifadhi ya nje yenyewe."
+    "Checking storage …" : "Inakagua hifadhi...",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Je, una uhakika unataka kukata hifadhi hii ya nje? Itafanya hifadhi isipatikane katika Nextcloud na itasababisha kufutwa kwa faili na folda hizi kwenye kiteja chochote cha kusawazisha ambacho kimeunganishwa kwa sasa lakini hakitafuta faili na folda zozote kwenye hifadhi ya nje yenyewe.",
+    "Saving …" : "Inahifadhi..."
 },
 "nplurals=2; plural=(n != 1);");

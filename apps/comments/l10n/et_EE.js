@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Kustuta kommentaar",
     "Cancel edit" : "Loobu muutmisest",
     "New comment" : "Uus kommentaar",
-    "Write a comment …" : "Kirjuta kommentaar...",
     "Post comment" : "Postita kommentaar",
     "@ for mentions, : for emoji, / for smart picker" : "@ mainimiseks, : emojide jaoks, / nutika valija jaoks",
     "Could not reload comments" : "Ei saanud kommentaare uuesti laadida",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Kommentaari muutmisel tekkis tõrge",
     "Comment deleted" : "Kommentaar kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis tõrge",
-    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge"
+    "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge",
+    "Write a comment …" : "Kirjuta kommentaar..."
 },
 "nplurals=2; plural=(n != 1);");

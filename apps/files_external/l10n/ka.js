@@ -116,7 +116,7 @@ OC.L10N.register(
     "Delete storage?" : "Delete storage?",
     "Click to recheck the configuration" : "Click to recheck the configuration",
     "Saved" : "Saved",
-    "Saving …" : "Saving …",
+    "Saving …" : "Saving …",
     "Save" : "Save",
     "No external storage configured or you don't have the permission to configure them" : "No external storage configured or you don't have the permission to configure them",
     "Open documentation" : "Open documentation",
@@ -132,6 +132,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App key",
     "App secret" : "App secret",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself."
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
+    "Saving …" : "Saving …"
 },
 "nplurals=2; plural=(n!=1);");

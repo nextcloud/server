@@ -112,7 +112,7 @@
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Click to recheck the configuration" : "برای بررسی مجدد پیکربندی کلیک کنید.",
     "Saved" : "ذخیره شد",
-    "Saving …" : "ذخیره کردن …",
+    "Saving …" : "در حال ذخیره",
     "Save" : "ذخیره",
     "No external storage configured or you don't have the permission to configure them" : "هیچ فضای ذخیره سازی خارجی پیکربندی نشده است یا اجازه پیکربندی آنها را ندارید.",
     "Open documentation" : "مستندات باز",
@@ -128,6 +128,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "کلید برنامه",
     "App secret" : "کد برنامه",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself."
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
+    "Saving …" : "ذخیره کردن …"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

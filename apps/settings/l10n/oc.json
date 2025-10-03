@@ -129,14 +129,14 @@
     "Picture provided by original account" : "Imatge provesit pel compte d’origina",
     "You are a member of the following groups:" : "Formatz part d’aquestes grops :",
     "Your full name" : "Vòstre nom complèt",
+    "No email address set" : "Cap d’adreça pas definida",
     "Email options" : "Opcions d’email",
     "This address is not confirmed" : "Aquesta adreça es pas confirmada",
     "Set as primary email" : "Definir coma adreça principala",
-    "No email address set" : "Cap d’adreça pas definida",
     "Your headline" : "Vòstre títol",
+    "No language set" : "Cap de lenga pas definida",
     "Unable to update language" : "Actualizacion de la lenga impossibla",
     "Help translate" : "Ajudar a traduire",
-    "No language set" : "Cap de lenga pas definida",
     "Week starts on {firstDayOfWeek}" : "La setmana comença lo {firstDayOfWeek}",
     "Your organisation" : "Vòstra organizacion",
     "Your phone number" : "Vòstre numèro de telefòn",
@@ -165,7 +165,6 @@
     "Show last login" : "Afichar la darrièra connexion",
     "Send email" : "Enviar email",
     "Default quota" : "Quota per defaut",
-    "Adding your device …" : "Apondon del periferic…",
     "Unnamed device" : "Periferic sens nom",
     "Passwordless Authentication" : "Autentificacion sens senhal",
     "No devices configured." : "Cap de periferic pas configurat.",
@@ -220,6 +219,7 @@
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
     "Set default expiration date for shares" : "Definir una data d’expiracion per defaut pels partatges",
     "Your biography" : "Vòstra biografia",
-    "You are using <strong>{usage}</strong>" : "Utilizatz <strong>{usage}</strong>"
+    "You are using <strong>{usage}</strong>" : "Utilizatz <strong>{usage}</strong>",
+    "Adding your device …" : "Apondon del periferic…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

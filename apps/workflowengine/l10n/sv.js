@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "Välj en användaragent",
     "Select groups" : "Välj grupper",
     "Groups" : "Grupper",
-    "Type to search for group …" : "Skriv för att söka efter grupp ...",
     "Select a trigger" : "Välj en utlösare",
     "At least one event must be selected" : "Minst en händelse måste väljas",
     "Add new flow" : "Lägg till nytt flöde",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "Begär användaragent",
     "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i"
+    "is not member of" : "är inte medlem i",
+    "Type to search for group …" : "Skriv för att söka efter grupp ..."
 },
 "nplurals=2; plural=(n != 1);");

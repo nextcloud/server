@@ -102,7 +102,7 @@ OC.L10N.register(
     "Delete storage?" : "Изтриване на хранилище?",
     "Click to recheck the configuration" : "Щракнете, за повторна  проверка на конфигурацията",
     "Saved" : "Запазено",
-    "Saving …" : "Записване …",
+    "Saving …" : "Запазване ...",
     "Save" : "Запис",
     "No external storage configured or you don't have the permission to configure them" : "Няма конфигурирано външно хранилище или нямате право да го конфигурирате",
     "Open documentation" : "Отвори документацията",
@@ -118,6 +118,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : " Ключ на приложение",
     "App secret" : "Тайна на приложение",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Наистина ли искате да изключите това външно хранилище? Това ще направи хранилището недостъпно в Nextcloud и ще доведе до изтриване на тези файлове и папки на всеки синхронизиран клиент, който е свързан в момента, но няма да изтрие никакви файлове и папки от самото външно хранилище."
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Наистина ли искате да изключите това външно хранилище? Това ще направи хранилището недостъпно в Nextcloud и ще доведе до изтриване на тези файлове и папки на всеки синхронизиран клиент, който е свързан в момента, но няма да изтрие никакви файлове и папки от самото външно хранилище.",
+    "Saving …" : "Записване …"
 },
 "nplurals=2; plural=(n != 1);");

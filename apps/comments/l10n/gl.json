@@ -15,7 +15,6 @@
     "Delete comment" : "Eliminar comentario",
     "Cancel edit" : "Cancelar a edición",
     "New comment" : "Comentario novo",
-    "Write a comment …" : "Escriba un comentario…",
     "Post comment" : "Publicar comentario",
     "@ for mentions, : for emoji, / for smart picker" : "@ para mencións, : para «emoji», / para selector intelixente",
     "Could not reload comments" : "Non foi posíbel volver cargar os comentarios",
@@ -29,6 +28,7 @@
     "An error occurred while trying to edit the comment" : "Produciuse un erro cando tentaba editar o comentario",
     "Comment deleted" : "Comentario eliminado",
     "An error occurred while trying to delete the comment" : "Produciuse un erro cando tentaba eliminar o comentario",
-    "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario"
+    "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario",
+    "Write a comment …" : "Escriba un comentario…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

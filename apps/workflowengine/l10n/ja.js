@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "ユーザーエージェントを選択",
     "Select groups" : "グループを選択",
     "Groups" : "グループ",
-    "Type to search for group …" : "グループを検索するためのタイプ",
     "Select a trigger" : "トリガーを選択",
     "At least one event must be selected" : "少なくともイベントを一つ指定してください",
     "Add new flow" : "新しいフローを追加",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "リクエスト時のユーザーエージェント",
     "Group membership" : "グループメンバー",
     "is member of" : "が次のグループのメンバーである",
-    "is not member of" : "が次のグループのメンバーではない"
+    "is not member of" : "が次のグループのメンバーではない",
+    "Type to search for group …" : "グループを検索するためのタイプ"
 },
 "nplurals=1; plural=0;");

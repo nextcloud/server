@@ -96,7 +96,7 @@
     "Delete storage?" : "Nche cheres cantzellare sa memòria?",
     "Click to recheck the configuration" : "Incarca pro controllare torra sa cunfiguratzione",
     "Saved" : "Sarvadu",
-    "Saving …" : "Sarvende ...",
+    "Saving …" : "Sarvende ...",
     "Save" : "Sarva",
     "No external storage configured or you don't have the permission to configure them" : "Peruna archiviatzione de foras cunfigurada o non tenes is permissos pro ddas cunfigurare",
     "Open documentation" : "Aberi sa documentatzione",
@@ -111,6 +111,7 @@
     "Please provide a valid app key and secret." : "Fruni una crae bàlida e segreta.",
     "OAuth1" : "OAuth1",
     "App key" : "Crae de s'aplicatzione",
-    "App secret" : "Segretu de s'aplicatzione"
+    "App secret" : "Segretu de s'aplicatzione",
+    "Saving …" : "Sarvende ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

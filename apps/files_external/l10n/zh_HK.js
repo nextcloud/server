@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "輸入缺少的身份驗證",
     "Credentials successfully set" : "已成功設定身份驗證",
     "Error while setting credentials: {error}" : "設定身份驗證時發生錯誤：{error}",
-    "Checking storage …" : "正在檢查儲存空間 …",
     "There was an error with this external storage." : "此外部儲存空間發生錯誤。",
     "We were unable to check the external storage {basename}" : "我們無法檢查外部儲存空間 {basename}",
     "Examine this faulty external storage configuration" : "檢查此錯誤的外部儲存空間設定",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "刪除空間",
     "Click to recheck the configuration" : "單擊以重新檢查配置",
     "Saved" : "已儲存",
-    "Saving …" : "儲存中 ...",
+    "Saving …" : "儲存中 ...",
     "Save" : "儲存",
     "Failed to save global credentials" : "儲存整體的憑證失敗",
     "Failed to save global credentials: {message}" : "儲存整體的憑證失敗：{message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App 密鑰",
     "App secret" : "App 密碼",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要斷開此外部存儲嗎？ 這將使該外部存儲在 Nextcloud 中不可用，將導致在目前連接的任何同步客戶端上刪除這些檔案件和資料夾，但不會刪除外部存儲本身上的任何檔案和資料夾。"
+    "Checking storage …" : "正在檢查儲存空間 …",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要斷開此外部存儲嗎？ 這將使該外部存儲在 Nextcloud 中不可用，將導致在目前連接的任何同步客戶端上刪除這些檔案件和資料夾，但不會刪除外部存儲本身上的任何檔案和資料夾。",
+    "Saving …" : "儲存中 ..."
 },
 "nplurals=1; plural=0;");

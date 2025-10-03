@@ -98,7 +98,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Lisa puuduvad kasutajanimi/salasõna",
     "Credentials successfully set" : "Kasutajanime/salasõna lisamine õnnestus",
     "Error while setting credentials: {error}" : "Viga kasutajanime/salasõna lisamisel: {error}",
-    "Checking storage …" : "Kontrollin andmeruumi…",
     "There was an error with this external storage." : "Selle välis andmeruumi kontekstis tekkis viga.",
     "We were unable to check the external storage {basename}" : "Meil ei õnnestunud kontrollida välist andmeruumi „{basename}“",
     "Examine this faulty external storage configuration" : "Kontrolli uuesti selle vigase välise andmeruumi seadistusi",
@@ -132,7 +131,7 @@ OC.L10N.register(
     "Delete storage?" : "Kas kustutame andmeruumi?",
     "Click to recheck the configuration" : "Klõpsi seadistuste uuesti kontrollimiseks",
     "Saved" : "Salvestatud",
-    "Saving …" : "Salvestan…",
+    "Saving …" : "Salvestan…",
     "Save" : "Salvesta",
     "Failed to save global credentials" : "Üldise kasutajanime/salasõna salvestamine ei õnnestunud",
     "Failed to save global credentials: {message}" : "Üldise kasutajanime/salasõna salvestamine ei õnnestunud: {message}",
@@ -149,6 +148,8 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Palun sisesta rakenduse kehtiv võti ja saladus.",
     "OAuth1" : "OAuth1",
     "App key" : "Rakenduse võti",
-    "App secret" : "Rakenduse salasõna"
+    "App secret" : "Rakenduse salasõna",
+    "Checking storage …" : "Kontrollin andmeruumi…",
+    "Saving …" : "Salvestan…"
 },
 "nplurals=2; plural=(n != 1);");

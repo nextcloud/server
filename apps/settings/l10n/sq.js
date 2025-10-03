@@ -172,7 +172,6 @@ OC.L10N.register(
     "Show last login" : "Shfaq hyrjen e fundit",
     "Send email" : "Dërgo email",
     "Default quota" : "Kuota Parazgjedhje",
-    "Adding your device …" : "Shtoni pajisjen tuaj ...",
     "Unnamed device" : "Paisje pa emër",
     "Security & setup warnings" : "Sinjalizime sigurie & rregullimi",
     "Try again" : "Provo përsëri",
@@ -222,6 +221,7 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Abonohu në gazeten tonë",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një minimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një maksimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
-    "You are using <strong>{usage}</strong>" : "Ju po përdorni <strong>{usage}</strong>"
+    "You are using <strong>{usage}</strong>" : "Ju po përdorni <strong>{usage}</strong>",
+    "Adding your device …" : "Shtoni pajisjen tuaj ..."
 },
 "nplurals=2; plural=(n != 1);");

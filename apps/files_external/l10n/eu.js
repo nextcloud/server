@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Sartu falta diren kredentzialak",
     "Credentials successfully set" : "Kredentzialak behar bezala ezarri dira",
     "Error while setting credentials: {error}" : "Errorea kredentzialak ezartzean: {error}",
-    "Checking storage …" : "Biltegiratzea egiaztatzen...",
     "There was an error with this external storage." : "Errore bat gertatu da kanpoko biltegi honekin.",
     "We were unable to check the external storage {basename}" : "Ezin izan da {basename} kanpoko biltegia egiaztatu ",
     "Examine this faulty external storage configuration" : "Berrikusi kanpoko biltegi konfigurazio akastun hau",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "Biltegiratzea ezabatu?",
     "Click to recheck the configuration" : "Egin klik konfigurazioa berriro egiaztatzeko",
     "Saved" : "Gordeta",
-    "Saving …" : "Gordetzen …",
+    "Saving …" : "Gordetzen  ...",
     "Save" : "Gorde",
     "Failed to save global credentials" : "Huts egin du kredentzial globalak gordetzean",
     "Failed to save global credentials: {message}" : "Huts egin du kredentzial globalak gordetzean: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Aplikazio-gakoa",
     "App secret" : "Aplikazio-sekretua",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ziur kanpoko biltegiratze hau deskonektatu nahi duzula? Biltegiratzea ez da erabilgarri egongo Nextclouden eta fitxategi eta karpeta hauek ezabatuko ditu une honetan konektatuta dagoen edozein sinkronizazio-bezerotan, baina ez du fitxategi edo karpetarik ezabatuko kanpoko biltegian."
+    "Checking storage …" : "Biltegiratzea egiaztatzen...",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ziur kanpoko biltegiratze hau deskonektatu nahi duzula? Biltegiratzea ez da erabilgarri egongo Nextclouden eta fitxategi eta karpeta hauek ezabatuko ditu une honetan konektatuta dagoen edozein sinkronizazio-bezerotan, baina ez du fitxategi edo karpetarik ezabatuko kanpoko biltegian.",
+    "Saving …" : "Gordetzen …"
 },
 "nplurals=2; plural=(n != 1);");

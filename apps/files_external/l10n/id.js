@@ -81,7 +81,6 @@ OC.L10N.register(
     "Disconnect" : "Terputus",
     "Admin defined" : "Terdefinisi Admin",
     "Saved" : "Disimpan",
-    "Saving …" : "Menyimpan ...",
     "Save" : "Simpan",
     "Open documentation" : "Buka dokumentasi",
     "Folder name" : "Nama folder",
@@ -94,6 +93,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Silakan berikan kunci dan kerahasiaan aplikasi yang benar.",
     "OAuth1" : "OAuth1",
     "App key" : "Kunci Apl",
-    "App secret" : "Rahasia Apl"
+    "App secret" : "Rahasia Apl",
+    "Saving …" : "Menyimpan ..."
 },
 "nplurals=1; plural=0;");

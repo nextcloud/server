@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "Sélectionner un client",
     "Select groups" : "Sélectionner les groupes",
     "Groups" : "Groupes",
-    "Type to search for group …" : "Tapez pour rechercher un groupe…",
     "Select a trigger" : "Sélectionner un déclencheur",
     "At least one event must be selected" : "Au moins un événement doit être sélectionné",
     "Add new flow" : "Ajouter un nouveau flux",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "Client utilisé pour la requête",
     "Group membership" : "Membre du groupe",
     "is member of" : "est membre de",
-    "is not member of" : "n’est pas membre de"
+    "is not member of" : "n’est pas membre de",
+    "Type to search for group …" : "Tapez pour rechercher un groupe…"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
