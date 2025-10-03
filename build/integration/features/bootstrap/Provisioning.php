@@ -770,13 +770,8 @@ trait Provisioning {
 		return $extractedElementsArray;
 	}
 
-
-	/**
-	 * @Given /^app "([^"]*)" is disabled$/
-	 * @param string $app
-	 */
-	public function appIsDisabled($app) {
-		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=disabled';
+	private function getAppsWithFilter($filter) {
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=' . $filter;
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -787,7 +782,15 @@ trait Provisioning {
 		];
 
 		$this->response = $client->get($fullUrl, $options);
-		$respondedArray = $this->getArrayOfAppsResponded($this->response);
+		return $this->getArrayOfAppsResponded($this->response);
+	}
+
+	/**
+	 * @Given /^app "([^"]*)" is disabled$/
+	 * @param string $app
+	 */
+	public function appIsDisabled($app) {
+		$respondedArray = $this->getAppsWithFilter('disabled');
 		Assert::assertContains($app, $respondedArray);
 		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
@@ -797,18 +800,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsEnabled($app) {
-		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
-		$respondedArray = $this->getArrayOfAppsResponded($this->response);
+		$respondedArray = $this->getAppsWithFilter('enabled');
 		Assert::assertContains($app, $respondedArray);
 		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
@@ -821,18 +813,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsNotEnabled($app) {
-		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
-		$client = new Client();
-		$options = [];
-		if ($this->currentUser === 'admin') {
-			$options['auth'] = $this->adminUser;
-		}
-		$options['headers'] = [
-			'OCS-APIREQUEST' => 'true',
-		];
-
-		$this->response = $client->get($fullUrl, $options);
-		$respondedArray = $this->getArrayOfAppsResponded($this->response);
+		$respondedArray = $this->getAppsWithFilter('enabled');
 		Assert::assertNotContains($app, $respondedArray);
 		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
