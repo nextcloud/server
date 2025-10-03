@@ -97,7 +97,7 @@ class AppData implements IAppData {
 		} else { // Handle standard case: sub-folder in app's appdata folder
 			// Retrieve or create the subfolder
 			try {
-				$appDataPath = $this->getAppDataFolderName() . '/' . $this->appId . '/' . $name;
+				$appDataPath = $this->getInstanceAppDataFolderName() . '/' . $this->appId . '/' . $name;
 				$folder = $this->rootFolder->get($appDataPath);
 				// $folder = $appDataFolder->getFolder($name);
 			} catch (NotFoundException $e) {
