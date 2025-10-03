@@ -441,7 +441,8 @@ interface IManager {
 	public function limitEnumerationToPhone(): bool;
 
 	/**
-	 * Check if user enumeration is allowed to return on full match
+	 * Check if user enumeration is allowed to return also on full match
+	 * and ignore limitations to phonebook or groups.
 	 *
 	 * @return bool
 	 * @since 21.0.1
@@ -449,7 +450,8 @@ interface IManager {
 	public function allowEnumerationFullMatch(): bool;
 
 	/**
-	 * Check if the search should match the email
+	 * When `allowEnumerationFullMatch` is enabled and `matchEmail` is set,
+	 * then also return results for full email matches.
 	 *
 	 * @return bool
 	 * @since 25.0.0
@@ -457,7 +459,17 @@ interface IManager {
 	public function matchEmail(): bool;
 
 	/**
-	 * Check if the search should ignore the second in parentheses display name if there is any
+	 * When `allowEnumerationFullMatch` is enabled and `matchUserId` is set,
+	 * then also return results for full user id matches.
+	 *
+	 * @return bool
+	 * @since 33.0.0
+	 */
+	public function matchUserId(): bool;
+
+	/**
+	 * When `allowEnumerationFullMatch` is enabled and `ignoreSecondDisplayName` is set,
+	 * then the search should ignore matches on the second displayname and only use the first.
 	 *
 	 * @return bool
 	 * @since 25.0.0
