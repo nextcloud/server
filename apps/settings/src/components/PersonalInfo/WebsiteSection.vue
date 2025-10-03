@@ -36,7 +36,7 @@ export default {
 
 	methods: {
 		onValidate(value) {
-			return validateUrl(value)
+			return validateUrl(value) || value === ''
 		},
 	},
 }
