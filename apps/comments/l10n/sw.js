@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Futa maoni",
     "Cancel edit" : "Sistisha uhariri",
     "New comment" : "Maoni mapya",
-    "Write a comment …" : "Andika maoni...",
     "Post comment" : "Tuma maoni",
     "@ for mentions, : for emoji, / for smart picker" : "@ kwa mitajo, : kwa emoji, / kwa kichagua smart",
     "Could not reload comments" : "Haikuweza kupakia maoni",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Hitilafu ilitokea wakati wa kujaribu kuhariri maoni",
     "Comment deleted" : "Maoni yamefutwa",
     "An error occurred while trying to delete the comment" : "Hitilafu ilitokea wakati wa kujaribu kufuta maoni",
-    "An error occurred while trying to create the comment" : "Hitilafu ilitokea wakati wa kujaribu kuunda maoni"
+    "An error occurred while trying to create the comment" : "Hitilafu ilitokea wakati wa kujaribu kuunda maoni",
+    "Write a comment …" : "Andika maoni..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Voer de ontbrekende inloggegevens in",
     "Credentials successfully set" : "Inloggegevens succesvol ingesteld",
     "Error while setting credentials: {error}" : "Fout tijdens het instellen van inloggegevens: {error}",
-    "Checking storage …" : "Controle van opslag …",
     "There was an error with this external storage." : "Er is een fout opgetreden bij deze externe opslag.",
     "We were unable to check the external storage {basename}" : "We konden de externe opslag {basename} niet controleren",
     "Examine this faulty external storage configuration" : "Onderzoek deze foutieve externe opslagconfiguratie",
@@ -136,7 +135,7 @@ OC.L10N.register(
     "Delete storage?" : "Opslag verwijderen?",
     "Click to recheck the configuration" : "Klik om de configuratie opnieuw te controleren",
     "Saved" : "Bewaard",
-    "Saving …" : "Opslaan …",
+    "Saving …" : "Opslaan ...",
     "Save" : "Opslaan",
     "Failed to save global credentials" : "Het opslaan van globale inloggegevens is mislukt",
     "Failed to save global credentials: {message}" : "Het opslaan van globale inloggegevens is mislukt: {message}",
@@ -157,6 +156,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App key",
     "App secret" : "App secret",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Weet je zeker dat je deze externe opslag wilt loskoppelen? Het maakt de opslag niet langer beschikbaar in Nextcloud en leidt tot het verwijderen van de bestanden en mappen op elke synchronisatieclient die momenteel is verbonden. Het verwijdert geen bestanden en mappen op de externe opslag zelf."
+    "Checking storage …" : "Controle van opslag …",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Weet je zeker dat je deze externe opslag wilt loskoppelen? Het maakt de opslag niet langer beschikbaar in Nextcloud en leidt tot het verwijderen van de bestanden en mappen op elke synchronisatieclient die momenteel is verbonden. Het verwijdert geen bestanden en mappen op de externe opslag zelf.",
+    "Saving …" : "Opslaan …"
 },
 "nplurals=2; plural=(n != 1);");

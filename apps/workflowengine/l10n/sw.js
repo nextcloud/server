@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "Chagua wakala wa mtumiaji",
     "Select groups" : "Chagua makundi",
     "Groups" : "Makundi",
-    "Type to search for group …" : "Andika kutafuta kikundi …",
     "Select a trigger" : "Chagua kichocheo",
     "At least one event must be selected" : "Angalau tukio moja lazima lichaguliwe",
     "Add new flow" : "Ongeza mtiririko mpya",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "Omba wakala wa mtumiaji",
     "Group membership" : "Uanachama wa kikundi",
     "is member of" : "ni mwanachama wa",
-    "is not member of" : "si mwanachama wa"
+    "is not member of" : "si mwanachama wa",
+    "Type to search for group …" : "Andika kutafuta kikundi …"
 },
 "nplurals=2; plural=(n != 1);");

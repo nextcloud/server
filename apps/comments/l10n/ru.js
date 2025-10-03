@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Удалить комментарий",
     "Cancel edit" : "Отменить правку",
     "New comment" : "Новый комментарий",
-    "Write a comment …" : "Напишите комментарий…",
     "Post comment" : "Опубликовать комментарий",
     "@ for mentions, : for emoji, / for smart picker" : "@ для упоминаний, : для эмодзи, / для интеллектуального выбора",
     "Could not reload comments" : "Не удалось перезагрузить комментарии",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Попытка редактирования комментария завершилась ошибкой",
     "Comment deleted" : "Комментарий удалён",
     "An error occurred while trying to delete the comment" : "Попытка удаления комментария завершилась ошибкой",
-    "An error occurred while trying to create the comment" : "Попытка создания комментария завершилась ошибкой"
+    "An error occurred while trying to create the comment" : "Попытка создания комментария завершилась ошибкой",
+    "Write a comment …" : "Напишите комментарий…"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

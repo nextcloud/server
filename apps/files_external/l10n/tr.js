@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Eksik kimlik doğrulama bilgilerini yazın",
     "Credentials successfully set" : "Kimlik doğrulama bilgileri ayarlandı",
     "Error while setting credentials: {error}" : "Kimlik doğrulama bilgileri ayarlanırken sorun çıktı: {error}",
-    "Checking storage …" : "Depolama alanı denetleniyor…",
     "There was an error with this external storage." : " Bu dış depolama birimi ile ilgili bir sorun çıktı.",
     "We were unable to check the external storage {basename}" : "{basename} dış depolama birimi denetlenemedi",
     "Examine this faulty external storage configuration" : "Bu sorunlu dış depolama birimi yapılandırmasını gözden geçirin",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "Depolama silinsin mi?",
     "Click to recheck the configuration" : "Yapılandırmayı yeniden denetlemek için tıklayın",
     "Saved" : "Kaydedildi",
-    "Saving …" : "Kaydediliyor …",
+    "Saving …" : "Kaydediliyor…",
     "Save" : "Kaydet",
     "Failed to save global credentials" : "Genel kimlik doğrulama bilgileri kaydedilemedi",
     "Failed to save global credentials: {message}" : "Genel kimlik doğrulama bilgileri kaydedilemedi: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Uygulama anahtarı",
     "App secret" : "Uygulama parolası",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Bu dış depolama biriminin bağlantısını kesmek istediğinize emin misiniz? Bu işlem, depolamayı Nextcloud üzerinden kaldırırarak, şu anda bağlı olan ve eşitlenen herhangi bir istemcide bu dosya ve klasörlerin silinmesine yol açar. Ancak dış depolama üzerindeki hiçbir dosya ve klasör silinmez."
+    "Checking storage …" : "Depolama alanı denetleniyor…",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Bu dış depolama biriminin bağlantısını kesmek istediğinize emin misiniz? Bu işlem, depolamayı Nextcloud üzerinden kaldırırarak, şu anda bağlı olan ve eşitlenen herhangi bir istemcide bu dosya ve klasörlerin silinmesine yol açar. Ancak dış depolama üzerindeki hiçbir dosya ve klasör silinmez.",
+    "Saving …" : "Kaydediliyor …"
 },
 "nplurals=2; plural=(n > 1);");

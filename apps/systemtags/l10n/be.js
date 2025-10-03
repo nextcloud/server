@@ -51,7 +51,7 @@ OC.L10N.register(
     "Update" : "Абнавіць",
     "Delete" : "Выдаліць",
     "Reset" : "Скінуць",
-    "Loading …" : "Загрузка …",
+    "Loading …" : "Загрузка …",
     "Only admins can create new tags" : "Толькі адміністратары могуць ствараць новыя тэгі",
     "Manage tags" : "Кіраванне тэгамі",
     "Change tag color" : "Змяніць колер тэга",
@@ -64,6 +64,7 @@ OC.L10N.register(
     "List of tags and their associated files and folders." : "Спіс тэгаў і звязаных з імі файлаў і папак.",
     "No tags found" : "Тэгі не знойдзены",
     "Tags you have created will show up here." : "Тут будуць паказвацца створаныя вамі тэгі.",
+    "Loading …" : "Загрузка …",
     "Apply changes" : "Ужыць змены"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

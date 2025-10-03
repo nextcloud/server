@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Ввод пропущенных учётных данных",
     "Credentials successfully set" : "Учётные данные успешно заданы",
     "Error while setting credentials: {error}" : "Ошибка при установке учётных данных: {error}",
-    "Checking storage …" : "Проверка хранилища …",
     "There was an error with this external storage." : "Произошла ошибка с этим внешним хранилищем.",
     "We were unable to check the external storage {basename}" : "Нам не удалось проверить внешнее хранилище {basename}",
     "Examine this faulty external storage configuration" : "Проверьте эту конфигурацию внешнего хранилища, она содержит ошибки",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "Удалить хранилище?",
     "Click to recheck the configuration" : "Нажмите для повторной проверки конфигурации",
     "Saved" : "Сохранено",
-    "Saving …" : "Сохранение ...",
+    "Saving …" : "Сохранение…",
     "Save" : "Сохранить",
     "Failed to save global credentials" : "Не удалось сохранить глобальные учётные данные",
     "Failed to save global credentials: {message}" : "Не удалось сохранить глобальные учётные данные: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Ключ приложения",
     "App secret" : "Секретный ключ ",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Вы уверены, что хотите отключить это внешнее хранилище? Это сделает хранилище недоступным в Nextcloud и приведёт к удалению этих файлов и папок на любом клиенте синхронизации, который в данный момент подключён, но не удалит файлы и папки на самом внешнем хранилище."
+    "Checking storage …" : "Проверка хранилища …",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Вы уверены, что хотите отключить это внешнее хранилище? Это сделает хранилище недоступным в Nextcloud и приведёт к удалению этих файлов и папок на любом клиенте синхронизации, который в данный момент подключён, но не удалит файлы и папки на самом внешнем хранилище.",
+    "Saving …" : "Сохранение ..."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

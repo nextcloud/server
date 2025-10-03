@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "Select a user agent",
     "Select groups" : "Select groups",
     "Groups" : "Groups",
-    "Type to search for group …" : "Type to search for group …",
     "Select a trigger" : "Select a trigger",
     "At least one event must be selected" : "At least one event must be selected",
     "Add new flow" : "Add new flow",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "Request user agent",
     "Group membership" : "Group membership",
     "is member of" : "is member of",
-    "is not member of" : "is not member of"
+    "is not member of" : "is not member of",
+    "Type to search for group …" : "Type to search for group …"
 },
 "nplurals=2; plural=(n != 1);");

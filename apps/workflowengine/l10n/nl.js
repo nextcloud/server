@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "Selecteer een 'user agent'",
     "Select groups" : "Selecteer groepen",
     "Groups" : "Groepen",
-    "Type to search for group …" : "Type om groep te zoeken …",
     "Select a trigger" : "Selecteer een trigger",
     "At least one event must be selected" : "Er moet minimaal één gebeurtenis worden geselecteerd",
     "Add new flow" : "Nieuwe flow toevoegen",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "Useragent aanvraag",
     "Group membership" : "Groepslidmaatschap",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van"
+    "is not member of" : "is geen lid van",
+    "Type to search for group …" : "Type om groep te zoeken …"
 },
 "nplurals=2; plural=(n != 1);");

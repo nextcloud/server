@@ -15,7 +15,6 @@
     "Delete comment" : "Usuń komentarz",
     "Cancel edit" : "Anuluj edycję",
     "New comment" : "Nowy komentarz",
-    "Write a comment …" : "Napisz komentarz…",
     "Post comment" : "Wyślij komentarz",
     "@ for mentions, : for emoji, / for smart picker" : "@ dla wzmianek, : dla emoji, / dla inteligentnego wybierania",
     "Could not reload comments" : "Nie można ponownie wczytać komentarzy",
@@ -29,6 +28,7 @@
     "An error occurred while trying to edit the comment" : "Wystąpił błąd podczas próby edycji komentarza",
     "Comment deleted" : "Komentarz usunięty",
     "An error occurred while trying to delete the comment" : "Wystąpił błąd podczas próby usunięcia komentarza",
-    "An error occurred while trying to create the comment" : "Wystąpił błąd podczas próby utworzenia komentarza"
+    "An error occurred while trying to create the comment" : "Wystąpił błąd podczas próby utworzenia komentarza",
+    "Write a comment …" : "Napisz komentarz…"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

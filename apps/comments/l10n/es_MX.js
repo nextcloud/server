@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Borrar comentario",
     "Cancel edit" : "Cancelar edición",
     "New comment" : "Nuevo comentario",
-    "Write a comment …" : "Escribir un comentario …",
     "Post comment" : "Publicar comentario",
     "@ for mentions, : for emoji, / for smart picker" : "@ para menciones, : para emoticonos, / para selector inteligente",
     "Could not reload comments" : "No se pudieron recargar los comentarios",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Ocurrió un error al intentar editar el comentario",
     "Comment deleted" : "Comentario borrado",
     "An error occurred while trying to delete the comment" : "Ocurrió un error intentando borrar el comentario",
-    "An error occurred while trying to create the comment" : "Ocurrió un error al intentar crear el comentario"
+    "An error occurred while trying to create the comment" : "Ocurrió un error al intentar crear el comentario",
+    "Write a comment …" : "Escribir un comentario …"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

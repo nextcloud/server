@@ -71,7 +71,6 @@ OC.L10N.register(
     "Select a user agent" : "Válasszon felhasználói ügynököt",
     "Select groups" : "Csoportok kiválasztása",
     "Groups" : "Csoportok",
-    "Type to search for group …" : "Gépeljen az csoport kereséséhez…",
     "Select a trigger" : "Válasszon feltételt",
     "At least one event must be selected" : "Legalább egy eseményt ki kell választani",
     "Add new flow" : "Új folyamat hozzáadása",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Request user agent" : "Kérés felhasználói ügynöke",
     "Group membership" : "Csoporttagság",
     "is member of" : "tagja ennek",
-    "is not member of" : "nem tagja ennek"
+    "is not member of" : "nem tagja ennek",
+    "Type to search for group …" : "Gépeljen az csoport kereséséhez…"
 },
 "nplurals=2; plural=(n != 1);");

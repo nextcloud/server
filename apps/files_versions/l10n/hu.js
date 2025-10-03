@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Verzió helyreállítva",
     "Could not restore version" : "Nem sikerült helyreállítani a verziót",
     "Could not set version label" : "Nem sikerült beállítani a verziócímkét",
-    "Could not delete version" : "Nem sikerült törölni a verziót"
+    "Could not delete version" : "Nem sikerült törölni a verziót",
+    "File versions" : "Fájlverziók"
 },
 "nplurals=2; plural=(n != 1);");

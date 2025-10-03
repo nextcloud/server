@@ -103,7 +103,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Fehlende Anmeldeinformationen eingeben",
     "Credentials successfully set" : "Anmeldeinformationen festgelegt",
     "Error while setting credentials: {error}" : "Fehler beim Festlegen der Anmeldeinformationen: {error}",
-    "Checking storage …" : "Prüfe Speicher…",
     "There was an error with this external storage." : "Mit diesem externen Speicher ist ein Fehler aufgetreten.",
     "We were unable to check the external storage {basename}" : "Der externe Speicher {basename} konnte nicht geprüft werden",
     "Examine this faulty external storage configuration" : "Prüfen Sie diese fehlerhafte externe Speicherkonfiguration",
@@ -138,7 +137,7 @@ OC.L10N.register(
     "Delete storage?" : "Speicher löschen?",
     "Click to recheck the configuration" : "Hier klicken, um die Konfiguration erneut zu prüfen",
     "Saved" : "Gespeichert",
-    "Saving …" : "Speichere …",
+    "Saving …" : "Speichere …",
     "Save" : "Speichern",
     "Failed to save global credentials" : "Globale Anmeldeinformationen konnten nicht gespeichert werden",
     "Failed to save global credentials: {message}" : "Globale Anmeldeinformationen konnten nicht gespeichert werden: {message}",
@@ -159,6 +158,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App-Schlüssel",
     "App secret" : "Geheime Zeichenkette der App",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Möchten Sie diesen externen Speicher wirklich trennen? Der Speicher ist danach in der Nextcloud nicht mehr verfügbar, was zu einer Löschung dieser Dateien und Ordner auf allen Sync-Clients, die verbunden sind, führt. Auf dem externen Speicher selbst werden keine Dateien und Ordner gelöscht."
+    "Checking storage …" : "Prüfe Speicher…",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Möchten Sie diesen externen Speicher wirklich trennen? Der Speicher ist danach in der Nextcloud nicht mehr verfügbar, was zu einer Löschung dieser Dateien und Ordner auf allen Sync-Clients, die verbunden sind, führt. Auf dem externen Speicher selbst werden keine Dateien und Ordner gelöscht.",
+    "Saving …" : "Speichere …"
 },
 "nplurals=2; plural=(n != 1);");
