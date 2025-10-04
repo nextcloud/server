@@ -44,7 +44,7 @@ class RemotePlugin implements ISearchPlugin {
 			'fullmatch' => false,
 		]);
 		foreach ($addressBookContacts as $contact) {
-			if (isset($contact['isLocalSystemBook'])) {
+			if (isset($contact['isLocalSystemBook']) || isset($contact['isNotContactBook'])) {
 				continue;
 			}
 			if (isset($contact['CLOUD'])) {
