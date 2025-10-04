@@ -79,7 +79,7 @@ class ResetRenderedTexts extends Command {
 	}
 
 	private function getAvatarsToDelete(): \Iterator {
-		foreach ($this->userManager->search('') as $user) {
+		foreach ($this->userManager->searchDisplayName('') as $user) {
 			$avatar = $this->avatarManager->getAvatar($user->getUID());
 
 			if (!$avatar->isCustomAvatar()) {

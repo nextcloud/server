@@ -7,6 +7,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OC\Files\SetupManager;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -21,6 +22,7 @@ class Info extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IGroupManager $groupManager,
+		protected SetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
@@ -82,8 +84,8 @@ class Info extends Base {
 	 * @return array
 	 */
 	protected function getStorageInfo(IUser $user): array {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user->getUID());
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 		try {
 			$storage = \OC_Helper::getStorageInfo('/');
 		} catch (NotFoundException $e) {
@@ -105,7 +107,7 @@ class Info extends Base {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'user') {
-			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));
 		}
 		return [];
 	}

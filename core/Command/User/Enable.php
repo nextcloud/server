@@ -55,7 +55,7 @@ class Enable extends Base {
 			return array_map(
 				static fn (IUser $user) => $user->getUID(),
 				array_filter(
-					$this->userManager->search($context->getCurrentWord()),
+					$this->userManager->searchDisplayName($context->getCurrentWord()),
 					static fn (IUser $user) => !$user->isEnabled()
 				)
 			);

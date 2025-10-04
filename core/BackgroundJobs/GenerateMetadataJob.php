@@ -48,7 +48,7 @@ class GenerateMetadataJob extends TimedJob {
 
 		$lastHandledUser = $this->appConfig->getValueString('core', 'metadataGenerationLastHandledUser', '');
 
-		$users = $this->userManager->search('');
+		$users = $this->userManager->searchDisplayName('');
 
 		// we'll only start timer once we have found a valid user to handle
 		// meaning NOW if we have not handled any user from a previous run
