@@ -63,6 +63,7 @@ import {
 	showMenu,
 	unregisterMenu,
 } from './menu.js'
+import * as MimeType from './mimeType.js'
 import msg from './msg.js'
 import { redirect, reload } from './navigation.js'
 import Notification from './notification.js'
@@ -127,6 +128,7 @@ export default {
 	currentUser,
 	dialogs: Dialogs,
 	EventSource,
+	MimeType,
 	/**
 	 * Returns the currently logged in user or null if there is no logged in
 	 * user (public page mode)
