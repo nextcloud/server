@@ -1115,7 +1115,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $app id of the app
 	 * @param string $key config key
 	 *
-	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, default?: string, definition?: string, note?: string}
+	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, internal?: bool, default?: string, definition?: string, note?: string}
 	 * @since 32.0.0
 	 */
 	public function getKeyDetails(string $app, string $key): array {
@@ -1143,6 +1143,7 @@ class AppConfig implements IAppConfig {
 				'valueType' => $lexiconEntry->getValueType(),
 				'valueTypeName' => $lexiconEntry->getValueType()->name,
 				'sensitive' => $lexiconEntry->isFlagged(self::FLAG_SENSITIVE),
+				'internal' => $lexiconEntry->isFlagged(self::FLAG_INTERNAL),
 				'default' => $lexiconEntry->getDefault($this->presetManager->getLexiconPreset()),
 				'definition' => $lexiconEntry->getDefinition(),
 				'note' => $lexiconEntry->getNote(),
