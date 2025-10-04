@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use OC\ServiceUnavailableException;
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,24 +10,28 @@ use OC\ServiceUnavailableException;
 
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\ServiceUnavailableException;
 use OCP\App\IAppManager;
-use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Resolve the requested public.php service to a handler.
+ *
+ * @param string $service
+ * @return string (empty if no matches)
+ */
 function resolveService(string $service): string {
-	$services = [
+	$publicServices = [
 		'webdav' => 'dav/appinfo/v1/publicwebdav.php',
 		'dav' => 'dav/appinfo/v2/publicremote.php',
 	];
-	if (isset($services[$service])) {
-		return $services[$service];
-	}
-
-	return Server::get(IConfig::class)->getAppValue('core', 'remote_' . $service);
+	
+	$file = $publicServices[$service] ?? '';
+	return $file;
 }
 
 try {
@@ -69,10 +71,10 @@ try {
 	$file = ltrim($file, '/');
 	$parts = explode('/', $file, 2);
 	$app = $parts[0];
+	\OC::$REQUESTEDAPP = $app;
 
 	// Load all required applications
 	$appManager = Server::get(IAppManager::class);
-	\OC::$REQUESTEDAPP = $app;
 	$appManager->loadApps(['authentication']);
 	$appManager->loadApps(['extended_authentication']);
 	$appManager->loadApps(['filesystem', 'logging']);
@@ -93,11 +95,11 @@ try {
 	if ($ex instanceof ServiceUnavailableException) {
 		$status = 503;
 	}
-	//show the user a detailed error page
+	// Show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
 	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
-	//show the user a detailed error page
+	// Show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
 	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 }
