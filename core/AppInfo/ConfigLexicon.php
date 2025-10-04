@@ -34,6 +34,7 @@ class ConfigLexicon implements ILexicon {
 	public const USER_TIMEZONE = 'timezone';
 
 	public const UNIFIED_SEARCH_MIN_SEARCH_LENGTH = 'unified_search_min_search_length';
+	public const UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST = 'unified_search_max_results_per_request';
 
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
@@ -93,6 +94,7 @@ class ConfigLexicon implements ILexicon {
 			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM', lazy: true),
 			new Entry(self::OCM_INVITE_ACCEPT_DIALOG, ValueType::STRING, '', 'route to local invite accept dialog', lazy: true, note: 'set as empty string to disable feature'),
 			new Entry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', lazy: false, rename: 'unified-search.min-search-length'),
+			new Entry(self::UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST, ValueType::INT, 25, 'Maximum results returned per search request', lazy: false, rename: 'unified-search.max-results-per-request'),
 		];
 	}
 
