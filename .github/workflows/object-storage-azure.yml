@@ -49,9 +49,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.2']
+        php-versions: ['8.2', '8.3']
         include:
-          - php-versions: '8.3'
+          - php-versions: '8.4'
             coverage: true
 
     name: php${{ matrix.php-versions }}-azure

@@ -67,10 +67,10 @@ jobs:
       - name: Pull images
         run: |
           docker pull ghcr.io/icewind1991/samba-krb-test-dc
-          docker pull ghcr.io/icewind1991/samba-krb-test-apache
+          docker pull ghcr.io/icewind1991/samba-krb-test-apache-gssapi:8.4
           docker pull ghcr.io/icewind1991/samba-krb-test-client
           docker tag ghcr.io/icewind1991/samba-krb-test-dc icewind1991/samba-krb-test-dc
-          docker tag ghcr.io/icewind1991/samba-krb-test-apache icewind1991/samba-krb-test-apache
+          docker tag ghcr.io/icewind1991/samba-krb-test-apache-gssapi:8.4 icewind1991/samba-krb-test-apache-gssapi
           docker tag ghcr.io/icewind1991/samba-krb-test-client icewind1991/samba-krb-test-client
 
       - name: Setup AD-DC

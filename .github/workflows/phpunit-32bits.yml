@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1','8.3']
+        php-versions: ['8.2', '8.3', '8.4']
 
     steps:
       - name: Checkout server

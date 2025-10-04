@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1']
+        php-versions: ['8.2']
         key: ['s3', 's3-multibucket']
 
     name: php${{ matrix.php-versions }}-${{ matrix.key }}-minio

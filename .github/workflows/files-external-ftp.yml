@@ -45,10 +45,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.4']
+        php-versions: ['8.2', '8.4']
         ftpd: ['proftpd', 'vsftpd', 'pure-ftpd']
         include:
-          - php-versions: '8.1'
+          - php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-${{ matrix.ftpd }}
