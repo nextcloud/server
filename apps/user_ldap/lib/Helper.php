@@ -105,15 +105,33 @@ class Helper {
 	public function getNextServerConfigurationPrefix(): string {
 		$prefixes = $this->getServerConfigurationPrefixes();
 
-		if (count($prefixes) === 0) {
+		$filteredPrefixes = array_filter($prefixes, fn($p) => preg_match('/^s\d{2}$/', $p));
+
+		if (count($filteredPrefixes) === 0) {
 			$prefix = 's01';
 		} else {
-			sort($prefixes);
-			$lastKey = array_pop($prefixes);
+			sort($filteredPrefixes);
+			$lastKey = array_pop($filteredPrefixes);
 			$lastNumber = (int)str_replace('s', '', $lastKey);
 			$prefix = 's' . str_pad((string)($lastNumber + 1), 2, '0', STR_PAD_LEFT);
 		}
 
+		$prefixes[] = $prefix;
+		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', $prefixes);
+		return $prefix;
+	}
+
+	/**
+	 * registers the given prefix as used, if it is not already in use
+	 *
+	 * @param string $prefix the prefix to register
+	 * @return string|false the given prefix on success, false if it is already in use
+	 */
+	public function registerNewServerConfigurationPrefix(string $prefix): string|false {
+		$prefixes = $this->getServerConfigurationPrefixes();
+		if (in_array($prefix, $prefixes)) {
+			return false;
+		}
 		$prefixes[] = $prefix;
 		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', $prefixes);
 		return $prefix;
