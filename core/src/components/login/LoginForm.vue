@@ -80,6 +80,7 @@
 				:label="t('core', 'Password')"
 				:helper-text="errorLabel"
 				:error="isError"
+				:visible="visible"
 				data-login-form-input-password
 				required />
 
@@ -199,6 +200,7 @@ export default {
 			loading: false,
 			user: '',
 			password: '',
+			visible: false,
 		}
 	},
 
@@ -305,6 +307,8 @@ export default {
 		},
 
 		submit(event) {
+			this.visible = false
+
 			if (this.loading) {
 				// Prevent the form from being submitted twice
 				event.preventDefault()
