@@ -237,6 +237,7 @@ OC.L10N.register(
     "Can edit" : "Може да уређује",
     "Custom permissions" : "Произвољне дозволе",
     "Resharing is not allowed" : "Дељење даље није дозвољено",
+    "Searching …" : "Тражи се …",
     "No elements found." : "Нема нађених елемената.",
     "Search everywhere" : "Претражи свуда",
     "Guest" : "Гост",

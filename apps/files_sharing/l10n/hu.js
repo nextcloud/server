@@ -168,6 +168,7 @@ OC.L10N.register(
     "Can edit" : "Szerkesztheti",
     "Custom permissions" : "Egyéni jogosultságok",
     "Resharing is not allowed" : "A továbbosztás nem engedélyezett",
+    "Searching …" : "Keresés…",
     "No elements found." : "Nem található elem.",
     "Search everywhere" : "Keresés mindenhol",
     "Guest" : "Vendég",

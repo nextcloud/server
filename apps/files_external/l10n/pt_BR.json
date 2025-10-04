@@ -101,6 +101,7 @@
     "Enter missing credentials" : "Digite as credenciais ausentes",
     "Credentials successfully set" : "Credenciais definidas com sucesso",
     "Error while setting credentials: {error}" : "Erro ao definir as credenciais: {error}",
+    "Checking storage …" : "Verificando armazenamento …",
     "There was an error with this external storage." : "Ocorreu um erro com este armazenamento externo.",
     "We were unable to check the external storage {basename}" : "Não foi possível verificar o armazenamento externo {basename}",
     "Examine this faulty external storage configuration" : "Examine esta configuração de armazenamento externo com falha",

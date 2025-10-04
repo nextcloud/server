@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Hozzászólás törlése",
     "Cancel edit" : "Változások elvetése",
     "New comment" : "Új hozzászólás",
+    "Write a comment …" : "Hozzászólás írása…",
     "Post comment" : "Hozzászólás közzététele",
     "@ for mentions, : for emoji, / for smart picker" : "@ az említésekhez, : az emodzsikhoz, / az okos választóhoz",
     "Could not reload comments" : "Nem sikerült a megjegyzések újratöltése.",
