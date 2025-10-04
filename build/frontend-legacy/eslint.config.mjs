@@ -3,14 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { includeIgnoreFile } from '@eslint/compat'
-import { recommended } from '@nextcloud/eslint-config'
+import { recommendedVue2 } from '@nextcloud/eslint-config'
 import CypressEslint from 'eslint-plugin-cypress'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
-import { fileURLToPath } from 'node:url'
-
-const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 
 export default defineConfig([
 	{
@@ -20,10 +16,7 @@ export default defineConfig([
 		},
 	},
 
-	...recommended,
-
-	// respect .gitignore
-	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
+	...recommendedVue2,
 
 	{
 		name: 'server/custom-webpack-globals',

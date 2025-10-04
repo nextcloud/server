@@ -97,9 +97,6 @@ module.exports = {
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
 	},
-	sharebymail: {
-		'vue-settings-admin-sharebymail': path.join(__dirname, 'apps/sharebymail/src', 'main-admin.js'),
-	},
 	systemtags: {
 		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
 		admin: path.join(__dirname, 'apps/systemtags/src', 'admin.ts'),

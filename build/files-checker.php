@@ -87,10 +87,8 @@ $expectedFiles = [
 	'tsconfig.json',
 	'vendor-bin',
 	'version.php',
+	'vite.config.mts',
 	'vitest.config.mts',
-	'webpack.common.cjs',
-	'webpack.config.js',
-	'webpack.modules.cjs',
 	'window.d.ts',
 ];
 $actualFiles = [];
