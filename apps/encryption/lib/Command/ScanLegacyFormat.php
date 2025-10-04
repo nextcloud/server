@@ -8,9 +8,11 @@ declare(strict_types=1);
  */
 namespace OCA\Encryption\Command;
 
+use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\Util;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -21,10 +23,11 @@ class ScanLegacyFormat extends Command {
 	private View $rootView;
 
 	public function __construct(
-		protected Util $util,
-		protected IConfig $config,
-		protected QuestionHelper $questionHelper,
-		private IUserManager $userManager,
+		protected readonly Util $util,
+		protected readonly IConfig $config,
+		protected readonly QuestionHelper $questionHelper,
+		private readonly IUserManager $userManager,
+		private readonly SetupManager $setupManager,
 	) {
 		parent::__construct();
 
@@ -42,18 +45,10 @@ class ScanLegacyFormat extends Command {
 
 		$output->writeln('Scanning all files for legacy encryption');
 
-		foreach ($this->userManager->getBackends() as $backend) {
-			$limit = 500;
-			$offset = 0;
-			do {
-				$users = $backend->getUsers('', $limit, $offset);
-				foreach ($users as $user) {
-					$output->writeln('Scanning all files for ' . $user);
-					$this->setupUserFS($user);
-					$result = $result && $this->scanFolder($output, '/' . $user);
-				}
-				$offset += $limit;
-			} while (count($users) >= $limit);
+		foreach ($this->userManager->getSeenUsers() as $user) {
+			$output->writeln('Scanning all files for ' . $user->getUID());
+			$this->setupUserFileSystem($user);
+			$result = $result && $this->scanFolder($output, '/' . $user->getUID());
 		}
 
 		if ($result) {
@@ -93,8 +88,8 @@ class ScanLegacyFormat extends Command {
 	/**
 	 * setup user file system
 	 */
-	protected function setupUserFS(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+	protected function setupUserFileSystem(IUser $user): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 	}
 }

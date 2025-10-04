@@ -10,6 +10,7 @@ namespace OCA\Encryption\Command;
 
 use OC\Encryption\Manager;
 use OC\Encryption\Util;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OCP\Encryption\IManager;
@@ -33,10 +34,11 @@ class FixKeyLocation extends Command {
 	private Manager $encryptionManager;
 
 	public function __construct(
-		private IUserManager $userManager,
-		private IUserMountCache $userMountCache,
-		private Util $encryptionUtil,
-		private IRootFolder $rootFolder,
+		private readonly IUserManager $userManager,
+		private readonly IUserMountCache $userMountCache,
+		private readonly Util $encryptionUtil,
+		private readonly IRootFolder $rootFolder,
+		private readonly SetupManager $setupManager,
 		IManager $encryptionManager,
 	) {
 		$this->keyRootDirectory = rtrim($this->encryptionUtil->getKeyStorageRoot(), '/');
@@ -69,7 +71,7 @@ class FixKeyLocation extends Command {
 			return self::FAILURE;
 		}
 
-		\OC_Util::setupFS($user->getUID());
+		$this->setupManager->setupForUser($user);
 
 		$mounts = $this->getSystemMountsForUser($user);
 		foreach ($mounts as $mount) {
@@ -179,11 +181,12 @@ class FixKeyLocation extends Command {
 	 *
 	 * @return \Generator<File>
 	 */
-	private function getAllEncryptedFiles(Folder $folder) {
+	private function getAllEncryptedFiles(Folder $folder): \Generator {
 		foreach ($folder->getDirectoryListing() as $child) {
 			if ($child instanceof Folder) {
 				yield from $this->getAllEncryptedFiles($child);
 			} else {
+				/** @var File $child */
 				if (substr($child->getName(), -4) !== '.bak' && $child->isEncrypted()) {
 					yield $child;
 				}

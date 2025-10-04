@@ -7,7 +7,7 @@
 namespace OCA\Encryption\Command;
 
 use OCA\Encryption\Util;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IAppConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class DisableMasterKey extends Command {
 	public function __construct(
 		protected Util $util,
-		protected IConfig $config,
+		protected IAppConfig $config,
 		protected QuestionHelper $questionHelper,
 	) {
 		parent::__construct();
@@ -45,7 +45,7 @@ class DisableMasterKey extends Command {
 			. 'Do you really want to switch to per-user keys? (y/n) ', false);
 
 		if ($this->questionHelper->ask($input, $output, $question)) {
-			$this->config->setAppValue('encryption', 'useMasterKey', '0');
+			$this->config->setAppValueBool('useMasterKey', false);
 			$output->writeln('Master key successfully disabled.');
 			return self::SUCCESS;
 		}

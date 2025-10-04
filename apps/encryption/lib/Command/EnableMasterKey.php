@@ -8,7 +8,7 @@
 namespace OCA\Encryption\Command;
 
 use OCA\Encryption\Util;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IAppConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class EnableMasterKey extends Command {
 	public function __construct(
 		protected Util $util,
-		protected IConfig $config,
+		protected IAppConfig $config,
 		protected QuestionHelper $questionHelper,
 	) {
 		parent::__construct();
@@ -43,7 +43,7 @@ class EnableMasterKey extends Command {
 			. 'There is also no way to disable it again. Do you want to continue? (y/n) ', false);
 
 		if ($this->questionHelper->ask($input, $output, $question)) {
-			$this->config->setAppValue('encryption', 'useMasterKey', '1');
+			$this->config->setAppValueBool('useMasterKey', true);
 			$output->writeln('Master key successfully enabled.');
 			return self::SUCCESS;
 		}
