@@ -135,8 +135,9 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 				// this is probably because some code path has caused recursion during the share setup
 				// we setup a "failed storage" so `getWrapperStorage` doesn't return null.
 				// If the share setup completes after this the "failed storage" will be overwritten by the correct one
-				$this->logger->warning('Possible share setup recursion detected');
-				$this->storage = new FailedStorage(['exception' => new \Exception('Possible share setup recursion detected')]);
+				$ex = new \Exception('Possible share setup recursion detected for share ' . $this->superShare->getId());
+				$this->logger->warning($ex->getMessage(), ['exception' => $ex, 'app' => 'files_sharing']);
+				$this->storage = new FailedStorage(['exception' => $ex]);
 				$this->cache = new FailedCache();
 				$this->rootPath = '';
 			}
