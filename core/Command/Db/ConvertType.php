@@ -269,7 +269,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	protected function getTables(Connection $db) {
 		$db->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
 			/** @var string|AbstractAsset $asset */
-			$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+			$filterExpression = '/^' . preg_quote($this->config->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX)) . '/';
 			if ($asset instanceof AbstractAsset) {
 				return preg_match($filterExpression, $asset->getName()) !== false;
 			}

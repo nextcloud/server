@@ -12,6 +12,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use OC\DB\ConnectionFactory;
 use OC\DB\Migrator;
 use OC\DB\OracleMigrator;
 use OC\DB\SQLiteMigrator;
@@ -66,7 +67,7 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	private function getUniqueTableName() {
-		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', 'oc_') . 'test_'));
+		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX) . 'test_'));
 	}
 
 	protected function tearDown(): void {
@@ -142,7 +143,7 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	public function testUpgradeDifferentPrefix(): void {
-		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
+		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX);
 
 		$this->config->setSystemValue('dbtableprefix', 'ownc_');
 		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix') . 'test_'));

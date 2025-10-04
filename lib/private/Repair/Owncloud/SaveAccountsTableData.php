@@ -6,6 +6,7 @@
  */
 namespace OC\Repair\Owncloud;
 
+use OC\DB\ConnectionFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -61,7 +62,7 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 
 		// oc_persistent_locks will be removed later on anyways so we can just drop and ignore any foreign key constraints here
-		$tableName = $this->config->getSystemValueString('dbtableprefix', 'oc_') . 'persistent_locks';
+		$tableName = $this->config->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX) . 'persistent_locks';
 		$schema = $this->db->createSchema();
 		$table = $schema->getTable($tableName);
 		foreach ($table->getForeignKeys() as $foreignKey) {
@@ -81,7 +82,7 @@ class SaveAccountsTableData implements IRepairStep {
 	 */
 	protected function shouldRun() {
 		$schema = $this->db->createSchema();
-		$prefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
+		$prefix = $this->config->getSystemValueString('dbtableprefix', ConnectionFactory::DEFAULT_DBTABLEPREFIX);
 
 		$tableName = $prefix . 'accounts';
 		if (!$schema->hasTable($tableName)) {

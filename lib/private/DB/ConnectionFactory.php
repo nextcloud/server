@@ -22,10 +22,10 @@ use OCP\Server;
  */
 class ConnectionFactory {
 	/** @var string default database name */
-	public const DEFAULT_DBNAME = 'owncloud';
+	public const DEFAULT_DBNAME = 'nextcloud';
 
 	/** @var string default database table prefix */
-	public const DEFAULT_DBTABLEPREFIX = 'oc_';
+	public const DEFAULT_DBTABLEPREFIX = 'nc_';
 
 	/**
 	 * @var array
