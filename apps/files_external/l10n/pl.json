@@ -101,6 +101,7 @@
     "Enter missing credentials" : "Wprowadź brakujące dane uwierzytelniające",
     "Credentials successfully set" : "Dane uwierzytelniające zostały pomyślnie ustawione",
     "Error while setting credentials: {error}" : "Błąd podczas ustawiania danych uwierzytelniających: {error}",
+    "Checking storage …" : "Sprawdzanie pamięci masowej …",
     "There was an error with this external storage." : "Wystąpił błąd związany z pamięcią zewnętrzną.",
     "We were unable to check the external storage {basename}" : "Nie można sprawdzić pamięci zewnętrznej {basename}",
     "Examine this faulty external storage configuration" : "Sprawdź wadliwą konfigurację pamięci zewnętrznej",

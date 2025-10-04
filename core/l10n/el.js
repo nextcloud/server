@@ -299,6 +299,7 @@ OC.L10N.register(
     "Install recommended apps" : "Εγκατάσταση προτεινόμενων εφαρμογών",
     "Avatar of {displayName}" : "Avatar του {displayName}",
     "Settings menu" : "Μενού ρυθμίσεων",
+    "Loading your contacts …" : "Φόρτωση των επαφών σας …",
     "Search contacts" : "Αναζήτηση επαφών",
     "Reset search" : "Επαναφορά αναζήτησης",
     "Could not load your contacts" : "Αδυναμία φόρτωσης των επαφών σας",

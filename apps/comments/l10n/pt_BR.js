@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Excluir comentário",
     "Cancel edit" : "Cancelar edição",
     "New comment" : "Novo comentário",
+    "Write a comment …" : "Escreva um comentário …",
     "Post comment" : "Postar comentário",
     "@ for mentions, : for emoji, / for smart picker" : "@ para menções, : para emoji, / para seletor inteligente",
     "Could not reload comments" : "Não foi possível recarregar comentários",

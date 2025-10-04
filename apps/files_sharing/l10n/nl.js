@@ -233,6 +233,7 @@ OC.L10N.register(
     "Can edit" : "Kan bewerken",
     "Custom permissions" : "Aangepaste machtigingen",
     "Resharing is not allowed" : "Opnieuw delen niet toegestaan",
+    "Searching …" : "Zoeken ...",
     "No elements found." : "Geen elementen gevonden.",
     "Search everywhere" : "Zoek in alles",
     "Guest" : "Gast",

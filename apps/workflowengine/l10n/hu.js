@@ -49,7 +49,7 @@ OC.L10N.register(
     "Select a filter" : "Válasszon szűrőt",
     "Select a comparator" : "Válasszon összehasonlítót",
     "Remove filter" : "Szűrő eltávolítása",
-    "Audio" : "Hangok",
+    "Audio" : "Hang",
     "Folder" : "Mappa",
     "Images" : "Képek",
     "Office documents" : "Irodai dokumentumok",
@@ -61,8 +61,8 @@ OC.L10N.register(
     "e.g. httpd/unix-directory" : "például httpd/unix-directory",
     "Please enter a valid time span" : "Érvényes időtartamot adjon meg",
     "Files WebDAV" : "WebDAV-fájlok",
-    "Custom URL" : "Egyéni URL",
-    "Select a request URL" : "Válassza ki a kérés URL-jét",
+    "Custom URL" : "Egyéni webcím",
+    "Select a request URL" : "Válassza ki a kérés webcímét",
     "Android client" : "Android kliens",
     "iOS client" : "iOS klens",
     "Desktop client" : "Asztali kliens",
@@ -71,6 +71,7 @@ OC.L10N.register(
     "Select a user agent" : "Válasszon felhasználói ügynököt",
     "Select groups" : "Csoportok kiválasztása",
     "Groups" : "Csoportok",
+    "Type to search for group …" : "Gépeljen egy csoport kereséséhez…",
     "Select a trigger" : "Válasszon feltételt",
     "At least one event must be selected" : "Legalább egy eseményt ki kell választani",
     "Add new flow" : "Új folyamat hozzáadása",
@@ -120,6 +121,6 @@ OC.L10N.register(
     "Group membership" : "Csoporttagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",
-    "Type to search for group …" : "Gépeljen az csoport kereséséhez…"
+    "Type to search for group …" : "Gépeljen egy csoport kereséséhez…"
 },
 "nplurals=2; plural=(n != 1);");
