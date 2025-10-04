@@ -20,9 +20,9 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 /**
- * Concrete implementation of {@see \OCP\Files\IAppData}.
- *
- * Wraps IRootFolder and ISimpleFolder objects to provide app-specific data folder access to Nextcloud's virtual file system.
+ * Implements app-specific data storage {@see \OCP\Files\IAppData} by wrapping IRootFolder and 
+ * Folder objects and re-using {@see \OCP\Files\SimpleFS\SIimpleFolder} overlaid on Nextcloud's 
+ * virtual file system.
  *
  * @internal This class is not part of the public API and may change without notice.
  */
@@ -75,72 +75,68 @@ class AppData implements IAppData {
 	 * {@inheritdoc}
 	 *
 	 * Uses an in-memory cache for performance.
+	 * @throws \RuntimeException for unrecoverable errors
 	 */
 	public function getFolder(string $name): ISimpleFolder {
-		$cacheKey = $this->appId . '/' . $name;
-
-		// Get the app-specific data folder for this app
-		$appDataFolder = $this->getOrCreateAppDataFolder();
-
+		$cacheKey = $this->buildCacheKey($name);
 		// Check cache
 		$cachedFolder = $this->folders->get($cacheKey);			
 		if ($cachedFolder instanceOf ISimpleFolder) {
 			return $cachedFolder;
 		}
-		if ($cachedFolder instanceof \Exception) {
+		if ($cachedFolder instanceof NotFoundException) {
+			// We can use the cached NotFound w/o cache management since cache is in-request only
 			throw $cachedFolder;
 		}
 
-		// Handle special case: app's appdata root folder or empty name
-		if ($name === '/' || $name === '') {
-			$folder = $appDataFolder;
-		} else { // Handle standard case: sub-folder in app's appdata folder
-			// Retrieve or create the subfolder
+		// Get the Folder object representing this app's appdata root folder
+		$appDataFolder = $this->getOrCreateAppDataFolder();
+
+		if ($name === '/') {
+			// Special case: app's appdata root folder
+			$requestedFolder = $appDataFolder;
+		// Try to get the subfolder (within app's appdata folder) by path
+		} else {
+			// Standard case: subfolder within app's appdata
 			try {
+				// We don't want to create the subfolder if it doesn't exist.
+				// So we retrieve the subfolder directly by path,
+				// instead of calling getOrCreateAppDataFolder().
 				$appDataPath = $this->getInstanceAppDataFolderName() . '/' . $this->appId . '/' . $name;
-				$folder = $this->rootFolder->get($appDataPath);
-				// $folder = $appDataFolder->getFolder($name);
+				$requestedFolder = $this->rootFolder->get($appDataPath);
 			} catch (NotFoundException $e) {
-				try {
-					$folder = $appDataFolder->newFolder($name);
-				} catch (NotPermittedException $e) {
-					throw new \RuntimeException(
-						"Could not create folder '$name' for app '{$this->appId}': " . $e->getMessage(),
-						0,
-						$e
-					);
-				}
+				$this->folders->set($cacheKey, $e);
+				throw $e;
 			}
 		}
 
-		// Wrap, cache, return
-		$simpleFolder = new SimpleFolder($folder);
-		$this->folders->set($cacheKey, $simpleFolder);
-		return $simpleFolder;
+		// Wrap, cache, return (now moved to helper)
+		return $this->wrapAndCacheFolder($cacheKey, $requestedFolder);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function newFolder(string $name): ISimpleFolder {
-		$cacheKey = $this->appId . '/' . $name;
+		$cacheKey = $this->buildCacheKey($name);
 		$newFolder = $this->getOrCreateAppDataFolder()->newFolder($name);
 
-		// Wrap, cache, return
-		$subFolder = new SimpleFolder($newFolder);
-		$this->folders->set($cacheKey, $subFolder);
-		return $subFolder;
+		// Wrap, cache, return (now moved to helper)
+		return $this->wrapAndCacheFolder($cacheKey, $newFolder);
 	}
 
 	/**
 	 * Returns the name of the top-level appdata folder for the current Nextcloud instance.
 	 *
 	 * @return string The appdata folder name, including the instance identifier.
+	 * @throws \RuntimeException for unrecoverable errors
 	 */
 	private function getInstanceAppDataFolderName(): string {
 		$instanceId = $this->config->getValue('instanceid', null);
 		if ($instanceId === null) {
-			throw new \RuntimeException('no instance id!');
+			throw new \RuntimeException(
+				'Could not determine instance appdata folder; configuration is missing an instance id!'
+			);
 		}
 
 		$instanceAppDataFolderName = 'appdata_' . $instanceId;
@@ -151,10 +147,10 @@ class AppData implements IAppData {
 	 * Retrieves the top-level appdata folder for the current Nextcloud instance.
 	 * Creates the folder if it does not exist.
 	 *
-	 * @return Folder The instance appdata folder.
-	 * @throws \RuntimeException If the folder cannot be accessed or created due to permissions.
+	 * Protected rather than private since it's also used by downstream \OC\Preview\Storage\Root class.
 	 *
-	 * XXX: Not sure this really needs to be protected. [Actually, it's used by OC\Preview\Storage\Root; rename there too if doing so
+	 * @return Folder The instance appdata folder.
+	 * @throws \RuntimeException If the folder cannot be created due to permissions.
 	 */
 	protected function getInstanceAppDataFolder(): Folder {
 		$instanceAppDataFolderName = $this->getInstanceAppDataFolderName();
@@ -167,7 +163,13 @@ class AppData implements IAppData {
 			try {
 				return $this->rootFolder->newFolder($instanceAppDataFolderName);
 			} catch (NotPermittedException $e) {
-				throw new \RuntimeException('Could not get nor create appdata folder for ' . $this->appId);
+				throw new \RuntimeException(
+					'Could not get nor create instance appdata folder '
+					. $instanceAppFolderName
+					. ' while trying to get or create dedicated appdata folder for '
+					. $this->appId
+					. '. Check data directory permissions!'
+				);
 			}
 		}
 	}
@@ -212,11 +214,40 @@ class AppData implements IAppData {
 	/**
 	 * Returns the numeric ID of the app-specific data folder.
 	 *
-	 * @return int The folder's unique identifier.
+	 * Protected rather than private since it's also used by downstream \OC\Preview\Storage\Root class.
 	 *
-	 * XXX This is not used here nor defined in the interface; should be removed... or added to the interface?
+	 * Note: Seems to only be used by downstream \OC\Preview\Storage\Root class.
+	 *
+	 * @return int The folder's unique identifier.
 	 */
-	public function getId(): int {
+	protected function getId(): int {
 		return $this->getOrCreateAppDataFolder()->getId();
+	}
+
+	/**
+	 * Validates the folder name and generates a cache key.
+	 *
+	 * @param string $name
+	 * @return string
+	 * @throws \RuntimeException if the name is empty
+	 */
+	private function buildCacheKey(string $name): string {
+		if ($name === '') {
+			throw new \RuntimeException('Appdata folder name cannot be (empty).');
+		}
+		return $this->appId . '/' . $name;
+	}
+
+	/**
+	 * Wraps a Folder as SimpleFolder, caches it, and returns it.
+	 *
+	 * @param string $cacheKey
+	 * @param Folder $folder
+	 * @return ISimpleFolder
+	 */
+	private function wrapAndCacheFolder(string $cacheKey, Folder $folder): ISimpleFolder {
+		$simpleFolder = new SimpleFolder($folder);
+		$this->folders->set($cacheKey, $simpleFolder);
+		return $simpleFolder;
 	}
 }
