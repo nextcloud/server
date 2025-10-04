@@ -38,8 +38,6 @@ class ComposerStaticInitComments
         'OCA\\Comments\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
         'OCA\\Comments\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\Comments\\Search\\CommentsSearchProvider' => __DIR__ . '/..' . '/../lib/Search/CommentsSearchProvider.php',
-        'OCA\\Comments\\Search\\LegacyProvider' => __DIR__ . '/..' . '/../lib/Search/LegacyProvider.php',
-        'OCA\\Comments\\Search\\Result' => __DIR__ . '/..' . '/../lib/Search/Result.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
