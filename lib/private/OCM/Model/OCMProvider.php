@@ -227,6 +227,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 		}
 		$this->setResourceTypes($resources);
 		$this->setInviteAcceptDialog($data['inviteAcceptDialog'] ?? '');
+		$this->setCapabilities($data['capabilities'] ?? []);
 
 		if (isset($data['publicKey'])) {
 			// import details about the remote request signing public key, if available
@@ -268,6 +269,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 			'version' => $this->getApiVersion(), // informative but real version
 			'endPoint' => $this->getEndPoint(),
 			'publicKey' => $this->getSignatory()?->jsonSerialize(),
+			'provider' => $this->getProvider(),
 			'resourceTypes' => $resourceTypes
 		];
 
