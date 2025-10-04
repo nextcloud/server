@@ -41,6 +41,7 @@ use OCP\UserStatus\IManager as IUserStatusManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * Class ApiTest
@@ -49,6 +50,8 @@ use Psr\Log\LoggerInterface;
  * TODO: convert to real integration tests
  */
 class ApiTest extends TestCase {
+	use EmailValidatorTrait;
+
 	public const TEST_FOLDER_NAME = '/folder_share_api_test';
 	public const APP_NAME = 'files_sharing';
 
@@ -141,6 +144,7 @@ class ApiTest extends TestCase {
 			$providerFactory,
 			$mailer,
 			$tagManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 			$trustedServers,
 			$userId,
 		);

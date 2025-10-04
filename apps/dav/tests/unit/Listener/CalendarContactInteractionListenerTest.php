@@ -17,17 +17,18 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 class CalendarContactInteractionListenerTest extends TestCase {
+	use EmailValidatorTrait;
+
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private IUserSession&MockObject $userSession;
 	private Principal&MockObject $principalConnector;
 	private LoggerInterface&MockObject $logger;
-	private IMailer&MockObject $mailer;
 	private CalendarContactInteractionListener $listener;
 
 	protected function setUp(): void {
@@ -36,14 +37,13 @@ class CalendarContactInteractionListenerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->principalConnector = $this->createMock(Principal::class);
-		$this->mailer = $this->createMock(IMailer::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->listener = new CalendarContactInteractionListener(
 			$this->eventDispatcher,
 			$this->userSession,
 			$this->principalConnector,
-			$this->mailer,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->logger
 		);
 	}
@@ -162,7 +162,6 @@ END:VCALENDAR
 EVENT]);
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects(self::once())->method('getUser')->willReturn($user);
-		$this->mailer->expects(self::once())->method('validateMailAddress')->willReturn(true);
 		$this->eventDispatcher->expects(self::once())
 			->method('dispatchTyped')
 			->with(self::equalTo((new ContactInteractedWithEvent($user))->setEmail('user@domain.tld')));

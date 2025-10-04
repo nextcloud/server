@@ -22,11 +22,13 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
 use OCP\Share\IShare;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 class MailPluginTest extends TestCase {
+	use EmailValidatorTrait;
+
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
@@ -51,9 +53,6 @@ class MailPluginTest extends TestCase {
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
-	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mailer;
-
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -62,7 +61,6 @@ class MailPluginTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->mailer = $this->createMock(IMailer::class);
 		$this->cloudIdManager = new CloudIdManager(
 			$this->createMock(ICacheFactory::class),
 			$this->createMock(IEventDispatcher::class),
@@ -82,7 +80,7 @@ class MailPluginTest extends TestCase {
 			$this->groupManager,
 			$this->knownUserService,
 			$this->userSession,
-			$this->mailer
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
@@ -114,9 +112,6 @@ class MailPluginTest extends TestCase {
 			->willReturn('current');
 		$this->userSession->method('getUser')
 			->willReturn($currentUser);
-
-		$this->mailer->method('validateMailAddress')
-			->willReturn($validEmail);
 
 		$this->contactsManager->expects($this->any())
 			->method('search')
@@ -600,9 +595,6 @@ class MailPluginTest extends TestCase {
 		$currentUser->expects($this->any())
 			->method('getUID')
 			->willReturn('currentUser');
-
-		$this->mailer->method('validateMailAddress')
-			->willReturn($validEmail);
 
 		$this->contactsManager->expects($this->any())
 			->method('search')
