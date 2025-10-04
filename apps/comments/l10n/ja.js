@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "コメントを削除",
     "Cancel edit" : "編集をキャンセル",
     "New comment" : "新しいコメント",
+    "Write a comment …" : "コメントを書く...",
     "Post comment" : "コメントを投稿",
     "@ for mentions, : for emoji, / for smart picker" : "メンションには@、絵文字には:、スマートピッカーには/",
     "Could not reload comments" : "コメントをリロードできませんでした",

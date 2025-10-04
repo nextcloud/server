@@ -109,6 +109,7 @@ OC.L10N.register(
     "Pick end date" : "Избери краен датум",
     "Clear search" : "Исчисти пребарување",
     "Search everywhere" : "Барај насекаде",
+    "Searching …" : "Пребарување …",
     "Start typing to search" : "Напишете нешто за пребарување",
     "No matching results" : "Нема соодветни резултати",
     "Today" : "Денес",

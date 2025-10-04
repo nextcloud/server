@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid data specified" : "Dados inválidos especificados",
     "Could not set configuration %1$s to %2$s" : "Não foi possível definir a configuração %1$s como %2$s",
     "Action does not exist" : "A ação não existe",
+    "Renewing …" : "Renovando …",
     "Very weak password" : "Senha muito fraca",
     "Weak password" : "Senha fraca",
     "So-so password" : "Senha mediana",

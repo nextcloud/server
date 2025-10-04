@@ -103,6 +103,7 @@ OC.L10N.register(
     "Enter missing credentials" : "不足している資格情報を入力",
     "Credentials successfully set" : "認証情報は正常に設定されました",
     "Error while setting credentials: {error}" : "認証情報の設定中にエラーが発生しました: {error}",
+    "Checking storage …" : "ストレージのチェック...",
     "There was an error with this external storage." : "この外部ストレージでエラーが発生しました。",
     "We were unable to check the external storage {basename}" : "外部ストレージ {basename} をチェックできませんでした。",
     "Examine this faulty external storage configuration" : "この問題のある外部ストレージの設定を調べる",
