@@ -693,7 +693,7 @@ class FilesPlugin extends ServerPlugin {
 	private function initFilesMetadataManager(): IFilesMetadataManager {
 		/** @var IFilesMetadataManager $manager */
 		$manager = \OCP\Server::get(IFilesMetadataManager::class);
-		$manager->initMetadata('files-live-photo', IMetadataValueWrapper::TYPE_STRING, false, IMetadataValueWrapper::EDIT_REQ_OWNERSHIP);
+		$manager->initMetadata('files-live-photo', IMetadataValueWrapper::TYPE_STRING, false, IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION);
 
 		return $manager;
 	}
