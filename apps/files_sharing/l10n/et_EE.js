@@ -237,6 +237,7 @@ OC.L10N.register(
     "Can edit" : "Võib muuta",
     "Custom permissions" : "Kohandatud õigused",
     "Resharing is not allowed" : "Edasijagamine pole lubatud",
+    "Searching …" : "Otsin...",
     "No elements found." : "Elemente ei leidu.",
     "Search everywhere" : "Otsi kõikjalt",
     "Guest" : "Külaline",

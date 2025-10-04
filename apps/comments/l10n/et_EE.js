@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Kustuta kommentaar",
     "Cancel edit" : "Loobu muutmisest",
     "New comment" : "Uus kommentaar",
+    "Write a comment …" : "Kirjuta kommentaar...",
     "Post comment" : "Postita kommentaar",
     "@ for mentions, : for emoji, / for smart picker" : "@ mainimiseks, : emojide jaoks, / nutika valija jaoks",
     "Could not reload comments" : "Ei saanud kommentaare uuesti laadida",

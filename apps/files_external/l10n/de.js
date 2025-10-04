@@ -103,6 +103,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Fehlende Anmeldeinformationen eingeben",
     "Credentials successfully set" : "Anmeldeinformationen festgelegt",
     "Error while setting credentials: {error}" : "Fehler beim Festlegen der Anmeldeinformationen: {error}",
+    "Checking storage …" : "Prüfe Speicher …",
     "There was an error with this external storage." : "Mit diesem externen Speicher ist ein Fehler aufgetreten.",
     "We were unable to check the external storage {basename}" : "Der externe Speicher {basename} konnte nicht geprüft werden",
     "Examine this faulty external storage configuration" : "Diese fehlerhafte externe Speicherkonfiguration prüfen",
