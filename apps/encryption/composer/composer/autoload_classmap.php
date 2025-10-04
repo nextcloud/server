@@ -8,6 +8,7 @@ $baseDir = $vendorDir;
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Encryption\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Encryption\\Command\\CleanOrphanedKeys' => $baseDir . '/../lib/Command/CleanOrphanedKeys.php',
     'OCA\\Encryption\\Command\\DisableMasterKey' => $baseDir . '/../lib/Command/DisableMasterKey.php',
     'OCA\\Encryption\\Command\\DropLegacyFileKey' => $baseDir . '/../lib/Command/DropLegacyFileKey.php',
     'OCA\\Encryption\\Command\\EnableMasterKey' => $baseDir . '/../lib/Command/EnableMasterKey.php',
