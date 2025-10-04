@@ -20,6 +20,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
@@ -53,6 +54,7 @@ class IMipPluginCharsetTest extends TestCase {
 	private IUrlGenerator&MockObject $urlGenerator;
 	private IUserSession&MockObject $userSession;
 	private LoggerInterface $logger;
+	private IUserManager&MockObject $userManager;
 
 	// Services
 	private EventComparisonService $eventComparisonService;
@@ -84,6 +86,8 @@ class IMipPluginCharsetTest extends TestCase {
 			->willReturn('en_US');
 		$this->l10nFactory->method('get')
 			->willReturn($l10n);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager->method('getByEmail')->willReturn([]);
 		$this->imipService = new IMipService(
 			$this->urlGenerator,
 			$this->config,
@@ -91,6 +95,7 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->random,
 			$this->l10nFactory,
 			$this->timeFactory,
+			$this->userManager
 		);
 
 		// EventComparisonService
