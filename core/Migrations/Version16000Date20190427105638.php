@@ -29,7 +29,7 @@ class Version16000Date20190427105638 extends SimpleMigrationStep {
 		$this->connection
 			->getQueryBuilder()
 			->delete('collres_accesscache')
-			->execute();
+			->executeStatement();
 	}
 
 	/**

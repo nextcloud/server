@@ -31,7 +31,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		if ($table->hasColumn('fileid')) {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->delete('properties');
-			$qb->execute();
+			$qb->executeStatement();
 		}
 	}
 
@@ -1008,6 +1008,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('dav_properties');
+		$result = $query->executeQuery();
 
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('properties')
@@ -1016,14 +1017,13 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			->setValue('propertyvalue', $insert->createParameter('propertyvalue'))
 			->setValue('userid', $insert->createParameter('userid'));
 
-		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			preg_match('/(calendar)\/([A-z0-9-@_]+)\//', $row['propertypath'], $match);
 			$insert->setParameter('propertypath', (string)$row['propertypath'])
 				->setParameter('propertyname', (string)$row['propertyname'])
 				->setParameter('propertyvalue', (string)$row['propertyvalue'])
 				->setParameter('userid', ($match[2] ?? ''));
-			$insert->execute();
+			$insert->executeStatement();
 		}
 	}
 }

@@ -62,6 +62,6 @@ class Version14000Date20180404140050 extends SimpleMigrationStep {
 
 		$qb->update('users')
 			->set('uid_lower', $qb->func()->lower('uid'));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 }
