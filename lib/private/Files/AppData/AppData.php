@@ -74,14 +74,16 @@ class AppData implements IAppData {
 	/**
 	 * {@inheritdoc}
 	 *
+	 * Wraps retrieved Folder in an SimpleFolder.
 	 * Uses an in-memory cache for performance.
+	 *
 	 * @throws \RuntimeException for unrecoverable errors
 	 */
 	public function getFolder(string $name): ISimpleFolder {
 		$cacheKey = $this->buildCacheKey($name);
 		// Check cache
 		$cachedFolder = $this->folders->get($cacheKey);			
-		if ($cachedFolder instanceOf ISimpleFolder) {
+		if ($cachedFolder instanceof ISimpleFolder) {
 			return $cachedFolder;
 		}
 		if ($cachedFolder instanceof NotFoundException) {
@@ -102,7 +104,7 @@ class AppData implements IAppData {
 				// We don't want to create the subfolder if it doesn't exist.
 				// So we retrieve the subfolder directly by path,
 				// instead of calling getOrCreateAppDataFolder().
-				$appDataPath = $this->getInstanceAppDataFolderName() . '/' . $this->appId . '/' . $name;
+				$appDataPath = $this->buildAppDataPath($name);
 				$requestedFolder = $this->rootFolder->get($appDataPath);
 			} catch (NotFoundException $e) {
 				$this->folders->set($cacheKey, $e);
@@ -110,7 +112,6 @@ class AppData implements IAppData {
 			}
 		}
 
-		// Wrap, cache, return (now moved to helper)
 		return $this->wrapAndCacheFolder($cacheKey, $requestedFolder);
 	}
 
@@ -121,7 +122,6 @@ class AppData implements IAppData {
 		$cacheKey = $this->buildCacheKey($name);
 		$newFolder = $this->getOrCreateAppDataFolder()->newFolder($name);
 
-		// Wrap, cache, return (now moved to helper)
 		return $this->wrapAndCacheFolder($cacheKey, $newFolder);
 	}
 
@@ -165,7 +165,7 @@ class AppData implements IAppData {
 			} catch (NotPermittedException $e) {
 				throw new \RuntimeException(
 					'Could not get nor create instance appdata folder '
-					. $instanceAppFolderName
+					. $instanceAppDataFolderName
 					. ' while trying to get or create dedicated appdata folder for '
 					. $this->appId
 					. '. Check data directory permissions!'
@@ -182,45 +182,50 @@ class AppData implements IAppData {
 	 * @throws \RuntimeException If the folder cannot be accessed or created.
 	 */
 	private function getOrCreateAppDataFolder(): Folder {
-		// Cached
 		if ($this->appDataFolder !== null) {
 			return $this->appDataFolder;
 		}
-		
-		$instanceAppDataFolderName = $this->getInstanceAppDataFolderName();
-		$appDataFolderName = $instanceAppDataFolderName . '/' . $this->appId;
 
 		// Try direct lookup
+		$appDataFolderName = $this->buildAppDataPath();
 		try {
 			$this->appDataFolder = $this->rootFolder->get($appDataFolderName);
+			return $this->appDataFolder;
 		} catch (NotFoundException $e) {
-			// XXX: This seems redundant...
-			// Not found, try instance + appId
-			$instanceAppDataFolder = $this->getInstanceAppDataFolder();
-			try {
-				$this->appDataFolder = $instanceAppDataFolder->get($this->appId);
-			} catch (NotFoundException $e) {
-				// Still not found, try to create
-				try {
-					$this->appDataFolder = $instanceAppDataFolder->newFolder($this->appId);
-				} catch (NotPermittedException $e) {
-					throw new \RuntimeException('Could not get nor create appdata folder for ' . $this->appId);
-				}
-			}
+			// Continue
 		}
-		return $this->appDataFolder;
+
+		// Try indirect lookup (instance + appId) - slower/more queries
+		// TODO: This fallback seems redundant/unnecessary at this point...
+		// - Can be removed since #12883?
+		// - I suspect it was just left in to be conservative, but is presumably already a no-op.
+		$instanceAppDataFolder = $this->getInstanceAppDataFolder();
+		try {
+			$this->appDataFolder = $instanceAppDataFolder->get($this->appId);
+			return $this->appDataFolder;
+		} catch (NotFoundException $e) {
+			// Continue
+		}
+
+		// Still not found, try to create
+		try {
+			$this->appDataFolder = $instanceAppDataFolder->newFolder($this->appId);
+			return $this->appDataFolder;
+		} catch (NotPermittedException $e) {
+			throw new \RuntimeException('Could not get nor create appdata folder for ' . $this->appId);
+		}
 	}
 
 	/**
 	 * Returns the numeric ID of the app-specific data folder.
 	 *
-	 * Protected rather than private since it's also used by downstream \OC\Preview\Storage\Root class.
+	 * Public rather than private since it's called by OC\Preview\BackgroundCleanupJob class.
 	 *
 	 * Note: Seems to only be used by downstream \OC\Preview\Storage\Root class.
 	 *
 	 * @return int The folder's unique identifier.
 	 */
-	protected function getId(): int {
+	public function getId(): int {
 		return $this->getOrCreateAppDataFolder()->getId();
 	}
 
@@ -249,5 +254,19 @@ class AppData implements IAppData {
 		$simpleFolder = new SimpleFolder($folder);
 		$this->folders->set($cacheKey, $simpleFolder);
 		return $simpleFolder;
+	}
+	
+	/**
+	 * Builds the full path to a subfolder in an app's appdata directory.
+	 *
+	 * If $subfolder is provided, returns the path to that subfolder;
+	 * otherwise returns the path to the root of the app's appdata folder.
+	 *
+	 * @param string|null $subfolder Optional subfolder name
+	 * @return string
+	 */
+	private function buildAppDataPath(?string $subfolder = null): string {
+		$base = $this->getInstanceAppDataFolderName() . '/' . $this->appId;
+		return $subfolder === null ? $base : $base . '/' . $subfolder;
 	}
 }
