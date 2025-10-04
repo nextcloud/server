@@ -48,8 +48,8 @@ const ldapConfigsStore = useLDAPConfigsStore()
 const { updatingConfig } = storeToRefs(ldapConfigsStore)
 
 const loading = ref(false)
-const result = ref<{ message: string, status: 'error' | 'success' } | null>(null)
-const isValide = computed(() => result.value?.status === 'success')
+const result = ref<{ success: boolean, message: string } | null>(null)
+const isValide = computed(() => result.value?.success)
 
 watch(updatingConfig, () => {
 	result.value = null
