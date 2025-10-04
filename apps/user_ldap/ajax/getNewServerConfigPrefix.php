@@ -15,11 +15,7 @@ use OCP\Server;
 \OC_JSON::callCheck();
 
 $helper = Server::get(Helper::class);
-$serverConnections = $helper->getServerConfigurationPrefixes();
-sort($serverConnections);
-$lk = array_pop($serverConnections);
-$ln = (int)str_replace('s', '', $lk);
-$nk = 's' . str_pad((string)($ln + 1), 2, '0', STR_PAD_LEFT);
+$nk = $helper->getNextServerConfigurationPrefix();
 
 $resultData = ['configPrefix' => $nk];
 
