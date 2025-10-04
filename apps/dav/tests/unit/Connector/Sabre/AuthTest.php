@@ -18,6 +18,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
+use OCP\Security\CSRF\ICsrfValidator;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -35,6 +36,7 @@ class AuthTest extends TestCase {
 	private IRequest&MockObject $request;
 	private Manager&MockObject $twoFactorManager;
 	private IThrottler&MockObject $throttler;
+	private ICsrfValidator $csrfValidator;
 	private Auth $auth;
 
 	protected function setUp(): void {
@@ -44,12 +46,14 @@ class AuthTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
 		$this->throttler = $this->createMock(IThrottler::class);
+		$this->csrfValidator = $this->createMock(ICsrfValidator::class);
 		$this->auth = new Auth(
 			$this->session,
 			$this->userSession,
 			$this->request,
 			$this->twoFactorManager,
-			$this->throttler
+			$this->throttler,
+			$this->csrfValidator,
 		);
 	}
 
@@ -228,9 +232,9 @@ class AuthTest extends TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$this->request
+		$this->csrfValidator
 			->expects($this->once())
-			->method('passesCSRFCheck')
+			->method('validate')
 			->willReturn(false);
 
 		$expectedResponse = [
@@ -269,9 +273,9 @@ class AuthTest extends TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$this->request
+		$this->csrfValidator
 			->expects($this->once())
-			->method('passesCSRFCheck')
+			->method('validate')
 			->willReturn(false);
 		$this->auth->check($request, $response);
 	}
@@ -308,9 +312,9 @@ class AuthTest extends TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$this->request
+		$this->csrfValidator
 			->expects($this->once())
-			->method('passesCSRFCheck')
+			->method('validate')
 			->willReturn(true);
 		$this->twoFactorManager->expects($this->once())
 			->method('needsSecondFactor')
@@ -351,9 +355,9 @@ class AuthTest extends TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$this->request
+		$this->csrfValidator
 			->expects($this->once())
-			->method('passesCSRFCheck')
+			->method('validate')
 			->willReturn(false);
 		$this->auth->check($request, $response);
 	}
@@ -386,9 +390,9 @@ class AuthTest extends TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$this->request
+		$this->csrfValidator
 			->expects($this->once())
-			->method('passesCSRFCheck')
+			->method('validate')
 			->willReturn(false);
 
 		$this->auth->check($request, $response);
@@ -443,9 +447,9 @@ class AuthTest extends TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$this->request
+		$this->csrfValidator
 			->expects($this->once())
-			->method('passesCSRFCheck')
+			->method('validate')
 			->willReturn(true);
 
 		$response = $this->auth->check($request, $response);

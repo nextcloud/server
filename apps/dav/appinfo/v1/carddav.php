@@ -32,6 +32,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
+use OCP\Security\CSRF\ICsrfValidator;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Plugin;
 
@@ -41,6 +42,7 @@ $authBackend = new Auth(
 	Server::get(IRequest::class),
 	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
 	Server::get(IThrottler::class),
+	Server::get(ICsrfValidator::class),
 	'principals/'
 );
 $principalBackend = new Principal(
