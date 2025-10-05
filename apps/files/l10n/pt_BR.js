@@ -310,7 +310,7 @@ OC.L10N.register(
     "(copy)" : "(cópia)",
     "(copy %n)" : "(cópia %n)",
     "A file or folder with that name already exists in this folder" : "Já existe um arquivo ou uma pasta com esse nome nesta pasta",
-    "The files are locked" : "Os arquivos estão bloqueados",
+    "The files are locked" : "Os arquivos estão trancados",
     "The file does not exist anymore" : "O arquivo não existe mais",
     "Choose destination" : "Escolher destino",
     "Copy to {target}" : "Copiar para {target}",

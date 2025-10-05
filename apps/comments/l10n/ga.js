@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Scrios nóta tráchta",
     "Cancel edit" : "Cealaigh eagarthóireacht",
     "New comment" : "Trácht nua",
+    "Write a comment …" : "Scríobh trácht …",
     "Post comment" : "Post trácht",
     "@ for mentions, : for emoji, / for smart picker" : "@ le haghaidh tagairtí, : le haghaidh emoji, / le haghaidh roghnóir cliste",
     "Could not reload comments" : "Níorbh fhéidir na nótaí tráchta a athlódáil",
