@@ -214,6 +214,7 @@ OC.L10N.register(
     "Can edit" : "Getur breytt",
     "Custom permissions" : "Sérsniðnar heimildir",
     "Resharing is not allowed" : "Endurdeiling er ekki leyfð",
+    "Searching …" : "Leita …",
     "No elements found." : "Engin stök fundust.",
     "Search everywhere" : "Leita allsstaðar",
     "Guest" : "Gestur",

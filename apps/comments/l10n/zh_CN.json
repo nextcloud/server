@@ -15,9 +15,10 @@
     "Delete comment" : "删除评论",
     "Cancel edit" : "取消编辑",
     "New comment" : "新评论",
+    "Write a comment …" : "写评论 …",
     "Post comment" : "发表评论",
     "@ for mentions, : for emoji, / for smart picker" : "使用“@”提及，“:”输入表情符号，“/”唤起智能选择",
-    "Could not reload comments" : "无法重载评论",
+    "Could not reload comments" : "无法重新加载评论",
     "Failed to mark comments as read" : "无法将评论标记为已读",
     "Unable to load the comments list" : "无法加载评论列表",
     "No comments yet, start the conversation!" : "还没有评论，开始对话吧！",
@@ -29,6 +30,6 @@
     "Comment deleted" : "评论已删除",
     "An error occurred while trying to delete the comment" : "删除评论时出错",
     "An error occurred while trying to create the comment" : "创建评论时出错",
-    "Write a comment …" : "发表评论 ..."
+    "Write a comment …" : "写评论 …"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
