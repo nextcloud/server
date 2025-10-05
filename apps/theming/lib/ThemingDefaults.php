@@ -1,40 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
+use OCP\Theming\IDefaults;
 
-class ThemingDefaults extends \OC_Defaults {
-
-	private string $name;
-	private string $title;
-	private string $entity;
-	private string $productName;
-	private string $url;
-	private string $backgroundColor;
-	private string $primaryColor;
-	private string $docBaseUrl;
+class ThemingDefaults implements IDefaults {
+	private ?\OC_Theme $theme = null;
+	private ?string $defaultSlogan = null;
 
 	private string $iTunesAppId;
 	private string $iOSClientUrl;
 	private string $AndroidClientUrl;
 	private string $FDroidClientUrl;
+	private string $defaultDocVersion;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -51,45 +50,69 @@ class ThemingDefaults extends \OC_Defaults {
 		private IAppManager $appManager,
 		private INavigationManager $navigationManager,
 		private BackgroundService $backgroundService,
+		ServerVersion $serverVersion,
 	) {
-		parent::__construct();
+		$themeName = $config->getSystemValueString('theme', '');
+		if ($themeName === '') {
+			if (is_dir(\OC::$SERVERROOT . '/themes/default')) {
+				$themeName = 'default';
+			}
+		}
+		$themePath = \OC::$SERVERROOT . '/themes/' . $themeName . '/defaults.php';
+		if (file_exists($themePath)) {
+			// prevent defaults.php from printing output
+			ob_start();
+			require_once $themePath;
+			ob_end_clean();
+			if (class_exists(\OC_Theme::class)) {
+				$this->theme = new \OC_Theme();
+			}
+		}
 
-		$this->name = parent::getName();
-		$this->title = parent::getTitle();
-		$this->entity = parent::getEntity();
-		$this->productName = parent::getProductName();
-		$this->url = parent::getBaseUrl();
-		$this->primaryColor = parent::getColorPrimary();
-		$this->backgroundColor = parent::getColorBackground();
-		$this->iTunesAppId = parent::getiTunesAppId();
-		$this->iOSClientUrl = parent::getiOSClientUrl();
-		$this->AndroidClientUrl = parent::getAndroidClientUrl();
-		$this->FDroidClientUrl = parent::getFDroidClientUrl();
-		$this->docBaseUrl = parent::getDocBaseUrl();
+		$this->iTunesAppId = $this->getFromLegacyTheme(
+			'getiTunesAppId',
+			$config->getSystemValueString('customclient_ios_appid', '1125420102')
+		);
+		$this->iOSClientUrl = $this->getFromLegacyTheme(
+			'getiOSClientUrl',
+			$config->getSystemValueString('customclient_ios', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8')
+		);
+		$this->AndroidClientUrl = $this->getFromLegacyTheme(
+			'getAndroidClientUrl',
+			$config->getSystemValueString('customclient_android', 'https://play.google.com/store/apps/details?id=com.nextcloud.client')
+		);
+		$this->FDroidClientUrl = $this->getFromLegacyTheme(
+			'getFDroidClientUrl',
+			$config->getSystemValueString('customclient_fdroid', 'https://f-droid.org/packages/com.nextcloud.client/')
+		);
+		$this->defaultDocVersion = (string)$serverVersion->getMajorVersion(); // used to generate doc links
 	}
 
-	public function getName() {
-		return strip_tags($this->config->getAppValue('theming', 'name', $this->name));
+	private function getFromLegacyTheme(string $method, string $default): string {
+		if (isset($this->theme) && method_exists($this->theme, $method)) {
+			return $this->theme->$method();
+		}
+		return $default;
 	}
 
-	public function getHTMLName() {
-		return $this->config->getAppValue('theming', 'name', $this->name);
+	public function getName(): string {
+		return strip_tags($this->appConfig->getAppValueString('name', $this->getFromLegacyTheme('getName', 'Nextcloud')));
 	}
 
-	public function getTitle() {
-		return strip_tags($this->config->getAppValue('theming', 'name', $this->title));
+	public function getTitle(): string {
+		return strip_tags($this->appConfig->getAppValueString('name', $this->getFromLegacyTheme('getTitle', 'Nextcloud')));
 	}
 
-	public function getEntity() {
-		return strip_tags($this->config->getAppValue('theming', 'name', $this->entity));
+	public function getEntity(): string {
+		return strip_tags($this->appConfig->getAppValueString('name', $this->getFromLegacyTheme('getEntity', 'Nextcloud')));
 	}
 
-	public function getProductName() {
-		return strip_tags($this->config->getAppValue('theming', 'productName', $this->productName));
+	public function getProductName(): string {
+		return strip_tags($this->appConfig->getAppValueString('productName', $this->getFromLegacyTheme('getProductName', 'Nextcloud')));
 	}
 
-	public function getBaseUrl() {
-		return $this->config->getAppValue('theming', 'url', $this->url);
+	public function getBaseUrl(): string {
+		return $this->appConfig->getAppValueString('url', $this->getFromLegacyTheme('getBaseUrl', 'https://nextcloud.com'));
 	}
 
 	/**
@@ -97,23 +120,33 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @psalm-suppress InvalidReturnStatement
 	 * @psalm-suppress InvalidReturnType
 	 */
-	public function getSlogan(?string $lang = null) {
-		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', parent::getSlogan($lang)));
+	public function getSlogan(?string $lang = null): string {
+		if ($this->appConfig->hasAppKey('slogan')) {
+			return \OCP\Util::sanitizeHTML($this->appConfig->getAppValueString('slogan'));
+		}
+		if (isset($this->theme) && method_exists($this->theme, 'getSlogan')) {
+			return $this->theme->getSlogan($lang);
+		}
+		if ($this->defaultSlogan === null) {
+			$l10n = \OCP\Util::getL10N('lib', $lang);
+			$this->defaultSlogan = $l10n->t('a safe home for all your data');
+		}
+		return $this->defaultSlogan;
 	}
 
-	public function getImprintUrl() {
-		return (string)$this->config->getAppValue('theming', 'imprintUrl', '');
+	public function getImprintUrl(): string {
+		return $this->appConfig->getAppValueString('imprintUrl', '');
 	}
 
-	public function getPrivacyUrl() {
-		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
+	public function getPrivacyUrl(): string {
+		return $this->appConfig->getAppValueString('privacyUrl', '');
 	}
 
-	public function getDocBaseUrl() {
-		return (string)$this->config->getAppValue('theming', 'docBaseUrl', $this->docBaseUrl);
+	public function getDocBaseUrl(): string {
+		return $this->appConfig->getAppValueString('docBaseUrl', $this->getFromLegacyTheme('getDocBaseUrl', 'https://docs.nextcloud.com'));
 	}
 
-	public function getShortFooter() {
+	public function getShortFooter(): string {
 		$slogan = $this->getSlogan();
 		$baseUrl = $this->getBaseUrl();
 		$entity = $this->getEntity();
@@ -132,11 +165,11 @@ class ThemingDefaults extends \OC_Defaults {
 		$links = [
 			[
 				'text' => $this->l->t('Legal notice'),
-				'url' => (string)$this->getImprintUrl()
+				'url' => $this->getImprintUrl()
 			],
 			[
 				'text' => $this->l->t('Privacy policy'),
-				'url' => (string)$this->getPrivacyUrl()
+				'url' => $this->getPrivacyUrl()
 			],
 		];
 
@@ -165,6 +198,13 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		return $footer;
+	}
+
+	/**
+	 * Returns long version of the footer
+	 */
+	public function getLongFooter(): string {
+		return $this->getFromLegacyTheme('getLongFooter', $this->getShortFooter());
 	}
 
 	/**
@@ -224,42 +264,40 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getDefaultColorPrimary(): string {
 		// try admin color
-		$defaultColor = $this->appConfig->getValueString(Application::APP_ID, 'primary_color', '');
+		$defaultColor = $this->appConfig->getAppValueString('primary_color', '');
 		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
 			return $defaultColor;
 		}
 
-		// fall back to default primary color
-		return $this->primaryColor;
+		return $this->getFromLegacyTheme('getColorPrimary', $this->getFromLegacyTheme('getMailHeaderColor', '#00679e'));
 	}
 
 	/**
 	 * Default background color only taking admin setting into account
 	 */
 	public function getDefaultColorBackground(): string {
-		$defaultColor = $this->appConfig->getValueString(Application::APP_ID, 'background_color');
+		$defaultColor = $this->appConfig->getAppValueString('background_color');
 		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
 			return $defaultColor;
 		}
 
-		return $this->backgroundColor;
+		return $this->getFromLegacyTheme('getColorBackground', '#00679e');
 	}
 
 	/**
 	 * Themed logo url
 	 *
 	 * @param bool $useSvg Whether to point to the SVG image or a fallback
-	 * @return string
 	 */
-	public function getLogo($useSvg = true): string {
-		$logo = $this->config->getAppValue('theming', 'logoMime', '');
+	public function getLogo(bool $useSvg = true): string {
+		$logo = $this->appConfig->getAppValueString('logoMime', '');
 
 		// short cut to avoid setting up the filesystem just to check if the logo is there
 		//
 		// explanation: if an SVG is requested and the app config value for logoMime is set then the logo is there.
 		// otherwise we need to check it and maybe also generate a PNG from the SVG (that's done in getImage() which
 		// needs to be called then)
-		if ($useSvg === true && $logo !== false) {
+		if ($useSvg === true && $logo !== '') {
 			$logoExists = true;
 		} else {
 			try {
@@ -270,9 +308,9 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 		}
 
-		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$cacheBusterCounter = $this->appConfig->getAppValueString('cachebuster', '0');
 
-		if (!$logo || !$logoExists) {
+		if ($logo !== '' || !$logoExists) {
 			if ($useSvg) {
 				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.svg');
 			} else {
@@ -288,82 +326,32 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Themed background image url
 	 *
 	 * @param bool $darkVariant if the dark variant (if available) of the background should be used
-	 * @return string
 	 */
 	public function getBackground(bool $darkVariant = false): string {
 		return $this->imageManager->getImageUrl('background' . ($darkVariant ? 'Dark' : ''));
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getiTunesAppId() {
-		return $this->config->getAppValue('theming', 'iTunesAppId', $this->iTunesAppId);
+	public function getiTunesAppId(): string {
+		return $this->appConfig->getAppValueString('iTunesAppId', $this->iTunesAppId);
+	}
+
+	public function getiOSClientUrl(): string {
+		return $this->appConfig->getAppValueString('iOSClientUrl', $this->iOSClientUrl);
+	}
+
+	public function getAndroidClientUrl(): string {
+		return $this->appConfig->getAppValueString('AndroidClientUrl', $this->AndroidClientUrl);
+	}
+
+	public function getFDroidClientUrl(): string {
+		return $this->appConfig->getAppValueString('FDroidClientUrl', $this->FDroidClientUrl);
 	}
 
 	/**
-	 * @return string
+	 * Returns the URL where the sync clients are listed
 	 */
-	public function getiOSClientUrl() {
-		return $this->config->getAppValue('theming', 'iOSClientUrl', $this->iOSClientUrl);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAndroidClientUrl() {
-		return $this->config->getAppValue('theming', 'AndroidClientUrl', $this->AndroidClientUrl);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFDroidClientUrl() {
-		return $this->config->getAppValue('theming', 'FDroidClientUrl', $this->FDroidClientUrl);
-	}
-
-	/**
-	 * @return array scss variables to overwrite
-	 * @deprecated since Nextcloud 22 - https://github.com/nextcloud/server/issues/9940
-	 */
-	public function getScssVariables() {
-		$cacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
-		$cache = $this->cacheFactory->createDistributed('theming-' . $cacheBuster . '-' . $this->urlGenerator->getBaseUrl());
-		if ($value = $cache->get('getScssVariables')) {
-			return $value;
-		}
-
-		$variables = [
-			'theming-cachebuster' => "'" . $cacheBuster . "'",
-			'theming-logo-mime' => "'" . $this->config->getAppValue('theming', 'logoMime') . "'",
-			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime') . "'",
-			'theming-logoheader-mime' => "'" . $this->config->getAppValue('theming', 'logoheaderMime') . "'",
-			'theming-favicon-mime' => "'" . $this->config->getAppValue('theming', 'faviconMime') . "'"
-		];
-
-		$variables['image-logo'] = "url('" . $this->imageManager->getImageUrl('logo') . "')";
-		$variables['image-logoheader'] = "url('" . $this->imageManager->getImageUrl('logoheader') . "')";
-		$variables['image-favicon'] = "url('" . $this->imageManager->getImageUrl('favicon') . "')";
-		$variables['image-login-background'] = "url('" . $this->imageManager->getImageUrl('background') . "')";
-		$variables['image-login-plain'] = 'false';
-
-		if ($this->appConfig->getValueString(Application::APP_ID, 'primary_color', '') !== '') {
-			$variables['color-primary'] = $this->getColorPrimary();
-			$variables['color-primary-text'] = $this->getTextColorPrimary();
-			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
-		}
-
-		if ($this->config->getAppValue('theming', 'backgroundMime', '') === 'backgroundColor') {
-			$variables['image-login-plain'] = 'true';
-		}
-
-		$variables['has-legal-links'] = 'false';
-		if ($this->getImprintUrl() !== '' || $this->getPrivacyUrl() !== '') {
-			$variables['has-legal-links'] = 'true';
-		}
-
-		$cache->set('getScssVariables', $variables);
-		return $variables;
+	public function getSyncClientUrl(): string {
+		return $this->getFromLegacyTheme('getSyncClientUrl', $this->config->getSystemValueString('customclient_desktop', 'https://nextcloud.com/install/#install-clients'));
 	}
 
 	/**
@@ -372,15 +360,15 @@ class ThemingDefaults extends \OC_Defaults {
 	 *
 	 * @param string $app name of the app
 	 * @param string $image filename of the image
-	 * @return bool|string false if image should not replaced, otherwise the location of the image
+	 * @return string|false false if image should not replaced, otherwise the location of the image
 	 */
-	public function replaceImagePath($app, $image) {
+	public function replaceImagePath(string $app, string $image): string|false {
 		if ($app === '' || $app === 'files_sharing') {
 			$app = 'core';
 		}
-		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$cacheBusterValue = $this->appConfig->getAppValueString('cachebuster', '0');
 
-		$route = false;
+		$route = '';
 		if ($image === 'favicon.ico' && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
@@ -401,7 +389,7 @@ class ThemingDefaults extends \OC_Defaults {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
 		}
 
-		if ($route) {
+		if ($route !== '') {
 			return $route . '?v=' . $this->util->getCacheBuster();
 		}
 
@@ -420,20 +408,17 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Increases the cache buster key
 	 */
 	public function increaseCacheBuster(): void {
-		$cacheBusterKey = (int)$this->config->getAppValue('theming', 'cachebuster', '0');
-		$this->config->setAppValue('theming', 'cachebuster', (string)($cacheBusterKey + 1));
+		$cacheBusterKey = (int)$this->appConfig->getAppValueString('cachebuster', '0');
+		$this->appConfig->setAppValueString('cachebuster', (string)($cacheBusterKey + 1));
 		$this->cacheFactory->createDistributed('theming-')->clear();
 		$this->cacheFactory->createDistributed('imagePath')->clear();
 	}
 
 	/**
 	 * Update setting in the database
-	 *
-	 * @param string $setting
-	 * @param string $value
 	 */
-	public function set($setting, $value): void {
-		$this->appConfig->setValueString('theming', $setting, $value);
+	public function set(string $setting, string $value): void {
+		$this->appConfig->setAppValueString($setting, $value);
 		$this->increaseCacheBuster();
 	}
 
@@ -443,9 +428,9 @@ class ThemingDefaults extends \OC_Defaults {
 	public function undoAll(): void {
 		// Remember the current cachebuster value, as we do not want to reset this value
 		// Otherwise this can lead to caching issues as the value might be known to a browser already
-		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
-		$this->config->deleteAppValues('theming');
-		$this->config->setAppValue('theming', 'cachebuster', $cacheBusterKey);
+		$cacheBusterKey = $this->appConfig->getAppValueString('cachebuster', '0');
+		$this->appConfig->deleteAppValues();
+		$this->appConfig->setAppValueString('cachebuster', $cacheBusterKey);
 		$this->increaseCacheBuster();
 	}
 
@@ -455,8 +440,8 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param string $setting setting which should be reverted
 	 * @return string default value
 	 */
-	public function undo($setting): string {
-		$this->config->deleteAppValue('theming', $setting);
+	public function undo(string $setting): string {
+		$this->appConfig->deleteAppValue($setting);
 		$this->increaseCacheBuster();
 
 		$returnValue = '';
@@ -485,7 +470,7 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'background':
 			case 'favicon':
 				$this->imageManager->delete($setting);
-				$this->config->deleteAppValue('theming', $setting . 'Mime');
+				$this->appConfig->deleteAppValue($setting . 'Mime');
 				break;
 		}
 
@@ -494,28 +479,22 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * Color of text in the header menu
-	 *
-	 * @return string
 	 */
-	public function getTextColorBackground() {
+	public function getTextColorBackground(): string {
 		return $this->util->invertTextColor($this->getColorBackground()) ? '#000000' : '#ffffff';
 	}
 
 	/**
 	 * Color of text on primary buttons and other elements
-	 *
-	 * @return string
 	 */
-	public function getTextColorPrimary() {
+	public function getTextColorPrimary(): string {
 		return $this->util->invertTextColor($this->getColorPrimary()) ? '#000000' : '#ffffff';
 	}
 
 	/**
 	 * Color of text in the header and primary buttons
-	 *
-	 * @return string
 	 */
-	public function getDefaultTextColorPrimary() {
+	public function getDefaultTextColorPrimary(): string {
 		return $this->util->invertTextColor($this->getDefaultColorPrimary()) ? '#000000' : '#ffffff';
 	}
 
@@ -523,6 +502,16 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Has the admin disabled user customization
 	 */
 	public function isUserThemingDisabled(): bool {
-		return $this->appConfig->getValueBool(Application::APP_ID, 'disable-user-theming');
+		return $this->appConfig->getAppValueBool('disable-user-theming');
+	}
+
+	/**
+	 * @return string URL to doc with key
+	 */
+	public function buildDocLinkToKey(string $key): string {
+		if (isset($this->theme) && method_exists($this->theme, 'buildDocLinkToKey')) {
+			return $this->theme->buildDocLinkToKey($key);
+		}
+		return $this->getDocBaseUrl() . '/server/' . $this->defaultDocVersion . '/go.php?to=' . $key;
 	}
 }

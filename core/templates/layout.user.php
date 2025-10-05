@@ -6,7 +6,7 @@
  */
 
 /**
- * @var \OC_Defaults $theme
+ * @var \OCP\Theming\IDefaults $theme
  * @var array $_
  */
 

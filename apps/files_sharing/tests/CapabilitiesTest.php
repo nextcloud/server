@@ -27,6 +27,7 @@ use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IProviderFactory;
+use OCP\Theming\IDefaults;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -93,7 +94,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IRootFolder::class),
 			$this->createMock(IMailer::class),
 			$this->createMock(IURLGenerator::class),
-			$this->createMock(\OC_Defaults::class),
+			$this->createMock(IDefaults::class),
 			$this->createMock(IEventDispatcher::class),
 			$this->createMock(IUserSession::class),
 			$this->createMock(KnownUserService::class),

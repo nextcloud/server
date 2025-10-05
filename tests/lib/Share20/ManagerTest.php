@@ -58,6 +58,7 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
+use OCP\Theming\IDefaults;
 use OCP\Util;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -109,7 +110,7 @@ class ManagerTest extends \Test\TestCase {
 	protected $mailer;
 	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
-	/** @var \OC_Defaults|MockObject */
+	/** @var IDefaults|MockObject */
 	protected $defaults;
 	/** @var IUserSession|MockObject */
 	protected $userSession;
@@ -134,7 +135,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->defaults = $this->createMock(\OC_Defaults::class);
+		$this->defaults = $this->createMock(IDefaults::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);

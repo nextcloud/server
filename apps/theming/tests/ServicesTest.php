@@ -46,7 +46,6 @@ class ServicesTest extends TestCase {
 			[Capabilities::class],
 			[Capabilities::class, ICapability::class],
 			[ThemingDefaults::class],
-			[ThemingDefaults::class, \OC_Defaults::class],
 			[Util::class],
 
 			// Controller
