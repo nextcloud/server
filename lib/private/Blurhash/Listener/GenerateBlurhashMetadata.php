@@ -64,7 +64,9 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
-		if (!str_starts_with($file->getMimetype(), 'image/')) {
+		// Check mimetype
+		$mimetype = $file->getMimetype();
+		if ($mimetype === null || !str_starts_with($file->getMimetype(), 'image/')) {
 			return;
 		}
 
