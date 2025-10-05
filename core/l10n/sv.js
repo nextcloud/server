@@ -125,6 +125,7 @@ OC.L10N.register(
     "Search in current app" : "Sök i nuvarande app",
     "Clear search" : "Rensa sökning",
     "Search everywhere" : "Sök överallt",
+    "Searching …" : "Söker …",
     "Start typing to search" : "Börja skriva för att söka",
     "No matching results" : "Inga matchande resultat",
     "Today" : "Idag",

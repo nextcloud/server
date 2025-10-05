@@ -101,6 +101,7 @@
     "Enter missing credentials" : "Cuir isteach dintiúir atá in easnamh",
     "Credentials successfully set" : "Socraíodh na dintiúir go rathúil",
     "Error while setting credentials: {error}" : "Earráid agus na dintiúir á socrú: {error}",
+    "Checking storage …" : "Ag seiceáil stórais …",
     "There was an error with this external storage." : "Tharla earráid leis an stóras seachtrach seo.",
     "We were unable to check the external storage {basename}" : "Níorbh fhéidir linn an stóras seachtrach {basename} a sheiceáil",
     "Examine this faulty external storage configuration" : "Scrúdaigh an chumraíocht stórála seachtrach lochtach seo",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Futa maoni",
     "Cancel edit" : "Sistisha uhariri",
     "New comment" : "Maoni mapya",
+    "Write a comment …" : "Andika oni  ...",
     "Post comment" : "Tuma maoni",
     "@ for mentions, : for emoji, / for smart picker" : "@ kwa mitajo, : kwa emoji, / kwa kichagua smart",
     "Could not reload comments" : "Haikuweza kupakia maoni",
