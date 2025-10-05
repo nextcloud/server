@@ -84,9 +84,13 @@ describe('Default setup page', () => {
 		cy.mockInitialState('core', 'config', config)
 		cy.mount(SetupView)
 
-		// No DB radio selectors if only sqlite
 		cy.get('[data-cy-setup-form-field^="dbtype"]')
-			.should('not.exist')
+			.should('exist')
+			.should('not.be.visible')
+			.find('input')
+			.should('be.checked')
+
+		cy.get('[data-cy-setup-form-field="dbtype-sqlite"]').should('exist')
 
 		// Two warnings: sqlite and single db support
 		cy.get('[data-cy-setup-form-db-note="sqlite"]')
@@ -94,10 +98,10 @@ describe('Default setup page', () => {
 		cy.get('[data-cy-setup-form-db-note="single-db"]')
 			.should('be.visible')
 
-		// Admin login, password and data directory
+		// Admin login, password, data directory and db type
 		cy.get('[data-cy-setup-form-field]')
 			.should('be.visible')
-			.should('have.length', 3)
+			.should('have.length', 4)
 	})
 
 	it('Renders single DB mysql', () => {
@@ -110,9 +114,11 @@ describe('Default setup page', () => {
 		cy.mockInitialState('core', 'config', config)
 		cy.mount(SetupView)
 
-		// No DB radio selectors if only mysql
 		cy.get('[data-cy-setup-form-field^="dbtype"]')
-			.should('not.exist')
+			.should('exist')
+			.should('not.be.visible')
+			.find('input')
+			.should('be.checked')
 
 		// Single db support warning
 		cy.get('[data-cy-setup-form-db-note="single-db"]')
@@ -124,11 +130,11 @@ describe('Default setup page', () => {
 		cy.get('[data-cy-setup-form-db-note="sqlite"]')
 			.should('not.exist')
 
-		// Admin login, password, data directory, db user,
+		// Admin login, password, data directory, db type, db user,
 		// db password, db name and db host
 		cy.get('[data-cy-setup-form-field]')
 			.should('be.visible')
-			.should('have.length', 7)
+			.should('have.length', 8)
 	})
 
 	it('Changes fields from sqlite to mysql then oci', () => {
