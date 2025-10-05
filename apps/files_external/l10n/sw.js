@@ -103,6 +103,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Weka vitambulisho ambavyo havipo",
     "Credentials successfully set" : "Vitambulisho vimewekwa kikamilifu",
     "Error while setting credentials: {error}" : "Hitilafu wakati wa kuweka vitambulisho: {error}",
+    "Checking storage …" : "Inakagua hifadhi …",
     "There was an error with this external storage." : "Kulikuwa na hitilafu na hifadhi hii ya nje.",
     "We were unable to check the external storage {basename}" : " Hatukuweza kuangalia hifadhi ya nje {basename}",
     "Examine this faulty external storage configuration" : "Chunguza usanidi huu wa hifadhi ya nje wenye hitilafu",

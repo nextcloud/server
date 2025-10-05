@@ -11,6 +11,7 @@
     "Invalid data specified" : "Sonraí neamhbhailí",
     "Could not set configuration %1$s to %2$s" : "Níorbh fhéidir cumraíocht %1$s a shocrú go %2$s",
     "Action does not exist" : "Ní gníomh ann",
+    "Renewing …" : "Ag athnuachan …",
     "Very weak password" : "Focal faire an-lag",
     "Weak password" : "Pasfhocal lag",
     "So-so password" : "mar sin-sin pasfhocal",

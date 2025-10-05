@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Eyða athugasemd",
     "Cancel edit" : "Hætta við breytingar",
     "New comment" : "Ný athugasemd",
+    "Write a comment …" : "Skrifaðu athugasemd ...",
     "Post comment" : "Senda inn athugasemd",
     "@ for mentions, : for emoji, / for smart picker" : "@ til að minnast á, : fyrir tjáningartákn, / fyrir snjallveljara",
     "Could not reload comments" : "Gat ekki endurlesið athugasemdir",
