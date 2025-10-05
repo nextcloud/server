@@ -31,6 +31,9 @@ class Image implements IImage {
 	// Default quality for webp images
 	protected const DEFAULT_WEBP_QUALITY = 80;
 
+	// Default quality for avif images
+	protected const DEFAULT_AVIF_QUALITY = 50;
+
 	// tmp resource.
 	protected GdImage|false $resource = false;
 	// Default to png if file type isn't evident.
@@ -240,8 +243,24 @@ class Image implements IImage {
 				case 'image/webp':
 					$imageType = IMAGETYPE_WEBP;
 					break;
+				case 'image/avif':
+					$imageType = IMAGETYPE_JPEG;
+					break;
 				default:
 					throw new \Exception('Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
+			}
+		}
+
+		if ($this->mimeType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					$imageType = IMAGETYPE_WEBP;
+					break;
+				case 'avif':
+					$imageType = IMAGETYPE_AVIF;
+					break;
+				default:
 			}
 		}
 
@@ -272,6 +291,9 @@ class Image implements IImage {
 				break;
 			case IMAGETYPE_WEBP:
 				$retVal = imagewebp($this->resource, null, $this->getWebpQuality());
+				break;
+			case IMAGETYPE_AVIF:
+				$retVal = imageavif($this->resource, $filePath, $this->getAvifQuality(), 10);
 				break;
 			default:
 				$retVal = imagepng($this->resource, $filePath);
@@ -308,12 +330,25 @@ class Image implements IImage {
 			return null;
 		}
 
+		if ($this->mimeType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					return 'image/webp';
+				case 'avif':
+					return 'image/avif';
+				default:
+			}
+		}
+
 		switch ($this->mimeType) {
 			case 'image/png':
 			case 'image/jpeg':
 			case 'image/gif':
 			case 'image/webp':
 				return $this->mimeType;
+			case 'image/avif':
+				return 'image/jpeg';
 			default:
 				return 'image/png';
 		}
@@ -327,6 +362,22 @@ class Image implements IImage {
 			return null;
 		}
 		ob_start();
+		$imageType = $this->imageType;
+		if ($imageType == 'image/avif') {
+			$imageType = 'image/jpeg';
+		}
+		if ($imageType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					$imageType = 'image/webp';
+					break;
+				case 'avif':
+					$imageType = 'image/avif';
+					break;
+				default:
+			}
+		}
 		switch ($this->mimeType) {
 			case 'image/png':
 				$res = imagepng($this->resource);
@@ -341,6 +392,9 @@ class Image implements IImage {
 				break;
 			case 'image/webp':
 				$res = imagewebp($this->resource, null, $this->getWebpQuality());
+				break;
+			case "image/avif":
+				$res = imageavif($this->resource, null, $this->getAvifQuality(), 10);
 				break;
 			default:
 				$res = imagepng($this->resource);
@@ -368,6 +422,11 @@ class Image implements IImage {
 	protected function getJpegQuality(): int {
 		$quality = $this->appConfig->getValueInt('preview', 'jpeg_quality', self::DEFAULT_JPEG_QUALITY);
 		return min(100, max(10, $quality));
+	}
+
+	protected function getAvifQuality(): int {
+		$quality = $this->config->getAppValue('preview', 'avif_quality', self::DEFAULT_AVIF_QUALITY);
+		return min(100, max(10, (int) $quality));
 	}
 
 	protected function getWebpQuality(): int {
@@ -672,6 +731,43 @@ class Image implements IImage {
 					$this->resource = @imagecreatefromwbmp($imagePath);
 				} else {
 					$this->logger->debug('Image->loadFromFile, WBMP images not supported: ' . $imagePath, ['app' => 'core']);
+				}
+				break;
+			case IMAGETYPE_AVIF:
+				if (imagetypes() & IMG_AVIF) {
+					if (!$this->checkImageSize($imagePath)) {
+						return false;
+					}
+
+					$this->resource = @imagecreatefromavif($imagePath);
+					
+			        // Check for irot box and apply rotation if needed
+			        if ($this->resource && function_exists('imagerotate')) {
+			            $fp = fopen($imagePath, 'rb');
+			            if ($fp) {
+			                $data = fread($fp, 512);
+			                fclose($fp);
+			
+			                if ($data !== false) {
+			                    $pos = strpos($data, 'irot');
+			                    if ($pos !== false && ($pos + 4 < strlen($data))) {
+			                        $rotationByte = ord($data[$pos + 4]);
+			                        $rotation = match ($rotationByte) {
+			                            1 => 90,
+			                            2 => 180,
+			                            3 => 270,
+			                            default => 0,
+			                        };
+			                        if ($rotation !== 0) {
+			                            $this->resource = imagerotate($this->resource, $rotation, 0);
+			                        }
+			                    }
+			                }
+			            }
+			        }
+					
+				} else {
+					$this->logger->debug('OC_Image->loadFromFile, AVIF images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 			case IMAGETYPE_BMP:
