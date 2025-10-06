@@ -44,11 +44,14 @@ class WizardController extends OCSController {
 	 * 200: Wizard action result
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	#[ApiRoute(verb: 'POST', url: '/api/v1/wizard/{configID}/{action}')]
-	public function action(string $configID, string $action, ?string $loginName, ?string $key, ?string $val) {
+	#[ApiRoute(verb: 'POST', url: '/api/v1/wizard/{configID}/{wizardAction}')]
+	public function action(
+		string $configID, string $wizardAction,
+		?string $loginName = null, ?string $key = null, ?string $val = null,
+	) {
 		try {
 			$wizard = $this->wizardFactory->get($configID);
-			switch ($action) {
+			switch ($wizardAction) {
 				case 'guessPortAndTLS':
 				case 'guessBaseDN':
 				case 'detectEmailAttribute':
@@ -66,7 +69,7 @@ class WizardController extends OCSController {
 				case 'countGroups':
 				case 'countInBaseDN':
 					try {
-						$result = $wizard->$action();
+						$result = $wizard->$wizardAction();
 						if ($result !== false) {
 							return new DataResponse($result->getResultArray());
 						}
@@ -80,7 +83,7 @@ class WizardController extends OCSController {
 						if ($loginName === null || $loginName === '') {
 							throw new OCSException('No login name passed');
 						}
-						$result = $wizard->$action($loginName);
+						$result = $wizard->$wizardAction($loginName);
 						if ($result !== false) {
 							return new DataResponse($result->getResultArray());
 						}
