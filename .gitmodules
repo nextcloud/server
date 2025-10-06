@@ -76,3 +76,6 @@
 [submodule "apps-external/assistant"]
 	path = apps-external/assistant
 	url = git@github.com:IONOS-Productivity/nc-assistant.git
+[submodule "apps-external/integration_openai"]
+	path = apps-external/integration_openai
+	url = git@github.com:nextcloud/integration_openai.git
