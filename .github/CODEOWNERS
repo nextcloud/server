@@ -15,6 +15,8 @@
 **/js                                         @nextcloud/server-frontend
 **/src                                        @nextcloud/server-frontend
 *.js                                          @nextcloud/server-frontend
+*.cjs                                         @nextcloud/server-frontend
+*.mjs                                         @nextcloud/server-frontend
 *.ts                                          @nextcloud/server-frontend
 
 # dependency management
