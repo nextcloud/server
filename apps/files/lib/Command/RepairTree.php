@@ -25,7 +25,7 @@ class RepairTree extends Command {
 	protected function configure(): void {
 		$this
 			->setName('files:repair-tree')
-			->setDescription('Try and repair malformed filesystem tree structures')
+			->setDescription('Try and repair malformed filesystem tree structures (may be necessary to run multiple times for nested malformations)')
 			->addOption('dry-run');
 	}
 
