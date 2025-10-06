@@ -109,8 +109,9 @@ class EtagPropagationTest extends PropagationTestCase {
 		$view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		$view2->mkdir('/sub1/sub2');
 		$view2->rename('/folder', '/sub1/sub2/folder');
+		
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
-
+		$view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');	
 		$insideInfo = $view2->getFileInfo('/sub1/sub2/folder/inside');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $insideInfo);
 
