@@ -183,6 +183,13 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_forms_app"
+            },
+            {
+              "name": "text",
+              "path": "apps-external/text",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_text_app"
             }
           ]'
 
