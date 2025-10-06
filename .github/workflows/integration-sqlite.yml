@@ -73,7 +73,7 @@ jobs:
           - 'theming_features'
           - 'videoverification_features'
 
-        php-versions: ['8.1']
+        php-versions: ['8.4']
         spreed-versions: ['main']
         activity-versions: ['master']
 

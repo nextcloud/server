@@ -61,9 +61,9 @@ jobs:
       matrix:
         include:
           - oracle-versions: '11'
-            php-versions: '8.1'
+            php-versions: '8.2'
           - oracle-versions: '18'
-            php-versions: '8.1'
+            php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
           - oracle-versions: '21'
             php-versions: '8.2'

@@ -59,9 +59,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.3', '8.4']
+        php-versions: ['8.3', '8.4']
         include:
-          - php-versions: '8.1'
+          - php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: SQLite (PHP ${{ matrix.php-versions }})

@@ -59,7 +59,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1']
+        php-versions: ['8.2']
         mariadb-versions: ['10.3', '10.6', '10.11', '11.4', '11.8']
         include:
           - php-versions: '8.3'
