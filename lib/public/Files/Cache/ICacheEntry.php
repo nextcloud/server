@@ -8,6 +8,7 @@
 namespace OCP\Files\Cache;
 
 use ArrayAccess;
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * meta data for a file or folder
@@ -19,6 +20,7 @@ use ArrayAccess;
  * implemented it in the private implementation. Hence php would allow using the
  * object as array, while strictly speaking it didn't support this.
  */
+#[Consumable(since: '9.0.0')]
 interface ICacheEntry extends ArrayAccess {
 	/**
 	 * @since 9.0.0
@@ -60,10 +62,9 @@ interface ICacheEntry extends ArrayAccess {
 	/**
 	 * Get the full mimetype
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getMimeType();
+	public function getMimeType(): string;
 
 	/**
 	 * Get the first part of the mimetype
