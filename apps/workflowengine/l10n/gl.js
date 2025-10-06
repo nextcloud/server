@@ -71,6 +71,7 @@ OC.L10N.register(
     "Select a user agent" : "Seleccionar un axente de usuario",
     "Select groups" : "Seleccionar grupos",
     "Groups" : "Grupos",
+    "Type to search for group …" : "Escriba para buscar por grupo…",
     "Select a trigger" : "Seleccione un activador",
     "At least one event must be selected" : "Ten que seleccionar polo menos un evento",
     "Add new flow" : "Engadir un novo fluxo",

@@ -201,7 +201,7 @@ OC.L10N.register(
     "Mode switch" : "Modus wechseln",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Das Umschalten des Modus ermöglicht automatische LDAP-Abfragen. Abhängig von deiner LDAP-Größe können diese einige Zeit in Anspruch nehmen. Soll wirklich der Modus gewechselt werden?",
     "Cancel" : "Abbrechen",
-    "Confirm" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Confirm" : "Bestätigen",
     "Groups meeting these criteria are available in %s:" : "Gruppen, auf die diese Kriterien zutreffen, sind verfügbar in %s:",
     "Search groups" : "Gruppen suchen",
     "Available groups" : "Verfügbare Gruppen",
