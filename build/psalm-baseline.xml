@@ -145,6 +145,7 @@
     <InternalMethod>
       <code><![CDATA[Filesystem::logWarningWhenAddingStorageWrapper($previousLog)]]></code>
       <code><![CDATA[Filesystem::logWarningWhenAddingStorageWrapper(false)]]></code>
+      <code><![CDATA[new View($node->getPath())]]></code>
     </InternalMethod>
     <UndefinedGlobalVariable>
       <code><![CDATA[$baseuri]]></code>
@@ -181,6 +182,9 @@
     <DeprecatedMethod>
       <code><![CDATA[OC_App::loadApps($RUNTIME_APPTYPES)]]></code>
     </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[new View($node->getPath())]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/dav/appinfo/v2/remote.php">
     <DeprecatedClass>
@@ -636,6 +640,31 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Directory.php">
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[isCreatable]]></code>
+      <code><![CDATA[isCreatable]]></code>
+      <code><![CDATA[isCreatable]]></code>
+      <code><![CDATA[isDeletable]]></code>
+      <code><![CDATA[isUpdatable]]></code>
+      <code><![CDATA[lockFile]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[rmdir]]></code>
+      <code><![CDATA[unlockFile]]></code>
+      <code><![CDATA[verifyPath]]></code>
+      <code><![CDATA[verifyPath]]></code>
+      <code><![CDATA[verifyPath]]></code>
+      <code><![CDATA[verifyPath]]></code>
+      <code><![CDATA[verifyPath]]></code>
+    </InternalMethod>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$nodes]]></code>
     </InvalidPropertyAssignmentValue>
@@ -667,6 +696,27 @@
     <DeprecatedMethod>
       <code><![CDATA[Files::streamCopy($data, $target, true)]]></code>
     </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[fopen]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[hash]]></code>
+      <code><![CDATA[isCreatable]]></code>
+      <code><![CDATA[isUpdatable]]></code>
+      <code><![CDATA[putFileInfo]]></code>
+      <code><![CDATA[putFileInfo]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[unlink]]></code>
+    </InternalMethod>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
@@ -691,6 +741,21 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Node.php">
+    <InternalMethod>
+      <code><![CDATA[changeLock]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[lockFile]]></code>
+      <code><![CDATA[putFileInfo]]></code>
+      <code><![CDATA[putFileInfo]]></code>
+      <code><![CDATA[putFileInfo]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[unlockFile]]></code>
+      <code><![CDATA[verifyPath]]></code>
+    </InternalMethod>
     <InvalidNullableReturnType>
       <code><![CDATA[int]]></code>
       <code><![CDATA[integer]]></code>
@@ -699,6 +764,18 @@
       <code><![CDATA[$this->info->getId()]]></code>
       <code><![CDATA[$this->info->getId()]]></code>
     </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/Connector/Sabre/ObjectTree.php">
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getMount]]></code>
+      <code><![CDATA[verifyPath]]></code>
+      <code><![CDATA[verifyPath]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Principal.php">
     <DeprecatedMethod>
@@ -729,11 +806,20 @@
       <code><![CDATA[Circles]]></code>
     </UndefinedClass>
   </file>
+  <file src="apps/dav/lib/Connector/Sabre/QuotaPlugin.php">
+    <InternalMethod>
+      <code><![CDATA[free_space]]></code>
+    </InternalMethod>
+  </file>
   <file src="apps/dav/lib/Connector/Sabre/ServerFactory.php">
     <DeprecatedMethod>
       <code><![CDATA[getL10NFactory]]></code>
       <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getRoot]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ShareTypeList.php">
     <InvalidArgument>
@@ -811,6 +897,9 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/Files/FileSearchBackend.php">
+    <InternalMethod>
+      <code><![CDATA[getRelativePath]]></code>
+    </InternalMethod>
     <InvalidReturnStatement>
       <code><![CDATA[$value]]></code>
     </InvalidReturnStatement>
@@ -995,6 +1084,14 @@
     </RedundantFunctionCall>
   </file>
   <file src="apps/dav/lib/Upload/ChunkingV2Plugin.php">
+    <InternalClass>
+      <code><![CDATA[new View()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[new View()]]></code>
+      <code><![CDATA[putFileInfo]]></code>
+    </InternalMethod>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getId]]></code>
       <code><![CDATA[getId]]></code>
@@ -1003,6 +1100,14 @@
       <code><![CDATA[getNode]]></code>
       <code><![CDATA[getSize]]></code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/dav/lib/Upload/UploadHome.php">
+    <InternalClass>
+      <code><![CDATA[new View($folder->getPath())]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[new View($folder->getPath())]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/dav/lib/UserMigration/ContactsMigrator.php">
     <LessSpecificReturnStatement>
@@ -1017,6 +1122,71 @@
       <code><![CDATA[array{name: string, displayName: string, description: ?string, vCards: VCard[]}]]></code>
     </MoreSpecificReturnType>
   </file>
+  <file src="apps/encryption/lib/Command/DropLegacyFileKey.php">
+    <InternalClass>
+      <code><![CDATA[new View()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[fopen]]></code>
+      <code><![CDATA[fopen]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View()]]></code>
+      <code><![CDATA[stat]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[unlink]]></code>
+      <code><![CDATA[unlink]]></code>
+    </InternalMethod>
+  </file>
+  <file src="apps/encryption/lib/Command/FixEncryptedVersion.php">
+    <InternalMethod>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[fopen]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getMount]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_file]]></code>
+      <code><![CDATA[stat]]></code>
+    </InternalMethod>
+  </file>
+  <file src="apps/encryption/lib/Command/FixKeyLocation.php">
+    <InternalClass>
+      <code><![CDATA[new View()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View()]]></code>
+      <code><![CDATA[opendir]]></code>
+      <code><![CDATA[rmdir]]></code>
+      <code><![CDATA[rmdir]]></code>
+      <code><![CDATA[rmdir]]></code>
+      <code><![CDATA[rmdir]]></code>
+      <code><![CDATA[rmdir]]></code>
+    </InternalMethod>
+  </file>
+  <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
+    <InternalClass>
+      <code><![CDATA[new View()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View()]]></code>
+      <code><![CDATA[stat]]></code>
+    </InternalMethod>
+  </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
     <DeprecatedMethod>
       <code><![CDATA[opensslSeal]]></code>
@@ -1025,10 +1195,30 @@
       <code><![CDATA[get_class($res) === 'OpenSSLAsymmetricKey']]></code>
     </TypeDoesNotContainType>
   </file>
+  <file src="apps/encryption/lib/Crypto/EncryptAll.php">
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[fopen]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[unlink]]></code>
+      <code><![CDATA[unlink]]></code>
+    </InternalMethod>
+  </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
     <ImplementedParamTypeMismatch>
       <code><![CDATA[$position]]></code>
     </ImplementedParamTypeMismatch>
+    <InternalClass>
+      <code><![CDATA[new View()]]></code>
+      <code><![CDATA[new View()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[new View()]]></code>
+      <code><![CDATA[new View()]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/encryption/lib/KeyManager.php">
     <DeprecatedMethod>
@@ -1039,6 +1229,10 @@
       <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+    </InternalMethod>
     <InvalidThrow>
       <code><![CDATA[throw $exception;]]></code>
     </InvalidThrow>
@@ -1056,11 +1250,23 @@
       <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[is_dir]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/encryption/lib/Settings/Admin.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
+    <InternalClass>
+      <code><![CDATA[new View()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[new View()]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/encryption/lib/Settings/Personal.php">
     <DeprecatedMethod>
@@ -1073,6 +1279,10 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[getMount]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/federatedfilesharing/lib/AddressHandler.php">
     <DeprecatedMethod>
@@ -1274,6 +1484,32 @@
       <code><![CDATA[\OC_Util::setupFS($destinationUser->getUID())]]></code>
       <code><![CDATA[\OC_Util::setupFS($sourceUser->getUID())]]></code>
     </DeprecatedClass>
+    <InternalClass>
+      <code><![CDATA[new View()]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[free_space]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_file]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[new View()]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[rmdir]]></code>
+      <code><![CDATA[unlink]]></code>
+      <code><![CDATA[verifyPath]]></code>
+    </InternalMethod>
     <UndefinedInterfaceMethod>
       <code><![CDATA[isReadyForUser]]></code>
     </UndefinedInterfaceMethod>
@@ -1305,7 +1541,12 @@
     </MoreSpecificReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $userId . '/files_external')]]></code>
+    </InternalClass>
     <InternalMethod>
+      <code><![CDATA[getLocalFile]]></code>
+      <code><![CDATA[new View('/' . $userId . '/files_external')]]></code>
       <code><![CDATA[put]]></code>
     </InternalMethod>
   </file>
@@ -1396,6 +1637,15 @@
       <code><![CDATA[new QueryException()]]></code>
     </DeprecatedClass>
   </file>
+  <file src="apps/files_sharing/lib/Controller/RemoteController.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . \OC_User::getUser() . '/files/')]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[new View('/' . \OC_User::getUser() . '/files/')]]></code>
+    </InternalMethod>
+  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <DeprecatedClass>
       <code><![CDATA[new QueryException()]]></code>
@@ -1478,6 +1728,22 @@
       <code><![CDATA[Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook')]]></code>
       <code><![CDATA[Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser')]]></code>
     </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[mkdir]]></code>
+    </InternalMethod>
+  </file>
+  <file src="apps/files_sharing/lib/Hooks.php">
+    <InternalClass>
+      <code><![CDATA[new View('/')]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[new View('/')]]></code>
+      <code><![CDATA[unlink]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
     <DeprecatedInterface>
@@ -1512,6 +1778,14 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/MountProvider.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $parentShare->getShareOwner() . '/files')]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[new View('/' . $parentShare->getShareOwner() . '/files')]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+    </InternalMethod>
     <RedundantFunctionCall>
       <code><![CDATA[array_values]]></code>
     </RedundantFunctionCall>
@@ -1522,6 +1796,15 @@
     </DeprecatedInterface>
   </file>
   <file src="apps/files_sharing/lib/ShareBackend/File.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $shareWith . '/files')]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[new View('/' . $shareWith . '/files')]]></code>
+    </InternalMethod>
     <InvalidArgument>
       <code><![CDATA[$itemSource]]></code>
       <code><![CDATA[$itemSource]]></code>
@@ -1531,6 +1814,12 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/files_sharing/lib/SharedMount.php">
+    <InternalMethod>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[is_dir]]></code>
+    </InternalMethod>
     <InvalidReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
@@ -1548,6 +1837,10 @@
     <FalsableReturnStatement>
       <code><![CDATA[$this->sourceRootInfo]]></code>
     </FalsableReturnStatement>
+    <InternalMethod>
+      <code><![CDATA[lockFile]]></code>
+      <code><![CDATA[unlockFile]]></code>
+    </InternalMethod>
     <InvalidNullableReturnType>
       <code><![CDATA[ICacheEntry]]></code>
     </InvalidNullableReturnType>
@@ -1570,6 +1863,15 @@
     <UndefinedMethod>
       <code><![CDATA[moveMount]]></code>
     </UndefinedMethod>
+  </file>
+  <file src="apps/files_trashbin/lib/BackgroundJob/ExpireTrash.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/files_trashbin/lib/Command/CleanUp.php">
     <DeprecatedClass>
@@ -1599,6 +1901,13 @@
     <DeprecatedMethod>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user)]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/files_trashbin/lib/Command/RestoreAllFiles.php">
     <DeprecatedClass>
@@ -1614,6 +1923,18 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="apps/files_trashbin/lib/Helper.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/files')]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getMount]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/files')]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType>
@@ -1652,12 +1973,20 @@
       <code><![CDATA[ITrash]]></code>
     </InvalidReturnType>
   </file>
+  <file src="apps/files_trashbin/lib/Sabre/TrashbinPlugin.php">
+    <InternalMethod>
+      <code><![CDATA[free_space]]></code>
+    </InternalMethod>
+  </file>
   <file src="apps/files_trashbin/lib/Storage.php">
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_trashbin/lib/Trash/LegacyTrashBackend.php">
+    <InternalMethod>
+      <code><![CDATA[getRelativePath]]></code>
+    </InternalMethod>
     <UndefinedInterfaceMethod>
       <code><![CDATA[$file]]></code>
     </UndefinedInterfaceMethod>
@@ -1674,6 +2003,106 @@
       <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
     </DeprecatedMethod>
+    <InternalClass>
+      <code><![CDATA[new View('/' . $owner)]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files')]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin')]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/files/' . $file)]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions')]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions/' . $file)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/')]]></code>
+      <code><![CDATA[new View('/')]]></code>
+      <code><![CDATA[new View('/')]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[chroot]]></code>
+      <code><![CDATA[chroot]]></code>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[filemtime]]></code>
+      <code><![CDATA[filemtime]]></code>
+      <code><![CDATA[filemtime]]></code>
+      <code><![CDATA[filemtime]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[free_space]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getPath]]></code>
+      <code><![CDATA[getRelativePath]]></code>
+      <code><![CDATA[getRoot]]></code>
+      <code><![CDATA[isCreatable]]></code>
+      <code><![CDATA[isCreatable]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[new View('/' . $owner)]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files')]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin')]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/files/' . $file)]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions')]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions/' . $file)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/')]]></code>
+      <code><![CDATA[new View('/')]]></code>
+      <code><![CDATA[new View('/')]]></code>
+      <code><![CDATA[opendir]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[rename]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[unlink]]></code>
+      <code><![CDATA[unlink]]></code>
+      <code><![CDATA[unlink]]></code>
+    </InternalMethod>
     <InvalidArgument>
       <code><![CDATA[$timestamp]]></code>
     </InvalidArgument>
@@ -1695,6 +2124,13 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user)]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/files_versions/lib/Command/CleanUp.php">
     <DeprecatedClass>
@@ -1713,6 +2149,22 @@
     <DeprecatedMethod>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user)]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+    </InternalMethod>
+  </file>
+  <file src="apps/files_versions/lib/Listener/FileEventsListener.php">
+    <InternalClass>
+      <code><![CDATA[new View($user . '/files')]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[new View($user . '/files')]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType>
@@ -1742,6 +2194,77 @@
       <code><![CDATA[Files::streamCopy($source, $target, true)]]></code>
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
+    <InternalClass>
+      <code><![CDATA[new View('')]]></code>
+      <code><![CDATA[new View('/' . $targetOwner)]]></code>
+      <code><![CDATA[new View('/' . $targetOwner)]]></code>
+      <code><![CDATA[new View('/' . $uid . '/')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files_versions')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files_versions')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files_versions')]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[filemtime]]></code>
+      <code><![CDATA[filemtime]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[filesize]]></code>
+      <code><![CDATA[getDirectoryContent]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getOwner]]></code>
+      <code><![CDATA[getPath]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[lockFile]]></code>
+      <code><![CDATA[lockFile]]></code>
+      <code><![CDATA[mkdir]]></code>
+      <code><![CDATA[new View('')]]></code>
+      <code><![CDATA[new View('/' . $targetOwner)]]></code>
+      <code><![CDATA[new View('/' . $targetOwner)]]></code>
+      <code><![CDATA[new View('/' . $uid . '/')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files_versions')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files_versions')]]></code>
+      <code><![CDATA[new View('/' . $uid . '/files_versions')]]></code>
+      <code><![CDATA[new View('/' . $user)]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+      <code><![CDATA[opendir]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[resolvePath]]></code>
+      <code><![CDATA[touch]]></code>
+      <code><![CDATA[unlink]]></code>
+      <code><![CDATA[unlockFile]]></code>
+      <code><![CDATA[unlockFile]]></code>
+    </InternalMethod>
+  </file>
+  <file src="apps/files_versions/lib/Versions/LegacyVersionsBackend.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+    </InternalClass>
+    <InternalMethod>
+      <code><![CDATA[copy]]></code>
+      <code><![CDATA[file_put_contents]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+      <code><![CDATA[new View('/' . $user->getUID())]]></code>
+    </InternalMethod>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <DeprecatedConstant>
@@ -3621,7 +4144,6 @@
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[\OC\Group\Group[]]]></code>
-      <code><![CDATA[\OC\Group\Group[]]]></code>
     </MoreSpecificReturnType>
     <UndefinedInterfaceMethod>
       <code><![CDATA[createGroup]]></code>
@@ -3970,6 +4492,11 @@
     </InvalidArgument>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
+    <InternalMethod>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[file_exists]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+    </InternalMethod>
     <InvalidArrayOffset>
       <code><![CDATA[$matches[0][$last_match]]]></code>
       <code><![CDATA[$matches[1][$last_match]]]></code>
