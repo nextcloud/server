@@ -205,7 +205,6 @@ jobs:
     name: build-external-apps
     strategy:
       max-parallel: 20
-      fail-fast: false
       matrix:
         app: ${{ fromJson(needs.prepare-matrix.outputs.external-apps-matrix) }}
 
