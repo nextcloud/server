@@ -12,6 +12,7 @@ use OC\AppFramework\App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use function explode;
 use function strtolower;
 
@@ -125,7 +126,7 @@ class ServerContainer extends SimpleContainer {
 			// Skip server container query for app namespace classes
 			try {
 				return parent::query($name, false);
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				// Continue with general autoloading then
 			}
 			// In case the service starts with OCA\ we try to find the service in
@@ -133,7 +134,7 @@ class ServerContainer extends SimpleContainer {
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
 				try {
 					return $appContainer->queryNoFallback($name);
-				} catch (QueryException $e) {
+				} catch (ContainerExceptionInterface $e) {
 					// Didn't find the service or the respective app container
 					// In this case the service won't be part of the core container,
 					// so we can throw directly
@@ -145,13 +146,21 @@ class ServerContainer extends SimpleContainer {
 			try {
 				$appContainer = $this->getAppContainer(strtolower($segments[1]), $segments[1]);
 				return $appContainer->queryNoFallback($name);
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				// Didn't find the service or the respective app container,
 				// ignore it and fall back to the core container.
 			}
 		}
 
-		return parent::query($name, $autoload);
+		if ($autoload) {
+			return parent::get($name);
+		} else {
+			return parent::query($name, false);
+		}
+	}
+
+	public function get(string $id): mixed {
+		return $this->query($id);
 	}
 
 	/**

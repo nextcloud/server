@@ -13,16 +13,14 @@ use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\IServerContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ProviderManagerTest extends TestCase {
-	/** @var IServerContainer */
-	protected $serverContainer;
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var IProviderManager */
-	protected $providerManager;
+	protected IServerContainer&MockObject $serverContainer;
+	protected LoggerInterface&MockObject $logger;
+	protected IProviderManager $providerManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -48,7 +46,7 @@ class ProviderManagerTest extends TestCase {
 
 	public function testGetResourceProvidersValidProvider(): void {
 		$this->serverContainer->expects($this->once())
-			->method('query')
+			->method('get')
 			->with($this->equalTo(ResourceProvider::class))
 			->willReturn($this->createMock(ResourceProvider::class));
 
@@ -61,7 +59,7 @@ class ProviderManagerTest extends TestCase {
 
 	public function testGetResourceProvidersInvalidProvider(): void {
 		$this->serverContainer->expects($this->once())
-			->method('query')
+			->method('get')
 			->with($this->equalTo('InvalidResourceProvider'))
 			->willThrowException(new QueryException('A meaningful error message'));
 
@@ -76,7 +74,7 @@ class ProviderManagerTest extends TestCase {
 
 	public function testGetResourceProvidersValidAndInvalidProvider(): void {
 		$this->serverContainer->expects($this->exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnCallback(function (string $service) {
 				if ($service === 'InvalidResourceProvider') {
 					throw new QueryException('A meaningful error message');

@@ -52,7 +52,7 @@ class App {
 
 		if ($runIsSetupDirectly) {
 			$applicationClassName = get_class($this);
-			$e = new \RuntimeException('App class ' . $applicationClassName . ' is not setup via query() but directly');
+			$e = new \RuntimeException('App class ' . $applicationClassName . ' is not setup via get() but directly');
 			$setUpViaQuery = false;
 
 			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
@@ -122,8 +122,8 @@ class App {
 	 *			parent::__construct('tasks', $params);
 	 *
 	 *			$this->getContainer()->registerService('PageController', function(IAppContainer $c){
-	 *				$a = $c->query('API');
-	 *				$r = $c->query('Request');
+	 *				$a = $c->get('API');
+	 *				$r = $c->get('Request');
 	 *				return new PageController($a, $r);
 	 *			});
 	 *		}

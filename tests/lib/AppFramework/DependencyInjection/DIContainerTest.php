@@ -21,6 +21,7 @@ use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * @group DB
@@ -140,7 +141,7 @@ class DIContainerTest extends \Test\TestCase {
 	}
 
 	public function testInvalidAppClass(): void {
-		$this->expectException(QueryException::class);
-		$this->container->query('\OCA\Name\Foo');
+		$this->expectException(ContainerExceptionInterface::class);
+		$this->container->get('\OCA\Name\Foo');
 	}
 }

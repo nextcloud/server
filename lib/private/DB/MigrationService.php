@@ -24,6 +24,7 @@ use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class MigrationService {
@@ -479,7 +480,8 @@ class MigrationService {
 			if (!$s instanceof IMigrationStep) {
 				throw new \InvalidArgumentException('Not a valid migration');
 			}
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
+			echo $e->getTraceAsString() . $e->getMessage() . PHP_EOL;
 			if (class_exists($class)) {
 				$s = new $class();
 			} else {
