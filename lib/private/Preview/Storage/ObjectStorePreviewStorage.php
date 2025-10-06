@@ -22,12 +22,12 @@ use Override;
 
 /**
  * @psalm-import-type ObjectStoreConfig from PrimaryObjectStoreConfig
- * @psalm-type ObjectStoreDefinition = array{store: IObjectStore, objectPrefix: string, config?: ObjectStoreConfig}
+ * @psalm-type ObjectStoreDefinition = array{store: IObjectStore, urn: string}
  */
 class ObjectStorePreviewStorage implements IPreviewStorage {
 
 	/**
-	 * @var array<string, array<string, ObjectStoreDefinition>>
+	 * @var array<string, array<string, IObjectStore>>
 	 */
 	private array $objectStoreCache = [];
 
@@ -49,13 +49,12 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		});
 
 		[
-			'objectPrefix' => $objectPrefix,
+			'urn' => $urn,
 			'store' => $store,
-			'config' => $config,
-		] = $this->getObjectStoreForPreview($preview);
+		] = $this->getObjectStoreInfoForNewPreview($preview);
 
 		try {
-			$store->writeObject($this->constructUrn($objectPrefix, $preview->getId()), $countStream);
+			$store->writeObject($urn, $countStream);
 		} catch (\Exception $exception) {
 			throw new NotPermittedException('Unable to save preview to object store', previous: $exception);
 		}
@@ -65,24 +64,26 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	#[Override]
 	public function readPreview(Preview $preview): mixed {
 		[
-			'objectPrefix' => $objectPrefix,
+			'urn' => $urn,
 			'store' => $store,
-		] = $this->getObjectStoreForPreview($preview);
+		] = $this->getObjectStoreInfoForExistingPreview($preview);
+
 		try {
-			return $store->readObject($this->constructUrn($objectPrefix, $preview->getId()));
+			return $store->readObject($urn);
 		} catch (\Exception $exception) {
-			throw new NotPermittedException('Unable to read preview from object store', previous: $exception);
+			throw new NotPermittedException('Unable to read preview from object store with urn:' . $urn, previous: $exception);
 		}
 	}
 
 	#[Override]
 	public function deletePreview(Preview $preview): void {
 		[
-			'objectPrefix' => $objectPrefix,
+			'urn' => $urn,
 			'store' => $store,
-		] = $this->getObjectStoreForPreview($preview);
+		] = $this->getObjectStoreInfoForExistingPreview($preview);
+
 		try {
-			$store->deleteObject($this->constructUrn($objectPrefix, $preview->getId()));
+			$store->deleteObject($urn);
 		} catch (\Exception $exception) {
 			throw new NotPermittedException('Unable to delete preview from object store', previous: $exception);
 		}
@@ -91,72 +92,83 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	#[Override]
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		// Just set the Preview::bucket and Preview::objectStore
-		$this->getObjectStoreForPreview($preview, true);
+		$this->getObjectStoreInfoForNewPreview($preview, migration: true);
 		$this->previewMapper->update($preview);
 	}
 
 	/**
 	 * @return ObjectStoreDefinition
 	 */
-	private function getObjectStoreForPreview(Preview $preview, bool $oldFallback = false): array {
-		if ($preview->getObjectStoreName() === null) {
-			$config = $this->objectStoreConfig->getObjectStoreConfiguration($oldFallback ? 'root' : 'preview');
-			$objectStoreName = $this->objectStoreConfig->resolveAlias($oldFallback ? 'root' : 'preview');
+	private function getObjectStoreInfoForExistingPreview(Preview $preview): array {
+		assert(!empty($preview->getObjectStoreName()));
+		assert(!empty($preview->getBucketName()));
 
-			$bucketName = $config['arguments']['bucket'];
-			if ($config['arguments']['multibucket']) {
-				if ($this->isMultibucketPreviewDistributionEnabled) {
-					$oldLocationArray = str_split(substr(md5((string)$preview->getFileId()), 0, 2));
-					$bucketNumber = hexdec('0x' . $oldLocationArray[0]) * 16 + hexdec('0x' . $oldLocationArray[0]);
-					$bucketName .= '-preview-' . $bucketNumber;
-				} else {
-					$bucketName .= '0';
-				}
+		$config = $this->objectStoreConfig->getObjectStoreConfiguration($preview->getObjectStoreName());
+		$config['arguments']['bucket'] = $preview->getBucketName();
+		$objectStoreName = $preview->getObjectStoreName();
+
+		return [
+			'urn' => $this->getUrn($preview, $config),
+			'store' => $this->getObjectStore($objectStoreName, $config),
+		];
+	}
+
+	/**
+	 * @return ObjectStoreDefinition
+	 */
+	private function getObjectStoreInfoForNewPreview(Preview $preview, bool $migration = false): array {
+		// When migrating old previews, use the 'root' object store configuration
+		$config = $this->objectStoreConfig->getObjectStoreConfiguration($migration ? 'root' : 'preview');
+		$objectStoreName = $this->objectStoreConfig->resolveAlias($migration ? 'root' : 'preview');
+
+		$bucketName = $config['arguments']['bucket'];
+		if ($config['arguments']['multibucket']) {
+			if ($this->isMultibucketPreviewDistributionEnabled) {
+				// Spread the previews on different buckets depending on their corresponding fileId
+				$oldLocationArray = str_split(substr(md5((string)$preview->getFileId()), 0, 2));
+				$bucketNumber = hexdec('0x' . $oldLocationArray[0]) * 16 + hexdec('0x' . $oldLocationArray[0]);
+				$bucketName .= '-preview-' . $bucketNumber;
+			} else {
+				// Put all previews in the root (0) bucket
+				$bucketName .= '0';
 			}
-			$config['arguments']['bucket'] = $bucketName;
-
-			$locationId = $this->previewMapper->getLocationId($bucketName, $objectStoreName);
-			$preview->setLocationId($locationId);
-			$preview->setObjectStoreName($objectStoreName);
-			$preview->setBucketName($bucketName);
-		} else {
-			$config = $this->objectStoreConfig->getObjectStoreConfiguration($preview->getObjectStoreName());
-			$config['arguments']['bucket'] = $bucketName = $preview->getBucketName();
-			$objectStoreName = $preview->getObjectStoreName();
 		}
+		$config['arguments']['bucket'] = $bucketName;
 
-		$objectPrefix = $this->getObjectPrefix($preview, $config);
+		// Get the locationId corresponding to the bucketName and objectStoreName, this will create
+		// a new one, if no matching location is found in the DB.
+		$locationId = $this->previewMapper->getLocationId($bucketName, $objectStoreName);
+		$preview->setLocationId($locationId);
+		$preview->setObjectStoreName($objectStoreName);
+		$preview->setBucketName($bucketName);
+
+		return [
+			'urn' => $this->getUrn($preview, $config),
+			'store' => $this->getObjectStore($objectStoreName, $config),
+		];
+	}
+
+	private function getObjectStore(string $objectStoreName, array $config): IObjectStore {
+		$bucketName = $config['arguments']['bucket'];
 
 		if (!isset($this->objectStoreCache[$objectStoreName])) {
 			$this->objectStoreCache[$objectStoreName] = [];
-			$this->objectStoreCache[$objectStoreName][$bucketName] = [
-				'store' => $this->objectStoreConfig->buildObjectStore($config),
-				'objectPrefix' => $objectPrefix,
-				'config' => $config,
-			];
+			$this->objectStoreCache[$objectStoreName][$bucketName] = $this->objectStoreConfig->buildObjectStore($config);
 		} elseif (!isset($this->objectStoreCache[$objectStoreName][$bucketName])) {
-			$this->objectStoreCache[$objectStoreName][$bucketName] = [
-				'store' => $this->objectStoreConfig->buildObjectStore($config),
-				'objectPrefix' => $objectPrefix,
-				'config' => $config,
-			];
+			$this->objectStoreCache[$objectStoreName][$bucketName] = $this->objectStoreConfig->buildObjectStore($config);
 		}
 
 		return $this->objectStoreCache[$objectStoreName][$bucketName];
 	}
 
-	private function constructUrn(string $objectPrefix, int $id): string {
-		return $objectPrefix . $id;
-	}
-
-	public function getObjectPrefix(Preview $preview, array $config): string {
+	public function getUrn(Preview $preview, array $config): string {
 		if ($preview->getOldFileId()) {
-			return $config['arguments']['objectPrefix'] ?? 'uri:oid:';
+			return ($config['arguments']['objectPrefix'] ?? 'urn:oid:') . $preview->getOldFileId();
 		}
 		if (isset($config['arguments']['objectPrefix'])) {
-			return $config['arguments']['objectPrefix'] . 'preview:';
+			return ($config['arguments']['objectPrefix'] . 'preview:') . $preview->getId();
 		} else {
-			return 'uri:oid:preview:';
+			return 'uri:oid:preview:' . $preview->getId();
 		}
 	}
 
