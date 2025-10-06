@@ -64,3 +64,6 @@
 [submodule "apps-external/forms"]
 	path = apps-external/forms
 	url = git@github.com:IONOS-Productivity/nc-forms.git
+[submodule "apps-external/text"]
+	path = apps-external/text
+	url = git@github.com:nextcloud/text.git
