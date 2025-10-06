@@ -103,10 +103,9 @@ interface FileInfo {
 	/**
 	 * Get the full mimetype of the file or folder i.e. 'image/png'
 	 *
-	 * @return string
 	 * @since 7.0.0
 	 */
-	public function getMimetype();
+	public function getMimetype(): string;
 
 	/**
 	 * Get the first part of the mimetype of the file or folder i.e. 'image'

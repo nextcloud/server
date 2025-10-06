@@ -60,10 +60,9 @@ interface ICacheEntry extends ArrayAccess {
 	/**
 	 * Get the full mimetype
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getMimeType();
+	public function getMimeType(): string;
 
 	/**
 	 * Get the first part of the mimetype

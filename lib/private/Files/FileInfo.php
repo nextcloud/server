@@ -133,11 +133,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : null;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getMimetype() {
-		return $this->data['mimetype'];
+	public function getMimetype(): string {
+		return $this->data['mimetype'] ?? 'application/octet-stream';
 	}
 
 	/**
