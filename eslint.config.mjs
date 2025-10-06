@@ -63,6 +63,8 @@ export default defineConfig([
 		rules: {
 			'no-console': 'off',
 			'jsdoc/require-jsdoc': 'off',
+			'jsdoc/require-param-type': 'off',
+			'jsdoc/require-param-description': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-unused-expressions': 'off',
 		},
