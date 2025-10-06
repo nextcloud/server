@@ -339,7 +339,7 @@ class Node implements INode {
 		return $this->getFileInfo(false)->isShared();
 	}
 
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return $this->getFileInfo(false)->getMimetype();
 	}
 

@@ -7,6 +7,7 @@
  */
 namespace OCP\Files;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -14,6 +15,7 @@ use OCP\Files\Storage\IStorage;
  *
  * @since 7.0.0
  */
+#[Consumable(since: '7.0.0')]
 interface FileInfo {
 	/**
 	 * @since 7.0.0
@@ -103,10 +105,9 @@ interface FileInfo {
 	/**
 	 * Get the full mimetype of the file or folder i.e. 'image/png'
 	 *
-	 * @return string
 	 * @since 7.0.0
 	 */
-	public function getMimetype();
+	public function getMimetype(): string;
 
 	/**
 	 * Get the first part of the mimetype of the file or folder i.e. 'image'
