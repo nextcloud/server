@@ -237,6 +237,7 @@ OC.L10N.register(
     "Can edit" : "Δυνατότητα επεξεργασίας",
     "Custom permissions" : "Προσαρμοσμένα δικαιώματα",
     "Resharing is not allowed" : "Δεν επιτρέπεται ο επαναμοιρασμός",
+    "Searching …" : "Γίνεται αναζήτηση ...",
     "No elements found." : "Δεν βρέθηκαν στοιχεία.",
     "Search everywhere" : "Αναζητήστε παντού",
     "Guest" : "Επισκέπτης",
