@@ -204,6 +204,20 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_whiteboard_app"
+            },
+            {
+              "name": "assistant",
+              "path": "apps-external/assistant",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_assistant_app"
+            },
+            {
+              "name": "integration_openai",
+              "path": "apps-external/integration_openai",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_integration_openai_app"
             }
           ]'
 
