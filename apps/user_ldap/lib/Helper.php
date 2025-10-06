@@ -109,7 +109,7 @@ class Helper {
 			$prefix = 's01';
 		} else {
 			sort($prefixes);
-			$lastKey = array_pop($prefixes);
+			$lastKey = end($prefixes);
 			$lastNumber = (int)str_replace('s', '', $lastKey);
 			$prefix = 's' . str_pad((string)($lastNumber + 1), 2, '0', STR_PAD_LEFT);
 		}
