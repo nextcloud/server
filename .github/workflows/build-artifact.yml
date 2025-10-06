@@ -63,7 +63,7 @@ jobs:
               "path": "apps-external/viewer",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_dep_viewer_app"
+              "makefile_target": "build_viewer_app"
             },
             {
               "name": "calendar",
