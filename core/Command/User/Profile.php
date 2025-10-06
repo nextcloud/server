@@ -215,7 +215,7 @@ class Profile extends Base {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'uid') {
-			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));
 		}
 		if ($argumentName === 'key') {
 			$userId = $context->getWordAtIndex($context->getWordIndex() - 1);

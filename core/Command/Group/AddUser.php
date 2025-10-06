@@ -71,7 +71,7 @@ class AddUser extends Base {
 			}
 
 			$members = array_map(static fn (IUser $user) => $user->getUID(), $group->searchUsers($context->getCurrentWord()));
-			$users = array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+			$users = array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));
 			return array_diff($users, $members);
 		}
 		return [];

@@ -2622,11 +2622,6 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/BackgroundJobs/GenerateMetadataJob.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/App/ListApps.php">
     <LessSpecificImplementedReturnType>
       <code><![CDATA[array]]></code>
@@ -2749,11 +2744,6 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Command/Group/AddUser.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Log/File.php">
     <InvalidReturnStatement>
       <code><![CDATA[[0]]]></code>
@@ -2779,9 +2769,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Command/Preview/ResetRenderedTexts.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
     <InvalidReturnStatement>
       <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
@@ -2795,11 +2782,6 @@
   <file src="core/Command/Security/BruteforceResetAttempts.php">
     <DeprecatedMethod>
       <code><![CDATA[resetDelayForIP]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/TwoFactorAuth/Base.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Upgrade.php">
@@ -2844,41 +2826,6 @@
     </DeprecatedInterface>
   </file>
   <file src="core/Command/User/Delete.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/User/Disable.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/User/Enable.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/User/Info.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/User/LastSeen.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/User/Profile.php">
-    <DeprecatedMethod>
-      <code><![CDATA[search]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/User/ResetPassword.php">
     <DeprecatedMethod>
       <code><![CDATA[search]]></code>
     </DeprecatedMethod>
