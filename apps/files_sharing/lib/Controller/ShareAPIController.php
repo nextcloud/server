@@ -1342,10 +1342,13 @@ class ShareAPIController extends OCSController {
 				$share->setPermissions($permissions);
 			}
 
-			if ($password === '') {
-				$share->setPassword(null);
-			} elseif ($password !== null) {
-				$share->setPassword($password);
+			$passwordParamSent = $password !== null;
+			if ($passwordParamSent) {
+				if ($password === '') {
+					$share->setPassword(null);
+				} else {
+					$share->setPassword($password);
+				}
 			}
 
 			if ($label !== null) {
