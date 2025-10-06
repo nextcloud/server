@@ -3558,33 +3558,6 @@
       <code><![CDATA[$stat === false]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="lib/private/Files/Storage/LocalRootStorage.php">
-    <NoInterfaceProperties>
-      <code><![CDATA[$storage->scanner]]></code>
-      <code><![CDATA[$storage->scanner]]></code>
-    </NoInterfaceProperties>
-  </file>
-  <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-      <code><![CDATA[$this->namesCache]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
     <InvalidReturnStatement>
       <code><![CDATA[$result]]></code>

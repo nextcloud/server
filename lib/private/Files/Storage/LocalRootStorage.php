@@ -17,6 +17,7 @@ class LocalRootStorage extends Local {
 		if (!$storage) {
 			$storage = $this;
 		}
+		/** @var Local $storage */
 		return $storage->scanner ?? ($storage->scanner = new LocalRootScanner($storage));
 	}
 }
