@@ -386,61 +386,61 @@ class Encryption implements IEncryptionModule {
 	 * @return bool True on success, false otherwise.
 	 */
 	public function update(string $path, string $uid, array $accessList): bool {
-    	// If no access list is provided, handle possible remembered version and return early.
-    	if (empty($accessList)) {
-        	if (isset(self::$rememberVersion[$path])) {
-            	$version = self::$rememberVersion[$path];
-            	$this->keyManager->setVersion($path, $version, new View());
-            	unset(self::$rememberVersion[$path]);
-        	}
-        	return false;
-    	}
+		// If no access list is provided, handle possible remembered version and return early.
+		if (empty($accessList)) {
+			if (isset(self::$rememberVersion[$path])) {
+				$version = self::$rememberVersion[$path];
+				$this->keyManager->setVersion($path, $version, new View());
+				unset(self::$rememberVersion[$path]);
+			}
+			return false;
+		}
 
-	    // Fetch the file encryption key.
+		// Fetch the file encryption key.
 		$fileKey = $this->keyManager->getFileKey($path, null);
-    	if (empty($fileKey)) {
-        	$this->logger->debug(
-            	'No file key found; assuming file "{file}" is not encrypted.',
-            	['file' => $path, 'app' => 'encryption']
-        	);
-        	return false;
-    	}
+		if (empty($fileKey)) {
+			$this->logger->debug(
+				'No file key found; assuming file "{file}" is not encrypted.',
+				['file' => $path, 'app' => 'encryption']
+			);
+			return false;
+		}
 
-	    // Build the list of public keys required for the updated access list.
-	    $publicKeys = [];
-	    if ($this->useMasterPassword) {
-	        $masterKeyId = $this->keyManager->getMasterKeyId();
-	        $publicKeys[$masterKeyId] = $this->keyManager->getPublicMasterKey();
-	    } else {
-	        foreach ($accessList['users'] as $userUid) {
-    	        try {
-        	        $publicKeys[$userUid] = $this->keyManager->getPublicKey($userUid);
-            	} catch (PublicKeyMissingException $e) {
-                	$this->logger->warning(
-                    	'Could not encrypt file for user "{user}": {error}',
-                    	['user' => $userUid, 'error' => $e->getMessage(), 'app' => 'encryption']
-                	);
-                	// Robustness: continue so file isn't left inaccessible, but missing users won't have access.
-            	}
-        	}
-    	}
+		// Build the list of public keys required for the updated access list.
+		$publicKeys = [];
+		if ($this->useMasterPassword) {
+			$masterKeyId = $this->keyManager->getMasterKeyId();
+			$publicKeys[$masterKeyId] = $this->keyManager->getPublicMasterKey();
+		} else {
+			foreach ($accessList['users'] as $userUid) {
+				try {
+					$publicKeys[$userUid] = $this->keyManager->getPublicKey($userUid);
+				} catch (PublicKeyMissingException $e) {
+					$this->logger->warning(
+						'Could not encrypt file for user "{user}": {error}',
+						['user' => $userUid, 'error' => $e->getMessage(), 'app' => 'encryption']
+					);
+					// Robustness: continue so file isn't left inaccessible, but missing users won't have access.
+				}
+			}
+		}
 
-	    // Add system-level keys for robustness (e.g. for automated processes).
-	    $owner = $this->getOwner($path);
-	    $publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $owner);
+		// Add system-level keys for robustness (e.g. for automated processes).
+		$owner = $this->getOwner($path);
+		$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $owner);
 
-	    // Encrypt the file key for all relevant public keys.
-	    $shareKeys = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+		// Encrypt the file key for all relevant public keys.
+		$shareKeys = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
-	    // Remove all previous share keys (security: avoid stale access).
-	    $this->keyManager->deleteAllFileKeys($path);
+		// Remove all previous share keys (security: avoid stale access).
+		$this->keyManager->deleteAllFileKeys($path);
 
-	    // Write the new share keys for each user.
-	    foreach ($shareKeys as $userUid => $keyFile) {
-    	    $this->keyManager->setShareKey($path, $userUid, $keyFile);
-    	}
+		// Write the new share keys for each user.
+		foreach ($shareKeys as $userUid => $keyFile) {
+			$this->keyManager->setShareKey($path, $userUid, $keyFile);
+		}
 
-	    return true;
+		return true;
 	}
 
 	/**
