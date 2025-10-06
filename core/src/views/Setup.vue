@@ -89,7 +89,8 @@
 
 				<!-- Database type select -->
 				<fieldset class="setup-form__database-type">
-					<p v-if="!firstAndOnlyDatabase" :class="`setup-form__database-type-select--${DBTypeGroupDirection}`" class="setup-form__database-type-select">
+					<!-- Using v-show instead of v-if ensures that the input dbtype remains set even when only one database engine is available -->
+					<p v-show="!firstAndOnlyDatabase" :class="`setup-form__database-type-select--${DBTypeGroupDirection}`" class="setup-form__database-type-select">
 						<NcCheckboxRadioSwitch
 							v-for="(name, db) in config.databases"
 							:key="db"
@@ -104,7 +105,7 @@
 						</NcCheckboxRadioSwitch>
 					</p>
 
-					<NcNoteCard v-else data-cy-setup-form-db-note="single-db" type="warning">
+					<NcNoteCard v-if="firstAndOnlyDatabase" data-cy-setup-form-db-note="single-db" type="warning">
 						{{ t('core', 'Only {firstAndOnlyDatabase} is available.', { firstAndOnlyDatabase }) }}<br>
 						{{ t('core', 'Install and activate additional PHP modules to choose other database types.') }}<br>
 						<a :href="links.adminSourceInstall" target="_blank" rel="noreferrer noopener">
