@@ -89,7 +89,7 @@ interface IGroupManager {
 
 	/**
 	 * @param \OCP\IUser $user
-	 * @return string[] with group names
+	 * @return list<string> with group ids
 	 * @since 8.0.0
 	 */
 	public function getUserGroupIds(IUser $user): array;

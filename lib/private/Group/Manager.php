@@ -351,12 +351,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
-	/**
-	 * get a list of group ids for a user
-	 *
-	 * @param IUser $user
-	 * @return list<string> with group ids
-	 */
 	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
 	}
