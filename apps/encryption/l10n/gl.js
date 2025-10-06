@@ -22,7 +22,7 @@ OC.L10N.register(
     "The current log-in password was not correct, please try again." : "O actual contrasinal de acceso non é correcto, ténteo de novo.",
     "Private key password successfully updated." : "O contrasinal da chave privada foi actualizada correctamente.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "A chave privada para a aplicación de cifrado non é correcta. Actualice o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros cifrados.",
-    "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "A aplicación de cifrado está activada, mais non foron preparadas as lhaves. Saia da sesión e volva acceder de novo",
+    "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "A aplicación de cifrado está activada, mais non foron preparadas as chaves. Saia da sesión e volva acceder de novo",
     "Please enable server side encryption in the admin settings in order to use the encryption module." : "Active o cifrado no lado do servidor nos axustes de administración para poder usar o módulo de cifrado.",
     "Encryption app is enabled and ready" : " A aplicación de cifrado está activada e preparada",
     "Bad Signature" : "Sinatura errónea",
