@@ -65,8 +65,8 @@ class CacheEntry implements ICacheEntry {
 	}
 
 
-	public function getMimeType() {
-		return $this->data['mimetype'];
+	public function getMimeType(): string {
+		return $this->data['mimetype'] ?? 'application/octet-stream';
 	}
 
 
