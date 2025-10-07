@@ -69,6 +69,6 @@ class Root extends AppData {
 	}
 
 	public function getStorageId(): int {
-		return $this->getAppDataRootFolder()->getStorage()->getCache()->getNumericStorageId();
+		return $this-> getInstanceAppDataFolder()->getStorage()->getCache()->getNumericStorageId();
 	}
 }
