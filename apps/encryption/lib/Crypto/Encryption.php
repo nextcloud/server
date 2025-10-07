@@ -173,77 +173,83 @@ class Encryption implements IEncryptionModule {
 	public function begin(string $path, string $user, string $mode, array $header, array $accessList): array {
 		// All write-capable modes supported by Nextcloud.
 		$writeModes = ['w', 'w+', 'wb', 'wb+'];
+		// TODO: Also sanitize non-write modes rather than just assuming read mode
 
-		// Resolve the actual file path and initialize core properties.
+		// Initialize properties.
 		$this->path = $this->getPathToRealFile($path);
 		$this->user = $user;
 		$this->accessList = $accessList;
 		$this->writeCache = '';
+
+		// Determine if this is a write operation
 		$this->isWriteOperation = in_array($mode, $writeModes, true);
-		// Default to legacy encoding unless specified (generally will be, but conservative for BC).
-		$this->useLegacyBase64Encoding = true;
 
-		// Respect encoding specified in header.
-		if (isset($header['encoding'])) {
-			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
+		// Ensure encryption session is ready; if using master key initialize it
+		if (!$this->session->isReady() && $this->util->isMasterKeyEnabled()) {
+			$this->keyManager->init('', ''); // empty password and username
 		}
 
-		// Ensure encryption session is ready; initialize master key if needed.
-		if ($this->session->isReady() === false) {
-			// If the master key is enabled we can initialize encryption
-			// with an empty password and username.
-			if ($this->util->isMasterKeyEnabled()) {
-				$this->keyManager->init('', '');
-			}
-		}
-
-		// Detect legacy file key usage safely and defensively.
-		$useLegacyKeyFile = null;
+		// Detect legacy file key usage.
+		$useLegacyFileKey = null;
 		if (isset($header['useLegacyFileKey'])) {
-			// TODO: Confirm if `==` is here for a reason and if not clean this up...
-			$useLegacyFileKey = ($header['useLegacyFileKey'] == 'false') ? false : null;
+			// NOTE: null means "try both" {@see OCA\Encryption\KeyManager::getFileKey()}
+			$useLegacyFileKey = ($header['useLegacyFileKey'] === 'false') ? false : null;
 		}
 
-		// XXX ?????
-		$this->fileKey = $this->keyManager->getFileKey(
-			$this->path,
-			$useLegacyFileKey,
-			$this->session->decryptAllModeActivated()
-		);
+		// Always use the version from the original file.
+		// Also part files need to have a correct version number if they get moved to the final location.
+		$strippedPath = $this->util->stripPartialFileExtension($path);
+		$this->version = (int)$this->keyManager->getVersion($strippedPath, new View());
 
-		// Always use the version from the original file; part files also
-		// need to have a correct version number if moved to the final location.
-		$this->version = (int)$this->keyManager->getVersion($this->util->stripPartialFileExtension($path), new View());
-
+		// Determine if "decrypt all" mode is enabled for the current session (influences how file key is retrieved)
+		$decryptAllMode = $this->session->decryptAllModeActivated();
+		
+		// Retrieve appropriate file key based on mode/etc for the user 
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $useLegacyFileKey, $decryptAllMode);
+		
+		// Set cipher and and encoding file key based on operation mode.
 		if ($this->isWriteOperation) {
+			// For write operations:
+			// - Use the cipher configured for writing.
+    		// - Update encoding if required by cipher.
+    		// - Generate key file for the user (if it doesn't exist).
+			$this->cipher = $this->crypt->getCipher();
+			$this->useLegacyBase64Encoding = $this->crypt->useLegacyBase64Encoding();
 			if (empty($this->fileKey)) {
+				// Generate a new file key if none exists (new file or new encryption context)
 				$this->fileKey = $this->crypt->generateFileKey();
 			}
 		} else {
-			// If we read a part file we need to increase the version by 1,
-			// because the version number was also increased by writing the part file.
-			if (Scanner::isPartialFile($path)) {
-				$this->version = $this->version + 1;
+			// For read operations:
+			// - Use the encoding specified in the header, otherwise assume legacy (<=oC6).
+        	// - Use the cipher specified in the header, otherwise assume legacy (<=oC6).
+			if (isset($header['cipher'])) {
+				$this->cipher = $header['cipher'];
+			} else {
+				$this->cipher = $this->crypt->getLegacyCipher();
+				// TODO: Optionally log legacy / heading missing fallback (at debug or info level)
+			}
+			if (isset($header['encoding'])) {
+				$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
+			} else {
+				$this->useLegacyBase64Encoding = true;
 			}
 		}
 
-		if ($this->isWriteOperation) {
-			$this->cipher = $this->crypt->getCipher();
-			$this->useLegacyBase64Encoding = $this->crypt->useLegacyBase64Encoding();
-		} elseif (isset($header['cipher'])) {
-			$this->cipher = $header['cipher'];
-		} else {
-			// If we read a file without a header, fall back to the legacy cipher
-			// which was used in <=oC6.
-			$this->cipher = $this->crypt->getLegacyCipher();
+		// TODO: Decide when we can safely remove some of the legacy (<=oC6) stuff above (and elsewhere)
+			
+		// If we read a part file we need to increase the version by 1
+		// because the version number was also increased by writing the part file.
+		if (!$this->isWriteOperation && Scanner::isPartialFile($path)) {
+				$this->version = $this->version + 1;
 		}
 
+		// Prepare metadata for the caller (used for header updates, logging, etc).
 		$result = [
 			'cipher' => $this->cipher,
 			'signed' => 'true',
 			'useLegacyFileKey' => 'false',
 		];
-
 		if ($this->useLegacyBase64Encoding !== true) {
 			$result['encoding'] = Crypt::BINARY_ENCODING_FORMAT;
 		}
