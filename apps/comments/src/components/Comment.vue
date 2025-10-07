@@ -95,7 +95,7 @@
 				:class="{'comment__message--expanded': expanded}"
 				:text="richContent.message"
 				:arguments="richContent.mentions"
-				@click="onExpand" />
+				@click.native="onExpand" />
 		</div>
 	</component>
 </template>
