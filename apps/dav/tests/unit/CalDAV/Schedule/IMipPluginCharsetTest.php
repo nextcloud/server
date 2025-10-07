@@ -38,8 +38,10 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Property\ICalendar\CalAddress;
 use Symfony\Component\Mime\Email;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 class IMipPluginCharsetTest extends TestCase {
+	use EmailValidatorTrait;
 	// Dependencies
 	private Defaults&MockObject $defaults;
 	private IAppConfig&MockObject $appConfig;
@@ -102,8 +104,6 @@ class IMipPluginCharsetTest extends TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->mailer->method('createMessage')
 			->willReturn($message);
-		$this->mailer->method('validateMailAddress')
-			->willReturn(true);
 		$this->logger = new NullLogger();
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->defaults->method('getName')
@@ -125,6 +125,7 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->imipService,
 			$this->eventComparisonService,
 			$this->mailManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 
 		// ITipMessage

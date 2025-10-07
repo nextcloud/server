@@ -17,8 +17,10 @@ use OCP\Mail\IMessage;
 use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
+use Test\Traits\EmailValidatorTrait;
 
 class EmailProviderTest extends AbstractNotificationProviderTestCase {
+	use EmailValidatorTrait;
 	public const USER_EMAIL = 'frodo@hobb.it';
 	private IMailer&MockObject $mailer;
 
@@ -32,7 +34,8 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 			$this->mailer,
 			$this->logger,
 			$this->l10nFactory,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
@@ -92,15 +95,6 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 				$template1,
 				$template2
 			);
-
-		$this->mailer->expects($this->exactly(4))
-			->method('validateMailAddress')
-			->willReturnMap([
-				['uid1@example.com', true],
-				['uid2@example.com', true],
-				['uid3@example.com', true],
-				['invalid', false],
-			]);
 
 		$this->mailer->expects($this->exactly(3))
 			->method('createMessage')
@@ -189,17 +183,6 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 				$template1,
 				$template2,
 			);
-		$this->mailer->expects($this->atLeastOnce())
-			->method('validateMailAddress')
-			->willReturnMap([
-				['foo1@example.org', true],
-				['foo3@example.org', true],
-				['foo4@example.org', true],
-				['uid1@example.com', true],
-				['uid2@example.com', true],
-				['uid3@example.com', true],
-				['invalid', false],
-			]);
 		$this->mailer->expects($this->exactly(6))
 			->method('createMessage')
 			->with()
@@ -277,17 +260,6 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 			->willReturnOnConsecutiveCalls(
 				$template1,
 			);
-		$this->mailer->expects($this->atLeastOnce())
-			->method('validateMailAddress')
-			->willReturnMap([
-				['foo1@example.org', true],
-				['foo3@example.org', true],
-				['foo4@example.org', true],
-				['uid1@example.com', true],
-				['uid2@example.com', true],
-				['uid3@example.com', true],
-				['invalid', false],
-			]);
 		$this->mailer->expects($this->exactly(2))
 			->method('createMessage')
 			->with()

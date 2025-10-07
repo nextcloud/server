@@ -18,7 +18,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Parameter;
@@ -36,7 +36,7 @@ class CalendarContactInteractionListener implements IEventListener {
 		private IEventDispatcher $dispatcher,
 		private IUserSession $userSession,
 		private Principal $principalConnector,
-		private IMailer $mailer,
+		private IEmailValidator $emailValidator,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -129,7 +129,7 @@ class CalendarContactInteractionListener implements IEventListener {
 				continue;
 			}
 			$email = substr($mailTo, strlen('mailto:'));
-			if (!$this->mailer->validateMailAddress($email)) {
+			if (!$this->emailValidator->isValid($email)) {
 				// This really isn't a valid email
 				continue;
 			}
