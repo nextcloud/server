@@ -14,9 +14,9 @@ use OCP\WorkflowEngine\ICheck;
 
 class FileSize implements ICheck {
 
-	/** @var int */
-	protected $size;
-
+	/** @var int|float|null */
+	protected int|float|null $size;
+	
 	/** @var IL10N */
 	protected $l;
 
