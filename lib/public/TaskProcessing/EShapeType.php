@@ -24,6 +24,8 @@ enum EShapeType: int {
 	case Video = 4;
 	case File = 5;
 	case Enum = 6;
+	case Array = 7;
+	case Object = 8;
 	case ListOfNumbers = 10;
 	case ListOfTexts = 11;
 	case ListOfImages = 12;
@@ -72,6 +74,12 @@ enum EShapeType: int {
 		if ($this === EShapeType::ListOfNumbers && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-numeric list item provided for ListOfNumbers slot');
 		}
+		if ($this === EShapeType::Array && !is_array($value)) {
+			throw new ValidationException('Non-array item provided for Array slot');
+		}
+		if ($this === EShapeType::Object && !is_object($value)) {
+			throw new ValidationException('Non-object item provided for Object slot');
+		}
 	}
 
 	/**
@@ -108,6 +116,12 @@ enum EShapeType: int {
 		}
 		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
+		}
+		if ($this === EShapeType::Array && !is_array($value)) {
+			throw new ValidationException('Non-array item provided for Array slot');
+		}
+		if ($this === EShapeType::Object && !is_object($value)) {
+			throw new ValidationException('Non-object item provided for Object slot');
 		}
 	}
 
@@ -174,6 +188,12 @@ enum EShapeType: int {
 		}
 		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
+		}
+		if ($this === EShapeType::Array && !is_array($value)) {
+			throw new ValidationException('Non-array item provided for Array slot');
+		}
+		if ($this === EShapeType::Object && !is_object($value)) {
+			throw new ValidationException('Non-object item provided for Object slot');
 		}
 	}
 
