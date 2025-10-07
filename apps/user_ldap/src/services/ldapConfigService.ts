@@ -32,7 +32,6 @@ export type WizardAction
 		| 'countGroups'
 		| 'countInBaseDN'
 		| 'testLoginName'
-		| 'save'
 
 /**
  *

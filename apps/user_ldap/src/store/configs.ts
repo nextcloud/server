@@ -8,7 +8,7 @@ import type { LDAPConfig } from '../models/index.ts'
 import { loadState } from '@nextcloud/initial-state'
 import { defineStore } from 'pinia'
 import Vue, { computed, ref } from 'vue'
-import { callWizard, copyConfig, createConfig, deleteConfig, getConfig } from '../services/ldapConfigService.ts'
+import { copyConfig, createConfig, deleteConfig, getConfig, updateConfig } from '../services/ldapConfigService.ts'
 
 export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	const ldapConfigs = ref(loadState('user_ldap', 'ldapConfigs') as Record<string, LDAPConfig>)
@@ -31,7 +31,7 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 
 				;(async () => {
 					updatingConfig.value++
-					await callWizard('save', configId, { key: property, val: newValue })
+					await updateConfig(configId, { [property]: newValue })
 					updatingConfig.value--
 
 					if (postSetHooks[property] !== undefined) {
