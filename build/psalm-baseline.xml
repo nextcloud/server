@@ -1212,20 +1212,6 @@
       <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
-  <file src="apps/workflowengine/lib/Check/FileSize.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[$this->size]]></code>
-    </FalsableReturnStatement>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$size]]></code>
-    </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->size]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
     <InvalidArgument>
       <code><![CDATA[$decodedValue[1]]]></code>
