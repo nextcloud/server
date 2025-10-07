@@ -236,6 +236,7 @@ class ConfigAPIController extends OCSController {
 	/**
 	 * Test a configuration
 	 *
+	 * @param string $configID ID of the LDAP config
 	 * @return DataResponse<Http::STATUS_OK, array{success:bool,message:string}, array{}>
 	 * @throws OCSException An unexpected error happened
 	 * @throws OCSNotFoundException Config not found
@@ -303,11 +304,12 @@ class ConfigAPIController extends OCSController {
 	/**
 	 * Copy a configuration
 	 *
+	 * @param string $configID ID of the LDAP config
 	 * @return DataResponse<Http::STATUS_OK, array{configID:string}, array{}>
 	 * @throws OCSException An unexpected error happened
 	 * @throws OCSNotFoundException Config not found
 	 *
-	 * 200: Test was run and results are returned
+	 * 200: Config was copied, new configID was returned
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/copy')]

@@ -38,7 +38,10 @@ class WizardController extends OCSController {
 	/**
 	 * Run a wizard action and returns the result
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array, array{}>
+	 * @param string $configID ID of the LDAP configuration
+	 * @param string $wizardAction Wizard action to run
+	 * @param ?string $loginName Login name to test for testLoginName action
+	 * @return DataResponse<Http::STATUS_OK, array{changes:array<string,int|string|list<int>|list<string>>,options?:array<string,list<string>>}, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Wizard action result
@@ -47,7 +50,7 @@ class WizardController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/api/v1/wizard/{configID}/{wizardAction}')]
 	public function action(
 		string $configID, string $wizardAction,
-		?string $loginName = null, ?string $key = null, ?string $val = null,
+		?string $loginName = null,
 	) {
 		try {
 			$wizard = $this->wizardFactory->get($configID);
@@ -92,23 +95,6 @@ class WizardController extends OCSController {
 					}
 					throw new OCSException();
 
-				case 'save':
-					if ($key === null || $val === null) {
-						throw new OCSException($this->l->t('No data specified'));
-						exit;
-					}
-					$setParameters = [];
-					$configuration = new Configuration($configID);
-					$configuration->setConfiguration([$key => $val], $setParameters);
-					if (!in_array($key, $setParameters)) {
-						throw new OCSException($this->l->t('Could not set configuration %1$s to %2$s', [$key, $setParameters[0]]));
-					}
-					$configuration->saveConfiguration();
-					//clear the cache on save
-					$connection = $this->connectionFactory->get($configID);
-					$connection->clearCache();
-					return new DataResponse();
-					break;
 				default:
 					throw new OCSException($this->l->t('Action does not exist'));
 					break;
