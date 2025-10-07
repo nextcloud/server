@@ -618,7 +618,7 @@ class KeyManager {
 	}
 
 	/**
-	 * add system keys such as the public share key and the recovery key
+	 * add system keys such as the public link share key and the recovery key
 	 *
 	 * @param array $accessList
 	 * @param array $publicKeys
@@ -627,6 +627,7 @@ class KeyManager {
 	 * @throws PublicKeyMissingException
 	 */
 	public function addSystemKeys(array $accessList, array $publicKeys, $uid) {
+		// Only add if already shared
 		if (!empty($accessList['public'])) {
 			$publicShareKey = $this->getPublicShareKey();
 			if (empty($publicShareKey)) {
@@ -635,6 +636,7 @@ class KeyManager {
 			$publicKeys[$this->getPublicShareKeyId()] = $publicShareKey;
 		}
 
+		// Only add if recovery key is applicable
 		if ($this->recoveryKeyExists()
 			&& $this->util->isRecoveryEnabledForUser($uid)) {
 			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
