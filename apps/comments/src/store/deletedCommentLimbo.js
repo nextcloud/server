@@ -22,7 +22,7 @@ export const useDeletedCommentLimbo = defineStore('deletedCommentLimbo', {
 		},
 
 		checkForId(id) {
-			this.idsInLimbo.includes(id)
+			return this.idsInLimbo.includes(id)
 		},
 	},
 })
