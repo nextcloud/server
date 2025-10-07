@@ -8,6 +8,7 @@
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Encryption\Exceptions\EncryptionFailedException;
 use OC\Files\Cache\Scanner;
 use OC\Files\View;
 use OCA\Encryption\Exceptions\MultiKeyEncryptException;
@@ -157,30 +158,37 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
-	 * Start receiving chunks from a file. This is the place to perform any initial steps 
+	 * Initializes the encryption or decryption process for a file.
+	 *
+	 * i.e. Start receiving chunks from a file. This is the place to perform any initial steps 
 	 * before starting encryption/decryption of the chunks.
 	 *
-	 * @param string $path Path to the file.
-	 * @param string $user User reading or writing the file.
-	 * @param string $mode PHP stream open mode.
-	 * @param array $header Header data read from the file.
-	 * @param array $accessList List of users and public access; contains the keys 'users' and 'public'.
-	 *
-	 * @return array Header data as key-value pairs to be written to the header in case of a write operation,
-	 *               or an empty array if no additional data is needed.
+	 * @param string $path Path to the file being processed.
+	 * @param string $user User performing the operation.
+	 * @param string $mode Operation mode ('r' for read, 'w' for write).
+	 * @param array  $header File encryption metadata/header.
+	 * @param array  $accessList List of users/keys with access.
+	 * @return array Metadata for further processing (i.e. header data key-value pairs if writing or empty array if done).
 	 */
 	public function begin(string $path, string $user, string $mode, array $header, array $accessList): array {
+		// All write-capable modes supported by Nextcloud.
+		$writeModes = ['w', 'w+', 'wb', 'wb+'];
+
+		// Resolve the actual file path and initialize core properties.
 		$this->path = $this->getPathToRealFile($path);
-		$this->accessList = $accessList;
 		$this->user = $user;
-		$this->isWriteOperation = false;
+		$this->accessList = $accessList;
 		$this->writeCache = '';
+		$this->isWriteOperation = in_array($mode, $writeModes, true);
+		// Default to legacy encoding unless specified (generally will be, but conservative for BC).
 		$this->useLegacyBase64Encoding = true;
 
+		// Respect encoding specified in header.
 		if (isset($header['encoding'])) {
 			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
 		}
 
+		// Ensure encryption session is ready; initialize master key if needed.
 		if ($this->session->isReady() === false) {
 			// If the master key is enabled we can initialize encryption
 			// with an empty password and username.
@@ -189,22 +197,25 @@ class Encryption implements IEncryptionModule {
 			}
 		}
 
-		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
-		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
+		// Detect legacy file key usage safely and defensively.
+		$useLegacyKeyFile = null;
+		if (isset($header['useLegacyFileKey'])) {
+			// TODO: Confirm if `==` is here for a reason and if not clean this up...
+			$useLegacyFileKey = ($header['useLegacyFileKey'] == 'false') ? false : null;
+		}
 
-		$this->fileKey = $this->keyManager->getFileKey($this->path, $useLegacyFileKey, $this->session->decryptAllModeActivated());
+		// XXX ?????
+		$this->fileKey = $this->keyManager->getFileKey(
+			$this->path,
+			$useLegacyFileKey,
+			$this->session->decryptAllModeActivated()
+		);
 
 		// Always use the version from the original file; part files also
 		// need to have a correct version number if moved to the final location.
 		$this->version = (int)$this->keyManager->getVersion($this->util->stripPartialFileExtension($path), new View());
 
-		if (
-			$mode === 'w'
-			|| $mode === 'w+'
-			|| $mode === 'wb'
-			|| $mode === 'wb+'
-		) {
-			$this->isWriteOperation = true;
+		if ($this->isWriteOperation) {
 			if (empty($this->fileKey)) {
 				$this->fileKey = $this->crypt->generateFileKey();
 			}
@@ -241,140 +252,198 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
-	 * Last chunk received. This is the place to perform any final operations and return any remaining
-	 * data if something is left in the buffer.
+	 * Finalizes the encryption process for a file, handling buffered data and key updates.
 	 *
-	 * @param string $path Path to the file.
-	 * @param string $position Position.
-	 * @return string Remaining data to be written to the file in case of a write operation.
+	 * @param string $path     Path to the file being finalized.
+	 * @param string $position Position in the file (for block-wise encryption).
+	 * @return string          Remaining encrypted data to be written, if any.
 	 * @throws PublicKeyMissingException
-	 * @throws \Exception
 	 * @throws MultiKeyEncryptException
+	 * @throws \Exception
 	 */
 	public function end(string $path, string $position = '0'): string {
+		// Only perform actions if this is a write operation.
+		if (!$this->isWriteOperation) {
+			return '';
+		}
+		
+		// Remember new signature version for partial files.
+		if (Scanner::isPartialFile($path)) {
+			self::$rememberVersion[$this->util->stripPartialFileExtension($path)] = $this->version + 1;
+		}
+
+		// Encrypt any remaining data in the write cache.
 		$result = '';
-		if ($this->isWriteOperation) {
-			// In case of a part file, remember the new signature versions.
-			// The version will be set later on update.
-			// This ensures that other apps listening to the pre-hooks
-			// still get the old version, which should be the correct value for them.
-			if (Scanner::isPartialFile($path)) {
-				self::$rememberVersion[$this->util->stripPartialFileExtension($path)] = $this->version + 1;
-			}
-			if (!empty($this->writeCache)) {
-				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version + 1, $position);
+		if (!empty($this->writeCache)) {
+			try {
+				$result = $this->crypt->symmetricEncryptFileContent(
+					$this->writeCache,
+					$this->fileKey,
+					$this->version + 1,
+					$position
+				);
 				$this->writeCache = '';
+			} catch (\Throwable $e) {
+				$this->logger->error('Encryption failure during final block: ' . $e->getMessage(), [
+					'file' => $this->path ?? $path,
+					'user' => $this->user ?? 'unknown',
+					'app'  => 'encryption'
+				]);
+				throw new EncryptionFailedException(
+					'Encryption failed during final block.',
+					$e->getMessage(),
+					$e->getCode(),
+					$e
+				);
 			}
-			$publicKeys = [];
-			if ($this->useMasterPassword === true) {
-				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
-			} else {
-				foreach ($this->accessList['users'] as $uid) {
-					try {
-						$publicKeys[$uid] = $this->keyManager->getPublicKey($uid);
-					} catch (PublicKeyMissingException $e) {
-						$this->logger->warning(
-							'No public key found for user "{uid}", user will not be able to read the file.',
-							['app' => 'encryption', 'uid' => $uid]
-						);
-						// If the public key of the owner is missing we should fail.
-						if ($uid === $this->user) {
-							throw $e;
-						}
+		}
+
+		// Build the list of public keys required for the finalized access list.
+		$publicKeys = [];
+		if ($this->useMasterPassword === true) {
+			$masterKeyId = $this->keyManager->getMasterKeyId();
+			$publicKeys[$masterKeyId] = $this->keyManager->getPublicMasterKey();
+		} else {
+			foreach ($this->accessList['users'] as $accessUid) {
+				try {
+					$publicKeys[$accessUid] = $this->keyManager->getPublicKey($accessUid);
+				} catch (PublicKeyMissingException $e) {
+					$this->logger->warning(
+						'No public key found for user "{uid}", user will not be able to read the file.',
+						['uid' => $accessUid, 'error' => $e->getMessage(), 'app' => 'encryption']
+					);
+					// If the public key of the owner is missing we should fail.
+					if ($accessUid === $this->user) {
+						throw $e;
 					}
 				}
 			}
-
-			$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $this->getOwner($path));
-			$shareKeys = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
-			if (!$this->keyManager->deleteLegacyFileKey($this->path)) {
-				$this->logger->warning(
-					'Failed to delete legacy filekey for {path}.',
-					['app' => 'encryption', 'path' => $path]
-				);
-			}
-			foreach ($shareKeys as $uid => $keyFile) {
-				$this->keyManager->setShareKey($this->path, $uid, $keyFile);
-			}
 		}
+
+		// Add system-level keys (e.g. public link share keys, recovery keys).
+		$owner = $this->getOwner($path);
+		$publicKeys = $this->keyManager->addSystemKeys($this->accessList, $publicKeys, $owner);
+
+		// Encrypt the file key for all relevant public keys.
+		$shareKeys = $this->crypt->multiKeyEncrypt($this->fileKey, $publicKeys);
+
+		// Remove legacy file keys for improved security.
+		if (!$this->keyManager->deleteLegacyFileKey($this->path)) {
+			$this->logger->warning(
+				'Failed to delete legacy filekey for {path}.',
+				['app' => 'encryption', 'path' => $path]
+			);
+		}
+
+		// Store the new share keys for each user.
+		foreach ($shareKeys as $shareKeyUid => $keyFile) {
+			$this->keyManager->setShareKey($this->path, $shareKeyUid, $keyFile);
+		}
+
 		return $result ?: '';
 	}
 
 	/**
-	 * Encrypts data.
+	 * Encrypts a chunk of file data.
 	 *
-	 * @param string $data Data to encrypt.
-	 * @param int $position Position in the file.
-	 * @return string Encrypted data.
+	 * @param string $data The plaintext data to encrypt.
+	 * @param int $position The position in the file (for block-wise encryption).
+	 * @return string The encrypted data.
+	 * @throws EncryptionFailedException If encryption fails.	 
 	 */
 	public function encrypt(string $data, int $position = 0): string {
-		// If extra data is left over from the last round, make sure it
-		// is integrated into the next block.
-		if ($this->writeCache) {
-			// Concat writeCache to start of $data.
+		// Integrate leftover buffered data from previous round.
+		if (!empty($this->writeCache)) {
 			$data = $this->writeCache . $data;
-
-			// Clear the write cache, ready for reuse - it has been
-			// flushed and its old contents processed.
 			$this->writeCache = '';
 		}
 
 		$encrypted = '';
-		// While there still remains some data to be processed & written.
+		$blockSize = $this->getUnencryptedBlockSize(true);
+		
+		// Process data in block-sized chunks.
 		while (strlen($data) > 0) {
-			// Remaining length for this iteration, not of the
-			// entire file (may be greater than 8192 bytes).
 			$remainingLength = strlen($data);
 
-			// If data remaining to be written is less than the
-			// size of 1 unencrypted block.
-			if ($remainingLength < $this->getUnencryptedBlockSize(true)) {
-				// Set writeCache to contents of $data.
-				// The writeCache will be carried over to the
-				// next write round, and added to the start of
-				// $data to ensure that written blocks are
-				// always the correct length. If there is still
-				// data in writeCache after the writing round
-				// has finished, then the data will be written
-				// to disk by $this->flush().
+			// Buffer incomplete blocks for future encryption.
+			if ($remainingLength < $blockSize) {
 				$this->writeCache = $data;
-
-				// Clear $data ready for next round.
-				$data = '';
-			} else {
-				// Read the chunk from the start of $data.
-				$chunk = substr($data, 0, $this->getUnencryptedBlockSize(true));
-
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, (string)$position);
-
-				// Remove the chunk we just processed from
-				// $data, leaving only unprocessed data in $data
-				// var, for handling on the next round.
-				$data = substr($data, $this->getUnencryptedBlockSize(true));
+				break;
 			}
+			// Encrypt a full block.
+			$chunk = substr($data, 0, $blockSize);
+
+			try {
+				$encryptedChunk = $this->crypt->symmetricEncryptFileContent(
+					$chunk,
+					$this->fileKey,
+					$this->version + 1,
+					(string)$position
+				);
+			} catch (\Throwable $e) {
+				$this->logger->error('Encryption failure: ' . $e->getMessage(), [
+					'file' => $this->path ?? 'unknown',
+					'user' => $this->user ?? 'unknown',
+					'app'  => 'encryption'
+				]);
+				throw new \OC\Encryption\Exceptions\EncryptionFailedException(
+					'Encryption failed.',
+					$e->getMessage(),
+					$e->getCode(), 
+					$e
+				);
+			}
+
+			$encrypted .= $encryptedChunk;
+			
+			// Remove processed chunk from data.
+			$data = substr($data, $blockSize);
 		}
 
 		return $encrypted;
 	}
 
 	/**
-	 * Decrypts data.
+	 * Decrypts a chunk of encrypted file data.
 	 *
-	 * @param string $data Data to decrypt.
-	 * @param int|string $position Position in the file.
-	 * @return string Decrypted data.
-	 * @throws DecryptionFailedException
+	 * @param string $data The encrypted data to decrypt.
+	 * @param int|string $position Position in the file (for block-wise decryption).
+	 * @return string The decrypted data chunk.
+	 * @throws DecryptionFailedException If the file key is missing or decryption fails.
 	 */
 	public function decrypt(string $data, int|string $position = 0): string {
+		// Robustness: Ensure we have the file key before attempting decryption.
 		if (empty($this->fileKey)) {
-			$msg = 'Cannot decrypt this file; this is probably a shared file. Please ask the file owner to reshare the file with you.';
-			$hint = $this->l->t('Cannot decrypt this file; this is probably a shared file. Please ask the file owner to reshare the file with you.');
-			$this->logger->error($msg);
-
-			throw new DecryptionFailedException($msg, $hint);
+			$message = 'Cannot decrypt this file; this is probably a shared file. Please ask the file owner to reshare the file with you.';
+			$hint = $this->l->t($message);
+			$this->logger->error($message, [
+				'file' => $this->path ?? 'unknown',
+				'user' => $this->user ?? 'unknown',
+				'app'  => 'encryption'
+			]);
+			throw new DecryptionFailedException($message, $hint);
 		}
 
-		return $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher, $this->version, $position, !$this->useLegacyBase64Encoding);
+		// Perform decryption using the cryptographic service.
+		try {
+			return $this->crypt->symmetricDecryptFileContent(
+				$data,
+				$this->fileKey,
+				$this->cipher,
+				$this->version,
+				(string)$position,
+				!$this->useLegacyBase64Encoding
+			);
+		} catch (\Throwable $e) {
+			// Robustness: Catch all exceptions, log, and throw a uniform decryption failure.
+			$errorMsg = 'Decryption failure: ' . $e->getMessage();
+			$this->logger->error($errorMsg, [
+				'file' => $this->path ?? 'unknown',
+				'user' => $this->user ?? 'unknown',
+				'app'  => 'encryption'
+			]);
+			throw new DecryptionFailedException('Decryption failed.', $errorMsg);
+		}
 	}
 
 	/**
@@ -412,20 +481,25 @@ class Encryption implements IEncryptionModule {
 			$masterKeyId = $this->keyManager->getMasterKeyId();
 			$publicKeys[$masterKeyId] = $this->keyManager->getPublicMasterKey();
 		} else {
-			foreach ($accessList['users'] as $userUid) {
+			foreach ($accessList['users'] as $accessUid) {
 				try {
-					$publicKeys[$userUid] = $this->keyManager->getPublicKey($userUid);
+					$publicKeys[$accessUid] = $this->keyManager->getPublicKey($accessUid);
 				} catch (PublicKeyMissingException $e) {
 					$this->logger->warning(
-						'Could not encrypt file for user "{user}": {error}',
-						['user' => $userUid, 'error' => $e->getMessage(), 'app' => 'encryption']
+						'No public key found for user "{user}", user will not be able to read the file.',
+						['user' => $accessUid, 'error' => $e->getMessage(), 'app' => 'encryption']
 					);
-					// Robustness: continue so file isn't left inaccessible, but missing users won't have access.
+					// Robustness: continue so file isn't left inaccessible, but missing keys/users won't have access.
+					// Exception: If the public key of the owner is missing we should outright fail (or at least pass 
+					// the buck more strongly than just logging the warning like for others).
+					if ($accessUid === $this->user) {
+						throw $e;
+					}
 				}
 			}
 		}
 
-		// Add system-level keys for robustness (e.g. for automated processes).
+		// Add system-level keys (e.g. public link share and recovery keys).
 		$owner = $this->getOwner($path);
 		$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $owner);
 
@@ -436,8 +510,8 @@ class Encryption implements IEncryptionModule {
 		$this->keyManager->deleteAllFileKeys($path);
 
 		// Write the new share keys for each user.
-		foreach ($shareKeys as $userUid => $keyFile) {
-			$this->keyManager->setShareKey($path, $userUid, $keyFile);
+		foreach ($shareKeys as $shareKeyUid => $keyFile) {
+			$this->keyManager->setShareKey($path, $shareKeyUid, $keyFile);
 		}
 
 		return true;
