@@ -55,6 +55,8 @@ use Psr\Log\LoggerInterface;
  *
  * Filesystem functions are not called directly; they are passed to the correct
  * \OC\Files\Storage\Storage object
+ *
+ * @internal Since 33.0.0. use IRootFolder and the Folder/File/Node API instead in new code.
  */
 class View {
 	private string $fakeRoot = '';

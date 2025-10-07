@@ -11,12 +11,12 @@ use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Wrapper;
-use OC\Files\View;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Files\File as OCPFile;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -31,17 +31,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class File extends Command {
 	private IL10N $l10n;
-	private View $rootView;
 
 	public function __construct(
 		IFactory $l10nFactory,
 		private FileUtils $fileUtils,
 		private \OC\Encryption\Util $encryptionUtil,
 		private PrimaryObjectStoreConfig $objectStoreConfig,
+		private IRootFolder $rootFolder,
 	) {
 		$this->l10n = $l10nFactory->get('core');
 		parent::__construct();
-		$this->rootView = new View();
 	}
 
 	protected function configure(): void {
@@ -70,9 +69,10 @@ class File extends Command {
 		if ($node instanceof OCPFile && $node->isEncrypted()) {
 			$output->writeln('  ' . 'server-side encrypted: yes');
 			$keyPath = $this->encryptionUtil->getFileKeyDir('', $node->getPath());
-			if ($this->rootView->file_exists($keyPath)) {
+			try {
+				$this->rootFolder->get($keyPath);
 				$output->writeln('    encryption key at: ' . $keyPath);
-			} else {
+			} catch (NotFoundException $e) {
 				$output->writeln('    <error>encryption key not found</error> should be located at: ' . $keyPath);
 			}
 			$storage = $node->getStorage();
