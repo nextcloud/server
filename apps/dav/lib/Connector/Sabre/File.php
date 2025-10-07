@@ -55,12 +55,6 @@ class File extends Node implements IFile {
 
 	/**
 	 * Sets up the node, expects a full path name
-	 *
-	 * @param View $view
-	 * @param FileInfo $info
-	 * @param ?\OCP\Share\IManager $shareManager
-	 * @param ?IRequest $request
-	 * @param ?IL10N $l10n
 	 */
 	public function __construct(View $view, FileInfo $info, ?IManager $shareManager = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		parent::__construct($view, $info, $shareManager);

@@ -55,7 +55,7 @@ class NodeTest extends \Test\TestCase {
 	public function testDavPermissions(int $permissions, string $type, bool $shared, int $shareRootPermissions, bool $mounted, string $internalPath, string $expected): void {
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getPermissions', 'isShared', 'isMounted', 'getType', 'getInternalPath', 'getStorage', 'getMountPoint'])
+			->onlyMethods(['getPermissions', 'isShared', 'isMounted', 'getType', 'getPath', 'getInternalPath', 'getStorage', 'getMountPoint'])
 			->getMock();
 		$info->method('getPermissions')
 			->willReturn($permissions);
@@ -65,6 +65,8 @@ class NodeTest extends \Test\TestCase {
 			->willReturn($mounted);
 		$info->method('getType')
 			->willReturn($type);
+		$info->method('getPath')
+			->willReturn('');
 		$info->method('getInternalPath')
 			->willReturn($internalPath);
 		$info->method('getMountPoint')
@@ -94,8 +96,10 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getStorage')
 			->willReturn($storage);
 		$view = $this->createMock(View::class);
+		$view->method('getRelativePath')->willReturnArgument(0);
+		$view->method('getAbsolutePath')->willReturnArgument(0);
 
-		$node = new  File($view, $info);
+		$node = new File($view, $info);
 		$this->assertEquals($expected, $node->getDavPermissions());
 	}
 
@@ -160,15 +164,18 @@ class NodeTest extends \Test\TestCase {
 
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType', 'getMountPoint', 'getPermissions'])
+			->onlyMethods(['getStorage', 'getType', 'getPath', 'getMountPoint', 'getPermissions'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn($type);
+		$info->method('getPath')->willReturn('');
 		$info->method('getMountPoint')->willReturn($mountpoint);
 		$info->method('getPermissions')->willReturn($permissions);
 
 		$view = $this->createMock(View::class);
+		$view->method('getRelativePath')->willReturnArgument(0);
+		$view->method('getAbsolutePath')->willReturnArgument(0);
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -196,14 +203,17 @@ class NodeTest extends \Test\TestCase {
 		/** @var Folder&MockObject $info */
 		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType', 'getPath'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
+		$info->method('getPath')->willReturn('');
 
 		/** @var View&MockObject $view */
 		$view = $this->createMock(View::class);
+		$view->method('getRelativePath')->willReturnArgument(0);
+		$view->method('getAbsolutePath')->willReturnArgument(0);
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -217,14 +227,17 @@ class NodeTest extends \Test\TestCase {
 		/** @var Folder&MockObject */
 		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType', 'getPath'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
+		$info->method('getPath')->willReturn('');
 
 		/** @var View&MockObject */
 		$view = $this->createMock(View::class);
+		$view->method('getRelativePath')->willReturnArgument(0);
+		$view->method('getAbsolutePath')->willReturnArgument(0);
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -243,6 +256,9 @@ class NodeTest extends \Test\TestCase {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$view->method('getAbsolutePath')->willReturnArgument(0);
+		$view->method('getRelativePath')->willReturnArgument(0);
+
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -263,6 +279,8 @@ class NodeTest extends \Test\TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$view = $this->createMock(View::class);
+		$view->method('getRelativePath')->willReturnArgument(0);
+		$view->method('getAbsolutePath')->willReturnArgument(0);
 		$info = $this->createMock(FileInfo::class);
 
 		$node = new File($view, $info);

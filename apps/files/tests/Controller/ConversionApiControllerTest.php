@@ -43,6 +43,7 @@ class ConversionApiControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->fileConversionManager = $this->createMock(IConversionManager::class);
 		$this->file = $this->createMock(File::class);
+		$this->file->method('isReadable')->willReturn(true);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->user = 'userid';
 

@@ -57,7 +57,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			$user = $this->userManager->get($owner);
 
 			$fileId = $file->getId();
-			if ($fileId === null) {
+			if ($fileId === -1) {
 				throw new NotFoundException("File not found ($fileId)");
 			}
 
@@ -77,7 +77,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		}
 
 		$fileId = $file->getId();
-		if ($fileId === null) {
+		if ($fileId === -1) {
 			throw new NotFoundException("File not found ($fileId)");
 		}
 

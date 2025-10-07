@@ -7,7 +7,10 @@
 namespace OCA\Files_Trashbin\Trash;
 
 use OCP\Files\FileInfo;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
+use Override;
 
 class TrashItem implements ITrashItem {
 
@@ -46,126 +49,150 @@ class TrashItem implements ITrashItem {
 		return $this->user;
 	}
 
-	public function getEtag() {
-		return $this->fileInfo->getEtag();
-	}
-
-	public function getSize($includeMounts = true) {
-		return $this->fileInfo->getSize($includeMounts);
-	}
-
-	public function getMtime() {
-		return $this->fileInfo->getMtime();
-	}
-
-	public function getName() {
-		return $this->fileInfo->getName();
-	}
-
-	public function getInternalPath() {
-		return $this->fileInfo->getInternalPath();
-	}
-
-	public function getPath() {
-		return $this->fileInfo->getPath();
-	}
-
-	public function getMimetype(): string {
-		return $this->fileInfo->getMimetype();
-	}
-
-	public function getMimePart() {
-		return $this->fileInfo->getMimePart();
-	}
-
-	public function getStorage() {
-		return $this->fileInfo->getStorage();
-	}
-
-	public function getId() {
-		return $this->fileInfo->getId();
-	}
-
-	public function isEncrypted() {
-		return $this->fileInfo->isEncrypted();
-	}
-
-	public function getPermissions() {
-		return $this->fileInfo->getPermissions();
-	}
-
-	public function getType() {
-		return $this->fileInfo->getType();
-	}
-
-	public function isReadable() {
-		return $this->fileInfo->isReadable();
-	}
-
-	public function isUpdateable() {
-		return $this->fileInfo->isUpdateable();
-	}
-
-	public function isCreatable() {
-		return $this->fileInfo->isCreatable();
-	}
-
-	public function isDeletable() {
-		return $this->fileInfo->isDeletable();
-	}
-
-	public function isShareable() {
-		return $this->fileInfo->isShareable();
-	}
-
-	public function isShared() {
-		return $this->fileInfo->isShared();
-	}
-
-	public function isMounted() {
-		return $this->fileInfo->isMounted();
-	}
-
-	public function getMountPoint() {
-		return $this->fileInfo->getMountPoint();
-	}
-
-	public function getOwner() {
-		return $this->fileInfo->getOwner();
-	}
-
-	public function getChecksum() {
-		return $this->fileInfo->getChecksum();
-	}
-
-	public function getExtension(): string {
-		return $this->fileInfo->getExtension();
-	}
-
-	public function getTitle(): string {
-		return $this->getOriginalLocation();
-	}
-
-	public function getCreationTime(): int {
-		return $this->fileInfo->getCreationTime();
-	}
-
-	public function getUploadTime(): int {
-		return $this->fileInfo->getUploadTime();
-	}
-
-	public function getParentId(): int {
-		return $this->fileInfo->getParentId();
-	}
-
 	public function getDeletedBy(): ?IUser {
 		return $this->deletedBy;
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return array<string, int|string|bool|float|string[]|int[]>
-	 */
+	#[Override]
+	public function getEtag(): string {
+		return $this->fileInfo->getEtag();
+	}
+
+	#[Override]
+	public function getSize(bool $includeMounts = true): int|float {
+		return $this->fileInfo->getSize($includeMounts);
+	}
+
+	#[Override]
+	public function getMtime(): int {
+		return $this->fileInfo->getMtime();
+	}
+
+	#[Override]
+	public function getName(): string {
+		return $this->fileInfo->getName();
+	}
+
+	#[Override]
+	public function getInternalPath(): string {
+		return $this->fileInfo->getInternalPath();
+	}
+
+	#[Override]
+	public function getPath(): string {
+		return $this->fileInfo->getPath();
+	}
+
+	#[Override]
+	public function getMimetype(): string {
+		return $this->fileInfo->getMimetype();
+	}
+
+	#[Override]
+	public function getMimePart(): string {
+		return $this->fileInfo->getMimePart();
+	}
+
+	#[Override]
+	public function getStorage(): IStorage {
+		return $this->fileInfo->getStorage();
+	}
+
+	#[Override]
+	public function getId(): int {
+		return $this->fileInfo->getId();
+	}
+
+	#[Override]
+	public function isEncrypted(): bool {
+		return $this->fileInfo->isEncrypted();
+	}
+
+	#[Override]
+	public function getPermissions(): int {
+		return $this->fileInfo->getPermissions();
+	}
+
+	#[Override]
+	public function getType(): string {
+		return $this->fileInfo->getType();
+	}
+
+	#[Override]
+	public function isReadable(): bool {
+		return $this->fileInfo->isReadable();
+	}
+
+	#[Override]
+	public function isUpdateable(): bool {
+		return $this->fileInfo->isUpdateable();
+	}
+
+	#[Override]
+	public function isCreatable(): bool {
+		return $this->fileInfo->isCreatable();
+	}
+
+	#[Override]
+	public function isDeletable(): bool {
+		return $this->fileInfo->isDeletable();
+	}
+
+	public function isShareable(): bool {
+		return $this->fileInfo->isShareable();
+	}
+
+	#[Override]
+	public function isShared(): bool {
+		return $this->fileInfo->isShared();
+	}
+
+	#[Override]
+	public function isMounted(): bool {
+		return $this->fileInfo->isMounted();
+	}
+
+	#[Override]
+	public function getMountPoint(): IMountPoint {
+		return $this->fileInfo->getMountPoint();
+	}
+
+	#[Override]
+	public function getOwner(): ?IUser {
+		return $this->fileInfo->getOwner();
+	}
+
+	#[Override]
+	public function getChecksum(): string {
+		return $this->fileInfo->getChecksum();
+	}
+
+	#[Override]
+	public function getExtension(): string {
+		return $this->fileInfo->getExtension();
+	}
+
+	#[Override]
+	public function getTitle(): string {
+		return $this->getOriginalLocation();
+	}
+
+	#[Override]
+	public function getCreationTime(): int {
+		return $this->fileInfo->getCreationTime();
+	}
+
+	#[Override]
+	public function getUploadTime(): int {
+		return $this->fileInfo->getUploadTime();
+	}
+
+	#[Override]
+	public function getParentId(): int {
+		return $this->fileInfo->getParentId();
+	}
+
+	#[Override]
 	public function getMetadata(): array {
 		return $this->fileInfo->getMetadata();
 	}

@@ -27,18 +27,8 @@ use OCP\Share\IManager;
 abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * The path to the current node
-	 *
-	 * @var string
 	 */
-	protected $path;
-
-	protected FileInfo $info;
-
-	/**
-	 * @var IManager
-	 */
-	protected $shareManager;
-
+	protected string $path = '';
 	protected \OCP\Files\Node $node;
 
 	/**
@@ -46,14 +36,11 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	public function __construct(
 		protected View $fileView,
-		FileInfo $info,
-		?IManager $shareManager = null,
+		protected FileInfo $info,
+		protected ?IManager $shareManager = null,
 	) {
 		$this->path = $this->fileView->getRelativePath($info->getPath());
-		$this->info = $info;
-		if ($shareManager) {
-			$this->shareManager = $shareManager;
-		} else {
+		if (!$this->shareManager) {
 			$this->shareManager = Server::get(\OCP\Share\IManager::class);
 		}
 		if ($info instanceof Folder || $info instanceof File) {
@@ -141,7 +128,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	public function getLastModified() {
 		$timestamp = $this->info->getMtime();
 		if (!empty($timestamp)) {
-			return (int)$timestamp;
+			return $timestamp;
 		}
 		return $timestamp;
 	}

@@ -905,7 +905,7 @@ class ViewTest extends \Test\TestCase {
 		$info = $view->getFileInfo('test.part');
 
 		$this->assertInstanceOf('\OCP\Files\FileInfo', $info);
-		$this->assertNull($info->getId());
+		$this->assertEquals(-1, $info->getId());
 		$this->assertEquals(6, $sizeWritten);
 		$this->assertEquals(6, $info->getSize());
 		$this->assertEquals('foobar', $view->file_get_contents('test.part'));

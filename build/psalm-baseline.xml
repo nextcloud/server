@@ -566,11 +566,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[Folder]]></code>
     </MoreSpecificReturnType>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
     <ParamNameMismatch>
       <code><![CDATA[$fullSourcePath]]></code>
     </ParamNameMismatch>
@@ -641,14 +636,6 @@
       <code><![CDATA[unlockFile]]></code>
       <code><![CDATA[verifyPath]]></code>
     </InternalMethod>
-    <InvalidNullableReturnType>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[integer]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->info->getId()]]></code>
-      <code><![CDATA[$this->info->getId()]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ObjectTree.php">
     <InternalMethod>
@@ -1820,14 +1807,6 @@
       <code><![CDATA[is_dir]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin/files')]]></code>
     </InternalMethod>
-  </file>
-  <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[int]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->data->getId()]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrashFolder.php">
     <InvalidReturnStatement>
@@ -3741,27 +3720,6 @@
       <code><![CDATA[wrap]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Files/Node/File.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->view->hash($type, $this->path, $raw)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="lib/private/Files/Node/Folder.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[array_map(function (FileInfo $file) {
-			return $this->createNode($file->getPath(), $file);
-		}, $files)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$node]]></code>
-    </MoreSpecificImplementedParamType>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Files\Node\Node[]]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/private/Files/Node/HookConnector.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[emit]]></code>
@@ -3778,64 +3736,6 @@
       <code><![CDATA[emit]]></code>
       <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Files/Node/LazyFolder.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->__call(__FUNCTION__, func_get_args())]]></code>
-    </InvalidReturnStatement>
-  </file>
-  <file src="lib/private/Files/Node/LazyUserFolder.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$node]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[Folder]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/Files/Node/Node.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[FileInfo]]></code>
-    </InvalidNullableReturnType>
-    <InvalidReturnType>
-      <code><![CDATA[getChecksum]]></code>
-    </InvalidReturnType>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->parent]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[INode|IRootFolder]]></code>
-    </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->fileInfo]]></code>
-    </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$type]]></code>
-    </ParamNameMismatch>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[$this->fileInfo]]></code>
-      <code><![CDATA[$this->fileInfo]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Files/Node/Root.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$folders]]></code>
-      <code><![CDATA[$this->mountManager->findByNumericId($numericId)]]></code>
-      <code><![CDATA[$this->mountManager->findByStorageId($storageId)]]></code>
-      <code><![CDATA[$this->mountManager->findIn($mountPoint)]]></code>
-      <code><![CDATA[$this->user]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[MountPoint[]]]></code>
-      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
-      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
-      <code><![CDATA[\OC\User\User]]></code>
-    </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->user]]></code>
-    </NullableReturnStatement>
-    <UndefinedMethod>
-      <code><![CDATA[remove]]></code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ConnectionTrait.php">
     <InternalClass>

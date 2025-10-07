@@ -57,9 +57,9 @@ class SimpleFile implements ISimpleFile {
 	 * @throws NotPermittedException
 	 */
 	public function getContent(): string {
-		$result = $this->file->getContent();
-
-		if ($result === false) {
+		try {
+			$result = $this->file->getContent();
+		} catch (GenericFileException) {
 			$this->checkFile();
 		}
 

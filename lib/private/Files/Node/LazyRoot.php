@@ -12,6 +12,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Node as INode;
+use Override;
 
 /**
  * Class LazyRoot
@@ -34,23 +35,48 @@ class LazyRoot extends LazyFolder implements IRootFolder {
 		return $folder;
 	}
 
-	public function getUserFolder($userId) {
+	#[Override]
+	public function listen($scope, $method, callable $callback): void {
+		$this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[Override]
+	public function removeListener($scope = null, $method = null, ?callable $callback = null): void {
+		$this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[Override]
+	public function getUserFolder(string $userId): \OCP\Files\Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	public function getByIdInPath(int $id, string $path) {
+	#[Override]
+	public function getByIdInPath(int $id, string $path): array {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[Override]
 	public function getFirstNodeByIdInPath(int $id, string $path): ?Node {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[Override]
 	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
 		return $this->getRootFolder()->getNodeFromCacheEntryAndMount($cacheEntry, $mountPoint);
 	}
 
+	#[Override]
 	public function getAppDataDirectoryName(): string {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[Override]
+	public function getMountsIn(string $mountPoint): array {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	#[Override]
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 }

@@ -388,8 +388,13 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		try {
 			$fileId = $share->getNode()->getId();
+<<<<<<< HEAD
 			[$file, $link] = $this->getFile($user, $fileId);
 		} catch (\Exception) {
+=======
+			[$file, $link] = $this->getFile($this->getCorrectUid($share), $fileId);
+		} catch (\Exception $e) {
+>>>>>>> 0b193b0ad98 (refactor: Add type-hinting to Node-API)
 			throw new ShareNotFound();
 		}
 

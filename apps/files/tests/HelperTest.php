@@ -9,12 +9,14 @@ declare(strict_types=1);
 
 use OC\Files\FileInfo;
 use OCA\Files\Helper;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 
 class HelperTest extends \Test\TestCase {
-	private static function makeFileInfo($name, $size, $mtime, $isDir = false): FileInfo {
+	private function makeFileInfo($name, $size, $mtime, $isDir = false): FileInfo {
 		return new FileInfo(
 			'/' . $name,
-			null,
+			$this->createMock(IStorage::class),
 			'/',
 			[
 				'name' => $name,
@@ -23,21 +25,21 @@ class HelperTest extends \Test\TestCase {
 				'type' => $isDir ? 'dir' : 'file',
 				'mimetype' => $isDir ? 'httpd/unix-directory' : 'application/octet-stream'
 			],
-			null
+			$this->createMock(IMountPoint::class),
 		);
 	}
 
 	/**
 	 * Returns a file list for testing
 	 */
-	private static function getTestFileList(): array {
+	private function getTestFileList(): array {
 		return [
-			self::makeFileInfo('a.txt', 4, 2.3 * pow(10, 9)),
-			self::makeFileInfo('q.txt', 5, 150),
-			self::makeFileInfo('subdir2', 87, 128, true),
-			self::makeFileInfo('b.txt', 2.2 * pow(10, 9), 800),
-			self::makeFileInfo('o.txt', 12, 100),
-			self::makeFileInfo('subdir', 88, 125, true),
+			$this->makeFileInfo('a.txt', 4, 2.3 * pow(10, 9)),
+			$this->makeFileInfo('q.txt', 5, 150),
+			$this->makeFileInfo('subdir2', 87, 128, true),
+			$this->makeFileInfo('b.txt', 2.2 * pow(10, 9), 800),
+			$this->makeFileInfo('o.txt', 12, 100),
+			$this->makeFileInfo('subdir', 88, 125, true),
 		];
 	}
 
@@ -81,7 +83,7 @@ class HelperTest extends \Test\TestCase {
 		if (($sort === 'mtime') && (PHP_INT_SIZE < 8)) {
 			$this->markTestSkipped('Skip mtime sorting on 32bit');
 		}
-		$files = self::getTestFileList();
+		$files = $this->getTestFileList();
 		$files = Helper::sortFiles($files, $sort, $sortDescending);
 		$fileNames = [];
 		foreach ($files as $fileInfo) {

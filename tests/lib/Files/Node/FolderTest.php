@@ -85,8 +85,8 @@ class FolderTest extends NodeTestCase {
 			->method('getDirectoryContent')
 			->with('/bar/foo')
 			->willReturn([
-				new FileInfo('/bar/foo/asd', null, 'foo/asd', ['fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'], null),
-				new FileInfo('/bar/foo/qwerty', null, 'foo/qwerty', ['fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory'], null),
+				new FileInfo('/bar/foo/asd', $this->createMock(IStorage::class), 'foo/asd', ['fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'], $this->createMock(IMountPoint::class)),
+				new FileInfo('/bar/foo/qwerty', $this->createMock(IStorage::class), 'foo/qwerty', ['fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory'], $this->createMock(IMountPoint::class)),
 			]);
 		$this->view->method('getFileInfo')
 			->willReturn($this->createMock(FileInfo::class));

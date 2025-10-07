@@ -338,7 +338,7 @@ class View {
 	 * @param string $path
 	 * @return mixed
 	 */
-	public function stat($path) {
+	public function stat($path): array|false {
 		return $this->basicOperation('stat', $path);
 	}
 
@@ -1119,12 +1119,7 @@ class View {
 		return $this->basicOperation('getMimeType', $path);
 	}
 
-	/**
-	 * @param string $type
-	 * @param string $path
-	 * @param bool $raw
-	 */
-	public function hash($type, $path, $raw = false): string|bool {
+	public function hash(string $type, string $path, bool $raw = false): string|false {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)) {
@@ -1149,11 +1144,9 @@ class View {
 	}
 
 	/**
-	 * @param string $path
-	 * @return mixed
 	 * @throws InvalidPathException
 	 */
-	public function free_space($path = '/') {
+	public function free_space(string $path = '/'): float|int|false {
 		$this->assertPathLength($path);
 		$result = $this->basicOperation('free_space', $path);
 		if ($result === null) {
