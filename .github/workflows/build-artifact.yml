@@ -87,6 +87,13 @@ jobs:
               "makefile_target": "build_contacts_app"
             },
             {
+              "name": "collectives",
+              "path": "apps-external/collectives",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_collectives_app"
+            },
+            {
               "name": "circles",
               "path": "apps-external/circles",
               "has_npm": false,
