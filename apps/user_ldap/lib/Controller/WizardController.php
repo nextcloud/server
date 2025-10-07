@@ -11,6 +11,8 @@ namespace OCA\User_LDAP\Controller;
 
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
+use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Settings\Admin;
 use OCA\User_LDAP\WizardFactory;
 use OCP\AppFramework\Http;
@@ -19,8 +21,13 @@ use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
+use OCP\Server;
+use OCP\User\Events\BeforeUserIdUnassignedEvent;
+use OCP\User\Events\UserIdUnassignedEvent;
 use Psr\Log\LoggerInterface;
 
 class WizardController extends OCSController {
@@ -31,6 +38,7 @@ class WizardController extends OCSController {
 		private ConnectionFactory $connectionFactory,
 		private IL10N $l,
 		private WizardFactory $wizardFactory,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -103,7 +111,54 @@ class WizardController extends OCSController {
 			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			throw new OCSException('An issue occurred when creating the new config.');
+			throw new OCSException('An issue occurred.');
+		}
+	}
+
+	/**
+	 * Clear user or group mappings
+	 *
+	 * @param 'user'|'group' $subject Whether to clear group or user mappings
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Clearing was done successfuly
+	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/wizard/clearMappings')]
+	public function clearMappings(
+		string $subject,
+	) {
+		$mapping = null;
+		try {
+			if ($subject === 'user') {
+				$mapping = Server::get(UserMapping::class);
+				$result = $mapping->clearCb(
+					function (string $uid): void {
+						$this->eventDispatcher->dispatchTyped(new BeforeUserIdUnassignedEvent($uid));
+						/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
+						Server::get(IUserManager::class)->emit('\OC\User', 'preUnassignedUserId', [$uid]);
+					},
+					function (string $uid): void {
+						$this->eventDispatcher->dispatchTyped(new UserIdUnassignedEvent($uid));
+						/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
+						Server::get(IUserManager::class)->emit('\OC\User', 'postUnassignedUserId', [$uid]);
+					}
+				);
+			} elseif ($subject === 'group') {
+				$mapping = Server::get(GroupMapping::class);
+				$result = $mapping->clear();
+			} else {
+				throw new OCSException($this->l->t('Unsupported subject ' . $subject));
+			}
+
+			if (!$result) {
+				throw new OCSException($this->l->t('Failed to clear the mappings.'));
+			}
+			return new DataResponse();
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSException('An issue occurred.');
 		}
 	}
 }
