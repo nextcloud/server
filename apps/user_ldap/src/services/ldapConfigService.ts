@@ -15,8 +15,6 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import path from 'path'
 import logger from './logger.ts'
 
-const AJAX_ENDPOINT = generateUrl('apps/user_ldap/ajax')
-
 export type WizardAction
 	= 'guessPortAndTLS'
 		| 'guessBaseDN'
@@ -142,19 +140,18 @@ export async function clearMapping(subject: 'user' | 'group') {
 		return false
 	}
 
-	const params = new FormData()
-	params.set('ldap_clear_mapping', subject)
+	try {
+		const response = await axios.post(
+			generateOcsUrl('apps/user_ldap/api/v1/wizard/clearMappings'),
+			{ subject: subject },
+		) as AxiosResponse<OCSResponse>
 
-	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'clearMappings.php'),
-		params,
-	)
-
-	if (response.data.status === 'success') {
 		logger.debug('Cleared mapping', { subject, params, response })
 		showSuccess(t('user_ldap', 'Mapping cleared'))
-	} else {
-		showError(t('user_ldap', 'Failed to clear mapping'))
+		return true
+	} catch (error) {
+		const errorResponse = (error as AxiosError<OCSResponse>).response
+		showError(errorResponse?.data.ocs.meta.message || t('user_ldap', 'Failed to clear mapping'))
 	}
 }
 
