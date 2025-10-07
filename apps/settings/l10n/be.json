@@ -95,6 +95,7 @@
     "Image generation can be implemented by different apps. Here you can set which app should be used." : "Генерацыя відарысаў можа быць рэалізавана рознымі праграмамі. Тут вы можаце задаць, якую праграму трэба выкарыстоўваць.",
     "None of your currently installed apps provide image generation functionality" : "Ніводная з усталяваных праграм не прадугледжвае функцыі генерацыі відарысаў",
     "Text processing" : "Апрацоўка тэксту",
+    "Task:" : "Заданне:",
     "Here you can decide which group can access certain sections of the administration settings." : "Тут вы можаце вызначыць, якая група мае доступ да пэўных раздзелаў налад адміністравання.",
     "Unable to modify setting" : "Немагчыма змяніць наладу",
     "None" : "Няма",
