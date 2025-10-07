@@ -193,6 +193,7 @@ class Encryption implements IEncryptionModule {
 		$useLegacyFileKey = null;
 		if (isset($header['useLegacyFileKey'])) {
 			// NOTE: null means "try both" {@see OCA\Encryption\KeyManager::getFileKey()}
+			// XXX: If 'true' we could probably explicitly treat it as bool true rather than null/both?
 			$useLegacyFileKey = ($header['useLegacyFileKey'] === 'false') ? false : null;
 		}
 
