@@ -11,8 +11,7 @@ import type { LDAPConfig } from '../models/index.ts'
 import axios from '@nextcloud/axios'
 import { getDialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { generateOcsUrl, generateUrl } from '@nextcloud/router'
-import path from 'path'
+import { generateOcsUrl } from '@nextcloud/router'
 import logger from './logger.ts'
 
 export type WizardAction
