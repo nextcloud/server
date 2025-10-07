@@ -248,6 +248,7 @@ class Encryption implements IEncryptionModule {
 		$result = [
 			'cipher' => $this->cipher,
 			'signed' => 'true',
+			// XXX: Confirm hardcoding this is correct; shouldn't this be set based on value of $useLegacyFileKey?
 			'useLegacyFileKey' => 'false',
 		];
 		if ($this->useLegacyBase64Encoding !== true) {
