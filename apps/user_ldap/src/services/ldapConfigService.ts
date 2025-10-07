@@ -118,9 +118,7 @@ export async function deleteConfig(configId: string): Promise<boolean> {
 export async function testConfiguration(configId: string) {
 	const params = new FormData()
 
-	const response = await axios.post(
-		generateOcsUrl('apps/user_ldap/api/v1/config/{configId}/test', { configId }),
-	) as AxiosResponse<OCSResponse<{ success: boolean, message: string }>>
+	const response = await axios.post(generateOcsUrl('apps/user_ldap/api/v1/config/{configId}/test', { configId })) as AxiosResponse<OCSResponse<{ success: boolean, message: string }>>
 
 	logger.debug(`Configuration is ${response.data.ocs.data.success ? 'valide' : 'invalide'}`, { configId, params, response })
 
@@ -143,7 +141,7 @@ export async function clearMapping(subject: 'user' | 'group') {
 	try {
 		const response = await axios.post(
 			generateOcsUrl('apps/user_ldap/api/v1/wizard/clearMappings'),
-			{ subject: subject },
+			{ subject },
 		) as AxiosResponse<OCSResponse>
 
 		logger.debug('Cleared mapping', { subject, params, response })
