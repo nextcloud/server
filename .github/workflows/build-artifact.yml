@@ -196,7 +196,7 @@ jobs:
           fi
 
   build-external-apps:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: prepare-matrix
 
     permissions:
@@ -230,7 +230,7 @@ jobs:
           tools: composer:v2
           extensions: gd, zip, curl, xml, xmlrpc, mbstring, sqlite, xdebug, pgsql, intl, imagick, gmp, apcu, bcmath, redis, soap, imap, opcache
         env:
-          runner: self-hosted
+          runner: ubuntu-latest
 
       - name: Cache Composer dependencies for ${{ matrix.app.name }}
         if: matrix.app.has_composer
@@ -254,7 +254,7 @@ jobs:
             !${{ matrix.app.path }}/node_modules
 
   build-artifact:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: [prepare-matrix, build-external-apps]
 
     permissions:
@@ -339,7 +339,7 @@ jobs:
           tools: composer:v2
           extensions: gd, zip, curl, xml, xmlrpc, mbstring, sqlite, xdebug, pgsql, intl, imagick, gmp, apcu, bcmath, redis, soap, imap, opcache
         env:
-          runner: self-hosted
+          runner: ubuntu-latest
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
