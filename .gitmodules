@@ -79,3 +79,6 @@
 [submodule "apps-external/integration_openai"]
 	path = apps-external/integration_openai
 	url = git@github.com:nextcloud/integration_openai.git
+[submodule "apps-external/collectives"]
+	path = apps-external/collectives
+	url = git@github.com:nextcloud/collectives.git
