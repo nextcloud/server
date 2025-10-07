@@ -45,6 +45,7 @@ OC.L10N.register(
     "Value" : "Reikšmė",
     "Image" : "Paveikslas",
     "Importing …" : "Importuojama…",
+    "Upload image" : "Įkelti paveikslą",
     "From gallery" : "Iš galerijos",
     "Rotate" : "Pasukti",
     "Text" : "Tekstas",
