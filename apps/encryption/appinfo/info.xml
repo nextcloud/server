@@ -18,8 +18,8 @@
 			*   **Authentication:** HMAC-SHA256
 
 			**Important Warnings**
-			*   **DANGER:** Do not disable this module until all files have been decrypted (`occ encryption:decrypt-all`).
-			*   **WARNING:** Once SSE has been enabled, files cannot be decrypted unless you have command-line access.
+			*   **DANGER:** Do not disable this application until all files have been decrypted (`occ encryption:decrypt-all`).
+			*   **WARNING**: Reverting to non-encrypted file storage after activation requires command-line access. The action is permanent via the Web UI."
 
 			**Notes for Existing Files**
 			*   By default, enabling SSE does not encrypt existing files; only new files will be encrypted.
