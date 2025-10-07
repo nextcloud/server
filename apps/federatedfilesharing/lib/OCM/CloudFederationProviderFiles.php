@@ -338,7 +338,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	 */
 	protected function executeAcceptShare(IShare $share) {
 		try {
-			$fileId = (int)$share->getNode()->getId();
+			$fileId = $share->getNode()->getId();
 			[$file, $link] = $this->getFile($this->getCorrectUid($share), $fileId);
 		} catch (\Exception $e) {
 			throw new ShareNotFound();
@@ -414,7 +414,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$this->federatedShareProvider->removeShareFromTable($share);
 
 		try {
-			$fileId = (int)$share->getNode()->getId();
+			$fileId = $share->getNode()->getId();
 			[$file, $link] = $this->getFile($this->getCorrectUid($share), $fileId);
 		} catch (\Exception $e) {
 			throw new ShareNotFound();

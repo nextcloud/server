@@ -57,6 +57,8 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->tree = $this->createMock(Tree::class);
 		$this->view = $this->createMock(View::class);
+		$this->view->method('getAbsolutePath')->willReturnArgument(0);
+		$this->view->method('getRelativePath')->willReturnArgument(0);
 
 		$this->server = $this->getMockBuilder(Server::class)
 			->setConstructorArgs([$this->tree])

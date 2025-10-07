@@ -8,29 +8,32 @@
 namespace OC\Files\Node;
 
 use OCP\Files\NotFoundException;
+use OCP\Files\Search\ISearchQuery;
+use Override;
 
 class NonExistingFolder extends Folder {
-	/**
-	 * @param string $newPath
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function rename($newPath) {
+	#[Override]
+	public function move(string $targetPath): \OCP\Files\Node {
 		throw new NotFoundException();
 	}
 
-	public function delete() {
+	#[Override]
+	public function delete(): void {
 		throw new NotFoundException();
 	}
 
-	public function copy($targetPath) {
+	#[Override]
+	public function copy(string $targetPath): \OCP\Files\Node {
 		throw new NotFoundException();
 	}
 
-	public function touch($mtime = null) {
+	#[Override]
+	public function touch(?int $mtime = null): void {
 		throw new NotFoundException();
 	}
 
-	public function getId() {
+	#[Override]
+	public function getId(): int {
 		if ($this->fileInfo) {
 			return parent::getId();
 		} else {
@@ -38,7 +41,8 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function getInternalPath() {
+	#[Override]
+	public function getInternalPath(): string {
 		if ($this->fileInfo) {
 			return parent::getInternalPath();
 		} else {
@@ -46,11 +50,13 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function stat() {
+	#[Override]
+	public function stat(): array|false {
 		throw new NotFoundException();
 	}
 
-	public function getMTime() {
+	#[Override]
+	public function getMTime(): int {
 		if ($this->fileInfo) {
 			return parent::getMTime();
 		} else {
@@ -58,7 +64,8 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function getSize($includeMounts = true): int|float {
+	#[Override]
+	public function getSize(bool $includeMounts = true): int|float {
 		if ($this->fileInfo) {
 			return parent::getSize($includeMounts);
 		} else {
@@ -66,7 +73,8 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function getEtag() {
+	#[Override]
+	public function getEtag(): string {
 		if ($this->fileInfo) {
 			return parent::getEtag();
 		} else {
@@ -74,7 +82,8 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function getPermissions() {
+	#[Override]
+	public function getPermissions(): int {
 		if ($this->fileInfo) {
 			return parent::getPermissions();
 		} else {
@@ -82,7 +91,8 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function isReadable() {
+	#[Override]
+	public function isReadable(): bool {
 		if ($this->fileInfo) {
 			return parent::isReadable();
 		} else {
@@ -90,7 +100,7 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function isUpdateable() {
+	public function isUpdateable(): bool {
 		if ($this->fileInfo) {
 			return parent::isUpdateable();
 		} else {
@@ -98,7 +108,8 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function isDeletable() {
+	#[Override]
+	public function isDeletable(): bool {
 		if ($this->fileInfo) {
 			return parent::isDeletable();
 		} else {
@@ -106,7 +117,8 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function isShareable() {
+	#[Override]
+	public function isShareable(): bool {
 		if ($this->fileInfo) {
 			return parent::isShareable();
 		} else {
@@ -114,55 +126,68 @@ class NonExistingFolder extends Folder {
 		}
 	}
 
-	public function get($path) {
+	#[Override]
+	public function get(string $path): \OCP\Files\Node {
 		throw new NotFoundException();
 	}
 
-	public function getDirectoryListing() {
+	#[Override]
+	public function getDirectoryListing(): array {
 		throw new NotFoundException();
 	}
 
-	public function nodeExists($path) {
+	#[Override]
+	public function nodeExists(string $path): bool {
 		return false;
 	}
 
-	public function newFolder($path) {
+	#[Override]
+	public function newFolder(string $path): \OCP\Files\Folder {
 		throw new NotFoundException();
 	}
 
-	public function newFile($path, $content = null) {
+	#[Override]
+	public function newFile(string $path, $content = null): \OCP\Files\File {
 		throw new NotFoundException();
 	}
 
-	public function search($query) {
+	#[Override]
+	public function search(string|ISearchQuery $query): array {
 		throw new NotFoundException();
 	}
 
-	public function searchByMime($mimetype) {
+	#[Override]
+	public function searchByMime(string $mimetype): array {
 		throw new NotFoundException();
 	}
 
-	public function searchByTag($tag, $userId) {
+	#[Override]
+	public function searchByTag(int|string $tag, string $userId): array {
 		throw new NotFoundException();
 	}
 
+	#[Override]
 	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0): array {
 		throw new NotFoundException();
 	}
 
-	public function getById($id) {
+	#[Override]
+	public function getById(int $id): array {
 		throw new NotFoundException();
 	}
 
+	#[Override]
 	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
 		throw new NotFoundException();
 	}
 
-	public function getFreeSpace() {
+	#[Override]
+	public function getFreeSpace(): float|int|false {
 		throw new NotFoundException();
 	}
 
-	public function isCreatable() {
+	#[Override]
+	public function isCreatable(): bool {
 		if ($this->fileInfo) {
 			return parent::isCreatable();
 		} else {

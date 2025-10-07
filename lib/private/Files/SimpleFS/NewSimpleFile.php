@@ -11,6 +11,7 @@ namespace OC\Files\SimpleFS;
 use Icewind\Streams\CallbackWrapper;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -76,9 +77,10 @@ class NewSimpleFile implements ISimpleFile {
 	 */
 	public function getContent(): string {
 		if ($this->file) {
-			$result = $this->file->getContent();
 
-			if ($result === false) {
+			try {
+				$result = $this->file->getContent();
+			} catch (GenericFileException) {
 				$this->checkFile();
 			}
 

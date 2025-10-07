@@ -47,7 +47,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FolderTest extends NodeTestCase {
-	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
+	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], $internalPath = '', $storage = null): \OCP\Files\Node {
 		$view->expects($this->any())
 			->method('getRoot')
 			->willReturn('');
@@ -86,8 +86,8 @@ class FolderTest extends NodeTestCase {
 			->method('getDirectoryContent')
 			->with('/bar/foo')
 			->willReturn([
-				new FileInfo('/bar/foo/asd', null, 'foo/asd', ['fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'], null),
-				new FileInfo('/bar/foo/qwerty', null, 'foo/qwerty', ['fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory'], null),
+				new FileInfo('/bar/foo/asd', $this->createMock(IStorage::class), 'foo/asd', ['fileid' => 2, 'path' => '/bar/foo/asd', 'name' => 'asd', 'size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'], $this->createMock(IMountPoint::class)),
+				new FileInfo('/bar/foo/qwerty', $this->createMock(IStorage::class), 'foo/qwerty', ['fileid' => 3, 'path' => '/bar/foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'httpd/unix-directory'], $this->createMock(IMountPoint::class)),
 			]);
 		$this->view->method('getFileInfo')
 			->willReturn($this->createMock(FileInfo::class));

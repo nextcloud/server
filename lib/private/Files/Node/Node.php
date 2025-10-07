@@ -10,74 +10,58 @@ namespace OC\Files\Node;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
+use OC\Files\View;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
+use OCP\Files\Storage\IStorage;
+use OCP\IUser;
 use OCP\PreConditionNotMetException;
+use OCP\Server;
+use Override;
 
 // FIXME: this class really should be abstract (+1)
 class Node implements INode {
 	/**
-	 * @var \OC\Files\View $view
+	 * @param string $path Absolute path to the node (e.g. /admin/files/folder/file)
+	 * @throws PreConditionNotMetException
 	 */
-	protected $view;
-
-	protected IRootFolder $root;
-
-	/**
-	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
-	 */
-	protected $path;
-
-	protected ?FileInfo $fileInfo;
-
-	protected ?INode $parent;
-
-	private bool $infoHasSubMountsIncluded;
-
-	/**
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\IRootFolder $root
-	 * @param string $path
-	 * @param FileInfo $fileInfo
-	 */
-	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?INode $parent = null, bool $infoHasSubMountsIncluded = true) {
+	public function __construct(
+		protected IRootFolder $root,
+		protected View $view,
+		protected string $path,
+		protected ?FileInfo $fileInfo = null,
+		protected ?\OCP\Files\Folder $parent = null,
+		protected bool $infoHasSubMountsIncluded = true,
+	) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
-		$this->view = $view;
-		$this->root = $root;
-		$this->path = $path;
-		$this->fileInfo = $fileInfo;
-		$this->parent = $parent;
-		$this->infoHasSubMountsIncluded = $infoHasSubMountsIncluded;
 	}
 
 	/**
-	 * Creates a Node of the same type that represents a non-existing path
+	 * Creates a Node of the same type that represents a non-existing path.
 	 *
-	 * @param string $path path
-	 * @return Node non-existing node
 	 * @throws \Exception
 	 */
-	protected function createNonExistingNode($path) {
+	protected function createNonExistingNode(string $path): INode {
 		throw new \Exception('Must be implemented by subclasses');
 	}
 
 	/**
-	 * Returns the matching file info
+	 * Returns the matching file info.
 	 *
-	 * @return FileInfo
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getFileInfo(bool $includeMountPoint = true) {
+	public function getFileInfo(bool $includeMountPoint = true): FileInfo {
+		$fileInfo = $this->fileInfo;
 		if (!$this->fileInfo) {
 			if (!Filesystem::isValidPath($this->path)) {
 				throw new InvalidPathException();
@@ -95,16 +79,16 @@ class Node implements INode {
 			}
 			$this->infoHasSubMountsIncluded = true;
 		}
-		return $this->fileInfo;
+		/** @var FileInfo $fileInfo */
+		return $fileInfo;
 	}
 
 	/**
 	 * @param string[] $hooks
 	 */
-	protected function sendHooks($hooks, ?array $args = null) {
+	protected function sendHooks(array $hooks, ?array $args = null): void {
 		$args = !empty($args) ? $args : [$this];
-		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 		foreach ($hooks as $hook) {
 			if (method_exists($this->root, 'emit')) {
 				$this->root->emit('\OC\Files', $hook, $args);
@@ -121,30 +105,24 @@ class Node implements INode {
 	}
 
 	/**
-	 * @param int $permissions
-	 * @return bool
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	protected function checkPermissions($permissions) {
+	protected function checkPermissions(int $permissions): bool {
 		return ($this->getPermissions() & $permissions) === $permissions;
 	}
 
-	public function delete() {
+	#[Override]
+	public function delete(): void {
 	}
 
-	/**
-	 * @param int $mtime
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
-	public function touch($mtime = null) {
+	#[Override]
+	public function touch(?int $mtime = null): void {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(['preTouch']);
 			$this->view->touch($this->path, $mtime);
 			$this->sendHooks(['postTouch']);
-			if ($this->fileInfo) {
+			if ($this->fileInfo instanceof \OC\Files\FileInfo) {
 				if (is_null($mtime)) {
 					$mtime = time();
 				}
@@ -155,7 +133,8 @@ class Node implements INode {
 		}
 	}
 
-	public function getStorage() {
+	#[Override]
+	public function getStorage(): IStorage {
 		$storage = $this->getMountPoint()->getStorage();
 		if (!$storage) {
 			throw new \Exception('No storage for node');
@@ -163,17 +142,16 @@ class Node implements INode {
 		return $storage;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPath() {
+	#[Override]
+	public function getPath(): string {
 		return $this->path;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getInternalPath() {
+	#[Override]
+	public function getInternalPath(): string {
 		return $this->getFileInfo(false)->getInternalPath();
 	}
 
@@ -182,100 +160,63 @@ class Node implements INode {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getId() {
-		return $this->getFileInfo(false)->getId() ?? -1;
+	#[Override]
+	public function getId(): int {
+		return $this->getFileInfo(false)->getId();
 	}
 
-	/**
-	 * @return array
-	 */
-	public function stat() {
+	#[Override]
+	public function stat(): array|false {
 		return $this->view->stat($this->path);
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function getMTime() {
+	#[Override]
+	public function getMTime(): int {
 		return $this->getFileInfo()->getMTime();
 	}
 
-	/**
-	 * @param bool $includeMounts
-	 * @return int|float
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function getSize($includeMounts = true): int|float {
+	#[Override]
+	public function getSize(bool $includeMounts = true): int|float {
 		return $this->getFileInfo()->getSize($includeMounts);
 	}
 
-	/**
-	 * @return string
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function getEtag() {
+	#[Override]
+	public function getEtag(): string {
 		return $this->getFileInfo()->getEtag();
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function getPermissions() {
+	#[Override]
+	public function getPermissions(): int {
 		return $this->getFileInfo(false)->getPermissions();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function isReadable() {
+	#[Override]
+	public function isReadable(): bool {
 		return $this->getFileInfo(false)->isReadable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function isUpdateable() {
+	#[Override]
+	public function isUpdateable(): bool {
 		return $this->getFileInfo(false)->isUpdateable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function isDeletable() {
+	#[Override]
+	public function isDeletable(): bool {
 		return $this->getFileInfo(false)->isDeletable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function isShareable() {
+	#[Override]
+	public function isShareable(): bool {
 		return $this->getFileInfo(false)->isShareable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function isCreatable() {
+	#[Override]
+	public function isCreatable(): bool {
 		return $this->getFileInfo(false)->isCreatable();
 	}
 
-	public function getParent(): INode|IRootFolder {
+	#[Override]
+	public function getParent(): \OCP\Files\Folder|IRootFolder {
 		if ($this->parent === null) {
 			$newPath = dirname($this->path);
 			if ($newPath === '' || $newPath === '.' || $newPath === '/') {
@@ -286,8 +227,9 @@ class Node implements INode {
 			try {
 				$fileInfo = $this->getFileInfo();
 			} catch (NotFoundException) {
-				$this->parent = $this->root->get($newPath);
-				/** @var \OCP\Files\Folder $this->parent */
+				/** @var \OCP\Files\Folder $parent */
+				$parent = $this->root->get($newPath);
+				$this->parent = $parent;
 				return $this->parent;
 			}
 
@@ -306,102 +248,89 @@ class Node implements INode {
 		return $this->parent;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	#[Override]
+	public function getName(): string {
 		return basename($this->path);
 	}
 
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	protected function normalizePath($path) {
+	protected function normalizePath(string $path): string {
 		return PathHelper::normalizePath($path);
 	}
 
 	/**
-	 * check if the requested path is valid
-	 *
-	 * @param string $path
-	 * @return bool
+	 * Check if the requested path is valid.
 	 */
-	public function isValidPath($path) {
+	public function isValidPath(string $path): bool {
 		return Filesystem::isValidPath($path);
 	}
 
-	public function isMounted() {
+	#[Override]
+	public function isMounted(): bool {
 		return $this->getFileInfo(false)->isMounted();
 	}
 
-	public function isShared() {
+	#[Override]
+	public function isShared(): bool {
 		return $this->getFileInfo(false)->isShared();
 	}
 
+	#[Override]
 	public function getMimeType(): string {
 		return $this->getFileInfo(false)->getMimetype();
 	}
 
-	public function getMimePart() {
+	#[Override]
+	public function getMimePart(): string {
 		return $this->getFileInfo(false)->getMimePart();
 	}
 
-	public function getType() {
+	#[Override]
+	public function getType(): string {
 		return $this->getFileInfo(false)->getType();
 	}
 
-	public function isEncrypted() {
+	#[Override]
+	public function isEncrypted(): bool {
 		return $this->getFileInfo(false)->isEncrypted();
 	}
 
-	public function getMountPoint() {
+	#[Override]
+	public function getMountPoint(): IMountPoint {
 		return $this->getFileInfo(false)->getMountPoint();
 	}
 
-	public function getOwner() {
+	#[Override]
+	public function getOwner(): ?IUser {
 		return $this->getFileInfo(false)->getOwner();
 	}
 
-	public function getChecksum() {
+	#[Override]
+	public function getChecksum(): string {
+		throw new \Exception('Must be implemented by subclasses');
 	}
 
+	#[Override]
 	public function getExtension(): string {
 		return $this->getFileInfo(false)->getExtension();
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
-	public function lock($type) {
+	#[Override]
+	public function lock(int $type): void {
 		$this->view->lockFile($this->path, $type);
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
-	public function changeLock($type) {
-		$this->view->changeLock($this->path, $type);
+	#[Override]
+	public function changeLock(int $targetType): void {
+		$this->view->changeLock($this->path, $targetType);
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
-	public function unlock($type) {
+	#[Override]
+	public function unlock(int $type): void {
 		$this->view->unlockFile($this->path, $type);
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return INode
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException if copy not allowed or failed
-	 */
-	public function copy($targetPath) {
+	#[Override]
+	public function copy(string $targetPath): INode {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
 		if ($parent instanceof Folder && $this->isValidPath($targetPath) && $parent->isCreatable()) {
@@ -420,16 +349,10 @@ class Node implements INode {
 		}
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return INode
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException if move not allowed or failed
-	 * @throws LockedException
-	 */
-	public function move($targetPath) {
+	#[Override]
+	public function move(string $targetPath): INode {
 		$targetPath = $this->normalizePath($targetPath);
+
 		$parent = $this->root->get(dirname($targetPath));
 		if (
 			($parent instanceof Folder)
@@ -450,12 +373,10 @@ class Node implements INode {
 			}
 
 			$mountPoint = $this->getMountPoint();
-			if ($mountPoint) {
-				// update the cached fileinfo with the new (internal) path
-				/** @var \OC\Files\FileInfo $oldFileInfo */
-				$oldFileInfo = $this->getFileInfo();
-				$this->fileInfo = new \OC\Files\FileInfo($targetPath, $oldFileInfo->getStorage(), $mountPoint->getInternalPath($targetPath), $oldFileInfo->getData(), $mountPoint, $oldFileInfo->getOwner());
-			}
+			// update the cached fileinfo with the new (internal) path
+			/** @var \OC\Files\FileInfo $oldFileInfo */
+			$oldFileInfo = $this->getFileInfo();
+			$this->fileInfo = new \OC\Files\FileInfo($targetPath, $oldFileInfo->getStorage(), $mountPoint->getInternalPath($targetPath), $oldFileInfo->getData(), $mountPoint, $oldFileInfo->getOwner());
 
 			$targetNode = $this->root->get($targetPath);
 			$this->sendHooks(['postRename'], [$this, $targetNode]);
@@ -467,22 +388,22 @@ class Node implements INode {
 		}
 	}
 
+	#[Override]
 	public function getCreationTime(): int {
 		return $this->getFileInfo()->getCreationTime();
 	}
 
+	#[Override]
 	public function getUploadTime(): int {
 		return $this->getFileInfo()->getUploadTime();
 	}
 
+	#[Override]
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return array<string, int|string|bool|float|string[]|int[]>
-	 */
+	#[Override]
 	public function getMetadata(): array {
 		return $this->fileInfo->getMetadata();
 	}

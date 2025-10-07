@@ -225,7 +225,7 @@ class FixEncryptedVersion extends Command {
 			return true;
 		}
 		$fileId = $fileInfo->getId();
-		if ($fileId === null) {
+		if ($fileId === -1) {
 			$output->writeln("<warning>File info contains no id for file: \"$path\"</warning>");
 			return true;
 		}

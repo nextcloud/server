@@ -8,29 +8,31 @@
 namespace OC\Files\Node;
 
 use OCP\Files\NotFoundException;
+use Override;
 
 class NonExistingFile extends File {
-	/**
-	 * @param string $newPath
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function rename($newPath) {
+	#[Override]
+	public function move(string $targetPath): \OCP\Files\Node {
 		throw new NotFoundException();
 	}
 
-	public function delete() {
+	#[Override]
+	public function delete(): void {
 		throw new NotFoundException();
 	}
 
-	public function copy($targetPath) {
+	#[Override]
+	public function copy(string $targetPath): \OCP\Files\Node {
 		throw new NotFoundException();
 	}
 
-	public function touch($mtime = null) {
+	#[Override]
+	public function touch(?int $mtime = null): void {
 		throw new NotFoundException();
 	}
 
-	public function getId() {
+	#[Override]
+	public function getId(): int {
 		if ($this->fileInfo) {
 			return parent::getId();
 		} else {
@@ -38,7 +40,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function getInternalPath() {
+	#[Override]
+	public function getInternalPath(): string {
 		if ($this->fileInfo) {
 			return parent::getInternalPath();
 		} else {
@@ -46,11 +49,13 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function stat() {
+	#[Override]
+	public function stat(): array {
 		throw new NotFoundException();
 	}
 
-	public function getMTime() {
+	#[Override]
+	public function getMTime(): int {
 		if ($this->fileInfo) {
 			return parent::getMTime();
 		} else {
@@ -58,7 +63,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function getSize($includeMounts = true): int|float {
+	#[Override]
+	public function getSize(bool $includeMounts = true): int|float {
 		if ($this->fileInfo) {
 			return parent::getSize($includeMounts);
 		} else {
@@ -66,7 +72,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function getEtag() {
+	#[Override]
+	public function getEtag(): string {
 		if ($this->fileInfo) {
 			return parent::getEtag();
 		} else {
@@ -74,7 +81,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function getPermissions() {
+	#[Override]
+	public function getPermissions(): int {
 		if ($this->fileInfo) {
 			return parent::getPermissions();
 		} else {
@@ -82,7 +90,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function isReadable() {
+	#[Override]
+	public function isReadable(): bool {
 		if ($this->fileInfo) {
 			return parent::isReadable();
 		} else {
@@ -90,7 +99,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function isUpdateable() {
+	#[Override]
+	public function isUpdateable(): bool {
 		if ($this->fileInfo) {
 			return parent::isUpdateable();
 		} else {
@@ -98,7 +108,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function isDeletable() {
+	#[Override]
+	public function isDeletable(): bool {
 		if ($this->fileInfo) {
 			return parent::isDeletable();
 		} else {
@@ -106,7 +117,8 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function isShareable() {
+	#[Override]
+	public function isShareable(): bool {
 		if ($this->fileInfo) {
 			return parent::isShareable();
 		} else {
@@ -114,14 +126,17 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function getContent() {
+	#[Override]
+	public function getContent(): string {
 		throw new NotFoundException();
 	}
 
-	public function putContent($data) {
+	#[Override]
+	public function putContent($data): void {
 		throw new NotFoundException();
 	}
 
+	#[Override]
 	public function getMimeType(): string {
 		if ($this->fileInfo) {
 			return parent::getMimeType();
@@ -130,6 +145,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[Override]
 	public function fopen($mode) {
 		throw new NotFoundException();
 	}

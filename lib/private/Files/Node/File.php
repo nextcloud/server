@@ -8,27 +8,18 @@
 namespace OC\Files\Node;
 
 use OCP\Files\GenericFileException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
+use Override;
 
 class File extends Node implements \OCP\Files\File {
-	/**
-	 * Creates a Folder that represents a non-existing path
-	 *
-	 * @param string $path path
-	 * @return NonExistingFile non-existing node
-	 */
-	protected function createNonExistingNode($path) {
+	#[Override]
+	protected function createNonExistingNode(string $path): \OCP\Files\Node {
 		return new NonExistingFile($this->root, $this->view, $path);
 	}
 
-	/**
-	 * @return string
-	 * @throws NotPermittedException
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 */
-	public function getContent() {
+	#[Override]
+	public function getContent(): string {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_READ)) {
 			$content = $this->view->file_get_contents($this->path);
 			if ($content === false) {
@@ -40,13 +31,8 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @param string|resource $data
-	 * @throws NotPermittedException
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 */
-	public function putContent($data) {
+	#[Override]
+	public function putContent($data): void {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(['preWrite']);
 			if ($this->view->file_put_contents($this->path, $data) === false) {
@@ -59,13 +45,8 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @param string $mode
-	 * @return resource|false
-	 * @throws NotPermittedException
-	 * @throws LockedException
-	 */
-	public function fopen($mode) {
+	#[Override]
+	public function fopen(string $mode) {
 		$preHooks = [];
 		$postHooks = [];
 		$requiredPermissions = \OCP\Constants::PERMISSION_READ;
@@ -100,12 +81,8 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @throws NotPermittedException
-	 * @throws \OCP\Files\InvalidPathException
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function delete() {
+	#[Override]
+	public function delete(): void {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(['preDelete']);
 			$fileInfo = $this->getFileInfo();
@@ -118,22 +95,21 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @param string $type
-	 * @param bool $raw
-	 * @return string
-	 */
-	public function hash($type, $raw = false) {
-		return $this->view->hash($type, $this->path, $raw);
+	#[Override]
+	public function hash(string $type, bool $raw = false): string {
+		$hash = $this->view->hash($type, $this->path, $raw);
+		if ($hash === false) {
+			throw new NotFoundException('Unable to compute hash of non-existent file');
+		}
+		return $hash;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getChecksum() {
+	#[Override]
+	public function getChecksum(): string {
 		return $this->getFileInfo()->getChecksum();
 	}
 
+	#[Override]
 	public function getExtension(): string {
 		return $this->getFileInfo()->getExtension();
 	}

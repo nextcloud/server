@@ -26,12 +26,14 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -81,87 +83,42 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * Get the user for which the filesystem is setup
-	 *
-	 * @return \OC\User\User
+	 * @internal Only used in unit tests
 	 */
-	public function getUser() {
+	public function getUser(): ?IUser {
 		return $this->user;
 	}
 
-	/**
-	 * @param string $scope
-	 * @param string $method
-	 * @param callable $callback
-	 */
+	#[Override]
 	public function listen($scope, $method, callable $callback) {
 		$this->emitter->listen($scope, $method, $callback);
 	}
 
-	/**
-	 * @param string $scope optional
-	 * @param string $method optional
-	 * @param callable $callback optional
-	 */
+	#[Override]
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->emitter->removeListener($scope, $method, $callback);
 	}
 
-	/**
-	 * @param string $scope
-	 * @param string $method
-	 * @param Node[] $arguments
-	 */
-	public function emit($scope, $method, $arguments = []) {
+	public function emit(string $scope, string $method, array $arguments = []) {
 		$this->emitter->emit($scope, $method, $arguments);
 	}
 
-	/**
-	 * @param \OC\Files\Storage\Storage $storage
-	 * @param string $mountPoint
-	 * @param array $arguments
-	 */
-	public function mount($storage, $mountPoint, $arguments = []) {
+	public function mount(IStorage $storage, string $mountPoint, array $arguments = []) {
 		$mount = new MountPoint($storage, $mountPoint, $arguments);
 		$this->mountManager->addMount($mount);
 	}
 
+	#[Override]
 	public function getMount(string $mountPoint): IMountPoint {
 		return $this->mountManager->find($mountPoint);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint[]
-	 */
+	#[Override]
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
 
-	/**
-	 * @param string $storageId
-	 * @return \OC\Files\Mount\MountPoint[]
-	 */
-	public function getMountByStorageId($storageId) {
-		return $this->mountManager->findByStorageId($storageId);
-	}
-
-	/**
-	 * @param int $numericId
-	 * @return MountPoint[]
-	 */
-	public function getMountByNumericStorageId($numericId) {
-		return $this->mountManager->findByNumericId($numericId);
-	}
-
-	/**
-	 * @param \OC\Files\Mount\MountPoint $mount
-	 */
-	public function unMount($mount) {
-		$this->mountManager->remove($mount);
-	}
-
-	public function get($path) {
+	public function get(string $path): \OCP\Files\Node {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
 			$fullPath = $this->getFullPath($path);
@@ -176,154 +133,105 @@ class Root extends Folder implements IRootFolder {
 		}
 	}
 
-	//most operations can't be done on the root
+	// most operations can't be done on the root
 
-	/**
-	 * @param string $targetPath
-	 * @return Node
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function rename($targetPath) {
+	#[Override]
+	public function move(string $targetPath): \OCP\Files\Node {
 		throw new NotPermittedException();
 	}
 
-	public function delete() {
+	#[Override]
+	public function delete(): void {
 		throw new NotPermittedException();
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return Node
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function copy($targetPath) {
+	#[Override]
+	public function copy(string $targetPath): \OCP\Files\Node {
 		throw new NotPermittedException();
 	}
 
-	/**
-	 * @param int $mtime
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function touch($mtime = null) {
+	#[Override]
+	public function touch(?int $mtime = null): void {
 		throw new NotPermittedException();
 	}
 
-	/**
-	 * @return \OC\Files\Storage\Storage
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function getStorage() {
+	#[Override]
+	public function getStorage(): IStorage {
 		throw new NotFoundException();
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPath() {
+	#[Override]
+	public function getPath(): string {
 		return '/';
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getInternalPath() {
+	#[Override]
+	public function getInternalPath(): string {
 		return '';
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getId() {
+	#[Override]
+	public function getId(): int {
 		return 0;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function stat() {
+	#[Override]
+	public function stat(): array {
 		return [];
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getMTime() {
+	#[Override]
+	public function getMTime(): int {
 		return 0;
 	}
 
-	/**
-	 * @param bool $includeMounts
-	 * @return int|float
-	 */
-	public function getSize($includeMounts = true): int|float {
+	#[Override]
+	public function getSize(bool $includeMounts = true): int|float {
 		return 0;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getEtag() {
+	#[Override]
+	public function getEtag(): string {
 		return '';
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getPermissions() {
+	#[Override]
+	public function getPermissions(): int {
 		return \OCP\Constants::PERMISSION_CREATE;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isReadable() {
+	#[Override]
+	public function isReadable(): bool {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isUpdateable() {
+	#[Override]
+	public function isUpdateable(): bool {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isDeletable() {
+	#[Override]
+	public function isDeletable(): bool {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isShareable() {
+	#[Override]
+	public function isShareable(): bool {
 		return false;
 	}
 
-	/**
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function getParent(): INode|IRootFolder {
+	#[Override]
+	public function getParent(): \OCP\Files\Folder|IRootFolder {
 		throw new NotFoundException();
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	#[Override]
+	public function getName(): string {
 		return '';
 	}
 
-	/**
-	 * Returns a view to user's files folder
-	 *
-	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
-	 * @throws NoUserException
-	 * @throws NotPermittedException
-	 */
-	public function getUserFolder($userId) {
+	#[Override]
+	public function getUserFolder(string $userId): \OCP\Files\Folder {
 		$userObject = $this->userManager->get($userId);
 
 		if (is_null($userObject)) {
@@ -366,10 +274,11 @@ class Root extends Folder implements IRootFolder {
 		return $this->userFolderCache->get($userId);
 	}
 
-	public function getUserMountCache() {
+	public function getUserMountCache(): IUserMountCache {
 		return $this->userMountCache;
 	}
 
+	#[Override]
 	public function getFirstNodeByIdInPath(int $id, string $path): ?INode {
 		// scope the cache by user, so we don't return nodes for different users
 		if ($this->user) {
@@ -380,7 +289,7 @@ class Root extends Folder implements IRootFolder {
 					$node = $this->get($cachedPath);
 					// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
 					// if the cached path is invalid or a different file now we fall back to the uncached logic
-					if ($node && $node->getId() === $id) {
+					if ($node->getId() === $id) {
 						return $node;
 					}
 				} catch (NotFoundException|NotPermittedException) {
@@ -399,10 +308,7 @@ class Root extends Folder implements IRootFolder {
 		return $node;
 	}
 
-	/**
-	 * @param int $id
-	 * @return Node[]
-	 */
+	#[Override]
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
 		if ($path !== '' && strpos($path, '/', 1) > 0) {
@@ -497,6 +403,7 @@ class Root extends Folder implements IRootFolder {
 		return $folders;
 	}
 
+	#[Override]
 	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
 		$path = $cacheEntry->getPath();
 		$fullPath = $mountPoint->getMountPoint() . $path;
