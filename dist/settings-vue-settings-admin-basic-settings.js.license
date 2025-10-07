@@ -32,14 +32,14 @@ This file is generated from multiple sources. Included packages:
 - @mdi/js
 	- version: 7.4.47
 	- license: Apache-2.0
+- @nextcloud/browser-storage
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/auth
 	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.2
-	- license: GPL-3.0-or-later
-- @nextcloud/browser-storage
-	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
 	- version: 6.3.2
