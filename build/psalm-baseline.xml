@@ -63,56 +63,6 @@
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
     </DeprecatedConstant>
   </file>
-  <file src="apps/comments/lib/Search/CommentsSearchProvider.php">
-    <DeprecatedClass>
-      <code><![CDATA[Result]]></code>
-    </DeprecatedClass>
-    <DeprecatedProperty>
-      <code><![CDATA[$result->authorId]]></code>
-      <code><![CDATA[$result->authorId]]></code>
-      <code><![CDATA[$result->authorId]]></code>
-      <code><![CDATA[$result->name]]></code>
-      <code><![CDATA[$result->path]]></code>
-    </DeprecatedProperty>
-  </file>
-  <file src="apps/comments/lib/Search/LegacyProvider.php">
-    <DeprecatedClass>
-      <code><![CDATA[Provider]]></code>
-      <code><![CDATA[new Result($query,
-						$comment,
-						$displayName,
-						$file->getPath(),
-						$file->getId(),
-					)]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[Provider]]></code>
-      <code><![CDATA[getUserFolder]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/comments/lib/Search/Result.php">
-    <DeprecatedClass>
-      <code><![CDATA[BaseResult]]></code>
-      <code><![CDATA[parent::__construct(
-			$comment->getId(),
-			$comment->getMessage()
-			/* @todo , [link to file] */
-		)]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[parent::__construct(
-			$comment->getId(),
-			$comment->getMessage()
-			/* @todo , [link to file] */
-		)]]></code>
-    </DeprecatedMethod>
-    <DeprecatedProperty>
-      <code><![CDATA[$this->authorId]]></code>
-      <code><![CDATA[$this->comment]]></code>
-      <code><![CDATA[$this->fileName]]></code>
-      <code><![CDATA[$this->path]]></code>
-    </DeprecatedProperty>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <DeprecatedMethod>
       <code><![CDATA[exec]]></code>
