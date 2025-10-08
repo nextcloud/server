@@ -11,6 +11,7 @@
     "Invalid data specified" : "Наведени су неисправни подаци",
     "Could not set configuration %1$s to %2$s" : "Конфигурација %1$s није могла да се постави на %2$s",
     "Action does not exist" : "Радња не постоји",
+    "Renewing …" : "Обнавља се …",
     "Very weak password" : "Веома слаба лозинка",
     "Weak password" : "Слаба лозинка",
     "So-so password" : "Осредња лозинка",

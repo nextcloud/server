@@ -96,6 +96,7 @@ OC.L10N.register(
     "Administration" : "Администрација",
     "Users" : "Корисници",
     "Additional settings" : "Дополнителни параметри",
+    "Assistant" : "Асистент",
     "Administration privileges" : "Административни привилегии",
     "Groupware" : "Групни производи",
     "Overview" : "Преглед",
