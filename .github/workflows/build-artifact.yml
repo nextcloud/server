@@ -592,18 +592,21 @@ jobs:
     steps:
       - name: Trigger remote workflow
         run: |
-          # Enable command echo
+          # Enable command echo for debugging purposes
           set -x
 
-          # The 'ionos-dev' branch will trigger remote "dev" branch workflow
-          GITLAB_BRANCH="dev"
+          # Determine build type based on branch:
+          # - 'ionos-dev' branch triggers 'dev' build type
+          # - 'ionos-stable' branch triggers 'stable' build type
+          BUILD_TYPE="dev"
 
-          # set ARTIFACTORY_STAGE_PREFIX=stable on ionos-stable branch
-          if [ ${{ github.ref_name }} == "ionos-stable" ]; then
-              GITLAB_BRANCH="stable"
+          # Override build type for stable branch
+          if [ "${{ github.ref_name }}" == "ionos-stable" ]; then
+              BUILD_TYPE="stable"
           fi
 
-          # Call webhook
+          # Trigger GitLab pipeline via webhook with build artifacts and metadata
+          # Passes GitHub context variables to remote GitLab workflow
           curl \
           --silent \
           --insecure \
@@ -611,11 +614,12 @@ jobs:
           --fail-with-body \
           -o response.json \
           --form token=${{ secrets.GITLAB_TOKEN }} \
-          --form ref="${GITLAB_BRANCH}" \
+          --form ref="stable" \
           --form "variables[GITHUB_SHA]=${{ github.sha }}" \
           --form "variables[ARTIFACTORY_LAST_BUILD_PATH]=${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH }}" \
           --form "variables[NC_VERSION]=${{ needs.build-artifact.outputs.NC_VERSION }}" \
           --form "variables[BUILD_ID]=${{ github.run_id }}" \
+          --form "variables[BUILD_TYPE]=${BUILD_TYPE}" \
           "${{ secrets.GITLAB_TRIGGER_URL }}" || ( RETCODE="$?"; jq . response.json; exit "$RETCODE" )
 
           # Disable command echo
