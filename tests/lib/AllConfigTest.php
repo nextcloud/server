@@ -517,18 +517,4 @@ class AllConfigTest extends \Test\TestCase {
 		// cleanup
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
-
-	public function testGetUsersForUserValueCaseInsensitive(): void {
-		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->createMock(SystemConfig::class);
-		$config = $this->getConfig($systemConfig);
-
-		$config->setUserValue('user1', 'myApp', 'myKey', 'test123');
-		$config->setUserValue('user2', 'myApp', 'myKey', 'TEST123');
-		$config->setUserValue('user3', 'myApp', 'myKey', 'test12345');
-
-		$users = $config->getUsersForUserValueCaseInsensitive('myApp', 'myKey', 'test123');
-		$this->assertSame(2, count($users));
-		$this->assertSame(['user1', 'user2'], $users);
-	}
 }
