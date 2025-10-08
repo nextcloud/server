@@ -373,7 +373,7 @@ export default {
 	bottom: calc(var(--header-height) * -1);
 	left: 0;
 	width: 100%;
-	height: 100vh;
+	height: 100dvh;
 }
 </style>
 
