@@ -404,6 +404,7 @@ class EventsSearchProviderTest extends TestCase {
 		return [
 			['principals/users/john.doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvZm9vL2Jhci5pY3M='],
 			['principals/users/John Doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvSm9obiUyMERvZS9mb28vYmFyLmljcw=='],
+			['principals/users/john@doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obkBkb2UvZm9vL2Jhci5pY3M='],
 		];
 	}
 
