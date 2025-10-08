@@ -87,33 +87,22 @@ class ThemesService {
 	 * @return string[] the enabled themes
 	 */
 	public function enableTheme(ITheme $theme): array {
-		$themesIds = $this->getEnabledThemes();
+		$enabledThemeIds = $this->getEnabledThemes();
 
 		// If already enabled, ignore
-		if (in_array($theme->getId(), $themesIds)) {
-			return $themesIds;
+		if (in_array($theme->getId(), $enabledThemeIds)) {
+			return $enabledThemeIds;
 		}
 
-		/** @var ITheme[] */
-		$themes = array_filter(array_map(function ($themeId) {
-			return $this->getThemes()[$themeId];
-		}, $themesIds));
+		// for other types then supplementary themes we need to filter out themes with the same type
+		if ($theme->getType() !== ITheme::TYPE_SUPPLEMENTARY) {
+			$allThemes = $this->getThemes();
+			$enabledThemeIds = array_filter($enabledThemeIds, fn (string $themeId) => $allThemes[$themeId]->gettype() !== $theme->gettype());
+		}
 
-		// Filtering all themes with the same type
-		$filteredThemes = array_filter($themes, function (ITheme $t) use ($theme) {
-			return $theme->getType() === $t->getType();
-		});
-
-		// Retrieve IDs only
-		/** @var string[] */
-		$filteredThemesIds = array_map(function (ITheme $t) {
-			return $t->getId();
-		}, array_values($filteredThemes));
-
-		$enabledThemes = array_merge(array_diff($themesIds, $filteredThemesIds), [$theme->getId()]);
-		$this->setEnabledThemes($enabledThemes);
-
-		return $enabledThemes;
+		$enabledThemeIds[] = $theme->getId();
+		$this->setEnabledThemes($enabledThemeIds);
+		return array_values($enabledThemeIds);
 	}
 
 	/**
@@ -127,7 +116,7 @@ class ThemesService {
 
 		// If enabled, removing it
 		if (in_array($theme->getId(), $themesIds)) {
-			$enabledThemes = array_diff($themesIds, [$theme->getId()]);
+			$enabledThemes = array_values(array_diff($themesIds, [$theme->getId()]));
 			$this->setEnabledThemes($enabledThemes);
 			return $enabledThemes;
 		}

@@ -13,28 +13,21 @@
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="descriptionDetail" />
 
-			<div class="theming__preview-list">
-				<ItemPreview
-					v-for="theme in themes"
-					:key="theme.id"
-					:enforced="theme.id === enforceTheme"
-					:selected="selectedTheme.id === theme.id"
-					:theme="theme"
-					:unique="themes.length === 1"
-					type="theme"
-					@change="changeTheme" />
-			</div>
+			<ThemeList
+				v-model="selectedMainThemes"
+				:label="t('theming', 'Themes')"
+				:themes="mainThemes" />
 
-			<div class="theming__preview-list">
-				<ItemPreview
-					v-for="theme in fonts"
-					:key="theme.id"
-					:selected="theme.enabled"
-					:theme="theme"
-					:unique="fonts.length === 1"
-					type="font"
-					@change="changeFont" />
-			</div>
+			<ThemeList
+				v-model="selectedSupplementaryThemes"
+				:label="t('theming', 'Supplementary themes')"
+				:themes="supplementaryThemes"
+				multiple />
+
+			<ThemeList
+				v-model="selectedFontThemes"
+				:label="t('theming', 'Fonts')"
+				:themes="fontThemes" />
 
 			<h3>{{ t('theming', 'Misc accessibility options') }}</h3>
 			<NcCheckboxRadioSwitch
@@ -86,21 +79,19 @@
 </template>
 
 <script>
-import axios, { isAxiosError } from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import BackgroundSettings from './components/BackgroundSettings.vue'
-import ItemPreview from './components/ItemPreview.vue'
+import ThemeList from './components/ThemeList.vue'
 import UserAppMenuSection from './components/UserAppMenuSection.vue'
 import UserPrimaryColor from './components/UserPrimaryColor.vue'
 import { refreshStyles } from './helpers/refreshStyles.js'
 import { logger } from './logger.js'
 
 const availableThemes = loadState('theming', 'themes', [])
-const enforceTheme = loadState('theming', 'enforceTheme', '')
 const shortcutsDisabled = loadState('theming', 'shortcutsDisabled', false)
 const enableBlurFilter = loadState('theming', 'enableBlurFilter', '')
 
@@ -110,7 +101,7 @@ export default {
 	name: 'UserTheming',
 
 	components: {
-		ItemPreview,
+		ThemeList,
 		NcCheckboxRadioSwitch,
 		NcSettingsSection,
 		BackgroundSettings,
@@ -119,30 +110,62 @@ export default {
 	},
 
 	data() {
+		if (availableThemes.every(({ type, enabled }) => type !== 1 || !enabled)) {
+			availableThemes.find(({ id, type }) => id === 'default' && type === 1).enabled = true
+		}
+
 		return {
 			availableThemes,
 
 			// Admin defined configs
-			enforceTheme,
 			shortcutsDisabled,
 			isUserThemingDisabled,
-
 			enableBlurFilter,
 		}
 	},
 
 	computed: {
-		themes() {
+		mainThemes() {
 			return this.availableThemes.filter((theme) => theme.type === 1)
 		},
 
-		fonts() {
+		fontThemes() {
 			return this.availableThemes.filter((theme) => theme.type === 2)
 		},
 
-		// Selected theme, fallback on first (default) if none
-		selectedTheme() {
-			return this.themes.find((theme) => theme.enabled === true) || this.themes[0]
+		supplementaryThemes() {
+			return this.availableThemes.filter((theme) => theme.type === 3)
+		},
+
+		selectedMainThemes: {
+			get() {
+				return this.mainThemes.filter(({ enabled }) => enabled)
+			},
+
+			set(themes) {
+				logger.debug('SETTING main', { themes })
+				this.updateThemes(this.mainThemes, themes)
+			},
+		},
+
+		selectedFontThemes: {
+			get() {
+				return this.fontThemes.filter(({ enabled }) => enabled)
+			},
+
+			set(themes) {
+				this.updateThemes(this.fontThemes, themes)
+			},
+		},
+
+		selectedSupplementaryThemes: {
+			get() {
+				return this.supplementaryThemes.filter(({ enabled }) => enabled)
+			},
+
+			set(themes) {
+				this.updateThemes(this.supplementaryThemes, themes)
+			},
 		},
 
 		description() {
@@ -182,38 +205,19 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		// Refresh server-side generated theming CSS
 		async refreshGlobalStyles() {
 			await refreshStyles()
 			this.$nextTick(() => this.$refs.primaryColor.reload())
 		},
 
-		changeTheme({ enabled, id }) {
-			// Reset selected and select new one
-			this.themes.forEach((theme) => {
-				if (theme.id === id && enabled) {
-					theme.enabled = true
-					return
-				}
-				theme.enabled = false
-			})
-
+		updateThemes(allThemes, selectedThemes) {
+			for (const theme of allThemes) {
+				theme.enabled = selectedThemes.includes(theme)
+			}
 			this.updateBodyAttributes()
-			this.selectItem(enabled, id)
-		},
-
-		changeFont({ enabled, id }) {
-			// Reset selected and select new one
-			this.fonts.forEach((font) => {
-				if (font.id === id && enabled) {
-					font.enabled = true
-					return
-				}
-				font.enabled = false
-			})
-
-			this.updateBodyAttributes()
-			this.selectItem(enabled, id)
 		},
 
 		async changeShortcutsDisabled(newState) {
@@ -256,47 +260,23 @@ export default {
 		},
 
 		updateBodyAttributes() {
-			const enabledThemesIDs = this.themes.filter((theme) => theme.enabled === true).map((theme) => theme.id)
-			const enabledFontsIDs = this.fonts.filter((font) => font.enabled === true).map((font) => font.id)
+			const enabledThemesIDs = [
+				...this.selectedMainThemes.map((theme) => theme.id),
+				...this.selectedSupplementaryThemes.map((theme) => theme.id),
+				...this.selectedFontThemes.map((theme) => theme.id),
+			]
 
-			this.themes.forEach((theme) => {
+			this.mainThemes.forEach((theme) => {
 				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
 			})
-			this.fonts.forEach((font) => {
+			this.supplementaryThemes.forEach((theme) => {
+				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
+			})
+			this.fontThemes.forEach((font) => {
 				document.body.toggleAttribute(`data-theme-${font.id}`, font.enabled)
 			})
 
-			document.body.setAttribute('data-themes', [...enabledThemesIDs, ...enabledFontsIDs].join(','))
-		},
-
-		/**
-		 * Commit a change and force reload css
-		 * Fetching the file again will trigger the server update
-		 *
-		 * @param {boolean} enabled the theme state
-		 * @param {string} themeId the theme ID to change
-		 */
-		async selectItem(enabled, themeId) {
-			try {
-				if (enabled) {
-					await axios({
-						url: generateOcsUrl('apps/theming/api/v1/theme/{themeId}/enable', { themeId }),
-						method: 'PUT',
-					})
-				} else {
-					await axios({
-						url: generateOcsUrl('apps/theming/api/v1/theme/{themeId}', { themeId }),
-						method: 'DELETE',
-					})
-				}
-			} catch (error) {
-				logger.error('theming: Unable to apply setting.', { error })
-				let message = t('theming', 'Unable to apply the setting.')
-				if (isAxiosError(error) && error.response.data.ocs?.meta?.message) {
-					message = `${error.response.data.ocs.meta.message}. ${message}`
-				}
-				showError(message)
-			}
+			document.body.setAttribute('data-themes', enabledThemesIDs.join(','))
 		},
 	},
 }
@@ -318,26 +298,11 @@ export default {
 			text-decoration: underline;
 		}
 	}
-
-	&__preview-list {
-		--gap: 30px;
-		display: grid;
-		margin-top: var(--gap);
-		column-gap: var(--gap);
-		row-gap: var(--gap);
-	}
 }
 
 .background {
 	&__grid {
 		margin-top: 30px;
-	}
-}
-
-@media (max-width: 1440px) {
-	.theming__preview-list {
-		display: flex;
-		flex-direction: column;
 	}
 }
 </style>
