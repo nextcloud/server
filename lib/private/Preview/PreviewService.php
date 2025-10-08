@@ -112,7 +112,7 @@ class PreviewService {
 	public function deleteAll(): void {
 		$lastId = '0';
 		while (true) {
-			$previews = $this->previewMapper->getPreviews($lastId, 1000);
+			$previews = $this->previewMapper->getPreviews($lastId, PreviewMapper::MAX_CHUNK_SIZE);
 			$i = 0;
 
 			// FIXME: Should we use transaction here? Du to the I/O created when
@@ -124,7 +124,7 @@ class PreviewService {
 				$lastId = $preview->getId();
 			}
 
-			if ($i !== 1000) {
+			if ($i !== PreviewMapper::MAX_CHUNK_SIZE) {
 				break;
 			}
 		}
@@ -136,5 +136,38 @@ class PreviewService {
 	 */
 	public function getAvailablePreviews(array $fileIds): array {
 		return $this->previewMapper->getAvailablePreviews($fileIds);
+	}
+
+	public function deleteExpiredPreviews(int $maxAgeDays): void {
+		$lastId = '0';
+		$startTime = time();
+		while (true) {
+			try {
+				$this->connection->beginTransaction();
+
+				$previews = $this->previewMapper->getPreviews($lastId, PreviewMapper::MAX_CHUNK_SIZE, $maxAgeDays);
+				$i = 0;
+				foreach ($previews as $preview) {
+					$this->deletePreview($preview);
+					$i++;
+					$lastId = $preview->getId();
+				}
+
+				$this->connection->commit();
+
+				if ($i !== PreviewMapper::MAX_CHUNK_SIZE) {
+					break;
+				}
+			} catch (Exception $e) {
+				$this->connection->commit();
+
+				throw $e;
+			}
+
+			// Stop if execution time is more than one hour.
+			if (time() - $startTime > 3600) {
+				return;
+			}
+		}
 	}
 }

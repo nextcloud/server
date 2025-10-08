@@ -1309,6 +1309,7 @@ return array(
     'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => $baseDir . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
     'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => $baseDir . '/core/BackgroundJobs/CheckForUserCertificates.php',
     'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => $baseDir . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
+    'OC\\Core\\BackgroundJobs\\ExpirePreviewsJob' => $baseDir . '/core/BackgroundJobs/ExpirePreviewsJob.php',
     'OC\\Core\\BackgroundJobs\\GenerateMetadataJob' => $baseDir . '/core/BackgroundJobs/GenerateMetadataJob.php',
     'OC\\Core\\BackgroundJobs\\LookupServerSendCheckBackgroundJob' => $baseDir . '/core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php',
     'OC\\Core\\BackgroundJobs\\PreviewMigrationJob' => $baseDir . '/core/BackgroundJobs/PreviewMigrationJob.php',

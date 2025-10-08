@@ -1350,6 +1350,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
         'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckForUserCertificates.php',
         'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
+        'OC\\Core\\BackgroundJobs\\ExpirePreviewsJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/ExpirePreviewsJob.php',
         'OC\\Core\\BackgroundJobs\\GenerateMetadataJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/GenerateMetadataJob.php',
         'OC\\Core\\BackgroundJobs\\LookupServerSendCheckBackgroundJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php',
         'OC\\Core\\BackgroundJobs\\PreviewMigrationJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/PreviewMigrationJob.php',

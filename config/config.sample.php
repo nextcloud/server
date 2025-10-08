@@ -2917,4 +2917,12 @@ $CONFIG = [
 		'fe80::/10',
 		'10.0.0.1',
 	],
+
+	/**
+	 * Delete previews older than a certain number of days to reduce storage usage.
+	 * Less than one day is not allowed, so set it to 0 to disable the deletion.
+	 *
+	 * Defaults to ``0``.
+	 */
+	'preview_expiration_days' => 0,
 ];
