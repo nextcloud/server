@@ -361,8 +361,9 @@ class Notifications {
 	protected function tryOCMEndPoint($remoteDomain, $fields, $action) {
 		switch ($action) {
 			case 'share':
+				$shareRemoteDomain = (!str_contains($remoteDomain, '://')) ? $remoteDomain : parse_url($remoteDomain, PHP_URL_HOST);
 				$share = $this->cloudFederationFactory->getCloudFederationShare(
-					$fields['shareWith'] . '@' . $remoteDomain,
+					$fields['shareWith'] . '@' . $shareRemoteDomain,
 					$fields['name'],
 					'',
 					$fields['remoteId'],
