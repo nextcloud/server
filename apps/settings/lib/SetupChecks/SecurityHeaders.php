@@ -22,14 +22,11 @@ use Psr\Log\LoggerInterface;
  * Class SecurityHeaders
  *
  * Performs setup checks to verify that essential HTTP security headers are correctly configured
- * on the Nextcloud instance. This includes validating headers such as X-Content-Type-Options,
- * X-Robots-Tag, X-Frame-Options, X-Permitted-Cross-Domain-Policies, Referrer-Policy, and
- * Strict-Transport-Security. The check issues warnings or informational messages if recommended
+ * on the Nextcloud instance. The check issues warnings or informational messages if recommended
  * security headers are missing, malformed, or set to unsafe values.
  *
  * This class is used by the Nextcloud setup process to ensure that the web server delivers
- * responses with proper security headers, helping to protect against common web vulnerabilities
- * such as clickjacking, MIME sniffing, and information leakage.
+ * responses with proper security headers, helping to protect against common web vulnerabilities.
  */
 class SecurityHeaders implements ISetupCheck {
 
