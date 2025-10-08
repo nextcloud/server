@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Listener;
 
+use OCA\DAV\CalDAV\Federation\CalendarFederationConfig;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarAuth;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCP\EventDispatcher\Event;
@@ -20,8 +21,17 @@ use Sabre\DAV\Auth\Plugin;
  * @template-implements IEventListener<Event|SabrePluginAuthInitEvent>
  */
 class SabrePluginAuthInitListener implements IEventListener {
+	public function __construct(
+		private readonly CalendarFederationConfig $calendarFederationConfig,
+	) {
+	}
+
 	public function handle(Event $event): void {
 		if (!($event instanceof SabrePluginAuthInitEvent)) {
+			return;
+		}
+
+		if (!$this->calendarFederationConfig->isFederationEnabled()) {
 			return;
 		}
 
