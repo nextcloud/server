@@ -117,7 +117,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 			$combinedEtag = $this->data['etag'] . '::' . implode('::', $this->childEtags);
 			return md5($combinedEtag);
 		} else {
-			return $this->data['etag'];
+			return $this->data['etag'] ?? '';
 		}
 	}
 
@@ -285,7 +285,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	#[Override]
 	public function getChecksum(): string {
-		return $this->data['checksum'];
+		return $this->data['checksum'] ?? '';
 	}
 
 	#[Override]

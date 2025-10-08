@@ -363,7 +363,7 @@ class File extends Node implements IFile {
 			if ($checksumHeader) {
 				$checksum = trim($checksumHeader);
 				$this->setChecksum($checksum);
-			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			} elseif ($this->getChecksum() !== '') {
 				$this->setChecksum('');
 			}
 		} catch (StorageNotAvailableException $e) {
@@ -606,10 +606,8 @@ class File extends Node implements IFile {
 
 	/**
 	 * Get the checksum for this file
-	 *
-	 * @return string|null
 	 */
-	public function getChecksum() {
+	public function getChecksum(): string {
 		return $this->info->getChecksum();
 	}
 
