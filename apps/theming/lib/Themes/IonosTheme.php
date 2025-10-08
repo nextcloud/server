@@ -217,6 +217,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 			// max contrast for WCAG compliance
 			'--color-main-text' => $ionColorTypoMild,
+			'--color-text' => 'light-dark(var(--ion-color-cool-grey-c7), var(--ion-color-cool-grey-c7))',
 			'--color-text-maxcontrast' => $ionColorTypoMild,
 			'--color-text-maxcontrast-default' => $ionColorTypoMild,
 			'--color-text-maxcontrast-background-blur' => $ionColorTypoMild,
