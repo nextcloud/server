@@ -539,14 +539,24 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	private function canUpdateTagForFileIds(array $fileIds): bool {
 		$user = $this->userSession->getUser();
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+
 		foreach ($fileIds as $fileId) {
-			$nodes = $userFolder->getById((int)$fileId);
-			foreach ($nodes as $node) {
-				if (($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
-					return true;
+			try {
+				$nodes = $userFolder->getById((int)$fileId);
+				if (empty($nodes)) {
+					return false;
 				}
+
+				foreach ($nodes as $node) {
+					if (($node->getPermissions() & Constants::PERMISSION_UPDATE) !== Constants::PERMISSION_UPDATE) {
+						return false;
+					}
+				}
+			} catch (\Exception $e) {
+				return false;
 			}
 		}
-		return false;
+
+		return true;
 	}
 }
