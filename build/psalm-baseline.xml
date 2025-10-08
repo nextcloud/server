@@ -3703,18 +3703,6 @@
       <code><![CDATA[array{int, string, int}]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="lib/private/Files/Filesystem.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$mount->getStorage()]]></code>
-      <code><![CDATA[self::getMountManager()->findByNumericId($id)]]></code>
-      <code><![CDATA[self::getMountManager()->findByStorageId($id)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[Mount\MountPoint[]]]></code>
-      <code><![CDATA[Mount\MountPoint[]]]></code>
-      <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/private/Files/Mount/MountPoint.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[wrap]]></code>
