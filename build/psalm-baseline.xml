@@ -2532,11 +2532,6 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/testing/lib/Locking/FakeDBLockingProvider.php">
-    <DeprecatedMethod>
-      <code><![CDATA[executeUpdate]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/testing/lib/Provider/FakeText2ImageProvider.php">
     <DeprecatedInterface>
       <code><![CDATA[FakeText2ImageProvider]]></code>
@@ -3069,7 +3064,6 @@
   </file>
   <file src="core/Command/Db/ConvertType.php">
     <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getPrimaryKeyColumns]]></code>
     </DeprecatedMethod>
@@ -3362,34 +3356,6 @@
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
-  </file>
-  <file src="core/Migrations/Version13000Date20170718121200.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Migrations/Version14000Date20180404140050.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Migrations/Version16000Date20190427105638.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Migrations/Version18000Date20190920085628.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Migrations/Version20000Date20201109081918.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="core/Service/LoginFlowV2Service.php">
     <DeprecatedClass>
