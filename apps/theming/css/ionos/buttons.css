@@ -179,11 +179,6 @@
 
 		&.button-vue--icon-only,
 		.button-vue__icon {
-			height: 32px !important;
-			width: 32px !important;
-			min-width: 32px;
-			min-height: 32px;
-			margin: auto 0;
 			span[role=img] {
 				color: light-dark(var(--ion-color-blue-b4), var(--ion-color-cool-grey-c3));
 			}
