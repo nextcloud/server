@@ -19,14 +19,12 @@ class ReducedMotion implements ITheme {
 	}
 
 	#[\Override]
-	public function getCustomCss(): string
-	{
+	public function getCustomCss(): string {
 		return '';
 	}
 
 	#[\Override]
-	public function getMeta(): array
-	{
+	public function getMeta(): array {
 		return [];
 	}
 
@@ -37,7 +35,7 @@ class ReducedMotion implements ITheme {
 
 	#[\Override]
 	public function getType(): int {
-		return ITheme::TYPE_FONT;
+		return ITheme::TYPE_SUPPLEMENTARY;
 	}
 
 	#[\Override]

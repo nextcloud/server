@@ -19,52 +19,39 @@ export interface ITheme {
 	enabled: boolean
 }
 
-const selected = defineModel<boolean>('selected', { required: true })
+const isSelected = defineModel<boolean>({ required: true })
+
 const props = defineProps<{
+	/** If this theme is enforced */
 	enforced?: boolean
+	/**
+	 * The loading state
+	 */
+	loading?: boolean
+	/** The theme */
 	theme: ITheme
-	type: string
+	/**
+	 * If true, the theme can be selected exclusively (radio button),
+	 * otherwise it can be selected in addition to other themes (switch)
+	 */
 	unique: boolean
+	/**
+	 * When multiple themes are allowed, this is the name of the input group.
+	 */
+	name?: string
 }>()
 
-const switchType = computed(() => props.unique ? 'switch' : 'radio')
-const name = computed(() => !props.unique ? props.type : null)
-const img = computed(() => generateFilePath('theming', 'img', props.theme.id + '.jpg'))
-
-const checked = computed({
-	get() {
-		return selected.value
-	},
-
-	set(checked) {
-		if (props.enforced) {
-			return
-		}
-		selected.value = props.unique ? checked : true
-	},
-})
-
-/**
- * Handle toggle click
- */
-function onToggle() {
-	if (props.enforced) {
-		return
-	}
-
-	if (switchType.value === 'radio') {
-		checked.value = true
-		return
-	}
-
-	// Invert state
-	checked.value = !checked.value
-}
+const switchType = computed(() => props.unique ? 'radio' : 'checkbox')
+const imageUrl = computed(() => generateFilePath('theming', 'img', props.theme.id + '.jpg'))
 </script>
 
 <template>
-	<div :class="'theming__preview--' + theme.id" class="theming__preview">
-		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
+	<li :class="'theming__preview--' + theme.id" class="theming__preview">
+		<img
+			alt=""
+			class="theming__preview-image"
+			:src="imageUrl"
+			@click="isSelected = !isSelected">
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
 			<p class="theming__preview-explanation">
@@ -77,15 +64,17 @@ function onToggle() {
 			<!-- Only show checkbox if we can change themes -->
 			<NcCheckboxRadioSwitch
 				v-show="!enforced"
-				v-model="checked"
 				class="theming__preview-toggle"
 				:disabled="enforced"
-				:name="name"
-				:type="switchType">
+				:loading
+				:name
+				:type="switchType"
+				:modelValue="isSelected"
+				@update:modelValue="isSelected = !isSelected">
 				{{ theme.enableLabel }}
 			</NcCheckboxRadioSwitch>
 		</div>
-	</div>
+	</li>
 </template>
 
 <style lang="scss" scoped>
