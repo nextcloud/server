@@ -208,7 +208,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
 
 			// used for different active/hover/focus/disabled states
-			'--color-background-hover' => 'var(--ion-color-blue-b1)',
+			'--color-background-hover' => 'light-dark( var(--ion-color-blue-b1), var(--ion-color-blue-b8))',
 			'--color-background-dark' => $this->util->darken($colorMainBackground, 7),
 			'--color-background-darker' => $this->util->darken($colorMainBackground, 14),
 
