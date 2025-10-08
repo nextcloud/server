@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Command;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +25,7 @@ class RemoveInvalidShares extends Command {
 	public function __construct(
 		private IDBConnection $connection,
 		private Principal $principalBackend,
+		private RemoteUserPrincipalBackend $remoteUserPrincipalBackend,
 	) {
 		parent::__construct();
 	}
@@ -42,7 +44,8 @@ class RemoveInvalidShares extends Command {
 
 		while ($row = $result->fetch()) {
 			$principaluri = $row['principaluri'];
-			$p = $this->principalBackend->getPrincipalByPath($principaluri);
+			$p = $this->principalBackend->getPrincipalByPath($principaluri)
+				?? $this->remoteUserPrincipalBackend->getPrincipalByPath($principaluri);
 			if ($p === null) {
 				$this->deleteSharesForPrincipal($principaluri);
 			}
