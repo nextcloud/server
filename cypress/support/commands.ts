@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { addCommands, User } from '@nextcloud/cypress'
+import { addCommands, User } from '@nextcloud/e2e-test-server/cypress'
+import { basename } from '@nextcloud/paths'
 import axios from 'axios'
-import { basename } from 'path'
 
 // Add custom commands
 import '@testing-library/cypress/add-commands'

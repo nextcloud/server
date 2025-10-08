@@ -1,0 +1,38 @@
+{
+  "name": "nextcloud-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nextcloud Server Vue 3 UI",
+  "license": "AGPL-3.0-or-later",
+  "author": "Nextcloud GmbH and Nextcloud contributors",
+  "scripts": {
+    "build": "vite build",
+    "lint": "eslint --suppressions-location ../eslint-baseline.json --no-error-on-unmatched-pattern ./apps/*/ ./core/",
+    "lint:fix": "eslint --suppressions-location ../eslint-baseline.json --fix --no-error-on-unmatched-pattern ./apps/*/ ./core/",
+    "test": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --passWithNoTests --coverage --reporter=default",
+    "test:update-snapshots": "vitest run --update",
+    "test:watch": "vitest watch"
+  },
+  "type": "module",
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
+  ],
+  "dependencies": {
+    "@nextcloud/dialogs": "^7.0.0-rc.2",
+    "@nextcloud/password-confirmation": "^6.0.0",
+    "@nextcloud/vue": "^9.0.0",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@nextcloud/vite-config": "^2.5.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vue/tsconfig": "^0.8.1",
+    "vite": "npm:rolldown-vite@latest",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": "^22.0.0",
+    "npm": "^10.5.0"
+  }
+}

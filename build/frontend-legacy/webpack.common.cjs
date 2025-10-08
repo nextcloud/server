@@ -11,10 +11,10 @@ const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const webpack = require('webpack')
 const WorkboxPlugin = require('workbox-webpack-plugin')
-const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.cjs')
 const modules = require('./webpack.modules.cjs')
+const WebpackSPDXPlugin = require('./WebpackSPDXPlugin.cjs')
 
-const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
+const appVersion = readFileSync(path.join(__dirname, '../../version.php')).toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
 const isDev = process.env.NODE_ENV === 'development'
 const isTesting = process.env.TESTING === 'true'
 
@@ -60,7 +60,7 @@ const config = {
 	entry: modulesToBuild(),
 	output: {
 		// Step away from the src folder and extract to the js folder
-		path: path.join(__dirname, 'dist'),
+		path: path.join(__dirname, '../../dist'),
 		// Let webpack determine automatically where it's located
 		publicPath: 'auto',
 		filename: '[name].js?v=[contenthash]',
@@ -182,7 +182,7 @@ const config = {
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
 			// to tribute.js checking for jQuery in @nextcloud/vue
-			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
+			jQuery: require.resolve('jquery'),
 		}),
 
 		new WorkboxPlugin.GenerateSW({
@@ -257,7 +257,7 @@ const config = {
 			 */
 			'.js': ['.js', '.ts'],
 		},
-		symlinks: true,
+		symlinks: false,
 		fallback: {
 			fs: false,
 		},

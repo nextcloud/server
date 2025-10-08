@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { execSync } from 'child_process'
 import Docker from 'dockerode'
-import { existsSync } from 'fs'
-import path, { basename } from 'path'
+import { execSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
+import path, { basename } from 'node:path'
 import { c as createTar } from 'tar'
 import waitOn from 'wait-on'
 

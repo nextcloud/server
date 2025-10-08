@@ -4,12 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Configuration } from 'webpack'
-
-import webpackPreprocessor from '@cypress/webpack-preprocessor'
 import { defineConfig } from 'cypress'
 import { removeDirectory } from 'cypress-delete-downloads-folder'
 import cypressSplit from 'cypress-split'
+import vitePreprocessor from 'cypress-vite'
 import { join } from 'path'
 import {
 	applyChangesToNextcloud,
@@ -18,7 +16,6 @@ import {
 	stopNextcloud,
 	waitOnNextcloud,
 } from './cypress/dockerNode.ts'
-import webpackConfig from './webpack.config.js'
 
 export default defineConfig({
 	projectId: '37xpdh',
@@ -65,7 +62,7 @@ export default defineConfig({
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {
-			on('file:preprocessor', webpackPreprocessor({ webpackOptions: webpackConfig as Configuration }))
+			on('file:preprocessor', vitePreprocessor())
 
 			on('task', { removeDirectory })
 
@@ -132,42 +129,6 @@ export default defineConfig({
 
 			// IMPORTANT: return the config otherwise cypress-split will not work
 			return config
-		},
-	},
-
-	component: {
-		specPattern: ['core/**/*.cy.ts', 'apps/**/*.cy.ts'],
-		devServer: {
-			framework: 'vue',
-			bundler: 'webpack',
-			webpackConfig: async () => {
-				process.env.npm_package_name = 'NcCypress'
-				process.env.npm_package_version = '1.0.0'
-				process.env.NODE_ENV = 'development'
-
-				/**
-				 * Needed for cypress stubbing
-				 *
-				 * @see https://github.com/sinonjs/sinon/issues/1121
-				 * @see https://github.com/cypress-io/cypress/issues/18662
-				 */
-				// eslint-disable-next-line @typescript-eslint/no-require-imports
-				const babel = require('./babel.config.js')
-				babel.plugins.push([
-					'@babel/plugin-transform-modules-commonjs',
-					{
-						loose: true,
-					},
-				])
-
-				const config = webpackConfig
-				config.module.rules.push({
-					test: /\.svg$/,
-					type: 'asset/source',
-				})
-
-				return config
-			},
 		},
 	},
 })
