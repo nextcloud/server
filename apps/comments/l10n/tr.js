@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Yorumu sil",
     "Cancel edit" : "Düzenlemeyi iptal et",
     "New comment" : "Yorum ekle",
+    "Write a comment …" : "Bir yorum yazın…",
     "Post comment" : "Yorum gönder",
     "@ for mentions, : for emoji, / for smart picker" : "Anmalar için @, emojiler için :, akıllı seçici için /",
     "Could not reload comments" : "Yorumlar yeniden yüklenemedi",

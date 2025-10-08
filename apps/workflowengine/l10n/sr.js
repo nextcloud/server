@@ -71,6 +71,7 @@ OC.L10N.register(
     "Select a user agent" : "Одаберите агента захтева",
     "Select groups" : "Изаберите групе",
     "Groups" : "Групе",
+    "Type to search for group …" : "Куцајте да претражите групу …",
     "Select a trigger" : "Изаберите окидач",
     "At least one event must be selected" : "Мора бити одабран бар један догађај",
     "Add new flow" : "Додај нови ток",
