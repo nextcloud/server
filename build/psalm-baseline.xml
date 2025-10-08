@@ -1386,8 +1386,10 @@
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
     </DeprecatedMethod>
+    <InvalidArgument>
+      <code><![CDATA[[$this, 'exceptionErrorHandler']]]></code>
+    </InvalidArgument>
     <NullArgument>
-      <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
@@ -3156,17 +3158,6 @@
       <code><![CDATA[$this->timeFactory->getTime()]]></code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Preview/Repair.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[section]]></code>
-      <code><![CDATA[section]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="core/Command/Preview/ResetRenderedTexts.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[[]]]></code>
-    </InvalidReturnStatement>
-  </file>
   <file src="core/Command/Security/BruteforceAttempts.php">
     <DeprecatedMethod>
       <code><![CDATA[getAttempts]]></code>
@@ -4135,16 +4126,6 @@
       <code><![CDATA[\OCA\Notifications\App]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/private/Preview/BackgroundCleanupJob.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[[]]]></code>
-    </InvalidReturnStatement>
-  </file>
-  <file src="lib/private/Preview/Generator.php">
-    <LessSpecificReturnType>
-      <code><![CDATA[null|string]]></code>
-    </LessSpecificReturnType>
-  </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement>
       <code><![CDATA[$thumbnail === false ? null: $thumbnail]]></code>
@@ -4408,14 +4389,6 @@
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="lib/public/Preview/BeforePreviewFetchedEvent.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->mode]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[null|IPreview::MODE_FILL|IPreview::MODE_COVER]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="ocs-provider/index.php">
