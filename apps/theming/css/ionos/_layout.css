@@ -101,6 +101,10 @@
 #body-login {
 	background-color: var(--ion-color-main-background);
 
+	#header {
+		box-shadow: none;
+	}
+
 	.guest-box.login-box {
 		background-color: var(--ion-surface-secondary);
 	}
