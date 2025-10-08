@@ -276,7 +276,7 @@ class FilesPlugin extends ServerPlugin {
 		if ($node instanceof File) {
 			//Add OC-Checksum header
 			$checksum = $node->getChecksum();
-			if ($checksum !== null && $checksum !== '') {
+			if ($checksum !== '') {
 				$response->addHeader('OC-Checksum', $checksum);
 			}
 		}
@@ -487,7 +487,7 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function () use ($node) {
 				$checksum = $node->getChecksum();
-				if ($checksum === null || $checksum === '') {
+				if ($checksum === '') {
 					return null;
 				}
 

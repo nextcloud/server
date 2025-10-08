@@ -255,6 +255,8 @@ interface FileInfo {
 	 * Checksums are stored in the format TYPE:CHECKSUM, here may be multiple checksums separated by a single space
 	 * e.g. MD5:d3b07384d113edec49eaa6238ad5ff00 SHA1:f1d2d2f924e986ac86fdf7b36c94bcdf32beec15
 	 *
+	 * @note This will return an empty string if no checksum is currently stored.
+	 *
 	 * @since 9.0.0
 	 */
 	public function getChecksum(): string;
