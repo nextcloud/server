@@ -114,22 +114,20 @@ class FileAccess implements IFileAccess {
 
 		$path = $root['path'] === '' ? '' : $root['path'] . '/';
 
-		$qb->selectDistinct('*')
+		$qb->selectDistinct('f.*')
 			->from('filecache', 'f')
 			->where($qb->expr()->like('f.path', $qb->createNamedParameter($this->connection->escapeLikeParameter($path) . '%')))
 			->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($storageId)))
-			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)))
+			->hintShardKey('storage', $storageId);
 
-		if (!$endToEndEncrypted) {
+		if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') === null) {
 			// End to end encrypted files are descendants of a folder with encrypted=1
-			// Use a subquery to check the `encrypted` status of the parent folder
-			$subQuery = $this->getQuery()->select('p.encrypted')
-				->from('filecache', 'p')
-				->andWhere($qb->expr()->eq('p.fileid', 'f.parent'))
-				->getSQL();
+			// We can only do this inner join if the filecache table is not sharded
+			$qb->innerJoin('f', 'filecache', 'f2', $qb->expr()->eq('f2.fileid', 'f.parent'));
 
 			$qb->andWhere(
-				$qb->expr()->eq($qb->createFunction(sprintf('(%s)', $subQuery)), $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('f2.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		}
 
@@ -148,11 +146,42 @@ class FileAccess implements IFileAccess {
 		$qb->orderBy('f.fileid', 'ASC');
 		$files = $qb->executeQuery();
 
-		while (
-			/** @var array */
-			$row = $files->fetch()
-		) {
-			yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+		if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') !== null) {
+			// End to end encrypted files are descendants of a folder with encrypted=1
+			// If the filecache table is sharded we need to check with a separate query if the parent is encrypted
+			$rows = [];
+			do {
+				while (count($rows) < 1000 && ($row = $files->fetch())) {
+					$rows[] = $row;
+				}
+				$parents = array_map(function ($row) {
+					return $row['parent'];
+				}, $rows);
+
+				$parentQuery = $this->getQuery();
+				$parentQuery->select('fileid', 'encrypted')->from('filecache');
+				$parentQuery->where($parentQuery->expr()->in('fileid', $parentQuery->createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)));
+				$parentQuery->hintShardKey('storage', $storageId);
+				$result = $parentQuery->executeQuery();
+				$parentRows = $result->fetchAll();
+				$result->closeCursor();
+
+				$encryptedByFileId = array_column($parentRows, 'encrypted', 'fileid');
+				foreach ($rows as $row) {
+					if ($encryptedByFileId[$row['parent']]) {
+						continue;
+					}
+					yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+				}
+				$rows = [];
+			} while ($rows[] = $files->fetch());
+		} else {
+			while (
+				/** @var array */
+				$row = $files->fetch()
+			) {
+				yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+			}
 		}
 
 		$files->closeCursor();

@@ -211,6 +211,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('files'),
 				'mimetype' => 1,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -224,6 +225,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('documents'),
 				'mimetype' => 2,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -237,6 +239,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('photos'),
 				'mimetype' => 3,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -250,6 +253,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('endtoendencrypted'),
 				'mimetype' => 4,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -263,6 +267,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('serversideencrypted'),
 				'mimetype' => 4,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -276,6 +281,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('storage2'),
 				'mimetype' => 5,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -289,6 +295,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('file'),
 				'mimetype' => 6,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 	}
