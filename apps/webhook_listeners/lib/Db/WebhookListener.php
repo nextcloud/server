@@ -84,6 +84,12 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	 */
 	protected $authData = null;
 
+		/**
+	 * @var array
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
+	protected $tokenNeeded;
+
 	private ICrypto $crypto;
 
 	public function __construct(
@@ -103,6 +109,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 		$this->addType('headers', 'json');
 		$this->addType('authMethod', 'string');
 		$this->addType('authData', 'string');
+		$this->addType('tokenNeeded', 'json');
 	}
 
 	public function getAuthMethodEnum(): AuthMethod {

@@ -17,6 +17,7 @@ return array(
     'OCA\\WebhookListeners\\Listener\\WebhooksEventListener' => $baseDir . '/../lib/Listener/WebhooksEventListener.php',
     'OCA\\WebhookListeners\\Migration\\Version1000Date20240527153425' => $baseDir . '/../lib/Migration/Version1000Date20240527153425.php',
     'OCA\\WebhookListeners\\Migration\\Version1001Date20240716184935' => $baseDir . '/../lib/Migration/Version1001Date20240716184935.php',
+    'OCA\\WebhookListeners\\Migration\\Version1500Date20251007130000' => $baseDir . '/../lib/Migration/Version1500Date20251007130000.php',
     'OCA\\WebhookListeners\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\WebhookListeners\\Service\\PHPMongoQuery' => $baseDir . '/../lib/Service/PHPMongoQuery.php',
     'OCA\\WebhookListeners\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
