@@ -209,7 +209,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 			// used for different active/hover/focus/disabled states
 			'--color-background-hover' => 'light-dark( var(--ion-color-blue-b1), var(--ion-color-blue-b8))',
-			'--color-background-dark' => $this->util->darken($colorMainBackground, 7),
+			'--color-background-dark' => 'light-dark( ' . $this->util->darken($colorMainBackground, 7) . ', var(--ion-color-blue-b6))',
 			'--color-background-darker' => $this->util->darken($colorMainBackground, 14),
 
 			'--color-placeholder-light' => $this->util->darken($colorMainBackground, 10),
