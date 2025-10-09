@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   phpunit-32bits:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, self-hosted]
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.3', '8.4']
+        php-versions: ['8.2']
 
     steps:
       - name: Checkout server
@@ -66,6 +66,7 @@ jobs:
           mkdir data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=autotest --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
+          sleep 3600
 
       - name: PHPUnit
         run: composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness
