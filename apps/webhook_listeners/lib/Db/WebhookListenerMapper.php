@@ -82,6 +82,7 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded
 	): WebhookListener {
 		/* Remove any superfluous antislash */
 		$event = ltrim($event, '\\');
@@ -99,6 +100,7 @@ class WebhookListenerMapper extends QBMapper {
 				'userIdFilter' => $userIdFilter ?? '',
 				'headers' => $headers,
 				'authMethod' => $authMethod->value,
+				'tokenNeeded' => $tokenNeeded ?? [],
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
@@ -122,6 +124,7 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded,
 	): WebhookListener {
 		/* Remove any superfluous antislash */
 		$event = ltrim($event, '\\');
@@ -140,6 +143,7 @@ class WebhookListenerMapper extends QBMapper {
 				'userIdFilter' => $userIdFilter ?? '',
 				'headers' => $headers,
 				'authMethod' => $authMethod->value,
+				'tokenNeeded' => $tokenNeeded ?? [],
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
