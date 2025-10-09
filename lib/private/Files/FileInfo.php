@@ -90,8 +90,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	#[Override]
-	public function getId(): int {
-		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : -1;
+	public function getId(): ?int {
+		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : null;
 	}
 
 	public function getMimetype(): string {

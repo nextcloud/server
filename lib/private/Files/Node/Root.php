@@ -171,7 +171,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	#[Override]
-	public function getId(): int {
+	public function getId(): ?int {
 		return 0;
 	}
 
@@ -221,7 +221,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	#[Override]
-	public function getParent(): \OCP\Files\Folder|IRootFolder {
+	public function getParent(): \OCP\Files\Folder {
 		throw new NotFoundException();
 	}
 

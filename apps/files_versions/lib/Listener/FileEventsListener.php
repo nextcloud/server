@@ -122,7 +122,7 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		$this->nodesTouched[$node->getId()] = $node;
+		$this->nodesTouched[$node->getId() ?? -1] = $node;
 	}
 
 	public function touch_hook(Node $node): void {
@@ -209,7 +209,7 @@ class FileEventsListener implements IEventListener {
 		$result = Storage::store($path);
 
 		// Store the result of the version creation so it can be used in post_write_hook.
-		$this->writeHookInfo[$node->getId()] = [
+		$this->writeHookInfo[$node->getId() ?? -1] = [
 			'previousNode' => $node,
 			'versionCreated' => $result !== false
 		];

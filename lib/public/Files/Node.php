@@ -83,7 +83,7 @@ interface Node extends FileInfo {
 	 *
 	 * @since 6.0.0
 	 */
-	public function getParent(): IRootFolder|Folder;
+	public function getParent(): Folder;
 
 	/**
 	 * Acquire a lock on this file or folder.

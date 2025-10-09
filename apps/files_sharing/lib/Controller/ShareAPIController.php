@@ -200,9 +200,9 @@ class ShareAPIController extends OCSController {
 		$result['has_preview'] = $this->previewManager->isAvailable($node);
 		$result['storage_id'] = $node->getStorage()->getId();
 		$result['storage'] = $node->getStorage()->getCache()->getNumericStorageId();
-		$result['item_source'] = $node->getId();
-		$result['file_source'] = $node->getId();
-		$result['file_parent'] = $node->getParent()->getId();
+		$result['item_source'] = $node->getId() ?? -1;
+		$result['file_source'] = $node->getId() ?? -1;
+		$result['file_parent'] = $node->getParent()->getId() ?? -1;
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
 		$result['item_mtime'] = $node->getMTime();

@@ -317,14 +317,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$node1->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('111');
+			->willReturn(111);
 		$node1->expects($this->any())
 			->method('getPath')
 			->willReturn('/node1');
 		$node1->method('getFileInfo')->willReturn($fileInfo);
 		$node2->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('222');
+			->willReturn(222);
 		$node2->expects($this->once())
 			->method('getSize')
 			->willReturn(1024);

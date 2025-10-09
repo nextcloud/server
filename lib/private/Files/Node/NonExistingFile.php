@@ -32,7 +32,7 @@ class NonExistingFile extends File {
 	}
 
 	#[Override]
-	public function getId(): int {
+	public function getId(): ?int {
 		if ($this->fileInfo) {
 			return parent::getId();
 		} else {
