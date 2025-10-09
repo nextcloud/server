@@ -99,7 +99,7 @@ class TrashItem implements ITrashItem {
 	}
 
 	#[Override]
-	public function getId(): int {
+	public function getId(): ?int {
 		return $this->fileInfo->getId();
 	}
 

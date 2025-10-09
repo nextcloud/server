@@ -14,12 +14,12 @@ use OC\Files\Storage\FailedStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 
-class DummyMountPoint implements IMountPoint {
-	public function getMountPoint() {
+final class DummyMountPoint implements IMountPoint {
+	public function getMountPoint(): string {
 		return '';
 	}
 
-	public function setMountPoint($mountPoint) {
+	public function setMountPoint($mountPoint): void {
 	}
 
 	public function getStorage(): IStorage {
@@ -30,18 +30,18 @@ class DummyMountPoint implements IMountPoint {
 		return '';
 	}
 
-	public function getNumericStorageId() {
+	public function getNumericStorageId(): int {
 		return -1;
 	}
 
-	public function getInternalPath($path) {
+	public function getInternalPath($path): string {
 		return $path;
 	}
 
-	public function wrapStorage($wrapper) {
+	public function wrapStorage($wrapper): void {
 	}
 
-	public function getOption($name, $default) {
+	public function getOption($name, $default): mixed {
 		if ($name === 'previews') {
 			return false;
 		}
@@ -56,7 +56,7 @@ class DummyMountPoint implements IMountPoint {
 		return -1;
 	}
 
-	public function getMountId() {
+	public function getMountId(): ?int {
 		return null;
 	}
 

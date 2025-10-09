@@ -96,7 +96,7 @@ class FilesPluginTest extends TestCase {
 			->willReturn('00000123instanceid');
 		$node->expects($this->any())
 			->method('getInternalFileId')
-			->willReturn('123');
+			->willReturn(123);
 		$node->expects($this->any())
 			->method('getEtag')
 			->willReturn('"abc"');

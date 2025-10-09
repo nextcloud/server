@@ -11,10 +11,10 @@ namespace OC\Files\SimpleFS;
 use Icewind\Streams\CallbackWrapper;
 use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use Override;
 
 class NewSimpleFile implements ISimpleFile {
 	private Folder $parentFolder;
@@ -69,22 +69,10 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Get the content
-	 *
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
+	#[Override]
 	public function getContent(): string {
 		if ($this->file) {
-
-			try {
-				$result = $this->file->getContent();
-			} catch (GenericFileException) {
-				$this->checkFile();
-			}
-
-			return $result;
+			return $this->file->getContent();
 		} else {
 			return '';
 		}

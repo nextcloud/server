@@ -90,7 +90,7 @@ final class Template implements \JsonSerializable {
 			'templateId' => $this->templateId,
 			'basename' => $this->file->getName(),
 			'etag' => $this->file->getEtag(),
-			'fileid' => $this->file->getId(),
+			'fileid' => $this->file->getId() ?? -1,
 			'filename' => $this->templateId,
 			'lastmod' => $this->file->getMTime(),
 			'mime' => $this->file->getMimetype(),

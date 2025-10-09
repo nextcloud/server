@@ -194,7 +194,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return int
 	 */
 	public function getId() {
-		return $this->info->getId();
+		return $this->info->getId() ?? -1;
 	}
 
 	/**
@@ -208,11 +208,8 @@ abstract class Node implements \Sabre\DAV\INode {
 		return null;
 	}
 
-	/**
-	 * @return integer
-	 */
-	public function getInternalFileId() {
-		return $this->info->getId();
+	public function getInternalFileId(): int {
+		return $this->info->getId() ?? -1;
 	}
 
 	public function getInternalPath(): string {

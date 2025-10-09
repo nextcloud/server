@@ -12,6 +12,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Lock\LockedException;
+use Override;
 
 class SimpleFile implements ISimpleFile {
 	private File $file;
@@ -48,22 +49,9 @@ class SimpleFile implements ISimpleFile {
 		return $this->file->getMTime();
 	}
 
-	/**
-	 * Get the content
-	 *
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
+	#[Override]
 	public function getContent(): string {
-		try {
-			$result = $this->file->getContent();
-		} catch (GenericFileException) {
-			$this->checkFile();
-		}
-
-		return $result;
+		return $this->file->getContent();
 	}
 
 	/**
@@ -158,6 +146,6 @@ class SimpleFile implements ISimpleFile {
 	}
 
 	public function getId(): int {
-		return $this->file->getId();
+		return $this->file->getId() ?? -1;
 	}
 }

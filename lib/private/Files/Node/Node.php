@@ -26,8 +26,7 @@ use OCP\PreConditionNotMetException;
 use OCP\Server;
 use Override;
 
-// FIXME: this class really should be abstract (+1)
-class Node implements INode {
+abstract class Node implements INode {
 	/**
 	 * @param string $path Absolute path to the node (e.g. /admin/files/folder/file)
 	 * @throws PreConditionNotMetException
@@ -50,9 +49,7 @@ class Node implements INode {
 	 *
 	 * @throws \Exception
 	 */
-	protected function createNonExistingNode(string $path): INode {
-		throw new \Exception('Must be implemented by subclasses');
-	}
+	abstract protected function createNonExistingNode(string $path): INode;
 
 	/**
 	 * Returns the matching file info.
@@ -62,7 +59,7 @@ class Node implements INode {
 	 */
 	public function getFileInfo(bool $includeMountPoint = true): FileInfo {
 		$fileInfo = $this->fileInfo;
-		if (!$this->fileInfo) {
+		if (!$fileInfo) {
 			if (!Filesystem::isValidPath($this->path)) {
 				throw new InvalidPathException();
 			}
@@ -79,7 +76,6 @@ class Node implements INode {
 			}
 			$this->infoHasSubMountsIncluded = true;
 		}
-		/** @var FileInfo $fileInfo */
 		return $fileInfo;
 	}
 
@@ -147,21 +143,17 @@ class Node implements INode {
 		return $this->path;
 	}
 
-	/**
-	 * @return string
-	 */
 	#[Override]
 	public function getInternalPath(): string {
 		return $this->getFileInfo(false)->getInternalPath();
 	}
 
 	/**
-	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
 	#[Override]
-	public function getId(): int {
+	public function getId(): ?int {
 		return $this->getFileInfo(false)->getId();
 	}
 
@@ -216,7 +208,7 @@ class Node implements INode {
 	}
 
 	#[Override]
-	public function getParent(): \OCP\Files\Folder|IRootFolder {
+	public function getParent(): \OCP\Files\Folder {
 		if ($this->parent === null) {
 			$newPath = dirname($this->path);
 			if ($newPath === '' || $newPath === '.' || $newPath === '/') {
@@ -302,11 +294,6 @@ class Node implements INode {
 	#[Override]
 	public function getOwner(): ?IUser {
 		return $this->getFileInfo(false)->getOwner();
-	}
-
-	#[Override]
-	public function getChecksum(): string {
-		throw new \Exception('Must be implemented by subclasses');
 	}
 
 	#[Override]
@@ -406,5 +393,10 @@ class Node implements INode {
 	#[Override]
 	public function getMetadata(): array {
 		return $this->fileInfo->getMetadata();
+	}
+
+	#[Override]
+	public function getChecksum(): string {
+		return $this->getFileInfo()->getChecksum();
 	}
 }

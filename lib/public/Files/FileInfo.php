@@ -62,7 +62,7 @@ interface FileInfo {
 	 * Get the Etag of the file or folder.
 	 *
 	 * The Etag is a string id used to detect changes to a file or folder,
-	 * every time the file or folder is changed the Etag will change to
+	 * every time the file or folder is changed the Etag will change too.
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
@@ -138,7 +138,7 @@ interface FileInfo {
 	 * @throws NotFoundException
 	 * @since 7.0.0
 	 */
-	public function getId(): int;
+	public function getId(): ?int;
 
 	/**
 	 * Check whether the node is encrypted.
@@ -288,7 +288,7 @@ interface FileInfo {
 	 * If the upload time is not known, 0 will be returned
 	 *
 	 * Upload time will be set automatically by the server for files uploaded over DAV
-	 * files created by Nextcloud apps generally do not have an the upload time set
+	 * files created by Nextcloud apps generally do not have the upload time set.
 	 *
 	 * @return int
 	 * @since 18.0.0
@@ -296,7 +296,7 @@ interface FileInfo {
 	public function getUploadTime(): int;
 
 	/**
-	 * Get the fileid or the parent folder  or -1 if this item has no parent folder
+	 * Get the fileId or the parent folder or -1 if this item has no parent folder
 	 * (because it is the root).
 	 *
 	 * @since 28.0.0

@@ -99,14 +99,9 @@ class File extends Node implements \OCP\Files\File {
 	public function hash(string $type, bool $raw = false): string {
 		$hash = $this->view->hash($type, $this->path, $raw);
 		if ($hash === false) {
-			throw new NotFoundException('Unable to compute hash of non-existent file');
+			throw new NotFoundException('Unable to compute hash of non-exiting file');
 		}
 		return $hash;
-	}
-
-	#[Override]
-	public function getChecksum(): string {
-		return $this->getFileInfo()->getChecksum();
 	}
 
 	#[Override]

@@ -312,7 +312,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::INTERNAL_FILEID_PROPERTYNAME, function () use ($node) {
-				return $node->getInternalFileId();
+				return (string)$node->getInternalFileId();
 			});
 
 			$propFind->handle(self::PERMISSIONS_PROPERTYNAME, function () use ($node) {

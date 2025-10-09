@@ -312,7 +312,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$user = $this->getCorrectUser($share);
 
 		try {
-			$fileId = $share->getNode()->getId();
+			$fileId = $share->getNode()->getId() ?? -1;
 			[$file, $link] = $this->getFile($user, $fileId);
 		} catch (\Exception) {
 			throw new ShareNotFound();
@@ -387,14 +387,9 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$user = $this->getCorrectUser($share);
 
 		try {
-			$fileId = $share->getNode()->getId();
-<<<<<<< HEAD
+			$fileId = $share->getNode()->getId() ?? -1;
 			[$file, $link] = $this->getFile($user, $fileId);
 		} catch (\Exception) {
-=======
-			[$file, $link] = $this->getFile($this->getCorrectUid($share), $fileId);
-		} catch (\Exception $e) {
->>>>>>> 0b193b0ad98 (refactor: Add type-hinting to Node-API)
 			throw new ShareNotFound();
 		}
 

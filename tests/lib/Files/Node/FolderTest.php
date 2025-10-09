@@ -489,12 +489,12 @@ class FolderTest extends NodeTestCase {
 
 	public function testIsSubNode(): void {
 		$rootFolderMock = $this->createMock(IRootFolder::class);
-		$file = new Node($rootFolderMock, $this->view, '/foo/bar');
+		$file = new File($rootFolderMock, $this->view, '/foo/bar');
 		$folder = new Folder($rootFolderMock, $this->view, '/foo');
 		$this->assertTrue($folder->isSubNode($file));
 		$this->assertFalse($folder->isSubNode($folder));
 
-		$file = new Node($rootFolderMock, $this->view, '/foobar');
+		$file = new File($rootFolderMock, $this->view, '/foobar');
 		$this->assertFalse($folder->isSubNode($file));
 	}
 

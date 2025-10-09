@@ -14,6 +14,7 @@ use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Utils\PathHelper;
 use OC\User\LazyUser;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder as IFolder;
@@ -102,7 +103,7 @@ class Folder extends Node implements IFolder {
 
 	#[Override]
 	public function newFolder(string $path): \OCP\Files\Folder {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
@@ -137,7 +138,7 @@ class Folder extends Node implements IFolder {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
 		$this->recreateIfNeeded();
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
@@ -183,7 +184,7 @@ class Folder extends Node implements IFolder {
 		}
 
 		/** @var QuerySearchHelper $searchHelper */
-		$searchHelper = \OCP\Server::get(QuerySearchHelper::class);
+		$searchHelper = Server::get(QuerySearchHelper::class);
 		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch($this->root, $this->path, $limitToHome);
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
@@ -329,7 +330,7 @@ class Folder extends Node implements IFolder {
 
 	#[Override]
 	public function delete(): void {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(['preDelete']);
 			$fileInfo = $this->getFileInfo();
 			$this->view->rmdir($this->path);
