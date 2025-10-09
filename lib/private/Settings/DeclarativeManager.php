@@ -132,6 +132,8 @@ class DeclarativeManager implements IDeclarativeManager {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$forms = [];
 
+		$onlyDelegatedSettings = $this->config->getSystemValueBool('settings.only-delegated-settings');
+
 		foreach ($this->appSchemas as $app => $schemas) {
 			foreach ($schemas as $schema) {
 				if ($type !== null && $schema['section_type'] !== $type) {
@@ -142,6 +144,10 @@ class DeclarativeManager implements IDeclarativeManager {
 				}
 				// If listing all fields skip the admin fields which a non-admin user has no access to
 				if ($type === null && $schema['section_type'] === 'admin' && !$isAdmin) {
+					continue;
+				}
+
+				if ($schema['section_type'] === 'admin' && $onlyDelegatedSettings) {
 					continue;
 				}
 
