@@ -152,7 +152,7 @@ export default {
 		async update(resourceId) {
 			this.currentResourceId = resourceId
 			this.resetState()
-			this.getComments()
+			await this.getComments()
 		},
 
 		/**
