@@ -61,6 +61,7 @@
     "Update" : "Ενημέρωση",
     "Delete" : "Διαγραφή",
     "Reset" : "Επαναφορά",
+    "Loading …" : "Φόρτωση …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από {count} αρχεία."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["Η ετικέτα {tag} θα οριστεί σε 1 αρχείο.","Η ετικέτα {tag} θα οριστεί σε {count} αρχεία."],
     "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Η ετικέτα {tag} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag} θα αφαιρεθεί από {count} αρχεία."],
