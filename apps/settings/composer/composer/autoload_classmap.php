@@ -63,6 +63,7 @@ return array(
     'OCA\\Settings\\Sections\\Personal\\Security' => $baseDir . '/../lib/Sections/Personal/Security.php',
     'OCA\\Settings\\Sections\\Personal\\SyncClients' => $baseDir . '/../lib/Sections/Personal/SyncClients.php',
     'OCA\\Settings\\Service\\AuthorizedGroupService' => $baseDir . '/../lib/Service/AuthorizedGroupService.php',
+    'OCA\\Settings\\Service\\ConflictException' => $baseDir . '/../lib/Service/ConflictException.php',
     'OCA\\Settings\\Service\\NotFoundException' => $baseDir . '/../lib/Service/NotFoundException.php',
     'OCA\\Settings\\Service\\ServiceException' => $baseDir . '/../lib/Service/ServiceException.php',
     'OCA\\Settings\\Settings\\Admin\\ArtificialIntelligence' => $baseDir . '/../lib/Settings/Admin/ArtificialIntelligence.php',

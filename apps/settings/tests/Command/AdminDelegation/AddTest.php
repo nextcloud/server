@@ -10,6 +10,7 @@ namespace OCA\Settings\Tests\Command\AdminDelegation;
 use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Command\AdminDelegation\Add;
 use OCA\Settings\Service\AuthorizedGroupService;
+use OCA\Settings\Service\ConflictException;
 use OCP\IGroupManager;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -86,6 +87,36 @@ class AddTest extends TestCase {
 		$this->assertEquals(0, $result);
 	}
 
+	public function testExecuteHandlesDuplicateAssignment(): void {
+		$settingClass = 'OCA\\Settings\\Settings\\Admin\\Server';
+		$groupId = 'testgroup';
+
+		// Mock valid delegated settings class
+		$this->input->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['settingClass', $settingClass],
+				['groupId', $groupId]
+			]);
+
+		// Mock group exists
+		$this->groupManager->expects($this->once())
+			->method('groupExists')
+			->with($groupId)
+			->willReturn(true);
+
+		// Mock ConflictException when trying to create duplicate
+		$this->authorizedGroupService->expects($this->once())
+			->method('create')
+			->with($groupId, $settingClass)
+			->willThrowException(new ConflictException('Group is already assigned to this class'));
+
+		$result = $this->executeCommand();
+
+		// Should return exit code 4 for conflict
+		$this->assertEquals(4, $result);
+	}
+
 	public function testExecuteInvalidSettingClass(): void {
 		// Use a real class that exists but doesn't implement IDelegatedSettings
 		$settingClass = 'stdClass';
@@ -122,5 +153,32 @@ class AddTest extends TestCase {
 
 		// Should return exit code 3 for non-existent group
 		$this->assertEquals(3, $result);
+	}
+
+	public function testExecuteReturnsDifferentExitCodesForDifferentErrors(): void {
+		// Test that duplicate assignment returns code 4
+		$settingClass = 'OCA\\Settings\\Settings\\Admin\\Server';
+		$groupId = 'testgroup';
+
+		$this->input->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['settingClass', $settingClass],
+				['groupId', $groupId]
+			]);
+
+		$this->groupManager->expects($this->once())
+			->method('groupExists')
+			->with($groupId)
+			->willReturn(true);
+
+		$this->authorizedGroupService->expects($this->once())
+			->method('create')
+			->with($groupId, $settingClass)
+			->willThrowException(new ConflictException('Group is already assigned to this class'));
+
+		$result = $this->executeCommand();
+
+		$this->assertEquals(4, $result, 'Duplicate assignment should return exit code 4');
 	}
 }
