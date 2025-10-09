@@ -110,7 +110,6 @@ export default {
 			loading: false,
 			done: false,
 
-			currentResourceId: this.resourceId,
 			offset: 0,
 			comments: [],
 
