@@ -34,6 +34,22 @@ Feature: LDAP
     And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
     Then the HTTP status code should be "200"
 
+  Scenario: Test valid configuration with LDAPS protocol and port by logging in
+    Given modify LDAP configuration
+      | ldapHost         | ldaps://openldap:636 |
+      | turnOffCertCheck |                    1 |
+    And cookies are reset
+    And Logging in using web as "alice"
+    And Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
+    Then the HTTP status code should be "200"
+
+  Scenario: Test failing LDAPS connection through TLS verification
+    Given modify LDAP configuration
+      | ldapHost         | ldaps://openldap:636 |
+      | turnOffCertCheck |                    0 |
+    And cookies are reset
+    And Expect ServerException on failed web login as "alice"
+
   Scenario: Look for a known LDAP user
     Given As an "admin"
     And sending "GET" to "/cloud/users?search=alice"
