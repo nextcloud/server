@@ -782,7 +782,7 @@ export default defineComponent({
 				const nodes = filteredFiles.map(
 					file => new NcFile({
 						source: davRemoteURL + davGetRootPath() + file.filename,
-						fileid: file.fileid,
+						id: file.fileid,
 						displayname: file.displayname,
 						mime: file.mime,
 						mtime: new Date(file.lastmod),
@@ -1166,7 +1166,7 @@ export default defineComponent({
 				// Fake node to emit the event until Viewer is migrated to the new Node API.
 				const node = new NcFile({
 					source: url,
-					fileid,
+					id: fileid,
 					mime: this.currentFile.mime,
 					owner: this.currentFile.ownerId,
 					root: url.includes('remote.php/dav') ? davGetRootPath() : undefined,
