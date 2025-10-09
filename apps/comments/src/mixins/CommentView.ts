@@ -27,6 +27,7 @@ export default defineComponent({
 				key: 'editor',
 			},
 			userData: {},
+			currentResourceId: this.resourceId,
 		}
 	},
 	methods: {
@@ -40,8 +41,8 @@ export default defineComponent({
 			const { data } = await axios.get(generateOcsUrl('core/autocomplete/get'), {
 				params: {
 					search,
-					itemType: 'files',
-					itemId: this.resourceId,
+					itemType: this.resourceType,
+					itemId: this.currentResourceId,
 					sorter: 'commenters|share-recipients',
 					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},
