@@ -200,8 +200,13 @@ export default {
 					this.done = true
 				}
 
+				// Ensure actor id is a string
+				for (const comment of comments) {
+					comment.props.actorId = comment.props.actorId.toString()
+				}
+
 				// Insert results
-				this.comments.push(...comments)
+				this.comments = [...this.comments, ...comments]
 
 				// Increase offset for next fetch
 				this.offset += DEFAULT_LIMIT
