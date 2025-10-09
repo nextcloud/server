@@ -27,6 +27,10 @@ class CommentersSorter implements ISorter {
 	 * @param array $context
 	 */
 	public function sort(array &$sortArray, array $context): void {
+		if (!isset($context['itemType'], $context['itemId'])) {
+			return;
+		}
+
 		$commenters = $this->retrieveCommentsInformation($context['itemType'], $context['itemId']);
 		if (count($commenters) === 0) {
 			return;
