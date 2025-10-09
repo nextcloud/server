@@ -1528,6 +1528,7 @@ return array(
     'OC\\Core\\Migrations\\Version33000Date20250819110529' => $baseDir . '/core/Migrations/Version33000Date20250819110529.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\ResponseDefinitions' => $baseDir . '/core/ResponseDefinitions.php',
+    'OC\\Core\\Service\\CronService' => $baseDir . '/core/Service/CronService.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
     'OC\\DB\\AdapterMySQL' => $baseDir . '/lib/private/DB/AdapterMySQL.php',
