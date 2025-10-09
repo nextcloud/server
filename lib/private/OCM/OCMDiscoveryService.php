@@ -110,10 +110,12 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 
 			foreach ($urls as $url) {
 				$body = null;
+				$status = null;
 				try {
 					$response = $client->get($url, $options);
 					if ($response->getStatusCode() === Http::STATUS_OK) {
 						$body = $response->getBody();
+						$status = $response->getStatusCode();
 						// update provider with data returned by the request
 						$provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
 						$this->cache->set($remote, $body, 60 * 60 * 24);
@@ -133,7 +135,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			throw new OCMProviderException('invalid remote ocm endpoint');
 		} catch (JsonException|OCMProviderException) {
 			$this->cache->set($remote, false, 5 * 60);
-			throw new OCMProviderException('data returned by remote seems invalid - status:' . $response->getStatusCode() . ' - ' . ($body ?? ''));
+			throw new OCMProviderException('data returned by remote seems invalid - status: ' . ($status ?? '') . ' - body: ' . ($body ?? ''));
 		} catch (\Exception $e) {
 			$this->cache->set($remote, false, 5 * 60);
 			$this->logger->warning('error while discovering ocm provider', [
