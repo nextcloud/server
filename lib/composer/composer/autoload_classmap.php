@@ -871,6 +871,7 @@ return array(
     'OCP\\TaskProcessing\\Exception\\ProcessingException' => $baseDir . '/lib/public/TaskProcessing/Exception/ProcessingException.php',
     'OCP\\TaskProcessing\\Exception\\UnauthorizedException' => $baseDir . '/lib/public/TaskProcessing/Exception/UnauthorizedException.php',
     'OCP\\TaskProcessing\\Exception\\ValidationException' => $baseDir . '/lib/public/TaskProcessing/Exception/ValidationException.php',
+    'OCP\\TaskProcessing\\IInternalTaskType' => $baseDir . '/lib/public/TaskProcessing/IInternalTaskType.php',
     'OCP\\TaskProcessing\\IManager' => $baseDir . '/lib/public/TaskProcessing/IManager.php',
     'OCP\\TaskProcessing\\IProvider' => $baseDir . '/lib/public/TaskProcessing/IProvider.php',
     'OCP\\TaskProcessing\\ISynchronousProvider' => $baseDir . '/lib/public/TaskProcessing/ISynchronousProvider.php',

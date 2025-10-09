@@ -49,10 +49,11 @@ interface IManager {
 	/**
 	 * @param bool $showDisabled if false, disabled task types will be filtered out
 	 * @param ?string $userId to check if the user is a guest. Will be obtained from session if left to default
-	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
+	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, isInternal: bool, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 * @since 30.0.0
 	 * @since 31.0.0 Added the `showDisabled` argument.
 	 * @since 31.0.7 Added the `userId` argument
+	 * @since 33.0.0 Added `isInternal` to return value
 	 */
 	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array;
 
