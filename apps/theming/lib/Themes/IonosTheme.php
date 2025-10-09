@@ -203,6 +203,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .8)',
 			'--color-primary' => $colorPrimary,
 			'--color-primary-element' => $colorPrimary,
+			'--color-primary-element-light' => 'light-dark( #e5ebf3, var(--ion-color-blue-b5))',
 
 			// to use like this: background-image: linear-gradient(0, var('--gradient-main-background));
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
