@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitSettings
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Settings\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Settings\\' => 
+        'OCA\\Settings\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -81,6 +81,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Personal\\Security' => __DIR__ . '/..' . '/../lib/Sections/Personal/Security.php',
         'OCA\\Settings\\Sections\\Personal\\SyncClients' => __DIR__ . '/..' . '/../lib/Sections/Personal/SyncClients.php',
         'OCA\\Settings\\Service\\AuthorizedGroupService' => __DIR__ . '/..' . '/../lib/Service/AuthorizedGroupService.php',
+        'OCA\\Settings\\Service\\ConflictException' => __DIR__ . '/..' . '/../lib/Service/ConflictException.php',
         'OCA\\Settings\\Service\\NotFoundException' => __DIR__ . '/..' . '/../lib/Service/NotFoundException.php',
         'OCA\\Settings\\Service\\ServiceException' => __DIR__ . '/..' . '/../lib/Service/ServiceException.php',
         'OCA\\Settings\\Settings\\Admin\\ArtificialIntelligence' => __DIR__ . '/..' . '/../lib/Settings/Admin/ArtificialIntelligence.php',
