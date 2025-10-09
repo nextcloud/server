@@ -51,6 +51,7 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
@@ -878,6 +879,7 @@ class Manager implements IManager {
 						'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
 						'optionalOutputShape' => $provider->getOptionalOutputShape(),
 						'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
+						'isInternal' => $taskType instanceof IInternalTaskType,
 					];
 				} catch (\Throwable $e) {
 					$this->logger->error('Failed to set up TaskProcessing provider ' . $provider::class, ['exception' => $e]);
