@@ -1,0 +1,7 @@
+#body-login footer a {
+	color: var(--color-text);
+}
+
+#body-login footer .info {
+	color: var(--color-text);
+}
