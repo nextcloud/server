@@ -103,7 +103,10 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates') === true) {
 				$options['verify'] = false;
 			}
-			$urls = [ $remote . '/.well-known/ocm', $remote . '/ocm-provider' ];
+			$urls = [
+				$remote . '/.well-known/ocm',
+				$remote . '/ocm-provider',
+			];
 
 			foreach ($urls as $url) {
 				$body = null;
