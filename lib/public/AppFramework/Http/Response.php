@@ -11,6 +11,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -244,6 +245,11 @@ class Response {
 
 		if ($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
+		}
+
+		$userSession = \OC::$server->get(IUserSession::class);
+		if ($user = $userSession->getUser()) {
+			$mergeWith['X-User-Id'] = $user->getUID();
 		}
 
 		return array_merge($mergeWith, $this->headers);
