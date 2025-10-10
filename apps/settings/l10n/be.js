@@ -40,7 +40,7 @@ OC.L10N.register(
     "Install Client" : "Усталяваць кліент",
     "Apps" : "Праграмы",
     "Personal" : "Асабістыя",
-    "Administration" : "Адміністратар",
+    "Administration" : "Адміністраванне",
     "Users" : "Карыстальнікі",
     "Additional settings" : "Дадатковыя налады",
     "Assistant" : "Памочнік",

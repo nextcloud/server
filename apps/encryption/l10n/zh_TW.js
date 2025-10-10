@@ -35,8 +35,6 @@ OC.L10N.register(
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法解密這個檔案，也許這是分享的檔案。請要求檔案所有人重新分享檔案給您。",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法讀取這個檔案，也許這是分享的檔案。請要求檔案所有人重新分享檔案給您。",
     "Default encryption module" : "預設加密模組",
-    "Default encryption module for server-side encryption" : "伺服器端加密的預設加密模組",
-    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "為了使用此加密模組，您必須在管理員設定中啟用伺服器端加密。啟用後，此模組將會加密您之後傳輸的所有檔案。此加密是以 AES 256 金鑰為基礎。\n此模組將不會處理既有的檔案，僅會加密在伺服器端加密啟用後的新檔案。同時也無法停用加密並切換回未加密的系統。\n在您決定啟用伺服器端加密前，請閱讀文件得知其實際作用與影響。",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "已啟用加密應用程式，但您的金鑰並未初始化，請登出並再次登入",
     "Encrypt the home storage" : "加密家目錄儲存空間",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "啟用此功能以加密所有主要儲存空間的檔案，否則僅有外部儲存空間的檔案會被加密",
@@ -60,6 +58,8 @@ OC.L10N.register(
     "Enable password recovery:" : "啟用密碼還原：",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用此選項，讓您可以在忘記密碼的情況下，取回對您已加密檔案的存取權",
     "Enabled" : "已啟用",
-    "Disabled" : "已停用"
+    "Disabled" : "已停用",
+    "Default encryption module for server-side encryption" : "伺服器端加密的預設加密模組",
+    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "為了使用此加密模組，您必須在管理員設定中啟用伺服器端加密。啟用後，此模組將會加密您之後傳輸的所有檔案。此加密是以 AES 256 金鑰為基礎。\n此模組將不會處理既有的檔案，僅會加密在伺服器端加密啟用後的新檔案。同時也無法停用加密並切換回未加密的系統。\n在您決定啟用伺服器端加密前，請閱讀文件得知其實際作用與影響。"
 },
 "nplurals=1; plural=0;");

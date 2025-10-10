@@ -247,6 +247,7 @@ OC.L10N.register(
     "Load more results" : "Carica più risultati",
     "Search in" : "Cerca all'interno",
     "Log in" : "Accedi",
+    "Logging in …" : "Accesso in corso ...",
     "Log in to {productName}" : "Accedi a {productName}",
     "Wrong login or password." : "Nome utente o password errati.",
     "This account is disabled" : "Questo account è disabilitato",
