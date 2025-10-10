@@ -108,7 +108,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		$token = $share->getShareSecret();
 		$name = $share->getResourceName();
-		$owner = $share->getOwnerDisplayName();
+		$owner = $share->getOwner();
 		$sharedBy = $share->getSharedByDisplayName();
 		$shareWith = $share->getShareWith();
 		$remoteId = $share->getProviderId();
