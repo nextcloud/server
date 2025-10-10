@@ -48,11 +48,9 @@ jobs:
         uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 #v2.35.4
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite, apcu, ldap
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite, ldap
           coverage: none
           ini-file: development
-          ini-values:
-            apc.enabled=on, apc.enable_cli=on, disable_functions= # https://github.com/shivammathur/setup-php/discussions/573
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
