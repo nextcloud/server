@@ -222,7 +222,19 @@ trait S3ObjectTrait {
 				// buffer is fully seekable, so use it directly for the small upload
 				$this->writeSingle($urn, $buffer, $metaData);
 			} else {
-				$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				if ($psrStream->isSeekable()) {
+					// If the body is seekable, just rewind the body.
+					$psrStream->rewind();
+					$loadStream = $psrStream;
+				} else {
+					// If the body is non-seekable, stitch the rewind the buffer and
+					// the partially read body together into one stream. This avoids
+					// unnecessary disk usage and does not require seeking on the
+					// original stream.
+					$buffer->rewind();
+					$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				}
+
 				$this->writeMultiPart($urn, $loadStream, $metaData);
 			}
 		} else {
