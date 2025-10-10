@@ -15,11 +15,9 @@ use OCP\Migration\Attributes\CreateTable;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-/**
- *
- */
 #[CreateTable(table: 'preview', description: 'Holds the preview data')]
 #[CreateTable(table: 'preview_locations', description: 'Holds the preview location in an object store')]
+#[CreateTable(table: 'preview_versions', description: 'Holds the versioning information for s3-based versions')]
 class Version33000Date20250819110529 extends SimpleMigrationStep {
 
 	/**
@@ -47,7 +45,7 @@ class Version33000Date20250819110529 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('previews')) {
 			$table = $schema->createTable('previews');
-			$table->addColumn('id', Types::BIGINT, ['autoincrement' => true, 'notnull' => true, 'length' => 20, 'unsigned' => true]);
+			$table->addColumn('id', Types::UUID, ['notnull' => true]);
 			$table->addColumn('file_id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('storage_id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('old_file_id', Types::BIGINT, ['notnull' => false, 'length' => 20, 'unsigned' => true]);
