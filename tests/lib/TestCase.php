@@ -11,6 +11,7 @@ namespace Test;
 use DOMDocument;
 use DOMNode;
 use OC\Command\QueueBus;
+use OC\Files\AppData\Factory;
 use OC\Files\Cache\Storage;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Filesystem;
@@ -336,6 +337,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
+
+		/** @var Factory $appDataFactory */
+		$appDataFactory = Server::get(Factory::class);
+		$appDataFactory->clearFilesystemCache();
 
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);
