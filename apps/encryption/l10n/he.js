@@ -29,7 +29,6 @@ OC.L10N.register(
     "Missing Signature" : "חתימה חסרה",
     "one-time password for server-side-encryption" : "סיסמא חד פעמית עבור הצפנת צד השרת",
     "Default encryption module" : "מודול ההצפנה כבררת מחדל",
-    "Default encryption module for server-side encryption" : "מודול הצפנה כבררת מחדל להצפנה מצד השרת",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "יישומון ההצפנה פעיל אך המפתחות שלך לא אותחלו, נא לצאת מהחשבון ולהיכנס שוב.",
     "Encrypt the home storage" : "הצפנת אחסון הבית",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "הפעלת אפשרות זו מצפינה את כל הקבצים המאוחסנים באחסון המרכזי, אחרת רק הקבצים המאוחסנים בהתקנים חיצוניים יוצפנו",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Enable password recovery:" : "מאפשר שחזור סיסמא:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "הפעלת אפשרות זו תאפשר לך לקבל מחדש גישה לקבצים המוצפנים שלך במקרה שסיסמא נשכחת",
     "Enabled" : "מופעל",
-    "Disabled" : "מנוטרל"
+    "Disabled" : "מנוטרל",
+    "Default encryption module for server-side encryption" : "מודול הצפנה כבררת מחדל להצפנה מצד השרת"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

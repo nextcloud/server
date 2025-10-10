@@ -29,7 +29,6 @@ OC.L10N.register(
     "Missing Signature" : "Assinatura em Falta",
     "one-time password for server-side-encryption" : "palavra-passe de utilização única para a encriptação do lado do servidor",
     "Default encryption module" : "Módulo de cifra padrão",
-    "Default encryption module for server-side encryption" : "Módulo de encriptação predefinido para encriptação do lado do servidor",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "A aplicação de encriptação está ativada mas as suas chaves não foram inicializadas, termine a sessão e inicie sessão novamente",
     "Encrypt the home storage" : "Encriptar o armazenamento do início",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ativando esta opção todos os ficheiros armazenados no armazenamento principal serão encriptados, senão serão encriptados todos os ficheiros no armazenamento externo",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Ativar a recuperação da palavra-passe:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao ativar esta opção, irá fazer com que volte a obter o acesso aos seus ficheiros encriptados, se perder a palavra-passe",
     "Enabled" : "Ativada",
-    "Disabled" : "Desativada"
+    "Disabled" : "Desativada",
+    "Default encryption module for server-side encryption" : "Módulo de encriptação predefinido para encriptação do lado do servidor"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -35,8 +35,6 @@ OC.L10N.register(
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを読み取ることができません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Default encryption module" : "デフォルトの暗号化モジュール",
-    "Default encryption module for server-side encryption" : "サーバーサイド暗号化のデフォルト暗号化モジュール",
-    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "この暗号化モジュールを使用するには、管理設定でサーバー側の暗号化を有効にする必要があります。有効にすると、このモジュールはすべてのファイルを透過的に暗号化します。暗号化はAES 256キーに基づいています。\nこのモジュールは既存のファイルには影響を与えません。サーバ側の暗号化が有効になった後、新しいファイルのみが暗号化されます。また、暗号化を再度無効にして、暗号化されていないシステムに戻すこともできません。\nサーバー側の暗号化を有効にする前に、ドキュメントを読んですべての影響を把握してください。",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
     "Encrypt the home storage" : "メインストレージ暗号化",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "このオプションを有効にすると、外部ストレージ接続ストレージだけが暗号化されるのではなく、メインストレージのファイルすべてが暗号化されます。",
@@ -60,6 +58,8 @@ OC.L10N.register(
     "Enable password recovery:" : "パスワードリカバリを有効に:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
-    "Disabled" : "無効"
+    "Disabled" : "無効",
+    "Default encryption module for server-side encryption" : "サーバーサイド暗号化のデフォルト暗号化モジュール",
+    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "この暗号化モジュールを使用するには、管理設定でサーバー側の暗号化を有効にする必要があります。有効にすると、このモジュールはすべてのファイルを透過的に暗号化します。暗号化はAES 256キーに基づいています。\nこのモジュールは既存のファイルには影響を与えません。サーバ側の暗号化が有効になった後、新しいファイルのみが暗号化されます。また、暗号化を再度無効にして、暗号化されていないシステムに戻すこともできません。\nサーバー側の暗号化を有効にする前に、ドキュメントを読んですべての影響を把握してください。"
 },
 "nplurals=1; plural=0;");

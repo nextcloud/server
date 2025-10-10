@@ -32,7 +32,6 @@ OC.L10N.register(
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat mendekripsi file ini, mungkin ini adalah file bersama. Harap minta pemilik file untuk membagikan ulang file dengan Anda.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat membaca file ini, mungkin ini adalah file bersama. Harap minta pemilik file untuk membagikan ulang file dengan Anda.",
     "Default encryption module" : "Modul bawaan enkripsi",
-    "Default encryption module for server-side encryption" : "Modul enkripsi bawaan pada enkripsi sisi-peladen",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikasi enkripsi telah diaktifkan tetapi kunci tidak terinisialisasi, silakan log-out dan log-in lagi",
     "Encrypt the home storage" : "Enkripsi penyimpanan rumah",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Mengaktifkan opsi ini akan mengenkripsi semua berkas yang disimpan pada penyimpanan utama, jika tidak diaktifkan maka hanya berkas pada penyimpanan eksternal saja yang akan dienkripsi.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Aktifkan kata sandi pemulihan:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan kata sandi",
     "Enabled" : "Diaktifkan",
-    "Disabled" : "Dinonaktifkan"
+    "Disabled" : "Dinonaktifkan",
+    "Default encryption module for server-side encryption" : "Modul enkripsi bawaan pada enkripsi sisi-peladen"
 },
 "nplurals=1; plural=0;");

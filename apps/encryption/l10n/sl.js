@@ -31,7 +31,6 @@ OC.L10N.register(
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Te datoteke ni mogoče šifrirati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da vam souporabo ponovno omogoči.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Te datoteke ni mogoče brati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da vam souporabo ponovno omogoči.",
     "Default encryption module" : "Privzet modul za šifriranje",
-    "Default encryption module for server-side encryption" : "Privzeti modul za strežniško šifriranje",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Program za šifriranje je omogočen, vendar šifrirni ključi niso na voljo. Odjavite se in nato ponovno prijavite.",
     "Encrypt the home storage" : "Šifriraj krajevno shrambo",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Izbrana možnost omogoči šifriranje vseh datotek, shranjenih v glavni shrambi, sicer so šifrirane le datoteke v zunanjih shrambah.",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Omogoči obnovitev gesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da geslo pozabite.",
     "Enabled" : "Omogočeno",
-    "Disabled" : "Onemogočeno"
+    "Disabled" : "Onemogočeno",
+    "Default encryption module for server-side encryption" : "Privzeti modul za strežniško šifriranje"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

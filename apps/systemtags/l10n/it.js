@@ -63,6 +63,7 @@ OC.L10N.register(
     "Update" : "Aggiorna",
     "Delete" : "Elimina",
     "Reset" : "Ripristina",
+    "Loading …" : "Caricamento in corso...",
     "{displayName} (hidden)" : "{displayName} (nascosto)",
     "{displayName} (restricted)" : "{displayName} (limitato)",
     "Failed to apply tags changes" : "Impossibile applicare le modifiche ai tag",
