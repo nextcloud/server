@@ -43,7 +43,8 @@ class ExpireSharesJobTest extends \Test\TestCase {
 
 		$this->connection = Server::get(IDBConnection::class);
 		// clear occasional leftover shares from other tests
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('share')->executeStatement();
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
@@ -58,7 +59,8 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('share')->executeStatement();
 
 		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
@@ -81,7 +83,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 
 		$result = $qb->select('*')
 			->from('share')
-			->execute();
+			->executeQuery();
 
 		while ($row = $result->fetch()) {
 			$shares[] = $row;
@@ -151,7 +153,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 				->where($qb->expr()->eq('id', $qb->createParameter('id')))
 				->setParameter('id', $share['id'])
 				->setParameter('expiration', $expire)
-				->execute();
+				->executeStatement();
 
 			$shares = $this->getShares();
 			$this->assertCount(1, $shares);

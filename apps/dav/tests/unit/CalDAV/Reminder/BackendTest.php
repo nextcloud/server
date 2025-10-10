@@ -45,7 +45,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(4, $rows);
@@ -55,7 +55,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(2, $rows);
@@ -65,7 +65,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(4, $rows);
@@ -75,7 +75,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(1, $rows);
@@ -85,7 +85,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(4, $rows);
@@ -95,7 +95,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(3, $rows);
@@ -192,7 +192,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(4, $rows);
@@ -203,7 +203,7 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(5, $rows);

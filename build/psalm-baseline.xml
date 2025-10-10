@@ -1628,8 +1628,6 @@
     <DeprecatedMethod>
       <code><![CDATA[Files::buildNotExistingFileName($shareFolder, $share['name'])]]></code>
       <code><![CDATA[Files::buildNotExistingFileName('/', $name)]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[insertIfNotExist]]></code>
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>

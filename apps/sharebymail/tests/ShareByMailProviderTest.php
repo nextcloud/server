@@ -746,7 +746,7 @@ class ShareByMailProviderTest extends TestCase {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
-		$qResult = $qb->execute();
+		$qResult = $qb->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
@@ -799,7 +799,7 @@ class ShareByMailProviderTest extends TestCase {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
-		$qResult = $qb->execute();
+		$qResult = $qb->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
@@ -1031,7 +1031,7 @@ class ShareByMailProviderTest extends TestCase {
 		$query->select('*')->from('share')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$before = $result->fetchAll();
 		$result->closeCursor();
 
@@ -1044,7 +1044,7 @@ class ShareByMailProviderTest extends TestCase {
 		$query->select('*')->from('share')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$after = $result->fetchAll();
 		$result->closeCursor();
 
@@ -1067,7 +1067,7 @@ class ShareByMailProviderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')->from('share');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$before = $result->fetchAll();
 		$result->closeCursor();
 
@@ -1082,7 +1082,7 @@ class ShareByMailProviderTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')->from('share');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$after = $result->fetchAll();
 		$result->closeCursor();
 
@@ -1156,7 +1156,7 @@ class ShareByMailProviderTest extends TestCase {
 		 */
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
-		$qb->execute();
+		$qb->executeStatement();
 		$id = $qb->getLastInsertId();
 
 		return (int)$id;
