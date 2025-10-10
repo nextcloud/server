@@ -110,7 +110,6 @@ export default {
 			loading: false,
 			done: false,
 
-			currentResourceId: this.resourceId,
 			offset: 0,
 			comments: [],
 
@@ -158,7 +157,7 @@ export default {
 		async update(resourceId) {
 			this.currentResourceId = resourceId
 			this.resetState()
-			this.getComments()
+			await this.getComments()
 		},
 
 		/**
@@ -206,8 +205,13 @@ export default {
 					this.done = true
 				}
 
+				// Ensure actor id is a string
+				for (const comment of comments) {
+					comment.props.actorId = comment.props.actorId.toString()
+				}
+
 				// Insert results
-				this.comments.push(...comments)
+				this.comments = [...this.comments, ...comments]
 
 				// Increase offset for next fetch
 				this.offset += DEFAULT_LIMIT
