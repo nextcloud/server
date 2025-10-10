@@ -14,6 +14,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { onBeforeNavigation } from '../composables/useBeforeNavigation.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
 import { useSearchStore } from '../store/search.ts'
+import { VIEW_ID as FILES_VIEW_ID } from '../views/files.ts'
 import { VIEW_ID } from '../views/search.ts'
 
 const { currentView } = useNavigation(true)
@@ -40,6 +41,10 @@ onBeforeNavigation((to, from, next) => {
 				},
 			})
 		}
+	} else if (to.params.view === FILES_VIEW_ID && from.params.view === FILES_VIEW_ID && from.query.dir !== to.query.dir) {
+		// user navigates to another directory so unset the query
+		searchStore.query = ''
+		searchStore.scope = 'filter'
 	}
 	next()
 })
