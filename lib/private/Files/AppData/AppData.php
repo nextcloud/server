@@ -91,11 +91,10 @@ class AppData implements IAppData {
 			throw $cachedFolder;
 		}
 
-		// Get the Folder object representing this app's appdata root folder
-		$appDataFolder = $this->getOrCreateAppDataFolder();
-
 		if ($name === '/') {
 			// Special case: app's appdata root folder
+			// Get the Folder object representing this app's appdata root folder
+			$appDataFolder = $this->getOrCreateAppDataFolder();
 			$requestedFolder = $appDataFolder;
 		// Try to get the subfolder (within app's appdata folder) by path
 		} else {
