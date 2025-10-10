@@ -13,6 +13,14 @@ import {
 	DefaultType,
 } from '@nextcloud/files'
 
+import axios from '@nextcloud/axios'
+import * as dialogs from '@nextcloud/dialogs'
+import * as eventBus from '@nextcloud/event-bus'
+
+vi.mock('@nextcloud/axios')
+vi.mock('@nextcloud/dialogs')
+vi.mock('@nextcloud/event-bus')
+
 const view = {
 	id: 'files',
 	name: 'Files',
@@ -250,5 +258,47 @@ describe('Download action execute tests', () => {
 		expect(link.href).toMatch(
 			'/index.php/apps/files/ajax/download.php?dir=%2F&files=%5B%22foo.txt%22%2C%22Folder%201%22%5D&downloadStartSecret=',
 		)
+	})
+
+	test('Download fails with error', async () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
+
+		const errorSpy = vi.spyOn(dialogs, 'showError')
+		const exec = await action.exec(file, view, '/')
+		expect(exec).toBe(null)
+		expect(errorSpy).toHaveBeenCalledWith('The requested file is not available.')
+		expect(link.click).not.toHaveBeenCalled()
+	})
+
+	test('Download batch fails with error', async () => {
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		const file2 = new File({
+			id: 2,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
+		vi.spyOn(eventBus, 'emit').mockImplementation(() => {})
+
+		const errorSpy = vi.spyOn(dialogs, 'showError')
+		const exec = await action.execBatch!([file1, file2], view, '/')
+		expect(exec).toStrictEqual([null, null])
+		expect(errorSpy).toHaveBeenCalledWith('The requested files are not available.')
+		expect(link.click).not.toHaveBeenCalled()
 	})
 })
