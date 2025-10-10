@@ -400,7 +400,7 @@
     "Restrict account name autocompletion and system address book access to users within the same groups" : "Die automatische Vervollständigung von Kontonamen und den Zugriff auf das Systemadressbuch auf Benutzer innerhalb derselben Gruppen beschränken",
     "Restrict account name autocompletion to users based on their phonebook" : "Beschränken Sie die automatische Vervollständigung von Kontonamen auf Benutzer basierend auf Ihrem Telefonbuch",
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "Automatische Vervollständigung bis zur vollständigen Übereinstimmung bei der Eingabe des vollständigen Namens erlauben  (Einschränkungen wie Gruppenmitgliedschaft oder fehlende Übereinstimmung im Telefonbuch werden ignoriert)",
-    "Full match autocompletion restrictions" : "Einschränkungen bei der automatischen Vervollständigung von vollständigen Übereinstimmungen",
+    "Full match autocompletion restrictions" : "Einschränkungen bei der automatischen Vervollständigung vollständiger Übereinstimmungen",
     "Also allow autocompletion on full match of the user ID" : "Automatische Vervollständigung auch bei vollständiger Übereinstimmung der Benutzer-ID zulassen",
     "Also allow autocompletion on full match of the user email" : "Automatische Vervollständigung auch bei vollständiger Übereinstimmung der Benutzer-E-Mail zulassen",
     "Do not use second user displayname for full match" : "Nicht den zweiten Anzeigenamen des Benutzers für die vollständige Übereinstimmung verwenden",
