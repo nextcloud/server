@@ -8,15 +8,15 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\Files\Node\File;
+use OC\Files\Node\Folder;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
-use OCP\Files\File;
 use OCP\Files\FileInfo;
-use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -57,6 +57,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->tree = $this->createMock(Tree::class);
 		$this->view = $this->createMock(View::class);
+		$this->view->method('getAbsolutePath')
+			->willReturnCallback(fn (string $path): string => $path);
+		$this->view->method('getRelativePath')
+			->willReturnCallback(fn (string $path): string => $path);
 
 		$this->server = $this->getMockBuilder(Server::class)
 			->setConstructorArgs([$this->tree])
@@ -189,10 +193,16 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$filesNode1->expects($this->any())
 			->method('getSize')
 			->willReturn(12);
+		$filesNode1->expects($this->any())
+			->method('getPath')
+			->willReturn('filesNode1');
 		$filesNode2 = $this->createMock(Folder::class);
 		$filesNode2->expects($this->any())
 			->method('getSize')
 			->willReturn(10);
+		$filesNode2->expects($this->any())
+			->method('getPath')
+			->willReturn('filesNode2');
 
 		$tag123 = $this->createMock(ISystemTag::class);
 		$tag123->expects($this->any())
@@ -235,11 +245,17 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$filesNode1->expects($this->once())
 			->method('getName')
 			->willReturn('first node');
+		$filesNode1->expects($this->once())
+			->method('getPath')
+			->willReturn('first_node');
 
 		$filesNode2 = $this->createMock(File::class);
 		$filesNode2->expects($this->once())
 			->method('getName')
 			->willReturn('second node');
+		$filesNode2->expects($this->once())
+			->method('getPath')
+			->willReturn('second_node');
 
 		$reportTargetNode = $this->createMock(Directory::class);
 		$reportTargetNode->expects($this->any())
@@ -268,11 +284,17 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$filesNode1->expects($this->once())
 			->method('getName')
 			->willReturn('first node');
+		$filesNode1->expects($this->once())
+			->method('getPath')
+			->willReturn('first_node');
 
 		$filesNode2 = $this->createMock(File::class);
 		$filesNode2->expects($this->once())
 			->method('getName')
 			->willReturn('second node');
+		$filesNode2->expects($this->once())
+			->method('getPath')
+			->willReturn('second_node');
 
 		$reportTargetNode = $this->createMock(Directory::class);
 		$reportTargetNode->expects($this->any())

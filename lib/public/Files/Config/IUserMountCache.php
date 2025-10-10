@@ -7,6 +7,7 @@
  */
 namespace OCP\Files\Config;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
@@ -16,6 +17,7 @@ use OCP\IUser;
  *
  * @since 9.0.0
  */
+#[Consumable(since: '9.0.0.')]
 interface IUserMountCache {
 	/**
 	 * Register mounts for a user to the cache
@@ -25,7 +27,7 @@ interface IUserMountCache {
 	 * @param array|null $mountProviderClasses
 	 * @since 9.0.0
 	 */
-	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null);
+	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null): void;
 
 	/**
 	 * Get all cached mounts for a user
@@ -34,7 +36,7 @@ interface IUserMountCache {
 	 * @return ICachedMountInfo[]
 	 * @since 9.0.0
 	 */
-	public function getMountsForUser(IUser $user);
+	public function getMountsForUser(IUser $user): array;
 
 	/**
 	 * Get all cached mounts by storage
@@ -44,7 +46,7 @@ interface IUserMountCache {
 	 * @return ICachedMountInfo[]
 	 * @since 9.0.0
 	 */
-	public function getMountsForStorageId($numericStorageId, $user = null);
+	public function getMountsForStorageId(int $numericStorageId, ?string $user = null): array;
 
 	/**
 	 * Get all cached mounts by root
@@ -53,56 +55,49 @@ interface IUserMountCache {
 	 * @return ICachedMountInfo[]
 	 * @since 9.0.0
 	 */
-	public function getMountsForRootId($rootFileId);
+	public function getMountsForRootId(int $rootFileId): array;
 
 	/**
-	 * Get all cached mounts that contain a file
+	 * Get all cached mounts that contain a file.
 	 *
 	 * @param int $fileId
 	 * @param string|null $user optionally restrict the results to a single user @since 12.0.0
 	 * @return ICachedMountFileInfo[]
 	 * @since 9.0.0
 	 */
-	public function getMountsForFileId($fileId, $user = null);
+	public function getMountsForFileId(int $fileId, ?string $user = null): array;
 
 	/**
-	 * Remove all cached mounts for a user
+	 * Remove all cached mounts for a user.
 	 *
-	 * @param IUser $user
 	 * @since 9.0.0
 	 */
-	public function removeUserMounts(IUser $user);
+	public function removeUserMounts(IUser $user): void;
 
 	/**
-	 * Remove all mounts for a user and storage
-	 *
-	 * @param $storageId
-	 * @param string $userId
-	 * @return mixed
+	 * Remove all mounts for a user and storage.
 	 * @since 9.0.0
 	 */
-	public function removeUserStorageMount($storageId, $userId);
+	public function removeUserStorageMount(int $storageId, string $userId): void;
 
 	/**
-	 * Remove all cached mounts for a storage
+	 * Remove all cached mounts for a storage.
 	 *
-	 * @param $storageId
-	 * @return mixed
 	 * @since 9.0.0
 	 */
-	public function remoteStorageMounts($storageId);
+	public function remoteStorageMounts(int $storageId): void;
 
 	/**
-	 * Get the used space for users
+	 * Get the used space for users.
 	 *
 	 * Note that this only includes the space in their home directory,
 	 * not any incoming shares or external storage.
 	 *
 	 * @param IUser[] $users
-	 * @return int[] [$userId => $userSpace]
+	 * @return array<string, int> Mapping from userId to their used space.
 	 * @since 13.0.0
 	 */
-	public function getUsedSpaceForUsers(array $users);
+	public function getUsedSpaceForUsers(array $users): array;
 
 	/**
 	 * Clear all entries from the in-memory cache

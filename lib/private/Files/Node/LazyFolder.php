@@ -113,27 +113,6 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getMountByStorageId($storageId) {
-		return $this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMountByNumericStorageId($numericId) {
-		return $this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function unMount($mount) {
-		$this->__call(__FUNCTION__, func_get_args());
-	}
-
 	public function get($path) {
 		return $this->getRootFolder()->get($this->getFullPath($path));
 	}

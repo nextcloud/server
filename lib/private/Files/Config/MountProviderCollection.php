@@ -104,10 +104,10 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 			$providers = $this->providers;
 		}
 		$firstProviders = array_filter($providers, function (IMountProvider $provider) {
-			return (get_class($provider) !== 'OCA\Files_Sharing\MountProvider');
+			return (get_class($provider) !== \OCA\Files_Sharing\MountProvider::class);
 		});
 		$lastProviders = array_filter($providers, function (IMountProvider $provider) {
-			return (get_class($provider) === 'OCA\Files_Sharing\MountProvider');
+			return (get_class($provider) === \OCA\Files_Sharing\MountProvider::class);
 		});
 		foreach ($firstProviders as $provider) {
 			$mounts = $this->getMountsFromProvider($provider, $user, $this->loader);
@@ -143,7 +143,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 				return $mount;
 			}
 		}
-		throw new \Exception('No home storage configured for user ' . $user);
+		throw new \Exception('No home storage configured for user ' . $user->getUID());
 	}
 
 	/**

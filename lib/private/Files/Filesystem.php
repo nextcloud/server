@@ -14,11 +14,14 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Filesystem {
@@ -171,7 +174,7 @@ class Filesystem {
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
 		if (self::$logWarningWhenAddingStorageWrapper) {
-			\OCP\Server::get(LoggerInterface::class)->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
+			Server::get(LoggerInterface::class)->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
 				'wrapper' => $wrapperName,
 				'app' => 'filesystem',
 			]);
@@ -193,7 +196,7 @@ class Filesystem {
 	 */
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = \OC::$server->get(IStorageFactory::class);
+			self::$loader = \OCP\Server::get(IStorageFactory::class);
 		}
 		return self::$loader;
 	}
@@ -208,31 +211,27 @@ class Filesystem {
 	}
 
 	/**
-	 * get the mountpoint of the storage object for a path
+	 * Get the mountpoint of the storage object for a path
 	 * ( note: because a storage is not always mounted inside the fakeroot, the
 	 * returned mountpoint is relative to the absolute root of the filesystem
 	 * and doesn't take the chroot into account )
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	public static function getMountPoint($path) {
+	public static function getMountPoint(string $path): string {
 		if (!self::$mounts) {
-			\OC_Util::setupFS();
+			Server::get(SetupManager::class)->setupRoot();
 		}
 		$mount = self::$mounts->find($path);
 		return $mount->getMountPoint();
 	}
 
 	/**
-	 * get a list of all mount points in a directory
+	 * Get a list of all mount points in a directory
 	 *
-	 * @param string $path
 	 * @return string[]
 	 */
-	public static function getMountPoints($path) {
+	public static function getMountPoints(string $path): array {
 		if (!self::$mounts) {
-			\OC_Util::setupFS();
+			Server::get(SetupManager::class)->setupRoot();
 		}
 		$result = [];
 		$mounts = self::$mounts->findIn($path);
@@ -243,29 +242,24 @@ class Filesystem {
 	}
 
 	/**
-	 * get the storage mounted at $mountPoint
-	 *
-	 * @param string $mountPoint
-	 * @return \OC\Files\Storage\Storage|null
+	 * Get the storage mounted at $mountPoint
 	 */
-	public static function getStorage($mountPoint) {
+	public static function getStorage(string $mountPoint): ?IStorage {
 		$mount = self::getMountManager()->find($mountPoint);
 		return $mount->getStorage();
 	}
 
 	/**
-	 * @param string $id
-	 * @return Mount\MountPoint[]
+	 * @return IMountPoint[]
 	 */
-	public static function getMountByStorageId($id) {
+	public static function getMountByStorageId(string $id): array {
 		return self::getMountManager()->findByStorageId($id);
 	}
 
 	/**
-	 * @param int $id
-	 * @return Mount\MountPoint[]
+	 * @return IMountPoint[]
 	 */
-	public static function getMountByNumericId($id) {
+	public static function getMountByNumericId(int $id): array {
 		return self::getMountManager()->findByNumericId($id);
 	}
 
@@ -275,7 +269,7 @@ class Filesystem {
 	 * @param string $path
 	 * @return array{?\OCP\Files\Storage\IStorage, string} an array consisting of the storage and the internal path
 	 */
-	public static function resolvePath($path): array {
+	public static function resolvePath(string $path): array {
 		$mount = self::getMountManager()->find($path);
 		return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
 	}
@@ -414,7 +408,7 @@ class Filesystem {
 	 */
 	public static function isFileBlacklisted($filename) {
 		if (self::$validator === null) {
-			self::$validator = \OCP\Server::get(FilenameValidator::class);
+			self::$validator = Server::get(FilenameValidator::class);
 		}
 
 		$filename = self::normalizePath($filename);
