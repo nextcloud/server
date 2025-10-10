@@ -8,10 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;

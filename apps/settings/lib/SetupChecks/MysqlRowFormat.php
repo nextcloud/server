@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\DB\Connection;
 use OCP\IConfig;
 use OCP\IDBConnection;

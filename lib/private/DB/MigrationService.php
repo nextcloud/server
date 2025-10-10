@@ -7,7 +7,6 @@
  */
 namespace OC\DB;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;

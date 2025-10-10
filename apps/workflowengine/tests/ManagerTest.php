@@ -107,7 +107,7 @@ class ManagerTest extends TestCase {
 		$query = $this->db->getQueryBuilder();
 		foreach (['flow_checks', 'flow_operations', 'flow_operations_scope'] as $table) {
 			$query->delete($table)
-				->execute();
+				->executeStatement();
 		}
 	}
 
