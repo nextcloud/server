@@ -82,3 +82,6 @@
 [submodule "apps-external/collectives"]
 	path = apps-external/collectives
 	url = git@github.com:nextcloud/collectives.git
+[submodule "apps-external/password_policy"]
+	path = apps-external/password_policy
+	url = git@github.com:IONOS-Productivity/nc-password_policy.git
