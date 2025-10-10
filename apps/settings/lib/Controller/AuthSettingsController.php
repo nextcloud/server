@@ -14,12 +14,14 @@ use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
+use OCA\Settings\ConfigLexicon;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
@@ -32,49 +34,31 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
-	/** @var IProvider */
-	private $tokenProvider;
 
-	/** @var RemoteWipe */
-	private $remoteWipe;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IProvider $tokenProvider
-	 * @param ISession $session
-	 * @param ISecureRandom $random
-	 * @param string|null $userId
-	 * @param IUserSession $userSession
-	 * @param IManager $activityManager
-	 * @param RemoteWipe $remoteWipe
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IProvider $tokenProvider,
+		private IProvider $tokenProvider,
 		private ISession $session,
 		private ISecureRandom $random,
 		private ?string $userId,
 		private IUserSession $userSession,
 		private IManager $activityManager,
-		RemoteWipe $remoteWipe,
+		private IAppConfig $appConfig,
+		private RemoteWipe $remoteWipe,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-		$this->tokenProvider = $tokenProvider;
-		$this->remoteWipe = $remoteWipe;
 	}
 
 	/**
 	 * @NoSubAdminRequired
 	 *
-	 * @param bool $oneTime If set to true, the returned token can only be used to get the actual app password a single time
+	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
 	 */
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
-	public function create(string $name = '', bool $oneTime = false): JSONResponse {
+	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
 		}
@@ -100,10 +84,16 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		}
 
-		if ($oneTime) {
-			$name = 'One time login';
-			$type = IToken::ONETIME_TOKEN;
-			$scope = [];
+		if ($qrcodeLogin) {
+			if ($this->appConfig->getAppValueBool(ConfigLexicon::LOGIN_QRCODE_ONETIME)) {
+				$name = 'One time login';
+				$type = IToken::ONETIME_TOKEN;
+				$scope = [];
+			} else {
+				$name = 'QR Code login';
+				$type = IToken::PERMANENT_TOKEN;
+				$scope = null;
+			}
 		} elseif ($name === '') {
 			// No name is only allowed for one time logins
 			return $this->getServiceNotAvailableResponse();

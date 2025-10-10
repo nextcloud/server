@@ -41,13 +41,16 @@ const buttons = [{
 	callback: () => undefined,
 }]
 
+const isOneTimeToken = (props.data?.deviceToken?.type ?? 1) === 3
+
 const qrUrl = computed(() => {
 	const user = props.data?.loginName ?? ''
 	const password = props.data?.token ?? ''
+	const path = isOneTimeToken ? 'onetime-login' : 'login'
 	const server = getBaseUrl()
 
 	// TODO return different result for error handling (to not provide invalid URL)
-	return `nc://onetime-login/user:${user}&password:${password}&server:${server}`
+	return `nc://${path}/user:${user}&password:${password}&server:${server}`
 })
 
 const expirationTimestamp = (props.data?.deviceToken?.lastActivity ? props.data.deviceToken.lastActivity * 1_000 : Date.now()) + 120_000
@@ -77,8 +80,10 @@ function onClosing(result: unknown) {
 				{{ t('core', 'Use {productName} mobile client you want to connect to scan the code', { productName }) }}
 			</p>
 			<QR :value="qrUrl" />
-			<!-- TRANSLATORS Intl will provide a conjunction, e.g. 'Code will expire in 30 seconds' -->
-			{{ t('core', 'Code will expire {timeCountdown} or after use', { timeCountdown }) }}
+			<template v-if="isOneTimeToken">
+				<!-- TRANSLATORS Intl will provide a conjunction, e.g. 'Code will expire in 30 seconds' -->
+				{{ t('core', 'Code will expire {timeCountdown} or after use', { timeCountdown }) }}
+			</template>
 		</div>
 	</NcDialog>
 </template>

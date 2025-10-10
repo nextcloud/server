@@ -113,7 +113,7 @@ export default defineComponent({
 		async handleQrCodeClick() {
 			await confirmPassword()
 
-			const { data } = await axios.post<ITokenResponse>(generateUrl('/settings/personal/authtokens'), { name: '', oneTime: true })
+			const { data } = await axios.post<ITokenResponse>(generateUrl('/settings/personal/authtokens'), { qrcodeLogin: true })
 
 			await spawnDialog(AccountQrLoginDialog, { data })
 		},
