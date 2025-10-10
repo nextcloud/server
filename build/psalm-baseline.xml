@@ -2445,11 +2445,6 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/settings/lib/SetupChecks/SupportedDatabase.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getDatabasePlatform]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/sharebymail/lib/Settings/SettingsManager.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
