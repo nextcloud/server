@@ -115,7 +115,7 @@ class AuthSettingsController extends Controller {
 		$event = new AfterAuthTokenCreatedEvent($token);
 		$this->eventDispatcher->dispatchTyped($event);
 		$token = $event->getToken();
-		
+
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->userId, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
