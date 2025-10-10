@@ -14,6 +14,7 @@ use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
+use OCA\Settings\Events\AfterAuthTokenCreatedEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -24,6 +25,7 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -47,6 +49,7 @@ class AuthSettingsController extends Controller {
 	 * @param string|null $userId
 	 * @param IUserSession $userSession
 	 * @param IManager $activityManager
+	 * @param IEventDispatcher $eventDispatcher
 	 * @param RemoteWipe $remoteWipe
 	 * @param LoggerInterface $logger
 	 */
@@ -59,6 +62,7 @@ class AuthSettingsController extends Controller {
 		private ?string $userId,
 		private IUserSession $userSession,
 		private IManager $activityManager,
+		private IEventDispatcher $eventDispatcher,
 		RemoteWipe $remoteWipe,
 		private LoggerInterface $logger,
 	) {
@@ -106,6 +110,12 @@ class AuthSettingsController extends Controller {
 		}
 
 		$token = $this->generateRandomDeviceToken();
+
+		// Allow apps to post-process the generated token before persisting it
+		$event = new AfterAuthTokenCreatedEvent($token);
+		$this->eventDispatcher->dispatchTyped($event);
+		$token = $event->getToken();
+		
 		$deviceToken = $this->tokenProvider->generateToken($token, $this->userId, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
