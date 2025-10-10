@@ -37,6 +37,7 @@ use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function OCP\Log\logger;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ClientFlowLoginController extends Controller {
@@ -70,9 +71,24 @@ class ClientFlowLoginController extends Controller {
 	private function isValidToken(string $stateToken): bool {
 		$currentToken = $this->session->get(self::STATE_NAME);
 		if (!is_string($currentToken)) {
+			logger('core')->error('Client login flow state token is not set', [
+				'sessionToken' => $currentToken,
+				'requestToken' => $stateToken,
+				'loginFlow' => 'v1',
+			]);
 			return false;
 		}
-		return hash_equals($currentToken, $stateToken);
+		$isValid = hash_equals($currentToken, $stateToken);
+		if (!$isValid) {
+			logger('core')->error('Client login flow state token does not match',
+				[
+					'sessionToken' => $currentToken,
+					'requestToken' => $stateToken,
+					'loginFlow' => 'v1',
+				]
+			);
+		}
+		return $isValid;
 	}
 
 	private function stateTokenForbiddenResponse(): StandaloneTemplateResponse {
@@ -119,11 +135,35 @@ class ClientFlowLoginController extends Controller {
 			);
 		}
 
+		$oldStateToken = $this->session->get(self::STATE_NAME);
+		logger('core')->error('Fetching old state token - expected to be null', [
+			'loginFlow' => 'v1',
+			'existingStateToken' => $oldStateToken,
+		]);
+
 		$stateToken = $this->random->generate(
 			64,
 			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
+		logger('core')->error('Client login flow state token set', [
+			'token' => $stateToken,
+		]);
+
+		$setStateToken = $this->session->get(self::STATE_NAME);
+		logger('core')->error('Fetching set state token - expected to match generated one', [
+			'loginFlow' => 'v1',
+			'generatedStateToken' => $stateToken,
+			'setStateToken' => $setStateToken,
+		]);
+
+		if ($stateToken !== $setStateToken) {
+			logger('core')->error('Generate and set state token mismatch, trying to set it again one more time', [
+				'loginFlow' => 'v1',
+				'stateToken' => $stateToken,
+			]);
+			$this->session->set(self::STATE_NAME, $stateToken);
+		}
 
 		$csp = new Http\ContentSecurityPolicy();
 		if ($client) {
