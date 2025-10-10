@@ -7,26 +7,31 @@
  */
 namespace OCP\AppFramework\Db;
 
+use Doctrine\DBAL\Types\Type;
 use OCP\DB\Types;
 
+use OCP\IDBConnection;
+use OCP\Server;
+use OCP\Uuid\IUuid;
+use OCP\Uuid\IUuidBuilder;
 use function lcfirst;
 use function substr;
 
 /**
- * @method int getId()
- * @method void setId(int $id)
+ * @method int|IUuid getId()
+ * @method void setId(int|IUuid $id)
  * @since 7.0.0
  * @psalm-consistent-constructor
  */
 abstract class Entity {
 	/**
-	 * @var int
+	 * @var int|IUuid
 	 */
 	public $id;
 
 	private array $_updatedFields = [];
 	/** @var array<string, \OCP\DB\Types::*> */
-	private array $_fieldTypes = ['id' => 'integer'];
+	private array $_fieldTypes = ['id' => Types::INTEGER];
 
 	/**
 	 * Simple alternative constructor for building entities from a request
@@ -127,6 +132,11 @@ abstract class Entity {
 				case Types::DATETIME_TZ:
 					if (!$args[0] instanceof \DateTime) {
 						$args[0] = new \DateTime($args[0]);
+					}
+					break;
+				case Types::UUID:
+					if (!$args[0] instanceof IUuid) {
+						$args[0] = Server::get(IUuidBuilder::class)->fromString($args[0]);
 					}
 					break;
 				case Types::TIME_IMMUTABLE:

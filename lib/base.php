@@ -7,6 +7,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use Doctrine\DBAL\Types\Type;
+use OC\DB\Types\UuidType;
 use OC\Profiler\BuiltInProfiler;
 use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
@@ -664,6 +666,8 @@ class OC {
 
 		// Enable lazy loading if activated
 		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
+
+		Type::addType('uuid', UuidType::class);
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);

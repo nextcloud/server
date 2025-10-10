@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -1032,6 +1032,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\IAvailabilityCoordinator' => __DIR__ . '/../../..' . '/lib/public/User/IAvailabilityCoordinator.php',
         'OCP\\User\\IOutOfOfficeData' => __DIR__ . '/../../..' . '/lib/public/User/IOutOfOfficeData.php',
         'OCP\\Util' => __DIR__ . '/../../..' . '/lib/public/Util.php',
+        'OCP\\Uuid\\IUuid' => __DIR__ . '/../../..' . '/lib/public/Uuid/IUuid.php',
+        'OCP\\Uuid\\IUuidBuilder' => __DIR__ . '/../../..' . '/lib/public/Uuid/IUuidBuilder.php',
         'OCP\\WorkflowEngine\\EntityContext\\IContextPortation' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IContextPortation.php',
         'OCP\\WorkflowEngine\\EntityContext\\IDisplayName' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IDisplayName.php',
         'OCP\\WorkflowEngine\\EntityContext\\IDisplayText' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IDisplayText.php',
@@ -1632,6 +1634,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\SQLiteSessionInit' => __DIR__ . '/../../..' . '/lib/private/DB/SQLiteSessionInit.php',
         'OC\\DB\\SchemaWrapper' => __DIR__ . '/../../..' . '/lib/private/DB/SchemaWrapper.php',
         'OC\\DB\\SetTransactionIsolationLevel' => __DIR__ . '/../../..' . '/lib/private/DB/SetTransactionIsolationLevel.php',
+        'OC\\DB\\Types\\UuidType' => __DIR__ . '/../../..' . '/lib/private/DB/Types/UuidType.php',
         'OC\\Dashboard\\Manager' => __DIR__ . '/../../..' . '/lib/private/Dashboard/Manager.php',
         'OC\\DatabaseException' => __DIR__ . '/../../..' . '/lib/private/DatabaseException.php',
         'OC\\DatabaseSetupException' => __DIR__ . '/../../..' . '/lib/private/DatabaseSetupException.php',
@@ -2218,6 +2221,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\User\\PartiallyDeletedUsersBackend' => __DIR__ . '/../../..' . '/lib/private/User/PartiallyDeletedUsersBackend.php',
         'OC\\User\\Session' => __DIR__ . '/../../..' . '/lib/private/User/Session.php',
         'OC\\User\\User' => __DIR__ . '/../../..' . '/lib/private/User/User.php',
+        'OC\\Uuid\\Uuid' => __DIR__ . '/../../..' . '/lib/private/Uuid/Uuid.php',
+        'OC\\Uuid\\UuidBuilder' => __DIR__ . '/../../..' . '/lib/private/Uuid/UuidBuilder.php',
         'OC_App' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_App.php',
         'OC_Defaults' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Defaults.php',
         'OC_Helper' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Helper.php',
