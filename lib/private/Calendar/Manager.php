@@ -261,8 +261,13 @@ class Manager implements IManager {
 		}
 
 		if (!isset($vEvent->ORGANIZER)) {
-			$this->logger->warning('iMip message event dose not contains an organizer');
-			return false;
+			// quirks mode: for Microsoft Exchange Servers use recipient as organizer if no organizer is set
+			if (isset($options['recipient']) && !empty($options['recipient'])) {
+				$vEvent->add('ORGANIZER', 'mailto:' . $options['recipient']);
+			} else {
+				$this->logger->warning('iMip message event does not contain an organizer and no recipient was provided');
+				return false;
+			}
 		}
 
 		if (!isset($vEvent->ATTENDEE)) {
@@ -335,7 +340,8 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = substr($principalUri, 17);
-		return $this->handleIMip($userId, $calendarData);
+		$options = ['recipient' => $recipient];
+		return $this->handleIMip($userId, $calendarData, $options);
 	}
 
 	/**
@@ -354,7 +360,8 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = substr($principalUri, 17);
-		return $this->handleIMip($userId, $calendarData);
+		$options = ['recipient' => $recipient];
+		return $this->handleIMip($userId, $calendarData, $options);
 	}
 
 	/**
@@ -374,7 +381,8 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = substr($principalUri, 17);
-		return $this->handleIMip($userId, $calendarData);
+		$options = ['recipient' => $recipient];
+		return $this->handleIMip($userId, $calendarData, $options);
 	}
 
 	public function createEventBuilder(): ICalendarEventBuilder {
