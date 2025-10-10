@@ -578,7 +578,7 @@ class MigrationService {
 						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
 					}
 
-					if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+					if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 						// Oracle doesn't support boolean column with non-null value
 						if ($thing->getNotnull() && Type::lookupName($thing->getType()) === Types::BOOLEAN) {
 							$thing->setNotnull(false);

@@ -44,8 +44,8 @@ class SupportedDatabase implements ISetupCheck {
 
 	public function run(): SetupResult {
 		$version = null;
-		$databasePlatform = $this->connection->getDatabasePlatform();
-		if ($databasePlatform instanceof MySQLPlatform) {
+		$databasePlatform = $this->connection->getDatabaseProvider();
+		if ($databasePlatform === IDBConnection::PLATFORM_MYSQL || $databasePlatform === IDBConnection::PLATFORM_MARIADB) {
 			$statement = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
 			$result = $statement->execute();
 			$row = $result->fetch();
@@ -54,7 +54,7 @@ class SupportedDatabase implements ISetupCheck {
 			// we only care about X.Y not X.Y.Z differences
 			[$major, $minor, ] = explode('.', $versionlc);
 			$versionConcern = $major . '.' . $minor;
-			if (str_contains($versionlc, 'mariadb')) {
+			if ($databasePlatform === IDBConnection::PLATFORM_MARIADB) {
 				if (version_compare($versionConcern, '10.3', '=')) {
 					return SetupResult::info(
 						$this->l10n->t(
@@ -91,7 +91,7 @@ class SupportedDatabase implements ISetupCheck {
 					);
 				}
 			}
-		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
+		} elseif ($databasePlatform === IDBConnection::PLATFORM_POSTGRES) {
 			$statement = $this->connection->prepare('SHOW server_version;');
 			$result = $statement->execute();
 			$row = $result->fetch();
@@ -111,9 +111,9 @@ class SupportedDatabase implements ISetupCheck {
 						])
 				);
 			}
-		} elseif ($databasePlatform instanceof OraclePlatform) {
+		} elseif ($databasePlatform === IDBConnection::PLATFORM_ORACLE) {
 			$version = 'Oracle';
-		} elseif ($databasePlatform instanceof SqlitePlatform) {
+		} elseif ($databasePlatform === IDBConnection::PLATFORM_SQLITE) {
 			return SetupResult::warning(
 				$this->l10n->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: "occ db:convert-type".'),
 				$this->urlGenerator->linkToDocs('admin-db-conversion')

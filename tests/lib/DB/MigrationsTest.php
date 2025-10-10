@@ -708,8 +708,8 @@ class MigrationsTest extends \Test\TestCase {
 	#[TestWith([true])]
 	#[TestWith([false])]
 	public function testEnsureOracleConstraintsBooleanNotNull(bool $isOracle): void {
-		$this->db->method('getDatabasePlatform')
-			->willReturn($isOracle ? $this->createMock(OraclePlatform::class) : null);
+		$this->db->method('getDatabaseProvider')
+			->willReturn($isOracle ? IDBConnection::PLATFORM_ORACLE : IDBConnection::PLATFORM_MARIADB);
 
 		$column = $this->createMock(Column::class);
 		$column->expects($this->any())
