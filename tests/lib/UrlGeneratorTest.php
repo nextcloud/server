@@ -116,16 +116,16 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	public static function provideDocRootAppUrlParts(): array {
 		return [
-			['user_ldap', 'ajax/wizard.php', [], '/index.php/apps/user_ldap/ajax/wizard.php'],
-			['user_ldap', 'ajax/wizard.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/user_ldap/ajax/wizard.php?trut=trat&dut=dat'],
+			['testing', 'ajax/endpoint.php', [], '/index.php/apps/testing/ajax/endpoint.php'],
+			['testing', 'ajax/endpoint.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/testing/ajax/endpoint.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php?trut=trat&dut=dat'],
 		];
 	}
 
 	public static function provideSubDirAppUrlParts(): array {
 		return [
-			['user_ldap', 'ajax/wizard.php', [], '/nextcloud/index.php/apps/user_ldap/ajax/wizard.php'],
-			['user_ldap', 'ajax/wizard.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/user_ldap/ajax/wizard.php?trut=trat&dut=dat'],
+			['testing', 'ajax/endpoint.php', [], '/nextcloud/index.php/apps/testing/ajax/endpoint.php'],
+			['testing', 'ajax/endpoint.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/testing/ajax/endpoint.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php?trut=trat&dut=dat'],
 		];
 	}
