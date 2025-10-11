@@ -151,4 +151,9 @@ class AppData implements IAppData {
 	public function getId(): int {
 		return $this->getAppDataFolder()->getId();
 	}
+
+	public function clearFilesystemCache(): void {
+		$this->folder = null;
+		$this->folders->clear();
+	}
 }

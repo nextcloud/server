@@ -32,4 +32,10 @@ class Factory implements IAppDataFactory {
 		}
 		return $this->folders[$appId];
 	}
+
+	public function clearFilesystemCache(): void {
+		foreach ($this->folders as $folder) {
+			$folder->clearFilesystemCache();
+		}
+	}
 }
