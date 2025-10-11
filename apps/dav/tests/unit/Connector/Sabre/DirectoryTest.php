@@ -21,6 +21,7 @@ use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
@@ -68,6 +69,8 @@ class DirectoryTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->view = $this->createMock(View::class);
+		$this->view->method('getAbsolutePath')->willReturnArgument(0);
+
 		$this->info = $this->createMock(FileInfo::class);
 		$this->info->method('isReadable')
 			->willReturn(true);
@@ -102,7 +105,7 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(true);
 		$this->view->expects($this->never())
 			->method('rmdir');
-		$dir = $this->getDir();
+		$dir = $this->getDir('/');
 		$dir->delete();
 	}
 
@@ -226,6 +229,8 @@ class DirectoryTest extends \Test\TestCase {
 			->method('isReadable')
 			->willReturn(false);
 
+		$this->view->method('getRelativePath')->willReturnArgument(0);
+
 		$dir = new Directory($this->view, $info);
 		$dir->getChildren();
 	}
@@ -238,6 +243,8 @@ class DirectoryTest extends \Test\TestCase {
 			->method('isReadable')
 			->willReturn(false);
 
+		$this->view->method('getRelativePath')->willReturnArgument(0);
+
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('test');
 	}
@@ -249,6 +256,8 @@ class DirectoryTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->willThrowException(new StorageNotAvailableException());
+
+		$this->view->method('getRelativePath')->willReturnArgument(0);
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
@@ -263,6 +272,8 @@ class DirectoryTest extends \Test\TestCase {
 			->willThrowException(new InvalidPathException());
 		$this->view->expects($this->never())
 			->method('getFileInfo');
+
+		$this->view->method('getRelativePath')->willReturnArgument(0);
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
@@ -421,12 +432,12 @@ class DirectoryTest extends \Test\TestCase {
 	private function moveTest(string $source, string $destination, array $updatables, array $deletables): void {
 		$view = new TestViewDirectory($updatables, $deletables);
 
-		$sourceInfo = new FileInfo($source, null, null, [
+		$sourceInfo = new FileInfo($source, $this->createMock(IStorage::class), '', [
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
-		$targetInfo = new FileInfo(dirname($destination), null, null, [
+		], $this->createMock(IMountPoint::class));
+		$targetInfo = new FileInfo(dirname($destination), $this->createMock(IStorage::class), '', [
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)
@@ -451,8 +462,8 @@ class DirectoryTest extends \Test\TestCase {
 
 		$view = new TestViewDirectory($updatables, $deletables);
 
-		$sourceInfo = new FileInfo($source, null, null, ['type' => FileInfo::TYPE_FOLDER], null);
-		$targetInfo = new FileInfo(dirname($destination), null, null, ['type' => FileInfo::TYPE_FOLDER], null);
+		$sourceInfo = new FileInfo($source, $this->createMock(IStorage::class), '', ['type' => FileInfo::TYPE_FOLDER], $this->createMock(IMountPoint::class));
+		$targetInfo = new FileInfo(dirname($destination), $this->createMock(IStorage::class), '', ['type' => FileInfo::TYPE_FOLDER], $this->createMock(IMountPoint::class));
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)

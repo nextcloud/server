@@ -134,14 +134,14 @@ class SyncLivePhotosListener implements IEventListener {
 			return;
 		}
 
-		$this->pendingRenames[] = $sourceFile->getId();
+		$this->pendingRenames[] = $sourceFile->getId() ?? -1;
 		try {
 			$peerFile->move($targetParent->getPath() . '/' . $peerTargetName);
 		} catch (\Throwable $ex) {
 			throw new AbortedEventException($ex->getMessage());
 		}
 
-		$this->pendingRenames = array_diff($this->pendingRenames, [$sourceFile->getId()]);
+		$this->pendingRenames = array_diff($this->pendingRenames, [$sourceFile->getId() ?? -1]);
 	}
 
 
@@ -185,14 +185,14 @@ class SyncLivePhotosListener implements IEventListener {
 	private function handleDeletion(BeforeNodeDeletedEvent $event, Node $peerFile): void {
 		$deletedFile = $event->getNode();
 		if ($deletedFile->getMimetype() === 'video/quicktime') {
-			if (isset($this->pendingDeletion[$peerFile->getId()])) {
-				unset($this->pendingDeletion[$peerFile->getId()]);
+			if (isset($this->pendingDeletion[$peerFile->getId() ?? -1])) {
+				unset($this->pendingDeletion[$peerFile->getId() ?? -1]);
 				return;
 			} else {
 				throw new AbortedEventException('Cannot delete the video part of a live photo');
 			}
 		} else {
-			$this->pendingDeletion[$deletedFile->getId()] = true;
+			$this->pendingDeletion[$deletedFile->getId() ?? -1] = true;
 			try {
 				$peerFile->delete();
 			} catch (\Throwable $ex) {

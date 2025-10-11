@@ -45,6 +45,9 @@ class TagService {
 		}
 
 		$fileId = $this->homeFolder->get($path)->getId();
+		if ($fileId === null) {
+			return [];
+		}
 
 		$currentTags = $this->tagger->getTagsForObjects([$fileId]);
 
