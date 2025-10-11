@@ -180,7 +180,7 @@
     "tar": "^7.5.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "vitest": "^3.2.4",
     "vue-loader": "^15.11.1",
     "vue-template-compiler": "^2.7.16",
