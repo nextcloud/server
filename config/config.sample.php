@@ -1311,10 +1311,10 @@ $CONFIG = [
 	 * - If team folder "Advanced Permissions" (ACLs) are used, activities do not
 	 *   respect the permissions and therefore all users see all activities, even
 	 *   for files and directories they do not have access to.
-     * - Users who had access to a team folder, share, or external storage can see
+	 * - Users who had access to a team folder, share, or external storage can see
 	 *   activities in their stream and emails that happen after they are removed
 	 *   until they log in again.
-     * - Users who are newly added to a team folder, share, or external storage
+	 * - Users who are newly added to a team folder, share, or external storage
 	 *   cannot see activities in their stream or emails that happen after they
 	 *   are added until they log in again.
 	 *
