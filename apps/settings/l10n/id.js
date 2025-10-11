@@ -321,8 +321,6 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Rilis komunitas Nextcloud ini tidak didukung dan pemberitahuan instan tidak tersedia.",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Aplikasi ini tidak mempunyai versi minimum Nextcloud yang ditetapkan. Di masa depan nanti ini akan menjadi kesalahan.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Aplikasi ini tidak mempunyai versi maksimum Nextcloud yang ditetapkan. Di masa depan nanti ini akan menjadi kesalahan.",
-    "Your biography" : "Biografi Anda",
-    "You are using <strong>{usage}</strong>" : "Anda menggunakan <strong>{usage}</strong>",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Aplikasi ini tidak ditandai sebagai versi Nextcloud Anda yang kompatibel. Jika Anda tetap ingin melanjutkannya, Anda tetap dapat memasang aplikasi. Catatan bahwa aplikasinya mungkin tidak akan berjalan seperti yang diharapkan.",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Sangat penting sekali untuk semuanya diatur secara benar demi keamanan dan performa instansi Anda. Untuk membantu Anda dengan hal itu kami melakukan cek otomatis. Mohon melihat tautan dokumentasi untuk lebih lanjut.",
     "Checking for system and security issues." : "Mengecek isu sistem dan keamanan",

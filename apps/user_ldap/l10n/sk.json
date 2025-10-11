@@ -221,9 +221,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požiadajte administrátora systému, aby ho nainštaloval.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Neodporúčané, použite iba pri testovaní! Pokiaľ spojenie funguje iba z daným nastavením, importujte SSL certifikát LDAP servera do vášho %s servera.",
     "\"$home\" Placeholder Field" : "Výplňová kolónka „$home“",
-    "UUID Attribute for Users:" : "UUID atribút pre používateľov:",
-    "UUID Attribute for Groups:" : "UUID atribút pre skupiny:",
     "Pronouns Field" : "Kolónka Oslovenie",
-    "User profile Pronouns will be set from the specified attribute" : "Oslovenie uživateľského profilu sa nastaví zo zadaného atribútu"
+    "User profile Pronouns will be set from the specified attribute" : "Oslovenie uživateľského profilu sa nastaví zo zadaného atribútu",
+    "UUID Attribute for Users:" : "UUID atribút pre používateľov:",
+    "UUID Attribute for Groups:" : "UUID atribút pre skupiny:"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

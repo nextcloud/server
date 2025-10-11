@@ -109,10 +109,10 @@
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
     "Collaborative tags …" : "Kollaborative Schlagworte …",
     "Loading …" : "Lade …",
-    "Loading collaborative tags …" : "Kollaborative Schlagworte laden…",
     "File tags modification canceled" : "Änderung der Datei-Schlagworte abgebrochen",
     "Select or create tags to apply to all selected files" : "Schlagworte auswählen oder erstellen, die auf alle ausgewählten Dateien angewendet werden sollen",
     "Select tags to apply to all selected files" : "Schlagworte auswählen, die auf alle ausgewählten Dateien angewendet werden sollen",
-    "Apply changes" : "Änderungen anwenden"
+    "Apply changes" : "Änderungen anwenden",
+    "Loading collaborative tags …" : "Kollaborative Schlagworte laden…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

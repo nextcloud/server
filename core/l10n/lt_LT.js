@@ -276,6 +276,7 @@ OC.L10N.register(
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Paieškos rezultatai:<script>alert(1)</script></strong>",
     "new" : "naujas",
     "_download %n file_::_download %n files_" : ["atsisiųsti %n failą","atsisiųsti %n failus","atsisiųsti %n failų","atsisiųsti %n failą"],
+    "Direct link copied to clipboard" : "Tiesioginė nuoroda nukopijuota į iškarpinę",
     "Searching …" : "Ieškoma…",
     "Logging in …" : "Prisijungiama …",
     "Loading apps …" : "Įkeliamos programėlės…",
@@ -284,10 +285,6 @@ OC.L10N.register(
     "Looking for {term} …" : "Ieškoma {term} ...",
     "Search contacts …" : "Ieškoti adresatų…",
     "Loading more results …" : "Įkeliama daugiau rezultatų…",
-    "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
-    "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
-    "Edit Profile" : "Taisyti profilį",
-    "The headline and about sections will show up here" : "Čia bus rodoma santrauka apie jus bei kita su jumis susijusi informacija",
     "Search {types} …" : "Ieškoti {types}…",
     "Saving …" : "Įrašoma…",
     "Very weak password" : "Labai silpnas slaptažodis",
@@ -304,8 +301,6 @@ OC.L10N.register(
     "Rename" : "Pervadinti",
     "Collaborative tags" : "Bendradarbiavimo žymos",
     "No tags found" : "Nerasta jokių žymų",
-    "Profile not found" : "Profilis nerastas",
-    "The profile does not exist." : "Profilio nėra.",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Jūsų duomenų katalogas ir failai, tikriausiai, yra prieinami per internetą, nes .htaccess failas neveikia.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>." : "Išsamesnei informacijai apie tai kaip tinkamai sukonfigūruoti savo serverį, žiūrėkite <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dokumentaciją</a>.",
     "Show password" : "Rodyti slaptažodį",
@@ -313,7 +308,6 @@ OC.L10N.register(
     "Configure the database" : "Konfigūruokite duomenų bazę",
     "Only %s is available." : "Yra prieinama tik %s.",
     "Database account" : "Duomenų bazės paskyra",
-    "Installing …" : "Įdiegiama…",
-    "Direct link copied to clipboard" : "Tiesioginė nuoroda nukopijuota į iškarpinę"
+    "Installing …" : "Įdiegiama…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

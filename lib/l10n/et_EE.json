@@ -446,12 +446,10 @@
     "Result" : "Tulemus",
     "The translated text" : "Tõlgitud tekst",
     "Organisation" : "Organisatsioon",
-    "File is currently busy, please try again later" : "Fail on hetkel kasutuses, proovi hiljem uuesti",
-    "Cannot download file" : "Faili pole võimalik alla laadida",
+    "Login is too long" : "Kasutajanimi on liiga pikk",
     "Cannot write into \"apps\" directory." : "Pole õigust kirjutada „apps“ kausta.",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Tavaliselt saad selle lahendada andes veebiserverile õigused rakenduste kausta kirjutamiseks. Alternatiivina võid ka Nextcloudi rakendustepoe kasutamise keelata.",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> muutuja väärtus on hetkel <code>%s</code>, pigem eeldaks väärtust <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Vea parandamiseks muuda oma veebiserveri php.ini failis <code>mbstring.func_overload</code> väärtuseks <code>0</code>.",
-    "Login is too long" : "Kasutajanimi on liiga pikk"
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Vea parandamiseks muuda oma veebiserveri php.ini failis <code>mbstring.func_overload</code> väärtuseks <code>0</code>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
