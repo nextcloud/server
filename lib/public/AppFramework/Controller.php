@@ -7,6 +7,7 @@
  */
 namespace OCP\AppFramework;
 
+use Closure;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -32,7 +33,7 @@ abstract class Controller {
 	protected $request;
 
 	/**
-	 * @var array
+	 * @var array<string, Closure>
 	 * @since 7.0.0
 	 */
 	private $responders;
@@ -113,10 +114,10 @@ abstract class Controller {
 	/**
 	 * Registers a formatter for a type
 	 * @param string $format
-	 * @param \Closure $responder
+	 * @param Closure $responder
 	 * @since 7.0.0
 	 */
-	protected function registerResponder($format, \Closure $responder) {
+	protected function registerResponder($format, Closure $responder) {
 		$this->responders[$format] = $responder;
 	}
 
@@ -138,5 +139,9 @@ abstract class Controller {
 		}
 		throw new \DomainException('No responder registered for format '
 			. $format . '!');
+	}
+
+	public function isResponderRegistered(string $responder): bool {
+		return isset($this->responders[$responder]);
 	}
 }
