@@ -1264,11 +1264,6 @@
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
   </file>
-  <file src="apps/federatedfilesharing/lib/Migration/Version1011Date20201120125158.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getName]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <DeprecatedMethod>
       <code><![CDATA[sendNotification]]></code>
@@ -1629,8 +1624,6 @@
     <DeprecatedMethod>
       <code><![CDATA[Files::buildNotExistingFileName($shareFolder, $share['name'])]]></code>
       <code><![CDATA[Files::buildNotExistingFileName('/', $name)]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[insertIfNotExist]]></code>
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>
@@ -1703,11 +1696,6 @@
   <file src="apps/files_sharing/lib/Migration/SetPasswordColumn.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/files_sharing/lib/Migration/Version11300Date20201120141438.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/MountProvider.php">
@@ -2451,11 +2439,6 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/settings/lib/SetupChecks/SupportedDatabase.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getDatabasePlatform]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/sharebymail/lib/Settings/SettingsManager.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -3050,19 +3033,8 @@
       <code><![CDATA[$this->appConfig->getValues($app, false)]]></code>
     </FalsableReturnStatement>
   </file>
-  <file src="core/Command/Db/AddMissingPrimaryKeys.php">
-    <DeprecatedMethod>
-      <code><![CDATA[hasPrimaryKey]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Db/ConvertFilecacheBigInt.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getName]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Db/ConvertType.php">
     <DeprecatedMethod>
-      <code><![CDATA[getName]]></code>
       <code><![CDATA[getPrimaryKeyColumns]]></code>
     </DeprecatedMethod>
     <InvalidScalarArgument>

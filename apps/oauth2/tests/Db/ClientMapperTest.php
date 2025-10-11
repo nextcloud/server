@@ -27,7 +27,7 @@ class ClientMapperTest extends TestCase {
 
 	protected function tearDown(): void {
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
-		$query->delete('oauth2_clients')->execute();
+		$query->delete('oauth2_clients')->executeStatement();
 
 		parent::tearDown();
 	}

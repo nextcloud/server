@@ -315,7 +315,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 			->from('storages')
 			->where($qb->expr()->eq('numeric_id', $qb->expr()->literal($numericId)));
 
-		$result = $storageCheckQuery->execute();
+		$result = $storageCheckQuery->executeQuery();
 		$storages = $result->fetchAll();
 		$result->closeCursor();
 		$this->assertCount(0, $storages, 'expected 0 storages, got ' . json_encode($storages));
