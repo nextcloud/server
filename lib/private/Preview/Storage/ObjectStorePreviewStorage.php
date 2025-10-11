@@ -56,7 +56,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		try {
 			$store->writeObject($urn, $countStream);
 		} catch (\Exception $exception) {
-			throw new NotPermittedException('Unable to save preview to object store', previous: $exception);
+			throw new NotPermittedException('Unable to save preview to object store with $url: ' . $urn, previous: $exception);
 		}
 		return $size;
 	}
@@ -166,9 +166,9 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			return ($config['arguments']['objectPrefix'] ?? 'urn:oid:') . $preview->getOldFileId();
 		}
 		if (isset($config['arguments']['objectPrefix'])) {
-			return ($config['arguments']['objectPrefix'] . 'preview:') . $preview->getId();
+			return ($config['arguments']['objectPrefix'] . 'preview:') . $preview->getId()->toString();
 		} else {
-			return 'uri:oid:preview:' . $preview->getId();
+			return 'uri:oid:preview:' . $preview->getId()->toString();
 		}
 	}
 

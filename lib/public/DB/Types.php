@@ -176,4 +176,10 @@ final class Types {
 	 * @since 24.0.0
 	 */
 	public const JSON = 'json';
+
+	/**
+	 * @var string
+	 * @since 31.0.0
+	 */
+	public const UUID = 'uuid';
 }

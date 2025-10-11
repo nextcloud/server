@@ -13,6 +13,9 @@ namespace OC\Preview\Db;
 use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Server;
+use OCP\Uuid\IUuidBuilder;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Preview entity mapped to the oc_previews and oc_preview_locations table.
@@ -76,6 +79,7 @@ class Preview extends Entity {
 	protected ?bool $encrypted = null;
 
 	public function __construct() {
+		$this->addType('id', Types::UUID);
 		$this->addType('fileId', Types::BIGINT);
 		$this->addType('storageId', Types::BIGINT);
 		$this->addType('oldFileId', Types::BIGINT);
@@ -91,6 +95,8 @@ class Preview extends Entity {
 		$this->addType('encrypted', Types::BOOLEAN);
 		$this->addType('etag', Types::STRING);
 		$this->addType('versionId', Types::STRING);
+
+		$this->setId(Server::get(IUuidBuilder::class)->v7());
 	}
 
 	public static function fromPath(string $path, IMimeTypeDetector $mimeTypeDetector): Preview|false {

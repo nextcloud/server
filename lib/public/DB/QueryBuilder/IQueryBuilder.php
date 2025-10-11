@@ -112,6 +112,11 @@ interface IQueryBuilder {
 	public const PARAM_STR_ARRAY = ArrayParameterType::STRING;
 
 	/**
+	 * @since 33.0.0
+	 */
+	public const PARAM_UUID = 'uuid';
+
+	/**
 	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL
 	 * database server.
 	 */
