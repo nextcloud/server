@@ -85,18 +85,37 @@ class ImageManager {
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
 		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
+		$useSvg = $useSvg && $this->canConvert('SVG');
 
 		if ($mime === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
-
-		if (!$useSvg && $this->shouldReplaceIcons()) {
+		// if SVG was requested and is supported
+		if ($useSvg) {
+			if (!$folder->fileExists($key . '.svg')) {
+				try {
+					$finalIconFile = new \Imagick();
+					$finalIconFile->setBackgroundColor('none');
+					$finalIconFile->readImageBlob($folder->getFile($key)->getContent());
+					$finalIconFile->setImageFormat('SVG');
+					$svgFile = $folder->newFile($key . '.svg');
+					$svgFile->putContent($finalIconFile->getImageBlob());
+					return $svgFile;
+				} catch (\ImagickException $e) {
+					$this->logger->info('The image was requested to be no SVG file, but converting it to SVG failed: ' . $e->getMessage());
+				}
+			} else {
+				return $folder->getFile($key . '.svg');
+			}
+		}
+		// if SVG was not requested, but PNG is supported
+		if (!$useSvg && $this->canConvert('PNG')) {
 			if (!$folder->fileExists($key . '.png')) {
 				try {
 					$finalIconFile = new \Imagick();
 					$finalIconFile->setBackgroundColor('none');
 					$finalIconFile->readImageBlob($folder->getFile($key)->getContent());
-					$finalIconFile->setImageFormat('png32');
+					$finalIconFile->setImageFormat('PNG32');
 					$pngFile = $folder->newFile($key . '.png');
 					$pngFile->putContent($finalIconFile->getImageBlob());
 					return $pngFile;
@@ -107,7 +126,7 @@ class ImageManager {
 				return $folder->getFile($key . '.png');
 			}
 		}
-
+		// fallback to the original file
 		return $folder->getFile($key);
 	}
 
@@ -328,7 +347,7 @@ class ImageManager {
 	public function getSupportedUploadImageFormats(string $key): array {
 		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
-		if ($key !== 'favicon' || $this->shouldReplaceIcons() === true) {
+		if ($key !== 'favicon' || $this->canConvert('SVG') === true) {
 			$supportedFormats[] = 'image/svg+xml';
 			$supportedFormats[] = 'image/svg';
 		}
@@ -364,17 +383,26 @@ class ImageManager {
 	 * @return bool
 	 */
 	public function shouldReplaceIcons() {
+		return $this->canConvert('SVG');
+	}
+
+	/**
+	 * Check if Imagemagick is enabled and if format is supported
+	 *
+	 * @return bool
+	 */
+	public function canConvert(string $format = 'SVG'): bool {
 		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
-		if ($value = $cache->get('shouldReplaceIcons')) {
+		if ($value = $cache->get('convert-' . $format)) {
 			return (bool)$value;
 		}
 		$value = false;
 		if (extension_loaded('imagick')) {
-			if (count(\Imagick::queryFormats('SVG')) >= 1) {
+			if (count(\Imagick::queryFormats($format)) >= 1) {
 				$value = true;
 			}
 		}
-		$cache->set('shouldReplaceIcons', $value);
+		$cache->set('convert-' . $format, $value);
 		return $value;
 	}
 
