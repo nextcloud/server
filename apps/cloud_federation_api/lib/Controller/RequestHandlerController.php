@@ -236,7 +236,7 @@ class RequestHandlerController extends Controller {
 	 *
 	 * @param string $recipientProvider The address of the recipent's provider
 	 * @param string $token The token used for the invitation
-	 * @param string $userId The userId of the recipient at the recipient's provider
+	 * @param string $userID The userID of the recipient at the recipient's provider
 	 * @param string $email The email address of the recipient
 	 * @param string $name The display name of the recipient
 	 *
@@ -251,8 +251,8 @@ class RequestHandlerController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'inviteAccepted')]
-	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
-		$this->logger->debug('Processing share invitation for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
+	public function inviteAccepted(string $recipientProvider, string $token, string $userID, string $email, string $name): JSONResponse {
+		$this->logger->debug('Processing share invitation for ' . $userID . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
 		$updated = $this->timeFactory->getTime();
 
@@ -309,7 +309,7 @@ class RequestHandlerController extends Controller {
 		$invitation->setRecipientEmail($email);
 		$invitation->setRecipientName($name);
 		$invitation->setRecipientProvider($recipientProvider);
-		$invitation->setRecipientUserId($userId);
+		$invitation->setRecipientUserId($userID);
 		$invitation->setAcceptedAt($updated);
 		$invitation = $this->federatedInviteMapper->update($invitation);
 
