@@ -1302,27 +1302,27 @@ $CONFIG = [
 	/**
 	 * Activities in Team Folders and External Storages.
 	 *
-	 * By default, activities in team folders or external storages are only generated 
-	 * for the current user. This is due to a limitations in current implementations. 
+	 * By default, activities in team folders or external storages are only generated
+	 * for the current user. This is due to a limitations in current implementations.
 	 * This config flag makes activities in group folders and external storages work
-	 * like in normal shares (when set to ``true``). WARNING: Enabling this comes with 
+	 * like in normal shares (when set to ``true``). WARNING: Enabling this comes with
 	 * some CRITICAL trade-offs:
 	 *
-	 * - If team folder "Advanced Permissions" (ACLs) are used, activities do not 
-	 *   respect the permissions and therefore all users see all activities, even 
+	 * - If team folder "Advanced Permissions" (ACLs) are used, activities do not
+	 *   respect the permissions and therefore all users see all activities, even
 	 *   for files and directories they do not have access to.
-     * - Users who had access to a team folder, share, or external storage can see 
-	 *   activities in their stream and emails that happen after they are removed 
+     * - Users who had access to a team folder, share, or external storage can see
+	 *   activities in their stream and emails that happen after they are removed
 	 *   until they log in again.
-     * - Users who are newly added to a team folder, share, or external storage 
-	 *   cannot see activities in their stream or emails that happen after they 
+     * - Users who are newly added to a team folder, share, or external storage
+	 *   cannot see activities in their stream or emails that happen after they
 	 *   are added until they log in again.
-	 * 
+	 *
 	 * WARNING: Before enabling this, read the warning Activity app chapter.
 	 *
 	 * Defaults to ``false``
 	 **/
-	
+
 	'activity_use_cached_mountpoints' => false,
 
 	/**
