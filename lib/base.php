@@ -447,14 +447,14 @@ class OC {
 	}
 
 	private static function getSessionLifeTime(): int {
-		return Server::get(\OC\AllConfig::class)->getSystemValueInt('session_lifetime', 60 * 60 * 24);
+		return Server::get(IConfig::class)->getSystemValueInt('session_lifetime', 60 * 60 * 24);
 	}
 
 	/**
 	 * @return bool true if the session expiry should only be done by gc instead of an explicit timeout
 	 */
 	public static function hasSessionRelaxedExpiry(): bool {
-		return Server::get(\OC\AllConfig::class)->getSystemValueBool('session_relaxed_expiry', false);
+		return Server::get(IConfig::class)->getSystemValueBool('session_relaxed_expiry', false);
 	}
 
 	/**
