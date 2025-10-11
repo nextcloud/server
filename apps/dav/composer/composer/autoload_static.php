@@ -221,6 +221,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Comments\\EntityCollection' => __DIR__ . '/..' . '/../lib/Comments/EntityCollection.php',
         'OCA\\DAV\\Comments\\EntityTypeCollection' => __DIR__ . '/..' . '/../lib/Comments/EntityTypeCollection.php',
         'OCA\\DAV\\Comments\\RootCollection' => __DIR__ . '/..' . '/../lib/Comments/RootCollection.php',
+        'OCA\\DAV\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\DAV\\Connector\\LegacyDAVACL' => __DIR__ . '/..' . '/../lib/Connector/LegacyDAVACL.php',
         'OCA\\DAV\\Connector\\LegacyPublicAuth' => __DIR__ . '/..' . '/../lib/Connector/LegacyPublicAuth.php',
         'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
