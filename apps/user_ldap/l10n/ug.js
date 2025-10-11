@@ -215,9 +215,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b> ئاگاھلاندۇرۇش: </b> PHP LDAP مودۇلى ئورنىتىلمىدى ، ئارقا تەرىپى ئىشلىمەيدۇ. ئۇنى قاچىلاشنى سىستېما باشقۇرغۇچىڭىزدىن سوراڭ.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "تەۋسىيە قىلىنمايدۇ ، ئۇنى پەقەت سىناق ئۈچۈن ئىشلىتىڭ! ئەگەر ئۇلىنىش پەقەت مۇشۇ تاللاش بىلەنلا ئىشلەيدىغان بولسا ،% s مۇلازىمېتىرىڭىزغا LDAP مۇلازىمېتىرنىڭ SSL گۇۋاھنامىسىنى ئەكىرىڭ.",
     "\"$home\" Placeholder Field" : "\"$ home\" ئورۇن ئىگىسى",
-    "UUID Attribute for Users:" : "ئىشلەتكۈچىلەر ئۈچۈن UUID خاسلىقى:",
-    "UUID Attribute for Groups:" : "گۇرۇپپىلارغا UUID خاسلىقى:",
     "Pronouns Field" : "ئالمىشىش مەيدانى",
-    "User profile Pronouns will be set from the specified attribute" : "ئىشلەتكۈچى ئارخىپى ئالماشلار بەلگىلەنگەن خاسلىقتىن تەڭشىلىدۇ"
+    "User profile Pronouns will be set from the specified attribute" : "ئىشلەتكۈچى ئارخىپى ئالماشلار بەلگىلەنگەن خاسلىقتىن تەڭشىلىدۇ",
+    "UUID Attribute for Users:" : "ئىشلەتكۈچىلەر ئۈچۈن UUID خاسلىقى:",
+    "UUID Attribute for Groups:" : "گۇرۇپپىلارغا UUID خاسلىقى:"
 },
 "nplurals=2; plural=(n != 1);");

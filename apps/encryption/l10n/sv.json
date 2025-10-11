@@ -32,6 +32,8 @@
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Logga in i webbgränssnittet, gå till \"Säkerhet\" i dina personliga inställningar och uppdatera ditt krypteringslösenord genom att ange detta lösenord i fältet \"Gammalt inloggningslösenord\" samt ditt nuvarande inloggningslösenord.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan inte avkryptera denna fil, troligen är det en delad fil. Vänligen be ägaren till filen att åter dela filen med dig.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan inte läsa denna filen, troligen är det en delad fil. Vänligen be ägaren att åter dela filen med dig.",
+    "Default Encryption Module" : "Standardmodul för kryptering",
+    "Default encryption module for Nextcloud Server-side Encryption (SSE)" : "Standardkrypteringsmodul för Nextcloud serverbaserad kryptering (SSE)",
     "Default encryption module" : "Krypteringsfunktion",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsappen är aktiverad men dina krypteringsnycklar är inte initialiserade, vänligen logga ut och logga in igen.",
     "Encrypt the home storage" : "Kryptera alla filer i molnet",

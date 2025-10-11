@@ -93,9 +93,9 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet",
     "Collaborative tags …" : "Samarbeidende merkelapper...",
     "Loading …" : "Laster ...",
-    "Loading collaborative tags …" : "Laster samarbeidende merkelapper...",
     "File tags modification canceled" : "Endring av merkelapper for fil ble avbrutt",
     "Select or create tags to apply to all selected files" : "Velg eller opprett merkelapp for alle valgte filer",
-    "Apply changes" : "Utfør endringer"
+    "Apply changes" : "Utfør endringer",
+    "Loading collaborative tags …" : "Laster samarbeidende merkelapper..."
 },
 "nplurals=2; plural=(n != 1);");
