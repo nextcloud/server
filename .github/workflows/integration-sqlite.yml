@@ -84,9 +84,10 @@ jobs:
         ports:
           - 6379:6379/tcp
       openldap:
-        image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7 # zizmor: ignore[unpinned-images]
+        image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-8 # zizmor: ignore[unpinned-images]
         ports:
           - 389:389
+          - 636:636
         env:
           SLAPD_DOMAIN: nextcloud.ci
           SLAPD_ORGANIZATION: Nextcloud
