@@ -16,9 +16,11 @@ use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Controller\AuthSettingsController;
+use OCA\Settings\Events\AfterAuthTokenCreatedEvent;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -36,6 +38,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private ISecureRandom&MockObject $secureRandom;
 	private IManager&MockObject $activityManager;
 	private RemoteWipe&MockObject $remoteWipe;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private string $uid = 'jane';
 	private AuthSettingsController $controller;
 
@@ -49,6 +52,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		/** @var LoggerInterface&MockObject $logger */
 		$logger = $this->createMock(LoggerInterface::class);
 
@@ -61,6 +65,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$this->uid,
 			$this->userSession,
 			$this->activityManager,
+			$this->eventDispatcher,
 			$this->remoteWipe,
 			$logger
 		);
@@ -93,6 +98,13 @@ class AuthSettingsControllerTest extends TestCase {
 			->willReturn('XXXXX');
 		$newToken = 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX';
 
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(function (AfterAuthTokenCreatedEvent $event) use ($newToken) {
+				$this->assertSame($newToken, $event->getToken());
+				return true;
+			}));
+
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
 			->with($newToken, $this->uid, 'User13', $password, $name, IToken::PERMANENT_TOKEN)
@@ -113,6 +125,56 @@ class AuthSettingsControllerTest extends TestCase {
 		$response = $this->controller->create($name);
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals($expected, $response->getData());
+	}
+
+	public function testCreateTokenModifiedByEvent(): void {
+		$name = 'Pixel 8';
+		$sessionToken = $this->createMock(IToken::class);
+		$deviceToken = $this->createMock(IToken::class);
+
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessionid');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessionid')
+			->willReturn($sessionToken);
+		$this->tokenProvider->expects($this->once())
+			->method('getPassword')
+			->with($sessionToken, 'sessionid')
+			->willReturn('secret');
+		$sessionToken->expects($this->once())
+			->method('getLoginName')
+			->willReturn('User99');
+
+		$this->secureRandom->expects($this->exactly(5))
+			->method('generate')
+			->with(5, ISecureRandom::CHAR_HUMAN_READABLE)
+			->willReturnOnConsecutiveCalls('AAAAA', 'BBBBB', 'CCCCC', 'DDDDD', 'EEEEE');
+		$initialToken = 'AAAAA-BBBBB-CCCCC-DDDDD-EEEEE';
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(function (AfterAuthTokenCreatedEvent $event) use ($initialToken) {
+				$this->assertSame($initialToken, $event->getToken());
+				$event->setToken('custom-token');
+				return true;
+			}));
+
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with('custom-token', $this->uid, 'User99', 'secret', $name, IToken::PERMANENT_TOKEN)
+			->willReturn($deviceToken);
+
+		$deviceToken->expects($this->once())
+			->method('jsonSerialize')
+			->willReturn(['dummy' => 'dummy', 'canDelete' => true]);
+
+		$this->mockActivityManager();
+
+		$response = $this->controller->create($name);
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertSame('custom-token', $response->getData()['token']);
 	}
 
 	public function testCreateSessionNotAvailable(): void {
