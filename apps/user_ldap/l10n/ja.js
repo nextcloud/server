@@ -261,9 +261,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>警告:</b> PHP LDAP モジュールがインストールされていません。バックエンド接続が正しく動作しません。システム管理者にインストールするよう問い合わせてください。",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "推奨されません、テストにおいてのみ使用してください！このオプションでのみ接続が動作する場合は、LDAP サーバーのSSL証明書を %s サーバーにインポートしてください。",
     "\"$home\" Placeholder Field" : "\"$home\" 属性設定",
-    "UUID Attribute for Users:" : "ユーザーのUUID属性:",
-    "UUID Attribute for Groups:" : "グループの UUID 属性:",
     "Pronouns Field" : "代名詞フィールド",
-    "User profile Pronouns will be set from the specified attribute" : "ユーザープロファイルの代名詞は、指定された属性から設定されます"
+    "User profile Pronouns will be set from the specified attribute" : "ユーザープロファイルの代名詞は、指定された属性から設定されます",
+    "UUID Attribute for Users:" : "ユーザーのUUID属性:",
+    "UUID Attribute for Groups:" : "グループの UUID 属性:"
 },
 "nplurals=1; plural=0;");

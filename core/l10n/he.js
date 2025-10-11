@@ -246,7 +246,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["התקבל קובץ %n","התקבלו %n קבצים","התקבלו %n קבצים"],
     "Searching …" : "מתבצע חיפוש…",
     "Logging in …" : "מתבצעת כניסה…",
-    "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "צ'אטים, שיחות וידאו, שיתוף מסך, פגישות מקוונות ועידת אינטרנט - בדפדפן ובאפליקציות סלולריות.",
     "Loading apps …" : "היישומונים נטענים…",
     "Installing apps …" : "היישומונים מותקנים…",
     "Loading your contacts …" : "אנשי הקשר שלך נטענים…",

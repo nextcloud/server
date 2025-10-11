@@ -257,9 +257,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Aviso:</b> O módulo PHP LDAP não está instalado e a plataforma de serviço não funcionará. Por favor, peça ao administrador do sistema para instalá-lo.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Não recomendado, use-o somente para teste! Se a conexão só funciona com esta opção, importe o certificado SSL do servidor LDAP em seu servidor %s.",
     "\"$home\" Placeholder Field" : "Campo Reservado \"$home\"",
-    "UUID Attribute for Users:" : "Atributos UUID para Usuários:",
-    "UUID Attribute for Groups:" : "Atributos UUID para Grupos:",
     "Pronouns Field" : "Campo de Pronomes",
-    "User profile Pronouns will be set from the specified attribute" : "Os Pronomes no perfil do usuário serão definidos a partir do atributo especificado"
+    "User profile Pronouns will be set from the specified attribute" : "Os Pronomes no perfil do usuário serão definidos a partir do atributo especificado",
+    "UUID Attribute for Users:" : "Atributos UUID para Usuários:",
+    "UUID Attribute for Groups:" : "Atributos UUID para Grupos:"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

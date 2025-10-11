@@ -233,9 +233,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>警告：</b>沒有安裝 PHP LDAP 模組，後端系統將無法運作，請要求您的系統管理員安裝模組。",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "不建議，請僅在測試時使用！如果連線只能在此設定下工作，請匯入LDAP伺服器的SSL認證到您的伺服器%s上",
     "\"$home\" Placeholder Field" : "\"$home\" 佔位符字段",
-    "UUID Attribute for Users:" : "用戶的UUID值：",
-    "UUID Attribute for Groups:" : "群組的UUID值：",
     "Pronouns Field" : "代名詞欄位",
-    "User profile Pronouns will be set from the specified attribute" : "用戶個人資料代名詞將從指定的屬性設置"
+    "User profile Pronouns will be set from the specified attribute" : "用戶個人資料代名詞將從指定的屬性設置",
+    "UUID Attribute for Users:" : "用戶的UUID值：",
+    "UUID Attribute for Groups:" : "群組的UUID值："
 },
 "nplurals=1; plural=0;");

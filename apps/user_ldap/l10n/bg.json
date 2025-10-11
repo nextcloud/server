@@ -210,9 +210,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Предупреждение:</b> PHP LDAP модулът не е инсталиран, сървърът няма да работи. Моля, поискай системният админстратор да го инсталира.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Не е препоръчително! Ползвайте само за тестване. Ако връзката работи само с тази опция, внесете SSL сертификата на LDAP сървъра във вашия %s сървър.",
     "\"$home\" Placeholder Field" : "„$home“ Заместващо поле",
-    "UUID Attribute for Users:" : "UUID атрибут за потребителите:",
-    "UUID Attribute for Groups:" : "UUID атрибут за групите:",
     "Pronouns Field" : "Поле за обръщение",
-    "User profile Pronouns will be set from the specified attribute" : "Опциите за обръщение в профила на потребителите ще се зададат от този атрибут"
+    "User profile Pronouns will be set from the specified attribute" : "Опциите за обръщение в профила на потребителите ще се зададат от този атрибут",
+    "UUID Attribute for Users:" : "UUID атрибут за потребителите:",
+    "UUID Attribute for Groups:" : "UUID атрибут за групите:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

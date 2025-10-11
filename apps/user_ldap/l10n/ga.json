@@ -259,9 +259,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Rabhadh:</b> Níl an modúl PHP LDAP suiteáilte, ní oibreoidh an t-inneall. Iarr ar do riarthóir córais é a shuiteáil le do thoil.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Ní mholtar é, bain úsáid as le haghaidh tástála amháin! Mura n-oibríonn an ceangal ach leis an rogha seo, iompórtáil teastas SSL an fhreastalaí LDAP i do fhreastalaí %s.",
     "\"$home\" Placeholder Field" : "Réimse Sealbhóir Áite \"$home\".",
-    "UUID Attribute for Users:" : "Tréith UUID d'Úsáideoirí:",
-    "UUID Attribute for Groups:" : "Tréith UUID do Ghrúpaí:",
     "Pronouns Field" : "Réimse Forainmneacha",
-    "User profile Pronouns will be set from the specified attribute" : "Socrófar Forainmneacha próifíle úsáideora ón aitreabúid sonraithe"
+    "User profile Pronouns will be set from the specified attribute" : "Socrófar Forainmneacha próifíle úsáideora ón aitreabúid sonraithe",
+    "UUID Attribute for Users:" : "Tréith UUID d'Úsáideoirí:",
+    "UUID Attribute for Groups:" : "Tréith UUID do Ghrúpaí:"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

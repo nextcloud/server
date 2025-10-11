@@ -109,10 +109,10 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Failed to delete tag for file",
     "Collaborative tags …" : "Collaborative tags …",
     "Loading …" : "Loading …",
-    "Loading collaborative tags …" : "Loading collaborative tags …",
     "File tags modification canceled" : "File tags modification cancelled",
     "Select or create tags to apply to all selected files" : "Select or create tags to apply to all selected files",
     "Select tags to apply to all selected files" : "Select tags to apply to all selected files",
-    "Apply changes" : "Apply changes"
+    "Apply changes" : "Apply changes",
+    "Loading collaborative tags …" : "Loading collaborative tags …"
 },
 "nplurals=2; plural=(n != 1);");

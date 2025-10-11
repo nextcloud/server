@@ -233,9 +233,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Varování:</b> není nainstalován LDAP modul pro PHP, podpůrná vrstva nebude fungovat. Požádejte správce systému, aby ho nainstaloval.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Nedoporučuje se, určeno pouze k použití pro testy! Pokud spojení funguje pouze s touto volbou, naimportujte SSL certifikát vašeho LDAP serveru na %s server.",
     "\"$home\" Placeholder Field" : "Výplňová kolonka „$home“",
-    "UUID Attribute for Users:" : "UUID atribut pro uživatele:",
-    "UUID Attribute for Groups:" : "UUID atribut pro skupiny:",
     "Pronouns Field" : "Kolonka pro zájmena",
-    "User profile Pronouns will be set from the specified attribute" : "Zájmeno v profilu uživatele bude nastaveno ze zadaného atributu"
+    "User profile Pronouns will be set from the specified attribute" : "Zájmeno v profilu uživatele bude nastaveno ze zadaného atributu",
+    "UUID Attribute for Users:" : "UUID atribut pro uživatele:",
+    "UUID Attribute for Groups:" : "UUID atribut pro skupiny:"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
