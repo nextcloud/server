@@ -58,7 +58,7 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       minio:
-        image: bitnami/minio
+        image: bitnami/minio@sha256:50cec18ac4184af4671a78aedd5554942c8ae105d51a465fa82037949046da01 # v2025.4.22
         env:
           MINIO_ROOT_USER: nextcloud
           MINIO_ROOT_PASSWORD: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
