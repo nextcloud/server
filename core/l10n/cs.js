@@ -226,6 +226,7 @@ OC.L10N.register(
     "Search in current app" : "Hledat ve stávající aplikaci",
     "Clear search" : "Vyčistit hledání",
     "Search everywhere" : "Hledat všude",
+    "Searching …" : "Hledání …",
     "Start typing to search" : "Hledejte psaním",
     "Minimum search length is {minSearchLength} characters" : "Nejkratší možná délka vyhledávaného řetězce je {minSearchLength} znaků",
     "No matching results" : "Žádné odpovídající výsledky",
