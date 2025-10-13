@@ -38,7 +38,7 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 	public function run(): SetupResult {
 		$taskCount = 0;
 		$lastNDays = 1;
-		while($taskCount === 0 && $lastNDays < self::MAX_DAYS) {
+		while ($taskCount === 0 && $lastNDays < self::MAX_DAYS) {
 			$lastNDays++;
 			$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - 60 * 60 * 24 * $lastNDays); // userId: '' means no filter, whereas null would mean guest
 			$taskCount = count($tasks);
