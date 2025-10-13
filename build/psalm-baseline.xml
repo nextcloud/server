@@ -410,15 +410,6 @@
       <code><![CDATA[is_array($modified['old'])]]></code>
     </RedundantCondition>
   </file>
-  <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-    <UndefinedMethod>
-      <code><![CDATA[getNormalizedValue]]></code>
-      <code><![CDATA[getNormalizedValue]]></code>
-    </UndefinedMethod>
-  </file>
   <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
     <DeprecatedMethod>
       <code><![CDATA[getPropertiesForPath]]></code>
@@ -2020,7 +2011,6 @@
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))])]]></code>
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath])]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
@@ -2425,8 +2415,6 @@
       <code><![CDATA[getMailer]]></code>
       <code><![CDATA[getSecureRandom]]></code>
       <code><![CDATA[getURLGenerator]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
@@ -2854,7 +2842,6 @@
   <file src="apps/user_ldap/lib/Access.php">
     <DeprecatedMethod>
       <code><![CDATA[emit]]></code>
-      <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
     <InvalidReturnStatement>
       <code><![CDATA[$uuid]]></code>
@@ -2869,10 +2856,6 @@
   </file>
   <file src="apps/user_ldap/lib/AppInfo/Application.php">
     <DeprecatedInterface>
-      <code><![CDATA[$server]]></code>
-      <code><![CDATA[$server]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
       <code><![CDATA[IAppContainer]]></code>
       <code><![CDATA[IAppContainer]]></code>
     </DeprecatedInterface>
@@ -2884,10 +2867,6 @@
 			'loginName2UserName'
 		)]]></code>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getRequest]]></code>
-      <code><![CDATA[getURLGenerator]]></code>
       <code><![CDATA[registerService]]></code>
       <code><![CDATA[registerService]]></code>
     </DeprecatedMethod>
@@ -2908,18 +2887,7 @@
 						break;]]></code>
     </ParadoxicalCondition>
   </file>
-  <file src="apps/user_ldap/lib/Controller/RenewPasswordController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-    </DeprecatedMethod>
     <InvalidScalarArgument>
       <code><![CDATA[$groupID]]></code>
     </InvalidScalarArgument>
@@ -2937,26 +2905,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppKeys]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
     <InvalidOperand>
       <code><![CDATA[$i]]></code>
     </InvalidOperand>
-  </file>
-  <file src="apps/user_ldap/lib/Jobs/UpdateGroups.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/LDAPProvider.php">
     <DeprecatedInterface>
@@ -2989,11 +2940,6 @@
       <code><![CDATA[deleteAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/user_ldap/lib/Migration/UUIDFixInsert.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/Migration/Version1120Date20210917155206.php">
     <DeprecatedMethod>
       <code><![CDATA[emit]]></code>
@@ -3005,28 +2951,10 @@
       <code><![CDATA[getDatabasePlatform]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/user_ldap/lib/User/DeletedUsersIndex.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/User/Manager.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-    </DeprecatedMethod>
     <InvalidDocblock>
       <code><![CDATA[public function setLdapAccess(Access $access) {]]></code>
     </InvalidDocblock>
-  </file>
-  <file src="apps/user_ldap/lib/User/OfflineUser.php">
-    <DeprecatedMethod>
-      <code><![CDATA[deleteUserValue]]></code>
-      <code><![CDATA[deleteUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/User/User.php">
     <DeprecatedConstant>

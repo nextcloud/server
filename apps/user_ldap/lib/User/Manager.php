@@ -162,25 +162,21 @@ class Manager {
 	}
 
 	/**
-	 * Checks whether the specified user is marked as deleted
-	 * @param string $id the Nextcloud user name
-	 * @return bool
+	 * Checks whether the specified user is marked as deleted.
+	 * @param string $id the Nextcloud username
 	 */
-	public function isDeletedUser($id) {
-		$isDeleted = $this->ocConfig->getUserValue(
-			$id, 'user_ldap', 'isDeleted', 0);
-		return (int)$isDeleted === 1;
+	public function isDeletedUser(string $id): bool {
+		return $this->userConfig->getValueBool(
+			$id, 'user_ldap', 'isDeleted');
 	}
 
 	/**
-	 * creates and returns an instance of OfflineUser for the specified user
-	 * @param string $id
-	 * @return OfflineUser
+	 * Creates and returns an instance of OfflineUser for the specified user.
 	 */
-	public function getDeletedUser($id) {
+	public function getDeletedUser(string $id): OfflineUser {
 		return new OfflineUser(
 			$id,
-			$this->ocConfig,
+			$this->userConfig,
 			$this->access->getUserMapper(),
 			$this->shareManager
 		);

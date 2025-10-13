@@ -11,10 +11,10 @@ use OCA\Theming\Service\BackgroundService;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
@@ -40,17 +40,17 @@ class ThemingDefaults extends \OC_Defaults {
 	 * ThemingDefaults constructor.
 	 */
 	public function __construct(
-		private IConfig $config,
-		private IAppConfig $appConfig,
-		private IL10N $l,
-		private IUserSession $userSession,
-		private IURLGenerator $urlGenerator,
-		private ICacheFactory $cacheFactory,
-		private Util $util,
-		private ImageManager $imageManager,
-		private IAppManager $appManager,
-		private INavigationManager $navigationManager,
-		private BackgroundService $backgroundService,
+		private readonly IAppConfig $appConfig,
+		private readonly IUserConfig $userConfig,
+		private readonly IL10N $l,
+		private readonly IUserSession $userSession,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly ICacheFactory $cacheFactory,
+		private readonly Util $util,
+		private readonly ImageManager $imageManager,
+		private readonly IAppManager $appManager,
+		private readonly INavigationManager $navigationManager,
+		private readonly BackgroundService $backgroundService,
 	) {
 		parent::__construct();
 
@@ -183,7 +183,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// user-defined primary color
 		if (!empty($user)) {
-			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'primary_color', '');
+			$userPrimaryColor = $this->userConfig->getValueString($user->getUID(), Application::APP_ID, 'primary_color');
 			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userPrimaryColor)) {
 				return $userPrimaryColor;
 			}
@@ -209,7 +209,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// user-defined background color
 		if (!empty($user)) {
-			$userBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
+			$userBackgroundColor = $this->userConfig->getValueString($user->getUID(), Application::APP_ID, 'background_color');
 			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userBackgroundColor)) {
 				return $userBackgroundColor;
 			}

@@ -177,7 +177,7 @@ interface IConfig {
 	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return string
 	 * @since 6.0.0 - parameter $default was added in 7.0.0
-	 * @deprecated 31.0.0 - use {@see IUserConfig::getValuesByUsers} directly
+	 * @deprecated 31.0.0 - use {@see IUserConfig} directly
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '');
 

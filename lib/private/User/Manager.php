@@ -68,7 +68,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	private DisplayNameCache $displayNameCache;
 
-	// FIXME: This constructor can't autoload any class requiring a DB connection.
+	// This constructor can't autoload any class requiring a DB connection.
 	public function __construct(
 		private IConfig $config,
 		ICacheFactory $cacheFactory,

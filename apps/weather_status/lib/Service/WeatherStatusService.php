@@ -73,8 +73,9 @@ class WeatherStatusService {
 	 * @return list<string>
 	 */
 	public function getFavorites(): array {
-		$favoritesJson = $this->userConfig->getValueString($this->userId, Application::APP_ID, 'favorites', '');
-		return json_decode($favoritesJson, true) ?: [];
+		/** @var list<string> $favorites */
+		$favorites = $this->userConfig->getValueArray($this->userId, Application::APP_ID, 'favorites', []);
+		return $favorites;
 	}
 
 	/**
@@ -83,7 +84,7 @@ class WeatherStatusService {
 	 * @return WeatherStatusSuccess success state
 	 */
 	public function setFavorites(array $favorites): array {
-		$this->userConfig->setValueString($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
+		$this->userConfig->setValueArray($this->userId, Application::APP_ID, 'favorites', $favorites);
 		return ['success' => true];
 	}
 
