@@ -360,7 +360,6 @@ class Generator {
 					$previewEntry->setMimetype($preview->dataMimeType());
 					$previewEntry->setEtag($file->getEtag());
 					$previewEntry->setMtime((new \DateTime())->getTimestamp());
-					$previewEntry->setSize(0);
 					return $this->savePreview($previewEntry, $preview);
 				} catch (NotPermittedException) {
 					throw new NotFoundException();
@@ -514,7 +513,6 @@ class Generator {
 		$previewEntry->setMimeType($preview->dataMimeType());
 		$previewEntry->setEtag($file->getEtag());
 		$previewEntry->setMtime((new \DateTime())->getTimestamp());
-		$previewEntry->setSize(0);
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);
 			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
@@ -530,26 +528,20 @@ class Generator {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function savePreview(Preview $previewEntry, IImage $preview): Preview {
-		$previewEntry = $this->previewMapper->insert($previewEntry);
-
 		// we need to save to DB first
-		try {
-			if ($preview instanceof IStreamImage) {
-				$size = $this->storageFactory->writePreview($previewEntry, $preview->resource());
-			} else {
-				$stream = fopen('php://temp', 'w+');
-				fwrite($stream, $preview->data());
-				rewind($stream);
-				$size = $this->storageFactory->writePreview($previewEntry, $stream);
-			}
-			if (!$size) {
-				throw new \RuntimeException('Unable to write preview file');
-			}
-		} catch (\Exception $e) {
-			$this->previewMapper->delete($previewEntry);
-			throw $e;
+		if ($preview instanceof IStreamImage) {
+			$size = $this->storageFactory->writePreview($previewEntry, $preview->resource());
+		} else {
+			$stream = fopen('php://temp', 'w+');
+			fwrite($stream, $preview->data());
+			rewind($stream);
+			$size = $this->storageFactory->writePreview($previewEntry, $stream);
+		}
+		if (!$size) {
+			throw new \RuntimeException('Unable to write preview file');
 		}
 		$previewEntry->setSize($size);
-		return $this->previewMapper->update($previewEntry);
+
+		return $this->previewMapper->insert($previewEntry);
 	}
 }
