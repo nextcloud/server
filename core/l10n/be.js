@@ -403,6 +403,7 @@ OC.L10N.register(
     "Currently logged in as %1$s (%2$s)." : "Вы ўвайшлі як %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Вы збіраецеся даць %1$s доступ да вашага ўліковага запісу %2$s.",
     "You can close this window." : "Вы можаце закрыць гэта акно.",
+    "Previous" : "Папярэдняя",
     "The password is wrong or expired. Please try again or request a new one." : "Пароль няправільны або скончыўся тэрмін яго дзеяння. Паспрабуйце яшчэ раз або запытайце новы.",
     "Please type in your email address to request a temporary password" : "Увядзіце свой адрас электроннай пошты, каб запытаць часовы пароль",
     "Email address" : "Адрас электроннай пошты",
