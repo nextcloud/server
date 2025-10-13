@@ -17,10 +17,12 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\Teams\ITeamManager;
 use OCP\Teams\Team;
+use OCP\Teams\TeamResource;
 
 /**
  * @psalm-import-type CoreTeamResource from ResponseDefinitions
  * @psalm-import-type CoreTeam from ResponseDefinitions
+ * @psalm-import-type CoreTeamWithResources from ResponseDefinitions
  * @property $userId string
  */
 class TeamsApiController extends OCSController {
@@ -44,13 +46,10 @@ class TeamsApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/{teamId}/resources', root: '/teams')]
 	public function resolveOne(string $teamId): DataResponse {
-		/**
-		 * @var list<CoreTeamResource> $resolvedResources
-		 * @psalm-suppress PossiblyNullArgument The route is limited to logged-in users
-		 */
+		/** @psalm-suppress PossiblyNullArgument The route is limited to logged-in users */
 		$resolvedResources = $this->teamManager->getSharedWith($teamId, $this->userId);
 
-		return new DataResponse(['resources' => $resolvedResources]);
+		return new DataResponse(['resources' => array_map(static fn (TeamResource $resource) => $resource->jsonSerialize(), $resolvedResources)]);
 	}
 
 	/**
@@ -58,7 +57,7 @@ class TeamsApiController extends OCSController {
 	 *
 	 * @param string $providerId Identifier of the provider (e.g. deck, talk, collectives)
 	 * @param string $resourceId Unique id of the resource to list teams for (e.g. deck board id)
-	 * @return DataResponse<Http::STATUS_OK, array{teams: list<CoreTeam>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{teams: list<CoreTeamWithResources>}, array{}>
 	 *
 	 * 200: Teams returned
 	 */
@@ -67,11 +66,10 @@ class TeamsApiController extends OCSController {
 	public function listTeams(string $providerId, string $resourceId): DataResponse {
 		/** @psalm-suppress PossiblyNullArgument The route is limited to logged-in users */
 		$teams = $this->teamManager->getTeamsForResource($providerId, $resourceId, $this->userId);
-		/** @var list<CoreTeam> $teams */
 		$teams = array_values(array_map(function (Team $team) {
 			$response = $team->jsonSerialize();
 			/** @psalm-suppress PossiblyNullArgument The route is limited to logged in users */
-			$response['resources'] = $this->teamManager->getSharedWith($team->getId(), $this->userId);
+			$response['resources'] = array_map(static fn (TeamResource $resource) => $resource->jsonSerialize(), $this->teamManager->getSharedWith($team->getId(), $this->userId));
 			return $response;
 		}, $teams));
 
