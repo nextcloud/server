@@ -5,6 +5,7 @@
  */
 namespace OCA\Settings\Tests\Settings\Admin;
 
+use OC\Share20\Manager;
 use OCA\Settings\Settings\Admin\Sharing;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -13,7 +14,6 @@ use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -24,7 +24,7 @@ class SharingTest extends TestCase {
 	private $config;
 	/** @var IL10N&MockObject */
 	private $l10n;
-	/** @var IManager|MockObject */
+	/** @var Manager|MockObject */
 	private $shareManager;
 	/** @var IAppManager|MockObject */
 	private $appManager;
@@ -38,8 +38,8 @@ class SharingTest extends TestCase {
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
-		/** @var IManager|MockObject */
-		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
+		/** @var Manager|MockObject */
+		$this->shareManager = $this->createMock(Manager::class);
 		/** @var IAppManager|MockObject */
 		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
 		/** @var IURLGenerator|MockObject */
