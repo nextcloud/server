@@ -114,6 +114,8 @@ use OC\Settings\DeclarativeManager;
 use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
+use OC\Snowflake\Decoder;
+use OC\Snowflake\Generator;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
@@ -222,6 +224,8 @@ use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShareHelper;
+use OCP\Snowflake\IDecoder;
+use OCP\Snowflake\IGenerator;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -1244,6 +1248,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IRichTextFormatter::class, \OC\RichObjectStrings\RichTextFormatter::class);
 
 		$this->registerAlias(ISignatureManager::class, SignatureManager::class);
+
+		$this->registerAlias(IGenerator::class, Generator::class);
+		$this->registerAlias(IDecoder::class, Decoder::class);
 
 		$this->connectDispatcher();
 	}
