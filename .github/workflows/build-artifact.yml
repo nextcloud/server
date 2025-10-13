@@ -203,6 +203,13 @@ jobs:
               "makefile_target": "build_forms_app"
             },
             {
+              "name": "tables",
+              "path": "apps-external/tables",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_tables_app"
+            },
+            {
               "name": "text",
               "path": "apps-external/text",
               "has_npm": true,
