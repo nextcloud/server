@@ -85,3 +85,6 @@
 [submodule "apps-external/password_policy"]
 	path = apps-external/password_policy
 	url = git@github.com:IONOS-Productivity/nc-password_policy.git
+[submodule "apps-external/tables"]
+	path = apps-external/tables
+	url = git@github.com:nextcloud/tables.git
