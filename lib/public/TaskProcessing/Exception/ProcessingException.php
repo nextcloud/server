@@ -16,4 +16,21 @@ namespace OCP\TaskProcessing\Exception;
  * @since 30.0.0
  */
 class ProcessingException extends \RuntimeException {
+	private string $userFacingMessage;
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function getUserFacingMessage(): string {
+		return $this->userFacingMessage;
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function setUserFacingMessage(string $userFacingMessage): void {
+		$this->userFacingMessage = $userFacingMessage;
+	}
+
+
 }

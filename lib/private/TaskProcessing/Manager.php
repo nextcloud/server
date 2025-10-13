@@ -1016,7 +1016,7 @@ class Manager implements IManager {
 				$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));
 			} catch (ProcessingException $e) {
 				$this->logger->warning('Failed to process a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
-				$this->setTaskResult($task->getId(), $e->getMessage(), null);
+				$this->setTaskResult($task->getId(), $e->getMessage(), null, userFacingError: $e->getUserFacingMessage());
 				return false;
 			} catch (\Throwable $e) {
 				$this->logger->error('Unknown error while processing TaskProcessing task', ['exception' => $e]);
@@ -1087,7 +1087,7 @@ class Manager implements IManager {
 		return true;
 	}
 
-	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false): void {
+	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
 		if ($task->getStatus() === Task::STATUS_CANCELLED) {
@@ -1099,6 +1099,8 @@ class Manager implements IManager {
 			$task->setEndedAt(time());
 			// truncate error message to 1000 characters
 			$task->setErrorMessage(mb_substr($error, 0, 1000));
+			// truncate error message to 1000 characters
+			$task->setUserFacingErrorMessage(mb_substr($userFacingError, 0, 1000));
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskTypeId() . ' task with id ' . $id . ' failed with the following message: ' . $error);
 		} elseif ($result !== null) {
 			$taskTypes = $this->getAvailableTaskTypes();

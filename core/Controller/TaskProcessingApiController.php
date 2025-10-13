@@ -460,6 +460,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param int $taskId The id of the task
 	 * @param array<string,mixed>|null $output The resulting task output, files are represented by their IDs
 	 * @param string|null $errorMessage An error message if the task failed
+	 * @param string|null $userFacingErrorMessage An error message that will be shown to the user
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: Result updated successfully
@@ -467,10 +468,10 @@ class TaskProcessingApiController extends OCSController {
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/result', root: '/taskprocessing')]
-	public function setResult(int $taskId, ?array $output = null, ?string $errorMessage = null): DataResponse {
+	public function setResult(int $taskId, ?array $output = null, ?string $errorMessage = null, ?string $userFacingErrorMessage = null): DataResponse {
 		try {
 			// set result
-			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output, true);
+			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output, isUsingFileIds: true, userFacingError: $userFacingErrorMessage);
 			$task = $this->taskProcessingManager->getTask($taskId);
 
 			/** @var CoreTaskProcessingTask $json */
