@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -69,17 +71,15 @@ class ViewController extends Controller {
 	/**
 	 * FIXME: Replace with non static code
 	 *
-	 * @return array
 	 * @throws NotFoundException
 	 */
-	protected function getStorageInfo(string $dir = '/') {
+	protected function getStorageInfo(string $dir = '/'): array {
 		$rootInfo = Filesystem::getFileInfo('/', false);
 
 		return \OC_Helper::getStorageInfo($dir, $rootInfo ?: null);
 	}
 
 	/**
-	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	#[NoAdminRequired]
@@ -99,40 +99,30 @@ class ViewController extends Controller {
 		}
 	}
 
-
 	/**
-	 * @param string $dir
-	 * @param string $view
-	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function indexView($dir = '', $view = '', $fileid = null) {
+	public function indexView(string $dir = '', string $view = '', ?string $fileid = null): Response {
 		return $this->index($dir, $view, $fileid);
 	}
 
 	/**
-	 * @param string $dir
-	 * @param string $view
-	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function indexViewFileid($dir = '', $view = '', $fileid = null) {
+	public function indexViewFileid(string $dir = '', string $view = '', ?string $fileid = null): Response {
 		return $this->index($dir, $view, $fileid);
 	}
 
 	/**
-	 * @param string $dir
-	 * @param string $view
-	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function index($dir = '', $view = '', $fileid = null) {
+	public function index(string $dir = '', string $view = '', ?string $fileid = null): Response {
 		if ($fileid !== null && $view !== 'trashbin') {
 			try {
 				return $this->redirectToFileIfInTrashbin((int)$fileid);
@@ -140,18 +130,21 @@ class ViewController extends Controller {
 			}
 		}
 
+		$user = $this->userSession->getUser();
+		$uid = $user?->getUID();
+		if ($uid === null) {
+			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		}
+
 		// Load the files we need
 		Util::addInitScript('files', 'init');
 		Util::addScript('files', 'main');
-
-		$user = $this->userSession->getUser();
-		$userId = $user->getUID();
 
 		// If the file doesn't exists in the folder and
 		// exists in only one occurrence, redirect to that file
 		// in the correct folder
 		if ($fileid && $dir !== '') {
-			$baseFolder = $this->rootFolder->getUserFolder($userId);
+			$baseFolder = $this->rootFolder->getUserFolder($uid);
 			$nodes = $baseFolder->getById((int)$fileid);
 			if (!empty($nodes)) {
 				$nodePath = $baseFolder->getRelativePath($nodes[0]->getPath());
@@ -176,7 +169,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
 
 		// File sorting user config
-		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
+		$filesSortingConfig = json_decode($this->config->getUserValue($uid, 'files', 'files_sorting_configs', '{}') ?? '{}', true);
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
 		// Forbidden file characters (deprecated use capabilities)
@@ -223,12 +216,13 @@ class ViewController extends Controller {
 	/**
 	 * Redirects to the trashbin file list and highlight the given file id
 	 *
-	 * @param int $fileId file id to show
-	 * @return RedirectResponse redirect response or not found response
 	 * @throws NotFoundException
 	 */
-	private function redirectToFileIfInTrashbin($fileId): RedirectResponse {
-		$uid = $this->userSession->getUser()->getUID();
+	private function redirectToFileIfInTrashbin(int $fileId): RedirectResponse {
+		$uid = $this->userSession->getUser()?->getUID();
+		if ($uid === null) {
+			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		}
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = [];
@@ -257,14 +251,13 @@ class ViewController extends Controller {
 	/**
 	 * Redirects to the file list and highlight the given file id
 	 *
-	 * @param int $fileId file id to show
-	 * @param string|null $openDetails open details parameter
-	 * @param string|null $openFile open file parameter
-	 * @return RedirectResponse redirect response or not found response
 	 * @throws NotFoundException
 	 */
 	private function redirectToFile(int $fileId, ?string $openDetails = null, ?string $openFile = null): RedirectResponse {
-		$uid = $this->userSession->getUser()->getUID();
+		$uid = $this->userSession->getUser()?->getUID();
+		if ($uid === null) {
+			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
+		}
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = ['view' => 'files'];
