@@ -1,17 +1,15 @@
-import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
-import { spawnDialog } from '@nextcloud/dialogs'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {
-	type Node,
 
-	Permission,
-} from '@nextcloud/files'
-import { FileAction } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
+
+import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
+import { FileAction, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineAsyncComponent } from 'vue'
 
 /**
