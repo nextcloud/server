@@ -18,8 +18,8 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_Proxy;
+use OCP\Config\IUserConfig;
 use OCP\GroupInterface;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -37,7 +37,7 @@ use Test\TestCase;
 class Group_LDAPTest extends TestCase {
 	private Access&MockObject $access;
 	private GroupPluginManager&MockObject $pluginManager;
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
 	private IUserManager&MockObject $ncUserManager;
 	private GroupLDAP $groupBackend;
 
@@ -46,12 +46,12 @@ class Group_LDAPTest extends TestCase {
 
 		$this->access = $this->getAccessMock();
 		$this->pluginManager = $this->createMock(GroupPluginManager::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 	}
 
 	public function initBackend(): void {
-		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager, $this->config, $this->ncUserManager);
+		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager, $this->userConfig, $this->ncUserManager);
 	}
 
 	public function testCountEmptySearchString(): void {
