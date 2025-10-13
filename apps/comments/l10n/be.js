@@ -19,7 +19,7 @@ OC.L10N.register(
     "New comment" : "Новы каментарый",
     "Write a comment …" : "Напішыце каментарый …",
     "Post comment" : "Апублікаваць каментарый",
-    "@ for mentions, : for emoji, / for smart picker" : "@ - згадкі, : - эмодзі, / - разумны выбар",
+    "@ for mentions, : for emoji, / for smart picker" : "@ - згадкі, : - эмодзі, / - smart picker",
     "Could not reload comments" : "Не ўдалося перазагрузіць каментарыі",
     "Failed to mark comments as read" : "Не атрымалася пазначыць каментарыі як прачытаныя",
     "Unable to load the comments list" : "Не ўдалося загрузіць спіс каментарыяў",
