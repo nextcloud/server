@@ -51,6 +51,7 @@ class StoreTest extends TestCase {
 		$params = [
 			'run' => true,
 			'uid' => 'user123',
+			'loginName' => 'userlogin',
 			'password' => '123456',
 		];
 
@@ -117,180 +118,247 @@ class StoreTest extends TestCase {
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentialsInvalidToken(): void {
+	public function testGetLoginCredentialsInvalidTokenWithValidSessionCredentials(): void {
 		$this->session->expects($this->once())
 			->method('getId')
-			->willReturn('sess2233');
+			->willReturn('sessid');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
-			->with('sess2233')
+			->with('sessid')
 			->willThrowException(new InvalidTokenException());
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('login_credentials')
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with('login_credentials')
+			->willReturn(json_encode([
+				'uid' => 'user123',
+				'loginName' => 'userlogin',
+				'password' => null,
+			]));
+		$expected = new Credentials('user123', 'userlogin', null);
+
+		$creds = $this->store->getLoginCredentials();
+
+		$this->assertEquals($expected, $creds);
+	}
+
+	public function testGetLoginCredentialsPasswordlessTokenWithValidSessionCredentials(): void {
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessid');
+		$token = $this->createMock(IToken::class);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessid')
+			->willReturn($token);
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('user123');
+		$token->expects($this->once())
+			->method('getLoginName')
+			->willReturn('userlogin');
+		$this->tokenProvider->expects($this->once())
+			->method('getPassword')
+			->with($token, 'sessid')
+			->willThrowException(new PasswordlessTokenException());
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('login_credentials')
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with('login_credentials')
+			->willReturn(json_encode([
+				'uid' => 'user123',
+				'loginName' => 'userlogin',
+				'password' => null,
+			]));
+		$expected = new Credentials('user123', 'userlogin', null);
+
+		$creds = $this->store->getLoginCredentials();
+
+		$this->assertEquals($expected, $creds);
+	}
+
+	public function testGetLoginCredentialsMissingSessionCredentials(): void {
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessid');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessid')
+			->willThrowException(new InvalidTokenException());
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('login_credentials')
+			->willReturn(false);
+
 		$this->expectException(CredentialsUnavailableException::class);
+		$this->expectExceptionMessage('No valid login credentials in session');
 
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentialsPartialCredentialsAndSessionName(): void {
-		$uid = 'id987';
-		$user = 'user987';
-		$password = '7389374';
-
+	public function testGetLoginCredentialsSessionCredentialsMissingFields(): void {
 		$this->session->expects($this->once())
 			->method('getId')
-			->willReturn('sess2233');
+			->willReturn('sessid');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
-			->with('sess2233')
+			->with('sessid')
 			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
-			->with($this->equalTo('login_credentials'))
+			->with('login_credentials')
 			->willReturn(true);
-		$this->crypto->expects($this->once())
-			->method('decrypt')
-			->willReturn($password);
-		$this->session->expects($this->exactly(2))
-			->method('get')
-			->willReturnMap([
-				[
-					'login_credentials',
-					json_encode([
-						'uid' => $uid,
-						'password' => $password,
-					])
-				],
-				[
-					'loginname',
-					$user,
-				],
-			]);
-		$expected = new Credentials($uid, $user, $password);
-
-		$actual = $this->store->getLoginCredentials();
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function testGetLoginCredentialsPartialCredentials(): void {
-		$uid = 'id987';
-		$password = '7389374';
-
-		$this->session->expects($this->once())
-			->method('getId')
-			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
-			->method('getToken')
-			->with('sess2233')
-			->willThrowException(new InvalidTokenException());
-		$this->session->expects($this->once())
-			->method('exists')
-			->with($this->equalTo('login_credentials'))
-			->willReturn(true);
-		$this->crypto->expects($this->once())
-			->method('decrypt')
-			->willReturn($password);
-		$this->session->expects($this->exactly(2))
-			->method('get')
-			->willReturnMap([
-				[
-					'login_credentials',
-					json_encode([
-						'uid' => $uid,
-						'password' => $password,
-					])
-				],
-				[
-					'loginname',
-					null,
-				],
-			]);
-		$expected = new Credentials($uid, $uid, $password);
-
-		$actual = $this->store->getLoginCredentials();
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function testGetLoginCredentialsInvalidTokenLoginCredentials(): void {
-		$uid = 'id987';
-		$user = 'user987';
-		$password = '7389374';
-
-		$this->session->expects($this->once())
-			->method('getId')
-			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
-			->method('getToken')
-			->with('sess2233')
-			->willThrowException(new InvalidTokenException());
-		$this->session->expects($this->once())
-			->method('exists')
-			->with($this->equalTo('login_credentials'))
-			->willReturn(true);
-		$this->crypto->expects($this->once())
-			->method('decrypt')
-			->willReturn($password);
 		$this->session->expects($this->once())
 			->method('get')
-			->with($this->equalTo('login_credentials'))
-			->willReturn('{"run":true,"uid":"id987","loginName":"user987","password":"7389374"}');
-		$expected = new Credentials($uid, $user, $password);
+			->with('login_credentials')
+			->willReturn(json_encode([
+				'uid' => 'user123',
+			]));
 
-		$actual = $this->store->getLoginCredentials();
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function testGetLoginCredentialsPasswordlessToken(): void {
-		$this->session->expects($this->once())
-			->method('getId')
-			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
-			->method('getToken')
-			->with('sess2233')
-			->willThrowException(new PasswordlessTokenException());
 		$this->expectException(CredentialsUnavailableException::class);
+		$this->expectExceptionMessage('Session credentials missing required fields');
 
 		$this->store->getLoginCredentials();
 	}
 
-	public function testAuthenticatePasswordlessToken(): void {
-		$user = 'user987';
-		$password = null;
-
-		$params = [
-			'run' => true,
-			'loginName' => $user,
-			'uid' => $user,
-			'password' => $password,
-		];
-
-		$this->session->expects($this->once())
-			->method('set')
-			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
-
-
+	public function testGetLoginCredentialsSessionCredentialsDecrypt(): void {
 		$this->session->expects($this->once())
 			->method('getId')
-			->willReturn('sess2233');
+			->willReturn('sessid');
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
-			->with('sess2233')
-			->willThrowException(new PasswordlessTokenException());
-
+			->with('sessid')
+			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
-			->with($this->equalTo('login_credentials'))
+			->with('login_credentials')
 			->willReturn(true);
 		$this->session->expects($this->once())
 			->method('get')
-			->with($this->equalTo('login_credentials'))
-			->willReturn(json_encode($params));
+			->with('login_credentials')
+			->willReturn(json_encode([
+				'uid' => 'user123',
+				'loginName' => 'userlogin',
+				'password' => 'encrypted',
+			]));
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->with('encrypted')
+			->willReturn('decrypted');
+		$expected = new Credentials('user123', 'userlogin', 'decrypted');
 
-		$this->store->authenticate($params);
-		$actual = $this->store->getLoginCredentials();
+		$creds = $this->store->getLoginCredentials();
 
-		$expected = new Credentials($user, $user, $password);
-		$this->assertEquals($expected, $actual);
+		$this->assertEquals($expected, $creds);
+	}
+
+	public function testGetLoginCredentialsSessionCredentialsDecryptException(): void {
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessid');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessid')
+			->willThrowException(new InvalidTokenException());
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('login_credentials')
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with('login_credentials')
+			->willReturn(json_encode([
+				'uid' => 'user123',
+				'loginName' => 'userlogin',
+				'password' => 'encrypted',
+			]));
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->with('encrypted')
+			->willThrowException(new \Exception());
+		$expected = new Credentials('user123', 'userlogin', 'encrypted');
+
+		$creds = $this->store->getLoginCredentials();
+
+		$this->assertEquals($expected, $creds);
+	}
+
+	public function testGetLoginCredentialsSessionCredentialsPasswordNull(): void {
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessid');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessid')
+			->willThrowException(new InvalidTokenException());
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('login_credentials')
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with('login_credentials')
+			->willReturn(json_encode([
+				'uid' => 'user123',
+				'loginName' => 'userlogin',
+				'password' => null,
+			]));
+		$expected = new Credentials('user123', 'userlogin', null);
+
+		$creds = $this->store->getLoginCredentials();
+
+		$this->assertEquals($expected, $creds);
+	}
+
+	public function testGetLoginCredentialsInvalidJson(): void {
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessid');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessid')
+			->willThrowException(new InvalidTokenException());
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('login_credentials')
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with('login_credentials')
+			->willReturn('{not valid json');
+
+		$this->expectException(CredentialsUnavailableException::class);
+		$this->expectExceptionMessage('Session credentials could not be decoded');
+
+		$this->store->getLoginCredentials();
+	}
+
+	public function testGetLoginCredentialsNonArrayDecodedCredentials(): void {
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessid');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessid')
+			->willThrowException(new InvalidTokenException());
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('login_credentials')
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with('login_credentials')
+			->willReturn(json_encode('just a string'));
+
+		$this->expectException(CredentialsUnavailableException::class);
+		$this->expectExceptionMessage('Session credentials could not be decoded');
+
+		$this->store->getLoginCredentials();
 	}
 }
