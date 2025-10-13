@@ -85,6 +85,7 @@ use OC\Core\Command\Security\ImportCertificate;
 use OC\Core\Command\Security\ListCertificates;
 use OC\Core\Command\Security\RemoveCertificate;
 use OC\Core\Command\SetupChecks;
+use OC\Core\Command\SnowflakeDecodeId;
 use OC\Core\Command\Status;
 use OC\Core\Command\SystemTag\Edit;
 use OC\Core\Command\TaskProcessing\EnabledCommand;
@@ -246,6 +247,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(BruteforceAttempts::class));
 	$application->add(Server::get(BruteforceResetAttempts::class));
 	$application->add(Server::get(SetupChecks::class));
+	$application->add(Server::get(SnowflakeDecodeId::class));
 	$application->add(Server::get(Get::class));
 
 	$application->add(Server::get(GetCommand::class));
