@@ -1277,16 +1277,14 @@ $CONFIG = [
 /**
  * Previews
  *
- * Nextcloud supports previews of image files, the covers of MP3 files, and text
- * files. These options control enabling and disabling previews, and thumbnail
- * size.
+ * Nextcloud supports generating previews for various file types, such as images, audio files, and text files.
+ * These options control enabling and disabling previews, and thumbnail size.
  */
 
 /**
  * By default, Nextcloud can generate previews for the following filetypes:
  *
  * - Image files
- * - Covers of MP3 files
  * - Text documents
  *
  * Valid values are ``true``, to enable previews, or
@@ -1392,21 +1390,21 @@ $CONFIG = [
  * The following providers are disabled by default due to performance or privacy
  * concerns:
  *
+ *  - ``OC\Preview\EMF``
  *  - ``OC\Preview\Font``
  *  - ``OC\Preview\HEIC``
  *  - ``OC\Preview\Illustrator``
- *  - ``OC\Preview\Movie``
+ *  - ``OC\Preview\MP3``
  *  - ``OC\Preview\MSOffice2003``
  *  - ``OC\Preview\MSOffice2007``
  *  - ``OC\Preview\MSOfficeDoc``
+ *  - ``OC\Preview\Movie``
  *  - ``OC\Preview\PDF``
  *  - ``OC\Preview\Photoshop``
  *  - ``OC\Preview\Postscript``
- *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
+ *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\TIFF``
- *  - ``OC\Preview\EMF``
- *
  *
  * Defaults to the following providers:
  *
@@ -1415,11 +1413,11 @@ $CONFIG = [
  *  - ``OC\Preview\JPEG``
  *  - ``OC\Preview\Krita``
  *  - ``OC\Preview\MarkDown``
- *  - ``OC\Preview\MP3``
  *  - ``OC\Preview\OpenDocument``
  *  - ``OC\Preview\PNG``
  *  - ``OC\Preview\TXT``
  *  - ``OC\Preview\XBitmap``
+ *
  */
 'enabledPreviewProviders' => [
 	'OC\Preview\BMP',
@@ -1427,7 +1425,6 @@ $CONFIG = [
 	'OC\Preview\JPEG',
 	'OC\Preview\Krita',
 	'OC\Preview\MarkDown',
-	'OC\Preview\MP3',
 	'OC\Preview\OpenDocument',
 	'OC\Preview\PNG',
 	'OC\Preview\TXT',
