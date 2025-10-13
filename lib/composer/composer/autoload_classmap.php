@@ -1525,6 +1525,7 @@ return array(
     'OC\\Core\\Migrations\\Version32000Date20250620081925' => $baseDir . '/core/Migrations/Version32000Date20250620081925.php',
     'OC\\Core\\Migrations\\Version32000Date20250731062008' => $baseDir . '/core/Migrations/Version32000Date20250731062008.php',
     'OC\\Core\\Migrations\\Version32000Date20250806110519' => $baseDir . '/core/Migrations/Version32000Date20250806110519.php',
+    'OC\\Core\\Migrations\\Version33000Date20251013110519' => $baseDir . '/core/Migrations/Version33000Date20251013110519.php',
     'OC\\Core\\Migrations\\Version33000Date20250819110529' => $baseDir . '/core/Migrations/Version33000Date20250819110529.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\ResponseDefinitions' => $baseDir . '/core/ResponseDefinitions.php',
