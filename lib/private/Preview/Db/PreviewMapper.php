@@ -15,6 +15,7 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
+use OCP\Snowflake\IGenerator;
 use Override;
 
 /**
@@ -29,6 +30,7 @@ class PreviewMapper extends QBMapper {
 	public function __construct(
 		IDBConnection $db,
 		private readonly IMimeTypeLoader $mimeTypeLoader,
+		private readonly IGenerator $snowflake,
 	) {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
@@ -50,13 +52,15 @@ class PreviewMapper extends QBMapper {
 
 		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
 			$qb = $this->db->getQueryBuilder();
+			$id = $this->snowflake->nextId();
 			$qb->insert(self::VERSION_TABLE_NAME)
 				->values([
+					'id' => $id,
 					'version' => $preview->getVersion(),
 					'file_id' => $preview->getFileId(),
 				])
 				->executeStatement();
-			$entity->setVersionId($qb->getLastInsertId());
+			$entity->setVersionId($id);
 		}
 		return parent::insert($preview);
 	}
@@ -148,7 +152,13 @@ class PreviewMapper extends QBMapper {
 			));
 	}
 
-	public function getLocationId(string $bucket, string $objectStore): int {
+	/**
+	 * Get the location id corresponding to the $bucket and $objectStore. Create one
+	 * if not existing yet.
+	 *
+	 * @throws Exception
+	 */
+	public function getLocationId(string $bucket, string $objectStore): string {
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id')
 			->from(self::LOCATION_TABLE_NAME)
@@ -157,14 +167,33 @@ class PreviewMapper extends QBMapper {
 			->executeQuery();
 		$data = $result->fetchOne();
 		if ($data) {
-			return $data;
+			return (string)$data;
 		} else {
-			$qb->insert(self::LOCATION_TABLE_NAME)
-				->values([
-					'bucket_name' => $qb->createNamedParameter($bucket),
-					'object_store_name' => $qb->createNamedParameter($objectStore),
-				])->executeStatement();
-			return $qb->getLastInsertId();
+			try {
+				$id = $this->snowflake->nextId();
+				$qb->insert(self::LOCATION_TABLE_NAME)
+					->values([
+						'id' => $qb->createNamedParameter($id),
+						'bucket_name' => $qb->createNamedParameter($bucket),
+						'object_store_name' => $qb->createNamedParameter($objectStore),
+					])->executeStatement();
+				return $id;
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					// Fetch again as there seems to be another entry added meanwhile
+					$result = $qb->select('id')
+						->from(self::LOCATION_TABLE_NAME)
+						->where($qb->expr()->eq('bucket_name', $qb->createNamedParameter($bucket)))
+						->andWhere($qb->expr()->eq('object_store_name', $qb->createNamedParameter($objectStore)))
+						->executeQuery();
+					$data = $result->fetchOne();
+					if ($data) {
+						return (string)$data;
+					}
+				}
+
+				throw $e;
+			}
 		}
 	}
 
