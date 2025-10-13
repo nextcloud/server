@@ -473,7 +473,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$metadata = [
 			'mimetype' => $mimetype,
 			'original-storage' => $this->getId(),
-			'original-path' => $path,
+			'original-path' => rawurlencode($path),
 		];
 		if ($size) {
 			$metadata['size'] = $size;
