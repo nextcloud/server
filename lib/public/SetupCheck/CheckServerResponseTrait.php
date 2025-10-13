@@ -17,8 +17,6 @@ use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 /**
- * Trait CheckServerResponseTrait
- * 
  * Provides common functionality for setup checks that require sending HTTP requests
  * to the same server and analyzing the responses.
  *
@@ -51,10 +49,10 @@ trait CheckServerResponseTrait {
 		$l10n = \OCP\Server::get(IFactory::class)->get('lib');
 		// TODO: Technically it's necessary the web server, but the PHP SAPI.
 		return $l10n->t(
-			'This check failed because your web server was unable to connect to itself.' . "\n\n" .
-			'To fix this, please ensure:' . "\n" .
-			'- The server can resolve and connect to at least one of its configured `trusted_domains`, or the value set in `overwrite.cli.url`.' . "\n" .
-			'- There are no DNS mismatches, or outbound firewall rules blocking connections.' 
+			'This check failed because your web server was unable to connect to itself.' . "\n\n"
+			. 'To fix this, please ensure:' . "\n"
+			. '- The server can resolve and connect to at least one of its configured `trusted_domains`, or the value set in `overwrite.cli.url`.' . "\n"
+			. '- There are no DNS mismatches, or outbound firewall rules blocking connections.' 
 		);
 	}
 
@@ -124,7 +122,6 @@ trait CheckServerResponseTrait {
 	 *                     True by default (i.e., moves on to the next URL); set to false to not ignore erroneous responses.
 	 *     - 'options': Additional options for the HTTP client (see {@see OCP\Http\Client\IClient}).
 	 * @param bool $isRootRequest If true, targets the host's root path.
-	 * @return Generator<int, IResponse> Yields HTTP responses for each URL tested.
 	 * @since 31.0.0
 	 */
 	protected function runRequest(string $method, string $url, array $options = [], bool $isRootRequest = false): Generator {
@@ -148,7 +145,6 @@ trait CheckServerResponseTrait {
 	 *
 	 * @param bool $ignoreSSL If true, disables SSL verification.
 	 * @param bool $httpErrors If true, sets whether HTTP error responses should trigger exceptions.
-	 * @return array Options array for the HTTP client.
 	 * @since 31.0.0
 	 */
 	private function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
@@ -170,7 +166,6 @@ trait CheckServerResponseTrait {
 	 *
 	 * @param string $url Absolute URL containing scheme, host, and optionally the webroot.
 	 * @param bool $removeWebroot If true, removes the webroot from the URL, returning only the scheme, host, and optional port.
-	 * @return string Normalized URL.
 	 * @throws \InvalidArgumentException If the URL is missing a scheme or host.
 	 * @since 31.0.0
 	 */
