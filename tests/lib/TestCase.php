@@ -339,8 +339,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayLocks();
 
 		/** @var Factory $appDataFactory */
-		$appDataFactory = Server::get(Factory::class);
-		$appDataFactory->clearFilesystemCache();
+		//$appDataFactory = Server::get(Factory::class);
+		//$appDataFactory->clearFilesystemCache();
+
+		unset(\OC::$server[\OC\Files\AppData\Factory::class]);
+		unset(\OC::$server[\OC\App\AppStore\Fetcher\AppFetcher::class]);
 
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);
