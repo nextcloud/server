@@ -3034,24 +3034,6 @@
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry')]]></code>
-      <code><![CDATA[deleteUserValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
@@ -3119,29 +3101,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/weather_status/lib/Service/WeatherStatusService.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/workflowengine/lib/Entity/File.php">
