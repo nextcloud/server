@@ -117,10 +117,10 @@ trait CheckServerResponseTrait {
 	 * @param string $method HTTP method to use (e.g., 'GET', 'POST')
 	 * @param string $url Absolute path to check (with webroot, without host); can be the output of `IURLGenerator`
 	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options HTTP client options, such as:
-	 *     - 'ignoreSSL': Ignore invalid SSL certificates (e.g., self-signed).
-	 *     - 'httpErrors': Whether to ignore requests with HTTP error (4xx/5xx) responses.
-	 *                     True by default (i.e., moves on to the next URL); set to false to not ignore erroneous responses.
-	 *     - 'options': Additional options for the HTTP client (see {@see OCP\Http\Client\IClient}).
+	 * - 'ignoreSSL': Ignore invalid SSL certificates (e.g., self-signed).
+	 * - 'httpErrors': Whether to ignore requests with HTTP error (4xx/5xx) responses.
+	 *   True by default (i.e., moves on to the next URL); set to false to not ignore erroneous responses.
+	 * - 'options': Additional options for the HTTP client (see {@see OCP\Http\Client\IClient}).
 	 * @param bool $isRootRequest If true, targets the host's root path.
 	 * @since 31.0.0
 	 */
