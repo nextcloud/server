@@ -60,7 +60,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 			}
 			$status = $task->getStatus();
 			if ($status === Task::STATUS_FAILED) {
-				$failedCount++; // task pickup took longer than 4 minutes
+				$failedCount++;
 			}
 		}
 
