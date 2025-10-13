@@ -246,6 +246,8 @@ abstract class QBMapper {
 				return IQueryBuilder::PARAM_TIME_IMMUTABLE;
 			case Types::JSON:
 				return IQueryBuilder::PARAM_JSON;
+			case Types::UUID:
+				return IQueryBuilder::PARAM_UUID;
 		}
 
 		return IQueryBuilder::PARAM_STR;

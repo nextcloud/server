@@ -125,6 +125,7 @@ use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
 use OC\User\Session;
+use OC\Uuid\UuidBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
@@ -238,6 +239,7 @@ use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
+use OCP\Uuid\IUuidBuilder;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -284,6 +286,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Template\ITemplateManager::class, \OC\Template\TemplateManager::class);
 
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
+
+		/** @psalm-suppress InternalClass */
+		$this->registerAlias(IUuidBuilder::class, UuidBuilder::class);
 
 		$this->registerService(View::class, function (Server $c) {
 			return new View();
