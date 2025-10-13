@@ -13,11 +13,11 @@ use OCA\WeatherStatus\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
+use OCP\Config\IUserConfig;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -41,14 +41,14 @@ class WeatherStatusService {
 	private string $version;
 
 	public function __construct(
-		private IClientService $clientService,
-		private IConfig $config,
+		IClientService $clientService,
+		private IUserConfig $userConfig,
 		private IL10N $l10n,
 		private LoggerInterface $logger,
 		private IAccountManager $accountManager,
 		private IUserManager $userManager,
-		private IAppManager $appManager,
-		private ICacheFactory $cacheFactory,
+		IAppManager $appManager,
+		ICacheFactory $cacheFactory,
 		private ?string $userId,
 	) {
 		$this->version = $appManager->getAppVersion(Application::APP_ID);
@@ -64,7 +64,7 @@ class WeatherStatusService {
 	 * @return WeatherStatusSuccess success state
 	 */
 	public function setMode(int $mode): array {
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'mode', strval($mode));
+		$this->userConfig->setValueInt($this->userId, Application::APP_ID, 'mode', $mode);
 		return ['success' => true];
 	}
 
@@ -73,7 +73,7 @@ class WeatherStatusService {
 	 * @return list<string>
 	 */
 	public function getFavorites(): array {
-		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
+		$favoritesJson = $this->userConfig->getValueString($this->userId, Application::APP_ID, 'favorites', '');
 		return json_decode($favoritesJson, true) ?: [];
 	}
 
@@ -83,7 +83,7 @@ class WeatherStatusService {
 	 * @return WeatherStatusSuccess success state
 	 */
 	public function setFavorites(array $favorites): array {
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
+		$this->userConfig->setValueString($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
 		return ['success' => true];
 	}
 
@@ -117,15 +117,15 @@ class WeatherStatusService {
 	public function setLocation(?string $address, ?float $lat, ?float $lon): array {
 		if (!is_null($lat) && !is_null($lon)) {
 			// store coordinates
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'lat', strval($lat));
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'lon', strval($lon));
+			$this->userConfig->setValueFloat($this->userId, Application::APP_ID, 'lat', $lat);
+			$this->userConfig->setValueFloat($this->userId, Application::APP_ID, 'lon', $lon);
 			// resolve and store formatted address
 			$address = $this->resolveLocation($lat, $lon);
 			$address = $address ?: $this->l10n->t('Unknown address');
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'address', $address);
+			$this->userConfig->setValueString($this->userId, Application::APP_ID, 'address', $address);
 			// get and store altitude
 			$altitude = $this->getAltitude($lat, $lon);
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'altitude', strval($altitude));
+			$this->userConfig->setValueFloat($this->userId, Application::APP_ID, 'altitude', $altitude);
 			return [
 				'address' => $address,
 				'success' => true,
@@ -222,13 +222,13 @@ class WeatherStatusService {
 		$addressInfo = $this->searchForAddress($address);
 		if (isset($addressInfo['display_name']) && isset($addressInfo['lat']) && isset($addressInfo['lon'])) {
 			$formattedAddress = $this->formatOsmAddress($addressInfo);
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'address', $formattedAddress);
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'lat', strval($addressInfo['lat']));
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'lon', strval($addressInfo['lon']));
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'mode', strval(self::MODE_MANUAL_LOCATION));
+			$this->userConfig->setValueString($this->userId, Application::APP_ID, 'address', $formattedAddress);
+			$this->userConfig->setValueFloat($this->userId, Application::APP_ID, 'lat', floatval($addressInfo['lat']));
+			$this->userConfig->setValueFloat($this->userId, Application::APP_ID, 'lon', floatval($addressInfo['lon']));
+			$this->userConfig->setValueInt($this->userId, Application::APP_ID, 'mode', self::MODE_MANUAL_LOCATION);
 			// get and store altitude
 			$altitude = $this->getAltitude(floatval($addressInfo['lat']), floatval($addressInfo['lon']));
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'altitude', strval($altitude));
+			$this->userConfig->setValueFloat($this->userId, Application::APP_ID, 'altitude', $altitude);
 			return [
 				'lat' => $addressInfo['lat'],
 				'lon' => $addressInfo['lon'],
@@ -279,15 +279,15 @@ class WeatherStatusService {
 	 * @return WeatherStatusLocationWithMode which contains coordinates, formatted address and current weather status mode
 	 */
 	public function getLocation(): array {
-		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
-		$lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', '');
-		$address = $this->config->getUserValue($this->userId, Application::APP_ID, 'address', '');
-		$mode = $this->config->getUserValue($this->userId, Application::APP_ID, 'mode', self::MODE_MANUAL_LOCATION);
+		$lat = $this->userConfig->getValueFloat($this->userId, Application::APP_ID, 'lat');
+		$lon = $this->userConfig->getValueFloat($this->userId, Application::APP_ID, 'lon');
+		$address = $this->userConfig->getValueString($this->userId, Application::APP_ID, 'address');
+		$mode = $this->userConfig->getValueInt($this->userId, Application::APP_ID, 'mode', self::MODE_MANUAL_LOCATION);
 		return [
-			'lat' => $lat,
-			'lon' => $lon,
+			'lat' => $lat === 0.0 ? '' : (string)$lat,
+			'lon' => $lon === 0.0 ? '' : (string)$lon,
 			'address' => $address,
-			'mode' => intval($mode),
+			'mode' => $mode,
 		];
 	}
 
@@ -297,14 +297,12 @@ class WeatherStatusService {
 	 * @return list<WeatherStatusForecast>|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
 	 */
 	public function getForecast(): array {
-		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
-		$lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', '');
-		$alt = $this->config->getUserValue($this->userId, Application::APP_ID, 'altitude', '');
-		if (!is_numeric($alt)) {
-			$alt = 0;
-		}
-		if (is_numeric($lat) && is_numeric($lon)) {
-			return $this->forecastRequest(floatval($lat), floatval($lon), floatval($alt));
+		$lat = $this->userConfig->getValueFloat($this->userId, Application::APP_ID, 'lat');
+		$lon = $this->userConfig->getValueFloat($this->userId, Application::APP_ID, 'lon');
+		$alt = $this->userConfig->getValueFloat($this->userId, Application::APP_ID, 'altitude');
+
+		if ($lat !== 0.0 && $lon !== 0.0) {
+			return $this->forecastRequest($lat, $lon, $alt);
 		} else {
 			return ['success' => false];
 		}
