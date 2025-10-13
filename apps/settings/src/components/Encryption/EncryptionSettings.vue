@@ -5,15 +5,17 @@
 
 <script setup lang="ts">
 import type { OCSResponse } from '@nextcloud/typings/ocs'
-import { showError, spawnDialog } from '@nextcloud/dialogs'
+
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { ref } from 'vue'
 import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
 
-import axios from '@nextcloud/axios'
 import logger from '../../logger.ts'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'

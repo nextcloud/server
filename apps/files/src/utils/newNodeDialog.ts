@@ -4,7 +4,8 @@
  */
 
 import type { Node } from '@nextcloud/files'
-import { spawnDialog } from '@nextcloud/dialogs'
+
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import NewNodeDialog from '../components/NewNodeDialog.vue'
 
 interface ILabels {
