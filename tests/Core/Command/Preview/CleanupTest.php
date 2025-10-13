@@ -11,6 +11,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IDBConnection;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,6 +21,7 @@ use Test\TestCase;
 class CleanupTest extends TestCase {
 	private IRootFolder&MockObject $rootFolder;
 	private LoggerInterface&MockObject $logger;
+	private IDBConnection&MockObject $connection;
 	private InputInterface&MockObject $input;
 	private OutputInterface&MockObject $output;
 	private Cleanup $repair;
@@ -28,9 +30,11 @@ class CleanupTest extends TestCase {
 		parent::setUp();
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->connection = $this->createMock(IDBConnection::class);
 		$this->repair = new Cleanup(
 			$this->rootFolder,
 			$this->logger,
+			$this->connection,
 		);
 
 		$this->input = $this->createMock(InputInterface::class);
@@ -50,7 +54,7 @@ class CleanupTest extends TestCase {
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
 		$appDataFolder->expects($this->once())->method('newFolder')->with('preview');
 
-		$this->rootFolder->expects($this->once())
+		$this->rootFolder->expects($this->atLeastOnce())
 			->method('getAppDataDirectoryName')
 			->willReturn('appdata_some_id');
 
