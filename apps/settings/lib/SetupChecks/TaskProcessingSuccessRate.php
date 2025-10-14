@@ -48,9 +48,9 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 		if ($taskCount === 0) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'No scheduled tasks in the last %n hour.',
-					'No scheduled tasks in the last %n hours.',
-					24 * $lastNDays
+					'No scheduled tasks in the last day.',
+					'No scheduled tasks in the last %n days.',
+					$lastNDays
 				)
 			);
 		}
@@ -68,17 +68,17 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 		if (($failedCount / $taskCount) < self::MAX_FAILURE_PERCENTAGE) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'Most tasks were successful in the last %n hour.',
-					'Most tasks were successful in the last %n hours.',
-					24 * $lastNDays
+					'Most tasks were successful in the last day.',
+					'Most tasks were successful in the last %n days.',
+					$lastNDays
 				)
 			);
 		} else {
 			return SetupResult::warning(
 				$this->l10n->n(
-					'A lot of tasks failed in the last %n hour. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly.',
-					'A lot of tasks failed in the last %n hours. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly.',
-					24 * $lastNDays
+					'A lot of tasks failed in the last day. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly.',
+					'A lot of tasks failed in the last %n days. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly.',
+					$lastNDays
 				),
 				'https://docs.nextcloud.com/server/latest/admin_manual/ai/insight_and_debugging.html'
 			);
