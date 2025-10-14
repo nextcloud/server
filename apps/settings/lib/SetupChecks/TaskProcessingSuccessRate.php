@@ -38,7 +38,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 
 	public function run(): SetupResult {
 		$taskCount = 0;
-		$lastNDays = 1;
+		$lastNDays = 0;
 		while ($taskCount === 0 && $lastNDays < self::MAX_DAYS) {
 			$lastNDays++;
 			// userId: '' means no filter, whereas null would mean guest
@@ -56,7 +56,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 		}
 		$failedCount = 0;
 		foreach ($tasks as $task) {
-			if ($task->getEndedAt() !== null) {
+			if ($task->getEndedAt() === null) {
 				continue; // task was not picked up yet
 			}
 			$status = $task->getStatus();
