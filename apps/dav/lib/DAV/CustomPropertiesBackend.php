@@ -550,6 +550,19 @@ class CustomPropertiesBackend implements BackendInterface {
 			$valueType = self::PROPERTY_TYPE_HREF;
 			$value = $value->getHref();
 		} else {
+			if (!is_object($value)) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of type " . gettype($value),
+				);
+			}
+			if (!str_starts_with($value::class, 'Sabre\\DAV\\Xml\\Property\\')
+				&& !str_starts_with($value::class, 'Sabre\\CalDAV\\Xml\\Property\\')
+				&& !str_starts_with($value::class, 'Sabre\\CardDAV\\Xml\\Property\\')
+				&& !str_starts_with($value::class, 'OCA\\DAV\\')) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of class " . $value::class,
+				);
+			}
 			$valueType = self::PROPERTY_TYPE_OBJECT;
 			// serialize produces null character
 			// these can not be properly stored in some databases and need to be replaced
@@ -561,20 +574,22 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * @return mixed|Complex|string
 	 */
-	private function decodeValueFromDatabase(string $value, int $valueType) {
+	private function decodeValueFromDatabase(string $value, int $valueType): mixed {
 		switch ($valueType) {
 			case self::PROPERTY_TYPE_XML:
 				return new Complex($value);
 			case self::PROPERTY_TYPE_HREF:
 				return new Href($value);
 			case self::PROPERTY_TYPE_OBJECT:
+				if (!preg_match('/^O\:\d+\:\"(OCA\\\\DAV\\\\|Sabre\\\\(Cal|Card)?DAV\\\\Xml\\\\Property\\\\)/', $value)) {
+					throw new \LogicException('Found an object class serialized in DB that is not allowed');
+				}
 				// some databases can not handel null characters, these are custom encoded during serialization
 				// this custom encoding needs to be first reversed before unserializing
 				return unserialize(str_replace('\x00', chr(0), $value));
-			case self::PROPERTY_TYPE_STRING:
 			default:
 				return $value;
-		}
+		};
 	}
 
 	private function encodeDefaultCalendarUrl(Href $value): Href {
