@@ -13,6 +13,8 @@ namespace OC\Preview;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\StorageFactory;
+use OCP\DB\Exception;
+use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 
 class PreviewService {
@@ -23,6 +25,10 @@ class PreviewService {
 	) {
 	}
 
+	/**
+	 * @throws NotPermittedException
+	 * @throws Exception
+	 */
 	public function deletePreview(Preview $preview): void {
 		$this->storageFactory->deletePreview($preview);
 		$this->previewMapper->delete($preview);
@@ -99,11 +105,19 @@ class PreviewService {
 		return $this->previewMapper->getPreviewsForMimeTypes($mimeTypes);
 	}
 
+	/**
+	 * @throws NotPermittedException
+	 * @throws Exception
+	 */
 	public function deleteAll(): void {
 		$lastId = 0;
 		while (true) {
 			$previews = $this->previewMapper->getPreviews($lastId, 1000);
 			$i = 0;
+
+			// FIXME: Should we use transaction here? Du to the I/O created when
+			// deleting the previews from the storage, which might be on a network
+			// This might take a non trivial amount of time where the DB is locked.
 			foreach ($previews as $preview) {
 				$this->deletePreview($preview);
 				$i++;
