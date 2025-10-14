@@ -7,7 +7,6 @@ import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
 import { getCSPNonce } from '@nextcloud/auth'
 import { n, t } from '@nextcloud/l10n'
 import Vue from 'vue'
-import ExternalLinkActions from './services/ExternalLinkActions.js'
 import ExternalShareActions from './services/ExternalShareActions.js'
 import ShareSearch from './services/ShareSearch.js'
 import TabSections from './services/TabSections.js'
@@ -19,7 +18,6 @@ if (!window.OCA.Sharing) {
 	window.OCA.Sharing = {}
 }
 Object.assign(window.OCA.Sharing, { ShareSearch: new ShareSearch() })
-Object.assign(window.OCA.Sharing, { ExternalLinkActions: new ExternalLinkActions() })
 Object.assign(window.OCA.Sharing, { ExternalShareActions: new ExternalShareActions() })
 Object.assign(window.OCA.Sharing, { ShareTabSections: new TabSections() })
 
