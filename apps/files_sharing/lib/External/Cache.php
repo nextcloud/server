@@ -10,20 +10,10 @@ namespace OCA\Files_Sharing\External;
 use OCP\Federation\ICloudId;
 
 class Cache extends \OC\Files\Cache\Cache {
-	private $remote;
-	private $remoteUser;
-
-	/**
-	 * @param Storage $storage
-	 * @param ICloudId $cloudId
-	 */
 	public function __construct(
-		private $storage,
+		private Storage $storage,
 		private ICloudId $cloudId,
 	) {
-		[, $remote] = explode('://', $this->cloudId->getRemote(), 2);
-		$this->remote = $remote;
-		$this->remoteUser = $this->cloudId->getUser();
 		parent::__construct($this->storage);
 	}
 
