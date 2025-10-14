@@ -11,6 +11,7 @@ import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import Vue from 'vue'
 
 import { useFilesStore } from '../store/files'
+import { useSearchQuery } from '../composables/useFilenameFilter'
 import { useNavigation } from '../composables/useNavigation'
 import { usePathsStore } from '../store/paths'
 import logger from '../logger'
@@ -86,6 +87,12 @@ router.beforeEach((to, from, next) => {
 
 	const fromDir = (from.query?.dir || '/') as string
 	const toDir = (to.query?.dir || '/') as string
+
+	if (fromDir !== toDir) {
+		// we navigate to another directory -> unset the query
+		const { updateQuery } = useSearchQuery()
+		updateQuery('')
+	}
 
 	// We are going back to a parent directory
 	if (relative(fromDir, toDir) === '..') {

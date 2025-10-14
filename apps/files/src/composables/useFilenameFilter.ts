@@ -8,11 +8,29 @@ import { watchThrottled } from '@vueuse/core'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { FilenameFilter } from '../filters/FilenameFilter'
 
+const searchQuery = ref('')
+
+/**
+ * This is for the non-component usage to modify the query
+ */
+export function useSearchQuery() {
+	/**
+	 * Updating the search query ref
+	 * @param value The new value
+	 */
+	function updateQuery(value: string) {
+		searchQuery.value = value
+	}
+
+	return {
+		updateQuery,
+	}
+}
+
 /**
  * This is for the `Navigation` component to provide a filename filter
  */
 export function useFilenameFilter() {
-	const searchQuery = ref('')
 	const filenameFilter = new FilenameFilter()
 
 	/**
