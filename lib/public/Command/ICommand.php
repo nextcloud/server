@@ -10,6 +10,7 @@ namespace OCP\Command;
 /**
  * Interface ICommand
  *
+ * @deprecated 33.0.0 The interface is considered internal going forward and should not be implemented by apps anymore
  * @since 8.1.0
  */
 interface ICommand {
