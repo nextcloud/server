@@ -581,7 +581,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param list<string> $providerIds The ids of the providers
 	 * @param list<string> $taskTypeIds The ids of the task types
 	 * @param int $numberOfTasks The number of tasks to return
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<array{task: CoreTaskProcessingTask, provider: string}>, has_more: bool}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, null, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<array{task: CoreTaskProcessingTask, provider: string}>, has_more: bool}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Tasks returned
 	 */
