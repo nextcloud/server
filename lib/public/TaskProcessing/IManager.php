@@ -137,7 +137,7 @@ interface IManager {
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 * @since 30.0.0
-	 * @aince 33.0.0 Added `userFacingError` parameter
+	 * @since 33.0.0 Added `userFacingError` parameter
 	 */
 	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void;
 
