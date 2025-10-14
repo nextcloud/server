@@ -349,6 +349,7 @@ OC.L10N.register(
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Zadejte port spolu s názvem hostitele (t. j., localhost:5432).",
     "Database host" : "Stroj na kterém se nachází databáze",
     "localhost" : "localhost",
+    "Installing …" : "Instalace …",
     "Install" : "Nainstalovat",
     "Need help?" : "Potřebujete nápovědu?",
     "See the documentation" : "Viz dokumentace",

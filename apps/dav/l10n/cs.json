@@ -250,6 +250,7 @@
     "Completed on %s" : "Dokončeno %s",
     "Due on %s by %s" : "Termín do %s od %s",
     "Due on %s" : "Termín do %s",
+    "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Vítejte v Nextcloud Kalendáři!\n\nToto je událost pro ukázku – prozkoumejte flexibilitu plánování pomoc Nextcloud Kalendáře upravením čeho chcete!\n\nS Nextcloud Kalendářem je možné:\n- Jednoduše vytvářet, upravovat a spravovat události.\n- Vytvářet vícero kalendářů a sdílet je s kolegy, přáteli či rodinou.\n- Zjišťovat dostupnost a zobrazovat své doby nedostupnosti ostatním.\n- Hladce napojovat na aplikace a zřízení prostřednictvím CalDAV.\n- Přizpůsobit si svůj dojem z používání: plánovat opakující se události, upravovat notifikace a ostatní nastavení.",
     "Example event - open me!" : "Událost pro ukázku – otevřete ji!",
     "System Address Book" : "Systémový adresář kontaktů",
     "The system address book contains contact information for all users in your instance." : "Systémový adresář kontaktů obsahuje informace pro všechny uživatele ve vámi využívané instanci.",

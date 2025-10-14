@@ -589,7 +589,7 @@ OC.L10N.register(
     "Enable server-side encryption" : "Укључи шифровање на серверској страни",
     "Disabling server side encryption is only possible using OCC, please refer to the documentation." : "Искључивање шифровања на страни сервера је могуће само помоћу OCC, молимо вас да погледате документацију.",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Шифрарски модул није учитан. Укључите га у менију апликација",
-    "Select default encryption module:" : "Изаберите подразумевани шифрарски модул:",
+    "Select default encryption module:" : "Изаберите подразумевани модул за шифровање:",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run {command}" : "Морате да мигрирате своје кључеве за шифрирање са старог начина шифирирања (ownCloud <= 8.0) на нови. Молимо вас да укључите „Подразумевани модул за шифрирање” и извршите {command}",
     "Cancel encryption" : "Откажи шифровање",
     "Enable encryption" : "Укључи шифровање",
@@ -965,6 +965,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Због безбедности и перформанси Ваше инстанце сервера, важно је да је све подешено исправно. Да бисмо Вам помогли у томе, радићемо неке аутоматске провере. Погледајте увезану документацију за више информација.",
     "Checking for system and security issues." : "Проверавам за системске и безбедноносне проблеме.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Добро погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">инсталациону документацију ↗</a> и проверите за било какве грешке или упозорења у <a href=\"%2$s\">записнику</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверите безбедност Вашег Некстклауда на <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">нашем безбедоносном скенирању↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверите безбедност Вашег Некстклауда на <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">нашем безбедоносном скенирању↗</a>.",
+    "Also allow autocompletion on full match of the user id" : "Дозволи такође и аутодовршавање на пуно подударање ид корисника"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

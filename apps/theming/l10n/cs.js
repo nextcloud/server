@@ -10,7 +10,7 @@ OC.L10N.register(
     "The given privacy policy address is not a valid URL" : "Daná adresa prohlášení o zásadách ochrany soukromí není platné URL",
     "The given slogan is too long" : "Daný slogan je příliš dlouhý",
     "The given color is invalid" : "Daná barva není platná",
-    "Disable-user-theming should be true or false" : "Volba „Zabránit uživatelům měnit vzhled“ musí mít hodnotu ano nebo ne",
+    "Disable-user-theming should be true or false" : "Volba „Zabránit uživatelům měnit vzhled“ by měla mít hodnotu ano nebo ne",
     "Saved" : "Uloženo",
     "Invalid app given" : "Zadána neplatná aplikace",
     "Invalid type for setting \"defaultApp\" given" : "Zadán neplatný typ nastavení pro „defaultApp",
