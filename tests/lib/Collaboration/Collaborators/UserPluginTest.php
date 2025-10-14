@@ -456,6 +456,10 @@ class UserPluginTest extends TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
+		$this->userManager->expects($this->any())
+			->method('searchDisplayName')
+			->willReturn($userResponse);
+
 		if (!$shareWithGroupOnly) {
 			if ($shareeEnumerationPhone) {
 				$this->userManager->expects($this->once())
@@ -766,10 +770,10 @@ class UserPluginTest extends TestCase {
 			->willReturnCallback(function ($search) use ($matchingUsers) {
 				$users = array_filter(
 					$matchingUsers,
-					fn ($user) => str_contains(strtolower($user['displayName']), strtolower($search))
+					fn ($user) => str_contains(strtolower($user['displayName'] ?? $user['uid']), strtolower($search))
 				);
 				return array_map(
-					fn ($user) => $this->getUserMock($user['uid'], $user['displayName']),
+					fn ($user) => $this->getUserMock($user['uid'], $user['displayName'] ?? $user['uid']),
 					$users);
 			});
 

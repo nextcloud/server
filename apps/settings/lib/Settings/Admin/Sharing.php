@@ -37,6 +37,8 @@ class Sharing implements IDelegatedSettings {
 		$excludedPasswordGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
 		$onlyShareWithGroupMembersExcludeGroupList = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
 
+		/** @var \OC\Share20\Manager */
+		$share20Manager = $this->shareManager;
 		$parameters = [
 			// Built-In Sharing
 			'enabled' => $this->getHumanBooleanConfig('core', 'shareapi_enabled', true),
@@ -48,10 +50,10 @@ class Sharing implements IDelegatedSettings {
 			'allowShareDialogUserEnumeration' => $this->getHumanBooleanConfig('core', 'shareapi_allow_share_dialog_user_enumeration', true),
 			'restrictUserEnumerationToGroup' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_group'),
 			'restrictUserEnumerationToPhone' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_phone'),
-			'restrictUserEnumerationFullMatch' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match', true),
-			'restrictUserEnumerationFullMatchUserId' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid', true),
-			'restrictUserEnumerationFullMatchEmail' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_email', true),
-			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn'),
+			'restrictUserEnumerationFullMatch' => $this->shareManager->allowEnumerationFullMatch(),
+			'restrictUserEnumerationFullMatchUserId' => $share20Manager->matchUserId(),
+			'restrictUserEnumerationFullMatchEmail' => $this->shareManager->matchEmail(),
+			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->shareManager->ignoreSecondDisplayName(),
 			'enforceLinksPassword' => Util::isPublicLinkPasswordRequired(false),
 			'enforceLinksPasswordExcludedGroups' => json_decode($excludedPasswordGroups) ?? [],
 			'enforceLinksPasswordExcludedGroupsEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
