@@ -12,7 +12,7 @@ use OCP\BackgroundJob\QueuedJob;
 
 class ClosureJob extends QueuedJob {
 	protected function run($argument) {
-		$callable = unserialize($argument, [LaravelClosure::class]);
+		$callable = unserialize($argument, ['allowed_classes' => [LaravelClosure::class]]);
 		$callable = $callable->getClosure();
 		if (is_callable($callable)) {
 			$callable();
