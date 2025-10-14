@@ -23,7 +23,8 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		'guest.css',
 		'files.css',
 		'settings.css',
-		'_layout.css'
+		'_layout.css',
+		'tables.css'
 	];
 
 	public function getId(): string {

@@ -1,0 +1,4 @@
+.content.app-tables table thead tr th {
+	background: var(--ion-tables-header-background-color);
+	border: 1px solid #ccc;
+}

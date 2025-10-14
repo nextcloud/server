@@ -83,4 +83,6 @@
 
 	--ion-chip-background: light-dark(var(--ion-color-blue-b4), var(--ion-color-cool-grey-c6));
 	--ion-chip-text: #fff;
+
+	--ion-tables-header-background-color: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c9));
 }
