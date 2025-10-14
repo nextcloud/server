@@ -7,9 +7,11 @@
  */
 namespace OC\Files\Cache;
 
+use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -24,27 +26,21 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Cache
  */
 class Storage {
-	/** @var StorageGlobal|null */
-	private static $globalCache = null;
-	private $storageId;
-	private $numericId;
+	private static ?StorageGlobal $globalCache = null;
+	private string $storageId;
+	private int $numericId;
 
-	/**
-	 * @return StorageGlobal
-	 */
-	public static function getGlobalCache() {
+	public static function getGlobalCache(): StorageGlobal {
 		if (is_null(self::$globalCache)) {
-			self::$globalCache = new StorageGlobal(\OC::$server->getDatabaseConnection());
+			self::$globalCache = new StorageGlobal(Server::get(IDBConnection::class));
 		}
 		return self::$globalCache;
 	}
 
 	/**
-	 * @param \OC\Files\Storage\Storage|string $storage
-	 * @param bool $isAvailable
 	 * @throws \RuntimeException
 	 */
-	public function __construct($storage, $isAvailable, IDBConnection $connection) {
+	public function __construct(IStorage|string $storage, bool $isAvailable, IDBConnection $connection) {
 		if ($storage instanceof IStorage) {
 			$this->storageId = $storage->getId();
 		} else {
@@ -56,13 +52,33 @@ class Storage {
 			$this->numericId = (int)$row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
-			} else {
-				if ($row = self::getStorageById($this->storageId)) {
-					$this->numericId = (int)$row['numeric_id'];
+
+			$insert = $connection->getQueryBuilder();
+			$insert->insert('storage')
+				->values([
+					'id' => $insert->createNamedParameter($this->storageId, IQueryBuilder::PARAM_STR),
+					'available' => $insert->createNamedParameter($available, iQueryBuilder::PARAM_INT),
+				]);
+			try {
+				$insert->executeStatement();
+			} catch (DBException $exception) {
+				if ($exception->getReason() === DBException::REASON_CONSTRAINT_VIOLATION) {
+					$select = $connection->getQueryBuilder();
+					$result = $select->select('numeric_id')
+						->from('storage')
+						->where($select->expr()->eq('id', $insert->createNamedParameter($this->storageId, iQueryBuilder::PARAM_STR)))
+						->andWhere($select->expr()->eq('available', $insert->createNamedParameter($available, iQueryBuilder::PARAM_INT)))
+						->setMaxResults(1)
+						->executeQuery()
+						->fetchOne();
+
+					if ($result === false) {
+						throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
+					}
+
+					$this->numericId = (int)$result;
 				} else {
-					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
+					$this->numericId = $insert->getLastInsertId();
 				}
 			}
 		}
@@ -149,7 +165,7 @@ class Storage {
 	public function setAvailability($isAvailable, int $delay = 0) {
 		$available = $isAvailable ? 1 : 0;
 		if (!$isAvailable) {
-			\OCP\Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
+			Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
 		}
 
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
