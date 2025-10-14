@@ -426,7 +426,16 @@ class CustomPropertiesBackend implements BackendInterface {
 			$valueType = self::PROPERTY_TYPE_XML;
 			$value = $value->getXml();
 		} else {
-			if (!is_object($value)) {
+			if (is_array($value)) {
+				// For array only allow scalar values
+				foreach ($value as $item) {
+					if (!is_scalar($item)) {
+						throw new DavException(
+							"Property \"$name\" has an invalid value of array containing " . gettype($value),
+						);
+					}
+				}
+			} elseif (!is_object($value)) {
 				throw new DavException(
 					"Property \"$name\" has an invalid value of type " . gettype($value),
 				);
