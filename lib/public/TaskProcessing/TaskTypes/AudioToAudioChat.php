@@ -12,14 +12,14 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for audio chat
  * @since 32.0.0
  */
-class AudioToAudioChat implements ITaskType {
+class AudioToAudioChat implements IInternalTaskType {
 	/**
 	 * @since 32.0.0
 	 */

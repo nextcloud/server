@@ -122,15 +122,15 @@ abstract class TestCase extends \Test\TestCase {
 	protected function tearDown(): void {
 		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->delete('share');
-		$qb->execute();
+		$qb->executeStatement();
 
 		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->delete('mounts');
-		$qb->execute();
+		$qb->executeStatement();
 
 		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->delete('filecache')->runAcrossAllShards();
-		$qb->execute();
+		$qb->executeStatement();
 
 		parent::tearDown();
 	}
@@ -213,7 +213,7 @@ abstract class TestCase extends \Test\TestCase {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($shareID))
 			);
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$share = $result->fetch();
 		$result->closeCursor();
 

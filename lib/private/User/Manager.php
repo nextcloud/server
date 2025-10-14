@@ -7,7 +7,6 @@
  */
 namespace OC\User;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
 use OC\Hooks\PublicEmitter;
 use OC\Memcache\WithLocalCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -16,6 +15,7 @@ use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserBackend;
@@ -564,7 +564,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 12.0.0
 	 */
 	public function countDisabledUsers(): int {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
@@ -592,7 +592,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 11.0.0
 	 */
 	public function countSeenUsers() {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
@@ -626,7 +626,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return string[] with user ids
 	 */
 	private function getSeenUserIds($limit = null, $offset = null) {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select(['userid'])
 			->from('preferences')
 			->where($queryBuilder->expr()->eq(
@@ -728,7 +728,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		// We can't load all users who already logged in
 		$limit = min(100, $limit ?: 25);
 
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = Server::get(IDBConnection::class);
 		$queryBuilder = $connection->getQueryBuilder();
 		$queryBuilder->select('pref_login.userid')
 			->from('preferences', 'pref_login')
@@ -739,7 +739,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		;
 
 		// Oracle don't want to run ORDER BY on CLOB column
-		$loginOrder = $connection->getDatabasePlatform() instanceof OraclePlatform
+		$loginOrder = $connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE
 			? $queryBuilder->expr()->castColumn('pref_login.configvalue', IQueryBuilder::PARAM_INT)
 			: 'pref_login.configvalue';
 		$queryBuilder

@@ -549,7 +549,7 @@ class CardDavBackendTest extends TestCase {
 			->from('cards_properties')
 			->orderBy('name');
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
@@ -574,7 +574,7 @@ class CardDavBackendTest extends TestCase {
 		$query->select('*')
 			->from('cards_properties');
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
@@ -598,7 +598,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('cards_properties')
@@ -611,7 +611,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$this->invokePrivate($this->backend, 'purgeProperties', [1, 1]);
 
@@ -619,7 +619,7 @@ class CardDavBackendTest extends TestCase {
 		$query->select('*')
 			->from('cards_properties');
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
@@ -642,7 +642,7 @@ class CardDavBackendTest extends TestCase {
 					'size' => $query->createNamedParameter(120)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$id = $query->getLastInsertId();
 
 		$this->assertSame($id,
@@ -686,7 +686,7 @@ class CardDavBackendTest extends TestCase {
 						'size' => $query->createNamedParameter(120),
 					]
 				);
-			$query->execute();
+			$query->executeStatement();
 			$vCardIds[] = $query->getLastInsertId();
 		}
 
@@ -701,7 +701,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -713,7 +713,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -725,7 +725,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -737,7 +737,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -749,7 +749,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$result = $this->backend->search(0, $pattern, $properties, $options);
 
@@ -795,7 +795,7 @@ class CardDavBackendTest extends TestCase {
 					'size' => $query->createNamedParameter(120),
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$id = $query->getLastInsertId();
 
@@ -823,7 +823,7 @@ class CardDavBackendTest extends TestCase {
 						'size' => $query->createNamedParameter(120),
 					]
 				);
-			$query->execute();
+			$query->executeStatement();
 		}
 
 		$result = $this->backend->getContact(0, 'uri0');
@@ -856,7 +856,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			)
-			->execute();
+			->executeStatement();
 
 		$result = $this->backend->collectCardProperties(666, 'FN');
 		$this->assertEquals(['John Doe'], $result);
