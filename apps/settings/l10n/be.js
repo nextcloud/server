@@ -162,6 +162,7 @@ OC.L10N.register(
     "All" : "Усе",
     "No results" : "Няма вынікаў",
     "Update to {version}" : "Абнавіць да {version}",
+    "Delete data on remove" : "Ачысціць даныя пры выдаленні",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Гэта праграма не можа быць усталявана, бо не выкананы наступныя залежнасці:",
     "Latest updated" : "Апошняе абнаўленне",
     "Author" : "Аўтар",
