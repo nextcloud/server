@@ -44,13 +44,6 @@ class AddTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	/**
-	 * Helper method to execute the command using reflection since execute() is protected
-	 */
-	private function executeCommand(): int {
-		return self::invokePrivate($this->command, 'execute', [$this->input, $this->output]);
-	}
-
 	public function testExecuteSuccessfulDelegation(): void {
 		$settingClass = \OCA\Settings\Settings\Admin\Server::class;
 		$groupId = 'testgroup';
@@ -79,7 +72,7 @@ class AddTest extends TestCase {
 			->with($groupId, $settingClass)
 			->willReturn($authorizedGroup);
 
-		$result = $this->executeCommand();
+		$result = $this->command->execute($this->input, $this->output);
 
 		$this->assertEquals(0, $result);
 	}
@@ -93,7 +86,7 @@ class AddTest extends TestCase {
 			->with('settingClass')
 			->willReturn($settingClass);
 
-		$result = $this->executeCommand();
+		$result = $this->command->execute($this->input, $this->output);
 
 		// Should return exit code 2 for invalid setting class
 		$this->assertEquals(2, $result);
@@ -116,7 +109,7 @@ class AddTest extends TestCase {
 			->with($groupId)
 			->willReturn(false);
 
-		$result = $this->executeCommand();
+		$result = $this->command->execute($this->input, $this->output);
 
 		// Should return exit code 3 for non-existent group
 		$this->assertEquals(3, $result);
