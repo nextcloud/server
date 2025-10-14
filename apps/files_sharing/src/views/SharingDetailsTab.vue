@@ -1100,6 +1100,7 @@ export default {
 				return resultingShare
 			} catch (error) {
 				logger.error('Error while adding new share', { error })
+				throw error
 			} finally {
 				// this.loading = false // No loader here yet
 			}
