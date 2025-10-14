@@ -67,7 +67,7 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 			}
 		}
 
-		if ($slowCount / $taskCount < self::MAX_SLOW_PERCENTAGE) {
+		if (($slowCount / $taskCount) < self::MAX_SLOW_PERCENTAGE) {
 			return SetupResult::success(
 				$this->l10n->n(
 					'The task pickup speed has been ok in the last day.',
