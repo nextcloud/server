@@ -56,7 +56,10 @@ export default defineConfig([
 		},
 	},
 	// Cypress setup
-	CypressEslint.configs.recommended,
+	{
+		...CypressEslint.configs.recommended,
+		files: ['cypress/**', '**/*.cy.*'],
+	},
 	{
 		name: 'server/cypress',
 		files: ['cypress/**', '**/*.cy.*'],

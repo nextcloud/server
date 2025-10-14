@@ -164,6 +164,7 @@
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.3",
     "jsdom": "^27.0.0",
+    "jsdom-testing-mocks": "^1.16.0",
     "mime": "^4.1.0",
     "msw": "^2.11.3",
     "raw-loader": "^4.0.2",
