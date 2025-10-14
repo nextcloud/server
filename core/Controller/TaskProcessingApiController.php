@@ -576,6 +576,7 @@ class TaskProcessingApiController extends OCSController {
 
 	/**
 	 * Returns the next n scheduled tasks for the specified set of taskTypes and providers
+	 * The returned tasks are capped at ~50MiB
 	 *
 	 * @param list<string> $providerIds The ids of the providers
 	 * @param list<string> $taskTypeIds The ids of the task types
@@ -597,23 +598,18 @@ class TaskProcessingApiController extends OCSController {
 				]);
 			}
 
-			/** @var list<array{task:CoreTaskProcessingTask, provider:string}> $tasks */
-			$tasks = [];
-			$taskIdsToIgnore = [];
+			$tasks = $this->taskProcessingManager->getNextScheduledTasks($possibleTaskTypeIds, numberOfTasks: $numberOfTasks + 1);
+			$tasksJson = [];
 			// Stop when $numberOfTasks is reached or the json payload is larger than 50MiB
-			while (count($tasks) < $numberOfTasks && strlen(json_encode($tasks)) < 50 * 1024 * 1024) {
+			while (count($tasks) > 0 && count($tasksJson) < $numberOfTasks && strlen(json_encode($tasks)) < 50 * 1024 * 1024) {
 				// Until we find a task whose task type is set to be provided by the providers requested with this request
 				// Or no scheduled task is found anymore (given the taskIds to ignore)
-				try {
-					$task = $this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
-				} catch (NotFoundException) {
-					break;
-				}
+				$task = array_shift($tasks);
 				try {
 					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
 					if (in_array($provider->getId(), $possibleProviderIds, true)) {
 						if ($this->taskProcessingManager->lockTask($task)) {
-							$tasks[] = ['task' => $task->jsonSerialize(), 'provider' => $provider->getId()];
+							$tasksJson[] = ['task' => $task->jsonSerialize(), 'provider' => $provider->getId()];
 							continue;
 						}
 					}
@@ -621,16 +617,8 @@ class TaskProcessingApiController extends OCSController {
 					// There is no provider set for the task type of this task
 					// proceed to ignore this task
 				}
-
-				$taskIdsToIgnore[] = (int)$task->getId();
 			}
-
-			try {
-				$this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
-				$hasMore = true;
-			} catch (\Throwable) {
-				$hasMore = false;
-			}
+			$hasMore = count($tasks) > 0;
 
 			return new DataResponse([
 				'tasks' => $tasks,
