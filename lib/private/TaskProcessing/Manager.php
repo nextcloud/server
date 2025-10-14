@@ -56,6 +56,7 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
@@ -975,6 +976,16 @@ class Manager implements IManager {
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
 		if ($provider instanceof ISynchronousProvider) {
 			$this->jobList->add(SynchronousBackgroundJob::class, null);
+		}
+		if ($provider instanceof ITriggerableProvider) {
+			try {
+				if (!$this->taskMapper->hasRunningTasksForTaskType($task->getTaskTypeId())) {
+					// If no tasks are currently running for this task type, nudge the provider to ask for tasks
+					$provider->trigger();
+				}
+			} catch (Exception $e) {
+				$this->logger->error('Failed to check DB for running tasks after a task was scheduled for a triggerable provider. Not triggering the provider.', ['exception' => $e]);
+			}
 		}
 	}
 

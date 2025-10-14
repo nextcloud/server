@@ -47,6 +47,7 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\TextToImage;
@@ -438,6 +439,53 @@ class ExternalProvider implements IProvider {
 	}
 }
 
+
+class ExternalTriggerableProvider implements ITriggerableProvider {
+	public const ID = 'event:external:provider:triggerable';
+	public const TASK_TYPE_ID = TextToText::ID;
+
+	public function getId(): string {
+		return self::ID;
+	}
+	public function getName(): string {
+		return 'External Triggerable Provider via Event';
+	}
+
+	public function getTaskTypeId(): string {
+		return self::TASK_TYPE_ID;
+	}
+
+	public function trigger(): void {
+	}
+	public function getExpectedRuntime(): int {
+		return 5;
+	}
+	public function getOptionalInputShape(): array {
+		return [];
+	}
+	public function getOptionalOutputShape(): array {
+		return [];
+	}
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
+	}
+}
+
 class ConflictingExternalProvider implements IProvider {
 	// Same ID as SuccessfulSyncProvider
 	public const ID = 'test:sync:success';
@@ -555,6 +603,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			SuccessfulTextToImageProvider::class => new SuccessfulTextToImageProvider(),
 			FailingTextToImageProvider::class => new FailingTextToImageProvider(),
 			ExternalProvider::class => new ExternalProvider(),
+			ExternalTriggerableProvider::class => new ExternalTriggerableProvider(),
 			ConflictingExternalProvider::class => new ConflictingExternalProvider(),
 			ExternalTaskType::class => new ExternalTaskType(),
 			ConflictingExternalTaskType::class => new ConflictingExternalTaskType(),
@@ -1225,6 +1274,44 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertArrayHasKey(SuccessfulSyncProvider::ID, $providers);
 		self::assertInstanceOf(SuccessfulSyncProvider::class, $providers[SuccessfulSyncProvider::ID]);
 		self::assertCount(1, $providers); // Ensure no extra provider was added
+	}
+
+	public function testTriggerableProviderWithNoOtherRunningTasks() {
+		// Arrange: Local provider registered, conflicting external provider via event
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
+
+		$externalProvider = $this->createPartialMock(ExternalTriggerableProvider::class, ['trigger']);
+		$externalProvider->expects($this->once())->method('trigger');
+		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);
+		$this->manager = $this->createManagerInstance();
+
+		// Act
+		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', 'foobar');
+		$this->manager->scheduleTask($task);
+	}
+
+	public function testTriggerableProviderWithOtherRunningTasks() {
+		// Arrange: Local provider registered, conflicting external provider via event
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
+
+		$externalProvider = $this->createPartialMock(ExternalTriggerableProvider::class, ['trigger']);
+		$externalProvider->expects($this->once())->method('trigger');
+		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);
+		$this->manager = $this->createManagerInstance();
+
+		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', 'foobar');
+		$this->manager->scheduleTask($task);
+		$this->manager->lockTask($task);
+
+		// Act
+		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', 'foobar');
+		$this->manager->scheduleTask($task);
 	}
 
 	public function testMergeTaskTypesLocalAndEvent() {
