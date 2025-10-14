@@ -142,6 +142,7 @@ OC.L10N.register(
     "Failed to refresh filename sanitization status." : "Nepodařilo se znovu načíst stav sanitizace názvů souborů.",
     "Filename sanitization in progress." : "Probíhá sanitizace názvu souboru.",
     "Currently {processedUsers} of {totalUsers} accounts are already processed." : "V tuto chvíli je už zpracováno {processedUsers} z {totalUsers} účtů.",
+    "Preparing …" : "Příprava …",
     "Refresh" : "Znovu načíst",
     "All files have been santized for Windows filename support." : "Všechny soubory byly sanitizovány ohledně podpory názvů souborů ve Windows.",
     "Some files could not be sanitized, please check your logs." : "Některé soubory nebylo možné sanitizovat – podívejte se do záznamu událostí.",
