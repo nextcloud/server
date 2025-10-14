@@ -898,19 +898,20 @@
             "Team": {
                 "type": "object",
                 "required": [
-                    "id",
-                    "name",
-                    "icon"
+                    "teamId",
+                    "displayName",
+                    "link"
                 ],
                 "properties": {
-                    "id": {
+                    "teamId": {
                         "type": "string"
                     },
-                    "name": {
+                    "displayName": {
                         "type": "string"
                     },
-                    "icon": {
-                        "type": "string"
+                    "link": {
+                        "type": "string",
+                        "nullable": true
                     }
                 }
             },
@@ -922,12 +923,12 @@
                     "url",
                     "iconSvg",
                     "iconURL",
-                    "iconEmoji"
+                    "iconEmoji",
+                    "provider"
                 ],
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "format": "int64"
+                        "type": "string"
                     },
                     "label": {
                         "type": "string"
@@ -946,8 +947,48 @@
                     "iconEmoji": {
                         "type": "string",
                         "nullable": true
+                    },
+                    "provider": {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "name",
+                            "icon"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "icon": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
+            },
+            "TeamWithResources": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Team"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "resources"
+                        ],
+                        "properties": {
+                            "resources": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/TeamResource"
+                                }
+                            }
+                        }
+                    }
+                ]
             },
             "TextProcessingTask": {
                 "type": "object",
@@ -6306,7 +6347,7 @@
                                                         "teams": {
                                                             "type": "array",
                                                             "items": {
-                                                                "$ref": "#/components/schemas/Team"
+                                                                "$ref": "#/components/schemas/TeamWithResources"
                                                             }
                                                         }
                                                     }
