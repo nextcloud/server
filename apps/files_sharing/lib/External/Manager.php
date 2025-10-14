@@ -703,7 +703,7 @@ class Manager {
 						)
 					)
 				);
-			$qb->execute();
+			$qb->executeStatement();
 		} catch (\Doctrine\DBAL\Exception $ex) {
 			$this->logger->emergency('Could not delete user shares', ['exception' => $ex]);
 			return false;
@@ -798,7 +798,7 @@ class Manager {
 			->orderBy('id', 'ASC');
 
 		try {
-			$result = $qb->execute();
+			$result = $qb->executeQuery();
 			$shares = $result->fetchAll();
 			$result->closeCursor();
 

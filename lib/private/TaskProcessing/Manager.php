@@ -51,6 +51,7 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
@@ -88,7 +89,7 @@ class Manager implements IManager {
 	private ?array $providers = null;
 
 	/**
-	 * @var array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
+	 * @var array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, isInternal: bool, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 */
 	private ?array $availableTaskTypes = null;
 
@@ -878,6 +879,7 @@ class Manager implements IManager {
 						'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
 						'optionalOutputShape' => $provider->getOptionalOutputShape(),
 						'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
+						'isInternal' => $taskType instanceof IInternalTaskType,
 					];
 				} catch (\Throwable $e) {
 					$this->logger->error('Failed to set up TaskProcessing provider ' . $provider::class, ['exception' => $e]);

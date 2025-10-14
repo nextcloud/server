@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -40,7 +41,7 @@ class DisableSystemAddressBook implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		// If the system address book exposure was previously set skip the repair step
-		if ($this->appConfig->hasAppKey('system_addressbook_exposed') === true) {
+		if ($this->appConfig->hasAppKey(ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED) === true) {
 			$output->info('Skipping repair step system address book exposed was previously set');
 			return;
 		}
@@ -50,7 +51,7 @@ class DisableSystemAddressBook implements IRepairStep {
 			$output->info("Skipping repair step system address book has less then the threshold $limit of contacts no need to disable");
 			return;
 		}
-		$this->appConfig->setAppValueBool('system_addressbook_exposed', false);
+		$this->appConfig->setAppValueBool(ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED, false);
 		$output->warning("System address book disabled because it has more then the threshold of $limit contacts this can be re-enabled later");
 		// Notify all admin users about the system address book being disabled
 		foreach ($this->groupManager->get('admin')->getUsers() as $user) {

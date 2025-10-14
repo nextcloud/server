@@ -337,6 +337,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
 
+		// Ensure we start with fresh instances of some classes to reduce side-effects between tests
+		unset(\OC::$server[\OC\Files\AppData\Factory::class]);
+		unset(\OC::$server[\OC\App\AppStore\Fetcher\AppFetcher::class]);
+		unset(\OC::$server[\OC\Installer::class]);
+		unset(\OC::$server[\OC\Updater::class]);
+
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);
 		$setupManager->tearDown();

@@ -109,10 +109,10 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier",
     "Collaborative tags …" : "Étiquettes collaboratives…",
     "Loading …" : "Chargement…",
-    "Loading collaborative tags …" : "Chargement des étiquettes collaboratives...",
     "File tags modification canceled" : "Modification des étiquettes du fichier annulée",
     "Select or create tags to apply to all selected files" : "Sélectionnez ou créez des étiquettes à appliquer à tous les fichiers sélectionnés",
     "Select tags to apply to all selected files" : "Sélectionnez les étiquettes à appliquer à tous les fichiers sélectionnés",
-    "Apply changes" : "Appliquer les modifications"
+    "Apply changes" : "Appliquer les modifications",
+    "Loading collaborative tags …" : "Chargement des étiquettes collaboratives..."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

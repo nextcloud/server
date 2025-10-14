@@ -245,9 +245,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Προσοχή:</b> Το άρθρωμα PHP LDAP δεν είναι εγκατεστημένο και το σύστημα υποστήριξης δεν θα δουλέψει. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να το εγκαταστήσει.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Δεν προτείνεται, χρησιμοποιείστε το μόνο για δοκιμές! Εάν η σύνδεση λειτουργεί μόνο με αυτή την επιλογή, εισάγετε το πιστοποιητικό SSL του διακομιστή LDAP στο %s διακομιστή σας.",
     "\"$home\" Placeholder Field" : "\"$home\" Πεδίο Δέσμευσης",
-    "UUID Attribute for Users:" : "Χαρακτηριστικό UUID για Χρήστες:",
-    "UUID Attribute for Groups:" : "Χαρακτηριστικό UUID για Ομάδες:",
     "Pronouns Field" : "Πεδίο Προσφώνησης",
-    "User profile Pronouns will be set from the specified attribute" : "Η προσφώνηση στο προφίλ χρήστη θα οριστεί από την καθορισμένη ιδιότητα"
+    "User profile Pronouns will be set from the specified attribute" : "Η προσφώνηση στο προφίλ χρήστη θα οριστεί από την καθορισμένη ιδιότητα",
+    "UUID Attribute for Users:" : "Χαρακτηριστικό UUID για Χρήστες:",
+    "UUID Attribute for Groups:" : "Χαρακτηριστικό UUID για Ομάδες:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -109,10 +109,10 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Αποτυχία διαγραφής ετικέτας για το αρχείο",
     "Collaborative tags …" : "Συνεργατικές ετικέτες…",
     "Loading …" : "Γίνεται φόρτωση…",
-    "Loading collaborative tags …" : "Φόρτωση συνεργατικών ετικετών…",
     "File tags modification canceled" : "Η τροποποίηση ετικετών αρχείου ακυρώθηκε",
     "Select or create tags to apply to all selected files" : "Επιλέξτε ή δημιουργήστε ετικέτες για εφαρμογή σε όλα τα επιλεγμένα αρχεία",
     "Select tags to apply to all selected files" : "Επιλέξτε ετικέτες για εφαρμογή σε όλα τα επιλεγμένα αρχεία",
-    "Apply changes" : "Εφαρμογή αλλαγών"
+    "Apply changes" : "Εφαρμογή αλλαγών",
+    "Loading collaborative tags …" : "Φόρτωση συνεργατικών ετικετών…"
 },
 "nplurals=2; plural=(n != 1);");

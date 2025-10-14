@@ -374,8 +374,6 @@
     "Summarizes text by reducing its length without losing key information." : "ئاچقۇچلۇق ئۇچۇرلارنى يوقىتىپ قويماي ئۇزۇنلۇقىنى قىسقارتىش ئارقىلىق تېكىستنى خۇلاسىلەيدۇ.",
     "Extracts topics from a text and outputs them separated by commas." : "تېكىستتىن تېمىنى چىقىرىپ ، پەش ئارقىلىق ئايرىلىدۇ.",
     "Organisation" : "تەشكىلات",
-    "File is currently busy, please try again later" : "ھۆججەت ھازىر ئالدىراش ، كېيىن قايتا سىناڭ",
-    "Cannot download file" : "ھۆججەتنى چۈشۈرگىلى بولمايدۇ",
     "Cannot write into \"apps\" directory." : "«ئەپلەر» مۇندەرىجىسىگە يازغىلى بولمايدۇ.",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "بۇنى ئادەتتە تور مۇلازىمېتىرىغا پروگرامما مۇندەرىجىسىگە زىيارەت قىلىش ھوقۇقى ياكى سەپلىمە ھۆججەتتىكى App دۇكىنىنى چەكلەش ئارقىلىق ئوڭشىغىلى بولىدۇ.",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code> mbstring.func_overload </code> مۆلچەردىكى قىممەت <code> 0 </code> نىڭ ئورنىغا <code>% s </code> قىلىپ تەڭشەلدى.",

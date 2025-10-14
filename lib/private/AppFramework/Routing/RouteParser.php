@@ -20,6 +20,7 @@ class RouteParser {
 		'core',
 		'files_sharing',
 		'files',
+		'globalsiteselector',
 		'profile',
 		'settings',
 		'spreed',

@@ -259,9 +259,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Advertencia:</b> O módulo PHP LDAP non está instalado, o servidor non funcionará. Consulte coa administración do sistema para instalalo.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Non recomendado, utilizar só para probas! Se a conexión só funciona con esta opción importa o certificado SSL do servidor LDAP no seu servidor %s.",
     "\"$home\" Placeholder Field" : "Campo de marcador de substitución «$home»",
-    "UUID Attribute for Users:" : "Atributo do UUID para usuarios:",
-    "UUID Attribute for Groups:" : "Atributo do UUID para grupos:",
     "Pronouns Field" : "Campo de pronomes",
-    "User profile Pronouns will be set from the specified attribute" : "Os pronomes no perfil de usuario definiranse a partir do atributo especificado"
+    "User profile Pronouns will be set from the specified attribute" : "Os pronomes no perfil de usuario definiranse a partir do atributo especificado",
+    "UUID Attribute for Users:" : "Atributo do UUID para usuarios:",
+    "UUID Attribute for Groups:" : "Atributo do UUID para grupos:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

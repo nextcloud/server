@@ -262,7 +262,6 @@ OC.L10N.register(
     "Save" : "บันทึก",
     "Reasons to use Nextcloud in your organization" : "เหตุผลที่ควรใช้ Nextcloud ในองค์กรของคุณ",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "รุ่นที่ออกโดยชุมชนของ Nextcloud นี้ไม่ได้รับการสนับสนุน และไม่สามารถใช้งานการแจ้งเตือนทันทีได้",
-    "Set default expiration date for shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "แอปนี้ไม่ได้ระบุรุ่นขั้นต่ำของ Nextcloud ซึ่งอาจเป็นปัญหาในอนาคตได้",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "แอปนี้ไม่ได้ระบุรุ่นสูงสุดของ Nextcloud ซึ่งอาจเป็นปัญหาในอนาคตได้",
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "ในกรณีที่อุปกรณ์สูญหายหรือออกจากองค์กร ตัวเลือกนี้สามารถล้างข้อมูล Nextcloud จากทุกอุปกรณ์ที่เชื่อมโยงกับ {userid} จากระยะไกล การล้างข้อมูลจะทำงานเฉพาะเมื่ออุปกรณ์เชื่อมต่อกับอินเทอร์เน็ตเท่านั้น",

@@ -176,8 +176,6 @@
     "Text" : "Texto",
     "Summary" : "Resumo",
     "Translate" : "Traduzir",
-    "Organisation" : "Organização",
-    "File is currently busy, please try again later" : "O ficheiro está ocupado, por favor, tente mais tarde",
-    "Cannot download file" : "Não é possível transferir o ficheiro"
+    "Organisation" : "Organização"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

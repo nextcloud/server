@@ -258,9 +258,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Onyo:</b> Moduli ya PHP LDAP haijasakinishwa, mazingira ya nyuma hayatafanya kazi. Tafadhali muulize msimamizi wa mfumo wako aisakinishe.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Haipendekezwi, itumie kwa majaribio tu! Ikiwa muunganisho utafanya kazi kwa chaguo hili pekee, leta cheti cha SSL cha seva ya LDAP kwenye seva yako ya %s.",
     "\"$home\" Placeholder Field" : "Sehemu ya \"$home\" ya Kishika nafasi",
-    "UUID Attribute for Users:" : "Sifa ya UUID kwa watumiaji",
-    "UUID Attribute for Groups:" : "Sifa ya UUID kwa Vikundi:",
     "Pronouns Field" : "Uwanja wa Viwakilishi",
-    "User profile Pronouns will be set from the specified attribute" : "Viwakilishi vya wasifu wa mtumiaji vitawekwa kutoka kwa sifa iliyobainishwa"
+    "User profile Pronouns will be set from the specified attribute" : "Viwakilishi vya wasifu wa mtumiaji vitawekwa kutoka kwa sifa iliyobainishwa",
+    "UUID Attribute for Users:" : "Sifa ya UUID kwa watumiaji",
+    "UUID Attribute for Groups:" : "Sifa ya UUID kwa Vikundi:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

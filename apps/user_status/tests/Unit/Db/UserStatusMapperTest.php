@@ -22,7 +22,7 @@ class UserStatusMapperTest extends TestCase {
 
 		// make sure that DB is empty
 		$qb = self::$realDatabase->getQueryBuilder();
-		$qb->delete('user_status')->execute();
+		$qb->delete('user_status')->executeStatement();
 
 		$this->mapper = new UserStatusMapper(self::$realDatabase);
 	}

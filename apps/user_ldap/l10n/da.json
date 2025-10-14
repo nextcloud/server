@@ -231,9 +231,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Advarsel:</b> PHP LDAP modulet er ikke installeret, backend vil ikke virke. Bed din systemadministrator om at installere den.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Ikke anbefalet, brug det kun til test! Hvis forbindelsen kun virker med denne indstilling, så importer LDAP serverens SSL certifikat til din %s server.",
     "\"$home\" Placeholder Field" : "\"$home\" pladsholderfeltField",
-    "UUID Attribute for Users:" : "UUID attribut for brugere:",
-    "UUID Attribute for Groups:" : "UUID attribut for grupper:",
     "Pronouns Field" : "Pronomenfelt",
-    "User profile Pronouns will be set from the specified attribute" : "Brugerprofil Pronomen vil blive sat fra den angivne attribut"
+    "User profile Pronouns will be set from the specified attribute" : "Brugerprofil Pronomen vil blive sat fra den angivne attribut",
+    "UUID Attribute for Users:" : "UUID attribut for brugere:",
+    "UUID Attribute for Groups:" : "UUID attribut for grupper:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

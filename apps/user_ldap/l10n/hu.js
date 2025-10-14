@@ -233,9 +233,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Figyelmeztetés:</b> Az LDAP PHP modul nincs telepítve, ezért ez az alrendszer nem fog működni. Kérje meg a rendszergazdát, hogy telepítse.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Nem javasolt, csak tesztelésre használja. Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát a(z) %s kiszolgálóra.",
     "\"$home\" Placeholder Field" : "„$home” helykitöltő mező",
-    "UUID Attribute for Users:" : "A felhasználók UUID attribútuma:",
-    "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:",
     "Pronouns Field" : "Névmások mezője",
-    "User profile Pronouns will be set from the specified attribute" : "A felhasználói profil Névmások mezője a megadott attribútumból lesz beállítva"
+    "User profile Pronouns will be set from the specified attribute" : "A felhasználói profil Névmások mezője a megadott attribútumból lesz beállítva",
+    "UUID Attribute for Users:" : "A felhasználók UUID attribútuma:",
+    "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\SetupChecks;
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
 use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -33,7 +34,7 @@ class SystemAddressBookSize implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		if (!$this->appConfig->getValueBool(Application::APP_ID, 'system_addressbook_exposed', true)) {
+		if (!$this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED)) {
 			return SetupResult::success($this->l10n->t('The system address book is disabled'));
 		}
 

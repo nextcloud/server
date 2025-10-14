@@ -261,9 +261,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Uyarı:</b> PHP LDAP modülü kurulmamış, arka yüz çalışmayacak. Lütfen kurması için BT yöneticiniz ile görüşün.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Önerilmez, yalnızca deneme amacıyla kullanın! Bağlantı yalnızca bu seçenek ile çalışıyorsa LDAP sunucusunun SSL sertifikasını %s sunucuzun içine aktarın.",
     "\"$home\" Placeholder Field" : "\"$home\" yer belirtici alanı",
-    "UUID Attribute for Users:" : "Kullanıcılar için UUID Özniteliği:",
-    "UUID Attribute for Groups:" : "Gruplar için UUID Özniteliği:",
     "Pronouns Field" : "Hitap alanı",
-    "User profile Pronouns will be set from the specified attribute" : "Kullanıcı profilindeki hitap alanının değeri belirtilen öznitelikten alınır"
+    "User profile Pronouns will be set from the specified attribute" : "Kullanıcı profilindeki hitap alanının değeri belirtilen öznitelikten alınır",
+    "UUID Attribute for Users:" : "Kullanıcılar için UUID Özniteliği:",
+    "UUID Attribute for Groups:" : "Gruplar için UUID Özniteliği:"
 },
 "nplurals=2; plural=(n > 1);");

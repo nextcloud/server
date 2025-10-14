@@ -373,8 +373,6 @@
     "Summarizes text by reducing its length without losing key information." : "Resume el texto reduciendo su longitud sin perder información clave.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrae los temas de un texto y genera una salida separada por comas. ",
     "Organisation" : "Organización",
-    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. ",
-    "Cannot download file" : "No se puede descargar el archivo",
     "Cannot write into \"apps\" directory." : "No se puede escribir en el directorio \"apps\".",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Normalmente, esto se puede arreglar al darle al servidor web permiso de escritura al directorio de aplicaciones o deshabilitando la tienda de aplicaciones del archivo de configuración.",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> está configurado como <code>%s</code> en lugar del valor esperado <code>0</code>.",

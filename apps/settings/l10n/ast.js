@@ -531,12 +531,6 @@ OC.L10N.register(
     "Check out our blog" : "Revisa'l nuesu blogue",
     "Subscribe to our newsletter" : "Soscríbite al nuesu boletín",
     "Logged in account must be a subadmin" : "La cuenta qu'anició la sesión ha ser un soalministrador",
-    "File locking" : "Bloquéu de ficheros",
-    "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "El bloquéu de ficheros transaicional ta desactiváu y esto quiciabes produza problemes con condiciones de carrera. Activa «filelocking.enabled» nel ficheru config.php pa evitar estos problemes.",
-    "The PHP memory limit is below the recommended value of %s." : "La llende de memoria de PHP ye inferior al valor aconseyáu de %s.",
-    "Your biography" : "Biografía",
-    "You are using <strong>{usage}</strong>" : "Tas usando <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Tas usando <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
     "Loading accounts …" : "Cargando les cuentes…",
     "Loading account …" : "Cargando la cuenta…",
     "Adding your device …" : "Amestando'l preséu…"

@@ -192,3 +192,19 @@ Feature: contacts-menu
     And searching for contacts matching with "test"
     # Disabled because it regularly fails on drone:
     # Then the list of searched contacts has "0" contacts
+
+  Scenario: users cannot list other users from the system address book
+    Given user "user0" exists
+    And user "user1" exists
+    And invoking occ with "config:app:set dav system_addressbook_exposed --value false"
+    And Logging in using web as "user1"
+    And searching for contacts matching with ""
+    Then the list of searched contacts has "1" contacts
+    And invoking occ with "config:app:delete dav system_addressbook_exposed"
+
+  Scenario: users can list other users from the system address book
+    Given user "user0" exists
+    And user "user1" exists
+    And Logging in using web as "user1"
+    And searching for contacts matching with ""
+    Then the list of searched contacts has "2" contacts

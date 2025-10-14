@@ -257,7 +257,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["preuzimanje %n datoteke","preuzimanje %n datoteka","preuzimanje %n datoteka"],
     "Searching …" : "Traženje…",
     "Logging in …" : "Prijavljivanje...",
-    "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Razmjenjivanje poruka, video pozivi, dijeljenje zaslona, sastanci na mreži i web-konferencije – putem preglednika i mobilnih aplikacija.",
     "Loading apps …" : "Učitavanje aplikacija…",
     "Installing apps …" : "Instaliranje aplikacija…",
     "Loading your contacts …" : "Učitavanje vaših kontakata...",

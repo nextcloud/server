@@ -23,6 +23,7 @@ use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\Notification\Notifier as NotifierCardDAV;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
 use OCA\DAV\Events\AddressBookShareUpdatedEvent;
@@ -228,6 +229,8 @@ class Application extends App implements IBootstrap {
 		$context->registerDeclarativeSettings(SystemAddressBookSettings::class);
 		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, DavAdminSettingsListener::class);
 		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, DavAdminSettingsListener::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
 	public function boot(IBootContext $context): void {

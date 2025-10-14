@@ -259,9 +259,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>警告：</b> PHP LDAP 模块未安装，后端将无法工作。请请求您的系统管理员安装该模块。",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "不推荐，只用于测试！如果连接只使用此选项工作，导入您的%s服务器 LDAP 服务器的 SSL 证书。",
     "\"$home\" Placeholder Field" : "\"$home\" 占位字段",
-    "UUID Attribute for Users:" : "用户 UUID 属性：",
-    "UUID Attribute for Groups:" : "组的 UUID 属性：",
     "Pronouns Field" : "代词栏",
-    "User profile Pronouns will be set from the specified attribute" : "用户个人资料中的代词将从指定属性设置"
+    "User profile Pronouns will be set from the specified attribute" : "用户个人资料中的代词将从指定属性设置",
+    "UUID Attribute for Users:" : "用户 UUID 属性：",
+    "UUID Attribute for Groups:" : "组的 UUID 属性："
 },"pluralForm" :"nplurals=1; plural=0;"
 }

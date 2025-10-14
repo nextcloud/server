@@ -230,9 +230,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>تحذير:</b> وِحدة PHP LDAP غير مُنصبّة؛ لذا فإن الخلفية لن تعمل. يرجى طلب تنصيبها من مسؤول النظام.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "لا يوصي به، استخدمه للاختبار فقط! إذا كان الاتصال يعمل فقط مع هذا الخيار، فقم باستيراد شهادة SSL لخادم LDAP في الخادم %s.",
     "\"$home\" Placeholder Field" : "حقل العنصر النائب \"$home\"",
-    "UUID Attribute for Users:" : "خاصية المعرف الفريد الشامل للمستخدمين UUID:",
-    "UUID Attribute for Groups:" : "خاصية المعرف الفريد الشامل للمجموعات UUID:",
     "Pronouns Field" : "حقل الضمائر",
-    "User profile Pronouns will be set from the specified attribute" : "سيتم تعيين ضمائر ملف تعريف المستخدم من السمة المحددة"
+    "User profile Pronouns will be set from the specified attribute" : "سيتم تعيين ضمائر ملف تعريف المستخدم من السمة المحددة",
+    "UUID Attribute for Users:" : "خاصية المعرف الفريد الشامل للمستخدمين UUID:",
+    "UUID Attribute for Groups:" : "خاصية المعرف الفريد الشامل للمجموعات UUID:"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

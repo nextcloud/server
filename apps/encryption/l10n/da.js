@@ -34,6 +34,7 @@ OC.L10N.register(
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Log venligst ind på webgrænsefladen, gå til afsnittet \"Sikkerhed\" i dine personlige indstillinger og opdater din krypteringsadgangskode ved at indtaste denne adgangskode i feltet \"Gammel loginadgangskode\" og din nuværende loginadgangskode.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke dekryptere denne fil, sandsynligvis er dette en delt fil. Bed filejeren om at videredele filen med dig.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ikke læse denne fil, sandsynligvis er dette en delt fil. Bed filejeren om at videredele filen med dig.",
+    "Default Encryption Module" : "Standard krypteringsmodul",
     "Default encryption module" : "Standard krypterings modul",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Krypteringsprogrammet er aktiveret men dine nøgler er ikke indlæst, log venligst ud og ind igen",
     "Encrypt the home storage" : "Krypter hjemmelageret",

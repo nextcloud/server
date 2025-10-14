@@ -291,7 +291,6 @@
     "Subscribe to our newsletter" : "Subscreva as nossas notícias",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Este lançamento comunitário do Nextcloud não é compatível e as notificações instantâneas não estão disponíveis.",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão mínima do Nextcloud atribuída. Isto será um erro no futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão máxima do Nextcloud atribuída. Isto será um erro no futuro.",
-    "Your biography" : "Biografia"
+    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão máxima do Nextcloud atribuída. Isto será um erro no futuro."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

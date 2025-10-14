@@ -467,12 +467,10 @@
     "Summarizes text by reducing its length without losing key information." : "Fasst Text zusammen, indem die Länge reduziert wird, ohne dass wichtige Informationen verloren gehen.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrahiert Themen aus einem Text und gibt sie durch Kommas getrennt aus.",
     "Organisation" : "Organisation",
-    "File is currently busy, please try again later" : "Die Datei ist in Benutzung, bitte später erneut versuchen.",
-    "Cannot download file" : "Datei kann nicht heruntergeladen werden",
+    "Login is too long" : "Der Kontenname ist zu lang",
     "Cannot write into \"apps\" directory." : "Es kann nicht in das Verzeichnis \"apps\" geschrieben werden.",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das App-Verzeichnis gegeben wird oder der App-Store in der Konfigurationsdatei deaktiviert wird.",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> ist auf <code>%s</code> gesetzt und nicht auf den erwarteten Wert <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Bitte setzen Sie zum Beheben dieses Problems <code>mbstring.func_overload</code> in Ihrer php.ini auf <code>0</code>.",
-    "Login is too long" : "Der Kontenname ist zu lang"
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Bitte setzen Sie zum Beheben dieses Problems <code>mbstring.func_overload</code> in Ihrer php.ini auf <code>0</code>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -24,8 +24,9 @@ const searchStore = useSearchStore()
  * we need to clear the search box.
  */
 onBeforeNavigation((to, from, next) => {
-	if (to.params.view !== VIEW_ID && from.params.view === VIEW_ID) {
-		// we are leaving the search view so unset the query
+	if (to.params.view !== VIEW_ID
+		&& (from.params.view === VIEW_ID || from.query.dir !== to.query.dir)) {
+		// we are leaving the search view or navigate to another directory -> unset the query
 		searchStore.query = ''
 		searchStore.scope = 'filter'
 	} else if (to.params.view === VIEW_ID && from.params.view === VIEW_ID) {

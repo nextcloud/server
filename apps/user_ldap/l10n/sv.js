@@ -233,9 +233,9 @@ OC.L10N.register(
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Varning:</b> PHP LDAP-modulen är inte installerad, backend kommer inte att fungera. Be din systemadministratör att installera den.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Rekommenderas inte, använd endast för test! Om anslutningen bara fungerar med denna inställning behöver du importera LDAP-serverns SSL-certifikat till din %s server.",
     "\"$home\" Placeholder Field" : "\"$home\" Platshållare-fält",
-    "UUID Attribute for Users:" : "UUID-attribut för användare:",
-    "UUID Attribute for Groups:" : "UUID-attribut för grupper:",
     "Pronouns Field" : "Fält för pronomen",
-    "User profile Pronouns will be set from the specified attribute" : "Pronomen i användarprofilen kommer att ställas in från det angivna attributet"
+    "User profile Pronouns will be set from the specified attribute" : "Pronomen i användarprofilen kommer att ställas in från det angivna attributet",
+    "UUID Attribute for Users:" : "UUID-attribut för användare:",
+    "UUID Attribute for Groups:" : "UUID-attribut för grupper:"
 },
 "nplurals=2; plural=(n != 1);");

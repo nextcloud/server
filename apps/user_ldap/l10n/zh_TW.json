@@ -259,9 +259,9 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>警告：</b>未安裝 PHP LDAP 模組，後端系統將無法運作。請要求您的系統管理員安裝。",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "不建議，請僅在測試時使用！如果連線只能在此選項下運作，請匯入 LDAP 伺服器的 SSL 憑證到您的 %s 伺服器上。",
     "\"$home\" Placeholder Field" : "「$home」佔位字串欄位",
-    "UUID Attribute for Users:" : "使用者的 UUID 特性：",
-    "UUID Attribute for Groups:" : "群組的 UUID 特性：",
     "Pronouns Field" : "代名詞欄位",
-    "User profile Pronouns will be set from the specified attribute" : "使用者個人資料代名詞將從指定的屬性設定"
+    "User profile Pronouns will be set from the specified attribute" : "使用者個人資料代名詞將從指定的屬性設定",
+    "UUID Attribute for Users:" : "使用者的 UUID 特性：",
+    "UUID Attribute for Groups:" : "群組的 UUID 特性："
 },"pluralForm" :"nplurals=1; plural=0;"
 }

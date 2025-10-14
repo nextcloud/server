@@ -93,9 +93,9 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Eliminazione dell'etichetta per il file fallita",
     "Collaborative tags …" : "Etichette collaborative …",
     "Loading …" : "Caricamento…",
-    "Loading collaborative tags …" : "Caricamento etichette collaborative …",
     "File tags modification canceled" : "Modifiche ai tag dei file annullate",
     "Select or create tags to apply to all selected files" : "Seleziona o crea i tag da applicare a tutti i file selezionati",
-    "Apply changes" : "Applica modifiche"
+    "Apply changes" : "Applica modifiche",
+    "Loading collaborative tags …" : "Caricamento etichette collaborative …"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
