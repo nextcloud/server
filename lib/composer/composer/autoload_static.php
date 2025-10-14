@@ -908,6 +908,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\Exception\\ProcessingException' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Exception/ProcessingException.php',
         'OCP\\TaskProcessing\\Exception\\UnauthorizedException' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Exception/UnauthorizedException.php',
         'OCP\\TaskProcessing\\Exception\\ValidationException' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Exception/ValidationException.php',
+        'OCP\\TaskProcessing\\IInternalTaskType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IInternalTaskType.php',
         'OCP\\TaskProcessing\\IManager' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IManager.php',
         'OCP\\TaskProcessing\\IProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IProvider.php',
         'OCP\\TaskProcessing\\ISynchronousProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousProvider.php',
