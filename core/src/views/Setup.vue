@@ -82,6 +82,10 @@
 
 				<!-- Database type select -->
 				<fieldset class="setup-form__database-type">
+					<legend class="hidden-visually">
+						{{ t('core', 'Database type') }}
+					</legend>
+
 					<!-- Using v-show instead of v-if ensures that the input dbtype remains set even when only one database engine is available -->
 					<p v-show="!firstAndOnlyDatabase" :class="`setup-form__database-type-select--${DBTypeGroupDirection}`" class="setup-form__database-type-select">
 						<NcCheckboxRadioSwitch v-for="(name, db) in config.databases"
@@ -117,6 +121,10 @@
 
 				<!-- Database configuration -->
 				<fieldset v-if="config.dbtype !== 'sqlite'">
+					<legend class="hidden-visually">
+						{{ t('core', 'Database connection') }}
+					</legend>
+
 					<NcTextField v-model="config.dbuser"
 						:label="t('core', 'Database user')"
 						autocapitalize="none"
@@ -300,7 +308,7 @@ export default defineComponent({
 		firstAndOnlyDatabase(): string|null {
 			const dbNames = Object.values(this.config?.databases || {})
 			if (dbNames.length === 1) {
-				return dbNames[0]
+				return dbNames[0]!
 			}
 
 			return null
