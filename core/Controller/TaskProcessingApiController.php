@@ -621,7 +621,7 @@ class TaskProcessingApiController extends OCSController {
 			$hasMore = count($tasks) > 0;
 
 			return new DataResponse([
-				'tasks' => $tasks,
+				'tasks' => $tasksJson,
 				'has_more' => $hasMore,
 			]);
 		} catch (Exception) {
@@ -650,7 +650,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param array $providerIds
 	 * @return array
 	 */
-	public function intersectTaskTypesAndProviders(array $taskTypeIds, array $providerIds): array {
+	private function intersectTaskTypesAndProviders(array $taskTypeIds, array $providerIds): array {
 		$providerIdsBasedOnTaskTypesWithNull = array_unique(array_map(function ($taskTypeId) {
 			try {
 				return $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId();

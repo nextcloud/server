@@ -1184,23 +1184,23 @@ class Manager implements IManager {
 			$taskEntity = $this->taskMapper->findOldestScheduledByType($taskTypeIds, $taskIdsToIgnore);
 			return $taskEntity->toPublicTask();
 		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
 		} catch (\OCP\DB\Exception $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
 		}
 	}
 
 	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array {
 		try {
-			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $this->taskMapper->findNOldestScheduledByType($taskTypeIds, $taskIdsToIgnore, $numberOfTasks);
+			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $this->taskMapper->findNOldestScheduledByType($taskTypeIds, $taskIdsToIgnore, $numberOfTasks));
 		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
 		} catch (\OCP\DB\Exception $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
 		}
 	}
 
