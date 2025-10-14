@@ -46,9 +46,9 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 		if ($taskCount === 0) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'No scheduled tasks in the last %n hour.',
-					'No scheduled tasks in the last %n hours.',
-					24 * $lastNDays
+					'No scheduled tasks in the last day.',
+					'No scheduled tasks in the last %n days.',
+					$lastNDays
 				)
 			);
 		}
@@ -69,17 +69,17 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 		if ($slowCount / $taskCount < self::MAX_SLOW_PERCENTAGE) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'The task pickup speed has been ok in the last %n hour.',
-					'The task pickup speed has been ok in the last %n hours.',
-					24 * $lastNDays
+					'The task pickup speed has been ok in the last day.',
+					'The task pickup speed has been ok in the last %n days.',
+					$lastNDays
 				)
 			);
 		} else {
 			return SetupResult::warning(
 				$this->l10n->n(
-					'The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.',
-					'The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.',
-					24 * $lastNDays
+					'The task pickup speed has been slow in the last day. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.',
+					'The task pickup speed has been slow in the last %n days. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.',
+					$lastNDays
 				),
 				'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed'
 			);
