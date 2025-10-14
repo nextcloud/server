@@ -550,7 +550,16 @@ class CustomPropertiesBackend implements BackendInterface {
 			$valueType = self::PROPERTY_TYPE_HREF;
 			$value = $value->getHref();
 		} else {
-			if (!is_object($value)) {
+			if (is_array($value)) {
+				// For array only allow scalar values
+				foreach ($value as $item) {
+					if (!is_scalar($item)) {
+						throw new DavException(
+							"Property \"$name\" has an invalid value of array containing " . gettype($value),
+						);
+					}
+				}
+			} elseif (!is_object($value)) {
 				throw new DavException(
 					"Property \"$name\" has an invalid value of type " . gettype($value),
 				);
@@ -581,6 +590,10 @@ class CustomPropertiesBackend implements BackendInterface {
 			case self::PROPERTY_TYPE_HREF:
 				return new Href($value);
 			case self::PROPERTY_TYPE_OBJECT:
+				if (preg_match('/^a:/', $value)) {
+					// Array, unserialize only scalar values
+					return unserialize(str_replace('\x00', chr(0), $value), ['allowed_classes' => false]);
+				}
 				if (!preg_match('/^O\:\d+\:\"(OCA\\\\DAV\\\\|Sabre\\\\(Cal|Card)?DAV\\\\Xml\\\\Property\\\\)/', $value)) {
 					throw new \LogicException('Found an object class serialized in DB that is not allowed');
 				}
