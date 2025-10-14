@@ -426,6 +426,19 @@ class CustomPropertiesBackend implements BackendInterface {
 			$valueType = self::PROPERTY_TYPE_XML;
 			$value = $value->getXml();
 		} else {
+			if (!is_object($value)) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of type " . gettype($value),
+				);
+			}
+			if (!str_starts_with($value::class, 'Sabre\\DAV\\Xml\\Property\\')
+				&& !str_starts_with($value::class, 'Sabre\\CalDAV\\Xml\\Property\\')
+				&& !str_starts_with($value::class, 'Sabre\\CardDAV\\Xml\\Property\\')
+				&& !str_starts_with($value::class, 'OCA\\DAV\\')) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of class " . $value::class,
+				);
+			}
 			$valueType = self::PROPERTY_TYPE_OBJECT;
 			$value = serialize($value);
 		}
@@ -435,16 +448,18 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * @return mixed|Complex|string
 	 */
-	private function decodeValueFromDatabase(string $value, int $valueType) {
+	private function decodeValueFromDatabase(string $value, int $valueType): mixed {
 		switch ($valueType) {
 			case self::PROPERTY_TYPE_XML:
 				return new Complex($value);
 			case self::PROPERTY_TYPE_OBJECT:
+				if (!preg_match('/^O\:\d+\:\"(OCA\\\\DAV\\\\|Sabre\\\\(Cal|Card)?DAV\\\\Xml\\\\Property\\\\)/', $value)) {
+					throw new \LogicException('Found an object class serialized in DB that is not allowed');
+				}
 				return unserialize($value);
-			case self::PROPERTY_TYPE_STRING:
 			default:
 				return $value;
-		}
+		};
 	}
 
 	private function createDeleteQuery(): IQueryBuilder {
