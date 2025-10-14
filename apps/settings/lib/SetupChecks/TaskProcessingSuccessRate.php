@@ -65,7 +65,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 			}
 		}
 
-		if ($failedCount / $taskCount < self::MAX_FAILURE_PERCENTAGE) {
+		if (($failedCount / $taskCount) < self::MAX_FAILURE_PERCENTAGE) {
 			return SetupResult::success(
 				$this->l10n->n(
 					'Most tasks were successful in the last %n hour.',
