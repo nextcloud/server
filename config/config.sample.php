@@ -1323,8 +1323,6 @@ $CONFIG = [
 	 *   cannot see activities in their stream or emails that happen after they
 	 *   are added until they log in again.
 	 *
-	 * WARNING: Before enabling this, read the warning Activity app chapter.
-	 *
 	 * Defaults to ``false``
 	 */
 	'activity_use_cached_mountpoints' => false,
