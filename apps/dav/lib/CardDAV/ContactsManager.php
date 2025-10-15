@@ -26,6 +26,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCP\Contacts\IManager;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
@@ -36,15 +37,19 @@ class ContactsManager {
 	/** @var IL10N  */
 	private $l10n;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * ContactsManager constructor.
 	 *
 	 * @param CardDavBackend $backend
 	 * @param IL10N $l10n
 	 */
-	public function __construct(CardDavBackend $backend, IL10N $l10n) {
+	public function __construct(CardDavBackend $backend, IL10N $l10n, IConfig $config) {
 		$this->backend = $backend;
 		$this->l10n = $l10n;
+		$this->config = $config;
 	}
 
 	/**
@@ -63,6 +68,11 @@ class ContactsManager {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function setupSystemContactsProvider(IManager $cm, IURLGenerator $urlGenerator) {
+		$systemAddressBookExposed = $this->config->getAppValue('dav', 'system_addressbook_exposed', 'yes') === 'yes';
+		if (!$systemAddressBookExposed) {
+			return;
+		}
+
 		$addressBooks = $this->backend->getAddressBooksForUser("principals/system/system");
 		$this->register($cm, $addressBooks, $urlGenerator);
 	}
