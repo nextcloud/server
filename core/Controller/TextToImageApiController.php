@@ -32,7 +32,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -68,7 +67,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Returns availability status
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	public function isAvailable(): DataResponse {
 		return new DataResponse([
 			'isAvailable' => $this->textToImageManager->hasProviders(),
@@ -88,9 +87,8 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task scheduled successfully
 	 * 412: Scheduling task is not possible
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
-	#[AnonRateLimit(limit: 5, period: 120)]
 	public function schedule(string $input, string $appId, string $identifier = '', int $numberOfImages = 8): DataResponse {
 		$task = new Task($input, $appId, $numberOfImages, $this->userId, $identifier);
 		try {
@@ -123,7 +121,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'text2image')]
 	public function getTask(int $id): DataResponse {
 		try {
@@ -154,7 +152,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Image returned
 	 * 404: Task or image not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'text2image')]
 	public function getImage(int $id, int $index): DataResponse|FileDisplayResponse {
 		try {
