@@ -743,8 +743,6 @@
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "El lanzamiento de esta versión para la comunidad de Nextcloud no cuenta con soporte y las notificaciones instantáneas no están disponibles.",
     "Use a second factor besides your password to increase security for your account." : "Use un segundo factor además de su contraseña para incrementar la seguridad de su cuenta. ",
     "Logged in account must be a subadmin" : "El usuario conectado debe ser un subadministrador",
-    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Si se habilita el autocompletado de \"mismo grupo\" e \"integración de números de teléfono\", es suficiente una coincidencia en cualquiera de los dos para mostrar el usuario.",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Permitir el autocompletado al ingresar el nombre completo o la dirección de correo electrónico (ignorando la falta de coincidencia en el directorio telefónico y estar en el mismo grupo)",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
     "Loading accounts …" : "Cargando cuentas ...",

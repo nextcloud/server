@@ -228,7 +228,7 @@ OC.L10N.register(
     "Search everywhere" : "Søg overalt",
     "Searching …" : "Søger ...",
     "Start typing to search" : "Start med at skrive for at søge",
-    "Minimum search length is {minSearchLength} characters" : "Minimumssøgelængde er {minSearchLength} karakterer",
+    "Minimum search length is {minSearchLength} characters" : "Minimumssøgelængde er {minSearchLength} tegn",
     "No matching results" : "Ingen søgeresultater",
     "Today" : "I dag",
     "Last 7 days" : "Sidste 7 dage",
