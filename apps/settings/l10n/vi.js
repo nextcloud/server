@@ -455,8 +455,6 @@ OC.L10N.register(
     "Save" : "Lưu",
     "Test and verify email settings" : "Kiểm tra và xác minh cài đặt email",
     "Use a second factor besides your password to increase security for your account." : "Sử dụng yếu tố thứ hai ngoài mật khẩu để tăng tính bảo mật cho tài khoản của bạn.",
-    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Nếu tính năng tự động hoàn thành \"cùng nhóm\" và \"tích hợp số điện thoại\" được bật thì kết quả khớp trong cả hai đều đủ để hiển thị cho người dùng.",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Cho phép tự động điền khi nhập họ tên hoặc địa chỉ email (bỏ qua trùng danh bạ bị thiếu và thuộc cùng một nhóm)",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ứng dụng này không có phiên bản Nextcloud tối thiểu được chỉ định. Đây sẽ là một lỗi trong tương lai.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ứng dụng này không có phiên bản Nextcloud tối đa được chỉ định. Đây sẽ là một lỗi trong tương lai.",
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Trong trường hợp thiết bị bị mất hoặc thoát khỏi tổ chức, thao tác này có thể xóa từ xa dữ liệu Nextcloud khỏi tất cả các thiết bị được liên kết với {userid}. Chỉ hoạt động nếu các thiết bị được kết nối với internet.",

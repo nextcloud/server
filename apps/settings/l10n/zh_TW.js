@@ -312,9 +312,6 @@ OC.L10N.register(
     "64-bit" : "64 位元",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 需要 64 位元才能運作良好。請將您的作業系統與 PHP 升級至 64 位元！",
     "Task Processing pickup speed" : "任務處理擷取速度",
-    "_No scheduled tasks in the last %n hour._::_No scheduled tasks in the last %n hours._" : ["最近%n小時內沒有安排好的任務。"],
-    "_The task pickup speed has been ok in the last %n hour._::_The task pickup speed has been ok in the last %n hours._" : ["最近%n小時內的任務擷取速度正常。"],
-    "_The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["最近%n小時內，任務擷取速度緩慢。許多任務的擷取時間超過4分鐘。請考慮設定 worker 在背景處理任務。"],
     "Temporary space available" : "可用臨時空間",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "檢查臨時 PHP 路徑時發生錯誤 - 未正確設定為目錄。回傳值：%s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "PHP 函式「disk_free_space」已停用，這會阻止檢查暫存目錄中是否有足夠的空間。",
@@ -946,9 +943,10 @@ OC.L10N.register(
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "如果您使用第三方應用程式連線到 Nextcloud，請確保在啟用雙因子認證前，已為每個應用程式設定應用程式密碼。",
     "Logged in account must be a subadmin" : "登入的帳號必須為子管理員",
     "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP 標頭並不包含 `%2$s`。這可能是潛在的安全性或隱私風險，建議調整此項設定。",
-    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "若同時啟用「同一個群組」與「電話號碼整合」的自動完成，則符合其中一項條件就會顯示使用者。",
-    "Restrict account name autocompletion to users based on phone number integration" : "根據電話號碼整合限制使用者的帳號名稱自動完成",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電子郵件地址時，允許自動完成（忽略沒有電話簿相符，也不在同一個群組中的項目）",
+    "_No scheduled tasks in the last %n hour._::_No scheduled tasks in the last %n hours._" : ["最近%n小時內沒有安排好的任務。"],
+    "_The task pickup speed has been ok in the last %n hour._::_The task pickup speed has been ok in the last %n hours._" : ["最近%n小時內的任務擷取速度正常。"],
+    "_The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["最近%n小時內，任務擷取速度緩慢。許多任務的擷取時間超過4分鐘。請考慮設定 worker 在背景處理任務。"],
+    "Also allow autocompletion on full match of the user id" : "同時允許在使用者 ID 完全相符時啟用自動完成功能",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "此應用程式並未指定最低的 Nextcloud 版本。未來可能會出現錯誤。",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "此應用程式並未指定最高的 Nextcloud 版本。未來可能會出現錯誤。",
     "Loading accounts …" : "少女祈禱中...",
@@ -965,7 +963,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "正確設定每項事物對您的站台安全性與效能來說非常重要。為了協助您，我們正在進行一些自動檢查。請參閱連結資訊以了解更多資訊。",
     "Checking for system and security issues." : "檢查系統與安全性問題。",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "請再次確認<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">安裝指南 ↗</a>，並在<a href=\"%2$s\">紀錄檔</a>中檢查是否有任何錯誤或警告。",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "透過<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我們的安全性掃描 ↗</a>檢查您 Nextcloud 的安全性。",
-    "Also allow autocompletion on full match of the user id" : "同時允許在使用者 ID 完全相符時啟用自動完成功能"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "透過<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我們的安全性掃描 ↗</a>檢查您 Nextcloud 的安全性。"
 },
 "nplurals=1; plural=0;");

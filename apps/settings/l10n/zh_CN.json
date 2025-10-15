@@ -310,9 +310,6 @@
     "64-bit" : "64位",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "您似乎正在使用32位的PHP版本。Nextcloud需要64位的PHP版本以便良好运行。请升级您的系统和PHP版本至64位！",
     "Task Processing pickup speed" : "任务处理拾取速度",
-    "_No scheduled tasks in the last %n hour._::_No scheduled tasks in the last %n hours._" : ["过去 %n 小时内没有安排任务。"],
-    "_The task pickup speed has been ok in the last %n hour._::_The task pickup speed has been ok in the last %n hours._" : ["在过去的 %n 小时内，任务拾取速度正常。"],
-    "_The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["在过去的 %n 小时内，任务拾取速度缓慢。许多任务的处理时间超过 4 分钟。请考虑设置一个工作线程在后台处理任务。"],
     "Temporary space available" : "可用临时空间",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "检查临时 PHP 路径时出错 - 未正确设置为目录。 返回值: %s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "PHP 函数 \"disk_free_space\" 被禁用，这会阻止检查临时目录中是否有足够的空间。",
@@ -944,9 +941,10 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "如果您使用第三方应用程序连接到 Nextcloud，请确保在启用双因素身份验证之前为每个应用程序创建和配置应用程序密码。",
     "Logged in account must be a subadmin" : "登录的账号必须是子管理员",
     "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP 标头不包含 `%2$s`。这是一个潜在的安全或隐私风险，建议相应地调整此设置。",
-    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "如果启用了“同组”和“电话号码集成”的自动补全，则其中一个匹配即会向用户显示。",
-    "Restrict account name autocompletion to users based on phone number integration" : "根据电话号码集成限制用户的账号名称自动补全功能",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "允许在输入全名或电子邮件地址时自动补全（忽略通讯录匹配缺失和属于同组等限制）",
+    "_No scheduled tasks in the last %n hour._::_No scheduled tasks in the last %n hours._" : ["过去 %n 小时内没有安排任务。"],
+    "_The task pickup speed has been ok in the last %n hour._::_The task pickup speed has been ok in the last %n hours._" : ["在过去的 %n 小时内，任务拾取速度正常。"],
+    "_The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["在过去的 %n 小时内，任务拾取速度缓慢。许多任务的处理时间超过 4 分钟。请考虑设置一个工作线程在后台处理任务。"],
+    "Also allow autocompletion on full match of the user id" : "同时允许基于用户 ID 完整匹配的自动补全",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "该应用没有指定支持的 Nextcloud 最低版本。可能会在将来出现问题。",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "该应用没有指定支持的 Nextcloud 最高版本。可能会在将来出现问题。",
     "Loading accounts …" : "正在加载账号…",
@@ -963,7 +961,6 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "您的每项配置对于实例的安全性和性能都至关重要。 为了帮助您，我们正在做一些自动检查。 有关详细信息，请参阅文档链接。",
     "Checking for system and security issues." : "正在检查系统和安全问题。",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "请仔细检查<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">安装指南↗</a>，并检查<a href=\"%2$s\">日志</a>中是否有错误或警告。",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "通过<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我们的安全检查 ↗</a>检查您 Nextcloud 的安全",
-    "Also allow autocompletion on full match of the user id" : "同时允许基于用户 ID 完整匹配的自动补全"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "通过<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我们的安全检查 ↗</a>检查您 Nextcloud 的安全"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -237,6 +237,8 @@ OC.L10N.register(
     "Can edit" : "Kan redigere",
     "Custom permissions" : "Brugerdefinerede rettigheder",
     "Resharing is not allowed" : "Gendeling er ikke tilladt",
+    "Name or email …" : "Navn eller e-mail …",
+    "Name, email, or Federated Cloud ID …" : "Navn, e-mail eller Fødereret Cloud ID …",
     "Searching …" : "Søger ...",
     "No elements found." : "Ingen elementer fundet.",
     "Search everywhere" : "Søg overalt",
