@@ -78,46 +78,45 @@ $server = $serverFactory->createServer(
 		$linkCheckPlugin,
 		$filesDropPlugin
 	) {
-	$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
-	/** @var FederatedShareProvider $shareProvider */
-	$federatedShareProvider = Server::get(FederatedShareProvider::class);
-	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
-		// this is what is thrown when trying to access a non-existing share
-		throw new \Sabre\DAV\Exception\NotAuthenticated();
-	}
+		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
+		/** @var FederatedShareProvider $shareProvider */
+		$federatedShareProvider = Server::get(FederatedShareProvider::class);
+		if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
+			// this is what is thrown when trying to access a non-existing share
+			throw new \Sabre\DAV\Exception\NotAuthenticated();
+		}
 
-	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
-	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
-	$fileId = $share->getNodeId();
+		$share = $authBackend->getShare();
+		$owner = $share->getShareOwner();
+		$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
+		$fileId = $share->getNodeId();
 
-	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
-	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
-	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-		return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
+		// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
+		$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
+		Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
+			return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
+		});
+		Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
+		});
+		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
+
+		$rootFolder = Server::get(IRootFolder::class);
+		$userFolder = $rootFolder->getUserFolder($owner);
+		$node = $userFolder->getFirstNodeById($fileId);
+		if (!$node) {
+			throw new \Sabre\DAV\Exception\NotFound();
+		}
+		$linkCheckPlugin->setFileInfo($node);
+
+		// If not readable (files_drop) enable the filesdrop plugin
+		if (!$isReadable) {
+			$filesDropPlugin->enable();
+		}
+		$filesDropPlugin->setShare($share);
+
+		return new View($node->getPath());
 	});
-	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
-		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
-	});
-	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
-
-	$rootFolder = Server::get(IRootFolder::class);
-	$userFolder = $rootFolder->getUserFolder($owner);
-	$node = $userFolder->getFirstNodeById($fileId);
-	if (!$node) {
-		throw new \Sabre\DAV\Exception\NotFound();
-	}
-	$linkCheckPlugin->setFileInfo($node);
-
-	// If not readable (files_drop) enable the filesdrop plugin
-	if (!$isReadable) {
-		$filesDropPlugin->enable();
-	}
-	$filesDropPlugin->setShare($share);
-
-	$view = new View($node->getPath());
-	return $view;
-});
 
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
