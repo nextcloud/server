@@ -145,6 +145,8 @@ OC.L10N.register(
     "When logging in, {instanceName} will find the user based on the following attributes:" : "Ao fazer login, {instanceName} encontrará o usuário com base nos seguintes atributos:",
     "Other Attributes:" : "Outros Atributos:",
     "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro a ser aplicado quando for tentado o login. `%%uid` substitui o nome de usuário na ação de login. Exemplo: `uid=%%uid`",
+    "Attempts to receive a DN for the given login name and the current login filter" : "Tenta receber um DN para o nome de login fornecido e o filtro de login atual",
+    "Test Login name" : "Testar o nome de login",
     "Verify settings" : "Verificar configurações",
     "No object found in the given Base DN. Please revise." : "Nenhum objeto encontrado na Base DN informada. Por favor revise.",
     "More than 1,000 directory entries available." : "Mais de 1.000 entradas de diretório disponíveis.",

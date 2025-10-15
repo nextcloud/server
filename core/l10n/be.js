@@ -199,6 +199,7 @@ OC.L10N.register(
     "The remote URL must include the user." : "Аддалены URL-адрас павінен уключаць карыстальніка.",
     "Invalid remote URL." : "Памылковы аддалены URL.",
     "Failed to add the public link to your Nextcloud" : "Не ўдалося дадаць публічную спасылку ў ваш Nextcloud",
+    "Federated user" : "Федэратыўны карыстальнік",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Direct link copied" : "Прамая спасылка скапіявана",
     "Please copy the link manually:" : "Скапіюйце спасылку ўручную:",

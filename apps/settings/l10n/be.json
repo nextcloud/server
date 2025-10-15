@@ -107,6 +107,7 @@
     "Allow apps to use the Share API" : "Дазволіць праграмам выкарыстоўваць API абагульвання",
     "Allow users to share via link and emails" : "Дазволіць карыстальнікам абагульваць праз спасылку і электронную пошту",
     "Allow public uploads" : "Дазволіць публічныя запампоўванні",
+    "Allow public shares to be added to other clouds by federation." : "Дазволіць абагульваць рэсурсы ў іншыя воблакі праз федэрацыю.",
     "Always ask for a password" : "Заўсёды пытацца пароль",
     "Exclude groups from password requirements" : "Выключыць групы з патрабаванняў да пароляў",
     "Exclude groups from creating link shares" : "Выключыць групы з магчымасці стварэння абагуленых спасылак",

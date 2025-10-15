@@ -531,8 +531,6 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Претплатете се на нашиот билтен",
     "Use a second factor besides your password to increase security for your account." : "Користете втор фактор и покрај вашата лозинка за да ја зголемите безбедноста на вашата сметка.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Доколку користите друга апликација за поврзување на Nextcloud, осигурајте се дека имате креирано лозинка за секоја апликација пред да овозможите втор фактор.",
-    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Ако се овозможени автоматско пополнување \"иста група\" и \"интеграција на телефонски број\", доволно е да се совпадне или да се прикаже на корисникот.",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "озволете автоматско пополнување кога го внесувате целосното име или адресата на е-пошта (игнорирање што недостасува совпаѓање со именикот и сте во иста група)",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Оваа апликација нема доделена минимална верзија. Може да настане грешка во иднина.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Оваа апликација нема доделена максимална верзија. Може да настане грешка во иднина.",
     "Loading accounts …" : "Вчитување на сметки ...",
