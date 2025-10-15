@@ -43,21 +43,19 @@ class CalendarExportController extends OCSController {
 	 *
 	 * @param string $id calendar id
 	 * @param string|null $type data format
-	 * @param array{rangeStart:string,rangeCount:int<1,max>} $options configuration options
+	 * @param array{rangeStart:string,rangeCount:positive-int} $options configuration options
 	 * @param string|null $user system user id
 	 *
-	 * @return StreamGeneratorResponse<Http::STATUS_OK, array{Content-Type:string}> | DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}>
+	 * @return StreamGeneratorResponse<Http::STATUS_OK, array{Content-Type:'text/calendar; charset=UTF-8'|'application/calendar+json; charset=UTF-8'|'application/calendar+xml; charset=UTF-8'}> | DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}>
 	 *
 	 * 200: data in requested format
 	 * 400: invalid parameters
 	 * 401: user not authorized
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'POST', url: '/export', root: '/calendar')]
-	#[UserRateLimit(limit: 60, period: 60)]
+	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
-	public function index(string $id, ?string $type = null, ?array $options = null, ?string $user = null) {
-		$userId = $user;
+	public function export(string $id, ?string $type = null, ?array $options = null, ?string $user = null) {
 		$calendarId = $id;
 		$format = $type ?? 'ical';
 		$rangeStart = isset($options['rangeStart']) ? (string)$options['rangeStart'] : null;
@@ -66,12 +64,12 @@ class CalendarExportController extends OCSController {
 		if (!$this->userSession->isLoggedIn()) {
 			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 		}
-		if ($userId !== null) {
-			if ($this->userSession->getUser()->getUID() !== $userId
+		if ($user !== null) {
+			if ($this->userSession->getUser()->getUID() !== $user
 				&& $this->groupManager->isAdmin($this->userSession->getUser()->getUID()) === false) {
 				return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 			}
-			if (!$this->userManager->userExists($userId)) {
+			if (!$this->userManager->userExists($user)) {
 				return new DataResponse(['error' => 'user not found'], Http::STATUS_BAD_REQUEST);
 			}
 		} else {

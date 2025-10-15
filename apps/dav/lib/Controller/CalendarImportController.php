@@ -8,13 +8,16 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use InvalidArgumentException;
+
+/**
+ * @psalm-type CalendarImportResult = array{items: list<string>, total: non-negative-int}
+ */
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -44,22 +47,20 @@ class CalendarImportController extends OCSController {
 	 * Import calendar data
 	 *
 	 * @param string $id calendar id
-	 * @param array{format?:string, validation?:int<0,2>, errors?:int<0,1>, supersede?:bool, showCreated?:bool, showUpdated?:bool, showSkipped?:bool, showErrors?:bool} $options configuration options
+	 * @param array{format?:string, validation?:0|1|2, errors?:0|1, supersede?:bool, showCreated?:bool, showUpdated?:bool, showSkipped?:bool, showErrors?:bool} $options configuration options
 	 * @param string $data calendar data
 	 * @param string|null $user system user id
 	 *
-	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_INTERNAL_SERVER_ERROR, array{error?: string, time?: float, created?: array{items: list<string>, total: int<0,max>}, updated?: array{items: list<string>, total: int<0,max>}, skipped?: array{items: list<string>, total: int<0, max>}, errors?: array{items: list<string>, total: int<0, max>}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED|Http::STATUS_INTERNAL_SERVER_ERROR, array{error?: string, time?: float, created?: array{items: list<string>, total: non-negative-int}, updated?: array{items: list<string>, total: non-negative-int}, skipped?: array{items: list<string>, total: non-negative-int}, errors?: array{items: list<string>, total: non-negative-int}}, array{}>
 	 *
 	 * 200: calendar data
 	 * 400: invalid request
 	 * 401: user not authorized
 	 */
-	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[ApiRoute(verb: 'POST', url: '/import', root: '/calendar')]
 	#[UserRateLimit(limit: 1, period: 60)]
 	#[NoAdminRequired]
-	public function index(string $id, array $options, string $data, ?string $user = null): DataResponse {
-		$userId = $user;
+	public function import(string $id, array $options, string $data, ?string $user = null): DataResponse {
 		$calendarId = $id;
 		$format = isset($options['format']) ? $options['format'] : null;
 		$validation = isset($options['validation']) ? (int)$options['validation'] : null;
@@ -73,12 +74,12 @@ class CalendarImportController extends OCSController {
 		if (!$this->userSession->isLoggedIn()) {
 			return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 		}
-		if ($userId !== null) {
-			if ($this->userSession->getUser()->getUID() !== $userId
+		if ($user !== null) {
+			if ($this->userSession->getUser()->getUID() !== $user
 				&& $this->groupManager->isAdmin($this->userSession->getUser()->getUID()) === false) {
 				return new DataResponse([], Http::STATUS_UNAUTHORIZED);
 			}
-			if (!$this->userManager->userExists($userId)) {
+			if (!$this->userManager->userExists($user)) {
 				return new DataResponse(['error' => 'user not found'], Http::STATUS_BAD_REQUEST);
 			}
 		} else {

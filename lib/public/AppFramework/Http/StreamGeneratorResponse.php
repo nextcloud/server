@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\AppFramework\Http;
 
@@ -12,7 +12,7 @@ use Generator;
 use OCP\AppFramework\Http;
 
 /**
- * @since 32.0.0
+ * @since 33.0.0
  *
  * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
@@ -22,8 +22,6 @@ class StreamGeneratorResponse extends Response implements ICallbackResponse {
 	protected $generator;
 
 	/**
-	 * @since 32.0.0
-	 *
 	 * @param Generator $generator the function to call to generate the response
 	 * @param string $contentType http response content type e.g. 'application/json; charset=UTF-8'
 	 * @param S $status http response status
@@ -44,8 +42,6 @@ class StreamGeneratorResponse extends Response implements ICallbackResponse {
 
 	/**
 	 * Streams content directly to client
-	 *
-	 * @since 32.0.0
 	 *
 	 * @param IOutput $output a small wrapper that handles output
 	 */

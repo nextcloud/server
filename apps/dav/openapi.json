@@ -1155,7 +1155,7 @@
         },
         "/ocs/v2.php/calendar/export": {
             "post": {
-                "operationId": "calendar_export-index",
+                "operationId": "calendar_export-export",
                 "summary": "Export calendar data",
                 "tags": [
                     "calendar_export"
@@ -1232,7 +1232,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "data in requested format"
+                        "description": "data in requested format",
+                        "content": {
+                            "text/calendar; charset=UTF-8": {
+                                "schema": {
+                                    "anyOf": []
+                                }
+                            },
+                            "application/calendar+json; charset=UTF-8": {
+                                "schema": {
+                                    "anyOf": []
+                                }
+                            },
+                            "application/calendar+xml; charset=UTF-8": {
+                                "schema": {
+                                    "anyOf": []
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "invalid parameters",
@@ -1336,7 +1353,7 @@
         },
         "/ocs/v2.php/calendar/import": {
             "post": {
-                "operationId": "calendar_import-index",
+                "operationId": "calendar_import-import",
                 "summary": "Import calendar data",
                 "tags": [
                     "calendar_import"
@@ -1375,14 +1392,19 @@
                                             "validation": {
                                                 "type": "integer",
                                                 "format": "int64",
-                                                "minimum": 0,
-                                                "maximum": 2
+                                                "enum": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
                                             },
                                             "errors": {
                                                 "type": "integer",
                                                 "format": "int64",
-                                                "minimum": 0,
-                                                "maximum": 1
+                                                "enum": [
+                                                    0,
+                                                    1
+                                                ]
                                             },
                                             "supersede": {
                                                 "type": "boolean"
