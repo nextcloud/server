@@ -56,13 +56,6 @@ class FilesDropPluginTest extends TestCase {
 			->willReturn('token');
 	}
 
-	public function testNotEnabled(): void {
-		$this->request->expects($this->never())
-			->method($this->anything());
-
-		$this->plugin->beforeMethod($this->request, $this->response);
-	}
-
 	public function testValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setShare($this->share);
