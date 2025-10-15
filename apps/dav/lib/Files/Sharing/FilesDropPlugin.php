@@ -42,6 +42,10 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function onMkcol(RequestInterface $request, ResponseInterface $response) {
+		if ($this->isChunkedUpload($request)) {
+			return;
+		}
+
 		if (!$this->enabled || $this->share === null) {
 			return;
 		}
@@ -58,7 +62,15 @@ class FilesDropPlugin extends ServerPlugin {
 		return false;
 	}
 
+	private function isChunkedUpload(RequestInterface $request): bool {
+		return str_starts_with(substr($request->getUrl(), strlen($request->getBaseUrl()) - 1), '/uploads/');
+	}
+
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
+		if ($this->isChunkedUpload($request)) {
+			return;
+		}
+
 		if (!$this->enabled || $this->share === null) {
 			return;
 		}
