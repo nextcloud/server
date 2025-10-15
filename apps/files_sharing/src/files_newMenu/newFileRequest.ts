@@ -6,9 +6,9 @@
 import type { Folder, NewMenuEntry, Node } from '@nextcloud/files'
 
 import FileUploadSvg from '@mdi/svg/svg/file-upload-outline.svg?raw'
-import { spawnDialog } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineAsyncComponent } from 'vue'
 import Config from '../services/ConfigService.ts'
 

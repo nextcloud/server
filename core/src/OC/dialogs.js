@@ -6,8 +6,9 @@
 
 import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
-import { DialogBuilder, FilePickerType, getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { DialogBuilder, FilePickerType, getFilePickerBuilder } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import $ from 'jquery'
 import { basename } from 'path'
 import { defineAsyncComponent } from 'vue'
