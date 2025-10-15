@@ -13,8 +13,8 @@ import type { Node as NcNode } from '@nextcloud/files'
 
 import { FilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
 import { onMounted } from 'vue'
+import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
 import logger from '../logger.ts'
 
 defineProps<{
@@ -74,9 +74,6 @@ function buttonFactory(selected: NcNode[]): IFilePickerButton[] {
  * @param node - selected node
  */
 function onSubmit(node: NcNode) {
-	const url = new URL(window.location.href)
-	url.pathname = generateUrl('/f/{fileId}', { fileId: node.fileid! })
-	url.search = ''
-	emit('submit', url.href)
+	emit('submit', generateFileUrl(node.fileid!))
 }
 </script>
