@@ -42,6 +42,9 @@ class WebhookCall extends QueuedJob {
 		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);
 		$client = $this->clientService->newClient();
+
+		// adding temporary auth tokens to the call
+		$data['tokens'] = $this->getTokens($webhookListener, $data['user']['uid']);
 		$options = [
 			'verify' => $this->certificateManager->getAbsoluteBundlePath(),
 			'headers' => $webhookListener->getHeaders() ?? [],
@@ -91,5 +94,32 @@ class WebhookCall extends QueuedJob {
 		} catch (\Exception $e) {
 			$this->logger->error('Webhook(' . $webhookId . ') call failed: ' . $e->getMessage(), ['exception' => $e]);
 		}
+	}
+
+	private function getTokens($webhookListener, $triggerUserId): array {
+		$tokens = [];
+		$tokenNeeded = $webhookListener->getTokenNeeded();
+		if (isset($tokenNeeded['users'])) {
+			foreach ($tokenNeeded['users'] as $userId) {
+				$tokens['users'][$userId] = $webhookListener->createTemporaryToken($userId);
+			}
+		}
+		if (isset($tokenNeeded['users'])) {
+			foreach ($tokenNeeded['functions'] as $function) {
+				switch ($function) {
+					case 'owner':
+						// token for the person who created the flow
+						$functionId = $webhookListener->getUserId();
+						$tokens['functions']['owner'][$functionId] = $webhookListener->createTemporaryToken($functionId);
+						break;
+					case 'trigger':
+						// token for the person who triggered the webhook
+						$tokens['functions']['trigger'][$triggerUserId] = $webhookListener->createTemporaryToken($triggerUserId);
+						break;
+				}
+			}
+		}
+
+		return $tokens;
 	}
 }
