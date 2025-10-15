@@ -157,6 +157,7 @@
     "dockerode": "^4.0.9",
     "eslint": "^9.36.0",
     "eslint-plugin-cypress": "^5.1.1",
+    "eslint-plugin-no-only-tests": "^3.3.0",
     "exports-loader": "^5.0.0",
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.3",
