@@ -180,7 +180,10 @@ export function moveFile(fileName: string, dirPath: string) {
 
 		if (dirPath === '/') {
 			// select home folder
-			cy.get('button[title="Home"]').should('be.visible').click()
+			cy.get('.breadcrumb')
+				.findByRole('button', { name: 'All files' })
+				.should('be.visible')
+				.click()
 			// click move
 			cy.contains('button', 'Move').should('be.visible').click()
 		} else if (dirPath === '.') {
@@ -216,7 +219,10 @@ export function copyFile(fileName: string, dirPath: string) {
 
 		if (dirPath === '/') {
 			// select home folder
-			cy.get('button[title="Home"]').should('be.visible').click()
+			cy.get('.breadcrumb')
+				.findByRole('button', { name: 'All files' })
+				.should('be.visible')
+				.click()
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
 		} else if (dirPath === '.') {
