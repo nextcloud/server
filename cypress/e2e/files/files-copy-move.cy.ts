@@ -78,7 +78,7 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		getRowForFile('original folder').should('not.exist')
 	})
 
-	it.only('Can move a file to its parent folder', () => {
+	it('Can move a file to its parent folder', () => {
 		cy.mkdir(currentUser, '/new-folder')
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/new-folder/original.txt')
 		cy.login(currentUser)
