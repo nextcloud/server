@@ -67,7 +67,10 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
-		if ($this->isChunkedUpload($request)) {
+		$isChunkedUpload = $this->isChunkedUpload($request);
+
+		// For the final MOVE request of a chunked upload it is necessary to modify the Destination header.
+		if ($isChunkedUpload && $request->getMethod() !== 'MOVE') {
 			return;
 		}
 
@@ -107,8 +110,16 @@ class FilesDropPlugin extends ServerPlugin {
 		// full path along the way. We'll only handle conflict
 		// resolution on file conflicts, but not on folders.
 
-		// e.g files/dCP8yn3N86EK9sL/Folder/image.jpg
-		$path = $request->getPath();
+		if ($isChunkedUpload) {
+			$destination = $request->getHeader('destination');
+			$baseUrl = $request->getBaseUrl();
+			// e.g files/dCP8yn3N86EK9sL/Folder/image.jpg
+			$path = substr($destination, strpos($destination, $baseUrl) + strlen($baseUrl));
+		} else {
+			// e.g files/dCP8yn3N86EK9sL/Folder/image.jpg
+			$path = $request->getPath();
+		}
+
 		$token = $this->share->getToken();
 
 		// e.g files/dCP8yn3N86EK9sL
@@ -199,7 +210,11 @@ class FilesDropPlugin extends ServerPlugin {
 		$relativePath = substr($folder->getPath(), strlen($node->getPath()));
 		$path = '/files/' . $token . '/' . $relativePath . '/' . $uniqueName;
 		$url = rtrim($request->getBaseUrl(), '/') . str_replace('//', '/', $path);
-		$request->setUrl($url);
+		if ($isChunkedUpload) {
+			$request->setHeader('destination', $url);
+		} else {
+			$request->setUrl($url);
+		}
 	}
 
 	private function getPathSegments(string $path): array {
