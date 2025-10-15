@@ -9,8 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\WebhookListeners\Db;
 
+use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\Db\Entity;
+use OCP\Authentication\Token\IToken;
 use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
 use OCP\Server;
 
 /**
@@ -23,6 +26,7 @@ use OCP\Server;
  * @method ?string getAuthData()
  * @method void setAuthData(?string $data)
  * @method string getAuthMethod()
+ * @method ?array getTokenNeeded()
  * @psalm-suppress PropertyNotSetInConstructor
  */
 class WebhookListener extends Entity implements \JsonSerializable {
@@ -84,7 +88,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	 */
 	protected $authData = null;
 
-		/**
+	/**
 	 * @var array
 	 * @psalm-suppress PropertyNotSetInConstructor
 	 */
@@ -92,13 +96,24 @@ class WebhookListener extends Entity implements \JsonSerializable {
 
 	private ICrypto $crypto;
 
+	private IProvider $tokenProvider;
 	public function __construct(
 		?ICrypto $crypto = null,
+		?IProvider $tokenProvider = null,
+		private ?ISecureRandom $random = null,
 	) {
 		if ($crypto === null) {
 			$crypto = Server::get(ICrypto::class);
 		}
 		$this->crypto = $crypto;
+		if ($tokenProvider === null) {
+			$tokenProvider = Server::get(IProvider::class);
+		}
+		$this->tokenProvider = $tokenProvider;
+		if ($random === null) {
+			$random = Server::get(ISecureRandom::class);
+		}
+		$this->random = $random;
 		$this->addType('appId', 'string');
 		$this->addType('userId', 'string');
 		$this->addType('httpMethod', 'string');
@@ -151,5 +166,22 @@ class WebhookListener extends Entity implements \JsonSerializable {
 
 	public function getAppId(): ?string {
 		return $this->appId;
+	}
+
+
+	public function createTemporaryToken($userId) {
+		$token = $this->generateRandomDeviceToken();
+		$name = 'Authentication for Webhook';
+		$password = null;
+		$deviceToken = $this->tokenProvider->generateToken($token, $userId, $userId, $password, $name, IToken::PERMANENT_TOKEN);
+		return $token;
+	}
+
+	private function generateRandomDeviceToken() {
+		$groups = [];
+		for ($i = 0; $i < 5; $i++) {
+			$groups[] = $this->random->generate(5, ISecureRandom::CHAR_HUMAN_READABLE);
+		}
+		return implode('-', $groups);
 	}
 }

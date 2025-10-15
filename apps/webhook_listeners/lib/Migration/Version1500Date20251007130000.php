@@ -12,9 +12,9 @@ namespace OCA\WebhookListeners\Migration;
 use Closure;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
-use OCP\DB\Types;
 
 class Version1500Date20251007130000 extends SimpleMigrationStep {
 
@@ -29,12 +29,12 @@ class Version1500Date20251007130000 extends SimpleMigrationStep {
 
 		if ($schema->hasTable(WebhookListenerMapper::TABLE_NAME)) {
 			$table = $schema->getTable(WebhookListenerMapper::TABLE_NAME);
-			if(!$table->hasColumn('token_needed')){
+			if (!$table->hasColumn('token_needed')) {
 				$table->addColumn('token_needed', Types::TEXT, [
-				'notnull' => false,
-			]);
+					'notnull' => false,
+				]);
 			}
-			
+
 			return $schema;
 		}
 		return null;
