@@ -23,8 +23,11 @@ This file is generated from multiple sources. Included packages:
 - @linusborg/vue-simple-portal
 	- version: 0.1.5
 	- license: Apache-2.0
+- @nextcloud/browser-storage
+	- version: 0.5.0
+	- license: GPL-3.0-or-later
 - @nextcloud/auth
-	- version: 2.5.2
+	- version: 2.5.3
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
