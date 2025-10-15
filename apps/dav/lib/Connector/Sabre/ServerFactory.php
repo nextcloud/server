@@ -194,7 +194,7 @@ class ServerFactory {
 	 * as root.
 	 *
 	 * @param bool $useCollection Whether to use a collection or the legacy
-	 *               ObjectTree, which doesn't use collections.
+	 *                            ObjectTree, which doesn't use collections.
 	 * @return array{0: CachingTree|ObjectTree, 1: SimpleCollection|null}
 	 */
 	public function getTree(bool $useCollection): array {
