@@ -1296,7 +1296,6 @@ $CONFIG = [
 	 *
 	 * Defaults to ``365``
 	 */
-
 	'activity_expire_days' => 365,
 
 	/**
@@ -1321,8 +1320,7 @@ $CONFIG = [
 	 * WARNING: Before enabling this, read the warning Activity app chapter.
 	 *
 	 * Defaults to ``false``
-	 **/
-
+	 */
 	'activity_use_cached_mountpoints' => false,
 
 	/**
