@@ -6,6 +6,7 @@
 import { includeIgnoreFile } from '@eslint/compat'
 import { recommendedVue2 } from '@nextcloud/eslint-config'
 import CypressEslint from 'eslint-plugin-cypress'
+import noOnlyTests from 'eslint-plugin-no-only-tests'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
 import { fileURLToPath } from 'node:url'
@@ -22,9 +23,7 @@ export default defineConfig([
 
 	...recommendedVue2,
 
-	// respect .gitignore
-	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
-
+	// add globals configuration for Webpack injected variables
 	{
 		name: 'server/custom-webpack-globals',
 		files: ['**/*.js', '**/*.ts', '**/*.vue'],
@@ -35,6 +34,7 @@ export default defineConfig([
 		},
 	},
 
+	// Ensure that cjs files are treated as Node scripts
 	{
 		name: 'server/scripts-are-cjs',
 		files: [
@@ -55,6 +55,7 @@ export default defineConfig([
 			'jsdoc/require-jsdoc': 'off',
 		},
 	},
+
 	// Cypress setup
 	{
 		...CypressEslint.configs.recommended,
@@ -72,7 +73,23 @@ export default defineConfig([
 			'@typescript-eslint/no-unused-expressions': 'off',
 		},
 	},
-	// customer server ignore files
+
+	// Forbid commiting .only in test files (skipping tests is very unexpected)
+	{
+		name: 'server/no-only-in-tests',
+		files: ['cypress/**', 'apps/**/*.spec.*', 'core/**/*.spec.*'],
+		plugins: {
+			'no-only-tests': noOnlyTests,
+		},
+		rules: {
+			'no-only-tests/no-only-tests': 'error',
+		},
+	},
+
+	// respect .gitignore
+	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
+
+	// custom server ignore files
 	{
 		name: 'server/ignored-files',
 		ignores: [
