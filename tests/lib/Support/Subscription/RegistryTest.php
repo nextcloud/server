@@ -119,7 +119,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testSubscriptionService(): void {
-		$this->serverContainer->method('query')
+		$this->serverContainer->method('get')
 			->with(DummySubscription::class)
 			->willReturn(new DummySubscription(true, false, false));
 		$this->registry->registerService(DummySubscription::class);

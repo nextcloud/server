@@ -20,17 +20,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var Coordinator|MockObject */
-	private $coordinator;
+	private Coordinator&MockObject $coordinator;
 
-	/** @var IServerContainer|MockObject */
-	private $server;
+	private IServerContainer&MockObject $server;
 
-	/** @var ResourcesRoomsUpdater|MockObject */
-	private $resourcesRoomsUpdater;
+	private ResourcesRoomsUpdater&MockObject $resourcesRoomsUpdater;
 
-	/** @var Manager */
-	private $manager;
+	private Manager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,10 +48,10 @@ class ManagerTest extends TestCase {
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
 		$this->server->expects(self::exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnMap([
-				['calendar_resource_backend1', true, $backend1,],
-				['calendar_resource_backend2', true, $backend2,],
+				['calendar_resource_backend1', $backend1,],
+				['calendar_resource_backend2', $backend2,],
 			]);
 
 		$this->manager->registerBackend('calendar_resource_backend1');
@@ -84,7 +80,7 @@ class ManagerTest extends TestCase {
 				new ServiceRegistration('calendar_resource_foo', $backendClass)
 			]);
 		$this->server->expects(self::once())
-			->method('query')
+			->method('get')
 			->with($backendClass)
 			->willReturn($backend);
 
@@ -97,10 +93,10 @@ class ManagerTest extends TestCase {
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
 		$this->server->expects(self::exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnMap([
-				['calendar_resource_backend1', true, $backend1,],
-				['calendar_resource_backend2', true, $backend2,],
+				['calendar_resource_backend1', $backend1,],
+				['calendar_resource_backend2', $backend2,],
 			]);
 
 		$this->manager->registerBackend('calendar_resource_backend1');
@@ -116,10 +112,10 @@ class ManagerTest extends TestCase {
 		$backend2 = $this->createMock(IBackend::class);
 		$backend2->method('getBackendIdentifier')->willReturn('backend_2');
 		$this->server->expects(self::exactly(2))
-			->method('query')
+			->method('get')
 			->willReturnMap([
-				['calendar_resource_backend1', true, $backend1,],
-				['calendar_resource_backend2', true, $backend2,],
+				['calendar_resource_backend1', $backend1,],
+				['calendar_resource_backend2', $backend2,],
 			]);
 
 		$this->manager->registerBackend('calendar_resource_backend1');

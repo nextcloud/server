@@ -10,6 +10,7 @@ namespace OC\AppFramework\Utility;
 use ArrayAccess;
 use Closure;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IContainer;
 use Pimple\Container;
 use Psr\Container\ContainerExceptionInterface;
@@ -42,7 +43,16 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @psalm-return (S is class-string<T> ? T : mixed)
 	 */
 	public function get(string $id): mixed {
-		return $this->query($id);
+		$name = $this->sanitizeName($id);
+		if (isset($this->container[$name])) {
+			return $this->container[$name];
+		}
+
+		$object = $this->resolve($name);
+		$this->registerService($name, function () use ($object) {
+			return $object;
+		});
+		return $object;
 	}
 
 	public function has(string $id): bool {
@@ -76,40 +86,50 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	private function buildClassConstructorParameters(\ReflectionMethod $constructor): array {
 		return array_map(function (ReflectionParameter $parameter) {
 			$parameterType = $parameter->getType();
-
 			$resolveName = $parameter->getName();
 
+			if (!($parameterType instanceof ReflectionNamedType)) {
+				return $this->get($resolveName);
+			}
+
 			// try to find out if it is a class or a simple parameter
-			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+			if (!$parameterType->isBuiltin()) {
 				$resolveName = $parameterType->getName();
 			}
 
 			try {
-				$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
-							&& $parameterType->isBuiltin();
-				return $this->query($resolveName, !$builtIn);
+				// Try special variable names like $appName or $user with basic built-in types
+				if ($parameterType->isBuiltin()) {
+					if (isset($this->container[$resolveName])) {
+						return $this->container[$resolveName];
+					}
+					throw new QueryException("Could not resolve variable with name " . $resolveName . ' and build-in type ' . $parameterType->getName());
+				} else {
+					return $this->get($resolveName);
+				}
 			} catch (ContainerExceptionInterface $e) {
 				// Service not found, use the default value when available
 				if ($parameter->isDefaultValueAvailable()) {
 					return $parameter->getDefaultValue();
 				}
 
-				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-					$resolveName = $parameter->getName();
-					try {
-						return $this->query($resolveName);
-					} catch (ContainerExceptionInterface $e2) {
-						// Pass null if typed and nullable
-						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
-							return null;
-						}
-
-						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
-					}
+				if ($parameterType->isBuiltin()) {
+					throw $e;
 				}
 
-				throw $e;
+				// Try to get the class from its type
+				$resolveName = $parameter->getName();
+				try {
+					return $this->get($resolveName);
+				} catch (ContainerExceptionInterface $e2) {
+					// Pass null if typed and nullable
+					if ($parameter->allowsNull()) {
+						return null;
+					}
+
+					// don't lose the error we got while trying to query by type
+					throw new QueryException($e->getMessage(), (int)$e->getCode(), $e2);
+				}
 			}
 		}, $constructor->getParameters());
 	}
@@ -131,17 +151,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	public function query(string $name, bool $autoload = true) {
+		if ($autoload) {
+			return $this->get($name);
+		}
+
 		$name = $this->sanitizeName($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
-		}
-
-		if ($autoload) {
-			$object = $this->resolve($name);
-			$this->registerService($name, function () use ($object) {
-				return $object;
-			});
-			return $object;
 		}
 
 		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
@@ -151,7 +167,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $name
 	 * @param mixed $value
 	 */
-	public function registerParameter($name, $value) {
+	public function registerParameter(string $name, mixed $value): void {
 		$this[$name] = $value;
 	}
 
@@ -164,7 +180,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param Closure $closure the closure to be called on service creation
 	 * @param bool $shared
 	 */
-	public function registerService($name, Closure $closure, $shared = true) {
+	public function registerService(string $name, Closure $closure, bool $shared = true): void {
 		$wrapped = function () use ($closure) {
 			return $closure($this);
 		};
@@ -186,7 +202,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 */
-	public function registerAlias($alias, $target): void {
+	public function registerAlias(string $alias, string $target): void {
 		$this->registerService($alias, function (ContainerInterface $container) use ($target): mixed {
 			return $container->get($target);
 		}, false);
@@ -207,11 +223,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		}, false);
 	}
 
-	/**
-	 * @param string $name
-	 * @return string
-	 */
-	protected function sanitizeName($name) {
+	protected function sanitizeName(string $name): string {
 		if (isset($name[0]) && $name[0] === '\\') {
 			return ltrim($name, '\\');
 		}
@@ -221,8 +233,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
 	 */
-	public function offsetExists($id): bool {
-		return $this->container->offsetExists($id);
+	public function offsetExists($offset): bool {
+		return $this->container->offsetExists($offset);
 	}
 
 	/**
@@ -230,8 +242,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @return mixed
 	 */
 	#[\ReturnTypeWillChange]
-	public function offsetGet($id) {
-		return $this->container->offsetGet($id);
+	public function offsetGet($offset) {
+		return $this->container->offsetGet($offset);
 	}
 
 	/**

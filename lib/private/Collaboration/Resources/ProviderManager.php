@@ -12,6 +12,7 @@ use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\IServerContainer;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class ProviderManager implements IProviderManager {
@@ -31,8 +32,8 @@ class ProviderManager implements IProviderManager {
 		if ($this->providers !== []) {
 			foreach ($this->providers as $provider) {
 				try {
-					$this->providerInstances[] = $this->serverContainer->query($provider);
-				} catch (QueryException $e) {
+					$this->providerInstances[] = $this->serverContainer->get($provider);
+				} catch (ContainerExceptionInterface $e) {
 					$this->logger->error("Could not query resource provider $provider: " . $e->getMessage(), [
 						'exception' => $e,
 					]);
