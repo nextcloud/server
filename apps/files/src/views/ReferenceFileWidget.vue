@@ -240,7 +240,7 @@ export default defineComponent({
 							window.open(generateFileUrl(node.fileid!))
 						}
 					},
-					type: 'primary',
+					variant: 'primary',
 				})
 				.disableNavigation()
 				.startAt(this.richObject.path)
