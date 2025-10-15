@@ -83,21 +83,8 @@ class FilesDropPlugin extends ServerPlugin {
 			return;
 		}
 
-		// Retrieve the nickname from the request
-		$nickname = $request->hasHeader('X-NC-Nickname')
-			? trim(urldecode($request->getHeader('X-NC-Nickname')))
-			: null;
-
-		if ($request->getMethod() !== 'PUT') {
-			// If uploading subfolders we need to ensure they get created
-			// within the nickname folder
-			if ($request->getMethod() === 'MKCOL') {
-				if (!$nickname) {
-					throw new BadRequest('A nickname header is required when uploading subfolders');
-				}
-			} else {
-				throw new MethodNotAllowed('Only PUT is allowed on files drop');
-			}
+		if ($request->getMethod() !== 'PUT' && $request->getMethod() !== 'MKCOL' && (!$isChunkedUpload || $request->getMethod() !== 'MOVE')) {
+			throw new MethodNotAllowed('Only PUT, MKCOL and MOVE are allowed on files drop');
 		}
 
 		// If this is a folder creation request
@@ -134,6 +121,11 @@ class FilesDropPlugin extends ServerPlugin {
 		if ($attributes !== null) {
 			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
 		}
+
+		// Retrieve the nickname from the request
+		$nickname = $request->hasHeader('X-NC-Nickname')
+			? trim(urldecode($request->getHeader('X-NC-Nickname')))
+			: null;
 
 		// We need a valid nickname for file requests
 		if ($isFileRequest && !$nickname) {
