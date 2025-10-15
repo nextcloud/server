@@ -15,8 +15,8 @@ import type { IFilePickerButton } from '@nextcloud/dialogs'
 
 import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
+import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl'
 
 export default defineComponent({
 	name: 'FileReferencePickerElement',
@@ -76,10 +76,7 @@ export default defineComponent({
 		},
 
 		onSubmit(node: NcNode) {
-			const url = new URL(window.location.href)
-			url.pathname = generateUrl('/f/{fileId}', { fileId: node.fileid! })
-			url.search = ''
-			this.$emit('submit', url.href)
+			this.$emit('submit', generateFileUrl(node.fileid!))
 		},
 	},
 })
