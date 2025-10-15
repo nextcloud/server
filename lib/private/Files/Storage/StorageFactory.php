@@ -11,14 +11,16 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class StorageFactory implements IStorageFactory {
 	/**
-	 * @var array[] [$name=>['priority'=>$priority, 'wrapper'=>$callable] $storageWrappers
+	 * @var array<string, array{priority: int, wrapper: (callable(string $mountPoint, IStorage $storage, IMountPoint $mountPoint): IStorage)}> $storageWrappers
 	 */
-	private $storageWrappers = [];
+	private array $storageWrappers = [];
 
+	#[Override]
 	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool {
 		if (isset($this->storageWrappers[$wrapperName])) {
 			return false;
@@ -43,9 +45,7 @@ class StorageFactory implements IStorageFactory {
 		unset($this->storageWrappers[$wrapperName]);
 	}
 
-	/**
-	 * Create an instance of a storage and apply the registered storage wrappers
-	 */
+	#[Override]
 	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments): IStorage {
 		if (!is_a($class, IConstructableStorage::class, true)) {
 			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
@@ -53,15 +53,14 @@ class StorageFactory implements IStorageFactory {
 		return $this->wrap($mountPoint, new $class($arguments));
 	}
 
+	#[Override]
 	public function wrap(IMountPoint $mountPoint, IStorage $storage): IStorage {
 		$wrappers = array_values($this->storageWrappers);
-		usort($wrappers, function ($a, $b) {
-			return $b['priority'] - $a['priority'];
-		});
+		usort($wrappers, fn (array $a, array $b): int => $b['priority'] - $a['priority']);
+
 		/** @var callable[] $wrappers */
-		$wrappers = array_map(function ($wrapper) {
-			return $wrapper['wrapper'];
-		}, $wrappers);
+		$wrappers = array_map(fn (array $wrapper) => $wrapper['wrapper'], $wrappers);
+
 		foreach ($wrappers as $wrapper) {
 			$storage = $wrapper($mountPoint->getMountPoint(), $storage, $mountPoint);
 			if (!($storage instanceof IStorage)) {

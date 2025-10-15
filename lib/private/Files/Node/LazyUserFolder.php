@@ -53,6 +53,7 @@ class LazyUserFolder extends LazyFolder {
 						]);
 						throw $e;
 					}
+					/** @var Folder $node */
 					return $node;
 				} catch (NotFoundException $e) {
 					if (!$this->getRootFolder()->nodeExists('/' . $user->getUID())) {

@@ -187,7 +187,7 @@ class Propagator implements IPropagator {
 		$this->connection->beginTransaction();
 
 		$query = $this->connection->getQueryBuilder();
-		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
+		$storageId = $this->storage->getStorageCache()->getNumericId();
 
 		$query->update('filecache')
 			->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))

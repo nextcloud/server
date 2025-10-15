@@ -15,13 +15,13 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\Event\UserMountAddedEvent;
 use OCP\Files\Config\Event\UserMountRemovedEvent;
 use OCP\Files\Config\Event\UserMountUpdatedEvent;
-use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -39,7 +39,7 @@ class UserMountCache implements IUserMountCache {
 	 * @var CappedMemoryCache<string>
 	 **/
 	private CappedMemoryCache $internalPathCache;
-	/** @var CappedMemoryCache<array> */
+	/** @var CappedMemoryCache<array{int, string, int}> */
 	private CappedMemoryCache $cacheInfoCache;
 
 	/**
@@ -57,7 +57,8 @@ class UserMountCache implements IUserMountCache {
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
-	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null) {
+	#[Override]
+	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null): void {
 		$this->eventLogger->start('fs:setup:user:register', 'Registering mounts for user');
 		/** @var array<string, ICachedMountInfo> $newMounts */
 		$newMounts = [];
@@ -162,7 +163,7 @@ class UserMountCache implements IUserMountCache {
 		return $changed;
 	}
 
-	private function addToCache(ICachedMountInfo $mount) {
+	private function addToCache(ICachedMountInfo $mount): void {
 		if ($mount->getStorageId() !== -1) {
 			$this->connection->insertIfNotExist('*PREFIX*mounts', [
 				'storage_id' => $mount->getStorageId(),
@@ -178,7 +179,7 @@ class UserMountCache implements IUserMountCache {
 		}
 	}
 
-	private function updateCachedMount(ICachedMountInfo $mount) {
+	private function updateCachedMount(ICachedMountInfo $mount): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->update('mounts')
@@ -192,7 +193,7 @@ class UserMountCache implements IUserMountCache {
 		$query->executeStatement();
 	}
 
-	private function removeFromCache(ICachedMountInfo $mount) {
+	private function removeFromCache(ICachedMountInfo $mount): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
@@ -236,11 +237,8 @@ class UserMountCache implements IUserMountCache {
 		}
 	}
 
-	/**
-	 * @param IUser $user
-	 * @return ICachedMountInfo[]
-	 */
-	public function getMountsForUser(IUser $user) {
+	#[Override]
+	public function getMountsForUser(IUser $user): array {
 		$userUID = $user->getUID();
 		if (!$this->userManager->userExists($userUID)) {
 			return [];
@@ -280,12 +278,8 @@ class UserMountCache implements IUserMountCache {
 		return $query->executeQuery()->fetchOne() ?: '';
 	}
 
-	/**
-	 * @param int $numericStorageId
-	 * @param string|null $user limit the results to a single user
-	 * @return CachedMountInfo[]
-	 */
-	public function getMountsForStorageId($numericStorageId, $user = null) {
+	#[Override]
+	public function getMountsForStorageId(int $numericStorageId, ?string $user = null): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
 			->from('mounts', 'm')
@@ -303,11 +297,8 @@ class UserMountCache implements IUserMountCache {
 		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
 	}
 
-	/**
-	 * @param int $rootFileId
-	 * @return CachedMountInfo[]
-	 */
-	public function getMountsForRootId($rootFileId) {
+	#[Override]
+	public function getMountsForRootId(int $rootFileId): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
 			->from('mounts', 'm')
@@ -322,12 +313,11 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	/**
-	 * @param $fileId
 	 * @return array{int, string, int}
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	private function getCacheInfoFromFileId($fileId): array {
-		if (!isset($this->cacheInfoCache[$fileId])) {
+	private function getCacheInfoFromFileId(int $fileId): array {
+		if (!isset($this->cacheInfoCache[(string)$fileId])) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->select('storage', 'path', 'mimetype')
 				->from('filecache')
@@ -338,7 +328,7 @@ class UserMountCache implements IUserMountCache {
 			$result->closeCursor();
 
 			if (is_array($row)) {
-				$this->cacheInfoCache[$fileId] = [
+				$this->cacheInfoCache[(string)$fileId] = [
 					(int)$row['storage'],
 					(string)$row['path'],
 					(int)$row['mimetype']
@@ -347,16 +337,11 @@ class UserMountCache implements IUserMountCache {
 				throw new NotFoundException('File with id "' . $fileId . '" not found');
 			}
 		}
-		return $this->cacheInfoCache[$fileId];
+		return $this->cacheInfoCache[(string)$fileId];
 	}
 
-	/**
-	 * @param int $fileId
-	 * @param string|null $user optionally restrict the results to a single user
-	 * @return ICachedMountFileInfo[]
-	 * @since 9.0.0
-	 */
-	public function getMountsForFileId($fileId, $user = null) {
+	#[Override]
+	public function getMountsForFileId(int $fileId, ?string $user = null): array {
 		try {
 			[$storageId, $internalPath] = $this->getCacheInfoFromFileId($fileId);
 		} catch (NotFoundException $e) {
@@ -412,12 +397,8 @@ class UserMountCache implements IUserMountCache {
 		return $mounts;
 	}
 
-	/**
-	 * Remove all cached mounts for a user
-	 *
-	 * @param IUser $user
-	 */
-	public function removeUserMounts(IUser $user) {
+	#[Override]
+	public function removeUserMounts(IUser $user): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
@@ -425,7 +406,8 @@ class UserMountCache implements IUserMountCache {
 		$query->executeStatement();
 	}
 
-	public function removeUserStorageMount($storageId, $userId) {
+	#[Override]
+	public function removeUserStorageMount(int $storageId, string $userId): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
@@ -434,7 +416,8 @@ class UserMountCache implements IUserMountCache {
 		$query->executeStatement();
 	}
 
-	public function remoteStorageMounts($storageId) {
+	#[Override]
+	public function remoteStorageMounts(int $storageId): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
@@ -442,11 +425,8 @@ class UserMountCache implements IUserMountCache {
 		$query->executeStatement();
 	}
 
-	/**
-	 * @param array $users
-	 * @return array
-	 */
-	public function getUsedSpaceForUsers(array $users) {
+	#[Override]
+	public function getUsedSpaceForUsers(array $users): array {
 		$builder = $this->connection->getQueryBuilder();
 
 		$slash = $builder->createNamedParameter('/');
@@ -480,11 +460,13 @@ class UserMountCache implements IUserMountCache {
 		return $results;
 	}
 
+	#[Override]
 	public function clear(): void {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
+	#[Override]
 	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
 		$mounts = $this->getMountsForUser($user);
 		$mountPoints = array_map(function (ICachedMountInfo $mount) {
@@ -512,6 +494,7 @@ class UserMountCache implements IUserMountCache {
 		throw new NotFoundException('No cached mount for path ' . $path);
 	}
 
+	#[Override]
 	public function getMountsInPath(IUser $user, string $path): array {
 		$path = rtrim($path, '/') . '/';
 		$mounts = $this->getMountsForUser($user);

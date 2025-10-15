@@ -32,6 +32,7 @@ use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -81,11 +82,9 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * Get the user for which the filesystem is setup
-	 *
-	 * @return \OC\User\User
+	 * Get the user for which the filesystem is set up.
 	 */
-	public function getUser() {
+	public function getUser(): ?IUser {
 		return $this->user;
 	}
 
@@ -93,6 +92,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $scope
 	 * @param string $method
 	 * @param callable $callback
+	 * @depreacted
 	 */
 	public function listen($scope, $method, callable $callback) {
 		$this->emitter->listen($scope, $method, $callback);
@@ -102,6 +102,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $scope optional
 	 * @param string $method optional
 	 * @param callable $callback optional
+	 * @depreacted
 	 */
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->emitter->removeListener($scope, $method, $callback);
@@ -131,36 +132,13 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
 
-	/**
-	 * @param string $storageId
-	 * @return \OC\Files\Mount\MountPoint[]
-	 */
-	public function getMountByStorageId($storageId) {
-		return $this->mountManager->findByStorageId($storageId);
-	}
-
-	/**
-	 * @param int $numericId
-	 * @return MountPoint[]
-	 */
-	public function getMountByNumericStorageId($numericId) {
-		return $this->mountManager->findByNumericId($numericId);
-	}
-
-	/**
-	 * @param \OC\Files\Mount\MountPoint $mount
-	 */
-	public function unMount($mount) {
-		$this->mountManager->remove($mount);
-	}
-
+	#[Override]
 	public function get($path) {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
@@ -366,7 +344,7 @@ class Root extends Folder implements IRootFolder {
 		return $this->userFolderCache->get($userId);
 	}
 
-	public function getUserMountCache() {
+	private function getUserMountCache(): IUserMountCache {
 		return $this->userMountCache;
 	}
 
@@ -399,10 +377,7 @@ class Root extends Folder implements IRootFolder {
 		return $node;
 	}
 
-	/**
-	 * @param int $id
-	 * @return Node[]
-	 */
+	#[Override]
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
 		if ($path !== '' && strpos($path, '/', 1) > 0) {
