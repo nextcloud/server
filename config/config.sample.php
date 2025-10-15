@@ -757,7 +757,7 @@ $CONFIG = [
 	/**
 	 * The URL of your proxy server, for example, ``proxy.example.com:8081``.
 	 *
-	 * Note: Guzzle (the HTTP library used by Nextcloud) reads the environment
+	 * NOTE: Guzzle (the HTTP library used by Nextcloud) reads the environment
 	 * variables HTTP_PROXY (only for CLI requests), HTTPS_PROXY, and NO_PROXY by default.
 	 *
 	 * If you configure a proxy with Nextcloud, any default configuration by Guzzle
@@ -1064,10 +1064,16 @@ $CONFIG = [
 	'logfilemode' => 0640,
 
 	/**
-	 * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
-	 * Warning, 3 = Error, and 4 = Fatal. The default value is Warning.
+	 * Loglevel to start logging at. Valid values are:
 	 *
-	 * Defaults to ``2``
+	 * - ``0`` = Debug
+	 * - ``1`` = Info
+	 * - ``2`` = Warning
+	 * - ``3`` = Error
+	 * - ``4`` = Fatal.
+	 *
+	 *
+	 * Defaults to ``2`` (Warning)
 	 */
 	'loglevel' => 2,
 
@@ -1155,14 +1161,13 @@ $CONFIG = [
 	/**
 	 * This uses PHP.date formatting; see https://www.php.net/manual/en/function.date.php
 	 *
-	 * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00`` - see \DateTime::ATOM
-	 * (https://www.php.net/manual/en/class.datetime.php#datetime.constants.atom)
+	 * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00``, see ``\DateTime::ATOM``
+	 * https://www.php.net/manual/en/class.datetimeinterface.php#datetimeinterface.constants.atom
 	 */
 	'logdateformat' => 'F d, Y H:i:s',
 
 	/**
-	 * The timezone for logfiles. You may change this; see
-	 * https://www.php.net/manual/en/timezones.php
+	 * The timezone for logfiles. See https://www.php.net/manual/en/timezones.php
 	 *
 	 * Defaults to ``UTC``
 	 */
@@ -1304,8 +1309,9 @@ $CONFIG = [
 	 * By default, activities in team folders or external storages are only generated
 	 * for the current user. This is due to a limitations in current implementations.
 	 * This config flag makes activities in group folders and external storages work
-	 * like in normal shares (when set to ``true``). WARNING: Enabling this comes with
-	 * some CRITICAL trade-offs:
+	 * like in normal shares (when set to ``true``).
+	 *
+	 * WARNING: Enabling this comes with some CRITICAL trade-offs:
 	 *
 	 * - If team folder "Advanced Permissions" (ACLs) are used, activities do not
 	 *   respect the permissions and therefore all users see all activities, even
@@ -1550,7 +1556,8 @@ $CONFIG = [
 	/**
 	 * Maximum file size for metadata generation.
 	 * If a file exceeds this size, metadata generation will be skipped.
-	 * Note: memory equivalent to this size will be used for metadata generation.
+	 *
+	 * NOTE: memory equivalent to this size will be used for metadata generation.
 	 *
 	 * Default: 256 megabytes.
 	 */
@@ -1738,11 +1745,11 @@ $CONFIG = [
 	 * higher.
 	 *
 	 * Available failover modes:
-	 *  - \RedisCluster::FAILOVER_NONE - only send commands to master nodes (default)
-	 *  - \RedisCluster::FAILOVER_ERROR - failover to slaves for read commands if master is unavailable (recommended)
-	 *  - \RedisCluster::FAILOVER_DISTRIBUTE - randomly distribute read commands across master and slaves
+	 *  - ``\RedisCluster::FAILOVER_NONE`` - only send commands to master nodes (default)
+	 *  - ``\RedisCluster::FAILOVER_ERROR`` - failover to slaves for read commands if master is unavailable (recommended)
+	 *  - ``\RedisCluster::FAILOVER_DISTRIBUTE`` - randomly distribute read commands across master and slaves
 	 *
-	 * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting, and we strongly
+	 * WARNING: ``\RedisCluster::FAILOVER_DISTRIBUTE`` is a not recommended setting, and we strongly
 	 * suggest to not use it if you use Redis for file locking. Due to the way Redis
 	 * is synchronized, it could happen that the read for an existing lock is
 	 * scheduled to a slave that is not fully synchronized with the connected master
@@ -2114,30 +2121,30 @@ $CONFIG = [
 	 *
 	 * To convert an existing 3-byte setup to a 4-byte setup, configure the MySQL
 	 * parameters as described below and run the migration command:
-	 * ./occ db:convert-mysql-charset
+	 * ``./occ db:convert-mysql-charset``
 	 * This config setting will be automatically updated after a successful migration.
 	 *
 	 * Refer to the documentation for more details.
 	 *
 	 * MySQL requires specific settings for longer indexes (> 767 bytes), which are
-	 * necessary for 4-byte character support:
+	 * necessary for 4-byte character support::
 	 *
-	 * [mysqld]
-	 * innodb_large_prefix=ON
-	 * innodb_file_format=Barracuda
-	 * innodb_file_per_table=ON
+	 *     [mysqld]
+	 *     innodb_large_prefix=ON
+	 *     innodb_file_format=Barracuda
+	 *     innodb_file_per_table=ON
 	 *
 	 * Tables will be created with:
-	 *  * character set: utf8mb4
-	 *  * collation:     utf8mb4_bin
-	 *  * row_format:    dynamic
+	 *  * character set: ``utf8mb4``
+	 *  * collation:     ``utf8mb4_bin``
+	 *  * row_format:    ``dynamic``
 	 *
 	 * See:
-	 * https://dev.mysql.com/doc/refman/5.7/en/charset-unicode-utf8mb4.html
-	 * https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_large_prefix
-	 * https://mariadb.com/kb/en/mariadb/xtradbinnodb-server-system-variables/#innodb_large_prefix
-	 * http://www.tocker.ca/2013/10/31/benchmarking-innodb-page-compression-performance.html
-	 * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
+	 *  * https://dev.mysql.com/doc/refman/5.7/en/charset-unicode-utf8mb4.html
+	 *  * https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_large_prefix
+	 *  * https://mariadb.com/kb/en/mariadb/xtradbinnodb-server-system-variables/#innodb_large_prefix
+	 *  * http://www.tocker.ca/2013/10/31/benchmarking-innodb-page-compression-performance.html
+	 *  * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
 	 */
 	'mysql.utf8mb4' => false,
 
@@ -2149,9 +2156,9 @@ $CONFIG = [
 	 * MariaDB and MySQL share some collations, but also have incompatible ones,
 	 * depending on the database server version.
 	 *
-	 * This option allows overriding the automatic collation choice. Example:
+	 * This option allows overriding the automatic collation choice. Example::
 	 *
-	 * 'mysql.collation' => 'utf8mb4_0900_as_ci',
+	 *     'mysql.collation' => 'utf8mb4_0900_as_ci',
 	 *
 	 * This setting does not affect table creation or setup, where utf8[mb4]_bin is
 	 * always used. It applies only to SQL queries using LIKE comparison operators.
@@ -2218,7 +2225,7 @@ $CONFIG = [
 	 *
 	 * WARNING: Use this only if you understand the implications.
 	 *
-	 * Note: This list is case-insensitive.
+	 * NOTE: This list is case-insensitive.
 	 *
 	 * Defaults to ``['.htaccess']``
 	 */
@@ -2231,7 +2238,7 @@ $CONFIG = [
 	 * The basename is the filename without the extension, e.g., for "archive.tar.gz",
 	 * the basename is "archive".
 	 *
-	 * Note: This list is case-insensitive.
+	 * NOTE: This list is case-insensitive.
 	 *
 	 * Defaults to ``[]`` (empty array)
 	 */
