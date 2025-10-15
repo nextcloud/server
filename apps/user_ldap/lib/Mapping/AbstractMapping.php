@@ -139,14 +139,13 @@ abstract class AbstractMapping {
 			//having SQL injection at all.
 			throw new \Exception('Invalid Column Name');
 		}
-		$query = $this->dbc->prepare('
-			SELECT `' . $fetchCol . '`
-			FROM `' . $this->getTableName() . '`
-			WHERE `' . $compareCol . '` = ?
-		');
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->select($fetchCol)
+			->from($this->getTableName())
+			->where($qb->expr()->eq($compareCol, $qb->createNamedParameter($search)));
 
 		try {
-			$res = $query->execute([$search]);
+			$res = $qb->executeQuery();
 			$data = $res->fetchOne();
 			$res->closeCursor();
 			return $data;
