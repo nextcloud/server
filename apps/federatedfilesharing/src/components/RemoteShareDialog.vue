@@ -35,8 +35,8 @@ const buttons = computed(() => [
 	},
 	{
 		label: t('federatedfilesharing', 'Add remote share'),
-		nativeType: props.passwordRequired ? 'submit' : undefined,
-		type: 'primary',
+		type: props.passwordRequired ? 'submit' : undefined,
+		variant: 'primary',
 		callback: () => emit('close', true, password.value),
 	},
 ])
