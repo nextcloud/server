@@ -33,7 +33,6 @@ use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -69,7 +68,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Returns availability status
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/is_available', root: '/text2image')]
 	public function isAvailable(): DataResponse {
 		return new DataResponse([
@@ -90,9 +89,8 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task scheduled successfully
 	 * 412: Scheduling task is not possible
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
-	#[AnonRateLimit(limit: 5, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/text2image')]
 	public function schedule(string $input, string $appId, string $identifier = '', int $numberOfImages = 8): DataResponse {
 		$task = new Task($input, $appId, $numberOfImages, $this->userId, $identifier);
@@ -126,7 +124,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'text2image')]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/text2image')]
 	public function getTask(int $id): DataResponse {
@@ -158,7 +156,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Image returned
 	 * 404: Task or image not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'text2image')]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}/image/{index}', root: '/text2image')]
 	public function getImage(int $id, int $index): DataResponse|FileDisplayResponse {
