@@ -138,9 +138,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->get(IServerContainer::class)->getWebRoot();
 		});
 
-		$this->registerService('OC_Defaults', function (ContainerInterface $c): object {
-			return $c->get(IServerContainer::class)->get('ThemingDefaults');
-		});
+		$this->registerDeprecatedAlias('OC_Defaults', \OCP\Theming\IDefaults::class);
 
 		/** @deprecated 32.0.0 */
 		$this->registerDeprecatedAlias('Protocol', Http::class);

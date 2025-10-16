@@ -14,7 +14,6 @@ use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Console\ConsoleEvent;
-use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -39,9 +38,9 @@ class Application {
 		private LoggerInterface $logger,
 		private MemoryInfo $memoryInfo,
 		private IAppManager $appManager,
-		private Defaults $defaults,
+		string $instanceName,
 	) {
-		$this->application = new SymfonyApplication($defaults->getName(), $serverVersion->getVersionString());
+		$this->application = new SymfonyApplication($instanceName, $serverVersion->getVersionString());
 	}
 
 	/**

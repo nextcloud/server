@@ -929,6 +929,7 @@ return array(
     'OCP\\TextToImage\\IProvider' => $baseDir . '/lib/public/TextToImage/IProvider.php',
     'OCP\\TextToImage\\IProviderWithUserId' => $baseDir . '/lib/public/TextToImage/IProviderWithUserId.php',
     'OCP\\TextToImage\\Task' => $baseDir . '/lib/public/TextToImage/Task.php',
+    'OCP\\Theming\\IDefaults' => $baseDir . '/lib/public/Theming/IDefaults.php',
     'OCP\\Translation\\CouldNotTranslateException' => $baseDir . '/lib/public/Translation/CouldNotTranslateException.php',
     'OCP\\Translation\\IDetectLanguageProvider' => $baseDir . '/lib/public/Translation/IDetectLanguageProvider.php',
     'OCP\\Translation\\ITranslationManager' => $baseDir . '/lib/public/Translation/ITranslationManager.php',
