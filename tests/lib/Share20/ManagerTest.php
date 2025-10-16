@@ -3260,20 +3260,28 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGetShareByTokenPublicUploadDisabled(): void {
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(5))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'no'],
 				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
+				['core', 'shareapi_allow_links_exclude_groups', '[]', '[]'],
 			]);
 
 		$share = $this->manager->newShare();
 		$share->setShareType(IShare::TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
 		$share->setSharedWith('sharedWith');
+		$share->setShareOwner('shareOwner');
 		$folder = $this->createMock(\OC\Files\Node\Folder::class);
 		$share->setNode($folder);
+
+		$shareOwner = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('shareOwner')
+			->willReturn($shareOwner);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getShareByToken')
@@ -3283,6 +3291,87 @@ class ManagerTest extends \Test\TestCase {
 		$res = $this->manager->getShareByToken('validToken');
 
 		$this->assertSame(\OCP\Constants::PERMISSION_READ, $res->getPermissions());
+	}
+
+	public function testGetShareByTokenShareOwnerExcludedFromLinkShares(): void {
+		$this->expectException(ShareNotFound::class);
+		$this->expectExceptionMessage('The requested share does not exist anymore');
+
+		$this->config
+			->expects($this->exactly(4))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
+				['core', 'shareapi_allow_links_exclude_groups', '[]', '["excludedGroup"]'],
+			]);
+
+		$this->l->expects($this->once())
+			->method('t')
+			->willReturnArgument(0);
+
+		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_LINK)
+			->setPermissions(Constants::PERMISSION_READ);
+		$share->setShareOwner('shareOwner');
+		$file = $this->createMock(File::class);
+		$share->setNode($file);
+
+		$shareOwner = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('shareOwner')
+			->willReturn($shareOwner);
+
+		$this->groupManager->expects($this->once())
+			->method('getUserGroupIds')
+			->with($shareOwner)
+			->willReturn(['excludedGroup', 'otherGroup']);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->manager->getShareByToken('token');
+	}
+
+	public function testGetShareByTokenShareOwnerNotExcludedFromLinkShares(): void {
+		$this->config
+			->expects($this->exactly(4))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', 'no', 'no'],
+				['core', 'shareapi_allow_links_exclude_groups', '[]', '["excludedGroup"]'],
+			]);
+
+		$share = $this->manager->newShare();
+		$share->setShareType(IShare::TYPE_LINK)
+			->setPermissions(Constants::PERMISSION_READ);
+		$share->setShareOwner('shareOwner');
+		$file = $this->createMock(File::class);
+		$share->setNode($file);
+
+		$shareOwner = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('shareOwner')
+			->willReturn($shareOwner);
+
+		$this->groupManager->expects($this->once())
+			->method('getUserGroupIds')
+			->with($shareOwner)
+			->willReturn(['allowedGroup', 'otherGroup']);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$res = $this->manager->getShareByToken('token');
+
+		$this->assertSame($share, $res);
 	}
 
 	public function testCheckPasswordNoLinkShare(): void {
