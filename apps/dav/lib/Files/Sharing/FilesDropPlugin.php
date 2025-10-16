@@ -113,7 +113,6 @@ class FilesDropPlugin extends ServerPlugin {
 		$rootPath = substr($path, 0, strpos($path, $token) + strlen($token));
 		// e.g /Folder/image.jpg
 		$relativePath = substr($path, strlen($rootPath));
-		$isRootUpload = substr_count($relativePath, '/') === 1;
 
 		// Extract the attributes for the file request
 		$isFileRequest = false;
@@ -130,14 +129,6 @@ class FilesDropPlugin extends ServerPlugin {
 		// We need a valid nickname for file requests
 		if ($isFileRequest && !$nickname) {
 			throw new BadRequest('A nickname header is required for file requests');
-		}
-
-		// We're only allowing the upload of
-		// long path with subfolders if a nickname is set.
-		// This prevents confusion when uploading files and help
-		// classify them by uploaders.
-		if (!$nickname && !$isRootUpload) {
-			throw new BadRequest('A nickname header is required when uploading subfolders');
 		}
 
 		if ($nickname) {
