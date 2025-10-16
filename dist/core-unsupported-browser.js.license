@@ -3,9 +3,11 @@ SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: CC-BY-4.0
 SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: baseline-browser-mapping developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sergey Rubanov <chi187@gmail.com>
@@ -54,11 +56,14 @@ This file is generated from multiple sources. Included packages:
 - base64-js
 	- version: 1.5.1
 	- license: MIT
+- baseline-browser-mapping
+	- version: 2.8.16
+	- license: Apache-2.0
 - browserslist
-	- version: 4.24.4
+	- version: 4.26.3
 	- license: MIT
 - caniuse-lite
-	- version: 1.0.30001700
+	- version: 1.0.30001749
 	- license: CC-BY-4.0
 - css-loader
 	- version: 7.1.2
@@ -67,7 +72,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - electron-to-chromium
-	- version: 1.5.103
+	- version: 1.5.234
 	- license: ISC
 - escape-html
 	- version: 1.0.3
@@ -79,7 +84,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - node-releases
-	- version: 2.0.19
+	- version: 2.0.23
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -100,7 +105,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.101.3
+	- version: 5.102.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
