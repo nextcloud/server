@@ -142,12 +142,12 @@ class NonExistingFolder extends Folder {
 	}
 
 	#[Override]
-	public function newFolder(string $path): \OCP\Files\Folder {
+	public function newFolder(string $path): Folder {
 		throw new NotFoundException();
 	}
 
 	#[Override]
-	public function newFile(string $path, $content = null): \OCP\Files\File {
+	public function newFile(string $path, $content = null): File {
 		throw new NotFoundException();
 	}
 

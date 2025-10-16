@@ -38,7 +38,7 @@ class Folder extends Node implements IFolder {
 	private bool $wasDeleted = false;
 
 	#[Override]
-	protected function createNonExistingNode(string $path): INode {
+	protected function createNonExistingNode(string $path): NonExistingFolder {
 		return new NonExistingFolder($this->root, $this->view, $path);
 	}
 
@@ -102,7 +102,7 @@ class Folder extends Node implements IFolder {
 	}
 
 	#[Override]
-	public function newFolder(string $path): \OCP\Files\Folder {
+	public function newFolder(string $path): self {
 		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
@@ -133,7 +133,7 @@ class Folder extends Node implements IFolder {
 	}
 
 	#[Override]
-	public function newFile(string $path, $content = null): \OCP\Files\File {
+	public function newFile(string $path, $content = null): File {
 		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
@@ -342,28 +342,21 @@ class Folder extends Node implements IFolder {
 		}
 	}
 
-	/**
-	 * Add a suffix to the name in case the file exists
-	 *
-	 * @param string $filename
-	 * @return string
-	 * @throws NotPermittedException
-	 */
 	#[Override]
-	public function getNonExistingName($filename) {
+	public function getNonExistingName(string $name): string {
 		$path = $this->getPath();
 		if ($path === '/') {
 			$path = '';
 		}
-		if ($pos = strrpos($filename, '.')) {
-			$name = substr($filename, 0, $pos);
-			$ext = substr($filename, $pos);
+		if ($pos = strrpos($name, '.')) {
+			$name = substr($name, 0, $pos);
+			$ext = substr($name, $pos);
 		} else {
-			$name = $filename;
+			$name = $name;
 			$ext = '';
 		}
 
-		$newpath = $path . '/' . $filename;
+		$newpath = $path . '/' . $name;
 		if ($this->view->file_exists($newpath)) {
 			if (preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
 				/** @var array<int<0, max>, array> $matches */
