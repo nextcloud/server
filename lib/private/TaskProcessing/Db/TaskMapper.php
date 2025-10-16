@@ -233,4 +233,35 @@ class TaskMapper extends QBMapper {
 			return 0;
 		}
 	}
+
+	/**
+	 * @param list<string> $taskTypes
+	 * @param list<int> $taskIdsToIgnore
+	 * @param int $numberOfTasks
+	 * @return list<Task>
+	 * @throws Exception
+	 */
+	public function findNOldestScheduledByType(array $taskTypes, array $taskIdsToIgnore, int $numberOfTasks) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)))
+			->setMaxResults($numberOfTasks)
+			->orderBy('last_updated', 'ASC');
+
+		if (!empty($taskTypes)) {
+			$filter = [];
+			foreach ($taskTypes as $taskType) {
+				$filter[] = $qb->expr()->eq('type', $qb->createPositionalParameter($taskType));
+			}
+
+			$qb->andWhere($qb->expr()->orX(...$filter));
+		}
+
+		if (!empty($taskIdsToIgnore)) {
+			$qb->andWhere($qb->expr()->notIn('id', $qb->createNamedParameter($taskIdsToIgnore, IQueryBuilder::PARAM_INT_ARRAY)));
+		}
+
+		return $this->findEntities($qb);
+	}
 }
