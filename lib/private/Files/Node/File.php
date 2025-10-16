@@ -14,7 +14,7 @@ use Override;
 
 class File extends Node implements \OCP\Files\File {
 	#[Override]
-	protected function createNonExistingNode(string $path): \OCP\Files\Node {
+	protected function createNonExistingNode(string $path): NonExistingFile {
 		return new NonExistingFile($this->root, $this->view, $path);
 	}
 

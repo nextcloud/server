@@ -37,7 +37,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	private bool $wasDeleted = false;
 
 	#[Override]
-	protected function createNonExistingNode(string $path): INode {
+	protected function createNonExistingNode(string $path): NonExistingFolder {
 		return new NonExistingFolder($this->root, $this->view, $path);
 	}
 
@@ -101,7 +101,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	#[Override]
-	public function newFolder(string $path): \OCP\Files\Folder {
+	public function newFolder(string $path): self {
 		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
@@ -132,7 +132,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	#[Override]
-	public function newFile(string $path, $content = null): \OCP\Files\File {
+	public function newFile(string $path, $content = null): File {
 		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
