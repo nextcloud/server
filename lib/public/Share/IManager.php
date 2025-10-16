@@ -298,10 +298,12 @@ interface IManager {
 	/**
 	 * Is public link sharing enabled
 	 *
+	 * @param ?IUser $user User to check against group exclusions, defaults to current session user
 	 * @return bool
 	 * @since 9.0.0
+	 * @since 33.0.0 Added optional $user parameter
 	 */
-	public function shareApiAllowLinks();
+	public function shareApiAllowLinks(?IUser $user = null);
 
 	/**
 	 * Is password on public link required
