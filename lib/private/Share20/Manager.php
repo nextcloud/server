@@ -1413,7 +1413,7 @@ class Manager implements IManager {
 		}
 		$share = null;
 		try {
-			if ($this->shareApiAllowLinks()) {
+			if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
@@ -1494,6 +1494,17 @@ class Manager implements IManager {
 				if ($user?->isEnabled() === false) {
 					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
 				}
+			}
+		}
+
+		// For link and email shares, verify the share owner can still create such shares
+		if ($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) {
+			$shareOwner = $this->userManager->get($share->getShareOwner());
+			if ($shareOwner === null) {
+				throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
+			}
+			if (!$this->userCanCreateLinkShares($shareOwner)) {
+				throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 			}
 		}
 	}
@@ -1756,6 +1767,26 @@ class Manager implements IManager {
 				$userGroups = $this->groupManager->getUserGroupIds($user);
 				return !(bool)array_intersect($excludedGroups, $userGroups);
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if a specific user can create link shares
+	 *
+	 * @param \OCP\IUser $user The user to check
+	 * @return bool
+	 */
+	protected function userCanCreateLinkShares(\OCP\IUser $user): bool {
+		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+			return false;
+		}
+
+		$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
+		if ($excludedGroups) {
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+			return !(bool)array_intersect($excludedGroups, $userGroups);
 		}
 
 		return true;
