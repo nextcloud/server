@@ -39,6 +39,8 @@ class IpAddressClassifierTest extends TestCase {
 
 	public static function localIpAddressData(): array {
 		return [
+			['127.0.0.1'],
+			['127.0.0.13'], // all 127.0.0.0/8 network is loopback address
 			['192.168.0.1'],
 			['fe80::200:5aee:feaa:20a2'],
 			['fe80::1fc4:15d8:78db:2319%enp4s0'], // v6 zone ID
