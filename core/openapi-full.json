@@ -5249,7 +5249,6 @@
                     "text_processing_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
@@ -5467,7 +5466,6 @@
                     "text_processing_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
