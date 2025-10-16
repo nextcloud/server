@@ -87,6 +87,23 @@ class FilesDropPlugin extends ServerPlugin {
 			throw new MethodNotAllowed('Only PUT, MKCOL and MOVE are allowed on files drop');
 		}
 
+		// Extract the attributes for the file request
+		$isFileRequest = false;
+		$attributes = $this->share->getAttributes();
+		if ($attributes !== null) {
+			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
+		}
+
+		// Retrieve the nickname from the request
+		$nickname = $request->hasHeader('X-NC-Nickname')
+			? trim(urldecode($request->getHeader('X-NC-Nickname')))
+			: null;
+
+		// We need a valid nickname for file requests
+		if ($isFileRequest && !$nickname) {
+			throw new BadRequest('A nickname header is required for file requests');
+		}
+
 		// If this is a folder creation request
 		// let's stop there and let the onMkcol handle it
 		if ($request->getMethod() === 'MKCOL') {
@@ -113,23 +130,6 @@ class FilesDropPlugin extends ServerPlugin {
 		$rootPath = substr($path, 0, strpos($path, $token) + strlen($token));
 		// e.g /Folder/image.jpg
 		$relativePath = substr($path, strlen($rootPath));
-
-		// Extract the attributes for the file request
-		$isFileRequest = false;
-		$attributes = $this->share->getAttributes();
-		if ($attributes !== null) {
-			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
-		}
-
-		// Retrieve the nickname from the request
-		$nickname = $request->hasHeader('X-NC-Nickname')
-			? trim(urldecode($request->getHeader('X-NC-Nickname')))
-			: null;
-
-		// We need a valid nickname for file requests
-		if ($isFileRequest && !$nickname) {
-			throw new BadRequest('A nickname header is required for file requests');
-		}
 
 		if ($nickname) {
 			try {
