@@ -5421,7 +5421,6 @@
                     "text_to_image_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
@@ -5491,7 +5490,6 @@
                     "text_to_image_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
@@ -5674,7 +5672,6 @@
                     "text_to_image_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
@@ -5983,7 +5980,6 @@
                     "text_to_image_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
