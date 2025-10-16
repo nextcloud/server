@@ -469,7 +469,7 @@ OC.L10N.register(
     "GPUs support" : "GPUer understøttelse",
     "Compute device" : "Beregningsapparat",
     "Advanced deploy options" : "Avancerede udrulningsindstillinger",
-    "Edit ExApp deploy options before installation" : "Rediger ExApp udrulningsindstillinger før installation",
+    "Edit ExApp deploy options before installation" : "Redigér ExApp udrulningsindstillinger før installation",
     "Configured ExApp deploy options. Can be set only during installation" : "Konfigurerede ExApp udrulningsindstillinger. Kan kun indstilles under installationen",
     "Learn more" : "Lær mere",
     "Environment variables" : "Miljøvariabler",

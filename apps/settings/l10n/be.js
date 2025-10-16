@@ -85,6 +85,7 @@ OC.L10N.register(
     "Unknown database platform" : "Невядомая платформа базы даных",
     "Architecture" : "Архітэктура",
     "64-bit" : "64-бітная",
+    "_No scheduled tasks in the last day._::_No scheduled tasks in the last %n days._" : ["Няма запланаваных заданняў за апошні дзень.","Няма запланаваных заданняў за апошнія %n дні.","Няма запланаваных заданняў за апошніх %n дзён.","Няма запланаваных заданняў за апошніх %n дзён."],
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Ваша база даных не працуе з узроўнем ізаляцыі транзакцый \"READ COMMITTED\". Гэта можа выклікаць праблемы пры паралельным выкананні некалькіх дзеянняў.",
     "Font file loading" : "Загрузка файла шрыфту",
     "Profile information" : "Звесткі профілю",
