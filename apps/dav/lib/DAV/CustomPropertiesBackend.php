@@ -516,6 +516,18 @@ class CustomPropertiesBackend implements BackendInterface {
 		return $path;
 	}
 
+	private static function checkIsArrayOfScalar(string $name, array $array): void {
+		foreach ($array as $item) {
+			if (is_array($item)) {
+				self::checkIsArrayOfScalar($name, $item);
+			} elseif ($item !== null && !is_scalar($item)) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of array containing " . gettype($item),
+				);
+			}
+		}
+	}
+
 	/**
 	 * @throws ParseException If parsing a \Sabre\DAV\Xml\Property\Complex value fails
 	 * @throws DavException If the property value is invalid
@@ -552,25 +564,20 @@ class CustomPropertiesBackend implements BackendInterface {
 		} else {
 			if (is_array($value)) {
 				// For array only allow scalar values
-				foreach ($value as $item) {
-					if (!is_scalar($item)) {
-						throw new DavException(
-							"Property \"$name\" has an invalid value of array containing " . gettype($value),
-						);
-					}
-				}
+				self::checkIsArrayOfScalar($name, $value);
 			} elseif (!is_object($value)) {
 				throw new DavException(
 					"Property \"$name\" has an invalid value of type " . gettype($value),
 				);
-			}
-			if (!str_starts_with($value::class, 'Sabre\\DAV\\Xml\\Property\\')
-				&& !str_starts_with($value::class, 'Sabre\\CalDAV\\Xml\\Property\\')
-				&& !str_starts_with($value::class, 'Sabre\\CardDAV\\Xml\\Property\\')
-				&& !str_starts_with($value::class, 'OCA\\DAV\\')) {
-				throw new DavException(
-					"Property \"$name\" has an invalid value of class " . $value::class,
-				);
+			} else {
+				if (!str_starts_with($value::class, 'Sabre\\DAV\\Xml\\Property\\')
+					&& !str_starts_with($value::class, 'Sabre\\CalDAV\\Xml\\Property\\')
+					&& !str_starts_with($value::class, 'Sabre\\CardDAV\\Xml\\Property\\')
+					&& !str_starts_with($value::class, 'OCA\\DAV\\')) {
+					throw new DavException(
+						"Property \"$name\" has an invalid value of class " . $value::class,
+					);
+				}
 			}
 			$valueType = self::PROPERTY_TYPE_OBJECT;
 			// serialize produces null character
