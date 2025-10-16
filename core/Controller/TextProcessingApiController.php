@@ -28,7 +28,6 @@ namespace OC\Core\Controller;
 
 use InvalidArgumentException;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
@@ -102,9 +101,8 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 400: Scheduling task is not possible
 	 * 412: Scheduling task is not possible
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
-	#[AnonRateLimit(limit: 5, period: 120)]
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
 		try {
 			$task = new Task($type, $input, $appId, $this->userId, $identifier);
@@ -135,7 +133,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	public function getTask(int $id): DataResponse {
 		try {
 			$task = $this->textProcessingManager->getUserTask($id, $this->userId);
