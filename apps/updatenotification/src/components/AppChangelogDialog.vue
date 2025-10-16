@@ -55,7 +55,7 @@ const dialogButtons = [
 	},
 	{
 		label: t('updatenotification', 'Get started'),
-		type: 'primary',
+		variant: 'primary',
 		callback: () => {
 			emit('dismiss')
 			emit('update:open', false)
