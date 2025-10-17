@@ -8,6 +8,7 @@ namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
@@ -144,8 +145,6 @@ class PublicPreviewController extends PublicShareController {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * Get a direct link preview for a shared file
 	 *
 	 * @param string $token Token of the share
@@ -159,6 +158,7 @@ class PublicPreviewController extends PublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoSameSiteCookieRequired]
 	public function directLink(string $token) {
 		// No token no image
 		if ($token === '') {

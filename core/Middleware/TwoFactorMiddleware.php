@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Core\Middleware;
 
 use Exception;
+use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -18,6 +19,7 @@ use OC\Core\Controller\TwoFactorChallengeController;
 use OC\User\Session;
 use OCA\TwoFactorNextcloudNotification\Controller\APIController;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
@@ -26,6 +28,8 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
+use ReflectionMethod;
 
 class TwoFactorMiddleware extends Middleware {
 	public function __construct(
@@ -35,6 +39,7 @@ class TwoFactorMiddleware extends Middleware {
 		private IURLGenerator $urlGenerator,
 		private IControllerMethodReflector $reflector,
 		private IRequest $request,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -43,7 +48,9 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($this->reflector->hasAnnotation('NoTwoFactorRequired')) {
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'NoTwoFactorRequired', NoTwoFactorRequired::class)) {
 			// Route handler explicitly marked to work without finished 2FA are
 			// not blocked
 			return;
@@ -56,7 +63,7 @@ class TwoFactorMiddleware extends Middleware {
 
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
-			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
+			&& !$reflectionMethod->getAttributes(TwoFactorSetUpDoneRequired::class)) {
 			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
 
 			if (!($providers->getPrimaryProviders() === [] && !$providers->isProviderMissing())) {
@@ -86,7 +93,7 @@ class TwoFactorMiddleware extends Middleware {
 				|| $this->session->exists('app_api')  // authenticated using an AppAPI Auth
 				|| $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
 
-				$this->checkTwoFactor($controller, $methodName, $user);
+				$this->checkTwoFactor($controller, $user);
 			} elseif ($controller instanceof TwoFactorChallengeController) {
 				// Allow access to the two-factor controllers only if two-factor authentication
 				// is in progress.
@@ -96,7 +103,7 @@ class TwoFactorMiddleware extends Middleware {
 		// TODO: dont check/enforce 2FA if a auth token is used
 	}
 
-	private function checkTwoFactor(Controller $controller, $methodName, IUser $user) {
+	private function checkTwoFactor(Controller $controller, IUser $user) {
 		// If two-factor auth is in progress disallow access to any controllers
 		// defined within "LoginController".
 		$needsSecondFactor = $this->twoFactorManager->needsSecondFactor($user);
@@ -129,5 +136,27 @@ class TwoFactorMiddleware extends Middleware {
 		}
 
 		throw $exception;
+	}
+
+
+	/**
+	 * @template T
+	 *
+	 * @param ReflectionMethod $reflectionMethod
+	 * @param ?string $annotationName
+	 * @param class-string<T> $attributeClass
+	 * @return boolean
+	 */
+	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, ?string $annotationName, string $attributeClass): bool {
+		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			return true;
+		}
+
+		if ($annotationName && $this->reflector->hasAnnotation($annotationName)) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
+			return true;
+		}
+
+		return false;
 	}
 }
