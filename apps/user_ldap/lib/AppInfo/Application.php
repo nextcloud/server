@@ -29,6 +29,8 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -85,6 +87,8 @@ class Application extends App implements IBootstrap {
 			function (ContainerInterface $c) {
 				return new Manager(
 					$c->get(IConfig::class),
+					$c->get(IUserConfig::class),
+					$c->get(IAppConfig::class),
 					$c->get(LoggerInterface::class),
 					$c->get(IAvatarManager::class),
 					$c->get(Image::class),
