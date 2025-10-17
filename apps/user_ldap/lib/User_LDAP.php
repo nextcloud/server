@@ -70,8 +70,9 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	public function loginName2UserName($loginName, bool $forceLdapRefetch = false) {
 		$cacheKey = 'loginName2UserName-' . $loginName;
 		$username = $this->access->connection->getFromCache($cacheKey);
+		$knownDn = $username ? $this->access->username2dn($username) : false;
 
-		$ignoreCache = ($username === false && $forceLdapRefetch);
+		$ignoreCache = (($username === false || $knownDn === false) && $forceLdapRefetch);
 		if ($username !== null && !$ignoreCache) {
 			return $username;
 		}
@@ -138,6 +139,16 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return false;
 		}
 		$dn = $this->access->username2dn($username);
+		if ($dn === false) {
+			$this->logger->warning(
+				'LDAP Login: Found user {user}, but no assigned DN',
+				[
+					'app' => 'user_ldap',
+					'user' => $username,
+				]
+			);
+			return false;
+		}
 		$user = $this->access->userManager->get($dn);
 
 		if (!$user instanceof User) {
