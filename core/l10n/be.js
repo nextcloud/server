@@ -314,6 +314,7 @@ OC.L10N.register(
     "Storage & database" : "Сховішча і база даных",
     "Data folder" : "Папка з данымі",
     "Database configuration" : "Канфігурацыя базы даных",
+    "Database type" : "Тып базы даных",
     "Only {firstAndOnlyDatabase} is available." : "Даступна толькі {firstAndOnlyDatabase}.",
     "Install and activate additional PHP modules to choose other database types." : "Усталюйце і актывуйце дадатковыя модулі PHP, каб выбраць іншы тып базы даных.",
     "For more details check out the documentation." : "Для атрымання больш падрабязнай інфармацыі азнаёмцеся з дакументацыяй.",
