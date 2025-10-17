@@ -666,11 +666,15 @@ class Server extends ServerContainer implements IServerContainer {
 			$factory = new LogFactory($c, $this->get(SystemConfig::class));
 			$logger = $factory->get($logType);
 			$registry = $c->get(\OCP\Support\CrashReport\IRegistry::class);
+			$appManagerFactory = fn() => $c->get(IAppManager::class);
 
 			return new Log($logger, $this->get(SystemConfig::class), crashReporters: $registry);
 		});
 		// PSR-3 logger
 		$this->registerAlias(LoggerInterface::class, PsrLoggerAdapter::class);
+		$this->registerService(PsrLoggerAdapter::class, function (Server $c) {
+			return new PsrLoggerAdapter(fn () => $c->get(Log::class));
+		});
 
 		$this->registerService(ILogFactory::class, function (Server $c) {
 			return new LogFactory($c, $this->get(SystemConfig::class));
