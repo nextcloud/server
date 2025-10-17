@@ -35,6 +35,7 @@ class ComposerStaticInitWebhookListeners
         'OCA\\WebhookListeners\\Migration\\Version1500Date20251007130000' => __DIR__ . '/..' . '/../lib/Migration/Version1500Date20251007130000.php',
         'OCA\\WebhookListeners\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\WebhookListeners\\Service\\PHPMongoQuery' => __DIR__ . '/..' . '/../lib/Service/PHPMongoQuery.php',
+        'OCA\\WebhookListeners\\Service\\TokenService' => __DIR__ . '/..' . '/../lib/Service/TokenService.php',
         'OCA\\WebhookListeners\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\WebhookListeners\\Settings\\AdminSection' => __DIR__ . '/..' . '/../lib/Settings/AdminSection.php',
     );
