@@ -5,7 +5,7 @@ import type { Folder, Node } from '@nextcloud/files'
  */
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { showError, showInfo } from '@nextcloud/dialogs'
+import { showInfo, showWarning } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { davGetClient, davGetDefaultPropfind, davResultToNode } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -179,10 +179,9 @@ export async function resolveConflict<T extends ((Directory | File) | Node)>(fil
 		// Update the list of files to upload
 		return [...uploads, ...selected, ...renamed] as (typeof files)
 	} catch (error) {
-		logger.error(error as Error)
 		// User cancelled
-		showError(t('files', 'Upload cancelled'))
-		logger.error('User cancelled the upload')
+		logger.warn('User cancelled the upload', { error })
+		showWarning(t('files', 'Upload cancelled'))
 	}
 
 	return []
