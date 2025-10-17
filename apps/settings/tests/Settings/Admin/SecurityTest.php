@@ -10,8 +10,11 @@ use OC\Encryption\Manager;
 use OCA\Settings\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Settings\IDelegatedSettings;
+use OCP\Settings\ISettings;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -26,6 +29,7 @@ class SecurityTest extends TestCase {
 	private $mandatoryTwoFactor;
 	/** @var IInitialState|MockObject */
 	private $initialState;
+	private IL10N&MockObject $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -33,13 +37,15 @@ class SecurityTest extends TestCase {
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
 		$this->initialState = $this->createMock(IInitialState::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->admin = new Security(
 			$this->manager,
 			$this->userManager,
 			$this->mandatoryTwoFactor,
 			$this->initialState,
-			$this->createMock(IURLGenerator::class)
+			$this->createMock(IURLGenerator::class),
+			$this->l10n,
 		);
 	}
 
@@ -119,5 +125,36 @@ class SecurityTest extends TestCase {
 
 	public function testGetPriority(): void {
 		$this->assertSame(10, $this->admin->getPriority());
+	}
+
+	public function testGetName(): void {
+		$translatedName = 'Two-Factor Authentication';
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with('Two-Factor Authentication')
+			->willReturn($translatedName);
+
+		$this->assertSame($translatedName, $this->admin->getName());
+	}
+
+	public function testGetAuthorizedAppConfig(): void {
+		$this->assertEquals([], $this->admin->getAuthorizedAppConfig());
+		$this->assertIsArray($this->admin->getAuthorizedAppConfig());
+	}
+
+	public function testImplementsIDelegatedSettings(): void {
+		$this->assertInstanceOf(IDelegatedSettings::class, $this->admin);
+		$this->assertInstanceOf(ISettings::class, $this->admin);
+	}
+
+	public function testGetNameReturnsString(): void {
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with('Two-Factor Authentication')
+			->willReturn('Translated Name');
+
+		$name = $this->admin->getName();
+		$this->assertIsString($name);
+		$this->assertNotEmpty($name);
 	}
 }

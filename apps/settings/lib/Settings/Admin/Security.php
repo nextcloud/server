@@ -9,11 +9,12 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 
-class Security implements ISettings {
+class Security implements IDelegatedSettings {
 	private MandatoryTwoFactor $mandatoryTwoFactor;
 
 	public function __construct(
@@ -22,6 +23,7 @@ class Security implements ISettings {
 		MandatoryTwoFactor $mandatoryTwoFactor,
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
 	) {
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 	}
@@ -68,5 +70,13 @@ class Security implements ISettings {
 	 */
 	public function getPriority(): int {
 		return 10;
+	}
+
+	public function getName(): string {
+		return $this->l10n->t('Two-Factor Authentication');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [];
 	}
 }
