@@ -14584,6 +14584,12 @@
                                         "nullable": true,
                                         "default": null,
                                         "description": "An error message if the task failed"
+                                    },
+                                    "userFacingErrorMessage": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "An error message that will be shown to the user"
                                     }
                                 }
                             }

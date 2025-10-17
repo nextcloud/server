@@ -47,6 +47,8 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method int getEndedAt()
  * @method setAllowCleanup(int $allowCleanup)
  * @method int getAllowCleanup()
+ * @method setUserFacingErrorMessage(null|string $message)
+ * @method null|string getUserFacingErrorMessage()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -66,16 +68,17 @@ class Task extends Entity {
 	protected $startedAt;
 	protected $endedAt;
 	protected $allowCleanup;
+	protected $userFacingErrorMessage;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup', 'user_facing_error_message'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage'];
 
 
 	public function __construct() {
@@ -98,6 +101,7 @@ class Task extends Entity {
 		$this->addType('startedAt', 'integer');
 		$this->addType('endedAt', 'integer');
 		$this->addType('allowCleanup', 'integer');
+		$this->addType('userFacingErrorMessage', 'string');
 	}
 
 	public function toRow(): array {
@@ -127,6 +131,7 @@ class Task extends Entity {
 			'startedAt' => $task->getStartedAt(),
 			'endedAt' => $task->getEndedAt(),
 			'allowCleanup' => $task->getAllowCleanup() ? 1 : 0,
+			'userFacingErrorMessage' => $task->getUserFacingErrorMessage(),
 		]);
 		return $taskEntity;
 	}
@@ -150,6 +155,7 @@ class Task extends Entity {
 		$task->setStartedAt($this->getStartedAt());
 		$task->setEndedAt($this->getEndedAt());
 		$task->setAllowCleanup($this->getAllowCleanup() !== 0);
+		$task->setUserFacingErrorMessage($this->getUserFacingErrorMessage());
 		return $task;
 	}
 }
