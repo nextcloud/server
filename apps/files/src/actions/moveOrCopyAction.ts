@@ -13,7 +13,8 @@ import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 import { isAxiosError } from '@nextcloud/axios'
 import { FilePickerClosed, getFilePickerBuilder, showError, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath, FileAction, FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
+import { FileAction, FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
+import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { hasConflict, openConflictPicker } from '@nextcloud/upload'
 import { basename, join } from 'path'
@@ -119,9 +120,9 @@ export async function handleCopyMoveNodeTo(node: Node, destination: Folder, meth
 		}
 
 		try {
-			const client = davGetClient()
-			const currentPath = join(davRootPath, node.path)
-			const destinationPath = join(davRootPath, destination.path)
+			const client = getClient()
+			const currentPath = join(defaultRootPath, node.path)
+			const destinationPath = join(defaultRootPath, destination.path)
 
 			if (method === MoveCopyAction.COPY) {
 				let target = node.basename
@@ -144,10 +145,10 @@ export async function handleCopyMoveNodeTo(node: Node, destination: Folder, meth
 						join(destinationPath, target),
 						{
 							details: true,
-							data: davGetDefaultPropfind(),
+							data: getDefaultPropfind(),
 						},
 					) as ResponseDataDetailed<FileStat>
-					emit('files:node:created', davResultToNode(data))
+					emit('files:node:created', resultToNode(data))
 				}
 			} else {
 				// show conflict file popup if we do not allow overwriting
