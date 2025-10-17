@@ -14,6 +14,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
@@ -44,6 +45,7 @@ class IMipService {
 		private ISecureRandom $random,
 		private L10NFactory $l10nFactory,
 		private ITimeFactory $timeFactory,
+		private readonly IUserManager $userManager,
 	) {
 		$language = $this->l10nFactory->findGenericLanguage();
 		$locale = $this->l10nFactory->findLocale($language);
@@ -873,15 +875,32 @@ class IMipService {
 	 * @param Property|null $attendee
 	 */
 	public function setL10n(?Property $attendee = null) {
-		if ($attendee === null) {
-			return;
+		$language = null;
+		$locale = null;
+		// check if the attendee is a system user
+		$userAddress = (string)$attendee?->getValue();
+		if (str_starts_with($userAddress, 'mailto:')) {
+			$userAddress = substr($userAddress, 7);
 		}
-
-		$lang = $attendee->offsetGet('LANGUAGE');
-		if ($lang instanceof Parameter) {
-			$lang = $lang->getValue();
-			$this->l10n = $this->l10nFactory->get('dav', $lang);
+		$users = $this->userManager->getByEmail($userAddress);
+		if ($users !== []) {
+			$user = array_shift($users);
+			$language = $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
+			$locale = $this->config->getUserValue($user->getUID(), 'core', 'locale', null);
 		}
+		// fallback to attendee LANGUAGE parameter if language not set
+		if ($language === null && isset($attendee['LANGUAGE']) && $attendee['LANGUAGE'] instanceof Parameter) {
+			$language = $attendee['LANGUAGE']->getValue();
+		}
+		// fallback to system language if language not set
+		if ($language === null) {
+			$language = $this->l10nFactory->findGenericLanguage();
+		}
+		// fallback to system locale if locale not set
+		if ($locale === null) {
+			$locale = $this->l10nFactory->findLocale($language);
+		}
+		$this->l10n = $this->l10nFactory->get('dav', $language, $locale);
 	}
 
 	/**
