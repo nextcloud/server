@@ -108,7 +108,9 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 				$remote . '/ocm-provider',
 			];
 
+
 			foreach ($urls as $url) {
+				$exception = null;
 				$body = null;
 				$status = null;
 				try {
@@ -127,8 +129,13 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 						'exception' => $e,
 						'remote' => $remote
 					]);
+					// We want to throw only the last exception
+					$exception = $e;
 					continue;
 				}
+			}
+			if ($exception) {
+				throw $exception;
 			}
 
 
