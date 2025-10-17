@@ -11,17 +11,19 @@ namespace OCA\OAuth2\Settings;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 use Psr\Log\LoggerInterface;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
 	public function __construct(
 		private IInitialState $initialState,
 		private ClientMapper $clientMapper,
 		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
+		private IL10N $l10n,
 	) {
 	}
 
@@ -59,5 +61,13 @@ class Admin implements ISettings {
 
 	public function getPriority(): int {
 		return 100;
+	}
+
+	public function getName(): string {
+		return $this->l10n->t('OAuth 2.0 clients');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [];
 	}
 }
