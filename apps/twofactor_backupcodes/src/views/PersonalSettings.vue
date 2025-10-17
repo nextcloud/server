@@ -65,8 +65,6 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import { logger } from '../logger.ts'
 import { print } from '../service/PrintService.js'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 export default {
 	name: 'PersonalSettings',
 	components: {

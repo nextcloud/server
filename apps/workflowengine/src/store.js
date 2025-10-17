@@ -10,8 +10,6 @@ import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import { getApiUrl } from './helpers/api.js'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 Vue.use(Vuex)
 
 const store = new Store({

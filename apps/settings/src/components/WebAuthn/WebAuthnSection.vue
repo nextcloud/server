@@ -48,8 +48,6 @@ import WebAuthnDevice from './WebAuthnDevice.vue'
 import logger from '../../logger.ts'
 import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.js'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 const sortByName = sortBy('name')
 
 export default {

@@ -82,8 +82,6 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import logger from '../services/logger.ts'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 export default {
 	name: 'AdminSettings',
 
