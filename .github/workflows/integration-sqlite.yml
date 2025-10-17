@@ -120,7 +120,7 @@ jobs:
           ref: ${{ matrix.activity-versions }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 #v2.35.4
+        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
