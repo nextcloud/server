@@ -51,7 +51,11 @@ class Security implements IDelegatedSettings {
 		$this->initialState->provideInitialState('encryption-modules', $encryptionModuleList);
 		$this->initialState->provideInitialState('encryption-admin-doc', $this->urlGenerator->linkToDocs('admin-encryption'));
 
-		return new TemplateResponse('settings', 'settings/admin/security', [], '');
+		$parameters = [
+			'encryption-modules' => $encryptionModuleList,
+		];
+
+		return new TemplateResponse('settings', 'settings/admin/security', $parameters, '');
 	}
 
 	/**

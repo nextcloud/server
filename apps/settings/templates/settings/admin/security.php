@@ -9,4 +9,6 @@
 
 <div id="two-factor-auth-settings"></div>
 
+<?php if (count($_['encryption-modules']) > 0) { ?>
 <div id="vue-admin-encryption"></div>
+<?php } ?>
