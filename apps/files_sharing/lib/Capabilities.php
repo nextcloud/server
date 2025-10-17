@@ -106,7 +106,7 @@ class Capabilities implements ICapability {
 			$res['api_enabled'] = true;
 
 			$public = [];
-			$public['enabled'] = $this->shareManager->shareApiAllowLinks();
+			$public['enabled'] = $this->shareManager->canUserCreateLinkShares();
 			if ($public['enabled']) {
 				$public['password'] = [];
 				$public['password']['enforced'] = $this->shareManager->shareApiLinkEnforcePassword();
