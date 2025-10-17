@@ -10,6 +10,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OC\User\NoUserException;
+use OCA\DAV\Connector\PermissionsTrait;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
 use OCP\Accounts\IAccountManager;
@@ -40,6 +41,9 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class FilesPlugin extends ServerPlugin {
+
+	use PermissionsTrait;
+
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
@@ -314,12 +318,8 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::PERMISSIONS_PROPERTYNAME, function () use ($node) {
-				$perms = $node->getDavPermissions();
-				if ($this->isPublic) {
-					// remove mount information
-					$perms = str_replace(['S', 'M'], '', $perms);
-				}
-				return $perms;
+				return $this->getPermissionString($this->isPublic,
+					$node->getDavPermissions());
 			});
 
 			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node, $httpRequest) {
