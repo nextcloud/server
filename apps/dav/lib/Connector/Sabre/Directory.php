@@ -181,7 +181,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		// If we are, then only PUT and MKCOL are allowed (see plugin)
 		// so we are safe to return the directory without a risk of
 		// leaking files and folders structure.
-		if ($storage instanceof PublicShareWrapper) {
+		if ($storage->instanceOfStorage(PublicShareWrapper::class)) {
 			$share = $storage->getShare();
 			$allowDirectory = ($share->getPermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ;
 		}
