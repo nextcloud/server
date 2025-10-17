@@ -138,8 +138,8 @@ class ShareInfoController extends ApiController {
 	private function format(Node $node, int $permissionMask): array {
 		$entry = [];
 
-		$entry['id'] = $node->getId();
-		$entry['parentId'] = $node->getParent()->getId();
+		$entry['id'] = $node->getId() ?? -1;
+		$entry['parentId'] = $node->getParent()->getId() ?? -1;
 		$entry['mtime'] = $node->getMTime();
 
 		$entry['name'] = $node->getName();

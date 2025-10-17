@@ -10,8 +10,12 @@ namespace Test\Files\Node;
 
 use OC\Files\Node\File;
 use OC\Files\Node\Root;
+use OC\Files\View;
 use OCP\Constants;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class FileTest
@@ -21,7 +25,7 @@ use OCP\Files\NotPermittedException;
  * @package Test\Files\Node
  */
 class FileTest extends NodeTestCase {
-	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
+	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], $internalPath = '', $storage = null): Node {
 		if ($data || $internalPath || $storage) {
 			return new File($root, $view, $path, $this->getFileInfo($data, $internalPath, $storage));
 		} else {

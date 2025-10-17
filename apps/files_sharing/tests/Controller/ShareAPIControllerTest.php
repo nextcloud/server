@@ -519,7 +519,7 @@ class ShareAPIControllerTest extends TestCase {
 	public function testDeleteShareOwnerless(): void {
 		$ocs = $this->mockFormatShare();
 
-		$mount = $this->createMock(IShareOwnerlessMount::class);
+		$mount = $this->createMockForIntersectionOfInterfaces([IShareOwnerlessMount::class, IMountPoint::class]);
 
 		$file = $this->createMock(File::class);
 		$file
@@ -606,7 +606,7 @@ class ShareAPIControllerTest extends TestCase {
 		?string $password = null,
 		string $label = '',
 		?IShareAttributes $attributes = null,
-	): MockObject {
+	): IShare&MockObject {
 		$share = $this->createMock(IShare::class);
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn($shareType);
@@ -852,6 +852,7 @@ class ShareAPIControllerTest extends TestCase {
 		$mountPoint->method('getMountType')->willReturn('');
 
 		$nodeParams = $shareParams[5];
+		/** @var \OCP\Files\Node&MockObject $node */
 		$node = $this->createMock($nodeParams['class']);
 		$node->method('getId')->willReturn($nodeParams['id']);
 		$node->method('getPath')->willReturn($nodeParams['path']);
@@ -860,7 +861,7 @@ class ShareAPIControllerTest extends TestCase {
 		$node->method('getSize')->willReturn(123465);
 		$node->method('getMTime')->willReturn(1234567890);
 		$node->method('getMimeType')->willReturn($nodeParams['mimeType']);
-		$node->method('getMountPoint')->willReturn($mountPoint);
+		$node->method('getInternalPath')->willReturn(ltrim($nodeParams['path'], '/'));
 
 		$shareParams[5] = $node;
 
@@ -4008,7 +4009,7 @@ class ShareAPIControllerTest extends TestCase {
 	public function testUpdateShareOwnerless(): void {
 		$ocs = $this->mockFormatShare();
 
-		$mount = $this->createMock(IShareOwnerlessMount::class);
+		$mount = $this->createMockForIntersectionOfInterfaces([IShareOwnerlessMount::class, IMountPoint::class]);
 
 		$file = $this->createMock(File::class);
 		$file
@@ -4939,6 +4940,7 @@ class ShareAPIControllerTest extends TestCase {
 			$expects['attributes'] = \json_encode($shareParams['attributes']);
 		}
 		if (isset($shareParams['node'])) {
+			/** @var MockObject&\OCP\Files\Node $node */
 			$node = $this->createMock($shareParams['node']['class']);
 
 			$node->method('getMimeType')->willReturn($shareParams['node']['mimeType']);
@@ -4948,6 +4950,7 @@ class ShareAPIControllerTest extends TestCase {
 			$node->method('getMountPoint')->willReturn($mountPoint);
 
 			$node->method('getPath')->willReturn($shareParams['node']['path']);
+			$node->method('getInternalPath')->willReturn(ltrim($shareParams['node']['path'], '/'));
 			$node->method('getId')->willReturn($shareParams['node']['id']);
 
 			$parent = $this->createMock(Folder::class);
@@ -5166,6 +5169,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$file->method('getSize')->willReturn(123456);
 		$file->method('getMTime')->willReturn(1234567890);
+		$file->method('getInternalPath')->willReturn(ltrim('file', '/'));
 
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$mountPoint->method('getMountType')->willReturn('');
