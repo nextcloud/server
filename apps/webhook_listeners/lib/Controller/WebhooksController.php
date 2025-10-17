@@ -113,7 +113,7 @@ class WebhooksController extends OCSController {
 	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 * @param ?array<string,mixed> $tokenNeeded List of user ids for which to include auth tokens in the event.
-	 *                                          Has to fields: "users" lists uids of users for which tokens are needed, "functions" lists functions for which tokens can be included.
+	 *                                          Has two fields: "users" list of user uids for which tokens are needed, "functions" list of functions for which tokens can be included.
 	 *                                          Possible functions: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
@@ -186,7 +186,7 @@ class WebhooksController extends OCSController {
 	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 * @param ?array<string,mixed> $tokenNeeded List of user ids for which to include auth tokens in the event.
-	 *                                          Has to fields: "users" lists uids of users for which tokens are needed, "functions" lists functions for which tokens can be included.
+	 *                                          Has two fields: "users" list of user uids for which tokens are needed, "functions" list of functions for which tokens can be included.
 	 *                                          Possible functions: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>

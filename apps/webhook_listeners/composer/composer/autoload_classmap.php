@@ -20,6 +20,7 @@ return array(
     'OCA\\WebhookListeners\\Migration\\Version1500Date20251007130000' => $baseDir . '/../lib/Migration/Version1500Date20251007130000.php',
     'OCA\\WebhookListeners\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\WebhookListeners\\Service\\PHPMongoQuery' => $baseDir . '/../lib/Service/PHPMongoQuery.php',
+    'OCA\\WebhookListeners\\Service\\TokenService' => $baseDir . '/../lib/Service/TokenService.php',
     'OCA\\WebhookListeners\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\WebhookListeners\\Settings\\AdminSection' => $baseDir . '/../lib/Settings/AdminSection.php',
 );
