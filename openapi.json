@@ -33577,6 +33577,12 @@
                     "200": {
                         "description": "Favicon returned",
                         "content": {
+                            "image/png": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            },
                             "image/x-icon": {
                                 "schema": {
                                     "type": "string",
@@ -33646,7 +33652,7 @@
                                     "format": "binary"
                                 }
                             },
-                            "image/x-icon": {
+                            "*/*": {
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
