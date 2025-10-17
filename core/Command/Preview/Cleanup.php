@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OC\Core\Command\Preview;
 
 use OC\Core\Command\Base;
+use OC\Preview\PreviewService;
+use OCP\DB\Exception;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -23,6 +25,7 @@ class Cleanup extends Base {
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
+		private PreviewService $previewService,
 	) {
 		parent::__construct();
 	}
@@ -34,6 +37,31 @@ class Cleanup extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		if ($this->deletePreviewFromPreviewTable($output) !== 0) {
+			return 1;
+		}
+
+		return $this->deletePreviewFromFileCacheTable($output);
+	}
+
+	/**
+	 * Delete from the new oc_previews table.
+	 */
+	private function deletePreviewFromPreviewTable(OutputInterface $output): int {
+		try {
+			$this->previewService->deleteAll();
+			return 0;
+		} catch (NotPermittedException|Exception $e) {
+			$this->logger->error("Previews can't be removed: exception occurred: " . $e->getMessage(), ['exception' => $e]);
+			$output->writeln("Previews can't be removed: " . $e->getMessage() . '. See the logs for more details.');
+			return 1;
+		}
+	}
+
+	/**
+	 * Legacy in case there are still previews stored there.
+	 */
+	private function deletePreviewFromFileCacheTable(OutputInterface $output): int {
 		try {
 			$appDataFolder = $this->rootFolder->get($this->rootFolder->getAppDataDirectoryName());
 
