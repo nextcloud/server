@@ -830,20 +830,23 @@ $CONFIG = [
 	 * Available values (D1 and D2 are configurable numbers):
 	 *
 	 * * ``auto``
-	 *     default setting. Keeps files and folders in the trash bin for 30 days
-	 *     and automatically deletes anytime after that if space is needed (note:
-	 *     files may not be deleted if space is not needed).
+	 *     Default setting. Keeps files and folders in the trash bin for at least **30** days.
+
+	 *     Then, **if space is needed**, deletes trashed files anytime after that.
 	 * * ``D1, auto``
-	 *     keeps files and folders in the trash bin for D1+ days, delete anytime if
-	 *     space needed (note: files may not be deleted if space is not needed)
+	 *     Keeps files and folders in the trash bin for at least **D1** days.
+	 *
+	 *     Then, **if space is needed**, deletes trashed files anytime after that.
 	 * * ``auto, D2``
-	 *     delete all files in the trash bin that are older than D2 days
-	 *     automatically, delete other files anytime if space needed
+	 *     **If space is needed**, deletes trashed files anytime.
+	 *
+	 *     After **D2** days, delete all trashed files automatically
 	 * * ``D1, D2``
-	 *     keep files and folders in the trash bin for at least D1 days and
-	 *     delete when exceeds D2 days (note: files will not be deleted automatically if space is needed)
+	 *     Keeps files and folders in the trash bin for at least **D1** days.
+	 *
+	 *     Then, after **D2** days, delete all trashed files automatically.
 	 * * ``disabled``
-	 *     trash bin auto clean disabled, files and folders will be kept forever
+	 *     Trash bin auto clean is disabled, files and folders will be kept forever.
 	 *
 	 * Defaults to ``auto``
 	 */
