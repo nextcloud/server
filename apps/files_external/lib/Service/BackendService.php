@@ -35,11 +35,9 @@ class BackendService {
 	/** Priority constants for PriorityTrait */
 	public const PRIORITY_DEFAULT = 100;
 
-	/** @var bool */
-	private $userMountingAllowed = true;
-
+	private ?bool $userMountingAllowed = null;
 	/** @var string[] */
-	private $userMountingBackends = [];
+	private array $userMountingBackends = [];
 
 	/** @var Backend[] */
 	private $backends = [];
@@ -59,16 +57,8 @@ class BackendService {
 	private $configHandlers = [];
 
 	public function __construct(
-		protected IAppConfig $appConfig,
+		protected readonly IAppConfig $appConfig,
 	) {
-		// Load config values
-		$this->userMountingAllowed = $appConfig->getValueBool('files_external', ConfigLexicon::ALLOW_USER_MOUNTING);
-		$this->userMountingBackends = explode(',', $appConfig->getValueString('files_external', ConfigLexicon::USER_MOUNTING_BACKENDS));
-
-		// if no backend is in the list an empty string is in the array and user mounting is disabled
-		if ($this->userMountingBackends === ['']) {
-			$this->userMountingAllowed = false;
-		}
 	}
 
 	/**
@@ -248,8 +238,9 @@ class BackendService {
 	/**
 	 * @return bool
 	 */
-	public function isUserMountingAllowed() {
-		return $this->userMountingAllowed;
+	public function isUserMountingAllowed(): bool {
+		$this->loadUserMountingConfig();
+		return $this->userMountingAllowed ?? false;
 	}
 
 	/**
@@ -259,6 +250,7 @@ class BackendService {
 	 * @return bool
 	 */
 	protected function isAllowedUserBackend(Backend $backend) {
+		$this->loadUserMountingConfig();
 		if ($this->userMountingAllowed
 			&& array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
 		) {
@@ -338,5 +330,23 @@ class BackendService {
 	public function getConfigHandlers() {
 		$this->loadConfigHandlers();
 		return $this->configHandlers;
+	}
+
+	/**
+	 * retrieve and cache config value related to user mounting
+	 */
+	private function loadUserMountingConfig(): void {
+		if ($this->userMountingAllowed !== null) {
+			return;
+		}
+
+		// Load config values
+		$this->userMountingAllowed = $this->appConfig->getValueBool('files_external', ConfigLexicon::ALLOW_USER_MOUNTING);
+		$this->userMountingBackends = explode(',', $this->appConfig->getValueString('files_external', ConfigLexicon::USER_MOUNTING_BACKENDS));
+
+		// if no backend is in the list an empty string is in the array and user mounting is disabled
+		if ($this->userMountingBackends === ['']) {
+			$this->userMountingAllowed = false;
+		}
 	}
 }
