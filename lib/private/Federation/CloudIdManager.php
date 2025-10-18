@@ -108,7 +108,7 @@ class CloudIdManager implements ICloudIdManager {
 			// We accept slightly more chars when working with federationId than with a local userId.
 			// We remove those eventual chars from the UserId before using
 			// the IUserManager API to confirm its format.
-			$this->userManager->validateUserId(str_replace('=', '-', $user));
+			$this->validateUser($user, $remote);
 
 			if (!empty($user) && !empty($remote)) {
 				$remote = $this->ensureDefaultProtocol($remote);
@@ -116,6 +116,36 @@ class CloudIdManager implements ICloudIdManager {
 			}
 		}
 		throw new \InvalidArgumentException('Invalid cloud id');
+	}
+
+	protected function validateUser(string $user, string $remote): void {
+		// Check the ID for bad characters
+		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'" (Nextcloud)
+		// Additional: "=" (oCIS)
+		if (preg_match('/[^a-zA-Z0-9 _.@\-\'=]/', $user)) {
+			throw new \InvalidArgumentException('Invalid characters');
+		}
+
+		// No empty user ID
+		if (trim($user) === '') {
+			throw new \InvalidArgumentException('Empty user');
+		}
+
+		// No whitespace at the beginning or at the end
+		if (trim($user) !== $user) {
+			throw new \InvalidArgumentException('User contains whitespace at the beginning or at the end');
+		}
+
+		// User ID only consists of 1 or 2 dots (directory traversal)
+		if ($user === '.' || $user === '..') {
+			throw new \InvalidArgumentException('User must not consist of dots only');
+		}
+
+		// User ID is too long
+		if (strlen($user . '@' . $remote) > 255) {
+			// TRANSLATORS User ID is too long
+			throw new \InvalidArgumentException('Cloud id is too long');
+		}
 	}
 
 	public function getDisplayNameFromContact(string $cloudId): ?string {
