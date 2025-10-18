@@ -13,6 +13,7 @@ use OCP\Files\NotFoundException;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -23,6 +24,7 @@ class FilesDropPluginTest extends TestCase {
 	private FilesDropPlugin $plugin;
 
 	private Folder&MockObject $node;
+	private IAttributes&MockObject $attributes;
 	private IShare&MockObject $share;
 	private Server&MockObject $server;
 	private RequestInterface&MockObject $request;
@@ -45,10 +47,10 @@ class FilesDropPluginTest extends TestCase {
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->response = $this->createMock(ResponseInterface::class);
 
-		$attributes = $this->createMock(IAttributes::class);
+		$this->attributes = $this->createMock(IAttributes::class);
 		$this->share->expects($this->any())
 			->method('getAttributes')
-			->willReturn($attributes);
+			->willReturn($this->attributes);
 
 		$this->share
 			->method('getToken')
@@ -104,12 +106,53 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testMKCOL(): void {
+	public function testFileDropMKCOLWithoutNickname(): void {
 		$this->plugin->enable();
 		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('MKCOL');
+
+		$this->expectNotToPerformAssertions();
+
+		$this->plugin->beforeMethod($this->request, $this->response);
+	}
+
+	public function testFileRequestNoMKCOLWithoutNickname(): void {
+		$this->plugin->enable();
+		$this->plugin->setShare($this->share);
+
+		$this->request->method('getMethod')
+			->willReturn('MKCOL');
+
+		$this->attributes
+			->method('getAttribute')
+			->with('fileRequest', 'enabled')
+			->willReturn(true);
+
+		$this->expectException(BadRequest::class);
+
+		$this->plugin->beforeMethod($this->request, $this->response);
+	}
+
+	public function testFileRequestMKCOLWithNickname(): void {
+		$this->plugin->enable();
+		$this->plugin->setShare($this->share);
+
+		$this->request->method('getMethod')
+			->willReturn('MKCOL');
+
+		$this->attributes
+			->method('getAttribute')
+			->with('fileRequest', 'enabled')
+			->willReturn(true);
+
+		$this->request->method('hasHeader')
+			->with('X-NC-Nickname')
+			->willReturn(true);
+		$this->request->method('getHeader')
+			->with('X-NC-Nickname')
+			->willReturn('nickname');
 
 		$this->expectNotToPerformAssertions();
 
