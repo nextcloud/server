@@ -8,7 +8,6 @@
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
@@ -40,7 +39,7 @@ try {
 			}
 		);
 	} elseif ($subject === 'group') {
-		$mapping = new GroupMapping(Server::get(IDBConnection::class));
+		$mapping = Server::get(GroupMapping::class);
 		$result = $mapping->clear();
 	}
 
