@@ -8,6 +8,7 @@ on:
       - 'version.php'
       - '.github/workflows/phpunit-32bits.yml'
       - 'tests/phpunit-autotest.xml'
+      - 'lib/private/DB/Snowflake/*'
   workflow_dispatch:
   schedule:
     - cron: "15 1 * * 1-6"
@@ -48,7 +49,7 @@ jobs:
         uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 #v2.35.4
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite, apcu, ldap
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite, apcu, ldap, gmp
           coverage: none
           ini-file: development
           ini-values:
@@ -69,3 +70,4 @@ jobs:
 
       - name: PHPUnit
         run: composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness
+

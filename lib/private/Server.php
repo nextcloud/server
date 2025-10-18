@@ -35,6 +35,7 @@ use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\DB\Snowflake\Snowflake;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Federation\CloudFederationFactory;
@@ -141,6 +142,7 @@ use OCP\Comments\ICommentsManager;
 use OCP\Config\IUserConfig;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
+use OCP\DB\ISnowflake;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Diagnostics\IQueryLogger;
@@ -284,6 +286,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Template\ITemplateManager::class, \OC\Template\TemplateManager::class);
 
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
+		$this->registerAlias(ISnowflake::class, Snowflake::class);
 
 		$this->registerService(View::class, function (Server $c) {
 			return new View();

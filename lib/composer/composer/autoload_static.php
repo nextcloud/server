@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -352,6 +352,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\DB\\IPreparedStatement' => __DIR__ . '/../../..' . '/lib/public/DB/IPreparedStatement.php',
         'OCP\\DB\\IResult' => __DIR__ . '/../../..' . '/lib/public/DB/IResult.php',
         'OCP\\DB\\ISchemaWrapper' => __DIR__ . '/../../..' . '/lib/public/DB/ISchemaWrapper.php',
+        'OCP\\DB\\ISnowflake' => __DIR__ . '/../../..' . '/lib/public/DB/ISnowflake.php',
         'OCP\\DB\\QueryBuilder\\ICompositeExpression' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/ICompositeExpression.php',
         'OCP\\DB\\QueryBuilder\\IExpressionBuilder' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IExpressionBuilder.php',
         'OCP\\DB\\QueryBuilder\\IFunctionBuilder' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IFunctionBuilder.php',
@@ -1633,6 +1634,9 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\SQLiteSessionInit' => __DIR__ . '/../../..' . '/lib/private/DB/SQLiteSessionInit.php',
         'OC\\DB\\SchemaWrapper' => __DIR__ . '/../../..' . '/lib/private/DB/SchemaWrapper.php',
         'OC\\DB\\SetTransactionIsolationLevel' => __DIR__ . '/../../..' . '/lib/private/DB/SetTransactionIsolationLevel.php',
+        'OC\\DB\\Snowflake\\NextcloudSequenceResolver' => __DIR__ . '/../../..' . '/lib/private/DB/Snowflake/NextcloudSequenceResolver.php',
+        'OC\\DB\\Snowflake\\Snowflake' => __DIR__ . '/../../..' . '/lib/private/DB/Snowflake/Snowflake.php',
+        'OC\\DB\\Snowflake\\SnowflakeGenerator' => __DIR__ . '/../../..' . '/lib/private/DB/Snowflake/SnowflakeGenerator.php',
         'OC\\Dashboard\\Manager' => __DIR__ . '/../../..' . '/lib/private/Dashboard/Manager.php',
         'OC\\DatabaseException' => __DIR__ . '/../../..' . '/lib/private/DatabaseException.php',
         'OC\\DatabaseSetupException' => __DIR__ . '/../../..' . '/lib/private/DatabaseSetupException.php',

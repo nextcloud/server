@@ -31,15 +31,16 @@ class Version33000Date20250819110529 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('preview_locations')) {
 			$table = $schema->createTable('preview_locations');
-			$table->addColumn('id', Types::BIGINT, ['autoincrement' => true, 'notnull' => true, 'length' => 20, 'unsigned' => true]);
+			$table->addColumn('id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('bucket_name', Types::STRING, ['notnull' => true, 'length' => 40]);
 			$table->addColumn('object_store_name', Types::STRING, ['notnull' => true, 'length' => 40]);
+			$table->addUniqueIndex(['bucket_name', 'object_store_name']);
 			$table->setPrimaryKey(['id']);
 		}
 
 		if (!$schema->hasTable('preview_versions')) {
 			$table = $schema->createTable('preview_versions');
-			$table->addColumn('id', Types::BIGINT, ['autoincrement' => true, 'notnull' => true, 'length' => 20, 'unsigned' => true]);
+			$table->addColumn('id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('file_id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('version', Types::STRING, ['notnull' => true, 'default' => '', 'length' => 1024]);
 			$table->setPrimaryKey(['id']);
@@ -47,7 +48,7 @@ class Version33000Date20250819110529 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('previews')) {
 			$table = $schema->createTable('previews');
-			$table->addColumn('id', Types::BIGINT, ['autoincrement' => true, 'notnull' => true, 'length' => 20, 'unsigned' => true]);
+			$table->addColumn('id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('file_id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('storage_id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('old_file_id', Types::BIGINT, ['notnull' => false, 'length' => 20, 'unsigned' => true]);

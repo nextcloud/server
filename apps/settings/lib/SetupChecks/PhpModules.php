@@ -30,6 +30,11 @@ class PhpModules implements ISetupCheck {
 		'zip',
 		'zlib',
 	];
+
+	protected const REQUIRED_MODULES_32_BITS = [
+		'gmp',
+	];
+
 	protected const RECOMMENDED_MODULES = [
 		'exif',
 		'gmp',
@@ -65,6 +70,9 @@ class PhpModules implements ISetupCheck {
 	public function run(): SetupResult {
 		$missingRecommendedModules = $this->getMissingModules(self::RECOMMENDED_MODULES);
 		$missingRequiredModules = $this->getMissingModules(self::REQUIRED_MODULES);
+		if (PHP_INT_MAX === 2147483647) {
+			$missingRequiredModules = array_merge($missingRequiredModules, $this->getMissingModules(self::REQUIRED_MODULES_32_BITS));
+		}
 		if (!empty($missingRequiredModules)) {
 			return SetupResult::error(
 				$this->l10n->t('This instance is missing some required PHP modules. It is required to install them: %s.', implode(', ', $missingRequiredModules)),
