@@ -149,19 +149,28 @@ namespace OC\Core;
  *  }
  *
  * @psalm-type CoreTeam = array{
- *      id: string,
- *      name: string,
- *      icon: string,
+ *     teamId: string,
+ *     displayName: string,
+ *     link: ?string,
  * }
  *
  * @psalm-type CoreTeamResource = array{
- *       id: int,
- *       label: string,
- *       url: string,
- *       iconSvg: ?string,
- *       iconURL: ?string,
- *       iconEmoji: ?string,
- *   }
+ *     id: string,
+ *     label: string,
+ *     url: string,
+ *     iconSvg: ?string,
+ *     iconURL: ?string,
+ *     iconEmoji: ?string,
+ *     provider: array{
+ *         id: string,
+ *         name: string,
+ *         icon: string,
+ *     },
+ * }
+ *
+ * @psalm-type CoreTeamWithResources = CoreTeam&array{
+ *     resources: list<CoreTeamResource>,
+ * }
  *
  * @psalm-type CoreTaskProcessingShape = array{
  *     name: string,
