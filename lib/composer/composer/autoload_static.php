@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -669,6 +669,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\IRequestId' => __DIR__ . '/../../..' . '/lib/public/IRequestId.php',
         'OCP\\IServerContainer' => __DIR__ . '/../../..' . '/lib/public/IServerContainer.php',
         'OCP\\ISession' => __DIR__ . '/../../..' . '/lib/public/ISession.php',
+        'OCP\\ISnowflakeId' => __DIR__ . '/../../..' . '/lib/public/ISnowflakeId.php',
+        'OCP\\ISnowflakeIdGenerator' => __DIR__ . '/../../..' . '/lib/public/ISnowflakeIdGenerator.php',
         'OCP\\IStreamImage' => __DIR__ . '/../../..' . '/lib/public/IStreamImage.php',
         'OCP\\ITagManager' => __DIR__ . '/../../..' . '/lib/public/ITagManager.php',
         'OCP\\ITags' => __DIR__ . '/../../..' . '/lib/public/ITags.php',
@@ -1912,6 +1914,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\OCS\\CoreCapabilities' => __DIR__ . '/../../..' . '/lib/private/OCS/CoreCapabilities.php',
         'OC\\OCS\\DiscoveryService' => __DIR__ . '/../../..' . '/lib/private/OCS/DiscoveryService.php',
         'OC\\OCS\\Provider' => __DIR__ . '/../../..' . '/lib/private/OCS/Provider.php',
+        'OC\\OpenMetrics\\Exporters\\RunningJobs' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/RunningJobs.php',
         'OC\\PhoneNumberUtil' => __DIR__ . '/../../..' . '/lib/private/PhoneNumberUtil.php',
         'OC\\PreviewManager' => __DIR__ . '/../../..' . '/lib/private/PreviewManager.php',
         'OC\\PreviewNotAvailableException' => __DIR__ . '/../../..' . '/lib/private/PreviewNotAvailableException.php',
@@ -2144,6 +2147,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Share\\Constants' => __DIR__ . '/../../..' . '/lib/private/Share/Constants.php',
         'OC\\Share\\Helper' => __DIR__ . '/../../..' . '/lib/private/Share/Helper.php',
         'OC\\Share\\Share' => __DIR__ . '/../../..' . '/lib/private/Share/Share.php',
+        'OC\\SnowflakeId' => __DIR__ . '/../../..' . '/lib/private/SnowflakeId.php',
+        'OC\\SnowflakeIdGenerator' => __DIR__ . '/../../..' . '/lib/private/SnowflakeIdGenerator.php',
         'OC\\SpeechToText\\SpeechToTextManager' => __DIR__ . '/../../..' . '/lib/private/SpeechToText/SpeechToTextManager.php',
         'OC\\SpeechToText\\TranscriptionJob' => __DIR__ . '/../../..' . '/lib/private/SpeechToText/TranscriptionJob.php',
         'OC\\StreamImage' => __DIR__ . '/../../..' . '/lib/private/StreamImage.php',
