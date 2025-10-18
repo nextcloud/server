@@ -220,6 +220,7 @@ OC.L10N.register(
     "This year" : "Гэты год",
     "Last year" : "Мінулы год",
     "Between {startDate} and {endDate}" : "Паміж {startDate} і {endDate}",
+    "Unified search" : "Уніфікаваны пошук",
     "Search apps, files, tags, messages" : "Пошук праграм, файлаў, тэгаў, паведамленняў",
     "Places" : "Месцы",
     "Date" : "Дата",
