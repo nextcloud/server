@@ -110,7 +110,7 @@ const Dialogs = {
 				? [
 					{
 						label: t('core', 'Yes'),
-						type: 'error',
+						variant: 'error',
 						callback: () => {
 							callback.clicked = true
 							callback(true)
@@ -148,7 +148,7 @@ const Dialogs = {
 				},
 				{
 					label: t('core', 'Yes'),
-					type: 'primary',
+					variant: 'primary',
 					callback: () => {
 						callback.clicked = true
 						callback(true)
@@ -271,7 +271,7 @@ const Dialogs = {
 				builder.addButton({
 					callback: legacyCallback(callback, button.type),
 					label: button.text,
-					type: button.defaultButton ? 'primary' : 'secondary',
+					variant: button.defaultButton ? 'primary' : 'secondary',
 				})
 			})
 		} else {
@@ -284,14 +284,14 @@ const Dialogs = {
 					buttons.push({
 						callback: legacyCallback(callback, FilePickerType.Choose),
 						label: node && !this.multiSelect ? t('core', 'Choose {file}', { file: target }) : t('core', 'Choose'),
-						type: 'primary',
+						variant: 'primary',
 					})
 				}
 				if (type === FilePickerType.CopyMove || type === FilePickerType.Copy) {
 					buttons.push({
 						callback: legacyCallback(callback, FilePickerType.Copy),
 						label: target ? t('core', 'Copy to {target}', { target }) : t('core', 'Copy'),
-						type: 'primary',
+						variant: 'primary',
 						icon: IconCopy,
 					})
 				}
@@ -299,7 +299,7 @@ const Dialogs = {
 					buttons.push({
 						callback: legacyCallback(callback, FilePickerType.Move),
 						label: target ? t('core', 'Move to {target}', { target }) : t('core', 'Move'),
-						type: type === FilePickerType.Move ? 'primary' : 'secondary',
+						variant: type === FilePickerType.Move ? 'primary' : 'secondary',
 						icon: IconMove,
 					})
 				}
@@ -374,7 +374,7 @@ const Dialogs = {
 				})
 				buttonList.push({
 					label: buttons?.confirm ?? t('core', 'Yes'),
-					type: 'primary',
+					variant: 'primary',
 					callback: () => {
 						callback._clicked = true
 						callback(true)
@@ -384,7 +384,7 @@ const Dialogs = {
 			case Dialogs.OK_BUTTONS:
 				buttonList.push({
 					label: buttons?.confirm ?? t('core', 'OK'),
-					type: 'primary',
+					variant: 'primary',
 					callback: () => {
 						callback._clicked = true
 						callback(true)
