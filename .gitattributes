@@ -12,3 +12,5 @@
 /resources/*.sh text eol=lf
 /*.sh text eol=lf
 /apps/files_external/tests/env/wait-for-connection text eol=lf
+/occ text eol=lf
+/tests/**/*.sh text eol=lf
