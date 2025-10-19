@@ -186,3 +186,6 @@ cypress/snapshots
 cypress/videos
 
 /.direnv
+/lib/composer
+/vendor-bin
+composer.lock
