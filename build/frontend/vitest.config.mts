@@ -1,9 +1,9 @@
 /**
- * SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: CC0-1.0
  */
 
-import vue from '@vitejs/plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 import { defaultExclude, defineConfig } from 'vitest/config'
@@ -27,7 +27,7 @@ try {
 export default defineConfig({
 	plugins: [vue()],
 	test: {
-		include: ['{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		include: ['./apps/sharebymail/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
