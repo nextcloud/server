@@ -5,6 +5,8 @@
 /core/css/*.css* binary
 /.devcontainer/*.sh text eol=lf
 /apps/*.sh text eol=lf
+/apps/**/*.sh text eol=lf
 /build/*.sh text eol=lf
 /resources/*.sh text eol=lf
 /*.sh text eol=lf
+/apps/
