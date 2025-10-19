@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
+.gitattributes text eol=lf
 /dist/* binary
 /package-lock.json merge=binary
 /core/css/*.css* binary
@@ -7,6 +8,7 @@
 /apps/*.sh text eol=lf
 /apps/**/*.sh text eol=lf
 /build/*.sh text eol=lf
+/build/**/*.sh text eol=lf
 /resources/*.sh text eol=lf
 /*.sh text eol=lf
-/apps/
+/apps/files_external/tests/env/wait-for-connection text eol=lf
