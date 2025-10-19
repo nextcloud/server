@@ -659,3 +659,27 @@ specific requirements.
 if any, to sign a "copyright disclaimer" for the program, if necessary.
 For more information on this, and how to apply and follow the GNU AGPL, see
 <http://www.gnu.org/licenses/>.
+
+
+
+
+/**
+ * Modifications (c) 2025 Joseph Aguilar
+ * Integrated Laravel user backend system.
+ */
+
+ This software is a modified version of Nextcloud Server, which is licensed under the GNU Affero General Public License version 3 (AGPLv3).
+
+Modifications made by:
+  Joseph D. Aguilar
+  https://www.iprotek.net
+
+Changes include:
+  - Integration of Laravel-based user authentication backend (apps/user_laravel)
+  - Custom branding and UI adjustments
+  - Additional configuration improvements
+
+This modified version remains licensed under AGPLv3.
+
+This service is powered by a modified version of Nextcloud (AGPLv3).
+View or download the modified source at: https://github.com/drimcaster/nextcloud-server.iprotek.net
