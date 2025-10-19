@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 // @ts-expect-error package has wrong typings
 import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'

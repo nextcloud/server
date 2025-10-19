@@ -205,20 +205,19 @@ jobs:
             cypress/snapshots
             cypress/videos
 
-      - name: Extract NC logs
+      - name: Show logs
         if: failure() && matrix.containers != 'component'
-        run: docker logs nextcloud-cypress-tests_${{ env.APP_NAME }} > nextcloud.log
-
-      - name: Upload NC logs
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        if: failure() && matrix.containers != 'component'
-        with:
-          name: nc_logs_${{ matrix.containers }}
-          path: nextcloud.log
+        run: |
+          for id in $(docker ps -aq); do
+            docker container inspect "$id" --format '=== Logs for container {{.Name}} ==='
+            docker logs "$id" >> nextcloud.log
+          done
+          echo '=== Nextcloud server logs ==='
+          docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} cat data/nextcloud.log
 
       - name: Create data dir archive
         if: failure() && matrix.containers != 'component'
-        run: docker exec nextcloud-cypress-tests_${{ env.APP_NAME }} tar -cvjf - data > data.tar
+        run: docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
