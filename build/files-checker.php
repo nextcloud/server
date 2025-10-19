@@ -58,7 +58,7 @@ $expectedFiles = [
 	'cypress.config.ts',
 	'cypress',
 	'dist',
-	'eslint.config.mjs',
+	'eslint.config.js',
 	'flake.lock',
 	'flake.nix',
 	'index.html',

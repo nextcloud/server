@@ -4,7 +4,7 @@
  */
 
 import { includeIgnoreFile } from '@eslint/compat'
-import { recommendedVue2 } from '@nextcloud/eslint-config'
+import { recommended } from '@nextcloud/eslint-config'
 import CypressEslint from 'eslint-plugin-cypress'
 import noOnlyTests from 'eslint-plugin-no-only-tests'
 import { defineConfig } from 'eslint/config'
@@ -21,7 +21,7 @@ export default defineConfig([
 		},
 	},
 
-	...recommendedVue2,
+	...recommended,
 
 	// add globals configuration for Webpack injected variables
 	{
@@ -39,8 +39,7 @@ export default defineConfig([
 		name: 'server/scripts-are-cjs',
 		files: [
 			'*.js',
-			'build/**/*.js',
-			'**/core/src/icons.cjs',
+			'build/*.js',
 		],
 
 		languageOptions: {
