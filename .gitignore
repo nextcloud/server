@@ -14,6 +14,7 @@
 /node_modules
 /translationfiles
 /translationtool.phar
+/dist/*.license
 
 # ignore all apps except core ones
 /apps*/*
