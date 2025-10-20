@@ -49,6 +49,7 @@
 !/apps/webhook_listeners
 !/apps/workflowengine
 !/apps/user_iprotek
+/apps/user_iprotek/config/config.php
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
 /apps/files_external/3rdparty/irodsphp/prods/test

@@ -1,0 +1,30 @@
+{
+    "name": "iprotek/user_nextcloud",
+    "description": "Nextcloud custom user backend connected to iProtek - Laravel Passport API.",
+    "type": "nextcloud-app",
+    "license": "AGPL-3.0-or-later",
+    "require": {
+        "php": ">=8.1",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "OCA\\UserIprotek\\": "lib/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "composer dump-autoload"
+        ],
+        "post-update-cmd": [
+            "composer dump-autoload"
+        ]
+    },
+    "extra": {
+        "nextcloud": {
+            "appstore": {
+                "enabled": false
+            }
+        }
+    }
+}

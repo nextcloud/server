@@ -6,9 +6,10 @@ use OCP\IUserBackend;
 use OCP\UserInterface;
 use OCP\ILogger;
 use OCP\AppFramework\App;
+use GuzzleHttp\Client;
 
 class iProtekBackend extends App implements IUserBackend {
-    private $apiUrl = 'https://laravel-app.local/api/nextcloud-auth';
+    private $apiUrl = '';// 'https://laravel-app.local/api/nextcloud-auth';
     private $logger;
     private $config;
     
@@ -16,12 +17,34 @@ class iProtekBackend extends App implements IUserBackend {
         $this->logger = \OC::$server->getLogger();
         parent::__construct('user_iprotek');
         $this->config = include __DIR__ . '/../config/config.php';
+        $this->apiUrl = $this->config['iprotek_api_url'] . '/nextcloud-auth';
+        /*
+        $this->http = new Client([
+            'base_uri' => $this->config['laravel_api_url'],
+            'timeout'  => 5.0,
+        ]);
+        */
+
     }
 
     public function login($uid, $password) {
         $api = $this->config['laravel_api_url'];
         // ... use Laravel API for login
     }
+
+    /*
+    public function checkPassword($uid, $password) {
+        $response = $this->http->post('/api/login', [
+            'form_params' => [
+                'email' => $uid,
+                'password' => $password,
+            ],
+        ]);
+
+        $data = json_decode($response->getBody(), true);
+        return isset($data['token']); // success if Laravel returns a token
+    }
+    */
 
     public function checkPassword($uid, $password) {
         $payload = json_encode([

@@ -9,6 +9,6 @@
   <author>Joseph Aguilar</author>
   <category>authentication</category>
   <dependencies>
-    <nextcloud min-version="28" max-version="30"/>
+    <nextcloud min-version="28" max-version="33"/>
   </dependencies>
 </info>
