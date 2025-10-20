@@ -15,10 +15,10 @@ use OCP\Server;
 /**
  * Class OfficeTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OfficeTest extends Provider {
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);

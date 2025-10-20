@@ -12,9 +12,8 @@ use OC\Group\Database;
 
 /**
  * Class Database
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DatabaseTest extends Backend {
 	private $groups = [];
 

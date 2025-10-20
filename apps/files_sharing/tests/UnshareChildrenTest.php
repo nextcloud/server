@@ -15,10 +15,10 @@ use OCP\Util;
 /**
  * Class UnshareChildrenTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UnshareChildrenTest extends TestCase {
 	protected $subsubfolder;
 

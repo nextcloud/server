@@ -15,9 +15,8 @@ use OCP\Share\IShare;
 
 /**
  * Class WatcherTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class WatcherTest extends TestCase {
 
 	/** @var Storage */

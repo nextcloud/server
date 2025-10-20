@@ -16,9 +16,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewMapperTest extends TestCase {
 	private PreviewMapper $previewMapper;
 	private IDBConnection $connection;

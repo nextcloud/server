@@ -41,10 +41,10 @@ use Test\Traits\UserTrait;
 /**
  * Class ManagerTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\External
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
 	use UserTrait;
 

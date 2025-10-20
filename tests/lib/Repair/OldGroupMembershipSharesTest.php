@@ -19,10 +19,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class OldGroupMembershipSharesTest
  *
- * @group DB
  *
  * @package Test\Repair
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OldGroupMembershipSharesTest extends \Test\TestCase {
 
 	private IDBConnection $connection;

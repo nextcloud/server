@@ -27,12 +27,9 @@ use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
 
 /**
- * Class TestCase
- *
- * @group DB
- *
  * Base class for sharing tests.
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 abstract class TestCase extends \Test\TestCase {
 	use MountProviderTrait;
 

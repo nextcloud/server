@@ -15,9 +15,7 @@ use OCP\Constants;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\Files\Storage\Storage;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectStoreStorageTest extends Storage {
 	/** @var ObjectStoreStorageOverwrite */
 	protected $instance;

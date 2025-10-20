@@ -26,10 +26,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class Test_User_Manager
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends \Test\TestCase {
 	protected Access&MockObject $access;
 	protected IConfig&MockObject $config;

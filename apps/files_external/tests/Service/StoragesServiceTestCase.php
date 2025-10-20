@@ -53,9 +53,7 @@ class CleaningDBConfig extends DBConfigService {
 	}
 }
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 abstract class StoragesServiceTestCase extends \Test\TestCase {
 	protected StoragesService $service;
 	protected BackendService&MockObject $backendService;

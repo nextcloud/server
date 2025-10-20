@@ -19,10 +19,10 @@ use OCP\Server;
 /**
  * Class QuotaTest
  *
- * @group DB
  *
  * @package Test\Files\Storage\Wrapper
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class QuotaTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir

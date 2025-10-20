@@ -20,10 +20,10 @@ use Test\TestCase;
 /**
  * Class CleanupRemoteStoragesTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CleanupRemoteStoragesTest extends TestCase {
 
 	protected IDBConnection $connection;

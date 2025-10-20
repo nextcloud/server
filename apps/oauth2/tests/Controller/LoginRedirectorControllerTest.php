@@ -23,9 +23,7 @@ use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LoginRedirectorControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 	private IURLGenerator&MockObject $urlGenerator;

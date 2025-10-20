@@ -20,10 +20,10 @@ use OCP\Share\IShare;
 /**
  * Class DeleteOrphanedSharesJobTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	/**
 	 * @var bool

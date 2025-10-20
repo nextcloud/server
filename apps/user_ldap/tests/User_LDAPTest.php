@@ -35,10 +35,10 @@ use Test\TestCase;
 /**
  * Class Test_User_Ldap_Direct
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class User_LDAPTest extends TestCase {
 	protected Access&MockObject $access;
 	protected OfflineUser&MockObject $offlineUser;
@@ -48,7 +48,7 @@ class User_LDAPTest extends TestCase {
 	protected Manager&MockObject $userManager;
 	protected LoggerInterface&MockObject $logger;
 	protected DeletedUsersIndex&MockObject $deletedUsersIndex;
-	protected User_LDAP $backend;
+	protected UserLDAP $backend;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -72,7 +72,7 @@ class User_LDAPTest extends TestCase {
 
 		$this->deletedUsersIndex = $this->createMock(DeletedUsersIndex::class);
 
-		$this->backend = new User_LDAP(
+		$this->backend = new UserLDAP(
 			$this->access,
 			$this->notificationManager,
 			$this->pluginManager,

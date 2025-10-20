@@ -31,9 +31,8 @@ use Test\TestCase;
 
 /**
  * Class ManagerTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
 	/** @var IDBConnection */
 	private $connection;

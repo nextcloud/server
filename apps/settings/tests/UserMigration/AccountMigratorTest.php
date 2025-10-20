@@ -23,9 +23,7 @@ use Sabre\VObject\UUIDUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AccountMigratorTest extends TestCase {
 	private IUserManager $userManager;
 	private IAvatarManager $avatarManager;

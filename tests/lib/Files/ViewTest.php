@@ -90,10 +90,10 @@ class TestEventHandler {
 /**
  * Class ViewTest
  *
- * @group DB
  *
  * @package Test\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ViewTest extends \Test\TestCase {
 	use UserTrait;
 

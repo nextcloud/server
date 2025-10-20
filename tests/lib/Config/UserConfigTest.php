@@ -25,10 +25,10 @@ use Test\TestCase;
 /**
  * Class UserPreferencesTest
  *
- * @group DB
  *
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private IConfig $config;

@@ -25,9 +25,7 @@ class TemporaryNoLocal extends Temporary {
 	}
 }
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileMimeTypeTest extends TestCase {
 	/** @var IL10N */
 	private $l10n;

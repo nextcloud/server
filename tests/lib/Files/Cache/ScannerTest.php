@@ -22,10 +22,10 @@ use Test\TestCase;
 /**
  * Class ScannerTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ScannerTest extends TestCase {
 	private Storage $storage;
 	private Scanner $scanner;

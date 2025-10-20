@@ -22,10 +22,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class PublicAuthTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PublicAuthTest extends \Test\TestCase {
 
 	private ISession&MockObject $session;

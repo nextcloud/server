@@ -16,10 +16,10 @@ use OCP\Lock\ILockingProvider;
 /**
  * Class UploadTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UploadTest extends RequestTestCase {
 	public function testBasicUpload(): void {
 		$user = self::getUniqueID();
