@@ -88,3 +88,6 @@
 [submodule "apps-external/tables"]
 	path = apps-external/tables
 	url = git@github.com:nextcloud/tables.git
+[submodule "apps-external/notifications"]
+	path = apps-external/notifications
+	url = git@github.com:IONOS-Productivity/nc-notifications.git
