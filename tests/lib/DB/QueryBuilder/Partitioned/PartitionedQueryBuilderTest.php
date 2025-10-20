@@ -27,6 +27,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 	protected function setUp(): void {
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
+			return;
 		}
 		$this->connection = Server::get(IDBConnection::class);
 		$this->shardConnectionManager = Server::get(ShardConnectionManager::class);
@@ -36,7 +37,9 @@ class PartitionedQueryBuilderTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->cleanupDb();
+		if (PHP_INT_SIZE >= 8) {
+			$this->cleanupDb();
+		}
 		parent::tearDown();
 	}
 
