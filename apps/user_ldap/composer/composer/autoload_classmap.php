@@ -30,6 +30,7 @@ return array(
     'OCA\\User_LDAP\\ConnectionFactory' => $baseDir . '/../lib/ConnectionFactory.php',
     'OCA\\User_LDAP\\Controller\\ConfigAPIController' => $baseDir . '/../lib/Controller/ConfigAPIController.php',
     'OCA\\User_LDAP\\Controller\\RenewPasswordController' => $baseDir . '/../lib/Controller/RenewPasswordController.php',
+    'OCA\\User_LDAP\\Controller\\WizardController' => $baseDir . '/../lib/Controller/WizardController.php',
     'OCA\\User_LDAP\\DataCollector\\LdapDataCollector' => $baseDir . '/../lib/DataCollector/LdapDataCollector.php',
     'OCA\\User_LDAP\\Db\\GroupMembership' => $baseDir . '/../lib/Db/GroupMembership.php',
     'OCA\\User_LDAP\\Db\\GroupMembershipMapper' => $baseDir . '/../lib/Db/GroupMembershipMapper.php',
@@ -95,5 +96,6 @@ return array(
     'OCA\\User_LDAP\\User_LDAP' => $baseDir . '/../lib/User_LDAP.php',
     'OCA\\User_LDAP\\User_Proxy' => $baseDir . '/../lib/User_Proxy.php',
     'OCA\\User_LDAP\\Wizard' => $baseDir . '/../lib/Wizard.php',
+    'OCA\\User_LDAP\\WizardFactory' => $baseDir . '/../lib/WizardFactory.php',
     'OCA\\User_LDAP\\WizardResult' => $baseDir . '/../lib/WizardResult.php',
 );

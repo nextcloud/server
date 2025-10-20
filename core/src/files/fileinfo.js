@@ -11,7 +11,7 @@ import _ from 'underscore'
 	 * @class OC.Files.FileInfo
 	 * @classdesc File information
 	 *
-	 * @param {Object} data file data, see attributes for details
+	 * @param {object} data file data, see attributes for details
 	 *
 	 * @since 8.2
 	 */

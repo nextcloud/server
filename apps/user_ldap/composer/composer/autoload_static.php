@@ -45,6 +45,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\ConnectionFactory' => __DIR__ . '/..' . '/../lib/ConnectionFactory.php',
         'OCA\\User_LDAP\\Controller\\ConfigAPIController' => __DIR__ . '/..' . '/../lib/Controller/ConfigAPIController.php',
         'OCA\\User_LDAP\\Controller\\RenewPasswordController' => __DIR__ . '/..' . '/../lib/Controller/RenewPasswordController.php',
+        'OCA\\User_LDAP\\Controller\\WizardController' => __DIR__ . '/..' . '/../lib/Controller/WizardController.php',
         'OCA\\User_LDAP\\DataCollector\\LdapDataCollector' => __DIR__ . '/..' . '/../lib/DataCollector/LdapDataCollector.php',
         'OCA\\User_LDAP\\Db\\GroupMembership' => __DIR__ . '/..' . '/../lib/Db/GroupMembership.php',
         'OCA\\User_LDAP\\Db\\GroupMembershipMapper' => __DIR__ . '/..' . '/../lib/Db/GroupMembershipMapper.php',
@@ -110,6 +111,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\User_LDAP' => __DIR__ . '/..' . '/../lib/User_LDAP.php',
         'OCA\\User_LDAP\\User_Proxy' => __DIR__ . '/..' . '/../lib/User_Proxy.php',
         'OCA\\User_LDAP\\Wizard' => __DIR__ . '/..' . '/../lib/Wizard.php',
+        'OCA\\User_LDAP\\WizardFactory' => __DIR__ . '/..' . '/../lib/WizardFactory.php',
         'OCA\\User_LDAP\\WizardResult' => __DIR__ . '/..' . '/../lib/WizardResult.php',
     );
 
