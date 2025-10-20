@@ -92,6 +92,8 @@
     "Generate image" : "Generate image",
     "Prompt" : "Prompt",
     "Describe the image you want to generate" : "Describe the image you want to generate",
+    "Generate speech" : "Generate speech",
+    "Generate speech from a transcript" : "Generate speech from a transcript",
     "Describe a task that you want the assistant to do or ask a question" : "Describe a task that you want the assistant to do or ask a question",
     "Change Tone" : "Change Tone",
     "Write a text that you want the assistant to rewrite in another tone." : "Write a text that you want the assistant to rewrite in another tone.",
