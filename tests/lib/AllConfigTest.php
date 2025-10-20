@@ -8,19 +8,18 @@
 
 namespace Test;
 
-/**
- * Class AllConfigTest
- *
- * @group DB
- *
- * @package Test
- */
 use OC\AllConfig;
 use OC\SystemConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 
+/**
+ * Class AllConfigTest
+ *
+ * @package Test
+ */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AllConfigTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $connection;

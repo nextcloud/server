@@ -16,10 +16,10 @@ use Test\TestCase;
 /**
  * Class ApplicationTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\Unit\AppInfo
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ApplicationTest extends TestCase {
 	public function test(): void {
 		$app = new Application();

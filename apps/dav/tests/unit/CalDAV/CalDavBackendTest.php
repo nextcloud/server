@@ -28,9 +28,8 @@ use function time;
 
 /**
  * Class CalDavBackendTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CalDavBackendTest extends AbstractCalDavBackend {
 	public function testCalendarOperations(): void {
 		$calendarId = $this->createTestCalendar();

@@ -30,10 +30,10 @@ use Test\TestCase;
 /**
  * Class UserTest
  *
- * @group DB
  *
  * @package Test\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserTest extends TestCase {
 	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;

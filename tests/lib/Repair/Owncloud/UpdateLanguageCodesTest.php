@@ -19,10 +19,10 @@ use Test\TestCase;
 /**
  * Class UpdateLanguageCodesTest
  *
- * @group DB
  *
  * @package Test\Repair
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UpdateLanguageCodesTest extends TestCase {
 
 	protected IDBConnection $connection;

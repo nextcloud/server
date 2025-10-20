@@ -19,9 +19,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SubAdminTest extends \Test\TestCase {
 	/** @var IUserManager */
 	private $userManager;

@@ -570,9 +570,7 @@ class ConflictingExternalTaskType implements ITaskType {
 	}
 }
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TaskProcessingTest extends \Test\TestCase {
 	private IManager $manager;
 	private Coordinator $coordinator;

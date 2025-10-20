@@ -29,9 +29,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MovePreviewJobTest extends TestCase {
 	private IAppData $previewAppData;
 	private PreviewMapper $previewMapper;

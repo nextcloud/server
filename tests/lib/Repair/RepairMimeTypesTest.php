@@ -20,10 +20,10 @@ use OCP\Server;
 /**
  * Tests for the converting of legacy storages to home storages.
  *
- * @group DB
  *
  * @see \OC\Repair\RepairMimeTypes
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepairMimeTypesTest extends \Test\TestCase {
 
 	private RepairMimeTypes $repair;

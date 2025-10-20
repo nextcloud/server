@@ -13,9 +13,7 @@ namespace Test\Security;
 use OCP\Security\ICredentialsManager;
 use OCP\Server;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CredentialsManagerTest extends \Test\TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('credentialsProvider')]
 	public function testWithDB($userId, $identifier): void {

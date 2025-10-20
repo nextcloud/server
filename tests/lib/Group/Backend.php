@@ -10,9 +10,8 @@ namespace Test\Group;
 
 /**
  * Class Backend
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 abstract class Backend extends \Test\TestCase {
 	/**
 	 * @var \OC\Group\Backend $backend

@@ -14,9 +14,9 @@ use OCP\Server;
 /**
  * Class InfoXmlTest
  *
- * @group DB
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class InfoXmlTest extends TestCase {
 	private IAppManager $appManager;
 

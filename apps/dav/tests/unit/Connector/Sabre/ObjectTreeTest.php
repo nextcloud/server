@@ -23,10 +23,10 @@ use OCP\Files\Mount\IMountManager;
 /**
  * Class ObjectTreeTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\Unit\Connector\Sabre
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectTreeTest extends \Test\TestCase {
 	public static function copyDataProvider(): array {
 		return [

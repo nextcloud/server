@@ -10,9 +10,7 @@ namespace Test\Memcache;
 
 use OC\Memcache\ArrayCache;
 
-/**
- * @group Memcache
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
 class ArrayCacheTest extends Cache {
 	protected function setUp(): void {
 		parent::setUp();

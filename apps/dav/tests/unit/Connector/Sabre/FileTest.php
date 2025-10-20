@@ -46,10 +46,10 @@ use Test\Traits\UserTrait;
 /**
  * Class File
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileTest extends TestCase {
 	use MountProviderTrait;
 	use UserTrait;

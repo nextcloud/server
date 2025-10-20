@@ -26,10 +26,10 @@ use Test\TestCase;
 /**
  * Class ManagerTest
  *
- * @group DB
  *
  * @package Test\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
 	/** @var IConfig */
 	private $config;
@@ -694,10 +694,8 @@ class ManagerTest extends TestCase {
 		$user4->delete();
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
+	#[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
+	#[\PHPUnit\Framework\Attributes\PreserveGlobalState(enabled: false)]
 	public function testRecentlyActive(): void {
 		$config = Server::get(IConfig::class);
 		$manager = Server::get(IUserManager::class);

@@ -11,10 +11,10 @@ namespace Test\Preview;
 /**
  * Class MovieTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MovieBrokenStuckFfmpegTest extends MovieTest {
 	protected string $fileName = 'broken-video.webm';
 }

@@ -13,10 +13,9 @@ use OCP\Lock\ILockingProvider;
 use OCP\Server;
 
 /**
- * @group DB
- *
  * @package Test\Lock
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 	/**
 	 * @return ILockingProvider

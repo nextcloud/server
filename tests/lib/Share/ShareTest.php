@@ -21,9 +21,8 @@ use OCP\Server;
 
 /**
  * Class Test_Share
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareTest extends \Test\TestCase {
 	protected $itemType;
 

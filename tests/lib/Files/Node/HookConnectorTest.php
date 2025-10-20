@@ -45,10 +45,10 @@ use Test\Traits\UserTrait;
 /**
  * Class HookConnectorTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HookConnectorTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;

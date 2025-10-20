@@ -49,10 +49,10 @@ class DummyMountProvider implements IMountProvider {
 /**
  * Class FilesystemTest
  *
- * @group DB
  *
  * @package Test\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FilesystemTest extends \Test\TestCase {
 	public const TEST_FILESYSTEM_USER1 = 'test-filesystem-user1';
 	public const TEST_FILESYSTEM_USER2 = 'test-filesystem-user1';

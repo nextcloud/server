@@ -42,10 +42,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class FolderTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FolderTest extends NodeTestCase {
 	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
 		$view->expects($this->any())

@@ -23,9 +23,7 @@ class TemporaryNoEncrypted extends Temporary implements IDisableEncryptionStorag
 
 }
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class EncryptedStorageTest extends TestCase {
 	use MountProviderTrait;
 	use EncryptionTrait;

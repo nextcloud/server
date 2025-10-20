@@ -23,10 +23,10 @@ use Test\Files\Cache\CacheTest;
 /**
  * Class CacheJail
  *
- * @group DB
  *
  * @package Test\Files\Cache\Wrapper
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CacheJailTest extends CacheTest {
 	/**
 	 * @var Cache $sourceCache

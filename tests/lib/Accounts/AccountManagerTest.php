@@ -39,9 +39,9 @@ use Test\TestCase;
 /**
  * Class AccountManagerTest
  *
- * @group DB
  * @package Test\Accounts
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AccountManagerTest extends TestCase {
 
 	/** accounts table name */

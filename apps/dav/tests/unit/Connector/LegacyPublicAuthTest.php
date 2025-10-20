@@ -20,10 +20,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class LegacyPublicAuthTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LegacyPublicAuthTest extends \Test\TestCase {
 	private ISession&MockObject $session;
 	private IRequest&MockObject $request;

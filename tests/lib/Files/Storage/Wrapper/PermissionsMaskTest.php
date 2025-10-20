@@ -14,9 +14,7 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Constants;
 use OCP\Files\Cache\IScanner;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var Temporary

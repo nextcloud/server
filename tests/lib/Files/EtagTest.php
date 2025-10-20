@@ -23,10 +23,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class EtagTest
  *
- * @group DB
  *
  * @package Test\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class EtagTest extends \Test\TestCase {
 	private $datadir;
 

@@ -22,10 +22,10 @@ use OCP\IUserManager;
 /**
  * Class Cache
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\External
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CacheTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;

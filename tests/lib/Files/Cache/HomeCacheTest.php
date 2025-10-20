@@ -42,10 +42,10 @@ class DummyUser extends User {
 /**
  * Class HomeCacheTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HomeCacheTest extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Home $storage

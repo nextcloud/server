@@ -17,12 +17,9 @@ use OCP\IUserSession;
 use OCP\Server;
 
 /**
- * Class Test_Files_Sharing_Base
- *
- * @group DB
- *
  * Base class for sharing tests.
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 abstract class TestCase extends \Test\TestCase {
 	public const TEST_FILES_SHARING_API_USER1 = 'test-share-user1';
 	public const TEST_FILES_SHARING_API_USER2 = 'test-share-user2';

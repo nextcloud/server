@@ -16,9 +16,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExpressionBuilderDBTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;

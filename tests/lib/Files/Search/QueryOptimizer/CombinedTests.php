@@ -14,6 +14,9 @@ use OCP\Files\Search\ISearchComparison;
 use Test\TestCase;
 
 class CombinedTests extends TestCase {
+	public function __construct() {
+		parent::__construct(static::class);
+	}
 	private QueryOptimizer $optimizer;
 
 	protected function setUp(): void {
