@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing\Exception;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Exception thrown during processing of a task
  * by a synchronous provider with the possibility to set a user-facing
@@ -17,6 +19,7 @@ namespace OCP\TaskProcessing\Exception;
  *
  * @since 33.0.0
  */
+#[Consumable('33.0.0')]
 class UserFacingProcessingException extends ProcessingException {
 
 	/**
@@ -30,7 +33,7 @@ class UserFacingProcessingException extends ProcessingException {
 		string $message = '',
 		int $code = 0,
 		?\Throwable $previous = null,
-		private ?string $userFacingMessage = null
+		private ?string $userFacingMessage = null,
 	) {
 		parent::__construct($message, $code, $previous);
 	}

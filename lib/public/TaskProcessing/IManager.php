@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
@@ -25,6 +26,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
  * without known which providers are installed
  * @since 30.0.0
  */
+#[Consumable('30.0.0')]
 interface IManager {
 
 	/**

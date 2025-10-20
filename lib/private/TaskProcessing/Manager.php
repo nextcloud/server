@@ -1104,7 +1104,9 @@ class Manager implements IManager {
 			// truncate error message to 1000 characters
 			$task->setErrorMessage(mb_substr($error, 0, 1000));
 			// truncate error message to 1000 characters
-			$task->setUserFacingErrorMessage(mb_substr($userFacingError, 0, 1000));
+			if ($userFacingError !== null) {
+				$task->setUserFacingErrorMessage(mb_substr($userFacingError, 0, 1000));
+			}
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskTypeId() . ' task with id ' . $id . ' failed with the following message: ' . $error);
 		} elseif ($result !== null) {
 			$taskTypes = $this->getAvailableTaskTypes();
