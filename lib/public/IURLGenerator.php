@@ -30,8 +30,9 @@ interface IURLGenerator {
 	 *
 	 * @since 25.0.0
 	 * @since 29.0.0 changed to match localhost and hostnames with ports
+	 * @since 33.0.0 changed to match URLs in markdown link syntax and square brackets in query parameters
 	 */
-	public const URL_REGEX_NO_MODIFIERS = '(\s|\n|^)(https?:\/\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)';
+	public const URL_REGEX_NO_MODIFIERS = '(\s|\n|^|\]\()(https?:\/\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\/[-A-Z0-9+&@#%?=~_|!:,.;\[\()]*)*)(\s|\n|$|\))';
 
 	/**
 	 * Returns the URL for a route
