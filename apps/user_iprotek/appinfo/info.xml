@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+  <id>user_iprotek</id>
+  <name>iProtek User Backend</name>
+  <summary>Authenticate users from iProtek API</summary>
+  <description>Nextcloud user backend that validates users via iprotek</description>
+  <version>1.0.0</version>
+  <licence>AGPL</licence>
+  <author>Joseph Aguilar</author>
+  <category>authentication</category>
+  <dependencies>
+    <nextcloud min-version="28" max-version="30"/>
+  </dependencies>
+</info>
