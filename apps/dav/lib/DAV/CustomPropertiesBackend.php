@@ -30,6 +30,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
+use Sabre\DAV\Exception as DavException;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -373,7 +374,7 @@ class CustomPropertiesBackend implements BackendInterface {
 							->executeStatement();
 					}
 				} else {
-					[$value, $valueType] = $this->encodeValueForDatabase($propertyValue);
+					[$value, $valueType] = $this->encodeValueForDatabase($propertyName, $propertyValue);
 					$dbParameters['propertyValue'] = $value;
 					$dbParameters['valueType'] = $valueType;
 
@@ -415,17 +416,46 @@ class CustomPropertiesBackend implements BackendInterface {
 		return $path;
 	}
 
+	private static function checkIsArrayOfScalar(string $name, array $array): void {
+		foreach ($array as $item) {
+			if (is_array($item)) {
+				self::checkIsArrayOfScalar($name, $item);
+			} elseif ($item !== null && !is_scalar($item)) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of array containing " . gettype($item),
+				);
+			}
+		}
+	}
+
 	/**
 	 * @param mixed $value
 	 * @return array
 	 */
-	private function encodeValueForDatabase($value): array {
+	private function encodeValueForDatabase(string $name, $value): array {
 		if (is_scalar($value)) {
 			$valueType = self::PROPERTY_TYPE_STRING;
 		} elseif ($value instanceof Complex) {
 			$valueType = self::PROPERTY_TYPE_XML;
 			$value = $value->getXml();
 		} else {
+			if (is_array($value)) {
+				// For array only allow scalar values
+				self::checkIsArrayOfScalar($name, $value);
+			} elseif (!is_object($value)) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of type " . gettype($value),
+				);
+			} else {
+				if (!str_starts_with(get_class($value), 'Sabre\\DAV\\Xml\\Property\\')
+					&& !str_starts_with(get_class($value), 'Sabre\\CalDAV\\Xml\\Property\\')
+					&& !str_starts_with(get_class($value), 'Sabre\\CardDAV\\Xml\\Property\\')
+					&& !str_starts_with(get_class($value), 'OCA\\DAV\\')) {
+					throw new DavException(
+						"Property \"$name\" has an invalid value of class " . get_class($value),
+					);
+				}
+			}
 			$valueType = self::PROPERTY_TYPE_OBJECT;
 			$value = serialize($value);
 		}
@@ -440,11 +470,17 @@ class CustomPropertiesBackend implements BackendInterface {
 			case self::PROPERTY_TYPE_XML:
 				return new Complex($value);
 			case self::PROPERTY_TYPE_OBJECT:
+				if (preg_match('/^a:/', $value)) {
+					// Array, unserialize only scalar values
+					return unserialize(str_replace('\x00', chr(0), $value), ['allowed_classes' => false]);
+				}
+				if (!preg_match('/^O\:\d+\:\"(OCA\\\\DAV\\\\|Sabre\\\\(Cal|Card)?DAV\\\\Xml\\\\Property\\\\)/', $value)) {
+					throw new \LogicException('Found an object class serialized in DB that is not allowed');
+				}
 				return unserialize($value);
-			case self::PROPERTY_TYPE_STRING:
 			default:
 				return $value;
-		}
+		};
 	}
 
 	private function createDeleteQuery(): IQueryBuilder {
