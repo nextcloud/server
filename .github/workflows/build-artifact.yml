@@ -112,6 +112,13 @@ jobs:
               "makefile_target": "build_files_antivirus_app"
             },
             {
+              "name": "notifications",
+              "path": "apps-external/notifications",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_notifications_app"
+            },
+            {
               "name": "notify_push",
               "path": "apps-external/notify_push",
               "has_npm": false,
