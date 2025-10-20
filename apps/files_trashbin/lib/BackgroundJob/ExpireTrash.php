@@ -11,7 +11,6 @@ use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Expiration;
-use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
@@ -66,8 +65,7 @@ class ExpireTrash extends TimedJob {
 
 				try {
 					if ($this->setupFS($user)) {
-						$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
-						Trashbin::deleteExpiredFiles($dirContent, $uid);
+						Trashbin::expire($uid);
 					}
 				} catch (\Throwable $e) {
 					$this->logger->error('Error while expiring trashbin for user ' . $uid, ['exception' => $e]);
