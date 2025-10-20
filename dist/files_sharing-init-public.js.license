@@ -32,11 +32,11 @@ This file is generated from multiple sources. Included packages:
 - @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0
-- @nextcloud/browser-storage
-	- version: 0.5.0
-	- license: GPL-3.0-or-later
 - @nextcloud/auth
 	- version: 2.5.3
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
