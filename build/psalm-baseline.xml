@@ -3148,15 +3148,6 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Command/Encryption/DecryptAll.php">
-    <DeprecatedMethod>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Encryption/Disable.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
