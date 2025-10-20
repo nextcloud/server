@@ -1,1 +1,1 @@
-"use strict";(self.webpackChunknextcloud=self.webpackChunknextcloud||[]).push([[8339],{18339:(e,u,c)=>{c.r(u),c.d(u,{default:()=>l.N});var l=c(60839)}}]);
+"use strict";(self.webpackChunknextcloud_ui_legacy=self.webpackChunknextcloud_ui_legacy||[]).push([[8339],{18339:(e,u,c)=>{c.r(u),c.d(u,{default:()=>l.N});var l=c(60839)}}]);

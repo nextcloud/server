@@ -122,6 +122,12 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 13.9.0
 	- license: MIT
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 9.0.0
+	- license: MIT
 - rehype-react
 	- version: 8.0.0
 	- license: MIT
@@ -129,7 +135,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.4
 	- license: MIT
 - vue-router
-	- version: 4.6.0
+	- version: 4.6.3
 	- license: MIT
 - vue-select
 	- version: 4.0.0-beta.6
@@ -183,7 +189,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.32.0
+	- version: 8.31.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.3.0
@@ -240,7 +246,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.1.1
 	- license: MIT
 - browserify-sign
-	- version: 4.2.3
+	- version: 4.2.5
 	- license: ISC
 - buffer-xor
 	- version: 1.0.3
@@ -258,7 +264,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.4
 	- license: MIT
 - cipher-base
-	- version: 1.0.6
+	- version: 1.0.7
 	- license: MIT
 - comma-separated-tokens
 	- version: 2.0.3
@@ -527,26 +533,11 @@ This file is generated from multiple sources. Included packages:
 - buffer
 	- version: 6.0.3
 	- license: MIT
-- eventemitter3
-	- version: 5.0.1
-	- license: MIT
-- p-queue
-	- version: 9.0.0
-	- license: MIT
 - parse-asn1
-	- version: 5.1.7
+	- version: 5.1.9
 	- license: ISC
-- create-hash
-	- version: 1.1.3
-	- license: MIT
-- hash-base
-	- version: 2.0.2
-	- license: MIT
-- ripemd160
-	- version: 2.0.1
-	- license: MIT
 - pbkdf2
-	- version: 3.1.3
+	- version: 3.1.5
 	- license: MIT
 - possible-typed-array-names
 	- version: 1.1.0
@@ -593,8 +584,11 @@ This file is generated from multiple sources. Included packages:
 - remark-unlink-protocols
 	- version: 1.0.0
 	- license: MIT
+- hash-base
+	- version: 3.1.2
+	- license: MIT
 - ripemd160
-	- version: 2.0.2
+	- version: 2.0.3
 	- license: MIT
 - safe-buffer
 	- version: 5.2.1
@@ -639,7 +633,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.5
 	- license: MIT
 - to-buffer
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - toastify-js
 	- version: 1.12.0
@@ -696,7 +690,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.102.1
+	- version: 5.102.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
