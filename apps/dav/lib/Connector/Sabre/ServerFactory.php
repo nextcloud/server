@@ -255,7 +255,7 @@ class ServerFactory {
 			\OCP\Server::get(ProxyMapper::class),
 			\OCP\Server::get(KnownUserService::class),
 			\OCP\Server::get(IConfig::class),
-			\OC::$server->getL10NFactory(),
+			\OCP\Server::get(IFactory::class),
 		);
 
 		// Mount the share collection at /public.php/dav/files/<share token>
