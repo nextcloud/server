@@ -447,12 +447,12 @@ class CustomPropertiesBackend implements BackendInterface {
 					"Property \"$name\" has an invalid value of type " . gettype($value),
 				);
 			} else {
-				if (!str_starts_with($value::class, 'Sabre\\DAV\\Xml\\Property\\')
-					&& !str_starts_with($value::class, 'Sabre\\CalDAV\\Xml\\Property\\')
-					&& !str_starts_with($value::class, 'Sabre\\CardDAV\\Xml\\Property\\')
-					&& !str_starts_with($value::class, 'OCA\\DAV\\')) {
+				if (!str_starts_with(get_class($value), 'Sabre\\DAV\\Xml\\Property\\')
+					&& !str_starts_with(get_class($value), 'Sabre\\CalDAV\\Xml\\Property\\')
+					&& !str_starts_with(get_class($value), 'Sabre\\CardDAV\\Xml\\Property\\')
+					&& !str_starts_with(get_class($value), 'OCA\\DAV\\')) {
 					throw new DavException(
-						"Property \"$name\" has an invalid value of class " . $value::class,
+						"Property \"$name\" has an invalid value of class " . get_class($value),
 					);
 				}
 			}
@@ -465,7 +465,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * @return mixed|Complex|string
 	 */
-	private function decodeValueFromDatabase(string $value, int $valueType): mixed {
+	private function decodeValueFromDatabase(string $value, int $valueType) {
 		switch ($valueType) {
 			case self::PROPERTY_TYPE_XML:
 				return new Complex($value);
