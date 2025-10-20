@@ -30,6 +30,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
+use Sabre\DAV\Exception as DavException;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -388,7 +389,7 @@ class CustomPropertiesBackend implements BackendInterface {
 							->executeStatement();
 					}
 				} else {
-					[$value, $valueType] = $this->encodeValueForDatabase($propertyValue);
+					[$value, $valueType] = $this->encodeValueForDatabase($propertyName, $propertyValue);
 					$dbParameters['propertyValue'] = $value;
 					$dbParameters['valueType'] = $valueType;
 
@@ -446,7 +447,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @param mixed $value
 	 * @return array
 	 */
-	private function encodeValueForDatabase($value): array {
+	private function encodeValueForDatabase(string $name, $value): array {
 		if (is_scalar($value)) {
 			$valueType = self::PROPERTY_TYPE_STRING;
 		} elseif ($value instanceof Complex) {
