@@ -20,10 +20,10 @@ use OCP\Share\IShare;
 /**
  * Class ExpireSharesJobTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExpireSharesJobTest extends \Test\TestCase {
 
 	/** @var ExpireSharesJob */

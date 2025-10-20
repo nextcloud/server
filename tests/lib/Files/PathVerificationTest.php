@@ -17,10 +17,10 @@ use OCP\Server;
 /**
  * Class PathVerificationTest
  *
- * @group DB
  *
  * @package Test\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PathVerificationTest extends \Test\TestCase {
 	/**
 	 * @var View

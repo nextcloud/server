@@ -20,10 +20,10 @@ use Test\TestCase;
 /**
  * Tests for repairing invalid shares
  *
- * @group DB
  *
  * @see \OC\Repair\RepairInvalidShares
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepairInvalidSharesTest extends TestCase {
 
 	private RepairInvalidShares $repair;

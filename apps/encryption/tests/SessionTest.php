@@ -28,17 +28,13 @@ class SessionTest extends TestCase {
 		$this->instance->getPrivateKey();
 	}
 
-	/**
-	 * @depends testThatGetPrivateKeyThrowsExceptionWhenNotSet
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testThatGetPrivateKeyThrowsExceptionWhenNotSet')]
 	public function testSetAndGetPrivateKey(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertEquals('dummyPrivateKey', $this->instance->getPrivateKey());
 	}
 
-	/**
-	 * @depends testSetAndGetPrivateKey
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testSetAndGetPrivateKey')]
 	public function testIsPrivateKeySet(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertTrue($this->instance->isPrivateKeySet());

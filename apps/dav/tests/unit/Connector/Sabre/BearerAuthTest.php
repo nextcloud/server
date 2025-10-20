@@ -19,9 +19,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class BearerAuthTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private ISession&MockObject $session;

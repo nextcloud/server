@@ -92,6 +92,7 @@ use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Profiler\IProfiler;
 use OCP\SabrePluginEvent;
@@ -351,7 +352,7 @@ class Server {
 						\OCP\Server::get(IMipService::class),
 						\OCP\Server::get(EventComparisonService::class),
 						\OCP\Server::get(\OCP\Mail\Provider\IManager::class),
-						\OCP\Server::get(\OCP\Mail\IEmailValidator::class),
+						\OCP\Server::get(IEmailValidator::class),
 					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());

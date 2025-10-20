@@ -25,8 +25,8 @@ use Psr\Log\LoggerInterface;
  * Class InstallerTest
  *
  * @package Test
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class InstallerTest extends TestCase {
 	private static $appid = 'testapp';
 	private $appstore;

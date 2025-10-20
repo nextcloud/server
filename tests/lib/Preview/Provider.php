@@ -72,12 +72,12 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Launches all the tests we have
 	 *
-	 * @requires extension imagick
 	 *
 	 * @param int $widthAdjustment
 	 * @param int $heightAdjustment
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dimensionsDataProvider')]
+	#[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
 	public function testGetThumbnail($widthAdjustment, $heightAdjustment): void {
 		$ratio = round($this->width / $this->height, 2);
 		$this->maxWidth = $this->width - $widthAdjustment;

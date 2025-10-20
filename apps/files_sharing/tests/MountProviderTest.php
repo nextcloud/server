@@ -25,9 +25,7 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MountProviderTest extends \Test\TestCase {
 
 	protected MountProvider $provider;

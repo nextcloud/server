@@ -18,10 +18,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class DeletedUsersIndexTest
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeletedUsersIndexTest extends \Test\TestCase {
 	protected DeletedUsersIndex $dui;
 	protected IConfig $config;

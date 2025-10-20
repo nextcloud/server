@@ -44,9 +44,7 @@ class NonSeekableStream extends Wrapper {
 	}
 }
 
-/**
- * @group PRIMARY-s3
- */
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
 class S3Test extends ObjectStoreTestCase {
 	public function setUp(): void {
 		parent::setUp();

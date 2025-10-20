@@ -37,10 +37,9 @@ use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @group DB
- *
  * @package Tests\Settings\Controller
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UsersControllerTest extends \Test\TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private UserManager&MockObject $userManager;

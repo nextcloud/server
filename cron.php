@@ -41,7 +41,7 @@ Options:
 		$jobClasses = empty($jobClasses) ? null : $jobClasses;
 
 		if ($verbose) {
-			$cronService->registerVerboseCallback(function (string $message) {
+			$cronService->registerVerboseCallback(function (string $message): void {
 				echo $message . PHP_EOL;
 			});
 		}

@@ -21,10 +21,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class CommonTest
  *
- * @group DB
  *
  * @package Test\Files\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CommonTest extends Storage {
 
 	private string $tmpDir;

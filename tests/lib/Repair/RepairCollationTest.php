@@ -31,10 +31,10 @@ class TestCollationRepair extends Collation {
 /**
  * Tests for the converting of MySQL tables to InnoDB engine
  *
- * @group DB
  *
  * @see \OC\Repair\RepairMimeTypes
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepairCollationTest extends TestCase {
 
 	private TestCollationRepair $repair;

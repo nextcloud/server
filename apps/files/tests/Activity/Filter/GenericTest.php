@@ -17,8 +17,8 @@ use Test\TestCase;
  * Class GenericTest
  *
  * @package OCA\Files\Tests\Activity\Filter
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class GenericTest extends TestCase {
 	public static function dataFilters(): array {
 		return [

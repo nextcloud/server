@@ -60,8 +60,8 @@ use Test\Traits\EmailValidatorTrait;
  * Class ShareAPIControllerTest
  *
  * @package OCA\Files_Sharing\Tests\Controller
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareAPIControllerTest extends TestCase {
 	use EmailValidatorTrait;
 

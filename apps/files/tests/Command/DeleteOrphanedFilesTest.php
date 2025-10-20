@@ -22,10 +22,10 @@ use Test\TestCase;
 /**
  * Class DeleteOrphanedFilesTest
  *
- * @group DB
  *
  * @package OCA\Files\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeleteOrphanedFilesTest extends TestCase {
 
 	private DeleteOrphanedFiles $command;

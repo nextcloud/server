@@ -19,9 +19,8 @@ use Test\Traits\UserTrait;
 
 /**
  * Test the storage functions of OC_Helper
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HelperStorageTest extends \Test\TestCase {
 	use UserTrait;
 

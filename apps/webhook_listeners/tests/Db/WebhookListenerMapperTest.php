@@ -18,9 +18,7 @@ use OCP\Server;
 use OCP\User\Events\UserCreatedEvent;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class WebhookListenerMapperTest extends TestCase {
 	private IDBConnection $connection;
 	private WebhookListenerMapper $mapper;

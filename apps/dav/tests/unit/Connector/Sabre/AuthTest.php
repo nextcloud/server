@@ -27,8 +27,8 @@ use Test\TestCase;
  * Class AuthTest
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AuthTest extends TestCase {
 	private ISession&MockObject $session;
 	private Session&MockObject $userSession;

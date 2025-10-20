@@ -26,10 +26,10 @@ use Test\TestCase;
 /**
  * Class AdminSettingsControllerTest
  *
- * @group DB
  *
  * @package Tests\Settings\Controller
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AdminSettingsControllerTest extends TestCase {
 
 	private IRequest&MockObject $request;

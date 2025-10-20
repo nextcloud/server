@@ -41,10 +41,10 @@ use Test\TestCase;
 /**
  * Class ViewControllerTest
  *
- * @group RoutingWeirdness
  *
  * @package OCA\Files\Tests\Controller
  */
+#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 class ViewControllerTest extends TestCase {
 	private ContainerInterface&MockObject $container;
 	private IAppManager&MockObject $appManager;

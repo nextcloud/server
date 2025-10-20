@@ -61,8 +61,8 @@ class QBDBTestMapper extends QBMapper {
 
 /**
  * Test real database handling (serialization)
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class QBMapperDBTest extends TestCase {
 	protected IDBConnection $connection;
 	protected bool $schemaSetup = false;

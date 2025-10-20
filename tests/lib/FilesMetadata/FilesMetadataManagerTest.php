@@ -26,9 +26,7 @@ use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FilesMetadataManagerTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
@@ -49,7 +47,7 @@ class FilesMetadataManagerTest extends TestCase {
 
 		$this->jobList = $this->createMock(JobList::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->eventDispatcher->method('dispatchTyped')->willReturnCallback(function (Event $event) {
+		$this->eventDispatcher->method('dispatchTyped')->willReturnCallback(function (Event $event): void {
 			if ($event instanceof AMetadataEvent) {
 				$name = $event->getNode()->getName();
 				if (isset($this->metadata[$name])) {

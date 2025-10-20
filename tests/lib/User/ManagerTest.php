@@ -26,10 +26,10 @@ use Test\TestCase;
 /**
  * Class ManagerTest
  *
- * @group DB
  *
  * @package Test\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
 	/** @var IConfig */
 	private $config;
@@ -696,8 +696,8 @@ class ManagerTest extends TestCase {
 
 	/**
 	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
+	#[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
 	public function testRecentlyActive(): void {
 		$config = Server::get(IConfig::class);
 		$manager = Server::get(IUserManager::class);
