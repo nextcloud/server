@@ -10,52 +10,32 @@ namespace Tests\Core\Command\Encryption;
 
 use OC\Core\Command\Encryption\DecryptAll;
 use OCP\App\IAppManager;
-use OCP\Encryption\IManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
-	protected $config;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
-	protected $encryptionManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IAppManager */
-	protected $appManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
-	protected $consoleInput;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
-	protected $consoleOutput;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
-	protected $questionHelper;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\DecryptAll */
-	protected $decryptAll;
+	private MockObject&IConfig $config;
+	private MockObject&IAppConfig $appConfig;
+	private MockObject&IAppManager $appManager;
+	private MockObject&InputInterface $consoleInput;
+	private MockObject&OutputInterface $consoleOutput;
+	private MockObject&QuestionHelper $questionHelper;
+	private MockObject&\OC\Encryption\DecryptAll $decryptAll;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->encryptionManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->appManager = $this->getMockBuilder(IAppManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->questionHelper = $this->getMockBuilder(QuestionHelper::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->decryptAll = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
-			->disableOriginalConstructor()->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->questionHelper = $this->createMock(QuestionHelper::class);
+		$this->decryptAll = $this->createMock(\OC\Encryption\DecryptAll::class);
+
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleInput->expects($this->any())
 			->method('isInteractive')
@@ -92,9 +72,9 @@ class DecryptAllTest extends TestCase {
 			->with('files_trashbin');
 
 		$instance = new DecryptAll(
-			$this->encryptionManager,
 			$this->appManager,
 			$this->config,
+			$this->appConfig,
 			$this->decryptAll,
 			$this->questionHelper
 		);
@@ -113,15 +93,16 @@ class DecryptAllTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
 	public function testExecute($encryptionEnabled, $continue): void {
 		$instance = new DecryptAll(
-			$this->encryptionManager,
 			$this->appManager,
 			$this->config,
+			$this->appConfig,
 			$this->decryptAll,
 			$this->questionHelper
 		);
 
-		$this->encryptionManager->expects($this->once())
-			->method('isEnabled')
+		$this->appConfig->expects($this->once())
+			->method('getValueBool')
+			->with('core', 'encryption_enabled')
 			->willReturn($encryptionEnabled);
 
 		$this->consoleInput->expects($this->any())
@@ -131,29 +112,29 @@ class DecryptAllTest extends TestCase {
 
 		if ($encryptionEnabled) {
 			$calls = [
-				['core', 'encryption_enabled', 'no'],
-				['core', 'encryption_enabled', 'yes'],
+				['core', 'encryption_enabled', false, false],
+				['core', 'encryption_enabled', true, false],
 			];
-			$this->config->expects($this->exactly(2))
-				->method('setAppValue')
-				->willReturnCallback(function () use (&$calls): void {
+			$this->appConfig->expects($this->exactly(count($calls)))
+				->method('setValueBool')
+				->willReturnCallback(function () use (&$calls): bool {
 					$expected = array_shift($calls);
 					$this->assertEquals($expected, func_get_args());
+					return true;
 				});
-			$this->questionHelper->expects($this->once())
-				->method('ask')
-				->willReturn($continue);
-			if ($continue) {
-				$this->decryptAll->expects($this->once())
-					->method('decryptAll')
-					->with($this->consoleInput, $this->consoleOutput, 'user1');
-			} else {
-				$this->decryptAll->expects($this->never())->method('decryptAll');
-			}
 		} else {
-			$this->config->expects($this->never())->method('setAppValue');
+			$this->appConfig->expects($this->never())
+				->method('setValueBool');
+		}
+		$this->questionHelper->expects($this->once())
+			->method('ask')
+			->willReturn($continue);
+		if ($continue) {
+			$this->decryptAll->expects($this->once())
+				->method('decryptAll')
+				->with($this->consoleInput, $this->consoleOutput, 'user1');
+		} else {
 			$this->decryptAll->expects($this->never())->method('decryptAll');
-			$this->questionHelper->expects($this->never())->method('ask');
 		}
 
 		$this->invokePrivate($instance, 'execute', [$this->consoleInput, $this->consoleOutput]);
@@ -173,26 +154,28 @@ class DecryptAllTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		$instance = new DecryptAll(
-			$this->encryptionManager,
 			$this->appManager,
 			$this->config,
+			$this->appConfig,
 			$this->decryptAll,
 			$this->questionHelper
 		);
 
 		// make sure that we enable encryption again after a exception was thrown
 		$calls = [
-			['core', 'encryption_enabled', 'no'],
-			['core', 'encryption_enabled', 'yes'],
+			['core', 'encryption_enabled', false, false],
+			['core', 'encryption_enabled', true, false],
 		];
-		$this->config->expects($this->exactly(2))
-			->method('setAppValue')
-			->willReturnCallback(function () use (&$calls): void {
+		$this->appConfig->expects($this->exactly(2))
+			->method('setValuebool')
+			->willReturnCallback(function () use (&$calls): bool {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
+				return true;
 			});
-		$this->encryptionManager->expects($this->once())
-			->method('isEnabled')
+		$this->appConfig->expects($this->once())
+			->method('getValueBool')
+			->with('core', 'encryption_enabled')
 			->willReturn(true);
 
 		$this->consoleInput->expects($this->any())
