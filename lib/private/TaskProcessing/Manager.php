@@ -985,6 +985,8 @@ class Manager implements IManager {
 				}
 			} catch (Exception $e) {
 				$this->logger->error('Failed to check DB for running tasks after a task was scheduled for a triggerable provider. Not triggering the provider.', ['exception' => $e]);
+			} catch (\Throwable $e) {
+				$this->logger->error('Failed to trigger the provider after scheduling a task.', ['exception' => $e]);
 			}
 		}
 	}

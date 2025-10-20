@@ -270,7 +270,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function hasRunningTasksForTaskType(string $getTaskTypeId): bool {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select('id')
 			->from($this->tableName);
 		$qb->where($qb->expr()->eq('type', $qb->createNamedParameter($getTaskTypeId)));
 		$qb->andWhere($qb->expr()->eq('status', $qb->createNamedParameter(\OCP\TaskProcessing\Task::STATUS_RUNNING, IQueryBuilder::PARAM_INT)));
