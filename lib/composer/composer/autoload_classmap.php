@@ -1949,7 +1949,6 @@ return array(
     'OC\\Remote\\User' => $baseDir . '/lib/private/Remote/User.php',
     'OC\\Repair' => $baseDir . '/lib/private/Repair.php',
     'OC\\RepairException' => $baseDir . '/lib/private/RepairException.php',
-    'OC\\Repair\\AddAppConfigLazyMigration' => $baseDir . '/lib/private/Repair/AddAppConfigLazyMigration.php',
     'OC\\Repair\\AddBruteForceCleanupJob' => $baseDir . '/lib/private/Repair/AddBruteForceCleanupJob.php',
     'OC\\Repair\\AddCleanupDeletedUsersBackgroundJob' => $baseDir . '/lib/private/Repair/AddCleanupDeletedUsersBackgroundJob.php',
     'OC\\Repair\\AddCleanupUpdaterBackupsJob' => $baseDir . '/lib/private/Repair/AddCleanupUpdaterBackupsJob.php',

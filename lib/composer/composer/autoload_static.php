@@ -1990,7 +1990,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Remote\\User' => __DIR__ . '/../../..' . '/lib/private/Remote/User.php',
         'OC\\Repair' => __DIR__ . '/../../..' . '/lib/private/Repair.php',
         'OC\\RepairException' => __DIR__ . '/../../..' . '/lib/private/RepairException.php',
-        'OC\\Repair\\AddAppConfigLazyMigration' => __DIR__ . '/../../..' . '/lib/private/Repair/AddAppConfigLazyMigration.php',
         'OC\\Repair\\AddBruteForceCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddBruteForceCleanupJob.php',
         'OC\\Repair\\AddCleanupDeletedUsersBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupDeletedUsersBackgroundJob.php',
         'OC\\Repair\\AddCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupUpdaterBackupsJob.php',
