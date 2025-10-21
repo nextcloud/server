@@ -34,6 +34,8 @@ OC.L10N.register(
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Connectez-vous depuis l'interface web, allez dans la section « Sécurité » de vos paramètres personnels et mettez à jour votre mot de passe de chiffrement en entrant ce mot de passe dans le champ « Ancien mot de passe de connexion » et dans votre mot de passe de connexion actuel.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de déchiffrer ce fichier, il s'agit probablement d'un fichier partagé. Merci de demander à son propriétaire de repartager le fichier avec vous.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de lire ce fichier, il s'agit probablement d'un fichier partagé. Merci de demander à son propriétaire de repartager le fichier avec vous.",
+    "Default Encryption Module" : "Module de chiffrement par défaut",
+    "Default encryption module for Nextcloud Server-side Encryption (SSE)" : "Module de chiffrement par défaut pour le chiffrement côté serveur (SSE)",
     "Default encryption module" : "Module de chiffrement par défaut",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clés ne sont pas initialisées. Veuillez vous déconnecter puis vous reconnecter.",
     "Encrypt the home storage" : "Chiffrer l'espace de stockage principal",
