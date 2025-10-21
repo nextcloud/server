@@ -36,7 +36,10 @@ class ResetTokenTest extends TestCase {
 		);
 	}
 
-	public function testRunWithNotExpiredToken(): void { // Affirm if updater.secret.created <48 hours ago then `updater.secret` is left alone
+	/**
+	 * Affirm if updater.secret.created <48 hours ago then `updater.secret` is left alone.
+	 */
+	public function testKeepSecretWhenCreatedRecently(): void {
 		$this->timeFactory
 			->expects($this->atLeastOnce())
 			->method('getTime')
@@ -44,7 +47,7 @@ class ResetTokenTest extends TestCase {
 		$this->appConfig
 			->expects($this->once())
 			->method('getValueInt')
-			->with('core', 'updater.secret.created', 1733069649)
+			->with('core', 'updater.secret.created')
 			->willReturn(1733069649 - 1 * 24 * 60 * 60); // 24h prior: "Sat, 30 Nov 2024 16:14:09 +0000"
 		$this->config
 			->expects($this->once())
@@ -64,10 +67,13 @@ class ResetTokenTest extends TestCase {
 			->expects($this->once())
 			->method('debug');
 
-		$this->invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
+		static::invokePrivate($this->resetTokenBackgroundJob, 'run', [null]);
 	}
 
-	public function testRunWithExpiredToken(): void { // Affirm if updater.secret.created >48 hours ago then `updater.secret` is removed
+	/**
+	 * Affirm if updater.secret.created >48 hours ago then `updater.secret` is removed
+	 */
+	public function testSecretIsRemovedWhenOutdated(): void {
 		$this->timeFactory
 			->expects($this->atLeastOnce())
 			->method('getTime')
@@ -75,7 +81,7 @@ class ResetTokenTest extends TestCase {
 		$this->appConfig
 			->expects($this->once())
 			->method('getValueInt')
-			->with('core', 'updater.secret.created', 1455045234)
+			->with('core', 'updater.secret.created')
 			->willReturn(1455045234 - 3 * 24 * 60 * 60); // 72h prior: "Sat, 06 Feb 2016 19:13:54 +0000"
 		$this->config
 			->expects($this->once())
@@ -102,8 +108,8 @@ class ResetTokenTest extends TestCase {
 
 	public function testRunWithExpiredTokenAndReadOnlyConfigFile(): void { // Affirm if config_is_read_only is set that the secret is never reset
 		$this->timeFactory
-			->expects($this->never())
-			->method('getTime');
+				->expects($this->never())
+				->method('getTime');
 		$this->appConfig
 			->expects($this->never())
 			->method('getValueInt');
