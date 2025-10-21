@@ -99,6 +99,24 @@ class IMipPlugin extends SabreIMipPlugin {
 	 */
 	public function schedule(Message $iTipMessage) {
 
+		// RFC6638: Respect SCHEDULE-AGENT=CLIENT ---
+		try {
+			$vCal = $iTipMessage->message;
+			$vEvent = is_object($vCal) && method_exists($vCal, 'select')
+				? ($vCal->select('VEVENT')[0] ?? null)
+				: null;
+			if ($vEvent && isset($vEvent->ORGANIZER)) {
+				$organizer = $vEvent->ORGANIZER; // CalAddress
+				$param = isset($organizer['SCHEDULE-AGENT']) ? (string)$organizer['SCHEDULE-AGENT'] : null;
+				if ($param !== null && (strtoupper($param) === 'CLIENT' || strtoupper($param) === 'NONE')) {
+					$this->logger->info('Skipping iTIP mail due to SCHEDULE-AGENT property');
+					return;
+				}
+			}
+		} catch (\Throwable $ex) {
+			$this->logger->error($ex->getMessage(), ['app' => 'dav', 'exception' => $ex]);
+		}
+
 		// Not sending any emails if the system considers the update insignificant
 		if (!$iTipMessage->significantChange) {
 			if (!$iTipMessage->scheduleStatus) {
