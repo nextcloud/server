@@ -137,7 +137,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @medium
 	 * test expire logic
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('versionsProvider')]

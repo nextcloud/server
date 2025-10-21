@@ -55,9 +55,6 @@ class UnshareChildrenTest extends TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @medium
-	 */
 	public function testUnshareChildren(): void {
 		$fileInfo2 = Filesystem::getFileInfo($this->folder);
 
