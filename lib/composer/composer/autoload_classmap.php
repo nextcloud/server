@@ -872,6 +872,7 @@ return array(
     'OCP\\TaskProcessing\\IProvider' => $baseDir . '/lib/public/TaskProcessing/IProvider.php',
     'OCP\\TaskProcessing\\ISynchronousProvider' => $baseDir . '/lib/public/TaskProcessing/ISynchronousProvider.php',
     'OCP\\TaskProcessing\\ITaskType' => $baseDir . '/lib/public/TaskProcessing/ITaskType.php',
+    'OCP\\TaskProcessing\\ITriggerableProvider' => $baseDir . '/lib/public/TaskProcessing/ITriggerableProvider.php',
     'OCP\\TaskProcessing\\ShapeDescriptor' => $baseDir . '/lib/public/TaskProcessing/ShapeDescriptor.php',
     'OCP\\TaskProcessing\\ShapeEnumValue' => $baseDir . '/lib/public/TaskProcessing/ShapeEnumValue.php',
     'OCP\\TaskProcessing\\Task' => $baseDir . '/lib/public/TaskProcessing/Task.php',
