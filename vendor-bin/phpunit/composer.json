@@ -6,6 +6,6 @@
 		}
 	},
 	"require": {
-		"phpunit/phpunit": "^11.5"
+		"phpunit/phpunit": "^11.5.30"
 	}
 }

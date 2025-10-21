@@ -8,7 +8,7 @@
 	"require-dev": {
 		"behat/behat": "^3.15",
 		"guzzlehttp/guzzle": "^7.9",
-		"phpunit/phpunit": "^11.5",
+		"phpunit/phpunit": "^11.5.30",
 		"sabre/dav": "^4.7",
 		"symfony/event-dispatcher": "^6.4"
 	}
