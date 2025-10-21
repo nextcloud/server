@@ -24,6 +24,7 @@ class PreviewServiceTest extends TestCase {
 	private PreviewMapper $previewMapper;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->previewService = Server::get(PreviewService::class);
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->previewService->deleteAll();
@@ -31,6 +32,7 @@ class PreviewServiceTest extends TestCase {
 
 	public function tearDown(): void {
 		$this->previewService->deleteAll();
+		parent::tearDown();
 	}
 
 	public function testGetAvailableFileIds(): void {
