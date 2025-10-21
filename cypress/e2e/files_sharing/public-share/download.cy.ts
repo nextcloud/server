@@ -6,9 +6,8 @@
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 import type { ShareContext } from './PublicShareUtils.ts'
 
-// @ts-expect-error The package is currently broken - but works...
-import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
 import { zipFileContains } from '../../../support/utils/assertions.ts'
+import { deleteDownloadsFolderBeforeEach } from '../../../support/utils/deleteDownloadsFolder.ts'
 import { getRowForFile, getRowForFileId, triggerActionForFile, triggerActionForFileId } from '../../files/FilesUtils.ts'
 import { createLinkShare, getShareUrl, openLinkShareDetails, setupPublicShare } from './PublicShareUtils.ts'
 

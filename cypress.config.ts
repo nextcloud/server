@@ -6,10 +6,9 @@
 
 import { configureNextcloud, docker, getContainer, getContainerName, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server'
 import { defineConfig } from 'cypress'
-import { removeDirectory } from 'cypress-delete-downloads-folder'
 import cypressSplit from 'cypress-split'
 import vitePreprocessor from 'cypress-vite'
-import { existsSync } from 'node:fs'
+import { existsSync, rmdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
@@ -68,8 +67,6 @@ export default defineConfig({
 				plugins: [nodePolyfills()],
 			}))
 
-			on('task', { removeDirectory })
-
 			// This allows to store global data (e.g. the name of a snapshot)
 			// because Cypress.env() and other options are local to the current spec file.
 			const data: Record<string, unknown> = {}
@@ -80,6 +77,17 @@ export default defineConfig({
 				},
 				getVariable({ key }) {
 					return data[key] ?? null
+				},
+				// allow to clear the downloads folder
+				deleteFolder(path: string) {
+					try {
+						if (existsSync(path)) {
+							rmdirSync(path, { maxRetries: 10, recursive: true })
+						}
+						return null
+					} catch (error) {
+						throw Error(`Error while deleting ${path}. Original error: ${error}`)
+					}
 				},
 			})
 

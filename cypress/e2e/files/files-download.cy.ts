@@ -5,8 +5,8 @@
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
 import { zipFileContains } from '../../support/utils/assertions.ts'
+import { deleteDownloadsFolderBeforeEach } from '../../support/utils/deleteDownloadsFolder.ts'
 import { randomString } from '../../support/utils/randomString.ts'
 import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils.ts'
 
