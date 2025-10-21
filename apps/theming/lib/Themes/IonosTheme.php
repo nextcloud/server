@@ -20,6 +20,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		'variables.css',
 		'buttons.css',
 		'sidebar.css',
+		'apps.css',
 		'guest.css',
 		'files.css',
 		'settings.css',
