@@ -3523,11 +3523,6 @@
       <code><![CDATA[$serializedCallable]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Command/ClosureJob.php">
-    <InvalidArgument>
-      <code><![CDATA[[LaravelClosure::class]]]></code>
-    </InvalidArgument>
-  </file>
   <file src="lib/private/Comments/Manager.php">
     <RedundantCast>
       <code><![CDATA[(string)$id]]></code>
