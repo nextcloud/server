@@ -1,6 +1,7 @@
 { "translations": {
     "Channel updated" : "Canle actualizada",
     "Web updater is disabled" : "O actualizador web está desactivado",
+    "Configuration is read-only" : "A configuración é só de lectura",
     "App updated" : "Aplicación actualizada",
     "See what's new" : "Olle as novidades",
     "{app} updated to version {version}" : "{app} foi actualizada á versión {version}",
