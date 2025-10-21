@@ -11,11 +11,13 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OC\Preview\PreviewMigrationService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
@@ -34,6 +36,7 @@ abstract class VersionedPreviewFile implements IVersionedPreviewFile, File {
 
 class GeneratorTest extends TestCase {
 	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
 	private IPreview&MockObject $previewManager;
 	private GeneratorHelper&MockObject $helper;
 	private IEventDispatcher&MockObject $eventDispatcher;
@@ -41,26 +44,31 @@ class GeneratorTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private StorageFactory&MockObject $storageFactory;
 	private PreviewMapper&MockObject $previewMapper;
+	private PreviewMigrationService&MockObject $migrationService;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->helper = $this->createMock(GeneratorHelper::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
+		$this->migrationService = $this->createMock(PreviewMigrationService::class);
 
 		$this->generator = new Generator(
 			$this->config,
+			$this->appConfig,
 			$this->previewManager,
 			$this->helper,
 			$this->eventDispatcher,
 			$this->logger,
 			$this->previewMapper,
 			$this->storageFactory,
+			$this->migrationService,
 		);
 	}
 

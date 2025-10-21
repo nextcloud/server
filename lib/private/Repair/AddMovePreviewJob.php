@@ -6,7 +6,7 @@
  */
 namespace OC\Repair;
 
-use OC\Core\BackgroundJobs\MovePreviewJob;
+use OC\Core\BackgroundJobs\PreviewMigrationJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -22,6 +22,6 @@ class AddMovePreviewJob implements IRepairStep {
 	}
 
 	public function run(IOutput $output) {
-		$this->jobList->add(MovePreviewJob::class);
+		$this->jobList->add(PreviewMigrationJob::class);
 	}
 }
