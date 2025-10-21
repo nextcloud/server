@@ -20,6 +20,7 @@ use OC\Repair\CleanUpAbandonedApps;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
+use OC\Repair\ConfigKeyMigration;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -201,6 +202,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),
 			\OCP\Server::get(SanitizeAccountProperties::class),
 			\OCP\Server::get(AddMovePreviewJob::class),
+			\OCP\Server::get(ConfigKeyMigration::class),
 		];
 	}
 
