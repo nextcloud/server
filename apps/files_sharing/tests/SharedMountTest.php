@@ -100,9 +100,6 @@ class SharedMountTest extends TestCase {
 		$this->view->unlink($this->folder);
 	}
 
-	/**
-	 * @medium
-	 */
 	public function testDeleteParentOfMountPoint(): void {
 		// share to user
 		$share = $this->share(

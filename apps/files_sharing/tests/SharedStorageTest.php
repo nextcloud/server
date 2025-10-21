@@ -62,8 +62,6 @@ class SharedStorageTest extends TestCase {
 
 	/**
 	 * if the parent of the mount point is gone then the mount point should move up
-	 *
-	 * @medium
 	 */
 	public function testParentOfMountPointIsGone(): void {
 
@@ -107,9 +105,6 @@ class SharedStorageTest extends TestCase {
 		$this->view->unlink($this->folder);
 	}
 
-	/**
-	 * @medium
-	 */
 	public function testRenamePartFile(): void {
 
 		// share to user
