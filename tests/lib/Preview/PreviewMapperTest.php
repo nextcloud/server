@@ -22,8 +22,14 @@ class PreviewMapperTest extends TestCase {
 	private IDBConnection $connection;
 
 	public function setUp(): void {
+		parent::setUp();
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->connection = Server::get(IDBConnection::class);
+	}
+
+	public function tearDown(): void {
+		$this->previewMapper->deleteAll();
+		parent::tearDown();
 	}
 
 	public function testGetAvailablePreviews(): void {
