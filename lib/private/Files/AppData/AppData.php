@@ -200,7 +200,11 @@ class AppData implements IAppData {
 		// - I suspect it was just left in to be conservative, but is presumably already a no-op.
 		$instanceAppDataFolder = $this->getInstanceAppDataFolder();
 		try {
-			$this->appDataFolder = $instanceAppDataFolder->get($this->appId);
+			$node = $instanceAppDataFolder->get($this->appId);
+			if (!($node instanceof Folder)) {
+				throw new \RuntimeException('Appdata node is not a folder!');
+			}
+			$this->appDataFolder = $node;
 			return $this->appDataFolder;
 		} catch (NotFoundException $e) {
 			// Continue
