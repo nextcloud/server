@@ -205,6 +205,11 @@ trait S3ConnectionTrait {
 	}
 
 	protected function getCertificateBundlePath(): ?string {
+		$customCaBundle = $this->params['ca_bundle'];
+		if (!empty($customCaBundle)) {
+			return $customCaBundle;
+		}
+
 		if ((int)($this->params['use_nextcloud_bundle'] ?? '0')) {
 			// since we store the certificate bundles on the primary storage, we can't get the bundle while setting up the primary storage
 			if (!isset($this->params['primary_storage'])) {
