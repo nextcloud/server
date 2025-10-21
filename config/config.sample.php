@@ -2370,7 +2370,8 @@ $CONFIG = [
 	/**
 	 * Allow creation of external storages of type "Local" via the web interface and
 	 * APIs. When disabled, local storages can still be created using the occ command::
-	 *   occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
+	 *
+	 *      occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
 	 *
 	 * Defaults to ``true``
 	 */
@@ -2530,7 +2531,8 @@ $CONFIG = [
 	/**
 	 * Set the data fingerprint for the current data served. Used by clients to
 	 * detect if a backup has been restored. Update this by running::
-	 *   occ maintenance:data-fingerprint
+	 *
+	 *      occ maintenance:data-fingerprint
 	 *
 	 * Changing or deleting this value may cause connected clients to stall until
 	 * conflicts are resolved.
