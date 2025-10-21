@@ -43,8 +43,8 @@ class ResetToken extends TimedJob {
 			return;
 		}
 
-		$secretCreated = $this->appConfig->getValueInt('core', 'updater.secret.created', $this->time->getTime());
-		// Delete old tokens after 2 days
+		$secretCreated = $this->appConfig->getValueInt('core', 'updater.secret.created');
+		// Delete old tokens after 2 days and also tokens without any created date
 		$secretCreatedDiff = $this->time->getTime() - $secretCreated;
 		if ($secretCreatedDiff >= 172800) {
 			$this->config->deleteSystemValue('updater.secret');
