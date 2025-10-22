@@ -15,6 +15,10 @@ use OCP\HintException;
  */
 class Config {
 	public const ENV_PREFIX = 'NC_';
+	// List configurations that can be overriden based on server hostname
+	private const HOST_OVERRIDE_CONFIG = [
+		'serverid',
+	];
 
 	/** @var array Associative array ($key => $value) */
 	protected $cache = [];
@@ -199,7 +203,7 @@ class Config {
 
 		// Include file and merge config
 		foreach ($configFiles as $file) {
-			unset($CONFIG);
+			$CONFIG = $CONFIG_HOSTNAME = null;
 
 			// Invalidate opcache (only if the timestamp changed)
 			if (function_exists('opcache_invalidate')) {
@@ -226,6 +230,10 @@ class Config {
 			}
 
 			try {
+				/**
+				 * @var ?array $CONFIG
+				 * @var ?array $CONFIG_HOSTNAME
+				 */
 				include $file;
 			} finally {
 				// Close the file pointer and release the lock
@@ -241,8 +249,19 @@ class Config {
 				}
 				throw new \Exception($errorMessage);
 			}
-			if (isset($CONFIG) && is_array($CONFIG)) {
+			if (is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
+			}
+			if (is_array($CONFIG_HOSTNAME) && !empty($CONFIG_HOSTNAME)) {
+				$hostname = gethostname();
+				if (isset($CONFIG_HOSTNAME[$hostname]) && is_array($CONFIG_HOSTNAME[$hostname])) {
+					$filteredConfig = array_filter(
+						$CONFIG_HOSTNAME[$hostname],
+						fn ($key) => in_array($key, self::HOST_OVERRIDE_CONFIG),
+						ARRAY_FILTER_USE_KEY,
+					);
+					$this->cache = array_merge($this->cache, $filteredConfig);
+				}
 			}
 		}
 
