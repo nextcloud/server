@@ -844,7 +844,7 @@ class Trashbin implements IEventListener {
 		$dirContent = Helper::getTrashFiles('/', $user, 'mtime');
 
 		// delete all files older then $retention_obligation
-		[$delSize, $count] = self::deleteExpiredFiles($dirContent, $user, $availableSpace <= 0);
+		[$delSize, $count] = self::deleteExpiredFiles($dirContent, $user);
 
 		$availableSpace += $delSize;
 
@@ -906,10 +906,9 @@ class Trashbin implements IEventListener {
 	 *
 	 * @param array $files list of files sorted by mtime
 	 * @param string $user
-	 * @param bool $quotaExceeded
 	 * @return array{int|float, int} size of deleted files and number of deleted files
 	 */
-	public static function deleteExpiredFiles($files, $user, bool $quotaExceeded = false) {
+	public static function deleteExpiredFiles($files, $user) {
 		/** @var Expiration $expiration */
 		$expiration = Server::get(Expiration::class);
 		$size = 0;
@@ -917,7 +916,7 @@ class Trashbin implements IEventListener {
 		foreach ($files as $file) {
 			$timestamp = $file['mtime'];
 			$filename = $file['name'];
-			if ($expiration->isExpired($timestamp, $quotaExceeded)) {
+			if ($expiration->isExpired($timestamp)) {
 				try {
 					$size += self::delete($filename, $user, $timestamp);
 					$count++;
