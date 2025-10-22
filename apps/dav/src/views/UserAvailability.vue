@@ -26,9 +26,8 @@ import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AbsenceForm from '../components/AbsenceForm.vue'
 import AvailabilityForm from '../components/AvailabilityForm.vue'
 
-/* eslint vue/multi-word-component-names: "warn" */
 export default {
-	name: 'Availability',
+	name: 'UserAvailability',
 	components: {
 		NcSettingsSection,
 		AbsenceForm,
