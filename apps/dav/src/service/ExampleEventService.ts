@@ -9,10 +9,9 @@ import { generateUrl } from '@nextcloud/router'
 /**
  * Configure the creation of example events on a user's first login.
  *
- * @param {boolean} enable Whether to enable or disable the feature.
- * @return {Promise<void>}
+ * @param enable - Whether to enable or disable the feature.
  */
-export async function setCreateExampleEvent(enable) {
+export async function setCreateExampleEvent(enable: boolean): Promise<void> {
 	const url = generateUrl('/apps/dav/api/exampleEvent/enable')
 	await axios.post(url, {
 		enable,
@@ -22,10 +21,9 @@ export async function setCreateExampleEvent(enable) {
 /**
  * Upload a custom example event.
  *
- * @param {string} ics The ICS data of the event.
- * @return {Promise<void>}
+ * @param ics - The ICS data of the event.
  */
-export async function uploadExampleEvent(ics) {
+export async function uploadExampleEvent(ics: string): Promise<void> {
 	const url = generateUrl('/apps/dav/api/exampleEvent/event')
 	await axios.post(url, {
 		ics,
@@ -34,10 +32,8 @@ export async function uploadExampleEvent(ics) {
 
 /**
  * Delete a previously uploaded custom example event.
- *
- * @return {Promise<void>}
  */
-export async function deleteExampleEvent() {
+export async function deleteExampleEvent(): Promise<void> {
 	const url = generateUrl('/apps/dav/api/exampleEvent/event')
 	await axios.delete(url)
 }

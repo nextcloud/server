@@ -8,11 +8,11 @@ import {
 	vavailabilityToSlots,
 } from '@nextcloud/calendar-availability-vue'
 import { parseXML } from 'webdav'
-import { getClient } from '../dav/client.js'
+import { getClient } from '../dav/client.ts'
 import { logger } from './logger.ts'
 
 /**
- *
+ * Get an object representing empty time slots for each day of the week.
  */
 export function getEmptySlots() {
 	return {
@@ -27,12 +27,10 @@ export function getEmptySlots() {
 }
 
 /**
- *
+ * Find the availability of the schedule inbox.
  */
 export async function findScheduleInboxAvailability() {
-	const client = getClient('calendars')
-
-	const response = await client.customRequest('inbox', {
+	const response = await getClient().customRequest('inbox', {
 		method: 'PROPFIND',
 		data: `<?xml version="1.0"?>
 			<x0:propfind xmlns:x0="DAV:">
@@ -57,8 +55,10 @@ export async function findScheduleInboxAvailability() {
 }
 
 /**
- * @param {any} slots -
- * @param {any} timezoneId -
+ * Save the availability of the schedule inbox.
+ *
+ * @param slots - The availability slots to save.
+ * @param timezoneId - The timezone identifier.
  */
 export async function saveScheduleInboxAvailability(slots, timezoneId) {
 	const all = [...Object.keys(slots).flatMap((dayId) => slots[dayId].map((slot) => ({
@@ -72,8 +72,7 @@ export async function saveScheduleInboxAvailability(slots, timezoneId) {
 		vavailability,
 	})
 
-	const client = getClient('calendars')
-	await client.customRequest('inbox', {
+	await getClient().customRequest('inbox', {
 		method: 'PROPPATCH',
 		data: `<?xml version="1.0"?>
 			<x0:propertyupdate xmlns:x0="DAV:">
