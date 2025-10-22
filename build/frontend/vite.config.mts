@@ -6,9 +6,21 @@
 import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
-export default createAppConfig({
-	'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
-}, {
+const modules = {
+	sharebymail: {
+		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
+	},
+}
+
+// convert modules to modules entries prefied with the app id
+const viteModuleEntries = Object.entries(modules)
+	.map(([appId, entries]) => (
+		Object.entries(entries)
+			.map(([entryName, entryPath]) => [`${appId}-${entryName}`, entryPath])
+	))
+	.flat(1)
+
+export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 	emptyOutputDirectory: {
 		additionalDirectories: [resolve(import.meta.dirname, '../..', 'dist')],
 	},
@@ -23,11 +35,11 @@ export default createAppConfig({
 		build: {
 			outDir: 'dist',
 			rollupOptions: {
+				experimental: {
+					strictExecutionOrder: true,
+				},
 				output: {
-					entryFileNames({ facadeModuleId }) {
-						const [, appId] = facadeModuleId!.match(/apps\/([^/]+)\//)!
-						return `${appId}-[name].mjs`
-					},
+					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
 					assetFileNames({ originalFileNames }) {
 						const [name] = originalFileNames
@@ -37,16 +49,25 @@ export default createAppConfig({
 						}
 						return '[name]-[hash][extname]'
 					},
-					/* advancedChunks: {
-						groups: [{ name: 'common', test: /[\\/]node_modules[\\/]/ }],
+					advancedChunks: {
+						groups: [
+							// one group for common dependencies
+							{ name: 'common', test: /[\\/]node_modules[\\/]/ },
+							// one group per app with a lower minShareCount to encourage sharing within the app
+							...Object.keys(modules).map((name) => ({
+								name,
+								test: new RegExp(`[\\\\/]apps[\\\\/]${name}[\\\\/]`),
+								minShareCount: 2,
+							})),
+						],
 						// only include modules in the groups if they are used at least by 3 different chunks
 						minShareCount: 3,
-						// only include modules in the groups if they are smaller than 200kb on its own
-						maxModuleSize: 200 * 1024,
+						// only include modules in the groups if they are smaller than 400kb on its own
+						// maxModuleSize: 400 * 1024,
 						// define the groups output size (not too small but also not too big!)
-						minSize: 50 * 1024,
-						maxSize: 500 * 1024,
-					}, */
+						minSize: 100 * 1024,
+						maxSize: 800 * 1024,
+					},
 				},
 			},
 		},
