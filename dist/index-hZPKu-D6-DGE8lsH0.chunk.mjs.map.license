@@ -1,0 +1,390 @@
+SPDX-License-Identifier: (MIT AND BSD-3-Clause)
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: 
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Calvin Metcalf
+SPDX-FileCopyrightText: Calvin Metcalf <calvin.metcalf@gmail.com>
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Daniel Cousens
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Dominic Tarr <dominic.tarr@gmail.com> (dominictarr.com)
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
+SPDX-FileCopyrightText: Fedor Indutny
+SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
+SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
+SPDX-FileCopyrightText: James Halliday
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Jordan Harbamd <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Julian Gruber
+SPDX-FileCopyrightText: Kirill Fomichev <fanatid@ya.ru> (https://github.com/fanatid)
+SPDX-FileCopyrightText: Mathias Buus (@mafintosh)
+SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Nick Frasser (https://nfrasser.com)
+SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Roeland Jago Douma
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Varun A P
+SPDX-FileCopyrightText: Vuepic
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: browserify-rsa developers
+SPDX-FileCopyrightText: browserify-sign developers
+SPDX-FileCopyrightText: date-fns developers
+SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: p-queue developers
+SPDX-FileCopyrightText: readable-stream developers
+SPDX-FileCopyrightText: ripemd160 developers
+SPDX-FileCopyrightText: string_decoder developers
+
+This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.1.1
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
+- @nextcloud/browser-storage
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 7.1.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- @vuepic/vue-datepicker
+	- version: 11.0.3
+	- license: MIT
+- @vueuse/components
+	- version: 13.9.0
+	- license: MIT
+- @vueuse/core
+	- version: 13.9.0
+	- license: MIT
+- @vueuse/shared
+	- version: 13.9.0
+	- license: MIT
+- asn1.js
+	- version: 4.10.1
+	- license: MIT
+- available-typed-arrays
+	- version: 1.0.7
+	- license: MIT
+- bn.js
+	- version: 4.12.2
+	- license: MIT
+- bn.js
+	- version: 5.2.2
+	- license: MIT
+- brorand
+	- version: 1.1.0
+	- license: MIT
+- browserify-aes
+	- version: 1.2.0
+	- license: MIT
+- browserify-cipher
+	- version: 1.0.1
+	- license: MIT
+- browserify-des
+	- version: 1.0.2
+	- license: MIT
+- browserify-rsa
+	- version: 4.1.1
+	- license: MIT
+- browserify-sign
+	- version: 4.2.5
+	- license: ISC
+- buffer-xor
+	- version: 1.0.3
+	- license: MIT
+- call-bind
+	- version: 1.0.8
+	- license: MIT
+- call-bind-apply-helpers
+	- version: 1.0.2
+	- license: MIT
+- call-bound
+	- version: 1.0.4
+	- license: MIT
+- cipher-base
+	- version: 1.0.7
+	- license: MIT
+- core-util-is
+	- version: 1.0.3
+	- license: MIT
+- create-ecdh
+	- version: 4.0.4
+	- license: MIT
+- create-hash
+	- version: 1.2.0
+	- license: MIT
+- create-hmac
+	- version: 1.1.7
+	- license: MIT
+- crypto-browserify
+	- version: 3.12.1
+	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
+- debounce
+	- version: 2.2.0
+	- license: MIT
+- define-data-property
+	- version: 1.1.4
+	- license: MIT
+- des.js
+	- version: 1.1.0
+	- license: MIT
+- diffie-hellman
+	- version: 5.0.3
+	- license: MIT
+- dunder-proto
+	- version: 1.0.1
+	- license: MIT
+- elliptic
+	- version: 6.6.1
+	- license: MIT
+- emoji-mart-vue-fast
+	- version: 15.0.5
+	- license: BSD-3-Clause
+- es-define-property
+	- version: 1.0.1
+	- license: MIT
+- es-errors
+	- version: 1.3.0
+	- license: MIT
+- es-object-atoms
+	- version: 1.1.1
+	- license: MIT
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- events
+	- version: 3.3.0
+	- license: MIT
+- evp_bytestokey
+	- version: 1.0.3
+	- license: MIT
+- floating-vue
+	- version: 5.2.2
+	- license: MIT
+- focus-trap
+	- version: 7.6.5
+	- license: MIT
+- for-each
+	- version: 0.3.5
+	- license: MIT
+- function-bind
+	- version: 1.1.2
+	- license: MIT
+- generator-function
+	- version: 2.0.1
+	- license: MIT
+- get-intrinsic
+	- version: 1.3.0
+	- license: MIT
+- get-proto
+	- version: 1.0.1
+	- license: MIT
+- gopd
+	- version: 1.2.0
+	- license: MIT
+- has-property-descriptors
+	- version: 1.0.2
+	- license: MIT
+- has-symbols
+	- version: 1.1.0
+	- license: MIT
+- has-tostringtag
+	- version: 1.0.2
+	- license: MIT
+- hash-base
+	- version: 3.0.5
+	- license: MIT
+- hash-base
+	- version: 3.1.2
+	- license: MIT
+- hash.js
+	- version: 1.1.7
+	- license: MIT
+- hasown
+	- version: 2.0.2
+	- license: MIT
+- hmac-drbg
+	- version: 1.0.1
+	- license: MIT
+- inherits
+	- version: 2.0.4
+	- license: ISC
+- is-arguments
+	- version: 1.2.0
+	- license: MIT
+- is-callable
+	- version: 1.2.7
+	- license: MIT
+- is-generator-function
+	- version: 1.1.2
+	- license: MIT
+- is-regex
+	- version: 1.2.1
+	- license: MIT
+- is-typed-array
+	- version: 1.1.15
+	- license: MIT
+- isarray
+	- version: 1.0.0
+	- license: MIT
+- isarray
+	- version: 2.0.5
+	- license: MIT
+- linkifyjs
+	- version: 4.3.2
+	- license: MIT
+- math-intrinsics
+	- version: 1.1.0
+	- license: MIT
+- md5.js
+	- version: 1.3.5
+	- license: MIT
+- miller-rabin
+	- version: 4.0.1
+	- license: MIT
+- minimalistic-assert
+	- version: 1.0.1
+	- license: ISC
+- minimalistic-crypto-utils
+	- version: 1.0.1
+	- license: MIT
+- p-queue
+	- version: 9.0.0
+	- license: MIT
+- p-timeout
+	- version: 7.0.1
+	- license: MIT
+- parse-asn1
+	- version: 5.1.9
+	- license: ISC
+- pbkdf2
+	- version: 3.1.5
+	- license: MIT
+- possible-typed-array-names
+	- version: 1.1.0
+	- license: MIT
+- process-nextick-args
+	- version: 2.0.1
+	- license: MIT
+- public-encrypt
+	- version: 4.0.3
+	- license: MIT
+- randombytes
+	- version: 2.1.0
+	- license: MIT
+- randomfill
+	- version: 1.0.4
+	- license: MIT
+- readable-stream
+	- version: 2.3.8
+	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- ripemd160
+	- version: 2.0.3
+	- license: MIT
+- safe-buffer
+	- version: 5.1.2
+	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
+- safe-regex-test
+	- version: 1.1.0
+	- license: MIT
+- set-function-length
+	- version: 1.2.2
+	- license: MIT
+- sha.js
+	- version: 2.4.12
+	- license: (MIT AND BSD-3-Clause)
+- stream-browserify
+	- version: 3.0.0
+	- license: MIT
+- string_decoder
+	- version: 1.1.1
+	- license: MIT
+- striptags
+	- version: 3.2.0
+	- license: MIT
+- tabbable
+	- version: 6.2.0
+	- license: MIT
+- to-buffer
+	- version: 1.2.2
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
+	- license: MIT
+- tributejs
+	- version: 5.1.3
+	- license: MIT
+- typed-array-buffer
+	- version: 1.0.3
+	- license: MIT
+- util
+	- version: 0.12.5
+	- license: MIT
+- util-deprecate
+	- version: 1.0.2
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT
+- vm-browserify
+	- version: 1.1.2
+	- license: MIT
+- vue-router
+	- version: 4.6.3
+	- license: MIT
+- vue-select
+	- version: 4.0.0-beta.6
+	- license: MIT
+- which-typed-array
+	- version: 1.1.19
+	- license: MIT
