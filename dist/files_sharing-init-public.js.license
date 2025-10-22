@@ -25,6 +25,7 @@ SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Alkemics
 
 
@@ -131,6 +132,9 @@ This file is generated from multiple sources. Included packages:
 - typescript-event-target
 	- version: 1.1.1
 	- license: MIT
+- vue-demi
+	- version: 0.14.10
+	- license: MIT
 - vue-router
 	- version: 3.6.5
 	- license: MIT
@@ -138,7 +142,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.102.1
+	- version: 5.102.0
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

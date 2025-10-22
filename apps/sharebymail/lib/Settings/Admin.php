@@ -26,6 +26,8 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('sendPasswordMail', $this->settingsManager->sendPasswordByMail());
 		$this->initialState->provideInitialState('replyToInitiator', $this->settingsManager->replyToInitiator());
 
+		\OCP\Util::addStyle('sharebymail', 'admin-settings');
+		\OCP\Util::addScript('sharebymail', 'admin-settings');
 		return new TemplateResponse('sharebymail', 'settings-admin', [], '');
 	}
 

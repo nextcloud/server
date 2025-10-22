@@ -159,6 +159,7 @@ export default defineConfig({
 			const ip = await startNextcloud(process.env.BRANCH, false, {
 				mounts,
 				exposePort: port,
+				forceRecreate: true,
 			})
 			// Setting container's IP as base Url
 			config.baseUrl = `http://localhost:${port}/index.php`

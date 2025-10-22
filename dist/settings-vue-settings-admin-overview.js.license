@@ -49,7 +49,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.32.0
+	- version: 8.31.0
 	- license: AGPL-3.0-or-later
 - axios
 	- version: 1.12.2
@@ -85,7 +85,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.102.1
+	- version: 5.102.0
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
