@@ -136,7 +136,7 @@
     "typescript": "^5.9.2",
     "vite": "^7.1.8",
     "vitest": "^3.2.4",
-    "vue-loader": "^15.11.1",
+    "vue-loader": "^17.4.2",
     "vue-template-compiler": "^2.7.16",
     "wait-on": "^8.0.4",
     "webpack": "^5.102.0",
