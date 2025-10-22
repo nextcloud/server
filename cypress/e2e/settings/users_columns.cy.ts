@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
+import { User } from '@nextcloud/e2e-test-server/cypress'
 import { assertNotExistOrNotVisible, getUserList } from './usersUtils.js'
 
 const admin = new User('admin', 'admin')

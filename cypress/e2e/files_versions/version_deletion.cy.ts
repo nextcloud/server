@@ -3,14 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
+import { randomString } from '../../support/utils/randomString.ts'
 import { getRowForFile, navigateToFolder } from '../files/FilesUtils.ts'
 import { deleteVersion, doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions restoration', () => {
 	const folderName = 'shared_folder'
-	const randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+	const randomFileName = randomString(10) + '.txt'
 	const randomFilePath = `/${folderName}/${randomFileName}`
 	let user: User
 	let versionCount = 0

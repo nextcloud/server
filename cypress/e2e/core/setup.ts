@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { randomString } from '../../support/utils/randomString.ts'
+
 /**
  * DO NOT RENAME THIS FILE to .cy.ts ⚠️
  * This is not following the pattern of the other files in this folder
@@ -110,7 +112,7 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
  * Shared admin setup function for the Nextcloud setup
  */
 function sharedSetup() {
-	const randAdmin = 'admin-' + Math.random().toString(36).substring(2, 15)
+	const randAdmin = 'admin-' + randomString(10)
 
 	// mock appstore
 	cy.intercept('**/settings/apps/list', { fixture: 'appstore/apps.json' })
