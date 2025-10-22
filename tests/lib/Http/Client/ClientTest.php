@@ -278,11 +278,6 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		// compute curl http version hint like in production code
-		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
-			? \CURL_HTTP_VERSION_2TLS
-			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
-
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -299,7 +294,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'version' => '2.0',
 			'curl' => [
-				\CURLOPT_HTTP_VERSION => $curlVersion,
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		];
 	}
@@ -479,11 +474,6 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		// compute curl http version hint like in production code
-		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
-			? \CURL_HTTP_VERSION_2TLS
-			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
-
 		$this->assertEquals([
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
 			'headers' => [
@@ -504,7 +494,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'version' => '2.0',
 			'curl' => [
-				\CURLOPT_HTTP_VERSION => $curlVersion,
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
@@ -537,11 +527,6 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		// compute curl http version hint like in production code
-		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
-			? \CURL_HTTP_VERSION_2TLS
-			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
-
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -566,7 +551,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'version' => '2.0',
 			'curl' => [
-				\CURLOPT_HTTP_VERSION => $curlVersion,
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
@@ -599,11 +584,6 @@ class ClientTest extends \Test\TestCase {
 
 		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
-		// compute curl http version hint like in production code
-		$curlVersion = \defined('CURL_HTTP_VERSION_2TLS')
-			? \CURL_HTTP_VERSION_2TLS
-			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0 : \CURL_HTTP_VERSION_NONE);
-
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -629,7 +609,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'version' => '2.0',
 			'curl' => [
-				\CURLOPT_HTTP_VERSION => $curlVersion,
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}

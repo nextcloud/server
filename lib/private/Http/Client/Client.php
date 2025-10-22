@@ -57,11 +57,7 @@ class Client implements IClient {
 			// Prefer HTTP/2 globally (PSR-7 request version)
 			RequestOptions::VERSION => '2.0',
 		];
-		// cURL hint: Prefer HTTP/2 (with ALPN); automatically falls back to 1.1.
-		$defaults['curl'][\CURLOPT_HTTP_VERSION]
-			= \defined('CURL_HTTP_VERSION_2TLS') ? \CURL_HTTP_VERSION_2TLS
-			: (\defined('CURL_HTTP_VERSION_2_0') ? \CURL_HTTP_VERSION_2_0
-			: \CURL_HTTP_VERSION_NONE);
+		$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
 
 		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
 		if ($options['nextcloud']['allow_local_address'] === false) {
