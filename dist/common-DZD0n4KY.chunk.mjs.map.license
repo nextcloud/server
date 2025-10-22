@@ -1,0 +1,10 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
+
+This file is generated from multiple sources. Included packages:
+- bn.js
+	- version: 4.12.2
+	- license: MIT
+- bn.js
+	- version: 5.2.2
+	- license: MIT

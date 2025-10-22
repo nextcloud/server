@@ -1,0 +1,36 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Fedor Indutny
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: date-fns developers
+SPDX-FileCopyrightText: readable-stream developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/l10n
+	- version: 3.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- asn1.js
+	- version: 4.10.1
+	- license: MIT
+- axios
+	- version: 1.12.2
+	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
+- readable-stream
+	- version: 2.3.8
+	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- semver
+	- version: 7.7.3
+	- license: ISC

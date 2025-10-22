@@ -1,0 +1,20 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Vuepic
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- @vuepic/vue-datepicker
+	- version: 11.0.3
+	- license: MIT
+- @vueuse/core
+	- version: 13.9.0
+	- license: MIT
+- bn.js
+	- version: 5.2.2
+	- license: MIT

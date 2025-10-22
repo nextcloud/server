@@ -1,0 +1,2 @@
+import{n as e}from"./rolldown-runtime-DiYpF8Fr.chunk.mjs";import{mi as t,pi as n}from"./common-yxKQvbqc.chunk.mjs";var r,i=e((()=>{t(),r=n().setApp(`dav`).detectUser().build()}));export{r as n,i as t};
+//# sourceMappingURL=logger-dBasxgGw.chunk.mjs.map

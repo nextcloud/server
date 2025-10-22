@@ -1,0 +1,24 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: date-fns developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- @vue/shared
+	- version: 3.5.22
+	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
+- elliptic
+	- version: 6.6.1
+	- license: MIT
+- vue-select
+	- version: 4.0.0-beta.6
+	- license: MIT

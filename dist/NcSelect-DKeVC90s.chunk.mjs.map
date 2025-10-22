@@ -1,0 +1,1 @@
+{"version":3,"file":"NcSelect-DKeVC90s.chunk.mjs","names":[],"sources":["../node_modules/@nextcloud/vue/dist/components/NcSelect/index.mjs"],"sourcesContent":["import { N } from \"../../chunks/NcSelect-BN2tEhoU.mjs\";\nexport {\n  N as default\n};\n//# sourceMappingURL=index.mjs.map\n"],"x_google_ignoreList":[0],"mappings":""}

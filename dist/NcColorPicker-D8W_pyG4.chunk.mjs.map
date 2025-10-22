@@ -1,0 +1,1 @@
+{"version":3,"file":"NcColorPicker-D8W_pyG4.chunk.mjs","names":[],"sources":["../node_modules/@nextcloud/vue/dist/components/NcColorPicker/index.mjs"],"sourcesContent":["import { N } from \"../../chunks/NcColorPicker-Cs5tFS-S.mjs\";\nexport {\n  N as default\n};\n//# sourceMappingURL=index.mjs.map\n"],"x_google_ignoreList":[0],"mappings":""}

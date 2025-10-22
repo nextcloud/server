@@ -1,0 +1,142 @@
+SPDX-License-Identifier: (MIT AND BSD-3-Clause)
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: 
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Calvin Metcalf
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Dominic Tarr <dominic.tarr@gmail.com> (dominictarr.com)
+SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
+SPDX-FileCopyrightText: Fedor Indutny
+SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
+SPDX-FileCopyrightText: James Halliday
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: Kirill Fomichev <fanatid@ya.ru> (https://github.com/fanatid)
+SPDX-FileCopyrightText: Mathias Buus (@mafintosh)
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: browserify-sign developers
+SPDX-FileCopyrightText: chenkai
+SPDX-FileCopyrightText: date-fns developers
+SPDX-FileCopyrightText: readable-stream developers
+SPDX-FileCopyrightText: ripemd160 developers
+
+This file is generated from multiple sources. Included packages:
+- @ckpack/vue-color
+	- version: 1.6.0
+	- license: MIT
+- @ctrl/tinycolor
+	- version: 3.6.1
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.1.1
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
+- @nextcloud/auth
+	- version: 2.5.3
+	- license: GPL-3.0-or-later
+- @nextcloud/axios
+	- version: 2.5.2
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- asn1.js
+	- version: 4.10.1
+	- license: MIT
+- axios
+	- version: 1.12.2
+	- license: MIT
+- browserify-aes
+	- version: 1.2.0
+	- license: MIT
+- browserify-sign
+	- version: 4.2.5
+	- license: ISC
+- core-util-is
+	- version: 1.0.3
+	- license: MIT
+- crypto-browserify
+	- version: 3.12.1
+	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
+- des.js
+	- version: 1.1.0
+	- license: MIT
+- diffie-hellman
+	- version: 5.0.3
+	- license: MIT
+- elliptic
+	- version: 6.6.1
+	- license: MIT
+- emoji-mart-vue-fast
+	- version: 15.0.5
+	- license: BSD-3-Clause
+- hash-base
+	- version: 3.0.5
+	- license: MIT
+- hash.js
+	- version: 1.1.7
+	- license: MIT
+- hmac-drbg
+	- version: 1.0.1
+	- license: MIT
+- is-callable
+	- version: 1.2.7
+	- license: MIT
+- md5.js
+	- version: 1.3.5
+	- license: MIT
+- parse-asn1
+	- version: 5.1.9
+	- license: ISC
+- randomfill
+	- version: 1.0.4
+	- license: MIT
+- readable-stream
+	- version: 2.3.8
+	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- ripemd160
+	- version: 2.0.3
+	- license: MIT
+- sha.js
+	- version: 2.4.12
+	- license: (MIT AND BSD-3-Clause)
+- stream-browserify
+	- version: 3.0.0
+	- license: MIT
+- striptags
+	- version: 3.2.0
+	- license: MIT
+- to-buffer
+	- version: 1.2.2
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT
+- vm-browserify
+	- version: 1.1.2
+	- license: MIT
+- which-typed-array
+	- version: 1.1.19
+	- license: MIT

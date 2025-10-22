@@ -1,0 +1,55 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: 
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Calvin Metcalf
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Daniel Cousens
+SPDX-FileCopyrightText: Fedor Indutny
+SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: browserify-sign developers
+SPDX-FileCopyrightText: chenkai
+SPDX-FileCopyrightText: date-fns developers
+
+This file is generated from multiple sources. Included packages:
+- @ckpack/vue-color
+	- version: 1.6.0
+	- license: MIT
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- asn1.js
+	- version: 4.10.1
+	- license: MIT
+- axios
+	- version: 1.12.2
+	- license: MIT
+- browserify-aes
+	- version: 1.2.0
+	- license: MIT
+- browserify-sign
+	- version: 4.2.5
+	- license: ISC
+- create-ecdh
+	- version: 4.0.4
+	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
+- emoji-mart-vue-fast
+	- version: 15.0.5
+	- license: BSD-3-Clause
+- hash.js
+	- version: 1.1.7
+	- license: MIT
+- pbkdf2
+	- version: 3.1.5
+	- license: MIT

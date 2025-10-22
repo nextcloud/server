@@ -1,0 +1,54 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: date-fns developers
+SPDX-FileCopyrightText: readable-stream developers
+
+This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- @vueuse/shared
+	- version: 13.9.0
+	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
+- elliptic
+	- version: 6.6.1
+	- license: MIT
+- emoji-mart-vue-fast
+	- version: 15.0.5
+	- license: BSD-3-Clause
+- floating-vue
+	- version: 5.2.2
+	- license: MIT
+- focus-trap
+	- version: 7.6.5
+	- license: MIT
+- readable-stream
+	- version: 2.3.8
+	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- tabbable
+	- version: 6.2.0
+	- license: MIT
+- vue-router
+	- version: 4.6.3
+	- license: MIT
