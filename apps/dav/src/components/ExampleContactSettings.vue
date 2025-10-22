@@ -67,7 +67,7 @@ import IconAccount from 'vue-material-design-icons/Account.vue'
 import IconRestore from 'vue-material-design-icons/Restore.vue'
 import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
-import logger from '../service/logger.js'
+import { logger } from '../service/logger.ts'
 
 const enableDefaultContact = loadState('dav', 'enableDefaultContact')
 const hasCustomDefaultContact = loadState('dav', 'hasCustomDefaultContact')

@@ -80,7 +80,7 @@ import IconRestore from 'vue-material-design-icons/Restore.vue'
 import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
 import * as ExampleEventService from '../service/ExampleEventService.js'
-import logger from '../service/logger.js'
+import { logger } from '../service/logger.ts'
 
 export default {
 	name: 'ExampleEventSettings',
