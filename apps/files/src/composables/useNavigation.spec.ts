@@ -3,10 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import nextcloudFiles, { Navigation, View } from '@nextcloud/files'
+import { Navigation, View, getNavigation } from '@nextcloud/files'
 import { mount } from '@vue/test-utils'
 import { defineComponent } from 'vue'
 import { useNavigation } from './useNavigation'
+
+jest.mock('@nextcloud/files', () => ({
+	...jest.requireActual<typeof import('@nextcloud/files')>('@nextcloud/files'),
+	getNavigation: jest.fn(),
+}))
 
 // Just a wrapper so we can test the composable
 const TestComponent = defineComponent({
@@ -21,13 +26,13 @@ const TestComponent = defineComponent({
 })
 
 describe('Composables: useNavigation', () => {
-	const spy = jest.spyOn(nextcloudFiles, 'getNavigation')
 	let navigation: Navigation
 
 	describe('currentView', () => {
 		beforeEach(() => {
 			navigation = new Navigation()
-			spy.mockImplementation(() => navigation)
+			// @ts-expect-error its mocked
+			getNavigation.mockImplementationOnce(() => navigation)
 		})
 
 		it('should return null without active navigation', () => {
@@ -61,7 +66,8 @@ describe('Composables: useNavigation', () => {
 	describe('views', () => {
 		beforeEach(() => {
 			navigation = new Navigation()
-			spy.mockImplementation(() => navigation)
+			// @ts-expect-error its mocked
+			getNavigation.mockImplementationOnce(() => navigation)
 		})
 
 		it('should return empty array without registered views', () => {
