@@ -5,7 +5,7 @@
 
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
-import Availability from './views/Availability.vue'
+import Availability from './views/UserAvailability.vue'
 
 Vue.prototype.$t = t
 
