@@ -3,17 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { t } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import ExampleContentSettingsSection from './views/ExampleContentSettingsSection.vue'
 
-Vue.mixin({
-	methods: {
-		t,
-		$t: t,
-	},
-})
-
-const View = Vue.extend(ExampleContentSettingsSection);
-
-(new View({})).$mount('#settings-example-content')
+const app = createApp(ExampleContentSettingsSection)
+app.mount('#settings-example-content')

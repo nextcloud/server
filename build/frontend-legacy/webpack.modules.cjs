@@ -31,11 +31,6 @@ module.exports = {
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
 	},
-	dav: {
-		'settings-admin-caldav': path.join(__dirname, 'apps/dav/src', 'settings.js'),
-		'settings-personal-availability': path.join(__dirname, 'apps/dav/src', 'settings-personal-availability.js'),
-		'settings-example-content': path.join(__dirname, 'apps/dav/src', 'settings-example-content.js'),
-	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),

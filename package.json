@@ -39,7 +39,9 @@
     "extends @nextcloud/browserslist-config"
   ],
   "dependencies": {
+    "@mdi/svg": "^7.4.47",
     "@nextcloud/axios": "^2.5.2",
+    "@nextcloud/calendar-availability-vue": "^3.0.0",
     "@nextcloud/dialogs": "^7.1.0",
     "@nextcloud/password-confirmation": "^6.0.1",
     "@nextcloud/paths": "^2.2.1",
