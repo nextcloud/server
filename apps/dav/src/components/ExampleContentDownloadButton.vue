@@ -3,8 +3,20 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 
+<script setup lang="ts">
+import { NcButton } from '@nextcloud/vue'
+import IconDownload from 'vue-material-design-icons/TrayArrowDown.vue'
+
+defineProps<{
+	/**
+	 * The href link for the download
+	 */
+	href: string
+}>()
+</script>
+
 <template>
-	<NcButton variant="tertiary" :href="href">
+	<NcButton variant="tertiary" :href>
 		<template #icon>
 			<slot name="icon" />
 		</template>
@@ -18,26 +30,6 @@
 		</div>
 	</NcButton>
 </template>
-
-<script>
-import { NcButton } from '@nextcloud/vue'
-import IconDownload from 'vue-material-design-icons/TrayArrowDown.vue'
-
-export default {
-	name: 'ExampleContentDownloadButton',
-	components: {
-		NcButton,
-		IconDownload,
-	},
-
-	props: {
-		href: {
-			type: String,
-			required: true,
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .download-button {
