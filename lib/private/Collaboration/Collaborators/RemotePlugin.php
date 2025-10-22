@@ -30,7 +30,7 @@ class RemotePlugin implements ISearchPlugin {
 		private IUserManager $userManager,
 		IUserSession $userSession,
 		private IAppConfig $appConfig,
-		private TrustedServers $trustedServers,
+		private ?TrustedServers $trustedServers,
 	) {
 		$this->userId = $userSession->getUser()?->getUID() ?? '';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
@@ -107,7 +107,7 @@ class RemotePlugin implements ISearchPlugin {
 								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
-								'isTrustedServer' => $this->trustedServers->isTrustedServer($serverUrl),
+								'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 							],
 						];
 					} else {
@@ -120,7 +120,7 @@ class RemotePlugin implements ISearchPlugin {
 								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
-								'isTrustedServer' => $this->trustedServers->isTrustedServer($serverUrl),
+								'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 							],
 						];
 					}
@@ -147,7 +147,7 @@ class RemotePlugin implements ISearchPlugin {
 							'shareType' => IShare::TYPE_REMOTE,
 							'shareWith' => $search,
 							'server' => $serverUrl,
-							'isTrustedServer' => $this->trustedServers->isTrustedServer($serverUrl),
+							'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 						],
 					];
 				}
