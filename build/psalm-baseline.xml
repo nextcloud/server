@@ -3522,10 +3522,6 @@
       <code><![CDATA[$this->delete($key)]]></code>
       <code><![CDATA[$this->set($key, $value)]]></code>
     </InvalidOperand>
-    <UndefinedVariable>
-      <code><![CDATA[$CONFIG]]></code>
-      <code><![CDATA[$CONFIG]]></code>
-    </UndefinedVariable>
   </file>
   <file src="lib/private/Console/Application.php">
     <NoInterfaceProperties>
