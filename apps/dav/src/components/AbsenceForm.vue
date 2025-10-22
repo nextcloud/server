@@ -67,7 +67,7 @@ import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNa
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../service/logger.js'
+import { logger } from '../service/logger.ts'
 import { formatDateAsYMD } from '../utils/date.js'
 
 /* eslint @nextcloud/vue/no-deprecated-props: "warn" */

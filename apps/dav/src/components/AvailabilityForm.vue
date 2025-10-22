@@ -52,7 +52,7 @@ import {
 	getEmptySlots,
 	saveScheduleInboxAvailability,
 } from '../service/CalendarService.js'
-import logger from '../service/logger.js'
+import { logger } from '../service/logger.ts'
 import {
 	disableUserStatusAutomation,
 	enableUserStatusAutomation,
