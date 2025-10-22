@@ -128,8 +128,9 @@ class UsersController extends AUserDataOCSController {
 
 			$users = [];
 			foreach ($subAdminOfGroups as $group) {
-				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
+				$users[] = $this->groupManager->displayNamesInGroup($group, $search, $limit, $offset);
 			}
+			$users = array_merge(...$users);
 		}
 
 		/** @var list<string> $users */
