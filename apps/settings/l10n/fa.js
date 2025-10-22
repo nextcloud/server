@@ -471,8 +471,6 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "This community release of Nextcloud is unsupported and instant notifications are unavailable.",
     "Use a second factor besides your password to increase security for your account." : "برای افزایش امنیت حساب کاربری خود ، از یک عامل دوم علاوه بر رمز عبور خود استفاده کنید.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication.",
-    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user.",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "این برنامه حداقل دارای نسخه بعدی نکست کلود است. این یک خطا در آینده خواهد بود.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "این برنامه حداکثر نسخه نکست کلود اختصاصی ندارد. این یک خطا در آینده خواهد بود.",
     "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} حساب ...","{userCount} حساب ..."],

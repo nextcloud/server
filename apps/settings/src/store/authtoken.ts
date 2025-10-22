@@ -11,8 +11,6 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import logger from '../logger.ts'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 const BASE_URL = generateUrl('/settings/personal/authtokens')
 
 /**

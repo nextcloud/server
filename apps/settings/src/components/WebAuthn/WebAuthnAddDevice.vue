@@ -63,10 +63,8 @@ import {
 	startRegistration,
 } from '../../service/WebAuthnRegistrationSerice.ts'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 /**
- * @param {string} text
+ * @param {string} text The text to log
  */
 function logAndPass(text) {
 	return (data) => {

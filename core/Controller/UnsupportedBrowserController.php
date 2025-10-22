@@ -32,6 +32,7 @@ class UnsupportedBrowserController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: 'unsupported')]
 	public function index(): Response {
+		Util::addTranslations('core');
 		Util::addScript('core', 'unsupported-browser');
 		Util::addStyle('core', 'icons');
 

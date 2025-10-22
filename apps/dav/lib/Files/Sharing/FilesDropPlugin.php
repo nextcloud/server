@@ -42,6 +42,10 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function onMkcol(RequestInterface $request, ResponseInterface $response) {
+		if ($this->isChunkedUpload($request)) {
+			return;
+		}
+
 		if (!$this->enabled || $this->share === null) {
 			return;
 		}
@@ -58,7 +62,18 @@ class FilesDropPlugin extends ServerPlugin {
 		return false;
 	}
 
+	private function isChunkedUpload(RequestInterface $request): bool {
+		return str_starts_with(substr($request->getUrl(), strlen($request->getBaseUrl()) - 1), '/uploads/');
+	}
+
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
+		$isChunkedUpload = $this->isChunkedUpload($request);
+
+		// For the final MOVE request of a chunked upload it is necessary to modify the Destination header.
+		if ($isChunkedUpload && $request->getMethod() !== 'MOVE') {
+			return;
+		}
+
 		if (!$this->enabled || $this->share === null) {
 			return;
 		}
@@ -68,21 +83,8 @@ class FilesDropPlugin extends ServerPlugin {
 			return;
 		}
 
-		// Retrieve the nickname from the request
-		$nickname = $request->hasHeader('X-NC-Nickname')
-			? trim(urldecode($request->getHeader('X-NC-Nickname')))
-			: null;
-
-		if ($request->getMethod() !== 'PUT') {
-			// If uploading subfolders we need to ensure they get created
-			// within the nickname folder
-			if ($request->getMethod() === 'MKCOL') {
-				if (!$nickname) {
-					throw new BadRequest('A nickname header is required when uploading subfolders');
-				}
-			} else {
-				throw new MethodNotAllowed('Only PUT is allowed on files drop');
-			}
+		if ($request->getMethod() !== 'PUT' && $request->getMethod() !== 'MKCOL' && (!$isChunkedUpload || $request->getMethod() !== 'MOVE')) {
+			throw new MethodNotAllowed('Only PUT, MKCOL and MOVE are allowed on files drop');
 		}
 
 		// If this is a folder creation request
@@ -95,8 +97,16 @@ class FilesDropPlugin extends ServerPlugin {
 		// full path along the way. We'll only handle conflict
 		// resolution on file conflicts, but not on folders.
 
-		// e.g files/dCP8yn3N86EK9sL/Folder/image.jpg
-		$path = $request->getPath();
+		if ($isChunkedUpload) {
+			$destination = $request->getHeader('destination');
+			$baseUrl = $request->getBaseUrl();
+			// e.g files/dCP8yn3N86EK9sL/Folder/image.jpg
+			$path = substr($destination, strpos($destination, $baseUrl) + strlen($baseUrl));
+		} else {
+			// e.g files/dCP8yn3N86EK9sL/Folder/image.jpg
+			$path = $request->getPath();
+		}
+
 		$token = $this->share->getToken();
 
 		// e.g files/dCP8yn3N86EK9sL
@@ -111,6 +121,11 @@ class FilesDropPlugin extends ServerPlugin {
 		if ($attributes !== null) {
 			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
 		}
+
+		// Retrieve the nickname from the request
+		$nickname = $request->hasHeader('X-NC-Nickname')
+			? trim(urldecode($request->getHeader('X-NC-Nickname')))
+			: null;
 
 		// We need a valid nickname for file requests
 		if ($isFileRequest && !$nickname) {
@@ -187,7 +202,11 @@ class FilesDropPlugin extends ServerPlugin {
 		$relativePath = substr($folder->getPath(), strlen($node->getPath()));
 		$path = '/files/' . $token . '/' . $relativePath . '/' . $uniqueName;
 		$url = rtrim($request->getBaseUrl(), '/') . str_replace('//', '/', $path);
-		$request->setUrl($url);
+		if ($isChunkedUpload) {
+			$request->setHeader('destination', $url);
+		} else {
+			$request->setUrl($url);
+		}
 	}
 
 	private function getPathSegments(string $path): array {

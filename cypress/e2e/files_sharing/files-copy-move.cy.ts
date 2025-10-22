@@ -41,7 +41,10 @@ export function moveFileForbidden(fileName: string, dirPath: string) {
 		cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 		// select home folder
-		cy.get('button[title="Home"]').should('be.visible').click()
+		cy.get('.breadcrumb')
+			.findByRole('button', { name: 'All files' })
+			.should('be.visible')
+			.click()
 
 		const directories = dirPath.split('/')
 		directories.forEach((directory) => {

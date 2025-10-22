@@ -66,7 +66,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		cy.get('@storageDialog').should('not.exist')
 
 		// Storage dialog now closed, the user auth dialog should be visible
-		cy.findByRole('dialog', { name: 'Confirm your password' }).as('authDialog')
+		cy.findByRole('dialog', { name: 'Authentication required' }).as('authDialog')
 		cy.get('@authDialog').should('be.visible')
 		handlePasswordConfirmation(user1.password)
 
@@ -108,7 +108,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		cy.get('@storageDialog').should('not.exist')
 
 		// Storage dialog now closed, the user auth dialog should be visible
-		cy.findByRole('dialog', { name: 'Confirm your password' }).as('authDialog')
+		cy.findByRole('dialog', { name: 'Authentication required' }).as('authDialog')
 		cy.get('@authDialog').should('be.visible')
 		handlePasswordConfirmation(user2.password)
 

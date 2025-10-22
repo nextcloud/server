@@ -686,7 +686,6 @@ OC.L10N.register(
     "Use a second factor besides your password to increase security for your account." : "Notaðu annað þrep til viðbótar lykilorðinu þínu til að auka öryggi notandaaðgangsins þíns.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ef þú notaðir utanaðkomandi forrit til að tengjast við Nextcloud, skaltu ganga úr skugga um að þú útbúir lykilorð fyrir hvert slíkt forrit áður en þú virkjar 2FA tveggja-þrepa auðkenningu.",
     "Logged in account must be a subadmin" : "Innskráður aðgangur verður að vera undirstjórnandi (subadmin)",
-    "Restrict account name autocompletion to users based on phone number integration" : "Leyfa sjálfklárun á heiti notendaaðganga á notendum byggt á samþættingu símanúmera",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Þetta vorrit er ekki með tiltekna neina lágmarksútgáfu Nextcloud. Þetta mun gefa villu í framtíðinni.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Þetta vorrit er ekki með tiltekna neina hámarksútgáfu Nextcloud. Þetta mun gefa villu í framtíðinni.",
     "Loading accounts …" : "Hleð inn notendaaðgöngum...",

@@ -35,10 +35,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.5.2
+	- version: 2.5.3
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
-	- version: 0.4.0
+	- version: 0.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -74,7 +74,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.31.0
+	- version: 8.32.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4

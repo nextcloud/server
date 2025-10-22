@@ -351,6 +351,12 @@ class FactoryTest extends TestCase {
 			[null, 'de,en', ['ru', 'en'], 'en'],
 			[null, 'de-DE,en-US;q=0.8,en;q=0.6', ['ru', 'en'], 'en'],
 
+			// Don't fall back from kab (Kabyle) to ka (Georgian) - Unless specifically requested
+			[null, 'kab;q=0.8,en;q=0.6', ['ka', 'en'], 'en'],
+			[null, 'kab;q=0.8,de;q=0.6', ['ka', 'en', 'de'], 'de'],
+			[null, 'kab;q=0.8,de;q=0.7,ka;q=0.6', ['ka', 'en', 'de'], 'de'],
+			[null, 'kab;q=0.8,ka;q=0.7,de;q=0.6', ['ka', 'en', 'de'], 'ka'],
+
 			// Language for app
 			['files_pdfviewer', 'de', ['de'], 'de'],
 			['files_pdfviewer', 'de,en', ['de'], 'de'],

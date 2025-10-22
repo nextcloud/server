@@ -496,7 +496,7 @@ class Factory implements IFactory {
 
 				// Fallback from de_De to de
 				foreach ($available as $available_language) {
-					if (substr($preferred_language, 0, 2) === $available_language) {
+					if ($preferred_language_parts[0] === $available_language) {
 						return $available_language;
 					}
 				}

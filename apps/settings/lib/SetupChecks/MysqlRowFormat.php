@@ -34,8 +34,8 @@ class MysqlRowFormat implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		if (!$this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL
-			&& !$this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MARIADB) {
+		$provider = $this->connection->getDatabaseProvider();
+		if (!in_array($provider, [IDBConnection::PLATFORM_MYSQL, IDBConnection::PLATFORM_MARIADB], true)) {
 			return SetupResult::success($this->l10n->t('You are not using MySQL'));
 		}
 

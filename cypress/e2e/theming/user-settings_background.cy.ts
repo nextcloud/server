@@ -222,7 +222,7 @@ describe('User select a custom background', function() {
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
 		cy.get('.file-picker__files tr').contains(image).click()
-		cy.get('.dialog__actions .button-vue--vue-primary').click()
+		cy.findByRole('button', { name: 'Select background' }).click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
@@ -260,7 +260,7 @@ describe('User changes settings and reload the page', function() {
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
 		cy.get('.file-picker__files tr').contains(image).click()
-		cy.get('.dialog__actions .button-vue--vue-primary').click()
+		cy.findByRole('button', { name: 'Select background' }).click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')

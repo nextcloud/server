@@ -75,6 +75,7 @@ OC.L10N.register(
     "Nextcloud settings" : "Paramètres Nextcloud",
     "Enable" : "Activar",
     "None" : "Pas cap",
+    "Enforce password protection" : "Afortir la proteccion per senhal",
     "Two-Factor Authentication" : "Autentificacion dos factors",
     "Limit to groups" : "Limitar als grops",
     "Save changes" : "Enregistrar las modificacions",
