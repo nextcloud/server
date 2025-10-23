@@ -9,7 +9,7 @@ import type { Folder as CFolder, Navigation } from '@nextcloud/files'
 import { expect } from '@jest/globals'
 
 import * as eventBus from '@nextcloud/event-bus'
-import * as filesUtils from '@nextcloud/files'
+import { Folder, getNavigation } from '@nextcloud/files'
 import * as filesDavUtils from '@nextcloud/files/dav'
 import { basename } from 'path'
 import { CancelablePromise } from 'cancelable-promise'
@@ -17,8 +17,6 @@ import { CancelablePromise } from 'cancelable-promise'
 import { action } from '../actions/favoriteAction'
 import { registerFavoritesView } from './favorites'
 import * as favoritesService from '../services/Favorites'
-
-const { Folder, getNavigation } = filesUtils
 
 jest.mock('@nextcloud/axios', () => ({
 	post: jest.fn(),
