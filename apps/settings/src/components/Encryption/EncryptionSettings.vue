@@ -7,11 +7,12 @@
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 import axios from '@nextcloud/axios'
-import { showError, spawnDialog } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { ref } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'

@@ -1,0 +1,1 @@
+import{n as e}from"./sharebymail-admin-settings.mjs";export{e as default};

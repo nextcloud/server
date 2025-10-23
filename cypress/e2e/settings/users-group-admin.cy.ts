@@ -2,10 +2,9 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-/// <reference types="cypress-if" />
 
-import { User } from '@nextcloud/cypress'
-import randomString from 'crypto-random-string'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { randomString } from '../../support/utils/randomString.ts'
 import { getUserListRow, handlePasswordConfirmation } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')

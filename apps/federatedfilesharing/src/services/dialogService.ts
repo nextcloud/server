@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { spawnDialog } from '@nextcloud/dialogs'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import RemoteShareDialog from '../components/RemoteShareDialog.vue'
 
 /**

@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { User } from '@nextcloud/cypress'
 
-import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
 import {
 	copyFile,
 	getRowForFile,
@@ -12,6 +12,8 @@ import {
 	triggerActionForFile,
 } from '../files/FilesUtils.ts'
 import { createShare } from './FilesSharingUtils.ts'
+
+const ACTION_COPY_MOVE = 'move-copy'
 
 export function copyFileForbidden(fileName: string, dirPath: string) {
 	getRowForFile(fileName).should('be.visible')
@@ -41,7 +43,10 @@ export function moveFileForbidden(fileName: string, dirPath: string) {
 		cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 		// select home folder
-		cy.get('button[title="Home"]').should('be.visible').click()
+		cy.get('.breadcrumb')
+			.findByRole('button', { name: 'All files' })
+			.should('be.visible')
+			.click()
 
 		const directories = dirPath.split('/')
 		directories.forEach((directory) => {

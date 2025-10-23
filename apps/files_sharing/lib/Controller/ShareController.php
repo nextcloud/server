@@ -197,7 +197,12 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		// For share this was always set so it is still used in other apps
-		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $this->share->getId());
+		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
+		if (!is_array($allowedShareIds)) {
+			$allowedShareIds = [];
+		}
+
+		$this->session->set(PublicAuth::DAV_AUTHENTICATED, array_merge($allowedShareIds, [$this->share->getId()]));
 	}
 
 	protected function authFailed() {

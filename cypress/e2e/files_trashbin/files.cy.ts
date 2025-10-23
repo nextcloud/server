@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-// @ts-expect-error package has wrong typings
-import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
+import { deleteDownloadsFolderBeforeEach } from '../../support/utils/deleteDownloadsFolder.ts'
 import { deleteFileWithRequest, getRowForFileId, selectAllFiles, triggerActionForFileId } from '../files/FilesUtils.ts'
 
 describe('files_trashbin: download files', { testIsolation: true }, () => {
 	let user: User
-	const fileids: number[] = []
+	const fileids: [number, number] = [0, 0]
 
 	deleteDownloadsFolderBeforeEach()
 
@@ -20,10 +19,10 @@ describe('files_trashbin: download files', { testIsolation: true }, () => {
 			user = $user
 
 			cy.uploadContent(user, new Blob(['<content>']), 'text/plain', '/file.txt')
-				.then(({ headers }) => fileids.push(Number.parseInt(headers['oc-fileid'])))
+				.then(({ headers }) => fileids[0] = Number.parseInt(headers['oc-fileid']))
 				.then(() => deleteFileWithRequest(user, '/file.txt'))
 			cy.uploadContent(user, new Blob(['<content>']), 'text/plain', '/other-file.txt')
-				.then(({ headers }) => fileids.push(Number.parseInt(headers['oc-fileid'])))
+				.then(({ headers }) => fileids[1] = Number.parseInt(headers['oc-fileid']))
 				.then(() => deleteFileWithRequest(user, '/other-file.txt'))
 		})
 	})

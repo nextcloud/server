@@ -32,7 +32,7 @@ class CloudFederationNotification implements ICloudFederationNotification {
 		$this->message = [
 			'notificationType' => $notificationType,
 			'resourceType' => $resourceType,
-			'providerId' => $providerId,
+			'providerId' => (string)$providerId,
 			'notification' => $notification,
 		];
 	}

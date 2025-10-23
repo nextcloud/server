@@ -4,88 +4,76 @@
 -->
 
 <template>
-	<div :id="containerId">
-		<FilePicker v-bind="filepickerOptions" @close="onClose" />
-	</div>
+	<div :id="containerId" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { IFilePickerButton } from '@nextcloud/dialogs'
 import type { Node as NcNode } from '@nextcloud/files'
 
-import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
-import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
-import { defineComponent } from 'vue'
+import { FilePickerBuilder } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { onMounted } from 'vue'
+import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
+import logger from '../logger.ts'
 
-export default defineComponent({
-	name: 'FileReferencePickerElement',
-	components: {
-		FilePicker,
-	},
+defineProps<{
+	providerId: string
+	accessible: boolean
+}>()
 
-	props: {
-		providerId: {
-			type: String,
-			required: true,
-		},
+const emit = defineEmits<{
+	(e: 'submit', url: string): void
+	(e: 'cancel'): void
+}>()
 
-		accessible: {
-			type: Boolean,
-			default: false,
-		},
-	},
+const containerId = `filepicker-${Math.random().toString(36).slice(7)}`
 
-	computed: {
-		containerId() {
-			return `filepicker-${Math.random().toString(36).slice(7)}`
-		},
+const filePicker = new FilePickerBuilder(t('files', 'Select file or folder to link to'))
+	.allowDirectories(true)
+	.setButtonFactory(buttonFactory)
+	.setContainer(`#${containerId}`)
+	.setMultiSelect(false)
+	.build()
 
-		filepickerOptions() {
-			return {
-				allowPickDirectory: true,
-				buttons: this.buttonFactory,
-				container: `#${this.containerId}`,
-				multiselect: false,
-				name: t('files', 'Select file or folder to link to'),
-			}
-		},
-	},
-
-	methods: {
-		t,
-
-		buttonFactory(selected: NcNode[]): IFilePickerButton[] {
-			const buttons = [] as IFilePickerButton[]
-			if (selected.length === 0) {
-				return []
-			}
-			const node = selected.at(0)
-			if (node.path === '/') {
-				return [] // Do not allow selecting the users root folder
-			}
-			buttons.push({
-				label: t('files', 'Choose {file}', { file: node.displayname }),
-				type: 'primary',
-				callback: this.onClose,
-			})
-			return buttons
-		},
-
-		onClose(nodes?: NcNode[]) {
-			if (nodes === undefined || nodes.length === 0) {
-				this.$emit('cancel')
-			} else {
-				this.onSubmit(nodes[0])
-			}
-		},
-
-		onSubmit(node: NcNode) {
-			const url = new URL(window.location.href)
-			url.pathname = generateUrl('/f/{fileId}', { fileId: node.fileid! })
-			url.search = ''
-			this.$emit('submit', url.href)
-		},
-	},
+onMounted(async () => {
+	try {
+		const [node] = await filePicker.pickNodes()
+		onSubmit(node)
+	} catch (error) {
+		logger.debug('Aborted picking nodes:', { error })
+		emit('cancel')
+	}
 })
+
+/**
+ * Get buttons for the file picker dialog
+ *
+ * @param selected - currently selected nodes
+ */
+function buttonFactory(selected: NcNode[]): IFilePickerButton[] {
+	const buttons = [] as IFilePickerButton[]
+	const node = selected[0]
+	if (node === undefined) {
+		return []
+	}
+
+	if (node.path === '/') {
+		return [] // Do not allow selecting the users root folder
+	}
+
+	buttons.push({
+		label: t('files', 'Choose {file}', { file: node.displayname }),
+		variant: 'primary',
+		callback: () => {}, // handled by the pickNodes method
+	})
+	return buttons
+}
+
+/**
+ * @param node - selected node
+ */
+function onSubmit(node: NcNode) {
+	emit('submit', generateFileUrl(node.fileid!))
+}
 </script>

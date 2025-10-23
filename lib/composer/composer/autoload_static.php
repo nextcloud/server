@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -913,6 +913,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\IProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IProvider.php',
         'OCP\\TaskProcessing\\ISynchronousProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousProvider.php',
         'OCP\\TaskProcessing\\ITaskType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITaskType.php',
+        'OCP\\TaskProcessing\\ITriggerableProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITriggerableProvider.php',
         'OCP\\TaskProcessing\\ShapeDescriptor' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ShapeDescriptor.php',
         'OCP\\TaskProcessing\\ShapeEnumValue' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ShapeEnumValue.php',
         'OCP\\TaskProcessing\\Task' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Task.php',
@@ -1989,7 +1990,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Remote\\User' => __DIR__ . '/../../..' . '/lib/private/Remote/User.php',
         'OC\\Repair' => __DIR__ . '/../../..' . '/lib/private/Repair.php',
         'OC\\RepairException' => __DIR__ . '/../../..' . '/lib/private/RepairException.php',
-        'OC\\Repair\\AddAppConfigLazyMigration' => __DIR__ . '/../../..' . '/lib/private/Repair/AddAppConfigLazyMigration.php',
         'OC\\Repair\\AddBruteForceCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddBruteForceCleanupJob.php',
         'OC\\Repair\\AddCleanupDeletedUsersBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupDeletedUsersBackgroundJob.php',
         'OC\\Repair\\AddCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupUpdaterBackupsJob.php',

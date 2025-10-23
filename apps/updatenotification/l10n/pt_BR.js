@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Canal atualizado",
     "Web updater is disabled" : "O atualizador de Web está desativado",
+    "Configuration is read-only" : "Configuração é somente leitura",
     "App updated" : "Aplicativo atualizado",
     "See what's new" : "Veja o que é novo",
     "{app} updated to version {version}" : "{app} atualizado para a versão {version}",

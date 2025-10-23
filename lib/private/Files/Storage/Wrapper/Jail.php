@@ -215,7 +215,9 @@ class Jail extends Wrapper {
 	}
 
 	/**
-	 * Resolve the path for the source of the share
+	 * Resolve the path for the source of the share.
+	 *
+	 * @return array{0: IStorage, 1: string}
 	 */
 	public function resolvePath(string $path): array {
 		return [$this->getWrapperStorage(), $this->getUnjailedPath($path)];

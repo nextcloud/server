@@ -124,7 +124,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @since 14.0.0
 	 */
 	public function setProviderId($providerId) {
-		$this->share['providerId'] = $providerId;
+		$this->share['providerId'] = (string)$providerId;
 	}
 
 	/**

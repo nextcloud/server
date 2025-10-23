@@ -316,7 +316,9 @@ export default {
 				// share api controller accepts
 				for (const name of propertyNames) {
 					if (name === 'password') {
-						properties[name] = this.share.newPassword ?? this.share.password
+						if (this.share.newPassword !== undefined) {
+							properties[name] = this.share.newPassword
+						}
 						continue
 					}
 

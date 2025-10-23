@@ -98,8 +98,8 @@ export default {
 				},
 				{
 					label: this.$t('dav', 'Import'),
-					type: 'primary',
 					icon: IconCheck,
+					variant: 'primary',
 					callback: () => { this.clickImportInput() },
 				},
 			],

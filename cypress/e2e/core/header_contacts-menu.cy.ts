@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import randomString from 'crypto-random-string'
+import { User } from '@nextcloud/e2e-test-server/cypress'
 import { clearState, getNextcloudHeader } from '../../support/commonUtils.ts'
+import { randomString } from '../../support/utils/randomString.ts'
 
 const admin = new User('admin', 'admin')
 

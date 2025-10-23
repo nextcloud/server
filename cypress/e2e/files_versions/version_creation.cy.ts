@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { randomString } from '../../support/utils/randomString.ts'
 import { openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions creation', () => {
 	let randomFileName = ''
 
 	before(() => {
-		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+		randomFileName = randomString(10) + '.txt'
 
 		cy.createRandomUser()
 			.then((user) => {

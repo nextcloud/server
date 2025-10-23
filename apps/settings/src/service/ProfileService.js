@@ -8,8 +8,6 @@ import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 /**
  * Save the visibility of the profile parameter
  *

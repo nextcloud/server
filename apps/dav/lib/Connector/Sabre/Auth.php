@@ -55,8 +55,11 @@ class Auth extends AbstractBasic {
 	 * @see https://github.com/owncloud/core/issues/13245
 	 */
 	public function isDavAuthenticated(string $username): bool {
-		return !is_null($this->session->get(self::DAV_AUTHENTICATED))
-		&& $this->session->get(self::DAV_AUTHENTICATED) === $username;
+		if (is_null($this->session->get(self::DAV_AUTHENTICATED))) {
+			return false;
+		}
+
+		return $this->session->get(self::DAV_AUTHENTICATED) === $username;
 	}
 
 	/**

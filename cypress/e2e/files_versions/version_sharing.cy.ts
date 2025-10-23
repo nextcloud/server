@@ -2,14 +2,15 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
+import { randomString } from '../../support/utils/randomString.ts'
 import { navigateToFolder, triggerActionForFile } from '../files/FilesUtils.ts'
 import { setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions on shares', () => {
-	const randomSharedFolderName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
-	const randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+	const randomSharedFolderName = randomString(10)
+	const randomFileName = randomString(10) + '.txt'
 	const randomFilePath = `${randomSharedFolderName}/${randomFileName}`
 	let alice: User
 	let bob: User

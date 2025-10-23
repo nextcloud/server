@@ -161,6 +161,16 @@ interface IManager {
 	public function getNextScheduledTask(array $taskTypeIds = [], array $taskIdsToIgnore = []): Task;
 
 	/**
+	 * @param list<string> $taskTypeIds
+	 * @param list<int> $taskIdsToIgnore
+	 * @param int $numberOfTasks
+	 * @return list<Task>
+	 * @throws Exception If the query failed
+	 * @since 33.0.0
+	 */
+	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array;
+
+	/**
 	 * @param int $id The id of the task
 	 * @param string|null $userId The user id that scheduled the task
 	 * @return Task

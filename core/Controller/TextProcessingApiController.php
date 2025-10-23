@@ -97,7 +97,7 @@ class TextProcessingApiController extends OCSController {
 	 * 400: Scheduling task is not possible
 	 * 412: Scheduling task is not possible
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/textprocessing')]
@@ -137,7 +137,7 @@ class TextProcessingApiController extends OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/textprocessing')]
 	public function getTask(int $id): DataResponse {
 		try {

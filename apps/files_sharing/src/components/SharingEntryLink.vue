@@ -192,16 +192,6 @@
 					:file-info="fileInfo"
 					:share="share" />
 
-				<!-- external legacy sharing via url (social...) -->
-				<NcActionLink
-					v-for="({ icon, url, name }, actionIndex) in externalLegacyLinkActions"
-					:key="actionIndex"
-					:href="url(shareLink)"
-					:icon="icon"
-					target="_blank">
-					{{ name }}
-				</NcActionLink>
-
 				<NcActionButton
 					v-if="!isEmailShareType && canReshare"
 					class="new-share-link"
@@ -268,7 +258,6 @@ import { toRaw } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
-import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
@@ -301,7 +290,6 @@ export default {
 		NcActionButton,
 		NcActionCheckbox,
 		NcActionInput,
-		NcActionLink,
 		NcActionText,
 		NcActionSeparator,
 		NcAvatar,
@@ -352,7 +340,6 @@ export default {
 			// Are we waiting for password/expiration date
 			pending: false,
 
-			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 			externalShareActions: getSidebarInlineActions(),
 
@@ -591,16 +578,6 @@ export default {
 		 */
 		copyLinkLabel() {
 			return t('files_sharing', 'Copy public link of "{title}"', { title: this.title })
-		},
-
-		/**
-		 * External additionnai actions for the menu
-		 *
-		 * @deprecated use OCA.Sharing.ExternalShareActions
-		 * @return {Array}
-		 */
-		externalLegacyLinkActions() {
-			return this.ExternalLegacyLinkActions.actions
 		},
 
 		/**

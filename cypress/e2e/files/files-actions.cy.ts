@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import { FileAction } from '@nextcloud/files'
-import { ACTION_DELETE } from '../../../apps/files/src/actions/deleteAction.ts'
-import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
-import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction.ts'
 import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils.ts'
+
+const ACTION_DELETE = 'delete'
+const ACTION_COPY_MOVE = 'move-copy'
+const ACTION_DETAILS = 'details'
 
 declare global {
 	interface Window {
