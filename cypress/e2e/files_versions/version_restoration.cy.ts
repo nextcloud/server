@@ -33,7 +33,7 @@ describe('Versions restoration', () => {
 	it('Restores initial version', () => {
 		restoreVersion(2)
 
-		cy.get('#tab-version_vue').within(() => {
+		cy.get('#tab-files_versions').within(() => {
 			cy.get('[data-files-versions-version]').should('have.length', 3)
 			cy.get('[data-files-versions-version]').eq(0).contains('Current version')
 			cy.get('[data-files-versions-version]').eq(2).contains('Initial version').should('not.exist')
@@ -53,7 +53,7 @@ describe('Versions restoration', () => {
 
 			it('Restores initial version', () => {
 				restoreVersion(2)
-				cy.get('#tab-version_vue').within(() => {
+				cy.get('#tab-files_versions').within(() => {
 					cy.get('[data-files-versions-version]').should('have.length', 3)
 					cy.get('[data-files-versions-version]').eq(0).contains('Current version')
 					cy.get('[data-files-versions-version]').eq(2).contains('Initial version').should('not.exist')

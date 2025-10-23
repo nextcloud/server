@@ -15,6 +15,9 @@ const modules = {
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
 	},
+	files_versions: {
+		'sidebar-tab': resolve(import.meta.dirname, 'apps/files_versions/src', 'sidebar_tab.ts'),
+	},
 }
 
 // convert modules to modules entries prefied with the app id
