@@ -51,7 +51,7 @@ $CONFIG = [
 	 * all your passwords. This example is for documentation only, and you should
 	 * never use it.
 	 *
-	 * @deprecated This salt is deprecated and only used for legacy-compatibility,
+	 * @deprecated 9.0.0 This salt is deprecated and only used for legacy-compatibility,
 	 * developers should *NOT* use this value for anything nowadays.
 	 */
 	'passwordsalt' => '',
@@ -1580,7 +1580,8 @@ $CONFIG = [
 	 * Sort groups in the user settings by name instead of the user count
 	 *
 	 * By enabling this, the user count beside the group name is disabled as well.
-	 * @deprecated since Nextcloud 29 - Use the frontend instead or set the app config value ``group.sortBy`` for ``core`` to ``2``
+	 *
+	 * @deprecated 29.0.0 Use the frontend instead or set the app config value ``group.sortBy`` for ``core`` to ``2``
 	 */
 	'sort_groups_by_name' => false,
 
@@ -2370,7 +2371,8 @@ $CONFIG = [
 	/**
 	 * Allow creation of external storages of type "Local" via the web interface and
 	 * APIs. When disabled, local storages can still be created using the occ command::
-	 *   occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
+	 *
+	 *      occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
 	 *
 	 * Defaults to ``true``
 	 */
@@ -2530,7 +2532,8 @@ $CONFIG = [
 	/**
 	 * Set the data fingerprint for the current data served. Used by clients to
 	 * detect if a backup has been restored. Update this by running::
-	 *   occ maintenance:data-fingerprint
+	 *
+	 *      occ maintenance:data-fingerprint
 	 *
 	 * Changing or deleting this value may cause connected clients to stall until
 	 * conflicts are resolved.
