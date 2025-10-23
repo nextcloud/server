@@ -224,6 +224,13 @@ jobs:
               "makefile_target": "build_text_app"
             },
             {
+              "name": "user_oidc",
+              "path": "apps-external/user_oidc",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_user_oidc_app"
+            },
+            {
               "name": "whiteboard",
               "path": "apps-external/whiteboard",
               "has_npm": true,
