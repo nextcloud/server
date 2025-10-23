@@ -52,7 +52,7 @@ class PreviewService {
 
 		// Previews next to each others in the database are likely in the same storage, so group them
 		while ($row = $result->fetch()) {
-			if ($lastStorageId !== $row['storage_id']) {
+			if ($lastStorageId !== (int)$row['storage_id']) {
 				if ($lastStorageId !== -1) {
 					yield ['storageId' => $lastStorageId, 'fileIds' => $fileIds];
 					$fileIds = [];
