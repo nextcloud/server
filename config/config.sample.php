@@ -51,7 +51,7 @@ $CONFIG = [
 	 * all your passwords. This example is for documentation only, and you should
 	 * never use it.
 	 *
-	 * @deprecated This salt is deprecated and only used for legacy-compatibility,
+	 * @deprecated 9.0.0 This salt is deprecated and only used for legacy-compatibility,
 	 * developers should *NOT* use this value for anything nowadays.
 	 */
 	'passwordsalt' => '',
@@ -1580,7 +1580,8 @@ $CONFIG = [
 	 * Sort groups in the user settings by name instead of the user count
 	 *
 	 * By enabling this, the user count beside the group name is disabled as well.
-	 * @deprecated since Nextcloud 29 - Use the frontend instead or set the app config value ``group.sortBy`` for ``core`` to ``2``
+	 *
+	 * @deprecated 29.0.0 Use the frontend instead or set the app config value ``group.sortBy`` for ``core`` to ``2``
 	 */
 	'sort_groups_by_name' => false,
 
