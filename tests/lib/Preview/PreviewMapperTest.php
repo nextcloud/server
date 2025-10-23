@@ -16,16 +16,20 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewMapperTest extends TestCase {
 	private PreviewMapper $previewMapper;
 	private IDBConnection $connection;
 
 	public function setUp(): void {
+		parent::setUp();
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->connection = Server::get(IDBConnection::class);
+	}
+
+	public function tearDown(): void {
+		$this->previewMapper->deleteAll();
+		parent::tearDown();
 	}
 
 	public function testGetAvailablePreviews(): void {

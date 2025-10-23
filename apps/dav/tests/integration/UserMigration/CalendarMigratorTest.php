@@ -22,9 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use function scandir;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CalendarMigratorTest extends TestCase {
 
 	private IUserManager $userManager;

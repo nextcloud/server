@@ -22,10 +22,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class AppsTest
  *
- * @group DB
  *
  * @package OCA\Provisioning_API\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppsControllerTest extends TestCase {
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;

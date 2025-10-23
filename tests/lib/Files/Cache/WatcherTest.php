@@ -15,10 +15,10 @@ use OC\Files\Storage\Temporary;
 /**
  * Class WatcherTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class WatcherTest extends \Test\TestCase {
 	/**
 	 * @var Storage[] $storages

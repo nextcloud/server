@@ -88,9 +88,7 @@ class FreePromptProvider implements IProvider {
 	}
 }
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TextProcessingTest extends \Test\TestCase {
 	private IManager $manager;
 	private Coordinator $coordinator;

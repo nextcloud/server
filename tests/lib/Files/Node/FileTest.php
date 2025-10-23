@@ -16,10 +16,10 @@ use OCP\Files\NotPermittedException;
 /**
  * Class FileTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileTest extends NodeTestCase {
 	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
 		if ($data || $internalPath || $storage) {

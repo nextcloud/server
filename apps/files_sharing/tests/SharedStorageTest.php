@@ -25,9 +25,8 @@ use OCP\Share\IShare;
 
 /**
  * Class SharedStorageTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SharedStorageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();

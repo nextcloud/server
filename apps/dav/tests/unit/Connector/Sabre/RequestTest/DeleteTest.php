@@ -14,10 +14,10 @@ use OCP\Files\FileInfo;
 /**
  * Class DeleteTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeleteTest extends RequestTestCase {
 	public function testBasicUpload(): void {
 		$user = self::getUniqueID();

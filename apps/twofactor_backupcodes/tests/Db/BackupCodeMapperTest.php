@@ -15,9 +15,7 @@ use OCP\IUser;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class BackupCodeMapperTest extends TestCase {
 	private IDBConnection $db;
 	private BackupCodeMapper $mapper;

@@ -22,9 +22,8 @@ use OCP\Share\IShare;
 
 /**
  * Class SharedMountTest
- *
- * @group SLOWDB
  */
+#[\PHPUnit\Framework\Attributes\Group('SLOWDB')]
 class SharedMountTest extends TestCase {
 
 	/** @var IGroupManager */

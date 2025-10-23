@@ -26,9 +26,9 @@ use Test\TestCase;
 /**
  * Class TestSystemTagManager
  *
- * @group DB
  * @package Test\SystemTag
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SystemTagManagerTest extends TestCase {
 	private ISystemTagManager $tagManager;
 	private IDBConnection $connection;

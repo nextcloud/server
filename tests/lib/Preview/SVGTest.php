@@ -14,10 +14,10 @@ use OCP\Files\File;
 /**
  * Class SVGTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SVGTest extends Provider {
 	protected function setUp(): void {
 		$checkImagick = new \Imagick();
@@ -45,10 +45,8 @@ class SVGTest extends Provider {
 		];
 	}
 
-	/**
-	 * @requires extension imagick
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetThumbnailSVGHref')]
+	#[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
 	public function testGetThumbnailSVGHref(string $content): void {
 		$handle = fopen('php://temp', 'w+');
 		fwrite($handle, '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

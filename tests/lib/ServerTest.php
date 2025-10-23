@@ -16,10 +16,10 @@ use OCP\Comments\ICommentsManager;
 /**
  * Class Server
  *
- * @group DB
  *
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ServerTest extends \Test\TestCase {
 	/** @var Server */
 	protected $server;

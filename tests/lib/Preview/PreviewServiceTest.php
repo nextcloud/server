@@ -17,15 +17,14 @@ use OCP\Server;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group DB
- */
 #[CoversClass(PreviewService::class)]
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewServiceTest extends TestCase {
 	private PreviewService $previewService;
 	private PreviewMapper $previewMapper;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->previewService = Server::get(PreviewService::class);
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->previewService->deleteAll();
@@ -33,6 +32,7 @@ class PreviewServiceTest extends TestCase {
 
 	public function tearDown(): void {
 		$this->previewService->deleteAll();
+		parent::tearDown();
 	}
 
 	public function testGetAvailableFileIds(): void {

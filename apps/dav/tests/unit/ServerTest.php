@@ -14,10 +14,10 @@ use OCP\IRequest;
 /**
  * Class ServerTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\Unit
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ServerTest extends \Test\TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('providesUris')]

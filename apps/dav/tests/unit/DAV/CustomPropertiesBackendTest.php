@@ -25,9 +25,7 @@ use Sabre\DAVACL\IACL;
 use Sabre\DAVACL\IPrincipal;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CustomPropertiesBackendTest extends TestCase {
 	private const BASE_URI = '/remote.php/dav/';
 

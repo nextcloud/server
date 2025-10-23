@@ -31,29 +31,16 @@ use Test\TestCase;
  * Unit tests for \OC\Core\Service\LoginFlowV2Service
  */
 class LoginFlowV2ServiceUnitTest extends TestCase {
-	/** @var IConfig */
-	private $config;
 
-	/** @var ICrypto */
-	private $crypto;
+	private LoginFlowV2Service $subjectUnderTest;
 
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var LoginFlowV2Mapper */
-	private $mapper;
-
-	/** @var ISecureRandom */
-	private $secureRandom;
-
-	/** @var LoginFlowV2Service */
-	private $subjectUnderTest;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var \OC\Authentication\Token\IProvider */
-	private $tokenProvider;
+	private IConfig&MockObject $config;
+	private ICrypto&MockObject $crypto;
+	private LoggerInterface&MockObject $logger;
+	private LoginFlowV2Mapper&MockObject $mapper;
+	private ISecureRandom&MockObject $secureRandom;
+	private ITimeFactory&MockObject $timeFactory;
+	private IProvider&MockObject $tokenProvider;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -265,10 +252,10 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		$this->config->expects($this->exactly(1))
 			->method('getSystemValue')
-			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+			->willReturnCallback(function ($key) use ($allowedClients) {
 				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
 				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
-			}));
+			});
 
 		$loginFlowV2 = new LoginFlowV2();
 		$loginFlowV2->setClientName('Rogue Curl Client/1.0');
@@ -291,10 +278,10 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		$this->config->expects($this->exactly(1))
 			->method('getSystemValue')
-			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+			->willReturnCallback(function ($key) use ($allowedClients) {
 				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
 				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
-			}));
+			});
 
 		$this->mapper->expects($this->once())
 			->method('getByLoginToken')
@@ -444,10 +431,10 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	public function testCreateTokens(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->willReturn($this->returnCallback(function ($key) {
+			->willReturnCallback(function ($key) {
 				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
 				return $key == 'openssl' ? [] : '';
-			}));
+			});
 
 		$this->mapper->expects($this->once())
 			->method('insert');

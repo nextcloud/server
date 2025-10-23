@@ -19,10 +19,10 @@ use Test\TestCase;
 /**
  * Class ExpressionBuilderTest
  *
- * @group DB
  *
  * @package Test\DB\QueryBuilder
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExpressionBuilderTest extends TestCase {
 	/** @var ExpressionBuilder */
 	protected $expressionBuilder;

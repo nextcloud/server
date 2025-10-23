@@ -28,10 +28,10 @@ use Test\TestCase;
 /**
  * Class DecryptAllTest
  *
- * @group DB
  *
  * @package Test\Encryption
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DecryptAllTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private Manager&MockObject $encryptionManager;

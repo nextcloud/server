@@ -19,9 +19,8 @@ use OCP\Share\IShare;
 
 /**
  * Class ShareTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareTest extends TestCase {
 	public const TEST_FOLDER_NAME = '/folder_share_api_test';
 

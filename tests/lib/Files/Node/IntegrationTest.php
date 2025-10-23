@@ -26,10 +26,10 @@ use Test\Traits\UserTrait;
 /**
  * Class IntegrationTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class IntegrationTest extends \Test\TestCase {
 	use UserTrait;
 

@@ -43,12 +43,11 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\Traits\EmailValidatorTrait;
 
+// TODO: convert to real integration tests
 /**
  * Class ApiTest
- *
- * @group DB
- * TODO: convert to real integration tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ApiTest extends TestCase {
 	use EmailValidatorTrait;
 
@@ -217,9 +216,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	/**
-	 * @group RoutingWeirdness
-	 */
+	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 	public function testCreateShareLink(): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, Constants::PERMISSION_ALL, IShare::TYPE_LINK);
@@ -242,10 +239,8 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	/**
-	 * @group RoutingWeirdness
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataAllowFederationOnPublicShares')]
+	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 	public function testCreateShareLinkPublicUpload(array $appConfig, int $permissions): void {
 		$this->appConfig->method('getValueBool')
 			->willReturnMap([$appConfig]);
@@ -441,8 +436,8 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @group RoutingWeirdness
 	 */
+	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 	public function testPublicLinkUrl(): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, Constants::PERMISSION_ALL, IShare::TYPE_LINK);
@@ -489,9 +484,9 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShareUserFile
-	 * @depends testCreateShareLink
 	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareLink')]
 	public function testGetShareFromSource(): void {
 		$node = $this->userFolder->get($this->filename);
 		$share = $this->shareManager->newShare();
@@ -522,9 +517,9 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShareUserFile
-	 * @depends testCreateShareLink
 	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareLink')]
 	public function testGetShareFromSourceWithReshares(): void {
 		$node = $this->userFolder->get($this->filename);
 		$share1 = $this->shareManager->newShare();
@@ -564,8 +559,8 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShareUserFile
 	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
 	public function testGetShareFromId(): void {
 		$node = $this->userFolder->get($this->filename);
 		$share1 = $this->shareManager->newShare();
@@ -958,9 +953,9 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShareUserFile
-	 * @depends testCreateShareLink
 	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareLink')]
 	public function testUpdateShare(): void {
 		$password = md5(time());
 
@@ -1135,8 +1130,8 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShareUserFile
 	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
 	public function testDeleteShare(): void {
 		$node1 = $this->userFolder->get($this->filename);
 		$share1 = $this->shareManager->newShare();
@@ -1323,10 +1318,9 @@ class ApiTest extends TestCase {
 
 	/**
 	 * Make sure only ISO 8601 dates are accepted
-	 *
-	 * @group RoutingWeirdness
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('datesProvider')]
+	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 	public function testPublicLinkExpireDate($date, $valid): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 
@@ -1356,9 +1350,7 @@ class ApiTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	/**
-	 * @group RoutingWeirdness
-	 */
+	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 	public function testCreatePublicLinkExpireDateValid(): void {
 		$config = Server::get(IConfig::class);
 

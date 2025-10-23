@@ -19,10 +19,10 @@ use OCP\Server;
 /**
  * Class LocalTest
  *
- * @group DB
  *
  * @package Test\Files\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LocalTest extends Storage {
 	/**
 	 * @var string tmpDir

@@ -17,9 +17,7 @@ use OC\DB\Adapter;
 use OC\DB\Connection;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ConnectionTest extends TestCase {
 
 	public function testSingleNodeConnectsToPrimaryOnly(): void {

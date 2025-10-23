@@ -11,9 +11,7 @@ use OC\Files\ObjectStore\Azure;
 use OCP\IConfig;
 use OCP\Server;
 
-/**
- * @group PRIMARY-azure
- */
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-azure')]
 class AzureTest extends ObjectStoreTestCase {
 	protected function getInstance() {
 		$config = Server::get(IConfig::class)->getSystemValue('objectstore');

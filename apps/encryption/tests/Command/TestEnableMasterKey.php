@@ -19,6 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class TestEnableMasterKey extends TestCase {
+	public function __construct() {
+		parent::__construct(static::class);
+	}
 	protected EnableMasterKey $enableMasterKey;
 	protected Util&MockObject $util;
 	protected IAppConfig&MockObject $config;

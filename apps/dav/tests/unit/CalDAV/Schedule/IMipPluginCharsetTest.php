@@ -175,7 +175,7 @@ class IMipPluginCharsetTest extends TestCase {
 			->with('core', 'mail_providers_enabled', true)
 			->willReturn(true);
 		$mailMessage = new MailProviderMessage();
-		$mailService = $this->createStubForIntersectionOfInterfaces([IService::class, IMessageSend::class]);
+		$mailService = $this->createMockForIntersectionOfInterfaces([IService::class, IMessageSend::class]);
 		$mailService->method('initiateMessage')
 			->willReturn($mailMessage);
 		$mailService->expects(self::once())

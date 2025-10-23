@@ -39,7 +39,6 @@ class FilenameValidatorTest extends TestCase {
 		$this->l10n = $this->createMock(IFactory::class);
 		$this->l10n
 			->method('get')
-			->with('core')
 			->willReturn($l10n);
 
 		$this->config = $this->createMock(IConfig::class);

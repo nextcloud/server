@@ -25,10 +25,10 @@ use Test\TestCase;
 /**
  * Class UserPreferencesTest
  *
- * @group DB
  *
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LexiconTest extends TestCase {
 	/** @var AppConfig */
 	private IAppConfig $appConfig;

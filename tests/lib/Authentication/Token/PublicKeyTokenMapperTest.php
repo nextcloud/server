@@ -18,9 +18,7 @@ use OCP\IUser;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PublicKeyTokenMapperTest extends TestCase {
 	/** @var PublicKeyTokenMapper */
 	private $mapper;

@@ -21,10 +21,10 @@ use OCP\Server;
 /**
  * Class UpdaterLegacyTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UpdaterLegacyTest extends \Test\TestCase {
 	/**
 	 * @var Storage $storage

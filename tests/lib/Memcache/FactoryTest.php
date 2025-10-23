@@ -51,9 +51,7 @@ class Test_Factory_Unavailable_Cache2 extends NullCache {
 	}
 }
 
-/**
- * @group Memcache
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
 class FactoryTest extends \Test\TestCase {
 	public const AVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Available_Cache1';
 	public const AVAILABLE2 = '\\Test\\Memcache\\Test_Factory_Available_Cache2';

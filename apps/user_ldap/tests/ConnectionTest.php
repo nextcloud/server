@@ -16,10 +16,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class Test_Connection
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ConnectionTest extends \Test\TestCase {
 	protected ILDAPWrapper&MockObject $ldap;
 	protected Connection $connection;

@@ -74,8 +74,8 @@ class DummyShareManagerListener {
  * Class ManagerTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends \Test\TestCase {
 	/** @var Manager */
 	protected $manager;

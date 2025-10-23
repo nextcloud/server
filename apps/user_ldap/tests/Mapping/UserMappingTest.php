@@ -17,10 +17,10 @@ use OCP\Support\Subscription\IAssertion;
 /**
  * Class UserMappingTest
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\Mapping
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserMappingTest extends AbstractMappingTestCase {
 	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): UserMapping {
 		return new UserMapping($dbMock, $cacheFactory, $appConfig, true, $this->createMock(IAssertion::class));
