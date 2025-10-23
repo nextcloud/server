@@ -95,11 +95,8 @@ This file is generated from multiple sources. Included packages:
 - @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0
-- @nextcloud/browser-storage
-	- version: 0.4.0
-	- license: GPL-3.0-or-later
 - @nextcloud/auth
-	- version: 2.5.2
+	- version: 2.5.3
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.2
@@ -114,7 +111,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.3.2
+	- version: 6.4.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.2
