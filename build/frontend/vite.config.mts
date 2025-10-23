@@ -44,6 +44,7 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 					strictExecutionOrder: true,
 				},
 				output: {
+					minify: false,
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
 					assetFileNames({ originalFileNames }) {
