@@ -8,7 +8,9 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Config\IUserConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -34,6 +36,8 @@ class Manager {
 
 	public function __construct(
 		protected IConfig $ocConfig,
+		protected IUserConfig $userConfig,
+		protected IAppConfig $appConfig,
 		protected LoggerInterface $logger,
 		protected IAvatarManager $avatarManager,
 		protected Image $image,
@@ -63,7 +67,7 @@ class Manager {
 	 */
 	private function createAndCache($dn, $uid) {
 		$this->checkAccess();
-		$user = new User($uid, $dn, $this->access, $this->ocConfig,
+		$user = new User($uid, $dn, $this->access, $this->ocConfig, $this->userConfig, $this->appConfig,
 			clone $this->image, $this->logger,
 			$this->avatarManager, $this->userManager,
 			$this->notificationManager);
