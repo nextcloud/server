@@ -35,9 +35,6 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 		build: {
 			outDir: 'dist',
 			rollupOptions: {
-				experimental: {
-					strictExecutionOrder: true,
-				},
 				output: {
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
@@ -49,6 +46,8 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 						}
 						return '[name]-[hash][extname]'
 					},
+					experimentalMinChunkSize: 100 * 1024,
+					/* // with rolldown-vite:
 					advancedChunks: {
 						groups: [
 							// one group for common dependencies
@@ -68,6 +67,11 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 						minSize: 100 * 1024,
 						maxSize: 800 * 1024,
 					},
+				},
+				experimental: {
+					strictExecutionOrder: true,
+				},
+					*/
 				},
 			},
 		},
