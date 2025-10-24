@@ -31,6 +31,7 @@ class PhpModules implements ISetupCheck {
 		'zlib',
 	];
 	protected const RECOMMENDED_MODULES = [
+		'apcu',
 		'exif',
 		'gmp',
 		'intl',

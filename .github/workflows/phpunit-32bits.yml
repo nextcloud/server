@@ -5,9 +5,10 @@ name: PHPUnit 32bits
 on:
   pull_request:
     paths:
-      - 'version.php'
-      - '.github/workflows/phpunit-32bits.yml'
-      - 'tests/phpunit-autotest.xml'
+      - "version.php"
+      - ".github/workflows/phpunit-32bits.yml"
+      - "tests/phpunit-autotest.xml"
+      - "lib/private/Snowflake/*"
   workflow_dispatch:
   schedule:
     - cron: "15 1 * * 1-6"
@@ -30,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.3', '8.4']
+        php-versions: ["8.2", "8.3", "8.4"]
 
     steps:
       - name: Checkout server
@@ -51,8 +52,7 @@ jobs:
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite, apcu, ldap
           coverage: none
           ini-file: development
-          ini-values:
-            apc.enabled=on, apc.enable_cli=on, disable_functions= # https://github.com/shivammathur/setup-php/discussions/573
+          ini-values: apc.enabled=on, apc.enable_cli=on, disable_functions= # https://github.com/shivammathur/setup-php/discussions/573
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
