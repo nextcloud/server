@@ -54,7 +54,7 @@ OC.L10N.register(
     "Images" : "圖片",
     "Office documents" : "Microsoft Office 文件",
     "PDF documents" : "PDF 文件",
-    "Video" : "影片",
+    "Video" : "視像",
     "Custom MIME type" : "自訂 MIME 類型",
     "Custom mimetype" : "自訂 mimetype",
     "Select a file type" : "選擇檔案類型",
