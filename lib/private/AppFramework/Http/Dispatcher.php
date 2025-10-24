@@ -222,6 +222,9 @@ class Dispatcher {
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
 			$format = $this->request->getFormat();
+			if ($format !== null && !$controller->isResponderRegistered($format)) {
+				$format = null;
+			}
 
 			if ($format !== null) {
 				$response = $controller->buildResponse($response, $format);
