@@ -36,7 +36,7 @@ interface IManager {
 	public function edit(string $token): Response;
 
 	/**
-	 * Create a new token based on the file path and editor details
+	 * Create a file and generate a token based on the file path and editor details
 	 *
 	 * @since 18.0.0
 	 * @param string $path
@@ -48,6 +48,19 @@ interface IManager {
 	 * @throws RuntimeException
 	 */
 	public function create(string $path, string $editorId, string $creatorId, $templateId = null): string;
+
+	/**
+	 * Create a token based on an existing file path and editor details
+	 *
+	 * @since 33.0.0
+	 * @param string $filePath
+	 * @param string|null $editorId
+	 * @param int|null $fileId
+	 * @return string
+	 * @throws NotPermittedException
+	 * @throws RuntimeException
+	 */
+	public function open(string $filePath, ?string $editorId = null, ?int $fileId = null): string;
 
 	/**
 	 * Get the token details for a given token
