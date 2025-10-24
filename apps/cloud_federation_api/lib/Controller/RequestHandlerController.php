@@ -106,6 +106,9 @@ class RequestHandlerController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
+		if ($resourceType === 'folder') {
+			$resourceType = 'file';
+		}
 		try {
 			// if request is signed and well signed, no exception are thrown
 			// if request is not signed and host is known for not supporting signed request, no exception are thrown
