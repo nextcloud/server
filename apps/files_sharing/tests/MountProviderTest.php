@@ -11,6 +11,7 @@ use OC\Share20\Share;
 use OCA\Files_Sharing\MountProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -55,8 +56,9 @@ class MountProviderTest extends \Test\TestCase {
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createLocal')
 			->willReturn(new NullCache());
+		$mountManager = $this->createMock(IMountManager::class);
 
-		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger, $eventDispatcher, $cacheFactory);
+		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger, $eventDispatcher, $cacheFactory, $mountManager);
 	}
 
 	private function makeMockShareAttributes($attrs) {
