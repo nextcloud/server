@@ -9,6 +9,7 @@ namespace OC\Share20;
 
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\SetupManager;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
@@ -39,6 +40,7 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
+use OCP\Server;
 use OCP\Share;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareAcceptedEvent;
@@ -91,6 +93,12 @@ class Manager implements IManager {
 		// The constructor of LegacyHooks registers the listeners of share events
 		// do not remove if those are not properly migrated
 		$this->legacyHooks = new LegacyHooks($this->dispatcher);
+
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			// The VerifyMountPointEvent is required for Talk and Deck, so an explicit FS setup is required for sharing.
+			Server::get(SetupManager::class)->setupForUser($user);
+		}
 	}
 
 	/**
