@@ -15,6 +15,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\HTTP\RequestInterface;
 use Test\TestCase;
 
+enum ERROR_TYPE {
+	case MIN_ERROR;
+	case MAX_ERROR;
+	case NONE;
+}
+
 /**
  * Class BlockLegacyClientPluginTest
  *
@@ -33,19 +39,38 @@ class BlockLegacyClientPluginTest extends TestCase {
 		$this->blockLegacyClientVersionPlugin = new BlockLegacyClientPlugin($this->config);
 	}
 
-	public function oldDesktopClientProvider(): array {
+	public static function oldDesktopClientProvider(): array {
 		return [
-			['Mozilla/5.0 (Windows) mirall/1.5.0'],
-			['Mozilla/5.0 (Bogus Text) mirall/1.6.9'],
+			['Mozilla/5.0 (Windows) mirall/1.5.0', ERROR_TYPE::MIN_ERROR],
+			['Mozilla/5.0 (Bogus Text) mirall/1.6.9', ERROR_TYPE::MIN_ERROR],
+			['Mozilla/5.0 (Windows) mirall/2.5.0', ERROR_TYPE::MAX_ERROR],
+			['Mozilla/5.0 (Bogus Text) mirall/2.0.1', ERROR_TYPE::MAX_ERROR],
+			['Mozilla/5.0 (Windows) mirall/2.0.0', ERROR_TYPE::NONE],
+			['Mozilla/5.0 (Bogus Text) mirall/2.0.0', ERROR_TYPE::NONE],
 		];
 	}
 
 	/**
 	 * @dataProvider oldDesktopClientProvider
 	 */
-	public function testBeforeHandlerException(string $userAgent): void {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
-		$this->expectExceptionMessage('Unsupported client version.');
+	public function testBeforeHandlerException(string $userAgent, ERROR_TYPE $errorType): void {
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnCallback(function (string $key) {
+				if ($key === 'minimum.supported.desktop.version') {
+					return '1.7.0';
+				}
+				return '2.0.0';
+			});
+
+		if ($errorType !== ERROR_TYPE::NONE) {
+			$errorString = $errorType === ERROR_TYPE::MIN_ERROR
+			? 'This version of the client is unsupported. Upgrade to version 1.7.0 or later.'
+			: 'This version of the client is unsupported. Downgrade to version 2.0.0 or earlier.';
+			$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+			$this->expectExceptionMessage($errorString);
+		}
 
 		/** @var RequestInterface|MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
@@ -55,20 +80,50 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->with('User-Agent')
 			->willReturn($userAgent);
 
+		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
+	}
+
+	/**
+	 * Ensure that there is no room for XSS attack through configured URL / version
+	 * @dataProvider oldDesktopClientProvider
+	 */
+	public function testBeforeHandlerExceptionPreventXSSAttack(string $userAgent, ERROR_TYPE $errorType): void {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnCallback(function (string $key) {
+				if ($key === 'minimum.supported.desktop.version') {
+					return '1.7.0 <script>alert("unsafe")</script>';
+				}
+				return '2.0.0 <script>alert("unsafe")</script>';
+			});
+
+		$errorString = $errorType === ERROR_TYPE::MIN_ERROR
+			? 'This version of the client is unsupported. Upgrade to version 1.7.0 &lt;script&gt;alert(&quot;unsafe&quot;)&lt;/script&gt; or later.'
+			: 'This version of the client is unsupported. Downgrade to version 2.0.0 &lt;script&gt;alert(&quot;unsafe&quot;)&lt;/script&gt; or earlier.';
+		$this->expectExceptionMessage($errorString);
+
+		/** @var RequestInterface|MockObject $request */
+		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
+		$request
 			->expects($this->once())
-			->method('getSystemValue')
-			->with('minimum.supported.desktop.version', '2.3.0')
-			->willReturn('1.7.0');
+			->method('getHeader')
+			->with('User-Agent')
+			->willReturn($userAgent);
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 
-	public function newAndAlternateDesktopClientProvider(): array {
+	public static function newAndAlternateDesktopClientProvider(): array {
 		return [
 			['Mozilla/5.0 (Windows) mirall/1.7.0'],
 			['Mozilla/5.0 (Bogus Text) mirall/1.9.3'],
 			['Mozilla/5.0 (Not Our Client But Old Version) LegacySync/1.1.0'],
+			['Mozilla/5.0 (Windows) mirall/4.7.0'],
+			['Mozilla/5.0 (Bogus Text) mirall/3.9.3'],
+			['Mozilla/5.0 (Not Our Client But Old Version) LegacySync/45.0.0'],
 		];
 	}
 
@@ -85,10 +140,14 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->willReturn($userAgent);
 
 		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('minimum.supported.desktop.version', '2.3.0')
-			->willReturn('1.7.0');
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnCallback(function (string $key) {
+				if ($key === 'minimum.supported.desktop.version') {
+					return '1.7.0';
+				}
+				return '10.0.0';
+			});
 
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
@@ -101,6 +160,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 			->method('getHeader')
 			->with('User-Agent')
 			->willReturn(null);
+
 		$this->blockLegacyClientVersionPlugin->beforeHandler($request);
 	}
 }
