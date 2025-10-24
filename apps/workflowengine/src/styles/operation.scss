@@ -59,6 +59,9 @@ small {
 	h3, small {
 		color: var(--color-primary-element-text)
 	}
+	.icon:not(.icon-invert) {
+		filter: invert(100%);
+	}
 }
 
 .actions__item:not(.colored) {
@@ -82,6 +85,3 @@ small {
 	}
 }
 
-.colored .icon-invert {
-	filter: var(--background-invert-if-bright);
-}
