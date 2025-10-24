@@ -30,7 +30,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		return (nodes[0].permissions & Permission.UPDATE) !== 0
+		return isSyncable(nodes[0])
 	},
 
 	async exec(node: Node) {
