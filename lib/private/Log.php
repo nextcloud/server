@@ -158,7 +158,7 @@ class Log implements ILogger, IDataLogger {
 			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
-		array_walk($context, [$this->normalizer, 'format']);
+		$context = array_map($this->normalizer->format(...), $context);
 
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
