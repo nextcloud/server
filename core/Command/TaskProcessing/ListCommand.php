@@ -51,7 +51,7 @@ class ListCommand extends Base {
 				'status',
 				's',
 				InputOption::VALUE_OPTIONAL,
-				'only get the tasks that have a specific status (STATUS_UNKNOWN=0, STATUS_SCHEDULED=1, STATUS_RUNNING=2, STATUS_SUCCESSFUL=3, STATUS_FAILED=4, STATUS_CANCELLED=5)'
+				'only get the tasks that have a specific status (STATUS_UNKNOWN=0, STATUS_SCHEDULED=1, STATUS_RUNNING=2, STATUS_SUCCESSFUL=3, STATUS_FAILED=4, STATUS_CANCELLED=5)',
 			)
 			->addOption(
 				'scheduledAfter',
@@ -78,9 +78,9 @@ class ListCommand extends Base {
 		$type = $input->getOption('type');
 		$appId = $input->getOption('appId');
 		$customId = $input->getOption('customId');
-		$status = $input->getOption('status');
-		$scheduledAfter = $input->getOption('scheduledAfter');
-		$endedBefore = $input->getOption('endedBefore');
+		$status = $input->getOption('status') !== null ? (int)$input->getOption('status') : null;
+		$scheduledAfter = $input->getOption('scheduledAfter') != null ? (int)$input->getOption('scheduledAfter') : null;
+		$endedBefore = $input->getOption('endedBefore') !== null ? (int)$input->getOption('endedBefore') : null;
 
 		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore);
 		$arrayTasks = array_map(static function (Task $task) {
