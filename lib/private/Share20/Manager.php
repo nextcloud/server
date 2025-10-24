@@ -1413,7 +1413,7 @@ class Manager implements IManager {
 		}
 		$share = null;
 		try {
-			if ($this->shareApiAllowLinks()) {
+			if ($this->shareApiAllowLinks(checkGroupExclusion: false)) {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
@@ -1742,19 +1742,22 @@ class Manager implements IManager {
 	/**
 	 * Is public link sharing enabled
 	 *
+	 * @param bool $checkGroupExclusion Whether to check the current user's group exclusions
 	 * @return bool
 	 */
-	public function shareApiAllowLinks() {
+	public function shareApiAllowLinks(bool $checkGroupExclusion = true) {
 		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
 		}
 
-		$user = $this->userSession->getUser();
-		if ($user) {
-			$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
-			if ($excludedGroups) {
-				$userGroups = $this->groupManager->getUserGroupIds($user);
-				return !(bool)array_intersect($excludedGroups, $userGroups);
+		if ($checkGroupExclusion) {
+			$user = $this->userSession->getUser();
+			if ($user) {
+				$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
+				if ($excludedGroups) {
+					$userGroups = $this->groupManager->getUserGroupIds($user);
+					return !(bool)array_intersect($excludedGroups, $userGroups);
+				}
 			}
 		}
 
