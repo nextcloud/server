@@ -162,6 +162,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
         'OCP\\AppFramework\\Http\\Response' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Response.php',
         'OCP\\AppFramework\\Http\\StandaloneTemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StandaloneTemplateResponse.php',
+        'OCP\\AppFramework\\Http\\StreamGeneratorResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamGeneratorResponse.php',
         'OCP\\AppFramework\\Http\\StreamResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamResponse.php',
         'OCP\\AppFramework\\Http\\StrictContentSecurityPolicy' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StrictContentSecurityPolicy.php',
         'OCP\\AppFramework\\Http\\StrictEvalContentSecurityPolicy' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StrictEvalContentSecurityPolicy.php',
