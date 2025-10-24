@@ -90,10 +90,11 @@ export async function dataTransferToFileTree(items: DataTransferItem[]): Promise
 }
 
 /**
+ * Handle dropping external files
  *
- * @param root
- * @param destination
- * @param contents
+ * @param root - The root directory which should be uploaded
+ * @param destination - The destination folder
+ * @param contents - The contents of the destination folder
  */
 export async function onDropExternalFiles(root: RootDirectory, destination: Folder, contents: Node[]): Promise<Upload[]> {
 	const uploader = getUploader()
@@ -101,9 +102,11 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 	// Check for conflicts on root elements
 	if (await hasConflict(root.contents, contents)) {
 		root.contents = await resolveConflict(root.contents, destination, contents)
-	}
-
-	if (root.contents.length === 0) {
+		if (root.contents.length === 0) {
+			// user cancelled the upload
+			return []
+		}
+	} else if (root.contents.length === 0) {
 		logger.info('No files to upload', { root })
 		showInfo(t('files', 'No files to upload'))
 		return []
