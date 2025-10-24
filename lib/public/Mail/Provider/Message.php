@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Mail\Provider;
 
+use JsonSerializable;
+use OCP\Json\JsonDeserializable;
+
 /**
  * Mail Message Object
  *
@@ -16,7 +19,7 @@ namespace OCP\Mail\Provider;
  * @since 30.0.0
  *
  */
-class Message implements \OCP\Mail\Provider\IMessage {
+class Message implements IMessage, JsonSerializable, JsonDeserializable {
 
 	/**
 	 * initialize the mail message object
@@ -28,6 +31,64 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	public function __construct(
 		protected array $data = [],
 	) {
+	}
+
+	/**
+	 * export this objects data as an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @return array representation of this object as an array
+	 */
+	public function jsonSerialize(): array {
+		$data = $this->data;
+		$data['bodyHtml'] = base64_encode($this->data['bodyHtml'] ?? '');
+		$data['bodyPlain'] = base64_encode($this->data['bodyPlain'] ?? '');
+		$data['subject'] = base64_encode($this->data['subject'] ?? '');
+		return $data;
+	}
+
+	/**
+	 * import this objects data from an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @param array array representation of this object
+	 */
+	public function jsonDeserialize(array $data): void {
+		$this->data = $data;
+		// decode encoded fields
+		$this->data['bodyHtml'] = base64_decode($data['bodyHtml'] ?? '');
+		$this->data['bodyPlain'] = base64_decode($data['bodyPlain'] ?? '');
+		$this->data['subject'] = base64_decode($data['subject'] ?? '');
+		//  convert object fields
+		foreach (['from', 'replyTo'] as $field) {
+			if (isset($data[$field]) && is_array($data[$field])) {
+				$address = new Address();
+				$address->jsonDeserialize($data[$field]);
+				$this->data[$field] = $address;
+			} else {
+				$this->data[$field] = null;
+			}
+		}
+		foreach (['to', 'cc', 'bcc', 'attachments'] as $field) {
+			$this->data[$field] = [];
+			if (isset($data[$field]) && is_array($data[$field])) {
+				foreach ($data[$field] as $item) {
+					if (is_array($item)) {
+						if ($field === 'attachments') {
+							$attachment = new Attachment(null, null, null);
+							$attachment->jsonDeserialize($item);
+							$this->data[$field][] = $attachment;
+						} else {
+							$address = new Address();
+							$address->jsonDeserialize($item);
+							$this->data[$field][] = $address;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
