@@ -463,6 +463,20 @@ export default {
 		},
 
 		/**
+		 * Filter suggestion results based on trusted server configuration
+		 *
+		 * @param {object} result The raw suggestion result from API
+		 * @return {boolean} Whether to include this result in suggestions
+		 */
+		filterByTrustedServer(result) {
+			const isRemoteEntity = result.value.shareType === ShareType.Remote || result.value.shareType === ShareType.RemoteGroup
+			if (isRemoteEntity && this.config.showFederatedSharesToTrustedServersAsInternal) {
+				return result.value.isTrustedServer === true
+			}
+			return true
+		},
+
+		/**
 		 * Format shares for the multiselect options
 		 *
 		 * @param {object} result select entry item
