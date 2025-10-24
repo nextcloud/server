@@ -363,30 +363,43 @@ class Database extends ABackend implements
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('g.uid', 'u.displayname');
+		$query->select('g.uid', 'dn.value AS displayname');
 
 		$query->from('group_user', 'g')
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
 			->orderBy('g.uid', 'ASC');
 
-		$query->leftJoin('g', 'users', 'u', $query->expr()->eq('g.uid', 'u.uid'));
+		// Join displayname and email from oc_accounts_data
+		$query->leftJoin('g', 'accounts_data', 'dn',
+			$query->expr()->andX(
+				$query->expr()->eq('dn.uid', 'g.uid'),
+				$query->expr()->eq('dn.name', $query->expr()->literal('displayname'))
+			)
+		);
+
+		$query->leftJoin('g', 'accounts_data', 'em',
+			$query->expr()->andX(
+				$query->expr()->eq('em.uid', 'g.uid'),
+				$query->expr()->eq('em.name', $query->expr()->literal('email'))
+			)
+		);
 
 		if ($search !== '') {
-			$query->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
-				$query->expr()->eq('p.userid', 'u.uid'),
-				$query->expr()->eq('p.appid', $query->expr()->literal('settings')),
-				$query->expr()->eq('p.configkey', $query->expr()->literal('email'))
-			))
-				// sqlite doesn't like re-using a single named parameter here
-				->andWhere(
-					$query->expr()->orX(
-						$query->expr()->ilike('g.uid', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
-						$query->expr()->ilike('u.displayname', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')),
-						$query->expr()->ilike('p.configvalue', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%'))
-					)
+			// sqlite doesn't like re-using a single named parameter here
+			$searchParam1 = $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%');
+			$searchParam2 = $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%');
+			$searchParam3 = $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%');
+
+			$query->andWhere(
+				$query->expr()->orX(
+					$query->expr()->ilike('g.uid', $searchParam1),
+					$query->expr()->ilike('dn.value', $searchParam2),
+					$query->expr()->ilike('em.value', $searchParam3)
 				)
-				->orderBy('u.uid_lower', 'ASC');
+			)
+				->orderBy('g.uid', 'ASC');
 		}
+
 
 		if ($limit !== -1) {
 			$query->setMaxResults($limit);

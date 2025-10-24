@@ -76,7 +76,6 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\Events\CalendarObjectCreatedEvent;
 use OCP\Calendar\Events\CalendarObjectDeletedEvent;
 use OCP\Calendar\Events\CalendarObjectMovedEvent;
@@ -90,6 +89,7 @@ use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Server;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
@@ -243,7 +243,7 @@ class Application extends App implements IBootstrap {
 		$context->injectFn($this->registerCloudFederationProvider(...));
 	}
 
-	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
+	public function registerContactsManager(IContactsManager $cm, ContainerInterface $container): void {
 		$cm->register(function () use ($container, $cm): void {
 			$user = Server::get(IUserSession::class)->getUser();
 			if (!is_null($user)) {
@@ -255,23 +255,21 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function setupContactsProvider(IContactsManager $contactsManager,
-		IAppContainer $container,
+		ContainerInterface $container,
 		string $userID): void {
-		/** @var ContactsManager $cm */
-		$cm = $container->query(ContactsManager::class);
-		$urlGenerator = $container->getServer()->getURLGenerator();
+		$cm = $container->get(ContactsManager::class);
+		$urlGenerator = $container->get(IURLGenerator::class);
 		$cm->setupContactsProvider($contactsManager, $userID, $urlGenerator);
 	}
 
-	private function setupSystemContactsProvider(IContactsManager $contactsManager, IAppContainer $container): void {
-		/** @var ContactsManager $cm */
-		$cm = $container->query(ContactsManager::class);
-		$urlGenerator = $container->getServer()->getURLGenerator();
+	private function setupSystemContactsProvider(IContactsManager $contactsManager, ContainerInterface $container): void {
+		$cm = $container->get(ContactsManager::class);
+		$urlGenerator = $container->get(IURLGenerator::class);
 		$cm->setupSystemContactsProvider($contactsManager, null, $urlGenerator);
 	}
 
 	public function registerCalendarManager(ICalendarManager $calendarManager,
-		IAppContainer $container): void {
+		ContainerInterface $container): void {
 		$calendarManager->register(function () use ($container, $calendarManager): void {
 			$user = Server::get(IUserSession::class)->getUser();
 			if ($user !== null) {
@@ -281,9 +279,9 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function setupCalendarProvider(ICalendarManager $calendarManager,
-		IAppContainer $container,
-		$userId) {
-		$cm = $container->query(CalendarManager::class);
+		ContainerInterface $container,
+		$userId): void {
+		$cm = $container->get(CalendarManager::class);
 		$cm->setupCalendarProvider($calendarManager, $userId);
 	}
 

@@ -42,6 +42,8 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 			['[::1]'],
 			['[::]'],
 			['192.168.0.1'],
+			['127.0.0.1'],
+			['127.0.0.13'], // all 127.0.0.0/8 network is loopback address
 			['172.16.42.1'],
 			['[fdf8:f53b:82e4::53]'],
 			['[fe80::200:5aee:feaa:20a2]'],

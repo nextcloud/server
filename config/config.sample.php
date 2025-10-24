@@ -42,8 +42,6 @@ $CONFIG = [
 	 * automatically by the installer. This example is for documentation only,
 	 * and you should never use it because it will not work. A valid ``instanceid``
 	 * is created when you install Nextcloud.
-	 *
-	 * 'instanceid' => 'd3c944a9a',
 	 */
 	'instanceid' => '',
 
@@ -53,10 +51,8 @@ $CONFIG = [
 	 * all your passwords. This example is for documentation only, and you should
 	 * never use it.
 	 *
-	 * @deprecated This salt is deprecated and only used for legacy-compatibility,
+	 * @deprecated 9.0.0 This salt is deprecated and only used for legacy-compatibility,
 	 * developers should *NOT* use this value for anything nowadays.
-	 *
-	 * 'passwordsalt' => 'd3c944a9af095aa08f',
 	 */
 	'passwordsalt' => '',
 
@@ -70,15 +66,13 @@ $CONFIG = [
 	 * Your list of trusted domains that users can log into. Specifying trusted
 	 * domains prevents host header poisoning. Do not remove this, as it performs
 	 * necessary security checks.
+	 *
 	 * You can specify:
 	 *
-	 * - The exact hostname of your host or virtual host, e.g., demo.example.org.
-	 * - The exact hostname with permitted port, e.g., demo.example.org:443.
-	 *   This disallows all other ports on this host
-	 * - Use * as a wildcard, e.g., ubos-raspberry-pi*.local will allow
-	 *   ubos-raspberry-pi.local and ubos-raspberry-pi-2.local
-	 * - The IP address with or without permitted port, e.g., [2001:db8::1]:8080
-	 *   Using TLS certificates where commonName=<IP address> is deprecated
+	 * - The exact hostname of your host or virtual host, e.g. ``demo.example.org``.
+	 * - The exact hostname with permitted port, e.g. ``demo.example.org:443``. This disallows all other ports on this host
+	 * - Use ``*`` as a wildcard, e.g., ``ubos-raspberry-pi*.local`` will allow ``ubos-raspberry-pi.local`` and ``ubos-raspberry-pi-2.local``
+	 * - The IP address with or without permitted port, e.g. ``[2001:db8::1]:8080`` Using TLS certificates where ``commonName=<IP address>`` is deprecated
 	 */
 	'trusted_domains' => [
 		'demo.example.org',
@@ -88,11 +82,11 @@ $CONFIG = [
 	],
 
 	/**
-	 * The validity domain for cookies, for example '' (cookies will be sent only
-	 * the domain that defined it, e.g. 'demo.example.org'), 'demo.example.org'
+	 * The validity domain for cookies, for example ``''`` (cookies will be sent only
+	 * the domain that defined it, e.g. ``'demo.example.org'``), ``'demo.example.org'``
 	 * (cookies will be valid for the domain and all subdomains), ...
 	 *
-	 * Defaults to '' (safe option)
+	 * Defaults to ``''`` (safe option)
 	 */
 	'cookie_domain' => '',
 
@@ -160,7 +154,7 @@ $CONFIG = [
 
 	/**
 	 * Enable persistent connections to the database.
-	 * This setting uses the "persistent" option from Doctrine DBAL, which in turn
+	 * This setting uses the ``persistent`` option from Doctrine DBAL, which in turn
 	 * uses the PDO::ATTR_PERSISTENT option from the PDO driver.
 	 */
 	'dbpersistent' => '',
@@ -204,9 +198,9 @@ $CONFIG = [
 	 * not send any language, and the user hasn’t configured their own language
 	 * preferences.
 	 *
-	 * Nextcloud has two distinguished language codes for German, 'de' and 'de_DE'.
-	 * 'de' is used for informal German and 'de_DE' for formal German. By setting
-	 * this value to 'de_DE', you can enforce the formal version of German unless
+	 * Nextcloud has two distinguished language codes for German, ``de`` and ``de_DE``.
+	 * ``de`` is used for informal German and ``de_DE`` for formal German. By setting
+	 * this value to ``de_DE``, you can enforce the formal version of German unless
 	 * the user has chosen something different explicitly.
 	 *
 	 * Defaults to ``en``
@@ -241,7 +235,7 @@ $CONFIG = [
 	 * language chooser. The languages have to be set as array values using ISO_639-1
 	 * language codes such as ``en`` for English, ``de`` for German, etc.
 	 *
-	 * For example: Set to ['de', 'fr'] to only allow German and French languages.
+	 * For example: Set to ``['de', 'fr']`` to only allow German and French languages.
 	 */
 	'reduce_to_languages' => [],
 
@@ -278,7 +272,8 @@ $CONFIG = [
 
 	/**
 	 * ``true`` enables the Help menu item in the user menu (top right of the
-	 * Nextcloud Web interface). ``false`` removes the Help item.
+	 * Nextcloud Web interface).
+	 * ``false`` removes the Help item.
 	 */
 	'knowledgebaseenabled' => true,
 
@@ -335,8 +330,8 @@ $CONFIG = [
 	/**
 	 * The lifetime of a session after inactivity.
 	 *
-	 * The maximum possible time is limited by the session.gc_maxlifetime php.ini setting
-	 * which would overwrite this option if it is less than the value in the config.php
+	 * The maximum possible time is limited by the ``session.gc_maxlifetime`` php.ini setting
+	 * which would overwrite this option if it is less than the value in the ``config.php``
 	 *
 	 * Defaults to ``60*60*24`` seconds (24 hours)
 	 */
@@ -348,23 +343,23 @@ $CONFIG = [
 	'davstorage.request_timeout' => 30,
 
 	/**
-	 * The timeout in seconds for synchronizing address books, e.g., federated system address books (as run by `occ federation:sync-addressbooks`).
+	 * The timeout in seconds for synchronizing address books, e.g., federated system address books (as run by ``occ federation:sync-addressbooks``).
 	 *
 	 * Defaults to ``30`` seconds
 	 */
 	'carddav_sync_request_timeout' => 30,
 
 	/**
-	 * The limit applied to the synchronization report request, e.g. federated system address books (as run by `occ federation:sync-addressbooks`).
+	 * The limit applied to the synchronization report request, e.g. federated system address books (as run by ``occ federation:sync-addressbooks``).
 	 */
 	'carddav_sync_request_truncation' => 2500,
 
 	/**
-	 * `true` enables a relaxed session timeout, where the session timeout would no longer be
+	 * ``true`` enables a relaxed session timeout, where the session timeout would no longer be
 	 * handled by Nextcloud but by either the PHP garbage collection or the expiration of
 	 * potential other session backends like Redis.
 	 *
-	 * This may lead to sessions being available for longer than what session_lifetime uses but
+	 * This may lead to sessions being available for longer than what ``session_lifetime`` uses but
 	 * comes with performance benefits as sessions are no longer a locking operation for concurrent
 	 * requests.
 	 */
@@ -381,9 +376,10 @@ $CONFIG = [
 	/**
 	 * Enable or disable the automatic logout after session_lifetime, even if session
 	 * keepalive is enabled. This will make sure that an inactive browser will log itself out
-	 * even if requests to the server might extend the session lifetime. Note: the logout is
-	 * handled on the client side. This is not a way to limit the duration of potentially
-	 * compromised sessions.
+	 * even if requests to the server might extend the session lifetime.
+	 *
+	 * NOTE: The logout is handled on the client side. This is not a way to
+	 * limit the duration of potentially compromised sessions.
 	 *
 	 * Defaults to ``false``
 	 */
@@ -413,7 +409,7 @@ $CONFIG = [
 	/**
 	 * Whether the brute force protection shipped with Nextcloud should be enabled or not.
 	 *
-	 * Disabling this is discouraged for security reasons.
+	 * WARNING: Disabling this is discouraged for security reasons.
 	 *
 	 * Defaults to ``true``
 	 */
@@ -457,7 +453,7 @@ $CONFIG = [
 	/**
 	 * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
 	 *
-	 * Disabling this is discouraged for security reasons.
+	 * WARNING: Disabling this is discouraged for security reasons.
 	 *
 	 * Defaults to ``true``
 	 */
@@ -502,16 +498,16 @@ $CONFIG = [
 	 * admin wants to avoid users entering their credentials to the system if the SSO
 	 * app is unavailable.
 	 *
-	 * This will show an error. But the direct login still works with adding ?direct=1
+	 * This will show an error. But the direct login still works with adding ``?direct=1``
 	 */
 	'hide_login_form' => false,
 
 	/**
 	 * If your user backend does not allow password resets (e.g., when it's a
 	 * read-only user backend like LDAP), you can specify a custom link, where the
-	 * user is redirected to, when clicking the "reset password" link after a failed
+	 * user is redirected to, when clicking the "Reset password" link after a failed
 	 * login attempt.
-	 * In case you do not want to provide any link, replace the URL with 'disabled'
+	 * In case you do not want to provide any link, replace the URL with ``'disabled'``
 	 */
 	'lost_password_link' => 'https://example.org/link/to/password/reset',
 
@@ -717,48 +713,48 @@ $CONFIG = [
 	'overwrite.cli.url' => '',
 
 	/**
-	 * To have clean URLs without `/index.php`, this parameter needs to be configured.
+	 * To have clean URLs without ``/index.php``, this parameter needs to be configured.
 	 *
 	 * This parameter will be written as "RewriteBase" on update and installation of
-	 * Nextcloud to your `.htaccess` file. While this value is often simply the URL
+	 * Nextcloud to your ``.htaccess`` file. While this value is often simply the URL
 	 * path of the Nextcloud installation, it cannot be set automatically properly in
 	 * every scenario and needs thus some manual configuration.
 	 *
 	 * In a standard Apache setup, this usually equals the folder that Nextcloud is
-	 * accessible at. So if Nextcloud is accessible via "https://mycloud.org/nextcloud",
-	 * the correct value would most likely be "/nextcloud". If Nextcloud is running
-	 * under "https://mycloud.org/", then it would be "/".
+	 * accessible at. So if Nextcloud is accessible via ``https://mycloud.org/nextcloud``,
+	 * the correct value would most likely be ``/nextcloud``. If Nextcloud is running
+	 * under ``https://mycloud.org/``, then it would be ``/``.
 	 *
 	 * Note that the above rule is not valid in every case, as there are some rare setup
 	 * cases where this may not apply. However, to avoid any update problems, this
 	 * configuration value is explicitly opt-in.
 	 *
-	 * After setting this value, run `occ maintenance:update:htaccess`. Now, when the
-	 * following conditions are met, Nextcloud URLs won't contain `index.php`:
+	 * After setting this value, run ``occ maintenance:update:htaccess``. Now, when the
+	 * following conditions are met, Nextcloud URLs won't contain ``index.php``:
 	 *
-	 * - `mod_rewrite` is installed
-	 * - `mod_env` is installed
+	 * - ``mod_rewrite`` is installed
+	 * - ``mod_env`` is installed
 	 *
 	 * Defaults to ``''`` (empty string)
 	 */
 	'htaccess.RewriteBase' => '/',
 
 	/**
-	 * For server setups that don't have `mod_env` enabled or restricted (e.g., suEXEC),
+	 * For server setups that don't have ``mod_env`` enabled or restricted (e.g., suEXEC),
 	 * this parameter has to be set to true and will assume mod_rewrite.
 	 *
-	 * Please check if `mod_rewrite` is active and functional before setting this
-	 * parameter, and you updated your .htaccess with `occ maintenance:update:htaccess`.
-	 * Otherwise, your Nextcloud installation might not be reachable anymore.
-	 * For example, try accessing resources by leaving out `index.php` in the URL.
+	 * Please check if ``mod_rewrite`` is active and functional before setting this
+	 * parameter, and you updated your .htaccess with ``occ maintenance:update:htaccess``.
+	 * Otherwise, your Nextcloud installation might not be reachable any more.
+	 * For example, try accessing resources by leaving out ``index.php`` in the URL.
 	 */
 	'htaccess.IgnoreFrontController' => false,
 
 	/**
 	 * The URL of your proxy server, for example, ``proxy.example.com:8081``.
 	 *
-	 * Note: Guzzle (the HTTP library used by Nextcloud) reads the environment
-	 * variables HTTP_PROXY (only for CLI requests), HTTPS_PROXY, and NO_PROXY by default.
+	 * NOTE: Guzzle (the HTTP library used by Nextcloud) reads the environment
+	 * variables ``HTTP_PROXY`` (only for CLI requests), ``HTTPS_PROXY``, and ``NO_PROXY`` by default.
 	 *
 	 * If you configure a proxy with Nextcloud, any default configuration by Guzzle
 	 * is overwritten. Make sure to set ``proxyexclude`` accordingly if necessary.
@@ -780,7 +776,7 @@ $CONFIG = [
 	 * For example: ``['.mit.edu', 'foo.com']``.
 	 *
 	 * Hint: Use something like ``explode(',', getenv('NO_PROXY'))`` to sync this
-	 * value with the global NO_PROXY option.
+	 * value with the global ``NO_PROXY`` option.
 	 *
 	 * Defaults to empty array.
 	 */
@@ -789,7 +785,7 @@ $CONFIG = [
 	/**
 	 * Allow remote servers with local addresses, e.g., in federated shares, webcal services, and more
 	 *
-	 * Defaults to false
+	 * Defaults to ``false``
 	 */
 	'allow_local_remote_servers' => true,
 
@@ -834,20 +830,19 @@ $CONFIG = [
 	 * Available values (D1 and D2 are configurable numbers):
 	 *
 	 * * ``auto``
-	 *     default setting. Keeps files and folders in the trash bin for 30 days
-	 *     and automatically deletes anytime after that if space is needed (note:
-	 *     files may not be deleted if space is not needed).
+	 *     | Default setting. Keeps files and folders in the trash bin for at least **30** days.
+	 *     | Then, **if space is needed**, deletes trashed files anytime after that.
 	 * * ``D1, auto``
-	 *     keeps files and folders in the trash bin for D1+ days, delete anytime if
-	 *     space needed (note: files may not be deleted if space is not needed)
+	 *     | Keeps files and folders in the trash bin for at least **D1** days.
+	 *     | Then, **if space is needed**, deletes trashed files anytime after that.
 	 * * ``auto, D2``
-	 *     delete all files in the trash bin that are older than D2 days
-	 *     automatically, delete other files anytime if space needed
+	 *     | **If space is needed**, deletes trashed files anytime.
+	 *     | After **D2** days, delete all trashed files automatically
 	 * * ``D1, D2``
-	 *     keep files and folders in the trash bin for at least D1 days and
-	 *     delete when exceeds D2 days (note: files will not be deleted automatically if space is needed)
+	 *     | Keeps files and folders in the trash bin for at least **D1** days.
+	 *     | Then, after **D2** days, delete all trashed files automatically.
 	 * * ``disabled``
-	 *     trash bin auto clean disabled, files and folders will be kept forever
+	 *     | Trash bin auto clean is disabled, files and folders will be kept forever.
 	 *
 	 * Defaults to ``auto``
 	 */
@@ -951,8 +946,8 @@ $CONFIG = [
 	 * will show a warning. Set to an empty list to not do any such checks (warning
 	 * will still be shown).
 	 * If no protocol is provided, both http and https will be tested.
-	 * For example, 'http://www.nextcloud.com' and 'https://www.nextcloud.com'
-	 * will be tested for 'www.nextcloud.com'
+	 * For example, ``http://www.nextcloud.com`` and ``https://www.nextcloud.com``
+	 * will be tested for ``www.nextcloud.com``
 	 * If a protocol is provided, only this one will be tested.
 	 *
 	 * Defaults to the following domains:
@@ -972,7 +967,7 @@ $CONFIG = [
 	/**
 	 * Allows Nextcloud to verify a working .well-known URL redirects. This is done
 	 * by attempting to make a request from JS to
-	 * https://your-domain.com/.well-known/caldav/
+	 * ``https://example.tld/.well-known/caldav/``
 	 *
 	 * Defaults to ``true``
 	 */
@@ -1019,15 +1014,11 @@ $CONFIG = [
 
 	/**
 	 * This parameter determines where the Nextcloud logs are sent.
-	 * ``file``: the logs are written to file ``nextcloud.log`` in the default
-	 * Nextcloud data directory. The log file can be changed with parameter
-	 * ``logfile``.
-	 * ``syslog``: the logs are sent to the system log. This requires a syslog daemon
-	 * to be active.
-	 * ``errorlog``: the logs are sent to the PHP ``error_log`` function.
-	 * ``systemd``: the logs are sent to the Systemd journal. This requires a system
-	 * that runs Systemd and the Systemd journal. The PHP extension ``systemd``
-	 * must be installed and active.
+	 *
+	 * - ``file``: the logs are written to file ``nextcloud.log`` in the default Nextcloud data directory. The log file can be changed with parameter ``logfile``.
+	 * - ``syslog``: the logs are sent to the system log. This requires a syslog daemon to be active.
+	 * - ``errorlog``: the logs are sent to the PHP ``error_log`` function.
+	 * - ``systemd``: the logs are sent to the Systemd journal. This requires a system that runs Systemd and the Systemd journal. The PHP extension ``systemd`` must be installed and active.
 	 *
 	 * Defaults to ``file``
 	 */
@@ -1059,15 +1050,21 @@ $CONFIG = [
 	/**
 	 * Log file mode for the Nextcloud logging type in octal notation.
 	 *
-	 * Defaults to 0640 (writable by user, readable by group).
+	 * Defaults to ``0640`` (writable by user, readable by group).
 	 */
 	'logfilemode' => 0640,
 
 	/**
-	 * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
-	 * Warning, 3 = Error, and 4 = Fatal. The default value is Warning.
+	 * Loglevel to start logging at. Valid values are:
 	 *
-	 * Defaults to ``2``
+	 * - ``0`` = Debug
+	 * - ``1`` = Info
+	 * - ``2`` = Warning
+	 * - ``3`` = Error
+	 * - ``4`` = Fatal.
+	 *
+	 *
+	 * Defaults to ``2`` (Warning)
 	 */
 	'loglevel' => 2,
 
@@ -1155,14 +1152,13 @@ $CONFIG = [
 	/**
 	 * This uses PHP.date formatting; see https://www.php.net/manual/en/function.date.php
 	 *
-	 * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00`` - see \DateTime::ATOM
-	 * (https://www.php.net/manual/en/class.datetime.php#datetime.constants.atom)
+	 * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00``, see ``\DateTime::ATOM``
+	 * https://www.php.net/manual/en/class.datetimeinterface.php#datetimeinterface.constants.atom
 	 */
 	'logdateformat' => 'F d, Y H:i:s',
 
 	/**
-	 * The timezone for logfiles. You may change this; see
-	 * https://www.php.net/manual/en/timezones.php
+	 * The timezone for logfiles. See https://www.php.net/manual/en/timezones.php
 	 *
 	 * Defaults to ``UTC``
 	 */
@@ -1296,7 +1292,6 @@ $CONFIG = [
 	 *
 	 * Defaults to ``365``
 	 */
-
 	'activity_expire_days' => 365,
 
 	/**
@@ -1305,8 +1300,9 @@ $CONFIG = [
 	 * By default, activities in team folders or external storages are only generated
 	 * for the current user. This is due to a limitations in current implementations.
 	 * This config flag makes activities in group folders and external storages work
-	 * like in normal shares (when set to ``true``). WARNING: Enabling this comes with
-	 * some CRITICAL trade-offs:
+	 * like in normal shares (when set to ``true``).
+	 *
+	 * WARNING: Enabling this comes with some CRITICAL trade-offs:
 	 *
 	 * - If team folder "Advanced Permissions" (ACLs) are used, activities do not
 	 *   respect the permissions and therefore all users see all activities, even
@@ -1318,11 +1314,8 @@ $CONFIG = [
 	 *   cannot see activities in their stream or emails that happen after they
 	 *   are added until they log in again.
 	 *
-	 * WARNING: Before enabling this, read the warning Activity app chapter.
-	 *
 	 * Defaults to ``false``
-	 **/
-
+	 */
 	'activity_use_cached_mountpoints' => false,
 
 	/**
@@ -1408,15 +1401,15 @@ $CONFIG = [
 	 * including previews that need to be newly generated, and those that have
 	 * been generated.
 	 *
-	 * This should be greater than 'preview_concurrency_new'.
-	 * If unspecified, defaults to twice the value of 'preview_concurrency_new'.
+	 * This should be greater than ``preview_concurrency_new``.
+	 * If unspecified, defaults to twice the value of ``preview_concurrency_new``.
 	 */
 	'preview_concurrency_all' => 8,
 
 	/**
 	 * Number of new previews that are being concurrently generated.
 	 *
-	 * Depending on the max preview size set by 'preview_max_x' and 'preview_max_y',
+	 * Depending on the max preview size set by ``preview_max_x`` and ``preview_max_y``,
 	 * the generation process can consume considerable CPU and memory resources.
 	 * It's recommended to limit this to be no greater than the number of CPU cores.
 	 * If unspecified, defaults to the number of CPU cores, or 4 if that cannot
@@ -1453,7 +1446,7 @@ $CONFIG = [
 	 * Max memory for generating image previews with imagegd (default behavior)
 	 * Reads the image dimensions from the header and assumes 32 bits per pixel.
 	 * If creating the image would allocate more memory, preview generation will
-	 * be disabled and the default mimetype icon is shown. Set to -1 for no limit.
+	 * be disabled and the default mimetype icon is shown. Set to ``-1`` for no limit.
 	 *
 	 * Defaults to ``256`` megabytes
 	 */
@@ -1552,7 +1545,8 @@ $CONFIG = [
 	/**
 	 * Maximum file size for metadata generation.
 	 * If a file exceeds this size, metadata generation will be skipped.
-	 * Note: memory equivalent to this size will be used for metadata generation.
+	 *
+	 * NOTE: memory equivalent to this size will be used for metadata generation.
 	 *
 	 * Default: 256 megabytes.
 	 */
@@ -1586,7 +1580,8 @@ $CONFIG = [
 	 * Sort groups in the user settings by name instead of the user count
 	 *
 	 * By enabling this, the user count beside the group name is disabled as well.
-	 * @deprecated since Nextcloud 29 - Use the frontend instead or set the app config value `group.sortBy` for `core` to `2`
+	 *
+	 * @deprecated 29.0.0 Use the frontend instead or set the app config value ``group.sortBy`` for ``core`` to ``2``
 	 */
 	'sort_groups_by_name' => false,
 
@@ -1740,11 +1735,11 @@ $CONFIG = [
 	 * higher.
 	 *
 	 * Available failover modes:
-	 *  - \RedisCluster::FAILOVER_NONE - only send commands to master nodes (default)
-	 *  - \RedisCluster::FAILOVER_ERROR - failover to slaves for read commands if master is unavailable (recommended)
-	 *  - \RedisCluster::FAILOVER_DISTRIBUTE - randomly distribute read commands across master and slaves
+	 *  - ``\RedisCluster::FAILOVER_NONE`` - only send commands to master nodes (default)
+	 *  - ``\RedisCluster::FAILOVER_ERROR`` - failover to slaves for read commands if master is unavailable (recommended)
+	 *  - ``\RedisCluster::FAILOVER_DISTRIBUTE`` - randomly distribute read commands across master and slaves
 	 *
-	 * WARNING: FAILOVER_DISTRIBUTE is a not recommended setting, and we strongly
+	 * WARNING: ``\RedisCluster::FAILOVER_DISTRIBUTE`` is a not recommended setting, and we strongly
 	 * suggest to not use it if you use Redis for file locking. Due to the way Redis
 	 * is synchronized, it could happen that the read for an existing lock is
 	 * scheduled to a slave that is not fully synchronized with the connected master
@@ -1994,7 +1989,7 @@ $CONFIG = [
 	'sharing.enable_share_accept' => false,
 
 	/**
-	 * Set to true to enforce that internal shares need to be accepted
+	 * Set to ``true`` to enforce that internal shares need to be accepted
 	 */
 	'sharing.force_share_accept' => false,
 
@@ -2023,8 +2018,8 @@ $CONFIG = [
 
 	/**
 	 * Set to true to always transfer incoming shares by default
-	 * when running "occ files:transfer-ownership".
-	 * Defaults to false, so incoming shares are not transferred if not specifically requested
+	 * when running ``occ files:transfer-ownership``.
+	 * Defaults to ``false``, so incoming shares are not transferred if not specifically requested
 	 * by a command line argument.
 	 */
 	'transferIncomingShares' => false,
@@ -2055,7 +2050,7 @@ $CONFIG = [
 
 	/**
 	 * The number of CPU threads to be used by the algorithm for computing a hash.
-	 * The value must be an integer, and the minimum value is 1. Rationally, it does
+	 * The value must be an integer, and the minimum value is ``1``. Rationally, it does
 	 * not help to provide a number higher than the available threads on the machine.
 	 * Values that undershoot the minimum will be ignored in favor of the minimum.
 	 */
@@ -2070,7 +2065,7 @@ $CONFIG = [
 
 	/**
 	 * The number of iterations that are used by the algorithm for computing a hash.
-	 * The value must be an integer, and the minimum value is 1. Values that
+	 * The value must be an integer, and the minimum value is ``1``. Values that
 	 * undershoot the minimum will be ignored in favor of the minimum.
 	 */
 	'hashingTimeCost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
@@ -2091,10 +2086,10 @@ $CONFIG = [
 	 *
 	 * When setting up TLS/SSL for encrypting the connections, you need to ensure that
 	 * the passed keys and certificates are readable by the PHP process. In addition,
-	 * PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT might need to be set to false, if the
+	 * ``PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT`` might need to be set to false, if the
 	 * database server's certificate CN does not match with the hostname used to connect.
 	 * The standard behavior here is different from the MySQL/MariaDB CLI client, which
-	 * does not verify the server cert except --ssl-verify-server-cert is passed manually.
+	 * does not verify the server cert except ``--ssl-verify-server-cert`` is passed manually.
 	 */
 	'dbdriveroptions' => [
 		PDO::MYSQL_ATTR_SSL_CA => '/file/path/to/ca_cert.pem',
@@ -2106,7 +2101,7 @@ $CONFIG = [
 
 	/**
 	 * SQLite3 journal mode can be specified using this configuration parameter -
-	 * can be 'WAL' or 'DELETE'. See https://www.sqlite.org/wal.html for more details.
+	 * can be ``'WAL'`` or ``'DELETE'``. See https://www.sqlite.org/wal.html for more details.
 	 */
 	'sqlite.journal_mode' => 'DELETE',
 
@@ -2116,30 +2111,30 @@ $CONFIG = [
 	 *
 	 * To convert an existing 3-byte setup to a 4-byte setup, configure the MySQL
 	 * parameters as described below and run the migration command:
-	 * ./occ db:convert-mysql-charset
+	 * ``./occ db:convert-mysql-charset``
 	 * This config setting will be automatically updated after a successful migration.
 	 *
 	 * Refer to the documentation for more details.
 	 *
 	 * MySQL requires specific settings for longer indexes (> 767 bytes), which are
-	 * necessary for 4-byte character support:
+	 * necessary for 4-byte character support::
 	 *
-	 * [mysqld]
-	 * innodb_large_prefix=ON
-	 * innodb_file_format=Barracuda
-	 * innodb_file_per_table=ON
+	 *     [mysqld]
+	 *     innodb_large_prefix=ON
+	 *     innodb_file_format=Barracuda
+	 *     innodb_file_per_table=ON
 	 *
 	 * Tables will be created with:
-	 *  * character set: utf8mb4
-	 *  * collation:     utf8mb4_bin
-	 *  * row_format:    dynamic
+	 *  * character set: ``utf8mb4``
+	 *  * collation:     ``utf8mb4_bin``
+	 *  * row_format:    ``dynamic``
 	 *
 	 * See:
-	 * https://dev.mysql.com/doc/refman/5.7/en/charset-unicode-utf8mb4.html
-	 * https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_large_prefix
-	 * https://mariadb.com/kb/en/mariadb/xtradbinnodb-server-system-variables/#innodb_large_prefix
-	 * http://www.tocker.ca/2013/10/31/benchmarking-innodb-page-compression-performance.html
-	 * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
+	 *  * https://dev.mysql.com/doc/refman/5.7/en/charset-unicode-utf8mb4.html
+	 *  * https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_large_prefix
+	 *  * https://mariadb.com/kb/en/mariadb/xtradbinnodb-server-system-variables/#innodb_large_prefix
+	 *  * http://www.tocker.ca/2013/10/31/benchmarking-innodb-page-compression-performance.html
+	 *  * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
 	 */
 	'mysql.utf8mb4' => false,
 
@@ -2151,9 +2146,9 @@ $CONFIG = [
 	 * MariaDB and MySQL share some collations, but also have incompatible ones,
 	 * depending on the database server version.
 	 *
-	 * This option allows overriding the automatic collation choice. Example:
+	 * This option allows overriding the automatic collation choice. Example::
 	 *
-	 * 'mysql.collation' => 'utf8mb4_0900_as_ci',
+	 *     'mysql.collation' => 'utf8mb4_0900_as_ci',
 	 *
 	 * This setting does not affect table creation or setup, where utf8[mb4]_bin is
 	 * always used. It applies only to SQL queries using LIKE comparison operators.
@@ -2206,8 +2201,8 @@ $CONFIG = [
 
 	/**
 	 * Override the location where Nextcloud stores update files during updates.
-	 * Useful when the default `datadirectory` is on a network disk like NFS or is
-	 * otherwise restricted. Defaults to the value of `datadirectory` if unset.
+	 * Useful when the default ``datadirectory`` is on a network disk like NFS or is
+	 * otherwise restricted. Defaults to the value of ``datadirectory`` if unset.
 	 *
 	 * If set, the directory must be located outside the Nextcloud installation
 	 * directory and writable by the web server user.
@@ -2220,7 +2215,7 @@ $CONFIG = [
 	 *
 	 * WARNING: Use this only if you understand the implications.
 	 *
-	 * Note: This list is case-insensitive.
+	 * NOTE: This list is case-insensitive.
 	 *
 	 * Defaults to ``['.htaccess']``
 	 */
@@ -2233,7 +2228,7 @@ $CONFIG = [
 	 * The basename is the filename without the extension, e.g., for "archive.tar.gz",
 	 * the basename is "archive".
 	 *
-	 * Note: This list is case-insensitive.
+	 * NOTE: This list is case-insensitive.
 	 *
 	 * Defaults to ``[]`` (empty array)
 	 */
@@ -2245,7 +2240,7 @@ $CONFIG = [
 	 * existing files cannot be updated, and no new files can be created in matching
 	 * folders.
 	 *
-	 * The '/' and '\' characters, as well as ASCII characters [0-31], are always
+	 * The ``/`` and ``\`` characters, as well as ASCII characters [0-31], are always
 	 * forbidden.
 	 *
 	 * Example for Windows: ``['?', '<', '>', ':', '*', '|', '"']``
@@ -2259,7 +2254,7 @@ $CONFIG = [
 	 * Deny specific file extensions. Matching existing files cannot be updated, and
 	 * no new files can be created in matching folders.
 	 *
-	 * The '.part' extension is always forbidden, as it is used internally by Nextcloud.
+	 * The ``'.part'`` extension is always forbidden, as it is used internally by Nextcloud.
 	 *
 	 * Defaults to ``['.filepart', '.part']``
 	 */
@@ -2275,8 +2270,8 @@ $CONFIG = [
 
 	/**
 	 * Enforce a specific user theme, disabling user theming settings. Must be a
-	 * valid ITheme ID, e.g., dark, dark-highcontrast, default, light,
-	 * light-highcontrast, opendyslexic.
+	 * valid ITheme ID, e.g., ``dark``, ``dark-highcontrast``, ``default``, ``light``,
+	 * ``light-highcontrast``, ``opendyslexic``.
 	 */
 	'enforce_theme' => '',
 
@@ -2375,9 +2370,9 @@ $CONFIG = [
 
 	/**
 	 * Allow creation of external storages of type "Local" via the web interface and
-	 * APIs. When disabled, local storages can still be created using the occ command:
+	 * APIs. When disabled, local storages can still be created using the occ command::
 	 *
-	 * occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
+	 *      occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
 	 *
 	 * Defaults to ``true``
 	 */
@@ -2388,10 +2383,8 @@ $CONFIG = [
 	 * mounts in data/) is checked for changes made outside Nextcloud. This does not
 	 * apply to external storage.
 	 *
-	 * 0 -> Never check the filesystem for outside changes, improving performance
-	 *      when no external changes are expected.
-	 * 1 -> Check each file or folder at most once per request, recommended for
-	 *      general use if outside changes are possible.
+	 * - ``0`` -> Never check the filesystem for outside changes, improving performance when no external changes are expected.
+	 * - ``1`` -> Check each file or folder at most once per request, recommended for general use if outside changes are possible.
 	 *
 	 * Defaults to ``0``
 	 */
@@ -2424,16 +2417,17 @@ $CONFIG = [
 
 	/**
 	 * List of trusted proxy servers. Supported formats:
-	 * - IPv4 addresses, e.g., `192.168.2.123`
-	 * - IPv4 ranges in CIDR notation, e.g., `192.168.2.0/24`
-	 * - IPv6 addresses, e.g., `fd9e:21a7:a92c:2323::1`
-	 * - IPv6 ranges in CIDR notation, e.g., `2001:db8:85a3:8d3:1319:8a20::/95`
 	 *
-	 * If a request's `REMOTE_ADDR` matches an address here, it is treated as a proxy,
+	 * - IPv4 addresses, e.g., ``192.168.2.123``
+	 * - IPv4 ranges in CIDR notation, e.g., ``192.168.2.0/24``
+	 * - IPv6 addresses, e.g., ``fd9e:21a7:a92c:2323::1``
+	 * - IPv6 ranges in CIDR notation, e.g., ``2001:db8:85a3:8d3:1319:8a20::/95``
+	 *
+	 * If a request's ``REMOTE_ADDR`` matches an address here, it is treated as a proxy,
 	 * and the client IP is read from the HTTP header specified in
-	 * `forwarded_for_headers` instead of `REMOTE_ADDR`.
+	 * ``forwarded_for_headers`` instead of ``REMOTE_ADDR``.
 	 *
-	 * Ensure `forwarded_for_headers` is configured if `trusted_proxies` is set.
+	 * Ensure ``forwarded_for_headers`` is configured if ``trusted_proxies`` is set.
 	 *
 	 * Defaults to ``[]`` (empty array)
 	 */
@@ -2441,8 +2435,8 @@ $CONFIG = [
 
 	/**
 	 * Headers trusted as containing the client IP address when used with
-	 * `trusted_proxies`. For example, use `HTTP_X_FORWARDED_FOR` for the
-	 * `X-Forwarded-For` header.
+	 * ``trusted_proxies``. For example, use ``HTTP_X_FORWARDED_FOR`` for the
+	 * ``X-Forwarded-For`` header.
 	 *
 	 * Incorrect configuration allows clients to spoof their IP address, bypassing
 	 * access controls and rendering logs unreliable.
@@ -2456,8 +2450,8 @@ $CONFIG = [
 	 * must originate from IPs within these ranges.
 	 *
 	 * Supported formats:
-	 * - IPv4 addresses or ranges, e.g., `192.0.2.42/32`, `233.252.0.0/24`
-	 * - IPv6 addresses or ranges, e.g., `2001:db8::13:37/64`
+	 * - IPv4 addresses or ranges, e.g., ``192.0.2.42/32``, ``233.252.0.0/24``
+	 * - IPv6 addresses or ranges, e.g., ``2001:db8::13:37/64``
 	 *
 	 * Defaults to ``[]`` (empty array)
 	 */
@@ -2477,7 +2471,7 @@ $CONFIG = [
 	 * Set the lock's time-to-live (TTL) in seconds. Locks older than this are
 	 * automatically cleaned up.
 	 *
-	 * Defaults to ``3600`` seconds (1 hour) or the PHP `max_execution_time`,
+	 * Defaults to ``3600`` seconds (1 hour) or the PHP ``max_execution_time``,
 	 * whichever is higher.
 	 */
 	'filelocking.ttl' => 60 * 60,
@@ -2495,7 +2489,7 @@ $CONFIG = [
 	 * entries, potentially causing performance degradation and large log files on
 	 * busy instances.
 	 *
-	 * Use with `log.condition` to limit logging in production environments.
+	 * Use with ``log.condition`` to limit logging in production environments.
 	 *
 	 * Defaults to ``false``
 	 */
@@ -2537,8 +2531,9 @@ $CONFIG = [
 
 	/**
 	 * Set the data fingerprint for the current data served. Used by clients to
-	 * detect if a backup has been restored. Update this by running:
-	 * ./occ maintenance:data-fingerprint
+	 * detect if a backup has been restored. Update this by running::
+	 *
+	 *      occ maintenance:data-fingerprint
 	 *
 	 * Changing or deleting this value may cause connected clients to stall until
 	 * conflicts are resolved.
@@ -2570,7 +2565,7 @@ $CONFIG = [
 	'gs.enabled' => false,
 
 	/**
-	 * Configure federation for Global Scale setups. Set to 'global' to allow
+	 * Configure federation for Global Scale setups. Set to ``global`` to allow
 	 * federation outside the environment.
 	 *
 	 * Defaults to ``internal``
@@ -2584,8 +2579,9 @@ $CONFIG = [
 	 * WARNING: Use only if you understand the implications.
 	 *
 	 * Defaults to:
-	 * - /^WebDAVFS/ (OS X Finder)
-	 * - /^Microsoft-WebDAV-MiniRedir/ (Windows WebDAV drive)
+	 *
+	 * - ``/^WebDAVFS/`` (OS X Finder)
+	 * - ``/^Microsoft-WebDAV-MiniRedir/`` (Windows WebDAV drive)
 	 */
 	'csrf.optout' => [
 		'/^WebDAVFS/', // OS X Finder
@@ -2598,8 +2594,9 @@ $CONFIG = [
 	 *
 	 * WARNING: Use only if you understand the implications.
 	 *
-	 * Example: Allow only the Nextcloud Android app:
-	 * 'core.login_flow_v2.allowed_user_agents' => ['/Nextcloud-android/i'],
+	 * Example: Allow only the Nextcloud Android app::
+	 *
+	 *    'core.login_flow_v2.allowed_user_agents' => ['/Nextcloud-android/i'],
 	 *
 	 * Defaults to ``[]`` (empty array)
 	 */
@@ -2664,14 +2661,14 @@ $CONFIG = [
 	/**
 	 * Prefix all queries with the request ID when set to `yes`.
 	 *
-	 * Requires `query_log_file` to be set.
+	 * Requires ``query_log_file`` to be set.
 	 */
 	'query_log_file_requestid' => '',
 
 	/**
 	 * Include all query parameters in the query log when set to `yes`.
 	 *
-	 * Requires `query_log_file` to be set.
+	 * Requires ``query_log_file`` to be set.
 	 * WARNING: This may log sensitive data in plain text.
 	 */
 	'query_log_file_parameters' => '',
@@ -2679,7 +2676,7 @@ $CONFIG = [
 	/**
 	 * Include a backtrace in the query log when set to `yes`.
 	 *
-	 * Requires `query_log_file` to be set.
+	 * Requires ``query_log_file`` to be set.
 	 */
 	'query_log_file_backtrace' => '',
 
@@ -2694,7 +2691,7 @@ $CONFIG = [
 
 	/**
 	 * Enable diagnostics event logging. Logs timings of common execution steps at
-	 * debug level. Use with `log.condition` to enable conditionally in production.
+	 * debug level. Use with ``log.condition`` to enable conditionally in production.
 	 *
 	 * Defaults to ``true``
 	 */

@@ -641,8 +641,6 @@
     "Use a second factor besides your password to increase security for your account." : "Használjon egy második faktort a jelszava mellett, hogy növelje fiókja biztonságát.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ha harmadik féltől származó alkalmazásokat használ a Nextcloudhoz való csatlakozáshoz, akkor a két faktoros hitelesítés engedélyezése előtt győződjön meg róla, hogy mindegyikhez létrehozott és beállított egy alkalmazásjelszót.",
     "Logged in account must be a subadmin" : "A belépett felhasználónak al-adminnak kell lennie",
-    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Ha az „ugyanazon csoport” és a „telefonszám integráció” engedélyezett, akkor bármelyik egyezés elegendő a felhasználó megjelenítéséhez. ",
-    "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Az automatikus kiegészítés engedélyezése a teljes név vagy e-mail-cím megadásakor (figyelmen kívül hagyva a hiányzó telefonkönyves egyezést és az ugyanabba a csoportba tartozást)",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ennek az alkalmazásnak nincs minimum szükséges Nextcloud verziója megadva. Ez hiba lesz a jövőben.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ennek az alkalmazásnak nincs maximum szükséges Nextcloud verziója megadva. Ez hiba lesz a jövőben.",
     "Loading accounts …" : "Fiókok betöltése…",

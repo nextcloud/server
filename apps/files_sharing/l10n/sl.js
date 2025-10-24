@@ -173,6 +173,7 @@ OC.L10N.register(
     "Can edit" : "Lahko ureja",
     "Custom permissions" : "Dovoljenja po meri",
     "Resharing is not allowed" : "Nadaljnja souporaba ni dovoljena",
+    "Searching …" : "Poteka iskanje ...",
     "No elements found." : "Ni najdenih predmetov",
     "Search everywhere" : "Išči povsod",
     "Guest" : "Gost",

@@ -38,7 +38,10 @@ updates:
 
 # Main master npm frontend dependencies
 - package-ecosystem: npm
-  directory: "/"
+  directories:
+    - "/"
+    - "/build/frontend"
+    - "/build/frontend-legacy"
   schedule:
     interval: weekly
     day: saturday

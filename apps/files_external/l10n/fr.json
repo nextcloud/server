@@ -101,6 +101,7 @@
     "Enter missing credentials" : "Saisissez les identifiants de connexion manquants",
     "Credentials successfully set" : "Identifiants enregistrés avec succès",
     "Error while setting credentials: {error}" : "Erreur lors de l'envoi des identifiants : {error}",
+    "Checking storage …" : "Vérification du stockage …",
     "There was an error with this external storage." : "Il y a eu une erreur avec ce stockage externe.",
     "We were unable to check the external storage {basename}" : "Nous n'avons pas pu vérifier le stockage externe {basename}",
     "Examine this faulty external storage configuration" : "Examiner la configuration de ce stockage externe défectueuse",

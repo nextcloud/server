@@ -46,7 +46,7 @@ Feature: FilesDrop
     When Dropping file "/folder/a.txt" with "abc"
     Then the HTTP status code should be "400"
 
-  Scenario: Files drop forbid MKCOL without a nickname
+  Scenario: Files drop allows MKCOL
     Given user "user0" exists
     And As an "user0"
     And user "user0" created a folder "/drop"
@@ -57,19 +57,6 @@ Feature: FilesDrop
     And Updating last share with
       | permissions | 4 |
     When Creating folder "folder" in drop
-    Then the HTTP status code should be "400"
-
-  Scenario: Files drop allows MKCOL with a nickname
-    Given user "user0" exists
-    And As an "user0"
-    And user "user0" created a folder "/drop"
-    And as "user0" creating a share with
-      | path | drop |
-      | shareType | 3 |
-      | publicUpload | true |
-    And Updating last share with
-      | permissions | 4 |
-    When Creating folder "folder" in drop as "nickname"
     Then the HTTP status code should be "201"
 
   Scenario: Files drop forbid subfolder creation without a nickname
@@ -139,7 +126,7 @@ Feature: FilesDrop
     When Downloading file "/drop/Alice/folder (2)"
     Then the HTTP status code should be "200"
     And Downloaded content should be "its a file"
-    
+
   Scenario: Put file same file multiple times via files drop
     Given user "user0" exists
     And As an "user0"

@@ -74,10 +74,8 @@ class PublicShareControllerTest extends \Test\TestCase {
 		$controller = new TestController('app', $this->request, $this->session, $hash2, $protected);
 
 		$this->session->method('get')
-			->willReturnMap([
-				['public_link_authenticated_token', $token1],
-				['public_link_authenticated_password_hash', $hash1],
-			]);
+			->with(PublicShareController::DAV_AUTHENTICATED_FRONTEND)
+			->willReturn("{\"$token1\":\"$hash1\"}");
 
 		$controller->setToken($token2);
 

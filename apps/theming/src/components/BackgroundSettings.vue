@@ -251,7 +251,7 @@ export default {
 					callback: (nodes) => {
 						this.applyFile(nodes[0]?.path)
 					},
-					type: 'primary',
+					variant: 'primary',
 				})
 				.build()
 			picker.pick()

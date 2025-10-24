@@ -34,7 +34,6 @@
 
 <script>
 import { basename } from '@nextcloud/paths'
-import { generateUrl } from '@nextcloud/router'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
@@ -42,6 +41,7 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 import SharesMixin from '../mixins/SharesMixin.js'
 import Share from '../models/Share.js'
+import { generateFileUrl } from '../utils/generateUrl.js'
 
 export default {
 	name: 'SharingEntryInherited',
@@ -65,9 +65,7 @@ export default {
 
 	computed: {
 		viaFileTargetUrl() {
-			return generateUrl('/f/{fileid}', {
-				fileid: this.share.viaFileid,
-			})
+			return generateFileUrl(this.share.viaFileid)
 		},
 
 		viaFolderName() {

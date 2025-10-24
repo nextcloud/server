@@ -178,7 +178,7 @@ SPDX-FileCopyrightText = "2020 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["cypress/tsconfig.json", "cypress/fixtures/appstore/apps.json", "dist/icons.css"]
+path = ["cypress/tsconfig.json", "cypress/fixtures/appstore/apps.json", "dist/*.css"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

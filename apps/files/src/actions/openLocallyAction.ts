@@ -99,7 +99,7 @@ async function confirmLocalEditDialog(): Promise<'online' | 'local' | false> {
 		.setButtons([
 			{
 				label: t('files', 'Retry and close'),
-				type: 'secondary',
+				variant: 'secondary',
 				callback: () => {
 					result = 'local'
 				},
@@ -107,7 +107,7 @@ async function confirmLocalEditDialog(): Promise<'online' | 'local' | false> {
 			{
 				label: t('files', 'Open online'),
 				icon: IconWeb,
-				type: 'primary',
+				variant: 'primary',
 				callback: () => {
 					result = 'online'
 				},

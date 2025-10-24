@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Support\Subscription\IAssertion;
 
@@ -20,7 +22,7 @@ use OCP\Support\Subscription\IAssertion;
  * @package OCA\User_LDAP\Tests\Mapping
  */
 class UserMappingTest extends AbstractMappingTestCase {
-	public function getMapper(IDBConnection $dbMock) {
-		return new UserMapping($dbMock, $this->createMock(IAssertion::class));
+	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): UserMapping {
+		return new UserMapping($dbMock, $cacheFactory, $appConfig, true, $this->createMock(IAssertion::class));
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,50 +14,30 @@ use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Server;
+use Override;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Propagate etags and mtimes within the storage
- */
 class Propagator implements IPropagator {
 	public const MAX_RETRIES = 3;
-	private $inBatch = false;
 
-	private $batch = [];
-
-	/**
-	 * @var \OC\Files\Storage\Storage
-	 */
-	protected $storage;
-
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var array
-	 */
-	private $ignore = [];
-
+	private bool $inBatch = false;
+	private array $batch = [];
 	private ClockInterface $clock;
 
-	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection, array $ignore = []) {
-		$this->storage = $storage;
-		$this->connection = $connection;
-		$this->ignore = $ignore;
+	public function __construct(
+		protected readonly IStorage $storage,
+		private readonly IDBConnection $connection,
+		private readonly array $ignore = [],
+	) {
 		$this->clock = Server::get(ClockInterface::class);
 	}
 
-	/**
-	 * @param string $internalPath
-	 * @param int $time
-	 * @param int $sizeDifference number of bytes the file has grown
-	 */
-	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
+	#[Override]
+	public function propagateChange(string $internalPath, int $time, int $sizeDifference = 0): void {
 		// Do not propagate changes in ignored paths
 		foreach ($this->ignore as $ignore) {
 			if (str_starts_with($internalPath, $ignore)) {
@@ -63,9 +45,9 @@ class Propagator implements IPropagator {
 			}
 		}
 
-		$time = min((int)$time, $this->clock->now()->getTimestamp());
+		$time = min($time, $this->clock->now()->getTimestamp());
 
-		$storageId = $this->storage->getStorageCache()->getNumericId();
+		$storageId = $this->storage->getCache()->getNumericStorageId();
 
 		$parents = $this->getParents($internalPath);
 
@@ -137,7 +119,10 @@ class Propagator implements IPropagator {
 		}
 	}
 
-	protected function getParents($path) {
+	/**
+	 * @return string[]
+	 */
+	protected function getParents(string $path): array {
 		$parts = explode('/', $path);
 		$parent = '';
 		$parents = [];
@@ -148,19 +133,12 @@ class Propagator implements IPropagator {
 		return $parents;
 	}
 
-	/**
-	 * Mark the beginning of a propagation batch
-	 *
-	 * Note that not all cache setups support propagation in which case this will be a noop
-	 *
-	 * Batching for cache setups that do support it has to be explicit since the cache state is not fully consistent
-	 * before the batch is committed.
-	 */
-	public function beginBatch() {
+	#[Override]
+	public function beginBatch(): void {
 		$this->inBatch = true;
 	}
 
-	private function addToBatch($internalPath, $time, $sizeDifference) {
+	private function addToBatch(string $internalPath, int $time, int $sizeDifference): void {
 		if (!isset($this->batch[$internalPath])) {
 			$this->batch[$internalPath] = [
 				'hash' => md5($internalPath),
@@ -175,10 +153,8 @@ class Propagator implements IPropagator {
 		}
 	}
 
-	/**
-	 * Commit the active propagation batch
-	 */
-	public function commitBatch() {
+	#[Override]
+	public function commitBatch(): void {
 		if (!$this->inBatch) {
 			throw new \BadMethodCallException('Not in batch');
 		}
@@ -187,7 +163,7 @@ class Propagator implements IPropagator {
 		$this->connection->beginTransaction();
 
 		$query = $this->connection->getQueryBuilder();
-		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
+		$storageId = $this->storage->getCache()->getNumericStorageId();
 
 		$query->update('filecache')
 			->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))

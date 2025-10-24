@@ -542,6 +542,7 @@ export default defineComponent({
 		.files-list__selected {
 			padding-inline-end: 12px;
 			white-space: nowrap;
+			font-variant-numeric: tabular-nums;
 		}
 
 		.files-list__table {

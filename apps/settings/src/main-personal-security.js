@@ -9,8 +9,6 @@ import VTooltipPlugin from 'v-tooltip'
 import Vue from 'vue'
 import AuthTokenSection from './components/AuthTokenSection.vue'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 __webpack_nonce__ = getCSPNonce()
 
 const pinia = createPinia()

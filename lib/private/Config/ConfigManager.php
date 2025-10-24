@@ -85,15 +85,39 @@ class ConfigManager {
 	/**
 	 * Upgrade stored data in case of changes in the lexicon.
 	 * Heavy process to be executed on core and app upgrade.
-	 *
-	 * - upgrade UserConfig entries if set as indexed
 	 */
 	public function updateLexiconEntries(string $appId): void {
 		$this->loadConfigServices();
+		$this->updateLexiconAppConfigEntries($appId);
+		$this->updateLexiconUserConfigEntries($appId);
+	}
+
+	/**
+	 * Apply modification on the lexicon to the stored app config values:
+	 *
+	 * - Upgrade AppConfig entries if set as lazy/not-lazy
+	 */
+	private function updateLexiconAppConfigEntries(string $appId): void {
+		$lexicon = $this->appConfig->getConfigDetailsFromLexicon($appId);
+		foreach ($lexicon['entries'] as $entry) {
+			// update laziness
+			$this->appConfig->updateLazy($appId, $entry->getKey(), $entry->isLazy());
+		}
+	}
+
+	/**
+	 * Apply modification on the lexicon to the stored user preferences values:
+	 *
+	 * - Upgrade UserConfig entries if set as indexed/not-indexed
+	 * - Upgrade UserConfig entries if set as lazy/not-lazy
+	 */
+	private function updateLexiconUserConfigEntries(string $appId): void {
 		$lexicon = $this->userConfig->getConfigDetailsFromLexicon($appId);
 		foreach ($lexicon['entries'] as $entry) {
 			// upgrade based on index flag
 			$this->userConfig->updateGlobalIndexed($appId, $entry->getKey(), $entry->isFlagged(IUserConfig::FLAG_INDEXED));
+			// update laziness
+			$this->userConfig->updateGlobalLazy($appId, $entry->getKey(), $entry->isLazy());
 		}
 	}
 

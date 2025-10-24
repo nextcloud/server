@@ -4,14 +4,12 @@
 	"exclude": ["./**/*.cy.ts"],
 	"compilerOptions": {
 		"lib": ["DOM", "ESNext"],
-		"types": ["node", "vue", "vue-router"],
 		"outDir": "./dist/",
 		"target": "ESNext",
 		"module": "ESNext",
-		// Set module resolution to bundler and `noEmit` to be able to set `allowImportingTsExtensions`, so we can import Typescript with .ts extension
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
-		"noEmit": true,
+		"rewriteRelativeImportExtensions": true,
 		// Allow ts to import js files
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
@@ -21,15 +19,6 @@
 		"strict": true,
 	},
 	"vueCompilerOptions": {
-		"target": 2.7
+		"target": 3.6
 	},
-	"ts-node": {
-		// these options are overrides used only by ts-node
-		// same as our --compilerOptions flag and our TS_NODE_COMPILER_OPTIONS environment variable
-		"compilerOptions": {
-			"moduleResolution": "node",
-			"module": "commonjs",
-			"verbatimModuleSyntax": false
-		}
-	}
 }

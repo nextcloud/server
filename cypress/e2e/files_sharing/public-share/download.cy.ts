@@ -1,18 +1,15 @@
-import type { User } from '@nextcloud/cypress'
-
 /*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// @ts-expect-error The package is currently broken - but works...
-import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
-import { zipFileContains } from '../../../support/utils/assertions.ts'
-import { getRowForFile, getRowForFileId, triggerActionForFile, triggerActionForFileId } from '../../files/FilesUtils.ts'
-import {
-	type ShareContext,
 
-	createLinkShare, getShareUrl, openLinkShareDetails, setupPublicShare,
-} from './PublicShareUtils.ts'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+import type { ShareContext } from './PublicShareUtils.ts'
+
+import { zipFileContains } from '../../../support/utils/assertions.ts'
+import { deleteDownloadsFolderBeforeEach } from '../../../support/utils/deleteDownloadsFolder.ts'
+import { getRowForFile, getRowForFileId, triggerActionForFile, triggerActionForFileId } from '../../files/FilesUtils.ts'
+import { createLinkShare, getShareUrl, openLinkShareDetails, setupPublicShare } from './PublicShareUtils.ts'
 
 describe('files_sharing: Public share - downloading files', { testIsolation: true }, () => {
 	// in general there is no difference except downloading

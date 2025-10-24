@@ -71,8 +71,8 @@ export default defineComponent({
 				// If there is already a label set, offer to remove the version label
 				buttons.push({
 					label: t('files_versions', 'Remove version name'),
-					type: 'error',
-					nativeType: 'reset',
+					type: 'reset',
+					variant: 'error',
 					callback: () => { this.setVersionLabel('') },
 				})
 			}
@@ -80,9 +80,9 @@ export default defineComponent({
 				...buttons,
 				{
 					label: t('files_versions', 'Save version name'),
-					type: 'primary',
-					nativeType: 'submit',
 					icon: svgCheck,
+					type: 'submit',
+					variant: 'primary',
 				},
 			]
 		},

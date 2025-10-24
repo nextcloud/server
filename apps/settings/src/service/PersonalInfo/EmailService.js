@@ -9,8 +9,6 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.ts'
 
-import '@nextcloud/password-confirmation/dist/style.css'
-
 /**
  * Save the primary email of the user
  *

@@ -32,6 +32,8 @@
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Por favor, faça login na interface web, vá para a seção \"Segurança\" de suas configurações pessoais e atualize sua senha de criptografia inserindo esta senha no campo \"Senha de login antiga\" e sua senha de login atual.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Não foi possível descriptografar este arquivo, provavelmente é um arquivo compartilhado. Por favor, solicite ao proprietário do arquivo para recompartilhá-lo com você.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Não foi possível ler este arquivo, provavelmente é um arquivo compartilhado. Por favor, solicite ao proprietário do arquivo para recompartilhá-lo com você.",
+    "Default Encryption Module" : "Módulo de Criptografia Padrão",
+    "Default encryption module for Nextcloud Server-side Encryption (SSE)" : "Módulo de criptografia padrão para criptografia do lado do servidor (SSE) do Nextcloud",
     "Default encryption module" : "Módulo de criptografia padrão",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "O aplicativo de criptografia está habilitado, mas suas chaves não foram inicializadas. Por favor, saia e entre novamente.",
     "Encrypt the home storage" : "Criptografar a pasta de armazenamento home",

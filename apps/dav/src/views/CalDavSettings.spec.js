@@ -7,6 +7,15 @@ import { render } from '@testing-library/vue'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import CalDavSettings from './CalDavSettings.vue'
 
+const initialState = vi.hoisted(() => ({
+	userSyncCalendarsDocUrl: 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars',
+	sendInvitations: true,
+	generateBirthdayCalendar: true,
+	sendEventReminders: true,
+	sendEventRemindersToSharedUsers: true,
+	sendEventRemindersPush: true,
+}))
+
 vi.mock('@nextcloud/axios')
 vi.mock('@nextcloud/router', () => {
 	return {
@@ -17,7 +26,7 @@ vi.mock('@nextcloud/router', () => {
 })
 vi.mock('@nextcloud/initial-state', () => {
 	return {
-		loadState: vi.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
+		loadState: vi.fn((app, key) => app === 'dav' && initialState[key]),
 	}
 })
 
@@ -32,23 +41,7 @@ describe('CalDavSettings', () => {
 	})
 
 	test('interactions', async () => {
-		const TLUtils = render(
-			CalDavSettings,
-			{
-				data() {
-					return {
-						sendInvitations: true,
-						generateBirthdayCalendar: true,
-						sendEventReminders: true,
-						sendEventRemindersToSharedUsers: true,
-						sendEventRemindersPush: true,
-					}
-				},
-			},
-			(Vue) => {
-				Vue.prototype.$t = vi.fn((app, text) => text)
-			},
-		)
+		const TLUtils = render(CalDavSettings)
 		const sendInvitations = TLUtils.getByLabelText('Send invitations to attendees')
 		expect(sendInvitations).toBeChecked()
 		const generateBirthdayCalendar = TLUtils.getByLabelText('Automatically generate a birthday calendar')

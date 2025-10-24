@@ -62,7 +62,7 @@ describe('files_external settings', () => {
 					.click()
 			})
 
-		cy.findByRole('dialog', { name: 'Confirm your password' })
+		cy.findByRole('dialog', { name: 'Authentication required' })
 			.should('not.exist')
 	})
 
@@ -79,7 +79,7 @@ describe('files_external settings', () => {
 					.click()
 			})
 
-		cy.findByRole('dialog', { name: 'Confirm your password' })
+		cy.findByRole('dialog', { name: 'Authentication required' })
 			.should('not.exist')
 	})
 
@@ -98,7 +98,7 @@ describe('files_external settings', () => {
 					.click()
 			})
 
-		cy.findByRole('dialog', { name: 'Confirm your password' })
+		cy.findByRole('dialog', { name: 'Authentication required' })
 			.should('be.visible')
 	})
 })

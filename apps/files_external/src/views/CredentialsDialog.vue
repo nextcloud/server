@@ -80,8 +80,8 @@ export default defineComponent({
 		dialogButtons() {
 			return [{
 				label: t('files_external', 'Confirm'),
-				type: 'primary',
-				nativeType: 'submit',
+				type: 'submit',
+				variant: 'primary',
 			}]
 		},
 	},

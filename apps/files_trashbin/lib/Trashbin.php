@@ -16,7 +16,6 @@ use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
 use OC\User\NoUserException;
 use OC_User;
-use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
 use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
@@ -857,9 +856,7 @@ class Trashbin implements IEventListener {
 	 */
 	private static function scheduleExpire($user) {
 		// let the admin disable auto expire
-		/** @var Application $application */
-		$application = Server::get(Application::class);
-		$expiration = $application->getContainer()->query('Expiration');
+		$expiration = Server::get(Expiration::class);
 		if ($expiration->isEnabled()) {
 			Server::get(IBus::class)->push(new Expire($user));
 		}
@@ -875,14 +872,12 @@ class Trashbin implements IEventListener {
 	 * @return int|float size of deleted files
 	 */
 	protected static function deleteFiles(array $files, string $user, int|float $availableSpace): int|float {
-		/** @var Application $application */
-		$application = Server::get(Application::class);
-		$expiration = $application->getContainer()->query('Expiration');
+		$expiration = Server::get(Expiration::class);
 		$size = 0;
 
-		if ($availableSpace < 0) {
+		if ($availableSpace <= 0) {
 			foreach ($files as $file) {
-				if ($availableSpace < 0 && $expiration->isExpired($file['mtime'], true)) {
+				if ($availableSpace <= 0 && $expiration->isExpired($file['mtime'], true)) {
 					$tmp = self::delete($file['name'], $user, $file['mtime']);
 					Server::get(LoggerInterface::class)->info(
 						'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
@@ -909,7 +904,6 @@ class Trashbin implements IEventListener {
 	 * @return array{int|float, int} size of deleted files and number of deleted files
 	 */
 	public static function deleteExpiredFiles($files, $user) {
-		/** @var Expiration $expiration */
 		$expiration = Server::get(Expiration::class);
 		$size = 0;
 		$count = 0;

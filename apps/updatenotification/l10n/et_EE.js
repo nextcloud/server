@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Kanal värskendatud",
     "Web updater is disabled" : "Veebiuuendaja on keelatud",
+    "Configuration is read-only" : "Seadistused on ainult loetavas olekus",
     "App updated" : "Rakendus on uuendatud",
     "See what's new" : "Kae, mida uut leidub",
     "{app} updated to version {version}" : "{app} uuendati versioonile {version}",

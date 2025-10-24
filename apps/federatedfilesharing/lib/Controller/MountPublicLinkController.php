@@ -90,9 +90,15 @@ class MountPublicLinkController extends Controller {
 		}
 
 		// make sure that user is authenticated in case of a password protected link
-		$storedPassword = $share->getPassword();
-		$authenticated = $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()
+		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
+		if (!is_array($allowedShareIds)) {
+			$allowedShareIds = [];
+		}
+
+		$authenticated = in_array($share->getId(), $allowedShareIds)
 			|| $this->shareManager->checkPassword($share, $password);
+
+		$storedPassword = $share->getPassword();
 		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],

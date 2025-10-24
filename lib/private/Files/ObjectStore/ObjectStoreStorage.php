@@ -831,7 +831,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$result = $qb->select($qb->func()->sum('f.size'))
 			->from('storages', 's')
 			->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('f.storage', 's.numeric_id'))
-			->where($qb->expr()->like('s.id', 'object::%', IQueryBuilder::PARAM_STR))
+			->where($qb->expr()->like('s.id', $qb->createNamedParameter('object::%'), IQueryBuilder::PARAM_STR))
 			->andWhere($qb->expr()->eq('f.path', $qb->createNamedParameter('')))
 			->executeQuery();
 		$used = $result->fetchOne();
