@@ -72,8 +72,8 @@ class SyncLivePhotosListener implements IEventListener {
 		$sourceFile = $event->getSource();
 
 		if ($sourceFile->getMimetype() === 'video/quicktime') {
-			if (isset($this->pendingRestores[$peerFile->getId()])) {
-				unset($this->pendingRestores[$peerFile->getId()]);
+			if (isset($this->pendingRestores[$peerFile->getId() ?? -1])) {
+				unset($this->pendingRestores[$peerFile->getId() ?? -1]);
 				return;
 			} else {
 				$event->abortOperation(new NotPermittedException('Cannot restore the video part of a live photo'));
@@ -97,7 +97,7 @@ class SyncLivePhotosListener implements IEventListener {
 				$event->abortOperation(new NotFoundException("Couldn't find peer file in trashbin"));
 			}
 
-			$this->pendingRestores[$sourceFile->getId()] = true;
+			$this->pendingRestores[$sourceFile->getId() ?? -1] = true;
 			try {
 				$this->trashManager->restoreItem($trashItem);
 			} catch (\Throwable $ex) {

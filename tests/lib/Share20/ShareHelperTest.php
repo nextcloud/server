@@ -8,6 +8,7 @@
 namespace Test\Share20;
 
 use OC\Share20\ShareHelper;
+use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Share\IManager;
@@ -109,8 +110,7 @@ class ShareHelperTest extends TestCase {
 	public function testGetPathsForUsers(array $users, array $nodes, array $expected): void {
 		$lastNode = null;
 		foreach ($nodes as $nodeId => $nodeName) {
-			/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
-			$node = $this->createMock(Node::class);
+			$node = $this->createMock(Folder::class);
 			$node->expects($this->any())
 				->method('getId')
 				->willReturn($nodeId);
@@ -166,8 +166,7 @@ class ShareHelperTest extends TestCase {
 	public function testGetPathsForRemotes(array $remotes, array $nodes, array $expected): void {
 		$lastNode = null;
 		foreach ($nodes as $nodeId => $nodePath) {
-			/** @var Node|\PHPUnit\Framework\MockObject\MockObject $node */
-			$node = $this->createMock(Node::class);
+			$node = $this->createMock(Folder::class);
 			$node->expects($this->any())
 				->method('getId')
 				->willReturn($nodeId);

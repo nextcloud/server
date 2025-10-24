@@ -7,7 +7,9 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\Mount\DummyMountPoint;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Storage\FailedStorage;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
@@ -106,9 +108,9 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 			$info = $this->fileView->getFileInfo($this->path . '/' . $name);
 			if (!$info) {
 				// use a dummy FileInfo which is acceptable here since it will be refreshed after the put is complete
-				$info = new \OC\Files\FileInfo($path, null, null, [
+				$info = new \OC\Files\FileInfo($path, new FailedStorage(['exception' => new \LogicException('Dummy storage') ]), '', [
 					'type' => FileInfo::TYPE_FILE
-				], null);
+				], new DummyMountPoint());
 			}
 			$node = new File($this->fileView, $info);
 
