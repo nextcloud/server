@@ -37,7 +37,8 @@ class DatabaseBackend implements IBackend {
 			$query->andWhere($query->expr()->eq('action', $query->createNamedParameter($action)));
 
 			if ($metadata !== null) {
-				$query->andWhere($query->expr()->eq('metadata', $query->createNamedParameter(json_encode($metadata))));
+				$trimmedMetaData = $this->trimMetaData($metadata);
+				$query->andWhere($query->expr()->eq('metadata', $query->createNamedParameter($trimmedMetaData)));
 			}
 		}
 
@@ -64,7 +65,8 @@ class DatabaseBackend implements IBackend {
 			$query->andWhere($query->expr()->eq('action', $query->createNamedParameter($action)));
 
 			if ($metadata !== null) {
-				$query->andWhere($query->expr()->eq('metadata', $query->createNamedParameter(json_encode($metadata))));
+				$trimmedMetaData = $this->trimMetaData($metadata);
+				$query->andWhere($query->expr()->eq('metadata', $query->createNamedParameter($trimmedMetaData)));
 			}
 		}
 
@@ -85,15 +87,32 @@ class DatabaseBackend implements IBackend {
 			'ip' => $ip,
 			'subnet' => $ipSubnet,
 			'action' => $action,
-			'metadata' => json_encode($metadata),
+			'metadata' => $metadata,
 			'occurred' => $timestamp,
 		];
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert(self::TABLE_NAME);
 		foreach ($values as $column => $value) {
+			if ($column === 'metadata') {
+				$value = $this->trimMetaData($value);
+			}
 			$qb->setValue($column, $qb->createNamedParameter($value));
 		}
 		$qb->executeStatement();
+	}
+
+	protected function trimMetaData(array $metadata): string {
+		try {
+			$data = json_encode($metadata, JSON_THROW_ON_ERROR);
+		} catch (\JsonException) {
+			$data = 'INVALID';
+		}
+
+		$trimmed = substr($data, 0, 254);
+		if ($trimmed !== $data) {
+			$trimmed .= '…';
+		}
+		return $trimmed;
 	}
 }
