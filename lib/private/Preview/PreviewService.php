@@ -85,7 +85,7 @@ class PreviewService {
 	public function deleteAll(): void {
 		$lastId = 0;
 		while (true) {
-			$previews = $this->previewMapper->getPreviews($lastId, 1000);
+			$previews = $this->previewMapper->getPreviews($lastId, PreviewMapper::MAX_CHUNK_SIZE);
 			$i = 0;
 			foreach ($previews as $preview) {
 				$this->deletePreview($preview);
@@ -93,7 +93,7 @@ class PreviewService {
 				$lastId = $preview->getId();
 			}
 
-			if ($i !== 1000) {
+			if ($i !== PreviewMapper::MAX_CHUNK_SIZE) {
 				break;
 			}
 		}
@@ -105,5 +105,22 @@ class PreviewService {
 	 */
 	public function getAvailablePreviews(array $fileIds): array {
 		return $this->previewMapper->getAvailablePreviews($fileIds);
+	}
+
+	public function deleteExpiredPreviews(int $maxAgeDays): void {
+		$lastId = 0;
+		while (true) {
+			$previews = $this->previewMapper->getPreviews($lastId, PreviewMapper::MAX_CHUNK_SIZE, $maxAgeDays);
+			$i = 0;
+			foreach ($previews as $preview) {
+				$this->deletePreview($preview);
+				$i++;
+				$lastId = $preview->getId();
+			}
+
+			if ($i !== PreviewMapper::MAX_CHUNK_SIZE) {
+				break;
+			}
+		}
 	}
 }
