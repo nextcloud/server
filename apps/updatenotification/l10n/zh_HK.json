@@ -1,6 +1,7 @@
 { "translations": {
     "Channel updated" : "頻道已更新",
     "Web updater is disabled" : "Web updater 已停用",
+    "Configuration is read-only" : "配置為唯讀",
     "App updated" : "應用程式更新了",
     "See what's new" : "看看有什麼新的",
     "{app} updated to version {version}" : "{app} 更新到版本 {version}",
