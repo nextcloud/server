@@ -131,7 +131,6 @@
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.93.2",
-    "sinon": "<= 5.0.7",
     "typescript": "^5.9.2",
     "vite": "^7.1.8",
     "vitest": "^3.2.4",
