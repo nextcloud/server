@@ -15,6 +15,7 @@ return array(
     'OCA\\Encryption\\Command\\FixKeyLocation' => $baseDir . '/../lib/Command/FixKeyLocation.php',
     'OCA\\Encryption\\Command\\RecoverUser' => $baseDir . '/../lib/Command/RecoverUser.php',
     'OCA\\Encryption\\Command\\ScanLegacyFormat' => $baseDir . '/../lib/Command/ScanLegacyFormat.php',
+    'OCA\\Encryption\\Command\\CleanOrphanedKeys' => $baseDir . '/../lib/Command/CleanOrphanedKeys.php',
     'OCA\\Encryption\\Controller\\RecoveryController' => $baseDir . '/../lib/Controller/RecoveryController.php',
     'OCA\\Encryption\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Encryption\\Controller\\StatusController' => $baseDir . '/../lib/Controller/StatusController.php',

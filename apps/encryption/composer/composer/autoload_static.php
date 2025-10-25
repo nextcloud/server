@@ -30,6 +30,7 @@ class ComposerStaticInitEncryption
         'OCA\\Encryption\\Command\\FixKeyLocation' => __DIR__ . '/..' . '/../lib/Command/FixKeyLocation.php',
         'OCA\\Encryption\\Command\\RecoverUser' => __DIR__ . '/..' . '/../lib/Command/RecoverUser.php',
         'OCA\\Encryption\\Command\\ScanLegacyFormat' => __DIR__ . '/..' . '/../lib/Command/ScanLegacyFormat.php',
+        'OCA\\Encryption\\Command\\CleanOrphanedKeys' => __DIR__ . '/..' . '/../lib/Command/CleanOrphanedKeys.php',
         'OCA\\Encryption\\Controller\\RecoveryController' => __DIR__ . '/..' . '/../lib/Controller/RecoveryController.php',
         'OCA\\Encryption\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Encryption\\Controller\\StatusController' => __DIR__ . '/..' . '/../lib/Controller/StatusController.php',
