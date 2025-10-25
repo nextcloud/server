@@ -28,7 +28,7 @@
     "User is not a sub-admin of this group" : "Brugeren er ikke underadministrator for denne gruppe",
     "Email address not available" : "E-mailadresse ikke tilgængelig",
     "Sending email failed" : "Det lykkedes ikke at sende e-mailen",
-    "Logged in account is not mail address owner" : "Den indloggede konto er ikke ejeren af ​​e-mailadressen",
+    "Logged in account is not mail address owner" : "Den påloggede konto er ikke ejeren af ​​e-mailadressen",
     "Email confirmation" : "E-mailbekræftelse",
     "To enable the email address %s please click the button below." : "For at aktivere e-mailadressen %s, klik venligst på knappen nedenfor.",
     "Confirm" : "Bekræft",
