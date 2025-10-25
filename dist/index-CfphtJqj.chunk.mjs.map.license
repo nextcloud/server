@@ -1,0 +1,11 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+
+This file is generated from multiple sources. Included packages:
+- vue-material-design-icons
+	- version: 5.3.1
+	- license: MIT
+- webdav
+	- version: 5.8.0
+	- license: MIT

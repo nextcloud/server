@@ -46,7 +46,7 @@
 					<span v-if="versionLabel">•</span>
 					<NcAvatar
 						class="avatar"
-						:user="version.author"
+						:user="version.author ?? undefined"
 						:size="20"
 						disable-menu
 						disable-tooltip
@@ -130,8 +130,9 @@
 	</NcListItem>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { PropType } from 'vue'
+import type { LegacyFileInfo } from '../../../files/src/services/FileInfo.ts'
 import type { Version } from '../utils/versions.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -141,8 +142,7 @@ import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { joinPaths } from '@nextcloud/paths'
 import { getRootUrl } from '@nextcloud/router'
-import Tooltip from '@nextcloud/vue/directives/Tooltip'
-import { defineComponent } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
@@ -155,193 +155,176 @@ import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 
-const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
-
-export default defineComponent({
-	name: 'VersionEntry',
-
-	components: {
-		NcActionLink,
-		NcActionButton,
-		NcAvatar,
-		NcDateTime,
-		NcListItem,
-		BackupRestore,
-		Download,
-		FileCompare,
-		Pencil,
-		Delete,
-		ImageOffOutline,
+const props = defineProps({
+	version: {
+		type: Object as PropType<Version>,
+		required: true,
 	},
 
-	directives: {
-		tooltip: Tooltip,
+	fileInfo: {
+		type: Object as PropType<LegacyFileInfo>,
+		required: true,
 	},
 
-	props: {
-		version: {
-			type: Object as PropType<Version>,
-			required: true,
-		},
-
-		fileInfo: {
-			type: Object,
-			required: true,
-		},
-
-		isCurrent: {
-			type: Boolean,
-			default: false,
-		},
-
-		isFirstVersion: {
-			type: Boolean,
-			default: false,
-		},
-
-		loadPreview: {
-			type: Boolean,
-			default: false,
-		},
-
-		canView: {
-			type: Boolean,
-			default: false,
-		},
-
-		canCompare: {
-			type: Boolean,
-			default: false,
-		},
+	isCurrent: {
+		type: Boolean,
+		default: false,
 	},
 
-	emits: ['click', 'compare', 'restore', 'delete', 'label-update-request'],
-
-	data() {
-		return {
-			previewLoaded: false,
-			previewErrored: false,
-			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
-		}
+	isFirstVersion: {
+		type: Boolean,
+		default: false,
 	},
 
-	computed: {
-		humanReadableSize() {
-			return formatFileSize(this.version.size)
-		},
-
-		versionLabel(): string {
-			const label = this.version.label ?? ''
-
-			if (this.isCurrent) {
-				if (label === '') {
-					return t('files_versions', 'Current version')
-				} else {
-					return `${label} (${t('files_versions', 'Current version')})`
-				}
-			}
-
-			if (this.isFirstVersion && label === '') {
-				return t('files_versions', 'Initial version')
-			}
-
-			return label
-		},
-
-		versionAuthor() {
-			if (!this.version.author || !this.version.authorName) {
-				return ''
-			}
-
-			if (this.version.author === getCurrentUser()?.uid) {
-				return t('files_versions', 'You')
-			}
-
-			return this.version.authorName ?? this.version.author
-		},
-
-		versionHumanExplicitDate(): string {
-			return moment(this.version.mtime).format('LLLL')
-		},
-
-		downloadURL(): string {
-			if (this.isCurrent) {
-				return getRootUrl() + joinPaths('/remote.php/webdav', this.fileInfo.path, this.fileInfo.name)
-			} else {
-				return getRootUrl() + this.version.url
-			}
-		},
-
-		enableLabeling(): boolean {
-			return this.capabilities.files.version_labeling === true
-		},
-
-		enableDeletion(): boolean {
-			return this.capabilities.files.version_deletion === true
-		},
-
-		hasDeletePermissions(): boolean {
-			return hasPermission(this.fileInfo.permissions, Permission.DELETE)
-		},
-
-		hasUpdatePermissions(): boolean {
-			return hasPermission(this.fileInfo.permissions, Permission.UPDATE)
-		},
-
-		isDownloadable(): boolean {
-			if ((this.fileInfo.permissions & Permission.READ) === 0) {
-				return false
-			}
-
-			// If the mount type is a share, ensure it got download permissions.
-			if (this.fileInfo.mountType === 'shared') {
-				const downloadAttribute = this.fileInfo.shareAttributes
-					.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download') || {}
-				// If the download attribute is set to false, the file is not downloadable
-				if (downloadAttribute?.value === false) {
-					return false
-				}
-			}
-
-			return true
-		},
+	loadPreview: {
+		type: Boolean,
+		default: false,
 	},
 
-	methods: {
-		labelUpdate() {
-			this.$emit('label-update-request')
-		},
+	canView: {
+		type: Boolean,
+		default: false,
+	},
 
-		restoreVersion() {
-			this.$emit('restore', this.version)
-		},
-
-		async deleteVersion() {
-			// Let @nc-vue properly remove the popover before we delete the version.
-			// This prevents @nc-vue from throwing a error.
-			await this.$nextTick()
-			await this.$nextTick()
-			this.$emit('delete', this.version)
-		},
-
-		click() {
-			if (!this.canView) {
-				window.location.href = this.downloadURL
-				return
-			}
-			this.$emit('click', { version: this.version })
-		},
-
-		compareVersion() {
-			if (!this.canView) {
-				throw new Error('Cannot compare version of this file')
-			}
-			this.$emit('compare', { version: this.version })
-		},
-
-		t,
+	canCompare: {
+		type: Boolean,
+		default: false,
 	},
 })
+
+const emit = defineEmits(['click', 'compare', 'restore', 'delete', 'label-update-request'])
+
+const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
+
+const previewLoaded = ref(false)
+const previewErrored = ref(false)
+const capabilities = ref(loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }))
+
+const humanReadableSize = computed(() => {
+	return formatFileSize(props.version.size)
+})
+
+const versionLabel = computed(() => {
+	const label = props.version.label ?? ''
+
+	if (props.isCurrent) {
+		if (label === '') {
+			return t('files_versions', 'Current version')
+		} else {
+			return `${label} (${t('files_versions', 'Current version')})`
+		}
+	}
+
+	if (props.isFirstVersion && label === '') {
+		return t('files_versions', 'Initial version')
+	}
+
+	return label
+})
+
+const versionAuthor = computed(() => {
+	if (!props.version.author || !props.version.authorName) {
+		return ''
+	}
+
+	if (props.version.author === getCurrentUser()?.uid) {
+		return t('files_versions', 'You')
+	}
+
+	return props.version.authorName ?? props.version.author
+})
+
+const versionHumanExplicitDate = computed(() => {
+	return moment(props.version.mtime).format('LLLL')
+})
+
+const downloadURL = computed(() => {
+	if (props.isCurrent) {
+		return getRootUrl() + joinPaths('/remote.php/webdav', props.fileInfo.path, props.fileInfo.name)
+	} else {
+		return getRootUrl() + props.version.url
+	}
+})
+
+const enableLabeling = computed(() => {
+	return capabilities.value.files.version_labeling === true
+})
+
+const enableDeletion = computed(() => {
+	return capabilities.value.files.version_deletion === true
+})
+
+const hasDeletePermissions = computed(() => {
+	return hasPermission(props.fileInfo.permissions, Permission.DELETE)
+})
+
+const hasUpdatePermissions = computed(() => {
+	return hasPermission(props.fileInfo.permissions, Permission.UPDATE)
+})
+
+const isDownloadable = computed(() => {
+	if ((props.fileInfo.permissions & Permission.READ) === 0) {
+		return false
+	}
+
+	// If the mount type is a share, ensure it got download permissions.
+	if (props.fileInfo.mountType === 'shared') {
+		const downloadAttribute = props.fileInfo.shareAttributes
+			.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download') || {}
+		// If the download attribute is set to false, the file is not downloadable
+		if (downloadAttribute?.value === false) {
+			return false
+		}
+	}
+
+	return true
+})
+
+/**
+ *
+ */
+function labelUpdate() {
+	emit('label-update-request')
+}
+
+/**
+ *
+ */
+function restoreVersion() {
+	emit('restore', props.version)
+}
+
+/**
+ *
+ */
+async function deleteVersion() {
+	// Let @nc-vue properly remove the popover before we delete the version.
+	// This prevents @nc-vue from throwing a error.
+	await nextTick()
+	await nextTick()
+	emit('delete', props.version)
+}
+
+/**
+ *
+ */
+function click() {
+	if (!props.canView) {
+		window.location.href = downloadURL.value
+		return
+	}
+	emit('click', { version: props.version })
+}
+
+/**
+ *
+ */
+function compareVersion() {
+	if (!props.canView) {
+		throw new Error('Cannot compare version of this file')
+	}
+	emit('compare', { version: props.version })
+}
 </script>
 
 <style scoped lang="scss">

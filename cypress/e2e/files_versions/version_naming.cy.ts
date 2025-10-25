@@ -28,18 +28,18 @@ describe('Versions naming', () => {
 
 	it('Names the versions', () => {
 		nameVersion(2, 'v1')
-		cy.get('#tab-version_vue').within(() => {
+		cy.get('#tab-files_versions').within(() => {
 			cy.get('[data-files-versions-version]').eq(2).contains('v1')
 			cy.get('[data-files-versions-version]').eq(2).contains('Initial version').should('not.exist')
 		})
 
 		nameVersion(1, 'v2')
-		cy.get('#tab-version_vue').within(() => {
+		cy.get('#tab-files_versions').within(() => {
 			cy.get('[data-files-versions-version]').eq(1).contains('v2')
 		})
 
 		nameVersion(0, 'v3')
-		cy.get('#tab-version_vue').within(() => {
+		cy.get('#tab-files_versions').within(() => {
 			cy.get('[data-files-versions-version]').eq(0).contains('v3 (Current version)')
 		})
 	})
@@ -53,18 +53,18 @@ describe('Versions naming', () => {
 
 			it('Names the versions', () => {
 				nameVersion(2, 'v1 - shared')
-				cy.get('#tab-version_vue').within(() => {
+				cy.get('#tab-files_versions').within(() => {
 					cy.get('[data-files-versions-version]').eq(2).contains('v1 - shared')
 					cy.get('[data-files-versions-version]').eq(2).contains('Initial version').should('not.exist')
 				})
 
 				nameVersion(1, 'v2 - shared')
-				cy.get('#tab-version_vue').within(() => {
+				cy.get('#tab-files_versions').within(() => {
 					cy.get('[data-files-versions-version]').eq(1).contains('v2 - shared')
 				})
 
 				nameVersion(0, 'v3 - shared')
-				cy.get('#tab-version_vue').within(() => {
+				cy.get('#tab-files_versions').within(() => {
 					cy.get('[data-files-versions-version]').eq(0).contains('v3 - shared (Current version)')
 				})
 			})

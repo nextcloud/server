@@ -28,14 +28,14 @@ import {
 
 	defineComponent,
 } from 'vue'
-import logger from '../utils/logger.js'
+import logger from '../utils/logger.ts'
 
-interface RowItem {
+export interface RowItem {
 	id: string // Unique id for the item.
 	key?: string // Unique key for the item.
 }
 
-interface Row {
+export interface Row {
 	key: string // Unique key for the row.
 	height: number // The height of the row.
 	sectionKey: string // Unique key for the row.
