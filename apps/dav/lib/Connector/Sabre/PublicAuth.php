@@ -134,8 +134,7 @@ class PublicAuth extends AbstractBasic {
 		\OC_User::setIncognitoMode(true);
 
 		// If already authenticated
-		if ($this->session->exists(self::DAV_AUTHENTICATED)
-			&& $this->session->get(self::DAV_AUTHENTICATED) === $share->getId()) {
+		if ($this->isShareInSession($share)) {
 			return [true, $this->principalPrefix . $token];
 		}
 
@@ -177,17 +176,17 @@ class PublicAuth extends AbstractBasic {
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {
+				// Validate password if provided
 				if ($this->shareManager->checkPassword($share, $password)) {
 					// If not set, set authenticated session cookie
-					if (!$this->session->exists(self::DAV_AUTHENTICATED)
-						|| $this->session->get(self::DAV_AUTHENTICATED) !== $share->getId()) {
-						$this->session->set(self::DAV_AUTHENTICATED, $share->getId());
+					if (!$this->isShareInSession($share)) {
+						$this->addShareToSession($share);
 					}
 					return true;
 				}
 				
-				if ($this->session->exists(PublicAuth::DAV_AUTHENTICATED)
-					&& $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()) {
+				// We are already authenticated for this share in the session
+				if ($this->isShareInSession($share)) {
 					return true;
 				}
 
@@ -220,5 +219,28 @@ class PublicAuth extends AbstractBasic {
 		}
 
 		return $this->share;
+	}
+
+	private function addShareToSession(IShare $share): void {
+		$allowedShareIds = $this->session->get(self::DAV_AUTHENTICATED) ?? [];
+		if (!is_array($allowedShareIds)) {
+			$allowedShareIds = [];
+		}
+
+		$allowedShareIds[] = $share->getId();
+		$this->session->set(self::DAV_AUTHENTICATED, $allowedShareIds);
+	}
+
+	private function isShareInSession(IShare $share): bool {
+		if (!$this->session->exists(self::DAV_AUTHENTICATED)) {
+			return false;
+		}
+
+		$allowedShareIds = $this->session->get(self::DAV_AUTHENTICATED);
+		if (!is_array($allowedShareIds)) {
+			return false;
+		}
+
+		return in_array($share->getId(), $allowedShareIds);
 	}
 }
