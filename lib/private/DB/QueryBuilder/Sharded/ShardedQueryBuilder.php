@@ -236,12 +236,16 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
-		$this->checkJoin($join);
+		if (is_string($join)) {
+			$this->checkJoin($join);
+		}
 		return parent::innerJoin($fromAlias, $join, $alias, $condition);
 	}
 
 	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
-		$this->checkJoin($join);
+		if (is_string($join)) {
+			$this->checkJoin($join);
+		}
 		return parent::leftJoin($fromAlias, $join, $alias, $condition);
 	}
 

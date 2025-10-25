@@ -34,36 +34,53 @@ class PreviewService {
 	 * @return \Generator<array{storageId: int, fileIds: int[]}>
 	 */
 	public function getAvailableFileIds(): \Generator {
-		$maxQb = $this->connection->getQueryBuilder();
-		$maxQb->select($maxQb->func()->max('id'))
-			->from($this->previewMapper->getTableName())
-			->groupBy('file_id');
+		$lastId = null;
+		while (true) {
+			$maxQb = $this->connection->getQueryBuilder();
+			$maxQb->selectAlias($maxQb->func()->max('id'), 'max_id')
+				->from($this->previewMapper->getTableName())
+				->groupBy('file_id')
+				->orderBy('max_id', 'ASC');
 
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('file_id', 'storage_id')
-			->from($this->previewMapper->getTableName())
-			->where($qb->expr()->in('id', $qb->createFunction($maxQb->getSQL())));
+			$qb = $this->connection->getQueryBuilder();
 
-		$result = $qb->executeQuery();
-
-		$lastStorageId = -1;
-		/** @var int[] $fileIds */
-		$fileIds = [];
-
-		// Previews next to each others in the database are likely in the same storage, so group them
-		while ($row = $result->fetch()) {
-			if ($lastStorageId !== $row['storage_id']) {
-				if ($lastStorageId !== -1) {
-					yield ['storageId' => $lastStorageId, 'fileIds' => $fileIds];
-					$fileIds = [];
-				}
-				$lastStorageId = (int)$row['storage_id'];
+			if ($lastId !== null) {
+				$maxQb->andWhere($maxQb->expr()->gt('id', $qb->createNamedParameter($lastId)));
 			}
-			$fileIds[] = (int)$row['file_id'];
-		}
 
-		if (count($fileIds) > 0) {
-			yield ['storageId' => $lastStorageId, 'fileIds' => $fileIds];
+			$qb->select('id', 'file_id', 'storage_id')
+				->from($this->previewMapper->getTableName(), 'p1')
+				->innerJoin('p1', $qb->createFunction('(' . $maxQb->getSQL() . ')'), 'p2', $qb->expr()->eq('p1.id', 'p2.max_id'))
+				->setMaxResults(1000);
+
+			$result = $qb->executeQuery();
+
+			$lastStorageId = -1;
+			/** @var int[] $fileIds */
+			$fileIds = [];
+
+			$found = false;
+			// Previews next to each others in the database are likely in the same storage, so group them
+			while ($row = $result->fetch()) {
+				$found = true;
+				if ($lastStorageId !== (int)$row['storage_id']) {
+					if ($lastStorageId !== -1) {
+						yield ['storageId' => $lastStorageId, 'fileIds' => $fileIds];
+						$fileIds = [];
+					}
+					$lastStorageId = (int)$row['storage_id'];
+				}
+				$fileIds[] = (int)$row['file_id'];
+				$lastId = $row['id'];
+			}
+
+			if (count($fileIds) > 0) {
+				yield ['storageId' => $lastStorageId, 'fileIds' => $fileIds];
+			}
+
+			if (!$found) {
+				break;
+			}
 		}
 	}
 
