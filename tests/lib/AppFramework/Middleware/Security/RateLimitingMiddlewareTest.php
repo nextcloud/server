@@ -25,9 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\AppFramework\Middleware\Security\Mock\RateLimitingMiddlewareController;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RateLimitingMiddlewareTest extends TestCase {
 	private IRequest|MockObject $request;
 	private IUserSession|MockObject $userSession;

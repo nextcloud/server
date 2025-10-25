@@ -10,10 +10,7 @@ namespace Test\Share;
 
 use OC\Share\Helper;
 
-/**
- * @group DB
- * Class Helper
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HelperTest extends \Test\TestCase {
 	public static function expireDateProvider(): array {
 		return [

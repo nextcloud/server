@@ -21,9 +21,7 @@ use OCP\IUrlGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ServerTest extends TestCase {
 	private IDBConnection $connection;
 	private Server&MockObject $admin;

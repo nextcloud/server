@@ -15,10 +15,11 @@ use OC\Files\Storage\Temporary;
 /**
  * Class WatcherTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Medium]
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class WatcherTest extends \Test\TestCase {
 	/**
 	 * @var Storage[] $storages
@@ -42,9 +43,6 @@ class WatcherTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @medium
-	 */
 	public function testWatcher(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
@@ -83,9 +81,7 @@ class WatcherTest extends \Test\TestCase {
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
 
-	/**
-	 * @medium
-	 */
+
 	public function testFileToFolder(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();

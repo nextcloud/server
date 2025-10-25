@@ -11,9 +11,7 @@ namespace Test\Memcache;
 use OC\Memcache\ArrayCache;
 use Test\TestCase;
 
-/**
- * @group Memcache
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
 class CasTraitTest extends TestCase {
 	/**
 	 * @return \OC\Memcache\CasTrait

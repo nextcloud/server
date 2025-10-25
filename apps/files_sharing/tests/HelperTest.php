@@ -14,9 +14,8 @@ use OCP\Server;
 
 /**
  * Class HelperTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HelperTest extends TestCase {
 
 	/**

@@ -29,9 +29,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class NodeTest
  *
- * @group DB
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class NodeTest extends \Test\TestCase {
 	public static function davPermissionsProvider(): array {
 		return [

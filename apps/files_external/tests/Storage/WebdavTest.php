@@ -16,10 +16,10 @@ use OCP\Server;
 /**
  * Class WebdavTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class WebdavTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 

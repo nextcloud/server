@@ -29,10 +29,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class SharesReminderJobTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SharesReminderJobTest extends \Test\TestCase {
 	private SharesReminderJob $job;
 	private IDBConnection $db;

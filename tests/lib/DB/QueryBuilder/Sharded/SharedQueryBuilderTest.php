@@ -19,9 +19,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SharedQueryBuilderTest extends TestCase {
 	private IDBConnection $connection;
 	private AutoIncrementHandler $autoIncrementHandler;

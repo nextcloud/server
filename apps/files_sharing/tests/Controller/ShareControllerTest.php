@@ -50,10 +50,9 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @group DB
- *
  * @package OCA\Files_Sharing\Controllers
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareControllerTest extends \Test\TestCase {
 
 	private string $user;

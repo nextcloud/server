@@ -14,9 +14,7 @@ use OCP\Security\ICrypto;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DBConfigServiceTest extends TestCase {
 	private IDBConnection $connection;
 	private DBConfigService $dbConfig;

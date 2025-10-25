@@ -34,6 +34,9 @@ class ClassB {
 }
 
 class DIIntergrationTests extends TestCase {
+	public function __construct() {
+		parent::__construct(static::class);
+	}
 	private DIContainer $container;
 	private ServerContainer $server;
 

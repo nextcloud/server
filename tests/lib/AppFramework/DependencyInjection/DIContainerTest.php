@@ -22,9 +22,7 @@ use OCP\IConfig;
 use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DIContainerTest extends \Test\TestCase {
 	private DIContainer&MockObject $container;
 

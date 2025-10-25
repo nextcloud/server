@@ -13,10 +13,10 @@ use OC\Preview\Postscript;
 /**
  * Class BitmapTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class BitmapTest extends Provider {
 	protected function setUp(): void {
 		parent::setUp();

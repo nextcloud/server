@@ -26,9 +26,9 @@ use Test\TestCase;
 /**
  * Class TestSystemTagObjectMapper
  *
- * @group DB
  * @package Test\SystemTag
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SystemTagObjectMapperTest extends TestCase {
 	/**
 	 * @var ISystemTagManager

@@ -13,10 +13,10 @@ use OCA\Files_External\Lib\Storage\OwnCloud;
 /**
  * Class OwnCloudFunctions
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OwnCloudFunctionsTest extends \Test\TestCase {
 	public static function configUrlProvider(): array {
 		return [

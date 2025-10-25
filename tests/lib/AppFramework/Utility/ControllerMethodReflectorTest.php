@@ -134,9 +134,6 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	public function arguments3($a, float $b, int $c, $d) {
 	}
 
-	/**
-	 * @requires PHP 7
-	 */
 	public function testReadTypeIntAnnotationsScalarTypes(): void {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect(

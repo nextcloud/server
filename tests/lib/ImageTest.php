@@ -172,9 +172,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertNull($img->data());
 	}
 
-	/**
-	 * @depends testData
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testData')]
 	public function testToString(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage.png');

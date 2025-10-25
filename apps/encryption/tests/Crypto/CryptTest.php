@@ -306,9 +306,8 @@ class CryptTest extends TestCase {
 
 	/**
 	 * test decrypt()
-	 *
-	 * @depends testEncrypt
 	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testEncrypt')]
 	public function testDecrypt($data): void {
 		$result = self::invokePrivate(
 			$this->crypt,

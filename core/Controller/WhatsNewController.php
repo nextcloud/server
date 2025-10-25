@@ -12,6 +12,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -19,7 +20,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\PreConditionNotMetException;
 
-class WhatsNewController extends \OCP\AppFramework\OCSController {
+class WhatsNewController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,

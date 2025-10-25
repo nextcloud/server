@@ -17,10 +17,8 @@ use OCP\Server;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group DB
- */
 #[CoversClass(PreviewService::class)]
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewServiceTest extends TestCase {
 	private PreviewService $previewService;
 	private PreviewMapper $previewMapper;

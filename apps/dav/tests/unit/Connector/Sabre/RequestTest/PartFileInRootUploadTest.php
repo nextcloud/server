@@ -14,10 +14,10 @@ use OCP\Server;
 /**
  * Class PartFileInRootUploadTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PartFileInRootUploadTest extends UploadTest {
 	protected function setUp(): void {
 		$config = Server::get(IConfig::class);

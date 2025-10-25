@@ -24,10 +24,10 @@ use Test\Traits\UserTrait;
 /**
  * Class FileCacheTest
  *
- * @group DB
  *
  * @package Test\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileCacheTest extends TestCache {
 	use UserTrait;
 

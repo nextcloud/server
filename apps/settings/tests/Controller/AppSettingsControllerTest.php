@@ -34,9 +34,8 @@ use Test\TestCase;
  * Class AppSettingsControllerTest
  *
  * @package Tests\Settings\Controller
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppSettingsControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 	private IL10N&MockObject $l10n;

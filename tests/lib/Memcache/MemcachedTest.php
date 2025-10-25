@@ -10,10 +10,8 @@ namespace Test\Memcache;
 
 use OC\Memcache\Memcached;
 
-/**
- * @group Memcache
- * @group Memcached
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
+#[\PHPUnit\Framework\Attributes\Group('Memcached')]
 class MemcachedTest extends Cache {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();

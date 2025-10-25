@@ -18,9 +18,7 @@ use Test\TestCase;
 use function sleep;
 use function time;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class StatusServiceIntegrationTest extends TestCase {
 
 	private StatusService $service;

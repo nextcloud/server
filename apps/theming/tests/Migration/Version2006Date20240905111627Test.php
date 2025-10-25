@@ -20,9 +20,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class Version2006Date20240905111627Test extends TestCase {
 
 	private IAppConfig&MockObject $appConfig;
@@ -75,9 +73,7 @@ class Version2006Date20240905111627Test extends TestCase {
 		], $setValueCalls);
 	}
 
-	/**
-	 * @group DB
-	 */
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
 	public function testRestoreUserColors(): void {
 		$this->appConfig->expects(self::once())
 			->method('getValueString')
@@ -126,8 +122,8 @@ class Version2006Date20240905111627Test extends TestCase {
 
 	/**
 	 * Ensure only users with background color but no primary color are migrated
-	 * @group DB
 	 */
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
 	public function testRestoreUserColorsWithConflicts(): void {
 		$this->appConfig->expects(self::once())
 			->method('getValueString')

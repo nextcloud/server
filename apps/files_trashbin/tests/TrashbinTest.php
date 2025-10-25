@@ -33,9 +33,8 @@ use OCP\Share\IShare;
 
 /**
  * Class Test_Encryption
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TrashbinTest extends \Test\TestCase {
 	public const TEST_TRASHBIN_USER1 = 'test-trashbin-user1';
 	public const TEST_TRASHBIN_USER2 = 'test-trashbin-user2';

@@ -31,9 +31,9 @@ use Test\Traits\UserTrait;
 /**
  * Class FixEncryptedVersionTest
  *
- * @group DB
  * @package OCA\Encryption\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FixEncryptedVersionTest extends TestCase {
 	use MountProviderTrait;
 	use EncryptionTrait;

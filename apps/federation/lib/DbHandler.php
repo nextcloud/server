@@ -20,8 +20,6 @@ use OCP\IL10N;
  * Handles all database calls for the federation app
  *
  * @todo Port to QBMapper
- *
- * @group DB
  * @package OCA\Federation
  */
 class DbHandler {

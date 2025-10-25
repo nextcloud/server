@@ -27,10 +27,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class GetSharedSecretTest
  *
- * @group DB
  *
  * @package OCA\Federation\Tests\BackgroundJob
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class GetSharedSecretTest extends TestCase {
 
 	private MockObject&IClient $httpClient;

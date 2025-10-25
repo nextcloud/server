@@ -43,10 +43,10 @@ use function time;
 /**
  * Class CardDavBackendTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\CardDAV
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CardDavBackendTest extends TestCase {
 	private Principal&MockObject $principal;
 	private IUserManager&MockObject $userManager;

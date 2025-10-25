@@ -13,9 +13,7 @@ use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use OCP\Server;
 
-/**
- * @group PRIMARY-swift
- */
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-swift')]
 class SwiftTest extends ObjectStoreTestCase {
 	/**
 	 * @return IObjectStore

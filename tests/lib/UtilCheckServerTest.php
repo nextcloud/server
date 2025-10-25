@@ -16,9 +16,8 @@ use OCP\Util;
 
 /**
  * Tests for server check functions
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UtilCheckServerTest extends \Test\TestCase {
 	private $datadir;
 
