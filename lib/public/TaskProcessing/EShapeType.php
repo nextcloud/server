@@ -30,6 +30,8 @@ enum EShapeType: int {
 	case ListOfAudios = 13;
 	case ListOfVideos = 14;
 	case ListOfFiles = 15;
+	Case Array = 20;
+	Case Object = 21;
 
 	/**
 	 * @param mixed $value
@@ -105,6 +107,12 @@ enum EShapeType: int {
 		}
 		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
+		}
+		if ($this === EShapeType::Array && !is_array($value)) {
+			throw new ValidationException('Non-array item provided for Array slot');
+		}
+		if ($this === EShapeType::Object && !is_object($value)) {
+			throw new ValidationException('Non-object item provided for Object slot');
 		}
 	}
 
