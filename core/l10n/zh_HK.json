@@ -47,6 +47,7 @@
     "No translation provider available" : "沒有可用翻譯提供者",
     "Could not detect language" : "無法檢測語言",
     "Unable to translate" : "無法翻譯",
+    "No valid filters provided" : "未提供有效的篩選條件",
     "[%d / %d]: %s" : "[%d / %d]：%s",
     "Repair step:" : "修復步驟：",
     "Repair info:" : "修復資訊：",
