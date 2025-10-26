@@ -45,7 +45,7 @@ class ContactsManager {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function setupSystemContactsProvider(IManager $cm, ?string $userId, IURLGenerator $urlGenerator) {
-		$systemAddressBookExposed = $this->appConfig->getValueBool('dav', 'system_addressbook_exposed', true);
+		$systemAddressBookExposed = $this->appConfig->getValueString('dav', 'system_addressbook_exposed', 'yes') === 'yes';
 		if (!$systemAddressBookExposed) {
 			return;
 		}
