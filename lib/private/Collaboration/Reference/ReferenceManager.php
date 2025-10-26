@@ -108,11 +108,14 @@ class ReferenceManager implements IReferenceManager {
 		}
 		if ($reference) {
 			$cachePrefix = $matchedProvider->getCachePrefix($referenceId);
+			// Respect provider's custom cache TTL, fallback to default if not specified
+			$cacheTtl = method_exists($matchedProvider, 'getCacheTTL') ? $matchedProvider->getCacheTTL() : self::CACHE_TTL;
+			$cacheTtl = $cacheTtl ?? self::CACHE_TTL;
 			if ($cachePrefix !== '') {
 				// If a prefix is used we set an additional key to know when we need to delete by prefix during invalidateCache()
-				$this->cache->set('hasPrefix-' . md5($cachePrefix), true, self::CACHE_TTL);
+				$this->cache->set('hasPrefix-' . md5($cachePrefix), true, $cacheTtl);
 			}
-			$this->cache->set($cacheKey, Reference::toCache($reference), self::CACHE_TTL);
+			$this->cache->set($cacheKey, Reference::toCache($reference), $cacheTtl);
 			return $reference;
 		}
 
