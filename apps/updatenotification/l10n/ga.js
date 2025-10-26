@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Nuashonraíodh an cainéal",
     "Web updater is disabled" : "Tá an nuashonrú Gréasáin díchumasaithe",
+    "Configuration is read-only" : "Is inléite amháin atá an chumraíocht",
     "App updated" : "Nuashonraíodh an app",
     "See what's new" : "Féach cad atá nua",
     "{app} updated to version {version}" : "Nuashonraíodh {app} go leagan {version}",

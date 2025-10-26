@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Kanál aktualizován",
     "Web updater is disabled" : "Nástroj pro aktualizaci přes webové rozhraní je vypnutý",
+    "Configuration is read-only" : "Nastavení je pouze pro čtení",
     "App updated" : "Aplikace zaktualizována",
     "See what's new" : "Zjistěte, co je nového",
     "{app} updated to version {version}" : "{app} zaktualizováno na verzi {version}",

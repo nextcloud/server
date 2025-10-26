@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Smazat komentář",
     "Cancel edit" : "Zrušit úpravu",
     "New comment" : "Nový komentář",
+    "Write a comment …" : "Napsat komentář …",
     "Post comment" : "Odeslat komentář",
     "@ for mentions, : for emoji, / for smart picker" : "@ pro zmínění, : pro emotikony, / pro inteligentní výběr",
     "Could not reload comments" : "Znovunačtení komentářů se nezdařilo",
