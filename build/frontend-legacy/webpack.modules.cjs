@@ -60,9 +60,6 @@ module.exports = {
 	files_trashbin: {
 		init: path.join(__dirname, 'apps/files_trashbin/src', 'files-init.ts'),
 	},
-	files_versions: {
-		files_versions: path.join(__dirname, 'apps/files_versions/src', 'files_versions_tab.js'),
-	},
 	oauth2: {
 		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
 	},

@@ -5,16 +5,43 @@
 
 /* eslint-disable jsdoc/require-jsdoc */
 
-import type { Node } from '@nextcloud/files'
+import type { Attribute, Node } from '@nextcloud/files'
 
-export default function(node: Node) {
-	const fileInfo = new OC.Files.FileInfo({
-		id: node.fileid,
+interface RawLegacyFileInfo {
+	id: number
+	path: string
+	name: string
+	mtime: number | undefined
+	etag: string
+	size: number
+	hasPreview: boolean
+	isEncrypted: boolean
+	isFavourited: boolean
+	mimetype: string
+	permissions: number
+	mountType: null | string
+	sharePermissions: string
+	shareAttributes: object
+	type: 'file' | 'dir'
+	attributes: Attribute
+}
+
+export type LegacyFileInfo = RawLegacyFileInfo & {
+	get: (key: keyof RawLegacyFileInfo) => unknown
+	isDirectory: () => boolean
+	canEdit: () => boolean
+	node: Node
+	canDownload: () => boolean
+}
+
+export default function(node: Node): LegacyFileInfo {
+	const rawFileInfo: RawLegacyFileInfo = {
+		id: node.fileid!,
 		path: node.dirname,
 		name: node.basename,
 		mtime: node.mtime?.getTime(),
 		etag: node.attributes.etag,
-		size: node.size,
+		size: node.size!,
 		hasPreview: node.attributes.hasPreview,
 		isEncrypted: node.attributes.isEncrypted === 1,
 		isFavourited: node.attributes.favorite === 1,
@@ -25,7 +52,9 @@ export default function(node: Node) {
 		shareAttributes: JSON.parse(node.attributes['share-attributes'] || '[]'),
 		type: node.type === 'file' ? 'file' : 'dir',
 		attributes: node.attributes,
-	})
+	}
+
+	const fileInfo = new OC.Files.FileInfo(rawFileInfo)
 
 	// TODO remove when no more legacy backbone is used
 	fileInfo.get = (key) => fileInfo[key]
