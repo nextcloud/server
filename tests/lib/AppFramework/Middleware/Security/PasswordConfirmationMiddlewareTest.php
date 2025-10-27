@@ -206,4 +206,131 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 		$this->assertSame(false, $thrown);
 	}
+
+	//
+	// Additional strict-mode / edge-case tests integrated below.
+	// These reuse the existing test fixtures (reflector, session, request, tokenProvider, etc.)
+	//
+
+	public function testStrictMissingHeaderThrows(): void {
+		$this->reflector->reflect($this->controller, 'testStrictAction');
+
+		// Request returns no header
+		$this->request->method('getHeader')->with('Authorization')->willReturn(null);
+
+		// token retrieval should succeed
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->session->method('getId')->willReturn('sid');
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, 'testStrictAction');
+	}
+
+	public function testStrictMalformedHeaderThrows(): void {
+		$this->reflector->reflect($this->controller, 'testStrictAction');
+
+		// malformed forms like "Basic:" should be rejected by the parser
+		$this->request->method('getHeader')->with('Authorization')->willReturn('Basic: abc');
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->session->method('getId')->willReturn('sid');
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, 'testStrictAction');
+	}
+
+	public function testStrictInvalidBase64Throws(): void {
+		$this->reflector->reflect($this->controller, 'testStrictAction');
+
+		// token contains invalid base64 characters
+		$this->request->method('getHeader')->with('Authorization')->willReturn('Basic !!not-base64!!');
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->session->method('getId')->willReturn('sid');
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, 'testStrictAction');
+	}
+
+	public function testStrictEmptyDecodedThrows(): void {
+		$this->reflector->reflect($this->controller, 'testStrictAction');
+
+		// header with an "empty" base64 payload -> parser will treat as malformed or invalid
+		$this->request->method('getHeader')->with('Authorization')->willReturn('Basic ' . base64_encode(''));
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->session->method('getId')->willReturn('sid');
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, 'testStrictAction');
+	}
+
+	public function testStrictTooLongTokenThrows(): void {
+		$this->reflector->reflect($this->controller, 'testStrictAction');
+
+		$long = str_repeat('A', 5000); // valid base64 chars but exceeds 4096 limit
+		$this->request->method('getHeader')->with('Authorization')->willReturn('Basic ' . $long);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->session->method('getId')->willReturn('sid');
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, 'testStrictAction');
+	}
+
+	public function testStrictUrlSafeBase64Rejected(): void {
+		$this->reflector->reflect($this->controller, 'testStrictAction');
+
+		// create a standard base64 string and then convert to URL-safe variant
+		$normal = base64_encode('alice:secret');
+		$urlsafe = strtr($normal, '+/', '-_'); // produce '-' or '_' which the regex rejects
+
+		$this->request->method('getHeader')->with('Authorization')->willReturn('Basic ' . $urlsafe);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->session->method('getId')->willReturn('sid');
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, 'testStrictAction');
+	}
+
+	public function testNonUtf8DetectionLogsAndContinues(): void {
+		$this->reflector->reflect($this->controller, 'testStrictAction');
+
+		// Construct a decoded payload that contains invalid UTF-8 bytes,
+		// but still contains a colon separating username and password.
+		$decoded = "\x80" . 'alice:secret'; // leading 0x80 byte makes this invalid UTF-8
+		$b64 = base64_encode($decoded);
+		$this->request->method('getHeader')->with('Authorization')->willReturn('Basic ' . $b64);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->session->method('getId')->willReturn('sid');
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		// Provide a loginname in session and accept the password check.
+		$this->session->method('get')->with('loginname')->willReturn('alice');
+		$this->userManager->method('checkPassword')->with('alice', 'secret')->willReturn(true);
+
+		// Expect logger->info to be called with the non-UTF-8 message.
+		$this->logger->expects($this->once())->method('info')->with($this->stringContains('Non-UTF-8 Authorization Basic payload detected'));
+
+		// Expect session->set called to record last-password-confirm (timeFactory returns known time)
+		$this->timeFactory->method('getTime')->willReturn(12345);
+		$this->session->expects($this->once())->method('set')->with('last-password-confirm', 12345);
+
+		$this->middleware->beforeController($this->controller, 'testStrictAction');
+	}
 }
