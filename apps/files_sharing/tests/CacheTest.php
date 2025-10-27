@@ -22,9 +22,8 @@ use OCP\Share\IShare;
 
 /**
  * Class CacheTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CacheTest extends TestCase {
 
 	/**

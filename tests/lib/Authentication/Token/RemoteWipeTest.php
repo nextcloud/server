@@ -12,7 +12,6 @@ namespace Test\Authentication\Token;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Exceptions\WipeTokenException;
-use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IProvider as ITokenProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\IWipeableToken;
@@ -39,7 +38,7 @@ class RemoteWipeTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tokenProvider = $this->createMock(IProvider::class);
+		$this->tokenProvider = $this->createMock(ITokenProvider::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 

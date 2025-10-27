@@ -17,10 +17,10 @@ use PHPUnit\Framework\ExpectationFailedException;
 /**
  * Class SmbTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SmbTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 	/**

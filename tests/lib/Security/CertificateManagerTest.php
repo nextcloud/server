@@ -25,9 +25,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class CertificateManagerTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CertificateManagerTest extends \Test\TestCase {
 	use \Test\Traits\UserTrait;
 	use \Test\Traits\MountProviderTrait;

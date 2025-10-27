@@ -18,10 +18,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class DeleteOrphanedItemsJobTest
  *
- * @group DB
  *
  * @package Test\BackgroundJob
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 	protected IDBConnection $connection;
 	protected LoggerInterface $logger;

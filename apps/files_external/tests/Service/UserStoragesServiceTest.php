@@ -22,9 +22,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserStoragesServiceTest extends StoragesServiceTestCase {
 	use UserTrait;
 

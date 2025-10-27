@@ -18,11 +18,14 @@ use OCP\Server;
 /**
  * Class MovieTestRemoteFile
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MovieTestRemoteFile extends Provider {
+	public function __construct() {
+		parent::__construct(static::class);
+	}
 	// 1080p (1920x1080) 30 FPS HEVC/H264, 10 secs, avg. bitrate: ~10 Mbps
 	protected string $fileName = 'testvideo-remote-file.mp4';
 	protected int $width = 1920;

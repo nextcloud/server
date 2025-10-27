@@ -15,10 +15,10 @@ use OCP\Server;
 /**
  * Class MovieTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MovieTest extends Provider {
 	protected string $fileName = 'testimage.mp4';
 	protected int $width = 560;

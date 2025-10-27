@@ -87,9 +87,7 @@ class ManagerTest extends TestCase {
 		return $this->manager;
 	}
 
-	/**
-	 * @depends testModuleRegistration
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testModuleRegistration')]
 	public function testModuleReRegistration($manager): void {
 		$this->expectException(ModuleAlreadyExistsException::class);
 		$this->expectExceptionMessage('Id "ID0" already used by encryption module "TestDummyModule0"');

@@ -24,10 +24,10 @@ use Test\TestCase;
 /**
  * Class ExpireTrashTest
  *
- * @group DB
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExpireTrashTest extends TestCase {
 	private Expiration $expiration;
 	private Node $userFolder;

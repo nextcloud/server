@@ -19,9 +19,7 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileAccessTest extends TestCase {
 	private IDBConnection $dbConnection;
 	private FileAccess $fileAccess;

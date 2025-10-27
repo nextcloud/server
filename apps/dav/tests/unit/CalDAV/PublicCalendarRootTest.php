@@ -29,10 +29,10 @@ use Test\TestCase;
 /**
  * Class PublicCalendarRootTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PublicCalendarRootTest extends TestCase {
 	public const UNIT_TEST_USER = '';
 	private CalDavBackend $backend;

@@ -32,9 +32,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserMountCacheTest extends TestCase {
 	private IDBConnection $connection;
 	private IUserManager $userManager;

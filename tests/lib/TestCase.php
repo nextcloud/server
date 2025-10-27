@@ -10,7 +10,9 @@ namespace Test;
 
 use DOMDocument;
 use DOMNode;
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Command\QueueBus;
+use OC\Files\AppData\Factory;
 use OC\Files\Cache\Storage;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Filesystem;
@@ -20,7 +22,9 @@ use OC\Files\Mount\RootMountProvider;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
 use OC\Files\View;
+use OC\Installer;
 use OC\Template\Base;
+use OC\Updater;
 use OCP\AppFramework\QueryException;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -338,10 +342,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayLocks();
 
 		// Ensure we start with fresh instances of some classes to reduce side-effects between tests
-		unset(\OC::$server[\OC\Files\AppData\Factory::class]);
-		unset(\OC::$server[\OC\App\AppStore\Fetcher\AppFetcher::class]);
-		unset(\OC::$server[\OC\Installer::class]);
-		unset(\OC::$server[\OC\Updater::class]);
+		unset(\OC::$server[Factory::class]);
+		unset(\OC::$server[AppFetcher::class]);
+		unset(\OC::$server[Installer::class]);
+		unset(\OC::$server[Updater::class]);
 
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);

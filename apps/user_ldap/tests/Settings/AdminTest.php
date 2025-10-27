@@ -18,9 +18,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
- * @group DB
  * @package OCA\User_LDAP\Tests\Settings
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AdminTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private ITemplateManager $templateManager;

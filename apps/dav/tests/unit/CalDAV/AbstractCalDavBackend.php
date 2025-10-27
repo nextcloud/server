@@ -39,10 +39,10 @@ use Test\TestCase;
 /**
  * Class CalDavBackendTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 abstract class AbstractCalDavBackend extends TestCase {
 
 

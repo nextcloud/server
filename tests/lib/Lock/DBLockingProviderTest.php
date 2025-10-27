@@ -17,10 +17,10 @@ use OCP\Server;
 /**
  * Class DBLockingProvider
  *
- * @group DB
  *
  * @package Test\Lock
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DBLockingProviderTest extends LockingProvider {
 	/**
 	 * @var \OC\Lock\DBLockingProvider

@@ -12,9 +12,7 @@ use PhpParser\Node;
 use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterface;
 use Rector\Config\RectorConfig;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
-use Rector\PHPUnit\AnnotationsToAttributes\Rector\ClassMethod\DataProviderAnnotationToAttributeRector;
-use Rector\PHPUnit\CodeQuality\Rector\MethodCall\UseSpecificWillMethodRector;
-use Rector\PHPUnit\PHPUnit100\Rector\Class_\StaticDataProviderClassMethodRector;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Rector\ValueObject\Application\File;
 
@@ -86,17 +84,13 @@ $config = RectorConfig::configure()
 	// ->withPhpSets()
 	->withImportNames(importShortClasses:false)
 	->withTypeCoverageLevel(0)
-	->withRules([
-		UseSpecificWillMethodRector::class,
-		StaticDataProviderClassMethodRector::class,
-		DataProviderAnnotationToAttributeRector::class,
-	])
 	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
 		'inline_public' => true,
 		'rename_property' => true,
 	])
 	->withSets([
 		NextcloudSets::NEXTCLOUD_27,
+		PHPUnitSetList::PHPUNIT_100,
 	]);
 
 $config->registerService(NextcloudNamespaceSkipVoter::class, tag:ClassNameImportSkipVoterInterface::class);

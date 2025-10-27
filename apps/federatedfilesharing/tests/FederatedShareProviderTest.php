@@ -36,8 +36,8 @@ use Psr\Log\LoggerInterface;
  * Class FederatedShareProviderTest
  *
  * @package OCA\FederatedFileSharing\Tests
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FederatedShareProviderTest extends \Test\TestCase {
 	protected IDBConnection $connection;
 	protected AddressHandler&MockObject $addressHandler;

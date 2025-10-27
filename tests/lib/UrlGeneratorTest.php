@@ -69,7 +69,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test linkTo URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideDocRootAppUrlParts')]
@@ -80,7 +79,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test linkTo URL construction in sub directory
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubDirAppUrlParts')]
@@ -131,7 +129,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test absolute URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideDocRootURLs')]
@@ -143,7 +140,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test absolute URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubDirURLs')]

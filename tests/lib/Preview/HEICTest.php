@@ -12,10 +12,10 @@ use OC\Preview\HEIC;
 /**
  * Class BitmapTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HEICTest extends Provider {
 	protected function setUp(): void {
 		if (!in_array('HEIC', \Imagick::queryFormats('HEI*'))) {
