@@ -68,7 +68,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * Does not log credential material. On malformed input or failed verification a NotConfirmedException is thrown.
 	 *
 	 * @param Controller $controller The controller instance to be executed.
-	 * @param string     $methodName The controller method name to be invoked.
+	 * @param string $methodName The controller method name to be invoked.
 	 * @throws NotConfirmedException When confirmation is required but not satisfied.
 	 * @internal
 	 */
@@ -114,6 +114,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 			$authHeader = $this->request->getHeader('Authorization');
 
 			// Validate header is present and a string
+			/** @psalm-suppress TypeDoesNotContainType */
 			if (!is_string($authHeader) || $authHeader === '') {
 				throw new NotConfirmedException('Required authorization header missing');
 			}
@@ -121,13 +122,13 @@ class PasswordConfirmationMiddleware extends Middleware {
 			// Extract base64 token from "Basic <b64>" in a robust, case-insensitive way
 			if (!preg_match('/^\s*Basic\s+([A-Za-z0-9+\/=]+)\s*$/i', $authHeader, $matches)) {
 				// Accept only "Basic <token>" and nothing else (allow trailing whitespace)
-    			throw new NotConfirmedException('Required authorization header missing or malformed');
+				throw new NotConfirmedException('Required authorization header missing or malformed');
 			}
 			$b64 = trim($matches[1]);
 
 			// Enforce reasonable max length to reduce risk of abuse/DoS
 			if (strlen($b64) > 4096) {
-    			throw new NotConfirmedException('Authorization token too long');
+				throw new NotConfirmedException('Authorization token too long');
 			}
 			// Strictly decode base64; false means invalid base64
 			$decoded = base64_decode($b64, true);
