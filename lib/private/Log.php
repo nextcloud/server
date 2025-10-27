@@ -12,6 +12,7 @@ use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Log\ExceptionSerializer;
+use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -38,13 +39,26 @@ class Log implements ILogger, IDataLogger {
 	private ?bool $logConditionSatisfied = null;
 	private ?IEventDispatcher $eventDispatcher = null;
 	private int $nestingLevel = 0;
+	/** @var callable(): IAppManager */
+	private $appManagerFactory;
+	private ?IAppManager $appManager = null;
 
 	public function __construct(
 		private IWriter $logger,
 		private SystemConfig $config,
 		private Normalizer $normalizer = new Normalizer(),
 		private ?IRegistry $crashReporters = null,
+		?callable $appManagerFactory = null,
 	) {
+		$this->appManagerFactory = $appManagerFactory ?? fn() => \OCP\Server::get(IAppManager::class);
+	}
+
+	private function getAppManager(): IAppManager {
+		if (!$this->appManager) {
+			$this->appManager = ($this->appManagerFactory)();
+		}
+
+		return $this->appManager;
 	}
 
 	public function setEventDispatcher(IEventDispatcher $eventDispatcher): void {
@@ -142,7 +156,6 @@ class Log implements ILogger, IDataLogger {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
 
-
 	/**
 	 * Logs with an arbitrary level.
 	 *
@@ -158,6 +171,9 @@ class Log implements ILogger, IDataLogger {
 			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
+		if (isset($context['app']) && $version = $this->getAppManager()->getAppVersion($context['app'])) {
+			$context['app_version'] = $version;
+		}
 		array_walk($context, [$this->normalizer, 'format']);
 
 		$app = $context['app'] ?? 'no app in context';
