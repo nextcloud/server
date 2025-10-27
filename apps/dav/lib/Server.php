@@ -98,6 +98,7 @@ use OCP\SabrePluginEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\Security\CSRF\ICsrfValidator;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\VCFExportPlugin;
 use Sabre\DAV\Auth\Plugin;
@@ -138,7 +139,8 @@ class Server {
 			\OCP\Server::get(IUserSession::class),
 			\OCP\Server::get(IRequest::class),
 			\OCP\Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
-			\OCP\Server::get(IThrottler::class)
+			\OCP\Server::get(IThrottler::class),
+			\OCP\Server::get(ICsrfValidator::class)
 		);
 
 		// Set URL explicitly due to reverse-proxy situations
