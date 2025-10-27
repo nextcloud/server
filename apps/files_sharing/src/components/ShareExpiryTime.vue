@@ -33,7 +33,7 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
-import ClockIcon from 'vue-material-design-icons/Clock.vue'
+import ClockIcon from 'vue-material-design-icons/ClockOutline.vue'
 
 export default {
 	name: 'ShareExpiryTime',
