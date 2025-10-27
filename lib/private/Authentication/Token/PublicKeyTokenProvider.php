@@ -328,7 +328,8 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException('Invalid token type');
 		}
 
-		$activityInterval = $this->config->getSystemValueInt('token_auth_activity_update', 60);
+		// Anything work mentioning here or in function docblock about this possible internal state change and its behavior impact?
+		$activityInterval = $this->config->getSystemValueInt('token_auth_activity_update', 60); // Does 60 have any special significance?
 		$activityInterval = min(max($activityInterval, 0), 300);
 
 		/** @var PublicKeyToken $token */
@@ -382,6 +383,7 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	private function hashPassword(string $password): string {
+		// TODO: Reasoning should be documented (here too)
 		return $this->hasher->hash(sha1($password) . $password);
 	}
 
@@ -403,6 +405,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	private function encrypt(string $plaintext, string $token): string {
 		$secret = $this->config->getSystemValueString('secret');
+		// Note: deliberately does not have same fallback as decrypt (presumably!)
 		return $this->crypto->encrypt($plaintext, $token . $secret);
 	}
 
@@ -411,28 +414,36 @@ class PublicKeyTokenProvider implements IProvider {
 	 */
 	private function decrypt(string $cipherText, string $token): string {
 		$secret = $this->config->getSystemValueString('secret');
+		// we should probably outright log when the secret is empty or widely out of spec and/or the initial decryption
+		// attempt fails (possibly even throw under some conditions too?)
 		try {
 			return $this->crypto->decrypt($cipherText, $token . $secret);
 		} catch (\Exception $ex) {
+			// TODO: At least log this (at debug? mahbe info?) since probably >95℅ of instances are **not** going to be the exception (so it's likely an indicator of severe problem).
 			// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
 			try {
 				return $this->crypto->decrypt($cipherText, $token);
 			} catch (\Exception $ex2) {
 				// Delete the invalid token
-				$this->invalidateToken($token);
+				$this->invalidateToken($token); // should we really always resort to invalidating on the first failure? (Y?/N?)
 				throw new InvalidTokenException('Could not decrypt token password: ' . $ex->getMessage(), 0, $ex2);
 			}
 		}
 	}
 
+	// TODO:docblock (concise but useful - useful but concise)
 	private function encryptPassword(string $password, string $publicKey): string {
+		// do any relevant exceptions bubble up through here unmonitored by us?
 		openssl_public_encrypt($password, $encryptedPassword, $publicKey, OPENSSL_PKCS1_OAEP_PADDING);
+		// Anything we should check before proceeding?
+		// TODO: Capture result / check result here 
 		$encryptedPassword = base64_encode($encryptedPassword);
 
 		return $encryptedPassword;
 	}
 
 	private function decryptPassword(string $encryptedPassword, string $privateKey): string {
+		// TODO: same comments as decryptPasssword() basically 
 		$encryptedPassword = base64_decode($encryptedPassword);
 		openssl_private_decrypt($encryptedPassword, $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
 
@@ -441,11 +452,13 @@ class PublicKeyTokenProvider implements IProvider {
 
 	private function hashToken(string $token): string {
 		$secret = $this->config->getSystemValueString('secret');
+		// TODO: Lov/check if empty 
 		return hash('sha512', $token . $secret);
 	}
 
 	/**
 	 * @deprecated 26.0.0 Fallback for instances where the secret might not have been set by accident
+	 * TODO: Whwn can this be removed?
 	 */
 	private function hashTokenWithEmptySecret(string $token): string {
 		return hash('sha512', $token);
@@ -453,56 +466,73 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * @throws \RuntimeException when OpenSSL reports a problem
+	 * TODO: Replace with a more useful docblock
 	 */
-	private function newToken(string $token,
+	private function newToken(
+		string $token,
 		string $uid,
 		string $loginName,
 		$password,
 		string $name,
 		int $type,
-		int $remember): PublicKeyToken {
-		$dbToken = new PublicKeyToken();
+		int $remember
+	): PublicKeyToken {
+
+		// Is $dbToken even necessary at thiz point? maybe do later just before it's needed?
+		$dbToken = new PublicKeyToken(); // could thus ever (realistically) fail; if not why construct well prior to confirmed need?
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
 
+		// TODO: Document why this code exist
 		$config = array_merge([
 			'digest_alg' => 'sha512',
 			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
 		], $this->config->getSystemValue('openssl', []));
 
 		// Generate new key
+		// "$result"
 		$res = openssl_pkey_new($config);
 		if ($res === false) {
+			// TODO: Find a way to log any common or likely or critical specifics / specific hints
 			$this->logOpensslError();
 			throw new \RuntimeException('OpenSSL reported a problem');
 		}
 
 		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+			// TODO: Find a way to log any common or likely or critical specifics / specific hints
 			$this->logOpensslError();
+			// - more specific
+			// - 2 possibly unify with log output?
 			throw new \RuntimeException('OpenSSL reported a problem');
 		}
 
 		// Extract the public key from $res to $pubKey
 		$publicKey = openssl_pkey_get_details($res);
+		// TODO: check result prior to proceeding
 		$publicKey = $publicKey['key'];
 
+		// does the order matter here? 
 		$dbToken->setPublicKey($publicKey);
 		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
 
+		// does this specifically need to be executed after the above or - for that matter - above what is after this block?
 		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
 			if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
+				// RuntimeException seems excessive; this can be *end-user* triggered (so maybe just throw a normal or hint condition - or just log it and ask end-user to "try again"?
+				// Log too!
+				// Are REs still logged in our log too - or just the SAPI's / web servers's logs?
 				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
 			}
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
 			$dbToken->setPasswordHash($this->hashPassword($password));
-		}
+		} // password properties do not get set when $password is null or auth.storeCryptedPassword false - is that Okay?
 
 		$dbToken->setName($name);
 		$dbToken->setToken($this->hashToken($token));
 		$dbToken->setType($type);
 		$dbToken->setRemember($remember);
 		$dbToken->setLastActivity($this->time->getTime());
-		$dbToken->setLastCheck($this->time->getTime());
+		$dbToken->setLastCheck($this->time->getTime()); // sync source value with setLastActivity atomically via shared var (overkill but no real downside)
 		$dbToken->setVersion(PublicKeyToken::VERSION);
 
 		return $dbToken;
@@ -518,9 +548,11 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cacheToken($token);
 	}
 
+	// TODO: 
 	public function updatePasswords(string $uid, string $password) {
 		// prevent setting an empty pw as result of pw-less-login
 		if ($password === '' || !$this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
+			// I guess we just let PHP error beforehand (due to the type hint) if password is null); maybe setter/object enforces that?
 			return;
 		}
 
@@ -530,6 +562,7 @@ class PublicKeyTokenProvider implements IProvider {
 			$newPasswordHash = null;
 
 			/**
+			 * TODO: This comment should start out with *why we care*.
 			 * - true: The password hash could not be verified anymore
 			 *     and the token needs to be updated with the newly encrypted password
 			 * - false: The hash could still be verified
@@ -578,4 +611,8 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 		$this->logger->critical('Something is wrong with your openssl setup: ' . implode(', ', $errors));
 	}
+
+	// Maybe a readability utility function for checking for / assuming a default value for CFG: `auth.storeCryptedPassword`
+
+	// Useful and (predominantly) concise commemt docblocks for each individual function 
 }
