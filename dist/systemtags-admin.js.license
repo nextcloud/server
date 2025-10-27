@@ -204,7 +204,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.6.5
+	- version: 7.6.6
 	- license: MIT
 - for-each
 	- version: 0.3.5
@@ -357,7 +357,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.2.0
+	- version: 6.3.0
 	- license: MIT
 - toastify-js
 	- version: 1.12.0
