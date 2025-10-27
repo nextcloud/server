@@ -72,7 +72,7 @@ const mutations = {
 	enableApp(state, { appId, groups }) {
 		const app = state.apps.find((app) => app.id === appId)
 		app.active = true
-		app.groups = groups
+		Vue.set(app, 'groups', [...groups])
 		if (app.id === 'app_api') {
 			state.appApiEnabled = true
 		}
@@ -183,13 +183,23 @@ const actions = {
 		return api.requireAdmin().then(() => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
+
+			const previousState = {}
+			apps.forEach((_appId) => {
+				const app = context.state.apps.find((app) => app.id === _appId)
+				if (app) {
+					previousState[_appId] = {
+						active: app.active,
+						groups: [...app.groups],
+					}
+					context.commit('enableApp', { appId: _appId, groups })
+				}
+			})
+
 			return api.post(generateUrl('settings/apps/enable'), { appIds: apps, groups })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					context.commit('stopLoading', 'install')
-					apps.forEach((_appId) => {
-						context.commit('enableApp', { appId: _appId, groups })
-					})
 
 					// check for server health
 					return axios.get(generateUrl('apps/files/'))
@@ -225,6 +235,19 @@ const actions = {
 				.catch((error) => {
 					context.commit('stopLoading', apps)
 					context.commit('stopLoading', 'install')
+
+					apps.forEach((_appId) => {
+						if (previousState[_appId]) {
+							context.commit('enableApp', {
+								appId: _appId,
+								groups: previousState[_appId].groups,
+							})
+							if (!previousState[_appId].active) {
+								context.commit('disableApp', _appId)
+							}
+						}
+					})
+
 					context.commit('setError', {
 						appId: apps,
 						error: error.response.data.data.message,
