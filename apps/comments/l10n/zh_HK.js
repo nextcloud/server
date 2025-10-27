@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "刪除留言",
     "Cancel edit" : "取消編輯",
     "New comment" : "新評論",
+    "Write a comment …" : "發表評論 ...",
     "Post comment" : "張貼留言",
     "@ for mentions, : for emoji, / for smart picker" : "“@” 表示提及，“:” 表示表情符號，“/” 表示智慧型選擇器",
     "Could not reload comments" : "無法重新加載評論",

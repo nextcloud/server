@@ -1907,8 +1907,6 @@
       <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
     </DeprecatedMethod>
     <InternalClass>
       <code><![CDATA[new View('/' . $owner)]]></code>

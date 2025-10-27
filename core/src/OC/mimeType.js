@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 
 const iconCache = new Map()
 
@@ -23,36 +23,24 @@ export function getIconUrl(mimeType) {
 	}
 
 	if (!iconCache.has(mimeType)) {
-		// First try to get the correct icon from the current theme
-		let gotIcon = null
+		let gotIcon = false
 		let path = ''
+		// First try to get the correct icon from the current legacy-theme
 		if (OC.theme.folder !== '' && Array.isArray(OC.MimeTypeList.themes[OC.theme.folder])) {
-			path = generateUrl('/themes/' + window.OC.theme.folder + '/core/img/filetypes/')
+			path = getRootUrl() + '/themes/' + window.OC.theme.folder + '/core/img/filetypes/'
 			const icon = getMimeTypeIcon(mimeType, window.OC.MimeTypeList.themes[OC.theme.folder])
-
-			if (icon !== null) {
+			if (icon) {
 				gotIcon = true
-				path += icon
+				path += icon + '.svg'
 			}
 		}
-		if (window.OCA.Theming && gotIcon === null) {
-			path = generateUrl('/apps/theming/img/core/filetypes/')
-			path += getMimeTypeIcon(mimeType, window.OC.MimeTypeList.files)
-			gotIcon = true
+
+		// theming is always enabled since Nextcloud 20 so we get it from that
+		if (!gotIcon) {
+			path = generateUrl('/apps/theming/img/core/filetypes/' + getMimeTypeIcon(mimeType, window.OC.MimeTypeList.files) + '.svg')
 		}
 
-		// If we do not yet have an icon fall back to the default
-		if (gotIcon === null) {
-			path = generateUrl('/core/img/filetypes/')
-			path += getMimeTypeIcon(mimeType, window.OC.MimeTypeList.files)
-		}
-
-		path += '.svg'
-
-		if (window.OCA.Theming) {
-			path += '?v=' + window.OCA.Theming.cacheBuster
-		}
-
+		path += '?v=' + window.OCA.Theming.cacheBuster
 		// Cache the result
 		iconCache.set(mimeType, path)
 	}
@@ -91,4 +79,11 @@ function getMimeTypeIcon(mimeType, files) {
 	}
 
 	return null
+}
+
+/**
+ * Clear the icon cache
+ */
+export function clearIconCache() {
+	iconCache.clear()
 }

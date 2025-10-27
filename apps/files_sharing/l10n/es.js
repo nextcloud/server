@@ -237,6 +237,7 @@ OC.L10N.register(
     "Can edit" : "Puede editar",
     "Custom permissions" : "Permisos personalizados",
     "Resharing is not allowed" : "No se permite compartir de nuevo",
+    "Searching …" : "Buscando …",
     "No elements found." : "No se encontraron elementos.",
     "Search everywhere" : "Buscar en todas partes",
     "Guest" : "Invitado",

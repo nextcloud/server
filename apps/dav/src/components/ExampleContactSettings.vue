@@ -9,7 +9,7 @@
 			:checked="enableDefaultContact"
 			type="switch"
 			@update:model-value="updateEnableDefaultContact">
-			{{ $t('dav', "Add example contact to user's address book when they first log in") }}
+			{{ t('dav', "Add example contact to user's address book when they first log in") }}
 		</NcCheckboxRadioSwitch>
 		<div v-if="enableDefaultContact" class="example-contact-settings__buttons">
 			<ExampleContentDownloadButton :href="downloadUrl">
@@ -24,7 +24,7 @@
 				<template #icon>
 					<IconUpload :size="20" />
 				</template>
-				{{ $t('dav', 'Import contact') }}
+				{{ t('dav', 'Import contact') }}
 			</NcButton>
 			<NcButton
 				v-if="hasCustomDefaultContact"
@@ -33,15 +33,15 @@
 				<template #icon>
 					<IconRestore :size="20" />
 				</template>
-				{{ $t('dav', 'Reset to default') }}
+				{{ t('dav', 'Reset to default') }}
 			</NcButton>
 		</div>
 		<NcDialog
-			:open.sync="isModalOpen"
-			:name="$t('dav', 'Import contacts')"
+			v-model:open="isModalOpen"
+			:name="t('dav', 'Import contacts')"
 			:buttons="buttons">
 			<div>
-				<p>{{ $t('dav', 'Importing a new .vcf file will delete the existing default contact and replace it with the new one. Do you want to continue?') }}</p>
+				<p>{{ t('dav', 'Importing a new .vcf file will delete the existing default contact and replace it with the new one. Do you want to continue?') }}</p>
 			</div>
 		</NcDialog>
 		<input
@@ -61,16 +61,17 @@ import IconCheck from '@mdi/svg/svg/check.svg?raw'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
 import IconAccount from 'vue-material-design-icons/Account.vue'
 import IconRestore from 'vue-material-design-icons/Restore.vue'
 import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
-import logger from '../service/logger.js'
+import { logger } from '../service/logger.ts'
 
-const enableDefaultContact = loadState('dav', 'enableDefaultContact')
-const hasCustomDefaultContact = loadState('dav', 'hasCustomDefaultContact')
+const enableDefaultContact = loadState('dav', 'enableDefaultContact', false)
+const hasCustomDefaultContact = loadState('dav', 'hasCustomDefaultContact', false)
 
 export default {
 	name: 'ExampleContactSettings',
@@ -84,6 +85,10 @@ export default {
 		ExampleContentDownloadButton,
 	},
 
+	setup() {
+		return { t }
+	},
+
 	data() {
 		return {
 			enableDefaultContact,
@@ -92,12 +97,12 @@ export default {
 			loading: false,
 			buttons: [
 				{
-					label: this.$t('dav', 'Cancel'),
+					label: t('dav', 'Cancel'),
 					icon: IconCancel,
 					callback: () => { this.isModalOpen = false },
 				},
 				{
-					label: this.$t('dav', 'Import'),
+					label: t('dav', 'Import'),
 					icon: IconCheck,
 					variant: 'primary',
 					callback: () => { this.clickImportInput() },
@@ -119,7 +124,7 @@ export default {
 			}).then(() => {
 				this.enableDefaultContact = !this.enableDefaultContact
 			}).catch(() => {
-				showError(this.$t('dav', 'Error while saving settings'))
+				showError(t('dav', 'Error while saving settings'))
 			})
 		},
 
@@ -136,11 +141,11 @@ export default {
 			axios.put(generateUrl('/apps/dav/api/defaultcontact/contact'))
 				.then(() => {
 					this.hasCustomDefaultContact = false
-					showSuccess(this.$t('dav', 'Contact reset successfully'))
+					showSuccess(t('dav', 'Contact reset successfully'))
 				})
 				.catch((error) => {
 					logger.error('Error importing contact:', { error })
-					showError(this.$t('dav', 'Error while resetting contact'))
+					showError(t('dav', 'Error while resetting contact'))
 				})
 				.finally(() => {
 					this.loading = false
@@ -158,10 +163,10 @@ export default {
 				try {
 					await axios.put(generateUrl('/apps/dav/api/defaultcontact/contact'), { contactData: reader.result })
 					this.hasCustomDefaultContact = true
-					showSuccess(this.$t('dav', 'Contact imported successfully'))
+					showSuccess(t('dav', 'Contact imported successfully'))
 				} catch (error) {
 					logger.error('Error importing contact:', { error })
-					showError(this.$t('dav', 'Error while importing contact'))
+					showError(t('dav', 'Error while importing contact'))
 				} finally {
 					this.loading = false
 					event.target.value = ''

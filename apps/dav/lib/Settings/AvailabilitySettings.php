@@ -56,6 +56,8 @@ class AvailabilitySettings implements ISettings {
 			}
 		}
 
+		\OCP\Util::addStyle(Application::APP_ID, 'settings-personal-availability');
+		\OCP\Util::addScript(Application::APP_ID, 'settings-personal-availability');
 		return new TemplateResponse(Application::APP_ID, 'settings-personal-availability');
 	}
 

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunknextcloud_ui_legacy=self.webpackChunknextcloud_ui_legacy||[]).push([[5528],{95528:(e,u,l)=>{l.r(u),l.d(u,{NcAutoCompleteResult:()=>t.N,NcMentionBubble:()=>c.N,default:()=>t.a});var c=l(36079),t=l(81651)}}]);

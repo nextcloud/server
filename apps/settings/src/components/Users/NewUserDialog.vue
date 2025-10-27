@@ -83,6 +83,7 @@
 					:create-option="(value) => ({ id: value, name: value, isCreating: true })"
 					@search="searchGroups"
 					@option:created="createGroup"
+					@option:deselected="removeGroup"
 					@option:selected="options => addGroup(options.at(-1))" />
 					<!-- If user is not admin, they are a subadmin.
 						Subadmins can't create users outside their groups
@@ -346,6 +347,18 @@ export default {
 				return
 			}
 			this.newUser.groups.push(group)
+		},
+
+		/**
+		 * Remove user from group
+		 *
+		 * @param {object} group Group object
+		 */
+		removeGroup(group) {
+			if (group.canRemove === false) {
+				return
+			}
+			this.newUser.groups = this.newUser.groups.filter((g) => g.id !== group.id)
 		},
 
 		/**

@@ -48,15 +48,17 @@ class FileProfilerStorage {
 			[$csvToken, $csvMethod, $csvUrl, $csvTime, $csvParent, $csvStatusCode] = $values;
 			$csvTime = (int)$csvTime;
 
-			if ($url && !str_contains($csvUrl, $url) || $method && !str_contains($csvMethod, $method) || $statusCode && !str_contains($csvStatusCode, $statusCode)) {
+			if (($url && !str_contains($csvUrl, $url))
+				|| ($method && !str_contains($csvMethod, $method))
+				|| ($statusCode && !str_contains($csvStatusCode, $statusCode))) {
 				continue;
 			}
 
-			if (!empty($start) && $csvTime < $start) {
+			if ($start !== null && $csvTime < $start) {
 				continue;
 			}
 
-			if (!empty($end) && $csvTime > $end) {
+			if ($end !== null && $csvTime > $end) {
 				continue;
 			}
 
@@ -154,18 +156,25 @@ class FileProfilerStorage {
 				return false;
 			}
 
-			fputcsv($file, [
+			fputcsv($file, array_map([$this, 'escapeFormulae'], [
 				$profile->getToken(),
 				$profile->getMethod(),
 				$profile->getUrl(),
 				$profile->getTime(),
 				$profile->getParentToken(),
 				$profile->getStatusCode(),
-			], escape: '');
+			]), escape: '');
 			fclose($file);
 		}
 
 		return true;
+	}
+
+	protected function escapeFormulae(?string $value): ?string {
+		if ($value !== null && preg_match('/^[=+\-@\t\r]/', $value)) {
+			return "'" . $value;
+		}
+		return $value;
 	}
 
 	/**
