@@ -28,7 +28,9 @@
 			:options="options"
 			@search="asyncFind" />
 		<NcTextField v-model="status" :label="t('dav', 'Short absence status')" :required="true" />
-		<NcTextArea v-model="message" :label="t('dav', 'Long absence Message')" :required="true" />
+		<div class="absence-long-message__wrapper">
+			<NcTextArea input-class="absence-long-message" v-model="message" :label="t('dav', 'Long absence Message')" :required="true" resize="none" rows="6"/>
+		</div>
 
 		<div class="absence__buttons">
 			<NcButton
@@ -268,6 +270,17 @@ export default {
 			:deep(.native-datetime-picker--input) {
 				margin-bottom: 0;
 			}
+		}
+	}
+
+	.absence-long-message {
+		height: calc(var(--default-line-height) * 6 * var(--font-size-small));
+
+		&__wrapper {
+			height: calc(var(--default-line-height) * 6 * var(--font-size-small) + var(--default-grid-baseline) * 2);
+			display: flex;
+			flex-direction: column;
+			justify-content: start;
 		}
 	}
 
