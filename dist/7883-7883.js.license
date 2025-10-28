@@ -28,7 +28,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browserslist-config
-	- version: 3.1.0
+	- version: 3.1.1
 	- license: GPL-3.0-or-later
 - semver
 	- version: 7.7.2
