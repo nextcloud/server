@@ -1287,7 +1287,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager = $this->createManagerInstance();
 
 		// Act
-		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', 'foobar');
+		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', null);
 		$this->manager->scheduleTask($task);
 	}
 
@@ -1303,12 +1303,12 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);
 		$this->manager = $this->createManagerInstance();
 
-		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', 'foobar');
+		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', null);
 		$this->manager->scheduleTask($task);
 		$this->manager->lockTask($task);
 
 		// Act
-		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', 'foobar');
+		$task = new Task($externalProvider->getTaskTypeId(), ['input' => ''], 'tests', null);
 		$this->manager->scheduleTask($task);
 	}
 
