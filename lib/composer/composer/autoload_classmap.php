@@ -1871,6 +1871,7 @@ return array(
     'OC\\Notification\\Notification' => $baseDir . '/lib/private/Notification/Notification.php',
     'OC\\OCM\\Model\\OCMProvider' => $baseDir . '/lib/private/OCM/Model/OCMProvider.php',
     'OC\\OCM\\Model\\OCMResource' => $baseDir . '/lib/private/OCM/Model/OCMResource.php',
+    'OC\\OCM\\OCMDiscoveryHandler' => $baseDir . '/lib/private/OCM/OCMDiscoveryHandler.php',
     'OC\\OCM\\OCMDiscoveryService' => $baseDir . '/lib/private/OCM/OCMDiscoveryService.php',
     'OC\\OCM\\OCMSignatoryManager' => $baseDir . '/lib/private/OCM/OCMSignatoryManager.php',
     'OC\\OCS\\ApiHelper' => $baseDir . '/lib/private/OCS/ApiHelper.php',

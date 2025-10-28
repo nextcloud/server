@@ -1912,6 +1912,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Notification\\Notification' => __DIR__ . '/../../..' . '/lib/private/Notification/Notification.php',
         'OC\\OCM\\Model\\OCMProvider' => __DIR__ . '/../../..' . '/lib/private/OCM/Model/OCMProvider.php',
         'OC\\OCM\\Model\\OCMResource' => __DIR__ . '/../../..' . '/lib/private/OCM/Model/OCMResource.php',
+        'OC\\OCM\\OCMDiscoveryHandler' => __DIR__ . '/../../..' . '/lib/private/OCM/OCMDiscoveryHandler.php',
         'OC\\OCM\\OCMDiscoveryService' => __DIR__ . '/../../..' . '/lib/private/OCM/OCMDiscoveryService.php',
         'OC\\OCM\\OCMSignatoryManager' => __DIR__ . '/../../..' . '/lib/private/OCM/OCMSignatoryManager.php',
         'OC\\OCS\\ApiHelper' => __DIR__ . '/../../..' . '/lib/private/OCS/ApiHelper.php',
