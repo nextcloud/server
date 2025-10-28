@@ -88,3 +88,6 @@
 [submodule "apps-external/end_to_end_encryption"]
 	path = apps-external/end_to_end_encryption
 	url = git@github.com:nextcloud/end_to_end_encryption.git
+[submodule "apps-external/twofactor_totp"]
+	path = apps-external/twofactor_totp
+	url = git@github.com:nextcloud/twofactor_totp.git
