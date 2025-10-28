@@ -19,7 +19,7 @@
 			:force-icon-text="index === 0 && fileListWidth >= 486"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
-			@click.native="onClick(section.to)"
+			@click.native="section.isCurrent ? undefined : onClick(section.to)"
 			@dragover.native="onDragOver($event, section.dir)"
 			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
@@ -110,13 +110,15 @@ export default defineComponent({
 			return this.dirs.map((dir: string, index: number) => {
 				const source = this.getFileSourceFromPath(dir)
 				const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
+				const isCurrent = index === this.dirs.length - 1
 				return {
-					dir,
-					exact: true,
-					name: this.getDirDisplayName(dir),
-					to: this.getTo(dir, node),
-					// disable drop on current directory
-					disableDrop: index === this.dirs.length - 1,
+				dir,
+				exact: true,
+				name: this.getDirDisplayName(dir),
+				to: isCurrent ? undefined : this.getTo(dir, node),
+				// disable drop on current directory
+				disableDrop: isCurrent,
+				isCurrent,
 				}
 			})
 		},
