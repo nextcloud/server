@@ -59,17 +59,25 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import { logger } from '../logger.ts'
+import { logger } from '../service/logger.ts'
 import { print } from '../service/PrintService.js'
+import { useStore } from '../store/index.ts'
 
 export default {
 	name: 'PersonalSettings',
 	components: {
 		NcButton,
 		NcLoadingIcon,
+	},
+
+	setup() {
+		return {
+			store: useStore(),
+		}
 	},
 
 	data() {
@@ -94,19 +102,19 @@ export default {
 		},
 
 		enabled() {
-			return this.$store.state.enabled
+			return this.store.enabled
 		},
 
 		total() {
-			return this.$store.state.total
+			return this.store.total
 		},
 
 		used() {
-			return this.$store.state.used
+			return this.store.used
 		},
 
 		codes() {
-			return this.$store.state.codes
+			return this.store.codes
 		},
 
 		name() {
@@ -119,32 +127,23 @@ export default {
 	},
 
 	methods: {
-		generateBackupCodes() {
-			confirmPassword().then(() => {
-				// Hide old codes
-				this.generatingCodes = true
+		async generateBackupCodes() {
+			await confirmPassword()
+			// Hide old codes
+			this.generatingCodes = true
 
-				this.$store.dispatch('generate').then(() => {
-					this.generatingCodes = false
-				}).catch((err) => {
-					OC.Notification.showTemporary(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'))
-					this.generatingCodes = false
-					throw err
-				})
-			}).catch(logger.error)
-		},
-
-		getPrintData(codes) {
-			if (!codes) {
-				return ''
+			try {
+				await this.store.generate()
+			} catch (error) {
+				logger.error('Error generating backup codes', { error })
+				showError(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'))
+			} finally {
+				this.generatingCodes = false
 			}
-			return codes.reduce((prev, code) => {
-				return prev + code + '<br>'
-			}, '')
 		},
 
 		printCodes() {
-			print(this.getPrintData(this.codes))
+			print(!this.codes || this.codes.length === 0 ? [] : this.codes)
 		},
 	},
 }
