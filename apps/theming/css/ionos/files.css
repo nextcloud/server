@@ -14,7 +14,6 @@ div.files-list__filters {
 }
 
 #app-content-vue div.files-list__header {
-	margin-top: 25px;
 	margin-right: 16px;
 	margin-bottom: 14px;
 	@media only screen and (max-width: 1023px) {
