@@ -16,18 +16,22 @@
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
+			:class="{ 'is-current': section.isCurrent }"
 			:force-icon-text="index === 0 && fileListWidth >= 486"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
-			@click.native="section.isCurrent ? undefined : onClick(section.to)"
+			:aria-current="section.isCurrent ? 'page' : null"
+			:tabindex="section.isCurrent ? -1 : 0"
+			@click.native="onClickIfNotCurrent(section.to, index)"
 			@dragover.native="onDragOver($event, section.dir)"
 			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
 				<NcIconSvgWrapper
-					:size="20"
-					:svg="viewIcon" />
+				:size="20"
+				:svg="viewIcon" />
 			</template>
 		</NcBreadcrumb>
+
 
 		<!-- Forward the actions slot -->
 		<template #actions>
@@ -149,6 +153,14 @@ export default defineComponent({
 	},
 
 	methods: {
+
+		// Guarded click helper — prevents navigation/click for the current (last) breadcrumb
+		onClickIfNotCurrent(to, index) {
+			// if sections isn't defined for some reason, fallback to not navigating
+			if (!this.sections || index === this.sections.length - 1) return
+			this.onClick(to)
+		},
+
 		getNodeFromSource(source: FileSource): Node | undefined {
 			return this.filesStore.getNode(source)
 		},
@@ -272,6 +284,9 @@ export default defineComponent({
 		},
 
 		titleForSection(index, section) {
+			if (section.isCurrent) {
+				return t('files', 'Current directory')
+			}
 			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
 			} else if (index === 0) {
@@ -306,7 +321,18 @@ export default defineComponent({
 		a {
 			cursor: pointer !important;
 		}
+
+		/* When the breadcrumb item is the current one, make it non-interactive & not look like a link */
+		.is-current {
+			cursor: default !important;
+		}
+		.is-current a {
+			pointer-events: none !important;
+			text-decoration: none !important;
+			cursor: default !important;
+		}
 	}
+
 
 	&--with-progress {
 		flex-direction: column !important;
