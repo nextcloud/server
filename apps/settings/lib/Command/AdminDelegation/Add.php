@@ -36,7 +36,7 @@ class Add extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
 		$settingClass = $input->getArgument('settingClass');
 		if (!in_array(IDelegatedSettings::class, (array)class_implements($settingClass), true)) {
