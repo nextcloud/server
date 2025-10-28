@@ -9,7 +9,6 @@ namespace Test\TaskProcessing;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
-use OC\EventDispatcher\EventDispatcher;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
@@ -55,6 +54,7 @@ use OCP\TaskProcessing\TaskTypes\TextToText;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
 use OCP\TextProcessing\SummaryTaskType;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\BackgroundJob\DummyJobList;
 
@@ -572,18 +572,20 @@ class ConflictingExternalTaskType implements ITaskType {
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class TaskProcessingTest extends \Test\TestCase {
-	private IManager $manager;
-	private Coordinator $coordinator;
+	private Coordinator&MockObject $coordinator;
+	private IServerContainer&MockObject $serverContainer;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IJobList&MockObject $jobList;
+	private IUserMountCache&MockObject $userMountCache;
+	private RegistrationContext&MockObject $registrationContext;
+
+	/** @var array<class-string, IProvider> */
 	private array $providers;
-	private IServerContainer $serverContainer;
-	private IEventDispatcher $eventDispatcher;
-	private RegistrationContext $registrationContext;
-	private TaskMapper $taskMapper;
-	private IJobList $jobList;
-	private IUserMountCache $userMountCache;
-	private IRootFolder $rootFolder;
-	private IConfig $config;
 	private IAppConfig $appConfig;
+	private IConfig $config;
+	private IRootFolder $rootFolder;
+	private TaskMapper $taskMapper;
+	private IManager $manager;
 
 	public const TEST_USER = 'testuser';
 
@@ -617,18 +619,11 @@ class TaskProcessingTest extends \Test\TestCase {
 			return $this->providers[$class];
 		});
 
-		$this->eventDispatcher = new EventDispatcher(
-			new \Symfony\Component\EventDispatcher\EventDispatcher(),
-			$this->serverContainer,
-			Server::get(LoggerInterface::class),
-		);
-
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->coordinator->expects($this->any())->method('getRegistrationContext')->willReturn($this->registrationContext);
 
 		$this->rootFolder = Server::get(IRootFolder::class);
-
 		$this->taskMapper = Server::get(TaskMapper::class);
 
 		$this->jobList = $this->createPartialMock(DummyJobList::class, ['add']);
