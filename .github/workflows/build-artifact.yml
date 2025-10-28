@@ -210,6 +210,13 @@ jobs:
               "makefile_target": "build_text_app"
             },
             {
+              "name": "twofactor_totp",
+              "path": "apps-external/twofactor_totp",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_twofactor_totp_app"
+            },
+            {
               "name": "user_oidc",
               "path": "apps-external/user_oidc",
               "has_npm": true,
