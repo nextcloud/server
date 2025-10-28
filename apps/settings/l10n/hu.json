@@ -366,7 +366,7 @@
     "The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details." : "A PHP POSIX kiterjesztés szükséges. A részletekért lásd a {linkstart}PHP dokumentációját{linkend}.",
     "Unable to update background job mode" : "A háttérfeladat módja nem frissíthető",
     "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information." : "A kiszolgáló helyes működéséhez fontos, hogy a háttérfeladatok megfelelően legyenek beállítva. A Cron beállítás javasolt. További részletekért lásd a dokumentációt.",
-    "Last job execution ran {time}. Something seems wrong." : "Utolsó feladatfuttatás:%s. Valami nincs rendben.",
+    "Last job execution ran {time}. Something seems wrong." : "Utolsó feladatfuttatás: {time}. Valami nincs rendben.",
     "Last job ran {relativeTime}." : "Utolsó feladatfuttatás: {relativeTime}.",
     "Background job did not run yet!" : "A háttérfeladat még nem futott le!",
     "AJAX" : "AJAX",
