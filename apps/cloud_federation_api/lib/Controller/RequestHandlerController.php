@@ -106,17 +106,15 @@ class RequestHandlerController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-		if ($protocol['name'] === 'multi') {
-			if (isset($protocol['webdav'])) {
-				$webdav = $protocol['webdav'];
-				$protocol = [
-					'name' => 'webdav',
-					'options' => [
-						'sharedSecret' => $webdav['sharedSecret'],
-						'permissions' => '{http://open-cloud-mesh.org/ns}share-permissions',
-					],
-				];
-			}
+		if (($protocol['name'] ?? '' === 'multi') && (is_array($protocol['webdav'] ?? ''))) {
+			$webdav = $protocol['webdav'];
+			$protocol = [
+				'name' => 'webdav',
+				'options' => [
+					'sharedSecret' => $webdav['sharedSecret'],
+					'permissions' => '{http://open-cloud-mesh.org/ns}share-permissions',
+				],
+			];
 		}
 		try {
 			// if request is signed and well signed, no exception are thrown
