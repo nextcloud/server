@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -35,10 +35,13 @@ class Application extends App implements IBootstrap {
 
 	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
 		IAppContainer $appContainer): void {
-		$manager->addCloudFederationProvider('file',
-			'Federated Files Sharing',
-			function () use ($appContainer): CloudFederationProviderFiles {
-				return $appContainer->get(CloudFederationProviderFiles::class);
-			});
+		$fileResourceTypes = ['file', 'folder'];
+		foreach ($fileResourceTypes as $type) {
+			$manager->addCloudFederationProvider($type,
+				'Federated Files Sharing',
+				function () use ($appContainer): CloudFederationProviderFiles {
+					return $appContainer->get(CloudFederationProviderFiles::class);
+				});
+		}
 	}
 }
