@@ -34,6 +34,7 @@ abstract class Bundled extends ProviderV2 {
 		$this->tmpFiles[] = $targetTmp;
 
 		try {
+			/** @var resource|false|null */
 			$src = $file->fopen('r');
 			if ($src === false) {
 				Server::get(LoggerInterface::class)->debug(
@@ -42,7 +43,8 @@ abstract class Bundled extends ProviderV2 {
 				);
 				return null;
 			}
-			
+
+			/** @var resource|false|null */
 			$dst = fopen($sourceTmp, 'wb');
 			if ($dst === false) {
 				Server::get(LoggerInterface::class)->debug(
@@ -51,7 +53,7 @@ abstract class Bundled extends ProviderV2 {
 				);
 				return null;
 			}
-			
+
 			$bytes = stream_copy_to_stream($src, $dst);
 			if ($bytes === false || $bytes === 0) {
 				Server::get(LoggerInterface::class)->debug(
@@ -82,10 +84,10 @@ abstract class Bundled extends ProviderV2 {
 
 			return $image;
 		} catch (\Throwable $e) {
-				Server::get(LoggerInterface::class)->debug(
-					'Unable to extract thumbnail - exception while extracting',
-					['message' => $e->getMessage(), 'path' => $path]
-				);
+			Server::get(LoggerInterface::class)->debug(
+				'Unable to extract thumbnail - exception while extracting',
+				['message' => $e->getMessage(), 'path' => $path]
+			);
 			return null;
 		} finally {
 			if (isset($dst) && is_resource($dst)) {
