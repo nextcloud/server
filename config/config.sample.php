@@ -2813,3 +2813,21 @@ $CONFIG = [
 	 */
 	'enable_lazy_objects' => true,
 ];
+/**
+ * ==== Caching & Redis (placeholders para substituição no deploy) ====
+ */
+
+$CONFIG['memcache.local']       = '\OC\Memcache\APCu';
+$CONFIG['memcache.distributed'] = '\OC\Memcache\Redis';
+$CONFIG['memcache.locking']     = '\OC\Memcache\Redis';
+
+$CONFIG['redis'] = array(
+    'host' => '${REDIS_HOST}',        // ex: 127.0.0.1 ou nome do serviço no cluster
+    'port' => '${REDIS_PORT}',        // ex: 6379 — entre aspas para não quebrar no template
+    'timeout' => 1.5,
+    'read_timeout' => 1.5,
+    'dbindex' => '${REDIS_DBINDEX}',  // ex: 0
+    'password' => '${REDIS_PASS}',    // se não houver senha, pode ficar vazio
+    // se preferir usar socket:
+    // 'host' => '${REDIS_SOCKET}', 'port' => 0,
+);
