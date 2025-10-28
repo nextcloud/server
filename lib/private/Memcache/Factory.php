@@ -116,13 +116,16 @@ class Factory implements ICacheFactory {
 			$versions = [];
 			if ($config->getValue('installed', false)) {
 				$appConfig = \OCP\Server::get(IAppConfig::class);
-				$versions = $appConfig->getAppInstalledVersions();
+				// only get the enabled apps to clear the cache in case an app is enabled or disabled (e.g. clear routes)
+				$versions = $appConfig->getAppInstalledVersions(true);
+				ksort($versions);
 			}
 			$versions['core'] = implode('.', $this->serverVersion->getVersion());
 
 			// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
 			$instanceid = $config->getValue('instanceid');
-			$this->globalPrefix = hash('xxh128', $instanceid . implode(',', $versions));
+			$installedApps = implode(',', array_keys($versions)) . implode(',', array_values($versions));
+			$this->globalPrefix = hash('xxh128', $instanceid . $installedApps);
 		}
 		return $this->globalPrefix;
 	}
