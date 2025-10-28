@@ -1208,6 +1208,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Dashboard\IManager::class, \OC\Dashboard\Manager::class);
 
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
+		$this->registerAlias(\NCU\FullTextSearch\IManager::class, \OC\FullTextSearch\Manager::class);
 		$this->registerAlias(IFilesMetadataManager::class, FilesMetadataManager::class);
 
 		$this->registerAlias(ISubAdmin::class, SubAdmin::class);
