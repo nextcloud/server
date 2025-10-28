@@ -76,6 +76,10 @@
 	}
 }
 
+#content.app-tasks {
+	margin: 0;
+}
+
 #content.app-dashboard {
 	background-color: var(--ion-color-main-background);
 	margin-right: 0;
