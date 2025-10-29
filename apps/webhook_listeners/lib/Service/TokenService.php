@@ -38,23 +38,30 @@ class TokenService {
 		$tokenNeeded = $webhookListener->getTokenNeeded();
 		if (isset($tokenNeeded['users'])) {
 			foreach ($tokenNeeded['users'] as $userId) {
-				$tokens['users'][$userId] = $webhookListener->createTemporaryToken($userId);
+				$tokens['users'][$userId] = $this->createTemporaryToken($userId);
 			}
 		}
 		if (isset($tokenNeeded['users'])) {
+			error_log(json_encode($tokenNeeded));
 			foreach ($tokenNeeded['functions'] as $function) {
 				switch ($function) {
 					case 'owner':
 						// token for the person who created the flow
 						$functionId = $webhookListener->getUserId();
+						if (is_null($functionId)) { // no owner uid available
+							break;
+						}
 						$tokens['functions']['owner'] = [
-							$functionId => $webhookListener->createTemporaryToken($functionId)
+							$functionId => $this->createTemporaryToken($functionId)
 						];
 						break;
 					case 'trigger':
 						// token for the person who triggered the webhook
+						if (is_null($triggerUserId)) { // no trigger uid available
+							break;
+						}
 						$tokens['functions']['trigger'] = [
-							$triggerUserId => $webhookListener->createTemporaryToken($triggerUserId)
+							$triggerUserId => $this->createTemporaryToken($triggerUserId)
 						];
 						break;
 				}
@@ -65,7 +72,7 @@ class TokenService {
 	}
 
 
-	public function createTemporaryToken(string $userId): string {
+	private function createTemporaryToken(string $userId): string {
 		$token = $this->generateRandomDeviceToken();
 		$name = 'Ephemeral webhook authentication';
 		$password = null;
