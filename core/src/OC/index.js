@@ -290,5 +290,5 @@ subscribe('csrf-token-update', (e) => {
 	OC.requestToken = e.token
 
 	// Logging might help debug (Sentry) issues
-	logger.info('OC.requestToken changed', e.token)
+	logger.info('OC.requestToken changed', { token: e.token})
 })
