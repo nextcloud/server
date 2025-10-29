@@ -520,6 +520,7 @@ class Connection extends LDAPUtility {
 			);
 		}
 
+		/**
 		if (!empty($baseUsers) && !$this->checkBasesAreValid($baseUsers, $base)) {
 			throw new ConfigurationIssueException(
 				'User base is not in root base',
@@ -533,6 +534,7 @@ class Connection extends LDAPUtility {
 				$this->l10n->t('Group base DN is not a subnode of global base DN'),
 			);
 		}
+		**/
 
 		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8') === false) {
 			throw new ConfigurationIssueException(
