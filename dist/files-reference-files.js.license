@@ -137,12 +137,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 13.9.0
 	- license: MIT
-- eventemitter3
-	- version: 5.0.1
-	- license: MIT
-- p-queue
-	- version: 9.0.0
-	- license: MIT
 - rehype-react
 	- version: 8.0.0
 	- license: MIT
@@ -568,6 +562,15 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - buffer
 	- version: 6.0.3
+	- license: MIT
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 9.0.0
+	- license: MIT
+- p-timeout
+	- version: 7.0.1
 	- license: MIT
 - parse-asn1
 	- version: 5.1.9
