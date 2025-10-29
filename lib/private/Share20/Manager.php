@@ -1406,8 +1406,8 @@ class Manager implements IManager {
 	 *
 	 * @throws ShareNotFound
 	 */
-	public function getShareByToken($token) {
-		// tokens cannot be valid local user names
+	public function getShareByToken($token): IShare {
+		// tokens cannot be valid local usernames
 		if ($this->userManager->userExists($token)) {
 			throw new ShareNotFound();
 		}
@@ -1417,8 +1417,7 @@ class Manager implements IManager {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
-		} catch (ProviderException $e) {
-		} catch (ShareNotFound $e) {
+		} catch (ProviderException|ShareNotFound) {
 		}
 
 
@@ -1427,8 +1426,7 @@ class Manager implements IManager {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_REMOTE);
 				$share = $provider->getShareByToken($token);
-			} catch (ProviderException $e) {
-			} catch (ShareNotFound $e) {
+			} catch (ProviderException|ShareNotFound) {
 			}
 		}
 
@@ -1437,8 +1435,7 @@ class Manager implements IManager {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_EMAIL);
 				$share = $provider->getShareByToken($token);
-			} catch (ProviderException $e) {
-			} catch (ShareNotFound $e) {
+			} catch (ProviderException|ShareNotFound) {
 			}
 		}
 
@@ -1446,8 +1443,7 @@ class Manager implements IManager {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_CIRCLE);
 				$share = $provider->getShareByToken($token);
-			} catch (ProviderException $e) {
-			} catch (ShareNotFound $e) {
+			} catch (ProviderException|ShareNotFound) {
 			}
 		}
 
@@ -1455,8 +1451,7 @@ class Manager implements IManager {
 			try {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_ROOM);
 				$share = $provider->getShareByToken($token);
-			} catch (ProviderException $e) {
-			} catch (ShareNotFound $e) {
+			} catch (ProviderException|ShareNotFound) {
 			}
 		}
 

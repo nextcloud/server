@@ -752,10 +752,9 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * Get a share by token
 	 *
 	 * @param string $token
-	 * @return IShare
 	 * @throws ShareNotFound
 	 */
-	public function getShareByToken($token) {
+	public function getShareByToken($token): IShare {
 		$qb = $this->dbConnection->getQueryBuilder();
 
 		$cursor = $qb->select('*')
@@ -812,9 +811,9 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws InvalidShare
 	 * @throws ShareNotFound
 	 */
-	private function createShareObject($data) {
+	private function createShareObject($data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
-		$share->setId((int)$data['id'])
+		$share->setId((string)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
