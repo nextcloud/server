@@ -549,7 +549,7 @@ class Connection extends LDAPUtility {
 		foreach ($bases as $base) {
 			$ok = false;
 			foreach ($rootBases as $rootBase) {
-				if (str_ends_with($base, $rootBase)) {
+				if (str_ends_with(strtolower($base), strtolower($rootBase))) {
 					$ok = true;
 					break;
 				}
