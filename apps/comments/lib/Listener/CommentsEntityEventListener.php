@@ -27,6 +27,10 @@ class CommentsEntityEventListener implements IEventListener {
 			return;
 		}
 
+		if ($this->userId === null) {
+			return;
+		}
+
 		$event->addEntityCollection('files', function ($name): bool {
 			$nodes = $this->rootFolder->getUserFolder($this->userId)->getById((int)$name);
 			return !empty($nodes);
