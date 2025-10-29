@@ -47,6 +47,7 @@ class WebhookCall extends QueuedJob {
 
 		// adding temporary auth tokens to the call
 		$data['tokens'] = $this->tokenService->getTokens($webhookListener, $data['user']['uid']);
+		error_log(json_encode($data['tokens']));
 		$options = [
 			'verify' => $this->certificateManager->getAbsoluteBundlePath(),
 			'headers' => $webhookListener->getHeaders() ?? [],
