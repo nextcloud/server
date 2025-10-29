@@ -16,10 +16,10 @@ use OCP\IDBConnection;
 /**
  * Class GroupMappingTest
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\Mapping
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class GroupMappingTest extends AbstractMappingTestCase {
 	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): GroupMapping {
 		return new GroupMapping($dbMock, $cacheFactory, $appConfig, true);

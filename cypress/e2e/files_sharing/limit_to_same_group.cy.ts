@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
+import { randomString } from '../../support/utils/randomString.ts'
 import { createShare } from './FilesSharingUtils.ts'
 
 describe('Limit to sharing to people in the same group', () => {
@@ -17,11 +18,11 @@ describe('Limit to sharing to people in the same group', () => {
 	let randomGroupName3 = ''
 
 	before(() => {
-		randomFileName1 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
-		randomFileName2 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
-		randomGroupName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
-		randomGroupName2 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
-		randomGroupName3 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
+		randomFileName1 = randomString(10) + '.txt'
+		randomFileName2 = randomString(10) + '.txt'
+		randomGroupName = randomString(10)
+		randomGroupName2 = randomString(10)
+		randomGroupName3 = randomString(10)
 
 		cy.runOccCommand('config:app:set core shareapi_only_share_with_group_members --value yes')
 

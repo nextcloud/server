@@ -7,6 +7,7 @@
  */
 namespace OCA\Files_External\Service;
 
+use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\ConfigLexicon;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -35,11 +36,9 @@ class BackendService {
 	/** Priority constants for PriorityTrait */
 	public const PRIORITY_DEFAULT = 100;
 
-	/** @var bool */
-	private $userMountingAllowed = true;
-
+	private ?bool $userMountingAllowed = null;
 	/** @var string[] */
-	private $userMountingBackends = [];
+	private array $userMountingBackends = [];
 
 	/** @var Backend[] */
 	private $backends = [];
@@ -59,16 +58,8 @@ class BackendService {
 	private $configHandlers = [];
 
 	public function __construct(
-		protected IAppConfig $appConfig,
+		protected readonly IAppConfig $appConfig,
 	) {
-		// Load config values
-		$this->userMountingAllowed = $appConfig->getValueBool('files_external', ConfigLexicon::ALLOW_USER_MOUNTING);
-		$this->userMountingBackends = explode(',', $appConfig->getValueString('files_external', ConfigLexicon::USER_MOUNTING_BACKENDS));
-
-		// if no backend is in the list an empty string is in the array and user mounting is disabled
-		if ($this->userMountingBackends === ['']) {
-			$this->userMountingAllowed = false;
-		}
 	}
 
 	/**
@@ -246,9 +237,23 @@ class BackendService {
 	}
 
 	/**
-	 * @return bool
+	 * returns if user mounting is allowed.
+	 * also initiate the list of available backends.
+	 *
+	 * @psalm-assert bool $this->userMountingAllowed
 	 */
-	public function isUserMountingAllowed() {
+	public function isUserMountingAllowed(): bool {
+		if ($this->userMountingAllowed === null) {
+			// Load config values
+			$this->userMountingAllowed = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::ALLOW_USER_MOUNTING);
+			$this->userMountingBackends = explode(',', $this->appConfig->getValueString(Application::APP_ID, ConfigLexicon::USER_MOUNTING_BACKENDS));
+
+			// if no backend is in the list an empty string is in the array and user mounting is disabled
+			if ($this->userMountingBackends === ['']) {
+				$this->userMountingAllowed = false;
+			}
+		}
+
 		return $this->userMountingAllowed;
 	}
 
@@ -258,13 +263,8 @@ class BackendService {
 	 * @param Backend $backend
 	 * @return bool
 	 */
-	protected function isAllowedUserBackend(Backend $backend) {
-		if ($this->userMountingAllowed
-			&& array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
-		) {
-			return true;
-		}
-		return false;
+	protected function isAllowedUserBackend(Backend $backend): bool {
+		return ($this->isUserMountingAllowed() && array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends));
 	}
 
 	/**

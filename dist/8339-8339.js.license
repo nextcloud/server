@@ -30,11 +30,11 @@ This file is generated from multiple sources. Included packages:
 - @floating-ui/utils
 	- version: 0.2.10
 	- license: MIT
-- @nextcloud/browser-storage
-	- version: 0.5.0
-	- license: GPL-3.0-or-later
 - @nextcloud/auth
 	- version: 2.5.3
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.5.0
 	- license: GPL-3.0-or-later
 - @ckpack/vue-color
 	- version: 1.6.0
@@ -43,7 +43,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 9.0.1
 	- license: AGPL-3.0-or-later
 - vue-router
-	- version: 4.6.0
+	- version: 4.6.3
 	- license: MIT
 - vue
 	- version: 3.5.22

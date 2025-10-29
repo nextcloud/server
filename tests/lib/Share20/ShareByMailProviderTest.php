@@ -35,8 +35,8 @@ use Test\Traits\EmailValidatorTrait;
  * Class ShareByMailProviderTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareByMailProviderTest extends TestCase {
 	use EmailValidatorTrait;
 

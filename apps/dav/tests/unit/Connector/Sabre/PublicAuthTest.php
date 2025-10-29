@@ -22,10 +22,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class PublicAuthTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PublicAuthTest extends \Test\TestCase {
 
 	private ISession&MockObject $session;
@@ -316,7 +316,7 @@ class PublicAuthTest extends \Test\TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 

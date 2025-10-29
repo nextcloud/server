@@ -11,7 +11,7 @@
 @use 'fixes';
 @use 'mobile';
 @use 'tooltip';
+@use 'public';
 // If you include .css, it will be imported as url
 @use '../../node_modules/@nextcloud/dialogs/dist/style' as *;
 @use '../../node_modules/@nextcloud/password-confirmation/dist/style' as *;
-@use 'public';

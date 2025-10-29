@@ -21,9 +21,8 @@ use OCP\Share\IShare;
 
 /**
  * Class UpdaterTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UpdaterTest extends TestCase {
 	public const TEST_FOLDER_NAME = '/folder_share_updater_test';
 

@@ -19,10 +19,10 @@ use OCP\Share\IShare;
 /**
  * Class LockingTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LockingTest extends TestCase {
 	/**
 	 * @var \Test\Util\User\Dummy

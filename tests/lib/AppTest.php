@@ -27,9 +27,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class AppTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppTest extends \Test\TestCase {
 	public const TEST_USER1 = 'user1';
 	public const TEST_USER2 = 'user2';

@@ -23,8 +23,8 @@ use Test\TestCase;
  * Class RemoveInvalidSharesTest
  *
  * @package OCA\DAV\Tests\Unit\Repair
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RemoveInvalidSharesTest extends TestCase {
 	private RemoveInvalidShares $command;
 

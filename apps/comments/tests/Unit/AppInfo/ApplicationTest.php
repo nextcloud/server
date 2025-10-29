@@ -24,10 +24,9 @@ use Test\TestCase;
 /**
  * Class ApplicationTest
  *
- * @group DB
- *
  * @package OCA\Comments\Tests\Unit\AppInfo
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ApplicationTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();

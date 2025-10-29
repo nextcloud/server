@@ -13,10 +13,10 @@ use OCA\Files_External\Lib\Storage\SFTP;
 /**
  * Class SftpTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SftpTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 	/**

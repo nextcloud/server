@@ -53,7 +53,9 @@ class ExampleContentSettings implements ISettings {
 			);
 		}
 
-		return new TemplateResponse(Application::APP_ID, 'settings-example-content');
+		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin-example-content');
+		\OCP\Util::addScript(Application::APP_ID, 'settings-admin-example-content');
+		return new TemplateResponse(Application::APP_ID, 'settings-admin-example-content');
 	}
 
 	public function getSection(): ?string {

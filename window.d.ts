@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type Tab from './apps/files/src/models/Tab.js'
 import type RouterService from './apps/files/src/services/RouterService.ts'
 import type Settings from './apps/files/src/services/Settings.js'
 import type Sidebar from './apps/files/src/services/Sidebar.js'
@@ -12,6 +13,7 @@ type SidebarAPI = Sidebar & {
 	close: () => void
 	setFullScreenMode: (fullScreen: boolean) => void
 	setShowTagsDefault: (showTagsDefault: boolean) => void
+	Tab: typeof Tab
 }
 
 declare global {

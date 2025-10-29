@@ -14,9 +14,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ProviderUserAssignmentDaoTest extends TestCase {
 	/** @var IDBConnection */
 	private $dbConn;

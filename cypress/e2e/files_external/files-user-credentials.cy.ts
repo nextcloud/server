@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import { ACTION_CREDENTIALS_EXTERNAL_STORAGE } from '../../../apps/files_external/src/actions/enterCredentialsAction.ts'
 import { getInlineActionEntryForFile, getRowForFile, navigateToFolder, triggerInlineActionForFile } from '../files/FilesUtils.ts'
 import { handlePasswordConfirmation } from '../settings/usersUtils.ts'
 import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils.ts'
+
+const ACTION_CREDENTIALS_EXTERNAL_STORAGE = 'credentials-external-storage'
 
 describe('Files user credentials', { testIsolation: true }, () => {
 	let user1: User

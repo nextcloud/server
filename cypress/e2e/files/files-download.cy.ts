@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import randomString from 'crypto-random-string'
-import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
 import { zipFileContains } from '../../support/utils/assertions.ts'
+import { deleteDownloadsFolderBeforeEach } from '../../support/utils/deleteDownloadsFolder.ts'
+import { randomString } from '../../support/utils/randomString.ts'
 import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Download files using file actions', { testIsolation: true }, () => {

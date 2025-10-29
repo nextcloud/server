@@ -24,10 +24,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class TagServiceTest
  *
- * @group DB
  *
  * @package OCA\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TagServiceTest extends \Test\TestCase {
 	private string $user;
 	private IUserSession&MockObject $userSession;

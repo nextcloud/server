@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { randomString } from '../../support/utils/randomString.ts'
 import { assertVersionContent, nameVersion, openVersionsPanel, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions expiration', () => {
 	let randomFileName = ''
 
 	beforeEach(() => {
-		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+		randomFileName = randomString(10) + '.txt'
 
 		cy.createRandomUser()
 			.then((user) => {
@@ -27,7 +28,7 @@ describe('Versions expiration', () => {
 		cy.visit('/apps/files')
 		openVersionsPanel(randomFileName)
 
-		cy.get('#tab-version_vue').within(() => {
+		cy.get('#tab-files_versions').within(() => {
 			cy.get('[data-files-versions-version]').should('have.length', 1)
 			cy.get('[data-files-versions-version]').eq(0).contains('Current version')
 		})
@@ -44,7 +45,7 @@ describe('Versions expiration', () => {
 		cy.visit('/apps/files')
 		openVersionsPanel(randomFileName)
 
-		cy.get('#tab-version_vue').within(() => {
+		cy.get('#tab-files_versions').within(() => {
 			cy.get('[data-files-versions-version]').should('have.length', 2)
 			cy.get('[data-files-versions-version]').eq(0).contains('Current version')
 			cy.get('[data-files-versions-version]').eq(1).contains('v1')

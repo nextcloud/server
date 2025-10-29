@@ -17,10 +17,10 @@ use Test\Traits\EncryptionTrait;
 /**
  * Class EncryptionUploadTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class EncryptionUploadTest extends UploadTest {
 	use EncryptionTrait;
 

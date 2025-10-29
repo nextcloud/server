@@ -25,13 +25,15 @@ class CSSResourceLocator extends ResourceLocator {
 	}
 
 	public function doFind(string $resource): void {
-		$parts = explode('/', $resource, 2);
+		$parts = explode('/', $resource);
 		if (count($parts) < 2) {
 			return;
 		}
-		[$app,$subpath] = $parts;
+		$app = $parts[0];
+		$filename = $parts[array_key_last($parts)];
 		if ($this->appendIfExist($this->serverroot, $resource . '.css')
 			|| $this->appendIfExist($this->serverroot, 'core/' . $resource . '.css')
+			|| $this->appendIfExist($this->serverroot, 'dist/' . $app . '-' . $filename . '.css')
 		) {
 			return;
 		}
@@ -40,7 +42,7 @@ class CSSResourceLocator extends ResourceLocator {
 			$app_url = $this->appManager->getAppWebPath($app);
 		} catch (AppPathNotFoundException $e) {
 			$this->logger->error('Could not find resource {resource} to load', [
-				'resource' => $app . '/' . $subpath . '.css',
+				'resource' => $resource . '.css',
 				'app' => 'cssresourceloader',
 				'exception' => $e,
 			]);
@@ -52,7 +54,7 @@ class CSSResourceLocator extends ResourceLocator {
 		// turned into cwd.
 		$app_path = realpath($app_path);
 
-		$this->append($app_path, $subpath . '.css', $app_url);
+		$this->append($app_path, join('/', array_slice($parts, 1)) . '.css', $app_url);
 	}
 
 	public function doFindTheme(string $resource): void {

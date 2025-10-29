@@ -24,10 +24,10 @@ use OCP\Server;
 /**
  * Class MigratorTest
  *
- * @group DB
  *
  * @package Test\DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MigratorTest extends \Test\TestCase {
 	/**
 	 * @var \Doctrine\DBAL\Connection $connection

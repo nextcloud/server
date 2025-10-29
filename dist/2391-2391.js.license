@@ -29,7 +29,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 9.0.1
 	- license: AGPL-3.0-or-later
 - vue-router
-	- version: 4.6.0
+	- version: 4.6.3
 	- license: MIT
 - vue-select
 	- version: 4.0.0-beta.6

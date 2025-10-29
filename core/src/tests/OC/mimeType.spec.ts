@@ -3,22 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { join } from 'node:path'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, test } from 'vitest'
+import { clearIconCache, getIconUrl } from '../../OC/mimeType.js'
 
-const generateUrl = vi.hoisted(() => vi.fn((url) => join('/ROOT', url)))
-
-vi.mock('@nextcloud/router', () => ({
-	generateUrl,
-}))
-
-beforeEach(() => {
-	vi.resetModules()
-	vi.resetAllMocks()
-})
-
-describe('OC.MimeType tests', async () => {
-	beforeEach(async () => {
+describe('OC.MimeType tests', () => {
+	beforeEach(() => {
 		window.OC.MimeTypeList = {
 			aliases: { 'app/foobar': 'foo/bar' },
 			files: ['folder', 'folder-shared', 'folder-external', 'foo-bar', 'foo', 'file'],
@@ -26,11 +15,42 @@ describe('OC.MimeType tests', async () => {
 				abc: ['folder'],
 			},
 		}
+		// @ts-expect-error - mocking global variable
+		window._oc_webroot = '/ROOT'
+		// setup for legacy theme
+		window.OC.theme ??= {}
+		window.OC.theme.folder = ''
+		// the theming app is always enabled since Nextcloud 20
+		window.OCA.Theming ??= {}
+		window.OCA.Theming.cacheBuster = '1cacheBuster2'
+		clearIconCache()
 	})
 
-	describe('no theme', async () => {
-		beforeEach(async () => {
-			window.OC.theme ??= {}
+	test('uses icon cache if availble', async () => {
+		window.OC.theme.folder = 'abc'
+		expect(getIconUrl('dir')).toEqual('/ROOT/themes/abc/core/img/filetypes/folder.svg?v=1cacheBuster2')
+		window.OC.theme.folder = ''
+		expect(getIconUrl('dir')).toEqual('/ROOT/themes/abc/core/img/filetypes/folder.svg?v=1cacheBuster2')
+		clearIconCache()
+		expect(getIconUrl('dir')).toEqual('/ROOT/index.php/apps/theming/img/core/filetypes/folder.svg?v=1cacheBuster2')
+	})
+
+	describe('with legacy themes', async () => {
+		beforeEach(() => {
+			window.OC.theme.folder = 'abc'
+		})
+
+		it('uses theme path if a theme icon is availble', async () => {
+			expect(getIconUrl('dir')).toEqual('/ROOT/themes/abc/core/img/filetypes/folder.svg?v=1cacheBuster2')
+		})
+
+		it('fallbacks to the default theme if no icon is available in the theme', async () => {
+			expect(getIconUrl('dir-shared')).toEqual('/ROOT/index.php/apps/theming/img/core/filetypes/folder-shared.svg?v=1cacheBuster2')
+		})
+	})
+
+	describe('no legacy theme', async () => {
+		beforeEach(() => {
 			window.OC.theme.folder = ''
 		})
 
@@ -47,72 +67,24 @@ describe('OC.MimeType tests', async () => {
 			// return the file mimetype if we have no matching icon but do have a file icon
 			{ mimeType: 'foobar', icon: 'file' },
 		])('returns correct icon', async ({ icon, mimeType }) => {
-			const { getIconUrl } = await getMethod()
-			expect(getIconUrl(mimeType)).toEqual(`/ROOT/core/img/filetypes/${icon}.svg`)
+			expect(getIconUrl(mimeType)).toEqual(`/ROOT/index.php/apps/theming/img/core/filetypes/${icon}.svg?v=1cacheBuster2`)
 		})
 
 		it('returns undefined if the an icon for undefined is requested', async () => {
-			const { getIconUrl } = await getMethod()
+			// @ts-expect-error - testing invalid input
 			expect(getIconUrl(undefined)).toEqual(undefined)
 		})
 
-		it('uses the cache if available', async () => {
-			const { getIconUrl } = await getMethod()
-			expect(generateUrl).not.toHaveBeenCalled()
-
-			expect(getIconUrl('dir')).toEqual('/ROOT/core/img/filetypes/folder.svg')
-			expect(generateUrl).toHaveBeenCalledTimes(1)
-
-			expect(getIconUrl('dir')).toEqual('/ROOT/core/img/filetypes/folder.svg')
-			expect(generateUrl).toHaveBeenCalledTimes(1)
-
-			expect(getIconUrl('dir-shared')).toEqual('/ROOT/core/img/filetypes/folder-shared.svg')
-			expect(generateUrl).toHaveBeenCalledTimes(2)
-		})
-
 		it('converts aliases correctly', async () => {
-			const { getIconUrl } = await getMethod()
-			expect(getIconUrl('app/foobar')).toEqual('/ROOT/core/img/filetypes/foo-bar.svg')
-		})
-	})
-
-	describe('with legacy themes', async () => {
-		beforeEach(async () => {
-			window.OC.theme ??= {}
-			window.OC.theme.folder = 'abc'
-		})
-
-		it('uses theme path if a theme icon is availble', async () => {
-			const { getIconUrl } = await getMethod()
-			expect(getIconUrl('dir')).toEqual('/ROOT/themes/abc/core/img/filetypes/folder.svg')
-		})
-
-		it('fallbacks to the default theme if no icon is available in the theme', async () => {
-			const { getIconUrl } = await getMethod()
-			expect(getIconUrl('dir-shared')).toEqual('/ROOT/core/img/filetypes/folder-shared.svg')
-		})
-	})
-
-	describe('with theming app', async () => {
-		beforeEach(async () => {
-			window.OC.theme ??= {}
-			window.OC.theme.folder = ''
-			window.OCA.Theming ??= {}
-			window.OCA.Theming.cacheBuster = '1cacheBuster2'
+			expect(getIconUrl('app/foobar')).toEqual('/ROOT/index.php/apps/theming/img/core/filetypes/foo-bar.svg?v=1cacheBuster2')
 		})
 
 		it('uses the correct theming URL', async () => {
-			const { getIconUrl } = await getMethod()
-			expect(getIconUrl('dir')).toMatch('/apps/theming/img/core/filetypes/folder.svg')
+			expect(getIconUrl('dir')).toMatch('/ROOT/index.php/apps/theming/img/core/filetypes/folder.svg?v=1cacheBuster2')
 		})
 
 		it('uses the cache buster', async () => {
-			const { getIconUrl } = await getMethod()
 			expect(getIconUrl('file')).toMatch(/\?v=1cacheBuster2$/)
 		})
 	})
 })
-
-async function getMethod() {
-	return await import('../../OC/mimeType.js')
-}

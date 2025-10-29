@@ -24,7 +24,7 @@ OC.L10N.register(
     "Federated file sharing" : "Federated Datei-Freigabe",
     "Provide federated file sharing across servers" : "Bietet Cloud-übergreifende Datei-Freigaben",
     "Confirm data upload to lookup server" : "Datenupload zum Lookup-Server bestätigen",
-    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Wenn diese Option aktiviert ist, werden alle Kontoeigenschaften (z. B. E-Mail-Adresse) mit der auf „veröffentlicht“ eingestellten Bereichssichtbarkeit automatisch synchronisiert und an ein externes System übertragen sowie in einem öffentlichen, globalen Adressbuch verfügbar gemacht.",
+    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Wenn diese Option aktiviert ist, werden alle Kontoeigenschaften (z. B. E-Mail-Adresse) mit der auf \"veröffentlicht\" eingestellten Bereichssichtbarkeit automatisch synchronisiert und an ein externes System übertragen sowie in einem öffentlichen, globalen Adressbuch verfügbar gemacht.",
     "Disable upload" : "Hochladen deaktivieren",
     "Enable data upload" : "Datenhochladen aktivieren",
     "Confirm querying lookup server" : "Abfrage des Lookup-Servers bestätigen",

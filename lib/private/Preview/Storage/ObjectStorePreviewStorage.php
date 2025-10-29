@@ -77,6 +77,11 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 
 	#[Override]
 	public function deletePreview(Preview $preview): void {
+		if (defined('PHPUNIT_RUN') && $preview->getLocationId() === null) {
+			// Should only be the case in unit tests when adding dummy previews in the database.
+			return;
+		}
+
 		[
 			'urn' => $urn,
 			'store' => $store,
@@ -100,10 +105,12 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	 * @return ObjectStoreDefinition
 	 */
 	private function getObjectStoreInfoForExistingPreview(Preview $preview): array {
-		assert(!empty($preview->getObjectStoreName()));
-		assert(!empty($preview->getBucketName()));
+		$objectStoreName = $preview->getObjectStoreName();
+		$bucketName = $preview->getBucketName();
+		assert(!empty($objectStoreName));
+		assert(!empty($bucketName));
 
-		$config = $this->objectStoreConfig->getObjectStoreConfiguration($preview->getObjectStoreName());
+		$config = $this->objectStoreConfig->getObjectStoreConfiguration($objectStoreName);
 		$config['arguments']['bucket'] = $preview->getBucketName();
 		$objectStoreName = $preview->getObjectStoreName();
 

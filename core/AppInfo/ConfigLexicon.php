@@ -49,7 +49,6 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::BOOL,
 				defaultRaw: true,
 				definition: 'adds share permission to public shares to allow adding them to your Nextcloud (federation)',
-				lazy: true,
 			),
 			new Entry(
 				key: self::SHARE_CUSTOM_TOKEN,
@@ -59,7 +58,6 @@ class ConfigLexicon implements ILexicon {
 					default => false,
 				},
 				definition: 'Allow users to customize share URL',
-				lazy: true,
 				note: 'Shares with guessable tokens may be accessed easily. Shares with custom tokens will continue to be accessible after this setting has been disabled.',
 			),
 			new Entry(self::SHARE_LINK_PASSWORD_DEFAULT, ValueType::BOOL, false, 'Ask for a password when sharing document by default'),
@@ -91,10 +89,10 @@ class ConfigLexicon implements ILexicon {
 				definition: 'Enforce expiration date for shares via link or mail'
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
-			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM', lazy: true),
-			new Entry(self::OCM_INVITE_ACCEPT_DIALOG, ValueType::STRING, '', 'route to local invite accept dialog', lazy: true, note: 'set as empty string to disable feature'),
-			new Entry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', lazy: false, rename: 'unified-search.min-search-length'),
-			new Entry(self::UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST, ValueType::INT, 25, 'Maximum results returned per search request', lazy: false, rename: 'unified-search.max-results-per-request'),
+			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM'),
+			new Entry(self::OCM_INVITE_ACCEPT_DIALOG, ValueType::STRING, '', 'route to local invite accept dialog', note: 'set as empty string to disable feature'),
+			new Entry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', rename: 'unified-search.min-search-length'),
+			new Entry(self::UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST, ValueType::INT, 25, 'Maximum results returned per search request', rename: 'unified-search.max-results-per-request'),
 		];
 	}
 

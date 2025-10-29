@@ -16,9 +16,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DbHandlerTest extends TestCase {
 	private DbHandler $dbHandler;
 	private IL10N&MockObject $il10n;

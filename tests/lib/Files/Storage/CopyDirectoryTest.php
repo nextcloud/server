@@ -27,10 +27,10 @@ class CopyDirectoryStorage extends StorageNoRecursiveCopy {
 /**
  * Class CopyDirectoryTest
  *
- * @group DB
  *
  * @package Test\Files\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CopyDirectoryTest extends Storage {
 	protected function setUp(): void {
 		parent::setUp();

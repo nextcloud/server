@@ -9,46 +9,39 @@
 			<NcDateTimePickerNative
 				id="absence-first-day"
 				v-model="firstDay"
-				:label="$t('dav', 'First day')"
+				:label="t('dav', 'First day')"
 				class="absence__dates__picker"
 				:required="true" />
 			<NcDateTimePickerNative
 				id="absence-last-day"
 				v-model="lastDay"
-				:label="$t('dav', 'Last day (inclusive)')"
+				:label="t('dav', 'Last day (inclusive)')"
 				class="absence__dates__picker"
 				:required="true" />
 		</div>
-		<label for="replacement-search-input">{{ $t('dav', 'Out of office replacement (optional)') }}</label>
-		<NcSelect
-			ref="select"
+		<label for="replacement-search-input">{{ t('dav', 'Out of office replacement (optional)') }}</label>
+		<NcSelectUsers
 			v-model="replacementUser"
 			input-id="replacement-search-input"
 			:loading="searchLoading"
-			:placeholder="$t('dav', 'Name of the replacement')"
-			:clear-search-on-blur="() => false"
-			user-select
+			:placeholder="t('dav', 'Name of the replacement')"
 			:options="options"
-			@search="asyncFind">
-			<template #no-options="{ search }">
-				{{ search ? $t('dav', 'No results.') : $t('dav', 'Start typing.') }}
-			</template>
-		</NcSelect>
-		<NcTextField :value.sync="status" :label="$t('dav', 'Short absence status')" :required="true" />
-		<NcTextArea :value.sync="message" :label="$t('dav', 'Long absence Message')" :required="true" />
+			@search="asyncFind" />
+		<NcTextField v-model="status" :label="t('dav', 'Short absence status')" :required="true" />
+		<NcTextArea v-model="message" :label="t('dav', 'Long absence Message')" :required="true" />
 
 		<div class="absence__buttons">
 			<NcButton
 				:disabled="loading || !valid"
 				variant="primary"
 				type="submit">
-				{{ $t('dav', 'Save') }}
+				{{ t('dav', 'Save') }}
 			</NcButton>
 			<NcButton
 				:disabled="loading || !valid"
 				variant="error"
 				@click="clearAbsence">
-				{{ $t('dav', 'Disable absence') }}
+				{{ t('dav', 'Disable absence') }}
 			</NcButton>
 		</div>
 	</form>
@@ -59,18 +52,18 @@ import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../service/logger.js'
-import { formatDateAsYMD } from '../utils/date.js'
+import { logger } from '../service/logger.ts'
+import { formatDateAsYMD } from '../utils/date.ts'
 
-/* eslint @nextcloud/vue/no-deprecated-props: "warn" */
 export default {
 	name: 'AbsenceForm',
 	components: {
@@ -78,7 +71,11 @@ export default {
 		NcTextField,
 		NcTextArea,
 		NcDateTimePickerNative,
-		NcSelect,
+		NcSelectUsers,
+	},
+
+	setup() {
+		return { t }
 	},
 
 	data() {
@@ -228,9 +225,9 @@ export default {
 					message: this.message,
 					replacementUserId: this.replacementUser?.user ?? null,
 				})
-				showSuccess(this.$t('dav', 'Absence saved'))
+				showSuccess(t('dav', 'Absence saved'))
 			} catch (error) {
-				showError(this.$t('dav', 'Failed to save your absence settings'))
+				showError(t('dav', 'Failed to save your absence settings'))
 				logger.error('Could not save absence', { error })
 			} finally {
 				this.loading = false
@@ -242,9 +239,9 @@ export default {
 			try {
 				await axios.delete(generateOcsUrl('/apps/dav/api/v1/outOfOffice/{userId}', { userId: getCurrentUser().uid }))
 				this.resetForm()
-				showSuccess(this.$t('dav', 'Absence cleared'))
+				showSuccess(t('dav', 'Absence cleared'))
 			} catch (error) {
-				showError(this.$t('dav', 'Failed to clear your absence settings'))
+				showError(t('dav', 'Failed to clear your absence settings'))
 				logger.error('Could not clear absence', { error })
 			} finally {
 				this.loading = false

@@ -12,9 +12,9 @@ import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
 import { encodePath, joinPaths } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
-import client from '../utils/davClient.js'
-import davRequest from '../utils/davRequest.js'
-import logger from '../utils/logger.js'
+import client from '../utils/davClient.ts'
+import davRequest from '../utils/davRequest.ts'
+import logger from '../utils/logger.ts'
 
 export interface Version {
 	fileId: string // The id of the file associated to the version.
