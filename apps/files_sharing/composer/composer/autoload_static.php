@@ -65,6 +65,8 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => __DIR__ . '/..' . '/../lib/Exceptions/SharingRightsException.php',
         'OCA\\Files_Sharing\\ExpireSharesJob' => __DIR__ . '/..' . '/../lib/ExpireSharesJob.php',
         'OCA\\Files_Sharing\\External\\Cache' => __DIR__ . '/..' . '/../lib/External/Cache.php',
+        'OCA\\Files_Sharing\\External\\ExternalShare' => __DIR__ . '/..' . '/../lib/External/ExternalShare.php',
+        'OCA\\Files_Sharing\\External\\ExternalShareMapper' => __DIR__ . '/..' . '/../lib/External/ExternalShareMapper.php',
         'OCA\\Files_Sharing\\External\\Manager' => __DIR__ . '/..' . '/../lib/External/Manager.php',
         'OCA\\Files_Sharing\\External\\Mount' => __DIR__ . '/..' . '/../lib/External/Mount.php',
         'OCA\\Files_Sharing\\External\\MountProvider' => __DIR__ . '/..' . '/../lib/External/MountProvider.php',

@@ -35,9 +35,8 @@ class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	 * Move the mount point to $target
 	 *
 	 * @param string $target the target mount point
-	 * @return bool
 	 */
-	public function moveMount($target) {
+	public function moveMount($target): bool {
 		$result = $this->manager->setMountPoint($this->mountPoint, $target);
 		$this->setMountPoint($target);
 
@@ -57,7 +56,7 @@ class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	 *
 	 * @return string
 	 */
-	public function getMountType() {
+	public function getMountType(): string {
 		return 'shared';
 	}
 }

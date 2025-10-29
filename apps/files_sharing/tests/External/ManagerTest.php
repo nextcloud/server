@@ -13,6 +13,8 @@ use OC\Files\SetupManager;
 use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Temporary;
+use OCA\Files_Sharing\External\ExternalShare;
+use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
@@ -38,6 +40,7 @@ use OCP\IUserSession;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
 use OCP\Share\IShare;
+use OCP\Snowflake\IGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -68,6 +71,7 @@ class ManagerTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected SetupManager&MockObject $setupManager;
 	protected ICertificateManager&MockObject $certificateManager;
+	private ExternalShareMapper $externalShareMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -92,6 +96,8 @@ class ManagerTest extends TestCase {
 					->willReturnCallback(fn (string $name): string => $name);
 				return $folder;
 			});
+
+		$this->externalShareMapper = new ExternalShareMapper(Server::get(IDBConnection::class), $this->groupManager);
 
 		$this->contactsManager = $this->createMock(IManager::class);
 		// needed for MountProvider() initialization
@@ -163,6 +169,8 @@ class ManagerTest extends TestCase {
 					$this->rootFolder,
 					$this->setupManager,
 					$this->certificateManager,
+					$this->externalShareMapper,
+					Server::get(IGenerator::class),
 				]
 			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
@@ -181,39 +189,35 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testAddUserShare(): void {
-		$this->doTestAddShare([
-			'remote' => 'http://localhost',
-			'token' => 'token1',
-			'password' => '',
-			'name' => '/SharedFolder',
-			'owner' => 'foobar',
-			'shareType' => IShare::TYPE_USER,
-			'accepted' => false,
-			'userOrGroup' => $this->user,
-			'remoteId' => '2342'
-		], false);
+		$userShare = new ExternalShare();
+		$userShare->setId(Server::get(IGenerator::class)->nextId());
+		$userShare->setRemote('http://localhost');
+		$userShare->setShareToken('token1');
+		$userShare->setPassword('');
+		$userShare->setName('/SharedFolder');
+		$userShare->setOwner('foobar');
+		$userShare->setShareType(IShare::TYPE_USER);
+		$userShare->setAccepted(IShare::STATUS_PENDING);
+		$userShare->setRemoteId('2342');
+
+		$this->doTestAddShare($userShare, $this->user);
 	}
 
 	public function testAddGroupShare(): void {
-		$this->doTestAddShare([
-			'remote' => 'http://localhost',
-			'token' => 'token1',
-			'password' => '',
-			'name' => '/SharedFolder',
-			'owner' => 'foobar',
-			'shareType' => IShare::TYPE_GROUP,
-			'accepted' => false,
-			'userOrGroup' => $this->group1,
-			'remoteId' => '2342'
-		], true);
+		$groupShare = new ExternalShare();
+		$groupShare->setId(Server::get(IGenerator::class)->nextId());
+		$groupShare->setRemote('http://localhost');
+		$groupShare->setOwner('foobar');
+		$groupShare->setShareType(IShare::TYPE_GROUP);
+		$groupShare->setAccepted(IShare::STATUS_PENDING);
+		$groupShare->setRemoteId('2342');
+		$groupShare->setShareToken('token1');
+		$groupShare->setPassword('');
+		$groupShare->setName('/SharedFolder');
+		$this->doTestAddShare($groupShare, $this->group1, isGroup: true);
 	}
 
-	public function doTestAddShare(array $shareData1, bool $isGroup = false): void {
-		$shareData2 = $shareData1;
-		$shareData2['token'] = 'token2';
-		$shareData3 = $shareData1;
-		$shareData3['token'] = 'token3';
-
+	public function doTestAddShare(ExternalShare $shareData1, IUser|IGroup $userOrGroup, bool $isGroup = false): void {
 		if ($isGroup) {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint')->willReturn(false);
 		} else {
@@ -226,27 +230,34 @@ class ManagerTest extends TestCase {
 		}
 
 		// Add a share for "user"
-		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData1));
+		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], [$shareData1, $userOrGroup]));
 		$openShares = $this->manager->getOpenShares();
 		$this->assertCount(1, $openShares);
-		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1['name'] . '}}', $shareData1['userOrGroup']);
+		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1->getName() . '}}', $userOrGroup);
+
+		$shareData2 = $shareData1->clone();
+		$shareData2->setShareToken('token2');
+		$shareData2->setId(\OCP\Server::get(IGenerator::class)->nextId());
+		$shareData3 = $shareData1->clone();
+		$shareData3->setShareToken('token3');
+		$shareData3->setId(\OCP\Server::get(IGenerator::class)->nextId());
 
 		$this->setupMounts();
 		$this->assertNotMount('SharedFolder');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}');
 
 		// Add a second share for "user" with the same name
-		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData2));
+		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], [$shareData2, $userOrGroup]));
 		$openShares = $this->manager->getOpenShares();
 		$this->assertCount(2, $openShares);
-		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1['name'] . '}}', $shareData1['userOrGroup']);
+		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1->getName() . '}}', $userOrGroup);
 		// New share falls back to "-1" appendix, because the name is already taken
-		$this->assertExternalShareEntry($shareData2, $openShares[1], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1', $shareData2['userOrGroup']);
+		$this->assertExternalShareEntry($shareData2, $openShares[1], 2, '{{TemporaryMountPointName#' . $shareData2->getName() . '}}-1', $userOrGroup);
 
 		$this->setupMounts();
 		$this->assertNotMount('SharedFolder');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}-1');
 
 		$newClientCalls = [];
 		$this->clientService
@@ -271,44 +282,44 @@ class ManagerTest extends TestCase {
 				]));
 			$client->expects($this->once())
 				->method('post')
-				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $openShares[0]['remote_id']), $this->anything())
+				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $openShares[0]->getRemoteId()), $this->anything())
 				->willReturn($response);
 		}
 
 		// Accept the first share
-		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
+		$this->assertTrue($this->manager->acceptShare($openShares[0]));
 
 		// Check remaining shares - Accepted
-		$acceptedShares = self::invokePrivate($this->manager, 'getShares', [true]);
+		$acceptedShares = $this->externalShareMapper->getShares($this->user, IShare::STATUS_ACCEPTED);
 		$this->assertCount(1, $acceptedShares);
-		$shareData1['accepted'] = true;
-		$this->assertExternalShareEntry($shareData1, $acceptedShares[0], 1, $shareData1['name'], $this->user);
+		$shareData1->setAccepted(true);
+		$this->assertExternalShareEntry($shareData1, $acceptedShares[0], 1, $shareData1->getName(), $this->user);
 		// Check remaining shares - Open
 		$openShares = $this->manager->getOpenShares();
 		$this->assertCount(1, $openShares);
-		$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1', $shareData2['userOrGroup']);
+		$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2->getName() . '}}-1', $userOrGroup);
 
 		$this->setupMounts();
-		$this->assertMount($shareData1['name']);
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+		$this->assertMount($shareData1->getName());
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}-1');
 
 		// Add another share for "user" with the same name
-		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData3));
+		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], [$shareData3, $userOrGroup]));
 		$openShares = $this->manager->getOpenShares();
 		$this->assertCount(2, $openShares);
-		$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1', $shareData2['userOrGroup']);
+		$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2->getName() . '}}-1', $userOrGroup);
 		if (!$isGroup) {
 			// New share falls back to the original name (no "-\d", because the name is not taken)
-			$this->assertExternalShareEntry($shareData3, $openShares[1], 3, '{{TemporaryMountPointName#' . $shareData3['name'] . '}}', $shareData3['userOrGroup']);
+			$this->assertExternalShareEntry($shareData3, $openShares[1], 3, '{{TemporaryMountPointName#' . $shareData3->getName() . '}}', $userOrGroup);
 		} else {
-			$this->assertExternalShareEntry($shareData3, $openShares[1], 3, '{{TemporaryMountPointName#' . $shareData3['name'] . '}}-2', $shareData3['userOrGroup']);
+			$this->assertExternalShareEntry($shareData3, $openShares[1], 3, '{{TemporaryMountPointName#' . $shareData3->getName() . '}}-2', $userOrGroup);
 		}
 
 		$this->setupMounts();
-		$this->assertMount($shareData1['name']);
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+		$this->assertMount($shareData1->getName());
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}-1');
 
 		if (!$isGroup) {
 			$client = $this->createMock(IClient::class);
@@ -324,45 +335,45 @@ class ManagerTest extends TestCase {
 				]));
 			$client->expects($this->once())
 				->method('post')
-				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $openShares[1]['remote_id'] . '/decline'), $this->anything())
+				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $openShares[1]->getRemoteId() . '/decline'), $this->anything())
 				->willReturn($response);
 		}
 
 		// Decline the third share
-		$this->assertTrue($this->manager->declineShare($openShares[1]['id']));
+		$this->assertTrue($this->manager->declineShare($openShares[1]));
 
 		$this->setupMounts();
-		$this->assertMount($shareData1['name']);
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+		$this->assertMount($shareData1->getName());
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}-1');
 
 		// Check remaining shares - Accepted
-		$acceptedShares = self::invokePrivate($this->manager, 'getShares', [true]);
+		$acceptedShares = $this->externalShareMapper->getShares($this->user, IShare::STATUS_ACCEPTED);
 		$this->assertCount(1, $acceptedShares);
-		$shareData1['accepted'] = true;
-		$this->assertExternalShareEntry($shareData1, $acceptedShares[0], 1, $shareData1['name'], $this->user);
+		$shareData1->setAccepted(true);
+		$this->assertExternalShareEntry($shareData1, $acceptedShares[0], 1, $shareData1->getName(), $this->user);
 		// Check remaining shares - Open
 		$openShares = $this->manager->getOpenShares();
 		if ($isGroup) {
 			// declining a group share adds it back to pending instead of deleting it
 			$this->assertCount(2, $openShares);
 			// this is a group share that is still open
-			$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1', $shareData2['userOrGroup']);
+			$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2->getName() . '}}-1', $userOrGroup);
 			// this is the user share sub-entry matching the group share which got declined
-			$this->assertExternalShareEntry($shareData3, $openShares[1], 2, '{{TemporaryMountPointName#' . $shareData3['name'] . '}}-2', $this->user);
+			$this->assertExternalShareEntry($shareData3, $openShares[1], 2, '{{TemporaryMountPointName#' . $shareData3->getName() . '}}-2', $this->user);
 		} else {
 			$this->assertCount(1, $openShares);
-			$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2['name'] . '}}-1', $this->user);
+			$this->assertExternalShareEntry($shareData2, $openShares[0], 2, '{{TemporaryMountPointName#' . $shareData2->getName() . '}}-1', $this->user);
 		}
 
 		$this->setupMounts();
-		$this->assertMount($shareData1['name']);
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+		$this->assertMount($shareData1->getName());
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}-1');
 
 		if ($isGroup) {
 			// no http requests here
-			$this->manager->removeGroupShares('group1');
+			$this->manager->removeGroupShares($this->group1);
 		} else {
 			$client1 = $this->createMock(IClient::class);
 			$client2 = $this->createMock(IClient::class);
@@ -380,113 +391,119 @@ class ManagerTest extends TestCase {
 
 			$client1->expects($this->once())
 				->method('post')
-				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $openShares[0]['remote_id'] . '/decline'), $this->anything())
+				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $openShares[0]->getRemoteId() . '/decline'), $this->anything())
 				->willReturn($response);
 			$client2->expects($this->once())
 				->method('post')
-				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $acceptedShares[0]['remote_id'] . '/decline'), $this->anything())
+				->with($this->stringStartsWith('http://localhost/ocs/v2.php/cloud/shares/' . $acceptedShares[0]->getRemoteId() . '/decline'), $this->anything())
 				->willReturn($response);
 
 			$this->manager->removeUserShares($this->user);
 		}
 
-		$this->assertEmpty(self::invokePrivate($this->manager, 'getShares', [null]), 'Asserting all shares for the user have been deleted');
+		$this->assertEmpty($this->externalShareMapper->getShares($this->user, null), 'Asserting all shares for the user have been deleted');
 
 		$this->clearMounts();
 		self::invokePrivate($this->manager, 'setupMounts');
-		$this->assertNotMount($shareData1['name']);
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
-		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+		$this->assertNotMount($shareData1->getName());
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}');
+		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1->getName() . '}}-1');
 	}
 
-	private function verifyAcceptedGroupShare(array $shareData): void {
+	private function verifyAcceptedGroupShare(ExternalShare $share): void {
 		$openShares = $this->manager->getOpenShares();
 		$this->assertCount(0, $openShares);
-		$acceptedShares = self::invokePrivate($this->manager, 'getShares', [true]);
+		$acceptedShares = $this->externalShareMapper->getShares($this->user, IShare::STATUS_ACCEPTED);
 		$this->assertCount(1, $acceptedShares);
-		$shareData['accepted'] = true;
-		$this->assertExternalShareEntry($shareData, $acceptedShares[0], 0, $shareData['name'], $this->user);
+		$share->setAccepted(IShare::STATUS_ACCEPTED);
+		$this->assertExternalShareEntry($share, $acceptedShares[0], 0, $share->getName(), $this->user);
 		$this->setupMounts();
-		$this->assertMount($shareData['name']);
+		$this->assertMount($share->getName());
 	}
 
-	private function verifyDeclinedGroupShare(array $shareData, ?string $tempMount = null): void {
+	private function verifyDeclinedGroupShare(ExternalShare $share, ?string $tempMount = null): void {
 		if ($tempMount === null) {
 			$tempMount = '{{TemporaryMountPointName#/SharedFolder}}';
 		}
 		$openShares = $this->manager->getOpenShares();
 		$this->assertCount(1, $openShares);
-		$acceptedShares = self::invokePrivate($this->manager, 'getShares', [true]);
+		$acceptedShares = $this->externalShareMapper->getShares($this->user, IShare::STATUS_ACCEPTED);
 		$this->assertCount(0, $acceptedShares);
-		$this->assertExternalShareEntry($shareData, $openShares[0], 0, $tempMount, $this->user);
+		$share->setAccepted(IShare::STATUS_PENDING);
+		$this->assertExternalShareEntry($share, $openShares[0], 0, $tempMount, $this->user);
 		$this->setupMounts();
-		$this->assertNotMount($shareData['name']);
+		$this->assertNotMount($share->getName());
 		$this->assertNotMount($tempMount);
 	}
 
-	private function createTestUserShare(string $userId = 'user1'): array {
+	private function createTestUserShare(string $userId = 'user1'): ExternalShare {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn($userId);
-		$shareData = [
-			'remote' => 'http://localhost',
-			'token' => 'token1',
-			'password' => '',
-			'name' => '/SharedFolder',
-			'owner' => 'foobar',
-			'shareType' => IShare::TYPE_USER,
-			'accepted' => false,
-			'userOrGroup' => $user,
-			'remoteId' => '2342'
-		];
+		$share = new ExternalShare();
+		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->setRemote('http://localhost');
+		$share->setShareToken('token1');
+		$share->setPassword('');
+		$share->setName('/SharedFolder');
+		$share->setOwner('foobar');
+		$share->setShareType(IShare::TYPE_USER);
+		$share->setAccepted(IShare::STATUS_PENDING);
+		$share->setRemoteId('2346');
 
-		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData));
+		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], [$share, $user]));
 
-		return $shareData;
+		return $share;
 	}
+
+	/**
+	 * @return array{0: ExternalShare, 1: ExternalShare}
+	 */
 	private function createTestGroupShare(string $groupId = 'group1'): array {
-		$shareData = [
-			'remote' => 'http://localhost',
-			'token' => 'token1',
-			'password' => '',
-			'name' => '/SharedFolder',
-			'owner' => 'foobar',
-			'shareType' => IShare::TYPE_GROUP,
-			'accepted' => false,
-			'userOrGroup' => $groupId === 'group1' ? $this->group1 : $this->group2,
-			'remoteId' => '2342'
-		];
+		$share = new ExternalShare();
+		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->setRemote('http://localhost');
+		$share->setShareToken('token1');
+		$share->setPassword('');
+		$share->setName('/SharedFolder');
+		$share->setOwner('foobar');
+		$share->setShareType(IShare::TYPE_GROUP);
+		$share->setAccepted(IShare::STATUS_PENDING);
+		$share->setRemoteId('2342');
 
-		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData));
+		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], [$share, $groupId === 'group1' ? $this->group1 : $this->group2]));
 
-		$allShares = self::invokePrivate($this->manager, 'getShares', [null]);
+		$allShares = $this->externalShareMapper->getShares($this->user, null);
+		$groupShare = null;
 		foreach ($allShares as $share) {
-			if ($share['user'] === $groupId) {
+			if ($share->getUser() === $groupId) {
 				// this will hold the main group entry
 				$groupShare = $share;
 				break;
 			}
 		}
 
-		return [$shareData, $groupShare];
+		$this->assertEquals($share->getId(), $groupShare->getId());
+
+		return [$share, $groupShare];
 	}
 
 	public function testAcceptOriginalGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// a second time
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
 	public function testAcceptGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// decline again, this keeps the sub-share
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 
 		// this will return sub-entries
@@ -494,21 +511,21 @@ class ManagerTest extends TestCase {
 		$this->assertCount(1, $openShares);
 
 		// accept through group share
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 
 		// accept a second time
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 	}
 
 	public function testAcceptGroupShareAgainThroughSubShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// decline again, this keeps the sub-share
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 
 		// this will return sub-entries
@@ -516,152 +533,150 @@ class ManagerTest extends TestCase {
 		$this->assertCount(1, $openShares);
 
 		// accept through sub-share
-		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
+		$this->assertTrue($this->manager->acceptShare($openShares[0]));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// accept a second time
-		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
+		$this->assertTrue($this->manager->acceptShare($openShares[0]));
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
 	public function testDeclineOriginalGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData);
 
 		// a second time
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData);
 	}
 
 	public function testDeclineGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// decline again, this keeps the sub-share
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 
 		// a second time
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 	}
 
 	public function testDeclineGroupShareAgainThroughSubshare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// this will return sub-entries
-		$allShares = self::invokePrivate($this->manager, 'getShares', [null]);
+		$allShares = $this->externalShareMapper->getShares($this->user, null);
 		$this->assertCount(1, $allShares);
 
 		// decline again through sub-share
-		$this->assertTrue($this->manager->declineShare($allShares[0]['id']));
+		$this->assertTrue($this->manager->declineShare($allShares[0]));
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 
 		// a second time
-		$this->assertTrue($this->manager->declineShare($allShares[0]['id']));
+		$this->assertTrue($this->manager->declineShare($allShares[0]));
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 	}
 
 	public function testDeclineGroupShareAgainThroughMountPoint(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// decline through mount point name
-		$this->assertTrue($this->manager->removeShare($this->user->getUID() . '/files/' . $shareData['name']));
+		$this->assertTrue($this->manager->removeShare($this->user->getUID() . '/files/' . $shareData->getName()));
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 
 		// second time must fail as the mount point is gone
-		$this->assertFalse($this->manager->removeShare($this->user->getUID() . '/files/' . $shareData['name']));
+		$this->assertFalse($this->manager->removeShare($this->user->getUID() . '/files/' . $shareData->getName()));
 	}
 
 	public function testDeclineThenAcceptGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		// decline, this creates a declined sub-share
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData);
 
-		// this will return sub-entries
-		$openShares = $this->manager->getOpenShares();
-
 		// accept through sub-share
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 
 		// accept a second time
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 	}
 
 	public function testDeclineThenAcceptGroupShareAgainThroughSubShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		// decline, this creates a declined sub-share
-		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->assertTrue($this->manager->declineShare($groupShare));
 		$this->verifyDeclinedGroupShare($shareData);
 
 		// this will return sub-entries
 		$openShares = $this->manager->getOpenShares();
 
 		// accept through sub-share
-		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
+		$this->assertTrue($this->manager->acceptShare($openShares[0]));
 		$this->verifyAcceptedGroupShare($shareData);
 
 		// accept a second time
-		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
+		$this->assertTrue($this->manager->acceptShare($openShares[0]));
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
 	public function testDeleteUserShares(): void {
 		// user 1 shares
 
-		$shareData = $this->createTestUserShare($this->user->getUID());
+		$userShare = $this->createTestUserShare($this->user->getUID());
 
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 
 		$shares = $this->manager->getOpenShares();
 		$this->assertCount(2, $shares);
 
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('user2');
+		$this->assertTrue($this->manager->acceptShare($groupShare));
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
 
 		// user 2 shares
-		$manager2 = $this->createManagerForUser($user);
-		$shareData2 = [
-			'remote' => 'http://localhost',
-			'token' => 'token1',
-			'password' => '',
-			'name' => '/SharedFolder',
-			'owner' => 'foobar',
-			'shareType' => IShare::TYPE_USER,
-			'accepted' => false,
-			'userOrGroup' => $user,
-			'remoteId' => '2342'
-		];
+		$manager2 = $this->createManagerForUser($user2);
+		$share = new ExternalShare();
+		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->setRemote('http://localhost');
+		$share->setShareToken('token1');
+		$share->setPassword('');
+		$share->setName('/SharedFolder');
+		$share->setOwner('foobar');
+		$share->setShareType(IShare::TYPE_USER);
+		$share->setAccepted(IShare::STATUS_PENDING);
+		$share->setRemoteId('2342');
 
 		$this->assertCount(1, $manager2->getOpenShares());
-		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], [$share, $user2]));
 		$this->assertCount(2, $manager2->getOpenShares());
 
-		$this->manager->expects($this->once())->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'decline')->willReturn([]);
+		$userShare = $this->externalShareMapper->getById($userShare->getId()); // Simpler to compare
+
+		$this->manager->expects($this->once())->method('tryOCMEndPoint')->with($userShare, 'decline')->willReturn([]);
 		$this->manager->removeUserShares($this->user);
 
 		$user1Shares = $this->manager->getOpenShares();
 		// user share is gone, group is still there
 		$this->assertCount(1, $user1Shares);
-		$this->assertEquals($user1Shares[0]['share_type'], IShare::TYPE_GROUP);
+		$this->assertEquals($user1Shares[0]->getShareType(), IShare::TYPE_GROUP);
 
 		// user 2 shares untouched
 		$user2Shares = $manager2->getOpenShares();
 		$this->assertCount(2, $user2Shares);
-		$this->assertEquals($user2Shares[0]['share_type'], IShare::TYPE_GROUP);
-		$this->assertEquals($user2Shares[0]['user'], 'group1');
-		$this->assertEquals($user2Shares[1]['share_type'], IShare::TYPE_USER);
-		$this->assertEquals($user2Shares[1]['user'], 'user2');
+		$this->assertEquals($user2Shares[0]->getShareType(), IShare::TYPE_GROUP);
+		$this->assertEquals($user2Shares[0]->getUser(), 'group1');
+		$this->assertEquals($user2Shares[1]->getShareType(), IShare::TYPE_USER);
+		$this->assertEquals($user2Shares[1]->getUser(), 'user2');
 	}
 
 	public function testDeleteGroupShares(): void {
@@ -672,52 +687,52 @@ class ManagerTest extends TestCase {
 		$shares = $this->manager->getOpenShares();
 		$this->assertCount(2, $shares);
 
-		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->assertTrue($this->manager->acceptShare($groupShare));
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user2');
 
 		// user 2 shares
 		$manager2 = $this->createManagerForUser($user);
-		$shareData2 = [
-			'remote' => 'http://localhost',
-			'token' => 'token1',
-			'password' => '',
-			'name' => '/SharedFolder',
-			'owner' => 'foobar',
-			'shareType' => IShare::TYPE_USER,
-			'accepted' => false,
-			'userOrGroup' => $user,
-			'remoteId' => '2342'
-		];
+
+		$share = new ExternalShare();
+		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->setRemote('http://localhost');
+		$share->setShareToken('token1');
+		$share->setPassword('');
+		$share->setName('/SharedFolder');
+		$share->setOwner('foobar');
+		$share->setShareType(IShare::TYPE_USER);
+		$share->setAccepted(IShare::STATUS_PENDING);
+		$share->setRemoteId('2343');
 
 		$this->assertCount(1, $manager2->getOpenShares());
-		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], [$share, $user]));
 		$this->assertCount(2, $manager2->getOpenShares());
 
 		$this->manager->expects($this->never())->method('tryOCMEndPoint');
-		$this->manager->removeGroupShares('group1');
+		$this->manager->removeGroupShares($this->group1);
 
 		$user1Shares = $this->manager->getOpenShares();
 		// user share is gone, group is still there
 		$this->assertCount(1, $user1Shares);
-		$this->assertEquals($user1Shares[0]['share_type'], IShare::TYPE_USER);
+		$this->assertEquals($user1Shares[0]->getShareType(), IShare::TYPE_USER);
 
 		// user 2 shares untouched
 		$user2Shares = $manager2->getOpenShares();
 		$this->assertCount(1, $user2Shares);
-		$this->assertEquals($user2Shares[0]['share_type'], IShare::TYPE_USER);
-		$this->assertEquals($user2Shares[0]['user'], 'user2');
+		$this->assertEquals($user2Shares[0]->getShareType(), IShare::TYPE_USER);
+		$this->assertEquals($user2Shares[0]->getUser(), 'user2');
 	}
 
-	protected function assertExternalShareEntry(array $expected, array $actual, int $share, string $mountPoint, IUser|IGroup $targetEntity): void {
-		$this->assertEquals($expected['remote'], $actual['remote'], 'Asserting remote of a share #' . $share);
-		$this->assertEquals($expected['token'], $actual['share_token'], 'Asserting token of a share #' . $share);
-		$this->assertEquals($expected['name'], $actual['name'], 'Asserting name of a share #' . $share);
-		$this->assertEquals($expected['owner'], $actual['owner'], 'Asserting owner of a share #' . $share);
-		$this->assertEquals($expected['accepted'], (int)$actual['accepted'], 'Asserting accept of a share #' . $share);
-		$this->assertEquals($targetEntity instanceof IGroup ? $targetEntity->getGID() : $targetEntity->getUID(), $actual['user'], 'Asserting user of a share #' . $share);
-		$this->assertEquals($mountPoint, $actual['mountpoint'], 'Asserting mountpoint of a share #' . $share);
+	protected function assertExternalShareEntry(ExternalShare $expected, ExternalShare $actual, int $share, string $mountPoint, IUser|IGroup $targetEntity): void {
+		$this->assertEquals($expected->getRemote(), $actual->getRemote(), 'Asserting remote of a share #' . $share);
+		$this->assertEquals($expected->getShareToken(), $actual->getShareToken(), 'Asserting token of a share #' . $share);
+		$this->assertEquals($expected->getName(), $actual->getName(), 'Asserting name of a share #' . $share);
+		$this->assertEquals($expected->getOwner(), $actual->getOwner(), 'Asserting owner of a share #' . $share);
+		$this->assertEquals($expected->getAccepted(), $actual->getAccepted(), 'Asserting accept of a share #' . $share);
+		$this->assertEquals($targetEntity instanceof IGroup ? $targetEntity->getGID() : $targetEntity->getUID(), $actual->getUser(), 'Asserting user of a share #' . $share);
+		$this->assertEquals($mountPoint, $actual->getMountpoint(), 'Asserting mountpoint of a share #' . $share);
 	}
 
 	private function assertMount(string $mountPoint): void {

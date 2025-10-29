@@ -50,6 +50,8 @@ return array(
     'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => $baseDir . '/../lib/Exceptions/SharingRightsException.php',
     'OCA\\Files_Sharing\\ExpireSharesJob' => $baseDir . '/../lib/ExpireSharesJob.php',
     'OCA\\Files_Sharing\\External\\Cache' => $baseDir . '/../lib/External/Cache.php',
+    'OCA\\Files_Sharing\\External\\ExternalShare' => $baseDir . '/../lib/External/ExternalShare.php',
+    'OCA\\Files_Sharing\\External\\ExternalShareMapper' => $baseDir . '/../lib/External/ExternalShareMapper.php',
     'OCA\\Files_Sharing\\External\\Manager' => $baseDir . '/../lib/External/Manager.php',
     'OCA\\Files_Sharing\\External\\Mount' => $baseDir . '/../lib/External/Mount.php',
     'OCA\\Files_Sharing\\External\\MountProvider' => $baseDir . '/../lib/External/MountProvider.php',

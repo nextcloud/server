@@ -8,10 +8,13 @@
 namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;
+use OCA\Files_Sharing\External\ExternalShare;
+use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\Server;
+use OCP\Snowflake\IGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -49,16 +52,6 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$storageQuery->insert('storages')
 			->setValue('id', $storageQuery->createParameter('id'));
 
-		$shareExternalQuery = Server::get(IDBConnection::class)->getQueryBuilder();
-		$shareExternalQuery->insert('share_external')
-			->setValue('share_token', $shareExternalQuery->createParameter('share_token'))
-			->setValue('remote', $shareExternalQuery->createParameter('remote'))
-			->setValue('name', $shareExternalQuery->createParameter('name'))
-			->setValue('owner', $shareExternalQuery->createParameter('owner'))
-			->setValue('user', $shareExternalQuery->createParameter('user'))
-			->setValue('mountpoint', $shareExternalQuery->createParameter('mountpoint'))
-			->setValue('mountpoint_hash', $shareExternalQuery->createParameter('mountpoint_hash'));
-
 		$filesQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$filesQuery->insert('filecache')
 			->setValue('storage', $filesQuery->createParameter('storage'))
@@ -73,15 +66,15 @@ class CleanupRemoteStoragesTest extends TestCase {
 			}
 
 			if (isset($storage['share_token'])) {
-				$shareExternalQuery
-					->setParameter('share_token', $storage['share_token'])
-					->setParameter('remote', $storage['remote'])
-					->setParameter('name', 'irrelevant')
-					->setParameter('owner', 'irrelevant')
-					->setParameter('user', $storage['user'])
-					->setParameter('mountpoint', 'irrelevant')
-					->setParameter('mountpoint_hash', 'irrelevant');
-				$shareExternalQuery->executeStatement();
+				$externalShare = new ExternalShare();
+				$externalShare->setId(Server::get(IGenerator::class)->nextId());
+				$externalShare->setShareToken($storage['share_token']);
+				$externalShare->setRemote($storage['remote']);
+				$externalShare->setName('irrelevant');
+				$externalShare->setOwner('irrelevant');
+				$externalShare->setUser($storage['user']);
+				$externalShare->setMountpoint('irrelevant');
+				Server::get(ExternalShareMapper::class)->insert($externalShare);
 			}
 
 			if (isset($storage['files_count'])) {

@@ -305,6 +305,18 @@ trait Sharing {
 		}
 	}
 
+	public function getFieldValueInResponse($field) {
+		$data = simplexml_load_string($this->response->getBody())->data[0];
+		if (count($data->element) > 0) {
+			foreach ($data as $element) {
+				return (string)$element->$field;
+			}
+
+			return false;
+		}
+		return $data->$field;
+	}
+
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
