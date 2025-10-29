@@ -271,7 +271,7 @@ OC.L10N.register(
     "Save share" : "Enregistrer le partage",
     "Read" : "Lire",
     "Create" : "Créer",
-    "Edit" : "Editer",
+    "Edit" : "Modifier",
     "Share" : "Partager",
     "Delete" : "Supprimer",
     "Password field cannot be empty" : "Le mot de passe ne peut pas être vide",
