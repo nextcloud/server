@@ -46,7 +46,7 @@ export function processAjaxError(xhr) {
 						Notification.showUpdate(n('core', 'Problem loading page, reloading in %n second', 'Problem loading page, reloading in %n seconds', seconds - timer))
 						if (timer >= seconds) {
 							clearInterval(interval)
-							OC.reload()
+							window.location.reload()
 						}
 						timer++
 					},
