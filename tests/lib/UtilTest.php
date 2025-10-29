@@ -416,4 +416,57 @@ class UtilTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
+
+	public static function sanitizeProvider(): array {
+		return [
+			// Basic spaces and line controls
+			['Hello World', 'Hello World'],
+			['  Hello   World  ', 'Hello World'],
+			["Hello\t World \nAgain", 'Hello World Again'],
+			["Hello\rWorld", 'HelloWorld'],
+			["Hello\r\nWorld", 'HelloWorld'],
+			["Hello\u{200B}World", 'HelloWorld'], // zero-width space removed
+			["Hello\t\n\r  World", 'Hello World'],
+
+			// Unicode, emoji, and CJK
+			['テスト 😃 💬', 'テスト 😃 💬'],
+			['中文測試 ✅', '中文測試 ✅'],
+			['Русский текст 😁', 'Русский текст 😁'],
+			['Café crème ☕', 'Café crème ☕'],
+
+			// Punctuation and filename-like
+			['Hello-World_123.', 'Hello-World_123.'],
+			['File.name, with commas', 'File.name, with commas'],
+			['Smile — dash', 'Smile — dash'],
+			['Invalid:/\\?%*|<>name', 'Invalid:/\\?%*|<>name'], // kept as is
+			['test@example.com', 'test@example.com'],
+
+			// Control and invisible chars
+			["Bad\0Name", 'BadName'],
+			["Hello\u{0007}World", 'HelloWorld'],
+			["Line\r\nbreaks", 'Linebreaks'],
+			["\x1F Hidden control", 'Hidden control'],
+
+			// Whitespace and normalization
+			[" Multiple   spaces\t and \nnewlines ", 'Multiple spaces and newlines'],
+			["No-break\u{00A0}space", 'No-break space'], // NBSP normalized
+			["Zero\u{2003}width\u{2009}spaces", 'Zero width spaces'], // various spaces
+
+			// Complex mixes
+			['テスト 💬.png', 'テスト 💬.png'],
+			['  Mix 😎 emojis 🎉 and 123 numbers  ', 'Mix 😎 emojis 🎉 and 123 numbers'],
+			["Hello   \u{200B}\n   World", 'Hello World'],
+			['Path ../etc/passwd', 'Path ../etc/passwd'],
+			['Symbols! @ # % ^ & * ( )', 'Symbols! @ # % ^ & * ( )'],
+			['Special chars <script>', 'Special chars <script>'],
+		];
+	}
+
+	/**
+	 * @dataProvider sanitizeProvider
+	 */
+	public function testSanitizeWordsAndEmojis(string $input, string $expected): void {
+		$this->assertSame($expected, Util::sanitizeWordsAndEmojis($input));
+	}
+
 }
