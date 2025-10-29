@@ -11,7 +11,9 @@
 		}
 	},
 	"autoload": {
-		"exclude-from-classmap": ["**/bamarni/composer-bin-plugin/**"],
+		"exclude-from-classmap": [
+			"**/bamarni/composer-bin-plugin/**"
+		],
 		"files": [
 			"lib/public/Log/functions.php"
 		],
@@ -25,6 +27,7 @@
 	},
 	"require": {
 		"php": "^8.2",
+		"ext-apcu": "*",
 		"ext-ctype": "*",
 		"ext-curl": "*",
 		"ext-dom": "*",
