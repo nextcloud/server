@@ -336,9 +336,12 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	 * @param IShare $share
 	 * @throws ShareNotFound
 	 */
-	protected function executeAcceptShare(IShare $share) {
+	protected function executeAcceptShare(IShare $share): void {
 		try {
-			$fileId = $share->getNode()->getId() ?? -1;
+			$fileId = $share->getNode()->getId();
+			if ($fileId == null) {
+				throw new \LogicException('Invalid node for share');
+			}
 			[$file, $link] = $this->getFile($this->getCorrectUid($share), $fileId);
 		} catch (\Exception $e) {
 			throw new ShareNotFound();

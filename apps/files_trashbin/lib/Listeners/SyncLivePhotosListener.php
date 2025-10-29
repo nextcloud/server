@@ -72,8 +72,13 @@ class SyncLivePhotosListener implements IEventListener {
 		$sourceFile = $event->getSource();
 
 		if ($sourceFile->getMimetype() === 'video/quicktime') {
-			if (isset($this->pendingRestores[$peerFile->getId() ?? -1])) {
-				unset($this->pendingRestores[$peerFile->getId() ?? -1]);
+			$peerFileId = $peerFile->getId();
+			if ($peerFileId === null) {
+				throw new \LogicException('Invalid peer file given with a null id');
+			}
+
+			if (isset($this->pendingRestores[$peerFileId])) {
+				unset($this->pendingRestores[$peerFileId]);
 				return;
 			} else {
 				$event->abortOperation(new NotPermittedException('Cannot restore the video part of a live photo'));
@@ -97,7 +102,12 @@ class SyncLivePhotosListener implements IEventListener {
 				$event->abortOperation(new NotFoundException("Couldn't find peer file in trashbin"));
 			}
 
-			$this->pendingRestores[$sourceFile->getId() ?? -1] = true;
+			$sourceFileId = $sourceFile->getId();
+			if ($sourceFileId === null) {
+				throw new \LogicException('Invalid source file given with a null id');
+			}
+
+			$this->pendingRestores[$sourceFileId] = true;
 			try {
 				$this->trashManager->restoreItem($trashItem);
 			} catch (\Throwable $ex) {
