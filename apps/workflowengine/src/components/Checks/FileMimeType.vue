@@ -109,7 +109,7 @@ export default {
 			}
 			return {
 				icon: 'icon-settings-dark',
-				label: t('workflowengine', 'Custom mimetype'),
+				label: t('workflowengine', 'Custom MIME type'),
 				id: this.newValue,
 			}
 		},
