@@ -42,6 +42,7 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
+use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
@@ -294,9 +295,7 @@ class FailingSyncProviderWithUserFacingError implements IProvider, ISynchronousP
 	}
 
 	public function process(?string $userId, array $input, callable $reportProgress): array {
-		$e = new ProcessingException(self::ERROR_MESSAGE);
-		$e->setUserFacingMessage(self::USER_FACING_ERROR_MESSAGE);
-		throw $e;
+		throw new UserFacingProcessingException(self::ERROR_MESSAGE, userFacingMessage: self::USER_FACING_ERROR_MESSAGE);
 	}
 
 	public function getInputShapeEnumValues(): array {
