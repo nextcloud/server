@@ -171,7 +171,7 @@ class MountProvider implements IMountProvider {
 			$result[] = $tmp2;
 		}
 
-		return array_values($result);
+		return $result;
 	}
 
 	/**
