@@ -14,16 +14,28 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\IDBConnection;
 use OCP\Server;
+use OCP\Snowflake\IGenerator;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewMapperTest extends TestCase {
 	private PreviewMapper $previewMapper;
 	private IDBConnection $connection;
+	private IGenerator $snowflake;
 
 	public function setUp(): void {
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->connection = Server::get(IDBConnection::class);
+		$this->snowflake = Server::get(IGenerator::class);
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('preview_locations')->executeStatement();
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('preview_versions')->executeStatement();
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('previews')->executeStatement();
 	}
 
 	public function testGetAvailablePreviews(): void {
@@ -51,15 +63,17 @@ class PreviewMapperTest extends TestCase {
 		$locationId = null;
 		if ($bucket) {
 			$qb = $this->connection->getQueryBuilder();
+			$locationId = $this->snowflake->nextId();
 			$qb->insert('preview_locations')
 				->values([
+					'id' => $locationId,
 					'bucket_name' => $qb->createNamedParameter('preview-' . $bucket),
 					'object_store_name' => $qb->createNamedParameter('default'),
 				]);
 			$qb->executeStatement();
-			$locationId = $qb->getLastInsertId();
 		}
 		$preview = new Preview();
+		$preview->setId($this->snowflake->nextId());
 		$preview->setFileId($fileId);
 		$preview->setStorageId(1);
 		$preview->setCropped(true);

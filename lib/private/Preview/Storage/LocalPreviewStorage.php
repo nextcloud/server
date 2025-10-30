@@ -22,6 +22,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Snowflake\IGenerator;
 use Override;
 use Psr\Log\LoggerInterface;
 use RecursiveDirectoryIterator;
@@ -38,6 +39,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		private readonly IDBConnection $connection,
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly LoggerInterface $logger,
+		private readonly IGenerator $generator,
 	) {
 		$this->instanceId = $this->config->getSystemValueString('instanceid');
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
@@ -118,6 +120,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 					$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
 					continue;
 				}
+				$preview->setId($this->generator->nextId());
 				try {
 					$preview->setSize($file->getSize());
 					$preview->setMtime($file->getMtime());
