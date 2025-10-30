@@ -1115,6 +1115,13 @@ class AppManager implements IAppManager {
 		if ($currentVersion && isset($versions[$appId])) {
 			$installedVersion = $versions[$appId];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
+				$this->logger->info('{appId} needs and upgrade from {from} to {to}',
+					[
+						'appId' => $appId,
+						'from' => $installedVersion,
+						'to' => $currentVersion,
+					]
+				);
 				return true;
 			}
 		}

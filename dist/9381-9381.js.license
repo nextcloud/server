@@ -11,6 +11,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 
 
 This file is generated from multiple sources. Included packages:
@@ -46,6 +47,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - style-loader
 	- version: 4.0.0
+	- license: MIT
+- vue-demi
+	- version: 0.14.10
 	- license: MIT
 - vue-loader
 	- version: 15.11.1

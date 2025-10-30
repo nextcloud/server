@@ -11,13 +11,13 @@
 		size="normal"
 		:name="t('files_versions', 'Name this version')"
 		@update:open="$emit('update:open', $event)"
-		@submit="setVersionLabel(editedVersionLabel)">
+		@submit="setVersionLabel(internalLabel)">
 		<NcTextField
 			ref="labelInput"
+			v-model="internalLabel"
 			class="version-label-modal__input"
 			:label="t('files_versions', 'Version name')"
-			:placeholder="t('files_versions', 'Version name')"
-			:value.sync="editedVersionLabel" />
+			:placeholder="t('files_versions', 'Version name')" />
 
 		<p class="version-label-modal__info">
 			{{ t('files_versions', 'Named versions are persisted, and excluded from automatic cleanups when your storage quota is full.') }}
@@ -25,96 +25,76 @@
 	</NcDialog>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import svgCheck from '@mdi/svg/svg/check.svg?raw'
 import { t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watchEffect } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
-type Focusable = Vue & { focus: () => void }
-
-export default defineComponent({
-	name: 'VersionLabelDialog',
-	components: {
-		NcDialog,
-		NcTextField,
+const props = defineProps({
+	open: {
+		type: Boolean,
+		default: false,
 	},
 
-	props: {
-		open: {
-			type: Boolean,
-			default: false,
-		},
-
-		versionLabel: {
-			type: String,
-			default: '',
-		},
-	},
-
-	data() {
-		return {
-			editedVersionLabel: '',
-		}
-	},
-
-	computed: {
-		dialogButtons() {
-			const buttons: unknown[] = []
-			if (this.versionLabel.trim() === '') {
-				// If there is no label just offer a cancel action that just closes the dialog
-				buttons.push({
-					label: t('files_versions', 'Cancel'),
-				})
-			} else {
-				// If there is already a label set, offer to remove the version label
-				buttons.push({
-					label: t('files_versions', 'Remove version name'),
-					type: 'error',
-					nativeType: 'reset',
-					callback: () => { this.setVersionLabel('') },
-				})
-			}
-			return [
-				...buttons,
-				{
-					label: t('files_versions', 'Save version name'),
-					type: 'primary',
-					nativeType: 'submit',
-					icon: svgCheck,
-				},
-			]
-		},
-	},
-
-	watch: {
-		versionLabel: {
-			immediate: true,
-			handler(label) {
-				this.editedVersionLabel = label ?? ''
-			},
-		},
-
-		open: {
-			immediate: true,
-			handler(open) {
-				if (open) {
-					this.$nextTick(() => (this.$refs.labelInput as Focusable).focus())
-				}
-				this.editedVersionLabel = this.versionLabel
-			},
-		},
-	},
-
-	methods: {
-		setVersionLabel(label: string) {
-			this.$emit('label-update', label)
-		},
-
-		t,
+	label: {
+		type: String,
+		default: '',
 	},
 })
+
+const emit = defineEmits(['update:open', 'update:label'])
+
+const labelInput = useTemplateRef('labelInput')
+
+const internalLabel = ref('')
+
+const dialogButtons = computed(() => {
+	const buttons: unknown[] = []
+	if (props.label.trim() === '') {
+		// If there is no label just offer a cancel action that just closes the dialog
+		buttons.push({
+			label: t('files_versions', 'Cancel'),
+		})
+	} else {
+		// If there is already a label set, offer to remove the version label
+		buttons.push({
+			label: t('files_versions', 'Remove version name'),
+			type: 'reset',
+			variant: 'error',
+			callback: () => { setVersionLabel('') },
+		})
+	}
+	return [
+		...buttons,
+		{
+			label: t('files_versions', 'Save version name'),
+			icon: svgCheck,
+			type: 'submit',
+			variant: 'primary',
+		},
+	]
+})
+
+watchEffect(() => {
+	internalLabel.value = props.label ?? ''
+})
+
+watchEffect(() => {
+	if (props.open) {
+		nextTick(() => labelInput.value?.focus())
+	}
+	internalLabel.value = props.label
+})
+
+/**
+ *
+ * @param label - The new label
+ */
+function setVersionLabel(label: string) {
+	emit('update:label', label)
+}
 </script>
 
 <style scoped lang="scss">

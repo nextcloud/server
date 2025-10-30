@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { User } from '@nextcloud/cypress'
+import { User } from '@nextcloud/e2e-test-server/cypress'
 
 const admin = new User('admin', 'admin')
 

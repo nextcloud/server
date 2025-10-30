@@ -27,10 +27,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class QueryBuilderTest
  *
- * @group DB
  *
  * @package Test\DB\QueryBuilder
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class QueryBuilderTest extends \Test\TestCase {
 	private SystemConfig&MockObject $config;
 	private LoggerInterface&MockObject $logger;

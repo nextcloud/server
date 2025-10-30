@@ -91,16 +91,3 @@ body.theme--dark .oc-dialog-dim {
 	width: 100%;
 	max-width: 550px;
 }
-
-.oc-dialog.password-confirmation {
-	.oc-dialog-content {
-		width: auto;
-
-		input[type=password] {
-			width: 100%;
-		}
-		label {
-			display: none;
-		}
-	}
-}

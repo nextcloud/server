@@ -191,24 +191,6 @@ interface IQueryBuilder {
 	public function getState();
 
 	/**
-	 * Executes this query using the bound parameters and their types.
-	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeStatement}
-	 * for insert, update and delete statements.
-	 *
-	 * Warning: until Nextcloud 20, this method could return a \Doctrine\DBAL\Driver\Statement but since
-	 *          that interface changed in a breaking way the adapter \OCP\DB\QueryBuilder\IStatement is returned
-	 *          to bridge old code to the new API
-	 *
-	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
-	 * @return IResult|int
-	 * @throws Exception since 21.0.0
-	 * @since 8.2.0
-	 * @deprecated 22.0.0 Use executeQuery or executeStatement
-	 */
-	public function execute(?IDBConnection $connection = null);
-
-	/**
 	 * Execute for select statements
 	 *
 	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
@@ -542,7 +524,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
@@ -567,7 +549,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
@@ -618,7 +600,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *

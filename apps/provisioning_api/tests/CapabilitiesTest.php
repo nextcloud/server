@@ -19,8 +19,8 @@ use Test\TestCase;
  * Note: group DB needed because of usage of overwriteService()
  *
  * @package OCA\Provisioning_API\Tests
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CapabilitiesTest extends TestCase {
 
 	protected IAppManager&MockObject $appManager;

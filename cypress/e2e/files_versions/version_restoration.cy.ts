@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
+import { randomString } from '../../support/utils/randomString.ts'
 import { getRowForFile } from '../files/FilesUtils.ts'
 import { assertVersionContent, doesNotHaveAction, openVersionsPanel, restoreVersion, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
@@ -13,7 +14,7 @@ describe('Versions restoration', () => {
 	let user: User
 
 	before(() => {
-		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+		randomFileName = randomString(10) + '.txt'
 
 		cy.createRandomUser()
 			.then((_user) => {
@@ -32,7 +33,7 @@ describe('Versions restoration', () => {
 	it('Restores initial version', () => {
 		restoreVersion(2)
 
-		cy.get('#tab-version_vue').within(() => {
+		cy.get('#tab-files_versions').within(() => {
 			cy.get('[data-files-versions-version]').should('have.length', 3)
 			cy.get('[data-files-versions-version]').eq(0).contains('Current version')
 			cy.get('[data-files-versions-version]').eq(2).contains('Initial version').should('not.exist')
@@ -52,7 +53,7 @@ describe('Versions restoration', () => {
 
 			it('Restores initial version', () => {
 				restoreVersion(2)
-				cy.get('#tab-version_vue').within(() => {
+				cy.get('#tab-files_versions').within(() => {
 					cy.get('[data-files-versions-version]').should('have.length', 3)
 					cy.get('[data-files-versions-version]').eq(0).contains('Current version')
 					cy.get('[data-files-versions-version]').eq(2).contains('Initial version').should('not.exist')

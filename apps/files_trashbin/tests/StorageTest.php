@@ -46,10 +46,10 @@ class TemporaryNoCross extends Temporary {
 /**
  * Class Storage
  *
- * @group DB
  *
  * @package OCA\Files_Trashbin\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class StorageTest extends \Test\TestCase {
 	use MountProviderTrait;
 

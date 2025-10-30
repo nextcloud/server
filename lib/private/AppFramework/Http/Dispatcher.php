@@ -204,7 +204,7 @@ class Dispatcher {
 		try {
 			$response = \call_user_func_array([$controller, $methodName], $arguments);
 		} catch (\TypeError $e) {
-			// Only intercept TypeErrors occuring on the first line, meaning that the invocation of the controller method failed.
+			// Only intercept TypeErrors occurring on the first line, meaning that the invocation of the controller method failed.
 			// Any other TypeError happens inside the controller method logic and should be logged as normal.
 			if ($e->getFile() === $this->reflector->getFile() && $e->getLine() === $this->reflector->getStartLine()) {
 				$this->logger->debug('Failed to call controller method: ' . $e->getMessage(), ['exception' => $e]);

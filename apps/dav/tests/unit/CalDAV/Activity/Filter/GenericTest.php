@@ -13,9 +13,7 @@ use OCP\Activity\IFilter;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class GenericTest extends TestCase {
 	public static function dataFilters(): array {
 		return [

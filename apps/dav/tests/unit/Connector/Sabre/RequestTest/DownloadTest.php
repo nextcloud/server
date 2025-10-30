@@ -14,10 +14,10 @@ use OCP\Lock\ILockingProvider;
 /**
  * Class DownloadTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DownloadTest extends RequestTestCase {
 	public function testDownload(): void {
 		$user = self::getUniqueID();

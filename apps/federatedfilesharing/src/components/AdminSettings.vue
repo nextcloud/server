@@ -74,15 +74,13 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { DialogBuilder, DialogSeverity, showError } from '@nextcloud/dialogs'
+import { DialogBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import logger from '../services/logger.ts'
-
-import '@nextcloud/password-confirmation/dist/style.css'
 
 export default {
 	name: 'AdminSettings',
@@ -124,7 +122,7 @@ export default {
 
 			const dialog = new DialogBuilder(t('federatedfilesharing', 'Confirm data upload to lookup server'))
 			await dialog
-				.setSeverity(DialogSeverity.Warning)
+				.setSeverity('warning')
 				.setText(t('federatedfilesharing', 'When enabled, all account properties (e.g. email address) with scope visibility set to "published", will be automatically synced and transmitted to an external system and made available in a public, global address book.'))
 				.addButton({
 					callback: () => this.setLookupServerUploadEnabled(false),
@@ -155,7 +153,7 @@ export default {
 
 			const dialog = new DialogBuilder(t('federatedfilesharing', 'Confirm querying lookup server'))
 			await dialog
-				.setSeverity(DialogSeverity.Warning)
+				.setSeverity('warning')
 				.setText(t('federatedfilesharing', 'When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book.')
 					+ t('federatedfilesharing', 'This is used to retrieve the federated cloud ID to make federated sharing easier.')
 					+ t('federatedfilesharing', 'Moreover, email addresses of users might be sent to that system in order to verify them.'))

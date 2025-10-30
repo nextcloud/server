@@ -14,20 +14,20 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\PreviewService;
 use OCP\Server;
-use PHPUnit\Framework\Attributes\CoversClass;
+use OCP\Snowflake\IGenerator;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group DB
- */
 #[CoversClass(PreviewService::class)]
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewServiceTest extends TestCase {
 	private PreviewService $previewService;
 	private PreviewMapper $previewMapper;
+	private IGenerator $snowflakeGenerator;
 
 	protected function setUp(): void {
 		$this->previewService = Server::get(PreviewService::class);
 		$this->previewMapper = Server::get(PreviewMapper::class);
+		$this->snowflakeGenerator = Server::get(IGenerator::class);
 		$this->previewService->deleteAll();
 	}
 
@@ -38,6 +38,7 @@ class PreviewServiceTest extends TestCase {
 	public function testGetAvailableFileIds(): void {
 		foreach (range(1, 20) as $i) {
 			$preview = new Preview();
+			$preview->setId($this->snowflakeGenerator->nextId());
 			$preview->setFileId($i % 10);
 			$preview->setStorageId(1);
 			$preview->setWidth($i);

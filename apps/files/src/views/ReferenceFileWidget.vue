@@ -67,6 +67,7 @@ import path from 'path'
 import { defineComponent } from 'vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
+import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
 import logger from '../logger.ts'
 
 // see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
@@ -234,14 +235,12 @@ export default defineComponent({
 				.addButton({
 					id: 'open',
 					label: this.t('settings', 'Open in files'),
-					callback(nodes: Node[]) {
-						if (nodes[0]) {
-							window.open(generateUrl('/f/{fileid}', {
-								fileid: nodes[0].fileid,
-							}))
+					callback([node]: Node[]) {
+						if (node) {
+							window.open(generateFileUrl(node.fileid!))
 						}
 					},
-					type: 'primary',
+					variant: 'primary',
 				})
 				.disableNavigation()
 				.startAt(this.richObject.path)

@@ -83,8 +83,8 @@ class Editor implements IEditor {
  * Class ManagerTest
  *
  * @package Test\DirectEditing
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
 	private $manager;
 	/**

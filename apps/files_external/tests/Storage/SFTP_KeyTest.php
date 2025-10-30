@@ -13,10 +13,10 @@ use OCA\Files_External\Lib\Storage\SFTP_Key;
 /**
  * Class SFTP_KeyTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 

@@ -17,6 +17,7 @@ SPDX-FileCopyrightText: Christopher Jeffrey
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 
 
 This file is generated from multiple sources. Included packages:
@@ -24,10 +25,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.1.5
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.5.2
+	- version: 2.5.3
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
-	- version: 0.4.0
+	- version: 0.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -52,6 +53,9 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -86,6 +90,9 @@ This file is generated from multiple sources. Included packages:
 - style-loader
 	- version: 4.0.0
 	- license: MIT
+- vue-demi
+	- version: 0.14.10
+	- license: MIT
 - vue-loader
 	- version: 15.11.1
 	- license: MIT
@@ -93,7 +100,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.102.0
+	- version: 5.102.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

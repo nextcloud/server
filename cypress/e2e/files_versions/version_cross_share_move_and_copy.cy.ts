@@ -3,31 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
+import { randomString } from '../../support/utils/randomString.ts'
 import { clickOnBreadcrumbs, closeSidebar, copyFile, moveFile, navigateToFolder } from '../files/FilesUtils.ts'
 import { assertVersionContent, nameVersion, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
-
-/**
- *
- * @param filePath
- */
-function assertVersionsContent(filePath: string) {
-	const path = filePath.split('/').slice(0, -1).join('/')
-
-	clickOnBreadcrumbs('All files')
-
-	if (path !== '') {
-		navigateToFolder(path)
-	}
-
-	openVersionsPanel(filePath)
-
-	cy.get('[data-files-versions-version]').should('have.length', 3)
-	assertVersionContent(0, 'v3')
-	assertVersionContent(1, 'v2')
-	assertVersionContent(2, 'v1')
-}
 
 describe('Versions cross share move and copy', () => {
 	let randomSharedFolderName = ''
@@ -37,7 +17,7 @@ describe('Versions cross share move and copy', () => {
 	let bob: User
 
 	before(() => {
-		randomSharedFolderName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
+		randomSharedFolderName = randomString(10)
 
 		cy.createRandomUser()
 			.then((user) => {
@@ -49,7 +29,7 @@ describe('Versions cross share move and copy', () => {
 	})
 
 	beforeEach(() => {
-		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+		randomFileName = randomString(10) + '.txt'
 		randomFilePath = `${randomSharedFolderName}/${randomFileName}`
 		uploadThreeVersions(alice, randomFilePath)
 
@@ -78,8 +58,8 @@ describe('Versions cross share move and copy', () => {
 		let randomSubSubFolderName
 
 		beforeEach(() => {
-			randomSubFolderName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
-			randomSubSubFolderName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
+			randomSubFolderName = randomString(10)
+			randomSubSubFolderName = randomString(10)
 			clickOnBreadcrumbs('All files')
 			cy.mkdir(bob, `/${randomSharedFolderName}/${randomSubFolderName}`)
 			cy.mkdir(bob, `/${randomSharedFolderName}/${randomSubFolderName}/${randomSubSubFolderName}`)
@@ -101,3 +81,23 @@ describe('Versions cross share move and copy', () => {
 		})
 	})
 })
+
+/**
+ * @param filePath
+ */
+function assertVersionsContent(filePath: string) {
+	const path = filePath.split('/').slice(0, -1).join('/')
+
+	clickOnBreadcrumbs('All files')
+
+	if (path !== '') {
+		navigateToFolder(path)
+	}
+
+	openVersionsPanel(filePath)
+
+	cy.get('[data-files-versions-version]').should('have.length', 3)
+	assertVersionContent(0, 'v3')
+	assertVersionContent(1, 'v2')
+	assertVersionContent(2, 'v1')
+}

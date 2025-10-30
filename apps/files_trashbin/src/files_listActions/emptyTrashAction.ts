@@ -2,12 +2,10 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Folder, Node, View } from '@nextcloud/files'
 
-import {
-	DialogSeverity,
-	getDialogBuilder,
-} from '@nextcloud/dialogs'
+import { getDialogBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileListAction } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
@@ -41,18 +39,18 @@ export const emptyTrashAction = new FileListAction({
 	async exec(view: View, nodes: Node[]): Promise<null> {
 		const askConfirmation = new Promise<boolean>((resolve) => {
 			const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
-				.setSeverity(DialogSeverity.Warning)
+				.setSeverity('warning')
 				// TODO Add note for groupfolders
 				.setText(t('files_trashbin', 'Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone.'))
 				.setButtons([
 					{
 						label: t('files_trashbin', 'Cancel'),
-						type: 'secondary',
+						variant: 'secondary',
 						callback: () => resolve(false),
 					},
 					{
 						label: t('files_trashbin', 'Empty deleted files'),
-						type: 'error',
+						variant: 'error',
 						callback: () => resolve(true),
 					},
 				])

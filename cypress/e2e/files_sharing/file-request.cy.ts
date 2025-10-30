@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import { createFolder, getRowForFile, navigateToFolder } from '../files/FilesUtils.ts'
 import { createFileRequest } from './FilesSharingUtils.ts'

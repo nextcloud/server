@@ -1054,7 +1054,11 @@ export default {
 
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
-			const publicShareAttributes = ['label', 'password', 'hideDownload']
+			const publicShareAttributes = ['label', 'hideDownload']
+			// Only include password if it's being actively changed
+			if (this.hasUnsavedPassword) {
+				publicShareAttributes.push('password')
+			}
 			if (this.config.allowCustomTokens) {
 				publicShareAttributes.push('token')
 			}
@@ -1179,6 +1183,7 @@ export default {
 				return resultingShare
 			} catch (error) {
 				logger.error('Error while adding new share', { error })
+				throw error
 			} finally {
 				// this.loading = false // No loader here yet
 			}
@@ -1220,7 +1225,11 @@ export default {
 		 * "sendPasswordByTalk".
 		 */
 		onPasswordProtectedByTalkChange() {
-			this.queueUpdate('sendPasswordByTalk', 'password')
+			if (this.isEmailShareType || this.hasUnsavedPassword) {
+				this.queueUpdate('sendPasswordByTalk', 'password')
+			} else {
+				this.queueUpdate('sendPasswordByTalk')
+			}
 		},
 
 		isValidShareAttribute(value) {

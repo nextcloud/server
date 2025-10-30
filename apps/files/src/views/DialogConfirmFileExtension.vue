@@ -29,13 +29,13 @@ const dontShowAgain = computed({
 	set: (value: boolean) => userConfigStore.update('show_dialog_file_extension', !value),
 })
 
-const buttons = computed<IDialogButton[]>(() => [
+const buttons = computed(() => [
 	{
 		label: props.oldExtension
 			? t('files', 'Keep {old}', { old: props.oldExtension })
 			: t('files', 'Keep without extension'),
 		icon: svgIconCancel,
-		type: 'secondary',
+		variant: 'secondary',
 		callback: () => closeDialog(false),
 	},
 	{
@@ -43,10 +43,10 @@ const buttons = computed<IDialogButton[]>(() => [
 			? t('files', 'Use {new}', { new: props.newExtension })
 			: t('files', 'Remove extension'),
 		icon: svgIconCheck,
-		type: 'primary',
+		variant: 'primary',
 		callback: () => closeDialog(true),
 	},
-])
+] satisfies IDialogButton[])
 
 /** Open state of the dialog */
 const open = ref(true)

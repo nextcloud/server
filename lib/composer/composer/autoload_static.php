@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -863,6 +863,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share_Backend' => __DIR__ . '/../../..' . '/lib/public/Share_Backend.php',
         'OCP\\Share_Backend_Collection' => __DIR__ . '/../../..' . '/lib/public/Share_Backend_Collection.php',
         'OCP\\Share_Backend_File_Dependent' => __DIR__ . '/../../..' . '/lib/public/Share_Backend_File_Dependent.php',
+        'OCP\\Snowflake\\IDecoder' => __DIR__ . '/../../..' . '/lib/public/Snowflake/IDecoder.php',
+        'OCP\\Snowflake\\IGenerator' => __DIR__ . '/../../..' . '/lib/public/Snowflake/IGenerator.php',
         'OCP\\SpeechToText\\Events\\AbstractTranscriptionEvent' => __DIR__ . '/../../..' . '/lib/public/SpeechToText/Events/AbstractTranscriptionEvent.php',
         'OCP\\SpeechToText\\Events\\TranscriptionFailedEvent' => __DIR__ . '/../../..' . '/lib/public/SpeechToText/Events/TranscriptionFailedEvent.php',
         'OCP\\SpeechToText\\Events\\TranscriptionSuccessfulEvent' => __DIR__ . '/../../..' . '/lib/public/SpeechToText/Events/TranscriptionSuccessfulEvent.php',
@@ -913,6 +915,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\IProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IProvider.php',
         'OCP\\TaskProcessing\\ISynchronousProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousProvider.php',
         'OCP\\TaskProcessing\\ITaskType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITaskType.php',
+        'OCP\\TaskProcessing\\ITriggerableProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITriggerableProvider.php',
         'OCP\\TaskProcessing\\ShapeDescriptor' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ShapeDescriptor.php',
         'OCP\\TaskProcessing\\ShapeEnumValue' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ShapeEnumValue.php',
         'OCP\\TaskProcessing\\Task' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Task.php',
@@ -1392,6 +1395,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Security\\ListCertificates' => __DIR__ . '/../../..' . '/core/Command/Security/ListCertificates.php',
         'OC\\Core\\Command\\Security\\RemoveCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/RemoveCertificate.php',
         'OC\\Core\\Command\\SetupChecks' => __DIR__ . '/../../..' . '/core/Command/SetupChecks.php',
+        'OC\\Core\\Command\\SnowflakeDecodeId' => __DIR__ . '/../../..' . '/core/Command/SnowflakeDecodeId.php',
         'OC\\Core\\Command\\Status' => __DIR__ . '/../../..' . '/core/Command/Status.php',
         'OC\\Core\\Command\\SystemTag\\Add' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Add.php',
         'OC\\Core\\Command\\SystemTag\\Delete' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Delete.php',
@@ -1567,7 +1571,9 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version32000Date20250731062008' => __DIR__ . '/../../..' . '/core/Migrations/Version32000Date20250731062008.php',
         'OC\\Core\\Migrations\\Version32000Date20250806110519' => __DIR__ . '/../../..' . '/core/Migrations/Version32000Date20250806110519.php',
         'OC\\Core\\Migrations\\Version33000Date20251013110519' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251013110519.php',
-		'OC\\Core\\Migrations\\Version33000Date20250819110529' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20250819110529.php',
+		    'OC\\Core\\Migrations\\Version33000Date20250819110529' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20250819110529.php',
+        'OC\\Core\\Migrations\\Version33000Date20251023110529' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251023110529.php',
+        'OC\\Core\\Migrations\\Version33000Date20251023120529' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251023120529.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\ResponseDefinitions' => __DIR__ . '/../../..' . '/core/ResponseDefinitions.php',
         'OC\\Core\\Service\\CronService' => __DIR__ . '/../../..' . '/core/Service/CronService.php',
@@ -1990,7 +1996,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Remote\\User' => __DIR__ . '/../../..' . '/lib/private/Remote/User.php',
         'OC\\Repair' => __DIR__ . '/../../..' . '/lib/private/Repair.php',
         'OC\\RepairException' => __DIR__ . '/../../..' . '/lib/private/RepairException.php',
-        'OC\\Repair\\AddAppConfigLazyMigration' => __DIR__ . '/../../..' . '/lib/private/Repair/AddAppConfigLazyMigration.php',
         'OC\\Repair\\AddBruteForceCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddBruteForceCleanupJob.php',
         'OC\\Repair\\AddCleanupDeletedUsersBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupDeletedUsersBackgroundJob.php',
         'OC\\Repair\\AddCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupUpdaterBackupsJob.php',
@@ -2145,6 +2150,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Share\\Constants' => __DIR__ . '/../../..' . '/lib/private/Share/Constants.php',
         'OC\\Share\\Helper' => __DIR__ . '/../../..' . '/lib/private/Share/Helper.php',
         'OC\\Share\\Share' => __DIR__ . '/../../..' . '/lib/private/Share/Share.php',
+        'OC\\Snowflake\\Decoder' => __DIR__ . '/../../..' . '/lib/private/Snowflake/Decoder.php',
+        'OC\\Snowflake\\Generator' => __DIR__ . '/../../..' . '/lib/private/Snowflake/Generator.php',
         'OC\\SpeechToText\\SpeechToTextManager' => __DIR__ . '/../../..' . '/lib/private/SpeechToText/SpeechToTextManager.php',
         'OC\\SpeechToText\\TranscriptionJob' => __DIR__ . '/../../..' . '/lib/private/SpeechToText/TranscriptionJob.php',
         'OC\\StreamImage' => __DIR__ . '/../../..' . '/lib/private/StreamImage.php',

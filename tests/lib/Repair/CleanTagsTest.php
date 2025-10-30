@@ -19,10 +19,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Tests for the cleaning the tags tables
  *
- * @group DB
  *
  * @see \OC\Repair\CleanTags
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CleanTagsTest extends \Test\TestCase {
 
 	private ?int $createdFile = null;

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 /**
  * Assert that `element` does not exist or is not visible
@@ -78,11 +78,13 @@ export function toggleEditButton(user: User, toEdit = true) {
  */
 export function handlePasswordConfirmation(adminPassword = 'admin') {
 	const handleModal = (context: Cypress.Chainable) => {
-		return context.contains('.modal-container', 'Confirm your password')
+		return context.contains('.modal-container', 'Authentication required')
 			.if()
 			.within(() => {
-				cy.get('input[type="password"]').type(adminPassword)
-				cy.get('button').contains('Confirm').click()
+				cy.get('input[type="password"]')
+					.type(adminPassword)
+				cy.findByRole('button', { name: 'Confirm' })
+					.click()
 			})
 	}
 

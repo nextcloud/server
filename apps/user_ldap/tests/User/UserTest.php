@@ -27,10 +27,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class UserTest
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserTest extends \Test\TestCase {
 	protected Access&MockObject $access;
 	protected Connection&MockObject $connection;

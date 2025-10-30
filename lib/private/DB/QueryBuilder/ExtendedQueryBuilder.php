@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace OC\DB\QueryBuilder;
 
-use OC\DB\Exceptions\DbalException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -45,21 +44,6 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 
 	public function getState() {
 		return $this->builder->getState();
-	}
-
-	public function execute(?IDBConnection $connection = null) {
-		try {
-			if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-				return $this->executeQuery($connection);
-			} else {
-				return $this->executeStatement($connection);
-			}
-		} catch (DBALException $e) {
-			// `IQueryBuilder->execute` never wrapped the exception, but `executeQuery` and `executeStatement` do
-			/** @var \Doctrine\DBAL\Exception $previous */
-			$previous = $e->getPrevious();
-			throw $previous;
-		}
 	}
 
 	public function getSQL() {

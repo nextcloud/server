@@ -12,10 +12,8 @@ use OC\Memcache\Redis;
 use OCP\IConfig;
 use OCP\Server;
 
-/**
- * @group Memcache
- * @group Redis
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
+#[\PHPUnit\Framework\Attributes\Group('Redis')]
 class RedisTest extends Cache {
 	/**
 	 * @var Redis cache;

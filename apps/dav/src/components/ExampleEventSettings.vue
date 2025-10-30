@@ -41,7 +41,7 @@
 			</NcButton>
 		</div>
 		<NcDialog
-			:open.sync="showImportModal"
+			v-model:open="showImportModal"
 			:name="t('dav', 'Import calendar event')">
 			<div class="import-event-modal">
 				<p>
@@ -73,6 +73,7 @@
 <script>
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
 import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -80,7 +81,7 @@ import IconRestore from 'vue-material-design-icons/Restore.vue'
 import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
 import * as ExampleEventService from '../service/ExampleEventService.js'
-import logger from '../service/logger.js'
+import { logger } from '../service/logger.ts'
 
 export default {
 	name: 'ExampleEventSettings',
@@ -92,6 +93,10 @@ export default {
 		IconUpload,
 		IconRestore,
 		ExampleContentDownloadButton,
+	},
+
+	setup() {
+		return { t }
 	},
 
 	data() {

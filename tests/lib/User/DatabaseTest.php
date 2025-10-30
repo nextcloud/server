@@ -18,9 +18,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class DatabaseTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DatabaseTest extends Backend {
 	/** @var array */
 	private $users;

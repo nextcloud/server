@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Kanal güncellendi",
     "Web updater is disabled" : "Güncelleyici kapalı",
+    "Configuration is read-only" : "Yapılandırma salt okunur",
     "App updated" : "Uygulama güncellendi",
     "See what's new" : "Yeniliklere bakın",
     "{app} updated to version {version}" : "{app}, {version} sürümüne güncellendi",

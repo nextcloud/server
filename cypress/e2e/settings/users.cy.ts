@@ -4,7 +4,7 @@
  */
 /// <reference types="cypress-if" />
 
-import { User } from '@nextcloud/cypress'
+import { User } from '@nextcloud/e2e-test-server/cypress'
 import { getUserListRow, handlePasswordConfirmation } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')

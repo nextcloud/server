@@ -22,10 +22,10 @@ use Test\TestCase;
 /**
  * Class CleanupTest
  *
- * @group DB
  *
  * @package OCA\Files_Versions\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CleanupTest extends TestCase {
 	protected Manager&MockObject $userManager;
 	protected IRootFolder&MockObject $rootFolder;

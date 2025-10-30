@@ -25,10 +25,10 @@ use Test\Traits\UserTrait;
 /**
  * Class BackgroundCleanupJobTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class BackgroundCleanupJobTest extends \Test\TestCase {
 	use MountProviderTrait;
 	use UserTrait;

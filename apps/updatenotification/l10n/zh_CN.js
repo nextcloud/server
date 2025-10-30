@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "更新通道",
     "Web updater is disabled" : "已禁用 web 更新器",
+    "Configuration is read-only" : "配置为只读",
     "App updated" : "应用已更新",
     "See what's new" : "查看最新内容",
     "{app} updated to version {version}" : "{app} 已更新到版本 {version}",

@@ -200,6 +200,7 @@ OC.L10N.register(
     "Default quota" : "Apjoms pēc noklusējuma",
     "Security & setup warnings" : "Drošības un iestatījumu brīdinājumi",
     "All checks passed." : "Visas pārbaudes sekmīgas.",
+    "There are some warnings regarding your setup." : "Ir daži brīdinājumi saistībā ar šo serveri.",
     "Developer documentation ↗" : "Dokumentācija izstrādātājiem ↗",
     "Apply" : "Apstiprināt",
     "Admins" : "Pārvaldītāji",

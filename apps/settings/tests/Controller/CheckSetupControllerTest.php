@@ -25,9 +25,9 @@ use Test\TestCase;
 /**
  * Class CheckSetupControllerTest
  *
- * @backupStaticAttributes
  * @package Tests\Settings\Controller
  */
+#[\PHPUnit\Framework\Attributes\BackupStaticProperties(true)]
 class CheckSetupControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 	private IConfig&MockObject $config;

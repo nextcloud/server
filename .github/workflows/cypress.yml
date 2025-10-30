@@ -102,8 +102,8 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ['component', 'setup', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
+        containers: ['setup', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        # Hack as strategy.job-total includes the "setup" and GitHub does not allow math expressions
         # Always align this number with the total of e2e runners (max. index + 1)
         total-containers: [10]
 
@@ -194,6 +194,7 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
+          SPLIT_RANDOM_SEED: ${{ github.run_id }}
           SETUP_TESTING: ${{ matrix.containers == 'setup' && 'true' || '' }}
 
       - name: Upload snapshots and videos
@@ -205,20 +206,19 @@ jobs:
             cypress/snapshots
             cypress/videos
 
-      - name: Extract NC logs
+      - name: Show logs
         if: failure() && matrix.containers != 'component'
-        run: docker logs nextcloud-cypress-tests_${{ env.APP_NAME }} > nextcloud.log
-
-      - name: Upload NC logs
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        if: failure() && matrix.containers != 'component'
-        with:
-          name: nc_logs_${{ matrix.containers }}
-          path: nextcloud.log
+        run: |
+          for id in $(docker ps -aq); do
+            docker container inspect "$id" --format '=== Logs for container {{.Name}} ==='
+            docker logs "$id" >> nextcloud.log
+          done
+          echo '=== Nextcloud server logs ==='
+          docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} cat data/nextcloud.log
 
       - name: Create data dir archive
         if: failure() && matrix.containers != 'component'
-        run: docker exec nextcloud-cypress-tests_${{ env.APP_NAME }} tar -cvjf - data > data.tar
+        run: docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

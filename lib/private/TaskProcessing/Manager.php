@@ -57,6 +57,7 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
@@ -977,6 +978,28 @@ class Manager implements IManager {
 		if ($provider instanceof ISynchronousProvider) {
 			$this->jobList->add(SynchronousBackgroundJob::class, null);
 		}
+		if ($provider instanceof ITriggerableProvider) {
+			try {
+				if (!$this->taskMapper->hasRunningTasksForTaskType($task->getTaskTypeId())) {
+					// If no tasks are currently running for this task type, nudge the provider to ask for tasks
+					try {
+						$provider->trigger();
+					} catch (\Throwable $e) {
+						$this->logger->error('Failed to trigger the provider after scheduling a task.', [
+							'exception' => $e,
+							'taskId' => $task->getId(),
+							'providerId' => $provider->getId(),
+						]);
+					}
+				}
+			} catch (Exception $e) {
+				$this->logger->error('Failed to check DB for running tasks after a task was scheduled for a triggerable provider. Not triggering the provider.', [
+					'exception' => $e,
+					'taskId' => $task->getId(),
+					'providerId' => $provider->getId()
+				]);
+			}
+		}
 	}
 
 	public function runTask(Task $task): Task {
@@ -1190,11 +1213,23 @@ class Manager implements IManager {
 			$taskEntity = $this->taskMapper->findOldestScheduledByType($taskTypeIds, $taskIdsToIgnore);
 			return $taskEntity->toPublicTask();
 		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
 		} catch (\OCP\DB\Exception $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
+		}
+	}
+
+	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array {
+		try {
+			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $this->taskMapper->findNOldestScheduledByType($taskTypeIds, $taskIdsToIgnore, $numberOfTasks));
+		} catch (DoesNotExistException $e) {
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
 		}
 	}
 

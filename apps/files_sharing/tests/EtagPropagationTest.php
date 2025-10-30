@@ -17,10 +17,10 @@ use OCP\Share\IShare;
 /**
  * Class EtagPropagationTest
  *
- * @group SLOWDB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('SLOWDB')]
 class EtagPropagationTest extends PropagationTestCase {
 
 	/**

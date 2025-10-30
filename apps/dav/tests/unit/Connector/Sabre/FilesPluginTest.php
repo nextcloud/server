@@ -35,9 +35,7 @@ use Sabre\HTTP\ResponseInterface;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FilesPluginTest extends TestCase {
 
 	private Tree&MockObject $tree;
