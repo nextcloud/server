@@ -110,7 +110,12 @@ class OCSMiddleware extends Middleware {
 	 * @return V1Response|V2Response
 	 */
 	private function buildNewResponse(Controller $controller, $code, $message) {
-		$format = $this->request->getFormat() ?? 'xml';
+		$format = $this->request->getFormat();
+		if ($format !== null && !$controller->isResponderRegistered($format)) {
+			$format = null;
+		}
+
+		$format ??= 'xml';
 
 		$data = new DataResponse();
 		$data->setStatus($code);
