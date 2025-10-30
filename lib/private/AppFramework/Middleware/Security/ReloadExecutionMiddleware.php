@@ -11,6 +11,7 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\ReloadExecutionException;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 
@@ -19,12 +20,10 @@ use OCP\IURLGenerator;
  * a reload but if the session variable is set we properly redirect to the login page.
  */
 class ReloadExecutionMiddleware extends Middleware {
-	/** @var ISession */
-	private $session;
-	/** @var IURLGenerator */
-	private $urlGenerator;
 
-	public function __construct(ISession $session, IURLGenerator $urlGenerator) {
+	public function __construct(private ISession $session,
+		private IURLGenerator $urlGenerator,
+		private IRequest $request) {
 		$this->session = $session;
 		$this->urlGenerator = $urlGenerator;
 	}
@@ -41,7 +40,10 @@ class ReloadExecutionMiddleware extends Middleware {
 
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute(
 				'core.login.showLoginForm',
-				['clear' => true] // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+				[
+					'clear' => true, // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+					'redirect_url' => $this->request->getParam('redirect_url'),
+				],
 			));
 		}
 
