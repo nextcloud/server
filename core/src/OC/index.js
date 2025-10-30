@@ -49,7 +49,6 @@ import { currentUser, getCurrentUser } from './currentuser.js'
 import { debug } from './debug.js'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
-import { get, set } from './get_set.js'
 import {
 	getHost,
 	getHostName,
@@ -234,14 +233,6 @@ export default {
 	 * @deprecated 19.0.0 use `generateUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	generateUrl,
-	/**
-	 * @deprecated 19.0.0 use https://lodash.com/docs#get
-	 */
-	get: get(window),
-	/**
-	 * @deprecated 19.0.0 use https://lodash.com/docs#set
-	 */
-	set: set(window),
 	/**
 	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
