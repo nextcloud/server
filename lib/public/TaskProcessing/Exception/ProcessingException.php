@@ -18,6 +18,6 @@ use OCP\AppFramework\Attribute\Consumable;
  *
  * @since 30.0.0
  */
-#[Consumable('30.0.0')]
+#[Consumable(since: '30.0.0')]
 class ProcessingException extends \RuntimeException {
 }

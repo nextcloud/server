@@ -26,7 +26,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
  * without known which providers are installed
  * @since 30.0.0
  */
-#[Consumable('30.0.0')]
+#[Consumable(since: '30.0.0')]
 interface IManager {
 
 	/**

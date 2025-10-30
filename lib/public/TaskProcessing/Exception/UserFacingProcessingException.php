@@ -19,7 +19,7 @@ use OCP\AppFramework\Attribute\Consumable;
  *
  * @since 33.0.0
  */
-#[Consumable('33.0.0')]
+#[Consumable(since: '33.0.0')]
 class UserFacingProcessingException extends ProcessingException {
 
 	/**
