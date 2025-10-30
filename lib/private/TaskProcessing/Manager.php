@@ -50,6 +50,7 @@ use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
+use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
@@ -211,7 +212,7 @@ class Manager implements IManager {
 					try {
 						return ['output' => $this->provider->process($input['input'])];
 					} catch (\RuntimeException $e) {
-						throw new ProcessingException($e->getMessage(), 0, $e);
+						throw new ProcessingException($e->getMessage(), previous: $e);
 					}
 				}
 
@@ -362,7 +363,7 @@ class Manager implements IManager {
 					try {
 						$this->provider->generate($input['input'], $resources);
 					} catch (\RuntimeException $e) {
-						throw new ProcessingException($e->getMessage(), 0, $e);
+						throw new ProcessingException($e->getMessage(), previous: $e);
 					}
 					for ($i = 0; $i < $input['numberOfImages']; $i++) {
 						if (is_resource($resources[$i])) {
@@ -480,7 +481,7 @@ class Manager implements IManager {
 					try {
 						$result = $this->provider->transcribeFile($input['input']);
 					} catch (\RuntimeException $e) {
-						throw new ProcessingException($e->getMessage(), 0, $e);
+						throw new ProcessingException($e->getMessage(), previous: $e);
 					}
 					return ['output' => $result];
 				}
@@ -1041,7 +1042,8 @@ class Manager implements IManager {
 				$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));
 			} catch (ProcessingException $e) {
 				$this->logger->warning('Failed to process a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
-				$this->setTaskResult($task->getId(), $e->getMessage(), null);
+				$userFacingErrorMessage = $e instanceof UserFacingProcessingException ? $e->getUserFacingMessage() : null;
+				$this->setTaskResult($task->getId(), $e->getMessage(), null, userFacingError: $userFacingErrorMessage);
 				return false;
 			} catch (\Throwable $e) {
 				$this->logger->error('Unknown error while processing TaskProcessing task', ['exception' => $e]);
@@ -1112,7 +1114,7 @@ class Manager implements IManager {
 		return true;
 	}
 
-	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false): void {
+	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
 		if ($task->getStatus() === Task::STATUS_CANCELLED) {
@@ -1122,8 +1124,12 @@ class Manager implements IManager {
 		if ($error !== null) {
 			$task->setStatus(Task::STATUS_FAILED);
 			$task->setEndedAt(time());
-			// truncate error message to 1000 characters
-			$task->setErrorMessage(mb_substr($error, 0, 1000));
+			// truncate error message to 4000 characters
+			$task->setErrorMessage(substr($error, 0, 4000));
+			// truncate error message to 4000 characters
+			if ($userFacingError !== null) {
+				$task->setUserFacingErrorMessage(substr($userFacingError, 0, 4000));
+			}
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskTypeId() . ' task with id ' . $id . ' failed with the following message: ' . $error);
 		} elseif ($result !== null) {
 			$taskTypes = $this->getAvailableTaskTypes();
