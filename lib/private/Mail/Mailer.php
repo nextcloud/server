@@ -205,7 +205,7 @@ class Mailer implements IMailer {
 			$mailer->send($message->getSymfonyEmail());
 		} catch (TransportExceptionInterface $e) {
 			$logMessage = sprintf('Sending mail to "%s" with subject "%s" failed', print_r($message->getTo(), true), $message->getSubject());
-			$this->logger->debug($logMessage, ['app' => 'core', 'exception' => $e]);
+			$this->logger->error($logMessage, ['app' => 'core', 'exception' => $e]);
 			if ($debugMode) {
 				$this->logger->debug($e->getDebug(), ['app' => 'core']);
 			}
