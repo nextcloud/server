@@ -46,32 +46,34 @@ class MountProvider implements IMountProvider {
 	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+		$userId = $user->getUID();
 		$shares = array_merge(
-			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_USER, null, -1),
-			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1),
-			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_CIRCLE, null, -1),
-			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_ROOM, null, -1),
-			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_DECK, null, -1),
-			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_SCIENCEMESH, null, -1),
+			$this->shareManager->getSharedWith($userId, IShare::TYPE_USER, null, -1),
+			$this->shareManager->getSharedWith($userId, IShare::TYPE_GROUP, null, -1),
+			$this->shareManager->getSharedWith($userId, IShare::TYPE_CIRCLE, null, -1),
+			$this->shareManager->getSharedWith($userId, IShare::TYPE_ROOM, null, -1),
+			$this->shareManager->getSharedWith($userId, IShare::TYPE_DECK, null, -1),
+			$this->shareManager->getSharedWith($userId, IShare::TYPE_SCIENCEMESH, null, -1),
 		);
 
-		// filter out excluded shares and group shares that includes self
-		$shares = array_filter($shares, function (IShare $share) use ($user) {
-			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID() && $share->getSharedBy() !== $user->getUID();
+		// filter out shares owned or shared by the user and ones for which
+		// the user has no permissions
+		$shares = array_filter($shares, function (IShare $share) use ($userId) {
+			return $share->getPermissions() > 0 && $share->getShareOwner() !== $userId && $share->getSharedBy() !== $userId;
 		});
 
 		$superShares = $this->buildSuperShares($shares, $user);
 
 		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
-		$view = new View('/' . $user->getUID() . '/files');
+		$view = new View('/' . $userId . '/files');
 		$ownerViews = [];
-		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
+		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($userId);
 		/** @var CappedMemoryCache<bool> $folderExistCache */
 		$foldersExistCache = new CappedMemoryCache();
 
 		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
-		$maxValidatedShare = $validShareCache->get($user->getUID()) ?? 0;
+		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
 		$newMaxValidatedShare = $maxValidatedShare;
 
 		foreach ($superShares as $share) {
@@ -95,7 +97,7 @@ class MountProvider implements IMountProvider {
 					'\OCA\Files_Sharing\SharedStorage',
 					$allMounts,
 					[
-						'user' => $user->getUID(),
+						'user' => $userId,
 						// parent share
 						'superShare' => $parentShare,
 						// children/component of the superShare
@@ -131,7 +133,7 @@ class MountProvider implements IMountProvider {
 			}
 		}
 
-		$validShareCache->set($user->getUID(), $newMaxValidatedShare, 24 * 60 * 60);
+		$validShareCache->set($userId, $newMaxValidatedShare, 24 * 60 * 60);
 
 		// array_filter removes the null values from the array
 		return array_values(array_filter($mounts));
@@ -148,10 +150,11 @@ class MountProvider implements IMountProvider {
 		$tmp = [];
 
 		foreach ($shares as $share) {
-			if (!isset($tmp[$share->getNodeId()])) {
-				$tmp[$share->getNodeId()] = [];
+			$nodeId = $share->getNodeId();
+			if (!isset($tmp[$nodeId])) {
+				$tmp[$nodeId] = [];
 			}
-			$tmp[$share->getNodeId()][] = $share;
+			$tmp[$nodeId][] = $share;
 		}
 
 		$result = [];
