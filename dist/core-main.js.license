@@ -313,7 +313,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.3
 	- license: MIT
 - core-js
-	- version: 3.45.1
+	- version: 3.46.0
 	- license: MIT
 - core-util-is
 	- version: 1.0.3
