@@ -12,7 +12,7 @@ use OCA\Comments\Activity\Listener;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\App\IAppManager;
-use OCP\Comments\CommentsEvent;
+use OCP\Comments\Events\CommentAddedEvent;
 use OCP\Comments\IComment;
 use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\IMountProviderCollection;
@@ -66,14 +66,7 @@ class ListenerTest extends TestCase {
 			->method('getObjectType')
 			->willReturn('files');
 
-		/** @var CommentsEvent|MockObject $event */
-		$event = $this->createMock(CommentsEvent::class);
-		$event->expects($this->any())
-			->method('getComment')
-			->willReturn($comment);
-		$event->expects($this->any())
-			->method('getEvent')
-			->willReturn(CommentsEvent::EVENT_ADD);
+		$event = new CommentAddedEvent($comment);
 
 		/** @var IUser|MockObject $ownerUser */
 		$ownerUser = $this->createMock(IUser::class);
