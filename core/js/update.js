@@ -100,7 +100,8 @@
 					}
 
 					setTimeout(function() {
-						OC.redirect(window.location.href)
+						window.location = window.location.href
+						window.location.reload()
 					}, 3000)
 				}
 			})
