@@ -1101,11 +1101,11 @@ class Manager implements IManager {
 		if ($error !== null) {
 			$task->setStatus(Task::STATUS_FAILED);
 			$task->setEndedAt(time());
-			// truncate error message to 1000 characters
-			$task->setErrorMessage(mb_substr($error, 0, 1000));
-			// truncate error message to 1000 characters
+			// truncate error message to 4000 characters
+			$task->setErrorMessage(substr($error, 0, 4000));
+			// truncate error message to 4000 characters
 			if ($userFacingError !== null) {
-				$task->setUserFacingErrorMessage(mb_substr($userFacingError, 0, 1000));
+				$task->setUserFacingErrorMessage(substr($userFacingError, 0, 4000));
 			}
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskTypeId() . ' task with id ' . $id . ' failed with the following message: ' . $error);
 		} elseif ($result !== null) {
