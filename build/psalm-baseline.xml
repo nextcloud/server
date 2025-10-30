@@ -1692,9 +1692,6 @@
       <code><![CDATA[new View('/' . $parentShare->getShareOwner() . '/files')]]></code>
       <code><![CDATA[new View('/' . $userId . '/files')]]></code>
     </InternalMethod>
-    <RedundantFunctionCall>
-      <code><![CDATA[array_values]]></code>
-    </RedundantFunctionCall>
   </file>
   <file src="apps/files_sharing/lib/Scanner.php">
     <DeprecatedInterface>
