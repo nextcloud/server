@@ -1686,11 +1686,11 @@
   <file src="apps/files_sharing/lib/MountProvider.php">
     <InternalClass>
       <code><![CDATA[new View('/' . $parentShare->getShareOwner() . '/files')]]></code>
-      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+      <code><![CDATA[new View('/' . $userId . '/files')]]></code>
     </InternalClass>
     <InternalMethod>
       <code><![CDATA[new View('/' . $parentShare->getShareOwner() . '/files')]]></code>
-      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+      <code><![CDATA[new View('/' . $userId . '/files')]]></code>
     </InternalMethod>
     <RedundantFunctionCall>
       <code><![CDATA[array_values]]></code>
