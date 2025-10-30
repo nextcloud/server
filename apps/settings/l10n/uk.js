@@ -312,6 +312,7 @@ OC.L10N.register(
     "64-bit" : "64 біти",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Схоже, що у вас встановлено 32-бітну версію PHP. Правильна робота Nextcloud вимагає 64-бітної версії. Оновіть вашу операційну систему та рушій PHP до 64-бітної версії!",
     "Task Processing pickup speed" : "Швидкість обробки завдань",
+    "_No scheduled tasks in the last day._::_No scheduled tasks in the last %n days._" : ["Відсутні заплановані завдання протягом останнього дня.","Відсутні заплановані завдання протягом останніх %n дні.","Відсутні заплановані завдання протягом останніх %n днів.","Відсутні заплановані завдання протягом останніх %n днів."],
     "Temporary space available" : "Тимчасовий простір доступний",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Помилка під час перевірки шляху до тимчасового каталогу PHP, його не було правильно налаштовано яко каталог. Отримано значення: %s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "Функція PHP \"disk_free_space\" відключена, що перешкоджає перевірці наявності вільного місця в тимчасових каталогах.",
