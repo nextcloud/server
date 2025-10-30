@@ -200,6 +200,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 		$variables = [
 			'--ion-shadow-header' => '0 4px 8px rgba(0, 0, 0, 0.12)',
+			'--header-height' => '64px',
 			'--color-main-background' => $ionColorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',

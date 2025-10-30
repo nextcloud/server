@@ -1,6 +1,6 @@
 div#content.app-settings {
-	margin: 50px 0 0 0;
+	margin: var(--header-height) 0 0 0;
 	width: 100%;
-	height: calc(100vh - 50px);
+	height: calc(100vh - var(--header-height));
 	border-radius: 0;
 }

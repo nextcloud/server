@@ -1,6 +1,8 @@
-#header {
+#body-settings #header,
+#body-user #header {
 	box-shadow: var(--ion-shadow-header);
 	background-color: var(--ion-color-main-background) !important;
+	height: var(--header-height);
 
 	#nextcloud {
 		padding-inline-start: 220px;
@@ -66,13 +68,13 @@
 
 
 #content-vue {
-	margin: 50px 0 0 0;
+	margin: var(--header-height) 0 0 0;
 	width: 100%;
-	height: calc(100vh - 50px);
+	height: calc(100vh - var(--header-height));
 	border-radius: 0;
 
 	.app-content .chatView .wrapper {
-		bottom: 50px;
+		bottom: var(--header-height);
 	}
 }
 
