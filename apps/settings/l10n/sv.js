@@ -601,6 +601,7 @@ OC.L10N.register(
     "Loading categories" : "Laddar kategorier",
     "Developer documentation ↗" : "Utvecklardokumentation ↗",
     "Version {version}, {license}-licensed" : "Version {version}, {license}-licensierad",
+    "Version {version}" : "Version {version}",
     "Apply" : "Tillämpa",
     "All accounts" : "Alla konton",
     "Admins" : "Administratörer",
