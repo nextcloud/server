@@ -132,6 +132,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => $baseDir . '/../lib/SetupChecks/ReadOnlyConfig.php',
     'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => $baseDir . '/../lib/SetupChecks/SchedulingTableSize.php',
     'OCA\\Settings\\SetupChecks\\SecurityHeaders' => $baseDir . '/../lib/SetupChecks/SecurityHeaders.php',
+    'OCA\\Settings\\SetupChecks\\ServerIdConfig' => $baseDir . '/../lib/SetupChecks/ServerIdConfig.php',
     'OCA\\Settings\\SetupChecks\\SupportedDatabase' => $baseDir . '/../lib/SetupChecks/SupportedDatabase.php',
     'OCA\\Settings\\SetupChecks\\SystemIs64bit' => $baseDir . '/../lib/SetupChecks/SystemIs64bit.php',
     'OCA\\Settings\\SetupChecks\\TaskProcessingPickupSpeed' => $baseDir . '/../lib/SetupChecks/TaskProcessingPickupSpeed.php',
