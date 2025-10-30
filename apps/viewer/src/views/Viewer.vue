@@ -76,15 +76,14 @@
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
 			</NcActionButton>
-			<NcActionLink v-if="canDownload"
-				:download="currentFile.basename"
+			<NcActionButton v-if="canDownload"
 				:close-after-click="true"
-				:href="downloadPath">
+				@click="onDownload">
 				<template #icon>
 					<Download :size="20" />
 				</template>
 				{{ t('viewer', 'Download') }}
-			</NcActionLink>
+			</NcActionButton>
 			<NcActionButton v-if="canDelete"
 				:close-after-click="true"
 				@click="onDelete">
@@ -1006,12 +1005,7 @@ export default defineComponent({
 			if (event.key === 's' && event.ctrlKey === true) {
 				event.preventDefault()
 				if (this.canDownload) {
-					const a = document.createElement('a')
-					a.href = this.currentFile.source ?? this.currentFile.davPath
-					a.download = this.currentFile.basename
-					document.body.appendChild(a)
-					a.click()
-					document.body.removeChild(a)
+					this.onDownload()
 				}
 			}
 		},
@@ -1194,6 +1188,49 @@ export default defineComponent({
 
 		onEdit() {
 			this.toggleEditor(true)
+		},
+
+		/**
+		 * Save active Text editors before downloading
+		 */
+		async onDownload() {
+			if (!this.canDownload) {
+				return
+			}
+
+			// Check if Text app is available and has active editor components
+			if (window.OCA?.Text?.editorComponents) {
+				try {
+					logger.debug('Text app detected, attempting to save before download')
+
+					const editorComponents = window.OCA.Text.editorComponents
+
+					// Text app uses a Set to store editor components
+					if (editorComponents instanceof Set) {
+						for (const component of editorComponents) {
+							if (component && typeof component.save === 'function') {
+								logger.debug('Calling save on Text editor component')
+								await component.save()
+							}
+						}
+					}
+				} catch (error) {
+					logger.warn('Failed to save Text editor before download', { error })
+					// Continue with download anyway
+				}
+			}
+
+			this.performDownload()
+		},
+
+		performDownload() {
+			logger.debug('Performing download', { file: this.currentFile })
+			const a = document.createElement('a')
+			a.href = this.currentFile.source ?? this.currentFile.davPath
+			a.download = this.currentFile.basename
+			document.body.appendChild(a)
+			a.click()
+			document.body.removeChild(a)
 		},
 
 		handleTrapElementsChange(element) {
