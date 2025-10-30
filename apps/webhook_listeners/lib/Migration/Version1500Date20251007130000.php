@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\WebhookListeners\Migration;
 
 use Closure;
+use OCA\WebhookListeners\Db\TemporaryTokenMapper;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
@@ -34,9 +35,38 @@ class Version1500Date20251007130000 extends SimpleMigrationStep {
 					'notnull' => false,
 				]);
 			}
-
-			return $schema;
 		}
-		return null;
+
+		if (!$schema->hasTable(TemporaryTokenMapper::TABLE_NAME)) {
+			$table = $schema->createTable(TemporaryTokenMapper::TABLE_NAME);
+			$table->addColumn('id', 'integer', [
+				'autoincrement' => true,
+				'notnull' => true,
+			]);
+
+			$table->addColumn('token_id', 'integer', [
+				'notnull' => true,
+				'length' => 4,
+				'unsigned' => true,
+			]);
+			$table->addColumn('token', 'string', [
+				'notnull' => false,
+				'length' => 200,
+			]);
+			$table->addColumn('user_id', 'string', [
+				'notnull' => false,
+				'length' => 64,
+			]);
+			$table->addColumn('creation_datetime', 'integer', [
+				'notnull' => true,
+				'length' => 4,
+				'unsigned' => true,
+			]);
+
+			$table->setPrimaryKey(['id']);
+
+		}
+		return $schema;
+
 	}
 }

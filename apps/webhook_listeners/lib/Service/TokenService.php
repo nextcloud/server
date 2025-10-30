@@ -8,7 +8,9 @@
 namespace OCA\WebhookListeners\Service;
 
 use OC\Authentication\Token\IProvider;
+use OCA\WebhookListeners\Db\TemporaryTokenMapper;
 use OCA\WebhookListeners\Db\WebhookListener;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
 use OCP\Security\ISecureRandom;
 
@@ -16,6 +18,8 @@ class TokenService {
 	public function __construct(
 		private IProvider $tokenProvider,
 		private ISecureRandom $random,
+		private TemporaryTokenMapper $tokenMapper,
+		private ITimeFactory $time,
 	) {
 	}
 
@@ -42,7 +46,6 @@ class TokenService {
 			}
 		}
 		if (isset($tokenNeeded['users'])) {
-			error_log(json_encode($tokenNeeded));
 			foreach ($tokenNeeded['functions'] as $function) {
 				switch ($function) {
 					case 'owner':
@@ -77,6 +80,7 @@ class TokenService {
 		$name = 'Ephemeral webhook authentication';
 		$password = null;
 		$deviceToken = $this->tokenProvider->generateToken($token, $userId, $userId, $password, $name, IToken::PERMANENT_TOKEN);
+		$this->tokenMapper->addTemporaryToken($deviceToken->getId(), $deviceToken->getToken(), $userId, $this->time->getTime());
 		return $token;
 	}
 

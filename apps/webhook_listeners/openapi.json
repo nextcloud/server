@@ -92,6 +92,12 @@
                         "additionalProperties": {
                             "type": "object"
                         }
+                    },
+                    "tokenNeeded": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
                     }
                 }
             }
@@ -301,6 +307,15 @@
                                         "type": "object",
                                         "nullable": true,
                                         "description": "Array of data for authentication",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "tokenNeeded": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "List of user ids for which to include auth tokens in the event. Has two fields: \"users\" list of user uids for which tokens are needed, \"functions\" list of functions for which tokens can be included. Possible functions: \"owner\" for the user creating the webhook, \"trigger\" for the user triggering the webhook call",
                                         "additionalProperties": {
                                             "type": "object"
                                         }
@@ -700,6 +715,15 @@
                                         "type": "object",
                                         "nullable": true,
                                         "description": "Array of data for authentication",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "tokenNeeded": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "List of user ids for which to include auth tokens in the event. Has two fields: \"users\" list of user uids for which tokens are needed, \"functions\" list of functions for which tokens can be included. Possible functions: \"owner\" for the user creating the webhook, \"trigger\" for the user triggering the webhook call",
                                         "additionalProperties": {
                                             "type": "object"
                                         }
