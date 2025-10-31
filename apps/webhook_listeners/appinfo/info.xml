@@ -25,7 +25,7 @@
         ]]>
     </description>
 
-    <version>1.4.1</version>
+    <version>1.4.2</version>
     <licence>agpl</licence>
     <author>Côme Chilliet</author>
     <namespace>WebhookListeners</namespace>
@@ -56,4 +56,8 @@
         <admin-delegation>OCA\WebhookListeners\Settings\Admin</admin-delegation>
         <admin-delegation-section>OCA\WebhookListeners\Settings\AdminSection</admin-delegation-section>
     </settings>
+
+    <background-jobs>
+		<job>OCA\WebhookListeners\BackgroundJobs\WebhookTokenCleanup</job>
+	</background-jobs>
 </info>
