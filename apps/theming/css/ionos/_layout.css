@@ -33,6 +33,10 @@
 		@media (prefers-color-scheme: dark) {
 			filter: invert(100%) saturate(1%) brightness(99%) contrast(200%);
 		}
+
+		@media (max-width: 768px) {
+			display: none;
+		}
 	}
 
 	.app-menu-entry--active::before {
