@@ -5,11 +5,18 @@
 	height: var(--header-height);
 
 	#nextcloud {
-		padding-inline-start: 220px;
+		padding-inline-start: 370px;
+		margin-left: 12px;
+		@media (max-width: 768px) {
+			padding-inline-start: 100px;
+		}
 	}
 
 	.logo {
-	width: 200px;
+	width: 350px;
+	height: 84px;
+	top: inherit;
+	bottom: inherit;
 	filter: none;
 	}
 
