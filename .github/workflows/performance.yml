@@ -42,7 +42,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 # v2.35.4
+        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2.35.5
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
@@ -98,14 +98,14 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: profiles
           path: |
             before.json
             after.json
 
-      - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v7
         if: failure() && steps.compare.outcome == 'failure'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
