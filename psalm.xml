@@ -4,7 +4,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <psalm
-	errorLevel="4"
+	errorLevel="3"
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
@@ -72,27 +72,28 @@
 		<directory name="3rdparty"/>
 	</extraFiles>
 	<stubs>
+		<file name="3rdparty/sabre/uri/lib/functions.php" />
+		<file name="build/stubs/IntlChar.php"/>
+		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/apcu.php"/>
+		<file name="build/stubs/app_api.php" />
 		<file name="build/stubs/excimer.php"/>
+		<file name="build/stubs/ftp.php"/>
 		<file name="build/stubs/gd.php"/>
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/intl.php"/>
-		<file name="build/stubs/IntlChar.php"/>
-		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
+		<file name="build/stubs/pcntl.php"/>
+		<file name="build/stubs/php-polyfill.php" />
+		<file name="build/stubs/psr_container.php"/>
 		<file name="build/stubs/redis.php"/>
 		<file name="build/stubs/redis_cluster.php"/>
 		<file name="build/stubs/sftp.php"/>
 		<file name="build/stubs/ssh2.php"/>
+		<file name="build/stubs/sysvsem.php"/>
 		<file name="build/stubs/xsl.php"/>
-		<file name="build/stubs/ftp.php"/>
-		<file name="build/stubs/pcntl.php"/>
 		<file name="build/stubs/zip.php"/>
-		<file name="build/stubs/psr_container.php"/>
-		<file name="3rdparty/sabre/uri/lib/functions.php" />
-		<file name="build/stubs/app_api.php" />
-		<file name="build/stubs/php-polyfill.php" />
 	</stubs>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>
