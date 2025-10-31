@@ -592,7 +592,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.17.21
 	- license: MIT
 - marked
-	- version: 16.3.0
+	- version: 16.4.1
 	- license: MIT
 - material-colors
 	- version: 1.2.6
