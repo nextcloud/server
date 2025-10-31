@@ -114,8 +114,11 @@ use OC\Settings\DeclarativeManager;
 use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
+use OC\Snowflake\APCuSequence;
 use OC\Snowflake\Decoder;
+use OC\Snowflake\FileSequence;
 use OC\Snowflake\Generator;
+use OC\Snowflake\ISequence;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
@@ -1250,6 +1253,16 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(ISignatureManager::class, SignatureManager::class);
 
 		$this->registerAlias(IGenerator::class, Generator::class);
+		$this->registerService(ISequence::class, function (ContainerInterface $c): ISequence {
+			if (PHP_SAPI !== 'cli') {
+				$sequence = $c->get(APCuSequence::class);
+				if ($sequence->isAvailable()) {
+					return $sequence;
+				}
+			}
+
+			return $c->get(FileSequence::class);
+		}, false);
 		$this->registerAlias(IDecoder::class, Decoder::class);
 
 		$this->connectDispatcher();
