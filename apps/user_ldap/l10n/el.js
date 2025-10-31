@@ -24,8 +24,6 @@ OC.L10N.register(
     "A password is given, but not an LDAP agent" : "Δόθηκε κωδικός, αλλά όχι LDAP agent",
     "No password is given for the user agent" : "Δεν δόθηκε κωδικός για τον user agent",
     "No LDAP base DN was given" : "Δεν δόθηκε LDAP base DN",
-    "User base DN is not a subnode of global base DN" : "Το User base DN δεν είναι υποκόμβος του global base DN",
-    "Group base DN is not a subnode of global base DN" : "Το Group base DN δεν είναι υποκόμβος του global base DN",
     "Login filter does not contain %s placeholder." : "Το φίλτρο σύνδεσης δεν περιέχει τον placeholder %s.",
     "Please login with the new password" : "Παρακαλώ κάντε είσοδο με το νέο συνθηματικό",
     "LDAP User backend" : "LDAP Σύστημα υποστήριξης χρήστη",

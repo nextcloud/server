@@ -23,8 +23,6 @@ OC.L10N.register(
     "A password is given, but not an LDAP agent" : "Пароль задан, но не указан LDAP-агент",
     "No password is given for the user agent" : "Пароль для LDAP-агента не задан",
     "No LDAP base DN was given" : "Не указана базовая DN LDAP",
-    "User base DN is not a subnode of global base DN" : "Базовая DN пользователей не является подузлом глобальной базовой DN",
-    "Group base DN is not a subnode of global base DN" : " Базовая DN групп не является подузлом глобальной базовой DN",
     "Login filter does not contain %s placeholder." : "Фильтр входа не содержит плейсхолдер %s.",
     "Please login with the new password" : "Войдите в систему со своим новым паролем",
     "LDAP User backend" : "Механизм учета пользователей LDAP",

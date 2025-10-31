@@ -310,6 +310,7 @@
     "64-bit" : "64-bit",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Wygląda na to, że korzystasz z 32-bitowej wersji PHP. Nextcloud wymaga wersji 64-bitowej do poprawnego działania. Zaktualizuj proszę swój system i PHP do wersji 64-bitowych!",
     "Task Processing pickup speed" : "Prędkość pobierania zadań do przetworzenia",
+    "_No scheduled tasks in the last day._::_No scheduled tasks in the last %n days._" : ["Brak zaplanowanych zadań w ciągu ostatniego dnia.","Brak zaplanowanych zadań w ciągu ostatnich %n dni.","Brak zaplanowanych zadań w ciągu ostatnich %n dni.","Brak zaplanowanych zadań w ciągu ostatnich %n dni."],
     "Temporary space available" : "Dostępna przestrzeń tymczasowa",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Błąd podczas sprawdzania tymczasowej ścieżki PHP - nie została ona poprawnie ustawiona na katalog. Wartość zwrócona: %s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "Funkcja PHP „disk_free_space” jest wyłączona, co uniemożliwia sprawdzenie wystarczającej ilości miejsca w katalogach tymczasowych.",

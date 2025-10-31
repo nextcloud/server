@@ -24,8 +24,6 @@ OC.L10N.register(
     "A password is given, but not an LDAP agent" : "Indicou un contrasinal, mais non un axente LDAP",
     "No password is given for the user agent" : "Non indicou un contrasinal para este axente de usuario",
     "No LDAP base DN was given" : "Non se indicou un DN base de LDAP",
-    "User base DN is not a subnode of global base DN" : "O DN base do usuario non é un subnodo do DN base global",
-    "Group base DN is not a subnode of global base DN" : "O DN base de grupo non é un subnodo do DN base global",
     "Login filter does not contain %s placeholder." : "O filtro de inicio de sesión non contén o marcador de substitución %s.",
     "Please login with the new password" : "Acceda co novo contrasinal",
     "LDAP User backend" : "Infraestrutura do usuario LDAP",

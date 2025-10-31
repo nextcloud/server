@@ -21,8 +21,6 @@
     "A password is given, but not an LDAP agent" : "Es dóna una contrasenya, però no un agent LDAP",
     "No password is given for the user agent" : "No es dóna cap contrasenya per a l'agent d'usuari",
     "No LDAP base DN was given" : "No s'ha donat cap DN base LDAP",
-    "User base DN is not a subnode of global base DN" : "El DN base d'usuari no és un subnode del DN base global",
-    "Group base DN is not a subnode of global base DN" : "El DN base del grup no és un subnode del DN base global",
     "Please login with the new password" : "Inicieu sessió amb la nova contrasenya",
     "LDAP User backend" : "Rerefons d'usuari LDAP",
     "Your password will expire tomorrow." : "La contrasenya caducarà demà.",

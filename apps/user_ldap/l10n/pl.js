@@ -24,8 +24,6 @@ OC.L10N.register(
     "A password is given, but not an LDAP agent" : "Podano hasło, ale nie wskazano agenta LDAP",
     "No password is given for the user agent" : "Nie podano hasła dla agenta użytkownika",
     "No LDAP base DN was given" : "Nie podano bazowego DN LDAP",
-    "User base DN is not a subnode of global base DN" : "Bazowy DN użytkownika nie jest podwęzłem globalnego DN",
-    "Group base DN is not a subnode of global base DN" : "Bazowy DN grupy nie jest podwęzłem globalnego DN",
     "Login filter does not contain %s placeholder." : "Filtr logowania nie zawiera zastępnika %s.",
     "Please login with the new password" : "Zaloguj się przy użyciu nowego hasła",
     "LDAP User backend" : "Moduł użytkownika LDAP",

@@ -21,8 +21,6 @@
     "A password is given, but not an LDAP agent" : "Pasahitza zehaztu da baina ez LDAP agentea",
     "No password is given for the user agent" : "Erabiltzaile agentearentzat ez da pasahitza zehaztu",
     "No LDAP base DN was given" : "Ez da zehaztu LDAP base DN",
-    "User base DN is not a subnode of global base DN" : "Erabiltzailearen base DN ez da base DN globalaren azpi-nodoa",
-    "Group base DN is not a subnode of global base DN" : "Taldearen base DN ez da base DN globalaren azpi-nodoa",
     "Login filter does not contain %s placeholder." : "Saioa hasteko iragazkiak ez du %s komodin karaktererik.",
     "Please login with the new password" : "Mesedez hasi saioa pasahitz berriarekin",
     "LDAP User backend" : "LDAP erabiltzaileen atzealdea",

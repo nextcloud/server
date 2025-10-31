@@ -129,6 +129,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Чрез “{folder}”",
     "Unshare" : "Прекрати споделянето",
     "Cannot copy, please copy the link manually" : "Не може да се копира, моля, копирайте връзката ръчно",
+    "Copy internal link" : "Копиране на вътрешна връзка",
     "Internal link" : "Вътрешна връзка",
     "{shareWith} by {initiator}" : "{shareWith} чрез {initiator}",
     "Shared via link by {initiator}" : "Споделено чрез връзка от {initiator}",
