@@ -90,7 +90,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 
@@ -106,7 +106,7 @@ jobs:
         run: npm run test:coverage --if-present
 
       - name: Collect coverage
-        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
         with:
           files: ./coverage/lcov.info
 
@@ -131,7 +131,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 
