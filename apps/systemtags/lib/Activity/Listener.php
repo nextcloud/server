@@ -136,7 +136,7 @@ class Listener {
 		foreach ($mounts as $mount) {
 			$owner = $mount->getUser()->getUID();
 			$ownerFolder = $this->rootFolder->getUserFolder($owner);
-			$nodes = $ownerFolder->getById($event->getObjectId());
+			$nodes = $ownerFolder->getById((int)$event->getObjectId());
 			if (!empty($nodes)) {
 				/** @var Node $node */
 				$node = array_shift($nodes);

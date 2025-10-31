@@ -123,7 +123,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 			if (isset($this->taskProcessingManager->getAvailableTaskTypes()['core:audio2text'])) {
 				$taskProcessingTask = new Task(
 					AudioToText::ID,
-					['input' => $file->getId()],
+					['input' => $file->getId() ?? -1],
 					$appId,
 					$userId,
 					'from-SpeechToTextManager||' . $file->getId() . '||' . ($userId ?? '') . '||' . $appId,
