@@ -67,6 +67,7 @@
 		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
 		<command>OCA\Encryption\Command\FixKeyLocation</command>
 		<command>OCA\Encryption\Command\DropLegacyFileKey</command>
+		<command>OCA\Encryption\Command\CleanOrphanedKeys</command>
 	</commands>
 
 	<settings>
