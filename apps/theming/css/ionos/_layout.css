@@ -15,11 +15,11 @@
 	}
 
 	.logo {
-	width: 350px;
-	height: 84px;
-	top: inherit;
-	bottom: inherit;
-	filter: none;
+		width: 350px;
+		height: 84px;
+		top: inherit;
+		bottom: inherit;
+		filter: none;
 		@media (prefers-color-scheme: dark) {
 			filter: invert(100%) saturate(1%) brightness(99%) contrast(200%);
 		}
