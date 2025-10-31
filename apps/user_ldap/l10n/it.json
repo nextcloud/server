@@ -22,8 +22,6 @@
     "A password is given, but not an LDAP agent" : "Viene fornita una password, ma non un agente LDAP",
     "No password is given for the user agent" : "Non è stata fornita alcuna password per l'agente utente",
     "No LDAP base DN was given" : "Non è stato fornito alcun DN di base LDAP",
-    "User base DN is not a subnode of global base DN" : "Il DN della base utente non è un sottonodo del DN della base globale",
-    "Group base DN is not a subnode of global base DN" : "Il DN di base del gruppo non è un sottonodo del DN di base globale",
     "Please login with the new password" : "Accedi con la nuova password",
     "LDAP User backend" : "Motore Utenti LDAP",
     "Your password will expire tomorrow." : "La tua password scadrà domani.",

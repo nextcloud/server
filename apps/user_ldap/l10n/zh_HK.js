@@ -24,8 +24,6 @@ OC.L10N.register(
     "A password is given, but not an LDAP agent" : "已提供密碼，但並未提供 LDAP 代理程式",
     "No password is given for the user agent" : "未提供使用者代理程式的密碼",
     "No LDAP base DN was given" : "未提供 LDAP 基礎 DN",
-    "User base DN is not a subnode of global base DN" : "用戶基礎 DN 不是全域基礎 DN 的子節點",
-    "Group base DN is not a subnode of global base DN" : "群組基礎 DN 不是全域基礎 DN 的子節點",
     "Login filter does not contain %s placeholder." : "登入過濾條件不包含 %s 佔位字串。",
     "Please login with the new password" : "請登入並使用新的密碼",
     "LDAP User backend" : "LDAP 用戶後端系統",

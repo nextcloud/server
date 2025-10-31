@@ -23,8 +23,6 @@ OC.L10N.register(
     "A password is given, but not an LDAP agent" : "Nenosiri limetolewa, lakini si wakala wa LDAP",
     "No password is given for the user agent" : "Hakuna nenosiri lililotolewa kwa wakala wa mtumiaji",
     "No LDAP base DN was given" : "Hakuna msingi wa LDAP wa DN uliotolewa",
-    "User base DN is not a subnode of global base DN" : "Msingi wa mtumiaji DN sio nodi ndogo ya DN ya kimataifa",
-    "Group base DN is not a subnode of global base DN" : "DN ya msingi ya kikundi si nodi ndogo ya DN ya kimataifa",
     "Login filter does not contain %s placeholder." : "Kichujio cha kuingia hakina kishika nafasi %s.",
     "Please login with the new password" : "Tafadhali ingia ukitumia nenosiri jipya ",
     "LDAP User backend" : "Nyuma ya Mtumiaji wa LDAP",

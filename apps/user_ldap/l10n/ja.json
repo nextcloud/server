@@ -22,8 +22,6 @@
     "A password is given, but not an LDAP agent" : "パスワードは与えられています、LDAPエージェントは与えられていません",
     "No password is given for the user agent" : "ユーザーエージェントにパスワードが与えられていません",
     "No LDAP base DN was given" : "LDAPベースDNが指定されていません",
-    "User base DN is not a subnode of global base DN" : "ユーザーベースDNはグローバルベースDNのサブノードではありません",
-    "Group base DN is not a subnode of global base DN" : "グループベースDNがグローバルベースDNのサブノードではありません",
     "Login filter does not contain %s placeholder." : "ログインフィルタに%sプレースホルダが含まれていません。",
     "Please login with the new password" : "新しいパスワードでログインしてください",
     "LDAP User backend" : "LDAPユーザーバックエンド",

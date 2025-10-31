@@ -24,8 +24,6 @@ OC.L10N.register(
     "A password is given, but not an LDAP agent" : "Лозинка је наведена, али LDAP агент није",
     "No password is given for the user agent" : "Није наведена ниједна лозинка за корисничког агента",
     "No LDAP base DN was given" : "Није наведен ниједан LDAP базни DN",
-    "User base DN is not a subnode of global base DN" : "Корисников базни DN није подчвор глобалног базног DN",
-    "Group base DN is not a subnode of global base DN" : "Базни DN групе није подчвор глобалног базног DN",
     "Login filter does not contain %s placeholder." : "Филтер пријаве не садржи %s чувар места",
     "Please login with the new password" : "Пријавите се са новом лозинком",
     "LDAP User backend" : "Позадински механизам за LDAP кориснике",
