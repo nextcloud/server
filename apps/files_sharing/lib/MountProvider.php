@@ -79,10 +79,8 @@ class MountProvider implements IMountProvider {
 		$newMaxValidatedShare = $maxValidatedShare;
 
 		foreach ($superShares as $share) {
+			[$parentShare, $groupedShares] = $share;
 			try {
-				/** @var IShare $parentShare */
-				$parentShare = $share[0];
-
 				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED
 					&& ($parentShare->getShareType() === IShare::TYPE_GROUP
 						|| $parentShare->getShareType() === IShare::TYPE_USERGROUP
@@ -92,7 +90,7 @@ class MountProvider implements IMountProvider {
 
 				$owner = $parentShare->getShareOwner();
 				if (!isset($ownerViews[$owner])) {
-					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
+					$ownerViews[$owner] = new View('/' . $owner . '/files');
 				}
 				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
@@ -103,7 +101,7 @@ class MountProvider implements IMountProvider {
 						// parent share
 						'superShare' => $parentShare,
 						// children/component of the superShare
-						'groupedShares' => $share[1],
+						'groupedShares' => $groupedShares,
 						'ownerView' => $ownerViews[$owner],
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
