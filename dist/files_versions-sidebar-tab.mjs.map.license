@@ -6,7 +6,9 @@ SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
 SPDX-FileCopyrightText: Denis Pushkarev
+SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
@@ -37,7 +39,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.0.1
+	- version: 9.1.0
 	- license: AGPL-3.0-or-later
 - cancelable-promise
 	- version: 4.3.1
@@ -60,8 +62,14 @@ This file is generated from multiple sources. Included packages:
 - path-browserify
 	- version: 1.0.1
 	- license: MIT
+- safe-buffer
+	- version: 5.1.2
+	- license: MIT
 - string_decoder
 	- version: 1.1.1
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
 	- license: MIT
 - vue-material-design-icons
 	- version: 5.3.1
