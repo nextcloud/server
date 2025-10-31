@@ -37,6 +37,7 @@ use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\SabrePluginEvent;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -70,15 +71,13 @@ class ServerFactory {
 		Plugin $authPlugin,
 		callable $viewCallBack,
 	): Server {
+		// /public.php/webdav/ shows the files in the share in the root itself
+		// and not under /public.php/webdav/files/{token} so we should keep
+		// compatibility for that.
+		$needsSharesInRoot = $baseUri === '/public.php/webdav/';
+		$useCollection = $isPublicShare && !$needsSharesInRoot;
 		$debugEnabled = $this->config->getSystemValue('debug', false);
-		// Fire up server
-		if ($isPublicShare) {
-			$rootCollection = new SimpleCollection('root');
-			$tree = new CachingTree($rootCollection);
-		} else {
-			$rootCollection = null;
-			$tree = new ObjectTree();
-		}
+		[$tree, $rootCollection] = $this->getTree($useCollection);
 		$server = new Server($tree);
 		// Set URL explicitly due to reverse-proxy situations
 		$server->httpRequest->setUrl($requestUri);
@@ -127,8 +126,8 @@ class ServerFactory {
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod:*', function () use ($server, $tree,
-			$viewCallBack, $isPublicShare, $rootCollection, $debugEnabled): void {
+		$server->on('beforeMethod:*', function () use ($server,
+			$tree, $viewCallBack, $isPublicShare, $rootCollection, $debugEnabled): void {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 
@@ -147,36 +146,8 @@ class ServerFactory {
 				$root = new File($view, $rootInfo);
 			}
 
-			if ($isPublicShare) {
-				$userPrincipalBackend = new Principal(
-					\OCP\Server::get(IUserManager::class),
-					\OCP\Server::get(IGroupManager::class),
-					\OCP\Server::get(IAccountManager::class),
-					\OCP\Server::get(\OCP\Share\IManager::class),
-					\OCP\Server::get(IUserSession::class),
-					\OCP\Server::get(IAppManager::class),
-					\OCP\Server::get(ProxyMapper::class),
-					\OCP\Server::get(KnownUserService::class),
-					\OCP\Server::get(IConfig::class),
-					\OC::$server->getL10NFactory(),
-				);
-
-				// Mount the share collection at /public.php/dav/shares/<share token>
-				$rootCollection->addChild(new RootCollection(
-					$root,
-					$userPrincipalBackend,
-					'principals/shares',
-				));
-
-				// Mount the upload collection at /public.php/dav/uploads/<share token>
-				$rootCollection->addChild(new \OCA\DAV\Upload\RootCollection(
-					$userPrincipalBackend,
-					'principals/shares',
-					\OCP\Server::get(CleanupService::class),
-					\OCP\Server::get(IRootFolder::class),
-					\OCP\Server::get(IUserSession::class),
-					\OCP\Server::get(\OCP\Share\IManager::class),
-				));
+			if ($rootCollection !== null) {
+				$this->initRootCollection($rootCollection, $root);
 			} else {
 				/** @var ObjectTree $tree */
 				$tree->init($root, $view, $this->mountManager);
@@ -191,7 +162,7 @@ class ServerFactory {
 					$this->userSession,
 					\OCP\Server::get(IFilenameValidator::class),
 					\OCP\Server::get(IAccountManager::class),
-					false,
+					$isPublicShare,
 					!$debugEnabled
 				)
 			);
@@ -251,5 +222,62 @@ class ServerFactory {
 			}
 		}, 30); // priority 30: after auth (10) and acl(20), before lock(50) and handling the request
 		return $server;
+	}
+
+	/**
+	 * Returns a Tree object and, if $useCollection is true, the collection used
+	 * as root.
+	 *
+	 * @param bool $useCollection Whether to use a collection or the legacy
+	 *                            ObjectTree, which doesn't use collections.
+	 * @return array{0: CachingTree|ObjectTree, 1: SimpleCollection|null}
+	 */
+	public function getTree(bool $useCollection): array {
+		if ($useCollection) {
+			$rootCollection = new SimpleCollection('root');
+			$tree = new CachingTree($rootCollection);
+			return [$tree, $rootCollection];
+		}
+
+		return [new ObjectTree(), null];
+	}
+
+	/**
+	 * Adds the user's principal backend to $rootCollection.
+	 */
+	private function initRootCollection(SimpleCollection $rootCollection, Directory|File $root): void {
+		$userPrincipalBackend = new Principal(
+			\OCP\Server::get(IUserManager::class),
+			\OCP\Server::get(IGroupManager::class),
+			\OCP\Server::get(IAccountManager::class),
+			\OCP\Server::get(\OCP\Share\IManager::class),
+			\OCP\Server::get(IUserSession::class),
+			\OCP\Server::get(IAppManager::class),
+			\OCP\Server::get(ProxyMapper::class),
+			\OCP\Server::get(KnownUserService::class),
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(IFactory::class),
+		);
+
+		// Mount the share collection at /public.php/dav/files/<share token>
+		$rootCollection->addChild(
+			new RootCollection(
+				$root,
+				$userPrincipalBackend,
+				'principals/shares',
+			)
+		);
+
+		// Mount the upload collection at /public.php/dav/uploads/<share token>
+		$rootCollection->addChild(
+			new \OCA\DAV\Upload\RootCollection(
+				$userPrincipalBackend,
+				'principals/shares',
+				\OCP\Server::get(CleanupService::class),
+				\OCP\Server::get(IRootFolder::class),
+				\OCP\Server::get(IUserSession::class),
+				\OCP\Server::get(\OCP\Share\IManager::class),
+			)
+		);
 	}
 }
