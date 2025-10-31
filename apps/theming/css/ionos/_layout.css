@@ -1,6 +1,7 @@
 #body-settings #header,
 #body-user #header,
-#body-login #header {
+#body-login #header,
+#body-public #header {
 	box-shadow: var(--ion-shadow-header);
 	background-color: var(--ion-color-main-background) !important;
 	height: var(--header-height);
@@ -19,6 +20,16 @@
 	top: inherit;
 	bottom: inherit;
 	filter: none;
+		@media (prefers-color-scheme: dark) {
+			filter: invert(100%) saturate(1%) brightness(99%) contrast(200%);
+		}
+	}
+
+	.header-info {
+		margin-top: 8px;
+		::before {
+			content: "| ";
+		}
 		@media (prefers-color-scheme: dark) {
 			filter: invert(100%) saturate(1%) brightness(99%) contrast(200%);
 		}
