@@ -287,8 +287,9 @@ class Trashbin {
 		try {
 			$moveSuccessful = true;
 
+			$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
 			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
-			if ($sourceStorage->getCache()->inCache($sourceInternalPath)) {
+			if ($inCache) {
 				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			}
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
