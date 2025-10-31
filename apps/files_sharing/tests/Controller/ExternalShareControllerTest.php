@@ -8,10 +8,9 @@
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
+use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Http\Client\IClientService;
-use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -21,21 +20,13 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package OCA\Files_Sharing\Controllers
  */
 class ExternalShareControllerTest extends \Test\TestCase {
-	/** @var IRequest */
-	private $request;
-	/** @var \OCA\Files_Sharing\External\Manager */
-	private $externalManager;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
+	private IRequest&MockObject $request;
+	private Manager $externalManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
-		$this->clientService = $this->createMock(IClientService::class);
-		$this->config = $this->createMock(IConfig::class);
 	}
 
 	/**
@@ -46,8 +37,6 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
-			$this->clientService,
-			$this->config,
 		);
 	}
 
@@ -61,20 +50,32 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testCreate(): void {
+		$share = $this->createMock(ExternalShare::class);
+		$this->externalManager
+			->expects($this->once())
+			->method('getShare')
+			->with('4')
+			->willReturn($share);
 		$this->externalManager
 			->expects($this->once())
 			->method('acceptShare')
-			->with(4);
+			->with($share);
 
-		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create(4));
+		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create('4'));
 	}
 
 	public function testDestroy(): void {
+		$share = $this->createMock(ExternalShare::class);
+		$this->externalManager
+			->expects($this->once())
+			->method('getShare')
+			->with('4')
+			->willReturn($share);
 		$this->externalManager
 			->expects($this->once())
 			->method('declineShare')
-			->with(4);
+			->with($share);
 
-		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->destroy(4));
+		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->destroy('4'));
 	}
 }

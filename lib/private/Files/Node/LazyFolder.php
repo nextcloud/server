@@ -487,7 +487,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getNonExistingName($name) {
+	public function getNonExistingName($filename) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

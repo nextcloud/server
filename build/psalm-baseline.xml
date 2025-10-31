@@ -1265,7 +1265,6 @@
   </file>
   <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
     <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($shareWith)]]></code>
       <code><![CDATA[\OC_Util::setupFS($user)]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
@@ -1275,7 +1274,6 @@
 					['uid' => &$shareWith]
 				)]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[lastInsertId]]></code>
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>
     </DeprecatedMethod>
@@ -1285,12 +1283,6 @@
       <code><![CDATA[$id]]></code>
       <code><![CDATA[$id]]></code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code><![CDATA[$shareId]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
     <LessSpecificReturnStatement>
@@ -1552,15 +1544,6 @@
       <code><![CDATA[new QueryException()]]></code>
     </DeprecatedClass>
   </file>
-  <file src="apps/files_sharing/lib/Controller/RemoteController.php">
-    <InternalClass>
-      <code><![CDATA[new View('/' . \OC_User::getUser() . '/files/')]]></code>
-    </InternalClass>
-    <InternalMethod>
-      <code><![CDATA[getFileInfo]]></code>
-      <code><![CDATA[new View('/' . \OC_User::getUser() . '/files/')]]></code>
-    </InternalMethod>
-  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <DeprecatedClass>
       <code><![CDATA[new QueryException()]]></code>
@@ -1601,25 +1584,10 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
-    <DeprecatedClass>
-      <code><![CDATA[Files::buildNotExistingFileName($shareFolder, $share['name'])]]></code>
-      <code><![CDATA[Files::buildNotExistingFileName('/', $name)]]></code>
-      <code><![CDATA[Share::RESPONSE_FORMAT]]></code>
-      <code><![CDATA[\OC_Util::setupFS($user)]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
-      <code><![CDATA[Files::buildNotExistingFileName($shareFolder, $share['name'])]]></code>
-      <code><![CDATA[Files::buildNotExistingFileName('/', $name)]]></code>
-      <code><![CDATA[insertIfNotExist]]></code>
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>
     </DeprecatedMethod>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$mount]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[Mount]]></code>
-    </MoreSpecificReturnType>
   </file>
   <file src="apps/files_sharing/lib/External/Scanner.php">
     <DeprecatedInterface>
@@ -4308,14 +4276,8 @@
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InternalMethod>
-      <code><![CDATA[file_exists]]></code>
-      <code><![CDATA[file_exists]]></code>
       <code><![CDATA[getAbsolutePath]]></code>
     </InternalMethod>
-    <InvalidArrayOffset>
-      <code><![CDATA[$matches[0][$last_match]]]></code>
-      <code><![CDATA[$matches[1][$last_match]]]></code>
-    </InvalidArrayOffset>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getQuota]]></code>
     </UndefinedInterfaceMethod>
