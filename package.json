@@ -46,7 +46,7 @@
     "@nextcloud/moment": "^1.2.1",
     "@nextcloud/password-confirmation": "^6.0.1",
     "@nextcloud/paths": "^2.2.1",
-    "@nextcloud/vue": "^9.0.1",
+    "@nextcloud/vue": "^9.1.0",
     "vue": "^3.5.22"
   },
   "devDependencies": {
