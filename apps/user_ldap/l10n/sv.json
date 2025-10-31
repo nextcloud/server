@@ -21,8 +21,6 @@
     "A password is given, but not an LDAP agent" : "Ett lösenord har angetts, men ingen LDAP-agent",
     "No password is given for the user agent" : "Inget lösenord har angetts för användaragenten",
     "No LDAP base DN was given" : "Ingen LDAP-base DN har angetts",
-    "User base DN is not a subnode of global base DN" : "Användarens base DN är inte en undernod till den globala base DN",
-    "Group base DN is not a subnode of global base DN" : "Gruppens base DN är inte en undernod till den globala base DN",
     "Login filter does not contain %s placeholder." : "Inloggningsfiltret innehåller inte %s platshållare.",
     "Please login with the new password" : "Vänligen logga in med det nya lösenordet",
     "LDAP User backend" : "LDAP användarbackend",

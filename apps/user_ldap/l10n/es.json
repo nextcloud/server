@@ -21,8 +21,6 @@
     "A password is given, but not an LDAP agent" : "Se proporcionó una contraseña, pero no un agente LDAP",
     "No password is given for the user agent" : "No se proporcionó una contraseña para el agente de usuario",
     "No LDAP base DN was given" : "No se proporcionó un DN base LDAP",
-    "User base DN is not a subnode of global base DN" : "El DN base de usuario no es un subnodo del DN base global",
-    "Group base DN is not a subnode of global base DN" : "El DN base de grupo no es un subnodo del DN base global",
     "Login filter does not contain %s placeholder." : "El filtro de inicio de sesión no contiene el marcador de posición %s.",
     "Please login with the new password" : "Por favor, entra con la nueva contraseña",
     "LDAP User backend" : "Motor de usuarios LDAP",

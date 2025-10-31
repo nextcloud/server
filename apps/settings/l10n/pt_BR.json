@@ -405,6 +405,7 @@
     "Full match autocompletion restrictions" : "Restrições de preenchimento automático de correspondência completa",
     "Also allow autocompletion on full match of the user ID" : "Permitir também o preenchimento automático em caso de correspondência completa do ID do usuário",
     "Also allow autocompletion on full match of the user email" : "Permitir também o preenchimento automático em caso de correspondência completa do e-mail do usuário.",
+    "Do not use second user displayname for full match" : "Não utilize o segundo nome de exibição do usuário para correspondência completa.",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Exibir o texto do aviso legal na página de upload do link público (somente mostrado quando a lista de arquivos está oculta).",
     "Disclaimer text" : "Texto do aviso legal",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto será mostrado na página de upload do link público quando a lista de arquivos está oculta.",
