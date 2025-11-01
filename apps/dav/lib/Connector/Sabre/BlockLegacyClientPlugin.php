@@ -49,14 +49,17 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 			return;
 		}
 
+		// Check if the client is a desktop client
+		preg_match(IRequest::USER_AGENT_CLIENT_DESKTOP, $userAgent, $versionMatches);
+		if (!isset($versionMatches[1])) {
+			return;
+		}
+
 		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '3.1.0');
 		$maximumSupportedDesktopVersion = $this->config->getSystemValueString('maximum.supported.desktop.version', '99.99.99');
 
-		// Check if the client is a desktop client
-		preg_match(IRequest::USER_AGENT_CLIENT_DESKTOP, $userAgent, $versionMatches);
-
 		// If the client is a desktop client and the version is too old, block it
-		if (isset($versionMatches[1]) && version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
+		if (version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
 			$customClientDesktopLink = htmlspecialchars($this->themingDefaults->getSyncClientUrl());
 			$minimumSupportedDesktopVersion = htmlspecialchars($minimumSupportedDesktopVersion);
 
@@ -64,7 +67,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 		}
 
 		// If the client is a desktop client and the version is too new, block it
-		if (isset($versionMatches[1]) && version_compare($versionMatches[1], $maximumSupportedDesktopVersion) === 1) {
+		if (version_compare($versionMatches[1], $maximumSupportedDesktopVersion) === 1) {
 			$customClientDesktopLink = htmlspecialchars($this->themingDefaults->getSyncClientUrl());
 			$maximumSupportedDesktopVersion = htmlspecialchars($maximumSupportedDesktopVersion);
 
