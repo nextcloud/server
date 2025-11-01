@@ -25,6 +25,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Theming\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Theming\\Command\\UpdateConfig' => __DIR__ . '/..' . '/../lib/Command/UpdateConfig.php',
+        'OCA\\Theming\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\Theming\\Controller\\IconController' => __DIR__ . '/..' . '/../lib/Controller/IconController.php',
         'OCA\\Theming\\Controller\\ThemingController' => __DIR__ . '/..' . '/../lib/Controller/ThemingController.php',
         'OCA\\Theming\\Controller\\UserThemeController' => __DIR__ . '/..' . '/../lib/Controller/UserThemeController.php',
