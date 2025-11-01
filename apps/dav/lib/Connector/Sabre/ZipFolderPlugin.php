@@ -150,13 +150,6 @@ class ZipFolderPlugin extends ServerPlugin {
 			throw new Forbidden($errorMessage);
 		}
 
-		$content = empty($files) ? $folder->getDirectoryListing() : [];
-		foreach ($files as $path) {
-			$child = $node->getChild($path);
-			assert($child instanceof Node);
-			$content[] = $child->getNode();
-		}
-
 		$archiveName = $folder->getName();
 		if (count(explode('/', trim($folder->getPath(), '/'), 3)) === 2) {
 			// this is a download of the root folder
@@ -169,17 +162,42 @@ class ZipFolderPlugin extends ServerPlugin {
 			$rootPath = dirname($folder->getPath());
 		}
 
-		$streamer = new Streamer($tarRequest, -1, count($content), $this->timezoneFactory);
+		$count = $this->getFileCount($folder, $files);
+
+		$streamer = new Streamer($tarRequest, -1, $count, $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive
 		if (empty($files)) {
 			$streamer->addEmptyDir($archiveName);
 		}
+
+		$content = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
 		foreach ($content as $node) {
+			assert($node instanceof NcNode);
 			$this->streamNode($streamer, $node, $rootPath);
 		}
 		$streamer->finalize();
 		return false;
+	}
+
+	/**
+	 * Get the file count so we can decide whether to use zip64 or not
+	 *
+	 * This is only relevant for 32bit systems as on 64bit systems we can always use zip64
+	 */
+	private function getFileCount(NcNode $node, array $files = []): int {
+		if (PHP_INT_SIZE > 4) {
+			return -1;
+		}
+
+		$content = empty($files) ? $node->getDirectoryListing() : $files;
+		$count = 0;
+
+		foreach ($content as $node) {
+			$count += $node instanceof NcFolder ? $this->getFileCount($node) + 1 : 1;
+		}
+
+		return $count;
 	}
 
 	/**

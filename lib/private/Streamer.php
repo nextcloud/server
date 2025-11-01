@@ -80,7 +80,7 @@ class Streamer {
 		if ($preferTar) {
 			// If TAR ball is preferred use it
 			$this->streamerInstance = new TarStreamer();
-		} elseif ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
+		} elseif ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536 && $numberOfFiles >= 0) {
 			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
 		} else {
 			$this->streamerInstance = new ZipStreamer(['zip64' => true]);
