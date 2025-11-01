@@ -1,6 +1,7 @@
 { "translations": {
     "Channel updated" : "チャンネルを更新しました",
     "Web updater is disabled" : "Webアップデータは無効になっています",
+    "Configuration is read-only" : "設定は読み取り専用です",
     "App updated" : "アプリが更新されました",
     "See what's new" : "最新情報を見る",
     "{app} updated to version {version}" : "{app}がバージョン{version}に更新されました",
