@@ -21,18 +21,14 @@ use Test\TestCase;
 class InMemoryFileTest extends TestCase {
 	/**
 	 * Holds a pdf file with know attributes for tests.
-	 *
-	 * @var InMemoryFile
 	 */
-	private $testPdf;
+	private InMemoryFile $testPdf;
 
 	/**
 	 * Sets the test file from "./resources/test.pdf".
-	 *
-	 * @before
-	 * @return void
 	 */
-	public function setupTestPdf() {
+	#[\PHPUnit\Framework\Attributes\Before()]
+	public function setupTestPdf(): void {
 		$fileContents = file_get_contents(
 			__DIR__ . '/../../../data/test.pdf'
 		);

@@ -29,11 +29,9 @@ class GuestAvatarTest extends TestCase {
 
 	/**
 	 * Setups a guest avatar instance for tests.
-	 *
-	 * @before
-	 * @return void
 	 */
-	public function setupGuestAvatar() {
+	#[\PHPUnit\Framework\Attributes\Before()]
+	public function setupGuestAvatar(): void {
 		/* @var MockObject|LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
 		$config = $this->createMock(IConfig::class);
