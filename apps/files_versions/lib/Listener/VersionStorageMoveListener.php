@@ -27,6 +27,7 @@ use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<Event> */
 class VersionStorageMoveListener implements IEventListener {
@@ -36,6 +37,7 @@ class VersionStorageMoveListener implements IEventListener {
 	public function __construct(
 		private IVersionManager $versionManager,
 		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -98,7 +100,21 @@ class VersionStorageMoveListener implements IEventListener {
 				$source = $this->movedNodes[$target->getId()];
 			}
 
-			/** @var File $source */
+			if ($source === null) {
+				$this->logger->warning(
+					'Failed to retrieve source file during version move/copy.',
+					[
+						'eventClass' => get_class($event),
+						'targetPath' => $target->getPath(),
+						'targetId' => $target->getId(),
+						'movedNodesKeys' => array_keys($this->movedNodes),
+						'sourceBackendClass' => get_class($sourceBackend),
+						'targetBackendClass' => get_class($targetBackend),
+					]
+				);
+				return;
+			}
+
 			$this->handleMoveOrCopy($event, $user, $source, $target, $sourceBackend, $targetBackend);
 		} elseif ($target instanceof Folder) {
 			/** @var Folder $source */
