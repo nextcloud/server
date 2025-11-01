@@ -10,12 +10,13 @@ import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { DialogBuilder, showError } from '@nextcloud/dialogs'
-import { FileAction, Permission } from '@nextcloud/files'
+import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import logger from '../logger.ts'
+import { isSyncable } from '../utils/permissions.ts'
 
 export const action = new FileAction({
 	id: 'edit-locally',
@@ -34,7 +35,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		return (nodes[0].permissions & Permission.UPDATE) !== 0
+		return isSyncable(nodes[0])
 	},
 
 	async exec(node: Node) {
