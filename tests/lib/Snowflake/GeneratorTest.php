@@ -13,6 +13,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Snowflake\Decoder;
 use OC\Snowflake\Generator;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\Snowflake\IGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
@@ -22,12 +23,17 @@ use Test\TestCase;
  */
 class GeneratorTest extends TestCase {
 	private Decoder $decoder;
+	private IConfig&MockObject $config;
 
 	public function setUp():void {
 		$this->decoder = new Decoder();
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->method('getSystemValueInt')
+			->with('serverid')
+			->willReturn(42);
 	}
 	public function testGenerator(): void {
-		$generator = new Generator(new TimeFactory());
+		$generator = new Generator(new TimeFactory(), $this->config);
 		$snowflakeId = $generator->nextId();
 		$data = $this->decoder->decode($generator->nextId());
 
@@ -45,6 +51,9 @@ class GeneratorTest extends TestCase {
 
 		// Check CLI
 		$this->assertTrue($data['isCli']);
+
+		// Check serverId
+		$this->assertEquals(42, $data['serverId']);
 	}
 
 	#[DataProvider('provideSnowflakeData')]
@@ -53,11 +62,12 @@ class GeneratorTest extends TestCase {
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('now')->willReturn($dt);
 
-		$generator = new Generator($timeFactory);
+		$generator = new Generator($timeFactory, $this->config);
 		$data = $this->decoder->decode($generator->nextId());
 
 		$this->assertEquals($expectedSeconds, ($data['createdAt']->format('U') - IGenerator::TS_OFFSET));
 		$this->assertEquals($expectedMilliseconds, (int)$data['createdAt']->format('v'));
+		$this->assertEquals(42, $data['serverId']);
 	}
 
 	public static function provideSnowflakeData(): array {

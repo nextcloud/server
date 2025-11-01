@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Snowflake;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\Snowflake\IGenerator;
 use Override;
 
@@ -23,6 +24,7 @@ use Override;
 final class Generator implements IGenerator {
 	public function __construct(
 		private readonly ITimeFactory $timeFactory,
+		private readonly IConfig $config,
 	) {
 	}
 
@@ -99,8 +101,14 @@ final class Generator implements IGenerator {
 		];
 	}
 
+	/**
+	 * Return configured serverid or generate one if not set
+	 */
 	private function getServerId(): int {
-		return crc32(gethostname() ?: random_bytes(8));
+		$serverid = $this->config->getSystemValueInt('serverid', -1);
+		return $serverid > 0
+			? $serverid
+			: crc32(gethostname() ?: random_bytes(8));
 	}
 
 	private function isCli(): bool {
