@@ -119,6 +119,14 @@ trait S3ConnectionTrait {
 			$options['endpoint'] = $base_url;
 		}
 
+		if (isset($this->params['request_checksum_calculation'])) {
+			$options['request_checksum_calculation'] = $this->params['request_checksum_calculation'];
+		}
+
+		if (isset($this->params['response_checksum_validation'])) {
+			$options['response_checksum_validation'] = $this->params['response_checksum_validation'];
+		}
+
 		if ($this->getProxy()) {
 			$options['http']['proxy'] = $this->getProxy();
 		}
