@@ -7,6 +7,7 @@
 namespace Core\Command\Preview;
 
 use OC\Core\Command\Preview\Cleanup;
+use OC\Preview\PreviewService;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -22,15 +23,18 @@ class CleanupTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private InputInterface&MockObject $input;
 	private OutputInterface&MockObject $output;
+	private PreviewService&MockObject $previewService;
 	private Cleanup $repair;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->previewService = $this->createMock(PreviewService::class);
 		$this->repair = new Cleanup(
 			$this->rootFolder,
 			$this->logger,
+			$this->previewService,
 		);
 
 		$this->input = $this->createMock(InputInterface::class);
@@ -38,6 +42,8 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanup(): void {
+		$this->previewService->expects($this->once())->method('deleteAll');
+
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -73,6 +79,8 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWhenNotDeletable(): void {
+		$this->previewService->expects($this->once())->method('deleteAll');
+
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -102,6 +110,8 @@ class CleanupTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestCleanupWithDeleteException')]
 	public function testCleanupWithDeleteException(string $exceptionClass, string $errorMessage): void {
+		$this->previewService->expects($this->once())->method('deleteAll');
+
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -138,6 +148,8 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWithCreateException(): void {
+		$this->previewService->expects($this->once())->method('deleteAll');
+
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -169,6 +181,18 @@ class CleanupTest extends TestCase {
 			}));
 
 		$this->logger->expects($this->once())->method('error')->with("Preview folder was deleted, but you don't have the permission to create preview folder");
+
+		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
+	}
+
+	public function testCleanupWithPreviewServiceException(): void {
+		$this->previewService->expects($this->once())->method('deleteAll')
+			->willThrowException(new NotPermittedException('abc'));
+
+		$this->logger->expects($this->once())->method('error')->with("Previews can't be removed: exception occurred: abc");
+
+		$this->rootFolder->expects($this->never())
+			->method('get');
 
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
 	}
