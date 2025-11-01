@@ -118,7 +118,7 @@ final class Generator implements IGenerator {
 
 		// Use APCu as fastest local cache, but not shared between processes in CLI
 		if (!$this->isCli() && function_exists('apcu_enabled') && apcu_enabled()) {
-			if ((int)apcu_cache_info(true)['creation_time'] === $seconds) {
+			if ((int)apcu_cache_info(true)['start_time'] === $seconds) {
 				// APCu cache was just started
 				// It means a sequence was maybe deleted
 				return false;
