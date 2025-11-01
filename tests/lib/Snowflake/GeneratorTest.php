@@ -12,9 +12,11 @@ namespace Test\Snowflake;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Snowflake\Decoder;
 use OC\Snowflake\Generator;
+use OC\Snowflake\ISequence;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Snowflake\IGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -22,12 +24,17 @@ use Test\TestCase;
  */
 class GeneratorTest extends TestCase {
 	private Decoder $decoder;
+	private ISequence&MockObject $sequence;
 
 	public function setUp():void {
 		$this->decoder = new Decoder();
+		$this->sequence = $this->createMock(ISequence::class);
+		$this->sequence->method('isAvailable')->willReturn(true);
+		$this->sequence->method('nextId')->willReturn(421);
 	}
+
 	public function testGenerator(): void {
-		$generator = new Generator(new TimeFactory());
+		$generator = new Generator(new TimeFactory(), $this->sequence);
 		$snowflakeId = $generator->nextId();
 		$data = $this->decoder->decode($generator->nextId());
 
@@ -53,7 +60,7 @@ class GeneratorTest extends TestCase {
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('now')->willReturn($dt);
 
-		$generator = new Generator($timeFactory);
+		$generator = new Generator($timeFactory, $this->sequence);
 		$data = $this->decoder->decode($generator->nextId());
 
 		$this->assertEquals($expectedSeconds, ($data['createdAt']->format('U') - IGenerator::TS_OFFSET));

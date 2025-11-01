@@ -23,6 +23,7 @@ use Override;
 final class Generator implements IGenerator {
 	public function __construct(
 		private readonly ITimeFactory $timeFactory,
+		private readonly ISequence $sequenceGenerator,
 	) {
 	}
 
@@ -33,7 +34,7 @@ final class Generator implements IGenerator {
 
 		$serverId = $this->getServerId() & 0x1FF; // Keep 9 bits
 		$isCli = (int)$this->isCli(); // 1 bit
-		$sequenceId = $this->getSequenceId($seconds, $milliseconds, $serverId); //  12 bits
+		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
 			// Throttle a bit, wait for next millisecond
 			usleep(1000);
@@ -105,34 +106,5 @@ final class Generator implements IGenerator {
 
 	private function isCli(): bool {
 		return PHP_SAPI === 'cli';
-	}
-
-	/**
-	 * Generates sequence ID from APCu (general case) or random if APCu disabled or CLI
-	 *
-	 * @return int|false Sequence ID or false if APCu not ready
-	 * @throws \Exception if there is an error with APCu
-	 */
-	private function getSequenceId(int $seconds, int $milliseconds, int $serverId): int|false {
-		$key = 'seq:' . $seconds . ':' . $milliseconds;
-
-		// Use APCu as fastest local cache, but not shared between processes in CLI
-		if (!$this->isCli() && function_exists('apcu_enabled') && apcu_enabled()) {
-			if ((int)apcu_cache_info(true)['creation_time'] === $seconds) {
-				// APCu cache was just started
-				// It means a sequence was maybe deleted
-				return false;
-			}
-
-			$sequenceId = apcu_inc($key, success: $success, ttl: 1);
-			if ($success === true) {
-				return $sequenceId;
-			}
-
-			throw new \Exception('Failed to generate SnowflakeId with APCu');
-		}
-
-		// Otherwise, just return a random number
-		return random_int(0, 0xFFF - 1);
 	}
 }
