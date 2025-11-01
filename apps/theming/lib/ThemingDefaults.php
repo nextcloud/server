@@ -10,9 +10,9 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Service\BackgroundService;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -69,27 +69,27 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getName() {
-		return strip_tags($this->appConfig->getValueString('theming', ConfigLexicon::INSTANCE_NAME, $this->name));
+		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->name));
 	}
 
 	public function getHTMLName() {
-		return $this->appConfig->getValueString('theming', ConfigLexicon::INSTANCE_NAME, $this->name);
+		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->name);
 	}
 
 	public function getTitle() {
-		return strip_tags($this->appConfig->getValueString('theming', ConfigLexicon::INSTANCE_NAME, $this->title));
+		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->title));
 	}
 
 	public function getEntity() {
-		return strip_tags($this->appConfig->getValueString('theming', ConfigLexicon::INSTANCE_NAME, $this->entity));
+		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->entity));
 	}
 
 	public function getProductName() {
-		return strip_tags($this->appConfig->getValueString('theming', ConfigLexicon::PRODUCT_NAME, $this->productName));
+		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::PRODUCT_NAME, $this->productName));
 	}
 
 	public function getBaseUrl() {
-		return $this->appConfig->getValueString('theming', ConfigLexicon::BASE_URL, $this->url);
+		return $this->appConfig->getAppValueString(ConfigLexicon::BASE_URL, $this->url);
 	}
 
 	/**
@@ -98,19 +98,19 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @psalm-suppress InvalidReturnType
 	 */
 	public function getSlogan(?string $lang = null): string {
-		return \OCP\Util::sanitizeHTML($this->appConfig->getValueString('theming', ConfigLexicon::INSTANCE_SLOGAN, parent::getSlogan($lang)));
+		return \OCP\Util::sanitizeHTML($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_SLOGAN, parent::getSlogan($lang)));
 	}
 
 	public function getImprintUrl(): string {
-		return $this->appConfig->getValueString('theming', ConfigLexicon::INSTANCE_IMPRINT_URL, '');
+		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_IMPRINT_URL, '');
 	}
 
 	public function getPrivacyUrl(): string {
-		return $this->appConfig->getValueString('theming', ConfigLexicon::INSTANCE_PRIVACY_URL, '');
+		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_PRIVACY_URL, '');
 	}
 
 	public function getDocBaseUrl(): string {
-		return $this->appConfig->getValueString('theming', ConfigLexicon::DOC_BASE_URL, $this->docBaseUrl);
+		return $this->appConfig->getAppValueString(ConfigLexicon::DOC_BASE_URL, $this->docBaseUrl);
 	}
 
 	public function getShortFooter() {
@@ -224,7 +224,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 */
 	public function getDefaultColorPrimary(): string {
 		// try admin color
-		$defaultColor = $this->appConfig->getValueString(Application::APP_ID, 'primary_color', '');
+		$defaultColor = $this->appConfig->getAppValueString('primary_color', '');
 		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
 			return $defaultColor;
 		}
@@ -237,7 +237,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Default background color only taking admin setting into account
 	 */
 	public function getDefaultColorBackground(): string {
-		$defaultColor = $this->appConfig->getValueString(Application::APP_ID, 'background_color');
+		$defaultColor = $this->appConfig->getAppValueString('background_color');
 		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
 			return $defaultColor;
 		}
@@ -252,7 +252,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getLogo($useSvg = true): string {
-		$logo = $this->appConfig->getValueString('theming', 'logoMime', '');
+		$logo = $this->appConfig->getAppValueString('logoMime', '');
 
 		// short cut to avoid setting up the filesystem just to check if the logo is there
 		//
@@ -270,7 +270,7 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 		}
 
-		$cacheBusterCounter = (string)$this->appConfig->getValueInt('theming', ConfigLexicon::CACHE_BUSTER);
+		$cacheBusterCounter = (string)$this->appConfig->getAppValueInt(ConfigLexicon::CACHE_BUSTER);
 		if (!$logo || !$logoExists) {
 			if ($useSvg) {
 				$logo = $this->urlGenerator->imagePath('core', 'logo/logo.svg');
@@ -297,28 +297,28 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getiTunesAppId() {
-		return $this->appConfig->getValueString('theming', 'iTunesAppId', $this->iTunesAppId);
+		return $this->appConfig->getAppValueString('iTunesAppId', $this->iTunesAppId);
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getiOSClientUrl() {
-		return $this->appConfig->getValueString('theming', 'iOSClientUrl', $this->iOSClientUrl);
+		return $this->appConfig->getAppValueString('iOSClientUrl', $this->iOSClientUrl);
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getAndroidClientUrl() {
-		return $this->appConfig->getValueString('theming', 'AndroidClientUrl', $this->AndroidClientUrl);
+		return $this->appConfig->getAppValueString('AndroidClientUrl', $this->AndroidClientUrl);
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getFDroidClientUrl() {
-		return $this->appConfig->getValueString('theming', 'FDroidClientUrl', $this->FDroidClientUrl);
+		return $this->appConfig->getAppValueString('FDroidClientUrl', $this->FDroidClientUrl);
 	}
 
 	/**
@@ -326,7 +326,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @deprecated since Nextcloud 22 - https://github.com/nextcloud/server/issues/9940
 	 */
 	public function getScssVariables() {
-		$cacheBuster = $this->appConfig->getValueInt('theming', ConfigLexicon::CACHE_BUSTER);
+		$cacheBuster = $this->appConfig->getAppValueInt(ConfigLexicon::CACHE_BUSTER);
 		$cache = $this->cacheFactory->createDistributed('theming-' . (string)$cacheBuster . '-' . $this->urlGenerator->getBaseUrl());
 		if ($value = $cache->get('getScssVariables')) {
 			return $value;
@@ -334,10 +334,10 @@ class ThemingDefaults extends \OC_Defaults {
 
 		$variables = [
 			'theming-cachebuster' => "'" . $cacheBuster . "'",
-			'theming-logo-mime' => "'" . $this->appConfig->getValueString('theming', 'logoMime') . "'",
-			'theming-background-mime' => "'" . $this->appConfig->getValueString('theming', 'backgroundMime') . "'",
-			'theming-logoheader-mime' => "'" . $this->appConfig->getValueString('theming', 'logoheaderMime') . "'",
-			'theming-favicon-mime' => "'" . $this->appConfig->getValueString('theming', 'faviconMime') . "'"
+			'theming-logo-mime' => "'" . $this->appConfig->getAppValueString('logoMime') . "'",
+			'theming-background-mime' => "'" . $this->appConfig->getAppValueString('backgroundMime') . "'",
+			'theming-logoheader-mime' => "'" . $this->appConfig->getAppValueString('logoheaderMime') . "'",
+			'theming-favicon-mime' => "'" . $this->appConfig->getAppValueString('faviconMime') . "'"
 		];
 
 		$variables['image-logo'] = "url('" . $this->imageManager->getImageUrl('logo') . "')";
@@ -346,13 +346,13 @@ class ThemingDefaults extends \OC_Defaults {
 		$variables['image-login-background'] = "url('" . $this->imageManager->getImageUrl('background') . "')";
 		$variables['image-login-plain'] = 'false';
 
-		if ($this->appConfig->getValueString(Application::APP_ID, 'primary_color', '') !== '') {
+		if ($this->appConfig->getAppValueString('primary_color', '') !== '') {
 			$variables['color-primary'] = $this->getColorPrimary();
 			$variables['color-primary-text'] = $this->getTextColorPrimary();
 			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
 		}
 
-		if ($this->appConfig->getValueString('theming', 'backgroundMime', '') === 'backgroundColor') {
+		if ($this->appConfig->getAppValueString('backgroundMime', '') === 'backgroundColor') {
 			$variables['image-login-plain'] = 'true';
 		}
 
@@ -418,8 +418,8 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Increases the cache buster key
 	 */
 	public function increaseCacheBuster(): void {
-		$cacheBusterKey = $this->appConfig->getValueInt('theming', ConfigLexicon::CACHE_BUSTER);
-		$this->appConfig->setValueInt('theming', ConfigLexicon::CACHE_BUSTER, $cacheBusterKey + 1);
+		$cacheBusterKey = $this->appConfig->getAppValueInt(ConfigLexicon::CACHE_BUSTER);
+		$this->appConfig->setAppValueInt(ConfigLexicon::CACHE_BUSTER, $cacheBusterKey + 1);
 		$this->cacheFactory->createDistributed('theming-')->clear();
 		$this->cacheFactory->createDistributed('imagePath')->clear();
 	}
@@ -433,14 +433,14 @@ class ThemingDefaults extends \OC_Defaults {
 	public function set($setting, $value): void {
 		switch ($value) {
 			case ConfigLexicon::CACHE_BUSTER:
-				$this->appConfig->setValueInt('theming', ConfigLexicon::CACHE_BUSTER, (int)$value);
+				$this->appConfig->setAppValueInt(ConfigLexicon::CACHE_BUSTER, (int)$value);
 				break;
 			case ConfigLexicon::USER_THEMING_DISABLED:
 				$value = $value === 'true' || $value === 'yes' || $value === '1';
-				$this->appConfig->setValueBool('theming', ConfigLexicon::USER_THEMING_DISABLED, $value);
+				$this->appConfig->setAppValueBool(ConfigLexicon::USER_THEMING_DISABLED, $value);
 				break;
 			default:
-				$this->appConfig->setValueString('theming', $setting, $value);
+				$this->appConfig->setAppValueString($setting, $value);
 				break;
 		}
 		$this->increaseCacheBuster();
@@ -452,9 +452,9 @@ class ThemingDefaults extends \OC_Defaults {
 	public function undoAll(): void {
 		// Remember the current cachebuster value, as we do not want to reset this value
 		// Otherwise this can lead to caching issues as the value might be known to a browser already
-		$cacheBusterKey = $this->appConfig->getValueInt('theming', ConfigLexicon::CACHE_BUSTER);
-		$this->appConfig->deleteApp('theming');
-		$this->appConfig->setValueInt('theming', ConfigLexicon::CACHE_BUSTER, $cacheBusterKey);
+		$cacheBusterKey = $this->appConfig->getAppValueInt(ConfigLexicon::CACHE_BUSTER);
+		$this->appConfig->deleteAppValues();
+		$this->appConfig->setAppValueInt(ConfigLexicon::CACHE_BUSTER, $cacheBusterKey);
 		$this->increaseCacheBuster();
 	}
 
@@ -465,7 +465,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string default value
 	 */
 	public function undo($setting): string {
-		$this->appConfig->deleteKey('theming', $setting);
+		$this->appConfig->deleteAppValue($setting);
 		$this->increaseCacheBuster();
 
 		$returnValue = '';
@@ -494,7 +494,7 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'background':
 			case 'favicon':
 				$this->imageManager->delete($setting);
-				$this->appConfig->deleteKey('theming', $setting . 'Mime');
+				$this->appConfig->deleteAppValue($setting . 'Mime');
 				break;
 		}
 
@@ -532,6 +532,6 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Has the admin disabled user customization
 	 */
 	public function isUserThemingDisabled(): bool {
-		return $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::USER_THEMING_DISABLED, false);
+		return $this->appConfig->getAppValueBool(ConfigLexicon::USER_THEMING_DISABLED, false);
 	}
 }
