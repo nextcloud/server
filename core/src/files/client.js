@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCurrentUser } from '@nextcloud/auth'
 import escapeHTML from 'escape-html'
 import $ from 'jquery'
 import _ from 'underscore'
@@ -958,10 +959,10 @@ import logger from '../logger.js'
 		}
 
 		const client = new OC.Files.Client({
-			host: OC.getHost(),
-			port: OC.getPort(),
-			root: OC.linkToRemoteBase('dav') + '/files/' + OC.getCurrentUser().uid,
-			useHTTPS: OC.getProtocol() === 'https',
+			host: window.location.host,
+			port: window.location.port,
+			root: OC.linkToRemoteBase('dav') + '/files/' + getCurrentUser().uid,
+			useHTTPS: window.location.protocol.startsWith('https'),
 		})
 		OC.Files._defaultClient = client
 		return client

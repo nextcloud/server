@@ -49,12 +49,6 @@ import { currentUser, getCurrentUser } from './currentuser.js'
 import { debug } from './debug.js'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
-import {
-	getHost,
-	getHostName,
-	getPort,
-	getProtocol,
-} from './host.js'
 import L10N from './l10n.js'
 import {
 	hideMenus,
@@ -178,14 +172,6 @@ export default {
 	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
 	 */
 	joinPaths,
-
-	/**
-	 * Host (url) helpers
-	 */
-	getHost,
-	getHostName,
-	getPort,
-	getProtocol,
 
 	/**
 	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
