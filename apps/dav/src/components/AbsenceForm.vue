@@ -28,7 +28,7 @@
 			:options="options"
 			@search="asyncFind" />
 		<NcTextField v-model="status" :label="t('dav', 'Short absence status')" :required="true" />
-		<NcTextArea v-model="message" :label="t('dav', 'Long absence Message')" :required="true" />
+		<NcTextArea v-model="message" :label="t('dav', 'Long absence Message')" :required="true" resize="none" rows="6"/>
 
 		<div class="absence__buttons">
 			<NcButton
@@ -269,6 +269,10 @@ export default {
 				margin-bottom: 0;
 			}
 		}
+	}
+
+	.textarea {
+		height: calc(var(--default-line-height) * 6 * var(--font-size-small) + var(--default-grid-baseline))
 	}
 
 	&__buttons {
