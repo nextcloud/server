@@ -7,6 +7,7 @@
  */
 namespace OCA\Encryption\AppInfo;
 
+use OC\Core\Controller\ClientFlowLoginV2Controller;
 use OC\Core\Events\BeforePasswordResetEvent;
 use OC\Core\Events\PasswordResetEvent;
 use OCA\Encryption\Crypto\Crypt;
@@ -26,6 +27,9 @@ use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -47,7 +51,14 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		\OCP\Util::addScript(self::APP_ID, 'encryption');
+		$context->injectFn(function (IRequest $request, IURLGenerator $urlGenerator): void {
+			$webroot = $urlGenerator->getWebroot();
+			if (str_starts_with($request->getPathInfo(), $webroot . '/login')) {
+				return;
+			}
+
+			\OCP\Util::addScript(self::APP_ID, 'encryption');
+		});
 
 		$context->injectFn(function (IManager $encryptionManager) use ($context): void {
 			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {
