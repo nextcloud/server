@@ -298,7 +298,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.3
 	- license: MIT
 - dompurify
-	- version: 3.2.7
+	- version: 3.3.0
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
