@@ -49,6 +49,18 @@ export default {
 			userSubAdminGroups: this.user.subadmin.map((id) => ({ id, name: id })),
 		}
 	},
+	created() {
+		// Initialize group names from store
+		// This fixes the issue where group IDs were shown instead of names in the NcSelect
+		this.userGroups = this.user.groups.map(id => {
+			const group = this.$store.state.users.groups.find(g => g.id === id)
+			return group ? { id: group.id, name: group.name } : { id, name: id }
+		})
+		this.userSubAdminGroups = this.user.subadmin.map(id => {
+			const group = this.$store.state.users.groups.find(g => g.id === id)
+			return group ? { id: group.id, name: group.name } : { id, name: id }
+		})
+	},
 	computed: {
 		showConfig() {
 			return this.$store.getters.getShowConfig
