@@ -10,10 +10,8 @@
  */
 
 import { User } from '@nextcloud/cypress'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils'
-
-// eslint-disable-next-line n/no-extraneous-import
 import randomString from 'crypto-random-string'
+import { getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -33,8 +31,7 @@ describe('Settings: Group names persist after reload (issue #55785)', () => {
 			// (this confirms our test case is valid)
 			cy.runOccCommand('group:list --output=json').then((result) => {
 				const groups = JSON.parse(result.stdout)
-				const groupEntry = Object.entries(groups).find(([, displayName]) =>
-					(displayName as string).includes(randomPart)
+				const groupEntry = Object.entries(groups).find(([, displayName]) => (displayName as string).includes(randomPart),
 				)
 				if (groupEntry) {
 					const [groupId, displayName] = groupEntry
