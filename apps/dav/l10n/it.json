@@ -70,6 +70,8 @@
     "Description: %s" : "Descrizione: %s",
     "Where: %s" : "Dove: %s",
     "%1$s via %2$s" : "%1$s tramite %2$s",
+    "In the past on %1$s for the entire day" : "In passato ogni %1$s per l'intero giorno",
+    "_In a minute on %1$s for the entire day_::_In %n minutes on %1$s for the entire day_" : ["Fra un minuto di %1$s per l'intero giorno","Fra %n minuti di %1$s per l'intero giorno","Fra %n minuti di %1$s per l'intero giorno"],
     "Every Day for the entire day" : "Ogni giorno per l'intero giorno",
     "Every Day for the entire day until %1$s" : "Ogni Giorno per l'intero giorno fino a %1$s",
     "Every Day between %1$s - %2$s" : "Ogni giorno tra %1$s-%2$s",
