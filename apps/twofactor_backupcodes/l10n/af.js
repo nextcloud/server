@@ -8,9 +8,9 @@ OC.L10N.register(
     "Use backup code" : "Gebruik rugsteunkode",
     "Two factor backup codes" : "Tweefaktorrugsteunkodes",
     "An error occurred while generating your backup codes" : "’n fout het voorgekom tydens generering van u rugsteunkodes",
-    "Save backup codes" : "Bewaar rugsteunkodes",
-    "Print backup codes" : "Druk rugsteunkodes",
     "Regenerate backup codes" : "Hergenereer rugsteunkodes",
+    "Print backup codes" : "Druk rugsteunkodes",
+    "Save backup codes" : "Bewaar rugsteunkodes",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Indien u rugsteunkodes hergenereer maak u outomaties die ou kodes ongeldig.",
     "Submit" : "Dien in"
 },

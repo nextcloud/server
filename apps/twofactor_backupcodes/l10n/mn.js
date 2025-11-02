@@ -8,9 +8,9 @@ OC.L10N.register(
     "Use backup code" : "Нөөц кодыг ашиглах",
     "Two factor backup codes" : "Нөөц кодын хоёр хүчин зүйл",
     "An error occurred while generating your backup codes" : "Таны нөөц кодыг үүсгэх явцад алдаа гарлаа",
-    "Save backup codes" : "Нөөц кодыг хадгалах",
-    "Print backup codes" : "Нөөц кодыг хэвлэх",
     "Regenerate backup codes" : "Нөөц кодыг дахин сэргээх",
+    "Print backup codes" : "Нөөц кодыг хэвлэх",
+    "Save backup codes" : "Нөөц кодыг хадгалах",
     "If you regenerate backup codes, you automatically invalidate old codes." : "хэрвээ нөөц кодыг дахин сэргээх бол, та хуучин кодыг автоматаар хүчингүй болгоно",
     "Submit" : "мэдэгдэх"
 },
