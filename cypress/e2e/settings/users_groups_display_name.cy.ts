@@ -9,19 +9,20 @@
  * group names get hashed to create the group ID).
  */
 
-import { User } from '@nextcloud/cypress'
-import randomString from 'crypto-random-string'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { randomString } from '../../support/utils/randomString.ts'
 import { getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
-describe('Settings: Group names persist after reload (issue #55785)', () => {
+describe('Settings: Group names persist after reload (issue #55785)', { testIsolation: false }, () => {
 	let testUser: User
 	// Use a very long name to ensure Nextcloud hashes it to create the group ID.
 	// This creates a test case where group ID !== group display name.
 	const randomPart = randomString(80)
 	const groupName = `Test Group with Very Long Name ${randomPart}`
 
+	after(() => cy.deleteUser(testUser))
 	before(() => {
 		cy.createRandomUser().then((user) => {
 			testUser = user
@@ -31,8 +32,7 @@ describe('Settings: Group names persist after reload (issue #55785)', () => {
 			// (this confirms our test case is valid)
 			cy.runOccCommand('group:list --output=json').then((result) => {
 				const groups = JSON.parse(result.stdout)
-				const groupEntry = Object.entries(groups).find(([, displayName]) => (displayName as string).includes(randomPart),
-				)
+				const groupEntry = Object.entries(groups).find(([, displayName]) => (displayName as string).includes(randomPart))
 				if (groupEntry) {
 					const [groupId, displayName] = groupEntry
 					cy.log(`Group ID: ${groupId}`)
