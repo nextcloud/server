@@ -70,6 +70,8 @@ class Manager implements IManager {
 	public const LEGACY_PREFIX_TEXTTOIMAGE = 'legacy:TextToImage:';
 	public const LEGACY_PREFIX_SPEECHTOTEXT = 'legacy:SpeechToText:';
 
+	public const TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
+
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
 
@@ -98,6 +100,7 @@ class Manager implements IManager {
 		private IClientService $clientService,
 		private IAppManager $appManager,
 		ICacheFactory $cacheFactory,
+		private IFactory $l10nFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
@@ -738,8 +741,11 @@ class Manager implements IManager {
 	}
 
 	public function getAvailableTaskTypes(): array {
+		// We cache by language, because some task type fields are translated
+		$cacheKey = self::TASK_TYPES_CACHE_KEY . ':' . $this->l10nFactory->findLanguage();
+
 		if ($this->availableTaskTypes === null) {
-			$cachedValue = $this->distributedCache->get('available_task_types_v2');
+			$cachedValue = $this->distributedCache->get($cacheKey);
 			if ($cachedValue !== null) {
 				$this->availableTaskTypes = unserialize($cachedValue);
 			}
@@ -775,7 +781,7 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
-			$this->distributedCache->set('available_task_types_v2', serialize($this->availableTaskTypes), 60);
+			$this->distributedCache->set($cacheKey, serialize($this->availableTaskTypes), 60);
 		}
 
 		return $this->availableTaskTypes;
