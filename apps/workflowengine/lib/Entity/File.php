@@ -188,7 +188,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 					return '';
 				}
 				array_push($options, $tagString, $filename);
-				return $this->l10n->t('%s assigned %s to %s', $options);
+				return $this->l10n->t('%1$s assigned %2$s to %3$s', $options);
 			default:
 				return '';
 		}
