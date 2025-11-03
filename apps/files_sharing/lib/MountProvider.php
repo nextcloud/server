@@ -7,6 +7,7 @@
  */
 namespace OCA\Files_Sharing;
 
+use Exception;
 use InvalidArgumentException;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
@@ -23,6 +24,7 @@ use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
+use function count;
 
 class MountProvider implements IMountProvider {
 	/**
@@ -58,85 +60,10 @@ class MountProvider implements IMountProvider {
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_SCIENCEMESH, null, -1),
 		);
 
-		// filter out shares owned or shared by the user and ones for which
-		// the user has no permissions
-		$shares = array_filter($shares, function (IShare $share) use ($userId) {
-			return $share->getPermissions() > 0 && $share->getShareOwner() !== $userId && $share->getSharedBy() !== $userId;
-		});
-
+		$shares = $this->filterShares($shares, $userId);
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		$allMounts = $this->mountManager->getAll();
-		$mounts = [];
-		$view = new View('/' . $userId . '/files');
-		$ownerViews = [];
-		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($userId);
-		/** @var CappedMemoryCache<bool> $folderExistCache */
-		$foldersExistCache = new CappedMemoryCache();
-
-		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
-		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
-		$newMaxValidatedShare = $maxValidatedShare;
-
-		foreach ($superShares as $share) {
-			[$parentShare, $groupedShares] = $share;
-			try {
-				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED
-					&& ($parentShare->getShareType() === IShare::TYPE_GROUP
-						|| $parentShare->getShareType() === IShare::TYPE_USERGROUP
-						|| $parentShare->getShareType() === IShare::TYPE_USER)) {
-					continue;
-				}
-
-				$owner = $parentShare->getShareOwner();
-				if (!isset($ownerViews[$owner])) {
-					$ownerViews[$owner] = new View('/' . $owner . '/files');
-				}
-				$shareId = (int)$parentShare->getId();
-				$mount = new SharedMount(
-					'\OCA\Files_Sharing\SharedStorage',
-					$allMounts,
-					[
-						'user' => $userId,
-						// parent share
-						'superShare' => $parentShare,
-						// children/component of the superShare
-						'groupedShares' => $groupedShares,
-						'ownerView' => $ownerViews[$owner],
-						'sharingDisabledForUser' => $sharingDisabledForUser
-					],
-					$loader,
-					$view,
-					$foldersExistCache,
-					$this->eventDispatcher,
-					$user,
-					($shareId <= $maxValidatedShare),
-				);
-
-				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);
-
-				$event = new ShareMountedEvent($mount);
-				$this->eventDispatcher->dispatchTyped($event);
-
-				$mounts[$mount->getMountPoint()] = $allMounts[$mount->getMountPoint()] = $mount;
-				foreach ($event->getAdditionalMounts() as $additionalMount) {
-					$allMounts[$additionalMount->getMountPoint()] = $mounts[$additionalMount->getMountPoint()] = $additionalMount;
-				}
-			} catch (\Exception $e) {
-				$this->logger->error(
-					'Error while trying to create shared mount',
-					[
-						'app' => 'files_sharing',
-						'exception' => $e,
-					],
-				);
-			}
-		}
-
-		$validShareCache->set($userId, $newMaxValidatedShare, 24 * 60 * 60);
-
-		// array_filter removes the null values from the array
-		return array_values(array_filter($mounts));
+		return $this->getMountsFromSuperShares($userId, $superShares, $loader, $user);
 	}
 
 	/**
@@ -192,7 +119,7 @@ class MountProvider implements IMountProvider {
 		$groupedShares = $this->groupShares($allShares);
 
 		foreach ($groupedShares as $shares) {
-			if (\count($shares) === 0) {
+			if (count($shares) === 0) {
 				continue;
 			}
 
@@ -316,5 +243,115 @@ class MountProvider implements IMountProvider {
 				['app' => 'files_sharing']
 			);
 		}
+	}
+	/**
+	 * @param string $userId
+	 * @param array $superShares
+	 * @param IStorageFactory $loader
+	 * @param IUser $user
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getMountsFromSuperShares(
+		string $userId,
+		array $superShares,
+		IStorageFactory $loader,
+		IUser $user,
+	): array {
+		$allMounts = $this->mountManager->getAll();
+		$mounts = [];
+		$view = new View('/' . $userId . '/files');
+		$ownerViews = [];
+		$sharingDisabledForUser
+			= $this->shareManager->sharingDisabledForUser($userId);
+		/** @var CappedMemoryCache<bool> $folderExistCache */
+		$foldersExistCache = new CappedMemoryCache();
+
+		$validShareCache
+			= $this->cacheFactory->createLocal('share-valid-mountpoint-max');
+		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
+		$newMaxValidatedShare = $maxValidatedShare;
+
+		foreach ($superShares as $share) {
+			[$parentShare, $groupedShares] = $share;
+			try {
+				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED
+					&& ($parentShare->getShareType() === IShare::TYPE_GROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USERGROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USER)
+				) {
+					continue;
+				}
+
+				$owner = $parentShare->getShareOwner();
+				if (!isset($ownerViews[$owner])) {
+					$ownerViews[$owner] = new View('/' . $owner . '/files');
+				}
+				$shareId = (int)$parentShare->getId();
+				$mount = new SharedMount(
+					'\OCA\Files_Sharing\SharedStorage',
+					$allMounts,
+					[
+						'user' => $userId,
+						// parent share
+						'superShare' => $parentShare,
+						// children/component of the superShare
+						'groupedShares' => $groupedShares,
+						'ownerView' => $ownerViews[$owner],
+						'sharingDisabledForUser' => $sharingDisabledForUser
+					],
+					$loader,
+					$view,
+					$foldersExistCache,
+					$this->eventDispatcher,
+					$user,
+					$shareId <= $maxValidatedShare,
+				);
+
+				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);
+
+				$event = new ShareMountedEvent($mount);
+				$this->eventDispatcher->dispatchTyped($event);
+
+				$mounts[$mount->getMountPoint()]
+				= $allMounts[$mount->getMountPoint()] = $mount;
+				foreach ($event->getAdditionalMounts() as $additionalMount) {
+					$allMounts[$additionalMount->getMountPoint()]
+					= $mounts[$additionalMount->getMountPoint()]
+						= $additionalMount;
+				}
+			} catch (Exception $e) {
+				$this->logger->error(
+					'Error while trying to create shared mount',
+					[
+						'app' => 'files_sharing',
+						'exception' => $e,
+					],
+				);
+			}
+		}
+
+		$validShareCache->set($userId, $newMaxValidatedShare, 24 * 60 * 60);
+
+		// array_filter removes the null values from the array
+		return array_values(array_filter($mounts));
+	}
+
+	/**
+	 * Filters out shares owned or shared by the user and ones for which the
+	 * user has no permissions.
+	 *
+	 * @param IShare[] $shares
+	 * @return IShare[]
+	 */
+	public function filterShares(array $shares, string $userId): array {
+		return array_filter(
+			$shares,
+			static function (IShare $share) use ($userId) {
+				return $share->getPermissions() > 0
+					&& $share->getShareOwner() !== $userId
+					&& $share->getSharedBy() !== $userId;
+			}
+		);
 	}
 }
