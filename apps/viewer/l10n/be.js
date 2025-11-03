@@ -37,6 +37,7 @@ OC.L10N.register(
     "Shadow" : "Цень",
     "Save image as" : "Захаваць відарыс як",
     "Extension" : "Пашырэнне",
+    "Format" : "Фармат",
     "Quality" : "Якасць",
     "Menu" : "Меню"
 },
