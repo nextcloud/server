@@ -73,7 +73,7 @@
     "cypress-vite": "^1.8.0",
     "cypress-wait-until": "^3.0.2",
     "dockerode": "^4.0.9",
-    "eslint": "^9.38.0",
+    "eslint": "^9.39.0",
     "eslint-plugin-cypress": "^5.2.0",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "globals": "^16.4.0",
