@@ -35,6 +35,22 @@ use function count;
 
 class MountProvider implements IMountProvider, IPartialMountProvider {
 
+	private const SUPPORTED_SHARE_TYPES = [
+		IShare::TYPE_USER,
+		IShare::TYPE_GROUP,
+		IShare::TYPE_USERGROUP,
+		IShare::TYPE_CIRCLE,
+		IShare::TYPE_ROOM,
+		IShare::TYPE_DECK,
+		IShare::TYPE_SCIENCEMESH,
+	];
+
+	/**
+	 * Maps internal share types to the right provider
+	 *
+	 * NOTE: this information should come either from the provider or from
+	 * the provider factory!
+	 */
 	private const TYPE_MAPPING = [
 		IShare::TYPE_USERGROUP => IShare::TYPE_GROUP,
 	];
@@ -297,6 +313,14 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 						$uniqueRootIds,
 						IQueryBuilder::PARAM_STR_ARRAY
 					)
+				)
+			)
+			->andWhere(
+				$qb->expr()->in(
+					'share_type',
+					$qb->createNamedParameter(
+						self::SUPPORTED_SHARE_TYPES,
+						IQueryBuilder::PARAM_INT_ARRAY)
 				)
 			)
 			->andWhere(
