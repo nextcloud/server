@@ -622,18 +622,26 @@ class Util {
 	}
 
 	/**
-	 * Sometimes a string has to be shortened to fit within a certain maximum
-	 * data length in bytes. substr() you may break multibyte characters,
-	 * because it operates on single byte level. mb_substr() operates on
-	 * characters, so does not ensure that the shortened string satisfies the
-	 * max length in bytes.
+	 * Shortens a string so that its JSON-encoded byte length does not exceed $dataLength.
 	 *
-	 * For example, json_encode is messing with multibyte characters a lot,
-	 * replacing them with something along "\u1234".
+	 * This is important because:
+	 * - json_encode() may expand some characters as Unicode escape sequences (\uXXXX).
+	 * - Cutting strings with substr() risks breaking multibyte (UTF-8) characters, because it operates on bytes.
+	 * - Unlike substr(), mb_substr() operates on code points ("characters"), so it avoids breaking multibyte
+	 *   code points, but does not guarantee that the shortened string will fit within the specified maximum byte length.
 	 *
-	 * This function shortens the string with by $accuracy (-5) from
-	 * $dataLength characters, until it fits within $dataLength bytes.
+	 * The function takes an initial substring of $subject (up to $dataLength code points, using mb_substr),
+	 * then iteratively trims the string by $accuracy code points until the JSON-encoded length fits within the
+	 * byte limit (excluding the surrounding quotes).
 	 *
+	 * IMPORTANT: Grapheme clusters (such as emojis or complex Unicode sequences) may still be split, resulting in
+	 * broken display. For full grapheme safety, consider using grapheme_substr() or IntlBreakIterator. This
+	 * function could be adapted to use those, but they are slower for mixed strings.
+	 *
+	 * @param string $subject Input string
+	 * @param int $dataLength Maximum allowed byte length after JSON encoding
+	 * @param int $accuracy Number of code points to trim per iteration (default 5)
+	 * @return string Shortened string that satisfies the encoded byte budget
 	 * @since 23.0.0
 	 */
 	public static function shortenMultibyteString(string $subject, int $dataLength, int $accuracy = 5): string {
