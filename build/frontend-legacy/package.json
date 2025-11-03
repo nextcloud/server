@@ -109,7 +109,7 @@
     "@codecov/webpack-plugin": "^1.9.1",
     "@nextcloud/babel-config": "^1.2.0",
     "@nextcloud/typings": "^1.9.1",
-    "@nextcloud/webpack-vue-config": "^6.3.0",
+    "@nextcloud/webpack-vue-config": "^6.3.2",
     "@pinia/testing": "^0.1.7",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/user-event": "^14.6.1",
