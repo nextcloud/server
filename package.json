@@ -76,7 +76,7 @@
     "eslint": "^9.39.0",
     "eslint-plugin-cypress": "^5.2.0",
     "eslint-plugin-no-only-tests": "^3.3.0",
-    "globals": "^16.4.0",
+    "globals": "^16.5.0",
     "jsdom": "^27.0.1",
     "jsdom-testing-mocks": "^1.16.0",
     "sass": "^1.93.3",
