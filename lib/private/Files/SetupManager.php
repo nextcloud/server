@@ -561,7 +561,7 @@ class SetupManager {
 				continue; // skip already setup providers
 			}
 
-			$provider = $providers[$providerClass];
+			$provider = $providers[$providerClass] ?? null;
 			if ($provider === null) {
 				// todo: this happens for IHomeProviders too because they are
 				//  	 not part of the "normal" providers
