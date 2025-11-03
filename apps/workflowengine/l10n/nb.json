@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s åpnet %s",
     "%s renamed %s" : "%s gitt nytt navn %s",
     "%s copied %s" : "%s kopiert %s",
-    "%s assigned %s to %s" : "%s tildelt %s til %s",
     "Operation #%s does not exist" : "Handlingen #%s finnes ikke",
     "Entity %s does not exist" : "Enheten %s eksisterer ikke",
     "Entity %s is invalid" : "Enheten %s er ugyldig",

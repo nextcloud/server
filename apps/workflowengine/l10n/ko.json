@@ -24,7 +24,6 @@
     "%s accessed %s" : "%s님이 %s에 접근함",
     "%s renamed %s" : "%s님이 %s의 이름을 변경함",
     "%s copied %s" : "%s님이 %s을(를) 복사함",
-    "%s assigned %s to %s" : "%s님이 %s을(를) %s(으)로 할당함",
     "Operation #%s does not exist" : "작업 #%s이(가) 존재하지 않음",
     "Entity %s does not exist" : "엔티티 %s이 없습니다.",
     "Entity %s is invalid" : "엔티티 %s이 유효하지 않습니다.",

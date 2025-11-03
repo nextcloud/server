@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s 存取了 %s",
     "%s renamed %s" : "%s 重新命名了 %s",
     "%s copied %s" : "%s 複製了 %s",
-    "%s assigned %s to %s" : "%s 指派了 %s 給 %s",
     "Operation #%s does not exist" : "操作 #%s 不存在",
     "Entity %s does not exist" : "實體 %s 不存在",
     "Entity %s is invalid" : "實體 %s 無效",

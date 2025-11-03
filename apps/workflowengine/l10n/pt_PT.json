@@ -25,7 +25,6 @@
     "%s accessed %s" : "1%s acedido 1%s",
     "%s renamed %s" : "1%s renomeado 1%s",
     "%s copied %s" : "1%s copiado 1%s",
-    "%s assigned %s to %s" : "1%s atribuido 1%s para 1%s",
     "Operation #%s does not exist" : "Operação #1%s não existe",
     "Entity %s does not exist" : "Entidade %s não existe",
     "Entity %s is invalid" : "Entidade %s é inválida",

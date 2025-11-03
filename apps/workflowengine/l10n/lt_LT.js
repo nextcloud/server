@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s pasiekiamas %s",
     "%s renamed %s" : "%s pervadino %s",
     "%s copied %s" : "%s nukopijavo %s",
-    "%s assigned %s to %s" : "%s priskyrė %s į %s",
     "Operation #%s does not exist" : "Operacijos #%s nėra",
     "Entity %s does not exist" : "Subjektas %s neegzistuoja",
     "Entity %s is invalid" : "Subjektas %s yra neteisingas",

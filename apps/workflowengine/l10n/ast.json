@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s accedió a «%s»",
     "%s renamed %s" : "%s renomó «%s»",
     "%s copied %s" : "%s copió «%s»",
-    "%s assigned %s to %s" : "%s asignó «%s» a %s",
     "Operation #%s does not exist" : "La operación #%s nun esiste",
     "Entity %s does not exist" : "La entidá «%s» nun esiste",
     "Entity %s is invalid" : "La entidá «%s» ye inválida",

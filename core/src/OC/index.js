@@ -49,13 +49,6 @@ import { currentUser, getCurrentUser } from './currentuser.js'
 import { debug } from './debug.js'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
-import { get, set } from './get_set.js'
-import {
-	getHost,
-	getHostName,
-	getPort,
-	getProtocol,
-} from './host.js'
 import L10N from './l10n.js'
 import {
 	hideMenus,
@@ -65,7 +58,6 @@ import {
 } from './menu.js'
 import * as MimeType from './mimeType.js'
 import msg from './msg.js'
-import { redirect, reload } from './navigation.js'
 import Notification from './notification.js'
 import PasswordConfirmation from './password-confirmation.js'
 import Plugins from './plugins.js'
@@ -105,14 +97,6 @@ export default {
 	/*
 	 * Deprecated helpers to be removed
 	 */
-	/**
-	 * Check if a user file is allowed to be handled.
-	 *
-	 * @param {string} file to check
-	 * @return {boolean}
-	 * @deprecated 17.0.0
-	 */
-	fileIsBlacklisted: (file) => !!(file.match(Config.blacklist_files_regex)),
 	Apps,
 	AppConfig,
 	appConfig,
@@ -190,14 +174,6 @@ export default {
 	joinPaths,
 
 	/**
-	 * Host (url) helpers
-	 */
-	getHost,
-	getHostName,
-	getPort,
-	getProtocol,
-
-	/**
 	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
 	getCanonicalLocale,
@@ -235,14 +211,6 @@ export default {
 	 */
 	generateUrl,
 	/**
-	 * @deprecated 19.0.0 use https://lodash.com/docs#get
-	 */
-	get: get(window),
-	/**
-	 * @deprecated 19.0.0 use https://lodash.com/docs#set
-	 */
-	set: set(window),
-	/**
 	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	getRootPath: getRootUrl,
@@ -250,8 +218,6 @@ export default {
 	 * @deprecated 19.0.0 use `imagePath` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	imagePath,
-	redirect,
-	reload,
 	requestToken: getRequestToken(),
 	/**
 	 * @deprecated 19.0.0 use `linkTo` from https://www.npmjs.com/package/@nextcloud/router
@@ -290,5 +256,5 @@ subscribe('csrf-token-update', (e) => {
 	OC.requestToken = e.token
 
 	// Logging might help debug (Sentry) issues
-	logger.info('OC.requestToken changed', { token: e.token})
+	logger.info('OC.requestToken changed', { token: e.token })
 })

@@ -9,7 +9,6 @@ namespace Test\TaskProcessing;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
-use OC\EventDispatcher\EventDispatcher;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
@@ -42,6 +41,7 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
+use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
@@ -55,6 +55,7 @@ use OCP\TaskProcessing\TaskTypes\TextToText;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
 use OCP\TextProcessing\SummaryTaskType;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\BackgroundJob\DummyJobList;
 
@@ -234,6 +235,67 @@ class FailingSyncProvider implements IProvider, ISynchronousProvider {
 
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		throw new ProcessingException(self::ERROR_MESSAGE);
+	}
+
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
+	}
+}
+
+
+class FailingSyncProviderWithUserFacingError implements IProvider, ISynchronousProvider {
+	public const ERROR_MESSAGE = 'Failure';
+	public const USER_FACING_ERROR_MESSAGE = 'User-facing Failure';
+	public function getId(): string {
+		return 'test:sync:fail:user-facing';
+	}
+
+	public function getName(): string {
+		return self::class;
+	}
+
+	public function getTaskTypeId(): string {
+		return TextToText::ID;
+	}
+
+	public function getExpectedRuntime(): int {
+		return 10;
+	}
+
+	public function getOptionalInputShape(): array {
+		return [
+			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
+		];
+	}
+
+	public function getOptionalOutputShape(): array {
+		return [
+			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
+		];
+	}
+
+	public function process(?string $userId, array $input, callable $reportProgress): array {
+		throw new UserFacingProcessingException(self::ERROR_MESSAGE, userFacingMessage: self::USER_FACING_ERROR_MESSAGE);
 	}
 
 	public function getInputShapeEnumValues(): array {
@@ -572,18 +634,20 @@ class ConflictingExternalTaskType implements ITaskType {
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class TaskProcessingTest extends \Test\TestCase {
-	private IManager $manager;
-	private Coordinator $coordinator;
+	private Coordinator&MockObject $coordinator;
+	private IServerContainer&MockObject $serverContainer;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IJobList&MockObject $jobList;
+	private IUserMountCache&MockObject $userMountCache;
+	private RegistrationContext&MockObject $registrationContext;
+
+	/** @var array<class-string, IProvider> */
 	private array $providers;
-	private IServerContainer $serverContainer;
-	private IEventDispatcher $eventDispatcher;
-	private RegistrationContext $registrationContext;
-	private TaskMapper $taskMapper;
-	private IJobList $jobList;
-	private IUserMountCache $userMountCache;
-	private IRootFolder $rootFolder;
-	private IConfig $config;
 	private IAppConfig $appConfig;
+	private IConfig $config;
+	private IRootFolder $rootFolder;
+	private TaskMapper $taskMapper;
+	private IManager $manager;
 
 	public const TEST_USER = 'testuser';
 
@@ -593,6 +657,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->providers = [
 			SuccessfulSyncProvider::class => new SuccessfulSyncProvider(),
 			FailingSyncProvider::class => new FailingSyncProvider(),
+			FailingSyncProviderWithUserFacingError::class => new FailingSyncProviderWithUserFacingError(),
 			BrokenSyncProvider::class => new BrokenSyncProvider(),
 			AsyncProvider::class => new AsyncProvider(),
 			AudioToImage::class => new AudioToImage(),
@@ -617,18 +682,11 @@ class TaskProcessingTest extends \Test\TestCase {
 			return $this->providers[$class];
 		});
 
-		$this->eventDispatcher = new EventDispatcher(
-			new \Symfony\Component\EventDispatcher\EventDispatcher(),
-			$this->serverContainer,
-			Server::get(LoggerInterface::class),
-		);
-
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->coordinator->expects($this->any())->method('getRegistrationContext')->willReturn($this->registrationContext);
 
 		$this->rootFolder = Server::get(IRootFolder::class);
-
 		$this->taskMapper = Server::get(TaskMapper::class);
 
 		$this->jobList = $this->createPartialMock(DummyJobList::class, ['add']);
@@ -771,6 +829,36 @@ class TaskProcessingTest extends \Test\TestCase {
 		$task = $this->manager->getTask($task->getId());
 		self::assertEquals(Task::STATUS_FAILED, $task->getStatus());
 		self::assertEquals(FailingSyncProvider::ERROR_MESSAGE, $task->getErrorMessage());
+	}
+
+	public function testProviderShouldBeRegisteredAndFailWithUserFacingMessage(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', FailingSyncProviderWithUserFacingError::class)
+		]);
+		self::assertCount(1, $this->manager->getAvailableTaskTypes());
+		self::assertCount(1, $this->manager->getAvailableTaskTypeIds());
+		self::assertTrue($this->manager->hasProviders());
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		self::assertNull($task->getId());
+		self::assertEquals(Task::STATUS_UNKNOWN, $task->getStatus());
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskFailedEvent::class));
+
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
+			$this->manager,
+			$this->jobList,
+			Server::get(LoggerInterface::class),
+		);
+		$backgroundJob->start($this->jobList);
+
+		$task = $this->manager->getTask($task->getId());
+		self::assertEquals(Task::STATUS_FAILED, $task->getStatus());
+		self::assertEquals(FailingSyncProviderWithUserFacingError::ERROR_MESSAGE, $task->getErrorMessage());
+		self::assertEquals(FailingSyncProviderWithUserFacingError::USER_FACING_ERROR_MESSAGE, $task->getUserFacingErrorMessage());
 	}
 
 	public function testProviderShouldBeRegisteredAndFailOutputValidation(): void {

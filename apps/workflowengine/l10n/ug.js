@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "% s زىيارەت قىلىندى% s",
     "%s renamed %s" : "% s نىڭ ئىسمى% s",
     "%s copied %s" : "% s كۆچۈرۈلگەن% s",
-    "%s assigned %s to %s" : "% s% s دىن% s نى تەقسىم قىلدى",
     "Operation #%s does not exist" : "مەشغۇلات #% s مەۋجۇت ئەمەس",
     "Entity %s does not exist" : "ئورۇن% s مەۋجۇت ئەمەس",
     "Entity %s is invalid" : "ئورۇن% s ئىناۋەتسىز",

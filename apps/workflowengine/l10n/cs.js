@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s přistoupeno k %s",
     "%s renamed %s" : "%s přejmenováno %s",
     "%s copied %s" : "%s zkopírováno %s",
-    "%s assigned %s to %s" : "%s přiřazeno %s k %s",
     "Operation #%s does not exist" : "Operace č. %s neexistuje",
     "Entity %s does not exist" : "Entita %s neexistuje",
     "Entity %s is invalid" : "Entita %s není platná",

@@ -107,7 +107,7 @@ export async function deleteConfig(configId: string): Promise<boolean> {
 		logger.debug('Deleted configuration', { configId })
 	} catch (error) {
 		const errorResponse = (error as AxiosError<OCSResponse>).response
-		showError(errorResponse?.data.ocs.meta.message || t('user_ldap', 'Fail to delete config'))
+		showError(errorResponse?.data.ocs.meta.message || t('user_ldap', 'Failed to delete config'))
 	}
 
 	return true

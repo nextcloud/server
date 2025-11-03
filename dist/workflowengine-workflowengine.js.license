@@ -734,9 +734,6 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
-- vuex
-	- version: 3.6.2
-	- license: MIT
 - webpack
 	- version: 5.102.1
 	- license: MIT

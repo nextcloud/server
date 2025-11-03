@@ -21,8 +21,6 @@
     "A password is given, but not an LDAP agent" : "A jelszó meg lett adva, de az LDAP ügynök nem",
     "No password is given for the user agent" : "Nem lett jelszó megadva a felhasználói ügynökhöz",
     "No LDAP base DN was given" : "Nem lett LDAP alap DN megadva",
-    "User base DN is not a subnode of global base DN" : "A felhasználó alap DN-je nem a globális alap DN alcsomópontja",
-    "Group base DN is not a subnode of global base DN" : "A csoport alap DN-je nem a globális alap DN alcsomópontja",
     "Login filter does not contain %s placeholder." : "A bejelentkezési szűrő nem tartalmazza a(z) %s helyőrzőt.",
     "Please login with the new password" : "Jelentkezzen be az új jelszóval",
     "LDAP User backend" : "LDAP felhasználói háttérszolgáltatás",

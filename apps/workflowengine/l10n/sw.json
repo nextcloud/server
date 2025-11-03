@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s imefikiwa %s",
     "%s renamed %s" : "%s imepewa jina jipya %s",
     "%s copied %s" : "%s imenakiliwa %s",
-    "%s assigned %s to %s" : "%simekabidhiwa  %s kwa %s",
     "Operation #%s does not exist" : "Operesheni #%s haipo",
     "Entity %s does not exist" : "Huluki %s haipo",
     "Entity %s is invalid" : "Huluki %s si sahihi",
