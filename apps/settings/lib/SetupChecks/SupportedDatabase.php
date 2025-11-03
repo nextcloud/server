@@ -20,8 +20,8 @@ class SupportedDatabase implements ISetupCheck {
 	private const MAX_MARIADB = '11.8';
 	private const MIN_MYSQL = '8.0';
 	private const MAX_MYSQL = '8.4';
-	private const MIN_POSTGRES = '13';
-	private const MAX_POSTGRES = '17';
+	private const MIN_POSTGRES = '14';
+	private const MAX_POSTGRES = '18';
 
 	public function __construct(
 		private IL10N $l10n,
