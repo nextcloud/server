@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s ha eseguito l'accesso a %s",
     "%s renamed %s" : "%s ha rinominato %s",
     "%s copied %s" : "%s ha copiato %s",
-    "%s assigned %s to %s" : "%s ha assegnato %s a %s",
     "Operation #%s does not exist" : "L'operazione #%s non esiste",
     "Entity %s does not exist" : "L'entità %s non esiste",
     "Entity %s is invalid" : "L'entità %s non è valida",

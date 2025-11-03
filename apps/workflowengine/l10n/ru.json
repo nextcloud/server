@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s получил(а) доступ к %s",
     "%s renamed %s" : "%s переименовал(а) %s",
     "%s copied %s" : "%s скопировал(а) %s",
-    "%s assigned %s to %s" : "%s присвоила(а) метку %s файлу %s",
     "Operation #%s does not exist" : "Операция #%s не существует",
     "Entity %s does not exist" : "Сущность %s не существует",
     "Entity %s is invalid" : "Сущность %s неверна",

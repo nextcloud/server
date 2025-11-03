@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s отримав(-ла) доступ до %s",
     "%s renamed %s" : "%s перейменував(-ла) %s",
     "%s copied %s" : "%s скопіював(-ла) %s",
-    "%s assigned %s to %s" : "%s призначив(-ла) мітку%s файлу %s",
     "Operation #%s does not exist" : "Операція №%s не існує",
     "Entity %s does not exist" : "Об'єкт %s відсутній ",
     "Entity %s is invalid" : "Об'єкт %s не дійсний",

@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s öppnade %s",
     "%s renamed %s" : "%s omdöpt %s",
     "%s copied %s" : "%s kopierad %s",
-    "%s assigned %s to %s" : "%s tilldelad %s till %s",
     "Operation #%s does not exist" : "Operationen #%s existerar inte",
     "Entity %s does not exist" : "Objekt 1%s finns inte",
     "Entity %s is invalid" : "Entitet %s är ogiltig",

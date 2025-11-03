@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s dostopi do %s",
     "%s renamed %s" : "%s preimenuje %s",
     "%s copied %s" : "%s kopira %s",
-    "%s assigned %s to %s" : "%s dodeli %s za %s",
     "Operation #%s does not exist" : "Opravilo #%s ne obstaja.",
     "Entity %s does not exist" : "Predmet %s ne obstaja.",
     "Entity %s is invalid" : "Predmet %s ni veljaven.",

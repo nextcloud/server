@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s が %s にアクセス",
     "%s renamed %s" : "%s が %s をリネーム",
     "%s copied %s" : "%s を %s に複製",
-    "%s assigned %s to %s" : "%s が %s を %s に割り当て",
     "Operation #%s does not exist" : "#%s 操作は存在しません",
     "Entity %s does not exist" : "エンティティー %s がありません",
     "Entity %s is invalid" : "エンティティー %s が間違っています",

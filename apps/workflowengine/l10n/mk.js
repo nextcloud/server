@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s пристапи %s",
     "%s renamed %s" : "%s преименува %s",
     "%s copied %s" : "%s копираше %s",
-    "%s assigned %s to %s" : "%s пристапи %s до %s",
     "Operation #%s does not exist" : "Операцијата #%s не постои",
     "Entity %s does not exist" : "Субјектот %s не постои",
     "Entity %s is invalid" : "Субјектот %s е невалиден",

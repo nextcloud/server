@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s достъпи %s",
     "%s renamed %s" : "%s преименува %s",
     "%s copied %s" : "%s копира %s",
-    "%s assigned %s to %s" : "%s присвои %s на %s",
     "Operation #%s does not exist" : "Операция #%s не съществува",
     "Entity %s does not exist" : "Обект %s не съществува",
     "Entity %s is invalid" : "Обект %s е невалиден",

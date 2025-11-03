@@ -190,7 +190,6 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Очистити картографію Імен груп-LDAP",
     "Confirm action" : "Підтвердити дію",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Ви впевнені, що хочете назавжди видалити цю конфігурацію LDAP? Це не можна скасувати.",
-    "Fail to delete config" : "Не вдається видалити конфігурацію",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Ви впевнені, що хочете назавжди очистити зіставлення LDAP? Це не можна скасувати.",
     "Mapping cleared" : "Карту очищено",
     "Failed to clear mapping" : "Не вдалося очистити мапу",
