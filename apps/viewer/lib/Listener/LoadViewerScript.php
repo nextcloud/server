@@ -19,6 +19,7 @@ use OCP\Util;
 
 /**
  * @template-implements IEventListener<Event>
+ * @psalm-api
  */
 class LoadViewerScript implements IEventListener {
 	private IInitialState $initialStateService;
