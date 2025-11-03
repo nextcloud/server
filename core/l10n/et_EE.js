@@ -180,7 +180,7 @@ OC.L10N.register(
     "Rich Text document" : "Vormindatud tekstidokument",
     "Electronic business card" : "Elektrooniline visiitkaart",
     "C++ source code" : "C++ lähtekood",
-    "LDIF address book" : "LDIF-i aaddressiraamat",
+    "LDIF address book" : "LDIF-i aadressiraamat",
     "NFO document" : "NFO-dokument",
     "PHP source" : "PHP lähtekood",
     "Python script" : "Pythoni skript",

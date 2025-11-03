@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s hat auf %s zugegriffen",
     "%s renamed %s" : "%s hat %s umbenannt",
     "%s copied %s" : "%s hat %s kopiert",
-    "%s assigned %s to %s" : "%s hat %s an %s zugewiesen",
     "Operation #%s does not exist" : "Operation #%s existert nicht",
     "Entity %s does not exist" : "Entität %s existiert nicht",
     "Entity %s is invalid" : "Entität %s ist ungültig",

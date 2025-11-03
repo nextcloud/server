@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s accessed %s",
     "%s renamed %s" : "%s renamed %s",
     "%s copied %s" : "%s copied %s",
-    "%s assigned %s to %s" : "%s assigned %s to %s",
     "Operation #%s does not exist" : "عمل %s وجود ندارد",
     "Entity %s does not exist" : "Entity %s does not exist",
     "Entity %s is invalid" : "Entity %s is invalid",

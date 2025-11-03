@@ -187,7 +187,6 @@
     "Clear Groupname-LDAP Group Mapping" : "Cancella associazione Nome gruppo-Gruppo LDAP",
     "Confirm action" : "Conferma azione",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Vuoi davvero eliminare definitivamente questa configurazione LDAP? Questa operazione non può essere annullata.",
-    "Fail to delete config" : "Impossibile eliminare la configurazione",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Vuoi davvero cancellare definitivamente la mappatura LDAP? Questa operazione non può essere annullata.",
     "Mapping cleared" : "Mappatura cancellata",
     "Failed to clear mapping" : "Impossibile cancellare la mappatura",

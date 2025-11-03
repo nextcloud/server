@@ -189,7 +189,6 @@
     "Clear Groupname-LDAP Group Mapping" : "清除群組名稱-LDAP 群組映射",
     "Confirm action" : "確認動作",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "您確定您想要永久刪除此 LDAP 組態嗎？這無法還原。",
-    "Fail to delete config" : "刪除組態失敗",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "您確定您想要永久清除 LDAP 對映嗎？這無法還原。",
     "Mapping cleared" : "已清除對映",
     "Failed to clear mapping" : "清除對映失敗",

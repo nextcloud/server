@@ -122,7 +122,6 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
     "Confirm action" : "Kinnita tegevus",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Kas oled kindel, et tahad lõplikult kustutada selle LDAP-i seadistuse? Seda tegevust ei saa tagasi keerata.",
-    "Fail to delete config" : "Seadistuse kustutamine ei õnnestunud",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Kas oled kindel, et tahad lõplikult eemaldada LDAP-i vastendused? Seda tegevust ei saa tagasi keerata.",
     "Mapping cleared" : "Vastendused on eemaldatud",
     "Failed to clear mapping" : "Vastenduste eemaldamine ei õnnestunud",

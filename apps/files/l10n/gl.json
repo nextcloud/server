@@ -350,7 +350,7 @@
     "One of the dropped files could not be processed" : "Non foi posíbel procesar un dos ficheiros arrastrados",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "O seu navegador non é compatíbel coa API do sistema de ficheiros. Os directorios non van ser enviados",
     "No files to upload" : "Non hai ficheiros que enviar",
-    "Unable to create the directory {directory}" : "Non foi posíbel crear o directorio {directory}",
+    "Unable to create the directory {directory}" : "Non é posíbel crear o directorio {directory}",
     "Some files could not be uploaded" : "Non foi posíbel enviar algúns ficheiros",
     "Files uploaded successfully" : "Ficheiros enviados satisfactoriamente",
     "No files to process" : "Non hai ficheiros para procesar",

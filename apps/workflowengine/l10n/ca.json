@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s ha accedit %s",
     "%s renamed %s" : "%s ha renombrat %s",
     "%s copied %s" : "%s ha copiat %s",
-    "%s assigned %s to %s" : "%s ha assignat %s a %s",
     "Operation #%s does not exist" : "L'operació #%s no existeix",
     "Entity %s does not exist" : "L'entitat %s no existeix",
     "Entity %s is invalid" : "L'entitat %s no és vàlida",

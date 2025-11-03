@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s opende %s",
     "%s renamed %s" : "%s hernoemde %s",
     "%s copied %s" : "%s kopieerde %s",
-    "%s assigned %s to %s" : "%s wees %s toe aan %s",
     "Operation #%s does not exist" : "Bewerking #%s bestaat niet",
     "Entity %s does not exist" : "Entiteit %s bestaat niet",
     "Entity %s is invalid" : "Entiteit %s is ongeldig",

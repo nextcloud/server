@@ -189,7 +189,6 @@
     "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする",
     "Confirm action" : "アクションの確認",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "このLDAP設定を完全に削除してもよろしいですか？この操作は元に戻せません。",
-    "Fail to delete config" : "設定の削除に失敗しました",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "LDAPマッピングを完全に削除してもよろしいですか？この操作は元に戻せません。",
     "Mapping cleared" : "マッピングがクリアされました",
     "Failed to clear mapping" : "マッピングをクリアできませんでした",
