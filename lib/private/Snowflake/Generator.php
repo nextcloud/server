@@ -21,6 +21,10 @@ use Override;
  * @since 33.0.0
  */
 final class Generator implements IGenerator {
+	private int $lastSeconds = -1;
+	private int $lastMilliseconds = -1;
+	private int $sequence;
+
 	public function __construct(
 		private readonly ITimeFactory $timeFactory,
 	) {
@@ -124,6 +128,7 @@ final class Generator implements IGenerator {
 				return false;
 			}
 
+			$success = false;
 			$sequenceId = apcu_inc($key, success: $success, ttl: 1);
 			if ($success === true) {
 				return $sequenceId;
@@ -133,6 +138,18 @@ final class Generator implements IGenerator {
 		}
 
 		// Otherwise, just return a random number
-		return random_int(0, 0xFFF - 1);
+		if ($this->lastSeconds === $seconds && $this->lastMilliseconds === $milliseconds) {
+			$this->sequence++;
+			$this->lastSeconds = $seconds;
+			$this->lastMilliseconds = $milliseconds;
+
+			return $this->sequence;
+		}
+
+		$this->sequence = crc32(uniqid((string)random_int(0, PHP_INT_MAX), true)) % 0xFFF;
+		$this->lastSeconds = $seconds;
+		$this->lastMilliseconds = $milliseconds;
+
+		return $this->sequence;
 	}
 }
