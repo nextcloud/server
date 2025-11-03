@@ -29,7 +29,6 @@
 	},
 	"require-dev": {
 		"nextcloud/coding-standard": "^1.2.0",
-		"phpunit/phpunit": "^9",
 		"bamarni/composer-bin-plugin": "^1.8"
 	}
 }
