@@ -79,7 +79,7 @@
     "globals": "^16.4.0",
     "jsdom": "^27.0.1",
     "jsdom-testing-mocks": "^1.16.0",
-    "sass": "^1.93.2",
+    "sass": "^1.93.3",
     "stylelint": "^16.25.0",
     "stylelint-use-logical": "^2.1.2",
     "ts-node": "^10.9.2",
