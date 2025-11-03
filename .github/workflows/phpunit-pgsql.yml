@@ -61,13 +61,13 @@ jobs:
       matrix:
         php-versions: ['8.2']
         # To keep the matrix smaller we ignore PostgreSQL versions in between as we already test the minimum and the maximum
-        postgres-versions: ['13', '17']
+        postgres-versions: ['14', '18']
         include:
           - php-versions: '8.3'
-            postgres-versions: '17'
+            postgres-versions: '18'
             coverage: ${{ github.event_name != 'pull_request' }}
           - php-versions: '8.4'
-            postgres-versions: '17'
+            postgres-versions: '18'
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -86,7 +86,7 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: rootpassword
           POSTGRES_DB: nextcloud
-        options: --mount type=tmpfs,destination=/var/lib/postgresql/data --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
+        options: --mount type=tmpfs,destination=/var/lib/postgresql --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
 
     steps:
       - name: Checkout server
