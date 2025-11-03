@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s tilgik %s",
     "%s renamed %s" : "%s omdøbte  %s",
     "%s copied %s" : "%s kopierede %s",
-    "%s assigned %s to %s" : "%s tilknyttede %s til %s",
     "Operation #%s does not exist" : "Operation #%s eksisterer ikke",
     "Entity %s does not exist" : "Entitet %s eksisterer ikke",
     "Entity %s is invalid" : "Entitet %s er ugyldig",

@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s تم الوصول إليه %s",
     "%s renamed %s" : "%s مُعاد تسميته %s",
     "%s copied %s" : "%s منسوخ %s",
-    "%s assigned %s to %s" : "%s مُسند %s إلى %s",
     "Operation #%s does not exist" : "العملية #%s غير موجودة",
     "Entity %s does not exist" : "الكيان %s غير موجود",
     "Entity %s is invalid" : "الكيان %s غير مقبول",

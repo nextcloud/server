@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s pristupené k %s",
     "%s renamed %s" : "%s premenované %s",
     "%s copied %s" : "%s skopírovné %s",
-    "%s assigned %s to %s" : "%s priradené %s k %s",
     "Operation #%s does not exist" : "Operácia #%s neexistuje",
     "Entity %s does not exist" : "Entita%s neexistuje",
     "Entity %s is invalid" : "Entita %s je neplatná",

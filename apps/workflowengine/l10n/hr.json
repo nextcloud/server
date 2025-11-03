@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s je pristupio %s",
     "%s renamed %s" : "%s je preimenovao %s",
     "%s copied %s" : "%s je kopirao %s",
-    "%s assigned %s to %s" : "%s je dodijelio %s %s",
     "Operation #%s does not exist" : "Radnja #%s ne postoji",
     "Entity %s does not exist" : "Entitet %s ne postoji",
     "Entity %s is invalid" : "Entitet %s nije valjan",

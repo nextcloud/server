@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s kasutas töövoogu %s",
     "%s renamed %s" : "%s muutis %s nime",
     "%s copied %s" : "%s kopeeris %s",
-    "%s assigned %s to %s" : "%s määras %s kasutajale %s",
     "Operation #%s does not exist" : "Tegevus # %s ei leitud",
     "Entity %s does not exist" : "%s objekti pole olemas",
     "Entity %s is invalid" : "%s objekt on vigane",

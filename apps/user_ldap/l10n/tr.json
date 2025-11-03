@@ -189,7 +189,6 @@
     "Clear Groupname-LDAP Group Mapping" : "Grup Adı-LDAP Grubu Eşleştirmesini Kaldır",
     "Confirm action" : "İşlemi onayla",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Bu LDAP yapılandırmasını kalıcı olarak silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
-    "Fail to delete config" : "Yapılandırma silinemedi",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "LDAP eşleştirmesini kalıcı olarak kaldırmak istediğinize emin misiniz? Bu işlem geri alınamaz.",
     "Mapping cleared" : "Eşleştirme kaldırıldı",
     "Failed to clear mapping" : "Eşleştirme kaldırılamadı",

@@ -191,7 +191,6 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Czyść Mapowanie nazwy grupy LDAP",
     "Confirm action" : "Potwierdź akcję",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Czy na pewno chcesz trwale usunąć tę konfigurację LDAP? Tej operacji nie można cofnąć.",
-    "Fail to delete config" : "Nie udało się usunąć konfiguracji",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Czy na pewno chcesz trwale wyczyścić mapowanie LDAP? Tej operacji nie można cofnąć.",
     "Mapping cleared" : "Mapowanie wyczyszczone",
     "Failed to clear mapping" : "Nie udało się wyczyścić mapowania",

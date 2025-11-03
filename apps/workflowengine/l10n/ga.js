@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s rochtain %s",
     "%s renamed %s" : "%s athainmnithe %s",
     "%s copied %s" : "%s chóipeáil %s",
-    "%s assigned %s to %s" : "%s sannta %s do %s",
     "Operation #%s does not exist" : "Níl oibríocht # %s ann",
     "Entity %s does not exist" : "Níl aonán %s ann",
     "Entity %s is invalid" : "Tá aonán %s neamhbhailí",

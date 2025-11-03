@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s hozzáfért a következőhöz: %s",
     "%s renamed %s" : "%s átnevezte a következőt: %s",
     "%s copied %s" : "%s átmásolta a következőt: %s",
-    "%s assigned %s to %s" : "%s hozzárendelte a következőt: %s, hozzá: %s",
     "Operation #%s does not exist" : "A(z) #%s művelet nem létezik",
     "Entity %s does not exist" : "A(z) %s entitás nem létezik",
     "Entity %s is invalid" : "A(z) %s entitás érvénytelen",

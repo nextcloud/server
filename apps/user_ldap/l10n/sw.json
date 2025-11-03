@@ -188,7 +188,6 @@
     "Clear Groupname-LDAP Group Mapping" : "Futa Ramani ya Kikundi cha Groupname-LDAP",
     "Confirm action" : "Thibitisha kitendo",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Je, una uhakika unataka kufuta kabisa usanidi huu wa LDAP? Hili haliwezi kutenduliwa.",
-    "Fail to delete config" : "Imeshindwa kufuta usanidi",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Je, una uhakika unataka kufuta kabisa ramani ya LDAP? Hili haliwezi kutenduliwa.",
     "Mapping cleared" : "Uchoraji ramani umefutwa",
     "Failed to clear mapping" : "Imeshindwa kufuta uchoraji ramani",
