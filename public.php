@@ -89,7 +89,7 @@ try {
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
-	if ($ex instanceof ServiceUnavailableException && $ex->getCode === 0) {
+	if ($ex instanceof ServiceUnavailableException && $ex->getCode() === 0) {
 		$status = 503;
 	}
 	if ($ex->getCode() > 0) {
