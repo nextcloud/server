@@ -1341,6 +1341,39 @@ class Manager implements IManager {
 		return $shares;
 	}
 
+	public function getSharedWithByNodes(
+		$userId,
+		$shareType,
+		$nodeIds,
+		$limit = 50,
+		$offset = 0,
+	) {
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return [];
+		}
+
+		if (!$provider instanceof IShareProvider) { // should be
+			// IShareProviderSupportsByNode
+			// load all shares for the user and filter them by node id
+			return [];
+		}
+
+		$shares = $provider->getSharedWithByNodeIds($userId, $shareType, $nodeIds, $limit, $offset);
+
+		// remove all shares which are already expired
+		foreach ($shares as $key => $share) {
+			try {
+				$this->checkShare($share);
+			} catch (ShareNotFound $e) {
+				unset($shares[$key]);
+			}
+		}
+
+		return $shares;
+	}
+
 	/**
 	 * @inheritdoc
 	 */

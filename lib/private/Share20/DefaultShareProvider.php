@@ -948,6 +948,120 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $shares;
 	}
 
+	public function getSharedWithByNodeIds($userId, $shareType, $nodeIds, $limit, $offset) {
+		/** @var Share[] $shares */
+		$shares = [];
+
+		if ($shareType === IShare::TYPE_USER) {
+			//Get shares directly with this user
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->select('s.*',
+				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+				'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+				'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
+			)
+				->selectAlias('st.id', 'storage_string_id')
+				->from('share', 's')
+				->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+				->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'));
+
+			// Order by id
+			$qb->orderBy('s.id');
+
+			// Set limit and offset
+			if ($limit !== -1) {
+				$qb->setMaxResults($limit);
+			}
+			$qb->setFirstResult($offset);
+
+			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)))
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
+				->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+				->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($nodeIds, IQueryBuilder::PARAM_INT_ARRAY)));
+
+			$cursor = $qb->executeQuery();
+
+			while ($data = $cursor->fetch()) {
+				if ($data['fileid'] && $data['path'] === null) {
+					$data['path'] = (string)$data['path'];
+					$data['name'] = (string)$data['name'];
+					$data['checksum'] = (string)$data['checksum'];
+				}
+				if ($this->isAccessibleResult($data)) {
+					$shares[] = $this->createShare($data);
+				}
+			}
+			$cursor->closeCursor();
+		} elseif ($shareType === IShare::TYPE_GROUP) {
+			$user = new LazyUser($userId, $this->userManager);
+			$allGroups = $this->groupManager->getUserGroupIds($user);
+
+			/** @var Share[] $shares2 */
+			$shares2 = [];
+
+			$start = 0;
+			while (true) {
+				$groups = array_slice($allGroups, $start, 1000);
+				$start += 1000;
+
+				if ($groups === []) {
+					break;
+				}
+
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->select('s.*',
+					'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+					'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+					'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
+				)
+					->selectAlias('st.id', 'storage_string_id')
+					->from('share', 's')
+					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+					->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
+					->orderBy('s.id')
+					->setFirstResult(0);
+
+				if ($limit !== -1) {
+					$qb->setMaxResults($limit - count($shares));
+				}
+
+				$groups = array_filter($groups);
+
+				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+					->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
+						$groups,
+						IQueryBuilder::PARAM_STR_ARRAY
+					)))
+					->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+					->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($nodeIds, IQueryBuilder::PARAM_INT_ARRAY)));
+
+				$cursor = $qb->executeQuery();
+				while ($data = $cursor->fetch()) {
+					if ($offset > 0) {
+						$offset--;
+						continue;
+					}
+
+					if ($this->isAccessibleResult($data)) {
+						$share = $this->createShare($data);
+						$shares2[$share->getId()] = $share;
+					}
+				}
+				$cursor->closeCursor();
+			}
+
+			/*
+			 * Resolve all group shares to user specific shares
+			 */
+			$shares = $this->resolveGroupShares($shares2, $userId);
+		} else {
+			throw new BackendError('Invalid backend');
+		}
+
+
+		return $shares;
+	}
+
 	/**
 	 * Get a share by token
 	 *

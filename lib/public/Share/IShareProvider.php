@@ -147,6 +147,8 @@ interface IShareProvider {
 	 */
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset);
 
+	public function getSharedWithByNodeIds($userId, $shareType, $nodeIds, $limit, $offset);
+
 	/**
 	 * Get a share by token
 	 *
