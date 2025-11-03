@@ -5,6 +5,6 @@
 $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
-return array(
-    'OCA\\Viewer\\' => array($baseDir . '/lib'),
-);
+return [
+	'OCA\\Viewer\\' => [$baseDir . '/lib'],
+];
