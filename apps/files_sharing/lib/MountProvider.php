@@ -9,24 +9,36 @@ namespace OCA\Files_Sharing;
 
 use Exception;
 use InvalidArgumentException;
+use LogicException;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IPartialMountProvider;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
+use function array_filter;
+use function array_values;
 use function count;
 
-class MountProvider implements IMountProvider {
+class MountProvider implements IMountProvider, IPartialMountProvider {
+
+	private const TYPE_MAPPING = [
+		IShare::TYPE_USERGROUP => IShare::TYPE_GROUP,
+	];
+
 	/**
 	 * @param IConfig $config
 	 * @param IManager $shareManager
@@ -39,6 +51,9 @@ class MountProvider implements IMountProvider {
 		protected IEventDispatcher $eventDispatcher,
 		protected ICacheFactory $cacheFactory,
 		protected IMountManager $mountManager,
+		protected IDBConnection $dbConn,
+		protected IRootFolder $rootFolder,
+		protected IStorageFactory $loader,
 	) {
 	}
 
@@ -244,6 +259,98 @@ class MountProvider implements IMountProvider {
 			);
 		}
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getMountsFromMountPoints(
+		array $mountsInfo,
+		array $mountsMetadata,
+	): array {
+		$uniqueMountOwnerIds = [];
+		$uniqueRootIds = [];
+		$user = null;
+		foreach ($mountsInfo as $mountInfo) {
+			// get a list of unique owner IDs root mount IDs
+			$user ??= $mountInfo->getUser();
+			$uniqueMountOwnerIds[$user->getUID()] ??= true;
+			$uniqueRootIds[$mountInfo->getRootId()] ??= true;
+		}
+		$uniqueMountOwnerIds = array_keys($uniqueMountOwnerIds);
+		$uniqueRootIds = array_keys($uniqueRootIds);
+
+		// make sure the MPs belong to the same user
+		if (count($uniqueMountOwnerIds) !== 1) {
+			// question: what kind of exception to throw in here?
+			throw new LogicException();
+		}
+
+		$mountOwnerId = $user->getUID();
+		// retrieve the share type for the received files
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('file_source', 'share_type', 'uid_owner')
+			->from('share')
+			->where(
+				$qb->expr()->in(
+					'file_source',
+					$qb->createNamedParameter(
+						$uniqueRootIds,
+						IQueryBuilder::PARAM_STR_ARRAY
+					)
+				)
+			)
+			->andWhere(
+				$qb->expr()->eq(
+					'share_with',
+					$qb->createNamedParameter($mountOwnerId)
+				)
+			)
+			->groupBy('file_source', 'share_type', 'uid_owner');
+
+		$cursor = $qb->executeQuery();
+
+		// group IDs of the roots of the mountpoints by type and owner ID
+		$rootIdsByTypeAndOwner = [];
+		while ($row = $cursor->fetch()) {
+			$rootIdsByTypeAndOwner[$row['share_type']][$row['uid_owner']][]
+				= $row['file_source'];
+		}
+		$cursor->closeCursor();
+
+		$pathShares = [];
+		foreach ($rootIdsByTypeAndOwner as $shareType => $rootIdsByOwner) {
+			$providerType = self::TYPE_MAPPING[$shareType] ?? $shareType;
+			foreach ($rootIdsByOwner as $shareOwner => $rootIds) {
+				// FIXME: needs to do one query per  multiple root nodes
+				foreach ($rootIds as $rootId) {
+					$node
+						= $this->rootFolder->getUserFolder($shareOwner)
+							->getFirstNodeById($rootId);
+					$pathShares[] = $this->shareManager->getSharedWith(
+						$uniqueMountOwnerIds[0],
+						$providerType,
+						$node,
+						-1
+					);
+				}
+			}
+		}
+		$pathShares = array_merge(...$pathShares);
+
+		// filter out shares owned or shared by the user and ones for which
+		// the user has no permissions
+		$shares = $this->filterShares($pathShares, $user->getUID());
+
+		$superShares = $this->buildSuperShares($shares, $user);
+		return $this->getMountsFromSuperShares(
+			$mountOwnerId,
+			$superShares,
+			$this->loader,
+			$user,
+			false,
+		);
+	}
+
 	/**
 	 * @param string $userId
 	 * @param array $superShares
