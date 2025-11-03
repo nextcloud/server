@@ -300,17 +300,15 @@ class UserMountCache implements IUserMountCache {
 			)->orderBy($builder->func()->charLength('mount_point'), 'DESC');
 
 		$result = $query->executeQuery();
-		$mountPointRows = $result->fetchAll();
-		$result->closeCursor();
-
-		if (empty($mountPointRows)) {
+		if ($result->rowCount() === 0) {
+			$result->closeCursor();
 			return null;
 		}
 
 		$this->usersMountsByPath[$userId] ??= [];
 		$usersMountsByPath = &$this->usersMountsByPath[$userId];
 		$firstMount = null;
-		foreach ($mountPointRows as $mountPointRow) {
+		while ($mountPointRow = $result->fetch()) {
 			$mount = $this->dbRowToMountInfo(
 				$mountPointRow,
 				[$this, 'getInternalPathForMountInfo']
@@ -318,11 +316,12 @@ class UserMountCache implements IUserMountCache {
 			$firstMount ??= $mount;
 			$usersMountsByPath[$mount->getMountPoint()] = $mount;
 		}
+		$result->closeCursor();
 
-		// cache the info that the split paths have no mount-point associated
-		foreach ($subPaths as $path) {
-			if (!array_key_exists($path, $usersMountsByPath)) {
-				$usersMountsByPath[$path] = null;
+		// cache the info that the sub paths have no mount-point associated
+		foreach ($subPaths as $subPath) {
+			if (!array_key_exists($subPath, $usersMountsByPath)) {
+				$usersMountsByPath[$subPath] = null;
 			}
 		}
 
