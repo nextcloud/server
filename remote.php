@@ -58,7 +58,7 @@ function handleException(Exception|Error $e): void {
 				// we shall not log on RemoteException
 				\OCP\Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
 			} else {
-				if ($ex instanceof ServiceUnavailableException && $e->getCode === 0) {
+				if ($e instanceof ServiceUnavailableException && $e->getCode() === 0) {
 					$status = 503;
 				}
 				if ($e->getCode() > 0) {
