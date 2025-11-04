@@ -56,9 +56,9 @@
 				}
 			}
 
-			&.button-vue--vue-primary, &.button-vue--vue-error,
+			&.button-vue--vue-primary:not(.unified-search-modal__header *), &.button-vue--vue-error:not(.unified-search-modal__header *),
 				/* ensure primary type styling of "new" button */
-			&.action-item__menutoggle, &.files-list__header-upload-button--disabled {
+			&.action-item__menutoggle:not(.unified-search-modal__header *), &.files-list__header-upload-button--disabled {
 				background-color: var(--ion-button-primary-background-default);
 				border: none;
 
