@@ -12,6 +12,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IAppConfig;
 use OCP\Settings\ISettings;
 use OCP\Util;
+use Override;
 
 class Admin implements ISettings {
 
@@ -21,10 +22,8 @@ class Admin implements ISettings {
 	) {
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
-	public function getForm() {
+	#[Override]
+	public function getForm(): TemplateResponse {
 		$restrictSystemTagsCreationToAdmin = $this->appConfig->getValueBool(Application::APP_ID, 'restrict_creation_to_admin', false);
 		$this->initialStateService->provideInitialState('restrictSystemTagsCreationToAdmin', $restrictSystemTagsCreationToAdmin);
 
@@ -32,21 +31,13 @@ class Admin implements ISettings {
 		return new TemplateResponse('systemtags', 'admin', [], '');
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
-	public function getSection() {
+	#[Override]
+	public function getSection(): string {
 		return 'server';
 	}
 
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 *             the admin section. The forms are arranged in ascending order of the
-	 *             priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 */
-	public function getPriority() {
+	#[Override]
+	public function getPriority(): int {
 		return 70;
 	}
 }

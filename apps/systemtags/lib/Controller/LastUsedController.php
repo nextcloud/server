@@ -15,14 +15,8 @@ use OCP\IUserSession;
 
 class LastUsedController extends Controller {
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		protected IConfig $config,
 		protected IUserSession $userSession,
@@ -31,11 +25,9 @@ class LastUsedController extends Controller {
 	}
 
 	#[NoAdminRequired]
-	public function getLastUsedTagIds() {
+	public function getLastUsedTagIds(): DataResponse {
 		$lastUsed = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'systemtags', 'last_used', '[]');
 		$tagIds = json_decode($lastUsed, true);
-		return new DataResponse(array_map(function ($id) {
-			return (string)$id;
-		}, $tagIds));
+		return new DataResponse(array_map(static fn ($id) => (string)$id, $tagIds));
 	}
 }
