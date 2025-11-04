@@ -7,9 +7,13 @@
  */
 namespace OCP\Comments;
 
+use OCP\AppFramework\Attribute\Catchable;
+
 /**
  * Exception for illegal attempts to modify a comment ID
+ *
  * @since 9.0.0
  */
+#[Catchable('9.0.0')]
 class IllegalIDChangeException extends \Exception {
 }
