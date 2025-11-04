@@ -54,7 +54,6 @@ OC.L10N.register(
     "Office documents" : "Office documents",
     "PDF documents" : "PDF documents",
     "Custom MIME type" : "Custom MIME type",
-    "Custom mimetype" : "Custom mimetype",
     "Select a file type" : "Select a file type",
     "e.g. httpd/unix-directory" : "e.g. httpd/unix-directory",
     "Please enter a valid time span" : "Please enter a valid time span",
@@ -116,6 +115,7 @@ OC.L10N.register(
     "not between" : "not between",
     "Request user agent" : "Request user agent",
     "is member of" : "is member of",
-    "is not member of" : "is not member of"
+    "is not member of" : "is not member of",
+    "Custom mimetype" : "Custom mimetype"
 },
 "nplurals=2; plural=(n!=1);");

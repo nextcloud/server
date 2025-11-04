@@ -27,6 +27,7 @@ OC.L10N.register(
     "%s accessed %s" : "%s hat auf %s zugegriffen",
     "%s renamed %s" : "%shat %s umbenannt",
     "%s copied %s" : "%s hat %s kopiert",
+    "%1$s assigned %2$s to %3$s" : "%1$s hat %2$s an %3$s zugewiesen",
     "Operation #%s does not exist" : "Operation #%s existiert nicht",
     "Entity %s does not exist" : "Entität %s existiert nicht",
     "Entity %s is invalid" : "Entität %s ist ungültig",
@@ -55,7 +56,6 @@ OC.L10N.register(
     "PDF documents" : "PDF-Dokumente",
     "Video" : "Video",
     "Custom MIME type" : "Benutzerdefinierter MIME Typ",
-    "Custom mimetype" : "Benutzerdefinierter MIME-Typ",
     "Select a file type" : "Dateityp auswählen",
     "e.g. httpd/unix-directory" : "z.B. httpd/unix-directory",
     "Please enter a valid time span" : "Bitte einen gültigen Zeitraum angeben",
@@ -120,6 +120,7 @@ OC.L10N.register(
     "Group membership" : "Gruppenmitgliedschaft",
     "is member of" : "Ist Mitglied von",
     "is not member of" : "Ist kein Mitglied von",
+    "Custom mimetype" : "Benutzerdefinierter MIME-Typ",
     "Type to search for group …" : "Tippen um nach einer Gruppe zu suchen …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "Documenti PDF",
     "Video" : "Video",
     "Custom MIME type" : "Tipo MIME personalizzato",
-    "Custom mimetype" : "Tipo MIME personalizzato",
     "Select a file type" : "Seleziona un tipo di file",
     "e.g. httpd/unix-directory" : "ad es. httpd/unix-directory",
     "Please enter a valid time span" : "Digita un intervallo temporale valido",
@@ -116,6 +115,7 @@ OC.L10N.register(
     "not between" : "non compreso",
     "Request user agent" : "User agent della richiesta",
     "is member of" : "è membro di",
-    "is not member of" : "non è membro di"
+    "is not member of" : "non è membro di",
+    "Custom mimetype" : "Tipo MIME personalizzato"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

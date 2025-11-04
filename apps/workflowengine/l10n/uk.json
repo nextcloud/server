@@ -53,7 +53,6 @@
     "PDF documents" : "Документи PDF",
     "Video" : "Відео",
     "Custom MIME type" : "Власний тип MIME",
-    "Custom mimetype" : "Власний mimetype",
     "Select a file type" : "Виберіть тип файлу",
     "e.g. httpd/unix-directory" : "напр., httpd/unix-directory",
     "Please enter a valid time span" : "Зазначте дійсний часовий проміжок",
@@ -117,6 +116,7 @@
     "Group membership" : "Участь в групах",
     "is member of" : "є учасником",
     "is not member of" : "не є учасником",
+    "Custom mimetype" : "Власний mimetype",
     "Type to search for group …" : "Почніть вводити, щод знайти групу ..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
