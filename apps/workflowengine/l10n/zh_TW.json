@@ -25,6 +25,7 @@
     "%s accessed %s" : "%s 存取了 %s",
     "%s renamed %s" : "%s 重新命名了 %s",
     "%s copied %s" : "%s 複製了 %s",
+    "%1$s assigned %2$s to %3$s" : "%1$s 指派了 %2$s 給 %3$s",
     "Operation #%s does not exist" : "操作 #%s 不存在",
     "Entity %s does not exist" : "實體 %s 不存在",
     "Entity %s is invalid" : "實體 %s 無效",
@@ -53,7 +54,6 @@
     "PDF documents" : "PDF 文件",
     "Video" : "影片",
     "Custom MIME type" : "自訂 MIME 類型",
-    "Custom mimetype" : "自訂 mimetype",
     "Select a file type" : "選取檔案類型",
     "e.g. httpd/unix-directory" : "例如：httpd/unix-directory",
     "Please enter a valid time span" : "請輸入有效的時間範圍",
@@ -118,6 +118,7 @@
     "Group membership" : "群組成員資格",
     "is member of" : "是成員的群組",
     "is not member of" : "不是成員的群組",
+    "Custom mimetype" : "自訂 mimetype",
     "Type to search for group …" : "輸入以搜尋群組……"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

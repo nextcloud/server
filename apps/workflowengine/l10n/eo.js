@@ -40,7 +40,6 @@ OC.L10N.register(
     "Images" : "Bildoj",
     "Office documents" : "Oficejaj dokumentoj",
     "PDF documents" : "PDF-dokumentoj",
-    "Custom mimetype" : "Propra MIME-tipo",
     "Select a file type" : "Elekti dosierformon",
     "e.g. httpd/unix-directory" : "ekz. httpd/unix-directory",
     "Please enter a valid time span" : "Entajpu validan intertempon",
@@ -88,6 +87,7 @@ OC.L10N.register(
     "not between" : "ne inter",
     "Request user agent" : "Retumil-identigilo („user-agent“)",
     "is member of" : "estas membro de",
-    "is not member of" : "ne estas membro de"
+    "is not member of" : "ne estas membro de",
+    "Custom mimetype" : "Propra MIME-tipo"
 },
 "nplurals=2; plural=(n != 1);");

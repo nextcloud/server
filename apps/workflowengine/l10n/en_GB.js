@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF documents",
     "Video" : "Video",
     "Custom MIME type" : "Custom MIME type",
-    "Custom mimetype" : "Custom mimetype",
     "Select a file type" : "Select a file type",
     "e.g. httpd/unix-directory" : "e.g. httpd/unix-directory",
     "Please enter a valid time span" : "Please enter a valid time span",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Group membership" : "Group membership",
     "is member of" : "is member of",
     "is not member of" : "is not member of",
+    "Custom mimetype" : "Custom mimetype",
     "Type to search for group …" : "Type to search for group …"
 },
 "nplurals=2; plural=(n != 1);");

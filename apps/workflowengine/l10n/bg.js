@@ -54,7 +54,6 @@ OC.L10N.register(
     "Office documents" : "Офис документи",
     "PDF documents" : "PDF документи",
     "Custom MIME type" : "Персонализиран файл тип MIME",
-    "Custom mimetype" : "Персонализиран mimetype",
     "Select a file type" : "Избор на тип файл",
     "e.g. httpd/unix-directory" : "напр. httpd/unix-directory",
     "Please enter a valid time span" : "Моля, въведете валиден период от време",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "not between" : "не между",
     "Request user agent" : "Потребителски агент на заявка",
     "is member of" : "е член на",
-    "is not member of" : "не е член на"
+    "is not member of" : "не е член на",
+    "Custom mimetype" : "Персонализиран mimetype"
 },
 "nplurals=2; plural=(n != 1);");

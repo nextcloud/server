@@ -52,7 +52,6 @@ OC.L10N.register(
     "Office documents" : "Documents d'oficina",
     "PDF documents" : "Documents PDF",
     "Video" : "Vídeo",
-    "Custom mimetype" : "Tipus mime personalitzat",
     "Select a file type" : "Seleccioneu un tipus de fitxer",
     "e.g. httpd/unix-directory" : "p. ex. httpd/unix-directory",
     "Please enter a valid time span" : "Introduïu un interval de temps vàlid",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "not between" : "no entre",
     "Request user agent" : "Sol·licita agent d'usuari",
     "is member of" : "és membre de",
-    "is not member of" : "no és membre de"
+    "is not member of" : "no és membre de",
+    "Custom mimetype" : "Tipus mime personalitzat"
 },
 "nplurals=2; plural=(n != 1);");

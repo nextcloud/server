@@ -44,7 +44,6 @@ OC.L10N.register(
     "Office documents" : "Office документи",
     "PDF documents" : "PDF документи",
     "Video" : "Видео",
-    "Custom mimetype" : "Прилагоден тип на датотеки",
     "Select a file type" : "Изберете вид на датотека",
     "e.g. httpd/unix-directory" : "Пр. httpd/unix-directory",
     "Please enter a valid time span" : "Внесете валиден времески осег",
@@ -97,6 +96,7 @@ OC.L10N.register(
     "not between" : "не помеѓу",
     "Request user agent" : "Барање од кориснички агент",
     "is member of" : "е член на",
-    "is not member of" : "не е член на"
+    "is not member of" : "не е член на",
+    "Custom mimetype" : "Прилагоден тип на датотеки"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF 文件",
     "Video" : "視像",
     "Custom MIME type" : "自訂 MIME 類型",
-    "Custom mimetype" : "自訂 mimetype",
     "Select a file type" : "選擇檔案類型",
     "e.g. httpd/unix-directory" : "例如 httpd/unix-directory",
     "Please enter a valid time span" : "請輸入有效的時間跨度",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Group membership" : "群組成員身分",
     "is member of" : "是以下群組的成員：",
     "is not member of" : "非以下群組的成員：",
+    "Custom mimetype" : "自訂 mimetype",
     "Type to search for group …" : "輸入以搜尋群組 …"
 },
 "nplurals=1; plural=0;");

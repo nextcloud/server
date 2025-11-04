@@ -191,6 +191,7 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Limpar Mapeamento do Grupo groupname-LDAP",
     "Confirm action" : "Confirmar ação",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Tem certeza de que deseja excluir permanentemente esta configuração LDAP? Esta ação não pode ser desfeita.",
+    "Failed to delete config" : "Falha ao excluir a configuração",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Tem certeza de que deseja excluir permanentemente o mapeamento LDAP? Isso não pode ser desfeito.",
     "Mapping cleared" : "Mapeamento apagado",
     "Failed to clear mapping" : "Falha ao apagar o mapeamento",

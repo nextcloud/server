@@ -47,7 +47,6 @@ OC.L10N.register(
     "Office documents" : "Toimisto-ohjelmistojen asiakirjat",
     "PDF documents" : "PDF-asiakirjat",
     "Video" : "Video",
-    "Custom mimetype" : "Mukautettu MIME-tyyppi",
     "Select a file type" : "Valitse tiedostotyyppi",
     "Files WebDAV" : "Tiedostot WebDAV",
     "Android client" : "Android-sovellus",
@@ -89,6 +88,7 @@ OC.L10N.register(
     "not between" : "ei välillä",
     "Request user agent" : "Pyynnön user agent",
     "is member of" : "on jäsen",
-    "is not member of" : "ei ole jäsen"
+    "is not member of" : "ei ole jäsen",
+    "Custom mimetype" : "Mukautettu MIME-tyyppi"
 },
 "nplurals=2; plural=(n != 1);");

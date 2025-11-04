@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF-dokumendid",
     "Video" : "Video",
     "Custom MIME type" : "Sinu määratud MIME-tüüp",
-    "Custom mimetype" : "Sinu määratud MIME-tüüp",
     "Select a file type" : "Vali failitüüp",
     "e.g. httpd/unix-directory" : "nt. httpd/unix-directory",
     "Please enter a valid time span" : "Palun sisesta korrektne ajavahemik",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Group membership" : "Grupi liikmelisus",
     "is member of" : "on liige",
     "is not member of" : "ei ole liige",
+    "Custom mimetype" : "Sinu määratud MIME-tüüp",
     "Type to search for group …" : "Grupi otsimiseks kirjuta midagi…"
 },
 "nplurals=2; plural=(n != 1);");

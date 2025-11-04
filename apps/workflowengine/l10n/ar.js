@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "مستندات PDF",
     "Video" : "الفيديو",
     "Custom MIME type" : "نوع MIME مخصص",
-    "Custom mimetype" : "أنواع ملفات مخصصة",
     "Select a file type" : "اختر نوع الملف",
     "e.g. httpd/unix-directory" : "على سبيل المثال httpd/unix-directory",
     "Please enter a valid time span" : "الرجاء إدخال نطاق زمني صالح",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Group membership" : "عضوية المجموعة",
     "is member of" : "عضو فى",
     "is not member of" : "ليس عضو فى",
+    "Custom mimetype" : "أنواع ملفات مخصصة",
     "Type to search for group …" : "أُكتُب اسم المجموعة التي تبحث عنها ..."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

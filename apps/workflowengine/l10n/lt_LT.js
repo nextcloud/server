@@ -52,7 +52,6 @@ OC.L10N.register(
     "Office documents" : "Raštinės dokumentai",
     "PDF documents" : "PDF dokumentai",
     "Custom MIME type" : "Tinkintas MIME tipas",
-    "Custom mimetype" : "Tinkintas MIME tipas",
     "Select a file type" : "Pasirinkite failo tipą",
     "e.g. httpd/unix-directory" : "pvz., httpd/unix-directory",
     "Please enter a valid time span" : "Įveskite teisingą laiko intervalą",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Request user agent" : "Užklausti naudotojo agentą",
     "is member of" : "priklauso grupei",
     "is not member of" : "nepriklauso grupei",
+    "Custom mimetype" : "Tinkintas MIME tipas",
     "Type to search for group …" : "Rašykite norėdami ieškoti grupės…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
