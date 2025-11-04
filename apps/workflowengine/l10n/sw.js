@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "Nyaraka za PDF",
     "Video" : "Video",
     "Custom MIME type" : "Aina ya MIME ya kawaida",
-    "Custom mimetype" : "Aina maalum ya mime",
     "Select a file type" : "Chagua aina ya faili",
     "e.g. httpd/unix-directory" : "e.g. httpd/unix-directory",
     "Please enter a valid time span" : "Tafadhali ingiza muda halali",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Group membership" : "Uanachama wa kikundi",
     "is member of" : "ni mwanachama wa",
     "is not member of" : "si mwanachama wa",
+    "Custom mimetype" : "Aina maalum ya mime",
     "Type to search for group …" : "Andika kutafuta kikundi …"
 },
 "nplurals=2; plural=(n != 1);");

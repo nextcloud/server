@@ -25,6 +25,7 @@
     "%s accessed %s" : "%s öppnade %s",
     "%s renamed %s" : "%s omdöpt %s",
     "%s copied %s" : "%s kopierad %s",
+    "%1$s assigned %2$s to %3$s" : "%1$s tilldelad %2$s till %3$s",
     "Operation #%s does not exist" : "Operationen #%s existerar inte",
     "Entity %s does not exist" : "Objekt 1%s finns inte",
     "Entity %s is invalid" : "Entitet %s är ogiltig",
@@ -53,7 +54,6 @@
     "PDF documents" : "PDF-dokument",
     "Video" : "Film",
     "Custom MIME type" : "Anpassad MIME-typ",
-    "Custom mimetype" : "Anpassad mimetyp",
     "Select a file type" : "Välj en filtyp",
     "e.g. httpd/unix-directory" : "t.ex. httpd/unix-directory",
     "Please enter a valid time span" : "Ange ett giltigt tidsintervall",
@@ -118,6 +118,7 @@
     "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
     "is not member of" : "är inte medlem i",
+    "Custom mimetype" : "Anpassad mimetyp",
     "Type to search for group …" : "Skriv för att söka efter grupp ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

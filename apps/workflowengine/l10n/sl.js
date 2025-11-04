@@ -54,7 +54,6 @@ OC.L10N.register(
     "Office documents" : "Pisarniški dokumenti",
     "PDF documents" : "Dokumenti PDF",
     "Custom MIME type" : "Vrsta Mime po meri",
-    "Custom mimetype" : "Vrsta Mime po meri",
     "Select a file type" : "Izbor vrste datoteke",
     "e.g. httpd/unix-directory" : "npr. httpd/unix-directory",
     "Please enter a valid time span" : "Vpisati je treba veljaven časovni obseg",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "not between" : "ni dovoljen med",
     "Request user agent" : "Uporabniški odjemalec",
     "is member of" : "je v skupini",
-    "is not member of" : "ni v skupini"
+    "is not member of" : "ni v skupini",
+    "Custom mimetype" : "Vrsta Mime po meri"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

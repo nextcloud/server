@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "Doiciméid PDF",
     "Video" : "Físeán",
     "Custom MIME type" : "Cineál MIME saincheaptha",
-    "Custom mimetype" : "Cineál MIME saincheaptha",
     "Select a file type" : "Roghnaigh cineál comhaid",
     "e.g. httpd/unix-directory" : "m.sh. httpd/unix-directory",
     "Please enter a valid time span" : "Cuir isteach réise ama bailí le do thoil",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Group membership" : "Ballraíocht ghrúpa",
     "is member of" : "ina bhall de",
     "is not member of" : "nach ball de",
+    "Custom mimetype" : "Cineál MIME saincheaptha",
     "Type to search for group …" : "Clóscríobh chun grúpa a chuardach…"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

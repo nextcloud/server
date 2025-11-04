@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "Έγγραφα PDF",
     "Video" : "Βίντεο",
     "Custom MIME type" : "Προσαρμοσμένος τύπος MIME",
-    "Custom mimetype" : "Προσαρμοσμένος τύπος mime",
     "Select a file type" : "Επιλέξτε τύπο αρχείου",
     "e.g. httpd/unix-directory" : "π.χ. httpd/unix-directory",
     "Please enter a valid time span" : "Εισαγάγετε έγκυρο χρονικό διάστημα",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Group membership" : "Συμμετοχή σε ομάδα",
     "is member of" : "είναι μέλος του",
     "is not member of" : "δεν είναι μέλος του",
+    "Custom mimetype" : "Προσαρμοσμένος τύπος mime",
     "Type to search for group …" : "Πληκτρολογήστε για αναζήτηση ομάδας …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -25,6 +25,7 @@
     "%s accessed %s" : "%s hozzáfért a következőhöz: %s",
     "%s renamed %s" : "%s átnevezte a következőt: %s",
     "%s copied %s" : "%s átmásolta a következőt: %s",
+    "%1$s assigned %2$s to %3$s" : "%1$s hozzárendelte a következőt: %2$s, hozzá: %3$s",
     "Operation #%s does not exist" : "A(z) #%s művelet nem létezik",
     "Entity %s does not exist" : "A(z) %s entitás nem létezik",
     "Entity %s is invalid" : "A(z) %s entitás érvénytelen",
@@ -53,7 +54,6 @@
     "PDF documents" : "PDF-dokumentumok",
     "Video" : "Videó",
     "Custom MIME type" : "Egyéni MIME-típus",
-    "Custom mimetype" : "Egyéni MIME-típus",
     "Select a file type" : "Válasszon fájltípust",
     "e.g. httpd/unix-directory" : "például httpd/unix-directory",
     "Please enter a valid time span" : "Érvényes időtartamot adjon meg",
@@ -118,6 +118,7 @@
     "Group membership" : "Csoporttagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",
+    "Custom mimetype" : "Egyéni MIME-típus",
     "Type to search for group …" : "Gépeljen egy csoport kereséséhez…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

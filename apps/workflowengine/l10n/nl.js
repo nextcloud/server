@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF documenten",
     "Video" : "Video",
     "Custom MIME type" : "Maatwerk mimetype",
-    "Custom mimetype" : "Maatwerk mimetype",
     "Select a file type" : "Selecteer een bestandstype",
     "e.g. httpd/unix-directory" : "bijv. httpd/unix-directory",
     "Please enter a valid time span" : "Geef een geldige tijdsinterval op",
@@ -119,6 +118,7 @@ OC.L10N.register(
     "Group membership" : "Groepslidmaatschap",
     "is member of" : "is lid van",
     "is not member of" : "is geen lid van",
+    "Custom mimetype" : "Maatwerk mimetype",
     "Type to search for group …" : "Type om groep te zoeken …"
 },
 "nplurals=2; plural=(n != 1);");

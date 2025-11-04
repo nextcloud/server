@@ -53,7 +53,6 @@
     "PDF documents" : "Dokumenty PDF",
     "Video" : "Film",
     "Custom MIME type" : "Niestandardowy typ MIME",
-    "Custom mimetype" : "Niestandardowy typ MIME",
     "Select a file type" : "Wybierz typ pliku",
     "e.g. httpd/unix-directory" : "np. httpd/unix-directory",
     "Please enter a valid time span" : "Podaj prawidłowy przedział czasu",
@@ -110,6 +109,7 @@
     "not between" : "nie pomiędzy",
     "Request user agent" : "Żądanie agenta użytkownika",
     "is member of" : "jest członkiem w",
-    "is not member of" : "nie jest członkiem w"
+    "is not member of" : "nie jest członkiem w",
+    "Custom mimetype" : "Niestandardowy typ MIME"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

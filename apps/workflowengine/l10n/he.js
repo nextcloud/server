@@ -44,7 +44,6 @@ OC.L10N.register(
     "Images" : "תמונות",
     "Office documents" : "מסמכי אופיס (Office)",
     "PDF documents" : "מסמכי RDF",
-    "Custom mimetype" : "נא לבחור טיפוס MIME",
     "Select a file type" : "נא לבחור סוג קובץ",
     "e.g. httpd/unix-directory" : "למשל: httpd/unix-directory",
     "Please enter a valid time span" : "נא למלא טווח זמן תקין",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "not between" : "לא בין",
     "Request user agent" : "סוכן משתמש הבקשה",
     "is member of" : "חבר בקבוצה",
-    "is not member of" : "לא חבר בקבוצה"
+    "is not member of" : "לא חבר בקבוצה",
+    "Custom mimetype" : "נא לבחור טיפוס MIME"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

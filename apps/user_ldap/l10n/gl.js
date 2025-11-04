@@ -191,6 +191,7 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Limpar a asignación do grupo ao «nome de grupo LDAP»",
     "Confirm action" : "Confirmar a acción",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Confirma que quere eliminar definitivamente esta configuración LDAP? Non é posíbel desfacer esta operación.",
+    "Failed to delete config" : "Produciuse un fallo ao eliminar a configuración",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Confirma que quere eliminar definitivamente a asignación LDAP? Non é posíbel desfacer esta operación.",
     "Mapping cleared" : "Limpouse a asignación",
     "Failed to clear mapping" : "Produciuse un fallo ao limpar a asignación",
