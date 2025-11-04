@@ -88,25 +88,22 @@ class TagSearchProvider implements IProvider {
 
 		// do search
 		$searchResults = $userFolder->search($fileQuery);
-		$resultIds = array_map(function (Node $node) {
-			return $node->getId();
-		}, $searchResults);
+		$resultIds = array_map(static fn (Node $node): int => $node->getId(), $searchResults);
 		$matchedTags = $this->objectMapper->getTagIdsForObjects($resultIds, 'files');
 
 		// prepare direct tag results
-		$tagResults = array_map(function (ISystemTag $tag) {
+		$tagResults = array_map(function (ISystemTag $tag): SearchResultEntry {
 			$thumbnailUrl = '';
 			$link = $this->urlGenerator->linkToRoute('files.view.indexView', [
 				'view' => 'tags',
 			]) . '?dir=' . $tag->getId();
-			$searchResultEntry = new SearchResultEntry(
+			return new SearchResultEntry(
 				$thumbnailUrl,
 				$this->l10n->t('All tagged %s …', [$tag->getName()]),
 				'',
 				$this->urlGenerator->getAbsoluteURL($link),
 				'icon-tag'
 			);
-			return $searchResultEntry;
 		}, $matchingTags);
 
 		// prepare files results

@@ -13,6 +13,7 @@ use OC\Core\Command\Info\FileUtils;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,6 +29,7 @@ class Delete extends Command {
 		parent::__construct();
 	}
 
+	#[Override]
 	protected function configure(): void {
 		$this->setName('tag:files:delete')
 			->setDescription('Delete a system-tag from a file or folder')
@@ -36,13 +38,14 @@ class Delete extends Command {
 			->addArgument('access', InputArgument::REQUIRED, 'access level of the tag (public, restricted or invisible)');
 	}
 
+	#[Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$targetInput = $input->getArgument('target');
 		$tagsInput = $input->getArgument('tags');
 
 		if ($tagsInput === '') {
 			$output->writeln('<error>`tags` can\'t be empty</error>');
-			return 3;
+			return Command::INVALID;
 		}
 
 		$tagNameArray = explode(',', $tagsInput);
@@ -63,14 +66,14 @@ class Delete extends Command {
 				break;
 			default:
 				$output->writeln('<error>`access` property is invalid</error>');
-				return 1;
+				return Command::FAILURE;
 		}
 
 		$targetNode = $this->fileUtils->getNode($targetInput);
 
 		if (! $targetNode) {
 			$output->writeln("<error>file $targetInput not found</error>");
-			return 1;
+			return Command::FAILURE;
 		}
 
 		foreach ($tagNameArray as $tagName) {
@@ -83,6 +86,6 @@ class Delete extends Command {
 			}
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }
