@@ -14,6 +14,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserSession;
+use OCP\Snowflake\IGenerator;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -45,6 +46,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 			$this->serverContainer->get(IEventDispatcher::class),
 			$this->serverContainer->get(IUserSession::class),
 			$this->serverContainer->get(IAppConfig::class),
+			$this->serverContainer->get(IGenerator::class),
 		);
 	}
 

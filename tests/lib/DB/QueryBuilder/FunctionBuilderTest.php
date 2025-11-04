@@ -11,6 +11,7 @@ use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
+use OCP\Snowflake\IGenerator;
 use Test\TestCase;
 
 /**
@@ -21,13 +22,14 @@ use Test\TestCase;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FunctionBuilderTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|IDBConnection */
-	protected $connection;
+	protected IDBConnection $connection;
+	protected IGenerator $generator;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = Server::get(IDBConnection::class);
+		$this->generator = Server::get(IGenerator::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestConcatString')]
@@ -189,15 +191,19 @@ class FunctionBuilderTest extends TestCase {
 		$insert = $this->connection->getQueryBuilder();
 
 		$insert->insert('systemtag')
+			->setValue('id', $insert->createParameter('id'))
 			->setValue('name', $insert->createNamedParameter('group_concat'))
 			->setValue('visibility', $insert->createNamedParameter(1))
 			->setValue('editable', $insert->createParameter('value'));
 
 		$insert->setParameter('value', 1);
+		$insert->setParameter('id', $this->generator->nextId());
 		$insert->executeStatement();
 		$insert->setParameter('value', 2);
+		$insert->setParameter('id', $this->generator->nextId());
 		$insert->executeStatement();
 		$insert->setParameter('value', 3);
+		$insert->setParameter('id', $this->generator->nextId());
 		$insert->executeStatement();
 	}
 
