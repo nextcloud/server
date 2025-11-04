@@ -19,7 +19,7 @@ class APCuSequence implements ISequence {
 
 	#[Override]
 	public function nextId(int $serverId, int $seconds, int $milliseconds): int|false {
-		if ((int)apcu_cache_info(true)['creation_time'] === $seconds) {
+		if ((int)apcu_cache_info(true)['start_time'] === $seconds) {
 			// APCu cache was just started
 			// It means a sequence was maybe deleted
 			return false;
