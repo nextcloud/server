@@ -25,6 +25,7 @@ use OCP\IEmojiHelper;
 use OCP\IInitialStateService;
 use OCP\IUser;
 use OCP\PreConditionNotMetException;
+use OCP\Snowflake\IGenerator;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -50,6 +51,7 @@ class Manager implements ICommentsManager {
 		protected IInitialStateService $initialStateService,
 		protected IRootFolder $rootFolder,
 		protected IEventDispatcher $eventDispatcher,
+		protected IGenerator $generator,
 	) {
 	}
 
@@ -71,7 +73,6 @@ class Manager implements ICommentsManager {
 			$data['expire_date'] = new \DateTime($data['expire_date']);
 		}
 		$data['children_count'] = (int)$data['children_count'];
-		$data['reference_id'] = $data['reference_id'];
 		$data['meta_data'] = json_decode($data['meta_data'], true);
 		if ($this->supportReactions()) {
 			if ($data['reactions'] !== null) {
@@ -127,6 +128,7 @@ class Manager implements ICommentsManager {
 		if ($comment->getId() === '') {
 			$comment->setChildrenCount(0);
 			$comment->setLatestChildDateTime(null);
+			$comment->setId($this->generator->nextId());
 		}
 
 		try {
@@ -212,7 +214,7 @@ class Manager implements ICommentsManager {
 		if (empty($id)) {
 			return;
 		}
-		$this->commentsCache[(string)$id] = $comment;
+		$this->commentsCache[$id] = $comment;
 	}
 
 	/**
@@ -1143,7 +1145,6 @@ class Manager implements ICommentsManager {
 			->executeStatement();
 
 		if ($affectedRows > 0) {
-			$comment->setId((string)$qb->getLastInsertId());
 			if ($comment->getVerb() === 'reaction') {
 				$this->addReaction($comment);
 			}

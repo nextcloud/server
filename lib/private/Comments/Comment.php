@@ -34,7 +34,7 @@ class Comment implements IComment {
 	/**
 	 * Comment constructor.
 	 *
-	 * @param array $data optional, array with keys according to column names from
+	 * @param ?array $data optional, array with keys according to column names from
 	 *                    the comments database scheme
 	 */
 	public function __construct(?array $data = null) {
