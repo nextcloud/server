@@ -42,15 +42,15 @@ describe('systemtags - utils', () => {
 	describe('parseIdFromLocation', () => {
 		it('works with simple url', () => {
 			const url = 'http://some.domain/remote.php/dav/3'
-			expect(parseIdFromLocation(url)).toEqual(3)
+			expect(parseIdFromLocation(url)).toEqual('3')
 		})
 		it('works with trailing slash', () => {
 			const url = 'http://some.domain/remote.php/dav/3/'
-			expect(parseIdFromLocation(url)).toEqual(3)
+			expect(parseIdFromLocation(url)).toEqual('3')
 		})
 		it('works with query', () => {
 			const url = 'http://some.domain/remote.php/dav/3?some-value'
-			expect(parseIdFromLocation(url)).toEqual(3)
+			expect(parseIdFromLocation(url)).toEqual('3')
 		})
 	})
 

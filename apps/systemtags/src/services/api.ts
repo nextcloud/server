@@ -50,7 +50,7 @@ export async function fetchTags(): Promise<TagWithId[]> {
  *
  * @param tagId
  */
-export async function fetchTag(tagId: number): Promise<TagWithId> {
+export async function fetchTag(tagId: string): Promise<TagWithId> {
 	const path = '/systemtags/' + tagId
 	try {
 		const { data: tag } = await davClient.stat(path, {
@@ -83,7 +83,7 @@ export async function fetchLastUsedTagIds(): Promise<number[]> {
  *
  * @param tag The tag to create
  */
-export async function createTag(tag: Tag | ServerTag): Promise<number> {
+export async function createTag(tag: Tag | ServerTag): Promise<string> {
 	const path = '/systemtags'
 	const tagToPost = formatTag(tag)
 	try {
