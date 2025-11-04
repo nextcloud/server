@@ -253,6 +253,8 @@ class UserMountCache implements IUserMountCache {
 	 */
 	private function getLongestMatchingMount(string $userId, string $path):
 	?ICachedMountInfo {
+		// todo: those are the only possible valid mountpoints because they
+		// end with /
 		$subPaths = $this->splitInSubPaths($path);
 		$cachedMountInfos = $this->getCachedMountsByPaths($userId, $subPaths);
 		$missingMountPaths = array_diff($subPaths, array_keys($cachedMountInfos));
@@ -302,7 +304,17 @@ class UserMountCache implements IUserMountCache {
 		$result = $query->executeQuery();
 		if ($result->rowCount() === 0) {
 			$result->closeCursor();
-			return null;
+			// todo: BUG, this still needs to return the longest matching path!
+			//   sloppy fix for development
+			// mark the leftover paths as not found
+			$usersMountsByPath = &$this->usersMountsByPath[$userId];
+			foreach ($subPaths as $subPath) {
+				if (!array_key_exists($subPath, $usersMountsByPath)) {
+					$usersMountsByPath[$subPath] = null;
+				}
+			}
+			// call the function again, as it will yield the longest path now
+			return $this->getLongestMatchingMount($userId, $path);
 		}
 
 		$this->usersMountsByPath[$userId] ??= [];
