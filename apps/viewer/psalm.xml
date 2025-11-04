@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="5"
+    errorLevel="1"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -14,26 +14,10 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+	<stubs>
+		<file name="tests/stubs/oca_files_event_loadadditionalscriptevent.php"/>
+	</stubs>
     <extraFiles>
-        <directory name="vendor" />
-        <ignoreFiles>
-            <directory name="vendor/phpunit/php-code-coverage" />
-        </ignoreFiles>
+		<directory name="vendor-bin/psalm/vendor/nextcloud/ocp" />
     </extraFiles>
-    <issueHandlers>
-        <UndefinedClass>
-            <errorLevel type="suppress">
-                <referencedClass name="OC" />
-                <referencedClass name="OCA\Files\Event\LoadAdditionalScriptsEvent" />
-            </errorLevel>
-        </UndefinedClass>
-        <UndefinedDocblockClass>
-            <errorLevel type="suppress">
-                <referencedClass name="Doctrine\DBAL\Schema\Schema" />
-                <referencedClass name="Doctrine\DBAL\Schema\SchemaException" />
-                <referencedClass name="Doctrine\DBAL\Driver\Statement" />
-                <referencedClass name="Doctrine\DBAL\Schema\Table" />
-            </errorLevel>
-        </UndefinedDocblockClass>
-    </issueHandlers>
 </psalm>

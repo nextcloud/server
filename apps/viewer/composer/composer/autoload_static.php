@@ -4,36 +4,34 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitViewer
-{
-    public static $prefixLengthsPsr4 = array (
-        'O' => 
-        array (
-            'OCA\\Viewer\\' => 11,
-        ),
-    );
+class ComposerStaticInitViewer {
+	public static $prefixLengthsPsr4 = [
+		'O'
+		 => [
+		 	'OCA\\Viewer\\' => 11,
+		 ],
+	];
 
-    public static $prefixDirsPsr4 = array (
-        'OCA\\Viewer\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/lib',
-        ),
-    );
+	public static $prefixDirsPsr4 = [
+		'OCA\\Viewer\\'
+		 => [
+		 	0 => __DIR__ . '/../..' . '/lib',
+		 ],
+	];
 
-    public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'OCA\\Viewer\\AppInfo\\Application' => __DIR__ . '/../..' . '/lib/AppInfo/Application.php',
-        'OCA\\Viewer\\Event\\LoadViewer' => __DIR__ . '/../..' . '/lib/Event/LoadViewer.php',
-        'OCA\\Viewer\\Listener\\LoadViewerScript' => __DIR__ . '/../..' . '/lib/Listener/LoadViewerScript.php',
-    );
+	public static $classMap = [
+		'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+		'OCA\\Viewer\\AppInfo\\Application' => __DIR__ . '/../..' . '/lib/AppInfo/Application.php',
+		'OCA\\Viewer\\Event\\LoadViewer' => __DIR__ . '/../..' . '/lib/Event/LoadViewer.php',
+		'OCA\\Viewer\\Listener\\LoadViewerScript' => __DIR__ . '/../..' . '/lib/Listener/LoadViewerScript.php',
+	];
 
-    public static function getInitializer(ClassLoader $loader)
-    {
-        return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitViewer::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitViewer::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitViewer::$classMap;
+	public static function getInitializer(ClassLoader $loader) {
+		return \Closure::bind(function () use ($loader) {
+			$loader->prefixLengthsPsr4 = ComposerStaticInitViewer::$prefixLengthsPsr4;
+			$loader->prefixDirsPsr4 = ComposerStaticInitViewer::$prefixDirsPsr4;
+			$loader->classMap = ComposerStaticInitViewer::$classMap;
 
-        }, null, ClassLoader::class);
-    }
+		}, null, ClassLoader::class);
+	}
 }

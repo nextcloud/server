@@ -15,6 +15,9 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
+/**
+ * @psalm-api
+ */
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'viewer';
 

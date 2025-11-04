@@ -5,9 +5,9 @@
 $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
-return array(
-    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'OCA\\Viewer\\AppInfo\\Application' => $baseDir . '/lib/AppInfo/Application.php',
-    'OCA\\Viewer\\Event\\LoadViewer' => $baseDir . '/lib/Event/LoadViewer.php',
-    'OCA\\Viewer\\Listener\\LoadViewerScript' => $baseDir . '/lib/Listener/LoadViewerScript.php',
-);
+return [
+	'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+	'OCA\\Viewer\\AppInfo\\Application' => $baseDir . '/lib/AppInfo/Application.php',
+	'OCA\\Viewer\\Event\\LoadViewer' => $baseDir . '/lib/Event/LoadViewer.php',
+	'OCA\\Viewer\\Listener\\LoadViewerScript' => $baseDir . '/lib/Listener/LoadViewerScript.php',
+];
