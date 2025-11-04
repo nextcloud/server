@@ -45,14 +45,14 @@ class BackupCodeMapperTest extends TestCase {
 
 	public function testGetBackupCodes(): void {
 		$code1 = new BackupCode();
-		$code1->setUserId($this->testUID);
-		$code1->setCode('1|$2y$10$Fyo.DkMtkaHapVvRVbQBeeIdi5x/6nmPnxiBzD0GDKa08NMus5xze');
-		$code1->setUsed(1);
+		$code1->userId = $this->testUID;
+		$code1->code = '1|$2y$10$Fyo.DkMtkaHapVvRVbQBeeIdi5x/6nmPnxiBzD0GDKa08NMus5xze';
+		$code1->used = 1;
 
 		$code2 = new BackupCode();
-		$code2->setUserId($this->testUID);
-		$code2->setCode('1|$2y$10$nj3sZaCqGN8t6.SsnNADt.eX34UCkdX6FPx.r.rIwE6Jj3vi5wyt2');
-		$code2->setUsed(0);
+		$code2->userId = $this->testUID;
+		$code2->code = '1|$2y$10$nj3sZaCqGN8t6.SsnNADt.eX34UCkdX6FPx.r.rIwE6Jj3vi5wyt2';
+		$code2->used = 0;
 
 		$this->mapper->insert($code1);
 		$this->mapper->insert($code2);
@@ -62,7 +62,7 @@ class BackupCodeMapperTest extends TestCase {
 			->method('getUID')
 			->willReturn($this->testUID);
 
-		$dbCodes = $this->mapper->getBackupCodes($user);
+		$dbCodes = iterator_to_array($this->mapper->findByUser($user));
 
 		$this->assertCount(2, $dbCodes);
 		$this->assertInstanceOf(BackupCode::class, $dbCodes[0]);
@@ -71,9 +71,9 @@ class BackupCodeMapperTest extends TestCase {
 
 	public function testDeleteCodes(): void {
 		$code = new BackupCode();
-		$code->setUserId($this->testUID);
-		$code->setCode('1|$2y$10$CagG8pEhZL.xDirtCCP/KuuWtnsAasgq60zY9rU46dBK4w8yW0Z/y');
-		$code->setUsed(1);
+		$code->userId = $this->testUID;
+		$code->code = '1|$2y$10$CagG8pEhZL.xDirtCCP/KuuWtnsAasgq60zY9rU46dBK4w8yW0Z/y';
+		$code->used = 1;
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
@@ -81,24 +81,24 @@ class BackupCodeMapperTest extends TestCase {
 
 		$this->mapper->insert($code);
 
-		$this->assertCount(1, $this->mapper->getBackupCodes($user));
+		$this->assertCount(1, iterator_to_array($this->mapper->findByUser($user)));
 
-		$this->mapper->deleteCodes($user);
+		$this->mapper->deleteByUser($user);
 
-		$this->assertCount(0, $this->mapper->getBackupCodes($user));
+		$this->assertCount(0, iterator_to_array($this->mapper->findByUser($user)));
 	}
 
 	public function testInsertArgonEncryptedCodes(): void {
 		$code = new BackupCode();
-		$code->setUserId($this->testUID);
-		$code->setCode('2|$argon2i$v=19$m=1024,t=2,p=2$MjJWUjRFWndtMm5BWGxOag$BusVxLeFyiLLWtaVvX/JRFBiPdZcjRrzpQ/rAhn6vqY');
-		$code->setUsed(1);
+		$code->userId = $this->testUID;
+		$code->code = '2|$argon2i$v=19$m=1024,t=2,p=2$MjJWUjRFWndtMm5BWGxOag$BusVxLeFyiLLWtaVvX/JRFBiPdZcjRrzpQ/rAhn6vqY';
+		$code->used = 1;
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->testUID);
 
 		$this->mapper->insert($code);
-		$this->assertCount(1, $this->mapper->getBackupCodes($user));
+		$this->assertCount(1, iterator_to_array($this->mapper->findByUser($user)));
 	}
 }

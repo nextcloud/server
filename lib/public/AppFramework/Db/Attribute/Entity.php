@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
+ * SPDX-FileContributor: Carl Schwan
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCP\AppFramework\Db\Attribute;
+
+use Attribute;
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
+
+#[Attribute(Attribute::TARGET_CLASS)]
+#[Consumable(since: '33.0.0')]
+final readonly class Entity {
+}

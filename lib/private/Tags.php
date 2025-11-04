@@ -378,14 +378,14 @@ class Tags implements ITags {
 	protected function save(): void {
 		foreach ($this->tags as $tag) {
 			try {
-				if (!$this->mapper->tagExists($tag)) {
-					$this->mapper->insert($tag);
+				$this->mapper->insert($tag);
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					$this->logger->error($e->getMessage(), [
+						'exception' => $e,
+						'app' => 'core',
+					]);
 				}
-			} catch (\Exception $e) {
-				$this->logger->error($e->getMessage(), [
-					'exception' => $e,
-					'app' => 'core',
-				]);
 			}
 		}
 
