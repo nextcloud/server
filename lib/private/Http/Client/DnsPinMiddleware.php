@@ -113,7 +113,7 @@ class DnsPinMiddleware {
 					$ports[] = (string)$port;
 				}
 
-				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
+				$targetIps = $this->dnsResolve(idn_to_ascii($hostName), 0);
 
 				if (empty($targetIps)) {
 					throw new LocalServerException('No DNS record found for ' . $hostName);
