@@ -8,25 +8,31 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command;
 
-use OC\Snowflake\Decoder;
+use OCP\Snowflake\IDecoder;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SnowflakeDecodeId extends Base {
+	public function __construct(
+		private readonly IDecoder $decoder,
+	) {
+		parent::__construct();
+	}
+
 	protected function configure(): void {
 		parent::configure();
 
 		$this
-			->setName('decode-snowflake')
+			->setName('snowflake:decode')
 			->setDescription('Decode Snowflake IDs used by Nextcloud')
 			->addArgument('snowflake-id', InputArgument::REQUIRED, 'Nextcloud Snowflake ID to decode');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$snowflakeId = $input->getArgument('snowflake-id');
-		$data = (new Decoder)->decode($snowflakeId);
+		$data = $this->decoder->decode($snowflakeId);
 
 		$rows = [
 			['Snowflake ID', $snowflakeId],
