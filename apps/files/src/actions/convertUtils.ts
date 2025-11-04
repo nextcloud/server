@@ -80,13 +80,13 @@ export async function convertFiles(fileIds: number[], targetMimeType: string) {
 
 			// We already check above when all files failed
 			// if we're here, we have a mix of failed and successful files
-			showError(n('files', 'One file could not be converted', '%n files could not be converted', failed.length))
-			showSuccess(n('files', 'One file successfully converted', '%n files successfully converted', fileIds.length - failed.length))
+			showError(n('files', '%n file could not be converted', '%n files could not be converted', failed.length))
+			showSuccess(n('files', '%n file converted', '%n files converted', fileIds.length - failed.length))
 			return
 		}
 
 		// All files converted
-		showSuccess(t('files', 'Files successfully converted'))
+		showSuccess(t('files', 'Files converted'))
 
 		// Extract files that are within the current directory
 		// in batch mode, you might have files from different directories
