@@ -8,73 +8,29 @@
 
 namespace OC\Tagging;
 
-use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\Attribute\Column;
+use OCP\AppFramework\Db\Attribute\Entity;
+use OCP\AppFramework\Db\Attribute\Id;
+use OCP\AppFramework\Db\Attribute\Table;
+use OCP\DB\Types;
+use OCP\Snowflake\IGenerator;
 
 /**
  * Class to represent a tag.
- *
- * @method string getOwner()
- * @method void setOwner(string $owner)
- * @method string getType()
- * @method void setType(string $type)
- * @method string getName()
- * @method void setName(string $name)
  */
-class Tag extends Entity {
-	protected $owner;
-	protected $type;
-	protected $name;
+#[Entity]
+#[Table(name: 'vcategory')]
+final class Tag {
+	#[Id(generatorClass: IGenerator::class)]
+	#[Column(name: 'id', type: Types::BIGINT, nullable: false)]
+	public ?string $id = null;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param string $owner The tag's owner
-	 * @param string $type The type of item this tag is used for
-	 * @param string $name The tag's name
-	 */
-	public function __construct($owner = null, $type = null, $name = null) {
-		$this->setOwner($owner);
-		$this->setType($type);
-		$this->setName($name);
-	}
+	#[Column(name: 'uid', type: Types::STRING, length: 64, nullable: false)]
+	public string $owner;
 
-	/**
-	 * Transform a database columnname to a property
-	 *
-	 * @param string $columnName the name of the column
-	 * @return string the property name
-	 * @todo migrate existing database columns to the correct names
-	 * to be able to drop this direct mapping
-	 */
-	#[\Override]
-	public function columnToProperty(string $columnName): string {
-		if ($columnName === 'category') {
-			return 'name';
-		}
+	#[Column(name: 'type', type: Types::STRING, length: 64, nullable: false)]
+	public string $type;
 
-		if ($columnName === 'uid') {
-			return 'owner';
-		}
-
-		return parent::columnToProperty($columnName);
-	}
-
-	/**
-	 * Transform a property to a database column name
-	 *
-	 * @param string $property the name of the property
-	 * @return string the column name
-	 */
-	#[\Override]
-	public function propertyToColumn(string $property): string {
-		if ($property === 'name') {
-			return 'category';
-		}
-
-		if ($property === 'owner') {
-			return 'uid';
-		}
-
-		return parent::propertyToColumn($property);
-	}
+	#[Column(name: 'category', type: Types::STRING, length: 255, nullable: false)]
+	public string $name;
 }
