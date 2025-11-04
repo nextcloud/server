@@ -623,7 +623,7 @@ class Storage {
 				$version->delete();
 				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 			} catch (NotPermittedException $e) {
-				Server::get(LoggerInterface::class)->error("Missing permissions to delete version: {$internalPath}", ['app' => 'files_versions', 'exception' => $e]);
+				Server::get(LoggerInterface::class)->error("Missing permissions to delete version for user {$uid}: {$internalPath}", ['app' => 'files_versions', 'exception' => $e]);
 			}
 		}
 	}
