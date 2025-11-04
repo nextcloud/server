@@ -175,7 +175,16 @@ If you want to make your app compatible with this app, you can use the methods p
         ],
 
         // your vue component view
-        component: VideoView
+        component: VideoView,
+
+        // optional: callback to be called before download
+        // useful for saving unsaved changes, validation, logging, etc.
+        // if not provided, defaults to an empty function
+        downloadCallback: async (fileInfo) => {
+            // perform any pre-download operations
+            // e.g., save current editor state
+            await saveCurrentDocument(fileInfo)
+        }
     })
    ```
 3. Make sure your script is loaded with `\OCP\Util::addInitScript` so that the handler is registered **before** the viewer is loaded.
@@ -213,7 +222,16 @@ If you want to make your app compatible with this app, you can use the `OCA.View
         ],
 
         // your vue component view
-        component: VideoView
+        component: VideoView,
+
+        // optional: callback to be called before download
+        // useful for saving unsaved changes, validation, logging, etc.
+        // if not provided, defaults to an empty function
+        downloadCallback: async (fileInfo) => {
+            // perform any pre-download operations
+            // e.g., save current editor state
+            await saveCurrentDocument(fileInfo)
+        }
     })
    ```
 3. Make sure your script is loaded with `\OCP\Util::addScript` (in contrast to using the API package)!

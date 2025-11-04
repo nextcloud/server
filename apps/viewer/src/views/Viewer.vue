@@ -1191,32 +1191,26 @@ export default defineComponent({
 		},
 
 		/**
-		 * Save active Text editors before downloading
+		 * Call handler's downloadCallback before downloading
 		 */
 		async onDownload() {
 			if (!this.canDownload) {
 				return
 			}
 
-			// Check if Text app is available and has active editor components
-			if (window.OCA?.Text?.editorComponents) {
+			// Get the current handler for this file
+			const mime = this.currentFile.mime
+			const alias = mime?.split('/')[0]
+			const handler = this.registeredHandlers[mime] ?? this.registeredHandlers[alias]
+
+			if (handler?.downloadCallback && typeof handler.downloadCallback === 'function') {
 				try {
-					logger.debug('Text app detected, attempting to save before download')
-
-					const editorComponents = window.OCA.Text.editorComponents
-
-					// Text app uses a Set to store editor components
-					if (editorComponents instanceof Set) {
-						for (const component of editorComponents) {
-							if (component && typeof component.save === 'function') {
-								logger.debug('Calling save on Text editor component')
-								await component.save()
-							}
-						}
-					}
+					logger.debug('Calling handler downloadCallback before download')
+					await handler.downloadCallback(this.currentFile)
 				} catch (error) {
-					logger.warn('Failed to save Text editor before download', { error })
-					// Continue with download anyway
+					logger.error('Failed to execute downloadCallback', { error })
+					showError(t('viewer', 'Failed to save file before download'))
+					return
 				}
 			}
 
