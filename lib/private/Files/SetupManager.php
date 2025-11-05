@@ -545,6 +545,7 @@ class SetupManager {
 
 		$this->oneTimeUserSetup($user);
 
+		$this->eventLogger->start('fs:setup:user:path:authoritative', "Setup $path filesystem for user");
 
 		/** @var string[] $setupProviders */
 		$setupProviders = &$this->setupUserMountProviders[$userUID];
@@ -582,7 +583,7 @@ class SetupManager {
 		} elseif (!$this->isSetupStarted($user)) {
 			$this->oneTimeUserSetup($user);
 		}
-		$this->eventLogger->end('fs:setup:user:path');
+		$this->eventLogger->end('fs:setup:user:path:authoritative');
 	}
 
 	private function fullSetupRequired(IUser $user): bool {
