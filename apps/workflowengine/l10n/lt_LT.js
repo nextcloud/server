@@ -52,7 +52,6 @@ OC.L10N.register(
     "Office documents" : "Raštinės dokumentai",
     "PDF documents" : "PDF dokumentai",
     "Custom MIME type" : "Tinkintas MIME tipas",
-    "Custom mimetype" : "Tinkintas MIME tipas",
     "Select a file type" : "Pasirinkite failo tipą",
     "e.g. httpd/unix-directory" : "pvz., httpd/unix-directory",
     "Please enter a valid time span" : "Įveskite teisingą laiko intervalą",

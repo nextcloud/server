@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "Documents PDF",
     "Video" : "Vidéo",
     "Custom MIME type" : "Type MIME personnalisé",
-    "Custom mimetype" : "mimetype personnalisé",
     "Select a file type" : "Sélectionnez un type de fichier",
     "e.g. httpd/unix-directory" : "par exemple httpd/unix-directory",
     "Please enter a valid time span" : "Merci de saisir une période de temps valide",

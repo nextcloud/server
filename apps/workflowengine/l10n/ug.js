@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF ھۆججەتلىرى",
     "Video" : "Video",
     "Custom MIME type" : "ئىختىيارى MIME تىپى",
-    "Custom mimetype" : "Custom mimetype",
     "Select a file type" : "ھۆججەت تىپىنى تاللاڭ",
     "e.g. httpd/unix-directory" : "مەسىلەن httpd / unix- مۇندەرىجە",
     "Please enter a valid time span" : "ئىناۋەتلىك ۋاقىتنى كىرگۈزۈڭ",

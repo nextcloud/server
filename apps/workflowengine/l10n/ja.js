@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDFドキュメント",
     "Video" : "ビデオ",
     "Custom MIME type" : "カスタムMIMEタイプ",
-    "Custom mimetype" : "カスタムMIMEタイプ",
     "Select a file type" : "ファイルタイプを指定",
     "e.g. httpd/unix-directory" : "例: httpd/unix-directory",
     "Please enter a valid time span" : "正しい間隔を指定してください",

@@ -52,7 +52,6 @@ OC.L10N.register(
     "Images" : "Slike",
     "Office documents" : "Dokumenti paketa Office",
     "PDF documents" : "Dokumenti PDF",
-    "Custom mimetype" : "Prilagođeni mimetype",
     "Select a file type" : "Odaberi vrstu datoteke",
     "e.g. httpd/unix-directory" : "npr. httpd/unix-directory",
     "Please enter a valid time span" : "Unesite valjani vremenski raspon",

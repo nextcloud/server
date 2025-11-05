@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF dokumenter",
     "Video" : "Video",
     "Custom MIME type" : "Egendefinert MIME-type",
-    "Custom mimetype" : "Egendefinert MIME-type",
     "Select a file type" : "Velg filtype",
     "e.g. httpd/unix-directory" : "f.eks. httpd/unix-mappe",
     "Please enter a valid time span" : "Vennligst skriv inn en gyldig tidsperiode",

@@ -47,7 +47,6 @@ OC.L10N.register(
     "Office documents" : "Toimisto-ohjelmistojen asiakirjat",
     "PDF documents" : "PDF-asiakirjat",
     "Video" : "Video",
-    "Custom mimetype" : "Mukautettu MIME-tyyppi",
     "Select a file type" : "Valitse tiedostotyyppi",
     "Files WebDAV" : "Tiedostot WebDAV",
     "Android client" : "Android-sovellus",

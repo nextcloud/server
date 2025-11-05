@@ -47,7 +47,6 @@ OC.L10N.register(
     "Office documents" : "오피스 문서",
     "PDF documents" : "PDF 문서",
     "Video" : "영상",
-    "Custom mimetype" : "사용자 mimetype",
     "Select a file type" : "파일 타입 선택",
     "Files WebDAV" : "파일 WebDAV",
     "Custom URL" : "사용자 정의 URL",

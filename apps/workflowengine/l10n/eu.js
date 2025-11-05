@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF dokumentuak",
     "Video" : "Bideoa",
     "Custom MIME type" : "MIME mota pertsonalizatua",
-    "Custom mimetype" : "Mime mota pertsonalizatua",
     "Select a file type" : "Hautatu fitxategi mota bat",
     "e.g. httpd/unix-directory" : "adib. httpd/unix-direktorioa",
     "Please enter a valid time span" : "Sartu baliozko denbora tarte bat",

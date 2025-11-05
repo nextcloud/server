@@ -44,7 +44,6 @@ OC.L10N.register(
     "Images" : "תמונות",
     "Office documents" : "מסמכי אופיס (Office)",
     "PDF documents" : "מסמכי RDF",
-    "Custom mimetype" : "נא לבחור טיפוס MIME",
     "Select a file type" : "נא לבחור סוג קובץ",
     "e.g. httpd/unix-directory" : "למשל: httpd/unix-directory",
     "Please enter a valid time span" : "נא למלא טווח זמן תקין",

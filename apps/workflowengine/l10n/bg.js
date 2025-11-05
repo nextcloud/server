@@ -54,7 +54,6 @@ OC.L10N.register(
     "Office documents" : "Офис документи",
     "PDF documents" : "PDF документи",
     "Custom MIME type" : "Персонализиран файл тип MIME",
-    "Custom mimetype" : "Персонализиран mimetype",
     "Select a file type" : "Избор на тип файл",
     "e.g. httpd/unix-directory" : "напр. httpd/unix-directory",
     "Please enter a valid time span" : "Моля, въведете валиден период от време",

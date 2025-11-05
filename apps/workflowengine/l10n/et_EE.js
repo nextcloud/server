@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF-dokumendid",
     "Video" : "Video",
     "Custom MIME type" : "Sinu määratud MIME-tüüp",
-    "Custom mimetype" : "Sinu määratud MIME-tüüp",
     "Select a file type" : "Vali failitüüp",
     "e.g. httpd/unix-directory" : "nt. httpd/unix-directory",
     "Please enter a valid time span" : "Palun sisesta korrektne ajavahemik",

@@ -44,7 +44,6 @@ OC.L10N.register(
     "Office documents" : "Office документи",
     "PDF documents" : "PDF документи",
     "Video" : "Видео",
-    "Custom mimetype" : "Прилагоден тип на датотеки",
     "Select a file type" : "Изберете вид на датотека",
     "e.g. httpd/unix-directory" : "Пр. httpd/unix-directory",
     "Please enter a valid time span" : "Внесете валиден времески осег",

@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "Doiciméid PDF",
     "Video" : "Físeán",
     "Custom MIME type" : "Cineál MIME saincheaptha",
-    "Custom mimetype" : "Cineál MIME saincheaptha",
     "Select a file type" : "Roghnaigh cineál comhaid",
     "e.g. httpd/unix-directory" : "m.sh. httpd/unix-directory",
     "Please enter a valid time span" : "Cuir isteach réise ama bailí le do thoil",

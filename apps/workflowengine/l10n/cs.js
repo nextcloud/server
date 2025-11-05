@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF dokumenty",
     "Video" : "Video",
     "Custom MIME type" : "Uživatelsky určený MIME typ",
-    "Custom mimetype" : "Uživatelsky určený mimetyp",
     "Select a file type" : "Vybrat typ souboru",
     "e.g. httpd/unix-directory" : "např. httpd/unix-directory",
     "Please enter a valid time span" : "Zadejte platné časové rozmezí",

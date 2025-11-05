@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF belgeleri",
     "Video" : "Video",
     "Custom MIME type" : "Özel MIME türü",
-    "Custom mimetype" : "Özel MIME türü",
     "Select a file type" : "Bir dosya türü seçin",
     "e.g. httpd/unix-directory" : "örnek httpd/unix-directory",
     "Please enter a valid time span" : "Lütfen geçerli bir tarih aralığı seçin",

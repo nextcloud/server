@@ -21,10 +21,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         array (
             'NCU\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -43,10 +39,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
@@ -1269,8 +1261,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Collaboration\\Resources\\Resource' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Resource.php',
         'OC\\Color' => __DIR__ . '/../../..' . '/lib/private/Color.php',
         'OC\\Command\\AsyncBus' => __DIR__ . '/../../..' . '/lib/private/Command/AsyncBus.php',
-        'OC\\Command\\CallableJob' => __DIR__ . '/../../..' . '/lib/private/Command/CallableJob.php',
-        'OC\\Command\\ClosureJob' => __DIR__ . '/../../..' . '/lib/private/Command/ClosureJob.php',
         'OC\\Command\\CommandJob' => __DIR__ . '/../../..' . '/lib/private/Command/CommandJob.php',
         'OC\\Command\\CronBus' => __DIR__ . '/../../..' . '/lib/private/Command/CronBus.php',
         'OC\\Command\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Command/FileAccess.php',
@@ -2159,8 +2149,11 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Share\\Constants' => __DIR__ . '/../../..' . '/lib/private/Share/Constants.php',
         'OC\\Share\\Helper' => __DIR__ . '/../../..' . '/lib/private/Share/Helper.php',
         'OC\\Share\\Share' => __DIR__ . '/../../..' . '/lib/private/Share/Share.php',
+        'OC\\Snowflake\\APCuSequence' => __DIR__ . '/../../..' . '/lib/private/Snowflake/APCuSequence.php',
         'OC\\Snowflake\\Decoder' => __DIR__ . '/../../..' . '/lib/private/Snowflake/Decoder.php',
+        'OC\\Snowflake\\FileSequence' => __DIR__ . '/../../..' . '/lib/private/Snowflake/FileSequence.php',
         'OC\\Snowflake\\Generator' => __DIR__ . '/../../..' . '/lib/private/Snowflake/Generator.php',
+        'OC\\Snowflake\\ISequence' => __DIR__ . '/../../..' . '/lib/private/Snowflake/ISequence.php',
         'OC\\SpeechToText\\SpeechToTextManager' => __DIR__ . '/../../..' . '/lib/private/SpeechToText/SpeechToTextManager.php',
         'OC\\SpeechToText\\TranscriptionJob' => __DIR__ . '/../../..' . '/lib/private/SpeechToText/TranscriptionJob.php',
         'OC\\StreamImage' => __DIR__ . '/../../..' . '/lib/private/StreamImage.php',

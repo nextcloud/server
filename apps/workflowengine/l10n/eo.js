@@ -40,7 +40,6 @@ OC.L10N.register(
     "Images" : "Bildoj",
     "Office documents" : "Oficejaj dokumentoj",
     "PDF documents" : "PDF-dokumentoj",
-    "Custom mimetype" : "Propra MIME-tipo",
     "Select a file type" : "Elekti dosierformon",
     "e.g. httpd/unix-directory" : "ekz. httpd/unix-directory",
     "Please enter a valid time span" : "Entajpu validan intertempon",

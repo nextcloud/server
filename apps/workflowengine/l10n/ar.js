@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "مستندات PDF",
     "Video" : "الفيديو",
     "Custom MIME type" : "نوع MIME مخصص",
-    "Custom mimetype" : "أنواع ملفات مخصصة",
     "Select a file type" : "اختر نوع الملف",
     "e.g. httpd/unix-directory" : "على سبيل المثال httpd/unix-directory",
     "Please enter a valid time span" : "الرجاء إدخال نطاق زمني صالح",

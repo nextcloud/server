@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF documenten",
     "Video" : "Video",
     "Custom MIME type" : "Maatwerk mimetype",
-    "Custom mimetype" : "Maatwerk mimetype",
     "Select a file type" : "Selecteer een bestandstype",
     "e.g. httpd/unix-directory" : "bijv. httpd/unix-directory",
     "Please enter a valid time span" : "Geef een geldige tijdsinterval op",

@@ -55,7 +55,6 @@ OC.L10N.register(
     "PDF documents" : "PDF документы",
     "Video" : "Видео",
     "Custom MIME type" : "Пользовательский тип MIME",
-    "Custom mimetype" : "Пользовательский тип mime",
     "Select a file type" : "Выберите тип файла",
     "e.g. httpd/unix-directory" : "например, каталог httpd/unix",
     "Please enter a valid time span" : "Введите верный диапазон",

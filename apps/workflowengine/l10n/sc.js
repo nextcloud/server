@@ -51,7 +51,6 @@ OC.L10N.register(
     "Images" : "Immàgines",
     "Office documents" : "Documentos de Office",
     "PDF documents" : "Documentos PDF",
-    "Custom mimetype" : "Personaliza sa genia MIME",
     "Select a file type" : "Seletziona una genia de archìviu",
     "e.g. httpd/unix-directory" : "pro esèmpiu httpd/unix-directory",
     "Please enter a valid time span" : "Inserta•nche un'intervallu de tempus bàlidu",
