@@ -10,16 +10,18 @@ namespace OCP\Command;
 /**
  * Interface IBus
  *
+ * @deprecated 33.0.0 The interface is considered internal going forward and should not be implemented by apps anymore
  * @since 8.1.0
  */
 interface IBus {
 	/**
 	 * Schedule a command to be fired
 	 *
-	 * @param \OCP\Command\ICommand | callable $command
+	 * @param \OCP\Command\ICommand $command
+	 * @since 33.0.0 Only allowed for {@see \OCA\Files_Trashbin\Command\Expire} and {@see \OCA\Files_Versions\Command\Expire}
 	 * @since 8.1.0
 	 */
-	public function push($command);
+	public function push(ICommand $command): void;
 
 	/**
 	 * Require all commands using a trait to be run synchronous
@@ -27,5 +29,5 @@ interface IBus {
 	 * @param string $trait
 	 * @since 8.1.0
 	 */
-	public function requireSync($trait);
+	public function requireSync(string $trait): void;
 }

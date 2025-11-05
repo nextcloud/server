@@ -1781,6 +1781,9 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedClass>
+    <DeprecatedInterface>
+      <code><![CDATA[Expire]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
@@ -1805,6 +1808,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files_trashbin/lib/Command/Size.php">
+    <DeprecatedInterface>
+      <code><![CDATA[private]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
@@ -1900,6 +1906,11 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/files_versions/lib/Command/Expire.php">
+    <DeprecatedInterface>
+      <code><![CDATA[Expire]]></code>
+    </DeprecatedInterface>
+  </file>
   <file src="apps/files_versions/lib/Command/ExpireVersions.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user)]]></code>
@@ -1933,6 +1944,9 @@
       <code><![CDATA[Files::streamCopy($source, $target, true)]]></code>
       <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
     </DeprecatedClass>
+    <DeprecatedInterface>
+      <code><![CDATA[$bus]]></code>
+    </DeprecatedInterface>
     <DeprecatedMethod>
       <code><![CDATA[Files::streamCopy($source, $target, true)]]></code>
       <code><![CDATA[dispatch]]></code>
@@ -3472,15 +3486,19 @@
 			}, $context->getCalendarProviders())]]></code>
     </NamedArgumentNotAllowed>
   </file>
-  <file src="lib/private/Command/CallableJob.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$serializedCallable]]></code>
-    </ParamNameMismatch>
+  <file src="lib/private/Command/CommandJob.php">
+    <UndefinedClass>
+      <code><![CDATA[\Test\Command\FilesystemCommand]]></code>
+      <code><![CDATA[\Test\Command\SimpleCommand]]></code>
+      <code><![CDATA[\Test\Command\StateFullCommand]]></code>
+    </UndefinedClass>
   </file>
-  <file src="lib/private/Command/ClosureJob.php">
-    <InvalidArgument>
-      <code><![CDATA[[LaravelClosure::class]]]></code>
-    </InvalidArgument>
+  <file src="lib/private/Command/QueueBus.php">
+    <UndefinedClass>
+      <code><![CDATA[\Test\Command\FilesystemCommand]]></code>
+      <code><![CDATA[\Test\Command\SimpleCommand]]></code>
+      <code><![CDATA[\Test\Command\StateFullCommand]]></code>
+    </UndefinedClass>
   </file>
   <file src="lib/private/Comments/Manager.php">
     <RedundantCast>
