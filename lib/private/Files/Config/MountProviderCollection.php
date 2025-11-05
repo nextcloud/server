@@ -88,8 +88,8 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	public function getProvidersByClass(array $providers, array $mountProviderClasses): array {
 		return array_filter(
 			$providers,
-			fn (IMountProvider $mountProvider) => (in_array(
-				get_class($mountProvider),
+			fn (IMountProvider $mountProvider) => (\in_array(
+				\get_class($mountProvider),
 				$mountProviderClasses
 			))
 		);

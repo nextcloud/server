@@ -546,10 +546,10 @@ class SetupManager {
 
 		// todo: maybe the HomeMountProviders can be initialized here if
 		// 		 there is an entry in oc_mounts
-		$providersToUse = $this->mountProviderCollection->getProviders();
-		$providers = $this->mountProviderCollection->getProvidersByClass($providersToUse, array_keys($mountInfosByProvider));
-		$providerClasses = array_map(fn ($provider) => get_class($provider), $providers);
-		/** @var array<string, IMountProvider|null> $providers */
+		$registeredProviders = $this->mountProviderCollection->getProviders();
+		$providers = $this->mountProviderCollection->getProvidersByClass($registeredProviders, array_keys($mountInfosByProvider));
+		$providerClasses = array_map(fn ($provider) => \get_class($provider), $providers);
+		/** @var array<class-string<IMountProvider>, IMountProvider|null> $providers */
 		$providers = array_combine($providerClasses, $providers);
 
 		/** @var string[] $setupProviders */

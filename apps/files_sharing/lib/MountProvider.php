@@ -284,6 +284,11 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		array $mountsMetadata,
 		IStorageFactory $loader,
 	): array {
+		/**
+		 * If path and count of mount info match, we can use the getsharedwith
+		 * If we get a path passed which doesn't match the MP in the infos we
+		 * get, it means we are loading data for a collection.
+		 */
 		$uniqueMountOwnerIds = [];
 		$uniqueRootIds = [];
 		$user = null;
@@ -343,14 +348,14 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$cursor->closeCursor();
 
 		$pathShares = [];
+		$rootFolders = [];
 		foreach ($rootIdsByTypeAndOwner as $shareType => $rootIdsByOwner) {
 			$providerType = self::TYPE_MAPPING[$shareType] ?? $shareType;
 			foreach ($rootIdsByOwner as $shareOwner => $rootIds) {
-				// FIXME: needs to do one query per  multiple root nodes
+				$rootFolders[$shareOwner] ??= $this->rootFolder->getUserFolder($shareOwner);
+				// FIXME: needs to do one query per multiple root nodes
 				foreach ($rootIds as $rootId) {
-					$node
-						= $this->rootFolder->getUserFolder($shareOwner)
-							->getFirstNodeById($rootId);
+					$node = $rootFolders[$shareOwner]->getFirstNodeById($rootId);
 					$pathShares[] = $this->shareManager->getSharedWith(
 						$uniqueMountOwnerIds[0],
 						$providerType,
