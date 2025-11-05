@@ -545,41 +545,29 @@ class SetupManager {
 
 		$this->oneTimeUserSetup($user);
 
-		// todo: maybe the HomeMountProviders can be initialized here if
-		// 		 there is an entry in oc_mounts
-		$registeredProviders = $this->mountProviderCollection->getProviders();
-		$providers = $this->mountProviderCollection->getProvidersByClass($registeredProviders, array_keys($mountInfosByProvider));
-		$providerClasses = array_map(fn ($provider) => \get_class($provider), $providers);
-		/** @var array<class-string<IMountProvider>, IMountProvider|null> $providers */
-		$providers = array_combine($providerClasses, $providers);
 
 		/** @var string[] $setupProviders */
 		$setupProviders = &$this->setupUserMountProviders[$userUID];
 		/** @var list<IMountPoint[]> $mounts */
 		$mounts = [];
+		/** @var class-string<IMountProvider> $providerClass */
 		foreach ($mountInfosByProvider as $providerClass => $mountsInfos) {
 			if (in_array($providerClass, $setupProviders)) {
 				continue; // skip already setup providers
 			}
 
-			$provider = $providers[$providerClass] ?? null;
-			if ($provider === null) {
-				// todo: this happens for IHomeProviders too because they are
-				//  	 not part of the "normal" providers
-				// question: what to do in this case?
-				// throw new NotFoundException('Couldnt find provider for ' . $providerClass);
-			}
-
 			$setupProviders[] = $providerClass;
-			if ($provider instanceof IPartialMountProvider) {
+			if (is_a($providerClass, IPartialMountProvider::class, true)) {
 				// mount provider capable of returning mount-points specific to
 				// this path
-				$mounts[] = $provider->getMountsFromMountPoints
-				($path,
-					$mountsInfos,
-					$rootsMetadataByProvider[$providerClass],
-					$this->mountProviderCollection->getLoader());
-			} elseif ($provider instanceof IMountProvider) {
+				$mounts[] = $this->mountProviderCollection
+					->getUserMountsFromProviderByPath(
+						$providerClass,
+						$path,
+						$mountsInfos,
+						$rootsMetadataByProvider[$providerClass]
+					);
+			} elseif (is_a($providerClass, IMountProvider::class, true)) {
 				// old-style provider, get the mounts for the whole provider
 				$mounts[] = $this->mountProviderCollection
 					->getUserMountsForProviderClasses($user, [$providerClass]);

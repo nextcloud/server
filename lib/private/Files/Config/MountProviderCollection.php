@@ -11,9 +11,12 @@ use OC\Hooks\Emitter;
 use OC\Hooks\EmitterTrait;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Diagnostics\IEventLogger;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
@@ -82,19 +85,32 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
-	 * Convenience function to get registered IMountProvider instances by their class name.
-	 *
-	 * @param array<IMountProvider> $providers
-	 * @param array<class-string<IMountProvider>> $mountProviderClasses
-	 * @return array<int, IMountProvider> IMountProvider keyed-by the respective class
+	 * @param ICacheEntry[] $mountsMetadata
+	 * @param ICachedMountInfo[] $mountsInfo
+	 * @return IMountPoint[]
 	 */
-	public function getProvidersByClass(array $providers, array $mountProviderClasses): array {
-		return array_filter(
-			$providers,
-			fn (IMountProvider $mountProvider) => (\in_array(
-				\get_class($mountProvider),
-				$mountProviderClasses
-			))
+	public function getUserMountsFromProviderByPath(
+		string $providerClass,
+		string $path,
+		array $mountsInfo,
+		array $mountsMetadata,
+	): array {
+		$provider = $this->providers[$providerClass] ?? null;
+		if ($provider === null) {
+			return [];
+		}
+
+		if (!is_a($providerClass, IPartialMountProvider::class, true)) {
+			throw new \LogicException(
+				'Mount provider does not support partial mounts'
+			);
+		}
+
+		return $provider->getMountsFromMountPoints(
+			$path,
+			$mountsInfo,
+			$mountsMetadata,
+			$this->loader,
 		);
 	}
 
