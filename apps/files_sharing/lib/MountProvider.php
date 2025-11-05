@@ -69,7 +69,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		protected IMountManager $mountManager,
 		protected IDBConnection $dbConn,
 		protected IRootFolder $rootFolder,
-		protected IStorageFactory $loader,
 	) {
 	}
 
@@ -280,8 +279,10 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 * @inheritdoc
 	 */
 	public function getMountsFromMountPoints(
+		string $path,
 		array $mountsInfo,
 		array $mountsMetadata,
+		IStorageFactory $loader,
 	): array {
 		$uniqueMountOwnerIds = [];
 		$uniqueRootIds = [];
@@ -369,7 +370,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		return $this->getMountsFromSuperShares(
 			$mountOwnerId,
 			$superShares,
-			$this->loader,
+			$loader,
 			$user,
 			false,
 		);

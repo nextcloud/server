@@ -10,6 +10,7 @@ namespace OCP\Files\Config;
 
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorageFactory;
 
 /**
  * This interface represents mounts that can return IMountPoint instances that
@@ -23,5 +24,10 @@ interface IPartialMountProvider extends IMountProvider {
 	 * @param ICacheEntry[] $mountsMetadata
 	 * @return IMountPoint[]
 	 */
-	public function getMountsFromMountPoints(array $mountsInfo, array $mountsMetadata): array;
+	public function getMountsFromMountPoints(
+		string $path,
+		array $mountsInfo,
+		array $mountsMetadata,
+		IStorageFactory $loader
+	): array;
 }

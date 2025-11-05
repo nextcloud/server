@@ -573,8 +573,11 @@ class SetupManager {
 			if ($provider instanceof IPartialMountProvider) {
 				// mount provider capable of returning mount-points specific to
 				// this path
-				$mounts[] = $provider->getMountsFromMountPoints($mountsInfos,
-					$rootsMetadataByProvider[$providerClass]);
+				$mounts[] = $provider->getMountsFromMountPoints
+				($path,
+					$mountsInfos,
+					$rootsMetadataByProvider[$providerClass],
+					$this->mountProviderCollection->getLoader());
 			} elseif ($provider instanceof IMountProvider) {
 				// old-style provider, get the mounts for the whole provider
 				$mounts[] = $this->mountProviderCollection

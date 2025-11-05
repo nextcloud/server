@@ -261,4 +261,12 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	public function getRootProviders(): array {
 		return $this->rootProviders;
 	}
+
+	/**
+	 * TODO: replace with a proxy function in this class, probably getting the
+	 *   loader out of here is not a good idea
+	 */
+	public function getLoader(): IStorageFactory {
+		return $this->loader;
+	}
 }
