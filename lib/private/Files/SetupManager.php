@@ -514,9 +514,6 @@ class SetupManager {
 			return;
 		}
 
-		$userUID = $user->getUID();
-		$this->setupUserMountProviders[$userUID] ??= [];
-
 		try {
 			$mountInfos = $this->userMountCache->getMountsForPath($user, $path, $includeChildren);
 		} catch (NotFoundException) {
@@ -546,34 +543,12 @@ class SetupManager {
 
 		$this->eventLogger->start('fs:setup:user:path:authoritative', "Setup $path filesystem for user");
 
-		/** @var string[] $setupProviders */
-		$setupProviders = &$this->setupUserMountProviders[$userUID];
-		/** @var list<IMountPoint[]> $mounts */
-		$mounts = [];
-		/** @var class-string<IMountProvider> $providerClass */
-		foreach ($mountInfosByProvider as $providerClass => $mountsInfos) {
-			if (in_array($providerClass, $setupProviders)) {
-				continue; // skip already setup providers
-			}
-
-			$setupProviders[] = $providerClass;
-			if (is_a($providerClass, IPartialMountProvider::class, true)) {
-				// mount provider capable of returning mount-points specific to
-				// this path
-				$mounts[] = $this->mountProviderCollection
-					->getUserMountsFromProviderByPath(
-						$providerClass,
-						$path,
-						$mountsInfos,
-						$rootsMetadataByProvider[$providerClass]
-					);
-			} elseif (is_a($providerClass, IMountProvider::class, true)) {
-				// old-style provider, get the mounts for the whole provider
-				$mounts[] = $this->mountProviderCollection
-					->getUserMountsForProviderClasses($user, [$providerClass]);
-			}
-		}
-		$mounts = array_merge(...$mounts);
+		$mounts = $this->getMountsFromProviders(
+			$user,
+			$path,
+			$mountInfosByProvider,
+			$rootsMetadataByProvider,
+		);
 
 		if (!empty($mounts)) {
 			$this->setupForUserWith($user, function () use ($mounts) {
@@ -723,5 +698,50 @@ class SetupManager {
 		if ($this->lockdownManager->canAccessFilesystem()) {
 			$this->userMountCache->registerMounts($user, $mounts, $mountProviderClasses);
 		}
+	}
+
+	/**
+	 * Returns mounts relevant to $path for the given $user, based on the
+	 * metadata provided.
+	 *
+	 * @param array<class-string<IMountProvider>, ICacheEntry[]> $rootsMetadataByProvider
+	 * @param array<class-string<IMountProvider>, ICachedMountInfo[]> $mountInfosByProvider
+	 *
+	 * @return IMountPoint[]
+	 */
+	public function getMountsFromProviders(
+		IUser $user,
+		string $path,
+		array $mountInfosByProvider,
+		array $rootsMetadataByProvider,
+	): array {
+		$mounts = [];
+		$userUid = $user->getUID();
+		$this->setupUserMountProviders[$userUid] ??= [];
+		$setupProviders = &$this->setupUserMountProviders[$userUid];
+		/** @var class-string<IMountProvider> $providerClass */
+		foreach ($mountInfosByProvider as $providerClass => $mountsInfos) {
+			if (in_array($providerClass, $setupProviders)) {
+				continue; // skip already setup providers
+			}
+
+			$setupProviders[] = $providerClass;
+			if (is_a($providerClass, IPartialMountProvider::class, true)) {
+				// mount provider capable of returning mount-points specific to
+				// this path
+				$mounts[] = $this->mountProviderCollection
+					->getUserMountsFromProviderByPath(
+						$providerClass,
+						$path,
+						$mountsInfos,
+						$rootsMetadataByProvider[$providerClass]
+					);
+			} elseif (is_a($providerClass, IMountProvider::class, true)) {
+				// old-style provider, get the mounts for the whole provider
+				$mounts[] = $this->mountProviderCollection
+					->getUserMountsForProviderClasses($user, [$providerClass]);
+			}
+		}
+		return array_merge(...$mounts);
 	}
 }
