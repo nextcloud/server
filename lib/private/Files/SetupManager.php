@@ -402,8 +402,7 @@ class SetupManager {
 	public function setupForPath(string $path, bool $includeChildren = false): void {
 		// I use this to quickly switch from the new version to the current one
 		// keeping DB changes and other unrelated changes
-		$authoritative = false;
-		$authoritative = true;
+		$authoritative = $_GET['authoritative'] ?? false;
 
 		if ($authoritative) {
 			$this->setupForPathAuthoritative($path, $includeChildren);
