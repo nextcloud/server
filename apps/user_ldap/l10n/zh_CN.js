@@ -191,6 +191,7 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射",
     "Confirm action" : "确认操作",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "是否确定要永久删除此 LDAP 配置？此操作无法撤销。",
+    "Failed to delete config" : "无法删除配置",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "是否确定要永久清除 LDAP 映射？此操作无法撤销。",
     "Mapping cleared" : "映射已清除",
     "Failed to clear mapping" : "无法清除映射",

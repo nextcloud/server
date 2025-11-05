@@ -120,7 +120,6 @@ OC.L10N.register(
     "Group membership" : "Csoporttagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",
-    "Custom mimetype" : "Egyéni MIME-típus",
     "Type to search for group …" : "Gépeljen egy csoport kereséséhez…"
 },
 "nplurals=2; plural=(n != 1);");

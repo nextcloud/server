@@ -120,7 +120,6 @@ OC.L10N.register(
     "Group membership" : "Pertenza ao grupo",
     "is member of" : "é membro de",
     "is not member of" : "non é membro de",
-    "Custom mimetype" : "Tipo MIME personalizado",
     "Type to search for group …" : "Escriba para buscar por grupo…"
 },
 "nplurals=2; plural=(n != 1);");

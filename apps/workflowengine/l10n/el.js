@@ -119,7 +119,6 @@ OC.L10N.register(
     "Group membership" : "Συμμετοχή σε ομάδα",
     "is member of" : "είναι μέλος του",
     "is not member of" : "δεν είναι μέλος του",
-    "Custom mimetype" : "Προσαρμοσμένος τύπος mime",
     "Type to search for group …" : "Πληκτρολογήστε για αναζήτηση ομάδας …"
 },
 "nplurals=2; plural=(n != 1);");

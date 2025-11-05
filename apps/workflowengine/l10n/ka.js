@@ -115,7 +115,6 @@ OC.L10N.register(
     "not between" : "not between",
     "Request user agent" : "Request user agent",
     "is member of" : "is member of",
-    "is not member of" : "is not member of",
-    "Custom mimetype" : "Custom mimetype"
+    "is not member of" : "is not member of"
 },
 "nplurals=2; plural=(n!=1);");

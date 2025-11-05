@@ -198,6 +198,7 @@ OC.L10N.register(
     "Load more results" : "Načítať viac výsledkov",
     "Search in" : "Hľadať v",
     "Log in" : "Prihlásiť sa",
+    "Logging in …" : "Prebieha prihlasovanie …",
     "Log in to {productName}" : "Prihlásiť sa do {productName}u",
     "Wrong login or password." : "Nesprávne meno alebo heslo.",
     "This account is disabled" : "Tento účet je deaktivovaný",

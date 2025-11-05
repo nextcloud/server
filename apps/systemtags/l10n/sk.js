@@ -63,6 +63,7 @@ OC.L10N.register(
     "Update" : "Aktualizovať",
     "Delete" : "Zmazať",
     "Reset" : "Vynulovať",
+    "Loading …" : "Načítava sa …",
     "{displayName} (hidden)" : "{displayName}(skrytý)",
     "{displayName} (restricted)" : "{displayName}(obmedzený)",
     "Failed to apply tags changes" : "Nepodarilo sa aplikovať zmeny štítkov",

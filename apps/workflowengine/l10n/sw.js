@@ -118,7 +118,6 @@ OC.L10N.register(
     "Group membership" : "Uanachama wa kikundi",
     "is member of" : "ni mwanachama wa",
     "is not member of" : "si mwanachama wa",
-    "Custom mimetype" : "Aina maalum ya mime",
     "Type to search for group …" : "Andika kutafuta kikundi …"
 },
 "nplurals=2; plural=(n != 1);");

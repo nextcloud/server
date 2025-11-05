@@ -119,7 +119,6 @@ OC.L10N.register(
     "Group membership" : "Group membership",
     "is member of" : "is member of",
     "is not member of" : "is not member of",
-    "Custom mimetype" : "Custom mimetype",
     "Type to search for group …" : "Type to search for group …"
 },
 "nplurals=2; plural=(n != 1);");

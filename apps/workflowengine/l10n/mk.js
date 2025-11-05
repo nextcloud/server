@@ -96,7 +96,6 @@ OC.L10N.register(
     "not between" : "не помеѓу",
     "Request user agent" : "Барање од кориснички агент",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Custom mimetype" : "Прилагоден тип на датотеки"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

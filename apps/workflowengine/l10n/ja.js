@@ -118,7 +118,6 @@ OC.L10N.register(
     "Group membership" : "グループメンバー",
     "is member of" : "が次のグループのメンバーである",
     "is not member of" : "が次のグループのメンバーではない",
-    "Custom mimetype" : "カスタムMIMEタイプ",
     "Type to search for group …" : "グループを検索するためのタイプ"
 },
 "nplurals=1; plural=0;");
