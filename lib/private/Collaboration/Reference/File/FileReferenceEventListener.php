@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Reference\File;
 
-use OC\Files\Node\NonExistingFile;
-use OC\Files\Node\NonExistingFolder;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -38,10 +36,6 @@ class FileReferenceEventListener implements IEventListener {
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof NodeDeletedEvent) {
-			if ($event->getNode() instanceof NonExistingFolder || $event->getNode() instanceof NonExistingFile) {
-				return;
-			}
-
 			$this->manager->invalidateCache((string)$event->getNode()->getId());
 		}
 		if ($event instanceof NodeRenamedEvent) {
