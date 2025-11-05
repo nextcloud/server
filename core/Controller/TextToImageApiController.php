@@ -77,6 +77,9 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/text2image')]
 	public function schedule(string $input, string $appId, string $identifier = '', int $numberOfImages = 8): DataResponse {
+		if (strlen($input) > 64_000) {
+			return new DataResponse(['message' => $this->l->t('Input text is too long')], Http::STATUS_PRECONDITION_FAILED);
+		}
 		$task = new Task($input, $appId, $numberOfImages, $this->userId, $identifier);
 		try {
 			try {
