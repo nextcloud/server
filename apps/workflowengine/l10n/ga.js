@@ -119,7 +119,6 @@ OC.L10N.register(
     "Group membership" : "Ballraíocht ghrúpa",
     "is member of" : "ina bhall de",
     "is not member of" : "nach ball de",
-    "Custom mimetype" : "Cineál MIME saincheaptha",
     "Type to search for group …" : "Clóscríobh chun grúpa a chuardach…"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

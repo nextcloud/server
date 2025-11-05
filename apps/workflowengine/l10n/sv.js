@@ -120,7 +120,6 @@ OC.L10N.register(
     "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
     "is not member of" : "är inte medlem i",
-    "Custom mimetype" : "Anpassad mimetyp",
     "Type to search for group …" : "Skriv för att söka efter grupp ..."
 },
 "nplurals=2; plural=(n != 1);");

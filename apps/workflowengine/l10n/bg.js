@@ -113,7 +113,6 @@ OC.L10N.register(
     "not between" : "не между",
     "Request user agent" : "Потребителски агент на заявка",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Custom mimetype" : "Персонализиран mimetype"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n != 1);");

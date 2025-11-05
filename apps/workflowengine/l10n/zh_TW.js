@@ -120,7 +120,6 @@ OC.L10N.register(
     "Group membership" : "群組成員資格",
     "is member of" : "是成員的群組",
     "is not member of" : "不是成員的群組",
-    "Custom mimetype" : "自訂 mimetype",
     "Type to search for group …" : "輸入以搜尋群組……"
 },
 "nplurals=1; plural=0;");

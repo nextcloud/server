@@ -118,7 +118,6 @@ OC.L10N.register(
     "Group membership" : "组成员资格",
     "is member of" : "是成员",
     "is not member of" : "不是成员",
-    "Custom mimetype" : "自定义MIME类型",
     "Type to search for group …" : "输入以搜索群组..."
 },
 "nplurals=1; plural=0;");

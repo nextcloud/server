@@ -88,7 +88,6 @@ OC.L10N.register(
     "not between" : "ei välillä",
     "Request user agent" : "Pyynnön user agent",
     "is member of" : "on jäsen",
-    "is not member of" : "ei ole jäsen",
-    "Custom mimetype" : "Mukautettu MIME-tyyppi"
+    "is not member of" : "ei ole jäsen"
 },
 "nplurals=2; plural=(n != 1);");

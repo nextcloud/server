@@ -118,7 +118,6 @@ OC.L10N.register(
     "Group membership" : "Grupi liikmelisus",
     "is member of" : "on liige",
     "is not member of" : "ei ole liige",
-    "Custom mimetype" : "Sinu määratud MIME-tüüp",
     "Type to search for group …" : "Grupi otsimiseks kirjuta midagi…"
 },
 "nplurals=2; plural=(n != 1);");
