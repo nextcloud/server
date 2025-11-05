@@ -32,9 +32,13 @@ class ResourceLocatorTest extends \Test\TestCase {
 			->method('getSystemValueString')
 			->with('theme', '')
 			->willReturn($theme);
-		return $this->getMockForAbstractClass(ResourceLocator::class,
-			[$this->logger, $this->config],
-			'', true, true, true, []);
+		return $this->getMockBuilder(ResourceLocator::class)
+			->onlyMethods(['doFind', 'doFindTheme'])
+			->setConstructorArgs(
+				[$this->logger, $this->config],
+				'', true, true, true, []
+			)
+			->getMock();
 	}
 
 	public function testFind(): void {

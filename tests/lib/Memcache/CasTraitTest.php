@@ -18,7 +18,12 @@ class CasTraitTest extends TestCase {
 	 */
 	private function getCache() {
 		$sourceCache = new ArrayCache();
-		$mock = $this->getMockForTrait('\OC\Memcache\CasTrait');
+		$mock = $this->getMockBuilder(CasTraitTestClass::class)->onlyMethods([
+			'set',
+			'get',
+			'add',
+			'remove',
+		])->getMock();
 
 		$mock->expects($this->any())
 			->method('set')

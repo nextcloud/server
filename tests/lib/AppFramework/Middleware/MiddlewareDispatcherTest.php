@@ -85,7 +85,7 @@ class TestMiddleware extends Middleware {
 }
 
 class TestController extends Controller {
-	public function method(): void {
+	public function controllerMethod(): void {
 	}
 }
 
@@ -115,10 +115,10 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 
 	private function getControllerMock() {
 		return $this->getMockBuilder(TestController::class)
-			->onlyMethods(['method'])
+			->onlyMethods(['controllerMethod'])
 			->setConstructorArgs(['app',
 				new Request(
-					['method' => 'GET'],
+					['controllerMethod' => 'GET'],
 					$this->createMock(IRequestId::class),
 					$this->createMock(IConfig::class)
 				)
