@@ -118,7 +118,6 @@ OC.L10N.register(
     "Group membership" : "Groepslidmaatschap",
     "is member of" : "is lid van",
     "is not member of" : "is geen lid van",
-    "Custom mimetype" : "Maatwerk mimetype",
     "Type to search for group …" : "Type om groep te zoeken …"
 },
 "nplurals=2; plural=(n != 1);");

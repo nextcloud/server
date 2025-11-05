@@ -118,7 +118,6 @@ OC.L10N.register(
     "Group membership" : "گۇرۇپپا ئەزالىقى",
     "is member of" : "نىڭ ئەزاسى",
     "is not member of" : "ئەزا ئەمەس",
-    "Custom mimetype" : "Custom mimetype",
     "Type to search for group …" : "گۇرۇپپا ئىزدەش ئۈچۈن كىرگۈزۈڭ…"
 },
 "nplurals=2; plural=(n != 1);");

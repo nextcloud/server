@@ -119,7 +119,6 @@ OC.L10N.register(
     "Group membership" : "Grup üyeliği",
     "is member of" : "şunun üyesi olan",
     "is not member of" : "şunun üyesi olmayan",
-    "Custom mimetype" : "Özel MIME türü",
     "Type to search for group …" : "Grup aramak için yazmaya başlayın…"
 },
 "nplurals=2; plural=(n > 1);");

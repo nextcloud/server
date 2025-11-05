@@ -115,7 +115,6 @@ OC.L10N.register(
     "not between" : "non compreso",
     "Request user agent" : "User agent della richiesta",
     "is member of" : "è membro di",
-    "is not member of" : "non è membro di",
-    "Custom mimetype" : "Tipo MIME personalizzato"
+    "is not member of" : "non è membro di"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

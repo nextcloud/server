@@ -87,7 +87,6 @@ OC.L10N.register(
     "not between" : "ne inter",
     "Request user agent" : "Retumil-identigilo („user-agent“)",
     "is member of" : "estas membro de",
-    "is not member of" : "ne estas membro de",
-    "Custom mimetype" : "Propra MIME-tipo"
+    "is not member of" : "ne estas membro de"
 },
 "nplurals=2; plural=(n != 1);");
