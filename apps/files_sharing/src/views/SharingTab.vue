@@ -397,6 +397,7 @@ export default {
 			this.sharedWithMe = {}
 			this.shares = []
 			this.linkShares = []
+			this.externalShares = []
 			this.showSharingDetailsView = false
 			this.shareDetailsData = {}
 		},
