@@ -56,6 +56,7 @@ use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Share\Events\ShareCreatedEvent;
 use Psr\Log\LoggerInterface;
+use function in_array;
 
 class SetupManager {
 	private bool $rootSetup = false;
@@ -209,9 +210,9 @@ class SetupManager {
 
 		$this->setupForUserWith($user, function () use ($user) {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
-				IMountProvider $provider,
+				string $providerClass,
 			) use ($user) {
-				return !in_array(get_class($provider), $this->setupUserMountProviders[$user->getUID()]);
+				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()]);
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
