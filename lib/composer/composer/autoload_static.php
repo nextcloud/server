@@ -1221,8 +1221,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Collaboration\\Resources\\Resource' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Resource.php',
         'OC\\Color' => __DIR__ . '/../../..' . '/lib/private/Color.php',
         'OC\\Command\\AsyncBus' => __DIR__ . '/../../..' . '/lib/private/Command/AsyncBus.php',
-        'OC\\Command\\CallableJob' => __DIR__ . '/../../..' . '/lib/private/Command/CallableJob.php',
-        'OC\\Command\\ClosureJob' => __DIR__ . '/../../..' . '/lib/private/Command/ClosureJob.php',
         'OC\\Command\\CommandJob' => __DIR__ . '/../../..' . '/lib/private/Command/CommandJob.php',
         'OC\\Command\\CronBus' => __DIR__ . '/../../..' . '/lib/private/Command/CronBus.php',
         'OC\\Command\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Command/FileAccess.php',

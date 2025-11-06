@@ -1172,8 +1172,6 @@ return array(
     'OC\\Collaboration\\Resources\\Resource' => $baseDir . '/lib/private/Collaboration/Resources/Resource.php',
     'OC\\Color' => $baseDir . '/lib/private/Color.php',
     'OC\\Command\\AsyncBus' => $baseDir . '/lib/private/Command/AsyncBus.php',
-    'OC\\Command\\CallableJob' => $baseDir . '/lib/private/Command/CallableJob.php',
-    'OC\\Command\\ClosureJob' => $baseDir . '/lib/private/Command/ClosureJob.php',
     'OC\\Command\\CommandJob' => $baseDir . '/lib/private/Command/CommandJob.php',
     'OC\\Command\\CronBus' => $baseDir . '/lib/private/Command/CronBus.php',
     'OC\\Command\\FileAccess' => $baseDir . '/lib/private/Command/FileAccess.php',
