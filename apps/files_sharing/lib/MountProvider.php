@@ -307,45 +307,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 			throw new LogicException();
 		}
 
-		$mountOwnerId = $user->getUID();
-		// retrieve the share type for the received files
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('file_source', 'share_type', 'uid_owner')
-			->from('share')
-			->where(
-				$qb->expr()->in(
-					'file_source',
-					$qb->createNamedParameter(
-						$uniqueRootIds,
-						IQueryBuilder::PARAM_STR_ARRAY
-					)
-				)
-			)
-			->andWhere(
-				$qb->expr()->in(
-					'share_type',
-					$qb->createNamedParameter(
-						self::SUPPORTED_SHARE_TYPES,
-						IQueryBuilder::PARAM_INT_ARRAY)
-				)
-			)
-			->andWhere(
-				$qb->expr()->eq(
-					'share_with',
-					$qb->createNamedParameter($mountOwnerId)
-				)
-			)
-			->groupBy('file_source', 'share_type', 'uid_owner');
-
-		$cursor = $qb->executeQuery();
-
-		// group IDs of the roots of the mountpoints by type and owner ID
-		$rootIdsByTypeAndOwner = [];
-		while ($row = $cursor->fetch()) {
-			$rootIdsByTypeAndOwner[$row['share_type']][$row['uid_owner']][]
-				= $row['file_source'];
-		}
-		$cursor->closeCursor();
+		$rootIdsByTypeAndOwner = $this->getShareInfo($user, $uniqueRootIds);
 
 		$pathShares = [];
 		$rootFolders = [];
@@ -498,5 +460,59 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 					&& $share->getSharedBy() !== $userId;
 			}
 		);
+	}
+
+	/**
+	 * Helper function to retrieve data needed to determine which
+	 * IShareProviders need to be queried: IShare::TYPE_* and the owner of
+	 * the shared nodes.
+	 *
+	 * @param int[] $uniqueRootIds
+	 * @return array<int, array<string, int[]>> Array of the shared node IDs,
+	 *  keyed by the share type and the UID of the owner of the file.
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getShareInfo(IUser $user, array $uniqueRootIds): array {
+		$mountOwnerId = $user->getUID();
+		// retrieve the share type for the received files
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('file_source', 'share_type', 'uid_owner')
+			->from('share')
+			->where(
+				$qb->expr()->in(
+					'file_source',
+					$qb->createNamedParameter(
+						$uniqueRootIds,
+						IQueryBuilder::PARAM_STR_ARRAY
+					)
+				)
+			)
+			->andWhere(
+				$qb->expr()->in(
+					'share_type',
+					$qb->createNamedParameter(
+						self::SUPPORTED_SHARE_TYPES,
+						IQueryBuilder::PARAM_INT_ARRAY
+					)
+				)
+			)
+			->andWhere(
+				$qb->expr()->eq(
+					'share_with',
+					$qb->createNamedParameter($mountOwnerId)
+				)
+			)
+			->groupBy('file_source', 'share_type', 'uid_owner');
+		$cursor = $qb->executeQuery();
+
+		// group IDs of the roots of the mountpoints by type and owner ID
+		$rootIdsByTypeAndOwner = [];
+		while ($row = $cursor->fetch()) {
+			$rootIdsByTypeAndOwner[$row['share_type']][$row['uid_owner']][]
+				= $row['file_source'];
+		}
+		$cursor->closeCursor();
+
+		return $rootIdsByTypeAndOwner;
 	}
 }
