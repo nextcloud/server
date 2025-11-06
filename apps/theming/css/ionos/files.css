@@ -480,3 +480,11 @@ div.v-popper--theme-dropdown.v-popper__popper:has(.v-popper__wrapper), .header-m
 		min-width: 0;
 	}
 }
+
+/* Sidebar */
+aside#app-sidebar-vue {
+	div.user-bubble__content {
+		background-color: var(--ion-surface-secondary);
+		color: var(--ion-text);
+	}
+}
