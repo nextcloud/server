@@ -191,6 +191,7 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Очисти Groupname-LDAP мапирање група",
     "Confirm action" : "Потврди акцију",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "Да ли заиста желите да трајно обришете ову LDAP конфигурацију? Ово не може да се поништи.",
+    "Failed to delete config" : "Није успело брисање конфигурације",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "Да ли заиста желите да трајно обришете ово LDAP мапирање? Ово не може да се поништи.",
     "Mapping cleared" : "Мапирање је обрисано",
     "Failed to clear mapping" : "Није успело брисање мапирања",
