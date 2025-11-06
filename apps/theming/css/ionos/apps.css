@@ -1,3 +1,21 @@
-#app-content {
+.app-content {
 	padding-bottom: 100px;
+
+	tr.app-item.app-item--list-view {
+		background-color: var(--ion-files-list-background);
+		&:hover {
+			background-color: var(--ion-files-list-background-hover);
+		}
+
+		td.app-image.app-image-icon {
+			svg {
+				fill: var(--ion-text);
+			}
+			image {
+				@media (prefers-color-scheme: dark) {
+					filter: none;
+				}
+			}
+		}
+	}
 }
