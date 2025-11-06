@@ -1534,6 +1534,7 @@ return array(
     'OC\\Core\\Migrations\\Version33000Date20251013110519' => $baseDir . '/core/Migrations/Version33000Date20251013110519.php',
     'OC\\Core\\Migrations\\Version33000Date20251023110529' => $baseDir . '/core/Migrations/Version33000Date20251023110529.php',
     'OC\\Core\\Migrations\\Version33000Date20251023120529' => $baseDir . '/core/Migrations/Version33000Date20251023120529.php',
+    'OC\\Core\\Migrations\\Version33000Date20251106131209' => $baseDir . '/core/Migrations/Version33000Date20251106131209.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\ResponseDefinitions' => $baseDir . '/core/ResponseDefinitions.php',
     'OC\\Core\\Service\\CronService' => $baseDir . '/core/Service/CronService.php',
