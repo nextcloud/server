@@ -1,0 +1,39 @@
+div.app-talk.content {
+	.messages-group__date-text, li.message.message--hovered .message-body.normal-message-body {
+		background-color: var(--ion-surface-secondary);
+		color: var(--ion-text);
+	}
+
+	.left-sidebar__settings-button-container {
+		button {
+			background-color: var(--ion-button-sidebar-background) !important;
+			color: var(--ion-button-sidebar-text);
+
+			&:hover {
+				background-color: var(--ion-button-sidebar-background-hover) !important;
+			}
+
+			&:active {
+				background-color: var(--ion-button-sidebar-background-active) !important;
+			}
+		}
+	}
+
+	.rich-contenteditable__input--disabled {
+		background-color: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c6));
+		color: var(--ion-text);
+		cursor: not-allowed;
+	}
+}
+
+.v-popper__inner {
+	.nc-emoji-picker-container {
+		button.emoji-mart-anchor {
+			color: var(--ion-button--icon-only-text);
+
+			&.emoji-mart-anchor-selected, &:hover {
+				color: light-dark(var(--ion-color-blue-b7), var(--ion-text)) !important;
+			}
+		}
+	}
+}

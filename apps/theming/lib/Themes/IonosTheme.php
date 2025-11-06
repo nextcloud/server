@@ -26,6 +26,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		'settings.css',
 		'_layout.css',
 		'tables.css',
+		'talk.css',
 		'tasks.css'
 	];
 
