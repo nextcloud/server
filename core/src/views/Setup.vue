@@ -66,7 +66,7 @@
 		</fieldset>
 
 		<!-- Autoconfig toggle -->
-		<details :open="!isValidAutoconfig" data-cy-setup-form-advanced-config>
+		<details v-show="!isValidAutoconfig" data-cy-setup-form-advanced-config>
 			<summary>{{ t('core', 'Storage & database') }}</summary>
 
 			<!-- Data folder -->
