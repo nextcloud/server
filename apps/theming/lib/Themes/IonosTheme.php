@@ -16,7 +16,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	private const FONT_PATH_PREFIX = 'fonts/OpenSans/';
 
 	// CSS file paths for custom styling
-	private const CSS_FILES = [
+	private const array CSS_FILES = [
 		'variables.css',
 		'buttons.css',
 		'sidebar.css',
@@ -25,7 +25,8 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		'files.css',
 		'settings.css',
 		'_layout.css',
-		'tables.css'
+		'tables.css',
+		'tasks.css'
 	];
 
 	public function getId(): string {

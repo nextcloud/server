@@ -1,0 +1,50 @@
+div.app-tasks {
+	main#app-content-vue {
+		background-color: var(--color-main-background) !important;
+
+		.header {
+			background-color: var(--color-main-background) !important;
+		}
+
+		.task-item__body .task-body__icons .date {
+			color: var(--ion-text);
+		}
+	}
+	aside.app-sidebar {
+		ul.vs__dropdown-menu {
+			background-color: var(--ion-context-menu-background);
+			border: 1px solid var(--ion-context-menu-border);
+
+			li.vs__dropdown-option {
+				&:hover {
+					background-color: var(--ion-context-menu-item-background-hover);
+				}
+
+				&:active {
+					background-color: var(--ion-context-menu-item-background-active);
+				}
+
+				div.multiselect-picker-option {
+					color: var(--ion-context-menu-item-text);
+				}
+			}
+		}
+	}
+
+	.property__item .item__content .content__input input[type=number] {
+		background-color: var(--color-main-background);
+		color: var(--ion-text);
+	}
+
+	nav#app-navigation-vue {
+		div#nc-vue-3 li select {
+			background-color: var(--ion-context-menu-background);
+			color: var(--ion-text);
+
+			option {
+				background-color: var(--ion-context-menu-background);
+				color: var(--ion-text);
+			}
+		}
+	}
+}
