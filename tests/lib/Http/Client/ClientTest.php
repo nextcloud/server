@@ -17,6 +17,7 @@ use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use function parse_url;
@@ -36,6 +37,7 @@ class ClientTest extends \Test\TestCase {
 	/** @var IRemoteHostValidator|MockObject */
 	private IRemoteHostValidator $remoteHostValidator;
 	private LoggerInterface $logger;
+	private ServerVersion $serverVersion;
 	/** @var array */
 	private $defaultRequestOptions;
 
@@ -46,12 +48,15 @@ class ClientTest extends \Test\TestCase {
 		$this->certificateManager = $this->createMock(ICertificateManager::class);
 		$this->remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->serverVersion = $this->createMock(ServerVersion::class);
+
 		$this->client = new Client(
 			$this->config,
 			$this->certificateManager,
 			$this->guzzleClient,
 			$this->remoteHostValidator,
 			$this->logger,
+			$this->serverVersion,
 		);
 	}
 
@@ -284,6 +289,9 @@ class ClientTest extends \Test\TestCase {
 			->with()
 			->willReturn('/my/path.crt');
 
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -291,7 +299,7 @@ class ClientTest extends \Test\TestCase {
 				'https' => 'foo'
 			],
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
@@ -478,10 +486,13 @@ class ClientTest extends \Test\TestCase {
 			->expects($this->never())
 			->method('listCertificates');
 
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
 		$this->assertEquals([
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
@@ -533,6 +544,9 @@ class ClientTest extends \Test\TestCase {
 			->with()
 			->willReturn('/my/path.crt');
 
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -540,7 +554,7 @@ class ClientTest extends \Test\TestCase {
 				'https' => 'foo'
 			],
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
@@ -592,6 +606,9 @@ class ClientTest extends \Test\TestCase {
 			->with()
 			->willReturn('/my/path.crt');
 
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -600,7 +617,7 @@ class ClientTest extends \Test\TestCase {
 				'no' => ['bar']
 			],
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
