@@ -281,7 +281,7 @@ export default defineComponent({
 			if (this.toAdd.length === 1 && this.toRemove.length === 1) {
 				return n(
 					'systemtags',
-					'{tag1} will be set and {tag2} will be removed from 1 file.',
+					'{tag1} will be set and {tag2} will be removed from {count} file.',
 					'{tag1} will be set and {tag2} will be removed from {count} files.',
 					this.nodes.length,
 					{
@@ -312,7 +312,7 @@ export default defineComponent({
 
 			const removeStringSingular = n(
 				'systemtags',
-				'{tag} will be removed from 1 file.',
+				'{tag} will be removed from {count} file.',
 				'{tag} will be removed from {count} files.',
 				this.nodes.length,
 				{
