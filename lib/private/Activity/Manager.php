@@ -124,10 +124,8 @@ class Manager implements IManager {
 			throw new IncompleteActivityException('The given event is invalid');
 		}
 
-		if ($event->getAuthor() === '') {
-			if ($this->session->getUser() instanceof IUser) {
-				$event->setAuthor($this->session->getUser()->getUID());
-			}
+		if (($event->getAuthor() === '') && $this->session->getUser() instanceof IUser) {
+			$event->setAuthor($this->session->getUser()->getUID());
 		}
 
 		if (!$event->getTimestamp()) {
@@ -141,6 +139,7 @@ class Manager implements IManager {
 		foreach ($this->getConsumers() as $c) {
 			if ($c instanceof IBulkConsumer) {
 				$c->bulkReceive($event, $affectedUserIds, $setting);
+				continue;
 			}
 			foreach ($affectedUserIds as $affectedUserId) {
 				$event->setAffectedUser($affectedUserId);
