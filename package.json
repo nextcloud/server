@@ -1,9 +1,17 @@
 {
   "name": "nextcloud",
   "version": "1.0.0",
-  "description": "Nextcloud Server",
-  "author": "Nextcloud GmbH and Nextcloud contributors",
   "private": true,
+  "description": "Nextcloud Server",
+  "keywords": [
+    "nextcloud"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nextcloud/server.git"
+  },
+  "license": "AGPL-3.0-or-later",
+  "author": "Nextcloud GmbH and Nextcloud contributors",
   "directories": {
     "lib": "lib",
     "test": "tests"
@@ -11,34 +19,32 @@
   "scripts": {
     "build": "webpack --node-env production --progress",
     "postbuild": "build/npm-post-build.sh",
-    "dev": "webpack --node-env development --progress",
-    "watch": "webpack --node-env development --progress --watch",
-    "lint": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q $appdir); then printf \"apps/$appdir \"; fi; done) core --no-error-on-unmatched-pattern",
-    "lint:fix": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q $appdir); then printf \"apps/$appdir \"; fi; done) core --no-error-on-unmatched-pattern --fix",
-    "stylelint": "stylelint '{apps,core}/**/*.{scss,vue}'",
-    "stylelint:fix": "stylelint --fix '{apps,core}/**/*.{scss,vue}'",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage",
-    "test:update-snapshots": "vitest run --update",
-    "test:jsunit": "karma start tests/karma.config.js --single-run",
-    "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
-    "sass:watch": "sass --watch --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
-    "sass:icons": "babel-node core/src/icons.js",
     "cypress": "npm run cypress:component && npm run cypress:e2e",
     "cypress:component": "cypress run --component",
     "cypress:e2e": "cypress run --e2e",
     "cypress:gui": "cypress open",
-    "cypress:version": "cypress version"
+    "cypress:version": "cypress version",
+    "dev": "webpack --node-env development --progress",
+    "lint": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q $appdir); then printf \"apps/$appdir \"; fi; done) core --no-error-on-unmatched-pattern",
+    "lint:fix": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q $appdir); then printf \"apps/$appdir \"; fi; done) core --no-error-on-unmatched-pattern --fix",
+    "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
+    "sass:icons": "babel-node core/src/icons.js",
+    "sass:watch": "sass --watch --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
+    "stylelint": "stylelint '{apps,core}/**/*.{scss,vue}'",
+    "stylelint:fix": "stylelint --fix '{apps,core}/**/*.{scss,vue}'",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:jsunit": "karma start tests/karma.config.js --single-run",
+    "test:update-snapshots": "vitest run --update",
+    "test:watch": "vitest watch",
+    "watch": "webpack --node-env development --progress --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nextcloud/server.git"
-  },
-  "keywords": [
-    "nextcloud"
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
   ],
-  "license": "AGPL-3.0-or-later",
+  "overrides": {
+    "colors": "1.4.0"
+  },
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@mdi/js": "^7.4.47",
@@ -195,14 +201,8 @@
     "webpack-merge": "^6.0.1",
     "workbox-webpack-plugin": "^7.3.0"
   },
-  "browserslist": [
-    "extends @nextcloud/browserslist-config"
-  ],
   "engines": {
     "node": "^20.0.0",
-    "npm": "^10.0.0"
-  },
-  "overrides": {
-    "colors": "1.4.0"
+    "npm": "^10.5.0"
   }
 }
