@@ -309,16 +309,16 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 
 		$rootIdsByTypeAndOwner = $this->getShareInfo($user, $uniqueRootIds);
 
-		$pathShares = [];
-		$rootFolders = [];
+		$sharesInPath = [];
+		$rootFoldersCache = [];
 		foreach ($rootIdsByTypeAndOwner as $shareType => $rootIdsByOwner) {
 			$providerType = self::TYPE_MAPPING[$shareType] ?? $shareType;
 			foreach ($rootIdsByOwner as $shareOwner => $rootIds) {
-				$rootFolders[$shareOwner] ??= $this->rootFolder->getUserFolder($shareOwner);
+				$rootFoldersCache[$shareOwner] ??= $this->rootFolder->getUserFolder($shareOwner);
 				// FIXME: needs to do one query per multiple root nodes
 				foreach ($rootIds as $rootId) {
-					$node = $rootFolders[$shareOwner]->getFirstNodeById($rootId);
-					$pathShares[] = $this->shareManager->getSharedWith(
+					$node = $rootFoldersCache[$shareOwner]->getFirstNodeById($rootId);
+					$sharesInPath[] = $this->shareManager->getSharedWith(
 						$uniqueMountOwnerIds[0],
 						$providerType,
 						$node,
@@ -327,15 +327,15 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				}
 			}
 		}
-		$pathShares = array_merge(...$pathShares);
+		$sharesInPath = array_merge(...$sharesInPath);
 
 		// filter out shares owned or shared by the user and ones for which
 		// the user has no permissions
-		$shares = $this->filterShares($pathShares, $user->getUID());
-
+		$shares = $this->filterShares($sharesInPath, $user->getUID());
 		$superShares = $this->buildSuperShares($shares, $user);
+
 		return $this->getMountsFromSuperShares(
-			$mountOwnerId,
+			$user->getUID(),
 			$superShares,
 			$loader,
 			$user,
