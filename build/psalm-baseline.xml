@@ -1366,9 +1366,6 @@
     <InvalidArgument>
       <code><![CDATA[[$this, 'exceptionErrorHandler']]]></code>
     </InvalidArgument>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="apps/files/lib/Controller/DirectEditingController.php">
     <InvalidArgument>

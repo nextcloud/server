@@ -11,10 +11,12 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Utils\Scanner;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\FileCacheUpdated;
 use OCP\Files\Events\NodeAddedToCache;
@@ -114,7 +116,11 @@ class Scan extends Base {
 			$user,
 			new ConnectionAdapter($connection),
 			Server::get(IEventDispatcher::class),
-			Server::get(LoggerInterface::class)
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+			Server::get(IUserManager::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(ITimeFactory::class),
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception

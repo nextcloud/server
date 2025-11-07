@@ -17,6 +17,7 @@ use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileScannedEvent;
 use OCP\Files\Events\BeforeFolderScannedEvent;
@@ -45,24 +46,23 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Utils
  */
 class Scanner extends PublicEmitter {
+	private const TRANSACTION_SECOND_TIMEOUT = 10;
+
 	/**
 	 * Whether to use a DB transaction
 	 */
 	protected bool $useTransaction;
-
-	/**
-	 * Number of entries scanned to commit
-	 */
-	protected int $entriesToCommit;
+	protected int $transactionStartTime;
 
 	public function __construct(
-		private readonly string $user,
+		private readonly ?string $user,
 		private readonly ?IDBConnection $db,
 		private readonly IEventDispatcher $dispatcher,
 		private readonly LoggerInterface $logger,
 		private readonly SetupManager $setupManager,
 		private readonly IUserManager $userManager,
 		private readonly IEventDispatcher $eventDispatcher,
+		private readonly ITimeFactory $timeFactory,
 	) {
 		// when DB locking is used, no DB transactions will be used
 		$this->useTransaction = !(\OCP\Server::get(ILockingProvider::class) instanceof DBLockingProvider);
@@ -78,12 +78,10 @@ class Scanner extends PublicEmitter {
 		//TODO: move to the node based fileapi once that's done
 		$this->setupManager->tearDown();
 
-		$userObject = $this->userManager->get($this->user);
-		if ($userObject === null) {
-			throw new \InvalidArgumentException("User {$this->user} does not exist");
+		if ($this->user !== null) {
+			$userObject = $this->userManager->get($this->user);
+			$this->setupManager->setupForUser($userObject);
 		}
-
-		$this->setupManager->setupForUser($userObject);
 
 		$mountManager = Filesystem::getMountManager();
 		$mounts = $mountManager->findIn($dir);
@@ -239,6 +237,7 @@ class Scanner extends PublicEmitter {
 			}
 
 			if ($this->useTransaction) {
+				$this->transactionStartTime = $this->timeFactory->getTime();
 				$this->db->beginTransaction();
 			}
 			try {
@@ -275,16 +274,17 @@ class Scanner extends PublicEmitter {
 
 	private function postProcessEntry(IStorage $storage, $internalPath) {
 		$this->triggerPropagator($storage, $internalPath);
-		if ($this->useTransaction) {
-			$this->entriesToCommit++;
-			if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT) {
-				$propagator = $storage->getPropagator();
-				$this->entriesToCommit = 0;
-				$this->db->commit();
-				$propagator->commitBatch();
-				$this->db->beginTransaction();
-				$propagator->beginBatch();
-			}
+
+		if (
+			$this->useTransaction
+			&& $this->transactionStartTime + self::TRANSACTION_SECOND_TIMEOUT <= $this->timeFactory->getTime()
+		) {
+			$propagator = $storage->getPropagator();
+			$this->db->commit();
+			$propagator->commitBatch();
+			$this->db->beginTransaction();
+			$propagator->beginBatch();
+			$this->transactionStartTime = $this->timeFactory->getTime();
 		}
 	}
 }

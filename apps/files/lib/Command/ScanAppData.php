@@ -10,9 +10,11 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OC\ForbiddenException;
 use OC\Preview\Storage\StorageFactory;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -20,6 +22,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -84,7 +87,11 @@ class ScanAppData extends Base {
 			null,
 			new ConnectionAdapter($connection),
 			Server::get(IEventDispatcher::class),
-			Server::get(LoggerInterface::class)
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+			Server::get(IUserManager::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(ITimeFactory::class),
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
