@@ -307,25 +307,16 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 			throw new LogicException();
 		}
 
-		$rootIdsByTypeAndOwner = $this->getShareInfo($user, $uniqueRootIds);
-
+		$rootIdsByShareProviderType = $this->getShareInfo($user, $uniqueRootIds);
 		$sharesInPath = [];
-		$rootFoldersCache = [];
-		foreach ($rootIdsByTypeAndOwner as $shareType => $rootIdsByOwner) {
-			$providerType = self::TYPE_MAPPING[$shareType] ?? $shareType;
-			foreach ($rootIdsByOwner as $shareOwner => $rootIds) {
-				$rootFoldersCache[$shareOwner] ??= $this->rootFolder->getUserFolder($shareOwner);
-				// FIXME: needs to do one query per multiple root nodes
-				foreach ($rootIds as $rootId) {
-					$node = $rootFoldersCache[$shareOwner]->getFirstNodeById($rootId);
-					$sharesInPath[] = $this->shareManager->getSharedWith(
-						$uniqueMountOwnerIds[0],
-						$providerType,
-						$node,
-						-1
-					);
-				}
-			}
+		foreach ($rootIdsByShareProviderType as $shareType => $rootIds) {
+			// todo: pagination for many rootIds
+			$sharesInPath[] = $this->shareManager->getSharedWithByNodes(
+				$uniqueMountOwnerIds[0],
+				$shareType,
+				$rootIds,
+				-1
+			);
 		}
 		$sharesInPath = array_merge(...$sharesInPath);
 
@@ -464,19 +455,20 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 
 	/**
 	 * Helper function to retrieve data needed to determine which
-	 * IShareProviders need to be queried: IShare::TYPE_* and the owner of
-	 * the shared nodes.
+	 * IShareProviders need to be queried: IShare::TYPE_*.
+	 *
+	 * @see IShare::TYPE_* constants
 	 *
 	 * @param int[] $uniqueRootIds
-	 * @return array<int, array<string, int[]>> Array of the shared node IDs,
-	 *  keyed by the share type and the UID of the owner of the file.
+	 * @return array<int, int[]> Array of the shared node IDs,
+	 *  keyed by the share type.
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getShareInfo(IUser $user, array $uniqueRootIds): array {
 		$mountOwnerId = $user->getUID();
 		// retrieve the share type for the received files
 		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('file_source', 'share_type', 'uid_owner')
+		$qb->select('file_source', 'share_type')
 			->from('share')
 			->where(
 				$qb->expr()->in(
@@ -502,17 +494,17 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 					$qb->createNamedParameter($mountOwnerId)
 				)
 			)
-			->groupBy('file_source', 'share_type', 'uid_owner');
+			->groupBy('file_source', 'share_type');
 		$cursor = $qb->executeQuery();
 
-		// group IDs of the roots of the mountpoints by type and owner ID
-		$rootIdsByTypeAndOwner = [];
+		// group IDs of the roots of the mountpoints by type
+		$rootIdsByType = [];
 		while ($row = $cursor->fetch()) {
-			$rootIdsByTypeAndOwner[$row['share_type']][$row['uid_owner']][]
-				= $row['file_source'];
+			$mappedType = self::TYPE_MAPPING[$row['share_type']] ?? $row['share_type'];
+			$rootIdsByType[$mappedType][] = $row['file_source'];
 		}
 		$cursor->closeCursor();
 
-		return $rootIdsByTypeAndOwner;
+		return $rootIdsByType;
 	}
 }
