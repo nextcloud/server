@@ -86,7 +86,7 @@ class TipBroker extends Broker {
 	 * We will detect which attendees got added, which got removed and create
 	 * specific messages for these situations.
 	 *
-	 * @return array
+	 * @return array<int,Message>
 	 */
 	protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo) {
 
@@ -117,7 +117,7 @@ class TipBroker extends Broker {
 			$organizerName = $eventInfo['organizerName'];
 		}
 		// detect if the singleton or recurring base instance was converted to non-scheduling
-		if (count($eventInfo['instances']) === 0 && count($oldEventInfo['instances'])> 0) {
+		if (count($eventInfo['instances']) === 0 && count($oldEventInfo['instances']) > 0) {
 			foreach ($oldEventInfo['attendees'] as $attendee) {
 				$messages[] = $this->generateMessage(
 					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
@@ -135,13 +135,15 @@ class TipBroker extends Broker {
 			return $messages;
 		}
 		// detect if a new cancelled instance was created
+		$cancelledNewInstances = [];
 		if (isset($oldEventInfo['instances'])) {
 			$instancesDelta = array_diff_key($eventInfo['instances'], $oldEventInfo['instances']);
 			foreach ($instancesDelta as $id => $instance) {
 				if ($instance->STATUS?->getValue() === 'CANCELLED') {
+					$cancelledNewInstances[] = $id;
 					foreach ($eventInfo['attendees'] as $attendee) {
 						$messages[] = $this->generateMessage(
-							[$instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+							[$id => $instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
 						);
 					}
 				}
@@ -155,6 +157,18 @@ class TipBroker extends Broker {
 			)
 		);
 		foreach ($attendees as $attendee) {
+			// Skip organizer
+			if ($attendee === $organizerHref) {
+				continue;
+			}
+
+			// Skip if SCHEDULE-AGENT=CLIENT (respect RFC 6638)
+			if ($this->scheduleAgentServerRules
+				&& isset($eventInfo['attendees'][$attendee]['scheduleAgent'])
+				&& strtoupper($eventInfo['attendees'][$attendee]['scheduleAgent']) === 'CLIENT') {
+				continue;
+			}
+
 			// detect if attendee was removed and send cancel message
 			if (!isset($eventInfo['attendees'][$attendee]) && isset($oldEventInfo['attendees'][$attendee])) {
 				//get all instances of the attendee was removed from.
@@ -166,6 +180,39 @@ class TipBroker extends Broker {
 			}
 			// otherwise any created or modified instances will be sent as REQUEST
 			$instances = array_intersect_key($eventInfo['instances'], array_flip(array_keys($eventInfo['attendees'][$attendee]['instances'])));
+
+			// Remove already-cancelled new instances from REQUEST
+			if (!empty($cancelledNewInstances)) {
+				$instances = array_diff_key($instances, array_flip($cancelledNewInstances));
+			}
+
+			// Skip if no instances left to send
+			if (empty($instances)) {
+				continue;
+			}
+
+			// Add EXDATE for instances the attendee is NOT part of (only for recurring events with master)
+			if (isset($instances['master']) && count($eventInfo['instances']) > 1) {
+				$masterInstance = clone $instances['master'];
+				$excludedDates = [];
+
+				foreach ($eventInfo['instances'] as $instanceId => $instance) {
+					if ($instanceId !== 'master' && !isset($eventInfo['attendees'][$attendee]['instances'][$instanceId])) {
+						$excludedDates[] = $instance->{'RECURRENCE-ID'}->getValue();
+					}
+				}
+
+				if (!empty($excludedDates)) {
+					if (isset($masterInstance->EXDATE)) {
+						$currentExdates = $masterInstance->EXDATE->getParts();
+						$masterInstance->EXDATE->setParts(array_merge($currentExdates, $excludedDates));
+					} else {
+						$masterInstance->EXDATE = $excludedDates;
+					}
+					$instances['master'] = $masterInstance;
+				}
+			}
+
 			$messages[] = $this->generateMessage(
 				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template
 			);
@@ -174,6 +221,26 @@ class TipBroker extends Broker {
 		return $messages;
 	}
 
+	/**
+	 * Generates an iTip message for a specific attendee
+	 *
+	 * @param array<string, Component> $instances Array of event instances to include, keyed by instance ID:
+	 *                                            - 'master' => Component: The master/base event
+	 *                                            - '{RECURRENCE-ID}' => Component: Exception instances
+	 * @param string $organizerHref The organizer's calendar-user address (e.g., 'mailto:user@example.com')
+	 * @param string|null $organizerName The organizer's display name
+	 * @param array $attendee The attendee information containing:
+	 *                        - 'href' (string): The attendee's calendar-user address
+	 *                        - 'name' (string): The attendee's display name
+	 *                        - 'scheduleAgent' (string|null): SCHEDULE-AGENT parameter
+	 *                        - 'instances' (array): Instances this attendee is part of
+	 * @param string $objectId The UID of the event
+	 * @param string $objectType The component type ('VEVENT', 'VTODO', etc.)
+	 * @param int $objectSequence The sequence number of the event
+	 * @param string $method The iTip method ('REQUEST', 'CANCEL', 'REPLY', etc.)
+	 * @param VCalendar $template The template calendar object (without event components)
+	 * @return Message The generated iTip message ready to be sent
+	 */
 	protected function generateMessage(
 		array $instances,
 		string $organizerHref,
@@ -198,7 +265,7 @@ class TipBroker extends Broker {
 		foreach ($instances as $instance) {
 			$vObject->add($this->componentSanitizeScheduling(clone $instance));
 		}
-		
+
 		$message = new Message();
 		$message->method = $method;
 		$message->uid = $objectId;
