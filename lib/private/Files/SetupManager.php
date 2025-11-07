@@ -68,7 +68,7 @@ class SetupManager {
 	 * An array of provider classes that have already been set up, indexed
 	 * by UserUID.
 	 *
-	 * @var array<string, string[]>
+	 * @var array<string, class-string<IMountProvider>[]>
 	 */
 	private array $setupUserMountProviders = [];
 	private ICache $cache;
