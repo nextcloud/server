@@ -458,4 +458,125 @@ class TipBrokerTest extends TestCase {
 
 	}
 
+	/**
+	 * Tests user deleting master instance of recurring event
+	 */
+	public function testParseEventForOrganizerDeleteMasterInstance(): void {
+		// construct calendar with recurring event
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		// delete the master instance (convert to non-scheduling)
+		$mutatedCalendar = clone $this->vCalendar2a;
+		$mutatedCalendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
+		$mutatedCalendar->VEVENT->SEQUENCE->setValue(2);
+		$mutatedCalendar->VEVENT->remove('ORGANIZER');
+		$mutatedCalendar->VEVENT->remove('ATTENDEE');
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(1, $messages);
+		$this->assertEquals('CANCEL', $messages[0]->method);
+		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals($originalCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
+		$this->assertEquals($originalCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+	}
+
+	/**
+	 * Tests user adding EXDATE to master instance
+	 */
+	public function testParseEventForOrganizerAddExdate(): void {
+		// construct calendar with recurring event
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		// add EXDATE to exclude specific occurrences
+		$mutatedCalendar = clone $this->vCalendar2a;
+		$mutatedCalendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
+		$mutatedCalendar->VEVENT->SEQUENCE->setValue(2);
+		$mutatedCalendar->VEVENT->add('EXDATE', ['20240715T080000', '20240722T080000'], ['TZID' => 'America/Toronto']);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(1, $messages);
+		$this->assertEquals('REQUEST', $messages[0]->method);
+		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+		// verify EXDATE is present in the message
+		$this->assertTrue(isset($messages[0]->message->VEVENT->EXDATE));
+		$exdates = $messages[0]->message->VEVENT->EXDATE->getParts();
+		$this->assertContains('20240715T080000', $exdates);
+		$this->assertContains('20240722T080000', $exdates);
+	}
+
+	/**
+	 * Tests user removing EXDATE from master instance
+	 */
+	public function testParseEventForOrganizerRemoveExdate(): void {
+		// construct calendar with recurring event that has EXDATE
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalCalendar->VEVENT->add('EXDATE', ['20240715T080000', '20240722T080000'], ['TZID' => 'America/Toronto']);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		// remove EXDATE to restore excluded occurrences
+		$mutatedCalendar = clone $this->vCalendar2a;
+		$mutatedCalendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
+		$mutatedCalendar->VEVENT->SEQUENCE->setValue(2);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(1, $messages);
+		$this->assertEquals('REQUEST', $messages[0]->method);
+		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+		// verify EXDATE is not present in the message
+		$this->assertFalse(isset($messages[0]->message->VEVENT->EXDATE));
+	}
+
+	/**
+	 * Tests user converting recurring event to non-scheduling
+	 */
+	public function testParseEventForOrganizerConvertRecurringToNonScheduling(): void {
+		// construct calendar with recurring event
+		$originalCalendar = clone $this->vCalendar2a;
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		// remove ORGANIZER and ATTENDEE properties to convert to non-scheduling
+		$mutatedCalendar = clone $this->vCalendar2a;
+		$mutatedCalendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
+		$mutatedCalendar->VEVENT->SEQUENCE->setValue(2);
+		$mutatedCalendar->VEVENT->remove('ORGANIZER');
+		$mutatedCalendar->VEVENT->remove('ATTENDEE');
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(1, $messages);
+		$this->assertEquals('CANCEL', $messages[0]->method);
+		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals($originalCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
+		$this->assertEquals($originalCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+	}
+
+	/**
+	 * Tests SCHEDULE-FORCE-SEND parameter handling
+	 */
+	public function testParseEventForOrganizerScheduleForceSend(): void {
+		// construct calendar with event
+		$originalCalendar = clone $this->vCalendar1a;
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		// add SCHEDULE-FORCE-SEND parameter to ATTENDEE
+		$mutatedCalendar = clone $this->vCalendar1a;
+		$mutatedCalendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
+		$mutatedCalendar->VEVENT->SEQUENCE->setValue(2);
+		$mutatedCalendar->VEVENT->ATTENDEE->add('SCHEDULE-FORCE-SEND', 'REQUEST');
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(1, $messages);
+		$this->assertEquals('REQUEST', $messages[0]->method);
+		$this->assertEquals(2, $messages[0]->sequence);
+		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE->getValue(), $messages[0]->recipient);
+		// verify SCHEDULE-FORCE-SEND is removed from the message (sanitized)
+		$this->assertFalse(isset($messages[0]->message->VEVENT->ATTENDEE['SCHEDULE-FORCE-SEND']));
+	}
+
 }
