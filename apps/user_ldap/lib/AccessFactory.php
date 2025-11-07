@@ -10,6 +10,7 @@ use OCA\User_LDAP\User\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -22,6 +23,7 @@ class AccessFactory {
 		private IConfig $config,
 		private IAppConfig $appConfig,
 		private IUserManager $ncUserManager,
+		private IGroupManager $ncGroupManager,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
 	) {
@@ -36,6 +38,7 @@ class AccessFactory {
 			$this->helper,
 			$this->config,
 			$this->ncUserManager,
+			$this->ncGroupManager,
 			$this->logger,
 			$this->appConfig,
 			$this->dispatcher,
