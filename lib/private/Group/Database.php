@@ -67,7 +67,6 @@ class Database extends ABackend implements
 	public function createGroup(string $name): ?string {
 		$this->fixDI();
 
-		$name = $this->sanitizeGroupName($name);
 		$gid = $this->computeGid($name);
 		try {
 			// Add group
@@ -588,20 +587,11 @@ class Database extends ABackend implements
 	}
 
 	/**
-	 * Merge any white spaces to a single space in group name, then trim it.
-	 */
-	private function sanitizeGroupName(string $displayName): string {
-		$cleanedDisplayName = preg_replace('/\s+/', ' ', $displayName);
-		return trim($cleanedDisplayName);
-	}
-
-	/**
 	 * Compute group ID from display name (GIDs are limited to 64 characters in database)
 	 */
 	private function computeGid(string $displayName): string {
-		$displayNameWithoutWhitespace = preg_replace('/\s+/', '_', $displayName);
-		return mb_strlen($displayNameWithoutWhitespace) > 64
-			? hash('sha256', $displayNameWithoutWhitespace)
-			: $displayNameWithoutWhitespace;
+		return mb_strlen($displayName) > 64
+			? hash('sha256', $displayName)
+			: $displayName;
 	}
 }

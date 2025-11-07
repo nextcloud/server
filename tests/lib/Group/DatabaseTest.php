@@ -57,17 +57,4 @@ class DatabaseTest extends Backend {
 		$group = $this->backend->getGroupDetails($gidCreated);
 		$this->assertEquals(['displayName' => $groupName], $group);
 	}
-
-	public function testWhiteSpaceInGroupName(): void {
-		$randomId = $this->getUniqueID('test_', 10);
-		$groupName = " 	group  name	with  	weird spaces \n" . $randomId;
-		$expectedGroupName = 'group name with weird spaces ' . $randomId;
-		$expectedGroupId = 'group_name_with_weird_spaces_' . $randomId;
-
-		$gidCreated = $this->backend->createGroup($groupName);
-		$this->assertEquals($expectedGroupId, $gidCreated);
-
-		$group = $this->backend->getGroupDetails($gidCreated);
-		$this->assertEquals(['displayName' => $expectedGroupName], $group);
-	}
 }
