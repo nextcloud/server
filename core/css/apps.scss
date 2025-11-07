@@ -98,12 +98,23 @@ dt {
 }
 
 kbd {
-	padding: 4px 10px;
-	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, .2);
-	border-radius: var(--border-radius);
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--default-clickable-area);
+	height: var(--default-clickable-area);
+	padding-inline: calc(2 * var(--default-grid-baseline)) calc(2 * var(--default-grid-baseline));
+	border: 2px solid var(--color-primary-element-light);
+	border-block-end-width: 4px;
+	border-radius: var(--border-radius-element);
+	box-shadow: none;
+	font-family: var(--font-family);
+	line-height: 1;
 	white-space: nowrap;
+
+	& + kbd {
+		margin-inline-start: calc(1 * var(--default-grid-baseline));
+	}
 }
 
 
