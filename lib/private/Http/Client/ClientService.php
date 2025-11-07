@@ -18,6 +18,7 @@ use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
+use OCP\ServerVersion;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
@@ -43,6 +44,7 @@ class ClientService implements IClientService {
 		IRemoteHostValidator $remoteHostValidator,
 		IEventLogger $eventLogger,
 		protected LoggerInterface $logger,
+		protected ServerVersion $serverVersion,
 	) {
 		$this->config = $config;
 		$this->certificateManager = $certificateManager;
@@ -74,6 +76,7 @@ class ClientService implements IClientService {
 			$client,
 			$this->remoteHostValidator,
 			$this->logger,
+			$this->serverVersion,
 		);
 	}
 }
