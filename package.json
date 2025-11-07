@@ -168,7 +168,7 @@
     "handlebars-loader": "^1.7.3",
     "jasmine-core": "~2.99.1",
     "jasmine-sinon": "^0.4.0",
-    "jsdoc": "^4.0.4",
+    "jsdoc": "^4.0.5",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "2.2.1",
