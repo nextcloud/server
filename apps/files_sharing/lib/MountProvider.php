@@ -407,7 +407,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
-					$validateShares && ($shareId <= $maxValidatedShare),
+					!$validateShares || ($shareId <= $maxValidatedShare),
 				);
 
 				if ($validateShares && $newMaxValidatedShare !== null) {
