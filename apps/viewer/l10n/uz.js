@@ -10,6 +10,7 @@ OC.L10N.register(
     "Name" : "Name",
     "Save" : "Saqlash",
     "Back" : "Orqaga",
+    "Loading …" : "Yuklanmoqda…",
     "Reset" : "Qayta tiklash",
     "Confirm" : "Confirm",
     "Undo" : "Bekor qilish",
