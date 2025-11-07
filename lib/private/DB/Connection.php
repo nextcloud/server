@@ -473,7 +473,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	protected function logQueryToFile(string $sql, array $params): void {
 		$logFile = $this->systemConfig->getValue('query_log_file');
-		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
+		if ($logFile !== '' && (!file_exists($logFile) || is_writable($logFile))) {
 			$prefix = '';
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
 				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
