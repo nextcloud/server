@@ -371,7 +371,6 @@ OC.L10N.register(
     "Open the sidebar for a file" : "Avaa tiedoston sivupalkki",
     "Save as …" : "Tallenna nimellä",
     "Converting files …" : "Muunnetaan tiedostoja…",
-    "Files successfully converted" : "Tiedostot muunnettu onnistuneesti",
     "Converting file …" : "Muunnetaan tiedostoa…",
     "Deletion cancelled" : "Poistaminen peruttu",
     "Edit locally" : "Muokkaa paikallisesti",
