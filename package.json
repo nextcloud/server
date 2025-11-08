@@ -129,7 +129,7 @@
     "@nextcloud/cypress": "^1.0.0-beta.15",
     "@nextcloud/eslint-config": "^8.4.2",
     "@nextcloud/stylelint-config": "^3.1.1",
-    "@nextcloud/typings": "^1.9.1",
+    "@nextcloud/typings": "^1.10.0",
     "@nextcloud/webpack-vue-config": "^6.3.2",
     "@pinia/testing": "^0.1.7",
     "@testing-library/cypress": "^10.1.0",
