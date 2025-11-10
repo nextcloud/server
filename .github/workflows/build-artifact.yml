@@ -56,18 +56,18 @@ jobs:
           # Create matrix configuration as a compact JSON string
           matrix='[
             {
-              "name": "richdocuments",
-              "path": "apps-external/richdocuments",
+              "name": "activity",
+              "path": "apps-external/activity",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_richdocuments_app"
+              "makefile_target": "build_activity_app"
             },
             {
-              "name": "viewer",
-              "path": "apps-external/viewer",
+              "name": "assistant",
+              "path": "apps-external/assistant",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_viewer_app"
+              "makefile_target": "build_assistant_app"
             },
             {
               "name": "calendar",
@@ -77,18 +77,11 @@ jobs:
               "makefile_target": "build_calendar_app"
             },
             {
-              "name": "activity",
-              "path": "apps-external/activity",
-              "has_npm": true,
+              "name": "circles",
+              "path": "apps-external/circles",
+              "has_npm": false,
               "has_composer": true,
-              "makefile_target": "build_activity_app"
-            },
-            {
-              "name": "contacts",
-              "path": "apps-external/contacts",
-              "has_npm": true,
-              "has_composer": true,
-              "makefile_target": "build_contacts_app"
+              "makefile_target": "build_circles_app"
             },
             {
               "name": "collectives",
@@ -98,39 +91,46 @@ jobs:
               "makefile_target": "build_collectives_app"
             },
             {
-              "name": "circles",
-              "path": "apps-external/circles",
-              "has_npm": false,
-              "has_composer": true,
-              "makefile_target": "build_circles_app"
-            },
-            {
-              "name": "notifications",
-              "path": "apps-external/notifications",
+              "name": "contacts",
+              "path": "apps-external/contacts",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_notifications_app"
+              "makefile_target": "build_contacts_app"
             },
             {
-              "name": "notify_push",
-              "path": "apps-external/notify_push",
-              "has_npm": false,
-              "has_composer": true,
-              "makefile_target": "build_notify_push_app"
-            },
-            {
-              "name": "tasks",
-              "path": "apps-external/tasks",
+              "name": "deck",
+              "path": "apps-external/deck",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_tasks_app"
+              "makefile_target": "build_deck_app"
             },
             {
-              "name": "spreed",
-              "path": "apps-external/spreed",
+              "name": "end_to_end_encryption",
+              "path": "apps-external/end_to_end_encryption",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_spreed_app"
+              "makefile_target": "build_end_to_end_encryption_app"
+            },
+            {
+              "name": "forms",
+              "path": "apps-external/forms",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_forms_app"
+            },
+            {
+              "name": "groupfolders",
+              "path": "apps-external/groupfolders",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_groupfolders_app"
+            },
+            {
+              "name": "integration_openai",
+              "path": "apps-external/integration_openai",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_integration_openai_app"
             },
             {
               "name": "mail",
@@ -161,32 +161,32 @@ jobs:
               "makefile_target": "build_notes_app"
             },
             {
-              "name": "groupfolders",
-              "path": "apps-external/groupfolders",
+              "name": "notifications",
+              "path": "apps-external/notifications",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_groupfolders_app"
+              "makefile_target": "build_notifications_app"
             },
             {
-              "name": "deck",
-              "path": "apps-external/deck",
-              "has_npm": true,
+              "name": "notify_push",
+              "path": "apps-external/notify_push",
+              "has_npm": false,
               "has_composer": true,
-              "makefile_target": "build_deck_app"
+              "makefile_target": "build_notify_push_app"
             },
             {
-              "name": "end_to_end_encryption",
-              "path": "apps-external/end_to_end_encryption",
+              "name": "richdocuments",
+              "path": "apps-external/richdocuments",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_end_to_end_encryption_app"
+              "makefile_target": "build_richdocuments_app"
             },
             {
-              "name": "forms",
-              "path": "apps-external/forms",
+              "name": "spreed",
+              "path": "apps-external/spreed",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_forms_app"
+              "makefile_target": "build_spreed_app"
             },
             {
               "name": "tables",
@@ -194,6 +194,13 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_tables_app"
+            },
+            {
+              "name": "tasks",
+              "path": "apps-external/tasks",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_tasks_app"
             },
             {
               "name": "text",
@@ -217,25 +224,18 @@ jobs:
               "makefile_target": "build_user_oidc_app"
             },
             {
+              "name": "viewer",
+              "path": "apps-external/viewer",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_viewer_app"
+            },
+            {
               "name": "whiteboard",
               "path": "apps-external/whiteboard",
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_whiteboard_app"
-            },
-            {
-              "name": "assistant",
-              "path": "apps-external/assistant",
-              "has_npm": true,
-              "has_composer": true,
-              "makefile_target": "build_assistant_app"
-            },
-            {
-              "name": "integration_openai",
-              "path": "apps-external/integration_openai",
-              "has_npm": true,
-              "has_composer": true,
-              "makefile_target": "build_integration_openai_app"
             }
           ]'
 
