@@ -444,13 +444,14 @@ div.v-popper--theme-dropdown.v-popper__popper:has(.v-popper__wrapper), .header-m
 .v-popper__popper {
 	.v-popper__inner {
 		background-color: var(--ion-surface-dialog) !important;
+		color: var(--ion-context-menu-item-text);
 		border-radius: inherit;
 
 		.searchable-list__list {
-			li button {
+			li[role=button] button {
 				background-color: transparent !important;
 				&:hover, &:active {
-					background-color: var(--ion-files-list-background-hover) !important;
+					background-color: var(--ion-context-menu-item-background-hover) !important;
 				}
 			}
 		}
