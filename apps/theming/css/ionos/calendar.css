@@ -1,0 +1,107 @@
+.app-calendar.content {
+	.fc-daygrid-day.fc-day {
+		&.fc-day-other {
+			background-color: light-dark(var(--ion-color-cool-grey-c1), var(--ion-color-cool-grey-c8)) !important;
+		}
+
+		&.fc-day-today {
+			background-color: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c7)) !important;
+
+			.fc-event {
+				box-shadow: none !important;
+			}
+		}
+
+		.fc-daygrid-week-number {
+			background-color: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c8));
+			color: var(--ion-text);
+		}
+	}
+	.fc-daygrid-dot-event:hover {
+		background-color: light-dark(var(--ion-color-cool-grey-c1), var(--ion-color-cool-grey-c8));
+	}
+
+	.fc-timeGridWeek-view {
+		.fc-col-header-cell.fc-day-today, .fc-timegrid-col.fc-day-today{
+			background-color: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c7)) !important;
+		}
+	}
+
+	.fc-multiMonthYear-view {
+		.fc-day-disabled {
+			background-color: light-dark(var(--ion-color-cool-grey-c1), var(--ion-color-cool-grey-c8));
+		}
+	}
+
+	.fc-list-table {
+		.fc-list-day-cushion.fc-cell-shaded {
+			background-color: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c8));
+			color: var(--ion-text);
+		}
+	}
+}
+
+.modal-mask.calendar-edit-full {
+	.app-full__header__top, input, textarea, .vs__dropdown-toggle {
+		background-color: var(--ion-surface-dialog) !important;
+	}
+}
+
+.appointment-config-modal, .modal-container__content {
+	input, textarea, .vs__dropdown-toggle, select {
+		background-color: var(--ion-surface-dialog) !important;
+	}
+}
+
+.v-popper__wrapper {
+	.v-popper__inner .event-popover__inner {
+		.property-title .property-title__input input, textarea, #date-time-picker-input, .vs__dropdown-toggle {
+			background-color: var(--ion-surface-dialog);
+		}
+	}
+
+	.v-popper__arrow-container {
+		border-right-color: var(--ion-surface-dialog) !important;
+	}
+}
+
+ul.vs__dropdown-menu.vs__dropdown-menu--floating {
+	background-color: var(--ion-surface-dialog);
+}
+
+
+.app-calendar.nc-guest-content {
+	.mx-calendar-content {
+		td.cell.disabled {
+			background-color: light-dark(var(--ion-color-cool-grey-c1), var(--ion-color-cool-grey-c8));
+		}
+	}
+
+	.button-vue--vue-secondary {
+		background-color: var(--ion-button-secondary-background-default);
+		border: var(--ion-button-secondary-border-default);
+		color: var(--ion-button-secondary-text);
+
+		&:hover {
+			background-color: var(--ion-button-secondary-background-hover);
+			color: var(--ion-button-secondary-text-hover);
+		}
+
+		&:active {
+			background-color: var(--ion-button-secondary-background-active);
+			color: var(--ion-button-secondary-text-active);
+		}
+
+		&:disabled {
+			background-color: var(--ion-button-secondary-background-disabled);
+			border: var(--ion-button-secondary-border-disabled);
+			color: var(--ion-button-secondary-text-disabled);
+		}
+	}
+}
+
+header#header:has(+ .app-calendar.nc-guest-content) {
+	.header-info {
+		display: none;
+	}
+}

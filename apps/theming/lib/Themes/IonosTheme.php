@@ -17,6 +17,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 	// CSS file paths for custom styling
 	private const array CSS_FILES = [
+		'calendar.css',
 		'variables.css',
 		'buttons.css',
 		'sidebar.css',
@@ -218,6 +219,8 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			'--color-background-hover' => 'light-dark( var(--ion-color-blue-b1), var(--ion-color-blue-b8))',
 			'--color-background-dark' => $this->util->darken($colorMainBackground, 7),
 			'--color-background-darker' => $this->util->darken($colorMainBackground, 14),
+
+			'--color-background-plain' => $ionColorMainBackground,
 
 			'--color-placeholder-light' => $this->util->darken($colorMainBackground, 10),
 			'--color-placeholder-dark' => $this->util->darken($colorMainBackground, 20),
