@@ -68,8 +68,7 @@ class Message implements IMessage, JsonSerializable, JsonDeserializable {
 		//  convert object fields
 		foreach (['from', 'replyTo'] as $field) {
 			if (isset($data[$field]) && is_array($data[$field])) {
-				$address = new Address();
-				$address->jsonDeserialize($data[$field]);
+				$address = (new Address())->jsonDeserialize($data[$field]);
 				$this->data[$field] = $address;
 			} else {
 				$this->data[$field] = null;
@@ -81,12 +80,10 @@ class Message implements IMessage, JsonSerializable, JsonDeserializable {
 				foreach ($data[$field] as $item) {
 					if (is_array($item)) {
 						if ($field === 'attachments') {
-							$attachment = new Attachment(null, null, null);
-							$attachment->jsonDeserialize($item);
+							$attachment = (new Attachment())->jsonDeserialize($item);
 							$this->data[$field][] = $attachment;
 						} else {
-							$address = new Address();
-							$address->jsonDeserialize($item);
+							$address = (new Address())->jsonDeserialize($item);
 							$this->data[$field][] = $address;
 						}
 					}
