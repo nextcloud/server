@@ -16,12 +16,11 @@ class LoginData {
 	/** @var IUser|false|null */
 	private $user = null;
 
-	private bool $rememberLogin = true;
-
 	public function __construct(
 		private IRequest $request,
 		private string $username,
 		private ?string $password,
+		private bool $rememberLogin = true,
 		private ?string $redirectUrl = null,
 		private string $timeZone = '',
 		private string $timeZoneOffset = '',
