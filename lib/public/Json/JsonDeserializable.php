@@ -16,6 +16,6 @@ namespace OCP\Json;
  */
 interface JsonDeserializable {
 
-	public function jsonDeserialize(array|string $data): void;
+	public function jsonDeserialize(array|string $data): static;
 
 }
