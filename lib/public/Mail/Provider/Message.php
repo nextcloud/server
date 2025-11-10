@@ -80,7 +80,7 @@ class Message implements IMessage, JsonSerializable, JsonDeserializable {
 				foreach ($data[$field] as $item) {
 					if (is_array($item)) {
 						if ($field === 'attachments') {
-							$attachment = (new Attachment())->jsonDeserialize($item);
+							$attachment = (new Attachment(null, null, null))->jsonDeserialize($item);
 							$this->data[$field][] = $attachment;
 						} else {
 							$address = (new Address())->jsonDeserialize($item);
