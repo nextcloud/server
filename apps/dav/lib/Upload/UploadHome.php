@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -13,13 +13,29 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
+use OCP\Share\Exceptions\ShareNotFound;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
+/**
+ * Handles DAV upload home directory operations for authenticated users or share tokens.
+ * Validates principal type and ensures secure routing of upload actions.
+ *
+ * Instantiation may throw if the principal is unsupported or authentication is missing.
+ *
+ * Example URL-to-URI mapping:
+ *   External: /remote.php/dav/uploads/alice/         --> Internal: /principals/users/alice
+ *   External: /remote.php/dav/uploads/token_xyz/     --> Internal: /principals/shares/token_xyz
+ */
 class UploadHome implements ICollection {
 	private string $uid;
 	private ?Folder $uploadFolder = null;
 
+	/**
+	 * @throws NotFound  If the principal is unsupported/invalid or the share token is not found or invalid
+	 * @throws Forbidden If the session is unauthenticated
+	 */
 	public function __construct(
 		private readonly array $principalInfo,
 		private readonly CleanupService $cleanupService,
@@ -28,15 +44,38 @@ class UploadHome implements ICollection {
 		private readonly \OCP\Share\IManager $shareManager,
 	) {
 		[$prefix, $name] = \Sabre\Uri\split($principalInfo['uri']);
-		if ($prefix === 'principals/shares') {
-			$this->uid = $this->shareManager->getShareByToken($name)->getShareOwner();
-		} else {
+
+		// Validate required components of the principal
+		if (empty($name) || !in_array($prefix, ['principals/users', 'principals/shares'], true)) {
+			throw new NotFound('Invalid or unsupported principal URI');
+		}
+
+		// Handle user principal
+		if ($prefix === 'principals/users') {
+			// Authenticated user principal: $name provided in URI is ignored, but must have a valid logged-in session.
 			$user = $this->userSession->getUser();
 			if (!$user) {
 				throw new Forbidden('Not logged in');
 			}
-
+			// TODO: (non-security just general robustness/expected behavior): Compare the URI $name to $user/$uid?
 			$this->uid = $user->getUID();
+			return;
+		}
+
+		// Handle share principal
+		if ($prefix === 'principals/shares') {
+			// Share principal: use share token ($name) from URI to determine owner UID.
+			try {
+				$share = $this->shareManager->getShareByToken($name);
+				$owner = $share->getShareOwner();
+				if (empty($owner) || !is_string($owner)) {
+					throw new NotFound('Share token not found or invalid');
+				}
+				$this->uid = $owner;
+				return;
+			} catch (ShareNotFound $e) {
+				throw new NotFound('Share token not found or invalid');
+			}
 		}
 	}
 
@@ -45,7 +84,7 @@ class UploadHome implements ICollection {
 	}
 
 	public function createDirectory($name) {
-		$this->impl()->createDirectory($name);
+		$this->getUploadDirectory()->createDirectory($name);
 
 		// Add a cleanup job
 		$this->cleanupService->addJob($this->uid, $name);
@@ -53,10 +92,10 @@ class UploadHome implements ICollection {
 
 	public function getChild($name): UploadFolder {
 		return new UploadFolder(
-			$this->impl()->getChild($name),
+			$this->getUploadDirectory()->getChild($name),
 			$this->cleanupService,
 			$this->getStorage(),
-			$this->uid,
+			$this->uid
 		);
 	}
 
@@ -66,17 +105,21 @@ class UploadHome implements ICollection {
 				$node,
 				$this->cleanupService,
 				$this->getStorage(),
-				$this->uid,
+				$this->uid
 			);
-		}, $this->impl()->getChildren());
+		}, $this->getUploadDirectory()->getChildren());
 	}
 
 	public function childExists($name): bool {
-		return !is_null($this->getChild($name));
+		try {
+			return $this->getUploadDirectory()->childExists($name);
+		} catch (\Throwable $e) {
+			return false;
+		}
 	}
 
 	public function delete() {
-		$this->impl()->delete();
+		$this->getUploadDirectory()->delete();
 	}
 
 	public function getName() {
@@ -89,9 +132,17 @@ class UploadHome implements ICollection {
 	}
 
 	public function getLastModified() {
-		return $this->impl()->getLastModified();
+		return $this->getUploadDirectory()->getLastModified();
 	}
 
+	/**
+	 * Returns the Nextcloud Folder object representing the effective user's uploads folder, creating it if missing.
+	 * Lazily fetches and caches the result for repeated use.
+	 *
+	 * @return Folder The Nextcloud Folder instance representing the user's uploads directory.
+	 * @throws \Exception If the uploads path exists as a file instead of a folder.
+	 *
+	 */
 	private function getUploadFolder(): Folder {
 		if ($this->uploadFolder === null) {
 			$path = '/' . $this->uid . '/uploads';
@@ -108,13 +159,21 @@ class UploadHome implements ICollection {
 		return $this->uploadFolder;
 	}
 
-	private function impl(): Directory {
+	/**
+	 * Returns the SabreDAV Directory node representing the effective user's uploads folder, creating it if missing.
+	 *
+	 * @return OCA\DAV\Connector\Sabre\Directory
+	 */
+	private function getUploadDirectory(): Directory {
 		$folder = $this->getUploadFolder();
 		$view = new View($folder->getPath());
 		return new Directory($view, $folder);
 	}
 
-	private function getStorage() {
+	/**
+	 * Returns the Nextcloud storage backend for the effective user's uploads folder.
+	 */
+	private function getStorage(): \OCP\Files\Storage\IStorage {
 		return $this->getUploadFolder()->getStorage();
 	}
 }
