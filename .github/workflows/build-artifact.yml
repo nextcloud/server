@@ -50,6 +50,15 @@ jobs:
     outputs:
       external-apps-matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+          fetch-depth: '1'
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y make jq
+
       - name: Set matrix
         id: set-matrix
         run: |
@@ -245,6 +254,254 @@ jobs:
             echo "Matrix configuration set successfully"
           else
             echo "Error: Invalid JSON in matrix configuration"
+            exit 1
+          fi
+
+      - name: Validate matrix against Makefile
+        run: |
+          set +e  # Intentionally allow script to continue on error for custom error handling and reporting to GITHUB_STEP_SUMMARY
+          set -u  # Exit on undefined variable
+
+          echo "### 🔍 Matrix Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Debug: Check if apps-external exists
+          echo "Checking apps-external directory..."
+          if [ ! -d "apps-external" ]; then
+            echo "❌ **Error:** apps-external directory does not exist!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Directory listing:" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            ls -la >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          echo "Apps-external directory exists. Listing contents:"
+          ls -la apps-external/ | head -10
+
+          # Check if jq is available
+          echo "Checking if jq is installed..."
+          if ! command -v jq &> /dev/null; then
+            echo "❌ **Error:** jq is not installed!" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "jq is required for matrix generation but was not found in PATH." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          echo "jq version: $(jq --version)"
+
+          echo "Generating matrix from Makefile..."
+          # Capture both stdout and stderr separately to better diagnose issues
+          makefile_output=$(make -f IONOS/Makefile generate_external_apps_matrix_json 2>&1)
+          makefile_exit_code=$?
+
+          echo "Makefile exit code: ${makefile_exit_code}"
+          echo "Makefile output length: ${#makefile_output}"
+
+          # Debug: Check if GITHUB_STEP_SUMMARY is set
+          echo "GITHUB_STEP_SUMMARY: ${GITHUB_STEP_SUMMARY:-NOT SET}"
+
+          # If the Makefile command failed, show the error
+          if [ ${makefile_exit_code} -ne 0 ]; then
+            echo ""
+            echo "=== MAKEFILE ERROR ==="
+            echo "Exit code: ${makefile_exit_code}"
+            echo "Output:"
+            echo "$makefile_output"
+            echo "====================="
+            echo ""
+
+            # Write to summary
+            echo "❌ **Error:** Makefile command failed with exit code ${makefile_exit_code}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "<details>" >> $GITHUB_STEP_SUMMARY
+            echo "<summary>Makefile error output</summary>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "$makefile_output" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "</details>" >> $GITHUB_STEP_SUMMARY
+
+            echo "Error written to summary file: ${GITHUB_STEP_SUMMARY}"
+            exit 1
+          fi
+
+          # Filter out the info message to get just the JSON
+          # The Makefile outputs "[i] Generating..." to stderr, but we captured everything with 2>&1
+          # So we need to extract just the JSON part
+          generated_matrix=$(echo "$makefile_output" | grep -v '^\[i\]' || echo "$makefile_output")
+
+          workflow_matrix='${{ steps.set-matrix.outputs.matrix }}'
+
+          # Debug output
+          echo "Generated matrix length: ${#generated_matrix}"
+          echo "Workflow matrix length: ${#workflow_matrix}"
+
+          # Show first 200 chars of generated matrix for debugging
+          if [ -n "$generated_matrix" ]; then
+            echo "Generated matrix preview: ${generated_matrix:0:200}..."
+          fi
+
+          # Validate that we got valid JSON
+          if ! echo "$generated_matrix" | jq empty 2>/dev/null; then
+            echo "❌ **Error:** Generated matrix is not valid JSON" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "<details>" >> $GITHUB_STEP_SUMMARY
+            echo "<summary>Invalid JSON output</summary>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "$generated_matrix" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "</details>" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          # Validate that we got data
+          if [ -z "$generated_matrix" ] || [ -z "$workflow_matrix" ]; then
+            echo "❌ **Error:** Failed to load matrices" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- Generated matrix empty: $([ -z "$generated_matrix" ] && echo "yes" || echo "no")" >> $GITHUB_STEP_SUMMARY
+            echo "- Workflow matrix empty: $([ -z "$workflow_matrix" ] && echo "yes" || echo "no")" >> $GITHUB_STEP_SUMMARY
+            echo "- Makefile exit code: ${makefile_exit_code}" >> $GITHUB_STEP_SUMMARY
+
+            exit 1
+          fi
+
+          # Sort both matrices for comparison
+          generated_sorted=$(echo "$generated_matrix" | jq -S '.' 2>&1 || echo "ERROR")
+          workflow_sorted=$(echo "$workflow_matrix" | jq -S '.' 2>&1 || echo "ERROR")
+
+          echo "Sorted matrix lengths - generated: ${#generated_sorted}, workflow: ${#workflow_sorted}"
+
+          # Compare the two matrices
+          if [ "$generated_sorted" = "$workflow_sorted" ]; then
+            echo "✅ **Validation passed!** The workflow matrix matches the Makefile configuration." >> $GITHUB_STEP_SUMMARY
+            echo ""
+            echo "✅ Matrix validation passed!"
+          else
+            echo "❌ **Validation failed!** The workflow matrix does not match the Makefile configuration." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            echo "Starting detailed comparison..."
+
+            # Extract app names from both matrices
+            generated_apps=$(echo "$generated_matrix" | jq -r '.[].name' 2>/dev/null | sort || echo "")
+            workflow_apps=$(echo "$workflow_matrix" | jq -r '.[].name' 2>/dev/null | sort || echo "")
+
+            echo "Generated apps count: $(echo "$generated_apps" | wc -l)"
+            echo "Workflow apps count: $(echo "$workflow_apps" | wc -l)"
+
+            # Find missing apps (in Makefile but not in workflow)
+            missing_apps=$(comm -23 <(echo "$generated_apps") <(echo "$workflow_apps"))
+            if [ $? -ne 0 ]; then
+              echo "Error: comm command failed when finding missing apps." >&2
+              exit 1
+            fi
+            # Find extra apps (in workflow but not in Makefile)
+            extra_apps=$(comm -13 <(echo "$generated_apps") <(echo "$workflow_apps"))
+            if [ $? -ne 0 ]; then
+              echo "Error: comm command failed when finding extra apps." >&2
+              exit 1
+            fi
+
+            echo "Missing apps: ${missing_apps:-none}"
+            echo "Extra apps: ${extra_apps:-none}"
+
+            if [ -n "$missing_apps" ]; then
+              echo "#### ⚠️ Missing Apps" >> $GITHUB_STEP_SUMMARY
+              echo "The following apps are configured in the Makefile but missing from the workflow:" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              echo "$missing_apps" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if [ -n "$extra_apps" ]; then
+              echo "#### ⚠️ Extra Apps" >> $GITHUB_STEP_SUMMARY
+              echo "The following apps are in the workflow but not configured in the Makefile:" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              echo "$extra_apps" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            # Check for configuration mismatches in common apps
+            common_apps=$(comm -12 <(echo "$generated_apps") <(echo "$workflow_apps") 2>/dev/null || echo "")
+
+            echo "Common apps count: $(echo "$common_apps" | wc -l)"
+
+            if [ -n "$common_apps" ]; then
+              mismatched_apps=""
+
+              while IFS= read -r app; do
+                [ -z "$app" ] && continue
+                gen_config=$(echo "$generated_matrix" | jq -c --arg app "$app" '.[] | select(.name == $app)' 2>/dev/null || echo "")
+                wf_config=$(echo "$workflow_matrix" | jq -c --arg app "$app" '.[] | select(.name == $app)' 2>/dev/null || echo "")
+
+                if [ -n "$gen_config" ] && [ -n "$wf_config" ] && [ "$gen_config" != "$wf_config" ]; then
+                  mismatched_apps="${mismatched_apps}${app}"$'\n'
+                fi
+              done <<< "$common_apps"
+
+              echo "Mismatched apps: ${mismatched_apps:-none}"
+
+              if [ -n "$mismatched_apps" ]; then
+                echo "#### ⚠️ Configuration Mismatches" >> $GITHUB_STEP_SUMMARY
+                echo "The following apps have different configurations (has_npm, has_composer, etc.):" >> $GITHUB_STEP_SUMMARY
+                echo '```' >> $GITHUB_STEP_SUMMARY
+                echo "$mismatched_apps" >> $GITHUB_STEP_SUMMARY
+                echo '```' >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo "<details>" >> $GITHUB_STEP_SUMMARY
+                echo "<summary>📋 Detailed differences</summary>" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+                echo '```diff' >> $GITHUB_STEP_SUMMARY
+
+                while IFS= read -r app; do
+                  [ -z "$app" ] && continue
+                  echo "=== $app ===" >> $GITHUB_STEP_SUMMARY
+                  diff -u --label "Workflow" --label "Makefile" \
+                    <(echo "$workflow_matrix" | jq --arg app "$app" '.[] | select(.name == $app)' 2>/dev/null || echo "{}") \
+                    <(echo "$generated_matrix" | jq --arg app "$app" '.[] | select(.name == $app)' 2>/dev/null || echo "{}") \
+                    >> $GITHUB_STEP_SUMMARY 2>&1 || true
+                done <<< "$mismatched_apps"
+
+                echo '```' >> $GITHUB_STEP_SUMMARY
+                echo "</details>" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+
+            # Provide fix instructions
+            echo "#### 🔧 How to Fix" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Run this command locally to generate the correct matrix:" >> $GITHUB_STEP_SUMMARY
+            echo '```bash' >> $GITHUB_STEP_SUMMARY
+            echo "make -f IONOS/Makefile generate_external_apps_matrix_json" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Then update the \`matrix\` variable in \`.github/workflows/build-artifact.yml\` in the set-matrix step with the generated output." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Show full diff in expandable section
+            echo "<details>" >> $GITHUB_STEP_SUMMARY
+            echo "<summary>📄 Full matrix comparison</summary>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Workflow Matrix:**" >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            echo "$workflow_matrix" | jq '.' 2>/dev/null >> $GITHUB_STEP_SUMMARY || echo "$workflow_matrix" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Makefile Matrix:**" >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            echo "$generated_matrix" | jq '.' 2>/dev/null >> $GITHUB_STEP_SUMMARY || echo "$generated_matrix" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "</details>" >> $GITHUB_STEP_SUMMARY
+
+            echo ""
+            echo "❌ ERROR: Matrix validation failed!"
+            echo "See the job summary for details on what's wrong and how to fix it."
+            echo "Summary file size: $(wc -c < $GITHUB_STEP_SUMMARY || echo 0) bytes"
             exit 1
           fi
 
