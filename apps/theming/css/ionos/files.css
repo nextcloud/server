@@ -307,13 +307,19 @@ div.v-popper--theme-dropdown.v-popper__popper:has(.v-popper__wrapper), .header-m
 					background-color: var(--ion-dialog-filter-button-background);
 					&:hover {
 						background-color: var(--ion-button-tertiary-background-hover);
+
+						.button-vue__wrapper {
+							span.button-vue__text, .button-vue__icon svg {
+								color: var(--ion-button-tertiary-text-hover);
+							}
+						}
 					}
 					&:active {
 						background-color: var(--ion-button-tertiary-background-active);
 					}
 					span.button-vue__wrapper {
 						span.button-vue__text, .button-vue__icon svg {
-							color: var(--ion-button-tertiary-text) !important;
+							color: var(--ion-button-tertiary-text);
 						}
 					}
 				}
