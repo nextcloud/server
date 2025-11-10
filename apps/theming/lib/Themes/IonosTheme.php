@@ -15,21 +15,21 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	private const FONT_FAMILY = 'Open sans';
 	private const FONT_PATH_PREFIX = 'fonts/OpenSans/';
 
-	// CSS file paths for custom styling
-	private const array CSS_FILES = [
-		'calendar.css',
-		'variables.css',
-		'buttons.css',
-		'sidebar.css',
-		'apps.css',
-		'guest.css',
-		'files.css',
-		'settings.css',
-		'_layout.css',
-		'tables.css',
-		'talk.css',
-		'tasks.css'
-	];
+	// CSS file paths for custom styling - dynamically loaded from ionos directory
+	private function getCssFiles(): array {
+		$cssDir = __DIR__ . '/../../css/' . self::THEME_ID . '/';
+		$files = glob($cssDir . '*.css');
+		$cssFiles = [];
+		
+		foreach ($files as $file) {
+			$cssFiles[] = basename($file);
+		}
+		
+		// Sort to ensure consistent loading order
+		sort($cssFiles);
+		
+		return $cssFiles;
+	}
 
 	public function getId(): string {
 		return self::THEME_ID;
@@ -65,7 +65,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	 */
 	private function loadCustomCssFiles(): string {
 		$customCss = '';
-		foreach (self::CSS_FILES as $file) {
+		foreach ($this->getCssFiles() as $file) {
 			$customCss .= file_get_contents(__DIR__ . '/../../css/' . self::THEME_ID . '/' . $file) . PHP_EOL;
 		}
 
