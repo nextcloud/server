@@ -241,4 +241,9 @@ class LocalPreviewStorage implements IPreviewStorage {
 			$this->connection->commit();
 		}
 	}
+
+	#[Override]
+	public function getDirectDownload(Preview $preview): array|false {
+		return false;
+	}
 }

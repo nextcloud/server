@@ -8,6 +8,8 @@
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
+use OC\Preview\PreviewService;
+use OC\Preview\Storage\StorageFactory;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -300,6 +302,8 @@ class Server {
 						\OCP\Server::get(IUserSession::class),
 						\OCP\Server::get(IFilenameValidator::class),
 						\OCP\Server::get(IAccountManager::class),
+						\OCP\Server::get(PreviewService::class),
+						\OCP\Server::get(StorageFactory::class),
 						false,
 						$config->getSystemValueBool('debug', false) === false,
 					)
