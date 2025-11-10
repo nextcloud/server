@@ -15,19 +15,28 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	private const FONT_FAMILY = 'Open sans';
 	private const FONT_PATH_PREFIX = 'fonts/OpenSans/';
 
-	// CSS file paths for custom styling - dynamically loaded from ionos directory
+	private static ?array $cachedCssFiles = null;
+
 	private function getCssFiles(): array {
+		if (self::$cachedCssFiles !== null) {
+			return self::$cachedCssFiles;
+		}
+
 		$cssDir = __DIR__ . '/../../css/' . self::THEME_ID . '/';
 		$files = glob($cssDir . '*.css');
+		if ($files === false) {
+			self::$cachedCssFiles = [];
+			return [];
+		}
+
 		$cssFiles = [];
-		
 		foreach ($files as $file) {
 			$cssFiles[] = basename($file);
 		}
-		
-		// Sort to ensure consistent loading order
+
 		sort($cssFiles);
-		
+		self::$cachedCssFiles = $cssFiles;
+
 		return $cssFiles;
 	}
 
