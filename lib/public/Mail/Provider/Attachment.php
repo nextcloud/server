@@ -62,7 +62,7 @@ class Attachment implements IAttachment, JsonSerializable, JsonDeserializable {
 	 *
 	 * @param array array representation of this object
 	 */
-	public function jsonDeserialize(array|string $data): void {
+	public function jsonDeserialize(array|string $data): static {
 		if (is_string($data)) {
 			$data = json_decode($data, true);
 		}
@@ -70,6 +70,8 @@ class Attachment implements IAttachment, JsonSerializable, JsonDeserializable {
 		$this->name = $data['name'] ?? null;
 		$this->type = $data['type'] ?? null;
 		$this->embedded = $data['embedded'] ?? false;
+		
+		return $this;
 	}
 
 	/**

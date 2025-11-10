@@ -55,7 +55,7 @@ class Message implements IMessage, JsonSerializable, JsonDeserializable {
 	 *
 	 * @param array array representation of this object
 	 */
-	public function jsonDeserialize(array|string $data): void {
+	public function jsonDeserialize(array|string $data): static {
 		if (is_string($data)) {
 			$this->data = json_decode($data, true);
 		} else {
@@ -93,6 +93,8 @@ class Message implements IMessage, JsonSerializable, JsonDeserializable {
 				}
 			}
 		}
+
+		return $this;
 	}
 
 	/**

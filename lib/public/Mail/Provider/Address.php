@@ -56,12 +56,14 @@ class Address implements IAddress, JsonSerializable, JsonDeserializable {
 	 *
 	 * @param array array representation of this object
 	 */
-	public function jsonDeserialize(array|string $data): void {
+	public function jsonDeserialize(array|string $data): static {
 		if (is_string($data)) {
 			$data = json_decode($data, true);
 		}
 		$this->address = $data['address'] ?? null;
 		$this->label = $data['label'] ?? null;
+		
+		return $this;
 	}
 
 	/**
