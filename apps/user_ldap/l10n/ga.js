@@ -191,6 +191,7 @@ OC.L10N.register(
     "Clear Groupname-LDAP Group Mapping" : "Glan Léarscáiliú Grúpa Ainm an Ghrúpa-LDAP",
     "Confirm action" : "Deimhnigh gníomh",
     "Are you sure you want to permanently delete this LDAP configuration? This cannot be undone." : "An bhfuil tú cinnte gur mian leat an chumraíocht LDAP seo a scriosadh go buan? Ní féidir é seo a chealú.",
+    "Failed to delete config" : "Theip ar an gcumraíocht a scriosadh",
     "Are you sure you want to permanently clear the LDAP mapping? This cannot be undone." : "An bhfuil tú cinnte gur mian leat mapáil LDAP a ghlanadh go buan? Ní féidir é seo a chealú.",
     "Mapping cleared" : "Glanadh an mapáil",
     "Failed to clear mapping" : "Theip ar an mapáil a ghlanadh",
