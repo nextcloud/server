@@ -1,0 +1,7 @@
+div#assistantTextProcessingModal {
+	div.app-navigation__body {
+		div.empty-content.task-list--empty  {
+			color: var(--ion-text);
+		}
+	}
+}
