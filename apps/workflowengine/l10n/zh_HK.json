@@ -25,6 +25,7 @@
     "%s accessed %s" : "%s 存取 %s",
     "%s renamed %s" : "%s 重新命名 %s",
     "%s copied %s" : "%s 複製 %s",
+    "%1$s assigned %2$s to %3$s" : "%1$s 指派了 %2$s 給 %3$s",
     "Operation #%s does not exist" : "操作 #%s 不存在",
     "Entity %s does not exist" : "實體 %s 不存在",
     "Entity %s is invalid" : "實體 %s 無效",
