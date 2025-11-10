@@ -1,0 +1,9 @@
+.app-profile.content {
+	.user-actions__other.action-items img {
+		filter: none;
+		@media (prefers-color-scheme: dark) {
+			filter: invert(100%);
+		}
+
+	}
+}
