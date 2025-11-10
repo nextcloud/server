@@ -3,4 +3,26 @@ div#content.app-settings {
 	width: 100%;
 	height: calc(100vh - var(--header-height));
 	border-radius: 0;
+
+
+	.notification-frequency__select {
+		background-color: var(--ion-context-menu-background);
+		color: var(--ion-text);
+
+		option {
+			background-color: var(--ion-context-menu-background);
+			color: var(--ion-text);
+		}
+	}
+	table.grid.activitysettings {
+		tbody tr:not(.group-header) {
+			&:hover {
+				background-color: var(--ion-files-list-background-hover);
+			}
+
+			.checkbox-radio-switch__icon {
+				color: var(--ion-color-blue-b4);
+			}
+		}
+	}
 }
