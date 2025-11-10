@@ -786,6 +786,7 @@ OC.L10N.register(
     "Pronouns" : "Zámená",
     "Role" : "Rola",
     "X (formerly Twitter)" : "X (predtým Twitter)",
+    "Bluesky" : "Bluesky",
     "Website" : "Webstránka",
     "Profile visibility" : "Viditeľnosť profilu",
     "Locale" : "Regionálne nastavenia",

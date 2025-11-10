@@ -25,6 +25,7 @@
     "%s accessed %s" : "%s rochtain %s",
     "%s renamed %s" : "%s athainmnithe %s",
     "%s copied %s" : "%s chóipeáil %s",
+    "%1$s assigned %2$s to %3$s" : "%1$s sannta %2$s do %3$s",
     "Operation #%s does not exist" : "Níl oibríocht # %s ann",
     "Entity %s does not exist" : "Níl aonán %s ann",
     "Entity %s is invalid" : "Tá aonán %s neamhbhailí",
