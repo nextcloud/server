@@ -499,6 +499,7 @@ class Directory extends Node implements
 
 	public function getNodeForPath($path) {
 		$nodeIsRoot = $this->path === '/';
+		$path = ltrim($path, '/');
 		$fullPath = $nodeIsRoot ? $this->path . $path : $this->path . '/' . $path;
 
 		try {
@@ -518,6 +519,14 @@ class Directory extends Node implements
 				. ' could not be located');
 		}
 
+		if (!$info->isReadable()) {
+			if (Server::get(IAppManager::class)->isEnabledForAnyone('files_accesscontrol')) {
+				throw new Forbidden('No read permissions. This might be caused by files_accesscontrol, check your configured rules');
+			}
+
+			throw new Forbidden('No read permissions');
+		}
+
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
@@ -529,6 +538,12 @@ class Directory extends Node implements
 			$node = new File($this->fileView, $info, $this->shareManager);
 		}
 		$this->tree?->cacheNode($node);
+
+		if ($destinationDir !== '') {
+			// recurse upwards until the root (for backwards²-compatibility)
+			$this->getNodeForPath($destinationDir);
+		}
+
 		return $node;
 	}
 }
