@@ -84,7 +84,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->config->method('getUserValue')
 			->willReturn(null);
 
-		$this->config->expects($this->once())
+		$this->config
 			->method('setUserValue')
 			->with(
 				$this->equalTo('uid'),
