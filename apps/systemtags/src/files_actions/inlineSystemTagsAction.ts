@@ -19,6 +19,94 @@ import '../css/fileEntryInlineSystemTags.scss'
 // Init tag cache
 const cache: TagWithId[] = []
 
+export const action = new FileAction({
+	id: 'system-tags',
+	displayName: () => '',
+	iconSvgInline: () => '',
+
+	enabled(nodes: Node[]) {
+		// Only show the action on single nodes
+		if (nodes.length !== 1) {
+			return false
+		}
+
+		// Always show the action, even if there are no tags
+		// This will render an empty tag list and allow events to update it
+		return true
+	},
+
+	exec: async () => null,
+	renderInline,
+
+	order: 0,
+
+	hotkey: {
+		description: t('files', 'Manage tags'),
+		key: 'T',
+	},
+})
+
+// Subscribe to the events
+subscribe('systemtags:node:updated', updateSystemTagsHtml)
+subscribe('systemtags:tag:created', addTag)
+subscribe('systemtags:tag:deleted', removeTag)
+subscribe('systemtags:tag:updated', updateTag)
+
+/**
+ * Update the system tags html when the node is updated
+ *
+ * @param node - The updated node
+ */
+function updateSystemTagsHtml(node: Node) {
+	renderInline(node).then((systemTagsHtml) => {
+		document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach((element) => {
+			element.replaceWith(systemTagsHtml)
+		})
+	})
+}
+
+/**
+ * Add and remove tags from the cache
+ *
+ * @param tag - The tag to add
+ */
+function addTag(tag: TagWithId) {
+	cache.push(tag)
+}
+
+/**
+ * Remove a tag from the cache
+ *
+ * @param tag - The tag to remove
+ */
+function removeTag(tag: TagWithId) {
+	cache.splice(cache.findIndex((t) => t.id === tag.id), 1)
+}
+
+/**
+ * Update a tag in the cache
+ *
+ * @param tag - The tag to update
+ */
+function updateTag(tag: TagWithId) {
+	const index = cache.findIndex((t) => t.id === tag.id)
+	if (index !== -1) {
+		cache[index] = tag
+	}
+	updateSystemTagsColorAttribute(tag)
+}
+
+/**
+ * Update the color attribute of the system tags
+ *
+ * @param tag - The tag to update
+ */
+function updateSystemTagsColorAttribute(tag: TagWithId) {
+	document.querySelectorAll(`[data-systemtag-name="${tag.displayName}"]`).forEach((element) => {
+		(element as HTMLElement).style.setProperty('--systemtag-color', `#${tag.color}`)
+	})
+}
+
 /**
  *
  * @param tag
@@ -103,81 +191,3 @@ async function renderInline(node: Node): Promise<HTMLElement> {
 
 	return systemTagsElement
 }
-
-export const action = new FileAction({
-	id: 'system-tags',
-	displayName: () => '',
-	iconSvgInline: () => '',
-
-	enabled(nodes: Node[]) {
-		// Only show the action on single nodes
-		if (nodes.length !== 1) {
-			return false
-		}
-
-		// Always show the action, even if there are no tags
-		// This will render an empty tag list and allow events to update it
-		return true
-	},
-
-	exec: async () => null,
-	renderInline,
-
-	order: 0,
-})
-
-// Update the system tags html when the node is updated
-/**
- *
- * @param node
- */
-function updateSystemTagsHtml(node: Node) {
-	renderInline(node).then((systemTagsHtml) => {
-		document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach((element) => {
-			element.replaceWith(systemTagsHtml)
-		})
-	})
-}
-
-// Add and remove tags from the cache
-/**
- *
- * @param tag
- */
-function addTag(tag: TagWithId) {
-	cache.push(tag)
-}
-/**
- *
- * @param tag
- */
-function removeTag(tag: TagWithId) {
-	cache.splice(cache.findIndex((t) => t.id === tag.id), 1)
-}
-/**
- *
- * @param tag
- */
-function updateTag(tag: TagWithId) {
-	const index = cache.findIndex((t) => t.id === tag.id)
-	if (index !== -1) {
-		cache[index] = tag
-	}
-	updateSystemTagsColorAttribute(tag)
-}
-// Update the color attribute of the system tags
-/**
- *
- * @param tag
- */
-function updateSystemTagsColorAttribute(tag: TagWithId) {
-	document.querySelectorAll(`[data-systemtag-name="${tag.displayName}"]`).forEach((element) => {
-		(element as HTMLElement).style.setProperty('--systemtag-color', `#${tag.color}`)
-	})
-}
-
-// Subscribe to the events
-subscribe('systemtags:node:updated', updateSystemTagsHtml)
-subscribe('systemtags:tag:created', addTag)
-subscribe('systemtags:tag:deleted', removeTag)
-subscribe('systemtags:tag:updated', updateTag)
