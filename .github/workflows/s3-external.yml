@@ -32,7 +32,7 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
-        image: bitnami/minio:2021.10.6
+        image: bitnamilegacy/minio:2021.10.6
         ports:
           - "9000:9000"
 
