@@ -67,6 +67,9 @@ class TranslationApiController extends OCSController {
 	#[AnonRateLimit(limit: 10, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/translate', root: '/translation')]
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
+		if (strlen($text) > 64_000) {
+			return new DataResponse(['message' => $this->l10n->t('Input text is too long')], Http::STATUS_BAD_REQUEST);
+		}
 		try {
 			$translation = $this->translationManager->translate($text, $fromLanguage, $toLanguage);
 
