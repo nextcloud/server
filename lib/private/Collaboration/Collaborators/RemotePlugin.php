@@ -5,11 +5,13 @@
  */
 namespace OC\Collaboration\Collaborators;
 
+use OCA\Federation\TrustedServers;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -26,17 +28,20 @@ class RemotePlugin implements ISearchPlugin {
 		private IConfig $config,
 		private IUserManager $userManager,
 		IUserSession $userSession,
+		private IAppConfig $appConfig,
+		private ?TrustedServers $trustedServers,
 	) {
 		$this->userId = $userSession->getUser()?->getUID() ?? '';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
+
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$result = ['wide' => [], 'exact' => []];
 		$resultType = new SearchResultType('remotes');
 
 		// Search in contacts
-		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN'], [
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN', 'EMAIL'], [
 			'limit' => $limit,
 			'offset' => $offset,
 			'enumeration' => false,
@@ -66,9 +71,6 @@ class RemotePlugin implements ISearchPlugin {
 					}
 
 					$localUser = $this->userManager->get($remoteUser);
-					/**
-					 * Add local share if remote cloud id matches a local user ones
-					 */
 					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId()) {
 						$result['wide'][] = [
 							'label' => $contact['FN'],
@@ -81,7 +83,17 @@ class RemotePlugin implements ISearchPlugin {
 						];
 					}
 
-					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
+					$emailMatch = false;
+					if (isset($contact['EMAIL'])) {
+						$emails = is_array($contact['EMAIL']) ? $contact['EMAIL'] : [$contact['EMAIL']];
+						foreach ($emails as $email) {
+							if (is_string($email) && strtolower($email) === $lowerSearch) {
+								$emailMatch = true;
+								break;
+							}
+						}
+					}
+					if ($emailMatch || strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
 						if (strtolower($cloudId) === $lowerSearch) {
 							$searchResult->markExactIdMatch($resultType);
 						}
@@ -94,6 +106,7 @@ class RemotePlugin implements ISearchPlugin {
 								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
+								'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 							],
 						];
 					} else {
@@ -106,6 +119,7 @@ class RemotePlugin implements ISearchPlugin {
 								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
+								'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 							],
 						];
 					}
@@ -119,9 +133,6 @@ class RemotePlugin implements ISearchPlugin {
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 		}
 
-		/**
-		 * Add generic share with remote item for valid cloud ids that are not users of the local instance
-		 */
 		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
 			try {
 				[$remoteUser, $serverUrl] = $this->splitUserRemote($search);
@@ -135,6 +146,7 @@ class RemotePlugin implements ISearchPlugin {
 							'shareType' => IShare::TYPE_REMOTE,
 							'shareWith' => $search,
 							'server' => $serverUrl,
+							'isTrustedServer' => $this->trustedServers?->isTrustedServer($serverUrl) ?? false,
 						],
 					];
 				}
