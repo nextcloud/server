@@ -133,18 +133,16 @@ class UploadHomeTest extends TestCase {
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager,
-			])
-			->onlyMethods(['impl'])
-			->getMock();
+		// make getUserFolder('testuser') return $directory, so impl() works as expected
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
 
-		$uploadHome->method('impl')->willReturn($directory);
+		$uploadHome = new UploadHome(
+			$this->principalInfo,
+			$cleanup,
+			$rootFolder,
+			$userSession,
+			$shareManager
+		);
 
 		$uploadHome->createDirectory('foo');
 	}
@@ -164,6 +162,8 @@ class UploadHomeTest extends TestCase {
 
 		$storage = $this->createMock(IStorage::class);
 
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+
 		$uploadHome = $this->getMockBuilder(UploadHome::class)
 			->setConstructorArgs([
 				$this->principalInfo,
@@ -172,10 +172,9 @@ class UploadHomeTest extends TestCase {
 				$userSession,
 				$shareManager,
 			])
-			->onlyMethods(['impl', 'getStorage'])
+			->onlyMethods(['getStorage'])
 			->getMock();
 
-		$uploadHome->method('impl')->willReturn($directory);
 		$uploadHome->method('getStorage')->willReturn($storage);
 
 		$result = $uploadHome->getChild('childname');
@@ -196,6 +195,8 @@ class UploadHomeTest extends TestCase {
 
 		$storage = $this->createMock(IStorage::class);
 
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+
 		$uploadHome = $this->getMockBuilder(UploadHome::class)
 			->setConstructorArgs([
 				$this->principalInfo,
@@ -204,10 +205,9 @@ class UploadHomeTest extends TestCase {
 				$userSession,
 				$shareManager,
 			])
-			->onlyMethods(['impl', 'getStorage'])
+			->onlyMethods(['getStorage'])
 			->getMock();
 
-		$uploadHome->method('impl')->willReturn($directory);
 		$uploadHome->method('getStorage')->willReturn($storage);
 
 		$this->expectException(SabreNotFound::class);
@@ -230,6 +230,8 @@ class UploadHomeTest extends TestCase {
 
 		$storage = $this->createMock(IStorage::class);
 
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+
 		$uploadHome = $this->getMockBuilder(UploadHome::class)
 			->setConstructorArgs([
 				$this->principalInfo,
@@ -238,10 +240,9 @@ class UploadHomeTest extends TestCase {
 				$userSession,
 				$shareManager,
 			])
-			->onlyMethods(['impl', 'getStorage'])
+			->onlyMethods(['getStorage'])
 			->getMock();
 
-		$uploadHome->method('impl')->willReturn($directory);
 		$uploadHome->method('getStorage')->willReturn($storage);
 
 		$children = $uploadHome->getChildren();
@@ -287,18 +288,15 @@ class UploadHomeTest extends TestCase {
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager,
-			])
-			->onlyMethods(['impl'])
-			->getMock();
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
 
-		$uploadHome->method('impl')->willReturn($directory);
+		$uploadHome = new UploadHome(
+			$this->principalInfo,
+			$cleanup,
+			$rootFolder,
+			$userSession,
+			$shareManager
+		);
 
 		$uploadHome->delete();
 	}
@@ -319,18 +317,15 @@ class UploadHomeTest extends TestCase {
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager,
-			])
-			->onlyMethods(['impl'])
-			->getMock();
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
 
-		$uploadHome->method('impl')->willReturn($directory);
+		$uploadHome = new UploadHome(
+			$this->principalInfo,
+			$cleanup,
+			$rootFolder,
+			$userSession,
+			$shareManager
+		);
 
 		$this->assertEquals(1234567890, $uploadHome->getLastModified());
 	}
