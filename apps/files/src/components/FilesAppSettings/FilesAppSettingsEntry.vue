@@ -8,7 +8,7 @@
 </template>
 <script>
 export default {
-	name: 'Setting',
+	name: 'FilesAppSettingsEntry',
 	props: {
 		el: {
 			type: Function,
