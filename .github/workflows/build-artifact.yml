@@ -184,6 +184,13 @@ jobs:
               "makefile_target": "build_notify_push_app"
             },
             {
+              "name": "password_policy",
+              "path": "apps-external/password_policy",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_password_policy_app"
+            },
+            {
               "name": "richdocuments",
               "path": "apps-external/richdocuments",
               "has_npm": true,
