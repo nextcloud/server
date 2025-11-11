@@ -41,7 +41,7 @@ class UploadHomeTest extends TestCase {
 		$userSession = $this->createMock(IUserSession::class);
 		$shareManager = $this->createMock(IManager::class);
 
-		$user = $this->createUser('testuser');
+		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
 
 		return new UploadHome(
@@ -129,7 +129,7 @@ class UploadHomeTest extends TestCase {
 
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser');
+		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
@@ -158,7 +158,7 @@ class UploadHomeTest extends TestCase {
 
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser');
+		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
@@ -190,7 +190,7 @@ class UploadHomeTest extends TestCase {
 
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser');
+		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
@@ -224,7 +224,7 @@ class UploadHomeTest extends TestCase {
 
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser');
+		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
@@ -261,7 +261,7 @@ class UploadHomeTest extends TestCase {
 	}
 
 	public function testChildExistsReturnsFalseIfNoChild(): void {
-		// This test documents (and asserts) the current broken implementation of childExists(): 
+		// This test documents (and asserts) the current broken implementation of childExists():
 		// Instead of returning false, it throws if the child is missing, due to not catching the NotFound exception.
 		// This matches the current UploadHome implementation, but should be fixed.
 
@@ -283,7 +283,7 @@ class UploadHomeTest extends TestCase {
 
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser');
+		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
@@ -315,7 +315,7 @@ class UploadHomeTest extends TestCase {
 
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser');
+		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
