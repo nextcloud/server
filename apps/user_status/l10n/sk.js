@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Mimo kancelárie",
     "Working remotely" : "Pracujem na diaľku",
     "In a call" : "práve telefonuje",
+    "Be right back" : "Za chvíľu sa vrátim",
     "User status" : "Stav užívateľa",
     "Clear status after" : "Vyčistiť správu o stave po",
     "Emoji for your status message" : "Emoji pre vašu statusovú správu",
