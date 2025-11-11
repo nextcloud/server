@@ -39,7 +39,7 @@ class RemotePluginTest extends TestCase {
 	protected $cloudIdManager;
 
 	protected IAppConfig|MockObject $appConfig;
-	protected ICloudIdManager|MockObject $trustedServers;
+	protected TrustedServers|MockObject $trustedServers;
 
 	/** @var RemotePlugin */
 	protected $plugin;

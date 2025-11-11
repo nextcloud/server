@@ -254,10 +254,12 @@ export default {
 
 			// remove invalid data and format to user-select layout
 			const exactSuggestions = this.filterOutExistingShares(rawExactSuggestions)
+				.filter(result => this.filterByTrustedServer(result))
 				.map(share => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
 			const suggestions = this.filterOutExistingShares(rawSuggestions)
+				.filter(result => this.filterByTrustedServer(result))
 				.map(share => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
@@ -340,6 +342,7 @@ export default {
 
 			// remove invalid data and format to user-select layout
 			this.recommendations = this.filterOutExistingShares(rawRecommendations)
+				.filter(result => this.filterByTrustedServer(result))
 				.map(share => this.formatForMultiselect(share))
 				.concat(externalResults)
 
