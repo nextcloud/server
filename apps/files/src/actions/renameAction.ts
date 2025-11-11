@@ -47,4 +47,9 @@ export const action = new FileAction({
 	},
 
 	order: 10,
+
+	hotkey: {
+		description: t('files', 'Rename'),
+		key: 'F2',
+	},
 })

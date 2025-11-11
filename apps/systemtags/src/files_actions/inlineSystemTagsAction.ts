@@ -66,11 +66,11 @@ const renderInline = async function(node: Node): Promise<HTMLElement> {
 		}
 	}
 
-	systemTagsElement.append(renderTag(tags[0]))
+	systemTagsElement.append(renderTag(tags[0]!))
 	if (tags.length === 2) {
 		// Special case only two tags:
 		// the overflow fake tag would take the same space as this, so render it
-		systemTagsElement.append(renderTag(tags[1]))
+		systemTagsElement.append(renderTag(tags[1]!))
 	} else if (tags.length > 1) {
 		// More tags than the one we're showing
 		// So we add a overflow element indicating there are more tags
@@ -113,6 +113,10 @@ export const action = new FileAction({
 	renderInline,
 
 	order: 0,
+	hotkey: {
+		description: t('files', 'Manage tags'),
+		key: 'T',
+	},
 })
 
 // Update the system tags html when the node is updated

@@ -116,4 +116,9 @@ export const action = new FileAction({
 	},
 
 	order: -50,
+
+	hotkey: {
+		description: t('files', 'Add or remove favorite'),
+		key: 'S',
+	},
 })
