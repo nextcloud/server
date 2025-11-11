@@ -12,6 +12,7 @@ use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -35,6 +36,7 @@ class MountProvider implements IMountProvider {
 		protected IEventDispatcher $eventDispatcher,
 		protected ICacheFactory $cacheFactory,
 		protected IMountManager $mountManager,
+		protected IRootFolder $rootFolder,
 	) {
 	}
 
@@ -64,7 +66,6 @@ class MountProvider implements IMountProvider {
 
 		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
-		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
 		/** @var CappedMemoryCache<bool> $folderExistCache */
@@ -100,14 +101,13 @@ class MountProvider implements IMountProvider {
 						'superShare' => $parentShare,
 						// children/component of the superShare
 						'groupedShares' => $share[1],
-						'ownerView' => $ownerViews[$owner],
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$loader,
-					$view,
 					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
+					$this->rootFolder,
 					($shareId <= $maxValidatedShare),
 				);
 
