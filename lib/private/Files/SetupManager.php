@@ -32,6 +32,7 @@ use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
@@ -500,6 +501,27 @@ class SetupManager {
 		$this->eventLogger->end('fs:setup:user:path');
 	}
 
+	private function loadNonAuthoritativeMounts(IUser $user): void {
+		/** @var IMountProvider[] $nonAuthoritativeMountsProviders */
+		$nonAuthoritativeMountsProviders = array_filter($this->mountProviderCollection->getProviders(), fn(IMountProvider $provider) => !(
+			$provider instanceof IRootMountProvider ||
+			$provider instanceof IHomeMountProvider ||
+			$provider instanceof IAuthoritativeMountProvider
+		));
+
+		if (count($nonAuthoritativeMountsProviders) === 0) {
+			return;
+		}
+
+		$mounts = [];
+		$loader =  Filesystem::getLoader(); // todo
+		foreach ($nonAuthoritativeMountsProviders as $provider) {
+			$mounts = array_merge($mounts, $provider->getMountsForUser($user, $loader));
+		}
+		$providerClasses = array_map(fn($provider) => get_class($provider), $nonAuthoritativeMountsProviders);
+		$this->userMountCache->registerMounts($user, $mounts, $providerClasses);
+	}
+
 	/**
 	 * Set up the filesystem for the specified path
 	 */
@@ -543,6 +565,7 @@ class SetupManager {
 		}
 
 		$this->oneTimeUserSetup($user);
+		$this->loadNonAuthoritativeMounts($user);
 
 		// todo: maybe the HomeMountProviders can be initialized here if
 		// 		 there is an entry in oc_mounts
