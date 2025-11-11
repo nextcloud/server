@@ -54,7 +54,7 @@
 		</NcAppSettingsSection>
 
 		<!-- Appearance -->
-		<NcAppSettingsSection id="settings" :name="t('files', 'Appearance')">
+		<NcAppSettingsSection id="appearance" :name="t('files', 'Appearance')">
 			<NcCheckboxRadioSwitch
 				data-cy-files-settings-setting="show_hidden"
 				:checked="userConfig.show_hidden"
@@ -139,161 +139,7 @@
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
-		<NcAppSettingsSection
-			id="shortcuts"
-			:name="t('files', 'Keyboard shortcuts')">
-			<h3>{{ t('files', 'Actions') }}</h3>
-			<dl>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>a</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'File actions') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>F2</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Rename') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>Del</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Delete') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>s</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Add or remove favorite') }}
-					</dd>
-				</div>
-				<div v-if="isSystemtagsEnabled">
-					<dt class="shortcut-key">
-						<kbd>t</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Manage tags') }}
-					</dd>
-				</div>
-			</dl>
-
-			<h3>{{ t('files', 'Selection') }}</h3>
-			<dl>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>Ctrl</kbd> + <kbd>A</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Select all files') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>ESC</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Deselect all') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>Ctrl</kbd> + <kbd>Space</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Select or deselect') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>Ctrl</kbd> + <kbd>Shift</kbd> <span>+ <kbd>Space</kbd></span>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Select a range') }}
-					</dd>
-				</div>
-			</dl>
-
-			<h3>{{ t('files', 'Navigation') }}</h3>
-			<dl>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>Alt</kbd> + <kbd>↑</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Go to parent folder') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>↑</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Go to file above') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>↓</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Go to file below') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>←</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Go left in grid') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>→</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Go right in grid') }}
-					</dd>
-				</div>
-			</dl>
-
-			<h3>{{ t('files', 'View') }}</h3>
-			<dl>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>V</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Toggle grid view') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>D</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Open file sidebar') }}
-					</dd>
-				</div>
-				<div>
-					<dt class="shortcut-key">
-						<kbd>?</kbd>
-					</dt>
-					<dd class="shortcut-description">
-						{{ t('files', 'Show those shortcuts') }}
-					</dd>
-				</div>
-			</dl>
-		</NcAppSettingsSection>
+		<FilesAppSettingsShortcuts />
 	</NcAppSettingsDialog>
 </template>
 
@@ -310,7 +156,8 @@ import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
-import FilesAppSettingsEntry from '../components/FilesAppSettingsEntry.vue'
+import FilesAppSettingsEntry from '../components/FilesAppSettings/FilesAppSettingsEntry.vue'
+import FilesAppSettingsShortcuts from '../components/FilesAppSettings/FilesAppSettingsShortcuts.vue'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
 export default {
@@ -318,6 +165,7 @@ export default {
 	components: {
 		Clipboard,
 		FilesAppSettingsEntry,
+		FilesAppSettingsShortcuts,
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
 		NcCheckboxRadioSwitch,
@@ -385,7 +233,7 @@ export default {
 		this.settings.forEach((setting) => setting.open())
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		// Update the settings API entries state
 		this.settings.forEach((setting) => setting.close())
 	},
