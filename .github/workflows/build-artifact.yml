@@ -1,12 +1,13 @@
-name: Build Nextcloud Workspace artifact
+name: Build Nextcloud Workspace artifact (Optimized)
 
 # SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
 # SPDX-FileCopyrightText: 2025 STRATO AG
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-# The Nextcloud Workspace source is packaged as a container image.
-# This is a workaround because releases cannot be created without tags,
-# and we want to be able to create snapshots from branches.
+# Optimized build workflow using GitHub Actions cache
+# - Checks GitHub Actions cache for each app's current SHA
+# - Only builds apps without cached artifacts
+# - Significantly reduces build time by reusing cached builds via GitHub Actions cache
 
 on:
   pull_request:
@@ -40,6 +41,10 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   ARTIFACTORY_REPOSITORY_SNAPSHOT: ionos-productivity-ncwserver-snapshot
+  # Cache version - increment this to invalidate all caches when build process changes
+  # Update when: Node.js version changes, PHP version changes, build scripts modified, etc.
+  # Format: v<major>.<minor> (e.g., v1.0, v1.1, v2.0)
+  CACHE_VERSION: v1.0
 
 permissions:
   contents: read
@@ -48,7 +53,11 @@ jobs:
   prepare-matrix:
     runs-on: ubuntu-latest
     outputs:
-      external-apps-matrix: ${{ steps.set_matrix.outputs.matrix }}
+      apps_to_build: ${{ steps.detect.outputs.apps_to_build }}
+      apps_to_restore: ${{ steps.detect.outputs.apps_to_restore }}
+      external_apps_matrix: ${{ steps.set_matrix.outputs.matrix }}
+      has_cached_apps: ${{ steps.detect.outputs.has_cached_apps }}
+      apps_sha_map: ${{ steps.detect.outputs.apps_sha_map }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -85,9 +94,165 @@ jobs:
           echo "matrix=$(echo "$matrix" | jq -c '.')" >> $GITHUB_OUTPUT
           echo "Matrix generated successfully with $(echo "$matrix" | jq 'length') apps"
 
+      - name: Collect apps and their SHAs for cache-based building
+        id: detect
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CACHE_VERSION: ${{ env.CACHE_VERSION }}
+        run: |
+          set -e  # Exit on error
+          set -u  # Exit on undefined variable
+          set -o pipefail  # Exit if any command in pipeline fails
+
+          echo "Collecting app SHAs and checking cache status..."
+          echo ""
+
+          # Get the matrix from previous step
+          MATRIX='${{ steps.set_matrix.outputs.matrix }}'
+
+          # Build JSON array for apps that actually need building
+          APPS_TO_BUILD="[]"
+          # Build JSON array for apps that are cached and need restoring
+          APPS_TO_RESTORE="[]"
+          APPS_CHECKED=0
+          APPS_CACHED=0
+          APPS_TO_BUILD_COUNT=0
+          APPS_SHA_MAP="{}"
+
+          echo "### 📦 Cache Status Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| App | SHA | Cache Key | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|-----|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          # Iterate through each app in the matrix
+          while IFS= read -r app_json; do
+            APP_NAME=$(echo "$app_json" | jq -r '.name')
+            APP_PATH=$(echo "$app_json" | jq -r '.path')
+
+            APPS_CHECKED=$((APPS_CHECKED + 1))
+
+            # Get current submodule SHA
+            if [ -d "$APP_PATH" ]; then
+              CURRENT_SHA=$(git -C "$APP_PATH" rev-parse HEAD 2>/dev/null || echo "")
+            else
+              echo "⊘ $APP_NAME - directory not found, will build"
+              echo "| $APP_NAME | N/A | N/A | ⊘ Directory not found |" >> $GITHUB_STEP_SUMMARY
+              APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "unknown" '. + [{name: $app, sha: $sha}]')
+              APPS_TO_BUILD_COUNT=$((APPS_TO_BUILD_COUNT + 1))
+              continue
+            fi
+
+            if [ -z "$CURRENT_SHA" ]; then
+              echo "⊘ $APP_NAME - not a git repo, will build"
+              echo "| $APP_NAME | N/A | N/A | ⊘ Not a git repo |" >> $GITHUB_STEP_SUMMARY
+              APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "unknown" '. + [{name: $app, sha: $sha}]')
+              APPS_TO_BUILD_COUNT=$((APPS_TO_BUILD_COUNT + 1))
+              continue
+            fi
+
+            # Add SHA to the map for all apps (regardless of cache status)
+            APPS_SHA_MAP=$(echo "$APPS_SHA_MAP" | jq -c --arg app "$APP_NAME" --arg sha "$CURRENT_SHA" '.[$app] = $sha')
+
+            # Cache key that would be used for this app
+            # Format: <version>-app-build-<app-name>-<sha>
+            CACHE_KEY="${CACHE_VERSION}-app-build-${APP_NAME}-${CURRENT_SHA}"
+            SHORT_SHA="${CURRENT_SHA:0:8}"
+
+            echo -n "  Checking $APP_NAME (SHA: $SHORT_SHA)... "
+
+            # Check if cache exists using GitHub CLI
+            CACHE_EXISTS="false"
+            if ! CACHE_LIST=$(gh cache list --key "$CACHE_KEY" --json key --jq ".[].key" 2>&1); then
+              echo "⚠️ Warning: Failed to query cache for $APP_NAME: $CACHE_LIST"
+              echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | ⚠️ Cache check failed - will build |" >> $GITHUB_STEP_SUMMARY
+              APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "$CURRENT_SHA" '. + [{name: $app, sha: $sha}]')
+              APPS_TO_BUILD_COUNT=$((APPS_TO_BUILD_COUNT + 1))
+              continue
+            fi
+            if echo "$CACHE_LIST" | grep -q "^${CACHE_KEY}$"; then
+              CACHE_EXISTS="true"
+              APPS_CACHED=$((APPS_CACHED + 1))
+              echo "✓ cached"
+              echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | ✅ Cached |" >> $GITHUB_STEP_SUMMARY
+              # Add to restore list with SHA
+              APPS_TO_RESTORE=$(echo "$APPS_TO_RESTORE" | jq -c --argjson app "$app_json" --arg sha "$CURRENT_SHA" '. + [($app + {sha: $sha})]')
+            else
+              echo "⚡ needs build"
+              echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | 🔨 Needs build |" >> $GITHUB_STEP_SUMMARY
+              APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "$CURRENT_SHA" '. + [{name: $app, sha: $sha}]')
+              APPS_TO_BUILD_COUNT=$((APPS_TO_BUILD_COUNT + 1))
+            fi
+
+          done < <(echo "$MATRIX" | jq -c '.[]')
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Summary:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Total apps checked: $APPS_CHECKED" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Apps with cached builds: $APPS_CACHED" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔨 Apps needing build: $APPS_TO_BUILD_COUNT" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ $APPS_CACHED -gt 0 ] && [ $APPS_CHECKED -gt 0 ]; then
+            CACHE_HIT_PERCENT=$((APPS_CACHED * 100 / APPS_CHECKED))
+            echo "**Cache hit rate: ${CACHE_HIT_PERCENT}%** 🎯" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo ""
+          echo "Summary:"
+          echo "  Total apps: $APPS_CHECKED"
+          echo "  Cached: $APPS_CACHED"
+          echo "  To build: $APPS_TO_BUILD_COUNT"
+
+          # Validate that we built valid JSON
+          if ! echo "$APPS_TO_BUILD" | jq empty 2>/dev/null; then
+            echo "ERROR: Failed to build valid JSON for apps_to_build"
+            echo "Content: $APPS_TO_BUILD"
+            exit 1
+          fi
+
+          if ! echo "$APPS_TO_RESTORE" | jq empty 2>/dev/null; then
+            echo "ERROR: Failed to build valid JSON for apps_to_restore"
+            echo "Content: $APPS_TO_RESTORE"
+            exit 1
+          fi
+
+          # Output app list with SHAs for the build job to use
+          # Use proper multiline output format for GitHub Actions
+          echo "apps_to_build<<APPS_TO_BUILD_JSON_EOF" >> $GITHUB_OUTPUT
+          echo "$APPS_TO_BUILD" >> $GITHUB_OUTPUT
+          echo "APPS_TO_BUILD_JSON_EOF" >> $GITHUB_OUTPUT
+
+          # Output the list of apps to restore from cache
+          echo "apps_to_restore<<APPS_TO_RESTORE_JSON_EOF" >> $GITHUB_OUTPUT
+          echo "$APPS_TO_RESTORE" >> $GITHUB_OUTPUT
+          echo "APPS_TO_RESTORE_JSON_EOF" >> $GITHUB_OUTPUT
+
+          # Output the SHA map for all apps
+          echo "apps_sha_map<<APPS_SHA_MAP_JSON_EOF" >> $GITHUB_OUTPUT
+          echo "$APPS_SHA_MAP" >> $GITHUB_OUTPUT
+          echo "APPS_SHA_MAP_JSON_EOF" >> $GITHUB_OUTPUT
+
+          # Determine if there are cached apps by comparing counts
+          # If apps_to_build count is less than total apps, some are cached
+          if [ $APPS_TO_BUILD_COUNT -lt $APPS_CHECKED ]; then
+            echo "has_cached_apps=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_cached_apps=false" >> $GITHUB_OUTPUT
+          fi
+
+          echo ""
+          if [ $APPS_TO_BUILD_COUNT -eq 0 ]; then
+            echo "🎉 All apps are cached! No builds needed."
+          else
+            echo "✓ Will build $APPS_TO_BUILD_COUNT app(s)"
+          fi
+
   build-external-apps:
     runs-on: ubuntu-latest
     needs: prepare-matrix
+    # Only run if there are apps to build
+    if: needs.prepare-matrix.outputs.apps_to_build != '[]'
 
     permissions:
       contents: read
@@ -96,9 +261,38 @@ jobs:
     strategy:
       max-parallel: 20
       matrix:
-        app: ${{ fromJson(needs.prepare-matrix.outputs.external-apps-matrix) }}
+        # Use the filtered list of apps that need building (not in cache)
+        app_info: ${{ fromJson(needs.prepare-matrix.outputs.apps_to_build) }}
 
     steps:
+      - name: Get app configuration from full matrix
+        id: app-config
+        run: |
+          # Get the full matrix to look up app configuration
+          FULL_MATRIX='${{ needs.prepare-matrix.outputs.external_apps_matrix }}'
+          APP_NAME='${{ matrix.app_info.name }}'
+
+          # Find the app configuration in the full matrix
+          APP_CONFIG=$(echo "$FULL_MATRIX" | jq -c --arg name "$APP_NAME" '.[] | select(.name == $name)')
+
+          if [ -z "$APP_CONFIG" ]; then
+            echo "ERROR: Could not find configuration for $APP_NAME"
+            exit 1
+          fi
+
+          # Extract configuration values
+          APP_PATH=$(echo "$APP_CONFIG" | jq -r '.path')
+          HAS_NPM=$(echo "$APP_CONFIG" | jq -r '.has_npm')
+          HAS_COMPOSER=$(echo "$APP_CONFIG" | jq -r '.has_composer')
+          MAKEFILE_TARGET=$(echo "$APP_CONFIG" | jq -r '.makefile_target')
+
+          # Set outputs
+          echo "path=$APP_PATH" >> $GITHUB_OUTPUT
+          echo "has-npm=$HAS_NPM" >> $GITHUB_OUTPUT
+          echo "has-composer=$HAS_COMPOSER" >> $GITHUB_OUTPUT
+          echo "makefile-target=$MAKEFILE_TARGET" >> $GITHUB_OUTPUT
+          echo "Building $APP_NAME from $APP_PATH (SHA: ${{ matrix.app_info.sha }})"
+
       - name: Checkout server
         uses: actions/checkout@v5
         with:
@@ -106,15 +300,15 @@ jobs:
           fetch-depth: 1
 
       - name: Set up node with version from package.json's engines
-        if: matrix.app.has_npm
+        if: steps.app-config.outputs.has-npm == 'true'
         uses: actions/setup-node@v6
         with:
           node-version-file: "package.json"
           cache: 'npm'
-          cache-dependency-path: ${{ matrix.app.path }}/package-lock.json
+          cache-dependency-path: ${{ steps.app-config.outputs.path }}/package-lock.json
 
       - name: Setup PHP with PECL extension
-        if: matrix.app.has_composer
+        if: steps.app-config.outputs.has-composer == 'true'
         uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
         with:
           tools: composer:v2
@@ -122,19 +316,86 @@ jobs:
         env:
           runner: ubuntu-latest
 
-      - name: Cache Composer dependencies for ${{ matrix.app.name }}
-        if: matrix.app.has_composer
+      - name: Cache Composer dependencies for ${{ matrix.app_info.name }}
+        if: steps.app-config.outputs.has-composer == 'true'
         uses: actions/cache@v4
         with:
-          path: ${{ matrix.app.path }}/vendor
-          key: ${{ runner.os }}-composer-${{ matrix.app.name }}-${{ hashFiles(format('{0}/composer.lock', matrix.app.path)) }}
+          path: ${{ steps.app-config.outputs.path }}/vendor
+          key: ${{ runner.os }}-composer-${{ matrix.app_info.name }}-${{ hashFiles(format('{0}/composer.lock', steps.app-config.outputs.path)) }}
           restore-keys: |
-            ${{ runner.os }}-composer-${{ matrix.app.name }}-
+            ${{ runner.os }}-composer-${{ matrix.app_info.name }}-
 
-      - name: Build ${{ matrix.app.name }} app
-        run: make -f IONOS/Makefile ${{ matrix.app.makefile_target }}
+      - name: Build ${{ matrix.app_info.name }} app
+        run: make -f IONOS/Makefile ${{ steps.app-config.outputs.makefile-target }}
 
-      - name: Upload ${{ matrix.app.name }} build artifacts
+      - name: Report build completion
+        if: success()
+        run: |
+          echo "### ✅ Built ${{ matrix.app_info.name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA:** \`${{ matrix.app_info.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Path:** ${{ steps.app-config.outputs.path }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** Success" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+      # Save built app to cache for future runs
+      - name: Save build artifacts to cache
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ steps.app-config.outputs.path }}
+          key: ${{ env.CACHE_VERSION }}-app-build-${{ matrix.app_info.name }}-${{ matrix.app_info.sha }}
+
+      - name: Upload ${{ matrix.app_info.name }} build artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          retention-days: 1
+          name: external-app-build-${{ matrix.app_info.name }}
+          path: |
+            ${{ steps.app-config.outputs.path }}
+            !${{ steps.app-config.outputs.path }}/node_modules
+
+  restore-cached-apps:
+    runs-on: ubuntu-latest
+    needs: prepare-matrix
+    # Only run if there are cached apps to restore
+    if: needs.prepare-matrix.outputs.apps_to_restore != '[]'
+
+    permissions:
+      contents: read
+
+    name: restore-cached-apps
+    strategy:
+      max-parallel: 20
+      matrix:
+        # Use the filtered list of apps that need restoring from cache
+        app: ${{ fromJson(needs.prepare-matrix.outputs.apps_to_restore) }}
+
+    steps:
+      - name: Restore cached build from cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ matrix.app.path }}
+          key: ${{ env.CACHE_VERSION }}-app-build-${{ matrix.app.name }}-${{ matrix.app.sha }}
+          fail-on-cache-miss: true
+
+      - name: Validate cached build
+        run: |
+          APP_PATH="${{ matrix.app.path }}"
+
+          # Check that the directory exists and is not empty
+          if [ ! -d "$APP_PATH" ] || [ -z "$(ls -A $APP_PATH)" ]; then
+            echo "❌ Cache validation failed: Directory is empty or missing"
+            exit 1
+          fi
+
+          # Check for appinfo/info.xml (required for all Nextcloud apps)
+          if [ ! -f "$APP_PATH/appinfo/info.xml" ]; then
+            echo "❌ Cache validation failed: Missing appinfo/info.xml"
+            exit 1
+          fi
+
+          echo "✅ Cache validation passed for ${{ matrix.app.name }}"
+
+      - name: Upload cached ${{ matrix.app.name }} build artifacts
         uses: actions/upload-artifact@v5
         with:
           retention-days: 1
@@ -145,7 +406,12 @@ jobs:
 
   build-artifact:
     runs-on: ubuntu-latest
-    needs: [prepare-matrix, build-external-apps]
+    needs: [prepare-matrix, build-external-apps, restore-cached-apps]
+    # Always run this job, even if restore-cached-apps is skipped
+    if: |
+      always() &&
+      (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
+      (needs.restore-cached-apps.result == 'success' || needs.restore-cached-apps.result == 'skipped')
 
     permissions:
       contents: read
@@ -282,10 +548,15 @@ jobs:
   upload-to-artifactory:
     runs-on: self-hosted
     # Upload the artifact to the Artifactory repository on PR *OR* on "ionos-dev|ionos-stable" branch push defined in the on:push:branches
-    if: github.event_name == 'pull_request' || github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable'
+    if: |
+      always() &&
+      (github.event_name == 'pull_request' || github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
+      (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
+      (needs.restore-cached-apps.result == 'success' || needs.restore-cached-apps.result == 'skipped') &&
+      needs.build-artifact.result == 'success'
 
     name: Push to artifactory
-    needs: [prepare-matrix, build-external-apps, build-artifact]
+    needs: [prepare-matrix, build-external-apps, restore-cached-apps, build-artifact]
 
     outputs:
       ARTIFACTORY_LAST_BUILD_PATH: ${{ steps.artifactory_upload.outputs.ARTIFACTORY_LAST_BUILD_PATH }}
@@ -406,13 +677,19 @@ jobs:
 
   nextcloud-workspace-artifact-to-ghcr_io:
     runs-on: ubuntu-latest
+    # Only run if build-artifact succeeded
+    if: |
+      always() &&
+      (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
+      (needs.restore-cached-apps.result == 'success' || needs.restore-cached-apps.result == 'skipped') &&
+      needs.build-artifact.result == 'success'
 
     permissions:
       contents: read
       packages: write
 
     name: Push artifact to ghcr.io
-    needs: [prepare-matrix, build-external-apps, build-artifact]
+    needs: [prepare-matrix, build-external-apps, restore-cached-apps, build-artifact]
 
     steps:
       - name: Download artifact zip
@@ -468,9 +745,13 @@ jobs:
     runs-on: self-hosted
 
     name: Trigger remote workflow
-    needs: [ build-artifact, upload-to-artifactory ]
+    needs: [build-artifact, upload-to-artifactory]
     # Trigger remote build on "ionos-dev|ionos-stable" branch *push* defined in the on:push:branches
-    if: github.event_name == 'push' && ( github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable' )
+    if: |
+      github.event_name == 'push' &&
+      (github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
+      needs.build-artifact.result == 'success' &&
+      needs.upload-to-artifactory.result == 'success'
     steps:
       - name: Trigger remote workflow
         run: |
