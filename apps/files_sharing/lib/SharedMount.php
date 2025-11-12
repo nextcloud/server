@@ -56,10 +56,11 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		$absMountPoint = '/' . $user->getUID() . '/files/' . trim($this->superShare->getTarget(), '/') . '/';
 
 		// after the mountpoint is verified for the first time, only new mountpoints (e.g. groupfolders can overwrite the target)
-		if (!$alreadyVerified || isset($mountpoints[$absMountPoint])) {
-			$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
-			$absMountPoint = '/' . $user->getUID() . '/files/' . trim($newMountPoint, '/') . '/';
-		}
+		// todo authoritative mount points need to do this at share time
+//		if (!$alreadyVerified || isset($mountpoints[$absMountPoint])) {
+//			$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
+//			$absMountPoint = '/' . $user->getUID() . '/files/' . trim($newMountPoint, '/') . '/';
+//		}
 
 		parent::__construct($storage, $absMountPoint, $arguments, $loader, null, null, MountProvider::class);
 	}
