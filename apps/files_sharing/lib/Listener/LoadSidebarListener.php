@@ -43,8 +43,11 @@ class LoadSidebarListener implements IEventListener {
 		$showFederatedToTrustedAsInternal = $gsConfig->isGlobalScaleEnabled() || $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL);
 		$showFederatedAsInternal = ($gsConfig->isGlobalScaleEnabled() && $gsConfig->onlyInternalFederation())
 			|| $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL);
+		$showExternalSharing = $appConfig->getValueBool('files_sharing', 'outgoing_server2server_share_enabled', true)
+			|| $appConfig->getValueBool('core', 'shareapi_allow_links', true);
 
 		$this->initialState->provideInitialState('showFederatedSharesAsInternal', $showFederatedAsInternal);
 		$this->initialState->provideInitialState('showFederatedSharesToTrustedServersAsInternal', $showFederatedToTrustedAsInternal);
+		$this->initialState->provideInitialState('showExternalSharing', $showExternalSharing);
 	}
 }
