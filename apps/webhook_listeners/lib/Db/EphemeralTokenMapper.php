@@ -39,7 +39,7 @@ class EphemeralTokenMapper extends QBMapper {
 	/**
 	 * @throws DoesNotExistException
 	 * @throws MultipleObjectsReturnedException
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function getById(int $id): EphemeralToken {
 		$qb = $this->db->getQueryBuilder();
@@ -75,7 +75,7 @@ class EphemeralTokenMapper extends QBMapper {
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function addEphemeralToken(
 		int $tokenId,
@@ -93,7 +93,7 @@ class EphemeralTokenMapper extends QBMapper {
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function deleteByTokenId(int $tokenId): bool {
 		$qb = $this->db->getQueryBuilder();
