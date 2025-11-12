@@ -8,6 +8,7 @@
 namespace OCA\WebhookListeners\Service;
 
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\PublicKeyToken;
 use OCA\WebhookListeners\Db\TemporaryTokenMapper;
 use OCA\WebhookListeners\Db\WebhookListener;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -80,8 +81,25 @@ class TokenService {
 		$token = $this->generateRandomDeviceToken();
 		$name = 'Ephemeral webhook authentication';
 		$password = null;
-		$deviceToken = $this->tokenProvider->generateToken($token, $userId, $userId, $password, $name, IToken::PERMANENT_TOKEN);
-		$this->tokenMapper->addTemporaryToken($deviceToken->getId(), $deviceToken->getToken(), $userId, $this->time->getTime());
+		$deviceToken = $this->tokenProvider->generateToken(
+			$token, 
+			$userId, 
+			$userId, 
+			$password, 
+			$name, 
+			IToken::PERMANENT_TOKEN);
+
+		// We need the getToken() method to be able to send the token out. 
+		// That method is only available in PublicKeyToken which is returned by generateToken 
+		// but not declared as such, so we have to check the type here
+		if (!($deviceToken instanceof PublicKeyToken)) { // type needed for the getToken() function
+			throw new \Exception('Unexpected token type');
+		}
+		$this->tokenMapper->addTemporaryToken(
+			$deviceToken->getId(), 
+			$deviceToken->getToken(), 
+			$userId, 
+			$this->time->getTime());
 		return $token;
 	}
 
