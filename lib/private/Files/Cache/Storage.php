@@ -126,7 +126,7 @@ class Storage {
 	}
 
 	/**
-	 * @return array [ available, last_checked ]
+	 * @return array{available: bool, last_checked: int}
 	 */
 	public function getAvailability() {
 		if ($row = self::getStorageById($this->storageId)) {
