@@ -106,6 +106,18 @@ class RequestHandlerController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
+		// quick patch to flatten the protocol entry 'multi' to the previous 'webdav'. this is 32 only and a better implementation is expected for 33
+		/** @psalm-suppress InvalidArrayOffset */
+		if ((($protocol['name'] ?? '') === 'multi') && (is_array($protocol['webdav'] ?? ''))) {
+			$protocol = [
+				'name' => 'webdav',
+				'options' => [
+					'sharedSecret' => $protocol['webdav']['sharedSecret'] ?? '',
+					'permissions' => '{http://open-cloud-mesh.org/ns}share-permissions',
+				],
+			];
+		}
+
 		try {
 			// if request is signed and well signed, no exception are thrown
 			// if request is not signed and host is known for not supporting signed request, no exception are thrown
