@@ -123,9 +123,11 @@ class UploadHomeTest extends TestCase {
 
 	public function testCreateDirectoryAddsCleanupJob(): void {
 		$cleanup = $this->createMock(CleanupService::class);
+
 		$directory = $this->createMock(Directory::class);
 		$directory->expects($this->once())->method('createDirectory')->with('foo');
-		$cleanup->expects($this->once())->method('addJob')->with('testuser', 'foo');
+		$directory->method('getType')->willReturn('dir');
+		$directory->method('isDirectory')->willReturn(true);
 
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
@@ -133,8 +135,10 @@ class UploadHomeTest extends TestCase {
 		$userSession->method('getUser')->willReturn($user);
 		$shareManager = $this->createMock(IManager::class);
 
-		// make getUserFolder('testuser') return $directory, so impl() works as expected
 		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$rootFolder->method('get')->willReturn($directory);
+
+		$cleanup->expects($this->once())->method('addJob')->with('testuser', 'foo');
 
 		$uploadHome = new UploadHome(
 			$this->principalInfo,
@@ -151,31 +155,36 @@ class UploadHomeTest extends TestCase {
 		$cleanup = $this->createMock(CleanupService::class);
 		$directoryChild = $this->createMock(Folder::class);
 
+		$directoryChild->method('getType')->willReturn('dir');
+		$directoryChild->method('isDirectory')->willReturn(true);
+
 		$directory = $this->createMock(Directory::class);
 		$directory->method('getChild')->with('childname')->willReturn($directoryChild);
 
+		$directory->method('getType')->willReturn('dir');
+		$directory->method('isDirectory')->willReturn(true);
+
 		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$rootFolder->method('get')->willReturn($directory);
+
 		$userSession = $this->createMock(IUserSession::class);
 		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
+
 		$shareManager = $this->createMock(IManager::class);
 
 		$storage = $this->createMock(IStorage::class);
 
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$uploadHome = new UploadHome(
+			$this->principalInfo,
+			$cleanup,
+			$rootFolder,
+			$userSession,
+			$shareManager
+		);
 
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager,
-			])
-			->onlyMethods(['getStorage'])
-			->getMock();
-
-		$uploadHome->method('getStorage')->willReturn($storage);
+		// Patch UploadHome if necessary so getStorage() will work for the test context
 
 		$result = $uploadHome->getChild('childname');
 		$this->assertInstanceOf(UploadFolder::class, $result);
@@ -186,29 +195,26 @@ class UploadHomeTest extends TestCase {
 
 		$directory = $this->createMock(Directory::class);
 		$directory->method('getChild')->with('missing')->willThrowException(new SabreNotFound());
+		$directory->method('getType')->willReturn('dir');
+		$directory->method('isDirectory')->willReturn(true);
 
 		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$rootFolder->method('get')->willReturn($directory);
+
 		$userSession = $this->createMock(IUserSession::class);
 		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
+
 		$shareManager = $this->createMock(IManager::class);
 
-		$storage = $this->createMock(IStorage::class);
-
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
-
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager,
-			])
-			->onlyMethods(['getStorage'])
-			->getMock();
-
-		$uploadHome->method('getStorage')->willReturn($storage);
+		$uploadHome = new UploadHome(
+			$this->principalInfo,
+			$cleanup,
+			$rootFolder,
+			$userSession,
+			$shareManager
+		);
 
 		$this->expectException(SabreNotFound::class);
 		$uploadHome->getChild('missing');
@@ -216,34 +222,36 @@ class UploadHomeTest extends TestCase {
 
 	public function testGetChildrenReturnsUploadFolders(): void {
 		$cleanup = $this->createMock(CleanupService::class);
+
 		$directoryChild1 = $this->createMock(Folder::class);
 		$directoryChild2 = $this->createMock(Folder::class);
+		$directoryChild1->method('getType')->willReturn('dir');
+		$directoryChild1->method('isDirectory')->willReturn(true);
+		$directoryChild2->method('getType')->willReturn('dir');
+		$directoryChild2->method('isDirectory')->willReturn(true);
 
 		$directory = $this->createMock(Directory::class);
 		$directory->method('getChildren')->willReturn([$directoryChild1, $directoryChild2]);
+		$directory->method('getType')->willReturn('dir');
+		$directory->method('isDirectory')->willReturn(true);
 
 		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$rootFolder->method('get')->willReturn($directory);
+
 		$userSession = $this->createMock(IUserSession::class);
 		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
+
 		$shareManager = $this->createMock(IManager::class);
 
-		$storage = $this->createMock(IStorage::class);
-
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
-
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager,
-			])
-			->onlyMethods(['getStorage'])
-			->getMock();
-
-		$uploadHome->method('getStorage')->willReturn($storage);
+		$uploadHome = new UploadHome(
+			$this->principalInfo,
+			$cleanup,
+			$rootFolder,
+			$userSession,
+			$shareManager
+		);
 
 		$children = $uploadHome->getChildren();
 		$this->assertIsArray($children);
@@ -280,15 +288,20 @@ class UploadHomeTest extends TestCase {
 	public function testDeleteProxiesToImplDelete(): void {
 		$cleanup = $this->createMock(CleanupService::class);
 		$directory = $this->createMock(Directory::class);
+
 		$directory->expects($this->once())->method('delete');
+		$directory->method('getType')->willReturn('dir');
+		$directory->method('isDirectory')->willReturn(true);
 
 		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$rootFolder->method('get')->willReturn($directory);
+
 		$userSession = $this->createMock(IUserSession::class);
 		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
-		$shareManager = $this->createMock(IManager::class);
 
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$shareManager = $this->createMock(IManager::class);
 
 		$uploadHome = new UploadHome(
 			$this->principalInfo,
@@ -308,16 +321,21 @@ class UploadHomeTest extends TestCase {
 
 	public function testGetLastModifiedProxiesToImpl(): void {
 		$cleanup = $this->createMock(CleanupService::class);
+
 		$directory = $this->createMock(Directory::class);
 		$directory->method('getLastModified')->willReturn(1234567890);
+		$directory->method('getType')->willReturn('dir');
+		$directory->method('isDirectory')->willReturn(true);
 
 		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$rootFolder->method('get')->willReturn($directory);
+
 		$userSession = $this->createMock(IUserSession::class);
 		$user = $this->createUser('testuser', 'testpass');
 		$userSession->method('getUser')->willReturn($user);
-		$shareManager = $this->createMock(IManager::class);
 
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($directory);
+		$shareManager = $this->createMock(IManager::class);
 
 		$uploadHome = new UploadHome(
 			$this->principalInfo,
