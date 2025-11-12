@@ -112,6 +112,9 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
+		if (strlen($input) > 64_000) {
+			return new DataResponse(['message' => $this->l->t('Input text is too long')], Http::STATUS_BAD_REQUEST);
+		}
 		try {
 			$task = new Task($type, $input, $appId, $this->userId, $identifier);
 		} catch (InvalidArgumentException) {
