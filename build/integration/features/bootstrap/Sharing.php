@@ -697,7 +697,13 @@ trait Sharing {
 		if ($body instanceof TableNode) {
 			$parameters = [];
 			foreach ($body->getRowsHash() as $key => $value) {
-				$parameters[] = $key . '=' . $value;
+				if ($key === 'shareTypes') {
+					foreach (explode(' ', $value) as $shareType) {
+						$parameters[] = 'shareType[]=' . $shareType;
+					}
+				} else {
+					$parameters[] = $key . '=' . $value;
+				}
 			}
 			if (!empty($parameters)) {
 				$url .= '?' . implode('&', $parameters);
@@ -732,9 +738,46 @@ trait Sharing {
 			$shareeType = substr($shareeType, 6);
 		}
 
+		// "simplexml_load_string" creates a SimpleXMLElement object for each
+		// XML element with child elements. In turn, each child is indexed by
+		// its tag in the SimpleXMLElement object. However, when there are
+		// several child XML elements with the same tag, an array with all the
+		// children with the same tag is indexed instead. Therefore, when the
+		// XML contains
+		// <XXX>
+		//   <element>
+		//     <label>...</label>
+		//     <value>...</value>
+		//   </element>
+		// </XXX>
+		// the "$elements[$shareeType]" variable contains an "element" key which
+		// in turn contains "label" and "value" keys, but when the XML contains
+		// <XXX>
+		//   <element>
+		//     <label>...</label>
+		//     <value>...</value>
+		//   </element>
+		//   <element>
+		//     <label>...</label>
+		//     <value>...</value>
+		//   </element>
+		// </XXX>
+		// the "$elements[$shareeType]" variable contains an "element" key which
+		// in turn contains "0" and "1" keys, and in turn each one contains
+		// "label" and "value" keys.
+		if (array_key_exists('element', $elements[$shareeType]) && is_int(array_keys($elements[$shareeType]['element'])[0])) {
+			$elements[$shareeType] = $elements[$shareeType]['element'];
+		}
+
 		$sharees = [];
 		foreach ($elements[$shareeType] as $element) {
-			$sharees[] = [$element['label'], $element['value']['shareType'], $element['value']['shareWith']];
+			$sharee = [$element['label'], $element['value']['shareType'], $element['value']['shareWith']];
+
+			if (array_key_exists('shareWithDisplayNameUnique', $element)) {
+				$sharee[] = $element['shareWithDisplayNameUnique'];
+			}
+
+			$sharees[] = $sharee;
 		}
 		return $sharees;
 	}
