@@ -241,32 +241,6 @@ class PreviewManager implements IPreview {
 	/**
 	 * List of enabled default providers
 	 *
-	 * The following providers are enabled by default:
-	 *  - OC\Preview\BMP
-	 *  - OC\Preview\GIF
-	 *  - OC\Preview\JPEG
-	 *  - OC\Preview\MarkDown
-	 *  - OC\Preview\PNG
-	 *  - OC\Preview\TXT
-	 *  - OC\Preview\XBitmap
-	 *
-	 * The following providers are disabled by default due to performance or privacy concerns:
-	 *  - OC\Preview\Font
-	 *  - OC\Preview\HEIC
-	 *  - OC\Preview\Illustrator
-	 *  - OC\Preview\MP3
-	 *  - OC\Preview\MSOffice2003
-	 *  - OC\Preview\MSOffice2007
-	 *  - OC\Preview\MSOfficeDoc
-	 *  - OC\Preview\Movie
-	 *  - OC\Preview\OpenDocument
-	 *  - OC\Preview\PDF
-	 *  - OC\Preview\Photoshop
-	 *  - OC\Preview\Postscript
-	 *  - OC\Preview\SVG
-	 *  - OC\Preview\StarOffice
-	 *  - OC\Preview\TIFF
-	 *
 	 * @return list<class-string<IProviderV2>>
 	 */
 	protected function getEnabledDefaultProvider(): array {
