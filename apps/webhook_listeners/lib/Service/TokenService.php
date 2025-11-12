@@ -25,10 +25,10 @@ class TokenService {
 
 
 	/**
-	 * creates an array which includes two arrays of tokens: 'users' and 'functions'
-	 * The array ['users' => ['jane', 'bob'], 'functions' => ['owner', 'trigger']]
+	 * creates an array which includes two arrays of tokens: 'user_ids' and 'user_roles'
+	 * The array ['user_ids' => ['jane', 'bob'], 'user_roles' => ['owner', 'trigger']]
 	 * as requested tokens in the registered webhook produces a result like
-	 * ['users' => [['jane' => 'abcdtokenabcd1'], ['bob','=> 'abcdtokenabcd2']], 'functions' => [['owner' => ['admin' => 'abcdtokenabcd3']], ['trigger' => ['user1' => 'abcdtokenabcd4']]]]
+	 * ['user_ids' => [['jane' => 'abcdtokenabcd1'], ['bob','=> 'abcdtokenabcd2']], 'user_roles' => [['owner' => ['admin' => 'abcdtokenabcd3']], ['trigger' => ['user1' => 'abcdtokenabcd4']]]]
 	 *
 	 * @param WebhookListener $webhookListener
 	 * @param string|null $triggerUserId the user that triggered the webhook call
@@ -36,17 +36,17 @@ class TokenService {
 	 */
 	public function getTokens(WebhookListener $webhookListener, ?string $triggerUserId): array {
 		$tokens = [
-			'users' => [],
-			'functions' => [],
+			'user_ids' => [],
+			'user_roles' => [],
 		];
 		$tokenNeeded = $webhookListener->getTokenNeeded();
-		if (isset($tokenNeeded['users'])) {
-			foreach ($tokenNeeded['users'] as $userId) {
-				$tokens['users'][$userId] = $this->createTemporaryToken($userId);
+		if (isset($tokenNeeded['user_ids'])) {
+			foreach ($tokenNeeded['user_ids'] as $userId) {
+				$tokens['user_ids'][$userId] = $this->createTemporaryToken($userId);
 			}
 		}
-		if (isset($tokenNeeded['users'])) {
-			foreach ($tokenNeeded['functions'] as $function) {
+		if (isset($tokenNeeded['user_ids'])) {
+			foreach ($tokenNeeded['user_roles'] as $function) {
 				switch ($function) {
 					case 'owner':
 						// token for the person who created the flow
@@ -54,7 +54,7 @@ class TokenService {
 						if (is_null($functionId)) { // no owner uid available
 							break;
 						}
-						$tokens['functions']['owner'] = [
+						$tokens['user_roles']['owner'] = [
 							$functionId => $this->createTemporaryToken($functionId)
 						];
 						break;
@@ -63,7 +63,7 @@ class TokenService {
 						if (is_null($triggerUserId)) { // no trigger uid available
 							break;
 						}
-						$tokens['functions']['trigger'] = [
+						$tokens['user_roles']['trigger'] = [
 							$triggerUserId => $this->createTemporaryToken($triggerUserId)
 						];
 						break;

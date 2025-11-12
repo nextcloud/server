@@ -113,8 +113,8 @@ class WebhooksController extends OCSController {
 	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 * @param ?array<string,mixed> $tokenNeeded List of user ids for which to include auth tokens in the event.
-	 *                                          Has two fields: "users" list of user uids for which tokens are needed, "functions" list of functions for which tokens can be included.
-	 *                                          Possible functions: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call
+	 *                                          Has two fields: "user_ids" list of user uids for which tokens are needed, "user_roles" list of roles (users not defined by their ID but by the role they have in the webhook event) for which tokens can be included.
+	 *                                          Possible roles: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call.
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
@@ -186,8 +186,9 @@ class WebhooksController extends OCSController {
 	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 * @param ?array<string,mixed> $tokenNeeded List of user ids for which to include auth tokens in the event.
-	 *                                          Has two fields: "users" list of user uids for which tokens are needed, "functions" list of functions for which tokens can be included.
-	 *                                          Possible functions: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call
+	 * @param ?array<string,mixed> $tokenNeeded List of user ids for which to include auth tokens in the event.
+	 *                                          Has two fields: "user_ids" list of user uids for which tokens are needed, "user_roles" list of roles (users not defined by their ID but by the role they have in the webhook event) for which tokens can be included.
+	 *                                          Possible roles: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call.
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
