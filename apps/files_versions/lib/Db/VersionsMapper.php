@@ -29,20 +29,17 @@ class VersionsMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)));
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
 		return $this->findEntities($qb);
 	}
 
-	/**
-	 * @return VersionEntity
-	 */
 	public function findCurrentVersionForFileId(int $fileId): VersionEntity {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
 			->orderBy('timestamp', 'DESC')
 			->setMaxResults(1);
 
@@ -54,8 +51,8 @@ class VersionsMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
-			->andWhere($qb->expr()->eq('timestamp', $qb->createNamedParameter($timestamp)));
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)));
 
 		return $this->findEntity($qb);
 	}
@@ -64,7 +61,7 @@ class VersionsMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		return $qb->delete($this->getTableName())
-			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
 			->executeStatement();
 	}
 
