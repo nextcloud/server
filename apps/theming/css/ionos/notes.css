@@ -1,0 +1,18 @@
+div.suggestion-list {
+	.suggestion-list__item {
+		color: var(--ion-context-menu-item-text);
+		&:hover {
+			background-color: var(--ion-context-menu-item-background-hover);
+		}
+		&.is-selected {
+			background-color: var(--ion-context-menu-item-background-active);
+		}
+
+		img {
+			filter: none;
+			@media (prefers-color-scheme: dark) {
+				filter: invert(100%);
+			}
+		}
+	}
+}
