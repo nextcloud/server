@@ -29,6 +29,7 @@ class TokenService {
 	 * The array ['user_ids' => ['jane', 'bob'], 'user_roles' => ['owner', 'trigger']]
 	 * as requested tokens in the registered webhook produces a result like
 	 * ['user_ids' => [['jane' => 'abcdtokenabcd1'], ['bob','=> 'abcdtokenabcd2']], 'user_roles' => [['owner' => ['admin' => 'abcdtokenabcd3']], ['trigger' => ['user1' => 'abcdtokenabcd4']]]]
+	 * Created auth tokens are valid for 1 hour.
 	 *
 	 * @param WebhookListener $webhookListener
 	 * @param string|null $triggerUserId the user that triggered the webhook call
