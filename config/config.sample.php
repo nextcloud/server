@@ -1543,41 +1543,49 @@ $CONFIG = [
 	 *  - ``OC\Preview\Font``
 	 *  - ``OC\Preview\HEIC``
 	 *  - ``OC\Preview\Illustrator``
+	 *  - ``OC\Preview\Movie``
 	 *  - ``OC\Preview\MP3``
 	 *  - ``OC\Preview\MSOffice2003``
 	 *  - ``OC\Preview\MSOffice2007``
 	 *  - ``OC\Preview\MSOfficeDoc``
-	 *  - ``OC\Preview\Movie``
 	 *  - ``OC\Preview\PDF``
 	 *  - ``OC\Preview\Photoshop``
 	 *  - ``OC\Preview\Postscript``
-	 *  - ``OC\Preview\SVG``
+	 *  - ``OC\Preview\SGI``
 	 *  - ``OC\Preview\StarOffice``
+	 *  - ``OC\Preview\SVG``
+	 *  - ``OC\Preview\TGA``
 	 *  - ``OC\Preview\TIFF``
+	 *
+	 * The following providers are disabled by default, because they provide an alternative to the built-in providers:
+	 *   - ``OC\Preview\Imaginary``
+	 *   - ``OC\Preview\ImaginaryPDF``
 	 *
 	 * Defaults to the following providers:
 	 *
-	 *  - ``OC\Preview\BMP``
-	 *  - ``OC\Preview\GIF``
-	 *  - ``OC\Preview\JPEG``
-	 *  - ``OC\Preview\Krita``
-	 *  - ``OC\Preview\MarkDown``
-	 *  - ``OC\Preview\OpenDocument``
 	 *  - ``OC\Preview\PNG``
-	 *  - ``OC\Preview\TXT``
+	 *  - ``OC\Preview\JPEG``
+	 *  - ``OC\Preview\GIF``
+	 *  - ``OC\Preview\BMP``
 	 *  - ``OC\Preview\XBitmap``
+	 *  - ``OC\Preview\Krita``
+	 *  - ``OC\Preview\WebP``
+	 *  - ``OC\Preview\MarkDown``
+	 *  - ``OC\Preview\TXT``
+	 *  - ``OC\Preview\OpenDocument``
 	 *
 	 */
 	'enabledPreviewProviders' => [
-		'OC\Preview\BMP',
-		'OC\Preview\GIF',
-		'OC\Preview\JPEG',
-		'OC\Preview\Krita',
-		'OC\Preview\MarkDown',
-		'OC\Preview\OpenDocument',
 		'OC\Preview\PNG',
-		'OC\Preview\TXT',
+		'OC\Preview\JPEG',
+		'OC\Preview\GIF',
+		'OC\Preview\BMP',
 		'OC\Preview\XBitmap',
+		'OC\Preview\Krita',
+		'OC\Preview\WebP',
+		'OC\Preview\MarkDown',
+		'OC\Preview\TXT',
+		'OC\Preview\OpenDocument',
 	],
 
 	/**
