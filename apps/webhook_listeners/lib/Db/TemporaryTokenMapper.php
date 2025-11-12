@@ -54,7 +54,7 @@ class TemporaryTokenMapper extends QBMapper {
 
 	/**
 	 * @throws Exception
-	 * @return WebhookListener[]
+	 * @return TemporaryToken[]
 	 */
 	public function getAll(): array {
 		$qb = $this->db->getQueryBuilder();
