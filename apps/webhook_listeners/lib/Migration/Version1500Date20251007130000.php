@@ -39,25 +39,25 @@ class Version1500Date20251007130000 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable(TemporaryTokenMapper::TABLE_NAME)) {
 			$table = $schema->createTable(TemporaryTokenMapper::TABLE_NAME);
-			$table->addColumn('id', 'integer', [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 			]);
 
-			$table->addColumn('token_id', 'integer', [
+			$table->addColumn('token_id', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 4,
 				'unsigned' => true,
 			]);
-			$table->addColumn('token', 'string', [
+			$table->addColumn('token', Types::STRING, [
 				'notnull' => false,
 				'length' => 200,
 			]);
-			$table->addColumn('user_id', 'string', [
+			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('creation_datetime', 'integer', [
+			$table->addColumn('creation_datetime', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 4,
 				'unsigned' => true,
