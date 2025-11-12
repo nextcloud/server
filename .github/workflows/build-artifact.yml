@@ -48,7 +48,7 @@ jobs:
   prepare-matrix:
     runs-on: ubuntu-latest
     outputs:
-      external-apps-matrix: ${{ steps.set-matrix.outputs.matrix }}
+      external-apps-matrix: ${{ steps.set_matrix.outputs.matrix }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -60,7 +60,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y make jq
 
       - name: Set matrix
-        id: set-matrix
+        id: set_matrix
         run: |
           # Create matrix configuration as a compact JSON string
           matrix='[
@@ -338,7 +338,7 @@ jobs:
           # So we need to extract just the JSON part
           generated_matrix=$(echo "$makefile_output" | grep -v '^\[i\]' || echo "$makefile_output")
 
-          workflow_matrix='${{ steps.set-matrix.outputs.matrix }}'
+          workflow_matrix='${{ steps.set_matrix.outputs.matrix }}'
 
           # Debug output
           echo "Generated matrix length: ${#generated_matrix}"
@@ -487,7 +487,7 @@ jobs:
             echo "make -f IONOS/Makefile generate_external_apps_matrix_json" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "Then update the \`matrix\` variable in \`.github/workflows/build-artifact.yml\` in the set-matrix step with the generated output." >> $GITHUB_STEP_SUMMARY
+            echo "Then update the \`matrix\` variable in \`.github/workflows/build-artifact.yml\` in the set_matrix step with the generated output." >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
 
             # Show full diff in expandable section
