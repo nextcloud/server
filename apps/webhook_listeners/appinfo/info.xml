@@ -18,7 +18,7 @@ Administrators can configure webhook listeners via the app's OCS API. The app al
         ]]>
     </description>
 
-    <version>1.4.2</version>
+    <version>1.5.0</version>
     <licence>agpl</licence>
     <author>Côme Chilliet</author>
     <namespace>WebhookListeners</namespace>
