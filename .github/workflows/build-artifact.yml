@@ -887,22 +887,55 @@ jobs:
               BUILD_TYPE="stable"
           fi
 
-          # Trigger GitLab pipeline via webhook with build artifacts and metadata
-          # Passes GitHub context variables to remote GitLab workflow
-          curl \
-          --silent \
-          --insecure \
-          --request POST \
-          --fail-with-body \
-          -o response.json \
-          --form token=${{ secrets.GITLAB_TOKEN }} \
-          --form ref="stable" \
-          --form "variables[GITHUB_SHA]=${{ github.sha }}" \
-          --form "variables[ARTIFACTORY_LAST_BUILD_PATH]=${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH }}" \
-          --form "variables[NC_VERSION]=${{ needs.build-artifact.outputs.NC_VERSION }}" \
-          --form "variables[BUILD_ID]=${{ github.run_id }}" \
-          --form "variables[BUILD_TYPE]=${BUILD_TYPE}" \
-          "${{ secrets.GITLAB_TRIGGER_URL }}" || ( RETCODE="$?"; jq . response.json; exit "$RETCODE" )
+          # Trigger GitLab pipeline via webhook with retry logic (3 attempts with 30s delay)
+          MAX_ATTEMPTS=3
+          ATTEMPT=1
+          TRIGGER_SUCCESS=false
+          DELAY_SEC=5
+
+          while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+            echo "Trigger attempt $ATTEMPT of $MAX_ATTEMPTS..."
+
+            if curl \
+              --silent \
+              --insecure \
+              --request POST \
+              --fail-with-body \
+              -o response.json \
+              --form token=${{ secrets.GITLAB_TOKEN }} \
+              --form ref="stable" \
+              --form "variables[GITHUB_SHA]=${{ github.sha }}" \
+              --form "variables[ARTIFACTORY_LAST_BUILD_PATH]=${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH }}" \
+              --form "variables[NC_VERSION]=${{ needs.build-artifact.outputs.NC_VERSION }}" \
+              --form "variables[BUILD_ID]=${{ github.run_id }}" \
+              --form "variables[BUILD_TYPE]=${BUILD_TYPE}" \
+              "${{ secrets.GITLAB_TRIGGER_URL }}"; then
+              TRIGGER_SUCCESS=true
+              echo "✅ Trigger successful on attempt $ATTEMPT"
+              break
+            else
+              RETCODE="$?"
+              echo "⚠️ Trigger attempt $ATTEMPT failed with code $RETCODE"
+              if [ -f response.json ]; then
+                jq . response.json || cat response.json
+              fi
+              if [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
+                echo "Waiting ${DELAY_SEC} seconds before retry..."
+                sleep $DELAY_SEC
+                DELAY_SEC=$((DELAY_SEC * 2))  # Exponential backoff: 5s, 10s, 20s
+              fi
+            fi
+
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+
+          if [ "$TRIGGER_SUCCESS" != "true" ]; then
+            echo "❌ Trigger failed after $MAX_ATTEMPTS attempts"
+            if [ -f response.json ]; then
+              jq . response.json || cat response.json
+            fi
+            exit 1
+          fi
 
           # Disable command echo
           set +x
