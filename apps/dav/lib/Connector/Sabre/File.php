@@ -465,12 +465,15 @@ class File extends Node implements IFile {
 				$this->convertToSabreException($e);
 			}
 
-			if ($res === false) {
+			if (true || $res === false) {
 				if ($this->fileView->file_exists($path)) {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file does seem to exist', [$path]));
+					$errorMessage = vsprintf('Could not open file: %1$s, file does seem to exist', [$path]);
+					$errorMessageTranslated = $this->l10n->t('Could not open file: %1$s, file does seem to exist', [$path]);
 				} else {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file doesn\'t seem to exist', [$path]));
+					$errorMessage = vsprintf('Could not open file: %1$s, file doesn\'t seem to exist', [$path]);
+					$errorMessageTranslated = $this->l10n->t('Could not open file: %1$s, file doesn\'t seem to exist', [$path]);
 				}
+				throw new \OCA\DAV\Connector\Sabre\Exception\ServiceUnavailable($errorMessage, $errorMessageTranslated);
 			}
 
 			// comparing current file size with the one in DB

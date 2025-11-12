@@ -8,6 +8,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\DB\Connection;
+use OCA\DAV\Connector\Sabre\Exception\ITranslatedSabreException;
 use Override;
 use Sabre\DAV\Exception;
 use Sabre\DAV\INode;
@@ -239,7 +240,13 @@ class Server extends \Sabre\DAV\Server {
 			}
 
 			$error->appendChild($DOM->createElement('s:exception', $h(get_class($e))));
-			$error->appendChild($DOM->createElement('s:message', $h($e->getMessage())));
+
+			if ($e instanceof ITranslatedSabreException) {
+				$error->appendChild($DOM->createElement('s:message', $h($e->getTranslatedMessage())));
+			} else {
+				$error->appendChild($DOM->createElement('s:message', $h($e->getMessage())));
+			}
+
 			if ($this->debugExceptions) {
 				$error->appendChild($DOM->createElement('s:file', $h($e->getFile())));
 				$error->appendChild($DOM->createElement('s:line', $h($e->getLine())));
@@ -252,7 +259,11 @@ class Server extends \Sabre\DAV\Server {
 				while ($previous = $previous->getPrevious()) {
 					$xPrevious = $DOM->createElement('s:previous-exception');
 					$xPrevious->appendChild($DOM->createElement('s:exception', $h(get_class($previous))));
-					$xPrevious->appendChild($DOM->createElement('s:message', $h($previous->getMessage())));
+					if ($previous instanceof ITranslatedSabreException) {
+						$error->appendChild($DOM->createElement('s:message', $h($previous->getTranslatedMessage())));
+					} else {
+						$error->appendChild($DOM->createElement('s:message', $h($previous->getMessage())));
+					}
 					$xPrevious->appendChild($DOM->createElement('s:file', $h($previous->getFile())));
 					$xPrevious->appendChild($DOM->createElement('s:line', $h($previous->getLine())));
 					$xPrevious->appendChild($DOM->createElement('s:code', $h($previous->getCode())));
