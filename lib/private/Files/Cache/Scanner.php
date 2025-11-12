@@ -19,6 +19,7 @@ use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OC\Lock\DBLockingProvider;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -70,9 +71,10 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
+		/** @var IConfig $config */
 		$config = Server::get(IConfig::class);
 		$this->cacheActive = !$config->getSystemValueBool('filesystem_cache_readonly', false);
-		$this->useTransactions = !$config->getSystemValueBool('filescanner_no_transactions', false);
+		$this->useTransactions = !(Server::get(ILockingProvider::class) instanceof DBLockingProvider) && !$config->getSystemValueBool('filescanner_no_transactions', false);
 		$this->lockingProvider = Server::get(ILockingProvider::class);
 		$this->connection = Server::get(IDBConnection::class);
 	}
