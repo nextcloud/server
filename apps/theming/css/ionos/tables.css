@@ -1,4 +1,54 @@
-.content.app-tables table thead tr th {
-	background: var(--ion-tables-header-background-color);
-	border: 1px solid #ccc;
+.content.app-tables {
+	table {
+		thead tr th {
+			background: var(--ion-tables-header-background-color);
+			border: 1px solid #ccc;
+		}
+
+		tbody tr {
+			&.selected {
+				background-color: var(--ion-files-list-background-hover) !important;
+			}
+			&:hover {
+				background-color: var(--ion-files-list-background-hover);
+			}
+		}
+	}
+
+	~div.dialog__modal {
+		div.user-bubble__content {
+			background-color: var(--ion-context-menu-background);
+			color: var(--ion-text);
+		}
+
+		.text-editor__wrapper.is-rich-editor .editor {
+			background-color: var(--ion-context-menu-background);
+			color: var(--ion-text);
+			border: 1px solid var(--ion-context-menu-border);
+		}
+
+		.dialog__content.app-settings__content {
+			.column-entry {
+				color: var(--ion-text);
+				&:hover {
+					background-color: var(--ion-files-list-background-hover);
+				}
+			}
+
+			li.action:has(.action-checkbox) {
+				&:hover {
+					background-color: var(--ion-files-list-background-hover);
+				}
+			}
+
+			.filter-section {
+				.filter-group {
+					border-left-color: var(--ion-color-cool-grey-c7) !important;
+				}
+				.row {
+					background-color: transparent;
+				}
+			}
+		}
+	}
 }
