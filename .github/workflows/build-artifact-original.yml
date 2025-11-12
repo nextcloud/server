@@ -780,10 +780,10 @@ jobs:
           fi
 
           export PATH_TO_DIRECTORY="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/${ARTIFACTORY_STAGE_PREFIX}"
-          PATH_TO_FILE="pr/nextcloud-workspace-pr-${{ github.event.pull_request.number }}.zip"
+          PATH_TO_FILE="pr/nextcloud-workspace-pr-${{ github.event.pull_request.number }}-original.zip"
 
           if [ -z "${{ github.event.pull_request.number }}" ]; then
-            PATH_TO_FILE="nextcloud-workspace-${{ needs.build-artifact.outputs.NC_VERSION }}.zip"
+            PATH_TO_FILE="nextcloud-workspace-${{ needs.build-artifact.outputs.NC_VERSION }}-original.zip"
           fi
 
           export PATH_TO_LATEST_ARTIFACT="${PATH_TO_DIRECTORY}/${PATH_TO_FILE}"
