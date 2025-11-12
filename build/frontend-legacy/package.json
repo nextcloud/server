@@ -133,7 +133,7 @@
     "sass": "^1.93.3",
     "sinon": "<= 5.0.7",
     "typescript": "^5.9.2",
-    "vite": "^7.1.12",
+    "vite": "^7.2.2",
     "vitest": "^3.2.4",
     "vue-loader": "^15.11.1",
     "vue-template-compiler": "^2.7.16",
