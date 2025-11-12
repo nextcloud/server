@@ -7,10 +7,10 @@
 
 		tbody tr {
 			&.selected {
-				background-color: var(--ion-files-list-background-hover) !important;
+				background-color: var(--ion-list-background-hover) !important;
 			}
 			&:hover {
-				background-color: var(--ion-files-list-background-hover);
+				background-color: var(--ion-list-background-hover);
 			}
 		}
 	}
@@ -31,13 +31,13 @@
 			.column-entry {
 				color: var(--ion-text);
 				&:hover {
-					background-color: var(--ion-files-list-background-hover);
+					background-color: var(--ion-list-background-hover);
 				}
 			}
 
 			li.action:has(.action-checkbox) {
 				&:hover {
-					background-color: var(--ion-files-list-background-hover);
+					background-color: var(--ion-list-background-hover);
 				}
 			}
 

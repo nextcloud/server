@@ -17,7 +17,7 @@ div#content.app-settings {
 	table.grid.activitysettings {
 		tbody tr:not(.group-header) {
 			&:hover {
-				background-color: var(--ion-files-list-background-hover);
+				background-color: var(--ion-list-background-hover);
 			}
 
 			.checkbox-radio-switch__icon {

@@ -4,7 +4,7 @@
 	tr.app-item.app-item--list-view {
 		background-color: var(--ion-files-list-background);
 		&:hover {
-			background-color: var(--ion-files-list-background-hover);
+			background-color: var(--ion-list-background-hover);
 		}
 
 		td.app-image.app-image-icon {

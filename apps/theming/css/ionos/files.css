@@ -141,14 +141,14 @@ div.files-list__header:has(div.files-list__breadcrumbs), .file-picker {
 div[data-cy-files-list].files-list {
 	.files-list__row {
 		&:hover {
-			background-color: var(--ion-files-list-background-hover);
+			background-color: var(--ion-list-background-hover);
 
 			.favorite-marker-icon svg path {
 				stroke: var(--color-main-background);
 			}
 		}
 		&:active, &.files-list__row--active, &:has(.checkbox-radio-switch--checked) {
-			background-color: var(--ion-files-list-background-active);
+			background-color: var(--ion-list-background-active);
 
 			.favorite-marker-icon svg path {
 				stroke: var(--color-main-background);
@@ -381,7 +381,7 @@ div.v-popper--theme-dropdown.v-popper__popper:has(.v-popper__wrapper), .header-m
 
 			tr.file-picker__row {
 				&:hover, &.file-picker__row--selected {
-					background-color: var(--ion-files-list-background-hover);
+					background-color: var(--ion-list-background-hover);
 
 					@media (prefers-color-scheme: dark) {
 						background-color: var(--ion-color-cool-grey-c7);

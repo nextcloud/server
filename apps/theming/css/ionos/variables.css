@@ -13,8 +13,8 @@
 	--ion-breadcrumb-text-active: var(--ion-color-blue-b5);
 	--ion-breadcrumb-text-disabled: var(--ion-color-cool-grey-c4);
 
-	--ion-files-list-background-hover: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c8));
-	--ion-files-list-background-active: light-dark(var(--ion-color-blue-b2), var(--ion-color-cool-grey-c6));
+	--ion-list-background-hover: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c8));
+	--ion-list-background-active: light-dark(var(--ion-color-blue-b2), var(--ion-color-cool-grey-c6));
 	--ion-files-list-icon: var(--ion-color-blue-b4);
 
 	--ion-context-menu-background: var(--color-main-background);
