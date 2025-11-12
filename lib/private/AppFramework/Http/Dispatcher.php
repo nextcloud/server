@@ -211,8 +211,7 @@ class Dispatcher {
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
 			$format = $this->request->getFormat();
-
-			if ($format !== null) {
+			if ($format !== null && $controller->isResponderRegistered($format)) {
 				$response = $controller->buildResponse($response, $format);
 			} else {
 				$response = $controller->buildResponse($response);
