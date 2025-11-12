@@ -7,12 +7,14 @@
  */
 namespace OC\Files\Config;
 
+use OC\DB\Exceptions\DbalException;
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\Event\UserMountAddedEvent;
 use OCP\Files\Config\Event\UserMountRemovedEvent;
 use OCP\Files\Config\Event\UserMountUpdatedEvent;
@@ -523,5 +525,33 @@ class UserMountCache implements IUserMountCache {
 		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {
 			return $mount->getMountPoint() !== $path && str_starts_with($mount->getMountPoint(), $path);
 		});
+	}
+
+	public function removeMount(string $mountPoint): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('mounts')
+			->where($query->expr()->eq('mount_point', $query->createNamedParameter($mountPoint)));
+		$query->executeStatement();
+	}
+
+	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('mounts')
+			->values([
+				'storage_id' => $query->createNamedParameter($rootCacheEntry->getStorageId()),
+				'root_id' => $query->createNamedParameter($rootCacheEntry->getId()),
+				'user_id' => $query->createNamedParameter($user->getUID()),
+				'mount_point' => $query->createNamedParameter($mountPoint),
+				'mount_id' => $query->createNamedParameter($mountId),
+				'mount_provider_class' => $query->createNamedParameter($mountProvider)
+			]);
+
+		try {
+			$query->executeStatement();
+		} catch (DbalException $e) {
+			if ($e->getReason() !== DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+		}
 	}
 }
