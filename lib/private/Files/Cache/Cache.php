@@ -775,6 +775,7 @@ class Cache implements ICache {
 			$this->connection->commit();
 
 			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
+				\OCP\Server::get(\OCP\Files\Config\IUserMountCache::class)->clear();
 				$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId()));
 				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
 				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
