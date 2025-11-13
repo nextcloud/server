@@ -13,6 +13,8 @@ use OCA\WebhookListeners\Db\TemporaryTokenMapper;
 use OCA\WebhookListeners\Db\WebhookListener;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 
 class TokenService {
@@ -21,6 +23,8 @@ class TokenService {
 		private ISecureRandom $random,
 		private TemporaryTokenMapper $tokenMapper,
 		private ITimeFactory $time,
+		private IFactory $l10nFactory,
+		private IUserManager $userManager,
 	) {
 	}
 
@@ -79,26 +83,31 @@ class TokenService {
 
 	private function createTemporaryToken(string $userId): string {
 		$token = $this->generateRandomDeviceToken();
-		$name = 'Ephemeral webhook authentication';
+
+		// we need the user`s language to have the token name showing up in the session list in the correct language
+		$user = $this->userManager->get($userId);
+		$lang = $this->l10nFactory->getUserLanguage($user);
+		$l = $this->l10nFactory->get('webhook_listeners', $lang);
+		$name = $l->t('Ephemeral webhook authentication');
 		$password = null;
 		$deviceToken = $this->tokenProvider->generateToken(
-			$token, 
-			$userId, 
-			$userId, 
-			$password, 
-			$name, 
+			$token,
+			$userId,
+			$userId,
+			$password,
+			$name,
 			IToken::PERMANENT_TOKEN);
 
-		// We need the getToken() method to be able to send the token out. 
-		// That method is only available in PublicKeyToken which is returned by generateToken 
+		// We need the getToken() method to be able to send the token out.
+		// That method is only available in PublicKeyToken which is returned by generateToken
 		// but not declared as such, so we have to check the type here
 		if (!($deviceToken instanceof PublicKeyToken)) { // type needed for the getToken() function
 			throw new \Exception('Unexpected token type');
 		}
 		$this->tokenMapper->addTemporaryToken(
-			$deviceToken->getId(), 
-			$deviceToken->getToken(), 
-			$userId, 
+			$deviceToken->getId(),
+			$deviceToken->getToken(),
+			$userId,
 			$this->time->getTime());
 		return $token;
 	}
