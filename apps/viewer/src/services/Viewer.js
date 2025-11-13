@@ -18,6 +18,7 @@ import logger from './logger.js'
  * @property {string} group group identifier to combine for navigating to the next/previous files
  * @property {?string} theme viewer modal theme (one of 'dark', 'light', 'default')
  * @property {boolean} canCompare Indicate support for comparing two files
+ * @property {?Function} downloadCallback Optional callback to be called before download
  */
 
 /**
@@ -87,6 +88,11 @@ export default class Viewer {
 		if (error) {
 			logger.error('Could not register handler', { error, handler })
 			return
+		}
+
+		// Set default empty function for downloadCallback if not provided
+		if (!handler.downloadCallback) {
+			handler.downloadCallback = () => {}
 		}
 
 		this._state.handlers.push(handler)

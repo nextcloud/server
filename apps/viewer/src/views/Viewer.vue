@@ -76,15 +76,14 @@
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
 			</NcActionButton>
-			<NcActionLink v-if="canDownload"
-				:download="currentFile.basename"
+			<NcActionButton v-if="canDownload"
 				:close-after-click="true"
-				:href="downloadPath">
+				@click="onDownload">
 				<template #icon>
 					<Download :size="20" />
 				</template>
 				{{ t('viewer', 'Download') }}
-			</NcActionLink>
+			</NcActionButton>
 			<NcActionButton v-if="canDelete"
 				:close-after-click="true"
 				@click="onDelete">
@@ -1006,12 +1005,7 @@ export default defineComponent({
 			if (event.key === 's' && event.ctrlKey === true) {
 				event.preventDefault()
 				if (this.canDownload) {
-					const a = document.createElement('a')
-					a.href = this.currentFile.source ?? this.currentFile.davPath
-					a.download = this.currentFile.basename
-					document.body.appendChild(a)
-					a.click()
-					document.body.removeChild(a)
+					this.onDownload()
 				}
 			}
 		},
@@ -1194,6 +1188,43 @@ export default defineComponent({
 
 		onEdit() {
 			this.toggleEditor(true)
+		},
+
+		/**
+		 * Call handler's downloadCallback before downloading
+		 */
+		async onDownload() {
+			if (!this.canDownload) {
+				return
+			}
+
+			// Get the current handler for this file
+			const mime = this.currentFile.mime
+			const alias = mime?.split('/')[0]
+			const handler = this.registeredHandlers[mime] ?? this.registeredHandlers[alias]
+
+			if (handler?.downloadCallback && typeof handler.downloadCallback === 'function') {
+				try {
+					logger.debug('Calling handler downloadCallback before download')
+					await handler.downloadCallback(this.currentFile)
+				} catch (error) {
+					logger.error('Failed to execute downloadCallback', { error })
+					showError(t('viewer', 'Failed to save file before download'))
+					return
+				}
+			}
+
+			this.performDownload()
+		},
+
+		performDownload() {
+			logger.debug('Performing download', { file: this.currentFile })
+			const a = document.createElement('a')
+			a.href = this.currentFile.source ?? this.currentFile.davPath
+			a.download = this.currentFile.basename
+			document.body.appendChild(a)
+			a.click()
+			document.body.removeChild(a)
 		},
 
 		handleTrapElementsChange(element) {
