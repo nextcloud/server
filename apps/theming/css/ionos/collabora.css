@@ -1,0 +1,4 @@
+/* More specific selector to override default Collabora viewer positioning */
+html body .viewer__content:not(.viewer--split) .office-viewer:not(.viewer__file--hidden):not(.widget-file) {
+    top: auto !important;
+}

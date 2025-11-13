@@ -75,7 +75,11 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	private function loadCustomCssFiles(): string {
 		$customCss = '';
 		foreach ($this->getCssFiles() as $file) {
-			$customCss .= file_get_contents(__DIR__ . '/../../css/' . self::THEME_ID . '/' . $file) . PHP_EOL;
+			$filePath = __DIR__ . '/../../css/' . self::THEME_ID . '/' . $file;
+			$content = @file_get_contents($filePath);
+			if ($content !== false) {
+				$customCss .= $content . PHP_EOL;
+			}
 		}
 
 		return rtrim($customCss, PHP_EOL);
