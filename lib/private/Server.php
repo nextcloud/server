@@ -634,13 +634,15 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
 			$l10n = $this->get(IFactory::class)->get('lib');
 			return new \OC\Activity\Manager(
-				$c->getRequest(),
+				$c->get(IRequest::class),
 				$c->get(IUserSession::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IValidator::class),
 				$c->get(IRichTextFormatter::class),
 				$l10n,
 				$c->get(ITimeFactory::class),
+				$c->get(IAppConfig::class),
+				$c->get(LoggerInterface::class),
 			);
 		});
 
