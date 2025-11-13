@@ -28,6 +28,7 @@ return array(
     'OCA\\Encryption\\Exceptions\\PrivateKeyMissingException' => $baseDir . '/../lib/Exceptions/PrivateKeyMissingException.php',
     'OCA\\Encryption\\Exceptions\\PublicKeyMissingException' => $baseDir . '/../lib/Exceptions/PublicKeyMissingException.php',
     'OCA\\Encryption\\KeyManager' => $baseDir . '/../lib/KeyManager.php',
+    'OCA\\Encryption\\Listeners\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listeners/BeforeTemplateRenderedListener.php',
     'OCA\\Encryption\\Listeners\\UserEventsListener' => $baseDir . '/../lib/Listeners/UserEventsListener.php',
     'OCA\\Encryption\\Migration\\SetMasterKeyStatus' => $baseDir . '/../lib/Migration/SetMasterKeyStatus.php',
     'OCA\\Encryption\\Recovery' => $baseDir . '/../lib/Recovery.php',
