@@ -42,6 +42,7 @@ OC.L10N.register(
     "Not found" : "找不到",
     "Node is locked" : "節點已鎖定",
     "Bad request" : "錯誤的請求",
+    "Input text is too long" : "輸入文字太長",
     "Requested task type does not exist" : "請求的任務類型不存在",
     "Necessary language model provider is not available" : "沒有可用的語言模型程式",
     "No text to image provider is available" : "沒有可用的文字轉影像提供者",

@@ -198,7 +198,7 @@ OC.L10N.register(
     "Unable to run check for JavaScript support. Please remedy or confirm manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "無法執行 JavaScript 支援檢查。請手動修復或確認您的網路伺服器是否使用 JavaScript MIME 類型提供 `.mjs` 檔案。",
     "Your webserver does not serve `.mjs` files using the JavaScript MIME type. This will break some apps by preventing browsers from executing the JavaScript files. You should configure your webserver to serve `.mjs` files with either the `text/javascript` or `application/javascript` MIME type." : "您的網頁伺服器並未使用 JavaScript MIME 類型來提供 `.mjs` 檔案。這將會阻止瀏覽器執行 JavaScript 檔案，因而破壞某些應用程式。您應該設定您的網頁伺服器，以使用 `text/javascript` 或 `application/javascript` 來提供 `.mjs` 檔案。",
     "JavaScript source map support" : "JavaScript source map 支援",
-    "Your webserver is not set up to serve `.js.map` files. Without these files, JavaScript Source Maps won't function properly, making it more challenging to troubleshoot and debug any issues that may arise." : "您的網路伺服器未設定好提供 `.js.map` 檔案。沒已這些檔案，JavaScript Source Map 將無法正常運作，從而使排除與除錯任何可能出現的問題變得較為困難。",
+    "Your webserver is not set up to serve `.js.map` files. Without these files, JavaScript Source Maps won't function properly, making it more challenging to troubleshoot and debug any issues that may arise." : "您的網路伺服器未設定好提供 `.js.map` 檔案。沒有這些檔案，JavaScript Source Map 將無法正常運作，從而使排除與除錯任何可能出現的問題變得較為困難。",
     "Old server-side-encryption" : "舊的伺服器端加密",
     "Disabled" : "已停用",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "啟用了舊的伺服器端加密格式。我們建議停用它。",
