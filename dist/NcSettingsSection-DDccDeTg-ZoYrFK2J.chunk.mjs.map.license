@@ -29,13 +29,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.4.0
+	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.1.0
+	- version: 9.2.0
 	- license: AGPL-3.0-or-later
 - @vitejs/plugin-vue
 	- version: 6.0.1
