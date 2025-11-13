@@ -195,7 +195,7 @@ export default {
 			loading: false,
 			user: '',
 			password: '',
-			rememberme: [],
+			rememberme: ['1'],
 		}
 	},
 
