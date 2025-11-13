@@ -40,6 +40,7 @@
     "Not found" : "Не е пронајдено",
     "Node is locked" : "Нодот е заклучен",
     "Bad request" : "Неправилно барање",
+    "Input text is too long" : "Влезниот текст е премногу долг",
     "Requested task type does not exist" : "Бараниот тип на задача не постои",
     "Necessary language model provider is not available" : "Не е достапен потребниот давател на јазичен модел",
     "No text to image provider is available" : "Не е достапен давател на услуги за текст во слика",

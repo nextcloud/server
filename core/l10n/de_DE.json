@@ -40,6 +40,7 @@
     "Not found" : "Nicht gefunden",
     "Node is locked" : "Knoten ist gesperrt",
     "Bad request" : "Fehlerhafte Anfrage",
+    "Input text is too long" : "Eingabetext ist zu lang",
     "Requested task type does not exist" : "Angeforderter Aufgabentyp existiert nicht",
     "Necessary language model provider is not available" : "Erforderlicher Sprachmodellanbieter ist nicht verfügbar",
     "No text to image provider is available" : "Es ist kein Text-zu-Bild-Anbieter verfügbar",
