@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
+use OC\Core\AppInfo\ConfigLexicon;
+use OC\Core\Application;
 use OC\Core\ResponseDefinitions;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
@@ -19,6 +21,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -39,6 +42,7 @@ class UnifiedSearchController extends OCSController {
 		private IRouter $router,
 		private IURLGenerator $urlGenerator,
 		private IL10N $l10n,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct('core', $request);
 	}
@@ -72,7 +76,7 @@ class UnifiedSearchController extends OCSController {
 	 * @param string $providerId ID of the provider
 	 * @param string $term Term to search
 	 * @param int|null $sortOrder Order of entries
-	 * @param int|null $limit Maximum amount of entries, limited to 25
+	 * @param int|null $limit Maximum amount of entries (capped by configurable unified-search.max-results-per-request, default: 25)
 	 * @param int|string|null $cursor Offset for searching
 	 * @param string $from The current user URL
 	 *
@@ -96,7 +100,8 @@ class UnifiedSearchController extends OCSController {
 		[$route, $routeParameters] = $this->getRouteInformation($from);
 
 		$limit ??= SearchQuery::LIMIT_DEFAULT;
-		$limit = max(1, min($limit, 25));
+		$maxLimit = $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST);
+		$limit = max(1, min($limit, $maxLimit));
 
 		try {
 			$filters = $this->composer->buildFilterList($providerId, $this->request->getParams());

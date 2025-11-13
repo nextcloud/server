@@ -20,6 +20,7 @@ use NCU\Config\ValueType;
  */
 class ConfigLexicon implements IConfigLexicon {
 	public const UNIFIED_SEARCH_MIN_SEARCH_LENGTH = 'unified_search_min_search_length';
+	public const UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST = 'unified_search_max_results_per_request';
 
 	public function getStrictness(): ConfigLexiconStrictness {
 		return ConfigLexiconStrictness::IGNORE;
@@ -28,6 +29,7 @@ class ConfigLexicon implements IConfigLexicon {
 	public function getAppConfigs(): array {
 		return [
 			new ConfigLexiconEntry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', lazy: false),
+			new ConfigLexiconEntry(self::UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST, ValueType::INT, 25, 'Maximum number of results returned per request', lazy: false),
 		];
 	}
 
