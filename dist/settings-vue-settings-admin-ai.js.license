@@ -79,14 +79,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.26.0
 	- license: MIT
-- @nextcloud/browser-storage
-	- version: 0.4.0
-	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.31.0
+	- version: 8.34.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
