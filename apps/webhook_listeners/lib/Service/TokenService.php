@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -51,7 +53,7 @@ class TokenService {
 				$tokens['user_ids'][$userId] = $this->createTemporaryToken($userId);
 			}
 		}
-		if (isset($tokenNeeded['user_ids'])) {
+		if (isset($tokenNeeded['user_roles'])) {
 			foreach ($tokenNeeded['user_roles'] as $function) {
 				switch ($function) {
 					case 'owner':
