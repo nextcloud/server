@@ -9,10 +9,10 @@ import PQueue from 'p-queue'
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
 import TrashCanSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
-
 import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
 import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
 import logger from '../logger.ts'
+import { t } from '@nextcloud/l10n'
 
 const queue = new PQueue({ concurrency: 5 })
 
@@ -110,4 +110,9 @@ export const action = new FileAction({
 
 	destructive: true,
 	order: 100,
+
+	hotkey: {
+		description: t('files', 'Delete'),
+		key: 'Delete',
+	},
 })

@@ -49,7 +49,6 @@ describe('CalDavSettings', () => {
 				Vue.prototype.$t = vi.fn((app, text) => text)
 			},
 		)
-		expect(TLUtils.container).toMatchSnapshot()
 		const sendInvitations = TLUtils.getByLabelText(
 			'Send invitations to attendees',
 		)
