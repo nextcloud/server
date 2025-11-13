@@ -49,6 +49,12 @@ class Team implements \JsonSerializable {
 	}
 
 	/**
+	 * @return array{
+	 *     teamId: string,
+	 *     displayName: string,
+	 *     link: ?string,
+	 * }
+	 *
 	 * @since 29.0.0
 	 */
 	public function jsonSerialize(): array {
