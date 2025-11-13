@@ -218,7 +218,7 @@ export default {
 			loading: false,
 			user: props.username,
 			password: '',
-			rememberme: [],
+			rememberme: ['1'],
 			visible: false,
 		}
 	},
