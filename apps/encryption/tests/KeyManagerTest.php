@@ -22,6 +22,7 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage as FilesIStorage;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -356,6 +357,9 @@ class KeyManagerTest extends TestCase {
 	public function testGetFileKey(?string $uid, bool $isMasterKeyEnabled, string $privateKey, string $encryptedFileKey, string $expected): void {
 		$path = '/foo.txt';
 
+		$this->userMock->expects(self::once())
+			->method('isLoggedIn')
+			->willReturn($uid !== null);
 		if ($isMasterKeyEnabled) {
 			$expectedUid = 'masterKeyId';
 			$this->configMock->expects($this->any())->method('getSystemValue')->with('secret')
@@ -364,10 +368,16 @@ class KeyManagerTest extends TestCase {
 			$expectedUid = 'systemKeyId';
 		} else {
 			$expectedUid = $uid;
+			$userObjectMock = $this->createMock(IUser::class);
+			$userObjectMock->expects(self::once())
+				->method('getUID')
+				->willReturn($uid);
+			$this->userMock->expects(self::once())
+				->method('getUser')
+				->willReturn($userObjectMock);
 		}
 
 		$this->invokePrivate($this->instance, 'masterKeyId', ['masterKeyId']);
-		$this->invokePrivate($this->instance, 'keyUid', [$uid]);
 
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getFileKey')
