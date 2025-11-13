@@ -17,10 +17,12 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Snowflake\IGenerator;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 /**
@@ -36,6 +38,7 @@ class SystemTagManagerTest extends TestCase {
 	private IUserSession $userSession;
 	private IAppConfig $appConfig;
 	private IEventDispatcher $dispatcher;
+	private IGenerator $generator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,6 +49,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->generator = Server::get(IGenerator::class);
 
 		$this->tagManager = new SystemTagManager(
 			$this->connection,
@@ -53,6 +57,7 @@ class SystemTagManagerTest extends TestCase {
 			$this->dispatcher,
 			$this->userSession,
 			$this->appConfig,
+			$this->generator,
 		);
 		$this->pruneTagsTables();
 	}
@@ -85,7 +90,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getAllTagsDataProvider')]
+	#[DataProvider('getAllTagsDataProvider')]
 	public function testGetAllTags($testTags): void {
 		$testTagsById = [];
 		foreach ($testTags as $testTag) {
@@ -192,7 +197,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getAllTagsFilteredDataProvider')]
+	#[DataProvider('getAllTagsFilteredDataProvider')]
 	public function testGetAllTagsFiltered($testTags, $visibilityFilter, $nameSearch, $expectedResults): void {
 		foreach ($testTags as $testTag) {
 			$this->tagManager->createTag($testTag[0], $testTag[1], $testTag[2]);
@@ -223,7 +228,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('oneTagMultipleFlagsProvider')]
+	#[DataProvider('oneTagMultipleFlagsProvider')]
 	public function testCreateDuplicate($name, $userVisible, $userAssignable): void {
 		$this->expectException(TagAlreadyExistsException::class);
 
@@ -249,7 +254,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $tag->getName()); // 63 characters but 64 bytes due to "á"
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('oneTagMultipleFlagsProvider')]
+	#[DataProvider('oneTagMultipleFlagsProvider')]
 	public function testGetExistingTag($name, $userVisible, $userAssignable): void {
 		$tag1 = $this->tagManager->createTag($name, $userVisible, $userAssignable);
 		$tag2 = $this->tagManager->getTag($name, $userVisible, $userAssignable);
@@ -296,47 +301,38 @@ class SystemTagManagerTest extends TestCase {
 		return [
 			[
 				// update name
-				['one', true, true, '0082c9'],
+				['one', true, true],
 				['two', true, true, '0082c9']
 			],
 			[
 				// update one flag
-				['one', false, true, null],
+				['one', false, true],
 				['one', true, true, '0082c9']
 			],
 			[
 				// update all flags
-				['one', false, false, '0082c9'],
+				['one', false, false],
 				['one', true, true, null]
 			],
 			[
 				// update all
-				['one', false, false, '0082c9'],
+				['one', false, false],
 				['two', true, true, '0082c9']
 			],
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('updateTagProvider')]
-	public function testUpdateTag($tagCreate, $tagUpdated): void {
+	#[DataProvider('updateTagProvider')]
+	public function testUpdateTag(array $tagCreate, array $tagUpdated): void {
 		$tag1 = $this->tagManager->createTag(
-			$tagCreate[0],
-			$tagCreate[1],
-			$tagCreate[2],
-			$tagCreate[3],
+			...$tagCreate
 		);
 		$this->tagManager->updateTag(
 			$tag1->getId(),
-			$tagUpdated[0],
-			$tagUpdated[1],
-			$tagUpdated[2],
-			$tagUpdated[3],
+			...$tagUpdated,
 		);
 		$tag2 = $this->tagManager->getTag(
-			$tagUpdated[0],
-			$tagUpdated[1],
-			$tagUpdated[2],
-			$tagUpdated[3],
+			...$tagUpdated,
 		);
 
 		$this->assertEquals($tag2->getId(), $tag1->getId());
@@ -412,7 +408,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('visibilityCheckProvider')]
+	#[DataProvider('visibilityCheckProvider')]
 	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
@@ -457,7 +453,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('assignabilityCheckProvider')]
+	#[DataProvider('assignabilityCheckProvider')]
 	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult, $userGroupIds = [], $tagGroupIds = []): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
@@ -514,7 +510,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('allowedToCreateProvider')]
+	#[DataProvider('allowedToCreateProvider')]
 	public function testAllowedToCreateTag(bool $isCli, ?bool $isAdmin, bool $isRestricted): void {
 		$oldCli = \OC::$CLI;
 		\OC::$CLI = $isCli;
@@ -550,7 +546,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('disallowedToCreateProvider')]
+	#[DataProvider('disallowedToCreateProvider')]
 	public function testDisallowedToCreateTag(?bool $isAdmin): void {
 		$oldCli = \OC::$CLI;
 		\OC::$CLI = false;

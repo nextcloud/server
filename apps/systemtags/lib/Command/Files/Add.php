@@ -13,6 +13,7 @@ use OC\Core\Command\Info\FileUtils;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,6 +29,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
+	#[Override]
 	protected function configure(): void {
 		$this->setName('tag:files:add')
 			->setDescription('Add a system-tag to a file or folder')
@@ -36,6 +38,7 @@ class Add extends Command {
 			->addArgument('access', InputArgument::REQUIRED, 'access level of the tag (public, restricted or invisible)');
 	}
 
+	#[Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$targetInput = $input->getArgument('target');
 		$tagsInput = $input->getArgument('tags');
@@ -63,14 +66,14 @@ class Add extends Command {
 				break;
 			default:
 				$output->writeln('<error>`access` property is invalid</error>');
-				return 1;
+				return Command::FAILURE;
 		}
 
 		$targetNode = $this->fileUtils->getNode($targetInput);
 
-		if (! $targetNode) {
+		if (!$targetNode) {
 			$output->writeln("<error>file $targetInput not found</error>");
-			return 1;
+			return Command::FAILURE;
 		}
 
 		foreach ($tagNameArray as $tagName) {
@@ -85,6 +88,6 @@ class Add extends Command {
 			$output->writeln("<info>$access</info> tag named <info>$tagName</info> added.");
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }
