@@ -20,13 +20,12 @@ use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-extends QBMapper<TemporaryToken>
+ * @template-extends QBMapper<EphemeralToken>
  */
 
-class TemporaryTokenMapper extends QBMapper {
+class EphemeralTokenMapper extends QBMapper {
 	public const TABLE_NAME = 'webhook_tokens';
 	public const TOKEN_LIFETIME = 1 * 1 * 60; // one hour in seconds
-
 
 	public function __construct(
 		IDBConnection $db,
@@ -34,7 +33,7 @@ class TemporaryTokenMapper extends QBMapper {
 		private ITimeFactory $time,
 		private PublicKeyTokenMapper $tokenMapper,
 	) {
-		parent::__construct($db, self::TABLE_NAME, TemporaryToken::class);
+		parent::__construct($db, self::TABLE_NAME, EphemeralToken::class);
 	}
 
 	/**
@@ -42,7 +41,7 @@ class TemporaryTokenMapper extends QBMapper {
 	 * @throws MultipleObjectsReturnedException
 	 * @throws Exception
 	 */
-	public function getById(int $id): TemporaryToken {
+	public function getById(int $id): EphemeralToken {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -54,7 +53,7 @@ class TemporaryTokenMapper extends QBMapper {
 
 	/**
 	 * @throws Exception
-	 * @return TemporaryToken[]
+	 * @return EphemeralToken[]
 	 */
 	public function getAll(): array {
 		$qb = $this->db->getQueryBuilder();
@@ -70,27 +69,26 @@ class TemporaryTokenMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->lt('creation_datetime', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)));
+			->where($qb->expr()->lt('created_at', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)));
 
 		return $this->findEntities($qb);
 	}
 
-
 	/**
 	 * @throws Exception
 	 */
-	public function addTemporaryToken(
+	public function addEphemeralToken(
 		int $tokenId,
 		string $token,
 		?string $userId,
-		int $creationDatetime,
-	): TemporaryToken {
-		$tempToken = TemporaryToken::fromParams(
+		int $createdAt,
+	): EphemeralToken {
+		$tempToken = EphemeralToken::fromParams(
 			[
 				'tokenId' => $tokenId,
 				'token' => $token,
 				'userId' => $userId,
-				'creationDatetime' => $creationDatetime,
+				'createdAt' => $createdAt,
 			]
 		);
 		return $this->insert($tempToken);
@@ -112,11 +110,10 @@ class TemporaryTokenMapper extends QBMapper {
 		$olderThan = $this->time->getTime() - $token_lifetime;
 		$tokensToDelete = $this->getOlderThan($olderThan);
 
-		$this->logger->debug('Invalidating temporary webhook tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
+		$this->logger->debug('Invalidating ephemeral webhook tokens older than ' . date('c', $olderThan), ['app' => 'webhook_listeners']);
 		foreach ($tokensToDelete as $token) {
 			$this->tokenMapper->invalidate($token->getToken()); // delete token itself
-			$this->deleteByTokenId($token->getTokenId()); // delete db row in webhook_temporary_tokens
+			$this->deleteByTokenId($token->getTokenId()); // delete db row in webhook_tokens
 		}
-
 	}
 }

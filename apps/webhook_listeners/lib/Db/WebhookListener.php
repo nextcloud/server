@@ -154,7 +154,4 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	public function getAppId(): ?string {
 		return $this->appId;
 	}
-
-
-
 }

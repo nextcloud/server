@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\WebhookListeners\Migration;
 
 use Closure;
-use OCA\WebhookListeners\Db\TemporaryTokenMapper;
+use OCA\WebhookListeners\Db\EphemeralTokenMapper;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
@@ -27,23 +27,25 @@ class Version1500Date20251007130000 extends SimpleMigrationStep {
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		$schema = $schemaClosure();
+		$schemaHasChanged = false;
 
 		if ($schema->hasTable(WebhookListenerMapper::TABLE_NAME)) {
 			$table = $schema->getTable(WebhookListenerMapper::TABLE_NAME);
 			if (!$table->hasColumn('token_needed')) {
+				$schemaHasChanged = true;
 				$table->addColumn('token_needed', Types::TEXT, [
 					'notnull' => false,
 				]);
 			}
 		}
 
-		if (!$schema->hasTable(TemporaryTokenMapper::TABLE_NAME)) {
-			$table = $schema->createTable(TemporaryTokenMapper::TABLE_NAME);
+		if (!$schema->hasTable(EphemeralTokenMapper::TABLE_NAME)) {
+			$schemaHasChanged = true;
+			$table = $schema->createTable(EphemeralTokenMapper::TABLE_NAME);
 			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 			]);
-
 			$table->addColumn('token_id', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 4,
@@ -57,16 +59,13 @@ class Version1500Date20251007130000 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('creation_datetime', Types::BIGINT, [
+			$table->addColumn('created_at', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 4,
 				'unsigned' => true,
 			]);
-
 			$table->setPrimaryKey(['id']);
-
 		}
-		return $schema;
-
+		return $schemaHasChanged ? $schema : null;
 	}
 }

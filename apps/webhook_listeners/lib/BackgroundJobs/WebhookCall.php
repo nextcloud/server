@@ -45,7 +45,7 @@ class WebhookCall extends QueuedJob {
 		$webhookListener = $this->mapper->getById($webhookId);
 		$client = $this->clientService->newClient();
 
-		// adding temporary auth tokens to the call
+		// adding Ephemeral auth tokens to the call
 		$data['tokens'] = $this->tokenService->getTokens($webhookListener, $data['user']['uid']);
 		$options = [
 			'verify' => $this->certificateManager->getAbsoluteBundlePath(),
@@ -97,6 +97,4 @@ class WebhookCall extends QueuedJob {
 			$this->logger->error('Webhook(' . $webhookId . ') call failed: ' . $e->getMessage(), ['exception' => $e]);
 		}
 	}
-
-
 }

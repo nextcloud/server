@@ -15,10 +15,10 @@ use OCP\AppFramework\Db\Entity;
  * @method int getTokenId()
  * @method string getToken()
  * @method ?string getUserId()
- * @method int getCreationDatetime()
+ * @method int getCreatedAt()
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class TemporaryToken extends Entity implements \JsonSerializable {
+class EphemeralToken extends Entity implements \JsonSerializable {
 	/**
 	 * @var int id of the token that was created for a webhook
 	 */
@@ -39,16 +39,13 @@ class TemporaryToken extends Entity implements \JsonSerializable {
 	 * @var int
 	 * @psalm-suppress PropertyNotSetInConstructor
 	 */
-	protected $creationDatetime;
-
-
-
+	protected $createdAt;
 
 	public function __construct() {
 		$this->addType('tokenId', 'integer');
 		$this->addType('token', 'string');
 		$this->addType('userId', 'string');
-		$this->addType('creationDatetime', 'integer');
+		$this->addType('createdAt', 'integer');
 	}
 
 	public function jsonSerialize(): array {
@@ -61,5 +58,4 @@ class TemporaryToken extends Entity implements \JsonSerializable {
 			)
 		);
 	}
-
 }

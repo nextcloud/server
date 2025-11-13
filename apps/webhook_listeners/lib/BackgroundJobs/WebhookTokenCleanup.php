@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace OCA\WebhookListeners\BackgroundJobs;
 
-use OCA\WebhookListeners\Db\TemporaryTokenMapper;
+use OCA\WebhookListeners\Db\EphemeralTokenMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class WebhookTokenCleanup extends TimedJob {
 
 	public function __construct(
-		private TemporaryTokenMapper $tokenMapper,
+		private EphemeralTokenMapper $tokenMapper,
 		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
@@ -28,11 +28,6 @@ class WebhookTokenCleanup extends TimedJob {
 	 * @param array $argument
 	 */
 	protected function run($argument): void {
-
 		$this->tokenMapper->invalidateOldTokens();
-
-
 	}
-
-
 }
