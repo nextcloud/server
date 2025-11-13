@@ -132,4 +132,15 @@ interface IUserMountCache {
 	 * @since 24.0.0
 	 */
 	public function getMountsInPath(IUser $user, string $path): array;
+
+	/**
+	 * Gets the mount information associated with a path and a user.
+	 *
+	 * @param IUser $user
+	 * @param string $path
+	 * @param bool $includeChildMounts if true, will also return the mount
+	 *                                 information of the direct children of the mount responsible for the path.
+	 * @return array<string, ICachedMountInfo> a list of mounts, indexed by mount-point
+	 */
+	public function getMountsForPath(IUser $user, string $path, bool $includeChildMounts): array;
 }
