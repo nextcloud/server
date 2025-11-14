@@ -15,6 +15,7 @@ use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Manager;
 use OC\Files\FileInfo;
 use OC\Files\View;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\UserInterface;
@@ -250,15 +251,15 @@ class DecryptAllTest extends TestCase {
 				[
 					'/user1/files', '', null,
 					[
-						new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type' => 'dir'], null),
-						new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type' => 'file', 'encrypted' => true], null),
-						new FileInfo('path', $sharedStorage, 'intPath', ['name' => 'shared', 'type' => 'file', 'encrypted' => true], null),
+						new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type' => 'dir'], $this->createMock(IMountPoint::class)),
+						new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type' => 'file', 'encrypted' => true], $this->createMock(IMountPoint::class)),
+						new FileInfo('path', $sharedStorage, 'intPath', ['name' => 'shared', 'type' => 'file', 'encrypted' => true], $this->createMock(IMountPoint::class)),
 					],
 				],
 				[
 					'/user1/files/foo', '', null,
 					[
-						new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type' => 'file', 'encrypted' => true], null)
+						new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type' => 'file', 'encrypted' => true], $this->createMock(IMountPoint::class))
 					],
 				],
 			]);

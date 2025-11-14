@@ -136,9 +136,9 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 				if (!$this->event instanceof MapperEvent || $this->event->getObjectType() !== 'files') {
 					throw new NotFoundException();
 				}
-				$nodes = $this->root->getById((int)$this->event->getObjectId());
-				if (is_array($nodes) && isset($nodes[0])) {
-					$this->node = $nodes[0];
+				$node = $this->root->getFirstNodeById((int)$this->event->getObjectId());
+				if ($node !== null) {
+					$this->node = $node;
 					return $this->node;
 				}
 				break;
