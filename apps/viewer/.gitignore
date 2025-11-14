@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
-css/fonts/
+
+# We do not ship the Roboto font files (only needed for Cypress) - but we need to ship the other font files
+css/fonts/roboto-*
 
 .DS_Store
 node_modules/
