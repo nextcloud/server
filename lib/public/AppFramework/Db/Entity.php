@@ -7,6 +7,8 @@
  */
 namespace OCP\AppFramework\Db;
 
+use OCP\AppFramework\Db\Attribute\Column;
+use OCP\AppFramework\Db\Attribute\Table;
 use OCP\DB\Types;
 
 use function lcfirst;
@@ -19,12 +21,44 @@ use function substr;
  * @psalm-consistent-constructor
  */
 abstract class Entity {
-	/** @var int $id */
-	public $id = null;
+	#[Column(name: 'id', type: Types::BIGINT)]
+	public string|int|null $id = null;
 
+	/** @var array<string, bool> */
 	private array $_updatedFields = [];
+
 	/** @var array<string, \OCP\DB\Types::*> */
-	private array $_fieldTypes = ['id' => 'integer'];
+	private array $_fieldTypes = ['id' => Types::INTEGER];
+
+	/** @var array<string, string> */
+	private array $_mappingColumnToProperty = [];
+
+	/** @var array<string, string> */
+	private array $_mappingPropertyToColumn = [];
+
+	public function __construct() {
+		$reflection = new \ReflectionObject($this);
+
+		foreach ($reflection->getProperties() as $property) {
+			$columnAttributes = $property->getAttributes(Column::class);
+			if (count($columnAttributes) > 0) {
+				/** @var Column $columnAttribute */
+				$columnAttribute = $columnAttributes[0];
+				$this->_fieldTypes[$property->name] = $columnAttribute->type;
+				$this->_mappingColumnToProperty[$columnAttribute->name] = $property->name;
+				$this->_mappingPropertyToColumn[$property->name] = $columnAttribute->name;
+			}
+		}
+
+		$tableAttributes =$reflection->getAttributes(Table::class);
+		if (count($tableAttributes) > 0) {
+			/** @var Table $tableAttribute */
+			$tableAttribute = $tableAttributes[0];
+			if ($tableAttribute->useSnowflakeId) {
+				$this->_fieldTypes['id'] = Types::STRING;
+			}
+		}
+	}
 
 	/**
 	 * Simple alternative constructor for building entities from a request
@@ -101,6 +135,7 @@ abstract class Entity {
 		// if type definition exists, cast to correct type
 		if ($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
 			$type = $this->_fieldTypes[$name];
+
 			if ($type === Types::BLOB) {
 				// (B)LOB is treated as string when we read from the DB
 				if (is_resource($args[0])) {
@@ -212,10 +247,15 @@ abstract class Entity {
 	 * @param string $columnName the name of the column
 	 * @return string the property name
 	 * @since 7.0.0
+	 * @deprecated Use Column attribute to map a property to a column
 	 */
 	public function columnToProperty(string $columnName) {
 		$parts = explode('_', $columnName);
 		$property = '';
+
+		if (isset($this->_mappingColumnToProperty[$columnName])) {
+			return $this->_mappingColumnToProperty[$columnName];
+		}
 
 		foreach ($parts as $part) {
 			if ($property === '') {
@@ -235,9 +275,14 @@ abstract class Entity {
 	 * @param string $property the name of the property
 	 * @return string the column name
 	 * @since 7.0.0
+	 * @deprecated Use Column attribute to map a property to a column
 	 */
 	public function propertyToColumn(string $property): string {
 		$parts = preg_split('/(?=[A-Z])/', $property);
+
+		if (isset($this->_mappingPropertyToColumn[$property])) {
+			return $this->_mappingPropertyToColumn[$property];
+		}
 
 		$column = '';
 		foreach ($parts as $part) {
