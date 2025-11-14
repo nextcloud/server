@@ -217,7 +217,7 @@ OC.L10N.register(
     "Failed to write and read a value from distributed cache." : "无法往分布式缓存中写入和读取值。",
     "Configured" : "已配置",
     "Mimetype migrations available" : "可用的 Mimetype 迁移",
-    "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "有一个或多个 mimetype 迁移可用。有时会添加新的 mimetype 以更好地处理某些文件类型。在较大的实例上迁移 mimetype 需要很长时间，因此升级期间不会自动完成此操作。使用命令 \"occ Maintenance:repair --include-expensive\" 执行迁移。",
+    "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "有一个或多个 mimetype 迁移可用。有时会添加新的 mimetype 以更好地处理某些文件类型。在较大的实例上迁移 mimetype 需要很长时间，因此升级期间不会自动完成此操作。使用命令 \"occ maintenance:repair --include-expensive\" 执行迁移。",
     "MySQL row format" : "MySQL 行格式",
     "You are not using MySQL" : "您没有使用MySQL",
     "None of your tables use ROW_FORMAT=Compressed" : "没有表使用行格式压缩",
