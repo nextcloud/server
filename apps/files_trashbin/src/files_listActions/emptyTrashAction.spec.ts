@@ -126,7 +126,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 			dialogBuilder.build.mockImplementationOnce(() => ({
 				show: async () => {
-					const buttons = dialogBuilder.setButtons.mock.calls[0][0]
+					const buttons = dialogBuilder.setButtons.mock.calls[0]![0]
 					const cancel = buttons.find(({ label }) => label === 'Cancel')
 					await cancel.callback()
 				},
@@ -142,7 +142,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 			dialogBuilder.build.mockImplementationOnce(() => ({
 				show: async () => {
-					const buttons = dialogBuilder.setButtons.mock.calls[0][0]
+					const buttons = dialogBuilder.setButtons.mock.calls[0]![0]
 					const cancel = buttons.find(({ label }) => label === 'Empty deleted files')
 					await cancel.callback()
 				},
@@ -160,7 +160,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 			dialogBuilder.build.mockImplementationOnce(() => ({
 				show: async () => {
-					const buttons = dialogBuilder.setButtons.mock.calls[0][0]
+					const buttons = dialogBuilder.setButtons.mock.calls[0]![0]
 					const cancel = buttons.find(({ label }) => label === 'Empty deleted files')
 					await cancel.callback()
 				},

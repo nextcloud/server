@@ -1,8 +1,9 @@
-import isSvg from 'is-svg'
-/**
+/*!
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import isSvg from 'is-svg'
 import { describe, expect, it } from 'vitest'
 import { getContents } from '../services/trashbin.ts'
 import { deleted, deletedBy, originalLocation } from './columns.ts'

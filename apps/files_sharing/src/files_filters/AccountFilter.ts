@@ -11,7 +11,10 @@ import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import Vue from 'vue'
 import FileListFilterAccount from '../components/FileListFilterAccount.vue'
-import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+
+// once files_sharing is migrated to the new frontend use the import instead:
+// import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+const TRASHBIN_VIEW_ID = 'trashbin'
 
 export interface IAccountData {
 	uid: string
