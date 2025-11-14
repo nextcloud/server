@@ -125,6 +125,7 @@ export function initCore() {
 			element: document.getElementById('app-content'),
 			disable: SNAPPER_CLOSE,
 			maxPosition: 300, // $navigation-width
+			minPosition: -300, // $navigation-width for RTL
 			minDragDistance: 100,
 		})
 
