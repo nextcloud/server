@@ -136,6 +136,26 @@ class Manager {
 	}
 
 	/**
+	 * Set public key for $user
+	 */
+	public function setPublicKey(IUser $user, string $publicKey): bool {
+		try {
+			$id = 'user-' . $user->getUID();
+
+			$folder = $this->appData->getFolder($id);
+			$folder->newFile('public')
+				->putContent($publicKey);
+
+			$this->cache->set($id . '-public', $publicKey);
+
+			return true;
+		} catch (\Exception) {
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get instance wide public and private key
 	 *
 	 * @throws \RuntimeException
