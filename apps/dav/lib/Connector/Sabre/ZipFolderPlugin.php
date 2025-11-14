@@ -71,6 +71,7 @@ class ZipFolderPlugin extends ServerPlugin {
 
 		$mtime = $node->getMTime();
 		if ($node instanceof NcFile) {
+			$this->logger->debug("Adding file {$node->getPath()}({$node->getId()}) to zip with {$node->getSize()} bytes", ['app' => 'dav', 'fileid' => $node->getId(), 'path' => $node->getPath()]);
 			$resource = $node->fopen('rb');
 			if ($resource === false) {
 				$this->logger->info('Cannot read file for zip stream', ['filePath' => $node->getPath()]);
