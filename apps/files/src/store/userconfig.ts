@@ -16,6 +16,7 @@ import { ref, set } from 'vue'
 const initialUserConfig = loadState<UserConfig>('files', 'config', {
 	crop_image_previews: true,
 	default_view: 'files',
+	folder_tree: false,
 	grid_view: false,
 	show_files_extensions: true,
 	show_hidden: false,
@@ -36,7 +37,7 @@ export const useUserConfigStore = defineStore('userconfig', () => {
 	 * @param key The config key
 	 * @param value The new value
 	 */
-	function onUpdate(key: string, value: boolean): void {
+	function onUpdate(key: string, value: boolean | string): void {
 		set(userConfig.value, key, value)
 	}
 
@@ -44,10 +45,11 @@ export const useUserConfigStore = defineStore('userconfig', () => {
 	 * Update the user config local store AND on server side
 	 *
 	 * @param key The config key
-	 * @param value The new value
+	 * @param value The new value (boolean for switches, string for default_view)
 	 */
-	async function update(key: string, value: boolean): Promise<void> {
-		// only update if a user is logged in (not the case for public shares)
+	async function update(key: string, value: boolean | string): Promise<void> {
+		onUpdate(key, value)
+
 		if (getCurrentUser() !== null) {
 			await axios.put(generateUrl('/apps/files/api/v1/config/{key}', { key }), {
 				value,
@@ -56,7 +58,6 @@ export const useUserConfigStore = defineStore('userconfig', () => {
 		emit('files:config:updated', { key, value })
 	}
 
-	// Register the event listener
 	subscribe('files:config:updated', ({ key, value }) => onUpdate(key, value))
 
 	return {

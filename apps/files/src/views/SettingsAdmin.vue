@@ -10,7 +10,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ref } from 'vue'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import SettingsSanitizeFilenames from '../components/Settings/SettingsSanitizeFilenames.vue'
 import logger from '../logger.ts'
@@ -55,26 +55,14 @@ async function toggleWindowsFilenameSupport(enabled: boolean) {
 		:doc-url="docUrl"
 		:name="t('files', 'Files compatibility')"
 		:description="description">
-		<NcCheckboxRadioSwitch
-			:model-value="hasWindowsSupport"
+		<NcFormBoxSwitch
+			v-model="hasWindowsSupport"
+			:label="t('files', 'Enforce Windows compatibility')"
+			:description="t('files', 'This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity.')"
 			:disabled="isRunningSanitization"
 			:loading="loading"
-			type="switch"
-			@update:model-value="toggleWindowsFilenameSupport">
-			{{ t('files', 'Enforce Windows compatibility') }}
-		</NcCheckboxRadioSwitch>
-		<p class="hint">
-			{{ t('files', 'This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity.') }}
-		</p>
+			@update:model-value="toggleWindowsFilenameSupport" />
 
 		<SettingsSanitizeFilenames v-if="hasWindowsSupport" />
 	</NcSettingsSection>
 </template>
-
-<style scoped>
-.hint {
-	color: var(--color-text-maxcontrast);
-	margin-inline-start: var(--border-radius-element);
-	margin-block-end: 1em;
-}
-</style>

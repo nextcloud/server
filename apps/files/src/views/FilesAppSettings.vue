@@ -10,75 +10,63 @@
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :name="t('files', 'General')">
-			<fieldset
+			<NcFormBox>
+				<NcFormBoxSwitch
+					v-model="userConfig.sort_favorites_first"
+					:label="t('files', 'Sort favorites first')"
+					data-cy-files-settings-setting="sort_favorites_first"
+					@update:modelValue="setConfig('sort_favorites_first', $event)" />
+				<NcFormBoxSwitch
+					v-model="userConfig.sort_folders_first"
+					:label="t('files', 'Sort folders before files')"
+					data-cy-files-settings-setting="sort_folders_first"
+					@update:modelValue="setConfig('sort_folders_first', $event)" />
+				<NcFormBoxSwitch
+					v-model="userConfig.folder_tree"
+					:label="t('files', 'Folder tree')"
+					data-cy-files-settings-setting="folder_tree"
+					@update:modelValue="setConfig('folder_tree', $event)" />
+			</NcFormBox>
+
+			<NcRadioGroup
+				v-model="userConfig.default_view"
+				:label="t('files', 'Default view')"
 				class="files-settings__default-view"
-				data-cy-files-settings-setting="default_view">
-				<legend>
-					{{ t('files', 'Default view') }}
-				</legend>
-				<NcCheckboxRadioSwitch
-					:model-value="userConfig.default_view"
-					name="default_view"
-					type="radio"
+				data-cy-files-settings-setting="default_view"
+				@update:modelValue="setConfig('default_view', $event)">
+				<NcRadioGroupButton
 					value="files"
-					@update:model-value="setConfig('default_view', $event)">
-					{{ t('files', 'All files') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					:model-value="userConfig.default_view"
-					name="default_view"
-					type="radio"
+					:label="t('files', 'All files')" />
+				<NcRadioGroupButton
 					value="personal"
-					@update:model-value="setConfig('default_view', $event)">
-					{{ t('files', 'Personal files') }}
-				</NcCheckboxRadioSwitch>
-			</fieldset>
-			<NcCheckboxRadioSwitch
-				data-cy-files-settings-setting="sort_favorites_first"
-				:checked="userConfig.sort_favorites_first"
-				@update:checked="setConfig('sort_favorites_first', $event)">
-				{{ t('files', 'Sort favorites first') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch
-				data-cy-files-settings-setting="sort_folders_first"
-				:checked="userConfig.sort_folders_first"
-				@update:checked="setConfig('sort_folders_first', $event)">
-				{{ t('files', 'Sort folders before files') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch
-				data-cy-files-settings-setting="folder_tree"
-				:checked="userConfig.folder_tree"
-				@update:checked="setConfig('folder_tree', $event)">
-				{{ t('files', 'Folder tree') }}
-			</NcCheckboxRadioSwitch>
+					:label="t('files', 'Personal files')" />
+			</NcRadioGroup>
 		</NcAppSettingsSection>
 
 		<!-- Appearance -->
 		<NcAppSettingsSection id="appearance" :name="t('files', 'Appearance')">
-			<NcCheckboxRadioSwitch
-				data-cy-files-settings-setting="show_hidden"
-				:checked="userConfig.show_hidden"
-				@update:checked="setConfig('show_hidden', $event)">
-				{{ t('files', 'Show hidden files') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch
-				data-cy-files-settings-setting="show_mime_column"
-				:checked="userConfig.show_mime_column"
-				@update:checked="setConfig('show_mime_column', $event)">
-				{{ t('files', 'Show file type column') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch
-				data-cy-files-settings-setting="show_files_extensions"
-				:checked="userConfig.show_files_extensions"
-				@update:checked="setConfig('show_files_extensions', $event)">
-				{{ t('files', 'Show file extensions') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch
-				data-cy-files-settings-setting="crop_image_previews"
-				:checked="userConfig.crop_image_previews"
-				@update:checked="setConfig('crop_image_previews', $event)">
-				{{ t('files', 'Crop image previews') }}
-			</NcCheckboxRadioSwitch>
+			<NcFormBox>
+				<NcFormBoxSwitch
+					v-model="userConfig.show_hidden"
+					:label="t('files', 'Show hidden files')"
+					data-cy-files-settings-setting="show_hidden"
+					@update:modelValue="setConfig('show_hidden', $event)" />
+				<NcFormBoxSwitch
+					v-model="userConfig.show_mime_column"
+					:label="t('files', 'Show file type column')"
+					data-cy-files-settings-setting="show_mime_column"
+					@update:modelValue="setConfig('show_mime_column', $event)" />
+				<NcFormBoxSwitch
+					v-model="userConfig.show_files_extensions"
+					:label="t('files', 'Show file extensions')"
+					data-cy-files-settings-setting="show_files_extensions"
+					@update:modelValue="setConfig('show_files_extensions', $event)" />
+				<NcFormBoxSwitch
+					v-model="userConfig.crop_image_previews"
+					:label="t('files', 'Crop image previews')"
+					data-cy-files-settings-setting="crop_image_previews"
+					@update:modelValue="setConfig('crop_image_previews', $event)" />
+			</NcFormBox>
 		</NcAppSettingsSection>
 
 		<!-- Settings API-->
@@ -107,36 +95,39 @@
 					<Clipboard :size="20" />
 				</template>
 			</NcInputField>
-			<em>
-				<a
-					class="setting-link"
-					:href="webdavDocs"
-					target="_blank"
-					rel="noreferrer noopener">
-					{{ t('files', 'How to access files using WebDAV') }} ↗
-				</a>
-			</em>
-			<br>
-			<em v-if="isTwoFactorEnabled">
-				<a class="setting-link" :href="appPasswordUrl">
-					{{ t('files', 'Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client.') }} ↗
-				</a>
-			</em>
+
+			<NcFormBoxButton
+				v-if="isTwoFactorEnabled"
+				:label="t('files', 'Create an app password')"
+				:description="t('files', 'Required for WebDAV because Two-Factor Authentication is enabled for this account')"
+				:href="appPasswordUrl"
+				target="_blank">
+				<template #icon>
+					<OpenInNew :size="20" />
+				</template>
+			</NcFormBoxButton>
+
+			<NcFormBoxButton
+				:label="t('files', 'How to access files using WebDAV')"
+				:href="webdavDocs"
+				target="_blank">
+				<template #icon>
+					<OpenInNew :size="20" />
+				</template>
+			</NcFormBoxButton>
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="warning" :name="t('files', 'Warnings')">
-			<NcCheckboxRadioSwitch
-				type="switch"
-				:checked="userConfig.show_dialog_file_extension"
-				@update:checked="setConfig('show_dialog_file_extension', $event)">
-				{{ t('files', 'Warn before changing a file extension') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch
-				type="switch"
-				:checked="userConfig.show_dialog_deletion"
-				@update:checked="setConfig('show_dialog_deletion', $event)">
-				{{ t('files', 'Warn before deleting files') }}
-			</NcCheckboxRadioSwitch>
+			<NcFormBox>
+				<NcFormBoxSwitch
+					v-model="userConfig.show_dialog_file_extension"
+					:label="t('files', 'Warn before changing a file extension')"
+					@update:modelValue="setConfig('show_dialog_file_extension', $event)" />
+				<NcFormBoxSwitch
+					v-model="userConfig.show_dialog_deletion"
+					:label="t('files', 'Warn before deleting files')"
+					@update:modelValue="setConfig('show_dialog_deletion', $event)" />
+			</NcFormBox>
 		</NcAppSettingsSection>
 
 		<FilesAppSettingsShortcuts />
@@ -153,9 +144,14 @@ import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
 import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
+import NcRadioGroupButton from '@nextcloud/vue/components/NcRadioGroupButton'
 import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
+import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import FilesAppSettingsEntry from '../components/FilesAppSettings/FilesAppSettingsEntry.vue'
 import FilesAppSettingsShortcuts from '../components/FilesAppSettings/FilesAppSettingsShortcuts.vue'
 import { useUserConfigStore } from '../store/userconfig.ts'
@@ -168,8 +164,13 @@ export default {
 		FilesAppSettingsShortcuts,
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
-		NcCheckboxRadioSwitch,
+		NcFormBox,
+		NcFormBoxButton,
+		NcFormBoxSwitch,
 		NcInputField,
+		NcRadioGroup,
+		NcRadioGroupButton,
+		OpenInNew,
 	},
 
 	props: {
@@ -178,6 +179,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['close', 'update:open'],
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
@@ -221,7 +224,6 @@ export default {
 	},
 
 	created() {
-		// ? opens the settings dialog on the keyboard shortcuts section
 		useHotKey('?', this.showKeyboardShortcuts, {
 			stop: true,
 			prevent: true,
@@ -243,8 +245,13 @@ export default {
 			this.$emit('close')
 		},
 
-		setConfig(key, value) {
-			this.userConfigStore.update(key, value)
+		async setConfig(key, value) {
+			try {
+				await this.userConfigStore.update(key, value)
+				showSuccess(t('files', 'Setting saved'))
+			} catch {
+				showError(t('files', 'Failed to save setting'))
+			}
 		},
 
 		async copyCloudId() {
@@ -278,23 +285,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.files-settings {
-	&__default-view {
-		margin-bottom: 0.5rem;
-	}
-}
+.files-settings__default-view {
+	margin-block-start: calc(var(--default-grid-baseline) * 4);
 
-.setting-link:hover {
-	text-decoration: underline;
-}
+	:deep(.radio-group__button-group) {
+		font-size: 1.05em;
 
-.shortcut-key {
-	width: 160px;
-	// some shortcuts are too long to fit in one line
-	white-space: normal;
-	span {
-		// force portion of a shortcut on a new line for nicer display
-		white-space: nowrap;
+		button {
+			padding-block: calc(var(--default-grid-baseline) * 2);
+		}
 	}
 }
 
