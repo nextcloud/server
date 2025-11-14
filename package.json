@@ -51,7 +51,7 @@
     "vue": "^3.5.24"
   },
   "devDependencies": {
-    "@nextcloud/browserslist-config": "^3.1.1",
+    "@nextcloud/browserslist-config": "^3.1.2",
     "@nextcloud/e2e-test-server": "^0.4.0",
     "@nextcloud/eslint-config": "^9.0.0-rc.5",
     "@nextcloud/stylelint-config": "^3.1.1",

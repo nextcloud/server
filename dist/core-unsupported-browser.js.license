@@ -105,7 +105,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.102.1
 	- license: MIT
 - @nextcloud/browserslist-config
-	- version: 3.1.1
+	- version: 3.1.2
 	- license: GPL-3.0-or-later
 - nextcloud
 	- version: 1.0.0
