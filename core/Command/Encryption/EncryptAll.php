@@ -13,6 +13,7 @@ use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
@@ -55,6 +56,11 @@ class EncryptAll extends Command {
 		$this->setHelp(
 			'This will encrypt all files for all users. '
 			. 'Please make sure that no user access his files during this process!'
+		)->addOption(
+			'no-interaction',
+			'n',
+			InputOption::VALUE_NONE,
+			'Do not ask any interactive question'
 		);
 	}
 
@@ -77,11 +83,12 @@ class EncryptAll extends Command {
 		$output->writeln('Please ensure that no user accesses their files during this time!');
 		$output->writeln('Note: The encryption module you use determines which files get encrypted.');
 		$output->writeln('');
+		$isNoInteraction = $input->getOption('no-interaction');
 		$question = new ConfirmationQuestion('Do you really want to continue? (y/n) ', false);
 		if ($input->isInteractive() && $this->questionHelper->ask($input, $output, $question)) {
 			//run encryption with the answer yes in interactive mode
 			return $this->runEncryption($input, $output);
-		} elseif (!$input->isInteractive()) {
+		} elseif (!$input->isInteractive() && $isNoInteraction) {
 			//run encryption without the question in non-interactive mode if -n option is available
 			return $this->runEncryption($input, $output);
 		}
