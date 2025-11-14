@@ -19,6 +19,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
 use ReflectionParameter;
+use RuntimeException;
 use function class_exists;
 
 /**
@@ -52,10 +53,11 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	/**
 	 * @param ReflectionClass $class the class to instantiate
+	 * @param list<class-string> $chain
 	 * @return object the created class
 	 * @suppress PhanUndeclaredClassInstanceof
 	 */
-	private function buildClass(ReflectionClass $class): object {
+	private function buildClass(ReflectionClass $class, array $chain): object {
 		$constructor = $class->getConstructor();
 		if ($constructor === null) {
 			/* No constructor, return a instance directly */
@@ -64,17 +66,20 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		if (PHP_VERSION_ID >= 80400 && self::$useLazyObjects && !$class->isInternal()) {
 			/* For PHP>=8.4, use a lazy ghost to delay constructor and dependency resolving */
 			/** @psalm-suppress UndefinedMethod */
-			return $class->newLazyGhost(function (object $object) use ($constructor): void {
+			return $class->newLazyGhost(function (object $object) use ($constructor, $chain): void {
 				/** @psalm-suppress DirectConstructorCall For lazy ghosts we have to call the constructor directly */
-				$object->__construct(...$this->buildClassConstructorParameters($constructor));
+				$object->__construct(...$this->buildClassConstructorParameters($constructor, $chain));
 			});
 		} else {
-			return $class->newInstanceArgs($this->buildClassConstructorParameters($constructor));
+			return $class->newInstanceArgs($this->buildClassConstructorParameters($constructor, $chain));
 		}
 	}
 
-	private function buildClassConstructorParameters(\ReflectionMethod $constructor): array {
-		return array_map(function (ReflectionParameter $parameter) {
+	/**
+	 * @param list<class-string> $chain
+	 */
+	private function buildClassConstructorParameters(\ReflectionMethod $constructor, array $chain): array {
+		return array_map(function (ReflectionParameter $parameter) use ($chain) {
 			$parameterType = $parameter->getType();
 
 			$resolveName = $parameter->getName();
@@ -87,7 +92,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			try {
 				$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
 							&& $parameterType->isBuiltin();
-				return $this->query($resolveName, !$builtIn);
+				return $this->query($resolveName, !$builtIn, $chain);
 			} catch (ContainerExceptionInterface $e) {
 				// Service not found, use the default value when available
 				if ($parameter->isDefaultValueAvailable()) {
@@ -97,7 +102,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
 					$resolveName = $parameter->getName();
 					try {
-						return $this->query($resolveName);
+						return $this->query($resolveName, chain: $chain);
 					} catch (ContainerExceptionInterface $e2) {
 						// Pass null if typed and nullable
 						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
@@ -114,12 +119,16 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		}, $constructor->getParameters());
 	}
 
-	public function resolve($name) {
+	/**
+	 * @inheritDoc
+	 * @param list<class-string> $chain
+	 */
+	public function resolve($name, array $chain = []) {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
 			$class = new ReflectionClass($name);
 			if ($class->isInstantiable()) {
-				return $this->buildClass($class);
+				return $this->buildClass($class, $chain);
 			} else {
 				throw new QueryException($baseMsg
 					. ' Class can not be instantiated');
@@ -130,14 +139,22 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		}
 	}
 
-	public function query(string $name, bool $autoload = true) {
+	/**
+	 * @inheritDoc
+	 * @param list<class-string> $chain
+	 */
+	public function query(string $name, bool $autoload = true, array $chain = []) {
 		$name = $this->sanitizeName($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		}
 
 		if ($autoload) {
-			$object = $this->resolve($name);
+			if (in_array($name, $chain, true)) {
+				throw new RuntimeException('Tried to query ' . $name . ', but it is already in the chain: ' . implode(', ', $chain));
+			}
+
+			$object = $this->resolve($name, array_merge($chain, [$name]));
 			$this->registerService($name, function () use ($object) {
 				return $object;
 			});

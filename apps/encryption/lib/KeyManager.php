@@ -23,7 +23,6 @@ class KeyManager {
 	private string $recoveryKeyId;
 	private string $publicShareKeyId;
 	private string $masterKeyId;
-	private ?string $keyUid;
 	private string $publicKeyId = 'publicKey';
 	private string $privateKeyId = 'privateKey';
 	private string $shareKeyId = 'shareKey';
@@ -33,7 +32,7 @@ class KeyManager {
 		private IStorage $keyStorage,
 		private Crypt $crypt,
 		private IConfig $config,
-		IUserSession $userSession,
+		private IUserSession $userSession,
 		private Session $session,
 		private LoggerInterface $logger,
 		private Util $util,
@@ -61,8 +60,6 @@ class KeyManager {
 			$this->masterKeyId = 'master_' . substr(md5((string)time()), 0, 8);
 			$this->config->setAppValue('encryption', 'masterKeyId', $this->masterKeyId);
 		}
-
-		$this->keyUid = $userSession->isLoggedIn() ? $userSession->getUser()?->getUID() : null;
 	}
 
 	/**
@@ -352,7 +349,7 @@ class KeyManager {
 	 * @param ?bool $useLegacyFileKey null means try both
 	 */
 	public function getFileKey(string $path, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
-		$publicAccess = ($this->keyUid === null);
+		$publicAccess = !$this->userSession->isLoggedIn();
 		$encryptedFileKey = '';
 		if ($useLegacyFileKey ?? true) {
 			$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
@@ -381,7 +378,7 @@ class KeyManager {
 			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.' . $this->privateKeyId, Encryption::ID);
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey);
 		} else {
-			$uid = $this->keyUid;
+			$uid = $this->userSession->getUser()?->getUID();
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->session->getPrivateKey();
 		}

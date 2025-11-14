@@ -40,6 +40,7 @@
     "Not found" : "Ei leidu",
     "Node is locked" : "Sõlm on lukus",
     "Bad request" : "Vigane päring",
+    "Input text is too long" : "Sisendtekst on liiga pikk",
     "Requested task type does not exist" : "Küsitud ülesannete tüüpi ei leidu",
     "Necessary language model provider is not available" : "Vajaliku keelemudeli teenusepakkuja pole saadaval",
     "No text to image provider is available" : "Ühtegi optilise tekstituvastuse teenusepakkujat pole saadaval",

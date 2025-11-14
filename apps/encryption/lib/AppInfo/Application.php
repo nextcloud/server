@@ -14,6 +14,7 @@ use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\KeyManager;
+use OCA\Encryption\Listeners\BeforeTemplateRenderedListener;
 use OCA\Encryption\Listeners\UserEventsListener;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
@@ -22,6 +23,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -47,8 +49,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		\OCP\Util::addScript(self::APP_ID, 'encryption');
-
 		$context->injectFn(function (IManager $encryptionManager) use ($context): void {
 			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {
 				return;
@@ -89,6 +89,7 @@ class Application extends App implements IBootstrap {
 		}
 
 		// No maintenance so register all events
+		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, UserEventsListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, UserEventsListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedOutEvent::class, UserEventsListener::class);

@@ -84,6 +84,17 @@
 				data-login-form-input-password
 				required />
 
+			<NcCheckboxRadioSwitch
+				v-if="remembermeAllowed"
+				id="rememberme"
+				ref="rememberme"
+				name="rememberme"
+				value="1"
+				:checked.sync="rememberme"
+				data-login-form-input-rememberme>
+				{{ t('core', 'Remember me') }}
+			</NcCheckboxRadioSwitch>
+
 			<LoginButton data-login-form-submit :loading="loading" />
 
 			<input
@@ -117,6 +128,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import debounce from 'debounce'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -128,6 +140,7 @@ export default {
 
 	components: {
 		LoginButton,
+		NcCheckboxRadioSwitch,
 		NcPasswordField,
 		NcTextField,
 		NcNoteCard,
@@ -166,6 +179,11 @@ export default {
 			default: true,
 		},
 
+		remembermeAllowed: {
+			type: Boolean,
+			default: true,
+		},
+
 		directLogin: {
 			type: Boolean,
 			default: false,
@@ -200,6 +218,7 @@ export default {
 			loading: false,
 			user: props.username,
 			password: '',
+			rememberme: ['1'],
 			visible: false,
 		}
 	},

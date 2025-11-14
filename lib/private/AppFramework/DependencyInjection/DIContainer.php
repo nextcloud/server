@@ -310,21 +310,29 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		return false;
 	}
 
-	public function query(string $name, bool $autoload = true) {
+	/**
+	 * @inheritDoc
+	 * @param list<class-string> $chain
+	 */
+	public function query(string $name, bool $autoload = true, array $chain = []) {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
 
 		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
 		if ($isServerClass && !$this->has($name)) {
-			return $this->getServer()->query($name, $autoload);
+			/** @var ServerContainer $server */
+			$server = $this->getServer();
+			return $server->query($name, $autoload, $chain);
 		}
 
 		try {
-			return $this->queryNoFallback($name);
+			return $this->queryNoFallback($name, $chain);
 		} catch (QueryException $firstException) {
 			try {
-				return $this->getServer()->query($name, $autoload);
+				/** @var ServerContainer $server */
+				$server = $this->getServer();
+				return $server->query($name, $autoload, $chain);
 			} catch (QueryException $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;
@@ -339,23 +347,23 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function queryNoFallback($name) {
+	public function queryNoFallback($name, array $chain) {
 		$name = $this->sanitizeName($name);
 
 		if ($this->offsetExists($name)) {
-			return parent::query($name);
+			return parent::query($name, chain: $chain);
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
-			return parent::query($name);
+			return parent::query($name, chain: $chain);
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
-			return parent::query($name);
+			return parent::query($name, chain: $chain);
 		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
-			return parent::query($name);
+			return parent::query($name, chain: $chain);
 		} elseif (
 			str_starts_with($name, 'OC\\AppFramework\\Services\\')
 			|| str_starts_with($name, 'OC\\AppFramework\\Middleware\\')
 		) {
 			/* AppFramework services are scoped to the application */
-			return parent::query($name);
+			return parent::query($name, chain: $chain);
 		}
 
 		throw new QueryException('Could not resolve ' . $name . '!'

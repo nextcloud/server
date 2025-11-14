@@ -39,7 +39,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.4.0
+	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -48,7 +48,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.31.0
+	- version: 8.34.0
 	- license: AGPL-3.0-or-later
 - base64-js
 	- version: 1.5.1
@@ -105,7 +105,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.102.1
 	- license: MIT
 - @nextcloud/browserslist-config
-	- version: 3.1.1
+	- version: 3.1.2
 	- license: GPL-3.0-or-later
 - nextcloud
 	- version: 1.0.0

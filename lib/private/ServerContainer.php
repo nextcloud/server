@@ -111,6 +111,7 @@ class ServerContainer extends SimpleContainer {
 	/**
 	 * @template T
 	 * @param class-string<T>|string $name
+	 * @param list<class-string> $chain
 	 * @return T|mixed
 	 * @psalm-template S as class-string<T>|string
 	 * @psalm-param S $name
@@ -118,13 +119,13 @@ class ServerContainer extends SimpleContainer {
 	 * @throws QueryException
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
-	public function query(string $name, bool $autoload = true) {
+	public function query(string $name, bool $autoload = true, array $chain = []) {
 		$name = $this->sanitizeName($name);
 
 		if (str_starts_with($name, 'OCA\\')) {
 			// Skip server container query for app namespace classes
 			try {
-				return parent::query($name, false);
+				return parent::query($name, false, $chain);
 			} catch (QueryException $e) {
 				// Continue with general autoloading then
 			}
@@ -132,7 +133,7 @@ class ServerContainer extends SimpleContainer {
 			// the apps container first.
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
 				try {
-					return $appContainer->queryNoFallback($name);
+					return $appContainer->queryNoFallback($name, $chain);
 				} catch (QueryException $e) {
 					// Didn't find the service or the respective app container
 					// In this case the service won't be part of the core container,
@@ -144,14 +145,14 @@ class ServerContainer extends SimpleContainer {
 			$segments = explode('\\', $name);
 			try {
 				$appContainer = $this->getAppContainer(strtolower($segments[1]), $segments[1]);
-				return $appContainer->queryNoFallback($name);
+				return $appContainer->queryNoFallback($name, $chain);
 			} catch (QueryException $e) {
 				// Didn't find the service or the respective app container,
 				// ignore it and fall back to the core container.
 			}
 		}
 
-		return parent::query($name, $autoload);
+		return parent::query($name, $autoload, $chain);
 	}
 
 	/**

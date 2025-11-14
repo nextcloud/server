@@ -10,18 +10,11 @@
 
     <summary>Send notifications to external services whenever something important happens, like when files are changed or updated.</summary>
     <description>
-        <![CDATA[
-        Set up webhooks that automatically notify external services whenever certain events - like file changes - occur 
-        within Nextcloud. By configuring these webhooks, administrators can specify which actions in their Nextcloud instance 
-        should trigger notifications and where those notifications should be sent, enabling seamless integration with other platforms 
-        and automating workflows.
+        <![CDATA[Set up webhooks that automatically notify external services whenever certain events - like file changes - occur within Nextcloud. By configuring these webhooks, administrators can specify which actions in their Nextcloud instance should trigger notifications and where those notifications should be sent, enabling seamless integration with other platforms and automating workflows.
 
-        The app works by monitoring Nextcloud’s event system and dispatching HTTP requests (webhooks) containing relevant event 
-        data to the specified endpoints whenever a configured event takes place. This approach makes it easy to connect Nextcloud 
-        with external tools, allowing for real-time interactions without needing to manually check for updates or changes.
+The app works by monitoring Nextcloud's event system and dispatching HTTP requests (webhooks) containing relevant event data to the specified endpoints whenever a configured event takes place. This approach makes it easy to connect Nextcloud with external tools, allowing for real-time interactions without needing to manually check for updates or changes.
 
-        Administrators can configure webhook listeners via the app's OCS API. The app also provides a command-line tool to list 
-        currently configured webhooks. There are no Web UI settings.
+Administrators can configure webhook listeners via the app's OCS API. The app also provides a command-line tool to list currently configured webhooks. There are no Web UI settings.
         ]]>
     </description>
 
