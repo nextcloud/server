@@ -36,6 +36,8 @@ class Watcher implements IWatcher {
 	/** @var callable[] */
 	protected $onUpdate = [];
 
+	protected ?string $checkFilter = null;
+
 	/**
 	 * @param \OC\Files\Storage\Storage $storage
 	 */
@@ -50,6 +52,10 @@ class Watcher implements IWatcher {
 	 */
 	public function setPolicy($policy) {
 		$this->watchPolicy = $policy;
+	}
+
+	public function setCheckFilter(?string $filter): void {
+		$this->checkFilter = $filter;
 	}
 
 	/**
@@ -116,6 +122,12 @@ class Watcher implements IWatcher {
 	 * @return bool
 	 */
 	public function needsUpdate($path, $cachedData) {
+		if ($this->checkFilter !== null) {
+			if (!preg_match($this->checkFilter, $path)) {
+				return false;
+			}
+		}
+
 		if ($this->watchPolicy === self::CHECK_ALWAYS || ($this->watchPolicy === self::CHECK_ONCE && !in_array($path, $this->checkedPaths))) {
 			$this->checkedPaths[] = $path;
 			return $cachedData['storage_mtime'] === null || $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
