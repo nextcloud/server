@@ -15,6 +15,7 @@ use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Verify extends Command {
@@ -33,6 +34,12 @@ class Verify extends Command {
 				'user-id',
 				InputArgument::REQUIRED,
 				'User ID of the user to verify'
+			)
+			->addOption(
+				'update',
+				null,
+				InputOption::VALUE_NONE,
+				'Save the derived public key to match the private key'
 			)
 		;
 	}
@@ -72,12 +79,17 @@ class Verify extends Command {
 		$output->writeln($publicKeyDerived);
 
 		if ($publicKey != $publicKeyDerived) {
-			$output->writeln('<error>Stored public key does not match stored private key</error>');
-			return static::FAILURE;
+			if (!$input->getOption('update')) {
+				$output->writeln('<error>Stored public key does not match stored private key</error>');
+				return static::FAILURE;
+			}
+
+			$this->keyManager->setPublicKey($user, $publicKeyDerived);
+			$output->writeln('<info>Derived public key did not match, successfully updated</info>');
+			return static::SUCCESS;
 		}
 
 		$output->writeln('<info>Stored public key matches stored private key</info>');
-
 		return static::SUCCESS;
 	}
 }
