@@ -42,6 +42,7 @@ OC.L10N.register(
     "Not found" : "Ní bhfuarthas",
     "Node is locked" : "Tá an nód faoi ghlas",
     "Bad request" : "Drochiarratas",
+    "Input text is too long" : "Tá an téacs ionchuir rófhada",
     "Requested task type does not exist" : "Níl an cineál taisc iarrtha ann",
     "Necessary language model provider is not available" : "Níl soláthraí múnla teanga riachtanach ar fáil",
     "No text to image provider is available" : "Níl aon soláthraí téacs go híomhá ar fáil",

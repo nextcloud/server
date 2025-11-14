@@ -42,6 +42,7 @@ OC.L10N.register(
     "Not found" : "No s'ha trobat",
     "Node is locked" : "El node està bloquejat",
     "Bad request" : "Sol·licitud incorrecta",
+    "Input text is too long" : "El text és massa llarg",
     "Requested task type does not exist" : "El tipus de tasca sol·licitat no existeix",
     "Necessary language model provider is not available" : "El proveïdor de models de llengua necessari no està disponible",
     "No text to image provider is available" : "No hi ha cap proveïdor de text a imatge disponible",
