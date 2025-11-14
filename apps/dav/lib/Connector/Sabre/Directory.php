@@ -498,6 +498,10 @@ class Directory extends Node implements
 	}
 
 	public function getNodeForPath($path) {
+		return $this->getNodeForPathInternal($path);
+	}
+
+	private function getNodeForPathInternal($path, bool $includeChildren = true) {
 		$nodeIsRoot = $this->path === '/';
 		$path = ltrim($path, '/');
 		$fullPath = $nodeIsRoot ? $this->path . $path : $this->path . '/' . $path;
@@ -505,7 +509,7 @@ class Directory extends Node implements
 		try {
 			[$destinationDir, $destinationName] = \Sabre\Uri\split($fullPath);
 			$this->fileView->verifyPath($destinationDir, $destinationName, true);
-			$info = $this->fileView->getFileInfo($fullPath);
+			$info = $this->fileView->getFileInfo($fullPath, $includeChildren);
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 		} catch (InvalidPathException $ex) {
@@ -540,8 +544,9 @@ class Directory extends Node implements
 		$this->tree?->cacheNode($node);
 
 		if ($destinationDir !== '') {
-			// recurse upwards until the root (for backwards²-compatibility)
-			$this->getNodeForPath($destinationDir);
+			// recurse upwards until the root (for backwards-compatibility)
+			// no need to get child information
+			$this->getNodeForPathInternal($destinationDir, false);
 		}
 
 		return $node;
