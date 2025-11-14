@@ -7,6 +7,9 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
 const modules = {
+	files_trashbin: {
+		init: resolve(import.meta.dirname, 'apps/files_trashbin/src', 'files-init.ts'),
+	},
 	files_versions: {
 		'sidebar-tab': resolve(import.meta.dirname, 'apps/files_versions/src', 'sidebar_tab.ts'),
 	},
