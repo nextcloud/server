@@ -68,4 +68,4 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit
-        run: composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness
+        run: composer run test -- --exclude-group PRIMARY-azure --exclude-group PRIMARY-s3 --exclude-group PRIMARY-swift --exclude-group Memcached --exclude-group Redis --exclude-group RoutingWeirdness

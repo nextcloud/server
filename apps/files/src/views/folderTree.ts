@@ -38,7 +38,8 @@ const registerQueue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200
  */
 async function registerTreeChildren(path: string = '/') {
 	await queue.add(async () => {
-		const nodes = await getFolderTreeNodes(path)
+		// preload up to 2 depth levels for faster navigation
+		const nodes = await getFolderTreeNodes(path, 2)
 		const promises = nodes.map((node) => registerQueue.add(() => registerNodeView(node)))
 		await Promise.allSettled(promises)
 	})

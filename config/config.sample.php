@@ -474,6 +474,30 @@ $CONFIG = [
 	'ratelimit.protection.enabled' => true,
 
 	/**
+	 * Overwrite the individual rate limit for a specific route
+	 *
+	 * From time to time it can be necessary to extend the rate limit of a specific route,
+	 * depending on your usage pattern or when you script some actions.
+	 * Instead of completely disabling the rate limit or excluding an IP address from the
+	 * rate limit, the following config allows to overwrite the rate limit duration and period.
+	 *
+	 * The first level key is the name of the route. You can find the route name from a URL
+	 * using the ``occ router:list`` command of your server.
+	 *
+	 * You can also specify different limits for logged-in users with the ``user`` key
+	 * and not-logged-in users with the ``anon`` key. However, if there is no specific ``user`` limit,
+	 * the ``anon`` limit is also applied for logged-in users.
+	 *
+	 * Defaults to empty array ``[]``
+	 */
+	'ratelimit_overwrite' => [
+		'profile.profilepage.index' => [
+			'user' => ['limit' => 300, 'period' => 3600],
+			'anon' => ['limit' => 1, 'period' => 300],
+		]
+	],
+
+	/**
 	 * Size of subnet used to normalize IPv6
 	 *
 	 * For Brute Force Protection and Rate Limiting, IPv6 addresses are truncated using subnet size.
@@ -1519,41 +1543,49 @@ $CONFIG = [
 	 *  - ``OC\Preview\Font``
 	 *  - ``OC\Preview\HEIC``
 	 *  - ``OC\Preview\Illustrator``
+	 *  - ``OC\Preview\Movie``
 	 *  - ``OC\Preview\MP3``
 	 *  - ``OC\Preview\MSOffice2003``
 	 *  - ``OC\Preview\MSOffice2007``
 	 *  - ``OC\Preview\MSOfficeDoc``
-	 *  - ``OC\Preview\Movie``
 	 *  - ``OC\Preview\PDF``
 	 *  - ``OC\Preview\Photoshop``
 	 *  - ``OC\Preview\Postscript``
-	 *  - ``OC\Preview\SVG``
+	 *  - ``OC\Preview\SGI``
 	 *  - ``OC\Preview\StarOffice``
+	 *  - ``OC\Preview\SVG``
+	 *  - ``OC\Preview\TGA``
 	 *  - ``OC\Preview\TIFF``
+	 *
+	 * The following providers are disabled by default, because they provide an alternative to the built-in providers:
+	 *   - ``OC\Preview\Imaginary``
+	 *   - ``OC\Preview\ImaginaryPDF``
 	 *
 	 * Defaults to the following providers:
 	 *
-	 *  - ``OC\Preview\BMP``
-	 *  - ``OC\Preview\GIF``
-	 *  - ``OC\Preview\JPEG``
-	 *  - ``OC\Preview\Krita``
-	 *  - ``OC\Preview\MarkDown``
-	 *  - ``OC\Preview\OpenDocument``
 	 *  - ``OC\Preview\PNG``
-	 *  - ``OC\Preview\TXT``
+	 *  - ``OC\Preview\JPEG``
+	 *  - ``OC\Preview\GIF``
+	 *  - ``OC\Preview\BMP``
 	 *  - ``OC\Preview\XBitmap``
+	 *  - ``OC\Preview\Krita``
+	 *  - ``OC\Preview\WebP``
+	 *  - ``OC\Preview\MarkDown``
+	 *  - ``OC\Preview\TXT``
+	 *  - ``OC\Preview\OpenDocument``
 	 *
 	 */
 	'enabledPreviewProviders' => [
-		'OC\Preview\BMP',
-		'OC\Preview\GIF',
-		'OC\Preview\JPEG',
-		'OC\Preview\Krita',
-		'OC\Preview\MarkDown',
-		'OC\Preview\OpenDocument',
 		'OC\Preview\PNG',
-		'OC\Preview\TXT',
+		'OC\Preview\JPEG',
+		'OC\Preview\GIF',
+		'OC\Preview\BMP',
 		'OC\Preview\XBitmap',
+		'OC\Preview\Krita',
+		'OC\Preview\WebP',
+		'OC\Preview\MarkDown',
+		'OC\Preview\TXT',
+		'OC\Preview\OpenDocument',
 	],
 
 	/**

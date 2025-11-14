@@ -66,13 +66,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.4.0
+	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 2.2.1
+	- version: 2.2.2
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
@@ -96,7 +96,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.11.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.31.0
+	- version: 8.34.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0
@@ -132,7 +132,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.6.5
+	- version: 7.6.6
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -168,7 +168,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.2.0
+	- version: 6.3.0
 	- license: MIT
 - toastify-js
 	- version: 1.12.0

@@ -21,10 +21,10 @@ export const ACTION_FAVORITE = 'favorite'
 
 const queue = new PQueue({ concurrency: 5 })
 
-// If any of the nodes is not favorited, we display the favorite action.
 /**
+ * If any of the nodes is not favorited, we display the favorite action.
  *
- * @param nodes
+ * @param nodes - The nodes to check
  */
 function shouldFavorite(nodes: Node[]): boolean {
 	return nodes.some((node) => node.attributes.favorite !== 1)
@@ -124,4 +124,9 @@ export const action = new FileAction({
 	},
 
 	order: -50,
+
+	hotkey: {
+		description: t('files', 'Add or remove favorite'),
+		key: 'S',
+	},
 })

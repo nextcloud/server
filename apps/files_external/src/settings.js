@@ -565,6 +565,8 @@ MountOptionsDropdown.prototype = {
 		this.setOptions(mountOptions, visibleOptions, storage)
 
 		this.$el.appendTo($container)
+
+		this._initialOptions = JSON.stringify(this.getOptions())
 		MountOptionsDropdown._last = this
 
 		this.$el.trigger('show')
@@ -1472,11 +1474,14 @@ MountConfigListView.prototype = _.extend({
 		})
 
 		dropDown.$el.on('hide', function() {
-			const mountOptions = dropDown.getOptions()
+			const newOptions = dropDown.getOptions()
+			const newOptionsStr = JSON.stringify(newOptions)
 			$('body').off('mouseup.mountOptionsDropdown')
-			$tr.find('input.mountOptions').val(JSON.stringify(mountOptions))
 			$tr.find('td.mountOptionsToggle>.icon-more').attr('aria-expanded', 'false')
-			self.saveStorageConfig($tr)
+			if (dropDown._initialOptions !== newOptionsStr) {
+				$tr.find('input.mountOptions').val(newOptionsStr)
+				self.saveStorageConfig($tr)
+			}
 		})
 	},
 }, OC.Backbone.Events)

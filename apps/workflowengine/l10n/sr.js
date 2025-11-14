@@ -27,6 +27,7 @@ OC.L10N.register(
     "%s accessed %s" : "%s је приступио %s",
     "%s renamed %s" : "%s је преименовао %s",
     "%s copied %s" : "%s је копирао %s",
+    "%1$s assigned %2$s to %3$s" : "%1$s је доделио %2$s на %3$s",
     "Operation #%s does not exist" : "Операција #%s не постоји",
     "Entity %s does not exist" : "Ентитет %s не постоји",
     "Entity %s is invalid" : "Ентитет %s није исправан",

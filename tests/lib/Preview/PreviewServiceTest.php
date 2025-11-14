@@ -25,6 +25,7 @@ class PreviewServiceTest extends TestCase {
 	private IGenerator $snowflakeGenerator;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->previewService = Server::get(PreviewService::class);
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->snowflakeGenerator = Server::get(IGenerator::class);
@@ -33,6 +34,7 @@ class PreviewServiceTest extends TestCase {
 
 	public function tearDown(): void {
 		$this->previewService->deleteAll();
+		parent::tearDown();
 	}
 
 	public function testGetAvailableFileIds(): void {

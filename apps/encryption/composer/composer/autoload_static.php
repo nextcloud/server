@@ -23,6 +23,7 @@ class ComposerStaticInitEncryption
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Encryption\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Encryption\\Command\\CleanOrphanedKeys' => __DIR__ . '/..' . '/../lib/Command/CleanOrphanedKeys.php',
         'OCA\\Encryption\\Command\\DisableMasterKey' => __DIR__ . '/..' . '/../lib/Command/DisableMasterKey.php',
         'OCA\\Encryption\\Command\\DropLegacyFileKey' => __DIR__ . '/..' . '/../lib/Command/DropLegacyFileKey.php',
         'OCA\\Encryption\\Command\\EnableMasterKey' => __DIR__ . '/..' . '/../lib/Command/EnableMasterKey.php',
@@ -42,6 +43,7 @@ class ComposerStaticInitEncryption
         'OCA\\Encryption\\Exceptions\\PrivateKeyMissingException' => __DIR__ . '/..' . '/../lib/Exceptions/PrivateKeyMissingException.php',
         'OCA\\Encryption\\Exceptions\\PublicKeyMissingException' => __DIR__ . '/..' . '/../lib/Exceptions/PublicKeyMissingException.php',
         'OCA\\Encryption\\KeyManager' => __DIR__ . '/..' . '/../lib/KeyManager.php',
+        'OCA\\Encryption\\Listeners\\BeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listeners/BeforeTemplateRenderedListener.php',
         'OCA\\Encryption\\Listeners\\UserEventsListener' => __DIR__ . '/..' . '/../lib/Listeners/UserEventsListener.php',
         'OCA\\Encryption\\Migration\\SetMasterKeyStatus' => __DIR__ . '/..' . '/../lib/Migration/SetMasterKeyStatus.php',
         'OCA\\Encryption\\Recovery' => __DIR__ . '/..' . '/../lib/Recovery.php',

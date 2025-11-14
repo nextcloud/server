@@ -25,7 +25,7 @@ OC.L10N.register(
     "Builtin" : "Уграђено",
     "None" : "Ништа",
     "OAuth2" : "OAuth2",
-    "Client ID" : "ИД клијента",
+    "Client ID" : "ID клијента",
     "Client secret" : "Тајна клијента",
     "OpenStack v2" : "OpenStack v2",
     "Login" : "Пријава",
