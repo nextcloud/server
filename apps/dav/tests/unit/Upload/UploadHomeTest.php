@@ -8,13 +8,12 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\Upload;
 
-use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Upload\CleanupService;
 use OCA\DAV\Upload\UploadFolder;
 use OCA\DAV\Upload\UploadHome;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Storage\IStorage;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -27,57 +26,92 @@ class UploadHomeTest extends TestCase {
 	use UserTrait;
 
 	private array $principalInfo;
+	private IRootFolder $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		// Create and "log in" a test user
+		$user = $this->createUser('testuser', 'testpass');
+		// We use a mocked IUserSession in the tests, so no explicit login call is needed.
+
 		$this->principalInfo = [
 			'uri' => 'principals/users/testuser'
 		];
+
+		// Use the real root folder to avoid mocking low-level filesystem behavior
+		$this->rootFolder = \OC::$server->get(IRootFolder::class);
 	}
 
-	private function getMockedUploadHomeUser(): UploadHome {
-		$cleanup = $this->createMock(CleanupService::class);
-		$rootFolder = $this->createMock(IRootFolder::class);
+	private function makeUserSessionReturningTestUser(): IUserSession {
 		$userSession = $this->createMock(IUserSession::class);
-		$shareManager = $this->createMock(IManager::class);
-
-		$user = $this->createUser('testuser', 'testpass');
+		$user = $this->getUser('testuser');
 		$userSession->method('getUser')->willReturn($user);
+		return $userSession;
+	}
+
+	private function ensureUploadsFolderExists(string $uid = 'testuser'): Folder {
+		$path = '/' . $uid . '/uploads';
+		try {
+			$node = $this->rootFolder->get($path);
+			if (!$node instanceof Folder) {
+				$this->fail('Uploads path exists but is not a folder');
+			}
+			return $node;
+		} catch (NotFoundException) {
+			return $this->rootFolder->newFolder($path);
+		}
+	}
+
+	private function removeUploadsFolderIfExists(string $uid = 'testuser'): void {
+		$path = '/' . $uid . '/uploads';
+		try {
+			$node = $this->rootFolder->get($path);
+			$node->delete();
+		} catch (NotFoundException) {
+			// already gone
+		}
+	}
+
+	private function makeUploadHomeForUser(CleanupService $cleanup = null, ?IManager $shareManager = null): UploadHome {
+		$cleanup ??= $this->createMock(CleanupService::class);
+		$shareManager ??= $this->createMock(IManager::class);
+		$userSession = $this->makeUserSessionReturningTestUser();
 
 		return new UploadHome(
 			$this->principalInfo,
 			$cleanup,
-			$rootFolder,
+			$this->rootFolder,
 			$userSession,
 			$shareManager
 		);
 	}
 
-	private function getMockedUploadHomeShare(): UploadHome {
+	private function makeUploadHomeForShare(): UploadHome {
 		$cleanup = $this->createMock(CleanupService::class);
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$userSession = $this->createMock(IUserSession::class);
 		$shareManager = $this->createMock(IManager::class);
-
-		$principalInfo = [
-			'uri' => 'principals/shares/sometoken'
-		];
 
 		$shareMock = $this->createMock(IShare::class);
 		$shareMock->method('getShareOwner')->willReturn('shareowner');
 		$shareManager->method('getShareByToken')->with('sometoken')->willReturn($shareMock);
 
+		$userSession = $this->makeUserSessionReturningTestUser();
+
+		$principalInfo = [
+			'uri' => 'principals/shares/sometoken'
+		];
+
 		return new UploadHome(
 			$principalInfo,
 			$cleanup,
-			$rootFolder,
+			$this->rootFolder,
 			$userSession,
 			$shareManager
 		);
 	}
 
 	public function testUserConstructorSetsUid(): void {
-		$uploadHome = $this->getMockedUploadHomeUser();
+		$uploadHome = $this->makeUploadHomeForUser();
 		$reflector = new \ReflectionClass($uploadHome);
 		$uidProp = $reflector->getProperty('uid');
 		$uidProp->setAccessible(true);
@@ -85,7 +119,7 @@ class UploadHomeTest extends TestCase {
 	}
 
 	public function testShareConstructorSetsUid(): void {
-		$uploadHome = $this->getMockedUploadHomeShare();
+		$uploadHome = $this->makeUploadHomeForShare();
 		$ref = new \ReflectionClass($uploadHome);
 		$uidProp = $ref->getProperty('uid');
 		$uidProp->setAccessible(true);
@@ -94,7 +128,6 @@ class UploadHomeTest extends TestCase {
 
 	public function testConstructorThrowsIfUserMissing(): void {
 		$cleanup = $this->createMock(CleanupService::class);
-		$rootFolder = $this->createMock(IRootFolder::class);
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession->method('getUser')->willReturn(null);
 		$shareManager = $this->createMock(IManager::class);
@@ -103,256 +136,136 @@ class UploadHomeTest extends TestCase {
 		new UploadHome(
 			$this->principalInfo,
 			$cleanup,
-			$rootFolder,
+			$this->rootFolder,
 			$userSession,
 			$shareManager
 		);
 	}
 
 	public function testCreateFileThrowsForbidden(): void {
-		$uploadHome = $this->getMockedUploadHomeUser();
+		$uploadHome = $this->makeUploadHomeForUser();
 		$this->expectException(Forbidden::class);
 		$uploadHome->createFile('denied.txt');
 	}
 
 	public function testSetNameThrowsForbidden(): void {
-		$uploadHome = $this->getMockedUploadHomeUser();
+		$uploadHome = $this->makeUploadHomeForUser();
 		$this->expectException(Forbidden::class);
 		$uploadHome->setName('denied');
 	}
 
 	public function testCreateDirectoryAddsCleanupJob(): void {
+		$this->removeUploadsFolderIfExists(); // clean slate
+		$this->ensureUploadsFolderExists();
+
 		$cleanup = $this->createMock(CleanupService::class);
-
-		$folder = $this->createMock(Folder::class);
-		// The Directory instance (Sabre) expects to wrap a Folder, but createDirectory is not on Folder,
-		// so instead, we'll patch the Directory itself and not stub on Folder.
-		$directory = $this->createMock(Directory::class);
-		$directory->expects($this->once())->method('createDirectory')->with('foo');
-
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($folder);
-		$rootFolder->method('get')->willReturn($folder);
-
-		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser', 'testpass');
-		$userSession->method('getUser')->willReturn($user);
-		$shareManager = $this->createMock(IManager::class);
-
 		$cleanup->expects($this->once())->method('addJob')->with('testuser', 'foo');
 
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager
-			])
-			->onlyMethods(['impl'])
-			->getMock();
+		$uploadHome = $this->makeUploadHomeForUser($cleanup);
 
-		$uploadHome->method('impl')->willReturn($directory);
-
+		// Should create the sub-directory and schedule cleanup
 		$uploadHome->createDirectory('foo');
+
+		// Verify the directory was created on disk
+		$path = '/testuser/uploads/foo';
+		$node = $this->rootFolder->get($path);
+		$this->assertInstanceOf(Folder::class, $node);
 	}
 
 	public function testGetChildReturnsUploadFolder(): void {
-		$cleanup = $this->createMock(CleanupService::class);
-		$folderChild = $this->createMock(Folder::class);
-		$directory = $this->createMock(Directory::class);
-		$directory->method('getChild')->with('childname')->willReturn($folderChild);
+		// Prepare: ensure child exists
+		$uploads = $this->ensureUploadsFolderExists();
+		try { $uploads->newFolder('childname'); } catch (\Throwable) { /* ignore if exists */ }
 
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($folderChild);
-		$rootFolder->method('get')->willReturn($folderChild);
-
-		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser', 'testpass');
-		$userSession->method('getUser')->willReturn($user);
-		$shareManager = $this->createMock(IManager::class);
-
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager
-			])
-			->onlyMethods(['impl'])
-			->getMock();
-
-		$uploadHome->method('impl')->willReturn($directory);
+		$uploadHome = $this->makeUploadHomeForUser();
 
 		$result = $uploadHome->getChild('childname');
 		$this->assertInstanceOf(UploadFolder::class, $result);
 	}
 
 	public function testGetChildThrowsExceptionIfNotFound(): void {
-		$cleanup = $this->createMock(CleanupService::class);
+		$uploads = $this->ensureUploadsFolderExists();
+		// Ensure the child does not exist
+		try {
+			$child = $this->rootFolder->get('/testuser/uploads/missing');
+			$child->delete();
+		} catch (NotFoundException) {
+			// fine
+		}
 
-		$directory = $this->createMock(Directory::class);
-		$directory->method('getChild')->with('missing')->willThrowException(new SabreNotFound());
-
-		$folder = $this->createMock(Folder::class);
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($folder);
-		$rootFolder->method('get')->willReturn($folder);
-
-		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser', 'testpass');
-		$userSession->method('getUser')->willReturn($user);
-
-		$shareManager = $this->createMock(IManager::class);
-
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager,
-			])
-			->onlyMethods(['impl'])
-			->getMock();
-
-		$uploadHome->method('impl')->willReturn($directory);
+		$uploadHome = $this->makeUploadHomeForUser();
 
 		$this->expectException(SabreNotFound::class);
 		$uploadHome->getChild('missing');
 	}
 
 	public function testGetChildrenReturnsUploadFolders(): void {
-		$cleanup = $this->createMock(CleanupService::class);
+		$uploads = $this->ensureUploadsFolderExists();
+		try { $uploads->newFolder('a'); } catch (\Throwable) {}
+		try { $uploads->newFolder('b'); } catch (\Throwable) {}
 
-		$folderChild1 = $this->createMock(Folder::class);
-		$folderChild2 = $this->createMock(Folder::class);
-		$directory = $this->createMock(Directory::class);
-		$directory->method('getChildren')->willReturn([$folderChild1, $folderChild2]);
-
-		$folder = $this->createMock(Folder::class);
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($folder);
-		$rootFolder->method('get')->willReturn($folder);
-
-		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser', 'testpass');
-		$userSession->method('getUser')->willReturn($user);
-		$shareManager = $this->createMock(IManager::class);
-
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager
-			])
-			->onlyMethods(['impl'])
-			->getMock();
-
-		$uploadHome->method('impl')->willReturn($directory);
+		$uploadHome = $this->makeUploadHomeForUser();
 
 		$children = $uploadHome->getChildren();
 		$this->assertIsArray($children);
+		$this->assertNotEmpty($children);
 		$this->assertContainsOnlyInstancesOf(UploadFolder::class, $children);
 	}
 
 	public function testChildExistsReturnsTrueIfChildExists(): void {
-		$child = $this->createMock(UploadFolder::class);
-		$mock = $this->getMockBuilder(UploadHome::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['getChild'])
-			->getMock();
-		$mock->method('getChild')->with('child')->willReturn($child);
+		$uploads = $this->ensureUploadsFolderExists();
+		try { $uploads->newFolder('child'); } catch (\Throwable) {}
 
-		$this->assertTrue($mock->childExists('child'));
+		$uploadHome = $this->makeUploadHomeForUser();
+
+		$this->assertTrue($uploadHome->childExists('child'));
 	}
 
 	public function testChildExistsReturnsFalseIfNoChild(): void {
-		// This test documents (and asserts) the current broken implementation of childExists():
-		// Instead of returning false, it throws if the child is missing, due to not catching the NotFound exception.
-		// This matches the current UploadHome implementation, but should be fixed.
+		// This test documents the current behavior: childExists() will throw SabreNotFound via getChild()
+		// The current implementation is broken. Instead of returning false, it throws if the child is missing, 
+		// due to not catching the NotFound exception.  This matches the current UploadHome implementation, but 
+		// should be fixed.
+		$uploads = $this->ensureUploadsFolderExists();
+		// Ensure it does not exist
+		try {
+			$child = $this->rootFolder->get('/testuser/uploads/nochil');
+			$child->delete();
+		} catch (NotFoundException) {
+			// ok
+		}
 
-		$mock = $this->getMockBuilder(UploadHome::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['getChild'])
-			->getMock();
-		// Simulate getChild throwing for a missing child.
-		$mock->method('getChild')->with('nochil')->willThrowException(new SabreNotFound());
+		$uploadHome = $this->makeUploadHomeForUser();
 
 		$this->expectException(SabreNotFound::class);
-		$mock->childExists('nochil');
+		$uploadHome->childExists('nochil');
 	}
 
 	public function testDeleteProxiesToImplDelete(): void {
-		$cleanup = $this->createMock(CleanupService::class);
-		$directory = $this->createMock(Directory::class);
-		$directory->expects($this->once())->method('delete');
+		// Ensure uploads exists, then delete via UploadHome
+		$this->ensureUploadsFolderExists();
 
-		$folder = $this->createMock(Folder::class);
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($folder);
-		$rootFolder->method('get')->willReturn($folder);
-
-		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser', 'testpass');
-		$userSession->method('getUser')->willReturn($user);
-
-		$shareManager = $this->createMock(IManager::class);
-
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager
-			])
-			->onlyMethods(['impl'])
-			->getMock();
-
-		$uploadHome->method('impl')->willReturn($directory);
-
+		$uploadHome = $this->makeUploadHomeForUser();
 		$uploadHome->delete();
+
+		// Verify folder was removed
+		$this->expectException(NotFoundException::class);
+		$this->rootFolder->get('/testuser/uploads');
 	}
 
 	public function testGetNameReturnsPrincipalName(): void {
-		$uploadHome = $this->getMockedUploadHomeUser();
+		$uploadHome = $this->makeUploadHomeForUser();
 		$this->assertEquals('testuser', $uploadHome->getName());
 	}
 
 	public function testGetLastModifiedProxiesToImpl(): void {
-		$cleanup = $this->createMock(CleanupService::class);
+		// Touch uploads folder to ensure it exists
+		$this->ensureUploadsFolderExists();
 
-		$directory = $this->createMock(Directory::class);
-		$directory->method('getLastModified')->willReturn(1234567890);
+		$uploadHome = $this->makeUploadHomeForUser();
 
-		$folder = $this->createMock(Folder::class);
-		$rootFolder = $this->createMock(IRootFolder::class);
-		$rootFolder->method('getUserFolder')->with('testuser')->willReturn($folder);
-		$rootFolder->method('get')->willReturn($folder);
-
-		$userSession = $this->createMock(IUserSession::class);
-		$user = $this->createUser('testuser', 'testpass');
-		$userSession->method('getUser')->willReturn($user);
-
-		$shareManager = $this->createMock(IManager::class);
-
-		$uploadHome = $this->getMockBuilder(UploadHome::class)
-			->setConstructorArgs([
-				$this->principalInfo,
-				$cleanup,
-				$rootFolder,
-				$userSession,
-				$shareManager
-			])
-			->onlyMethods(['impl'])
-			->getMock();
-
-		$uploadHome->method('impl')->willReturn($directory);
-
-		$this->assertEquals(1234567890, $uploadHome->getLastModified());
+		$mtime = $uploadHome->getLastModified();
+		$this->assertIsInt($mtime);
+		$this->assertGreaterThan(0, $mtime);
 	}
 }
