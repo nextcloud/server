@@ -42,6 +42,7 @@ OC.L10N.register(
     "Not found" : "Not found",
     "Node is locked" : "Node is locked",
     "Bad request" : "Bad request",
+    "Input text is too long" : "Input text is too long",
     "Requested task type does not exist" : "Requested task type does not exist",
     "Necessary language model provider is not available" : "Necessary language model provider is not available",
     "No text to image provider is available" : "No text to image provider is available",
