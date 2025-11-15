@@ -103,6 +103,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Ввод пропущенных учётных данных",
     "Credentials successfully set" : "Учётные данные успешно заданы",
     "Error while setting credentials: {error}" : "Ошибка при установке учётных данных: {error}",
+    "Checking storage …" : "Проверка хранилища …",
     "There was an error with this external storage." : "Произошла ошибка с этим внешним хранилищем.",
     "We were unable to check the external storage {basename}" : "Нам не удалось проверить внешнее хранилище {basename}",
     "Examine this faulty external storage configuration" : "Проверьте эту конфигурацию внешнего хранилища, она содержит ошибки",
