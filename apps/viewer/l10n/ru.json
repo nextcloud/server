@@ -17,6 +17,7 @@
     "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "This file no longer exists" : "Этот файл более не существует",
     "There is no plugin available to display this file type" : "Нет доступного плагина для отображения этого типа файла",
+    "Failed to save file before download" : "Не удалось сохранить файл перед загрузкой",
     "Edit" : "Редактировать",
     "Exit full screen" : "Выйти из полноэкранного режима",
     "Full screen" : "Во весь экран",

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Seu navegador não suporta vídeos.",
     "This file no longer exists" : "Esse arquivo não existe mais",
     "There is no plugin available to display this file type" : "Não há plug-in disponível para exibir este tipo de arquivo",
+    "Failed to save file before download" : "Falha ao salvar o arquivo antes do download",
     "Edit" : "Editar",
     "Exit full screen" : "Sair da tela cheia",
     "Full screen" : "Tela cheia",

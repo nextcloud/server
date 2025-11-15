@@ -17,6 +17,7 @@
     "Your browser does not support videos." : "Su brauser ei toeta videoid.",
     "This file no longer exists" : "Seda faili pole enam ei olemas",
     "There is no plugin available to display this file type" : "Selle failitüübi jaoks pole olemas vastavat vidinat",
+    "Failed to save file before download" : "Faili ei õnnestunud allalaadimise jaoks vormistada.",
     "Edit" : "Redigeeri",
     "Exit full screen" : "Välju täisekraanilt",
     "Full screen" : "Täisekraan",

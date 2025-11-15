@@ -17,6 +17,7 @@
     "Your browser does not support videos." : "お使いのブラウザーはビデオに対応していません。",
     "This file no longer exists" : "このファイルはもう存在しません",
     "There is no plugin available to display this file type" : "このファイルを表示するために必要なプラグインがありません。",
+    "Failed to save file before download" : "ダウンロード前にファイルの保存に失敗しました",
     "Edit" : "編集",
     "Exit full screen" : "全画面を終了",
     "Full screen" : "全画面",

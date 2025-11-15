@@ -6,12 +6,16 @@ OC.L10N.register(
     "Open sidebar" : "ເປີດແທບດ້ານຂ້າງ",
     "Download" : "ດາວໂຫລດ",
     "Delete" : "ລຶບ",
+    "View" : "ເບິ່ງ",
     "Name" : "ຊື່",
     "Save" : "ບັນທຶກ",
     "Back" : "ຫຼັງ",
     "Loading …" : "ກຳລັງໂຫຼດ",
+    "Reset" : "ຕັ້ງຄ່າໃໝ່",
     "Confirm" : "ຢືນຢັນ",
     "Original" : "ຕົ້ນສະບັບ",
+    "Image" : "ຮູບພາບ",
+    "Text" : "ຂໍ້ຄວາມ",
     "Size" : "ຂະຫນາດ"
 },
 "nplurals=1; plural=0;");
