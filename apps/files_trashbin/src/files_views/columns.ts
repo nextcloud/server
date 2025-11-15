@@ -9,7 +9,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Column } from '@nextcloud/files'
 import { formatRelativeTime, getCanonicalLocale, getLanguage, t } from '@nextcloud/l10n'
 import { dirname } from '@nextcloud/paths'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 export const originalLocation = new Column({
@@ -40,14 +40,13 @@ export const deletedBy = new Column({
 			return span
 		}
 
-		const UserBubble = Vue.extend(NcUserBubble)
-		const propsData = {
+		const el = document.createElement('div')
+		createApp(NcUserBubble, {
 			size: 32,
 			user: userId ?? undefined,
 			displayName: displayName ?? userId,
-		}
-		const userBubble = new UserBubble({ propsData }).$mount().$el
-		return userBubble as HTMLElement
+		}).mount(el)
+		return el
 	},
 	sort(nodeA, nodeB) {
 		const deletedByA = parseDeletedBy(nodeA)

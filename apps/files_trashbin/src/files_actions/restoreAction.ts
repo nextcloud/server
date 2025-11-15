@@ -1,20 +1,21 @@
-import type { Node, View } from '@nextcloud/files'
-
-import svgHistory from '@mdi/svg/svg/history.svg?raw'
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { Node, View } from '@nextcloud/files'
+
+import svgHistory from '@mdi/svg/svg/history.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl } from '@nextcloud/router'
-import logger from '../../../files/src/logger.ts'
 import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
+import { logger } from '../logger.ts'
 
 export const restoreAction = new FileAction({
 	id: 'restore',
@@ -54,7 +55,7 @@ export const restoreAction = new FileAction({
 			emit('files:node:deleted', node)
 			return true
 		} catch (error) {
-			if (error.response?.status === 507) {
+			if (isAxiosError(error) && error.response?.status === 507) {
 				showError(t('files_trashbin', 'Not enough free space to restore the file/folder'))
 			}
 			logger.error('Failed to restore node', { error, node })

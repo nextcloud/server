@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Node, View } from '@nextcloud/files'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
@@ -11,9 +12,12 @@ import { FileAction, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import PQueue from 'p-queue'
-import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
 import logger from '../logger.ts'
 import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
+
+// TODO: once the files app is migrated to the new frontend use the import instead:
+// import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+const TRASHBIN_VIEW_ID = 'trashbin'
 
 const queue = new PQueue({ concurrency: 5 })
 

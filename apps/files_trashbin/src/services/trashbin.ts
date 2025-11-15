@@ -1,11 +1,12 @@
-import type { ContentsWithRoot, File, Folder } from '@nextcloud/files'
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { ContentsWithRoot, Folder, Node } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { davResultToNode, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
+import { resultToNode as davResultToNode, getDavNameSpaces, getDavProperties } from '@nextcloud/files/dav'
 import { generateUrl } from '@nextcloud/router'
 import { client, rootPath } from './client.ts'
 
@@ -22,18 +23,21 @@ const data = `<?xml version="1.0"?>
 </d:propfind>`
 
 /**
+ * Converts a WebDAV file stat to a File or Folder
+ * This will fix the preview URL attribute for trashbin items
  *
- * @param stat
+ * @param stat - The file stat object from WebDAV response
  */
-function resultToNode(stat: FileStat): File | Folder {
+function resultToNode(stat: FileStat): Node {
 	const node = davResultToNode(stat, rootPath)
 	node.attributes.previewUrl = generateUrl('/apps/files_trashbin/preview?fileId={fileid}&x=32&y=32', { fileid: node.fileid })
 	return node
 }
 
 /**
+ * Get the contents of a trashbin folder
  *
- * @param path
+ * @param path - The path of the trashbin folder to get contents from
  */
 export async function getContents(path = '/'): Promise<ContentsWithRoot> {
 	const contentsResponse = await client.getDirectoryContents(`${rootPath}${path}`, {

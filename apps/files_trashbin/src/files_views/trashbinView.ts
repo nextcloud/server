@@ -1,8 +1,9 @@
-import svgDelete from '@mdi/svg/svg/trash-can-outline.svg?raw'
-/**
+/*!
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import svgDelete from '@mdi/svg/svg/trash-can-outline.svg?raw'
 import { View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { getContents } from '../services/trashbin.ts'

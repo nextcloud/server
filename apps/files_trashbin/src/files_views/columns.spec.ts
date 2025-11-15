@@ -180,14 +180,14 @@ describe('files_trashbin: file list columns', () => {
 				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'user-id' } })
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toMatch(/\suser-id\s/)
+				expect(el.textContent.trim()).toBe('user-id')
 			})
 
 			it('renders a node with deleting user display name', () => {
 				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-display-name': 'user-name', 'trashbin-deleted-by-id': 'user-id' } })
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toMatch(/\suser-name\s/)
+				expect(el.textContent.trim()).toBe('user-name')
 			})
 
 			it('renders a node even when information is missing', () => {

@@ -3,6 +3,8 @@
     "Invalid image" : "ບໍ່ມີຮູບພາບ",
     "Files" : "ຟາຍ",
     "seconds ago" : "ວິນາທີຜ່ານມາ",
+    "%1$s (renamed)" : "%1$s (ປ່ຽນຊື່ແລ້ວ)",
+    "renamed file" : "ໄຟລ໌ທີ່ປ່ຽນຊື່ແລ້ວ",
     "Filename contains at least one invalid character" : "ຊື່ຟາຍມີລັກສະນະທີ່ບໍ່ຖືກຕ້ອງ",
     "__language_name__" : "ຂີ້ຕົວະ",
     "Apps" : "ແອັບພລິເຄຊັນ",
@@ -15,6 +17,12 @@
     "Address" : "ທີ່ຢູ່",
     "About" : "ກ່ຽວກັບ",
     "Role" : "ພາລະບົດບາດ",
+    "%1$s shared %2$s with you" : "%1$s ໄດ້ແບ່ງປັນ %2$s ໃຫ້ທ່ານ",
+    "Open %s" : "ເປີດ %s",
+    "Unknown share type" : "ບໍ່ຮູ້ຈັກປະເພດການແບ່ງປັນ",
+    "Question" : "ຄຳຖາມ",
+    "Text" : "ຂໍ້ຄວາມ",
+    "Summary" : "ສະຫຼຸບ",
     "Translate" : "ແປ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
