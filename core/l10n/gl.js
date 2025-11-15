@@ -263,6 +263,7 @@ OC.L10N.register(
     "An internal error occurred." : "Produciuse un erro interno",
     "Please try again or contact your administrator." : "Ténteo de novo ou póñase en contacto coa administración desta instancia.",
     "Password" : "Contrasinal",
+    "Remember me" : "Lembrarmo",
     "Log in with a device" : "Acceder cun dispositivo",
     "Login or email" : "Acceso ou correo-e",
     "Your account is not setup for passwordless login." : "A súa conta non está configurada para o acceso sen contrasinal.",

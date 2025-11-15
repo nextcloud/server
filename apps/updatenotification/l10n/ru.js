@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Канал обновлён",
     "Web updater is disabled" : "Веб обновление отключено",
+    "Configuration is read-only" : "Конфигурация доступна только для чтения",
     "App updated" : "Приложение обновлено",
     "See what's new" : "Просмотреть нововведения",
     "{app} updated to version {version}" : "Приложение «{app}» обновлено до версии {version}",
