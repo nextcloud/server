@@ -351,13 +351,14 @@ export default {
 				})
 		},
 
-		updateAll() {
+		async updateAll() {
 			const limit = pLimit(1)
-			this.apps
+			const updateTasks = this.apps
 				.filter((app) => app.update)
 				.map((app) => limit(() => {
 					this.update(app.id)
 				}))
+			await Promise.all(updateTasks)
 		},
 	},
 }
