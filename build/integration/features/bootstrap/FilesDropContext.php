@@ -57,7 +57,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @When Creating folder :folder in drop
 	 */
-	public function creatingFolderInDrop($folder) {
+	public function creatingFolderInDrop($folder, $nickname = null) {
 		$client = new Client();
 		$options = [];
 		if (count($this->lastShareData->data->element) > 0) {
@@ -73,10 +73,22 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 			'X-REQUESTED-WITH' => 'XMLHttpRequest',
 		];
 
+		if ($nickname) {
+			$options['headers']['X-NC-NICKNAME'] = $nickname;
+		}
+
 		try {
 			$this->response = $client->request('MKCOL', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
+	}
+
+
+	/**
+	 * @When Creating folder :folder in drop as :nickName
+	 */
+	public function creatingFolderInDropWithNickname($folder, $nickname) {
+		return $this->creatingFolderInDrop($folder, $nickname);
 	}
 }
