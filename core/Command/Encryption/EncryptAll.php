@@ -13,6 +13,7 @@ use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
@@ -55,19 +56,18 @@ class EncryptAll extends Command {
 		$this->setHelp(
 			'This will encrypt all files for all users. '
 			. 'Please make sure that no user access his files during this process!'
+		)->addOption(
+			'no-interaction',
+			'n',
+			InputOption::VALUE_NONE,
+			'Do not ask any interactive question'
 		);
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if (!$input->isInteractive()) {
-			$output->writeln('Invalid TTY.');
-			$output->writeln('If you are trying to execute the command in a Docker ');
-			$output->writeln("container, do not forget to execute 'docker exec' with");
-			$output->writeln("the '-i' and '-t' options.");
-			$output->writeln('');
-			return 1;
-		}
-
 		if ($this->encryptionManager->isEnabled() === false) {
 			throw new \Exception('Server side encryption is not enabled');
 		}
@@ -83,22 +83,32 @@ class EncryptAll extends Command {
 		$output->writeln('Please ensure that no user accesses their files during this time!');
 		$output->writeln('Note: The encryption module you use determines which files get encrypted.');
 		$output->writeln('');
+		$isNoInteraction = $input->getOption('no-interaction');
 		$question = new ConfirmationQuestion('Do you really want to continue? (y/n) ', false);
-		if ($this->questionHelper->ask($input, $output, $question)) {
-			$this->forceMaintenanceAndTrashbin();
-
-			try {
-				$defaultModule = $this->encryptionManager->getEncryptionModule();
-				$defaultModule->encryptAll($input, $output);
-			} catch (\Exception $ex) {
-				$this->resetMaintenanceAndTrashbin();
-				throw $ex;
-			}
-
-			$this->resetMaintenanceAndTrashbin();
-			return self::SUCCESS;
+		if ($input->isInteractive() && $this->questionHelper->ask($input, $output, $question)) {
+			//run encryption with the answer yes in interactive mode
+			return $this->runEncryption($input, $output);
+		} elseif (!$input->isInteractive() && $isNoInteraction) {
+			//run encryption without the question in non-interactive mode if -n option is available
+			return $this->runEncryption($input, $output);
 		}
+		//abort on no in interactive mode
 		$output->writeln('aborted');
 		return self::FAILURE;
+	}
+
+	private function runEncryption(InputInterface $input, OutputInterface $output): int {
+		$this->forceMaintenanceAndTrashbin();
+
+		try {
+			$defaultModule = $this->encryptionManager->getEncryptionModule();
+			$defaultModule->encryptAll($input, $output);
+		} catch (\Exception $ex) {
+			$this->resetMaintenanceAndTrashbin();
+			throw $ex;
+		}
+
+		$this->resetMaintenanceAndTrashbin();
+		return self::SUCCESS;
 	}
 }
