@@ -243,6 +243,7 @@ OC.L10N.register(
     "An internal error occurred." : "Узнікла ўнутраная памылка.",
     "Please try again or contact your administrator." : "Паспрабуйце яшчэ раз або звярніцеся да адміністратара.",
     "Password" : "Пароль",
+    "Remember me" : "Запомніць мяне",
     "Log in with a device" : "Увайсці з дапамогай прылады",
     "Login or email" : "Лагін або электронная пошта",
     "Your connection is not secure" : "Ваша злучэнне не з'яўляецца бяспечным",

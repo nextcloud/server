@@ -263,6 +263,7 @@ OC.L10N.register(
     "An internal error occurred." : "Се случи внатрешна грешка.",
     "Please try again or contact your administrator." : "Ве молиме обидете се повторно или контактирајте го вашиот администратор.",
     "Password" : "Лозинка",
+    "Remember me" : "Запамти ме",
     "Log in with a device" : "Најавете се со уред",
     "Login or email" : "Корисничко име или лозинка",
     "Your account is not setup for passwordless login." : "Вашата сметка не е поставена за најавување без лозинка.",

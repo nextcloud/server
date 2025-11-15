@@ -263,6 +263,7 @@ OC.L10N.register(
     "An internal error occurred." : "Tekkis sisemine viga.",
     "Please try again or contact your administrator." : "Palun proovi uuesti või võta ühendust oma peakasutajaga.",
     "Password" : "Salasõna",
+    "Remember me" : "Jäta mind meelde",
     "Log in with a device" : "Logi sisse seadmega",
     "Login or email" : "Kasutajanimi või e-posti aadress",
     "Your account is not setup for passwordless login." : "Su konto ei ole seadistatud salasõnata sisenemise jaoks.",
