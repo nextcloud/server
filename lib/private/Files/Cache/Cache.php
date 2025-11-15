@@ -18,6 +18,7 @@ use OC\SystemConfig;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Cache\CacheEntryUpdatedEvent;
@@ -620,13 +621,17 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
+		$cacheEntryRemovedEvents = [];
 		foreach (array_combine($deletedIds, $deletedPaths) as $fileId => $filePath) {
-			$cacheEntryRemovedEvent = new CacheEntryRemovedEvent(
+			$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
 				$this->storage,
 				$filePath,
 				$fileId,
 				$this->getNumericStorageId()
 			);
+		}
+		$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent($cacheEntryRemovedEvents));
+		foreach ($cacheEntryRemovedEvents as $cacheEntryRemovedEvent) {
 			$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
 		}
 	}
@@ -791,7 +796,10 @@ class Cache implements ICache {
 			$this->connection->commit();
 
 			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
-				$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId()));
+				$event = new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId());
+				$this->eventDispatcher->dispatchTyped($event);
+				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
+
 				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
 				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
