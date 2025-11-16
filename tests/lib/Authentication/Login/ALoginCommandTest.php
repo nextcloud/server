@@ -83,6 +83,7 @@ abstract class ALoginCommandTest extends TestCase {
 			$this->request,
 			$this->username,
 			$this->password,
+			true,
 			$this->redirectUrl
 		);
 		$data->setUser($this->user);
@@ -94,6 +95,7 @@ abstract class ALoginCommandTest extends TestCase {
 			$this->request,
 			$this->username,
 			$this->password,
+			true,
 			null,
 			$this->timezone,
 			$this->timeZoneOffset
