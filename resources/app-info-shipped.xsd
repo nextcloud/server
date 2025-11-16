@@ -600,7 +600,7 @@
 
     <xs:complexType name="nextcloud">
         <xs:attribute name="min-version" type="version" use="required"/>
-        <xs:attribute name="max-version" type="version" use="required"/>
+        <xs:attribute name="max-version" type="version" use="optional"/>
     </xs:complexType>
 
     <xs:simpleType name="shell-command">
