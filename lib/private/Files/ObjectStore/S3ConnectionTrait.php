@@ -28,6 +28,8 @@ trait S3ConnectionTrait {
 
 	protected ?S3Client $connection = null;
 
+	private bool $usePresignedUrl = false;
+
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
 			throw new \Exception('Bucket has to be configured.');
@@ -93,12 +95,15 @@ trait S3ConnectionTrait {
 			)
 		);
 
+		$this->usePresignedUrl = $this->params['use_presigned_url'] ?? false;
+
 		$options = [
 			'version' => $this->params['version'] ?? 'latest',
 			'credentials' => $provider,
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],
 			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
+			'proxy' => isset($this->params['proxy']) ? $this->params['proxy'] : false,
 			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider()),
 			'csm' => false,
 			'use_arn_region' => false,
@@ -255,5 +260,9 @@ trait S3ConnectionTrait {
 			'SSECustomerKey' => $rawKey,
 			'SSECustomerKeyMD5' => md5($rawKey, true)
 		];
+	}
+
+	public function isUsePresignedUrl(): bool {
+		return $this->usePresignedUrl;
 	}
 }

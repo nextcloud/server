@@ -20,6 +20,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStreamStorage {
@@ -258,8 +259,14 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return call_user_func_array([$this->getWrapperStorage(), $method], $args);
 	}
 
+	#[Override]
 	public function getDirectDownload(string $path): array|false {
 		return $this->getWrapperStorage()->getDirectDownload($path);
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		return $this->getWrapperStorage()->getDirectDownloadById($fileId);
 	}
 
 	public function getAvailability(): array {

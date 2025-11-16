@@ -538,19 +538,16 @@ class File extends Node implements IFile {
 		return Server::get(IMimeTypeDetector::class)->getSecureMimeType($mimeType);
 	}
 
-	/**
-	 * @return array|bool
-	 */
-	public function getDirectDownload() {
+	public function getDirectDownload(): array|false {
 		if (Server::get(IAppManager::class)->isEnabledForUser('encryption')) {
-			return [];
+			return false;
 		}
-		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
-		if (is_null($storage)) {
-			return [];
+		$node = $this->getNode();
+		$storage = $node->getStorage();
+		if (!$storage) {
+			return false;
 		}
-
-		return $storage->getDirectDownload($internalPath);
+		return $storage->getDirectDownloadById((string)$node->getId());
 	}
 
 	/**
