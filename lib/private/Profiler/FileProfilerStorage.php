@@ -17,6 +17,17 @@ class FileProfilerStorage {
 	// Folder where profiler data are stored.
 	private string $folder;
 
+	/** @psalm-suppress UndefinedClass */
+	public const allowedClasses = [
+		\OCA\Profiler\DataCollector\EventLoggerDataProvider::class,
+		\OCA\Profiler\DataCollector\HttpDataCollector::class,
+		\OCA\Profiler\DataCollector\MemoryDataCollector::class,
+		\OCA\User_LDAP\DataCollector\LdapDataCollector::class,
+		\OC\Memcache\ProfilerWrapperCache::class,
+		\OC\Profiler\RoutingDataCollector::class,
+		\OC\DB\DbDataCollector::class,
+	];
+
 	/**
 	 * Constructs the file storage using a "dsn-like" path.
 	 *
@@ -97,11 +108,21 @@ class FileProfilerStorage {
 			return null;
 		}
 
-		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://' . $file;
+		$h = fopen($file, 'r');
+		flock($h, \LOCK_SH);
+		$data = stream_get_contents($h);
+		flock($h, \LOCK_UN);
+		fclose($h);
+
+		if (\function_exists('gzdecode')) {
+			$data = @gzdecode($data) ?: $data;
 		}
 
-		return $this->createProfileFromData($token, unserialize(file_get_contents($file)));
+		if (!$data = unserialize($data, ['allowed_classes' => self::allowedClasses])) {
+			return null;
+		}
+
+		return $this->createProfileFromData($token, $data);
 	}
 
 	/**
@@ -139,14 +160,13 @@ class FileProfilerStorage {
 			'status_code' => $profile->getStatusCode(),
 		];
 
-		$context = stream_context_create();
+		$data = serialize($data);
 
-		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://' . $file;
-			stream_context_set_option($context, 'zlib', 'level', 3);
+		if (\function_exists('gzencode')) {
+			$data = gzencode($data, 3);
 		}
 
-		if (file_put_contents($file, serialize($data), 0, $context) === false) {
+		if (file_put_contents($file, $data, \LOCK_EX) === false) {
 			return false;
 		}
 
@@ -266,11 +286,21 @@ class FileProfilerStorage {
 				continue;
 			}
 
-			if (\function_exists('gzcompress')) {
-				$file = 'compress.zlib://' . $file;
+			$h = fopen($file, 'r');
+			flock($h, \LOCK_SH);
+			$data = stream_get_contents($h);
+			flock($h, \LOCK_UN);
+			fclose($h);
+
+			if (\function_exists('gzdecode')) {
+				$data = @gzdecode($data) ?: $data;
 			}
 
-			$profile->addChild($this->createProfileFromData($token, unserialize(file_get_contents($file)), $profile));
+			if (!$data = unserialize($data, ['allowed_classes' => self::allowedClasses])) {
+				continue;
+			}
+
+			$profile->addChild($this->createProfileFromData($token, $data, $profile));
 		}
 
 		return $profile;
