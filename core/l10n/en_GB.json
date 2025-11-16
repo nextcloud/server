@@ -261,6 +261,7 @@
     "An internal error occurred." : "An internal error occurred.",
     "Please try again or contact your administrator." : "Please try again or contact your administrator.",
     "Password" : "Password",
+    "Remember me" : "Remember me",
     "Log in with a device" : "Log in with a device",
     "Login or email" : "Login or email",
     "Your account is not setup for passwordless login." : "Your account is not setup for passwordless login.",

@@ -63,6 +63,7 @@ OC.L10N.register(
     "Update" : "يېڭىلا",
     "Delete" : "ئۆچۈر",
     "Reset" : "ئەسلىگە قايتۇرۇش",
+    "Loading …" : "يۈكلەۋاتىدۇ ...",
     "{displayName} (hidden)" : "{displayName} (يوشۇرۇن)",
     "{displayName} (restricted)" : "{displayName} (چەكلەنگەن)",
     "Failed to apply tags changes" : "خەتكۈچ ئۆزگەرتىش قوللانمىدى",
