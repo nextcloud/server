@@ -17,6 +17,11 @@ interface ITheme {
 
 	public const TYPE_THEME = 1;
 	public const TYPE_FONT = 2;
+	/**
+	 * A supplementary theme where multiple can be active at the same time.
+	 * @since 33.0.0
+	 */
+	public const TYPE_SUPPLEMENTARY = 3;
 
 	/**
 	 * Unique theme id
