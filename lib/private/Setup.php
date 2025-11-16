@@ -14,6 +14,7 @@ use Exception;
 use InvalidArgumentException;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
+use OC\Core\BackgroundJobs\ExpirePreviewsJob;
 use OC\Core\BackgroundJobs\GenerateMetadataJob;
 use OC\Core\BackgroundJobs\MovePreviewJob;
 use OC\Log\Rotate;
@@ -507,6 +508,7 @@ class Setup {
 		$jobList->add(CleanupDeletedUsers::class);
 		$jobList->add(GenerateMetadataJob::class);
 		$jobList->add(MovePreviewJob::class);
+		$jobList->add(ExpirePreviewsJob::class);
 	}
 
 	/**
