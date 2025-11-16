@@ -19,6 +19,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Din webbläsare har inte stöd för video.",
     "This file no longer exists" : "Den här filen finns inte längre",
     "There is no plugin available to display this file type" : "Det finns inget tillägg tillgängligt för att visa denna filtyp",
+    "Failed to save file before download" : "Kunde inte spara filen innan nedladdning",
     "Edit" : "Ändra",
     "Exit full screen" : "Avsluta fullskärm",
     "Full screen" : "Fullskärm",
