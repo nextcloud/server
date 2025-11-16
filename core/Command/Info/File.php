@@ -96,7 +96,9 @@ class File extends Command {
 			}, $children));
 			if ($childSize != $node->getSize()) {
 				$output->writeln('    <error>warning: folder has a size of ' . Util::humanFileSize($node->getSize()) . " but it's children sum up to " . Util::humanFileSize($childSize) . '</error>.');
-				$output->writeln('    Run <info>occ files:scan --path ' . $node->getPath() . '</info> to attempt to resolve this.');
+				if (!$node->getStorage()->instanceOfStorage(ObjectStoreStorage::class)) {
+					$output->writeln('    Run <info>occ files:scan --path ' . $node->getPath() . '</info> to attempt to resolve this.');
+				}
 			}
 			if ($showChildren) {
 				$output->writeln('  children: ' . count($children) . ':');
