@@ -44,7 +44,7 @@
     "@nextcloud/calendar-availability-vue": "^3.0.0",
     "@nextcloud/dialogs": "^7.1.0",
     "@nextcloud/moment": "^1.3.5",
-    "@nextcloud/password-confirmation": "^6.0.1",
+    "@nextcloud/password-confirmation": "^6.0.2",
     "@nextcloud/paths": "^2.3.0",
     "@nextcloud/vue": "^9.1.0",
     "pinia": "^3.0.3",
