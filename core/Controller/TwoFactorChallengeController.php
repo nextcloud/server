@@ -7,6 +7,7 @@
  */
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC_User;
 use OCP\AppFramework\Controller;
@@ -67,16 +68,11 @@ class TwoFactorChallengeController extends Controller {
 		return [$regular, $backup];
 	}
 
-	/**
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @param string $redirect_url
-	 * @return StandaloneTemplateResponse
-	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/selectchallenge')]
-	public function selectChallenge($redirect_url) {
+	#[TwoFactorSetUpDoneRequired]
+	public function selectChallenge(string $redirect_url): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$allProviders = $providerSet->getProviders();
@@ -95,18 +91,12 @@ class TwoFactorChallengeController extends Controller {
 		return new StandaloneTemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
 
-	/**
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 * @param string $challengeProviderId
-	 * @param string $redirect_url
-	 * @return StandaloneTemplateResponse|RedirectResponse
-	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[UseSession]
+	#[TwoFactorSetUpDoneRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/challenge/{challengeProviderId}')]
-	public function showChallenge($challengeProviderId, $redirect_url) {
+	public function showChallenge(string $challengeProviderId, string $redirect_url): StandaloneTemplateResponse|RedirectResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$provider = $providerSet->getProvider($challengeProviderId);
@@ -148,21 +138,13 @@ class TwoFactorChallengeController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @TwoFactorSetUpDoneRequired
-	 *
-	 *
-	 * @param string $challengeProviderId
-	 * @param string $challenge
-	 * @param string $redirect_url
-	 * @return RedirectResponse
-	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/challenge/{challengeProviderId}')]
+	#[TwoFactorSetUpDoneRequired]
 	#[UserRateLimit(limit: 5, period: 100)]
-	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
+	public function solveChallenge(string $challengeProviderId, string $challenge, ?string $redirect_url = null): RedirectResponse {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
 		if (is_null($provider)) {

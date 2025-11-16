@@ -13,11 +13,12 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -41,17 +42,15 @@ class JsController extends Controller {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 * @NoTwoFactorRequired
-	 *
 	 * @param string $fileName js filename with extension
 	 * @param string $appName js folder name
-	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/js/{appName}/{fileName}')]
-	public function getJs(string $fileName, string $appName): Response {
+	#[NoTwoFactorRequired]
+	#[NoSameSiteCookieRequired]
+	public function getJs(string $fileName, string $appName): FileDisplayResponse|NotFoundResponse {
 		try {
 			$folder = $this->appData->getFolder($appName);
 			$gzip = false;
@@ -76,15 +75,11 @@ class JsController extends Controller {
 	}
 
 	/**
-	 * @NoTwoFactorRequired
-	 *
-	 * @param ISimpleFolder $folder
-	 * @param string $fileName
 	 * @param bool $gzip is set to true if we use the gzip file
-	 * @return ISimpleFile
 	 *
 	 * @throws NotFoundException
 	 */
+	#[NoTwoFactorRequired]
 	private function getFile(ISimpleFolder $folder, string $fileName, bool &$gzip): ISimpleFile {
 		$encoding = $this->request->getHeader('Accept-Encoding');
 
