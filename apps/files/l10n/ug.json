@@ -273,6 +273,8 @@
     "Select all" : "ھەممىنى تاللاڭ",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "سىز يۈكلىمەكچى بولغان ھۆججەتلەر بۇ مۇلازىمېتىردا ھۆججەت يوللاشنىڭ ئەڭ چوڭ چوڭلۇقىدىن ئېشىپ كەتتى.",
+    "%1$s (renamed)" : "%1$s (قايتا ئسىملاندى)",
+    "renamed file" : "قايتا ئىسىملانغان ھۆججەت",
     "Upload (max. %s)" : "يۈكلەش (max.% S)",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" تۈركۈمدىكى ھەرىكەت مۇۋەپپەقىيەتلىك ئىجرا قىلىندى",
     "\"{displayName}\" action failed" : "\"{displayName}\" ھەرىكىتى مەغلۇپ بولدى",
