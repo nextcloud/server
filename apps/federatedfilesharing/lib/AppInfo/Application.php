@@ -7,7 +7,6 @@
  */
 namespace OCA\FederatedFileSharing\AppInfo;
 
-use Closure;
 use OCA\FederatedFileSharing\Listeners\LoadAdditionalScriptsListener;
 use OCA\FederatedFileSharing\Notifier;
 use OCA\FederatedFileSharing\OCM\CloudFederationProviderFiles;
@@ -16,8 +15,8 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\Federation\ICloudFederationProviderManager;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -30,11 +29,11 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(Closure::fromCallable([$this, 'registerCloudFederationProvider']));
+		$context->injectFn($this->registerCloudFederationProvider(...));
 	}
 
 	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
-		IAppContainer $appContainer): void {
+		ContainerInterface $appContainer): void {
 		$fileResourceTypes = ['file', 'folder'];
 		foreach ($fileResourceTypes as $type) {
 			$manager->addCloudFederationProvider($type,

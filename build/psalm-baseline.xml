@@ -1216,11 +1216,6 @@
 			)]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/federatedfilesharing/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[IAppContainer]]></code>
-    </DeprecatedInterface>
-  </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
     <InvalidArgument>
       <code><![CDATA[$id]]></code>
