@@ -16,6 +16,8 @@ use OCA\Files_Sharing\Exceptions\BrokenPath;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -44,10 +46,10 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		array $mountpoints,
 		$arguments,
 		IStorageFactory $loader,
-		private View $recipientView,
 		CappedMemoryCache $folderExistCache,
 		private IEventDispatcher $eventDispatcher,
 		private IUser $user,
+		private IRootFolder $rootFolder,
 		bool $alreadyVerified,
 	) {
 		$this->superShare = $arguments['superShare'];
@@ -80,24 +82,26 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
-		$event = new VerifyMountPointEvent($share, $this->recipientView, $parent);
+		$event = new VerifyMountPointEvent($share, $this->user, $parent);
 		$this->eventDispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
+
+		$userFolder = $this->rootFolder->getUserFolder($this->user->getUID());
 
 		$cached = $folderExistCache->get($parent);
 		if ($cached) {
 			$parentExists = $cached;
 		} else {
-			$parentExists = $this->recipientView->is_dir($parent);
+			$parentExists = $userFolder->get($parent) instanceof Folder;
 			$folderExistCache->set($parent, $parentExists);
 		}
 		if (!$parentExists) {
-			$parent = Helper::getShareFolder($this->recipientView, $this->user->getUID());
+			$parent = Helper::getShareFolder(new View('/' . $this->user->getUID() . '/files'), $this->user->getUID());
 		}
 
 		$newMountPoint = $this->generateUniqueTarget(
 			Filesystem::normalizePath($parent . '/' . $mountPoint),
-			$this->recipientView,
+			$userFolder,
 			$mountpoints
 		);
 
@@ -128,22 +132,19 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 
 
 	/**
-	 * @param string $path
-	 * @param View $view
 	 * @param SharedMount[] $mountpoints
-	 * @return mixed
 	 */
-	private function generateUniqueTarget($path, $view, array $mountpoints) {
+	private function generateUniqueTarget(string $path, Folder $userFolder, array $mountpoints): string {
 		$pathinfo = pathinfo($path);
 		$ext = isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '';
 		$name = $pathinfo['filename'];
 		$dir = $pathinfo['dirname'];
 
 		$i = 2;
-		$absolutePath = $this->recipientView->getAbsolutePath($path) . '/';
-		while ($view->file_exists($path) || isset($mountpoints[$absolutePath])) {
+		$absolutePath = $userFolder->getFullPath($path) . '/';
+		while ($userFolder->nodeExists($path) || isset($mountpoints[$absolutePath])) {
 			$path = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
-			$absolutePath = $this->recipientView->getAbsolutePath($path) . '/';
+			$absolutePath = $userFolder->getFullPath($path) . '/';
 			$i++;
 		}
 
