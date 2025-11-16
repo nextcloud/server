@@ -573,6 +573,7 @@ OC.L10N.register(
     "Phone number" : "Telefonszám",
     "Role" : "Szerepkör",
     "X (formerly Twitter)" : "X (korábban Twitter)",
+    "Bluesky" : "Bluesky",
     "Website" : "Weboldal",
     "Profile visibility" : "Profil láthatósága",
     "Locale" : "Területi beállítás",

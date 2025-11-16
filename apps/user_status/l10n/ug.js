@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "ئىشخانىدىن چىقتى",
     "Working remotely" : "يىراقتىن ئىشلەش",
     "In a call" : "تېلېفوندا",
+    "Be right back" : "ھازىرلا قايتىمەن",
     "User status" : "ئىشلەتكۈچى ھالىتى",
     "Clear status after" : "كېيىنكى ھالەتنى ئېنىقلاش",
     "Emoji for your status message" : "ھالەت ئۇچۇرىڭىز ئۈچۈن Emoji",
