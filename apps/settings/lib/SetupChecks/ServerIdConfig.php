@@ -40,7 +40,7 @@ final class ServerIdConfig implements ISetupCheck {
 
 		if ($serverid === PHP_INT_MIN) {
 			return SetupResult::info(
-				$this->l10n->t('server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a serverid in your configuration.'),
+				$this->l10n->t('Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration.'),
 				$linkToDoc,
 			);
 		}
@@ -52,6 +52,6 @@ final class ServerIdConfig implements ISetupCheck {
 			);
 		}
 
-		return SetupResult::success($this->l10n->t('server identifier is configured and valid.'));
+		return SetupResult::success($this->l10n->t('Server identifier is configured and valid.'));
 	}
 }
