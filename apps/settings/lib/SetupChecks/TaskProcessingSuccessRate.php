@@ -48,7 +48,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 		if ($taskCount === 0) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'No scheduled tasks in the last day.',
+					'No scheduled tasks in the last %n day.',
 					'No scheduled tasks in the last %n days.',
 					$lastNDays
 				)
@@ -68,7 +68,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 		if (($failedCount / $taskCount) < self::MAX_FAILURE_PERCENTAGE) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'Most tasks were successful in the last day.',
+					'Most tasks were successful in the last %n day.',
 					'Most tasks were successful in the last %n days.',
 					$lastNDays
 				)
