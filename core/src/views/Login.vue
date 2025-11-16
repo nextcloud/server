@@ -164,7 +164,7 @@ export default {
 
 	methods: {
 		passwordResetFinished() {
-			window.location.href = generateUrl('login')
+			window.location.href = generateUrl('login') + '?direct=1'
 		},
 	},
 }
