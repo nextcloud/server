@@ -114,7 +114,7 @@ class Factory implements ICacheFactory {
 		if ($this->globalPrefix === null) {
 			$config = \OCP\Server::get(SystemConfig::class);
 			$versions = [];
-			if ($config->getValue('installed', false)) {
+			if ($config->getValue('installed', false) && !$config->getValue('maintenance', false)) {
 				$appConfig = \OCP\Server::get(IAppConfig::class);
 				// only get the enabled apps to clear the cache in case an app is enabled or disabled (e.g. clear routes)
 				$versions = $appConfig->getAppInstalledVersions(true);
