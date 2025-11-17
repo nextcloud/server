@@ -16,20 +16,16 @@ const store = useUserConfigStore()
 <template>
 	<NcAppSettingsSection id="appearance" :name="t('files', 'Appearance')">
 		<NcFormBox>
-			<NcFormBoxSwitch
-				v-model="store.userConfig.show_hidden"
+			<NcFormBoxSwitch v-model="store.userConfig.show_hidden"
 				:label="t('files', 'Show hidden files')"
 				@update:modelValue="store.update('show_hidden', $event)" />
-			<NcFormBoxSwitch
-				v-model="store.userConfig.show_mime_column"
+			<NcFormBoxSwitch v-model="store.userConfig.show_mime_column"
 				:label="t('files', 'Show file type column')"
 				@update:modelValue="store.update('show_mime_column', $event)" />
-			<NcFormBoxSwitch
-				v-model="store.userConfig.show_files_extensions"
+			<NcFormBoxSwitch v-model="store.userConfig.show_files_extensions"
 				:label="t('files', 'Show file extensions')"
 				@update:modelValue="store.update('show_files_extensions', $event)" />
-			<NcFormBoxSwitch
-				v-model="store.userConfig.crop_image_previews"
+			<NcFormBoxSwitch v-model="store.userConfig.crop_image_previews"
 				:label="t('files', 'Crop image previews')"
 				@update:modelValue="store.update('crop_image_previews', $event)" />
 		</NcFormBox>

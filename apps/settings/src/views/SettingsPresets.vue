@@ -24,6 +24,9 @@ const currentPreset = ref(loadState('settings', 'settings-selected-preset', 'NON
 const selectedPreset = ref(currentPreset.value)
 const savingPreset = ref(false)
 
+/**
+ *
+ */
 async function saveSelectedPreset() {
 	try {
 		savingPreset.value = true

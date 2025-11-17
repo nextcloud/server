@@ -45,8 +45,7 @@ async function showKeyboardShortcuts() {
 </script>
 
 <template>
-	<NcAppSettingsDialog
-		:legacy="false"
+	<NcAppSettingsDialog :legacy="false"
 		:name="t('files', 'Files settings')"
 		no-version
 		:open="open"

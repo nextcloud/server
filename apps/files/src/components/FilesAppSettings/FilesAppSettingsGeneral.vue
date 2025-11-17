@@ -16,25 +16,20 @@ const store = useUserConfigStore()
 </script>
 
 <template>
-	<NcAppSettingsSection
-		id="settings"
+	<NcAppSettingsSection id="settings"
 		:name="t('files', 'General')">
 		<NcFormBox>
-			<NcFormBoxSwitch
-				v-model="store.userConfig.sort_favorites_first"
+			<NcFormBoxSwitch v-model="store.userConfig.sort_favorites_first"
 				:label="t('files', 'Sort favorites first')"
 				@update:modelValue="store.update('sort_favorites_first', $event)" />
-			<NcFormBoxSwitch
-				v-model="store.userConfig.sort_folders_first"
+			<NcFormBoxSwitch v-model="store.userConfig.sort_folders_first"
 				:label="t('files', 'Sort folders before files')"
 				@update:modelValue="store.update('sort_folders_first', $event)" />
-			<NcFormBoxSwitch
-				v-model="store.userConfig.folder_tree"
+			<NcFormBoxSwitch v-model="store.userConfig.folder_tree"
 				:label="t('files', 'Enable folder tree view')"
 				@update:modelValue="store.update('folder_tree', $event)" />
 		</NcFormBox>
-		<NcRadioGroup
-			v-model="store.userConfig.default_view"
+		<NcRadioGroup v-model="store.userConfig.default_view"
 			:label="t('files', 'Default view')"
 			@update:modelValue="store.update('default_view', $event)">
 			<NcRadioGroupButton :label="t('files', 'All files')" value="files" />

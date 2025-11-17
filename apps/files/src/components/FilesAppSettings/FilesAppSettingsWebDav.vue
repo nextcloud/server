@@ -23,14 +23,12 @@ const isTwoFactorEnabled = loadState('files', 'isTwoFactorEnabled', false)
 	<NcAppSettingsSection id="webdav" name="WebDAV">
 		<NcFormBox>
 			<NcFormBoxCopyButton :label="t('files', 'WebDAV URL')" :value="webDavUrl" />
-			<NcFormBoxButton
-				v-if="isTwoFactorEnabled"
+			<NcFormBoxButton v-if="isTwoFactorEnabled"
 				:label="t('files', 'Create an app password')"
 				:description="t('files', 'Required for WebDAV authentication because Two-Factor Authentication is enabled for this account.')"
 				:href="appPasswordUrl"
 				target="_blank" />
-			<NcFormBoxButton
-				:label="t('files', 'How to access files using WebDAV')"
+			<NcFormBoxButton :label="t('files', 'How to access files using WebDAV')"
 				:href="webDavDocsUrl"
 				target="_blank" />
 		</NcFormBox>
