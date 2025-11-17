@@ -70,12 +70,14 @@ OC.L10N.register(
     "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "تەگلىك رەسىمنىڭ ئورنىغا ئاددىي تەگلىك رەڭگىمۇ تەڭشىيەلەيسىز. تەگلىك سۈرىتىنى ئىشلەتسىڭىز بۇ رەڭنى ئۆزگەرتسىڭىز ئەپ تىزىملىكى سىنبەلگىسىنىڭ رەڭگىگە تەسىر كۆرسىتىدۇ.",
     "Background color" : "تەگلىك رەڭگى",
     "Upload new logo" : "يېڭى بەلگە يۈكلەڭ",
-    "Logo" : "Logo",
+    "Logo" : "لوگو",
     "Upload new background and login image" : "يېڭى تەگلىك ۋە كىرىش سۈرىتىنى يۈكلەڭ",
     "Background and login image" : "تەگلىك ۋە كىرىش سۈرىتى",
     "Advanced options" : "ئىلغار تاللاشلار",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "يۈكلەنگەن لوگو ۋە رەڭگە ئاساسەن SVG رەسىملىرىنى قوللاپ ImageMagick PHP كېڭەيتىلمىسىنى قاچىلاڭ.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "بىز ئۈچۈن ئومۇميۈزلۈك كىرىش ناھايىتى مۇھىم. بىز تور ئۆلچىمىگە ئەمەل قىلىمىز ۋە ھەممە نەرسىنى ماۋۇسسىز ۋە ئېكران ئوقۇغۇچ قاتارلىق ياردەمچى يۇمشاق دېتاللارسىز ئىشلىتىشكە بولىدىغان قىلىپ تەكشۈرىمىز. بىز AA دەرىجىسىدە {linkstart}تور مەزمۇنىغا ئېرىشىش كۆرسەتمىسى{linkend} 2.1 گە رىئايە قىلىشنى، ھەتتا AAA دەرىجىسىدىمۇ يۇقىرى كونتراستلىق تېمىغا ئەمەل قىلىشنى مەقسەت قىلىمىز.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "ئەگەر مەسىلىگە يولۇقسىڭىز ، ئىككىلەنمەستىن ئۇلارنى {issuetracker} بىزنىڭ مەسىلە ئىز قوغلاش {linkend} on غا دوكلات قىلىڭ. ئەگەر قاتناشماقچى بولسىڭىز ، {designteam} بىزنىڭ لايىھىلەش ئەترىتىمىز {linkend} join غا قوشۇلۇڭ.",
+    "Unable to apply the setting." : "بۇ تەڭشەكنى قوللانغىلى بولمىدى.",
     "Appearance and accessibility settings" : "كۆرۈنۈش ۋە زىيارەت قىلىش تەڭشەكلىرى",
     "Misc accessibility options" : "قولايلىق تاللاش تاللانمىلىرى",
     "Enable blur background filter (may increase GPU load)" : "تۇتۇق تەگلىك سۈزگۈچنى قوزغىتىڭ (GPU يۈكىنى ئاشۇرۇشى مۇمكىن)",
@@ -117,6 +119,7 @@ OC.L10N.register(
     "Reset to default" : "سۈكۈتتىكى ھالىتىگە قايتىڭ",
     "Upload" : "يۈكلە",
     "Remove background image" : "تەگلىك سۈرىتىنى ئۆچۈرۈڭ",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "ھەممىباب زىيارەت قىلىش بىز ئۈچۈن ئىنتايىن مۇھىم. بىز تور ئۆلچىمىگە ئەمەل قىلىپ ، مائۇسسىز ۋە ئېكران ئوقۇغۇچ قاتارلىق ياردەمچى يۇمشاق دېتاللارنىڭ ھەممىسىنى ئىشلىتىشكە بولىدىغانلىقىنى تەكشۈرۈپ تۇرىمىز. بىز AA سەۋىيىسىدىكى {guidelines} تور مەزمۇنىنىڭ زىيارەت قىلىش قوللانمىسى {linkend} 2.1 گە ماسلىشىشنى مەقسەت قىلىمىز ، يۇقىرى سېلىشتۇرما تېمىسى ھەتتا AAA سەۋىيىسىدە."
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "ھەممىباب زىيارەت قىلىش بىز ئۈچۈن ئىنتايىن مۇھىم. بىز تور ئۆلچىمىگە ئەمەل قىلىپ ، مائۇسسىز ۋە ئېكران ئوقۇغۇچ قاتارلىق ياردەمچى يۇمشاق دېتاللارنىڭ ھەممىسىنى ئىشلىتىشكە بولىدىغانلىقىنى تەكشۈرۈپ تۇرىمىز. بىز AA سەۋىيىسىدىكى {guidelines} تور مەزمۇنىنىڭ زىيارەت قىلىش قوللانمىسى {linkend} 2.1 گە ماسلىشىشنى مەقسەت قىلىمىز ، يۇقىرى سېلىشتۇرما تېمىسى ھەتتا AAA سەۋىيىسىدە.",
+    ". Unable to apply the setting." : "بۇ تەڭشەكنى قوللانغىلى بولمىدى."
 },
 "nplurals=2; plural=(n != 1);");
