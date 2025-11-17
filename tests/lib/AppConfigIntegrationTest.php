@@ -115,7 +115,7 @@ class AppConfigIntegrationTest extends TestCase {
 		$sql->select('*')
 			->from('appconfig');
 		$result = $sql->executeQuery();
-		$this->originalConfig = $result->fetchAll();
+		$this->originalConfig = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$sql = $this->connection->getQueryBuilder();

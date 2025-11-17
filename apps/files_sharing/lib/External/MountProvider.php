@@ -57,7 +57,7 @@ class MountProvider implements IMountProvider {
 			->andWhere($qb->expr()->eq('accepted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
 		$result = $qb->executeQuery();
 		$mounts = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$row['manager'] = $this;
 			$row['token'] = $row['share_token'];
 			$mounts[] = $this->getMount($user, $row, $loader);

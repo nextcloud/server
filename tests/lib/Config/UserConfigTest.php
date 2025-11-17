@@ -190,7 +190,7 @@ class UserConfigTest extends TestCase {
 		$sql->select('*')
 			->from('preferences');
 		$result = $sql->executeQuery();
-		$this->originalPreferences = $result->fetchAll();
+		$this->originalPreferences = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$sql = $this->connection->getQueryBuilder();

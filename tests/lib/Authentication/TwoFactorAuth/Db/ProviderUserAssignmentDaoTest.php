@@ -69,7 +69,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter('user123')))
 			->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter(0)));
 		$res = $q->executeQuery();
-		$data = $res->fetchAll();
+		$data = $res->fetchAllAssociative();
 		$res->closeCursor();
 		$this->assertCount(1, $data);
 	}
@@ -87,7 +87,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter('user123')))
 			->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter(1)));
 		$res = $q->executeQuery();
-		$data = $res->fetchAll();
+		$data = $res->fetchAllAssociative();
 		$res->closeCursor();
 
 		$this->assertCount(1, $data);
@@ -106,7 +106,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter('user123')))
 			->andWhere($qb->expr()->eq('enabled', $qb->createNamedParameter(1)));
 		$res = $q->executeQuery();
-		$data = $res->fetchAll();
+		$data = $res->fetchAllAssociative();
 		$res->closeCursor();
 
 		$this->assertCount(1, $data);

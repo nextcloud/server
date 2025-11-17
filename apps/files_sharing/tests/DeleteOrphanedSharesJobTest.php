@@ -105,7 +105,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	private function getShares() {
 		$shares = [];
 		$result = $this->connection->executeQuery('SELECT * FROM `*PREFIX*share`');
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$shares[] = $row;
 		}
 		$result->closeCursor();

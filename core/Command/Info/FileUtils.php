@@ -253,7 +253,7 @@ class FileUtils {
 			->leftJoin('s', 'mounts', 'm', $query->expr()->eq('s.numeric_id', 'm.storage_id'))
 			->where($query->expr()->eq('s.numeric_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->groupBy('s.numeric_id', 's.id', 's.available', 's.last_checked', 'mount_id');
-		$row = $query->executeQuery()->fetch();
+		$row = $query->executeQuery()->fetchAssociative();
 		if ($row) {
 			return [
 				'numeric_id' => $row['numeric_id'],
@@ -286,7 +286,7 @@ class FileUtils {
 			$query->setMaxResults($limit);
 		}
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			yield [
 				'numeric_id' => $row['numeric_id'],
 				'id' => $row['id'],

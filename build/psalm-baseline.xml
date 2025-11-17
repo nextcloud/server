@@ -879,7 +879,6 @@
   </file>
   <file src="apps/dav/lib/Migration/Version1025Date20240308063933.php">
     <DeprecatedMethod>
-      <code><![CDATA[fetchColumn]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
@@ -2809,9 +2808,6 @@
     </DeprecatedInterface>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
-    <DeprecatedClass>
-      <code><![CDATA[\Doctrine\DBAL\FetchMode::ASSOCIATIVE]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[getDatabasePlatform]]></code>
       <code><![CDATA[insertIfNotExist]]></code>

@@ -129,7 +129,7 @@ class SearchBuilderTest extends TestCase {
 		$this->builder->andWhere($dbOperator);
 
 		$result = $this->builder->executeQuery();
-		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$rows = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		return $rows;

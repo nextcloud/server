@@ -104,7 +104,7 @@ class Manager implements IManager {
 
 		$result = $query->executeQuery();
 		$operations = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$eventNames = \json_decode($row['events']);
 
 			$operation = $row['class'];
@@ -152,7 +152,7 @@ class Manager implements IManager {
 		$result = $query->executeQuery();
 
 		$scopesByOperation[$operationClass] = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$scope = new ScopeContext($row['type'], $row['value']);
 
 			if (!$operation->isAvailableForScope((int)$row['type'])) {
@@ -187,7 +187,7 @@ class Manager implements IManager {
 		$result = $query->executeQuery();
 
 		$this->operations[$scopeContext->getHash()] = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			try {
 				/** @var IOperation $operation */
 				$operation = $this->container->get($row['class']);
@@ -226,7 +226,7 @@ class Manager implements IManager {
 			->from('flow_operations')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -540,7 +540,7 @@ class Manager implements IManager {
 			->where($query->expr()->in('id', $query->createNamedParameter($checkIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		$result = $query->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			/** @var Check $row */
 			$this->checks[(int)$row['id']] = $row;
 			$checks[(int)$row['id']] = $row;
@@ -569,7 +569,7 @@ class Manager implements IManager {
 			->where($query->expr()->eq('hash', $query->createNamedParameter($hash)));
 		$result = $query->executeQuery();
 
-		if ($row = $result->fetch()) {
+		if ($row = $result->fetchAssociative()) {
 			$result->closeCursor();
 			return (int)$row['id'];
 		}

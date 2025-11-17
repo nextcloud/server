@@ -66,7 +66,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 			->setMaxResults(500);
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $result->fetchAssociative()) {
 			$offset = $row['id'];
 
 			$calendarData = $row['calendardata'];

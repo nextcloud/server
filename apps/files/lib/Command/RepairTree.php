@@ -78,7 +78,7 @@ class RepairTree extends Command {
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($storage)))
 			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($path))));
-		return $query->executeQuery()->fetch(\PDO::FETCH_COLUMN);
+		return $query->executeQuery()->fetchOne();
 	}
 
 	private function deleteById(int $fileId): void {
@@ -108,6 +108,6 @@ class RepairTree extends Command {
 				$query->expr()->neq('f.storage', 'p.storage')
 			));
 
-		return $query->executeQuery()->fetchAll();
+		return $query->executeQuery()->fetchAllAssociative();
 	}
 }

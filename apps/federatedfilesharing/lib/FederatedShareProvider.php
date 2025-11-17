@@ -271,7 +271,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->where($query->expr()->eq('user', $query->createNamedParameter($share->getShareOwner())))
 			->andWhere($query->expr()->eq('mountpoint', $query->createNamedParameter($share->getTarget())));
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		if (isset($result[0]) && (int)$result[0]['remote_id'] > 0) {
@@ -410,7 +410,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$query->select('remote_id')->from('federated_reshares')
 			->where($query->expr()->eq('share_id', $query->createNamedParameter((int)$share->getId())));
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!is_array($data) || !isset($data['remote_id'])) {
@@ -442,7 +442,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->orderBy('id');
 
 		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$children[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -591,7 +591,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[$data['fileid']][] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -647,7 +647,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -667,7 +667,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		if ($data === false) {
@@ -700,7 +700,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->executeQuery();
 
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -739,7 +739,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$cursor = $qb->executeQuery();
 
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -764,7 +764,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->executeQuery();
 
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
@@ -794,7 +794,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		if ($data === false) {
@@ -907,7 +907,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			// This is not a typo, the group ID is really stored in the 'user' column
 			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($gid)));
 		$cursor = $qb->executeQuery();
-		$parentShareIds = $cursor->fetchAll(\PDO::FETCH_COLUMN);
+		$parentShareIds = $cursor->fetchFirstColumn();
 		$cursor->closeCursor();
 		if ($parentShareIds === []) {
 			return;
@@ -929,7 +929,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			// This is not a typo, the group ID is really stored in the 'user' column
 			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($gid)));
 		$cursor = $qb->executeQuery();
-		$parentShareIds = $cursor->fetchAll(\PDO::FETCH_COLUMN);
+		$parentShareIds = $cursor->fetchFirstColumn();
 		$cursor->closeCursor();
 		if ($parentShareIds === []) {
 			return;
@@ -1047,14 +1047,14 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$cursor = $qb->executeQuery();
 
 		if ($currentAccess === false) {
-			$remote = $cursor->fetch() !== false;
+			$remote = $cursor->fetchAssociative() !== false;
 			$cursor->closeCursor();
 
 			return ['remote' => $remote];
 		}
 
 		$remote = [];
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$remote[$row['share_with']] = [
 				'node_id' => $row['file_source'],
 				'token' => $row['token'],
@@ -1073,7 +1073,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE], IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			try {
 				$share = $this->createShareObject($data);
 			} catch (InvalidShare $e) {

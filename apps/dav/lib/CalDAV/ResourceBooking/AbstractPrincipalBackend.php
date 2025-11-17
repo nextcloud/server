@@ -78,7 +78,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$metaDataQuery->select([$this->dbForeignKeyName, 'key', 'value'])
 				->from($this->dbMetaDataTableName);
 			$metaDataStmt = $metaDataQuery->executeQuery();
-			$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+			$metaDataRows = $metaDataStmt->fetchAllAssociative();
 
 			$metaDataById = [];
 			foreach ($metaDataRows as $metaDataRow) {
@@ -90,7 +90,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					= $metaDataRow['value'];
 			}
 
-			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			while ($row = $stmt->fetchAssociative()) {
 				$id = $row['id'];
 
 				if (isset($metaDataById[$id])) {
@@ -129,7 +129,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
 		$stmt = $query->executeQuery();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetchAssociative();
 
 		if (!$row) {
 			return null;
@@ -140,7 +140,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			->from($this->dbMetaDataTableName)
 			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
 		$metaDataStmt = $metaDataQuery->executeQuery();
-		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+		$metaDataRows = $metaDataStmt->fetchAllAssociative();
 		$metadata = [];
 
 		foreach ($metaDataRows as $metaDataRow) {
@@ -160,7 +160,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			->from($this->dbTableName)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$stmt = $query->executeQuery();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetchAssociative();
 
 		if (!$row) {
 			return null;
@@ -171,7 +171,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			->from($this->dbMetaDataTableName)
 			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
 		$metaDataStmt = $metaDataQuery->executeQuery();
-		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+		$metaDataRows = $metaDataStmt->fetchAllAssociative();
 		$metadata = [];
 
 		foreach ($metaDataRows as $metaDataRow) {
@@ -221,7 +221,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 					$stmt = $query->executeQuery();
 					$principals = [];
-					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+					while ($row = $stmt->fetchAssociative()) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
 							continue;
 						}
@@ -240,7 +240,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 					$stmt = $query->executeQuery();
 					$principals = [];
-					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+					while ($row = $stmt->fetchAssociative()) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
 							continue;
 						}
@@ -366,7 +366,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 
 		$rows = [];
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetchAssociative()) {
 			$principalRow = $this->getPrincipalById($row[$this->dbForeignKeyName]);
 			if (!$principalRow) {
 				continue;
@@ -407,7 +407,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				->where($query->expr()->eq('email', $query->createNamedParameter($email)));
 
 			$stmt = $query->executeQuery();
-			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+			$row = $stmt->fetchAssociative();
 
 			if (!$row) {
 				return null;
@@ -434,7 +434,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
 				->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
 			$stmt = $query->executeQuery();
-			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+			$row = $stmt->fetchAssociative();
 
 			if (!$row) {
 				return null;

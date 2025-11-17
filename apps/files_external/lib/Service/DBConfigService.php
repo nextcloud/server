@@ -100,7 +100,7 @@ class DBConfigService {
 			)
 			->groupBy(['a.mount_id']);
 		$stmt = $query->executeQuery();
-		$result = $stmt->fetchAll();
+		$result = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		foreach ($result as $row) {
@@ -378,7 +378,7 @@ class DBConfigService {
 
 	private function getMountsFromQuery(IQueryBuilder $query) {
 		$result = $query->executeQuery();
-		$mounts = $result->fetchAll();
+		$mounts = $result->fetchAllAssociative();
 		$uniqueMounts = [];
 		foreach ($mounts as $mount) {
 			$id = $mount['mount_id'];
@@ -429,7 +429,7 @@ class DBConfigService {
 			->where($builder->expr()->in('mount_id', $placeHolders));
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$result = [];
@@ -519,6 +519,6 @@ class DBConfigService {
 			->where($builder->expr()->eq('mount_point', $builder->createNamedParameter('/')))
 			->setMaxResults(1);
 		$result = $query->executeQuery();
-		return count($result->fetchAll()) > 0;
+		return count($result->fetchAllAssociative()) > 0;
 	}
 }

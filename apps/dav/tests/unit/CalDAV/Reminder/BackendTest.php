@@ -46,7 +46,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -56,7 +56,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(2, $rows);
 	}
@@ -66,7 +66,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -76,7 +76,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(1, $rows);
 	}
@@ -86,7 +86,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -96,7 +96,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(3, $rows);
 	}
@@ -193,7 +193,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -204,7 +204,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(5, $rows);
 
@@ -231,7 +231,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -247,7 +247,7 @@ class BackendTest extends TestCase {
 			->from('calendar_reminders')
 			->where($query->expr()->eq('id', $query->createNamedParameter($reminderId)))
 			->executeQuery()
-			->fetch();
+			->fetchAssociative();
 
 		$this->assertEquals((int)$row['notification_date'], 123700);
 	}

@@ -135,7 +135,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('myvalue', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 
 		$result = $query->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 		self::assertEquals('myvalue', $entries[0]['configvalue']);
@@ -153,7 +153,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('testing')
 			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}
@@ -171,7 +171,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('testing')
 			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}
@@ -189,7 +189,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('testing')
 			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}

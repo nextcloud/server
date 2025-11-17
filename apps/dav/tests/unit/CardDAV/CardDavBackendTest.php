@@ -550,7 +550,7 @@ class CardDavBackendTest extends TestCase {
 			->orderBy('name');
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(2, count($result));
@@ -575,7 +575,7 @@ class CardDavBackendTest extends TestCase {
 			->from('cards_properties');
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(1, count($result));
@@ -620,7 +620,7 @@ class CardDavBackendTest extends TestCase {
 			->from('cards_properties');
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(1, count($result));

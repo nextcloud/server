@@ -160,7 +160,7 @@ class Manager {
 			->from('share_external')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
 			->executeQuery();
-		$share = $result->fetch();
+		$share = $result->fetchAssociative();
 		$result->closeCursor();
 		return $share;
 	}
@@ -177,7 +177,7 @@ class Manager {
 			->from('share_external')
 			->where($qb->expr()->eq('share_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
 			->executeQuery();
-		$share = $result->fetch();
+		$share = $result->fetchAssociative();
 		$result->closeCursor();
 		return $share;
 	}
@@ -191,7 +191,7 @@ class Manager {
 				$qb->expr()->eq('user', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR)),
 			))
 			->executeQuery();
-		$share = $result->fetch();
+		$share = $result->fetchAssociative();
 		$result->closeCursor();
 		if ($share !== false) {
 			return $share;
@@ -621,7 +621,7 @@ class Manager {
 				->where($qb->expr()->eq('mountpoint_hash', $qb->createNamedParameter($hash)))
 				->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($this->uid)));
 			$result = $qb->executeQuery();
-			$share = $result->fetch();
+			$share = $result->fetchAssociative();
 			$result->closeCursor();
 			if ($share !== false && (int)$share['share_type'] === IShare::TYPE_USER) {
 				try {
@@ -681,7 +681,7 @@ class Manager {
 				->where($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
 				->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)));
 			$result = $qb->executeQuery();
-			$shares = $result->fetchAll();
+			$shares = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			foreach ($shares as $share) {
@@ -720,7 +720,7 @@ class Manager {
 				->where($qb->expr()->eq('user', $qb->createNamedParameter($gid)))
 				->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)));
 			$result = $qb->executeQuery();
-			$shares = $result->fetchAll();
+			$shares = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			$deletedGroupShares = [];
@@ -799,7 +799,8 @@ class Manager {
 
 		try {
 			$result = $qb->executeQuery();
-			$shares = $result->fetchAll();
+			/** @var list<Files_SharingRemoteShare> $shares */
+			$shares = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			// remove parent group share entry if we have a specific user share entry for the user
