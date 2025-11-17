@@ -9,6 +9,7 @@ namespace OCA\User_LDAP\User;
 
 use InvalidArgumentException;
 use OC\Accounts\AccountManager;
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
@@ -689,7 +690,7 @@ class User {
 
 	/**
 	 * @throws AttributeNotSet
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 * @throws PreConditionNotMetException
 	 */
 	public function getExtStorageHome():string {
@@ -710,7 +711,7 @@ class User {
 
 	/**
 	 * @throws PreConditionNotMetException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	public function updateExtStorageHome(?string $valueFromLDAP = null):string {
 		if ($valueFromLDAP === null) {

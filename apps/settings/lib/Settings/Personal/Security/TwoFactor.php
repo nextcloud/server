@@ -24,21 +24,13 @@ use function is_null;
 
 class TwoFactor implements ISettings {
 
-	/** @var ProviderLoader */
-	private $providerLoader;
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
 	public function __construct(
-		ProviderLoader $providerLoader,
-		MandatoryTwoFactor $mandatoryTwoFactor,
+		private ProviderLoader $providerLoader,
+		private MandatoryTwoFactor $mandatoryTwoFactor,
 		private IUserSession $userSession,
 		private IConfig $config,
 		private ?string $userId,
 	) {
-		$this->providerLoader = $providerLoader;
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 	}
 
 	public function getForm(): TemplateResponse {

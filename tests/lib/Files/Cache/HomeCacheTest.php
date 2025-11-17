@@ -8,6 +8,7 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\HomeCache;
 use OC\Files\Storage\Home;
 use OC\User\User;
 use OCP\ITempManager;
@@ -48,12 +49,12 @@ class DummyUser extends User {
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class HomeCacheTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Files\Storage\Home $storage
+	 * @var Home $storage
 	 */
 	private $storage;
 
 	/**
-	 * @var \OC\Files\Cache\HomeCache $cache
+	 * @var HomeCache $cache
 	 */
 	private $cache;
 

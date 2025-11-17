@@ -1052,11 +1052,10 @@ class Access extends LDAPUtility {
 	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
-
 	/**
 	 * @param mixed[] $arguments
 	 * @return mixed
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	private function invokeLDAPMethod(string $command, ...$arguments) {
 		if ($command == 'controlPagedResultResponse') {

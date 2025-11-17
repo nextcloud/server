@@ -10,6 +10,7 @@ namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
+use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
@@ -338,7 +339,7 @@ class ExpressionBuilderTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataLiteral')]
 	public function testLiteral($input, $type): void {
-		/** @var \OC\DB\QueryBuilder\Literal $actual */
+		/** @var Literal $actual */
 		$actual = $this->expressionBuilder->literal($input, $type);
 
 		$this->assertInstanceOf('\OC\DB\QueryBuilder\Literal', $actual);

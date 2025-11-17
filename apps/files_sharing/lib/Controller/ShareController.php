@@ -8,6 +8,7 @@
 namespace OCA\Files_Sharing\Controller;
 
 use OC\Security\CSP\ContentSecurityPolicy;
+use OC\ServerNotAvailableException;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
@@ -219,7 +220,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param string $errorMessage
 	 *
 	 * @throws HintException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 *
 	 * @deprecated use OCP\Files_Sharing\Event\ShareLinkAccessedEvent
 	 */

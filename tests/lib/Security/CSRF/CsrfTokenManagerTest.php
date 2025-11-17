@@ -11,14 +11,16 @@ declare(strict_types=1);
 namespace Test\Security\CSRF;
 
 use OC\Security\CSRF\CsrfToken;
+use OC\Security\CSRF\CsrfTokenGenerator;
 use OC\Security\CSRF\CsrfTokenManager;
+use OC\Security\CSRF\TokenStorage\SessionStorage;
 
 class CsrfTokenManagerTest extends \Test\TestCase {
-	/** @var \OC\Security\CSRF\CsrfTokenManager */
+	/** @var CsrfTokenManager */
 	private $csrfTokenManager;
-	/** @var \OC\Security\CSRF\CsrfTokenGenerator */
+	/** @var CsrfTokenGenerator */
 	private $tokenGenerator;
-	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
+	/** @var SessionStorage */
 	private $storageInterface;
 
 	protected function setUp(): void {

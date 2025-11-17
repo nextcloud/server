@@ -20,7 +20,7 @@ class StorageTest extends TestCase {
 	/** @var Storage */
 	protected $storage;
 
-	/** @var MockObject|\OC\Encryption\Util */
+	/** @var MockObject|Util */
 	protected $util;
 
 	/** @var MockObject|View */

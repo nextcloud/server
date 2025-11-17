@@ -73,7 +73,7 @@ if (version_compare(\PHPUnit\Runner\Version::id(), 10, '>=')) {
 }
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
-	/** @var \OC\Command\QueueBus */
+	/** @var QueueBus */
 	private $commandBus;
 
 	/** @var IDBConnection */
