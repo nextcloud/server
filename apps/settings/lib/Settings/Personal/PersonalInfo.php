@@ -35,23 +35,19 @@ use OCP\Util;
 
 class PersonalInfo implements ISettings {
 
-	/** @var ProfileManager */
-	private $profileManager;
-
 	public function __construct(
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private ITeamManager $teamManager,
 		private IAccountManager $accountManager,
-		ProfileManager $profileManager,
+		private ProfileManager $profileManager,
 		private IAppManager $appManager,
 		private IFactory $l10nFactory,
 		private IL10N $l,
 		private IInitialState $initialStateService,
 		private IManager $manager,
 	) {
-		$this->profileManager = $profileManager;
 	}
 
 	public function getForm(): TemplateResponse {

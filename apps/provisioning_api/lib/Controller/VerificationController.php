@@ -28,9 +28,6 @@ use OCP\Security\VerificationToken\IVerificationToken;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class VerificationController extends Controller {
 
-	/** @var Crypto */
-	private $crypto;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -39,10 +36,9 @@ class VerificationController extends Controller {
 		private IL10N $l10n,
 		private IUserSession $userSession,
 		private IAccountManager $accountManager,
-		Crypto $crypto,
+		private Crypto $crypto,
 	) {
 		parent::__construct($appName, $request);
-		$this->crypto = $crypto;
 	}
 
 	/**

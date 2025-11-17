@@ -38,7 +38,7 @@ class CheckerTest extends TestCase {
 	private $cacheFactory;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var \OC\Files\Type\Detection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Detection|\PHPUnit\Framework\MockObject\MockObject */
 	private $mimeTypeDetector;
 
 	private Checker $checker;

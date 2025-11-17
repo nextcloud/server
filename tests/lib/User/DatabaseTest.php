@@ -26,7 +26,7 @@ class DatabaseTest extends Backend {
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
-	/** @var \OC\User\Database */
+	/** @var Database */
 	protected $backend;
 
 	public function getUser() {

@@ -15,16 +15,13 @@ use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
-	private MandatoryTwoFactor $mandatoryTwoFactor;
-
 	public function __construct(
 		private IManager $manager,
 		private IUserManager $userManager,
-		MandatoryTwoFactor $mandatoryTwoFactor,
+		private MandatoryTwoFactor $mandatoryTwoFactor,
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
 	) {
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 	}
 
 	/**

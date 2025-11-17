@@ -37,7 +37,7 @@ class TempManagerTest extends \Test\TestCase {
 	/**
 	 * @param ?LoggerInterface $logger
 	 * @param ?IConfig $config
-	 * @return \OC\TempManager
+	 * @return TempManager
 	 */
 	protected function getManager($logger = null, $config = null) {
 		if (!$logger) {

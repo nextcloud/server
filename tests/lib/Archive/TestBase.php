@@ -8,24 +8,25 @@
 
 namespace Test\Archive;
 
+use OC\Archive\Archive;
 use OCP\Files;
 use OCP\ITempManager;
 use OCP\Server;
 
 abstract class TestBase extends \Test\TestCase {
 	/**
-	 * @var \OC\Archive\Archive
+	 * @var Archive
 	 */
 	protected $instance;
 
 	/**
 	 * get the existing test archive
-	 * @return \OC\Archive\Archive
+	 * @return Archive
 	 */
 	abstract protected function getExisting();
 	/**
 	 * get a new archive for write testing
-	 * @return \OC\Archive\Archive
+	 * @return Archive
 	 */
 	abstract protected function getNew();
 

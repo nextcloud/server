@@ -17,20 +17,12 @@ use OCP\Settings\ISettings;
 
 class WebAuthn implements ISettings {
 
-	/** @var PublicKeyCredentialMapper */
-	private $mapper;
-
-	/** @var Manager */
-	private $manager;
-
 	public function __construct(
-		PublicKeyCredentialMapper $mapper,
+		private PublicKeyCredentialMapper $mapper,
 		private string $userId,
 		private IInitialStateService $initialStateService,
-		Manager $manager,
+		private Manager $manager,
 	) {
-		$this->mapper = $mapper;
-		$this->manager = $manager;
 	}
 
 	public function getForm() {

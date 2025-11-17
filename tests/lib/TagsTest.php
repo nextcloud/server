@@ -33,7 +33,7 @@ class TagsTest extends \Test\TestCase {
 	/** @var IUserSession */
 	protected $userSession;
 	protected $backupGlobals = false;
-	/** @var \OC\Tagging\TagMapper */
+	/** @var TagMapper */
 	protected $tagMapper;
 	/** @var ITagManager */
 	protected $tagMgr;

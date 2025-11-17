@@ -18,18 +18,14 @@ use OCP\IUserManager;
 
 class CheckBackupCodes extends QueuedJob {
 
-	/** @var Manager */
-	private $twofactorManager;
-
 	public function __construct(
 		ITimeFactory $timeFactory,
 		private IUserManager $userManager,
 		private IJobList $jobList,
-		Manager $twofactorManager,
+		private Manager $twofactorManager,
 		private IRegistry $registry,
 	) {
 		parent::__construct($timeFactory);
-		$this->twofactorManager = $twofactorManager;
 	}
 
 	protected function run($argument) {
