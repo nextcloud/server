@@ -17,6 +17,7 @@ use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\QueryException;
+use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\ObjectStore\IObjectStore;
@@ -32,7 +33,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Make the old files_external config work with the new public mount config api
  */
-class ConfigAdapter implements IMountProvider {
+class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 	public function __construct(
 		private UserStoragesService $userStoragesService,
 		private UserGlobalStoragesService $userGlobalStoragesService,
@@ -73,6 +74,11 @@ class ConfigAdapter implements IMountProvider {
 		$storage->getBackend()->manipulateStorageConfig($storage, $user);
 	}
 
+	public function constructStorageForUser(IUser $user, StorageConfig $storage) {
+		$this->prepareStorageConfig($storage, $user);
+		return $this->constructStorage($storage);
+	}
+
 	/**
 	 * Construct the storage implementation
 	 *
@@ -105,8 +111,7 @@ class ConfigAdapter implements IMountProvider {
 
 		$storages = array_map(function (StorageConfig $storageConfig) use ($user) {
 			try {
-				$this->prepareStorageConfig($storageConfig, $user);
-				return $this->constructStorage($storageConfig);
+				return $this->constructStorageForUser($user, $storageConfig);
 			} catch (\Exception $e) {
 				// propagate exception into filesystem
 				return new FailedStorage(['exception' => $e]);
@@ -123,7 +128,7 @@ class ConfigAdapter implements IMountProvider {
 				$availability = $storage->getAvailability();
 				if (!$availability['available'] && !Availability::shouldRecheck($availability)) {
 					$storage = new FailedStorage([
-						'exception' => new StorageNotAvailableException('Storage with mount id ' . $storageConfig->getId() . ' is not available')
+						'exception' => new StorageNotAvailableException('Storage with mount id ' . $storageConfig->getId() . ' is not available'),
 					]);
 				}
 			} catch (\Exception $e) {
@@ -148,7 +153,7 @@ class ConfigAdapter implements IMountProvider {
 					null,
 					$loader,
 					$storageConfig->getMountOptions(),
-					$storageConfig->getId()
+					$storageConfig->getId(),
 				);
 			} else {
 				return new SystemMountPoint(
@@ -158,7 +163,7 @@ class ConfigAdapter implements IMountProvider {
 					null,
 					$loader,
 					$storageConfig->getMountOptions(),
-					$storageConfig->getId()
+					$storageConfig->getId(),
 				);
 			}
 		}, $storageConfigs, $availableStorages);

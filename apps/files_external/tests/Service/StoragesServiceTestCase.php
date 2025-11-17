@@ -60,7 +60,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	protected string $dataDir;
 	protected CleaningDBConfig $dbConfig;
 	protected static array $hookCalls;
-	protected IUserMountCache&MockObject $mountCache;
 	protected IEventDispatcher&MockObject $eventDispatcher;
 	protected IAppConfig&MockObject $appConfig;
 
@@ -75,7 +74,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		);
 		MountConfig::$skipTest = true;
 
-		$this->mountCache = $this->createMock(IUserMountCache::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 

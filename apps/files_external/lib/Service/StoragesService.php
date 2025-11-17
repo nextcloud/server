@@ -22,7 +22,6 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
@@ -38,13 +37,11 @@ abstract class StoragesService {
 	/**
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfig
-	 * @param IUserMountCache $userMountCache
 	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
 		protected BackendService $backendService,
 		protected DBConfigService $dbConfig,
-		protected IUserMountCache $userMountCache,
 		protected IEventDispatcher $eventDispatcher,
 		protected IAppConfig $appConfig,
 	) {
@@ -426,15 +423,6 @@ abstract class StoragesService {
 		}
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
-
-		if (($wasGlobal && !$isGlobal) || count($removedGroups) > 0) { // to expensive to properly handle these on the fly
-			$this->userMountCache->remoteStorageMounts($this->getStorageId($updatedStorage));
-		} else {
-			$storageId = $this->getStorageId($updatedStorage);
-			foreach ($removedUsers as $userId) {
-				$this->userMountCache->removeUserStorageMount($storageId, $userId);
-			}
-		}
 
 		$this->updateOverwriteHomeFolders();
 
