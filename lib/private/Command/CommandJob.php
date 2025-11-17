@@ -7,6 +7,7 @@
  */
 namespace OC\Command;
 
+use OCA\Files_Trashbin\Command\Expire;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Command\ICommand;
 
@@ -19,7 +20,7 @@ class CommandJob extends QueuedJob {
 			\Test\Command\SimpleCommand::class,
 			\Test\Command\StateFullCommand::class,
 			\Test\Command\FilesystemCommand::class,
-			\OCA\Files_Trashbin\Command\Expire::class,
+			Expire::class,
 			\OCA\Files_Versions\Command\Expire::class,
 		]]);
 		if ($command instanceof ICommand) {

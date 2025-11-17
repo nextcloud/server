@@ -14,16 +14,13 @@ use OCP\UserInterface;
 
 class LazyUser implements IUser {
 	private ?IUser $user = null;
-	private string $uid;
-	private ?string $displayName;
-	private IUserManager $userManager;
-	private ?UserInterface $backend;
 
-	public function __construct(string $uid, IUserManager $userManager, ?string $displayName = null, ?UserInterface $backend = null) {
-		$this->uid = $uid;
-		$this->userManager = $userManager;
-		$this->displayName = $displayName;
-		$this->backend = $backend;
+	public function __construct(
+		private string $uid,
+		private IUserManager $userManager,
+		private ?string $displayName = null,
+		private ?UserInterface $backend = null,
+	) {
 	}
 
 	private function getUser(): IUser {

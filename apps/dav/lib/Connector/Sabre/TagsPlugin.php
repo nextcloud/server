@@ -108,6 +108,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	private function getTagger() {
 		if (!$this->tagger) {
 			$this->tagger = $this->tagManager->load('files');
+			assert($this->tagger !== null);
 		}
 		return $this->tagger;
 	}

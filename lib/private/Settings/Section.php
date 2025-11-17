@@ -9,26 +9,18 @@ namespace OC\Settings;
 use OCP\Settings\IIconSection;
 
 class Section implements IIconSection {
-	/** @var string */
-	private $id;
-	/** @var string */
-	private $name;
-	/** @var int */
-	private $priority;
-	/** @var string */
-	private $icon;
-
 	/**
 	 * @param string $id
 	 * @param string $name
 	 * @param int $priority
 	 * @param string $icon
 	 */
-	public function __construct($id, $name, $priority, $icon = '') {
-		$this->id = $id;
-		$this->name = $name;
-		$this->priority = $priority;
-		$this->icon = $icon;
+	public function __construct(
+		private $id,
+		private $name,
+		private $priority,
+		private $icon = '',
+	) {
 	}
 
 	/**

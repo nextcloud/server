@@ -17,17 +17,21 @@ use OC\Core\AppInfo\Application;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FilenameValidator;
 use OC\Search\SearchQuery;
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
+use OCA\Theming\Service\ThemesService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -198,7 +202,7 @@ class TemplateLayout {
 
 		// Set body data-theme
 		try {
-			$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
+			$themesService = Server::get(ThemesService::class);
 		} catch (\Exception) {
 			$themesService = null;
 		}
@@ -222,26 +226,26 @@ class TemplateLayout {
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
 				$this->serverVersion,
-				\OCP\Util::getL10N('lib'),
-				\OCP\Server::get(Defaults::class),
+				Util::getL10N('lib'),
+				Server::get(Defaults::class),
 				$this->appManager,
-				\OC::$server->getSession(),
-				\OC::$server->getUserSession()->getUser(),
+				Server::get(ISession::class),
+				Server::get(IUserSession::class)->getUser(),
 				$this->config,
 				$this->appConfig,
-				\OC::$server->getGroupManager(),
-				\OC::$server->get(IniGetWrapper::class),
-				\OC::$server->getURLGenerator(),
-				\OC::$server->get(CapabilitiesManager::class),
-				\OCP\Server::get(IInitialStateService::class),
-				\OCP\Server::get(IProvider::class),
-				\OCP\Server::get(FilenameValidator::class),
+				Server::get(IGroupManager::class),
+				Server::get(IniGetWrapper::class),
+				Server::get(IURLGenerator::class),
+				Server::get(CapabilitiesManager::class),
+				Server::get(IInitialStateService::class),
+				Server::get(IProvider::class),
+				Server::get(FilenameValidator::class),
 			);
 			$config = $jsConfigHelper->getConfig();
-			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
+			if (Server::get(ContentSecurityPolicyNonceManager::class)->browserSupportsCspV3()) {
 				$page->assign('inline_ocjs', $config);
 			} else {
-				$page->append('jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
+				$page->append('jsfiles', Server::get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
 			}
 		}
 		foreach ($jsFiles as $info) {
@@ -250,7 +254,7 @@ class TemplateLayout {
 			$page->append('jsfiles', $web . '/' . $file . $this->getVersionHashSuffix());
 		}
 
-		$request = \OCP\Server::get(IRequest::class);
+		$request = Server::get(IRequest::class);
 
 		try {
 			$pathInfo = $request->getPathInfo();
@@ -261,7 +265,7 @@ class TemplateLayout {
 		// Do not initialise scss appdata until we have a fully installed instance
 		// Do not load scss for update, errors, installation or login page
 		if ($this->config->getSystemValueBool('installed', false)
-			&& !\OCP\Util::needUpgrade()
+			&& !Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)
 			&& $renderAs !== TemplateResponse::RENDER_AS_ERROR
@@ -368,7 +372,7 @@ class TemplateLayout {
 
 	private function findStylesheetFiles(array $styles): array {
 		if ($this->cssLocator === null) {
-			$this->cssLocator = \OCP\Server::get(CSSResourceLocator::class);
+			$this->cssLocator = Server::get(CSSResourceLocator::class);
 		}
 		$this->cssLocator->find($styles);
 		return $this->cssLocator->getResources();
@@ -390,7 +394,7 @@ class TemplateLayout {
 
 	private function findJavascriptFiles(array $scripts): array {
 		if ($this->jsLocator === null) {
-			$this->jsLocator = \OCP\Server::get(JSResourceLocator::class);
+			$this->jsLocator = Server::get(JSResourceLocator::class);
 		}
 		$this->jsLocator->find($scripts);
 		return $this->jsLocator->getResources();

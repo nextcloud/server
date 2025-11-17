@@ -75,7 +75,7 @@ class Message implements IMessage {
 			return [];
 		}
 
-		array_walk($addresses, function ($readableName, $email) use (&$convertedAddresses) {
+		array_walk($addresses, function ($readableName, $email) use (&$convertedAddresses): void {
 			if (is_numeric($email)) {
 				$convertedAddresses[] = new Address($readableName);
 			} else {

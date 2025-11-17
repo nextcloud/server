@@ -11,6 +11,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -29,14 +30,14 @@ class Rotate extends TimedJob {
 	}
 
 	public function run($argument): void {
-		$config = \OCP\Server::get(IConfig::class);
+		$config = Server::get(IConfig::class);
 		$this->filePath = $config->getSystemValueString('logfile', $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 
 		$this->maxSize = $config->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
 			$msg = 'Log file "' . $this->filePath . '" was over ' . $this->maxSize . ' bytes, moved to "' . $rotatedFile . '"';
-			\OCP\Server::get(LoggerInterface::class)->info($msg, ['app' => Rotate::class]);
+			Server::get(LoggerInterface::class)->info($msg, ['app' => Rotate::class]);
 		}
 	}
 }

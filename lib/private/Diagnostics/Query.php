@@ -10,26 +10,19 @@ namespace OC\Diagnostics;
 use OCP\Diagnostics\IQuery;
 
 class Query implements IQuery {
-	private $sql;
-
-	private $params;
-
-	private $start;
-
 	private $end;
-
-	private $stack;
 
 	/**
 	 * @param string $sql
 	 * @param array $params
 	 * @param int $start
 	 */
-	public function __construct($sql, $params, $start, array $stack) {
-		$this->sql = $sql;
-		$this->params = $params;
-		$this->start = $start;
-		$this->stack = $stack;
+	public function __construct(
+		private $sql,
+		private $params,
+		private $start,
+		private array $stack,
+	) {
 	}
 
 	public function end($time) {

@@ -12,16 +12,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearFrontendCaches implements IRepairStep {
-	/** @var ICacheFactory */
-	protected $cacheFactory;
-
-	/** @var JSCombiner */
-	protected $jsCombiner;
-
-	public function __construct(ICacheFactory $cacheFactory,
-		JSCombiner $JSCombiner) {
-		$this->cacheFactory = $cacheFactory;
-		$this->jsCombiner = $JSCombiner;
+	public function __construct(
+		protected ICacheFactory $cacheFactory,
+		protected JSCombiner $jsCombiner,
+	) {
 	}
 
 	public function getName() {

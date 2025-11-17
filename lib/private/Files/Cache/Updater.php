@@ -10,10 +10,12 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Exception\DeadlockException;
 use OC\Files\FileInfo;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Storage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Storage\IStorage;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,12 +29,7 @@ class Updater implements IUpdater {
 	protected $enabled = true;
 
 	/**
-	 * @var \OC\Files\Storage\Storage
-	 */
-	protected $storage;
-
-	/**
-	 * @var \OC\Files\Cache\Propagator
+	 * @var Propagator
 	 */
 	protected $propagator;
 
@@ -49,14 +46,15 @@ class Updater implements IUpdater {
 	private LoggerInterface $logger;
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param Storage $storage
 	 */
-	public function __construct(\OC\Files\Storage\Storage $storage) {
-		$this->storage = $storage;
-		$this->propagator = $storage->getPropagator();
-		$this->scanner = $storage->getScanner();
-		$this->cache = $storage->getCache();
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+	public function __construct(
+		protected Storage $storage,
+	) {
+		$this->propagator = $this->storage->getPropagator();
+		$this->scanner = $this->storage->getScanner();
+		$this->cache = $this->storage->getCache();
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -166,7 +164,7 @@ class Updater implements IUpdater {
 	 * @param string $target
 	 */
 	public function renameFromStorage(IStorage $sourceStorage, $source, $target) {
-		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache) use ($sourceStorage, $source, $target) {
+		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache) use ($sourceStorage, $source, $target): void {
 			// Remove existing cache entry to no reuse the fileId.
 			if ($this->cache->inCache($target)) {
 				$this->cache->remove($target);
@@ -184,7 +182,7 @@ class Updater implements IUpdater {
 	 * Copy a file or folder in the cache.
 	 */
 	public function copyFromStorage(IStorage $sourceStorage, string $source, string $target): void {
-		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache, ICacheEntry $sourceInfo) use ($target) {
+		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache, ICacheEntry $sourceInfo) use ($target): void {
 			$parent = dirname($target);
 			if ($parent === '.') {
 				$parent = '';

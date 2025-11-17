@@ -1321,7 +1321,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * deletes the read markers for the specified user
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @return bool
 	 * @since 9.0.0
 	 */
@@ -1508,7 +1508,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * returns valid, registered entities
 	 *
-	 * @return \OCP\Comments\ICommentsEventHandler[]
+	 * @return ICommentsEventHandler[]
 	 */
 	private function getEventHandlers() {
 		if (!empty($this->eventHandlers)) {

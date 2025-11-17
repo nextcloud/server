@@ -7,6 +7,7 @@
  */
 namespace OC\Files\Cache;
 
+use OC\Files\Storage\Storage;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IWatcher;
 
@@ -17,11 +18,6 @@ class Watcher implements IWatcher {
 	protected $watchPolicy = self::CHECK_ONCE;
 
 	protected $checkedPaths = [];
-
-	/**
-	 * @var \OC\Files\Storage\Storage $storage
-	 */
-	protected $storage;
 
 	/**
 	 * @var Cache $cache
@@ -37,12 +33,13 @@ class Watcher implements IWatcher {
 	protected $onUpdate = [];
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param Storage $storage
 	 */
-	public function __construct(\OC\Files\Storage\Storage $storage) {
-		$this->storage = $storage;
-		$this->cache = $storage->getCache();
-		$this->scanner = $storage->getScanner();
+	public function __construct(
+		protected Storage $storage,
+	) {
+		$this->cache = $this->storage->getCache();
+		$this->scanner = $this->storage->getScanner();
 	}
 
 	/**

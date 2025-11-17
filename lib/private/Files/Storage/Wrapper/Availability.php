@@ -11,6 +11,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\Server;
 
 /**
  * Availability checker for storages
@@ -25,7 +26,7 @@ class Availability extends Wrapper {
 	protected ?bool $available = null;
 
 	public function __construct(array $parameters) {
-		$this->config = $parameters['config'] ?? \OCP\Server::get(IConfig::class);
+		$this->config = $parameters['config'] ?? Server::get(IConfig::class);
 		parent::__construct($parameters);
 	}
 

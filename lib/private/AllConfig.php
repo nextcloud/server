@@ -15,6 +15,7 @@ use OCP\Config\ValueType;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
+use OCP\Server;
 
 /**
  * Class to combine all the configuration options ownCloud offers
@@ -65,7 +66,7 @@ class AllConfig implements IConfig {
 	 */
 	private function fixDIInit() {
 		if ($this->connection === null) {
-			$this->connection = \OC::$server->get(IDBConnection::class);
+			$this->connection = Server::get(IDBConnection::class);
 		}
 	}
 
@@ -170,7 +171,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppKeys($appName) {
-		return \OC::$server->get(AppConfig::class)->getKeys($appName);
+		return Server::get(AppConfig::class)->getKeys($appName);
 	}
 
 	/**
@@ -182,7 +183,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function setAppValue($appName, $key, $value) {
-		\OC::$server->get(AppConfig::class)->setValue($appName, $key, $value);
+		Server::get(AppConfig::class)->setValue($appName, $key, $value);
 	}
 
 	/**
@@ -195,7 +196,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppValue($appName, $key, $default = '') {
-		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default) ?? $default;
+		return Server::get(AppConfig::class)->getValue($appName, $key, $default) ?? $default;
 	}
 
 	/**
@@ -206,7 +207,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function deleteAppValue($appName, $key) {
-		\OC::$server->get(AppConfig::class)->deleteKey($appName, $key);
+		Server::get(AppConfig::class)->deleteKey($appName, $key);
 	}
 
 	/**
@@ -216,7 +217,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function deleteAppValues($appName) {
-		\OC::$server->get(AppConfig::class)->deleteApp($appName);
+		Server::get(AppConfig::class)->deleteApp($appName);
 	}
 
 
@@ -229,7 +230,7 @@ class AllConfig implements IConfig {
 	 * @param string|float|int $value the value that you want to store
 	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
 	 *
-	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
+	 * @throws PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 * @deprecated 31.0.0 - use {@see IUserConfig} directly
 	 * @see IUserConfig::getValueString
@@ -244,7 +245,7 @@ class AllConfig implements IConfig {
 		}
 
 		/** @var UserConfig $userPreferences */
-		$userPreferences = \OCP\Server::get(IUserConfig::class);
+		$userPreferences = Server::get(IUserConfig::class);
 		if ($preCondition !== null) {
 			try {
 				if ($userPreferences->hasKey($userId, $appName, $key) && $userPreferences->getValueMixed($userId, $appName, $key) !== (string)$preCondition) {
@@ -278,7 +279,7 @@ class AllConfig implements IConfig {
 			return $default;
 		}
 		/** @var UserConfig $userPreferences */
-		$userPreferences = \OCP\Server::get(IUserConfig::class);
+		$userPreferences = Server::get(IUserConfig::class);
 		// because $default can be null ...
 		if (!$userPreferences->hasKey($userId, $appName, $key)) {
 			return $default;
@@ -296,7 +297,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 31.0.0 - use {@see IUserConfig::getKeys} directly
 	 */
 	public function getUserKeys($userId, $appName) {
-		return \OCP\Server::get(IUserConfig::class)->getKeys($userId, $appName);
+		return Server::get(IUserConfig::class)->getKeys($userId, $appName);
 	}
 
 	/**
@@ -309,7 +310,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteUserConfig} directly
 	 */
 	public function deleteUserValue($userId, $appName, $key) {
-		\OCP\Server::get(IUserConfig::class)->deleteUserConfig($userId, $appName, $key);
+		Server::get(IUserConfig::class)->deleteUserConfig($userId, $appName, $key);
 	}
 
 	/**
@@ -323,7 +324,7 @@ class AllConfig implements IConfig {
 		if ($userId === null) {
 			return;
 		}
-		\OCP\Server::get(IUserConfig::class)->deleteAllUserConfig($userId);
+		Server::get(IUserConfig::class)->deleteAllUserConfig($userId);
 	}
 
 	/**
@@ -334,7 +335,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteApp} directly
 	 */
 	public function deleteAppFromAllUsers($appName) {
-		\OCP\Server::get(IUserConfig::class)->deleteApp($appName);
+		Server::get(IUserConfig::class)->deleteApp($appName);
 	}
 
 	/**
@@ -354,7 +355,7 @@ class AllConfig implements IConfig {
 			return [];
 		}
 
-		$values = \OCP\Server::get(IUserConfig::class)->getAllValues($userId);
+		$values = Server::get(IUserConfig::class)->getAllValues($userId);
 		$result = [];
 		foreach ($values as $app => $list) {
 			foreach ($list as $key => $value) {
@@ -375,7 +376,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 31.0.0 - use {@see IUserConfig::getValuesByUsers} directly
 	 */
 	public function getUserValueForUsers($appName, $key, $userIds) {
-		return \OCP\Server::get(IUserConfig::class)->getValuesByUsers($appName, $key, ValueType::MIXED, $userIds);
+		return Server::get(IUserConfig::class)->getValuesByUsers($appName, $key, ValueType::MIXED, $userIds);
 	}
 
 	/**
@@ -390,7 +391,7 @@ class AllConfig implements IConfig {
 	 */
 	public function getUsersForUserValue($appName, $key, $value) {
 		/** @var list<string> $result */
-		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value));
+		$result = iterator_to_array(Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value));
 		return $result;
 	}
 
@@ -410,7 +411,7 @@ class AllConfig implements IConfig {
 		}
 
 		/** @var list<string> $result */
-		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value, true));
+		$result = iterator_to_array(Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value, true));
 		return $result;
 	}
 

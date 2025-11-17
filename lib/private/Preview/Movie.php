@@ -12,6 +12,7 @@ use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\Image;
 use OCP\ITempManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -321,7 +322,7 @@ class Movie extends ProviderV2 {
 		);
 
 		if ($returnCode === 0) {
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromFile($tmpPath);
 			if ($image->valid()) {
 				unlink($tmpPath);

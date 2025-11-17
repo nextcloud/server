@@ -11,34 +11,20 @@ use OCP\Diagnostics\IEvent;
 
 class Event implements IEvent {
 	/**
-	 * @var string
-	 */
-	protected $id;
-
-	/**
-	 * @var float
-	 */
-	protected $start;
-
-	/**
 	 * @var float
 	 */
 	protected $end;
-
-	/**
-	 * @var string
-	 */
-	protected $description;
 
 	/**
 	 * @param string $id
 	 * @param string $description
 	 * @param float $start
 	 */
-	public function __construct($id, $description, $start) {
-		$this->id = $id;
-		$this->description = $description;
-		$this->start = $start;
+	public function __construct(
+		protected $id,
+		protected $description,
+		protected $start,
+	) {
 	}
 
 	/**

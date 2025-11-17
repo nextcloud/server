@@ -11,6 +11,7 @@ use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\DB\MigrationService;
+use OC\Migration\BackgroundRepair;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
@@ -211,7 +212,7 @@ class AppManager implements IAppManager {
 	/**
 	 * List all apps enabled for a user
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @return list<string>
 	 */
 	public function getEnabledAppsForUser(IUser $user) {
@@ -344,7 +345,7 @@ class AppManager implements IAppManager {
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser|null $user (optional) if not defined, the currently logged in user will be used
+	 * @param IUser|null $user (optional) if not defined, the currently logged in user will be used
 	 * @return bool
 	 */
 	public function isEnabledForUser($appId, $user = null) {
@@ -465,7 +466,7 @@ class AppManager implements IAppManager {
 			]);
 			return;
 		}
-		$eventLogger = \OC::$server->get(IEventLogger::class);
+		$eventLogger = Server::get(IEventLogger::class);
 		$eventLogger->start("bootstrap:load_app:$app", "Load app: $app");
 
 		// in case someone calls loadApp() directly
@@ -483,7 +484,7 @@ class AppManager implements IAppManager {
 		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
 		$info = $this->getAppInfo($app);
 		if (!empty($info['activity'])) {
-			$activityManager = \OC::$server->get(IActivityManager::class);
+			$activityManager = Server::get(IActivityManager::class);
 			if (!empty($info['activity']['filters'])) {
 				foreach ($info['activity']['filters'] as $filter) {
 					$activityManager->registerFilter($filter);
@@ -502,7 +503,7 @@ class AppManager implements IAppManager {
 		}
 
 		if (!empty($info['settings'])) {
-			$settingsManager = \OCP\Server::get(ISettingsManager::class);
+			$settingsManager = Server::get(ISettingsManager::class);
 			if (!empty($info['settings']['admin'])) {
 				foreach ($info['settings']['admin'] as $setting) {
 					$settingsManager->registerSetting('admin', $setting);
@@ -547,10 +548,10 @@ class AppManager implements IAppManager {
 						'shareType' => $plugin['@attributes']['share-type'],
 						'class' => $plugin['@value'],
 					];
-					$collaboratorSearch ??= \OC::$server->get(ICollaboratorSearch::class);
+					$collaboratorSearch ??= Server::get(ICollaboratorSearch::class);
 					$collaboratorSearch->registerPlugin($pluginInfo);
 				} elseif ($plugin['@attributes']['type'] === 'autocomplete-sort') {
-					$autoCompleteManager ??= \OC::$server->get(IAutoCompleteManager::class);
+					$autoCompleteManager ??= Server::get(IAutoCompleteManager::class);
 					$autoCompleteManager->registerSorter($plugin['@value']);
 				}
 			}
@@ -1069,7 +1070,7 @@ class AppManager implements IAppManager {
 		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		$queue = Server::get(IJobList::class);
 		foreach ($appData['repair-steps']['live-migration'] as $step) {
-			$queue->add(\OC\Migration\BackgroundRepair::class, [
+			$queue->add(BackgroundRepair::class, [
 				'app' => $appId,
 				'step' => $step]);
 		}

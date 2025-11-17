@@ -19,16 +19,14 @@ use OCP\Files\Search\ISearchQuery;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedCache implements ICache {
-	/** @var bool whether to show the failed storage in the ui */
-	private $visible;
-
 	/**
 	 * FailedCache constructor.
 	 *
 	 * @param bool $visible
 	 */
-	public function __construct($visible = true) {
-		$this->visible = $visible;
+	public function __construct(
+		private $visible = true,
+	) {
 	}
 
 

@@ -10,6 +10,7 @@ namespace OC\Calendar\Resource;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\ResourcesRoomsUpdater;
+use OCP\AppFramework\QueryException;
 use OCP\Calendar\Resource\IBackend;
 use OCP\Calendar\Resource\IManager;
 use OCP\IServerContainer;
@@ -69,7 +70,7 @@ class Manager implements IManager {
 
 	/**
 	 * @return IBackend[]
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 * @since 14.0.0
 	 */
 	public function getBackends():array {
@@ -88,7 +89,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $backendId
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function getBackend($backendId): ?IBackend {
 		$backends = $this->getBackends();

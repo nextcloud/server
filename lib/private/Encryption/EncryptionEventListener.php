@@ -18,9 +18,12 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use Psr\Log\LoggerInterface;
@@ -81,11 +84,11 @@ class EncryptionEventListener implements IEventListener {
 				new Util(
 					new View(),
 					$this->userManager,
-					\OC::$server->getGroupManager(),
-					\OC::$server->getConfig()),
-				\OC::$server->getEncryptionManager(),
-				\OC::$server->get(IFile::class),
-				\OC::$server->get(LoggerInterface::class),
+					Server::get(IGroupManager::class),
+					Server::get(IConfig::class)),
+				Server::get(\OCP\Encryption\IManager::class),
+				Server::get(IFile::class),
+				Server::get(LoggerInterface::class),
 			);
 		}
 

@@ -8,6 +8,7 @@
 namespace OC;
 
 use OCP\HintException;
+use OCP\Util;
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
@@ -21,8 +22,6 @@ class Config {
 	/** @var array */
 	protected $envCache = [];
 	/** @var string */
-	protected $configDir;
-	/** @var string */
 	protected $configFilePath;
 	/** @var string */
 	protected $configFileName;
@@ -33,8 +32,10 @@ class Config {
 	 * @param string $configDir Path to the config dir, needs to end with '/'
 	 * @param string $fileName (Optional) Name of the config file. Defaults to config.php
 	 */
-	public function __construct($configDir, $fileName = 'config.php') {
-		$this->configDir = $configDir;
+	public function __construct(
+		protected $configDir,
+		$fileName = 'config.php',
+	) {
 		$this->configFilePath = $this->configDir . $fileName;
 		$this->configFileName = $fileName;
 		$this->readData();
@@ -237,7 +238,7 @@ class Config {
 				// syntax issues in the config file like leading spaces causing PHP to send output
 				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
 				if (!defined('OC_CONSOLE')) {
-					print(\OCP\Util::sanitizeHTML($errorMessage));
+					print(Util::sanitizeHTML($errorMessage));
 				}
 				throw new \Exception($errorMessage);
 			}

@@ -13,14 +13,11 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
-	protected AvatarManager $avatarManager;
-	private IConfig $config;
-	private IJobList $jobList;
-
-	public function __construct(IConfig $config, AvatarManager $avatarManager, IJobList $jobList) {
-		$this->config = $config;
-		$this->avatarManager = $avatarManager;
-		$this->jobList = $jobList;
+	public function __construct(
+		private IConfig $config,
+		protected AvatarManager $avatarManager,
+		private IJobList $jobList,
+	) {
 	}
 
 	public function getName(): string {

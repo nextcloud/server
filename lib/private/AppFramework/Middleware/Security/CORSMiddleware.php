@@ -31,26 +31,13 @@ use ReflectionMethod;
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
  */
 class CORSMiddleware extends Middleware {
-	/** @var IRequest */
-	private $request;
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var Session */
-	private $session;
-	/** @var IThrottler */
-	private $throttler;
-
 	public function __construct(
-		IRequest $request,
-		ControllerMethodReflector $reflector,
-		Session $session,
-		IThrottler $throttler,
+		private IRequest $request,
+		private ControllerMethodReflector $reflector,
+		private Session $session,
+		private IThrottler $throttler,
 		private readonly LoggerInterface $logger,
 	) {
-		$this->request = $request;
-		$this->reflector = $reflector;
-		$this->session = $session;
-		$this->throttler = $throttler;
 	}
 
 	/**

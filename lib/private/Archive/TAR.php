@@ -8,6 +8,9 @@
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
+use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
 
 class TAR extends Archive {
 	public const PLAIN = 0;
@@ -25,12 +28,11 @@ class TAR extends Archive {
 
 	private \Archive_Tar $tar;
 
-	private string $path;
-
-	public function __construct(string $source) {
+	public function __construct(
+		private string $path,
+	) {
 		$types = [null, 'gz', 'bz2'];
-		$this->path = $source;
-		$this->tar = new \Archive_Tar($source, $types[self::getTarType($source)]);
+		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 	}
 
 	/**
@@ -60,7 +62,7 @@ class TAR extends Archive {
 	 * add an empty folder to the archive
 	 */
 	public function addFolder(string $path): bool {
-		$tmpBase = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpBase = Server::get(ITempManager::class)->getTemporaryFolder();
 		$path = rtrim($path, '/') . '/';
 		if ($this->fileExists($path)) {
 			return false;
@@ -103,7 +105,7 @@ class TAR extends Archive {
 	 */
 	public function rename(string $source, string $dest): bool {
 		//no proper way to delete, rename entire archive, rename file and remake archive
-		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmp = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		rename($tmp . $source, $tmp . $dest);
 		$this->tar->_close();
@@ -216,7 +218,7 @@ class TAR extends Archive {
 	 * extract a single file from the archive
 	 */
 	public function extractFile(string $path, string $dest): bool {
-		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmp = Server::get(ITempManager::class)->getTemporaryFolder();
 		if (!$this->fileExists($path)) {
 			return false;
 		}
@@ -228,7 +230,7 @@ class TAR extends Archive {
 		if ($success) {
 			rename($tmp . $path, $dest);
 		}
-		\OCP\Files::rmdirr($tmp);
+		Files::rmdirr($tmp);
 		return $success;
 	}
 
@@ -272,9 +274,9 @@ class TAR extends Archive {
 		$this->fileList = false;
 		$this->cachedHeaders = false;
 		//no proper way to delete, extract entire archive, delete file and remake archive
-		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmp = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->tar->extract($tmp);
-		\OCP\Files::rmdirr($tmp . $path);
+		Files::rmdirr($tmp . $path);
 		unlink($this->path);
 		$this->reopen();
 		$this->tar->createModify([$tmp], '', $tmp);
@@ -293,7 +295,7 @@ class TAR extends Archive {
 		} else {
 			$ext = '';
 		}
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
 		} elseif ($mode == 'r' || $mode == 'rb') {
@@ -303,7 +305,7 @@ class TAR extends Archive {
 			return fopen($tmpFile, $mode);
 		} else {
 			$handle = fopen($tmpFile, $mode);
-			return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+			return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 				$this->writeBack($tmpFile, $path);
 			});
 		}

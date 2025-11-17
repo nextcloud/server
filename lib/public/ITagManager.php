@@ -31,7 +31,7 @@ interface ITagManager {
 	 * @param boolean $includeShared Whether to include tags for items shared with this user by others. - always false since 20.0.0
 	 * @param string $userId user for which to retrieve the tags, defaults to the currently
 	 *                       logged in user
-	 * @return \OCP\ITags
+	 * @return \OCP\ITags|null
 	 * @since 6.0.0 - parameter $includeShared and $userId were added in 8.0.0 - $includeShared is always false since 20.0.0
 	 */
 	public function load($type, $defaultTags = [], $includeShared = false, $userId = null);

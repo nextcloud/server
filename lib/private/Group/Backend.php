@@ -7,10 +7,12 @@
  */
 namespace OC\Group;
 
+use OCP\GroupInterface;
+
 /**
  * Abstract base class for user management
  */
-abstract class Backend implements \OCP\GroupInterface {
+abstract class Backend implements GroupInterface {
 	/**
 	 * error code for functions not provided by the group backend
 	 */

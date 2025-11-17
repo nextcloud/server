@@ -31,7 +31,7 @@ interface IAppContainer extends ContainerInterface, IContainer {
 	public function getAppName();
 
 	/**
-	 * @return \OCP\IServerContainer
+	 * @return \OC\ServerContainer
 	 * @since 6.0.0
 	 * @deprecated 20.0.0
 	 */

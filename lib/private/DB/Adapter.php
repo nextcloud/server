@@ -17,12 +17,11 @@ use OC\DB\Exceptions\DbalException;
  */
 class Adapter {
 	/**
-	 * @var \OC\DB\Connection $conn
+	 * @param \OC\DB\Connection $conn
 	 */
-	protected $conn;
-
-	public function __construct($conn) {
-		$this->conn = $conn;
+	public function __construct(
+		protected $conn,
+	) {
 	}
 
 	/**

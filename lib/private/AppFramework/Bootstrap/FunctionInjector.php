@@ -16,11 +16,9 @@ use ReflectionParameter;
 use function array_map;
 
 class FunctionInjector {
-	/** @var ContainerInterface */
-	private $container;
-
-	public function __construct(ContainerInterface $container) {
-		$this->container = $container;
+	public function __construct(
+		private ContainerInterface $container,
+	) {
 	}
 
 	public function injectFn(callable $fn) {

@@ -8,6 +8,7 @@
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -17,17 +18,13 @@ use OCP\IUser;
  */
 class CacheMountProvider implements IMountProvider {
 	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
 	 * ObjectStoreHomeMountProvider constructor.
 	 *
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -35,7 +32,7 @@ class CacheMountProvider implements IMountProvider {
 	 *
 	 * @param IUser $user
 	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$cacheBaseDir = $this->config->getSystemValueString('cache_path', '');

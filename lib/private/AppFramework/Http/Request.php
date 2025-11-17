@@ -14,6 +14,7 @@ use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 
@@ -44,8 +45,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
-
-	protected string $inputStream;
 	private bool $isPutStreamContentAlreadySent = false;
 	protected array $items = [];
 	protected array $allowedKeys = [
@@ -60,9 +59,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'method',
 		'requesttoken',
 	];
-	protected IRequestId $requestId;
-	protected IConfig $config;
-	protected ?CsrfTokenManager $csrfTokenManager;
 
 	protected bool $contentDecoded = false;
 	private ?\JsonException $decodingException = null;
@@ -81,19 +77,17 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param IRequestId $requestId
 	 * @param IConfig $config
 	 * @param CsrfTokenManager|null $csrfTokenManager
-	 * @param string $stream
+	 * @param string $inputStream
 	 * @see https://www.php.net/manual/en/reserved.variables.php
 	 */
-	public function __construct(array $vars,
-		IRequestId $requestId,
-		IConfig $config,
-		?CsrfTokenManager $csrfTokenManager = null,
-		string $stream = 'php://input') {
-		$this->inputStream = $stream;
+	public function __construct(
+		array $vars,
+		protected IRequestId $requestId,
+		protected IConfig $config,
+		protected ?CsrfTokenManager $csrfTokenManager = null,
+		protected string $inputStream = 'php://input',
+	) {
 		$this->items['params'] = [];
-		$this->requestId = $requestId;
-		$this->config = $config;
-		$this->csrfTokenManager = $csrfTokenManager;
 
 		if (!array_key_exists('method', $vars)) {
 			$vars['method'] = 'GET';
@@ -660,7 +654,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		if ($proto !== 'https' && $proto !== 'http') {
 			// log unrecognized value so admin has a chance to fix it
-			\OCP\Server::get(LoggerInterface::class)->critical(
+			Server::get(LoggerInterface::class)->critical(
 				'Server protocol is malformed [falling back to http] (check overwriteprotocol and/or X-Forwarded-Proto to remedy): ' . $proto,
 				['app' => 'core']
 			);

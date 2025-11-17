@@ -62,15 +62,20 @@ use OCA\DAV\Migration\DeleteSchedulingObjects;
 use OCA\DAV\Migration\RemoveObjectProperties;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -124,7 +129,7 @@ class Repair implements IOutput {
 	public function addStep($repairStep) {
 		if (is_string($repairStep)) {
 			try {
-				$s = \OC::$server->get($repairStep);
+				$s = Server::get($repairStep);
 			} catch (QueryException $e) {
 				if (class_exists($repairStep)) {
 					try {
@@ -157,50 +162,50 @@ class Repair implements IOutput {
 	 */
 	public static function getRepairSteps(): array {
 		return [
-			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
-			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
-			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new MoveUpdaterStepFile(\OC::$server->getConfig()),
+			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(IDBConnection::class), false),
+			new CleanTags(Server::get(IDBConnection::class), Server::get(IUserManager::class)),
+			new RepairInvalidShares(Server::get(IConfig::class), Server::get(IDBConnection::class)),
+			new MoveUpdaterStepFile(Server::get(IConfig::class)),
 			new MoveAvatars(
-				\OC::$server->getJobList(),
-				\OC::$server->getConfig()
+				Server::get(IJobList::class),
+				Server::get(IConfig::class)
 			),
 			new CleanPreviews(
-				\OC::$server->getJobList(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getConfig()
+				Server::get(IJobList::class),
+				Server::get(IUserManager::class),
+				Server::get(IConfig::class)
 			),
-			\OCP\Server::get(MigratePropertiesTable::class),
-			\OC::$server->get(MigrateOauthTables::class),
-			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new AddLogRotateJob(\OC::$server->getJobList()),
-			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
-			\OCP\Server::get(ClearGeneratedAvatarCache::class),
-			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
-			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
-			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OCP\Server::get(IAppDataFactory::class), \OC::$server->get(LoggerInterface::class)),
-			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
-			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->get(INotificationManager::class), \OCP\Server::get(ITimeFactory::class)),
-			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
-			\OCP\Server::get(ResetGeneratedAvatarFlag::class),
-			\OCP\Server::get(EncryptionLegacyCipher::class),
-			\OCP\Server::get(EncryptionMigration::class),
-			\OCP\Server::get(ShippedDashboardEnable::class),
-			\OCP\Server::get(AddBruteForceCleanupJob::class),
-			\OCP\Server::get(AddCheckForUserCertificatesJob::class),
-			\OCP\Server::get(RepairDavShares::class),
-			\OCP\Server::get(LookupServerSendCheck::class),
-			\OCP\Server::get(AddTokenCleanupJob::class),
-			\OCP\Server::get(CleanUpAbandonedApps::class),
-			\OCP\Server::get(AddMissingSecretJob::class),
-			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
-			\OCP\Server::get(AddMetadataGenerationJob::class),
-			\OCP\Server::get(RepairLogoDimension::class),
-			\OCP\Server::get(RemoveLegacyDatadirFile::class),
-			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),
-			\OCP\Server::get(SanitizeAccountProperties::class),
-			\OCP\Server::get(AddMovePreviewJob::class),
-			\OCP\Server::get(ConfigKeyMigration::class),
+			Server::get(MigratePropertiesTable::class),
+			Server::get(MigrateOauthTables::class),
+			new UpdateLanguageCodes(Server::get(IDBConnection::class), Server::get(IConfig::class)),
+			new AddLogRotateJob(Server::get(IJobList::class)),
+			new ClearFrontendCaches(Server::get(ICacheFactory::class), Server::get(JSCombiner::class)),
+			Server::get(ClearGeneratedAvatarCache::class),
+			new AddPreviewBackgroundCleanupJob(Server::get(IJobList::class)),
+			new AddCleanupUpdaterBackupsJob(Server::get(IJobList::class)),
+			new CleanupCardDAVPhotoCache(Server::get(IConfig::class), Server::get(IAppDataFactory::class), Server::get(LoggerInterface::class)),
+			new AddClenupLoginFlowV2BackgroundJob(Server::get(IJobList::class)),
+			new RemoveLinkShares(Server::get(IDBConnection::class), Server::get(IConfig::class), Server::get(IGroupManager::class), Server::get(INotificationManager::class), Server::get(ITimeFactory::class)),
+			new ClearCollectionsAccessCache(Server::get(IConfig::class), Server::get(IManager::class)),
+			Server::get(ResetGeneratedAvatarFlag::class),
+			Server::get(EncryptionLegacyCipher::class),
+			Server::get(EncryptionMigration::class),
+			Server::get(ShippedDashboardEnable::class),
+			Server::get(AddBruteForceCleanupJob::class),
+			Server::get(AddCheckForUserCertificatesJob::class),
+			Server::get(RepairDavShares::class),
+			Server::get(LookupServerSendCheck::class),
+			Server::get(AddTokenCleanupJob::class),
+			Server::get(CleanUpAbandonedApps::class),
+			Server::get(AddMissingSecretJob::class),
+			Server::get(AddRemoveOldTasksBackgroundJob::class),
+			Server::get(AddMetadataGenerationJob::class),
+			Server::get(RepairLogoDimension::class),
+			Server::get(RemoveLegacyDatadirFile::class),
+			Server::get(AddCleanupDeletedUsersBackgroundJob::class),
+			Server::get(SanitizeAccountProperties::class),
+			Server::get(AddMovePreviewJob::class),
+			Server::get(ConfigKeyMigration::class),
 		];
 	}
 
@@ -212,15 +217,15 @@ class Repair implements IOutput {
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
-			new RemoveBrokenProperties(\OCP\Server::get(IDBConnection::class)),
+			new OldGroupMembershipShares(Server::get(IDBConnection::class), Server::get(IGroupManager::class)),
+			new RemoveBrokenProperties(Server::get(IDBConnection::class)),
 			new RepairMimeTypes(
-				\OCP\Server::get(IConfig::class),
-				\OCP\Server::get(IAppConfig::class),
-				\OCP\Server::get(IDBConnection::class)
+				Server::get(IConfig::class),
+				Server::get(IAppConfig::class),
+				Server::get(IDBConnection::class)
 			),
-			\OCP\Server::get(DeleteSchedulingObjects::class),
-			\OC::$server->get(RemoveObjectProperties::class),
+			Server::get(DeleteSchedulingObjects::class),
+			Server::get(RemoveObjectProperties::class),
 		];
 	}
 
@@ -232,10 +237,10 @@ class Repair implements IOutput {
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		/** @var ConnectionAdapter $connectionAdapter */
-		$connectionAdapter = \OC::$server->get(ConnectionAdapter::class);
-		$config = \OC::$server->getConfig();
+		$connectionAdapter = Server::get(ConnectionAdapter::class);
+		$config = Server::get(IConfig::class);
 		$steps = [
-			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), $connectionAdapter, true),
+			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), $connectionAdapter, true),
 			new SaveAccountsTableData($connectionAdapter, $config),
 			new DropAccountTermsTable($connectionAdapter),
 		];

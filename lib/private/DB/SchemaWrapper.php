@@ -15,17 +15,16 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class SchemaWrapper implements ISchemaWrapper {
-	/** @var Connection */
-	protected $connection;
-
 	/** @var Schema */
 	protected $schema;
 
 	/** @var array */
 	protected $tablesToDelete = [];
 
-	public function __construct(Connection $connection, ?Schema $schema = null) {
-		$this->connection = $connection;
+	public function __construct(
+		protected Connection $connection,
+		?Schema $schema = null,
+	) {
 		if ($schema) {
 			$this->schema = $schema;
 		} else {

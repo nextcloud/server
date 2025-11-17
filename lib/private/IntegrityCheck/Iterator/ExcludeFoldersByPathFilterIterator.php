@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OC\IntegrityCheck\Iterator;
 
+use OCP\IConfig;
+use OCP\Server;
+
 class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 	private $excludedFolders;
 
@@ -32,7 +35,7 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 			rtrim($root . '/updater', '/'),
 			rtrim($root . '/_oc_upgrade', '/'),
 		];
-		$customDataDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', '');
+		$customDataDir = Server::get(IConfig::class)->getSystemValueString('datadirectory', '');
 		if ($customDataDir !== '') {
 			$excludedFolders[] = rtrim($customDataDir, '/');
 		}

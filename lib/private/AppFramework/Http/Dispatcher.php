@@ -26,32 +26,6 @@ use Psr\Log\LoggerInterface;
  * Class to dispatch the request to the middleware dispatcher
  */
 class Dispatcher {
-	/** @var MiddlewareDispatcher */
-	private $middlewareDispatcher;
-
-	/** @var Http */
-	private $protocol;
-
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var ConnectionAdapter */
-	private $connection;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IEventLogger */
-	private $eventLogger;
-
-	private ContainerInterface $appContainer;
-
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
@@ -65,25 +39,16 @@ class Dispatcher {
 	 * @param IEventLogger $eventLogger
 	 */
 	public function __construct(
-		Http $protocol,
-		MiddlewareDispatcher $middlewareDispatcher,
-		ControllerMethodReflector $reflector,
-		IRequest $request,
-		IConfig $config,
-		ConnectionAdapter $connection,
-		LoggerInterface $logger,
-		IEventLogger $eventLogger,
-		ContainerInterface $appContainer,
+		private Http $protocol,
+		private MiddlewareDispatcher $middlewareDispatcher,
+		private ControllerMethodReflector $reflector,
+		private IRequest $request,
+		private IConfig $config,
+		private ConnectionAdapter $connection,
+		private LoggerInterface $logger,
+		private IEventLogger $eventLogger,
+		private ContainerInterface $appContainer,
 	) {
-		$this->protocol = $protocol;
-		$this->middlewareDispatcher = $middlewareDispatcher;
-		$this->reflector = $reflector;
-		$this->request = $request;
-		$this->config = $config;
-		$this->connection = $connection;
-		$this->logger = $logger;
-		$this->eventLogger = $eventLogger;
-		$this->appContainer = $appContainer;
 	}
 
 

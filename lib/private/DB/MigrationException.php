@@ -8,10 +8,10 @@
 namespace OC\DB;
 
 class MigrationException extends \Exception {
-	private $table;
-
-	public function __construct($table, $message) {
-		$this->table = $table;
+	public function __construct(
+		private $table,
+		$message,
+	) {
 		parent::__construct($message);
 	}
 

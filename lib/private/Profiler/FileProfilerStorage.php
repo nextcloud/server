@@ -14,9 +14,6 @@ use OCP\Profiler\IProfile;
  * Storage for profiler using files.
  */
 class FileProfilerStorage {
-	// Folder where profiler data are stored.
-	private string $folder;
-
 	/** @psalm-suppress UndefinedClass */
 	public const allowedClasses = [
 		\OCA\Profiler\DataCollector\EventLoggerDataProvider::class,
@@ -35,9 +32,10 @@ class FileProfilerStorage {
 	 *
 	 * @throws \RuntimeException
 	 */
-	public function __construct(string $folder) {
-		$this->folder = $folder;
-
+	public function __construct(
+		/** @var string $folder Folder where profiler data are stored. */
+		private string $folder,
+	) {
 		if (!is_dir($this->folder) && @mkdir($this->folder, 0777, true) === false && !is_dir($this->folder)) {
 			throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
 		}

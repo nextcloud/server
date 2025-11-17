@@ -12,22 +12,16 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveAvatars implements IRepairStep {
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * MoveAvatars constructor.
 	 *
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IJobList $jobList,
-		IConfig $config) {
-		$this->jobList = $jobList;
-		$this->config = $config;
+	public function __construct(
+		private IJobList $jobList,
+		private IConfig $config,
+	) {
 	}
 
 	/**

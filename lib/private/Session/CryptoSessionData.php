@@ -21,12 +21,6 @@ use function OCP\Log\logger;
  * @template-implements \ArrayAccess<string,mixed>
  */
 class CryptoSessionData implements \ArrayAccess, ISession {
-	/** @var ISession */
-	protected $session;
-	/** @var \OCP\Security\ICrypto */
-	protected $crypto;
-	/** @var string */
-	protected $passphrase;
 	/** @var array */
 	protected $sessionValues;
 	/** @var bool */
@@ -38,12 +32,11 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param ICrypto $crypto
 	 * @param string $passphrase
 	 */
-	public function __construct(ISession $session,
-		ICrypto $crypto,
-		string $passphrase) {
-		$this->crypto = $crypto;
-		$this->session = $session;
-		$this->passphrase = $passphrase;
+	public function __construct(
+		protected ISession $session,
+		protected ICrypto $crypto,
+		protected string $passphrase,
+	) {
 		$this->initializeSession();
 	}
 

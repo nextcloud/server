@@ -19,6 +19,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
+use OCA\Talk\Controller\PageController;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -108,7 +109,8 @@ class SecurityMiddleware extends Middleware {
 		// for normal HTML requests and not for AJAX requests
 		$this->navigationManager->setActiveEntry($this->appName);
 
-		if (get_class($controller) === \OCA\Talk\Controller\PageController::class && $methodName === 'showCall') {
+		/** @psalm-suppress UndefinedClass */
+		if (get_class($controller) === PageController::class && $methodName === 'showCall') {
 			$this->navigationManager->setActiveEntry('spreed');
 		}
 

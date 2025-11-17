@@ -6,19 +6,29 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Authentication\Token\IProvider;
+use OC\SystemConfig;
+use OC\User\Database;
 use OC\User\DisabledUserException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\IApacheBackend;
+use OCP\Authentication\IProvideUserSecretBackend;
 use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
+use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use OCP\User\Backend\ICustomLogout;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
+use OCP\UserInterface;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -48,14 +58,14 @@ class OC_User {
 	/**
 	 * Adds the backend to the list of used backends
 	 *
-	 * @param string|\OCP\UserInterface $backend default: database The backend to use for user management
+	 * @param string|UserInterface $backend default: database The backend to use for user management
 	 * @return bool
 	 * @deprecated 32.0.0 Use IUserManager::registerBackend instead
 	 *
 	 * Set the User Authentication Module
 	 */
 	public static function useBackend($backend = 'database') {
-		if ($backend instanceof \OCP\UserInterface) {
+		if ($backend instanceof UserInterface) {
 			Server::get(IUserManager::class)->registerBackend($backend);
 		} else {
 			// You'll never know what happens
@@ -69,7 +79,7 @@ class OC_User {
 				case 'mysql':
 				case 'sqlite':
 					Server::get(LoggerInterface::class)->debug('Adding user backend ' . $backend . '.', ['app' => 'core']);
-					Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
+					Server::get(IUserManager::class)->registerBackend(new Database());
 					break;
 				case 'dummy':
 					Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
@@ -98,7 +108,7 @@ class OC_User {
 	 */
 	public static function setupBackends() {
 		OC_App::loadApps(['prelogin']);
-		$backends = \OC::$server->getSystemConfig()->getValue('user_backends', []);
+		$backends = Server::get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
 			self::clearBackends();
@@ -133,10 +143,10 @@ class OC_User {
 	 *
 	 * Log in a user and regenerate a new session.
 	 *
-	 * @param \OCP\Authentication\IApacheBackend $backend
+	 * @param IApacheBackend $backend
 	 * @return bool
 	 */
-	public static function loginWithApache(\OCP\Authentication\IApacheBackend $backend) {
+	public static function loginWithApache(IApacheBackend $backend) {
 		$uid = $backend->getCurrentUserId();
 		$run = true;
 		OC_Hook::emit('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
@@ -144,19 +154,20 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				$userSession = \OC::$server->getUserSession();
+				/** @var \OC\User\Session $userSession */
+				$userSession = Server::get(IUserSession::class);
 
 				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = \OC::$server->get(IEventDispatcher::class);
+				$dispatcher = Server::get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
 					$message = \OC::$server->getL10N('lib')->t('Account disabled');
 					throw new DisabledUserException($message);
 				}
 				$userSession->setLoginName($uid);
-				$request = OC::$server->getRequest();
+				$request = Server::get(IRequest::class);
 				$password = null;
-				if ($backend instanceof \OCP\Authentication\IProvideUserSecretBackend) {
+				if ($backend instanceof IProvideUserSecretBackend) {
 					$password = $backend->getCurrentUserSecret();
 				}
 
@@ -167,7 +178,7 @@ class OC_User {
 				$userSession->createRememberMeToken($userSession->getUser());
 
 				if (empty($password)) {
-					$tokenProvider = \OC::$server->get(IProvider::class);
+					$tokenProvider = Server::get(IProvider::class);
 					try {
 						$token = $tokenProvider->getToken($userSession->getSession()->getId());
 						$token->setScope([
@@ -197,7 +208,7 @@ class OC_User {
 					]
 				);
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
-					\OC::$server->get(IUserManager::class)->get($uid),
+					Server::get(IUserManager::class)->get($uid),
 					$uid,
 					null,
 					false)
@@ -226,7 +237,9 @@ class OC_User {
 
 			//setup extra user backends
 			self::setupBackends();
-			\OC::$server->getUserSession()->unsetMagicInCookie();
+			/** @var \OC\User\Session $session */
+			$session = Server::get(IUserSession::class);
+			$session->unsetMagicInCookie();
 
 			return self::loginWithApache($backend);
 		}
@@ -241,12 +254,12 @@ class OC_User {
 	 * @param string $uid
 	 */
 	public static function setUserId($uid) {
-		$userSession = \OC::$server->getUserSession();
+		$userSession = Server::get(IUserSession::class);
 		$userManager = Server::get(IUserManager::class);
 		if ($user = $userManager->get($uid)) {
 			$userSession->setUser($user);
 		} else {
-			\OC::$server->getSession()->set('user_id', $uid);
+			Server::get(ISession::class)->set('user_id', $uid);
 		}
 	}
 
@@ -271,25 +284,25 @@ class OC_User {
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
 	 *
-	 * @param \OCP\IURLGenerator $urlGenerator
+	 * @param IURLGenerator $urlGenerator
 	 * @return string
 	 */
-	public static function getLogoutUrl(\OCP\IURLGenerator $urlGenerator) {
+	public static function getLogoutUrl(IURLGenerator $urlGenerator) {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
 			return $backend->getLogoutUrl();
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = Server::get(IUserSession::class)->getUser();
 		if ($user instanceof IUser) {
 			$backend = $user->getBackend();
-			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {
+			if ($backend instanceof ICustomLogout) {
 				return $backend->getLogoutUrl();
 			}
 		}
 
 		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . urlencode(\OCP\Util::callRegister());
+		$logoutUrl .= '?requesttoken=' . urlencode(Util::callRegister());
 
 		return $logoutUrl;
 	}
@@ -343,11 +356,11 @@ class OC_User {
 	/**
 	 * Returns the first active backend from self::$_usedBackends.
 	 *
-	 * @return OCP\Authentication\IApacheBackend|null if no backend active, otherwise OCP\Authentication\IApacheBackend
+	 * @return IApacheBackend|null if no backend active, otherwise OCP\Authentication\IApacheBackend
 	 */
 	private static function findFirstActiveUsedBackend() {
 		foreach (Server::get(IUserManager::class)->getBackends() as $backend) {
-			if ($backend instanceof OCP\Authentication\IApacheBackend) {
+			if ($backend instanceof IApacheBackend) {
 				if ($backend->isSessionActive()) {
 					return $backend;
 				}

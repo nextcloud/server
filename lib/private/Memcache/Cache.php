@@ -7,20 +7,18 @@
  */
 namespace OC\Memcache;
 
+use OCP\ICache;
+
 /**
  * @template-implements \ArrayAccess<string,mixed>
  */
-abstract class Cache implements \ArrayAccess, \OCP\ICache {
-	/**
-	 * @var string $prefix
-	 */
-	protected $prefix;
-
+abstract class Cache implements \ArrayAccess, ICache {
 	/**
 	 * @param string $prefix
 	 */
-	public function __construct($prefix = '') {
-		$this->prefix = $prefix;
+	public function __construct(
+		protected $prefix = '',
+	) {
 	}
 
 	/**

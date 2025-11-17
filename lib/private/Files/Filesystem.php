@@ -8,17 +8,22 @@
 namespace OC\Files;
 
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OC\User\NoUserException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
+use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Filesystem {
@@ -149,7 +154,7 @@ class Filesystem {
 	public const signal_param_mount_type = 'mounttype';
 	public const signal_param_users = 'users';
 
-	private static ?\OC\Files\Storage\StorageFactory $loader = null;
+	private static ?StorageFactory $loader = null;
 
 	private static bool $logWarningWhenAddingStorageWrapper = true;
 
@@ -171,7 +176,7 @@ class Filesystem {
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
 		if (self::$logWarningWhenAddingStorageWrapper) {
-			\OCP\Server::get(LoggerInterface::class)->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
+			Server::get(LoggerInterface::class)->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
 				'wrapper' => $wrapperName,
 				'app' => 'filesystem',
 			]);
@@ -193,7 +198,7 @@ class Filesystem {
 	 */
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = \OC::$server->get(IStorageFactory::class);
+			self::$loader = Server::get(IStorageFactory::class);
 		}
 		return self::$loader;
 	}
@@ -246,7 +251,7 @@ class Filesystem {
 	 * get the storage mounted at $mountPoint
 	 *
 	 * @param string $mountPoint
-	 * @return \OC\Files\Storage\Storage|null
+	 * @return IStorage|null
 	 */
 	public static function getStorage($mountPoint) {
 		$mount = self::getMountManager()->find($mountPoint);
@@ -255,7 +260,7 @@ class Filesystem {
 
 	/**
 	 * @param string $id
-	 * @return Mount\MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public static function getMountByStorageId($id) {
 		return self::getMountManager()->findByStorageId($id);
@@ -263,7 +268,7 @@ class Filesystem {
 
 	/**
 	 * @param int $id
-	 * @return Mount\MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public static function getMountByNumericId($id) {
 		return self::getMountManager()->findByNumericId($id);
@@ -273,7 +278,7 @@ class Filesystem {
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array{?\OCP\Files\Storage\IStorage, string} an array consisting of the storage and the internal path
+	 * @return array{?IStorage, string} an array consisting of the storage and the internal path
 	 */
 	public static function resolvePath($path): array {
 		$mount = self::getMountManager()->find($path);
@@ -299,8 +304,8 @@ class Filesystem {
 		self::getLoader();
 		self::$defaultInstance = new View($root);
 		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
-		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function (): void {
 			self::$defaultInstance = null;
 			self::$loaded = false;
 		});
@@ -314,23 +319,23 @@ class Filesystem {
 
 	public static function initMountManager(): void {
 		if (!self::$mounts) {
-			self::$mounts = \OC::$server->get(IMountManager::class);
+			self::$mounts = Server::get(IMountManager::class);
 		}
 	}
 
 	/**
 	 * Initialize system and personal mount points for a user
 	 *
-	 * @throws \OC\User\NoUserException if the user is not available
+	 * @throws NoUserException if the user is not available
 	 */
 	public static function initMountPoints(string|IUser|null $user = ''): void {
 		/** @var IUserManager $userManager */
-		$userManager = \OC::$server->get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 
 		$userObject = ($user instanceof IUser) ? $user : $userManager->get($user);
 		if ($userObject) {
 			/** @var SetupManager $setupManager */
-			$setupManager = \OC::$server->get(SetupManager::class);
+			$setupManager = Server::get(SetupManager::class);
 			$setupManager->setupForUser($userObject);
 		} else {
 			throw new NoUserException();
@@ -343,7 +348,7 @@ class Filesystem {
 	public static function getView(): ?View {
 		if (!self::$defaultInstance) {
 			/** @var IUserSession $session */
-			$session = \OC::$server->get(IUserSession::class);
+			$session = Server::get(IUserSession::class);
 			$user = $session->getUser();
 			if ($user) {
 				$userDir = '/' . $user->getUID() . '/files';
@@ -377,7 +382,7 @@ class Filesystem {
 	/**
 	 * mount an \OC\Files\Storage\Storage in our virtual filesystem
 	 *
-	 * @param \OC\Files\Storage\Storage|string $class
+	 * @param Storage|string $class
 	 * @param array $arguments
 	 * @param string $mountpoint
 	 */
@@ -385,7 +390,7 @@ class Filesystem {
 		if (!self::$mounts) {
 			\OC_Util::setupFS();
 		}
-		$mount = new Mount\MountPoint($class, $mountpoint, $arguments, self::getLoader());
+		$mount = new MountPoint($class, $mountpoint, $arguments, self::getLoader());
 		self::$mounts->addMount($mount);
 	}
 
@@ -414,7 +419,7 @@ class Filesystem {
 	 */
 	public static function isFileBlacklisted($filename) {
 		if (self::$validator === null) {
-			self::$validator = \OCP\Server::get(FilenameValidator::class);
+			self::$validator = Server::get(FilenameValidator::class);
 		}
 
 		$filename = self::normalizePath($filename);
@@ -531,7 +536,7 @@ class Filesystem {
 
 	/**
 	 * @param string $path
-	 * @throws \OCP\Files\InvalidPathException
+	 * @throws InvalidPathException
 	 */
 	public static function toTmpFile($path): string|false {
 		return self::$defaultInstance->toTmpFile($path);
@@ -653,7 +658,7 @@ class Filesystem {
 	 * @param string $path
 	 * @param bool|string $includeMountPoints whether to add mountpoint sizes,
 	 *                                        defaults to true
-	 * @return \OC\Files\FileInfo|false False if file does not exist
+	 * @return FileInfo|false False if file does not exist
 	 */
 	public static function getFileInfo($path, $includeMountPoints = true) {
 		return self::getView()->getFileInfo($path, $includeMountPoints);
@@ -677,7 +682,7 @@ class Filesystem {
 	 *
 	 * @param string $directory path under datadirectory
 	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
-	 * @return \OC\Files\FileInfo[]
+	 * @return FileInfo[]
 	 */
 	public static function getDirectoryContent($directory, $mimetype_filter = '') {
 		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);

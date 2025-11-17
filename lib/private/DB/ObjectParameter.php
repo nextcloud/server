@@ -11,19 +11,18 @@ declare(strict_types = 1);
 namespace OC\DB;
 
 final class ObjectParameter {
-	private $object;
-	private $error;
 	private $stringable;
 	private $class;
 
 	/**
 	 * @param object $object
 	 */
-	public function __construct($object, ?\Throwable $error) {
-		$this->object = $object;
-		$this->error = $error;
-		$this->stringable = \is_callable([$object, '__toString']);
-		$this->class = \get_class($object);
+	public function __construct(
+		private $object,
+		private ?\Throwable $error,
+	) {
+		$this->stringable = \is_callable([$this->object, '__toString']);
+		$this->class = \get_class($this->object);
 	}
 
 	/**

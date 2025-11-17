@@ -28,26 +28,14 @@ use function parse_url;
  * @package OC\Http
  */
 class Client implements IClient {
-	/** @var GuzzleClient */
-	private $client;
-	/** @var IConfig */
-	private $config;
-	/** @var ICertificateManager */
-	private $certificateManager;
-	private IRemoteHostValidator $remoteHostValidator;
-
 	public function __construct(
-		IConfig $config,
-		ICertificateManager $certificateManager,
-		GuzzleClient $client,
-		IRemoteHostValidator $remoteHostValidator,
+		private IConfig $config,
+		private ICertificateManager $certificateManager,
+		private GuzzleClient $client,
+		private IRemoteHostValidator $remoteHostValidator,
 		protected LoggerInterface $logger,
 		protected ServerVersion $serverVersion,
 	) {
-		$this->config = $config;
-		$this->client = $client;
-		$this->certificateManager = $certificateManager;
-		$this->remoteHostValidator = $remoteHostValidator;
 	}
 
 	private function buildRequestOptions(array $options): array {
@@ -64,7 +52,7 @@ class Client implements IClient {
 				\Psr\Http\Message\RequestInterface $request,
 				\Psr\Http\Message\ResponseInterface $response,
 				\Psr\Http\Message\UriInterface $uri,
-			) use ($options) {
+			) use ($options): void {
 				$this->preventLocalAddress($uri->__toString(), $options);
 			};
 

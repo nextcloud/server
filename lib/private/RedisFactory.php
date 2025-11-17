@@ -16,18 +16,15 @@ class RedisFactory {
 	/** @var \Redis|\RedisCluster */
 	private $instance;
 
-	private SystemConfig $config;
-
-	private IEventLogger $eventLogger;
-
 	/**
 	 * RedisFactory constructor.
 	 *
 	 * @param SystemConfig $config
 	 */
-	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
-		$this->config = $config;
-		$this->eventLogger = $eventLogger;
+	public function __construct(
+		private SystemConfig $config,
+		private IEventLogger $eventLogger,
+	) {
 	}
 
 	private function create() {

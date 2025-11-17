@@ -22,9 +22,9 @@ use OCP\Lock\ILockingProvider;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStreamStorage {
+class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
 	/**
-	 * @var \OC\Files\Storage\Storage $storage
+	 * @var Storage $storage
 	 */
 	protected $storage;
 

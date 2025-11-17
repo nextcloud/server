@@ -9,6 +9,7 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\Image;
 
 class MarkDown extends TXT {
 	/**
@@ -119,7 +120,7 @@ class MarkDown extends TXT {
 			}
 		}
 
-		$imageObject = new \OCP\Image();
+		$imageObject = new Image();
 		$imageObject->setResource($image);
 
 		return $imageObject->valid() ? $imageObject : null;

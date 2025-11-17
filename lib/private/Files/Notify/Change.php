@@ -9,21 +9,16 @@ namespace OC\Files\Notify;
 use OCP\Files\Notify\IChange;
 
 class Change implements IChange {
-	/** @var int */
-	private $type;
-
-	/** @var string */
-	private $path;
-
 	/**
 	 * Change constructor.
 	 *
 	 * @param int $type
 	 * @param string $path
 	 */
-	public function __construct($type, $path) {
-		$this->type = $type;
-		$this->path = $path;
+	public function __construct(
+		private $type,
+		private $path,
+	) {
 	}
 
 	/**

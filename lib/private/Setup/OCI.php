@@ -7,6 +7,8 @@
  */
 namespace OC\Setup;
 
+use OC\DatabaseSetupException;
+
 class OCI extends AbstractDatabase {
 	public $dbprettyname = 'Oracle';
 
@@ -46,14 +48,14 @@ class OCI extends AbstractDatabase {
 		} catch (\Exception $e) {
 			$errorMessage = $this->getLastError();
 			if ($errorMessage) {
-				throw new \OC\DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
+				throw new DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
 					$errorMessage . ' Check environment: ORACLE_HOME=' . getenv('ORACLE_HOME')
 					. ' ORACLE_SID=' . getenv('ORACLE_SID')
 					. ' LD_LIBRARY_PATH=' . getenv('LD_LIBRARY_PATH')
 					. ' NLS_LANG=' . getenv('NLS_LANG')
 					. ' tnsnames.ora is ' . (is_readable(getenv('ORACLE_HOME') . '/network/admin/tnsnames.ora') ? '' : 'not ') . 'readable', 0, $e);
 			}
-			throw new \OC\DatabaseSetupException($this->trans->t('Oracle Login and/or password not valid'),
+			throw new DatabaseSetupException($this->trans->t('Oracle Login and/or password not valid'),
 				'Check environment: ORACLE_HOME=' . getenv('ORACLE_HOME')
 				. ' ORACLE_SID=' . getenv('ORACLE_SID')
 				. ' LD_LIBRARY_PATH=' . getenv('LD_LIBRARY_PATH')

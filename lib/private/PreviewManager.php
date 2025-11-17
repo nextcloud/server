@@ -9,13 +9,44 @@ namespace OC;
 
 use Closure;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Preview\BMP;
 use OC\Preview\Db\PreviewMapper;
+use OC\Preview\EMF;
+use OC\Preview\Font;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OC\Preview\GIF;
+use OC\Preview\HEIC;
+use OC\Preview\Illustrator;
+use OC\Preview\Image;
 use OC\Preview\IMagickSupport;
+use OC\Preview\Imaginary;
+use OC\Preview\ImaginaryPDF;
+use OC\Preview\JPEG;
+use OC\Preview\Krita;
+use OC\Preview\MarkDown;
+use OC\Preview\Movie;
+use OC\Preview\MP3;
+use OC\Preview\MSOffice2003;
+use OC\Preview\MSOffice2007;
+use OC\Preview\MSOfficeDoc;
+use OC\Preview\OpenDocument;
+use OC\Preview\PDF;
+use OC\Preview\Photoshop;
+use OC\Preview\PNG;
+use OC\Preview\Postscript;
+use OC\Preview\SGI;
+use OC\Preview\StarOffice;
 use OC\Preview\Storage\StorageFactory;
+use OC\Preview\SVG;
+use OC\Preview\TGA;
+use OC\Preview\TIFF;
+use OC\Preview\TXT;
+use OC\Preview\WebP;
+use OC\Preview\XBitmap;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -34,11 +65,7 @@ use function array_key_exists;
  * @psalm-import-type ProviderClosure from IPreview
  */
 class PreviewManager implements IPreview {
-	protected IConfig $config;
-	protected IRootFolder $rootFolder;
-	protected IEventDispatcher $eventDispatcher;
 	private ?Generator $generator = null;
-	private GeneratorHelper $helper;
 	protected bool $providerListDirty = false;
 	protected bool $registeredCoreProviders = false;
 	/**
@@ -50,40 +77,26 @@ class PreviewManager implements IPreview {
 	protected array $mimeTypeSupportMap = [];
 	/** @var ?list<class-string<IProviderV2>> $defaultProviders */
 	protected ?array $defaultProviders = null;
-	protected ?string $userId;
-	private Coordinator $bootstrapCoordinator;
 
 	/**
 	 * Hash map (without value) of loaded bootstrap providers
 	 * @psalm-var array<string, null>
 	 */
 	private array $loadedBootstrapProviders = [];
-	private ContainerInterface $container;
-	private IBinaryFinder $binaryFinder;
-	private IMagickSupport $imagickSupport;
 	private bool $enablePreviews;
 
 	public function __construct(
-		IConfig $config,
-		IRootFolder $rootFolder,
-		IEventDispatcher $eventDispatcher,
-		GeneratorHelper $helper,
-		?string $userId,
-		Coordinator $bootstrapCoordinator,
-		ContainerInterface $container,
-		IBinaryFinder $binaryFinder,
-		IMagickSupport $imagickSupport,
+		protected IConfig $config,
+		protected IRootFolder $rootFolder,
+		protected IEventDispatcher $eventDispatcher,
+		private GeneratorHelper $helper,
+		protected ?string $userId,
+		private Coordinator $bootstrapCoordinator,
+		private ContainerInterface $container,
+		private IBinaryFinder $binaryFinder,
+		private IMagickSupport $imagickSupport,
 	) {
-		$this->config = $config;
-		$this->rootFolder = $rootFolder;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->helper = $helper;
-		$this->userId = $userId;
-		$this->bootstrapCoordinator = $bootstrapCoordinator;
-		$this->container = $container;
-		$this->binaryFinder = $binaryFinder;
-		$this->imagickSupport = $imagickSupport;
-		$this->enablePreviews = $config->getSystemValueBool('enable_previews', true);
+		$this->enablePreviews = $this->config->getSystemValueBool('enable_previews', true);
 	}
 
 	/**
@@ -205,7 +218,7 @@ class PreviewManager implements IPreview {
 		return false;
 	}
 
-	public function isAvailable(\OCP\Files\FileInfo $file, ?string $mimeType = null): bool {
+	public function isAvailable(FileInfo $file, ?string $mimeType = null): bool {
 		if (!$this->enablePreviews) {
 			return false;
 		}
@@ -249,22 +262,22 @@ class PreviewManager implements IPreview {
 		}
 
 		$imageProviders = [
-			Preview\PNG::class,
-			Preview\JPEG::class,
-			Preview\GIF::class,
-			Preview\BMP::class,
-			Preview\XBitmap::class,
-			Preview\Krita::class,
-			Preview\WebP::class,
+			PNG::class,
+			JPEG::class,
+			GIF::class,
+			BMP::class,
+			XBitmap::class,
+			Krita::class,
+			WebP::class,
 		];
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
-			Preview\MarkDown::class,
-			Preview\TXT::class,
-			Preview\OpenDocument::class,
+			MarkDown::class,
+			TXT::class,
+			OpenDocument::class,
 		], $imageProviders));
 
-		if (in_array(Preview\Image::class, $this->defaultProviders)) {
+		if (in_array(Image::class, $this->defaultProviders)) {
 			$this->defaultProviders = array_merge($this->defaultProviders, $imageProviders);
 		}
 		$this->defaultProviders = array_values(array_unique($this->defaultProviders));
@@ -293,33 +306,33 @@ class PreviewManager implements IPreview {
 		}
 		$this->registeredCoreProviders = true;
 
-		$this->registerCoreProvider(Preview\TXT::class, '/text\/plain/');
-		$this->registerCoreProvider(Preview\MarkDown::class, '/text\/(x-)?markdown/');
-		$this->registerCoreProvider(Preview\PNG::class, '/image\/png/');
-		$this->registerCoreProvider(Preview\JPEG::class, '/image\/jpeg/');
-		$this->registerCoreProvider(Preview\GIF::class, '/image\/gif/');
-		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
-		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
-		$this->registerCoreProvider(Preview\WebP::class, '/image\/webp/');
-		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
-		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg$/');
-		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
-		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
-		$this->registerCoreProvider(Preview\ImaginaryPDF::class, Preview\ImaginaryPDF::supportedMimeTypes());
+		$this->registerCoreProvider(TXT::class, '/text\/plain/');
+		$this->registerCoreProvider(MarkDown::class, '/text\/(x-)?markdown/');
+		$this->registerCoreProvider(PNG::class, '/image\/png/');
+		$this->registerCoreProvider(JPEG::class, '/image\/jpeg/');
+		$this->registerCoreProvider(GIF::class, '/image\/gif/');
+		$this->registerCoreProvider(BMP::class, '/image\/bmp/');
+		$this->registerCoreProvider(XBitmap::class, '/image\/x-xbitmap/');
+		$this->registerCoreProvider(WebP::class, '/image\/webp/');
+		$this->registerCoreProvider(Krita::class, '/application\/x-krita/');
+		$this->registerCoreProvider(MP3::class, '/audio\/mpeg$/');
+		$this->registerCoreProvider(OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
+		$this->registerCoreProvider(Imaginary::class, Imaginary::supportedMimeTypes());
+		$this->registerCoreProvider(ImaginaryPDF::class, ImaginaryPDF::supportedMimeTypes());
 
 		// SVG and Bitmap require imagick
 		if ($this->imagickSupport->hasExtension()) {
 			$imagickProviders = [
-				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => Preview\SVG::class],
-				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => Preview\TIFF::class],
-				'PDF' => ['mimetype' => '/application\/pdf/', 'class' => Preview\PDF::class],
-				'AI' => ['mimetype' => '/application\/illustrator/', 'class' => Preview\Illustrator::class],
-				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Preview\Photoshop::class],
-				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
-				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
-				'HEIC' => ['mimetype' => '/image\/(x-)?hei(f|c)/', 'class' => Preview\HEIC::class],
-				'TGA' => ['mimetype' => '/image\/(x-)?t(ar)?ga/', 'class' => Preview\TGA::class],
-				'SGI' => ['mimetype' => '/image\/(x-)?sgi/', 'class' => Preview\SGI::class],
+				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => SVG::class],
+				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => TIFF::class],
+				'PDF' => ['mimetype' => '/application\/pdf/', 'class' => PDF::class],
+				'AI' => ['mimetype' => '/application\/illustrator/', 'class' => Illustrator::class],
+				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Photoshop::class],
+				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Postscript::class],
+				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Font::class],
+				'HEIC' => ['mimetype' => '/image\/(x-)?hei(f|c)/', 'class' => HEIC::class],
+				'TGA' => ['mimetype' => '/image\/(x-)?t(ar)?ga/', 'class' => TGA::class],
+				'SGI' => ['mimetype' => '/image\/(x-)?sgi/', 'class' => SGI::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {
@@ -337,7 +350,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvidersOffice();
 
 		// Video requires ffmpeg
-		if (in_array(Preview\Movie::class, $this->getEnabledDefaultProvider())) {
+		if (in_array(Movie::class, $this->getEnabledDefaultProvider())) {
 			$movieBinary = $this->config->getSystemValue('preview_ffmpeg_path', null);
 			if (!is_string($movieBinary)) {
 				$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
@@ -345,19 +358,19 @@ class PreviewManager implements IPreview {
 
 
 			if (is_string($movieBinary)) {
-				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
+				$this->registerCoreProvider(Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
 			}
 		}
 	}
 
 	private function registerCoreProvidersOffice(): void {
 		$officeProviders = [
-			['mimetype' => '/application\/msword/', 'class' => Preview\MSOfficeDoc::class],
-			['mimetype' => '/application\/vnd.ms-.*/', 'class' => Preview\MSOffice2003::class],
-			['mimetype' => '/application\/vnd.openxmlformats-officedocument.*/', 'class' => Preview\MSOffice2007::class],
-			['mimetype' => '/application\/vnd.oasis.opendocument.*/', 'class' => Preview\OpenDocument::class],
-			['mimetype' => '/application\/vnd.sun.xml.*/', 'class' => Preview\StarOffice::class],
-			['mimetype' => '/image\/emf/', 'class' => Preview\EMF::class],
+			['mimetype' => '/application\/msword/', 'class' => MSOfficeDoc::class],
+			['mimetype' => '/application\/vnd.ms-.*/', 'class' => MSOffice2003::class],
+			['mimetype' => '/application\/vnd.openxmlformats-officedocument.*/', 'class' => MSOffice2007::class],
+			['mimetype' => '/application\/vnd.oasis.opendocument.*/', 'class' => OpenDocument::class],
+			['mimetype' => '/application\/vnd.sun.xml.*/', 'class' => StarOffice::class],
+			['mimetype' => '/image\/emf/', 'class' => EMF::class],
 		];
 
 		$findBinary = true;

@@ -7,6 +7,7 @@
  */
 namespace OC\Files\Cache;
 
+use OC\DatabaseException;
 use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\Files\Cache\Wrapper\CacheJail;
@@ -33,6 +34,7 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -76,7 +78,7 @@ class Cache implements ICache {
 			$this->storageId = md5($this->storageId);
 		}
 		if (!$dependencies) {
-			$dependencies = \OCP\Server::get(CacheDependencies::class);
+			$dependencies = Server::get(CacheDependencies::class);
 		}
 		$this->storageCache = new Storage($this->storage, true, $dependencies->getConnection());
 		$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
@@ -557,7 +559,7 @@ class Cache implements ICache {
 	 * Remove all children of a folder
 	 *
 	 * @param ICacheEntry $entry the cache entry of the folder to remove the children of
-	 * @throws \OC\DatabaseException
+	 * @throws DatabaseException
 	 */
 	private function removeChildren(ICacheEntry $entry) {
 		$parentIds = [$entry->getId()];
@@ -668,7 +670,7 @@ class Cache implements ICache {
 	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
-	 * @throws \OC\DatabaseException
+	 * @throws DatabaseException
 	 * @throws \Exception if the given storages have an invalid id
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
@@ -745,7 +747,7 @@ class Cache implements ICache {
 							$query->executeStatement();
 						}
 						break;
-					} catch (\OC\DatabaseException $e) {
+					} catch (DatabaseException $e) {
 						$this->connection->rollBack();
 						throw $e;
 					} catch (DbalException $e) {
@@ -1133,7 +1135,7 @@ class Cache implements ICache {
 	 * @deprecated 17.0.0 use getPathById() instead
 	 */
 	public static function getById($id) {
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->select('path', 'storage')
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));

@@ -11,18 +11,11 @@ namespace OC\DB;
 use OCP\EventDispatcher\Event;
 
 class MigratorExecuteSqlEvent extends Event {
-	private string $sql;
-	private int $current;
-	private int $max;
-
 	public function __construct(
-		string $sql,
-		int $current,
-		int $max,
+		private string $sql,
+		private int $current,
+		private int $max,
 	) {
-		$this->sql = $sql;
-		$this->current = $current;
-		$this->max = $max;
 	}
 
 	public function getSql(): string {

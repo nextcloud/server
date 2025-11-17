@@ -12,11 +12,9 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class AddLogRotateJob implements IRepairStep {
-	/** @var IJobList */
-	private $jobList;
-
-	public function __construct(IJobList $jobList) {
-		$this->jobList = $jobList;
+	public function __construct(
+		private IJobList $jobList,
+	) {
 	}
 
 	public function getName() {

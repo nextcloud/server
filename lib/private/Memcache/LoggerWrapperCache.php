@@ -17,16 +17,15 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	/** @var Redis */
 	protected $wrappedCache;
 
-	/** @var string $logFile */
-	private $logFile;
-
 	/** @var string $prefix */
 	protected $prefix;
 
-	public function __construct(Redis $wrappedCache, string $logFile) {
+	public function __construct(
+		Redis $wrappedCache,
+		private string $logFile,
+	) {
 		parent::__construct($wrappedCache->getPrefix());
 		$this->wrappedCache = $wrappedCache;
-		$this->logFile = $logFile;
 	}
 
 	/**

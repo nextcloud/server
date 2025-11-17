@@ -8,29 +8,18 @@
 namespace OC\L10N;
 
 class L10NString implements \JsonSerializable {
-	/** @var L10N */
-	protected $l10n;
-
-	/** @var string */
-	protected $text;
-
-	/** @var array */
-	protected $parameters;
-
-	/** @var integer */
-	protected $count;
-
 	/**
 	 * @param L10N $l10n
 	 * @param string|string[] $text
 	 * @param array $parameters
 	 * @param int $count
 	 */
-	public function __construct(L10N $l10n, $text, array $parameters, int $count = 1) {
-		$this->l10n = $l10n;
-		$this->text = $text;
-		$this->parameters = $parameters;
-		$this->count = $count;
+	public function __construct(
+		protected L10N $l10n,
+		protected $text,
+		protected array $parameters,
+		protected int $count = 1,
+	) {
 	}
 
 	public function __toString(): string {

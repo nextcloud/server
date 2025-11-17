@@ -280,11 +280,11 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * Note that this should make sure the entries are removed from the source cache
 	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
+	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 */
-	public function moveFromCache(\OCP\Files\Cache\ICache $sourceCache, $sourcePath, $targetPath) {
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		if ($sourceCache === $this) {
 			return $this->move($sourcePath, $targetPath);
 		}

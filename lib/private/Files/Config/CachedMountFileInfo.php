@@ -10,8 +10,6 @@ use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\IUser;
 
 class CachedMountFileInfo extends CachedMountInfo implements ICachedMountFileInfo {
-	private string $internalPath;
-
 	public function __construct(
 		IUser $user,
 		int $storageId,
@@ -20,10 +18,9 @@ class CachedMountFileInfo extends CachedMountInfo implements ICachedMountFileInf
 		?int $mountId,
 		string $mountProvider,
 		string $rootInternalPath,
-		string $internalPath,
+		private string $internalPath,
 	) {
 		parent::__construct($user, $storageId, $rootId, $mountPoint, $mountProvider, $mountId, $rootInternalPath);
-		$this->internalPath = $internalPath;
 	}
 
 	public function getInternalPath(): string {

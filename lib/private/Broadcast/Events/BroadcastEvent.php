@@ -14,13 +14,10 @@ use OCP\EventDispatcher\ABroadcastedEvent;
 use OCP\EventDispatcher\Event;
 
 class BroadcastEvent extends Event implements IBroadcastEvent {
-	/** @var ABroadcastedEvent */
-	private $event;
-
-	public function __construct(ABroadcastedEvent $event) {
+	public function __construct(
+		private ABroadcastedEvent $event,
+	) {
 		parent::__construct();
-
-		$this->event = $event;
 	}
 
 	public function getName(): string {

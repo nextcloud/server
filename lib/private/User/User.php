@@ -14,6 +14,7 @@ use OC\Hooks\Emitter;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\FileInfo;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
@@ -25,6 +26,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
@@ -38,6 +40,7 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\GetQuotaEvent;
 use OCP\UserInterface;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 use function json_decode;
@@ -58,9 +61,6 @@ class User implements IUser {
 	/** @var bool|null */
 	private $enabled;
 
-	/** @var Emitter|Manager|null */
-	private $emitter;
-
 	/** @var string */
 	private $home;
 
@@ -70,17 +70,19 @@ class User implements IUser {
 	/** @var IAvatarManager */
 	private $avatarManager;
 
+	/**
+	 * @param Emitter|\OC\User\Manager|null $emitter
+	 */
 	public function __construct(
 		private string $uid,
 		private ?UserInterface $backend,
 		private IEventDispatcher $dispatcher,
-		$emitter = null,
+		private $emitter = null,
 		?IConfig $config = null,
 		$urlGenerator = null,
 	) {
-		$this->emitter = $emitter;
-		$this->config = $config ?? \OCP\Server::get(IConfig::class);
-		$this->urlGenerator = $urlGenerator ?? \OCP\Server::get(IURLGenerator::class);
+		$this->config = $config ?? Server::get(IConfig::class);
+		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
 	}
 
 	/**
@@ -196,7 +198,7 @@ class User implements IUser {
 
 	private function ensureAccountManager() {
 		if (!$this->accountManager instanceof IAccountManager) {
-			$this->accountManager = \OC::$server->get(IAccountManager::class);
+			$this->accountManager = Server::get(IAccountManager::class);
 		}
 	}
 
@@ -256,7 +258,7 @@ class User implements IUser {
 	 */
 	public function delete() {
 		if ($this->backend === null) {
-			\OCP\Server::get(LoggerInterface::class)->error('Cannot delete user: No backend set');
+			Server::get(LoggerInterface::class)->error('Cannot delete user: No backend set');
 			return false;
 		}
 
@@ -281,7 +283,7 @@ class User implements IUser {
 		}
 
 		// We have to delete the user from all groups
-		$groupManager = \OCP\Server::get(IGroupManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		foreach ($groupManager->getUserGroupIds($this) as $groupId) {
 			$group = $groupManager->get($groupId);
 			if ($group) {
@@ -291,22 +293,22 @@ class User implements IUser {
 			}
 		}
 
-		$commentsManager = \OCP\Server::get(ICommentsManager::class);
+		$commentsManager = Server::get(ICommentsManager::class);
 		$commentsManager->deleteReferencesOfActor('users', $this->uid);
 		$commentsManager->deleteReadMarksFromUser($this);
 
-		$avatarManager = \OCP\Server::get(AvatarManager::class);
+		$avatarManager = Server::get(AvatarManager::class);
 		$avatarManager->deleteUserAvatar($this->uid);
 
-		$notificationManager = \OCP\Server::get(INotificationManager::class);
+		$notificationManager = Server::get(INotificationManager::class);
 		$notification = $notificationManager->createNotification();
 		$notification->setUser($this->uid);
 		$notificationManager->markProcessed($notification);
 
-		$accountManager = \OCP\Server::get(AccountManager::class);
+		$accountManager = Server::get(AccountManager::class);
 		$accountManager->deleteUser($this);
 
-		$database = \OCP\Server::get(IDBConnection::class);
+		$database = Server::get(IDBConnection::class);
 		try {
 			// We need to create a transaction to make sure we are in a defined state
 			// because if all user values are removed also the flag is gone, but if an exception happens (e.g. database lost connection on the set operation)
@@ -565,12 +567,12 @@ class User implements IUser {
 	public function getQuotaBytes(): int|float {
 		$quota = $this->getQuota();
 		if ($quota === 'none') {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			return FileInfo::SPACE_UNLIMITED;
 		}
 
-		$bytes = \OCP\Util::computerFileSize($quota);
+		$bytes = Util::computerFileSize($quota);
 		if ($bytes === false) {
-			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+			return FileInfo::SPACE_UNKNOWN;
 		}
 		return $bytes;
 	}
@@ -586,11 +588,11 @@ class User implements IUser {
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' && $quota !== 'default') {
-			$bytesQuota = \OCP\Util::computerFileSize($quota);
+			$bytesQuota = Util::computerFileSize($quota);
 			if ($bytesQuota === false) {
 				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);
 			}
-			$quota = \OCP\Util::humanFileSize($bytesQuota);
+			$quota = Util::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
@@ -630,7 +632,7 @@ class User implements IUser {
 	public function getAvatarImage($size) {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
+			$this->avatarManager = Server::get(IAvatarManager::class);
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);

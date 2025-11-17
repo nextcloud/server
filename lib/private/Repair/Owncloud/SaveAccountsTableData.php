@@ -20,21 +20,16 @@ use OCP\PreConditionNotMetException;
 class SaveAccountsTableData implements IRepairStep {
 	public const BATCH_SIZE = 75;
 
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var IConfig */
-	protected $config;
-
 	protected $hasForeignKeyOnPersistentLocks = false;
 
 	/**
 	 * @param IDBConnection $db
 	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $db, IConfig $config) {
-		$this->db = $db;
-		$this->config = $config;
+	public function __construct(
+		protected IDBConnection $db,
+		protected IConfig $config,
+	) {
 	}
 
 	/**

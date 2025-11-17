@@ -9,13 +9,12 @@ declare(strict_types=1);
 namespace OC\KnownUser;
 
 class KnownUserService {
-	/** @var KnownUserMapper */
-	protected $mapper;
 	/** @var array */
 	protected $knownUsers = [];
 
-	public function __construct(KnownUserMapper $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(
+		protected KnownUserMapper $mapper,
+	) {
 	}
 
 	/**

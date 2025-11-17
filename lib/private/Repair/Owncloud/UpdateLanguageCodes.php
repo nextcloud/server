@@ -13,20 +13,14 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class UpdateLanguageCodes implements IRepairStep {
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * @param IDBConnection $connection
 	 * @param IConfig $config
 	 */
-	public function __construct(IDBConnection $connection,
-		IConfig $config) {
-		$this->connection = $connection;
-		$this->config = $config;
+	public function __construct(
+		private IDBConnection $connection,
+		private IConfig $config,
+	) {
 	}
 
 	/**
