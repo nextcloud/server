@@ -22,9 +22,9 @@ class BackgroundCleanupJob extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $timeFactory,
-		readonly private IDBConnection $connection,
-		readonly private PreviewService $previewService,
-		readonly private bool $isCLI,
+		private readonly IDBConnection $connection,
+		private readonly PreviewService $previewService,
+		private readonly bool $isCLI,
 	) {
 		parent::__construct($timeFactory);
 		// Run at most once an hour

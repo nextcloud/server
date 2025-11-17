@@ -1021,7 +1021,7 @@ class MailPluginTest extends TestCase {
 
 		$this->instantiatePlugin(IShare::TYPE_USER);
 
-		/** @var \OCP\IUser | \PHPUnit\Framework\MockObject\MockObject */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 		$currentUser = $this->createMock('\OCP\IUser');
 
 		$currentUser->expects($this->any())
@@ -1043,7 +1043,7 @@ class MailPluginTest extends TestCase {
 
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
-			->willReturnCallback(function (\OCP\IUser $user) use ($userToGroupMapping) {
+			->willReturnCallback(function (IUser $user) use ($userToGroupMapping) {
 				return $userToGroupMapping[$user->getUID()];
 			});
 

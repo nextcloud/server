@@ -11,6 +11,7 @@ namespace OCA\Settings\Tests\Command\AdminDelegation;
 use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Command\AdminDelegation\Add;
 use OCA\Settings\Service\AuthorizedGroupService;
+use OCA\Settings\Settings\Admin\Server;
 use OCP\IGroupManager;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,7 +46,7 @@ class AddTest extends TestCase {
 	}
 
 	public function testExecuteSuccessfulDelegation(): void {
-		$settingClass = \OCA\Settings\Settings\Admin\Server::class;
+		$settingClass = Server::class;
 		$groupId = 'testgroup';
 
 		// Mock valid delegated settings class
@@ -93,7 +94,7 @@ class AddTest extends TestCase {
 	}
 
 	public function testExecuteNonExistentGroup(): void {
-		$settingClass = \OCA\Settings\Settings\Admin\Server::class;
+		$settingClass = Server::class;
 		$groupId = 'nonexistentgroup';
 
 		$this->input->expects($this->exactly(2))

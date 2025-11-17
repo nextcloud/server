@@ -82,7 +82,7 @@ class AppConfig implements IAppConfig {
 		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
-		readonly CacheFactory $cacheFactory,
+		public readonly CacheFactory $cacheFactory,
 	) {
 		if ($config->getSystemValueBool('cache_app_config', true) && $cacheFactory->isLocalCacheAvailable()) {
 			$cacheFactory->withServerVersionPrefix(function (ICacheFactory $factory) {
