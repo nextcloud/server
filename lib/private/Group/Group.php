@@ -9,11 +9,16 @@ namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OC\User\LazyUser;
+use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Backend\IAddToGroupBackend;
 use OCP\Group\Backend\ICountDisabledInGroup;
+use OCP\Group\Backend\ICountUsersBackend;
+use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 use OCP\Group\Backend\INamedBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Events\BeforeGroupChangedEvent;
@@ -28,36 +33,24 @@ use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 
 class Group implements IGroup {
-	/** @var null|string */
-	protected $displayName;
-
-	/** @var string */
-	private $gid;
-
-	/** @var \OC\User\User[] */
+	/** @var User[] */
 	private $users = [];
 
 	/** @var bool */
 	private $usersLoaded;
 
-	/** @var Backend[] */
-	private $backends;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var \OC\User\Manager|IUserManager */
-	private $userManager;
-	/** @var PublicEmitter */
-	private $emitter;
-
-	public function __construct(string $gid, array $backends, IEventDispatcher $dispatcher, IUserManager $userManager, ?PublicEmitter $emitter = null, ?string $displayName = null) {
-		$this->gid = $gid;
-		$this->backends = $backends;
-		$this->dispatcher = $dispatcher;
-		$this->userManager = $userManager;
-		$this->emitter = $emitter;
-		$this->displayName = $displayName;
+	public function __construct(
+		private string $gid,
+		/** @var list<GroupInterface> */
+		private array $backends,
+		private IEventDispatcher $dispatcher,
+		private IUserManager $userManager,
+		private ?PublicEmitter $emitter = null,
+		protected ?string $displayName = null,
+	) {
 	}
 
 	public function getGID(): string {
@@ -99,7 +92,7 @@ class Group implements IGroup {
 	/**
 	 * get all users in the group
 	 *
-	 * @return \OC\User\User[]
+	 * @return array<string, IUser>
 	 */
 	public function getUsers(): array {
 		if ($this->usersLoaded) {
@@ -158,6 +151,7 @@ class Group implements IGroup {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
+				/** @var IAddToGroupBackend $backend */
 				$backend->addToGroup($user->getUID(), $this->gid);
 				$this->users[$user->getUID()] = $user;
 
@@ -182,6 +176,7 @@ class Group implements IGroup {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) && $backend->inGroup($user->getUID(), $this->gid)) {
+				/** @var IRemoveFromGroupBackend $backend */
 				$backend->removeFromGroup($user->getUID(), $this->gid);
 				$result = true;
 			}
@@ -213,7 +208,7 @@ class Group implements IGroup {
 				$users += $backend->searchInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
 			} else {
 				$userIds = $backend->usersInGroup($this->gid, $search, $limit ?? -1, $offset ?? 0);
-				$userManager = \OCP\Server::get(IUserManager::class);
+				$userManager = Server::get(IUserManager::class);
 				foreach ($userIds as $userId) {
 					if (!isset($users[$userId])) {
 						$users[$userId] = new LazyUser($userId, $userManager);
@@ -237,6 +232,7 @@ class Group implements IGroup {
 		$users = false;
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::COUNT_USERS)) {
+				/** @var ICountUsersBackend $backend */
 				if ($users === false) {
 					//we could directly add to a bool variable, but this would
 					//be ugly
@@ -317,6 +313,7 @@ class Group implements IGroup {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
+				/** @var IDeleteGroupBackend $backend */
 				$result = $result || $backend->deleteGroup($this->gid);
 			}
 		}
@@ -332,7 +329,7 @@ class Group implements IGroup {
 	/**
 	 * returns all the Users from an array that really exists
 	 * @param string[] $userIds an array containing user IDs
-	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
+	 * @return array<string, IUser> an Array with the userId as Key and \OC\User\User as value
 	 */
 	private function getVerifiedUsers(array $userIds): array {
 		$users = [];

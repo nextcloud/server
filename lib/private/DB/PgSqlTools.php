@@ -16,14 +16,12 @@ use function preg_quote;
  * Various PostgreSQL specific helper functions.
  */
 class PgSqlTools {
-	/** @var \OCP\IConfig */
-	private $config;
-
 	/**
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**

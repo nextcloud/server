@@ -14,15 +14,10 @@ use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 class LoggedInCheckCommand extends ALoginCommand {
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(LoggerInterface $logger,
-		IEventDispatcher $dispatcher) {
-		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		private LoggerInterface $logger,
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {

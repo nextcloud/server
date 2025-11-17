@@ -23,11 +23,9 @@ use OCP\IDBConnection;
  * Adapts the public API to our internal DBAL connection wrapper
  */
 class ConnectionAdapter implements IDBConnection {
-	/** @var Connection */
-	private $inner;
-
-	public function __construct(Connection $inner) {
-		$this->inner = $inner;
+	public function __construct(
+		private Connection $inner,
+	) {
 	}
 
 	public function getQueryBuilder(): IQueryBuilder {

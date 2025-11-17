@@ -13,15 +13,10 @@ use OCP\IGroupManager;
 use OCP\IUser;
 
 class MandatoryTwoFactor {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	public function __construct(IConfig $config, IGroupManager $groupManager) {
-		$this->config = $config;
-		$this->groupManager = $groupManager;
+	public function __construct(
+		private IConfig $config,
+		private IGroupManager $groupManager,
+	) {
 	}
 
 	/**

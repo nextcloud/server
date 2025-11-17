@@ -12,11 +12,12 @@ use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class MountPoint implements IMountPoint {
 	/**
-	 * @var \OC\Files\Storage\Storage|null $storage
+	 * @var Storage|null $storage
 	 */
 	protected $storage = null;
 	protected $class;
@@ -40,7 +41,7 @@ class MountPoint implements IMountPoint {
 	protected $mountOptions = [];
 
 	/**
-	 * @var \OC\Files\Storage\StorageFactory $loader
+	 * @var StorageFactory $loader
 	 */
 	private $loader;
 
@@ -52,17 +53,14 @@ class MountPoint implements IMountPoint {
 	 */
 	private $invalidStorage = false;
 
-	/** @var int|null */
-	protected $mountId;
-
 	/** @var string */
 	protected $mountProvider;
 
 	/**
-	 * @param string|\OC\Files\Storage\Storage $storage
+	 * @param string|Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param IStorageFactory $loader
 	 * @param array $mountOptions mount specific options
 	 * @param int|null $mountId
 	 * @param string|null $mountProvider
@@ -74,7 +72,7 @@ class MountPoint implements IMountPoint {
 		?array $arguments = null,
 		?IStorageFactory $loader = null,
 		?array $mountOptions = null,
-		?int $mountId = null,
+		protected ?int $mountId = null,
 		?string $mountProvider = null,
 	) {
 		if (is_null($arguments)) {
@@ -92,7 +90,6 @@ class MountPoint implements IMountPoint {
 
 		$mountpoint = $this->formatPath($mountpoint);
 		$this->mountPoint = $mountpoint;
-		$this->mountId = $mountId;
 		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
 			$this->storage = $this->loader->wrap($this, $storage);
@@ -151,19 +148,19 @@ class MountPoint implements IMountPoint {
 					// the root storage could not be initialized, show the user!
 					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
 				} else {
-					\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
+					Server::get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
 				}
 				return;
 			}
 		} else {
-			\OC::$server->get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
+			Server::get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
 			$this->invalidStorage = true;
 			return;
 		}
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage|null
+	 * @return Storage|null
 	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {

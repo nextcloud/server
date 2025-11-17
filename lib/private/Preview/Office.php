@@ -10,6 +10,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Image;
 use OCP\ITempManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -81,7 +82,7 @@ abstract class Office extends ProviderV2 {
 
 		$preview = $outdir . pathinfo($absPath, PATHINFO_FILENAME) . '.png';
 
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromFile($preview);
 
 		$this->cleanTmpFiles();

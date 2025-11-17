@@ -29,6 +29,7 @@ use OCP\ITempManager;
 use OCP\L10N\IFactory;
 use OCP\Migration\IOutput;
 use OCP\Server;
+use OCP\Util;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -76,7 +77,7 @@ class Installer {
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = $forceEnable || in_array($appId, $ignoreMaxApps, true);
 
-		$version = implode('.', \OCP\Util::getVersion());
+		$version = implode('.', Util::getVersion());
 		if (!$this->appManager->isAppCompatible($version, $info, $ignoreMax)) {
 			throw new \Exception(
 				$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',

@@ -7,7 +7,9 @@
  */
 namespace OC\Memcache;
 
-class NullCache extends Cache implements \OCP\IMemcache {
+use OCP\IMemcache;
+
+class NullCache extends Cache implements IMemcache {
 	public function get($key) {
 		return null;
 	}

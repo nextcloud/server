@@ -14,11 +14,10 @@ use OC\SystemConfig;
 use OCP\IL10N;
 use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
-	/** @var IL10N */
-	protected $trans;
 	/** @var string */
 	protected $dbUser;
 	/** @var string */
@@ -31,20 +30,15 @@ abstract class AbstractDatabase {
 	protected $dbPort;
 	/** @var string */
 	protected $tablePrefix;
-	/** @var SystemConfig */
-	protected $config;
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var ISecureRandom */
-	protected $random;
 	/** @var bool */
 	protected $tryCreateDbUser;
 
-	public function __construct(IL10N $trans, SystemConfig $config, LoggerInterface $logger, ISecureRandom $random) {
-		$this->trans = $trans;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->random = $random;
+	public function __construct(
+		protected IL10N $trans,
+		protected SystemConfig $config,
+		protected LoggerInterface $logger,
+		protected ISecureRandom $random,
+	) {
 	}
 
 	public function validate($config) {
@@ -132,7 +126,7 @@ abstract class AbstractDatabase {
 		if (!is_dir(\OC::$SERVERROOT . '/core/Migrations')) {
 			return;
 		}
-		$ms = new MigrationService('core', \OC::$server->get(Connection::class), $output);
+		$ms = new MigrationService('core', Server::get(Connection::class), $output);
 		$ms->migrate('latest', true);
 	}
 }

@@ -7,12 +7,10 @@
 namespace OC;
 
 class Color {
-	public $r;
-	public $g;
-	public $b;
-	public function __construct($r, $g, $b) {
-		$this->r = $r;
-		$this->g = $g;
-		$this->b = $b;
+	public function __construct(
+		public $r,
+		public $g,
+		public $b,
+	) {
 	}
 }

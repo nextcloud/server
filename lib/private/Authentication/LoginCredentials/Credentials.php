@@ -9,24 +9,16 @@ namespace OC\Authentication\LoginCredentials;
 use OCP\Authentication\LoginCredentials\ICredentials;
 
 class Credentials implements ICredentials {
-	/** @var string */
-	private $uid;
-
-	/** @var string */
-	private $loginName;
-
-	/** @var string */
-	private $password;
-
 	/**
 	 * @param string $uid
 	 * @param string $loginName
 	 * @param string $password
 	 */
-	public function __construct($uid, $loginName, $password) {
-		$this->uid = $uid;
-		$this->loginName = $loginName;
-		$this->password = $password;
+	public function __construct(
+		private $uid,
+		private $loginName,
+		private $password,
+	) {
 	}
 
 	/**

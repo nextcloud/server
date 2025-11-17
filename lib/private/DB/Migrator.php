@@ -23,20 +23,15 @@ class Migrator {
 	/** @var Connection */
 	protected $connection;
 
-	/** @var IConfig */
-	protected $config;
-
-	private ?IEventDispatcher $dispatcher;
-
 	/** @var bool */
 	private $noEmit = false;
 
-	public function __construct(Connection $connection,
-		IConfig $config,
-		?IEventDispatcher $dispatcher = null) {
+	public function __construct(
+		Connection $connection,
+		protected IConfig $config,
+		private ?IEventDispatcher $dispatcher = null,
+	) {
 		$this->connection = $connection;
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
 	}
 
 	/**

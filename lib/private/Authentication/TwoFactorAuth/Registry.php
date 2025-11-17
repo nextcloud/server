@@ -20,16 +20,10 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 
 class Registry implements IRegistry {
-	/** @var ProviderUserAssignmentDao */
-	private $assignmentDao;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(ProviderUserAssignmentDao $assignmentDao,
-		IEventDispatcher $dispatcher) {
-		$this->assignmentDao = $assignmentDao;
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		private ProviderUserAssignmentDao $assignmentDao,
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
 	public function getProviderStates(IUser $user): array {

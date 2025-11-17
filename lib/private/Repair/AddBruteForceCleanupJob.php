@@ -14,11 +14,9 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class AddBruteForceCleanupJob implements IRepairStep {
-	/** @var IJobList */
-	protected $jobList;
-
-	public function __construct(IJobList $jobList) {
-		$this->jobList = $jobList;
+	public function __construct(
+		protected IJobList $jobList,
+	) {
 	}
 
 	public function getName() {

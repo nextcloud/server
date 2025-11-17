@@ -7,23 +7,28 @@
  */
 namespace OC\Files\Storage;
 
+use OC\Files\Cache\HomeCache;
 use OC\Files\Cache\HomePropagator;
+use OC\User\User;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
+use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 
 /**
  * Specialized version of Local storage for home directory usage
  */
-class Home extends Local implements \OCP\Files\IHomeStorage {
+class Home extends Local implements IHomeStorage {
 	/**
 	 * @var string
 	 */
 	protected $id;
 
 	/**
-	 * @var \OC\User\User $user
+	 * @var User $user
 	 */
 	protected $user;
 
@@ -50,7 +55,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 			$storage = $this;
 		}
 		if (!isset($this->cache)) {
-			$this->cache = new \OC\Files\Cache\HomeCache($storage, $this->getCacheDependencies());
+			$this->cache = new HomeCache($storage, $this->getCacheDependencies());
 		}
 		return $this->cache;
 	}
@@ -60,7 +65,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 			$storage = $this;
 		}
 		if (!isset($this->propagator)) {
-			$this->propagator = new HomePropagator($storage, \OC::$server->getDatabaseConnection());
+			$this->propagator = new HomePropagator($storage, Server::get(IDBConnection::class));
 		}
 		return $this->propagator;
 	}

@@ -78,7 +78,7 @@ class Collection implements ICollection {
 	 * @since 16.0.0
 	 */
 	public function addResource(IResource $resource): void {
-		array_map(function (IResource $r) use ($resource) {
+		array_map(function (IResource $r) use ($resource): void {
 			if ($this->isSameResource($r, $resource)) {
 				throw new ResourceException('Already part of the collection');
 			}

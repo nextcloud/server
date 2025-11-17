@@ -5,10 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\Server;
 use OCP\ServerVersion;
+use OCP\Util;
 
 class OC_Defaults {
 	private $theme;
@@ -312,11 +313,11 @@ class OC_Defaults {
 		}
 
 		if ($useSvg) {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.svg');
+			$logo = Server::get(IURLGenerator::class)->imagePath('core', 'logo/logo.svg');
 		} else {
-			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.png');
+			$logo = Server::get(IURLGenerator::class)->imagePath('core', 'logo/logo.png');
 		}
-		return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
+		return $logo . '?v=' . hash('sha1', implode('.', Util::getVersion()));
 	}
 
 	public function getTextColorPrimary() {

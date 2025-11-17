@@ -13,28 +13,22 @@ namespace OC\AppFramework\Bootstrap;
  */
 class ServiceFactoryRegistration extends ARegistration {
 	/**
-	 * @var string
-	 * @psalm-var string|class-string
-	 */
-	private $name;
-
-	/**
 	 * @var callable
 	 * @psalm-var callable(\Psr\Container\ContainerInterface): mixed
 	 */
 	private $factory;
 
-	/** @var bool */
-	private $shared;
-
-	public function __construct(string $appId,
-		string $alias,
+	public function __construct(
+		string $appId,
+		/**
+		 * @psalm-var string|class-string
+		 */
+		private string $name,
 		callable $target,
-		bool $shared) {
+		private bool $shared,
+	) {
 		parent::__construct($appId);
-		$this->name = $alias;
 		$this->factory = $target;
-		$this->shared = $shared;
 	}
 
 	public function getName(): string {

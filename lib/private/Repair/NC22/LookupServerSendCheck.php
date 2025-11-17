@@ -15,12 +15,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class LookupServerSendCheck implements IRepairStep {
-	private IJobList $jobList;
-	private IConfig $config;
-
-	public function __construct(IJobList $jobList, IConfig $config) {
-		$this->jobList = $jobList;
-		$this->config = $config;
+	public function __construct(
+		private IJobList $jobList,
+		private IConfig $config,
+	) {
 	}
 
 	public function getName(): string {

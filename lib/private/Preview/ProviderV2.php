@@ -46,7 +46,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * @param File $file
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @return null|\OCP\IImage null if no preview was generated
+	 * @return null|IImage null if no preview was generated
 	 * @since 17.0.0
 	 */
 	abstract public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;

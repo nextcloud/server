@@ -10,18 +10,16 @@ namespace OC\AppFramework;
 use OCP\AppFramework\Http as BaseHttp;
 
 class Http extends BaseHttp {
-	private $server;
-	private $protocolVersion;
 	protected $headers;
 
 	/**
 	 * @param array $server $_SERVER
 	 * @param string $protocolVersion the http version to use defaults to HTTP/1.1
 	 */
-	public function __construct($server, $protocolVersion = 'HTTP/1.1') {
-		$this->server = $server;
-		$this->protocolVersion = $protocolVersion;
-
+	public function __construct(
+		private $server,
+		private $protocolVersion = 'HTTP/1.1',
+	) {
 		$this->headers = [
 			self::STATUS_CONTINUE => 'Continue',
 			self::STATUS_SWITCHING_PROTOCOLS => 'Switching Protocols',

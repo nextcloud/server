@@ -9,13 +9,16 @@ namespace OC\Share20;
 
 use ArrayIterator;
 use OC\Core\AppInfo\ConfigLexicon;
+use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share\Helper;
 use OC\Share20\Exception\ProviderException;
+use OCA\Circles\Api\v1\Circles;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\ShareByMail\ShareByMailProvider;
+use OCP\Constants;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -40,6 +43,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
 use OCP\Share;
+use OCP\Share\Events\BeforeShareCreatedEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -57,6 +61,7 @@ use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
+use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -164,7 +169,8 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException($this->l->t('Share recipient should not be empty'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
+			/** @psalm-suppress UndefinedClass */
+			$circle = Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
 			}
@@ -192,8 +198,8 @@ class Manager implements IManager {
 		}
 
 		// And it should be a file or a folder
-		if (!($share->getNode() instanceof \OCP\Files\File)
-			&& !($share->getNode() instanceof \OCP\Files\Folder)) {
+		if (!($share->getNode() instanceof File)
+			&& !($share->getNode() instanceof Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Shared path must be either a file or a folder'));
 		}
 
@@ -218,13 +224,13 @@ class Manager implements IManager {
 		}
 
 		// Permissions must be valid
-		if ($share->getPermissions() < 0 || $share->getPermissions() > \OCP\Constants::PERMISSION_ALL) {
+		if ($share->getPermissions() < 0 || $share->getPermissions() > Constants::PERMISSION_ALL) {
 			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
 		}
 
 		// Single file shares should never have delete or create permissions
 		if (($share->getNode() instanceof File)
-			&& (($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE)) !== 0)) {
+			&& (($share->getPermissions() & (Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE)) !== 0)) {
 			throw new \InvalidArgumentException($this->l->t('File shares cannot have create or delete permissions'));
 		}
 
@@ -251,15 +257,15 @@ class Manager implements IManager {
 		$noReadPermissionRequired = $share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL;
 		if (!$noReadPermissionRequired
-			&& ($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
+			&& ($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException($this->l->t('Shares need at least read permissions'));
 		}
 
-		if ($share->getNode() instanceof \OCP\Files\File) {
-			if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
+		if ($share->getNode() instanceof File) {
+			if ($share->getPermissions() & Constants::PERMISSION_DELETE) {
 				throw new GenericShareException($this->l->t('Files cannot be shared with delete permissions'));
 			}
-			if ($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
+			if ($share->getPermissions() & Constants::PERMISSION_CREATE) {
 				throw new GenericShareException($this->l->t('Files cannot be shared with create permissions'));
 			}
 		}
@@ -340,7 +346,7 @@ class Manager implements IManager {
 
 		$accepted = true;
 		$message = '';
-		\OCP\Util::emitHook('\OC\Share', 'verifyExpirationDate', [
+		Util::emitHook('\OC\Share', 'verifyExpirationDate', [
 			'expirationDate' => &$expirationDate,
 			'accepted' => &$accepted,
 			'message' => &$message,
@@ -423,7 +429,7 @@ class Manager implements IManager {
 
 		$accepted = true;
 		$message = '';
-		\OCP\Util::emitHook('\OC\Share', 'verifyExpirationDate', [
+		Util::emitHook('\OC\Share', 'verifyExpirationDate', [
 			'expirationDate' => &$expirationDate,
 			'accepted' => &$accepted,
 			'message' => &$message,
@@ -558,7 +564,7 @@ class Manager implements IManager {
 
 		// Check if public upload is allowed
 		if ($share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()
-			&& ($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
+			&& ($share->getPermissions() & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE))) {
 			throw new \InvalidArgumentException($this->l->t('Public upload is not allowed'));
 		}
 	}
@@ -575,14 +581,14 @@ class Manager implements IManager {
 	protected function setLinkParent(IShare $share): void {
 		$storage = $share->getNode()->getStorage();
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			/** @var SharedStorage $storage */
 			$share->setParent((int)$storage->getShareId());
 		}
 	}
 
 	protected function pathCreateChecks(Node $path): void {
 		// Make sure that we do not share a path that contains a shared mountpoint
-		if ($path instanceof \OCP\Files\Folder) {
+		if ($path instanceof Folder) {
 			$mounts = $this->mountManager->findIn($path->getPath());
 			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
@@ -693,11 +699,11 @@ class Manager implements IManager {
 			}
 
 			$target = $shareFolder . '/' . $share->getNode()->getName();
-			$target = \OC\Files\Filesystem::normalizePath($target);
+			$target = Filesystem::normalizePath($target);
 			$share->setTarget($target);
 
 			// Pre share event
-			$event = new Share\Events\BeforeShareCreatedEvent($share);
+			$event = new BeforeShareCreatedEvent($share);
 			$this->dispatchEvent($event, 'before share created');
 			if ($event->isPropagationStopped() && $event->getError()) {
 				throw new \Exception($event->getError());
@@ -850,7 +856,7 @@ class Manager implements IManager {
 
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
-				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
 				'uidOwner' => $share->getSharedBy(),
@@ -859,7 +865,7 @@ class Manager implements IManager {
 
 		if ($share->getPassword() !== $originalShare->getPassword()) {
 			\OC_Hook::emit(Share::class, 'post_update_password', [
-				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'uidOwner' => $share->getSharedBy(),
 				'token' => $share->getToken(),
@@ -874,7 +880,7 @@ class Manager implements IManager {
 				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 			}
 			\OC_Hook::emit(Share::class, 'post_update_permissions', [
-				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'shareType' => $share->getShareType(),
 				'shareWith' => $share->getSharedWith(),
@@ -1186,8 +1192,8 @@ class Manager implements IManager {
 	#[Override]
 	public function getSharesBy(string $userId, int $shareType, ?Node $path = null, bool $reshares = false, int $limit = 50, int $offset = 0, bool $onlyValid = true): array {
 		if ($path !== null
-			&& !($path instanceof \OCP\Files\File)
-			&& !($path instanceof \OCP\Files\Folder)) {
+			&& !($path instanceof File)
+			&& !($path instanceof Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Invalid path'));
 		}
 
@@ -1420,7 +1426,7 @@ class Manager implements IManager {
 		 */
 		if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL)
 			&& $share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()) {
-			$share->setPermissions($share->getPermissions() & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE));
+			$share->setPermissions($share->getPermissions() & ~(Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE));
 		}
 
 		return $share;

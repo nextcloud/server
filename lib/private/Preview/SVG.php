@@ -9,6 +9,8 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\Image;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class SVG extends ProviderV2 {
@@ -46,7 +48,7 @@ class SVG extends ProviderV2 {
 			$svg->readImageBlob($content);
 			$svg->setImageFormat('png32');
 		} catch (\Exception $e) {
-			\OC::$server->get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'File: ' . $file->getPath() . ' Imagick says:',
 				[
 					'exception' => $e,
@@ -57,7 +59,7 @@ class SVG extends ProviderV2 {
 		}
 
 		//new image object
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromData((string)$svg);
 		//check if image object is valid
 		if ($image->valid()) {

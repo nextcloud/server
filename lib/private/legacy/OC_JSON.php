@@ -5,8 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
+use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\Server;
 
 class OC_JSON {
 	/**
@@ -16,7 +20,7 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAppEnabled($app) {
-		if (!\OC::$server->getAppManager()->isEnabledForUser($app)) {
+		if (!Server::get(IAppManager::class)->isEnabledForUser($app)) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Application is not enabled'), 'error' => 'application_not_enabled' ]]);
 			exit();
@@ -29,11 +33,11 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkLoggedIn() {
-		$twoFactorAuthManger = \OC::$server->get(TwoFactorAuthManager::class);
-		if (!\OC::$server->getUserSession()->isLoggedIn()
-			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		$twoFactorAuthManger = Server::get(TwoFactorAuthManager::class);
+		if (!Server::get(IUserSession::class)->isLoggedIn()
+			|| $twoFactorAuthManger->needsSecondFactor(Server::get(IUserSession::class)->getUser())) {
 			$l = \OC::$server->getL10N('lib');
-			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
+			http_response_code(Http::STATUS_UNAUTHORIZED);
 			self::error([ 'data' => [ 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' ]]);
 			exit();
 		}
@@ -45,12 +49,12 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function callCheck() {
-		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+		if (!Server::get(IRequest::class)->passesStrictCookieCheck()) {
 			header('Location: ' . \OC::$WEBROOT);
 			exit();
 		}
 
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
+		if (!Server::get(IRequest::class)->passesCSRFCheck()) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' ]]);
 			exit();

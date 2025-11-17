@@ -19,17 +19,14 @@ use OCP\Log\IWriter;
  */
 
 class File extends LogDetails implements IWriter, IFileBased {
-	protected string $logFile;
-
 	protected int $logFileMode;
 
 	public function __construct(
-		string $path,
+		protected string $logFile,
 		string $fallbackPath,
 		private SystemConfig $config,
 	) {
 		parent::__construct($config);
-		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
 			if (
 				(

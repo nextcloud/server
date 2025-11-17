@@ -16,6 +16,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\PreConditionNotMetException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -70,8 +71,8 @@ class PlaceholderAvatar extends Avatar {
 	 * If there is no avatar file yet, one is generated.
 	 *
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws NotPermittedException
+	 * @throws PreConditionNotMetException
 	 */
 	public function getFile(int $size, bool $darkTheme = false): ISimpleFile {
 		$ext = 'png';
@@ -120,7 +121,7 @@ class PlaceholderAvatar extends Avatar {
 	 * @param mixed $oldValue The previous value
 	 * @param mixed $newValue The new value
 	 * @throws NotPermittedException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function userChanged(string $feature, $oldValue, $newValue): void {
 		$this->remove();

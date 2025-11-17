@@ -10,24 +10,20 @@ namespace OC;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\ISession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class DateTimeZone implements IDateTimeZone {
-	/** @var IConfig */
-	protected $config;
-
-	/** @var ISession */
-	protected $session;
-
 	/**
 	 * Constructor
 	 *
 	 * @param IConfig $config
 	 * @param ISession $session
 	 */
-	public function __construct(IConfig $config, ISession $session) {
-		$this->config = $config;
-		$this->session = $session;
+	public function __construct(
+		protected IConfig $config,
+		protected ISession $session,
+	) {
 	}
 
 	/**
@@ -46,7 +42,7 @@ class DateTimeZone implements IDateTimeZone {
 		try {
 			return new \DateTimeZone($timezoneName);
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->debug('Failed to created DateTimeZone "' . $timezoneName . '"', ['app' => 'datetimezone']);
+			Server::get(LoggerInterface::class)->debug('Failed to created DateTimeZone "' . $timezoneName . '"', ['app' => 'datetimezone']);
 			return $this->getDefaultTimeZone();
 		}
 	}
@@ -102,7 +98,7 @@ class DateTimeZone implements IDateTimeZone {
 			}
 
 			// No timezone found, fallback to UTC
-			\OCP\Server::get(LoggerInterface::class)->debug('Failed to find DateTimeZone for offset "' . $offset . '"', ['app' => 'datetimezone']);
+			Server::get(LoggerInterface::class)->debug('Failed to find DateTimeZone for offset "' . $offset . '"', ['app' => 'datetimezone']);
 			return $this->getDefaultTimeZone();
 		}
 	}

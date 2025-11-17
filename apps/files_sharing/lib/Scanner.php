@@ -10,17 +10,14 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\ObjectStore\ObjectStoreScanner;
 use OC\Files\Storage\Storage;
+use OCP\Files\Cache\IScanner;
 
 /**
  * Scanner for SharedStorage
+ * @property SharedStorage $storage
  */
 class Scanner extends \OC\Files\Cache\Scanner {
-	/**
-	 * @var SharedStorage $storage
-	 */
-	protected $storage;
-
-	private $sourceScanner;
+	private ?IScanner $sourceScanner = null;
 
 	/**
 	 * Returns metadata from the shared storage, but
@@ -40,7 +37,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		return $data;
 	}
 
-	private function getSourceScanner() {
+	private function getSourceScanner(): ?IScanner {
 		if ($this->sourceScanner) {
 			return $this->sourceScanner;
 		}

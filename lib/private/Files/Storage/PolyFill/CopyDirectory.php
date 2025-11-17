@@ -7,6 +7,8 @@
  */
 namespace OC\Files\Storage\PolyFill;
 
+use OC\Files\Filesystem;
+
 trait CopyDirectory {
 	/**
 	 * Check if a path is a directory
@@ -54,7 +56,7 @@ trait CopyDirectory {
 		$dh = $this->opendir($source);
 		$result = true;
 		while (($file = readdir($dh)) !== false) {
-			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+			if (!Filesystem::isIgnoredDir($file)) {
 				if ($this->is_dir($source . '/' . $file)) {
 					$this->mkdir($target . '/' . $file);
 					$result = $this->copyRecursive($source . '/' . $file, $target . '/' . $file);

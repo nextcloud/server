@@ -12,18 +12,6 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 
 class SearchQuery implements ISearchQuery {
-	/** @var ISearchOperator */
-	private $searchOperation;
-	/** @var integer */
-	private $limit;
-	/** @var integer */
-	private $offset;
-	/** @var ISearchOrder[] */
-	private $order;
-	/** @var ?IUser */
-	private $user;
-	private $limitToHome;
-
 	/**
 	 * SearchQuery constructor.
 	 *
@@ -35,19 +23,13 @@ class SearchQuery implements ISearchQuery {
 	 * @param bool $limitToHome
 	 */
 	public function __construct(
-		ISearchOperator $searchOperation,
-		int $limit,
-		int $offset,
-		array $order,
-		?IUser $user = null,
-		bool $limitToHome = false,
+		private ISearchOperator $searchOperation,
+		private int $limit,
+		private int $offset,
+		private array $order,
+		private ?IUser $user = null,
+		private bool $limitToHome = false,
 	) {
-		$this->searchOperation = $searchOperation;
-		$this->limit = $limit;
-		$this->offset = $offset;
-		$this->order = $order;
-		$this->user = $user;
-		$this->limitToHome = $limitToHome;
 	}
 
 	/**

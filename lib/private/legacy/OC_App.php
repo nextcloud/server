@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,16 +9,28 @@ declare(strict_types=1);
  */
 use OC\App\AppManager;
 use OC\App\DependencyAnalyzer;
+use OC\AppFramework\App;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
+use OC\NeedsUpdateException;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
+use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\IAlternativeLogin;
+use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IGroup;
+use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Server;
+use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use function OCP\Log\logger;
@@ -55,7 +68,7 @@ class OC_App {
 	 * @deprecated 27.0.0 use IAppManager::isAppLoaded
 	 */
 	public static function isAppLoaded(string $app): bool {
-		return \OC::$server->get(IAppManager::class)->isAppLoaded($app);
+		return Server::get(IAppManager::class)->isAppLoaded($app);
 	}
 
 	/**
@@ -73,11 +86,11 @@ class OC_App {
 	 * @deprecated 29.0.0 use IAppManager::loadApps instead
 	 */
 	public static function loadApps(array $types = []): bool {
-		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (!Server::get(SystemConfig::class)->getValue('installed', false)) {
 			// This should be done before calling this method so that appmanager can be used
 			return false;
 		}
-		return \OC::$server->get(IAppManager::class)->loadApps($types);
+		return Server::get(IAppManager::class)->loadApps($types);
 	}
 
 	/**
@@ -88,7 +101,7 @@ class OC_App {
 	 * @deprecated 27.0.0 use IAppManager::loadApp
 	 */
 	public static function loadApp(string $app): void {
-		\OC::$server->get(IAppManager::class)->loadApp($app);
+		Server::get(IAppManager::class)->loadApp($app);
 	}
 
 	/**
@@ -106,7 +119,7 @@ class OC_App {
 		self::$alreadyRegistered[$key] = true;
 
 		// Register on PSR-4 composer autoloader
-		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
+		$appNamespace = App::buildAppNamespace($app);
 		\OC::$server->registerNamespace($app, $appNamespace);
 
 		if (file_exists($path . '/composer/autoload.php')) {
@@ -130,14 +143,14 @@ class OC_App {
 	 * @deprecated 27.0.0 use IAppManager::isType
 	 */
 	public static function isType(string $app, array $types): bool {
-		return \OC::$server->get(IAppManager::class)->isType($app, $types);
+		return Server::get(IAppManager::class)->isType($app, $types);
 	}
 
 	/**
 	 * read app types from info.xml and cache them in the database
 	 */
 	public static function setAppTypes(string $app) {
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 		$appData = $appManager->getAppInfo($app);
 		if (!is_array($appData)) {
 			return;
@@ -150,7 +163,7 @@ class OC_App {
 			$appData['types'] = [];
 		}
 
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$config->setAppValue($app, 'types', $appTypes);
 
 		if ($appManager->hasProtectedAppType($appData['types'])) {
@@ -170,16 +183,16 @@ class OC_App {
 	 * @return list<string>
 	 */
 	public static function getEnabledApps(bool $forceRefresh = false, bool $all = false): array {
-		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
+		if (!Server::get(SystemConfig::class)->getValue('installed', false)) {
 			return [];
 		}
 		// in incognito mode or when logged out, $user will be false,
 		// which is also the case during an upgrade
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 		if ($all) {
 			$user = null;
 		} else {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 		}
 
 		if (is_null($user)) {
@@ -219,13 +232,13 @@ class OC_App {
 
 		$installer->installApp($appId);
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 		if ($groups !== []) {
-			$groupManager = \OC::$server->getGroupManager();
+			$groupManager = Server::get(IGroupManager::class);
 			$groupsList = [];
 			foreach ($groups as $group) {
 				$groupItem = $groupManager->get($group);
-				if ($groupItem instanceof \OCP\IGroup) {
+				if ($groupItem instanceof IGroup) {
 					$groupsList[] = $groupManager->get($group);
 				}
 			}
@@ -269,7 +282,7 @@ class OC_App {
 			return '';
 		}
 
-		$request = \OC::$server->getRequest();
+		$request = Server::get(IRequest::class);
 		$script = substr($request->getScriptName(), strlen(OC::$WEBROOT) + 1);
 		$topFolder = substr($script, 0, strpos($script, '/') ?: 0);
 		if (empty($topFolder)) {
@@ -277,7 +290,7 @@ class OC_App {
 				$path_info = $request->getPathInfo();
 			} catch (Exception $e) {
 				// Can happen from unit tests because the script name is `./vendor/bin/phpunit` or something a like then.
-				\OC::$server->get(LoggerInterface::class)->error('Failed to detect current app from script path', ['exception' => $e]);
+				Server::get(LoggerInterface::class)->error('Failed to detect current app from script path', ['exception' => $e]);
 				return '';
 			}
 			if ($path_info) {
@@ -367,7 +380,7 @@ class OC_App {
 	 * @deprecated 32.0.0 Use \OCP\Support\Subscription\IRegistry::delegateGetSupportedApps instead
 	 */
 	public function getSupportedApps(): array {
-		$subscriptionRegistry = Server::get(\OCP\Support\Subscription\IRegistry::class);
+		$subscriptionRegistry = Server::get(IRegistry::class);
 		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 		return $supportedApps;
 	}
@@ -378,14 +391,14 @@ class OC_App {
 	 * @return array
 	 */
 	public function listAllApps(): array {
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 
 		$installedApps = $appManager->getAllAppsInAppsFolders();
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = Server::get(IURLGenerator::class);
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
@@ -401,7 +414,7 @@ class OC_App {
 					continue;
 				}
 
-				$enabled = \OC::$server->getConfig()->getAppValue($app, 'enabled', 'no');
+				$enabled = Server::get(IConfig::class)->getAppValue($app, 'enabled', 'no');
 				$info['groups'] = null;
 				if ($enabled === 'yes') {
 					$active = true;
@@ -470,7 +483,7 @@ class OC_App {
 	 * @deprecated 32.0.0 Use IAppManager::isUpgradeRequired instead
 	 */
 	public static function shouldUpgrade(string $app): bool {
-		return Server::get(\OCP\App\IAppManager::class)->isUpgradeRequired($app);
+		return Server::get(IAppManager::class)->isUpgradeRequired($app);
 	}
 
 	/**
@@ -491,7 +504,7 @@ class OC_App {
 	 * @deprecated 32.0.0 Use IAppManager::isAppCompatible instead
 	 */
 	public static function isAppCompatible(string $ocVersion, array $appInfo, bool $ignoreMax = false): bool {
-		return Server::get(\OCP\App\IAppManager::class)->isAppCompatible($ocVersion, $appInfo, $ignoreMax);
+		return Server::get(IAppManager::class)->isAppCompatible($ocVersion, $appInfo, $ignoreMax);
 	}
 
 	/**
@@ -509,8 +522,8 @@ class OC_App {
 	 */
 	public static function updateApp(string $appId): bool {
 		try {
-			return Server::get(\OC\App\AppManager::class)->upgradeApp($appId);
-		} catch (\OCP\App\AppPathNotFoundException $e) {
+			return Server::get(AppManager::class)->upgradeApp($appId);
+		} catch (AppPathNotFoundException $e) {
 			return false;
 		}
 	}
@@ -518,7 +531,7 @@ class OC_App {
 	/**
 	 * @param string $appId
 	 * @param string[] $steps
-	 * @throws \OC\NeedsUpdateException
+	 * @throws NeedsUpdateException
 	 */
 	public static function executeRepairSteps(string $appId, array $steps) {
 		if (empty($steps)) {
@@ -547,19 +560,19 @@ class OC_App {
 	 * @deprecated 32.0.0 Use the IJobList directly instead
 	 */
 	public static function setupBackgroundJobs(array $jobs) {
-		$queue = \OC::$server->getJobList();
+		$queue = Server::get(IJobList::class);
 		foreach ($jobs as $job) {
 			$queue->add($job);
 		}
 	}
 
 	/**
-	 * @param \OCP\IConfig $config
-	 * @param \OCP\IL10N $l
+	 * @param IConfig $config
+	 * @param IL10N $l
 	 * @param array $info
 	 * @throws \Exception
 	 */
-	public static function checkAppDependencies(\OCP\IConfig $config, \OCP\IL10N $l, array $info, bool $ignoreMax) {
+	public static function checkAppDependencies(IConfig $config, IL10N $l, array $info, bool $ignoreMax) {
 		$dependencyAnalyzer = Server::get(DependencyAnalyzer::class);
 		$missing = $dependencyAnalyzer->analyze($info, $ignoreMax);
 		if (!empty($missing)) {

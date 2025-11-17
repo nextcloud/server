@@ -7,6 +7,7 @@
  */
 namespace OC\Repair;
 
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -32,7 +33,7 @@ class RepairInvalidShares implements IRepairStep {
 	 * Adjust file share permissions
 	 */
 	private function adjustFileSharePermissions(IOutput $output): void {
-		$mask = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE;
+		$mask = Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE;
 		$builder = $this->connection->getQueryBuilder();
 
 		$permsFunc = $builder->expr()->bitwiseAnd('permissions', $mask);

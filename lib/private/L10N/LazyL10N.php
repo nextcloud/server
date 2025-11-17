@@ -14,12 +14,10 @@ class LazyL10N implements IL10N {
 	/** @var IL10N */
 	private $l;
 
-	/** @var \Closure */
-	private $factory;
 
-
-	public function __construct(\Closure $factory) {
-		$this->factory = $factory;
+	public function __construct(
+		private \Closure $factory,
+	) {
 	}
 
 	private function getL(): IL10N {

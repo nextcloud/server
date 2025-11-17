@@ -17,12 +17,10 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 
 class RootMountProvider implements IRootMountProvider {
-	private PrimaryObjectStoreConfig $objectStoreConfig;
-	private IConfig $config;
-
-	public function __construct(PrimaryObjectStoreConfig $objectStoreConfig, IConfig $config) {
-		$this->objectStoreConfig = $objectStoreConfig;
-		$this->config = $config;
+	public function __construct(
+		private PrimaryObjectStoreConfig $objectStoreConfig,
+		private IConfig $config,
+	) {
 	}
 
 	public function getRootMounts(IStorageFactory $loader): array {

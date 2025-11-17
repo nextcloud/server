@@ -13,11 +13,9 @@ use OCP\AppFramework\IAppContainer;
 use OCP\IServerContainer;
 
 class BootContext implements IBootContext {
-	/** @var IAppContainer */
-	private $appContainer;
-
-	public function __construct(IAppContainer $appContainer) {
-		$this->appContainer = $appContainer;
+	public function __construct(
+		private IAppContainer $appContainer,
+	) {
 	}
 
 	public function getAppContainer(): IAppContainer {

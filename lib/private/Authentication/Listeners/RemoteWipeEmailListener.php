@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Authentication\Listeners;
 
 use Exception;
+use OC\Authentication\Events\ARemoteWipeEvent;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OCP\EventDispatcher\Event;
@@ -23,29 +24,19 @@ use Psr\Log\LoggerInterface;
 use function substr;
 
 /**
- * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
+ * @template-implements IEventListener<ARemoteWipeEvent>
  */
 class RemoteWipeEmailListener implements IEventListener {
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var IUserManager */
-	private $userManager;
-
 	/** @var IL10N */
 	private $l10n;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IMailer $mailer,
-		IUserManager $userManager,
+	public function __construct(
+		private IMailer $mailer,
+		private IUserManager $userManager,
 		IL10nFactory $l10nFactory,
-		LoggerInterface $logger) {
-		$this->mailer = $mailer;
-		$this->userManager = $userManager;
+		private LoggerInterface $logger,
+	) {
 		$this->l10n = $l10nFactory->get('core');
-		$this->logger = $logger;
 	}
 
 	/**

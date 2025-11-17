@@ -113,7 +113,7 @@ class Propagator implements IPropagator {
 				}
 
 				/** @var LoggerInterface $loggerInterface */
-				$loggerInterface = \OCP\Server::get(LoggerInterface::class);
+				$loggerInterface = Server::get(LoggerInterface::class);
 				$loggerInterface->warning('Retrying propagation query after retryable exception.', [ 'exception' => $e ]);
 			}
 		}

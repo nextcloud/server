@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OC\Files\Cache;
 
+use OC\Files\Mount\LocalHomeMountProvider;
+use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\SystemConfig;
 use OCP\DB\Exception;
@@ -196,8 +198,8 @@ class FileAccess implements IFileAccess {
 				$qb->expr()->orX(
 					$qb->expr()->like('mount_point', $qb->createNamedParameter('/%/files/%')),
 					$qb->expr()->in('mount_provider_class', $qb->createNamedParameter([
-						\OC\Files\Mount\LocalHomeMountProvider::class,
-						\OC\Files\Mount\ObjectHomeMountProvider::class,
+						LocalHomeMountProvider::class,
+						ObjectHomeMountProvider::class,
 					], IQueryBuilder::PARAM_STR_ARRAY))
 				)
 			);
@@ -218,8 +220,8 @@ class FileAccess implements IFileAccess {
 			// LocalHomeMountProvider is the default provider for user home directories
 			// ObjectHomeMountProvider is the home directory provider for when S3 primary storage is used
 			if ($onlyUserFilesMounts && in_array($row['mount_provider_class'], [
-				\OC\Files\Mount\LocalHomeMountProvider::class,
-				\OC\Files\Mount\ObjectHomeMountProvider::class,
+				LocalHomeMountProvider::class,
+				ObjectHomeMountProvider::class,
 			], true)) {
 				// Only crawl files, not cache or trashbin
 				$qb = $this->getQuery();

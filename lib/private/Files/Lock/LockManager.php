@@ -11,6 +11,7 @@ use OCP\Files\Lock\ILockManager;
 use OCP\Files\Lock\ILockProvider;
 use OCP\Files\Lock\LockContext;
 use OCP\PreConditionNotMetException;
+use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -41,7 +42,7 @@ class LockManager implements ILockManager {
 		}
 		if ($this->lockProviderClass) {
 			try {
-				$this->lockProvider = \OCP\Server::get($this->lockProviderClass);
+				$this->lockProvider = Server::get($this->lockProviderClass);
 			} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
 			}
 		}

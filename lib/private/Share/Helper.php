@@ -9,15 +9,17 @@ namespace OC\Share;
 
 use OC\Core\AppInfo\ConfigLexicon;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\Server;
+use OCP\Util;
 
-class Helper extends \OC\Share\Constants {
+class Helper extends Constants {
 	/**
 	 * get default expire settings defined by the admin
 	 * @return array contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
 	 */
 	public static function getDefaultExpireSetting() {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$appConfig = Server::get(IAppConfig::class);
 
 		$defaultExpireSettings = ['defaultExpireDateSet' => false];
@@ -33,7 +35,7 @@ class Helper extends \OC\Share\Constants {
 	}
 
 	public static function calcExpireDate() {
-		$expireAfter = \OC\Share\Share::getExpireInterval() * 24 * 60 * 60;
+		$expireAfter = Share::getExpireInterval() * 24 * 60 * 60;
 		$expireAt = time() + $expireAfter;
 		$date = new \DateTime();
 		$date->setTimestamp($expireAt);
@@ -106,17 +108,17 @@ class Helper extends \OC\Share\Constants {
 	 * @return bool true if both users and servers are the same
 	 */
 	public static function isSameUserOnSameServer($user1, $server1, $user2, $server2) {
-		$normalizedServer1 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server1));
-		$normalizedServer2 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server2));
+		$normalizedServer1 = strtolower(Share::removeProtocolFromUrl($server1));
+		$normalizedServer2 = strtolower(Share::removeProtocolFromUrl($server2));
 
 		if (rtrim($normalizedServer1, '/') === rtrim($normalizedServer2, '/')) {
 			// FIXME this should be a method in the user management instead
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				['uid' => &$user1]
 			);
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				['uid' => &$user2]
@@ -131,7 +133,7 @@ class Helper extends \OC\Share\Constants {
 	}
 
 	public static function getTokenLength(): int {
-		$config = Server::get(\OCP\IAppConfig::class);
+		$config = Server::get(IAppConfig::class);
 		$tokenLength = $config->getValueInt('core', 'shareapi_token_length', self::DEFAULT_TOKEN_LENGTH);
 		$tokenLength = $tokenLength ?: self::DEFAULT_TOKEN_LENGTH;
 

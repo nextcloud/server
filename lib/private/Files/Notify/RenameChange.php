@@ -9,9 +9,6 @@ namespace OC\Files\Notify;
 use OCP\Files\Notify\IRenameChange;
 
 class RenameChange extends Change implements IRenameChange {
-	/** @var string */
-	private $targetPath;
-
 	/**
 	 * Change constructor.
 	 *
@@ -19,9 +16,12 @@ class RenameChange extends Change implements IRenameChange {
 	 * @param string $path
 	 * @param string $targetPath
 	 */
-	public function __construct($type, $path, $targetPath) {
+	public function __construct(
+		$type,
+		$path,
+		private $targetPath,
+	) {
 		parent::__construct($type, $path);
-		$this->targetPath = $targetPath;
 	}
 
 	/**

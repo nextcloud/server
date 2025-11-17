@@ -17,6 +17,7 @@ use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
+use OCP\Server;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICreateUserBackend;
@@ -48,7 +49,6 @@ class Database extends ABackend implements
 	private IConfig $config;
 	private ?IDBConnection $dbConnection;
 	private IEventDispatcher $eventDispatcher;
-	private string $table;
 
 	use TTransactional;
 
@@ -58,11 +58,13 @@ class Database extends ABackend implements
 	 * @param IEventDispatcher $eventDispatcher
 	 * @param string $table
 	 */
-	public function __construct($eventDispatcher = null, $table = 'users') {
+	public function __construct(
+		$eventDispatcher = null,
+		private string $table = 'users',
+	) {
 		$this->cache = new CappedMemoryCache();
-		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ?? \OCP\Server::get(IEventDispatcher::class);
-		$this->config = \OCP\Server::get(IConfig::class);
+		$this->eventDispatcher = $eventDispatcher ?? Server::get(IEventDispatcher::class);
+		$this->config = Server::get(IConfig::class);
 		$this->dbConnection = null;
 	}
 
@@ -71,7 +73,7 @@ class Database extends ABackend implements
 	 */
 	private function getDbConnection() {
 		if ($this->dbConnection === null) {
-			$this->dbConnection = \OCP\Server::get(IDBConnection::class);
+			$this->dbConnection = Server::get(IDBConnection::class);
 		}
 		return $this->dbConnection;
 	}
@@ -99,7 +101,7 @@ class Database extends ABackend implements
 			$qb->insert($this->table)
 				->values([
 					'uid' => $qb->createNamedParameter($uid),
-					'password' => $qb->createNamedParameter(\OCP\Server::get(IHasher::class)->hash($password)),
+					'password' => $qb->createNamedParameter(Server::get(IHasher::class)->hash($password)),
 					'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
 				]);
 
@@ -168,7 +170,7 @@ class Database extends ABackend implements
 
 		$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
-		$hasher = \OCP\Server::get(IHasher::class);
+		$hasher = Server::get(IHasher::class);
 		$hashedPassword = $hasher->hash($password);
 
 		$return = $this->updatePassword($uid, $hashedPassword);
@@ -204,7 +206,7 @@ class Database extends ABackend implements
 	}
 
 	public function setPasswordHash(string $userId, string $passwordHash): bool {
-		if (!\OCP\Server::get(IHasher::class)->validate($passwordHash)) {
+		if (!Server::get(IHasher::class)->validate($passwordHash)) {
 			throw new InvalidArgumentException();
 		}
 
@@ -355,7 +357,7 @@ class Database extends ABackend implements
 		if ($found && is_array($this->cache[$loginName])) {
 			$storedHash = $this->cache[$loginName]['password'];
 			$newHash = '';
-			if (\OCP\Server::get(IHasher::class)->verify($password, $storedHash, $newHash)) {
+			if (Server::get(IHasher::class)->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
 					$this->updatePassword($loginName, $newHash);
 				}
@@ -523,10 +525,10 @@ class Database extends ABackend implements
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		$backends = \OCP\Server::get(IUserManager::class)->getBackends();
+		$backends = Server::get(IUserManager::class)->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend instanceof Database) {
-				/** @var \OC\User\Database $backend */
+				/** @var Database $backend */
 				$uid = $backend->loginName2UserName($param['uid']);
 				if ($uid !== false) {
 					$param['uid'] = $uid;

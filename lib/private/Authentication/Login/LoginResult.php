@@ -11,21 +11,16 @@ namespace OC\Authentication\Login;
 use OC\Core\Controller\LoginController;
 
 class LoginResult {
-	/** @var bool */
-	private $success;
-
-	/** @var LoginData */
-	private $loginData;
-
 	/** @var string|null */
 	private $redirectUrl;
 
 	/** @var string|null */
 	private $errorMessage;
 
-	private function __construct(bool $success, LoginData $loginData) {
-		$this->success = $success;
-		$this->loginData = $loginData;
+	private function __construct(
+		private bool $success,
+		private LoginData $loginData,
+	) {
 	}
 
 	private function setRedirectUrl(string $url) {

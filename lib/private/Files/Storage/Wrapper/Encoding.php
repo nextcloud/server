@@ -9,6 +9,7 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Filesystem;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\Storage\IStorage;
 
@@ -226,7 +227,7 @@ class Encoding extends Wrapper {
 		return $this->storage->hasUpdated($this->findPathToUse($path), $time);
 	}
 
-	public function getCache(string $path = '', ?IStorage $storage = null): \OCP\Files\Cache\ICache {
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
 		}

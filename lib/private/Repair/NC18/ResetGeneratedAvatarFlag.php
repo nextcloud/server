@@ -14,15 +14,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ResetGeneratedAvatarFlag implements IRepairStep {
-	/** @var IConfig */
-	private $config;
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(IConfig $config,
-		IDBConnection $connection) {
-		$this->config = $config;
-		$this->connection = $connection;
+	public function __construct(
+		private IConfig $config,
+		private IDBConnection $connection,
+	) {
 	}
 
 	public function getName(): string {

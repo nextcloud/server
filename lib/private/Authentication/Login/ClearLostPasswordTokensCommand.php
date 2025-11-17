@@ -11,11 +11,9 @@ namespace OC\Authentication\Login;
 use OCP\IConfig;
 
 class ClearLostPasswordTokensCommand extends ALoginCommand {
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**

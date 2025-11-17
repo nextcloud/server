@@ -20,6 +20,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
 use OCP\ServerVersion;
+use OCP\Util;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -82,7 +83,7 @@ class Application {
 		try {
 			require_once __DIR__ . '/../../../core/register_command.php';
 			if ($this->config->getSystemValueBool('installed', false)) {
-				if (\OCP\Util::needUpgrade()) {
+				if (Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValueBool('maintenance')) {
 					$this->writeMaintenanceModeInfo($input, $output);

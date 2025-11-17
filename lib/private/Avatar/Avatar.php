@@ -15,6 +15,7 @@ use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use OCP\IConfig;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -70,7 +71,7 @@ abstract class Avatar implements IAvatar {
 			return false;
 		}
 
-		$avatar = new \OCP\Image();
+		$avatar = new Image();
 		$avatar->loadFromData($file->getContent());
 		return $avatar;
 	}
@@ -137,7 +138,7 @@ abstract class Avatar implements IAvatar {
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
 			$avatar->setImageFormat('png');
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromData((string)$avatar);
 			return $image->data();
 		} catch (\Exception $e) {

@@ -10,23 +10,12 @@ namespace OC\L10N;
 
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Punic\Calendar;
 use Symfony\Component\Translation\IdentityTranslator;
 
 class L10N implements IL10N {
-	/** @var IFactory */
-	protected $factory;
-
-	/** @var string App of this object */
-	protected $app;
-
-	/** @var string Language of this object */
-	protected $lang;
-
-	/** @var string Locale of this object */
-	protected $locale;
-
 	/** @var IdentityTranslator */
 	private $identityTranslator;
 
@@ -40,12 +29,13 @@ class L10N implements IL10N {
 	 * @param string $locale
 	 * @param array $files
 	 */
-	public function __construct(IFactory $factory, $app, $lang, $locale, array $files) {
-		$this->factory = $factory;
-		$this->app = $app;
-		$this->lang = $lang;
-		$this->locale = $locale;
-
+	public function __construct(
+		protected IFactory $factory,
+		protected $app,
+		protected $lang,
+		protected $locale,
+		array $files,
+	) {
 		foreach ($files as $languageFile) {
 			$this->load($languageFile);
 		}
@@ -215,7 +205,7 @@ class L10N implements IL10N {
 		$json = json_decode(file_get_contents($translationFile), true);
 		if (!\is_array($json)) {
 			$jsonError = json_last_error();
-			\OCP\Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
+			Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;
 		}
 

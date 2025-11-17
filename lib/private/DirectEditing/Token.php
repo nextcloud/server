@@ -10,13 +10,10 @@ use OCP\DirectEditing\IToken;
 use OCP\Files\File;
 
 class Token implements IToken {
-	/** @var Manager */
-	private $manager;
-	private $data;
-
-	public function __construct(Manager $manager, $data) {
-		$this->manager = $manager;
-		$this->data = $data;
+	public function __construct(
+		private Manager $manager,
+		private $data,
+	) {
 	}
 
 	public function extend(): void {

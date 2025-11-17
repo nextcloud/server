@@ -9,18 +9,14 @@ namespace OC\Remote;
 use OCP\Remote\ICredentials;
 
 class Credentials implements ICredentials {
-	/** @var string */
-	private $user;
-	/** @var string */
-	private $password;
-
 	/**
 	 * @param string $user
 	 * @param string $password
 	 */
-	public function __construct($user, $password) {
-		$this->user = $user;
-		$this->password = $password;
+	public function __construct(
+		private $user,
+		private $password,
+	) {
 	}
 
 	/**

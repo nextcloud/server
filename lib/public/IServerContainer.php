@@ -57,7 +57,7 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	 * Returns a view to ownCloud's files folder
 	 *
 	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
+	 * @return \OCP\Files\Folder|null
 	 * @since 6.0.0 - parameter $userId was added in 8.0.0
 	 * @see getUserFolder in \OCP\Files\IRootFolder
 	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
@@ -145,14 +145,14 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getL10N($app, $lang = null);
 
 	/**
-	 * @return \OC\Encryption\Manager
+	 * @return \OCP\Encryption\IManager
 	 * @since 8.1.0
 	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getEncryptionManager();
 
 	/**
-	 * @return \OC\Encryption\File
+	 * @return \OCP\Encryption\IFile
 	 * @since 8.1.0
 	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */

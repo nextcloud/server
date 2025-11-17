@@ -27,28 +27,13 @@ class Registry implements IRegistry {
 	/** @var string */
 	private $subscriptionService = null;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var IServerContainer */
-	private $container;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IConfig $config,
-		IServerContainer $container,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		LoggerInterface $logger) {
-		$this->config = $config;
-		$this->container = $container;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private IServerContainer $container,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	private function getSubscription(): ?ISubscription {

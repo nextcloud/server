@@ -14,14 +14,12 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\PostLoginEvent;
 
 /**
- * @template-implements IEventListener<\OCP\User\Events\PostLoginEvent>
+ * @template-implements IEventListener<PostLoginEvent>
  */
 class UserLoggedInListener implements IEventListener {
-	/** @var Manager */
-	private $manager;
-
-	public function __construct(Manager $manager) {
-		$this->manager = $manager;
+	public function __construct(
+		private Manager $manager,
+	) {
 	}
 
 	public function handle(Event $event): void {

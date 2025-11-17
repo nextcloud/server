@@ -16,11 +16,9 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class FeaturePolicyMiddleware extends Middleware {
-	/** @var FeaturePolicyManager */
-	private $policyManager;
-
-	public function __construct(FeaturePolicyManager $policyManager) {
-		$this->policyManager = $policyManager;
+	public function __construct(
+		private FeaturePolicyManager $policyManager,
+	) {
 	}
 
 	/**

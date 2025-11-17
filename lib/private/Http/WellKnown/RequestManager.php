@@ -22,31 +22,19 @@ use RuntimeException;
 use function array_reduce;
 
 class RequestManager {
-	/** @var Coordinator */
-	private $coordinator;
-
-	/** @var IServerContainer */
-	private $container;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(Coordinator $coordinator,
-		IServerContainer $container,
-		LoggerInterface $logger) {
-		$this->coordinator = $coordinator;
-		$this->container = $container;
-		$this->logger = $logger;
+	public function __construct(
+		private Coordinator $coordinator,
+		private IServerContainer $container,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function process(string $service, IRequest $request): ?IResponse {
 		$handlers = $this->loadHandlers();
 		$context = new class($request) implements IRequestContext {
-			/** @var IRequest */
-			private $request;
-
-			public function __construct(IRequest $request) {
-				$this->request = $request;
+			public function __construct(
+				private IRequest $request,
+			) {
 			}
 
 			public function getHttpRequest(): IRequest {

@@ -21,6 +21,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -46,7 +47,7 @@ class App {
 			return $topNamespace . self::$nameSpaceCache[$appId];
 		}
 
-		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($appId);
+		$appInfo = Server::get(IAppManager::class)->getAppInfo($appId);
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
@@ -93,7 +94,7 @@ class App {
 		// Disable profiler on the profiler UI
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
-			\OC::$server->get(IEventLogger::class)->activate();
+			Server::get(IEventLogger::class)->activate();
 			$profiler->add(new RoutingDataCollector($container['appName'], $controllerName, $methodName));
 		}
 
@@ -185,7 +186,7 @@ class App {
 				$expireDate,
 				$container->getServer()->getWebRoot(),
 				null,
-				$container->getServer()->getRequest()->getServerProtocol() === 'https',
+				$container->getServer()->get(IRequest::class)->getServerProtocol() === 'https',
 				true,
 				$sameSite
 			);

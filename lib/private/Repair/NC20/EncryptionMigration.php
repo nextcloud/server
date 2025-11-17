@@ -14,15 +14,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class EncryptionMigration implements IRepairStep {
-	/** @var IConfig */
-	private $config;
-	/** @var IManager */
-	private $manager;
-
-	public function __construct(IConfig $config,
-		IManager $manager) {
-		$this->config = $config;
-		$this->manager = $manager;
+	public function __construct(
+		private IConfig $config,
+		private IManager $manager,
+	) {
 	}
 
 	public function getName(): string {

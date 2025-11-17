@@ -12,6 +12,7 @@ use OCP\Color;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
+use OCP\IImage;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -49,7 +50,7 @@ class GuestAvatar extends Avatar {
 	/**
 	 * Setting avatars isn't implemented for guests.
 	 *
-	 * @param \OCP\IImage|resource|string $data
+	 * @param IImage|resource|string $data
 	 */
 	public function set($data): void {
 		// unimplemented for guest user avatars

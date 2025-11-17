@@ -15,12 +15,10 @@ use OCP\Migration\IRepairStep;
 use OCP\Security\ISecureRandom;
 
 class AddMissingSecretJob implements IRepairStep {
-	private IConfig $config;
-	private ISecureRandom $random;
-
-	public function __construct(IConfig $config, ISecureRandom $random) {
-		$this->config = $config;
-		$this->random = $random;
+	public function __construct(
+		private IConfig $config,
+		private ISecureRandom $random,
+	) {
 	}
 
 	public function getName(): string {

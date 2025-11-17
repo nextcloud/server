@@ -12,14 +12,10 @@ use OC\User\Session;
 use OCP\IConfig;
 
 class FinishRememberedLoginCommand extends ALoginCommand {
-	/** @var Session */
-	private $userSession;
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(Session $userSession, IConfig $config) {
-		$this->userSession = $userSession;
-		$this->config = $config;
+	public function __construct(
+		private Session $userSession,
+		private IConfig $config,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {

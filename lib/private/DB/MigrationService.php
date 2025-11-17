@@ -34,41 +34,36 @@ class MigrationService {
 	private string $migrationsNamespace;
 	private IOutput $output;
 	private LoggerInterface $logger;
-	private Connection $connection;
-	private string $appName;
-	private bool $checkOracle;
+	private bool $checkOracle = false;
 
 	/**
 	 * @throws \Exception
 	 */
 	public function __construct(
-		string $appName,
-		Connection $connection,
+		private string $appName,
+		private Connection $connection,
 		?IOutput $output = null,
 		?LoggerInterface $logger = null,
 	) {
-		$this->appName = $appName;
-		$this->checkOracle = false;
-		$this->connection = $connection;
 		if ($logger === null) {
 			$this->logger = Server::get(LoggerInterface::class);
 		} else {
 			$this->logger = $logger;
 		}
 		if ($output === null) {
-			$this->output = new SimpleOutput($this->logger, $appName);
+			$this->output = new SimpleOutput($this->logger, $this->appName);
 		} else {
 			$this->output = $output;
 		}
 
-		if ($appName === 'core') {
+		if ($this->appName === 'core') {
 			$this->migrationsPath = \OC::$SERVERROOT . '/core/Migrations';
 			$this->migrationsNamespace = 'OC\\Core\\Migrations';
 			$this->checkOracle = true;
 		} else {
 			$appManager = Server::get(IAppManager::class);
-			$appPath = $appManager->getAppPath($appName);
-			$namespace = App::buildAppNamespace($appName);
+			$appPath = $appManager->getAppPath($this->appName);
+			$namespace = App::buildAppNamespace($this->appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
 
@@ -105,7 +100,7 @@ class MigrationService {
 			return false;
 		}
 
-		if ($this->connection->tableExists('migrations') && \OCP\Server::get(IConfig::class)->getAppValue('core', 'vendor', '') !== 'owncloud') {
+		if ($this->connection->tableExists('migrations') && Server::get(IConfig::class)->getAppValue('core', 'vendor', '') !== 'owncloud') {
 			$this->migrationTableCreated = true;
 			return false;
 		}
@@ -477,7 +472,7 @@ class MigrationService {
 		/** @psalm-var class-string<IMigrationStep> $class */
 		$class = $this->getClass($version);
 		try {
-			$s = \OCP\Server::get($class);
+			$s = Server::get($class);
 		} catch (NotFoundExceptionInterface) {
 			if (class_exists($class)) {
 				$s = new $class();
@@ -710,7 +705,7 @@ class MigrationService {
 				}
 			} elseif (!$primaryKey instanceof Index && !$sourceTable instanceof Table) {
 				/** @var LoggerInterface $logger */
-				$logger = \OCP\Server::get(LoggerInterface::class);
+				$logger = Server::get(LoggerInterface::class);
 				$logger->error('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups. This will throw an exception and not be installable in a future version of Nextcloud.');
 				// throw new \InvalidArgumentException('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups.');
 			}

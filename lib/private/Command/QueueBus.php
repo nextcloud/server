@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 namespace OC\Command;
 
+use OCA\Files_Trashbin\Command\Expire;
 use OCP\Command\IBus;
 use OCP\Command\ICommand;
 
@@ -41,7 +42,7 @@ class QueueBus implements IBus {
 			\Test\Command\SimpleCommand::class,
 			\Test\Command\StateFullCommand::class,
 			\Test\Command\FilesystemCommand::class,
-			\OCA\Files_Trashbin\Command\Expire::class,
+			Expire::class,
 			\OCA\Files_Versions\Command\Expire::class,
 		]]);
 		$unserialized->handle();

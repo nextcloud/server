@@ -14,16 +14,10 @@ use OCP\IConfig;
 use OCP\ISession;
 
 class SetUserTimezoneCommand extends ALoginCommand {
-	/** @var IConfig */
-	private $config;
-
-	/** @var ISession */
-	private $session;
-
-	public function __construct(IConfig $config,
-		ISession $session) {
-		$this->config = $config;
-		$this->session = $session;
+	public function __construct(
+		private IConfig $config,
+		private ISession $session,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {

@@ -9,6 +9,7 @@ namespace OC\Memcache;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\IMemcache;
+use OCP\Server;
 
 class APCu extends Cache implements IMemcache {
 	use CASTrait {
@@ -111,9 +112,9 @@ class APCu extends Cache implements IMemcache {
 	public static function isAvailable(): bool {
 		if (!extension_loaded('apcu')) {
 			return false;
-		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enabled')) {
+		} elseif (!Server::get(IniGetWrapper::class)->getBool('apc.enabled')) {
 			return false;
-		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enable_cli') && \OC::$CLI) {
+		} elseif (!Server::get(IniGetWrapper::class)->getBool('apc.enable_cli') && \OC::$CLI) {
 			return false;
 		} elseif (version_compare(phpversion('apcu') ?: '0.0.0', '5.1.0') === -1) {
 			return false;

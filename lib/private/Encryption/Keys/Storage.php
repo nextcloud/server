@@ -20,12 +20,6 @@ class Storage implements IStorage {
 	// hidden file which indicate that the folder is a valid key storage
 	public const KEY_STORAGE_MARKER = '.oc_key_storage';
 
-	/** @var View */
-	private $view;
-
-	/** @var Util */
-	private $util;
-
 	// base dir where all the file related keys are stored
 	/** @var string */
 	private $keys_base_dir;
@@ -43,26 +37,20 @@ class Storage implements IStorage {
 	/** @var array */
 	private $keyCache = [];
 
-	/** @var ICrypto */
-	private $crypto;
-
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * @param View $view
 	 * @param Util $util
 	 */
-	public function __construct(View $view, Util $util, ICrypto $crypto, IConfig $config) {
-		$this->view = $view;
-		$this->util = $util;
-
+	public function __construct(
+		private View $view,
+		private Util $util,
+		private ICrypto $crypto,
+		private IConfig $config,
+	) {
 		$this->encryption_base_dir = '/files_encryption';
 		$this->keys_base_dir = $this->encryption_base_dir . '/keys';
 		$this->backup_base_dir = $this->encryption_base_dir . '/backup';
 		$this->root_dir = $this->util->getKeyStorageRoot();
-		$this->crypto = $crypto;
-		$this->config = $config;
 	}
 
 	/**
@@ -193,7 +181,7 @@ class Storage implements IStorage {
 				. $encryptionModuleId . '/' . $uid . '.' . $keyId;
 		}
 
-		return \OC\Files\Filesystem::normalizePath($path);
+		return Filesystem::normalizePath($path);
 	}
 
 	/**

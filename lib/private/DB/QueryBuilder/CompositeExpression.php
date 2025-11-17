@@ -25,7 +25,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @param array $parts
 	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
+	 * @return ICompositeExpression
 	 */
 	public function addMultiple(array $parts = []): ICompositeExpression {
 		foreach ($parts as $part) {
@@ -40,7 +40,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @param mixed $part
 	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
+	 * @return ICompositeExpression
 	 */
 	public function add($part): ICompositeExpression {
 		if ($part === null) {

@@ -11,14 +11,12 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class DropAccountTermsTable implements IRepairStep {
-	/** @var IDBConnection */
-	protected $db;
-
 	/**
 	 * @param IDBConnection $db
 	 */
-	public function __construct(IDBConnection $db) {
-		$this->db = $db;
+	public function __construct(
+		protected IDBConnection $db,
+	) {
 	}
 
 	/**

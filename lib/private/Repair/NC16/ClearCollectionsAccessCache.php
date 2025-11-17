@@ -15,15 +15,10 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearCollectionsAccessCache implements IRepairStep {
-	/** @var IConfig */
-	private $config;
-
-	/** @var Manager */
-	private $manager;
-
-	public function __construct(IConfig $config, IManager $manager) {
-		$this->config = $config;
-		$this->manager = $manager;
+	public function __construct(
+		private IConfig $config,
+		private IManager $manager,
+	) {
 	}
 
 	public function getName(): string {
@@ -37,7 +32,9 @@ class ClearCollectionsAccessCache implements IRepairStep {
 
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
-			$this->manager->invalidateAccessCacheForAllCollections();
+			/** @var Manager $man */
+			$man = $this->manager;
+			$man->invalidateAccessCacheForAllCollections();
 		}
 	}
 }

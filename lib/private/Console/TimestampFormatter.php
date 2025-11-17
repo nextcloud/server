@@ -12,9 +12,6 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyleInterface;
 
 class TimestampFormatter implements OutputFormatterInterface {
-	/** @var ?IConfig */
-	protected $config;
-
 	/** @var OutputFormatterInterface */
 	protected $formatter;
 
@@ -22,8 +19,10 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param ?IConfig $config
 	 * @param OutputFormatterInterface $formatter
 	 */
-	public function __construct(?IConfig $config, OutputFormatterInterface $formatter) {
-		$this->config = $config;
+	public function __construct(
+		protected ?IConfig $config,
+		OutputFormatterInterface $formatter,
+	) {
 		$this->formatter = $formatter;
 	}
 

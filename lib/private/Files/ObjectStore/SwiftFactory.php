@@ -28,11 +28,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
 class SwiftFactory {
-	private $cache;
-	private $params;
 	/** @var Container|null */
 	private $container = null;
-	private LoggerInterface $logger;
 
 	public const DEFAULT_OPTIONS = [
 		'autocreate' => false,
@@ -41,10 +38,11 @@ class SwiftFactory {
 		'catalogType' => 'object-store'
 	];
 
-	public function __construct(ICache $cache, array $params, LoggerInterface $logger) {
-		$this->cache = $cache;
-		$this->params = $params;
-		$this->logger = $logger;
+	public function __construct(
+		private ICache $cache,
+		private array $params,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**

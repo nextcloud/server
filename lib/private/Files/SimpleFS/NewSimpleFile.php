@@ -16,16 +16,15 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class NewSimpleFile implements ISimpleFile {
-	private Folder $parentFolder;
-	private string $name;
 	private ?File $file = null;
 
 	/**
 	 * File constructor.
 	 */
-	public function __construct(Folder $parentFolder, string $name) {
-		$this->parentFolder = $parentFolder;
-		$this->name = $name;
+	public function __construct(
+		private Folder $parentFolder,
+		private string $name,
+	) {
 	}
 
 	/**
@@ -179,7 +178,7 @@ class NewSimpleFile implements ISimpleFile {
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @return resource|false
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 * @since 14.0.0
 	 */
 	public function read() {
@@ -194,7 +193,7 @@ class NewSimpleFile implements ISimpleFile {
 	 * Open the file as stream for writing, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @return resource|bool
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 * @since 14.0.0
 	 */
 	public function write() {
@@ -202,7 +201,7 @@ class NewSimpleFile implements ISimpleFile {
 			return $this->file->fopen('w');
 		} else {
 			$source = fopen('php://temp', 'w+');
-			return CallbackWrapper::wrap($source, null, null, null, null, function () use ($source) {
+			return CallbackWrapper::wrap($source, null, null, null, null, function () use ($source): void {
 				rewind($source);
 				$this->putContent($source);
 			});

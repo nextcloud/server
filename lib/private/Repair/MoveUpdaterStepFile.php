@@ -7,18 +7,17 @@
 namespace OC\Repair;
 
 use OCP\Files;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveUpdaterStepFile implements IRepairStep {
-	/** @var \OCP\IConfig */
-	protected $config;
-
 	/**
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
 	 */
-	public function __construct($config) {
-		$this->config = $config;
+	public function __construct(
+		protected $config,
+	) {
 	}
 
 	public function getName() {
