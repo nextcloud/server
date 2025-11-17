@@ -143,6 +143,11 @@ class LoginController extends Controller {
 			$this->config->getSystemValue('login_form_autocomplete', true) === true
 		);
 
+		$this->initialState->provideInitialState(
+			'loginCanRememberme',
+			$this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) > 0
+		);
+
 		if (!empty($redirect_url)) {
 			[$url, ] = explode('?', $redirect_url);
 			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
@@ -287,6 +292,7 @@ class LoginController extends Controller {
 		ITrustedDomainHelper $trustedDomainHelper,
 		string $user = '',
 		string $password = '',
+		bool $rememberme = false,
 		?string $redirect_url = null,
 		string $timezone = '',
 		string $timezone_offset = '',
@@ -339,9 +345,10 @@ class LoginController extends Controller {
 			$this->request,
 			$user,
 			$password,
+			$rememberme,
 			$redirect_url,
 			$timezone,
-			$timezone_offset
+			$timezone_offset,
 		);
 		$result = $loginChain->process($data);
 		if (!$result->isSuccess()) {

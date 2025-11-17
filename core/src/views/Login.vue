@@ -15,6 +15,7 @@
 						:errors="errors"
 						:throttle-delay="throttleDelay"
 						:auto-complete-allowed="autoCompleteAllowed"
+						:rememberme-allowed="remembermeAllowed"
 						:email-states="emailStates"
 						@submit="loading = true" />
 					<NcButton v-if="hasPasswordless"
@@ -139,6 +140,7 @@ export default {
 			canResetPassword: loadState('core', 'loginCanResetPassword', false),
 			resetPasswordLink: loadState('core', 'loginResetPasswordLink', ''),
 			autoCompleteAllowed: loadState('core', 'loginAutocomplete', true),
+			remembermeAllowed: loadState('core', 'loginCanRememberme', true),
 			resetPasswordTarget: loadState('core', 'resetPasswordTarget', ''),
 			resetPasswordUser: loadState('core', 'resetPasswordUser', ''),
 			directLogin: query.direct === '1',
