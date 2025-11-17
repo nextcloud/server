@@ -47,6 +47,7 @@ trait S3ConnectionTrait {
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
 		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
 		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
+		$this->retriesMaxAttempts = $params['retriesMaxAttempts'] ?? 5;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		$params['s3-accelerate'] = $params['hostname'] === 's3-accelerate.amazonaws.com' || $params['hostname'] === 's3-accelerate.dualstack.amazonaws.com';
@@ -109,7 +110,7 @@ trait S3ConnectionTrait {
 			'use_aws_shared_config_files' => false,
 			'retries' => [
 				'mode' => 'standard',
-				'max_attempts' => 5,
+				'max_attempts' => $this->retriesMaxAttempts,
 			],
 		];
 

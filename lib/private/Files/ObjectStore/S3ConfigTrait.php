@@ -38,4 +38,6 @@ trait S3ConfigTrait {
 	private int|float $copySizeLimit;
 
 	private bool $useMultipartCopy = true;
+
+	protected int $retriesMaxAttempts;
 }
