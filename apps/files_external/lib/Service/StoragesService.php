@@ -12,6 +12,8 @@ use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application as FilesApplication;
 use OCA\Files\ConfigLexicon;
 use OCA\Files_External\AppInfo\Application;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -244,6 +246,7 @@ abstract class StoragesService {
 		// add new storage
 		$allStorages[$configId] = $newStorage;
 
+		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
 		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
@@ -455,6 +458,7 @@ abstract class StoragesService {
 		$this->dbConfig->removeMount($id);
 
 		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
+		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache
