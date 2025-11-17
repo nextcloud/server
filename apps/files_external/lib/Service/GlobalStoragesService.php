@@ -8,6 +8,9 @@
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
+use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 
@@ -62,9 +65,13 @@ class GlobalStoragesService extends StoragesService {
 	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
+			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
+			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
 			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 			return;
+		} else {
+			$this->eventDispatcher->dispatchTyped(new StorageUpdatedEvent($oldStorage, $newStorage));
 		}
 
 		$userAdditions = array_diff($newStorage->getApplicableUsers(), $oldStorage->getApplicableUsers());
