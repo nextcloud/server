@@ -598,7 +598,21 @@ class Access extends LDAPUtility {
 			)
 		) {
 			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-			$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
+			try {
+				$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
+			} catch (HintException $e) {
+				// User limit reached - log and return false
+				$this->logger->warning(
+					'Could not map {dn} as {name}: {message}.',
+					[
+						'app' => 'user_ldap',
+						'dn' => $fdn,
+						'name' => $intName,
+						'message' => $e->getMessage(),
+					]
+				);
+				return false;
+			}
 			if ($newlyMapped) {
 				$this->logger->debug('Mapped {fdn} as {name}', ['fdn' => $fdn,'name' => $intName]);
 				return $intName;
