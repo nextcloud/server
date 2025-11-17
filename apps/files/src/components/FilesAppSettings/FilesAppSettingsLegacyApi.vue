@@ -20,8 +20,7 @@ const apiSettings = ((window.OCA?.Files?.Settings?.settings || []) as Setting[])
 </script>
 
 <template>
-	<NcAppSettingsSection
-		v-if="apiSettings.length !== 0"
+	<NcAppSettingsSection v-if="apiSettings.length !== 0"
 		id="api-settings"
 		:name="t('files', 'Additional settings')">
 		<FilesAppSettingsLegacyApiEntry v-for="setting in apiSettings" :key="setting.name" :setting="setting" />

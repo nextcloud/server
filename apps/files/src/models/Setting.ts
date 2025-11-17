@@ -11,6 +11,7 @@ export interface SettingData {
 }
 
 export default class Setting {
+
 	#name: string
 	#options: Required<SettingData>
 
@@ -66,4 +67,5 @@ export default class Setting {
 	get order() {
 		return this.#options.order
 	}
+
 }
