@@ -82,7 +82,7 @@ OC.L10N.register(
     "Every %1$d Days for the entire day" : "پۈتۈن كۈن ئۈچۈن ھەر %1$d كۈندە",
     "Every %1$d Days for the entire day until %2$s" : "پۈتۈن كۈن ئۈچۈن %2$s غىچە ھەر %1$d كۈندە",
     "Every %1$d Days between %2$s - %3$s" : "ھەر %1$d كۈندە %2$s - %3$s ئارلىقىدا",
-    "Every %1$d Days between %2$s - %3$s until %4$s" : "ھەر%1 $ d كۈنلىرى%2 $ s -%3 $ s ئارىلىقىدا%4 $ s غىچە",
+    "Every %1$d Days between %2$s - %3$s until %4$s" : "ھەر%1$d كۈنلىرى %2$s - %3$s ئارىلىقىدا %4$s غىچە",
     "Could not generate event recurrence statement" : "ھادىسە قايتا-قايتا بايانات ھاسىل قىلالمىدى",
     "Every Week on %1$s for the entire day" : "ھەر ھەپتە پۈتۈن كۈن ئۈچۈن %1$s دا",
     "Every Week on %1$s for the entire day until %2$s" : "ھەر ھەپتە%1$s دە پۈتۈن بىر كۈن ئىچىدە %2$s غىچە",
