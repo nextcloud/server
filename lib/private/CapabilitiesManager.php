@@ -23,7 +23,7 @@ class CapabilitiesManager {
 	public const ACCEPTABLE_LOADING_TIME = 0.1;
 
 	/** @var \Closure[] */
-	private $capabilities = [];
+	private array $capabilities = [];
 
 	public function __construct(
 		private LoggerInterface $logger,

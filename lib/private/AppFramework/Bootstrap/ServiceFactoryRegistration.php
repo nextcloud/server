@@ -18,11 +18,11 @@ class ServiceFactoryRegistration extends ARegistration {
 	 */
 	private $factory;
 
+	/**
+	 * @param class-string $name
+	 */
 	public function __construct(
 		string $appId,
-		/**
-		 * @psalm-var string|class-string
-		 */
 		private string $name,
 		callable $target,
 		private bool $shared,

@@ -52,35 +52,21 @@ use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
-	/** @var string */
-	protected $tablePrefix;
-
-	/** @var Adapter $adapter */
-	protected $adapter;
-
-	/** @var SystemConfig */
-	private $systemConfig;
-
+	protected string $tablePrefix;
+	protected Adapter $adapter;
+	private SystemConfig $systemConfig;
 	private ClockInterface $clock;
-
 	private LoggerInterface $logger;
-
 	protected $lockedTable = null;
-
-	/** @var int */
-	protected $queriesBuilt = 0;
-
-	/** @var int */
-	protected $queriesExecuted = 0;
-
-	/** @var DbDataCollector|null */
-	protected $dbDataCollector = null;
+	protected int $queriesBuilt = 0;
+	protected int $queriesExecuted = 0;
+	protected ?DbDataCollector $dbDataCollector = null;
 	private array $lastConnectionCheck = [];
 
 	protected ?float $transactionActiveSince = null;
 
 	/** @var array<string, int> */
-	protected $tableDirtyWrites = [];
+	protected array $tableDirtyWrites = [];
 
 	protected bool $logDbException = false;
 	private ?array $transactionBacktrace = null;
@@ -328,10 +314,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		return '';
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPrefix() {
+	public function getPrefix(): string {
 		return $this->tablePrefix;
 	}
 

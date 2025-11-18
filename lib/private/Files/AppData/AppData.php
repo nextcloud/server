@@ -24,13 +24,6 @@ class AppData implements IAppData {
 	/** @var CappedMemoryCache<ISimpleFolder|NotFoundException> */
 	private CappedMemoryCache $folders;
 
-	/**
-	 * AppData constructor.
-	 *
-	 * @param IRootFolder $rootFolder
-	 * @param SystemConfig $config
-	 * @param string $appId
-	 */
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private SystemConfig $config,

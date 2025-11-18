@@ -13,32 +13,26 @@ namespace OC\AppFramework\Bootstrap;
  */
 class ServiceAliasRegistration extends ARegistration {
 	/**
-	 * @psalm-param string|class-string $alias
-	 * @paslm-param string|class-string $target
+	 * @param class-string $alias
+	 * @param class-string $target
 	 */
 	public function __construct(
 		string $appId,
-		/**
-		 * @psalm-var string|class-string
-		 */
-		private string $alias,
-		/**
-		 * @psalm-var string|class-string
-		 */
-		private string $target,
+		private readonly string $alias,
+		private readonly string $target,
 	) {
 		parent::__construct($appId);
 	}
 
 	/**
-	 * @psalm-return string|class-string
+	 * @return class-string
 	 */
 	public function getAlias(): string {
 		return $this->alias;
 	}
 
 	/**
-	 * @psalm-return string|class-string
+	 * @return class-string
 	 */
 	public function getTarget(): string {
 		return $this->target;

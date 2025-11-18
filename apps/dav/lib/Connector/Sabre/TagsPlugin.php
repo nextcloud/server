@@ -49,11 +49,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
-
-	/**
-	 * @var ITags
-	 */
-	private $tagger;
+	private ?ITags $tagger = null;
 
 	/**
 	 * Array of file id to tags array
@@ -105,12 +101,17 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @return ITags tagger
 	 */
-	private function getTagger() {
-		if (!$this->tagger) {
-			$this->tagger = $this->tagManager->load('files');
-			assert($this->tagger !== null);
+	private function getTagger(): ITags {
+		if ($this->tagger) {
+			return $this->tagger;
 		}
-		return $this->tagger;
+
+		$tagger = $this->tagManager->load('files');
+		if ($tagger === null) {
+			throw new \RuntimeException('Tagger not found for files');
+		}
+		$this->tagger = $tagger;
+		return $tagger;
 	}
 
 	/**

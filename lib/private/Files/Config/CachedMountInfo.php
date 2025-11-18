@@ -13,38 +13,23 @@ use OCP\Files\Node;
 use OCP\IUser;
 
 class CachedMountInfo implements ICachedMountInfo {
-	protected string $mountProvider;
 	protected string $key;
 
-	/**
-	 * CachedMountInfo constructor.
-	 *
-	 * @param IUser $user
-	 * @param int $storageId
-	 * @param int $rootId
-	 * @param string $mountPoint
-	 * @param int|null $mountId
-	 * @param string $rootInternalPath
-	 */
 	public function __construct(
 		protected IUser $user,
 		protected int $storageId,
 		protected int $rootId,
 		protected string $mountPoint,
-		string $mountProvider,
+		protected string $mountProvider,
 		protected ?int $mountId = null,
 		protected string $rootInternalPath = '',
 	) {
 		if (strlen($mountProvider) > 128) {
 			throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
 		}
-		$this->mountProvider = $mountProvider;
 		$this->key = $this->rootId . '::' . $this->mountPoint;
 	}
 
-	/**
-	 * @return IUser
-	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}

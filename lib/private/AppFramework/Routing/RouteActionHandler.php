@@ -11,14 +11,10 @@ use OC\AppFramework\App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 
 class RouteActionHandler {
-	/**
-	 * @param string $controllerName
-	 * @param string $actionName
-	 */
 	public function __construct(
 		private DIContainer $container,
-		private $controllerName,
-		private $actionName,
+		private string $controllerName,
+		private string $actionName,
 	) {
 	}
 

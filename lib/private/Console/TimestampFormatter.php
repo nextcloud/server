@@ -12,18 +12,10 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyleInterface;
 
 class TimestampFormatter implements OutputFormatterInterface {
-	/** @var OutputFormatterInterface */
-	protected $formatter;
-
-	/**
-	 * @param ?IConfig $config
-	 * @param OutputFormatterInterface $formatter
-	 */
 	public function __construct(
-		protected ?IConfig $config,
-		OutputFormatterInterface $formatter,
+		protected readonly ?IConfig $config,
+		protected readonly OutputFormatterInterface $formatter,
 	) {
-		$this->formatter = $formatter;
 	}
 
 	/**
@@ -31,7 +23,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 *
 	 * @param bool $decorated Whether to decorate the messages or not
 	 */
-	public function setDecorated(bool $decorated) {
+	public function setDecorated(bool $decorated): void {
 		$this->formatter->setDecorated($decorated);
 	}
 
@@ -50,7 +42,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 	 * @param string $name The style name
 	 * @param OutputFormatterStyleInterface $style The style instance
 	 */
-	public function setStyle(string $name, OutputFormatterStyleInterface $style) {
+	public function setStyle(string $name, OutputFormatterStyleInterface $style): void {
 		$this->formatter->setStyle($name, $style);
 	}
 

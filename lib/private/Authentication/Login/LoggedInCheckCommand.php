@@ -30,7 +30,7 @@ class LoggedInCheckCommand extends ALoginCommand {
 
 			$this->dispatcher->dispatchTyped(new LoginFailed($loginName, $password));
 
-			return LoginResult::failure($loginData, LoginController::LOGIN_MSG_INVALIDPASSWORD);
+			return LoginResult::failure(LoginController::LOGIN_MSG_INVALIDPASSWORD);
 		}
 
 		return $this->processNextOrFinishSuccessfully($loginData);

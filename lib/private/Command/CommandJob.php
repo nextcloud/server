@@ -10,6 +10,9 @@ namespace OC\Command;
 use OCA\Files_Trashbin\Command\Expire;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Command\ICommand;
+use Test\Command\FilesystemCommand;
+use Test\Command\SimpleCommand;
+use Test\Command\StateFullCommand;
 
 /**
  * Wrap a command in the background job interface
@@ -17,9 +20,9 @@ use OCP\Command\ICommand;
 class CommandJob extends QueuedJob {
 	protected function run($argument) {
 		$command = unserialize($argument, ['allowed_classes' => [
-			\Test\Command\SimpleCommand::class,
-			\Test\Command\StateFullCommand::class,
-			\Test\Command\FilesystemCommand::class,
+			SimpleCommand::class,
+			StateFullCommand::class,
+			FilesystemCommand::class,
 			Expire::class,
 			\OCA\Files_Versions\Command\Expire::class,
 		]]);

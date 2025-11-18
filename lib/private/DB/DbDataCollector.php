@@ -17,9 +17,6 @@ use OCP\DataCollector\AbstractDataCollector;
 class DbDataCollector extends AbstractDataCollector {
 	protected ?BacktraceDebugStack $debugStack = null;
 
-	/**
-	 * DbDataCollector constructor.
-	 */
 	public function __construct(
 		private Connection $connection,
 	) {

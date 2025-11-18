@@ -13,6 +13,7 @@ use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
 use OCP\Encryption\IFile;
+use OCP\Encryption\IManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
@@ -85,8 +86,9 @@ class EncryptionEventListener implements IEventListener {
 					new View(),
 					$this->userManager,
 					Server::get(IGroupManager::class),
-					Server::get(IConfig::class)),
-				Server::get(\OCP\Encryption\IManager::class),
+					Server::get(IConfig::class)
+				),
+				Server::get(IManager::class),
 				Server::get(IFile::class),
 				Server::get(LoggerInterface::class),
 			);

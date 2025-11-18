@@ -1050,9 +1050,6 @@ class Access extends LDAPUtility {
 	/**
 	 * Returns the LDAP handler
 	 *
-	 * @throws \OC\ServerNotAvailableException
-	 */
-	/**
 	 * @param mixed[] $arguments
 	 * @return mixed
 	 * @throws ServerNotAvailableException

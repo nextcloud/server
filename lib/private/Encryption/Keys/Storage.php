@@ -17,35 +17,21 @@ use OCP\IConfig;
 use OCP\Security\ICrypto;
 
 class Storage implements IStorage {
-	// hidden file which indicate that the folder is a valid key storage
+	/** @var string hidden file which indicate that the folder is a valid key storage */
 	public const KEY_STORAGE_MARKER = '.oc_key_storage';
+	/** @var string base dir where all the file related keys are stored */
+	private string $keys_base_dir;
+	/** @var string root of the key storage default is empty which means that we use the data folder */
+	private string $root_dir;
+	private string $encryption_base_dir;
+	private string $backup_base_dir;
+	private array $keyCache = [];
 
-	// base dir where all the file related keys are stored
-	/** @var string */
-	private $keys_base_dir;
-
-	// root of the key storage default is empty which means that we use the data folder
-	/** @var string */
-	private $root_dir;
-
-	/** @var string */
-	private $encryption_base_dir;
-
-	/** @var string */
-	private $backup_base_dir;
-
-	/** @var array */
-	private $keyCache = [];
-
-	/**
-	 * @param View $view
-	 * @param Util $util
-	 */
 	public function __construct(
-		private View $view,
-		private Util $util,
-		private ICrypto $crypto,
-		private IConfig $config,
+		private readonly View $view,
+		private readonly Util $util,
+		private readonly ICrypto $crypto,
+		private readonly IConfig $config,
 	) {
 		$this->encryption_base_dir = '/files_encryption';
 		$this->keys_base_dir = $this->encryption_base_dir . '/keys';
