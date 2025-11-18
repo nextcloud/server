@@ -4,7 +4,7 @@
  */
 
 import { getCapabilities } from '@nextcloud/capabilities'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 
 interface IGlobalScaleCapabilities {
 	token?: string
@@ -14,7 +14,7 @@ interface IGlobalScaleCapabilities {
  * @param fileid - The file ID to generate the direct file link for
  */
 export function generateFileUrl(fileid: number): string {
-	const baseURL = window.location.protocol + '//' + window.location.host
+	const baseURL = getBaseUrl()
 
 	const { globalscale } = getCapabilities() as { globalscale?: IGlobalScaleCapabilities }
 	if (globalscale?.token) {
