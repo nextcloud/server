@@ -140,6 +140,7 @@ OC.L10N.register(
     "Warnings" : "Avisos",
     "Warn before changing a file extension" : "Avisar antes de alterar uma extensão de arquivo",
     "WebDAV URL" : "URL WebDAV",
+    "Create an app password" : "Criar uma senha de aplicativo",
     "How to access files using WebDAV" : "Como acessar arquivos usando WebDAV",
     "Total rows summary" : "Resumo do total de linhas",
     "Toggle selection for all files and folders" : "Alternar seleção para todos os arquivos e pastas",

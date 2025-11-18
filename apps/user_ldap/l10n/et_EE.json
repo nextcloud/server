@@ -78,6 +78,7 @@
     "LDAP Filter:" : "LDAP filter:",
     "User found and settings verified." : "Kasutaja leiti ja seaded on kontrollitud.",
     "Other Attributes:" : "Muud atribuudid:",
+    "Test Login name" : "Katseta kasutajanime",
     "Verify settings" : "Kontrolli seadeid",
     "No object found in the given Base DN. Please revise." : "BaasDN-is ei leitu ühtegi objekti.",
     "More than 1,000 directory entries available." : "Saadaval on rohkem kui 1000 kataloogikirjet.",

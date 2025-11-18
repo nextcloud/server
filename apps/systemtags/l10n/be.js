@@ -39,6 +39,7 @@ OC.L10N.register(
     "Files" : "Файлы",
     "Tags" : "Тэгі",
     "Collaborative tags" : "Супольныя тэгі",
+    "Restricted" : "Абмежавана",
     "Invisible" : "Нябачны",
     "Created tag" : "Створаны тэг",
     "Failed to create tag" : "Не ўдалося стварыць тэг",

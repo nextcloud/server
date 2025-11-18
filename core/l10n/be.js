@@ -459,6 +459,7 @@ OC.L10N.register(
     "Strong password" : "Моцны пароль",
     "No action available" : "Няма даступных дзеянняў",
     "Non-existing tag #{tag}" : "Неіснуючы тэг #{tag}",
+    "Restricted" : "Абмежавана",
     "Invisible" : "Нябачны",
     "Delete" : "Выдаліць",
     "Rename" : "Перайменаваць",

@@ -440,7 +440,7 @@
     "Could not copy login name. Please copy it manually." : "Ei õnnestunud kopeerida kasutajanime. Palun tee seda käsitsi.",
     "New app password" : "Uus rakenduse salasõna",
     "Use the credentials below to configure your app or device. For security reasons this password will only be shown once." : "Kasuta alljärgnevat autentimisvõimalust oma rakenduse või seadme seadistamiseks. Turvapõhjustel näitame me seda salasõna vaid üks kord.",
-    "Login" : "Logi sisse",
+    "Login" : "Kasutajanimi",
     "Password" : "Salasõna",
     "Show QR code for mobile apps" : "Näita QR-koodi nutiseadmete rakenduste jaoks",
     "Use system cron service to call the cron.php file every 5 minutes." : "Kasuta süsteemi cron-teenust, et käivitada cron.php faili iga 5 minuti järel.",
