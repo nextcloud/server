@@ -28,7 +28,7 @@ OC.L10N.register(
     "Client ID" : "Kliendi ID",
     "Client secret" : "Kliendi saladus",
     "OpenStack v2" : "OpenStack v2",
-    "Login" : "Logi sisse",
+    "Login" : "Kasutajanimi",
     "Password" : "Salasõna",
     "Tenant name" : "Kliendi nimi",
     "Identity endpoint URL" : "Tuvastuse otspunkti võrguaadress",

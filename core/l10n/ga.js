@@ -263,6 +263,7 @@ OC.L10N.register(
     "An internal error occurred." : "Tharla earráid inmheánach.",
     "Please try again or contact your administrator." : "Bain triail eile as nó déan teagmháil le do riarthóir.",
     "Password" : "Pasfhocal",
+    "Remember me" : "Cuimhnigh orm",
     "Log in with a device" : "Logáil isteach le gléas",
     "Login or email" : "Logáil isteach nó ríomhphost",
     "Your account is not setup for passwordless login." : "Níl do chuntas socraithe le haghaidh logáil isteach gan pasfhocal.",
