@@ -82,7 +82,11 @@ trait S3ObjectTrait {
 	private function buildS3Metadata(array $metadata): array {
 		$result = [];
 		foreach ($metadata as $key => $value) {
-			$result['x-amz-meta-' . $key] = $value;
+			if (mb_check_encoding($value, 'ASCII')) {
+				$result['x-amz-meta-' . $key] = $value;
+			} else {
+				$result['x-amz-meta-' . $key] = 'base64:' . base64_encode($value);
+			}
 		}
 		return $result;
 	}
