@@ -141,6 +141,41 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertEquals('myvalue', $entries[0]['configvalue']);
 	}
 
+	public function testJson(): void {
+		$appId = $this->getUniqueID('testing');
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('share')
+			->values([
+				'uid_owner' => $query->createNamedParameter('uid_owner'),
+				'item_type' => $query->createNamedParameter('item_type'),
+				'permissions' => $query->createNamedParameter(0),
+				'stime' => $query->createNamedParameter(0),
+				'accepted' => $query->createNamedParameter(0),
+				'mail_send' => $query->createNamedParameter(0),
+				'share_type' => $query->createNamedParameter(0),
+				'share_with' => $query->createNamedParameter($appId),
+				'attributes' => $query->createNamedParameter('[["permissions","before"]]'),
+			])
+			->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->update('share')
+			->set('attributes', $query->createNamedParameter('[["permissions","after"]]'))
+			->where($query->expr()->eq('attributes', $query->createNamedParameter('[["permissions","before"]]'), IQueryBuilder::PARAM_JSON));
+		$query->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('attributes')
+			->from('share')
+			->where($query->expr()->eq('share_with', $query->createNamedParameter($appId)));
+
+		$result = $query->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+		self::assertCount(1, $entries);
+		self::assertEquals('[["permissions","after"]]', $entries[0]['attributes']);
+	}
+
 	public function testDateTimeEquals(): void {
 		$dateTime = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();

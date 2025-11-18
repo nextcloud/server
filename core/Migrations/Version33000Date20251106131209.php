@@ -26,7 +26,7 @@ class Version33000Date20251106131209 extends SimpleMigrationStep {
 		$qb->update('share')
 			->set('attributes', $qb->createNamedParameter('[["permissions","download",true]]'))
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_CIRCLE, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('attributes', $qb->createNamedParameter('[["permissions","download",null]]', IQueryBuilder::PARAM_STR)));
+			->andWhere($qb->expr()->eq('attributes', $qb->createNamedParameter('[["permissions","download",null]]'), IQueryBuilder::PARAM_JSON));
 		$qb->executeStatement();
 	}
 }
