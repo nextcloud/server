@@ -69,8 +69,8 @@ class FilesDropPlugin extends ServerPlugin {
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 		$isChunkedUpload = $this->isChunkedUpload($request);
 
-		// For the final MOVE request of a chunked upload it is necessary to modify the Destination header.
-		if ($isChunkedUpload && $request->getMethod() !== 'MOVE') {
+		// For the PUT and MOVE requests of a chunked upload it is necessary to modify the Destination header.
+		if ($isChunkedUpload && $request->getMethod() !== 'MOVE' && $request->getMethod() !== 'PUT') {
 			return;
 		}
 
