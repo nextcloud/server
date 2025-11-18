@@ -160,8 +160,12 @@ class ExpressionBuilderDBTest extends TestCase {
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update('share')
-			->set('attributes', $query->createNamedParameter('[["permissions","after"]]'))
-			->where($query->expr()->eq('attributes', $query->createNamedParameter('[["permissions","before"]]'), IQueryBuilder::PARAM_JSON));
+			->set('attributes', $query->createNamedParameter('[["permissions","after"]]'));
+		if ($this->connection->getDatabaseProvider(true) === IDBConnection::PLATFORM_MYSQL) {
+			$query->where($query->expr()->eq('attributes', $query->createFunction("JSON_ARRAY(JSON_ARRAY('permissions','before'))"), IQueryBuilder::PARAM_JSON));
+		} else {
+			$query->where($query->expr()->eq('attributes', $query->createNamedParameter('[["permissions","before"]]'), IQueryBuilder::PARAM_JSON));
+		}
 		$query->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
@@ -173,7 +177,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		$entries = $result->fetchAll();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
-		self::assertEquals('[["permissions","after"]]', $entries[0]['attributes']);
+		self::assertEquals([['permissions','after']], json_decode($entries[0]['attributes'], true));
 	}
 
 	public function testDateTimeEquals(): void {
