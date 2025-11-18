@@ -15,12 +15,12 @@ use Psr\Log\LoggerInterface;
 
 class EventLogger implements IEventLogger {
 	/** @var Event[] */
-	private $events = [];
+	private array $events = [];
 
 	/**
 	 * @var bool - Module needs to be activated by some app
 	 */
-	private $activated = false;
+	private bool $activated = false;
 
 	public function __construct(
 		private SystemConfig $config,

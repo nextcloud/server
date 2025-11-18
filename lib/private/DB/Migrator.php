@@ -20,32 +20,24 @@ use OCP\IConfig;
 use function preg_match;
 
 class Migrator {
-	/** @var Connection */
-	protected $connection;
-
-	/** @var bool */
-	private $noEmit = false;
+	private bool $noEmit = false;
 
 	public function __construct(
-		Connection $connection,
+		protected Connection $connection,
 		protected IConfig $config,
 		private ?IEventDispatcher $dispatcher = null,
 	) {
-		$this->connection = $connection;
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public function migrate(Schema $targetSchema) {
+	public function migrate(Schema $targetSchema): void {
 		$this->noEmit = true;
 		$this->applySchema($targetSchema);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function generateChangeScript(Schema $targetSchema) {
+	public function generateChangeScript(Schema $targetSchema): string {
 		$schemaDiff = $this->getDiff($targetSchema, $this->connection);
 
 		$script = '';
@@ -60,7 +52,7 @@ class Migrator {
 	/**
 	 * @throws Exception
 	 */
-	public function createSchema() {
+	public function createSchema(): Schema {
 		$this->connection->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
 			/** @var string|AbstractAsset $asset */
 			$filterExpression = $this->getFilterExpression();
@@ -72,10 +64,7 @@ class Migrator {
 		return $this->connection->createSchemaManager()->introspectSchema();
 	}
 
-	/**
-	 * @return SchemaDiff
-	 */
-	protected function getDiff(Schema $targetSchema, Connection $connection) {
+	protected function getDiff(Schema $targetSchema, Connection $connection): SchemaDiff {
 		// Adjust STRING columns with a length higher than 4000 to TEXT (clob)
 		// for consistency between the supported databases and
 		// old vs. new installations.

@@ -13,22 +13,15 @@ use Doctrine\DBAL\Events;
 
 class SQLiteSessionInit implements EventSubscriber {
 	/**
-	 * Configure case sensitive like for each connection
-	 *
-	 * @param bool $caseSensitiveLike
-	 * @param string $journalMode
+	 * Configure case-sensitive like for each connection
 	 */
 	public function __construct(
-		private $caseSensitiveLike,
-		private $journalMode,
+		private readonly bool $caseSensitiveLike,
+		private readonly string $journalMode,
 	) {
 	}
 
-	/**
-	 * @param ConnectionEventArgs $args
-	 * @return void
-	 */
-	public function postConnect(ConnectionEventArgs $args) {
+	public function postConnect(ConnectionEventArgs $args): void {
 		$sensitive = $this->caseSensitiveLike ? 'true' : 'false';
 		$args->getConnection()->executeUpdate('PRAGMA case_sensitive_like = ' . $sensitive);
 		$args->getConnection()->executeUpdate('PRAGMA journal_mode = ' . $this->journalMode);
@@ -42,7 +35,7 @@ class SQLiteSessionInit implements EventSubscriber {
 		}
 	}
 
-	public function getSubscribedEvents() {
+	public function getSubscribedEvents(): array {
 		return [Events::postConnect];
 	}
 }

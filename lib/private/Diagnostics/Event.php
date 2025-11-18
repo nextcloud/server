@@ -10,62 +10,36 @@ namespace OC\Diagnostics;
 use OCP\Diagnostics\IEvent;
 
 class Event implements IEvent {
-	/**
-	 * @var float
-	 */
-	protected $end;
+	protected ?float $end = null;
 
-	/**
-	 * @param string $id
-	 * @param string $description
-	 * @param float $start
-	 */
 	public function __construct(
-		protected $id,
-		protected $description,
-		protected $start,
+		protected string $id,
+		protected string $description,
+		protected float $start,
 	) {
 	}
 
-	/**
-	 * @param float $time
-	 */
-	public function end($time) {
+	public function end(float $time): void {
 		$this->end = $time;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getStart() {
+	public function getStart(): float {
 		return $this->start;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getId() {
+	public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDescription() {
+	public function getDescription(): string {
 		return $this->description;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getEnd() {
-		return $this->end;
+	public function getEnd(): float {
+		return $this->end ?? -1;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getDuration() {
+	public function getDuration(): float {
 		if (!$this->end) {
 			$this->end = microtime(true);
 		}

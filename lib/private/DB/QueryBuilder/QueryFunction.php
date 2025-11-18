@@ -10,15 +10,12 @@ namespace OC\DB\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class QueryFunction implements IQueryFunction {
-	/**
-	 * @param string $function
-	 */
 	public function __construct(
-		protected $function,
+		protected string $function,
 	) {
 	}
 
 	public function __toString(): string {
-		return (string)$this->function;
+		return $this->function;
 	}
 }

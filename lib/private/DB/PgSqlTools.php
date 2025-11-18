@@ -16,9 +16,6 @@ use function preg_quote;
  * Various PostgreSQL specific helper functions.
  */
 class PgSqlTools {
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		private IConfig $config,
 	) {
@@ -27,10 +24,8 @@ class PgSqlTools {
 	/**
 	 * @brief Resynchronizes all sequences of a database after using INSERTs
 	 *        without leaving out the auto-incremented column.
-	 * @param \OC\DB\Connection $conn
-	 * @return null
 	 */
-	public function resynchronizeDatabaseSequences(Connection $conn) {
+	public function resynchronizeDatabaseSequences(Connection $conn): void {
 		$databaseName = $conn->getDatabase();
 		$conn->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
 			/** @var string|AbstractAsset $asset */

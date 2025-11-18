@@ -7,38 +7,28 @@
 namespace OC\Authentication\LoginCredentials;
 
 use OCP\Authentication\LoginCredentials\ICredentials;
+use Override;
 
 class Credentials implements ICredentials {
-	/**
-	 * @param string $uid
-	 * @param string $loginName
-	 * @param string $password
-	 */
 	public function __construct(
-		private $uid,
-		private $loginName,
-		private $password,
+		private readonly string $uid,
+		private readonly string $loginName,
+		private readonly string $password,
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getUID() {
+	#[Override]
+	public function getUID(): string {
 		return $this->uid;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getLoginName() {
+	#[Override]
+	public function getLoginName(): string {
 		return $this->loginName;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPassword() {
+	#[Override]
+	public function getPassword(): string {
 		return $this->password;
 	}
 }

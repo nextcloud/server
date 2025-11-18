@@ -27,7 +27,7 @@ class UserDisabledCheckCommand extends ALoginCommand {
 
 			$this->logger->warning("Login failed: $username disabled (Remote IP: $ip)");
 
-			return LoginResult::failure($loginData, LoginController::LOGIN_MSG_USERDISABLED);
+			return LoginResult::failure(LoginController::LOGIN_MSG_USERDISABLED);
 		}
 
 		return $this->processNextOrFinishSuccessfully($loginData);

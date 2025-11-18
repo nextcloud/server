@@ -10,26 +10,20 @@ namespace OC;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\ISession;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class DateTimeZone implements IDateTimeZone {
-	/**
-	 * Constructor
-	 *
-	 * @param IConfig $config
-	 * @param ISession $session
-	 */
 	public function __construct(
-		protected IConfig $config,
-		protected ISession $session,
+		protected readonly IConfig $config,
+		protected readonly ISession $session,
+		protected readonly LoggerInterface $logger,
 	) {
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getTimeZone($timestamp = false, ?string $userId = null): \DateTimeZone {
+	public function getTimeZone(int|false $timestamp = false, ?string $userId = null): \DateTimeZone {
 		$uid = $userId ?? $this->session->get('user_id');
 		$timezoneName = $this->config->getUserValue($uid, 'core', 'timezone', '');
 		if ($timezoneName === '') {
@@ -42,7 +36,7 @@ class DateTimeZone implements IDateTimeZone {
 		try {
 			return new \DateTimeZone($timezoneName);
 		} catch (\Exception $e) {
-			Server::get(LoggerInterface::class)->debug('Failed to created DateTimeZone "' . $timezoneName . '"', ['app' => 'datetimezone']);
+			$this->logger->debug('Failed to created DateTimeZone "' . $timezoneName . '"', ['app' => 'datetimezone']);
 			return $this->getDefaultTimeZone();
 		}
 	}
@@ -65,10 +59,8 @@ class DateTimeZone implements IDateTimeZone {
 	 * we try to find it manually, before falling back to UTC.
 	 *
 	 * @param mixed $offset
-	 * @param int|false $timestamp
-	 * @return \DateTimeZone
 	 */
-	protected function guessTimeZoneFromOffset($offset, $timestamp) {
+	protected function guessTimeZoneFromOffset($offset, int|false $timestamp): \DateTimeZone {
 		try {
 			// Note: the timeZone name is the inverse to the offset,
 			// so a positive offset means negative timeZone
@@ -98,7 +90,7 @@ class DateTimeZone implements IDateTimeZone {
 			}
 
 			// No timezone found, fallback to UTC
-			Server::get(LoggerInterface::class)->debug('Failed to find DateTimeZone for offset "' . $offset . '"', ['app' => 'datetimezone']);
+			$this->logger->debug('Failed to find DateTimeZone for offset "' . $offset . '"', ['app' => 'datetimezone']);
 			return $this->getDefaultTimeZone();
 		}
 	}

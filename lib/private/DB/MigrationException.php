@@ -9,7 +9,7 @@ namespace OC\DB;
 
 class MigrationException extends \Exception {
 	public function __construct(
-		private $table,
+		private string $table,
 		$message,
 	) {
 		parent::__construct($message);
@@ -18,7 +18,7 @@ class MigrationException extends \Exception {
 	/**
 	 * @return string
 	 */
-	public function getTable() {
+	public function getTable(): string {
 		return $this->table;
 	}
 }

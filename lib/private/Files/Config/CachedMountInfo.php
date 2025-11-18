@@ -30,9 +30,6 @@ class CachedMountInfo implements ICachedMountInfo {
 		$this->key = $this->rootId . '::' . $this->mountPoint;
 	}
 
-	/**
-	 * @return IUser
-	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}

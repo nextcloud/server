@@ -7,11 +7,14 @@
  */
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Interface IDateTimeZone
  *
  * @since 8.0.0
  */
+#[Consumable(since: '8.0.0')]
 interface IDateTimeZone {
 
 	/**
@@ -19,14 +22,12 @@ interface IDateTimeZone {
 	 * If a timestamp is passed the timezone for that given timestamp is retrieved (might differ due to DST).
 	 * If no userId is passed the current user is used.
 	 *
-	 * @param bool|int $timestamp
 	 * @param ?string $userId - The user to fetch the timezone for (defaults to current user)
-	 * @return \DateTimeZone
 	 * @since 8.0.0
 	 * @since 8.1.0 - parameter $timestamp was added
 	 * @since 32.0.0 - parameter $userId was added
 	 */
-	public function getTimeZone($timestamp = false, ?string $userId = null);
+	public function getTimeZone(int|false $timestamp = false, ?string $userId = null): \DateTimeZone;
 
 	/**
 	 * Get the timezone configured as the default for this Nextcloud server.

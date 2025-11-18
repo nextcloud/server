@@ -262,8 +262,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * checks whether a user is still available on LDAP
 	 *
-	 * @param string|User $user either the Nextcloud user
-	 *                          name or an instance of that user
+	 * @param string|User $user either the Nextcloud user id or an instance of that user
 	 * @throws \Exception
 	 * @throws ServerNotAvailableException
 	 */

@@ -58,7 +58,6 @@ class TwoFactorCommand extends ALoginCommand {
 		}
 
 		return LoginResult::success(
-			$loginData,
 			$this->urlGenerator->linkToRoute($url, $urlParams)
 		);
 	}

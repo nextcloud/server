@@ -10,58 +10,41 @@ namespace OC\Diagnostics;
 use OCP\Diagnostics\IQuery;
 
 class Query implements IQuery {
-	private $end;
+	private ?float $end = null;
 
-	/**
-	 * @param string $sql
-	 * @param array $params
-	 * @param int $start
-	 */
 	public function __construct(
-		private $sql,
-		private $params,
-		private $start,
+		private string $sql,
+		private array $params,
+		private float $start,
 		private array $stack,
 	) {
 	}
 
-	public function end($time) {
+	public function end($time): void {
 		$this->end = $time;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getParams() {
+	public function getParams(): array {
 		return $this->params;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSql() {
+	public function getSql(): string {
 		return $this->sql;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getStart() {
+	public function getStart(): float {
 		return $this->start;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getDuration() {
+	public function getDuration(): float {
 		return $this->end - $this->start;
 	}
 
-	public function getStartTime() {
+	public function getStartTime(): float {
 		return $this->start;
 	}
 
-	public function getStacktrace() {
+	public function getStacktrace(): array {
 		return $this->stack;
 	}
 }

@@ -41,30 +41,15 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Cache
  */
 class Scanner extends BasicEmitter implements IScanner {
-	/**
-	 * @var string $storageId
-	 */
-	protected $storageId;
-
-	/**
-	 * @var Cache $cache
-	 */
+	protected string $storageId;
+	/** @var Cache */
 	protected $cache;
-
-	/**
-	 * @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache
-	 */
-	protected $cacheActive;
-
-	/**
-	 * @var bool $useTransactions whether to use transactions
-	 */
-	protected $useTransactions = true;
-
-	/**
-	 * @var ILockingProvider
-	 */
-	protected $lockingProvider;
+	/** @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache */
+	protected bool $cacheActive;
+	/** @var bool $useTransactions whether to use transactions */
+	protected bool $useTransactions = true;
+	/** * @var ILockingProvider */
+	protected ILockingProvider $lockingProvider;
 
 	protected IDBConnection $connection;
 

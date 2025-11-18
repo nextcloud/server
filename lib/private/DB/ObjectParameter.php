@@ -14,21 +14,15 @@ final class ObjectParameter {
 	private $stringable;
 	private $class;
 
-	/**
-	 * @param object $object
-	 */
 	public function __construct(
-		private $object,
+		private object $object,
 		private ?\Throwable $error,
 	) {
 		$this->stringable = \is_callable([$this->object, '__toString']);
 		$this->class = \get_class($this->object);
 	}
 
-	/**
-	 * @return object
-	 */
-	public function getObject() {
+	public function getObject(): object {
 		return $this->object;
 	}
 

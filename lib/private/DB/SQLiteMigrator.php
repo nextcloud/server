@@ -8,14 +8,10 @@
 namespace OC\DB;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaDiff;
 
 class SQLiteMigrator extends Migrator {
-	/**
-	 * @param Schema $targetSchema
-	 * @param \Doctrine\DBAL\Connection $connection
-	 * @return \Doctrine\DBAL\Schema\SchemaDiff
-	 */
-	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection): SchemaDiff {
 		foreach ($targetSchema->getTables() as $table) {
 			foreach ($table->getColumns() as $column) {
 				// column comments are not supported on SQLite

@@ -10,12 +10,12 @@ namespace OC\DB\QueryBuilder\ExpressionBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\CompositeExpression;
-use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -23,14 +23,9 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use Psr\Log\LoggerInterface;
 
 class ExpressionBuilder implements IExpressionBuilder {
-	/** @var \Doctrine\DBAL\Query\Expression\ExpressionBuilder */
-	protected $expressionBuilder;
-
-	/** @var QuoteHelper */
-	protected $helper;
-
-	/** @var FunctionBuilder */
-	protected $functionBuilder;
+	protected DoctrineExpressionBuilder $expressionBuilder;
+	protected QuoteHelper $helper;
+	protected IFunctionBuilder $functionBuilder;
 
 	public function __construct(
 		protected ConnectionAdapter $connection,

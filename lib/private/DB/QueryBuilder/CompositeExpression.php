@@ -9,6 +9,7 @@
 namespace OC\DB\QueryBuilder;
 
 use OCP\DB\QueryBuilder\ICompositeExpression;
+use Override;
 
 class CompositeExpression implements ICompositeExpression, \Countable {
 	public const TYPE_AND = 'AND';
@@ -20,13 +21,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	) {
 	}
 
-	/**
-	 * Adds multiple parts to composite expression.
-	 *
-	 * @param array $parts
-	 *
-	 * @return ICompositeExpression
-	 */
+	#[Override]
 	public function addMultiple(array $parts = []): ICompositeExpression {
 		foreach ($parts as $part) {
 			$this->add($part);
@@ -35,13 +30,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 		return $this;
 	}
 
-	/**
-	 * Adds an expression to composite expression.
-	 *
-	 * @param mixed $part
-	 *
-	 * @return ICompositeExpression
-	 */
+	#[Override]
 	public function add($part): ICompositeExpression {
 		if ($part === null) {
 			return $this;

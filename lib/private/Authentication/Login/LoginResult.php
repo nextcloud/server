@@ -11,28 +11,24 @@ namespace OC\Authentication\Login;
 use OC\Core\Controller\LoginController;
 
 class LoginResult {
-	/** @var string|null */
-	private $redirectUrl;
-
-	/** @var string|null */
-	private $errorMessage;
+	private ?string $redirectUrl = null;
+	private ?string $errorMessage = null;
 
 	private function __construct(
-		private bool $success,
-		private LoginData $loginData,
+		private readonly bool $success,
 	) {
 	}
 
-	private function setRedirectUrl(string $url) {
+	private function setRedirectUrl(string $url): void {
 		$this->redirectUrl = $url;
 	}
 
-	private function setErrorMessage(string $msg) {
+	private function setErrorMessage(string $msg): void {
 		$this->errorMessage = $msg;
 	}
 
-	public static function success(LoginData $data, ?string $redirectUrl = null) {
-		$result = new static(true, $data);
+	public static function success(?string $redirectUrl = null): self {
+		$result = new static(true);
 		if ($redirectUrl !== null) {
 			$result->setRedirectUrl($redirectUrl);
 		}
@@ -42,8 +38,8 @@ class LoginResult {
 	/**
 	 * @param LoginController::LOGIN_MSG_*|null $msg
 	 */
-	public static function failure(LoginData $data, ?string $msg = null): LoginResult {
-		$result = new static(false, $data);
+	public static function failure(?string $msg = null): self {
+		$result = new static(false);
 		if ($msg !== null) {
 			$result->setErrorMessage($msg);
 		}

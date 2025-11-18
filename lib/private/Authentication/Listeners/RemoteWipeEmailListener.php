@@ -27,8 +27,7 @@ use function substr;
  * @template-implements IEventListener<ARemoteWipeEvent>
  */
 class RemoteWipeEmailListener implements IEventListener {
-	/** @var IL10N */
-	private $l10n;
+	private IL10N $l10n;
 
 	public function __construct(
 		private IMailer $mailer,
