@@ -5,23 +5,77 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Integration;
 
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
+class ConcreteExternalCalendar extends ExternalCalendar {
+
+	public function __construct(
+		string $appId,
+		string $calendarUri,
+	) {
+		parent::__construct($appId, $calendarUri);
+	}
+
+	public function getOwner() {
+	}
+
+	public function getGroup() {
+	}
+
+	public function getACL() {
+	}
+
+	public function setACL(array $acl) {
+	}
+
+	public function getSupportedPrivilegeSet() {
+	}
+
+	public function calendarQuery(array $filters) {
+	}
+
+	public function createFile($name, $data = null) {
+	}
+
+	public function getChild($name) {
+	}
+
+	public function getChildren() {
+	}
+
+	public function childExists($name) {
+	}
+
+	public function delete() {
+	}
+
+	public function getLastModified() {
+	}
+
+	public function propPatch(PropPatch $propPatch) {
+	}
+
+	public function getProperties($properties) {
+	}
+}
+
 class ExternalCalendarTest extends TestCase {
-	private ExternalCalendar&MockObject $abstractExternalCalendar;
+	private ExternalCalendar $abstractExternalCalendar;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->abstractExternalCalendar
-			= $this->getMockForAbstractClass(ExternalCalendar::class, ['example-app-id', 'calendar-uri-in-backend']);
+			= new ConcreteExternalCalendar('example-app-id', 'calendar-uri-in-backend');
 	}
 
-	public function testGetName():void {
+	public function testGetName(): void {
 		// Check that the correct name is returned
 		$this->assertEquals('app-generated--example-app-id--calendar-uri-in-backend',
 			$this->abstractExternalCalendar->getName());
@@ -31,7 +85,7 @@ class ExternalCalendarTest extends TestCase {
 		$this->assertTrue($reflectionMethod->isFinal());
 	}
 
-	public function testSetName():void {
+	public function testSetName(): void {
 		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'setName');
 		$this->assertTrue($reflectionMethod->isFinal());
@@ -53,7 +107,7 @@ class ExternalCalendarTest extends TestCase {
 		$this->abstractExternalCalendar->createDirectory('other-name');
 	}
 
-	public function testIsAppGeneratedCalendar():void {
+	public function testIsAppGeneratedCalendar(): void {
 		$this->assertFalse(ExternalCalendar::isAppGeneratedCalendar('personal'));
 		$this->assertFalse(ExternalCalendar::isAppGeneratedCalendar('work'));
 		$this->assertFalse(ExternalCalendar::isAppGeneratedCalendar('contact_birthdays'));
@@ -66,15 +120,15 @@ class ExternalCalendarTest extends TestCase {
 		$this->assertTrue(ExternalCalendar::isAppGeneratedCalendar('app-generated--example--foo--2'));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('splitAppGeneratedCalendarUriDataProvider')]
-	public function testSplitAppGeneratedCalendarUriInvalid(string $name):void {
+	#[DataProvider('splitAppGeneratedCalendarUriDataProvider')]
+	public function testSplitAppGeneratedCalendarUriInvalid(string $name): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Provided calendar uri was not app-generated');
 
 		ExternalCalendar::splitAppGeneratedCalendarUri($name);
 	}
 
-	public static function splitAppGeneratedCalendarUriDataProvider():array {
+	public static function splitAppGeneratedCalendarUriDataProvider(): array {
 		return [
 			['personal'],
 			['foo_shared_by_admin'],
@@ -82,13 +136,13 @@ class ExternalCalendarTest extends TestCase {
 		];
 	}
 
-	public function testSplitAppGeneratedCalendarUri():void {
+	public function testSplitAppGeneratedCalendarUri(): void {
 		$this->assertEquals(['deck', 'board-1'], ExternalCalendar::splitAppGeneratedCalendarUri('app-generated--deck--board-1'));
 		$this->assertEquals(['example', 'foo-2'], ExternalCalendar::splitAppGeneratedCalendarUri('app-generated--example--foo-2'));
 		$this->assertEquals(['example', 'foo--2'], ExternalCalendar::splitAppGeneratedCalendarUri('app-generated--example--foo--2'));
 	}
 
-	public function testDoesViolateReservedName():void {
+	public function testDoesViolateReservedName(): void {
 		$this->assertFalse(ExternalCalendar::doesViolateReservedName('personal'));
 		$this->assertFalse(ExternalCalendar::doesViolateReservedName('work'));
 		$this->assertFalse(ExternalCalendar::doesViolateReservedName('contact_birthdays'));
