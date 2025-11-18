@@ -2073,6 +2073,11 @@
       <code><![CDATA[new View('/' . $user)]]></code>
     </InternalMethod>
   </file>
+  <file src="apps/files_versions/lib/Db/VersionEntity.php">
+    <DeprecatedConstant>
+      <code><![CDATA[Types::JSON]]></code>
+    </DeprecatedConstant>
+  </file>
   <file src="apps/files_versions/lib/Listener/FileEventsListener.php">
     <InternalClass>
       <code><![CDATA[new View($user . '/files')]]></code>
@@ -2081,6 +2086,11 @@
       <code><![CDATA[file_exists]]></code>
       <code><![CDATA[new View($user . '/files')]]></code>
     </InternalMethod>
+  </file>
+  <file src="apps/files_versions/lib/Migration/Version1020Date20221114144058.php">
+    <DeprecatedConstant>
+      <code><![CDATA[Types::JSON]]></code>
+    </DeprecatedConstant>
   </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType>
@@ -3279,6 +3289,17 @@
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
+  </file>
+  <file src="core/Migrations/Version25000Date20220515204012.php">
+    <DeprecatedConstant>
+      <code><![CDATA[Types::JSON]]></code>
+    </DeprecatedConstant>
+  </file>
+  <file src="core/Migrations/Version33000Date20251106131209.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IQueryBuilder::PARAM_JSON]]></code>
+      <code><![CDATA[IQueryBuilder::PARAM_JSON]]></code>
+    </DeprecatedConstant>
   </file>
   <file src="core/Service/LoginFlowV2Service.php">
     <DeprecatedClass>

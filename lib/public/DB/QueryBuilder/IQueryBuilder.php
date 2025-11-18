@@ -99,6 +99,8 @@ interface IQueryBuilder {
 
 	/**
 	 * @since 24.0.0
+	 * @deprecated 33.0.0 JSON fields can not properly be used in WHERE statements of Oracle and MySQL.
+	 *                    It is recommended to use a simple STRING field and handle JSON within PHP
 	 */
 	public const PARAM_JSON = 'json';
 

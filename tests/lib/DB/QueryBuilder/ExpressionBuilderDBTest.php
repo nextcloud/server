@@ -141,6 +141,55 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertEquals('myvalue', $entries[0]['configvalue']);
 	}
 
+	public function testJson(): void {
+		if ($this->connection->getDatabaseProvider(true) === IDBConnection::PLATFORM_ORACLE) {
+			$result = $this->connection->executeQuery('SELECT VERSION FROM PRODUCT_COMPONENT_VERSION');
+			$version = $result->fetchOne();
+			$result->closeCursor();
+			if (str_starts_with($version, '11.')) {
+				$this->markTestSkipped('JSON is not supported on Oracle 11, skipping until deprecation was clarified: ' . $version);
+			}
+		}
+
+
+		$appId = $this->getUniqueID('testing');
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('share')
+			->values([
+				'uid_owner' => $query->createNamedParameter('uid_owner'),
+				'item_type' => $query->createNamedParameter('item_type'),
+				'permissions' => $query->createNamedParameter(0),
+				'stime' => $query->createNamedParameter(0),
+				'accepted' => $query->createNamedParameter(0),
+				'mail_send' => $query->createNamedParameter(0),
+				'share_type' => $query->createNamedParameter(0),
+				'share_with' => $query->createNamedParameter($appId),
+				'attributes' => $query->createNamedParameter('[["permissions","before"]]'),
+			])
+			->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->update('share')
+			->set('attributes', $query->createNamedParameter('[["permissions","after"]]'));
+		if ($this->connection->getDatabaseProvider(true) === IDBConnection::PLATFORM_MYSQL) {
+			$query->where($query->expr()->eq('attributes', $query->createFunction("JSON_ARRAY(JSON_ARRAY('permissions','before'))"), IQueryBuilder::PARAM_JSON));
+		} else {
+			$query->where($query->expr()->eq('attributes', $query->createNamedParameter('[["permissions","before"]]'), IQueryBuilder::PARAM_JSON));
+		}
+		$query->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('attributes')
+			->from('share')
+			->where($query->expr()->eq('share_with', $query->createNamedParameter($appId)));
+
+		$result = $query->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+		self::assertCount(1, $entries);
+		self::assertEquals([['permissions','after']], json_decode($entries[0]['attributes'], true));
+	}
+
 	public function testDateTimeEquals(): void {
 		$dateTime = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
