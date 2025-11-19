@@ -86,6 +86,7 @@
 		"test:db": "@composer run test -- --group DB --group SLOWDB",
 		"test:files_external": "phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest-external.xml",
 		"rector": "rector --config=build/rector.php && composer cs:fix",
+		"rector:strict": "rector --config=build/rector-strict.php && composer cs:fix",
 		"openapi": "./build/openapi-checker.sh"
 	},
 	"extra": {
