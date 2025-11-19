@@ -44,7 +44,7 @@ interface IResult {
 	 * @return mixed
 	 *
 	 * @since 21.0.0
-	 * @deprecated Since 33.0.0, use fetchAssociative/fetchNumeric/fetchOne or iterateAssociate/iterateNumeric instead.
+	 * @note Since 33.0.0, prefer using fetchAssociative/fetchNumeric/fetchOne or iterateAssociate/iterateNumeric instead.
 	 */
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC);
 
@@ -81,7 +81,7 @@ interface IResult {
 	 * @return mixed[]
 	 *
 	 * @since 21.0.0
-	 * @deprecated Since 33.0.0, use fetchAllAssociative/fetchAllNumeric/fetchFirstColumn or iterateAssociate/iterateNumeric instead.
+	 * @note Since 33.0.0, prefer using fetchAllAssociative/fetchAllNumeric/fetchFirstColumn or iterateAssociate/iterateNumeric instead.
 	 */
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array;
 
@@ -125,7 +125,7 @@ interface IResult {
 	public function rowCount(): int;
 
 	/**
-	 * Returns the result as an iterator over rows represented as numeric arrays.
+	 * Returns an iterator over rows represented as numeric arrays.
 	 *
 	 * @return Traversable<list<mixed>>
 	 *
@@ -134,7 +134,7 @@ interface IResult {
 	public function iterateNumeric(): Traversable;
 
 	/**
-	 * Returns the result as an iterator over rows represented as associative arrays.
+	 * Returns an iterator over rows represented as associative arrays.
 	 *
 	 * @return Traversable<array<string,mixed>>
 	 *
