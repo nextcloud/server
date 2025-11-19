@@ -19,6 +19,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "您的瀏覽器不支援視訊。",
     "This file no longer exists" : "此檔案不存在",
     "There is no plugin available to display this file type" : "沒有可以顯示這個檔案類型的外掛",
+    "Failed to save file before download" : "下載前無法儲存檔案",
     "Edit" : "編輯",
     "Exit full screen" : "退出全螢幕",
     "Full screen" : "全螢幕",
