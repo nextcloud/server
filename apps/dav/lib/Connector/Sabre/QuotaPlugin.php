@@ -9,11 +9,11 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
-use OCA\DAV\Upload\FutureFile;
 use OCA\DAV\Upload\UploadFolder;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
+use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -138,7 +138,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function beforeMove(string $sourcePath, string $destinationPath): bool {
 		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
-		if (!$sourceNode instanceof FutureFile) {
+		if (!$sourceNode instanceof IFile) {
 			return true;
 		}
 
