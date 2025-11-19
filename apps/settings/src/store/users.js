@@ -76,7 +76,10 @@ const mutations = {
 	 */
 	addGroup(state, newGroup) {
 		try {
-			if (typeof state.groups.find((group) => group.id === newGroup.id) !== 'undefined') {
+			const existingGroup = state.groups.find((group) => group.id === newGroup.id)
+			if (existingGroup) {
+				// merge in whatever is provided, e.g. to upgrade a stub group with full details
+				Object.assign(existingGroup, newGroup)
 				return
 			}
 			// extend group to default values
@@ -347,6 +350,20 @@ const getters = {
 const CancelToken = axios.CancelToken
 let searchRequestCancelSource = null
 
+function commitGroupsFromUsersResponse(context, response) {
+	const groups = response.data.ocs.data.groups ?? []
+	if (groups.length === 0) {
+		return
+	}
+
+	// The response only carries {id, displayname} (see AUserDataOCSController::findGroupsWithDisplayname),
+	// so addGroup fills usercount/disabled/canAdd/canRemove with defaults. Trade-off: a group
+	// only known through this path shows a wrong usercount until the sidebar loads full details.
+	groups.forEach((group) => {
+		context.commit('addGroup', { id: group.id, name: group.displayname })
+	})
+}
+
 const actions = {
 
 	/**
@@ -411,6 +428,7 @@ const actions = {
 					if (usersCount > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
 					}
+					commitGroupsFromUsersResponse(context, response)
 					return usersCount
 				})
 				.catch((error) => {
@@ -428,6 +446,7 @@ const actions = {
 				if (usersCount > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users)
 				}
+				commitGroupsFromUsersResponse(context, response)
 				return usersCount
 			})
 			.catch((error) => {
@@ -491,8 +510,9 @@ const actions = {
 		const limitParam = limit === -1 ? '' : `&limit=${limit}`
 		return api.get(generateOcsUrl('cloud/groups?offset={offset}&search={search}', { offset, search }) + limitParam)
 			.then((response) => {
-				if (Object.keys(response.data.ocs.data.groups).length > 0) {
-					response.data.ocs.data.groups.forEach(function(group) {
+				const groups = response.data.ocs.data.groups ?? []
+				if (groups.length > 0) {
+					groups.forEach(function(group) {
 						context.commit('addGroup', { id: group, name: group })
 					})
 					return true
