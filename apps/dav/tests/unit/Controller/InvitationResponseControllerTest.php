@@ -422,7 +422,7 @@ EOF;
 
 		$stmt->expects($this->once())
 			->method('fetchAssociative')
-			->willReturn($return);
+			->willReturn($return ?? false);
 		$stmt->expects($this->once())
 			->method('closeCursor');
 
