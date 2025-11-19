@@ -76,6 +76,7 @@
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
 import PlayCircleOutline from 'vue-material-design-icons/PlayCircleOutline.vue'
+import DOMPurify from 'dompurify'
 
 import axios from '@nextcloud/axios'
 import { basename } from '@nextcloud/paths'
@@ -235,7 +236,8 @@ export default {
 		 */
 		async getBase64FromImage() {
 			const file = await axios.get(this.src)
-			return `data:${this.mime};base64,${btoa(unescape(encodeURIComponent(file.data)))}`
+			const sanitized = DOMPurify.sanitize(file.data)
+			return `data:${this.mime};base64,${btoa(unescape(encodeURIComponent(sanitized)))}`
 		},
 
 		// Helper methods for zoom/pan operations
