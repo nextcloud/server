@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Support\CrashReport\Registry;
 use OC_App;
 use OCP\App\AppPathNotFoundException;
@@ -60,6 +61,9 @@ class Coordinator {
 		if ($this->registrationContext === null) {
 			$this->registrationContext = new RegistrationContext($this->logger);
 		}
+
+		$this->registrationContext->registerConfigLexicon('core', ConfigLexicon::class);
+
 		$apps = [];
 		foreach ($appIds as $appId) {
 			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
