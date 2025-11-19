@@ -322,7 +322,7 @@ OC.L10N.register(
     "More actions" : "Täiendavad tegevused",
     "User menu" : "Kasutajamenüü",
     "Your guest name: {user}" : "Sinu külalisnimi: {user}",
-    "You are currently not identified." : "Sa pole hetkel tuvastatud",
+    "You are currently not identified." : "Sa oled hetkel tuvastamata.",
     "Set public name" : "Lisa avalik nimi",
     "Change public name" : "Muuda avalikku nime",
     "Password is too weak" : "Salasõna on liiga nõrk",
