@@ -1689,66 +1689,36 @@ class ShareAPIController extends OCSController {
 	 * @throws ShareNotFound
 	 */
 	private function getShareById(string $id): IShare {
-		$share = null;
+		$providers = [
+			'ocinternal' => null, // No type check needed
+			'ocCircleShare' => IShare::TYPE_CIRCLE,
+			'ocMailShare' => IShare::TYPE_EMAIL,
+			'ocRoomShare' => null,
+			'deck' => IShare::TYPE_DECK,
+			'sciencemesh' => IShare::TYPE_SCIENCEMESH,
+		];
 
-		// First check if it is an internal share.
-		try {
-			$share = $this->shareManager->getShareById('ocinternal:' . $id, $this->currentUser);
-			return $share;
-		} catch (ShareNotFound $e) {
-			// Do nothing, just try the other share type
+		// Add federated sharing as a provider only if it's allowed
+		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
+			$providers['ocFederatedSharing'] = null; // No type check needed
 		}
 
-
-		try {
-			if ($this->shareManager->shareProviderExists(IShare::TYPE_CIRCLE)) {
-				$share = $this->shareManager->getShareById('ocCircleShare:' . $id, $this->currentUser);
-				return $share;
+		foreach ($providers as $prefix => $type) {
+			try {
+				if ($type === null || $this->shareManager->shareProviderExists($type)) {
+					return $this->shareManager->getShareById($prefix . ':' . $id, $this->currentUser);
+				}
+			} catch (ShareNotFound $e) {
+				// Do nothing, continue to next provider
+			} catch (\Exception $e) {
+				$this->logger->warning('Unexpected error in share provider', [
+					'shareId' => $id,
+					'provider' => $prefix,
+					'exception' => $e,
+				]);
 			}
-		} catch (ShareNotFound $e) {
-			// Do nothing, just try the other share type
 		}
-
-		try {
-			if ($this->shareManager->shareProviderExists(IShare::TYPE_EMAIL)) {
-				$share = $this->shareManager->getShareById('ocMailShare:' . $id, $this->currentUser);
-				return $share;
-			}
-		} catch (ShareNotFound $e) {
-			// Do nothing, just try the other share type
-		}
-
-		try {
-			$share = $this->shareManager->getShareById('ocRoomShare:' . $id, $this->currentUser);
-			return $share;
-		} catch (ShareNotFound $e) {
-			// Do nothing, just try the other share type
-		}
-
-		try {
-			if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
-				$share = $this->shareManager->getShareById('deck:' . $id, $this->currentUser);
-				return $share;
-			}
-		} catch (ShareNotFound $e) {
-			// Do nothing, just try the other share type
-		}
-
-		try {
-			if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
-				$share = $this->shareManager->getShareById('sciencemesh:' . $id, $this->currentUser);
-				return $share;
-			}
-		} catch (ShareNotFound $e) {
-			// Do nothing, just try the other share type
-		}
-
-		if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			throw new ShareNotFound();
-		}
-		$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id, $this->currentUser);
-
-		return $share;
+		throw new ShareNotFound();
 	}
 
 	/**
