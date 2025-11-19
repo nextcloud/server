@@ -41,14 +41,6 @@ export default {
 			formattedFullTime,
 		}
 	},
-	data() {
-		return {
-			selectedGroups: this.user.groups.map((id) => ({ id, name: id })),
-			selectedSubAdminGroups: this.user.subadmin.map((id) => ({ id, name: id })),
-			userGroups: this.user.groups.map((id) => ({ id, name: id })),
-			userSubAdminGroups: this.user.subadmin.map((id) => ({ id, name: id })),
-		}
-	},
 	computed: {
 		showConfig() {
 			return this.$store.getters.getShowConfig
@@ -128,6 +120,20 @@ export default {
 				return OC.Util.relativeModifiedDate(this.user.lastLoginTimestamp * 1000)
 			}
 			return t('settings', 'Never')
+		},
+
+		userGroups() {
+			const allGroups = this.$store.getters.getGroups
+			return this.user.groups
+				.map((id) => allGroups.find((g) => g.id === id))
+				.filter((group) => group !== undefined)
+		},
+
+		userSubAdminGroups() {
+			const allGroups = this.$store.getters.getGroups
+			return this.user.subadmin
+				.map((id) => allGroups.find((g) => g.id === id))
+				.filter((group) => group !== undefined)
 		},
 	},
 }
