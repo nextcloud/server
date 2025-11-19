@@ -374,7 +374,7 @@ OC.L10N.register(
     "Copy to {target}" : "{target} غا كۆچۈرۈڭ",
     "Copy" : "كۆچۈرۈڭ",
     "Move to {target}" : "{target} يۆتكەڭ",
-    "Move" : "Move",
+    "Move" : "يۆتكە",
     "OK" : "جەزملە",
     "read-only" : "پەقەت ئوقۇشقىلا بولىدۇ",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} ھۆججەتلەر زىددىيەتلىك","{count} ھۆججەتلەر زىددىيەتلىك"],
