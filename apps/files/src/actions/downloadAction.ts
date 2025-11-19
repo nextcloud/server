@@ -142,7 +142,25 @@ async function downloadNodes(nodes: INode[]) {
 		// The URL contains the path encoded so we need to decode as the query.append will re-encode it
 		const filenames = nodes.map((node) => decodeURIComponent(node.encodedSource.slice(url.href.length + 1)))
 		url.searchParams.append('accept', 'zip')
-		url.searchParams.append('files', JSON.stringify(filenames))
+
+		if (url.pathname.at(-1) !== '/') {
+			url.pathname = `${url.pathname}/`
+		}
+
+		const formData = new FormData()
+		formData.append('files', JSON.stringify(filenames))
+
+		const response = await axios.post(url.href, formData, {
+			responseType: 'blob',
+		})
+
+		const blobUrl = window.URL.createObjectURL(response.data)
+		try {
+			await triggerDownload(blobUrl)
+		} finally {
+			window.URL.revokeObjectURL(blobUrl)
+		}
+		return
 	}
 
 	if (url.pathname.at(-1) !== '/') {

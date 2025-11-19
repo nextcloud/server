@@ -65,8 +65,10 @@ class ZipFolderPlugin extends ServerPlugin {
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('method:GET', $this->handleDownload(...), 100);
+		$this->server->on('method:POST', $this->handleDownload(...), 100);
 		// low priority to give any other afterMethod:* a chance to fire before we cancel everything
 		$this->server->on('afterMethod:GET', $this->afterDownload(...), 999);
+		$this->server->on('afterMethod:POST', $this->afterDownload(...), 999);
 	}
 
 	/**
@@ -97,8 +99,9 @@ class ZipFolderPlugin extends ServerPlugin {
 	/**
 	 * Download a folder as an archive.
 	 * It is possible to filter / limit the files that should be downloaded,
-	 * either by passing (multiple) `X-NC-Files: the-file` headers
-	 * or by setting a `files=JSON_ARRAY_OF_FILES` URL query.
+	 * either by passing (multiple) `X-NC-Files: the-file` headers,
+	 * by setting a `files=JSON_ARRAY_OF_FILES` URL query,
+	 * or by sending a POST request with `files` in the request body.
 	 */
 	public function handleDownload(Request $request, Response $response): ?false {
 		if ($request->getHeader('X-Sabre-Original-Method') === 'HEAD') {
@@ -127,7 +130,16 @@ class ZipFolderPlugin extends ServerPlugin {
 
 		$files = $request->getHeaderAsArray('X-NC-Files');
 		$filesParam = $query['files'] ?? '';
-		// The preferred way would be headers, but this is not possible for simple browser requests ("links")
+
+		// Check POST body for files parameter
+		if ($request->getMethod() === 'POST') {
+			$postData = $request->getPostData();
+			if (isset($postData['files'])) {
+				$filesParam = $postData['files'];
+			}
+		}
+
+		// The preferred way would be POST or headers, but this is not possible for simple browser requests ("links")
 		// so we also need to support GET parameters
 		if ($filesParam !== '') {
 			$files = json_decode($filesParam);
