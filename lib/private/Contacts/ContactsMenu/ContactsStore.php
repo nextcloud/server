@@ -328,7 +328,7 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		if (!empty($contact['UID'])) {
+		if (!empty($contact['UID']) && is_string($contact['UID'])) {
 			$uid = $contact['UID'];
 			$entry->setId($uid);
 			$entry->setProperty('isUser', false);
