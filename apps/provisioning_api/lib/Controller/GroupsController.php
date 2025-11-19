@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Provisioning_API\Controller;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OCA\Provisioning_API\ResponseDefinitions;
 use OCA\Settings\Settings\Admin\Sharing;
 use OCA\Settings\Settings\Admin\Users;
@@ -36,6 +37,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type Provisioning_APIGroupDetails from ResponseDefinitions
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  */
 class GroupsController extends AUserDataOCSController {
 
@@ -51,6 +53,7 @@ class GroupsController extends AUserDataOCSController {
 		IFactory $l10nFactory,
 		IRootFolder $rootFolder,
 		private LoggerInterface $logger,
+		GroupDisplayNameCache $groupDisplayNameCache,
 	) {
 		parent::__construct($appName,
 			$request,
@@ -62,6 +65,7 @@ class GroupsController extends AUserDataOCSController {
 			$subAdminManager,
 			$l10nFactory,
 			$rootFolder,
+			$groupDisplayNameCache,
 		);
 	}
 
@@ -186,7 +190,7 @@ class GroupsController extends AUserDataOCSController {
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Group users details returned
@@ -229,7 +233,10 @@ class GroupsController extends AUserDataOCSController {
 					// continue if a users ceased to exist.
 				}
 			}
-			return new DataResponse(['users' => $usersDetails]);
+			return new DataResponse([
+				'users' => $usersDetails,
+				'groups' => $this->findGroupsWithDisplayname($usersDetails),
+			]);
 		}
 
 		throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);
