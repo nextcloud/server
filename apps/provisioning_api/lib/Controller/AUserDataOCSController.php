@@ -104,8 +104,10 @@ abstract class AUserDataOCSController extends OCSController {
 		$userAccount = $this->accountManager->getAccount($targetUserObject);
 		$groups = $this->groupManager->getUserGroups($targetUserObject);
 		$gids = [];
+		$gidsDisplayName = [];
 		foreach ($groups as $group) {
 			$gids[] = $group->getGID();
+			$gidsDisplayName[] = ['id' => $group->getGID(), 'displayname' => $group->getDisplayName()];
 		}
 
 		if ($isAdmin || $isDelegatedAdmin) {
@@ -186,6 +188,7 @@ abstract class AUserDataOCSController extends OCSController {
 		}
 
 		$data['groups'] = $gids;
+		$data['groupsWithDisplayname']  = $gidsDisplayName;
 		$data[self::USER_FIELD_LANGUAGE] = $this->l10nFactory->getUserLanguage($targetUserObject);
 		$data[self::USER_FIELD_LOCALE] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
 		$data[self::USER_FIELD_TIMEZONE] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'timezone');

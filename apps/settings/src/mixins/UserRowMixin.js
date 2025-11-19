@@ -45,7 +45,7 @@ export default {
 		return {
 			selectedGroups: this.user.groups.map((id) => ({ id, name: id })),
 			selectedSubAdminGroups: this.user.subadmin.map((id) => ({ id, name: id })),
-			userGroups: this.user.groups.map((id) => ({ id, name: id })),
+			userGroups: this.user.groupsWithDisplayname.map((group) => ({ id: group.id, name: group.displayname })),
 			userSubAdminGroups: this.user.subadmin.map((id) => ({ id, name: id })),
 		}
 	},
