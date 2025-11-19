@@ -62,6 +62,7 @@ jobs:
           - '--tags ~@large files_features'
           - 'filesdrop_features'
           - 'file_conversions'
+          - 'files_reminders'
           - 'openldap_features'
           - 'openldap_numerical_features'
           - 'ldap_features'

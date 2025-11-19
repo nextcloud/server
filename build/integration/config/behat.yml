@@ -131,6 +131,16 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    files_reminders:
+      paths:
+        - "%paths.base%/../files_reminders"
+      contexts:
+        - FilesRemindersContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
     capabilities:
       paths:
         - "%paths.base%/../capabilities_features"
