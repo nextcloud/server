@@ -278,12 +278,8 @@ class EncryptAll {
 		$this->writePasswordsToFile($newPasswords);
 
 		$this->output->writeln('');
-		if ($this->input->isInteractive()) {
-			$question = new ConfirmationQuestion('Do you want to send the passwords directly to the users by mail? (y/n) ', false);
-			if ($this->questionHelper->ask($this->input, $this->output, $question)) {
-				$this->sendPasswordsByMail();
-			}
-		} elseif (!$this->input->isInteractive() && $this->input->getOption('no-interaction')) {
+		$question = new ConfirmationQuestion('Do you want to send the passwords directly to the users by mail? (y/n) ', true);
+		if ($this->questionHelper->ask($this->input, $this->output, $question)) {
 			$this->sendPasswordsByMail();
 		}
 	}
