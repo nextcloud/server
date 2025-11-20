@@ -52,7 +52,7 @@
 	--ion-button--icon-only-text: light-dark(var(--ion-color-blue-b4), var(--ion-color-cool-grey-c3));
 	--ion-button--icon-only-background-hover: light-dark(var(--ion-color-blue-b4), var(--ion-color-blue-b4));
 	--ion-button--icon-only-background-active: light-dark(var(--ion-color-blue-b6), var(--ion-color-blue-b3));
-	--ion-button--icon-only-text-hover: #fff;
+	--ion-button--icon-only-text-hover: light-dark(#fff, var(--ion-color-secondary));
 
 	--ion-button-sidebar-background: transparent;
 	--ion-button-sidebar-background-hover: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c7));

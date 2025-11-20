@@ -204,8 +204,8 @@
 				&:hover:not(:disabled):not(.button-vue--disabled):not(&.modal-container__close):not(.icon-collapse):not(.files-list__header-grid-button) {
 					background-color: var(--ion-button--icon-only-background-hover);
 
-					.button-vue__icon span[role=img]>svg {
-						color: var(--ion-button--icon-only-text-hover);
+					.button-vue__icon span[role=img]>svg, svg {
+						color: var(--ion-button--icon-only-text-hover) !important;
 					}
 				}
 
