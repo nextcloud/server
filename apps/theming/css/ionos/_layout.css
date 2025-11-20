@@ -139,3 +139,8 @@
 		background-color: var(--ion-surface-secondary);
 	}
 }
+
+div.user-bubble__content:has(.user-bubble__name) {
+	color: var(--ion-text);
+	background-color: var(--ion-surface-secondary);
+}
