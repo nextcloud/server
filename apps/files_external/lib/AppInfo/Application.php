@@ -89,7 +89,11 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 
 		// force-load auth mechanisms since some will register hooks
 		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
-		$this->getAuthMechanisms();
+		$objects = $this->getAuthMechanisms();
+		foreach ($objects as $object) {
+			/* Use the object to trigger DI on PHP >= 8.4 */
+			get_object_vars($object);
+		}
 	}
 
 	/**
