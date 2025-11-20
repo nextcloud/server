@@ -1,0 +1,8 @@
+.content.app-activity {
+	img {
+		filter: none;
+		@media (prefers-color-scheme: dark) {
+			filter: invert(100%);
+		}
+	}
+}
