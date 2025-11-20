@@ -3,15 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
+import { createStore } from 'vuex'
 import predefinedStatuses from './predefinedStatuses.js'
 import userBackupStatus from './userBackupStatus.js'
 import userStatus from './userStatus.js'
 
-Vue.use(Vuex)
-
-export default new Store({
+export default createStore({
 	modules: {
 		predefinedStatuses,
 		userStatus,

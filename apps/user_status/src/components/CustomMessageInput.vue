@@ -61,7 +61,7 @@ export default {
 
 	emits: [
 		'change',
-		'select-icon',
+		'selectIcon',
 	],
 
 	computed: {
@@ -85,14 +85,14 @@ export default {
 		/**
 		 * Notifies the parent component about a changed input
 		 *
-		 * @param {Event} event The Change Event
+		 * @param {string} value The new input value
 		 */
-		onChange(event) {
-			this.$emit('change', event.target.value)
+		onChange(value) {
+			this.$emit('change', value)
 		},
 
 		setIcon(icon) {
-			this.$emit('select-icon', icon)
+			this.$emit('selectIcon', icon)
 		},
 	},
 }

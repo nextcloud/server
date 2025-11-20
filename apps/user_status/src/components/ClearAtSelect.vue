@@ -39,7 +39,7 @@ export default {
 		},
 	},
 
-	emits: ['select-clear-at'],
+	emits: ['selectClearAt'],
 
 	data() {
 		return {
@@ -74,7 +74,7 @@ export default {
 				return
 			}
 
-			this.$emit('select-clear-at', option.clearAt)
+			this.$emit('selectClearAt', option.clearAt)
 		},
 	},
 }

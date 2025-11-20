@@ -36,7 +36,7 @@ export default {
 		PredefinedStatus,
 	},
 
-	emits: ['select-status'],
+	emits: ['selectStatus'],
 
 	data() {
 		return {
@@ -80,7 +80,7 @@ export default {
 		 */
 		selectStatus(status) {
 			this.lastSelected = status.id
-			this.$emit('select-status', status)
+			this.$emit('selectStatus', status)
 		},
 	},
 }
