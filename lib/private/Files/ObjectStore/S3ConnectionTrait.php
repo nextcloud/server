@@ -14,6 +14,8 @@ use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\RejectedPromise;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\ObjectStore\Events\BucketCreatedEvent;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ICertificateManager;
 use OCP\Server;
@@ -141,6 +143,13 @@ trait S3ConnectionTrait {
 						throw new StorageNotAvailableException('The bucket will not be created because the name is not dns compatible, please correct it: ' . $this->bucket);
 					}
 					$this->connection->createBucket(['Bucket' => $this->bucket]);
+					Server::get(IEventDispatcher::class)
+						->dispatchTyped(new BucketCreatedEvent(
+							$this->bucket,
+							$options['endpoint'],
+							$options['region'],
+							$options['version']
+						));
 					$this->testTimeout();
 				} catch (S3Exception $e) {
 					$logger->debug('Invalid remote storage.', [

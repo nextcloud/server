@@ -447,6 +447,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Notify\\IChange' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/IChange.php',
         'OCP\\Files\\Notify\\INotifyHandler' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/INotifyHandler.php',
         'OCP\\Files\\Notify\\IRenameChange' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/IRenameChange.php',
+        'OCP\\Files\\ObjectStore\\Events\\BucketCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/Events/BucketCreatedEvent.php',
         'OCP\\Files\\ObjectStore\\IObjectStore' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStore.php',
         'OCP\\Files\\ObjectStore\\IObjectStoreMultiPartUpload' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreMultiPartUpload.php',
         'OCP\\Files\\ReservedWordException' => __DIR__ . '/../../..' . '/lib/public/Files/ReservedWordException.php',
