@@ -104,7 +104,6 @@ class TokenService {
 		}
 		$this->tokenMapper->addEphemeralToken(
 			$deviceToken->getId(),
-			$deviceToken->getToken(),
 			$userId,
 			$this->time->getTime());
 		return $token;

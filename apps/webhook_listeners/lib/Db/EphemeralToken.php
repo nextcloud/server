@@ -13,21 +13,15 @@ use OCP\AppFramework\Db\Entity;
 
 /**
  * @method int getTokenId()
- * @method string getToken()
  * @method ?string getUserId()
  * @method int getCreatedAt()
  * @psalm-suppress PropertyNotSetInConstructor
  */
 class EphemeralToken extends Entity implements \JsonSerializable {
 	/**
-	 * @var int id of the token that was created for a webhook
+	 * @var int id of the token in the oc_authtoken db table
 	 */
 	protected $tokenId;
-
-	/**
-	 * @var string the token
-	 */
-	protected $token;
 
 	/**
 	 * @var ?string id of the user wich the token belongs to
@@ -36,14 +30,13 @@ class EphemeralToken extends Entity implements \JsonSerializable {
 	protected $userId = null;
 
 	/**
-	 * @var int
+	 * @var int token creation timestamp
 	 * @psalm-suppress PropertyNotSetInConstructor
 	 */
 	protected $createdAt;
 
 	public function __construct() {
 		$this->addType('tokenId', 'integer');
-		$this->addType('token', 'string');
 		$this->addType('userId', 'string');
 		$this->addType('createdAt', 'integer');
 	}

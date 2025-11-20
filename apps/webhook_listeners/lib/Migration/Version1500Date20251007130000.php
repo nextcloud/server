@@ -51,10 +51,6 @@ class Version1500Date20251007130000 extends SimpleMigrationStep {
 				'length' => 4,
 				'unsigned' => true,
 			]);
-			$table->addColumn('token', Types::STRING, [
-				'notnull' => false,
-				'length' => 200,
-			]);
 			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
