@@ -116,7 +116,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$result = $qb->select($qb->func()->count('*', 'count'))
 			->from('authtoken')
 			->executeQuery()
-			->fetch();
+			->fetchAssociative();
 		return (int)$result['count'];
 	}
 
@@ -239,7 +239,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
 		$result = $qb->executeQuery();
-		$id = $result->fetch()['id'];
+		$id = $result->fetchAssociative()['id'];
 
 		$token = $this->mapper->getTokenById((int)$id);
 		$this->assertEquals('user1', $token->getUID());
@@ -251,7 +251,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
 		$result = $qb->executeQuery();
-		$name = $result->fetch()['name'];
+		$name = $result->fetchAssociative()['name'];
 		$this->mapper->deleteByName($name);
 		$this->assertEquals(4, $this->getNumberOfTokens());
 	}

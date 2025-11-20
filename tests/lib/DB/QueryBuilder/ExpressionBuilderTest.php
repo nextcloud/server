@@ -409,7 +409,7 @@ class ExpressionBuilderTest extends TestCase {
 
 		$result = $query->executeQuery();
 
-		$this->assertEquals(['count' => $expected], $result->fetch());
+		$this->assertEquals(['count' => $expected], $result->fetchAssociative());
 		$result->closeCursor();
 
 		$query = $this->connection->getQueryBuilder();

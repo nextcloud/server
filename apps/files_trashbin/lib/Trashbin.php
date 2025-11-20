@@ -112,7 +112,7 @@ class Trashbin implements IEventListener {
 			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
 		$result = $query->executeQuery();
 		$array = [];
-		while ($row = $result->fetch()) {
+		foreach ($result->iterateAssociative() as $row) {
 			$array[$row['id']][$row['timestamp']] = [
 				'location' => (string)$row['location'],
 				'deletedBy' => (string)$row['deleted_by'],
@@ -139,7 +139,7 @@ class Trashbin implements IEventListener {
 			->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (isset($row['location'])) {
@@ -1017,7 +1017,7 @@ class Trashbin implements IEventListener {
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
 		$result = $query->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		/** @var CacheEntry[] $matches */

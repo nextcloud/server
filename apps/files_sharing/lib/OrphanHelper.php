@@ -68,7 +68,7 @@ class OrphanHelper {
 		}
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			yield [
 				'id' => (int)$row['id'],
 				'owner' => (string)$row['uid_owner'],

@@ -1017,7 +1017,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			->setValue('propertyvalue', $insert->createParameter('propertyvalue'))
 			->setValue('userid', $insert->createParameter('userid'));
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			preg_match('/(calendar)\/([A-z0-9-@_]+)\//', $row['propertypath'], $match);
 			$insert->setParameter('propertypath', (string)$row['propertypath'])
 				->setParameter('propertyname', (string)$row['propertyname'])

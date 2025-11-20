@@ -24,7 +24,7 @@ class Folder extends File implements Share_Backend_Collection {
 			);
 		$result = $qb->executeQuery();
 
-		if (($row = $result->fetch()) !== false) {
+		if (($row = $result->fetchAssociative()) !== false) {
 			$mimetype = (int)$row['id'];
 		} else {
 			$mimetype = -1;
@@ -47,7 +47,7 @@ class Folder extends File implements Share_Backend_Collection {
 			$result = $qb->executeQuery();
 
 			$parents = [];
-			while ($file = $result->fetch()) {
+			foreach ($result->iterateAssociative() as $file) {
 				$children[] = ['source' => $file['fileid'], 'file_path' => $file['name']];
 				// If a child folder is found look inside it
 				if ((int)$file['mimetype'] === $mimetype) {

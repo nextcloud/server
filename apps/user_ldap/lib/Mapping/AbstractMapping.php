@@ -98,7 +98,7 @@ abstract class AbstractMapping {
 			->from($this->getTableName());
 		$q->setMaxResults(self::LOCAL_CACHE_OBJECT_THRESHOLD + 1);
 		$result = $q->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		$use = (int)$row['count'] <= self::LOCAL_CACHE_OBJECT_THRESHOLD;
@@ -275,7 +275,7 @@ abstract class AbstractMapping {
 
 	protected function collectResultsFromListOfIdsQuery(IQueryBuilder $qb, array &$results): void {
 		$stmt = $qb->executeQuery();
-		while ($entry = $stmt->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE)) {
+		while ($entry = $stmt->fetchAssociative()) {
 			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
 			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
 		}
@@ -345,7 +345,7 @@ abstract class AbstractMapping {
 			return [];
 		}
 		$names = [];
-		while ($row = $res->fetch()) {
+		while ($row = $res->fetchAssociative()) {
 			$names[] = $row['owncloud_name'];
 		}
 		return $names;
@@ -390,7 +390,7 @@ abstract class AbstractMapping {
 		}
 
 		$result = $select->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $entries;

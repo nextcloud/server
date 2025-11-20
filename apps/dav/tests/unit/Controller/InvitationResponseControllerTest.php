@@ -421,9 +421,8 @@ EOF;
 			]);
 
 		$stmt->expects($this->once())
-			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
-			->willReturn($return);
+			->method('fetchAssociative')
+			->willReturn($return ?? false);
 		$stmt->expects($this->once())
 			->method('closeCursor');
 

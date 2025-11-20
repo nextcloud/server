@@ -50,7 +50,7 @@ class Version33000Date20251023120529 extends SimpleMigrationStep {
 
 		$set = [];
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			// Iterate over all the rows with duplicated rows
 			$id = $row['id'];
 
@@ -65,7 +65,7 @@ class Version33000Date20251023120529 extends SimpleMigrationStep {
 					->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($authoritativeId)));
 
 				$result = $qb->executeQuery();
-				while ($row = $result->fetch()) {
+				while ($row = $result->fetchAssociative()) {
 					// Update previews entries to the now de-duplicated id
 					$qb = $this->connection->getQueryBuilder();
 					$qb->update('previews')

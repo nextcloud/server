@@ -342,7 +342,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			try {
 				$toDB->beginTransaction();
 
-				while ($row = $result->fetch()) {
+				foreach ($result->iterateAssociative() as $row) {
 					$progress->advance();
 					if (!$parametersCreated) {
 						foreach ($row as $key => $value) {

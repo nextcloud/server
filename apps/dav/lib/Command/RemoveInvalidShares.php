@@ -42,7 +42,7 @@ class RemoveInvalidShares extends Command {
 			->from('dav_shares')
 			->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$principaluri = $row['principaluri'];
 			$p = $this->principalBackend->getPrincipalByPath($principaluri)
 				?? $this->remoteUserPrincipalBackend->getPrincipalByPath($principaluri);

@@ -104,7 +104,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->from('share')
 			->orderBy('id', 'ASC')
 			->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$this->assertEquals([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
 		$result->closeCursor();
 
@@ -120,7 +120,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->from('share')
 			->orderBy('id', 'ASC')
 			->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$this->assertEquals([['id' => $parent], ['id' => $validChild]], $rows);
 		$result->closeCursor();
 	}
@@ -180,7 +180,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->from('share')
 			->orderBy('permissions', 'ASC')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(1, $results);
 

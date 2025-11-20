@@ -63,7 +63,7 @@ class Version28000Date20240828142927 extends SimpleMigrationStep {
 				->setFirstResult($offset)
 				->executeQuery();
 
-			$jobs = $result->fetchAll();
+			$jobs = $result->fetchAllAssociative();
 			$count = count($jobs);
 
 			foreach ($jobs as $jobRow) {

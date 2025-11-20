@@ -43,7 +43,7 @@ class SupportedDatabase implements ISetupCheck {
 		if ($databasePlatform === IDBConnection::PLATFORM_MYSQL || $databasePlatform === IDBConnection::PLATFORM_MARIADB) {
 			$statement = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
 			$result = $statement->execute();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$version = $row['Value'];
 			$versionlc = strtolower($version);
 			// we only care about X.Y not X.Y.Z differences
@@ -89,7 +89,7 @@ class SupportedDatabase implements ISetupCheck {
 		} elseif ($databasePlatform === IDBConnection::PLATFORM_POSTGRES) {
 			$statement = $this->connection->prepare('SHOW server_version;');
 			$result = $statement->execute();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$version = $row['server_version'];
 			$versionlc = strtolower($version);
 			// we only care about X not X.Y or X.Y.Z differences

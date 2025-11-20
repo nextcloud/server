@@ -134,7 +134,7 @@ class PaginatePluginTest extends TestCase {
 	private function expectSequentialCalls(MockObject $mock, string $method, array $expectedCalls): void {
 		$mock->expects(self::exactly(\count($expectedCalls)))
 			->method($method)
-			->willReturnCallback(function (...$args) use (&$expectedCalls) {
+			->willReturnCallback(function (...$args) use (&$expectedCalls): void {
 				$expected = array_shift($expectedCalls);
 				self::assertNotNull($expected);
 				self::assertSame($expected, $args);

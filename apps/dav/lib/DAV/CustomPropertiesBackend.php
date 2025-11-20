@@ -345,7 +345,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			->where($qb->expr()->eq('propertypath', $qb->createNamedParameter($path)));
 		$result = $qb->executeQuery();
 		$props = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 		}
 		$result->closeCursor();
@@ -376,7 +376,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		$propsByPath = [];
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$childPath = $prefix . $row['name'];
 			if (!isset($propsByPath[$childPath])) {
 				$propsByPath[$childPath] = [];
@@ -474,13 +474,13 @@ class CustomPropertiesBackend implements BackendInterface {
 			foreach ($chunks as $chunk) {
 				$qb->setParameter('requestedProperties', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 				$result = $qb->executeQuery();
-				while ($row = $result->fetch()) {
+				while ($row = $result->fetchAssociative()) {
 					$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 				}
 			}
 		} else {
 			$result = $qb->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 			}
 		}

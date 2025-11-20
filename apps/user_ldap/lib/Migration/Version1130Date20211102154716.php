@@ -137,7 +137,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 		$update = $this->getUpdateQuery($table);
 
 		$result = $select->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$dnHash = hash('sha256', $row['ldap_dn'], false);
 			$update->setParameter('name', $row['owncloud_name']);
 			$update->setParameter('dn_hash', $dnHash);

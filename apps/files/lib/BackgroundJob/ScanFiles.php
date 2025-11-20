@@ -76,7 +76,7 @@ class ScanFiles extends TimedJob {
 				->runAcrossAllShards();
 
 			$result = $query->executeQuery();
-			while ($res = $result->fetch()) {
+			while ($res = $result->fetchAssociative()) {
 				if ($res['user_id']) {
 					return $res['user_id'];
 				}
@@ -114,7 +114,7 @@ class ScanFiles extends TimedJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->selectDistinct('storage_id')
 			->from('mounts');
-		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		return $query->executeQuery()->fetchFirstColumn();
 	}
 
 	/**

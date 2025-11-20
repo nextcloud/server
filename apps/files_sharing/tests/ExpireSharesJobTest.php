@@ -85,7 +85,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 			->from('share')
 			->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$shares[] = $row;
 		}
 		$result->closeCursor();

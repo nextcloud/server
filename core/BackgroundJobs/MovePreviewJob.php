@@ -94,7 +94,7 @@ class MovePreviewJob extends TimedJob {
 		$foundPreview = false;
 		$fileIds = [];
 		$flatFileIds = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$pathSplit = explode('/', $row['path']);
 			assert(count($pathSplit) >= 2);
 			$fileId = (int)$pathSplit[count($pathSplit) - 2];
@@ -161,7 +161,7 @@ class MovePreviewJob extends TimedJob {
 			->setMaxResults(1);
 
 		$result = $qb->executeQuery();
-		$result = $result->fetchAll();
+		$result = $result->fetchAllAssociative();
 
 		if (count($result) > 0) {
 			foreach ($previewFiles as $previewFile) {

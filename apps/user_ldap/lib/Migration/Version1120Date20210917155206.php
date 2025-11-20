@@ -72,7 +72,7 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 		$update = $this->getUpdateQuery($table);
 
 		$result = $select->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$newId = hash('sha256', $row['owncloud_name'], false);
 			if ($emitHooks) {
 				$this->emitUnassign($row['owncloud_name'], true);

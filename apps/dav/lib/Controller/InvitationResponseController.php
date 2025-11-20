@@ -140,7 +140,7 @@ class InvitationResponseController extends Controller {
 			->from('calendar_invitations')
 			->where($query->expr()->eq('token', $query->createNamedParameter($token)));
 		$stmt = $query->executeQuery();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetchAssociative();
 		$stmt->closeCursor();
 
 		if (!$row) {

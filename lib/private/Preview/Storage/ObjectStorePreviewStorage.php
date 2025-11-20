@@ -36,7 +36,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	public function __construct(
 		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
 		IConfig $config,
-		readonly private PreviewMapper $previewMapper,
+		private readonly PreviewMapper $previewMapper,
 	) {
 		$this->isMultibucketPreviewDistributionEnabled = $config->getSystemValueBool('objectstore.multibucket.preview-distribution');
 	}

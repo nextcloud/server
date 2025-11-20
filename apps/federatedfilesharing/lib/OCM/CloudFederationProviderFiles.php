@@ -482,7 +482,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			);
 
 		$result = $qb->executeQuery();
-		$share = $result->fetch();
+		$share = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($token && $id && !empty($share)) {

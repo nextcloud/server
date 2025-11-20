@@ -74,7 +74,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->orderBy('userid')
 			->executeQuery();
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$this->assertSame($users, $rows, 'Asserts that the entries are the ones from the test data set');
@@ -115,7 +115,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->orderBy('userid')
 			->executeQuery();
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		// value has changed for one user
