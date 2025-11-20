@@ -100,9 +100,6 @@ module.exports = {
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
 	},
-	user_status: {
-		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
-	},
 	weather_status: {
 		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
