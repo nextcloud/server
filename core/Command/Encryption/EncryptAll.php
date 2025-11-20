@@ -90,25 +90,21 @@ class EncryptAll extends Command {
 		$question = new ConfirmationQuestion('Do you really want to continue? (y/n) ', true);
 		if ($this->questionHelper->ask($input, $output, $question)) {
 			//run encryption with the answer yes in interactive mode
-			return $this->runEncryption($input, $output);
+			$this->forceMaintenanceAndTrashbin();
+
+			try {
+				$defaultModule = $this->encryptionManager->getEncryptionModule();
+				$defaultModule->encryptAll($input, $output);
+			} catch (\Exception $ex) {
+				$this->resetMaintenanceAndTrashbin();
+				throw $ex;
+			}
+
+			$this->resetMaintenanceAndTrashbin();
+			return self::SUCCESS;
 		}
 		//abort on no in interactive mode
 		$output->writeln('aborted');
 		return self::FAILURE;
-	}
-
-	private function runEncryption(InputInterface $input, OutputInterface $output): int {
-		$this->forceMaintenanceAndTrashbin();
-
-		try {
-			$defaultModule = $this->encryptionManager->getEncryptionModule();
-			$defaultModule->encryptAll($input, $output);
-		} catch (\Exception $ex) {
-			$this->resetMaintenanceAndTrashbin();
-			throw $ex;
-		}
-
-		$this->resetMaintenanceAndTrashbin();
-		return self::SUCCESS;
 	}
 }
