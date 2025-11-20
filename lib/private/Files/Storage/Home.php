@@ -22,15 +22,8 @@ use OCP\Server;
  * Specialized version of Local storage for home directory usage
  */
 class Home extends Local implements IHomeStorage {
-	/**
-	 * @var string
-	 */
-	protected $id;
-
-	/**
-	 * @var User $user
-	 */
-	protected $user;
+	protected string $id;
+	protected IUser $user;
 
 	/**
 	 * Construct a Home storage instance

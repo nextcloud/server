@@ -7,35 +7,21 @@
 namespace OC\GlobalScale;
 
 use OCP\IConfig;
+use Override;
 
 class Config implements \OCP\GlobalScale\IConfig {
-	/**
-	 * Config constructor.
-	 *
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		private IConfig $config,
+		private readonly IConfig $config,
 	) {
 	}
 
-	/**
-	 * check if global scale is enabled
-	 *
-	 * @since 12.0.1
-	 * @return bool
-	 */
-	public function isGlobalScaleEnabled() {
+	#[Override]
+	public function isGlobalScaleEnabled(): bool {
 		return $this->config->getSystemValueBool('gs.enabled', false);
 	}
 
-	/**
-	 * check if federation should only be used internally in a global scale setup
-	 *
-	 * @since 12.0.1
-	 * @return bool
-	 */
-	public function onlyInternalFederation() {
+	#[Override]
+	public function onlyInternalFederation(): bool {
 		// if global scale is disabled federation works always globally
 		$gsEnabled = $this->isGlobalScaleEnabled();
 		if ($gsEnabled === false) {

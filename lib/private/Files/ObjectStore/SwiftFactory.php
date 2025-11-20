@@ -28,8 +28,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
 class SwiftFactory {
-	/** @var Container|null */
-	private $container = null;
+	private ?Container $container = null;
 
 	public const DEFAULT_OPTIONS = [
 		'autocreate' => false,
@@ -48,10 +47,9 @@ class SwiftFactory {
 	/**
 	 * Gets currently cached token id
 	 *
-	 * @return string
 	 * @throws StorageAuthException
 	 */
-	public function getCachedTokenId() {
+	public function getCachedTokenId(): string {
 		if (!isset($this->params['cachedToken'])) {
 			throw new StorageAuthException('Unauthenticated ObjectStore connection');
 		}
@@ -95,10 +93,9 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return OpenStack
 	 * @throws StorageAuthException
 	 */
-	private function getClient() {
+	private function getClient(): OpenStack {
 		if (isset($this->params['bucket'])) {
 			$this->params['container'] = $this->params['bucket'];
 		}
@@ -143,12 +140,9 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @param IdentityV2Service|IdentityV3Service $authService
-	 * @param string $cacheKey
-	 * @return OpenStack
 	 * @throws StorageAuthException
 	 */
-	private function auth($authService, string $cacheKey) {
+	private function auth(IdentityV2Service|IdentityV3Service $authService, string $cacheKey): OpenStack {
 		$this->params['identityService'] = $authService;
 		$this->params['authUrl'] = $this->params['url'];
 
@@ -212,11 +206,10 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
 	 * @throws StorageNotAvailableException
 	 */
-	public function getContainer() {
+	public function getContainer(): Container {
 		if (is_null($this->container)) {
 			$this->container = $this->createContainer();
 		}
@@ -225,11 +218,10 @@ class SwiftFactory {
 	}
 
 	/**
-	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
 	 * @throws StorageNotAvailableException
 	 */
-	private function createContainer() {
+	private function createContainer(): Container {
 		$client = $this->getClient();
 		$objectStoreService = $client->objectStoreV1();
 

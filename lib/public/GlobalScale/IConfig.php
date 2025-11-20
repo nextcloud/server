@@ -6,6 +6,8 @@
  */
 namespace OCP\GlobalScale;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Interface IConfig
  *
@@ -13,20 +15,19 @@ namespace OCP\GlobalScale;
  *
  * @since 12.0.1
  */
+#[Consumable(since: '12.0.1')]
 interface IConfig {
 	/**
-	 * check if global scale is enabled
+	 * Check if global scale is enabled.
 	 *
 	 * @since 12.0.1
-	 * @return bool
 	 */
-	public function isGlobalScaleEnabled();
+	public function isGlobalScaleEnabled(): bool;
 
 	/**
-	 * check if federation should only be used internally in a global scale setup
+	 * Check if federation should only be used internally in a global scale setup.
 	 *
 	 * @since 12.0.1
-	 * @return bool
 	 */
-	public function onlyInternalFederation();
+	public function onlyInternalFederation(): bool;
 }

@@ -9,10 +9,9 @@ namespace OC\Files\Storage;
 
 class CommonTest extends Common {
 	/**
-	 * underlying local storage used for missing functions
-	 * @var Local
+	 * Underlying local storage used for missing functions
 	 */
-	private $storage;
+	private Local $storage;
 
 	public function __construct(array $parameters) {
 		$this->storage = new Local($parameters);

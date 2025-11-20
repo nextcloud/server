@@ -14,11 +14,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class SimpleFolder implements ISimpleFolder {
-	/**
-	 * Folder constructor.
-	 *
-	 * @param Folder $folder
-	 */
 	public function __construct(
 		private Folder $folder,
 	) {

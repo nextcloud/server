@@ -8,6 +8,7 @@
 namespace OC\Files\Cache;
 
 use OC\Files\Storage\Storage;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IWatcher;
@@ -17,22 +18,12 @@ use OCP\Files\Storage\IStorage;
  * check the storage backends for updates and change the cache accordingly
  */
 class Watcher implements IWatcher {
-	protected $watchPolicy = self::CHECK_ONCE;
-
-	protected $checkedPaths = [];
-
-	/**
-	 * @var Cache $cache
-	 */
-	protected $cache;
-
-	/**
-	 * @var IScanner $scanner ;
-	 */
-	protected $scanner;
-
+	protected int $watchPolicy = self::CHECK_ONCE;
+	protected array $checkedPaths = [];
+	protected ICache $cache;
+	protected IScanner $scanner;
 	/** @var callable[] */
-	protected $onUpdate = [];
+	protected array $onUpdate = [];
 
 	protected ?string $checkFilter = null;
 

@@ -13,7 +13,7 @@ class Credentials implements ICredentials {
 	public function __construct(
 		private readonly string $uid,
 		private readonly string $loginName,
-		private readonly string $password,
+		private readonly ?string $password,
 	) {
 	}
 
@@ -28,7 +28,7 @@ class Credentials implements ICredentials {
 	}
 
 	#[Override]
-	public function getPassword(): string {
+	public function getPassword(): ?string {
 		return $this->password;
 	}
 }

@@ -37,10 +37,8 @@ use OCP\Server;
 
 class Group implements IGroup {
 	/** @var User[] */
-	private $users = [];
-
-	/** @var bool */
-	private $usersLoaded;
+	private array $users = [];
+	private bool $usersLoaded = false;
 
 	public function __construct(
 		private string $gid,

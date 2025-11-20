@@ -43,7 +43,7 @@ class LockManager implements ILockManager {
 		if ($this->lockProviderClass) {
 			try {
 				$this->lockProvider = Server::get($this->lockProviderClass);
-			} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+			} catch (NotFoundExceptionInterface|ContainerExceptionInterface) {
 			}
 		}
 

@@ -14,28 +14,18 @@ use OCP\IMemcacheTTL;
  * Cache wrapper that logs the cache operation in a log file
  */
 class LoggerWrapperCache extends Cache implements IMemcacheTTL {
-	/** @var Redis */
-	protected $wrappedCache;
-
-	/** @var string $prefix */
-	protected $prefix;
-
 	public function __construct(
-		Redis $wrappedCache,
+		protected Redis $wrappedCache,
 		private string $logFile,
 	) {
 		parent::__construct($wrappedCache->getPrefix());
-		$this->wrappedCache = $wrappedCache;
 	}
 
-	/**
-	 * @return string Prefix used for caching purposes
-	 */
-	public function getPrefix() {
+	public function getPrefix(): string {
 		return $this->prefix;
 	}
 
-	protected function getNameSpace() {
+	protected function getNameSpace(): string {
 		return $this->prefix;
 	}
 

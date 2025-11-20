@@ -19,13 +19,8 @@ use OCP\Files\Search\ISearchQuery;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedCache implements ICache {
-	/**
-	 * FailedCache constructor.
-	 *
-	 * @param bool $visible
-	 */
 	public function __construct(
-		private $visible = true,
+		private readonly bool $visible = true,
 	) {
 	}
 

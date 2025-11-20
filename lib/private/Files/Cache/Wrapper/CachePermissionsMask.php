@@ -10,13 +10,9 @@ namespace OC\Files\Cache\Wrapper;
 use OCP\Files\Cache\ICache;
 
 class CachePermissionsMask extends CacheWrapper {
-	/**
-	 * @param ICache $cache
-	 * @param int $mask
-	 */
 	public function __construct(
-		$cache,
-		protected $mask,
+		ICache $cache,
+		protected readonly int $mask,
 	) {
 		parent::__construct($cache);
 	}

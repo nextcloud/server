@@ -1959,7 +1959,7 @@ class View {
 			throw new InvalidPathException($l->t('Path contains invalid segments'));
 		}
 
-		// Short cut for read-only validation
+		// Shortcut for read-only validation
 		if ($readonly) {
 			$validator = Server::get(FilenameValidator::class);
 			if ($validator->isForbidden($fileName)) {

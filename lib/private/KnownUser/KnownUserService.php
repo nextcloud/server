@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace OC\KnownUser;
 
 class KnownUserService {
-	/** @var array */
-	protected $knownUsers = [];
+	/** @var array<string, array<string, bool>> $knownUsers */
+	protected array $knownUsers = [];
 
 	public function __construct(
 		protected KnownUserMapper $mapper,

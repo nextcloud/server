@@ -48,26 +48,17 @@ class Scanner extends PublicEmitter {
 
 	/**
 	 * Whether to use a DB transaction
-	 *
-	 * @var bool
 	 */
-	protected $useTransaction;
+	protected bool $useTransaction;
 
 	/**
 	 * Number of entries scanned to commit
-	 *
-	 * @var int
 	 */
-	protected $entriesToCommit;
+	protected int $entriesToCommit = 0;
 
-	/**
-	 * @param string $user
-	 * @param IDBConnection|null $db
-	 * @param IEventDispatcher $dispatcher
-	 */
 	public function __construct(
-		private $user,
-		protected $db,
+		private string $user,
+		protected ?IDBConnection $db,
 		private IEventDispatcher $dispatcher,
 		protected LoggerInterface $logger,
 	) {

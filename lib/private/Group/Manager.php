@@ -45,19 +45,13 @@ use function is_string;
  */
 class Manager extends PublicEmitter implements IGroupManager {
 	/** @var GroupInterface[] */
-	private $backends = [];
-
+	private array $backends = [];
 	/** @var array<string, IGroup> */
-	private $cachedGroups = [];
-
+	private array $cachedGroups = [];
 	/** @var array<string, list<string>> */
-	private $cachedUserGroups = [];
-
-	/** @var SubAdmin */
-	private $subAdmin = null;
-
+	private array $cachedUserGroups = [];
+	private ?SubAdmin $subAdmin = null;
 	private DisplayNameCache $displayNameCache;
-
 	private const MAX_GROUP_LENGTH = 255;
 
 	public function __construct(

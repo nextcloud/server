@@ -39,9 +39,6 @@ class ClientService implements IClientService {
 	) {
 	}
 
-	/**
-	 * @return Client
-	 */
 	public function newClient(): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);

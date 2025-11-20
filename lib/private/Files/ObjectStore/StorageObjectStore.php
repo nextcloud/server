@@ -14,9 +14,6 @@ use function is_resource;
  * Object store that wraps a storage backend, mostly for testing purposes
  */
 class StorageObjectStore implements IObjectStore {
-	/**
-	 * @param IStorage $storage
-	 */
 	public function __construct(
 		private IStorage $storage,
 	) {
