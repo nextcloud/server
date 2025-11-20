@@ -54,6 +54,8 @@ export default {
 		},
 	},
 
+	emits: ['select'],
+
 	computed: {
 		id() {
 			return `user-status-online-status-${this.type}`

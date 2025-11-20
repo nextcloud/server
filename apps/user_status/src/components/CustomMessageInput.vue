@@ -22,12 +22,13 @@
 				:model-value="message"
 				type="text"
 				:label="t('user_status', 'What is your status?')"
-				@input="onChange" />
+				@update:model-value="onChange" />
 		</div>
 	</div>
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -75,6 +76,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		focus() {
 			this.$refs.input.focus()
 		},

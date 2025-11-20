@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import { mapGetters, mapState } from 'vuex'
 import PredefinedStatus from './PredefinedStatus.vue'
 
@@ -34,6 +35,8 @@ export default {
 	components: {
 		PredefinedStatus,
 	},
+
+	emits: ['select-status'],
 
 	data() {
 		return {
@@ -68,6 +71,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Emits an event when the user selects a status
 		 *

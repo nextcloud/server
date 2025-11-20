@@ -11,9 +11,6 @@ import store from './store/index.js'
 
 __webpack_nonce__ = getCSPNonce()
 
-Vue.prototype.t = t
-Vue.prototype.$t = t
-
 const mountPoint = document.getElementById('user_status-menu-entry')
 
 /**
