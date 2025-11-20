@@ -30,7 +30,7 @@ class Config {
 		protected string $configDir,
 		protected string $configFileName = 'config.php',
 	) {
-		$this->configFilePath = $this->configDir . $configFileName;
+		$this->configFilePath = $this->configDir . $this->configFileName;
 		$this->readData();
 		$this->isReadOnly = $this->getValue('config_is_read_only', false);
 	}

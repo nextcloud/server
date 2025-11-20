@@ -14,11 +14,6 @@ use OCP\Files\Config\IUserMountCache;
  * Listen to hooks and update the mount cache as needed
  */
 class UserMountCacheListener {
-	/**
-	 * UserMountCacheListener constructor.
-	 *
-	 * @param IUserMountCache $userMountCache
-	 */
 	public function __construct(
 		private IUserMountCache $userMountCache,
 	) {

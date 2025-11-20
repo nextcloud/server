@@ -280,7 +280,6 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * Note that this should make sure the entries are removed from the source cache
 	 *
-	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 */

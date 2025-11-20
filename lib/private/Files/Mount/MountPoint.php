@@ -11,63 +11,49 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class MountPoint implements IMountPoint {
-	/**
-	 * @var Storage|null $storage
-	 */
+	/** @var IStorage|null $storage */
 	protected $storage = null;
-	protected $class;
-	protected $storageId;
-	protected $numericStorageId = null;
-	protected $rootId = null;
+	/** @var class-string<IStorage> */
+	protected string $class;
+	protected ?string $storageId = null;
+	protected ?int $numericStorageId = null;
+	protected ?int $rootId = null;
 
 	/**
 	 * Configuration options for the storage backend
-	 *
-	 * @var array
 	 */
-	protected $arguments = [];
-	protected $mountPoint;
+	protected array $arguments = [];
+	protected string $mountPoint;
 
 	/**
 	 * Mount specific options
-	 *
-	 * @var array
 	 */
-	protected $mountOptions = [];
-
-	/**
-	 * @var StorageFactory $loader
-	 */
-	private $loader;
+	protected array $mountOptions = [];
+	private IStorageFactory $loader;
 
 	/**
 	 * Specified whether the storage is invalid after failing to
 	 * instantiate it.
-	 *
-	 * @var bool
 	 */
-	private $invalidStorage = false;
-
-	/** @var string */
-	protected $mountProvider;
+	private bool $invalidStorage = false;
+	protected string $mountProvider;
 
 	/**
-	 * @param string|Storage $storage
-	 * @param string $mountpoint
+	 * @param IStorage|class-string<IStorage> $storage
 	 * @param array $arguments (optional) configuration for the storage backend
-	 * @param IStorageFactory $loader
-	 * @param array $mountOptions mount specific options
-	 * @param int|null $mountId
-	 * @param string|null $mountProvider
+	 * @param ?array $mountOptions mount specific options
+	 * @param ?int $mountId
+	 * @param ?string $mountProvider
 	 * @throws \Exception
 	 */
 	public function __construct(
-		$storage,
+		string|IStorage $storage,
 		string $mountpoint,
 		?array $arguments = null,
 		?IStorageFactory $loader = null,
@@ -88,8 +74,7 @@ class MountPoint implements IMountPoint {
 			$this->mountOptions = $mountOptions;
 		}
 
-		$mountpoint = $this->formatPath($mountpoint);
-		$this->mountPoint = $mountpoint;
+		$this->mountPoint = $this->formatPath($mountpoint);
 		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
 			$this->storage = $this->loader->wrap($this, $storage);
@@ -140,6 +125,7 @@ class MountPoint implements IMountPoint {
 				$class = $this->class;
 				// prevent recursion by setting the storage before applying wrappers
 				$this->storage = new $class($this->arguments);
+				/** @psalm-suppress UndefinedInterfaceMethod This is a StorageFactory */
 				$this->storage = $this->loader->wrap($this, $this->storage);
 			} catch (\Exception $exception) {
 				$this->storage = null;
@@ -155,12 +141,11 @@ class MountPoint implements IMountPoint {
 		} else {
 			Server::get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
 			$this->invalidStorage = true;
-			return;
 		}
 	}
 
 	/**
-	 * @return Storage|null
+	 * @return IStorage|null
 	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {

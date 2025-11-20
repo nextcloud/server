@@ -1526,10 +1526,7 @@ class View {
 		$fileNames = array_map(function (ICacheEntry $content) {
 			return $content->getName();
 		}, $contents);
-		/**
-		 * @var FileInfo[] $fileInfos
-		 */
-		$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
+		$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled): FileInfo {
 			if ($sharingDisabled) {
 				$content['permissions'] = $content['permissions'] & ~Constants::PERMISSION_SHARE;
 			}
@@ -1959,7 +1956,7 @@ class View {
 			throw new InvalidPathException($l->t('Path contains invalid segments'));
 		}
 
-		// Short cut for read-only validation
+		// Shortcut for read-only validation
 		if ($readonly) {
 			$validator = Server::get(FilenameValidator::class);
 			if ($validator->isForbidden($fileName)) {

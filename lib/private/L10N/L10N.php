@@ -16,24 +16,19 @@ use Punic\Calendar;
 use Symfony\Component\Translation\IdentityTranslator;
 
 class L10N implements IL10N {
-	/** @var IdentityTranslator */
-	private $identityTranslator;
+	private ?IdentityTranslator $identityTranslator = null;
 
 	/** @var string[] */
-	private $translations = [];
+	private array $translations = [];
 
 	/**
-	 * @param IFactory $factory
-	 * @param string $app
-	 * @param string $lang
-	 * @param string $locale
-	 * @param array $files
+	 * @param string[] $files
 	 */
 	public function __construct(
 		protected IFactory $factory,
-		protected $app,
-		protected $lang,
-		protected $locale,
+		protected string $app,
+		protected string $lang,
+		protected ?string $locale,
 		array $files,
 	) {
 		foreach ($files as $languageFile) {
@@ -56,7 +51,7 @@ class L10N implements IL10N {
 	 * @return string locale
 	 */
 	public function getLocaleCode(): string {
-		return $this->locale;
+		return $this->locale ?? '';
 	}
 
 	/**

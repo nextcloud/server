@@ -11,20 +11,11 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
 class LazyStorageMountInfo extends CachedMountInfo {
-	/**
-	 * CachedMountInfo constructor.
-	 *
-	 * @param IUser $user
-	 * @param IMountPoint $mount
-	 */
 	public function __construct(
 		IUser $user,
 		private IMountPoint $mount,
 	) {
-		$this->user = $user;
-		$this->rootId = 0;
-		$this->storageId = 0;
-		$this->mountPoint = '';
+		parent::__construct($user, 0, 0, '', '');
 		$this->key = '';
 	}
 

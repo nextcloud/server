@@ -13,6 +13,7 @@ use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Hooks\BasicEmitter;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
@@ -42,15 +43,11 @@ use Psr\Log\LoggerInterface;
  */
 class Scanner extends BasicEmitter implements IScanner {
 	protected string $storageId;
-	/** @var Cache */
-	protected $cache;
-	/** @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache */
+	protected ICache $cache;
+	/** @var bool $cacheActive Whether to perform cache operations */
 	protected bool $cacheActive;
-	/** @var bool $useTransactions whether to use transactions */
 	protected bool $useTransactions = true;
-	/** * @var ILockingProvider */
 	protected ILockingProvider $lockingProvider;
-
 	protected IDBConnection $connection;
 
 	public function __construct(
@@ -416,7 +413,9 @@ class Scanner extends BasicEmitter implements IScanner {
 		// for encrypted storages, we trigger a regular folder size calculation instead of using the calculated size
 		// to make sure we also updated the unencrypted-size where applicable
 		if ($this->storage->instanceOfStorage(Encryption::class)) {
-			$this->cache->calculateFolderSize($path);
+			/** @var Cache $cache */
+			$cache = $this->cache;
+			$cache->calculateFolderSize($path);
 		} else {
 			if ($this->cacheActive) {
 				$updatedData = [];
@@ -588,14 +587,8 @@ class Scanner extends BasicEmitter implements IScanner {
 			if ($this->cacheActive && $this->cache instanceof Cache) {
 				$this->cache->correctFolderSize($path, null, true);
 			}
-		} catch (StorageInvalidException $e) {
-			// skip unavailable storages
-		} catch (StorageNotAvailableException $e) {
-			// skip unavailable storages
-		} catch (ForbiddenException $e) {
-			// skip forbidden storages
-		} catch (LockedException $e) {
-			// skip unavailable storages
+		} catch (StorageInvalidException|StorageNotAvailableException|ForbiddenException|LockedException) {
+			// skip unavailable and forbidden storages
 		}
 	}
 

@@ -18,9 +18,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
 class NewSimpleFile implements ISimpleFile {
 	private ?File $file = null;
 
-	/**
-	 * File constructor.
-	 */
 	public function __construct(
 		private Folder $parentFolder,
 		private string $name,

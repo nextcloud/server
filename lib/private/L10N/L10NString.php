@@ -9,14 +9,11 @@ namespace OC\L10N;
 
 class L10NString implements \JsonSerializable {
 	/**
-	 * @param L10N $l10n
 	 * @param string|string[] $text
-	 * @param array $parameters
-	 * @param int $count
 	 */
 	public function __construct(
 		protected L10N $l10n,
-		protected $text,
+		protected string|array $text,
 		protected array $parameters,
 		protected int $count = 1,
 	) {

@@ -13,11 +13,8 @@ use OCP\ICache;
  * @template-implements \ArrayAccess<string,mixed>
  */
 abstract class Cache implements \ArrayAccess, ICache {
-	/**
-	 * @param string $prefix
-	 */
 	public function __construct(
-		protected $prefix = '',
+		protected string $prefix = '',
 	) {
 	}
 

@@ -13,7 +13,7 @@ use OCP\IUser;
 use OCP\L10N\ILanguageIterator;
 
 class LanguageIterator implements ILanguageIterator {
-	private $i = 0;
+	private int $i = 0;
 
 	public function __construct(
 		private IUser $user,

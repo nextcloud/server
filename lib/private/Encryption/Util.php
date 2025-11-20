@@ -28,30 +28,20 @@ class Util {
 	public const HEADER_ENCRYPTION_MODULE_KEY = 'oc_encryption_module';
 
 	/**
-	 * block size will always be 8192 for a PHP stream
+	 * Block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
-	 * @var integer
 	 */
-	protected $headerSize = 8192;
+	protected int $headerSize = 8192;
 
 	/**
-	 * block size will always be 8192 for a PHP stream
+	 * Block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
-	 * @var integer
 	 */
-	protected $blockSize = 8192;
+	protected int $blockSize = 8192;
 
-	/** @var array */
-	protected $ocHeaderKeys;
-
-	/** @var array paths excluded from encryption */
+	protected array $ocHeaderKeys;
 	protected array $excludedPaths = [];
 
-	/**
-	 *
-	 * @param View $rootView
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		protected View $rootView,
 		protected IUserManager $userManager,
