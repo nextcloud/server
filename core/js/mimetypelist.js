@@ -124,6 +124,8 @@ OC.MimeTypeList={
     "application",
     "application-pdf",
     "audio",
+    "drawio",
+    "dwb",
     "file",
     "folder",
     "folder-drag-accept",
