@@ -89,5 +89,15 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 				},
 			},
 		},
+		experimental: {
+			renderBuiltUrl(filename, { hostType }) {
+				if (hostType === 'css') {
+					return `./${filename}`
+				}
+				return {
+					runtime: `window.OC.filePath('', '', 'dist/${filename}')`,
+				}
+			},
+		},
 	},
 })
