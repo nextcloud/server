@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\WebhookListeners\Service;
 
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\PublicKeyToken;
 use OCA\WebhookListeners\Db\EphemeralTokenMapper;
 use OCA\WebhookListeners\Db\WebhookListener;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -18,12 +17,14 @@ use OCP\Authentication\Token\IToken;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class TokenService {
 	public function __construct(
 		private IProvider $tokenProvider,
 		private ISecureRandom $random,
 		private EphemeralTokenMapper $tokenMapper,
+		private LoggerInterface $logger,
 		private ITimeFactory $time,
 		private IFactory $l10nFactory,
 		private IUserManager $userManager,
@@ -49,20 +50,25 @@ class TokenService {
 		$tokenNeeded = $webhookListener->getTokenNeeded();
 		if (isset($tokenNeeded['user_ids'])) {
 			foreach ($tokenNeeded['user_ids'] as $userId) {
-				$tokens['user_ids'][$userId] = $this->createEphemeralToken($userId);
+				try {
+					$tokens['user_ids'][$userId] = $this->createEphemeralToken($userId);
+				} catch (\Exception $e) {
+					$this->logger->error('Webhook token creation for user ' . $userId . ' failed: ' . $e->getMessage(), ['exception' => $e]);
+				}
+
 			}
 		}
 		if (isset($tokenNeeded['user_roles'])) {
-			foreach ($tokenNeeded['user_roles'] as $function) {
-				switch ($function) {
+			foreach ($tokenNeeded['user_roles'] as $user_role) {
+				switch ($user_role) {
 					case 'owner':
 						// token for the person who created the flow
-						$functionId = $webhookListener->getUserId();
-						if (is_null($functionId)) { // no owner uid available
+						$ownerId = $webhookListener->getUserId();
+						if (is_null($ownerId)) { // no owner uid available
 							break;
 						}
 						$tokens['user_roles']['owner'] = [
-							$functionId => $this->createEphemeralToken($functionId)
+							$ownerId => $this->createEphemeralToken($ownerId)
 						];
 						break;
 					case 'trigger':
@@ -74,6 +80,9 @@ class TokenService {
 							$triggerUserId => $this->createEphemeralToken($triggerUserId)
 						];
 						break;
+					default:
+						$this->logger->error('Webhook token creation for user role ' . $user_role . ' not defined. ', ['Not defined' => $user_role]);
+
 				}
 			}
 		}
@@ -96,12 +105,6 @@ class TokenService {
 			$name,
 			IToken::PERMANENT_TOKEN);
 
-		// We need the getToken() method to be able to send the token out.
-		// That method is only available in PublicKeyToken which is returned by generateToken
-		// but not declared as such, so we have to check the type here
-		if (!($deviceToken instanceof PublicKeyToken)) { // type needed for the getToken() function
-			throw new \Exception('Unexpected token type');
-		}
 		$this->tokenMapper->addEphemeralToken(
 			$deviceToken->getId(),
 			$userId,

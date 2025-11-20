@@ -52,7 +52,7 @@ class EphemeralTokenMapper extends QBMapper {
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exception
 	 * @return EphemeralToken[]
 	 */
 	public function getAll(): array {
@@ -64,6 +64,12 @@ class EphemeralTokenMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
+
+	/**
+	 * @param int $olderThan
+	 * @return EphemeralToken[]
+	 * @throws Exception
+	 */
 	public function getOlderThan($olderThan): array {
 		$qb = $this->db->getQueryBuilder();
 
@@ -106,12 +112,23 @@ class EphemeralTokenMapper extends QBMapper {
 
 	public function invalidateOldTokens(int $token_lifetime = self::TOKEN_LIFETIME) {
 		$olderThan = $this->time->getTime() - $token_lifetime;
-		$tokensToDelete = $this->getOlderThan($olderThan);
+		try {
+			$tokensToDelete = $this->getOlderThan($olderThan);
+		} catch (Exception $e) {
+			$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
+			return;
+		}
+
 
 		$this->logger->debug('Invalidating ephemeral webhook tokens older than ' . date('c', $olderThan), ['app' => 'webhook_listeners']);
 		foreach ($tokensToDelete as $token) {
-			$this->tokenMapper->invalidate($this->tokenMapper->getTokenById($token->getTokenId())->getToken()); // delete token itself
-			$this->deleteByTokenId($token->getTokenId()); // delete db row in webhook_tokens
+			try {
+				$this->tokenMapper->delete($this->tokenMapper->getTokenById($token->getTokenId())); // delete token itself
+				$this->deleteByTokenId($token->getTokenId()); // delete db row in webhook_tokens
+			} catch (Exception $e) {
+				$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
+			}
+
 		}
 	}
 }
