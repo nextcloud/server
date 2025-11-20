@@ -73,7 +73,7 @@ class DeletedShareAPIController extends OCSController {
 		if (!$node) {
 			// fallback to guessing the path
 			$node = $userFolder->get($share->getTarget());
-			if ($node === null || $share->getTarget() === '') {
+			if ($share->getTarget() === '') {
 				throw new NotFoundException();
 			}
 		}
