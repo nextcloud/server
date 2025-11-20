@@ -155,25 +155,25 @@ trait S3ConnectionTrait {
 				$cacheKey = $this->params['hostname'] . $this->bucket;
 				$exist = $this->existingBucketsCache->get($cacheKey) === 1;
 
-				if (!$exist && !$this->connection->doesBucketExist($this->bucket)) {
-					try {
-						$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
-						if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
-							throw new StorageNotAvailableException('The bucket will not be created because the name is not dns compatible, please correct it: ' . $this->bucket);
-						}
-						$this->connection->createBucket(['Bucket' => $this->bucket]);
-						$this->testTimeout();
-						$this->existingBucketsCache->set($cacheKey, 1);
-					} catch (S3Exception $e) {
-						$logger->debug('Invalid remote storage.', [
-							'exception' => $e,
-							'app' => 'objectstore',
-						]);
-						if ($e->getAwsErrorCode() !== 'BucketAlreadyOwnedByYou') {
-							throw new StorageNotAvailableException('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
+				if (!$exist) {
+					if (!$this->connection->doesBucketExist($this->bucket)) {
+						try {
+							$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
+							if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
+								throw new StorageNotAvailableException('The bucket will not be created because the name is not dns compatible, please correct it: ' . $this->bucket);
+							}
+							$this->connection->createBucket(['Bucket' => $this->bucket]);
+							$this->testTimeout();
+						} catch (S3Exception $e) {
+							$logger->debug('Invalid remote storage.', [
+								'exception' => $e,
+								'app' => 'objectstore',
+							]);
+							if ($e->getAwsErrorCode() !== 'BucketAlreadyOwnedByYou') {
+								throw new StorageNotAvailableException('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
+							}
 						}
 					}
-				} elseif (!$exist) {
 					$this->existingBucketsCache->set($cacheKey, 1);
 				}
 			}
