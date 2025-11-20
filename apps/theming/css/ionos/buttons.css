@@ -37,8 +37,16 @@
 				&:hover:not(:disabled):not(.button-vue--disabled) {
 					background-color: var(--ion-button-secondary-background-hover);
 					border-color: var(--ion-button-secondary-background-hover);
+					color: var(--ion-button-secondary-text-hover);
 
 					&:not(.action-item--single) {
+						.button-vue__text, .button-vue__icon svg {
+							color: var(--ion-button-secondary-text-hover);
+						}
+					}
+
+
+					&:not(.action-item__menutoggle) {
 						.button-vue__text, .button-vue__icon svg {
 							color: var(--ion-button-secondary-text-hover);
 						}
