@@ -1,5 +1,7 @@
 { "translations": {
     "Cancel" : "ຍົກເລີກ",
+    "Image saved" : "Image saved",
+    "LIVE" : "LIVE",
     "Edit" : "ແກ້ໄຂ",
     "Open sidebar" : "ເປີດແທບດ້ານຂ້າງ",
     "Download" : "ດາວໂຫລດ",
@@ -7,13 +9,28 @@
     "View" : "ເບິ່ງ",
     "Name" : "ຊື່",
     "Save" : "ບັນທຶກ",
+    "Save as" : "Save as",
     "Back" : "ຫຼັງ",
     "Loading …" : "ກຳລັງໂຫຼດ",
     "Reset" : "ຕັ້ງຄ່າໃໝ່",
+    "Apply" : "Apply",
     "Confirm" : "ຢືນຢັນ",
+    "Discard changes" : "Discard changes",
+    "Undo" : "Undo",
+    "Redo" : "ເຮັດຄືນ",
+    "Filters" : "Filters",
     "Original" : "ຕົ້ນສະບັບ",
+    "Custom" : "Custom",
+    "Blur" : "Blur",
+    "Value" : "Value",
     "Image" : "ຮູບພາບ",
+    "Line" : "ເສັ້ນ",
     "Text" : "ຂໍ້ຄວາມ",
-    "Size" : "ຂະຫນາດ"
+    "Size" : "ຂະຫນາດ",
+    "Horizontal" : "Horizontal",
+    "Vertical" : "Vertical",
+    "Position" : "Position",
+    "Extension" : "Extension",
+    "Name is required." : "ຕ້ອງໃສ່ຊື່."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
