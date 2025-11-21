@@ -51,7 +51,6 @@ SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Kirill Fomichev <fanatid@ya.ru> (https://github.com/fanatid)
 SPDX-FileCopyrightText: Julian Gruber
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
@@ -590,15 +589,6 @@ This file is generated from multiple sources. Included packages:
 - parse-asn1
 	- version: 5.1.9
 	- license: ISC
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - pbkdf2
 	- version: 3.1.5
 	- license: MIT
