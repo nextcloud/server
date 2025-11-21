@@ -23,8 +23,6 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IServerContainer;
-use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use Psr\Log\NullLogger;

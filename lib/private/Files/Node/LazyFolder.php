@@ -14,6 +14,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotPermittedException;
+use Override;
 
 /**
  * Class LazyFolder
@@ -136,6 +137,11 @@ class LazyFolder implements Folder {
 
 	public function get($path) {
 		return $this->getRootFolder()->get($this->getFullPath($path));
+	}
+
+	#[Override]
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): Folder {
+		return $this->getRootFolder()->getOrCreateFolder($this->getFullPath($path), $maxRetries);
 	}
 
 	/**

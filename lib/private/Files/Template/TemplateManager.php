@@ -355,14 +355,7 @@ class TemplateManager implements ITemplateManager {
 				}
 			}
 
-			try {
-				/** @var Folder $folder */
-				$folder = $userFolder->get($userTemplatePath);
-			} catch (NotFoundException $e) {
-				/** @var Folder $folder */
-				$folder = $userFolder->get(dirname($userTemplatePath));
-				$folder = $folder->newFolder(basename($userTemplatePath));
-			}
+			$folder = $userFolder->getOrCreateFolder($userTemplatePath);
 
 			$folderIsEmpty = count($folder->getDirectoryListing()) === 0;
 
