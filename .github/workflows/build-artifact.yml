@@ -107,25 +107,25 @@ jobs:
               "makefile_target": "build_contacts_app"
             },
             {
-              "name": "notify_push",
-              "path": "apps-external/notify_push",
-              "has_npm": false,
-              "has_composer": true,
-              "makefile_target": "build_notify_push_app"
-            },
-            {
-              "name": "richdocuments",
-              "path": "apps-external/richdocuments",
+              "name": "deck",
+              "path": "apps-external/deck",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_richdocuments_app"
+              "makefile_target": "build_deck_app"
             },
             {
-              "name": "spreed",
-              "path": "apps-external/spreed",
+              "name": "end_to_end_encryption",
+              "path": "apps-external/end_to_end_encryption",
               "has_npm": true,
               "has_composer": true,
-              "makefile_target": "build_spreed_app"
+              "makefile_target": "build_end_to_end_encryption_app"
+            },
+            {
+              "name": "forms",
+              "path": "apps-external/forms",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_forms_app"
             },
             {
               "name": "groupfolders",
