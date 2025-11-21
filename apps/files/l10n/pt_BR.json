@@ -141,6 +141,7 @@
     "Warn before deleting a file" : "Avisar antes de excluir um arquivo",
     "WebDAV URL" : "URL WebDAV",
     "Create an app password" : "Criar uma senha de aplicativo",
+    "Required for WebDAV authentication because Two-Factor Authentication is enabled for this account." : "Necessário para a autenticação WebDAV porque a autenticação de dois fatores está ativada para esta conta.",
     "How to access files using WebDAV" : "Como acessar arquivos usando WebDAV",
     "Total rows summary" : "Resumo do total de linhas",
     "Toggle selection for all files and folders" : "Alternar seleção para todos os arquivos e pastas",
