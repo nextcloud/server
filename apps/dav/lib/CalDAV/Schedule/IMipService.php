@@ -234,8 +234,8 @@ class IMipService {
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
 		// Output produced in order:
-		// In a minute/hour/day/week/month/year on July 1, 2024 for the entire day
-		// In a minute/hour/day/week/month/year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 for the entire day
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 for the entire day
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
 		return match ([$occurring['scale'], $endTime !== null]) {
@@ -244,37 +244,37 @@ class IMipService {
 				[$startDate]
 			),
 			['minute', false] => $this->l10n->n(
-				'In a minute on %1$s for the entire day',
+				'In %n minute on %1$s for the entire day',
 				'In %n minutes on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['hour', false] => $this->l10n->n(
-				'In a hour on %1$s for the entire day',
+				'In %n hour on %1$s for the entire day',
 				'In %n hours on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['day', false] => $this->l10n->n(
-				'In a day on %1$s for the entire day',
+				'In %n day on %1$s for the entire day',
 				'In %n days on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['week', false] => $this->l10n->n(
-				'In a week on %1$s for the entire day',
+				'In %n week on %1$s for the entire day',
 				'In %n weeks on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['month', false] => $this->l10n->n(
-				'In a month on %1$s for the entire day',
+				'In %n month on %1$s for the entire day',
 				'In %n months on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
 			),
 			['year', false] => $this->l10n->n(
-				'In a year on %1$s for the entire day',
+				'In %n year on %1$s for the entire day',
 				'In %n years on %1$s for the entire day',
 				$occurring['interval'],
 				[$startDate]
@@ -284,37 +284,37 @@ class IMipService {
 				[$startDate, $startTime, $endTime]
 			),
 			['minute', true] => $this->l10n->n(
-				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minute on %1$s between %2$s - %3$s',
 				'In %n minutes on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['hour', true] => $this->l10n->n(
-				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hour on %1$s between %2$s - %3$s',
 				'In %n hours on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['day', true] => $this->l10n->n(
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['week', true] => $this->l10n->n(
-				'In a week on %1$s between %2$s - %3$s',
+				'In %n week on %1$s between %2$s - %3$s',
 				'In %n weeks on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['month', true] => $this->l10n->n(
-				'In a month on %1$s between %2$s - %3$s',
+				'In %n month on %1$s between %2$s - %3$s',
 				'In %n months on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
 			),
 			['year', true] => $this->l10n->n(
-				'In a year on %1$s between %2$s - %3$s',
+				'In %n year on %1$s between %2$s - %3$s',
 				'In %n years on %1$s between %2$s - %3$s',
 				$occurring['interval'],
 				[$startDate, $startTime, $endTime]
@@ -652,9 +652,9 @@ class IMipService {
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
 		// Output produced in order:
-		// In a minute/hour/day/week/month/year on July 1, 2024
-		// In a minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024
-		// In a minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024 and July 5, 2024
+		// In 1 minute/hour/day/week/month/year on July 1, 2024
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024
+		// In 1 minute/hour/day/week/month/year on July 1, 2024 then on July 3, 2024 and July 5, 2024
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 then on July 3, 2024
 		// In 2 minutes/hours/days/weeks/months/years on July 1, 2024 then on July 3, 2024 and July 5, 2024
@@ -664,37 +664,37 @@ class IMipService {
 				[$occurrence]
 			),
 			['minute', false, false] => $this->l10n->n(
-				'In a minute on %1$s',
+				'In %n minute on %1$s',
 				'In %n minutes on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['hour', false, false] => $this->l10n->n(
-				'In a hour on %1$s',
+				'In %n hour on %1$s',
 				'In %n hours on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['day', false, false] => $this->l10n->n(
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['week', false, false] => $this->l10n->n(
-				'In a week on %1$s',
+				'In %n week on %1$s',
 				'In %n weeks on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['month', false, false] => $this->l10n->n(
-				'In a month on %1$s',
+				'In %n month on %1$s',
 				'In %n months on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
 			),
 			['year', false, false] => $this->l10n->n(
-				'In a year on %1$s',
+				'In %n year on %1$s',
 				'In %n years on %1$s',
 				$occurrenceIn['interval'],
 				[$occurrence]
@@ -704,37 +704,37 @@ class IMipService {
 				[$occurrence, $occurrence2]
 			),
 			['minute', true, false] => $this->l10n->n(
-				'In a minute on %1$s then on %2$s',
+				'In %n minute on %1$s then on %2$s',
 				'In %n minutes on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['hour', true, false] => $this->l10n->n(
-				'In a hour on %1$s then on %2$s',
+				'In %n hour on %1$s then on %2$s',
 				'In %n hours on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['day', true, false] => $this->l10n->n(
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['week', true, false] => $this->l10n->n(
-				'In a week on %1$s then on %2$s',
+				'In %n week on %1$s then on %2$s',
 				'In %n weeks on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['month', true, false] => $this->l10n->n(
-				'In a month on %1$s then on %2$s',
+				'In %n month on %1$s then on %2$s',
 				'In %n months on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
 			),
 			['year', true, false] => $this->l10n->n(
-				'In a year on %1$s then on %2$s',
+				'In %n year on %1$s then on %2$s',
 				'In %n years on %1$s then on %2$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2]
@@ -744,37 +744,37 @@ class IMipService {
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['minute', true, true] => $this->l10n->n(
-				'In a minute on %1$s then on %2$s and %3$s',
+				'In %n minute on %1$s then on %2$s and %3$s',
 				'In %n minutes on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['hour', true, true] => $this->l10n->n(
-				'In a hour on %1$s then on %2$s and %3$s',
+				'In %n hour on %1$s then on %2$s and %3$s',
 				'In %n hours on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['day', true, true] => $this->l10n->n(
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['week', true, true] => $this->l10n->n(
-				'In a week on %1$s then on %2$s and %3$s',
+				'In %n week on %1$s then on %2$s and %3$s',
 				'In %n weeks on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['month', true, true] => $this->l10n->n(
-				'In a month on %1$s then on %2$s and %3$s',
+				'In %n month on %1$s then on %2$s and %3$s',
 				'In %n months on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
 			),
 			['year', true, true] => $this->l10n->n(
-				'In a year on %1$s then on %2$s and %3$s',
+				'In %n year on %1$s then on %2$s and %3$s',
 				'In %n years on %1$s then on %2$s and %3$s',
 				$occurrenceIn['interval'],
 				[$occurrence, $occurrence2, $occurrence3]
