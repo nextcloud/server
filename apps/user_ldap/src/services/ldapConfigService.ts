@@ -8,7 +8,7 @@ import type { AxiosResponse } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { LDAPConfig } from '../models/index.ts'
 
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { getDialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -164,20 +164,23 @@ export async function callWizard(action: WizardAction, configId: string, extraPa
 		params.set(key, value)
 	})
 
-	const response = await axios.post(
-		generateOcsUrl('apps/user_ldap/api/v1/wizard/{configId}/{action}', { configId, action }),
-		params,
-	) as AxiosResponse<OCSResponse<{ changes?: Record<string, unknown>, options?: Record<string, []> }>>
+	try {
+		const response = await axios.post(
+			generateOcsUrl('apps/user_ldap/api/v1/wizard/{configId}/{action}', { configId, action }),
+			params,
+		) as AxiosResponse<OCSResponse<{ changes?: Record<string, unknown>, options?: Record<string, []> }>>
 
-	logger.debug(`Called wizard action: ${action}`, { configId, params, response })
+		logger.debug(`Called wizard action: ${action}`, { configId, params, response })
 
-	if (response.data.ocs.meta.status === 'failure') {
-		const message = response.data.ocs.meta.message ?? t('user_ldap', 'An error occurred')
-		showError(message)
-		throw new Error(message)
+		return response.data.ocs.data
+	} catch (error) {
+		if (isAxiosError(error) && error.response?.data.ocs.meta.status === 'failure') {
+			const message = error.response.data.ocs.meta.message ?? t('user_ldap', 'An error occurred')
+			showError(message)
+		}
+
+		throw error
 	}
-
-	return response.data.ocs.data
 }
 
 /**
