@@ -9,7 +9,6 @@ namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUser;

@@ -13,6 +13,7 @@ use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
+use OCP\IGroup;
 
 /**
  * Service class to manage global external storage
@@ -168,5 +169,32 @@ class GlobalStoragesService extends StoragesService {
 		}, $configs);
 
 		return array_combine($keys, $configs);
+	}
+
+	/**
+	 * Gets all storages for the group, not including any global storages
+	 * @return StorageConfig[]
+	 */
+	public function getAllStoragesForGroup(IGroup $group): array {
+		$mounts = $this->dbConfig->getMountsForGroups([$group->getGID()]);
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+
+	/**
+	 * @return StorageConfig[]
+	 */
+	public function getAllGlobalStorages(): array {
+		$mounts = $this->dbConfig->getGlobalMounts();
+
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
 	}
 }
