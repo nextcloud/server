@@ -83,7 +83,7 @@
 			<NcButton :disabled="loadingGuessBaseDN" @click="guessBaseDN">
 				{{ t('user_ldap', 'Detect Base DN') }}
 			</NcButton>
-			<NcButton :disabled="loadingCountInBaseDN" @click="countInBaseDN">
+			<NcButton :disabled="loadingCountInBaseDN || ldapConfigProxy.ldapBase === ''" @click="countInBaseDN">
 				{{ t('user_ldap', 'Test Base DN') }}
 			</NcButton>
 		</div>
