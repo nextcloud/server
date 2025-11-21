@@ -146,8 +146,7 @@ async function guessBaseDN() {
 	try {
 		loadingGuessBaseDN.value = true
 		const { changes } = await callWizard('guessBaseDN', props.configId)
-		// Not using ldapConfigProxy to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapBase = (changes!.ldap_base as string) ?? ''
+		ldapConfigProxy.value.ldapBase = (changes!.ldap_base as string) ?? ''
 	} finally {
 		loadingGuessBaseDN.value = false
 	}
