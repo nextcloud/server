@@ -120,7 +120,7 @@ async function reloadFilters() {
 
 		const response2 = await callWizard('getUserLoginFilter', props.configId)
 		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId]!.ldapLoginFilter = (response2.changes?.ldap_userlogin_filter as string | undefined) ?? ''
+		ldapConfigs.value[props.configId]!.ldapLoginFilter = (response2.changes?.ldap_login_filter as string | undefined) ?? ''
 	}
 }
 
