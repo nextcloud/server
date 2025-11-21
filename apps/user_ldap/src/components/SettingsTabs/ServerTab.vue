@@ -6,10 +6,10 @@
 	<fieldset class="ldap-wizard__server">
 		<div class="ldap-wizard__server__line">
 			<NcCheckboxRadioSwitch
-				:checked="ldapConfigProxy.ldapConfigurationActive === '1'"
+				:model-value="ldapConfigProxy.ldapConfigurationActive === '1'"
 				type="switch"
 				:aria-label="t('user_ldap', 'When unchecked, this configuration will be skipped.')"
-				@update:checked="ldapConfigProxy.ldapConfigurationActive = $event ? '1' : '0'">
+				@update:model-value="ldapConfigProxy.ldapConfigurationActive = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Configuration Active') }}
 			</NcCheckboxRadioSwitch>
 
@@ -33,18 +33,17 @@
 
 		<div class="ldap-wizard__server__line">
 			<NcTextField
-				:value="ldapConfigProxy.ldapHost"
+				:model-value="ldapConfigProxy.ldapHost"
 				:helper-text="t('user_ldap', 'You can omit the protocol, unless you require SSL. If so, start with ldaps://')"
 				:placeholder="t('user_ldap', 'Host')"
 				autocomplete="off"
-				@change.native="(event) => ldapConfigProxy.ldapHost = event.target.value" />
+				@change="(event) => ldapConfigProxy.ldapHost = event.target.value" />
 			<div class="ldap-wizard__server__host__port">
 				<NcTextField
-					:value="ldapConfigProxy.ldapPort"
-					:placeholder="t('user_ldap', 'Port')"
+					:model-value="ldapConfigProxy.ldapPort"
 					type="number"
 					autocomplete="off"
-					@change.native="(event) => ldapConfigProxy.ldapPort = event.target.value" />
+					@change="(event) => ldapConfigProxy.ldapPort = event.target.value" />
 				<NcButton :disabled="loadingGuessPortAndTLS" @click="guessPortAndTLS">
 					{{ t('user_ldap', 'Detect Port') }}
 				</NcButton>
@@ -75,10 +74,10 @@
 		<div class="ldap-wizard__server__line">
 			<NcTextArea
 				:label="t('user_ldap', 'Base DN')"
-				:value="ldapConfigProxy.ldapBase"
+				:model-value="ldapConfigProxy.ldapBase"
 				:placeholder="t('user_ldap', 'One Base DN per line')"
 				:helper-text="t('user_ldap', 'You can specify Base DN for users and groups in the Advanced tab')"
-				@change.native="(event) => ldapConfigProxy.ldapBase = event.target.value" />
+				@change="(event) => ldapConfigProxy.ldapBase = event.target.value" />
 
 			<NcButton :disabled="loadingGuessBaseDN" @click="guessBaseDN">
 				{{ t('user_ldap', 'Detect Base DN') }}

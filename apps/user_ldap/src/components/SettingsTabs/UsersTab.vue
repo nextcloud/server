@@ -29,14 +29,14 @@
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter">
 			<NcCheckboxRadioSwitch
-				:checked="ldapConfigProxy.ldapUserFilterMode === '1'"
-				@update:checked="toggleFilterMode">
+				:model-value="ldapConfigProxy.ldapUserFilterMode === '1'"
+				@update:model-value="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
 			<div v-if="ldapConfigProxy.ldapUserFilterMode === '1'">
 				<NcTextArea
-					:value.sync="ldapConfigProxy.ldapUserFilter"
+					v-model="ldapConfigProxy.ldapUserFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
 					:helper-text="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>

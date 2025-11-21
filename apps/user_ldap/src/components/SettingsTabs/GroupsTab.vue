@@ -28,14 +28,14 @@
 
 		<div class="ldap-wizard__groups__line ldap-wizard__groups__groups-filter">
 			<NcCheckboxRadioSwitch
-				:checked="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				@update:checked="toggleFilterMode">
+				:model-value="ldapConfigProxy.ldapGroupFilterMode === '1'"
+				@update:model-value="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
 			<div v-if="ldapConfigProxy.ldapGroupFilterMode === '1'">
 				<NcTextArea
-					:value.sync="ldapConfigProxy.ldapGroupFilter"
+					v-model="ldapConfigProxy.ldapGroupFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
 					:helper-text="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
