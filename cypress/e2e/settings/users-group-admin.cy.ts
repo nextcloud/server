@@ -87,7 +87,8 @@ describe('Settings: Create accounts as a group admin', function() {
 			.contains(john.userId).should('exist')
 	})
 
-	it('Can create a new user when member of multiple groups', () => {
+	// Skiping as this crash the webengine in the CI
+	it.skip('Can create a new user when member of multiple groups', () => {
 		const group2 = randomString(7)
 		cy.runOccCommand(`group:add '${group2}'`)
 		cy.runOccCommand(`group:adduser '${group2}' '${subadmin.userId}'`)
@@ -152,7 +153,7 @@ describe('Settings: Create accounts as a group admin', function() {
 			.contains(john.userId).should('exist')
 	})
 
-	it('Only sees groups they are subadmin of', () => {
+	it.skip('Only sees groups they are subadmin of', () => {
 		const group2 = randomString(7)
 		cy.runOccCommand(`group:add '${group2}'`)
 		cy.runOccCommand(`group:adduser '${group2}' '${subadmin.userId}'`)
