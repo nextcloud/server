@@ -41,7 +41,7 @@
 			<NcTextField
 				v-model="testUsername"
 				:helper-text="t('user_ldap', 'Attempts to receive a DN for the given login name and the current login filter')"
-				:placeholder="t('user_ldap', 'Test Login name')"
+				:label="t('user_ldap', 'Test Login name')"
 				autocomplete="off" />
 
 			<NcButton

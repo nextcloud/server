@@ -35,12 +35,15 @@
 			<NcTextField
 				:model-value="ldapConfigProxy.ldapHost"
 				:helper-text="t('user_ldap', 'You can omit the protocol, unless you require SSL. If so, start with ldaps://')"
-				:placeholder="t('user_ldap', 'Host')"
+				:label="t('user_ldap', 'Host')"
+				:placeholder="t('user_ldap', 'ldaps://localhost')"
 				autocomplete="off"
 				@change="(event) => ldapConfigProxy.ldapHost = event.target.value" />
 			<div class="ldap-wizard__server__host__port">
 				<NcTextField
 					:model-value="ldapConfigProxy.ldapPort"
+					:label="t('user_ldap', 'Port')"
+					:placeholder="t('user_ldap', '389')"
 					type="number"
 					autocomplete="off"
 					@change="(event) => ldapConfigProxy.ldapPort = event.target.value" />
@@ -53,8 +56,9 @@
 		<div class="ldap-wizard__server__line">
 			<NcTextField
 				v-model="localLdapAgentName"
-				:helper-text="t('user_ldap', 'The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.')"
-				:placeholder="t('user_ldap', 'User DN')"
+				:helper-text="t('user_ldap', 'The DN of the client user with which the bind shall be done. For anonymous access, leave DN and Password empty.')"
+				:label="t('user_ldap', 'User DN')"
+				:placeholder="t('user_ldap', 'uid=agent,dc=example,dc=com')"
 				autocomplete="off" />
 		</div>
 
@@ -63,7 +67,7 @@
 				v-model="localLdapAgentPassword"
 				type="password"
 				:helper-text="t('user_ldap', 'For anonymous access, leave DN and Password empty.')"
-				:placeholder="t('user_ldap', 'Password')"
+				:label="t('user_ldap', 'Password')"
 				autocomplete="off" />
 
 			<NcButton :disabled="!needsToSaveCredentials" @click="updateCredentials">
