@@ -90,7 +90,7 @@ const filteredLoginFilterOptions = computed(() => loginFilterOptions.value.filte
  */
 async function init() {
 	const response = await callWizard('determineAttributes', props.configId)
-	loginFilterOptions.value = response.options!.ldap_loginfilter_attributes
+	loginFilterOptions.value = response.options?.ldap_loginfilter_attributes ?? []
 }
 
 init()
@@ -102,7 +102,7 @@ async function getUserLoginFilter() {
 	if (ldapConfigProxy.value.ldapLoginFilterMode === '0') {
 		const response = await callWizard('getUserLoginFilter', props.configId)
 		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapLoginFilter = response.changes!.ldap_login_filter as string
+		ldapConfigs.value[props.configId]!.ldapLoginFilter = (response.changes?.ldap_login_filter as string | undefined) ?? ''
 	}
 }
 

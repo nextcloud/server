@@ -97,14 +97,14 @@ const ldapUserFilterGroups = computed({
  */
 async function init() {
 	const response1 = await callWizard('determineUserObjectClasses', props.configId)
-	userObjectClasses.value = response1.options!.ldap_userfilter_objectclass
+	userObjectClasses.value = response1.options?.ldap_userfilter_objectclass ?? []
 	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId].ldapUserFilterObjectclass = response1.changes!.ldap_userfilter_objectclass?.join(';') ?? ''
+	ldapConfigs.value[props.configId]!.ldapUserFilterObjectclass = (response1.changes?.ldap_userfilter_objectclass as string[] | undefined)?.join(';') ?? ''
 
 	const response2 = await callWizard('determineGroupsForUsers', props.configId)
-	userGroups.value = response2.options!.ldap_userfilter_groups
+	userGroups.value = response2.options?.ldap_userfilter_groups ?? []
 	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId].ldapUserFilterGroups = response2.changes!.ldap_userfilter_groups?.join(';') ?? ''
+	ldapConfigs.value[props.configId]!.ldapUserFilterGroups = (response2.changes?.ldap_userfilter_groups as string[] | undefined)?.join(';') ?? ''
 }
 
 init()
@@ -116,11 +116,11 @@ async function reloadFilters() {
 	if (ldapConfigProxy.value.ldapUserFilterMode === '0') {
 		const response1 = await callWizard('getUserListFilter', props.configId)
 		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapUserFilter = response1.changes!.ldap_userlist_filter as string
+		ldapConfigs.value[props.configId]!.ldapUserFilter = (response1.changes?.ldap_userlist_filter as string | undefined) ?? ''
 
 		const response2 = await callWizard('getUserLoginFilter', props.configId)
 		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapLoginFilter = response2.changes!.ldap_userlogin_filter as string
+		ldapConfigs.value[props.configId]!.ldapLoginFilter = (response2.changes?.ldap_userlogin_filter as string | undefined) ?? ''
 	}
 }
 
