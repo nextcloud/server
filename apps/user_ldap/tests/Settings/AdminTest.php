@@ -41,14 +41,6 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetForm(): void {
-		$prefixes = ['s01'];
-		$hosts = ['s01' => ''];
-
-		$wControls = $this->templateManager->getTemplate('user_ldap', 'part.wizardcontrols');
-		$wControls = $wControls->fetchPage();
-		$sControls = $this->templateManager->getTemplate('user_ldap', 'part.settingcontrols');
-		$sControls = $sControls->fetchPage();
-
 		$parameters = [];
 
 		// assign default values
