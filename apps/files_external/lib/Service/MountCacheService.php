@@ -20,16 +20,19 @@ use OCP\EventDispatcher\Event as T;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\IMimeTypeLoader;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Events\UserCreatedEvent;
 
 /**
  * Listens to config events and update the mounts for the applicable users
  *
- * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|Event>
+ * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|Event>
  */
 class MountCacheService implements IEventListener {
 	public function __construct(
@@ -37,6 +40,7 @@ class MountCacheService implements IEventListener {
 		private readonly ConfigAdapter $configAdapter,
 		private readonly IUserManager $userManager,
 		private readonly IGroupManager $groupManager,
+		private readonly GlobalStoragesService $storagesService,
 	) {
 	}
 
@@ -49,6 +53,18 @@ class MountCacheService implements IEventListener {
 		}
 		if ($event instanceof StorageUpdatedEvent) {
 			$this->registerUpdatedStorage($event->getOldConfig(), $event->getNewConfig());
+		}
+		if ($event instanceof UserAddedEvent) {
+			$this->addUserToGroup($event->getGroup(), $event->getUser());
+		}
+		if ($event instanceof UserRemovedEvent) {
+			$this->removeUserFromGroup($event->getGroup(), $event->getUser());
+		}
+		if ($event instanceof BeforeGroupDeletedEvent) {
+			$this->removeGroup($event->getGroup());
+		}
+		if ($event instanceof UserCreatedEvent) {
+			$this->addUser($event->getUser());
 		}
 	}
 
@@ -151,5 +167,39 @@ class MountCacheService implements IEventListener {
 			ConfigAdapter::class,
 			$storage->getId(),
 		);
+	}
+
+	private function removeUserFromGroup(IGroup $group, IUser $user) {
+		$storages = $this->storagesService->getAllStoragesForGroup($group);
+		foreach ($storages as $storage) {
+			if (!in_array($user->getUID(), $storage->getApplicableUsers())) {
+				$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+			}
+		}
+	}
+
+	private function addUserToGroup(IGroup $group, IUser $user) {
+		$storages = $this->storagesService->getAllStoragesForGroup($group);
+		foreach ($storages as $storage) {
+			$this->registerForUser($user, $storage);
+		}
+	}
+
+	private function removeGroup(IGroup $group) {
+		$storages = $this->storagesService->getAllStoragesForGroup($group);
+		foreach ($storages as $storage) {
+			foreach ($group->searchUsers('') as $user) {
+				if (!in_array($user->getUID(), $storage->getApplicableUsers())) {
+					$this->userMountCache->removeMount($storage->getMountPointForUser($user));
+				}
+			}
+		}
+	}
+
+	private function addUser(IUser $user) {
+		$storages = $this->storagesService->getAllGlobalStorages();
+		foreach ($storages as $storage) {
+			$this->registerForUser($user, $storage);
+		}
 	}
 }

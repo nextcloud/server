@@ -54,7 +54,11 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 
 /**
@@ -76,9 +80,15 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
+
 		$context->registerEventListener(StorageCreatedEvent::class, MountCacheService::class);
 		$context->registerEventListener(StorageDeletedEvent::class, MountCacheService::class);
 		$context->registerEventListener(StorageUpdatedEvent::class, MountCacheService::class);
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserCreatedEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserAddedEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserRemovedEvent::class, MountCacheService::class);
+
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
