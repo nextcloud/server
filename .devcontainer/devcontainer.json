@@ -12,11 +12,10 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"felixfbecker.php-debug",
-				"felixfbecker.php-intellisense",
 				"ms-azuretools.vscode-docker",
 				"xdebug.php-debug",
-				"donjayamanne.githistory"
+				"donjayamanne.githistory",
+				"bmewburn.vscode-intelephense-client"
 			],
 			"settings": {
 				"php.suggest.basic": false

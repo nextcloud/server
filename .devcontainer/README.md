@@ -74,3 +74,14 @@ The Apache webserver is already configured to automatically try to connect to a 
 listening on port `9003`. To start the VSCode debugger process, use the delivered debug profile `Listen for XDebug`.
 After you started the VSCode debugger, just navigate to the appropriate Nextcloud URL to get your
 debug hits. 
+
+## Developing with `app_api` and HaRP
+
+The Devcontainer already comes with [HaRP](https://github.com/nextcloud/HaRP) preconfigured so that you can directly
+start developing the [`app_api`](https://github.com/nextcloud/app_api) app. The only thing you need to do is execute `./.devcontainer/scripts/setup-app-api-dev.sh` once after the Devcontainer started.
+
+This script will:
+
+1. Clone the `app_api` repository into the `/var/www/html/apps` folder of the Devcontainer instance.
+2. Enable the app via CLI (`php occ app:enable app_api`).
+3. Register the HaRP daemon which fits to the Devcontainer configuration.
