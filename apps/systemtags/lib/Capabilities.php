@@ -14,12 +14,11 @@ class Capabilities implements ICapability {
 	/**
 	 * @return array{systemtags: array{enabled: true}}
 	 */
-	public function getCapabilities() {
-		$capabilities = [
+	public function getCapabilities(): array {
+		return [
 			'systemtags' => [
 				'enabled' => true,
 			]
 		];
-		return $capabilities;
 	}
 }

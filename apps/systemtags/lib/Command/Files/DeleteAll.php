@@ -11,6 +11,7 @@ namespace OCA\SystemTags\Command\Files;
 
 use OC\Core\Command\Info\FileUtils;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,25 +26,27 @@ class DeleteAll extends Command {
 		parent::__construct();
 	}
 
+	#[Override]
 	protected function configure(): void {
 		$this->setName('tag:files:delete-all')
 			->setDescription('Delete all system-tags from a file or folder')
 			->addArgument('target', InputArgument::REQUIRED, 'file id or path');
 	}
 
+	#[Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$targetInput = $input->getArgument('target');
 		$targetNode = $this->fileUtils->getNode($targetInput);
 
-		if (! $targetNode) {
+		if (!$targetNode) {
 			$output->writeln("<error>file $targetInput not found</error>");
-			return 1;
+			return Command::FAILURE;
 		}
 
 		$tags = $this->systemTagObjectMapper->getTagIdsForObjects([$targetNode->getId()], 'files');
 		$this->systemTagObjectMapper->unassignTags((string)$targetNode->getId(), 'files', $tags[$targetNode->getId()]);
 		$output->writeln('<info>all tags removed.</info>');
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }

@@ -16,6 +16,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Snowflake\IGenerator;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ManagerEvent;
@@ -42,6 +43,7 @@ class SystemTagManager implements ISystemTagManager {
 		protected IEventDispatcher $dispatcher,
 		private IUserSession $userSession,
 		private IAppConfig $appConfig,
+		private IGenerator $generator,
 	) {
 		$query = $this->connection->getQueryBuilder();
 		$this->selectTagQuery = $query->select('*')
@@ -167,8 +169,10 @@ class SystemTagManager implements ISystemTagManager {
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
 		$query = $this->connection->getQueryBuilder();
+		$tagId = $this->generator->nextId();
 		$query->insert(self::TAG_TABLE)
 			->values([
+				'id' => $query->createNamedParameter($tagId),
 				'name' => $query->createNamedParameter($truncatedTagName),
 				'visibility' => $query->createNamedParameter($userVisible ? 1 : 0),
 				'editable' => $query->createNamedParameter($userAssignable ? 1 : 0),
@@ -188,10 +192,8 @@ class SystemTagManager implements ISystemTagManager {
 			throw $e;
 		}
 
-		$tagId = $query->getLastInsertId();
-
 		$tag = new SystemTag(
-			(string)$tagId,
+			$tagId,
 			$truncatedTagName,
 			$userVisible,
 			$userAssignable

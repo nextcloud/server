@@ -30,7 +30,7 @@ export function parseTags(tags: { props: DAVResultResponseProps }[]): TagWithId[
  *
  * @param url URL to parse
  */
-export function parseIdFromLocation(url: string): number {
+export function parseIdFromLocation(url: string): string {
 	const queryPos = url.indexOf('?')
 	if (queryPos > 0) {
 		url = url.substring(0, queryPos)
@@ -45,7 +45,7 @@ export function parseIdFromLocation(url: string): number {
 		// so we take the part before that
 	} while (!result && parts.length > 0)
 
-	return Number(result)
+	return result
 }
 
 /**
