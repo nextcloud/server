@@ -360,7 +360,7 @@ OC.L10N.register(
     "Database host" : "ساندان مۇلازىمېتىرى",
     "localhost" : "يەرلىك ماشىنا",
     "Installing …" : "قاچىلاۋاتىدۇ  ...",
-    "Install" : "قاچىلاش",
+    "Install" : "قاچىلا",
     "Need help?" : "ياردەمگە ئېھتىياجلىقمۇ؟",
     "See the documentation" : "ھۆججەتلەرنى كۆرۈڭ",
     "{name} version {version} and above" : "{name} نەشرى {version} ۋە ئۇنىڭدىن يۇقىرى",
@@ -535,6 +535,6 @@ OC.L10N.register(
     "Configure the database" : "سانداننى سەپلەڭ",
     "Only %s is available." : "پەقەت %s نىلا ئىشلەتكىلى بولىدۇ.",
     "Database account" : "ساندان ھېساباتى",
-    "Installing …" : "قاچىلاش…"
+    "Installing …" : "قاچىلاۋاتىدۇ…"
 },
 "nplurals=2; plural=(n != 1);");
