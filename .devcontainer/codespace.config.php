@@ -12,9 +12,11 @@ $CONFIG = [
     'mail_smtpmode' => 'smtp',
     'mail_sendmailmode' => 'smtp',
     'mail_domain' => 'example.com',
-    'mail_smtphost' => 'localhost',
+    'mail_smtphost' => 'mailhog',
     'mail_smtpport' => '1025',
     'memcache.local' => '\OC\Memcache\APCu',
+    'trusted_domains' => ['nextclouddev'],
+    'loglevel' => 1,
 ];
 
 if(is_string($codespaceName) && !empty($codespaceName) && is_string($codespaceDomain) && !empty($codespaceDomain)) {
@@ -22,5 +24,5 @@ if(is_string($codespaceName) && !empty($codespaceName) && is_string($codespaceDo
     $CONFIG['overwritehost'] = $host;
     $CONFIG['overwrite.cli.url'] = 'https://' . $host;
     $CONFIG['overwriteprotocol'] = 'https';
-	$CONFIG['trusted_domains'] = [ $host ];
+	$CONFIG['trusted_domains'][] = $host;
 }

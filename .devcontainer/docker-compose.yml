@@ -10,8 +10,8 @@ services:
     command: /var/www/html/.devcontainer/entrypoint.sh
     ports:
       - 80:80
-      - 8080:8080
-      - 8025:8025
+    networks:
+      - nextclouddev-network
 
   db:
     image: postgres
@@ -21,17 +21,50 @@ services:
       PGDATA: /data/postgres
     volumes:
       - db:/data/postgres
-    network_mode: service:nextclouddev
+    ports:
+      - 5432:5432
+    networks:
+      - nextclouddev-network
 
   adminer:
     image: adminer
     restart: always
-    network_mode: service:nextclouddev
+    ports:
+      - 8080:8080
+    networks:
+      - nextclouddev-network
 
   mailhog:
     image: mailhog/mailhog
     restart: always
-    network_mode: service:nextclouddev
+    ports:
+      - 8025:8025
+    networks:
+      - nextclouddev-network
+
+  appapi-harp:
+    image: ghcr.io/nextcloud/nextcloud-appapi-harp:release
+    container_name: appapi-harp
+    restart: always
+    environment:
+      - HP_SHARED_KEY=some_very_secure_password
+      - NC_INSTANCE_URL=http://nextclouddev
+      - HP_BLACKLIST_COUNT=10000
+      - HP_BLACKLIST_WINDOW=1
+      - HP_LOG_LEVEL=DEBUG
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - certs:/certs
+    ports:
+      - 8780:8780
+      - 8782:8782
+    networks:
+      - nextclouddev-network
 
 volumes:
   db:
+  certs:
+
+networks:
+  nextclouddev-network:
+    name: nextclouddev-network

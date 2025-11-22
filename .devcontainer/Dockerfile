@@ -77,10 +77,15 @@ RUN (getent passwd 1000 && userdel -r $(getent passwd 1000 | cut -d: -f1)) || tr
     (getent group 1000 && groupdel $(getent group 1000 | cut -d: -f1)) || true && \
     groupadd -g 1000 ${APACHE_RUN_GROUP} && \
     useradd -u 1000 -g 1000 -ms /bin/bash ${APACHE_RUN_USER} && \
-	adduser ${APACHE_RUN_USER} sudo && \
-	echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    adduser ${APACHE_RUN_USER} sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
 	sed -ri "s/^export APACHE_RUN_USER=.*$/export APACHE_RUN_USER=${APACHE_RUN_USER}/" "/etc/apache2/envvars" && \
     sed -ri "s/^export APACHE_RUN_GROUP=.*$/export APACHE_RUN_GROUP=${APACHE_RUN_GROUP}/" "/etc/apache2/envvars"
+
+# Setup HaRP proxy in Apache
+COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
+RUN a2enmod proxy proxy_http headers && \
+    service apache2 restart
 
 USER devcontainer
 
