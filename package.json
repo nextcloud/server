@@ -187,7 +187,7 @@
     "webpack": "^5.102.1",
     "webpack-cli": "^6.0.1",
     "webpack-merge": "^6.0.1",
-    "workbox-webpack-plugin": "^7.3.0"
+    "workbox-webpack-plugin": "^7.4.0"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
