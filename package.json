@@ -84,7 +84,7 @@
     "stylelint-use-logical": "^2.1.2",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
-    "vite": "^7.2.2",
+    "vite": "^7.2.4",
     "vitest": "^3.2.4",
     "wait-on": "^9.0.3"
   },
