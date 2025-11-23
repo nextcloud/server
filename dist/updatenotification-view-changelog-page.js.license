@@ -71,7 +71,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - marked
-	- version: 16.4.1
+	- version: 16.4.2
 	- license: MIT
 - process
 	- version: 0.11.10
