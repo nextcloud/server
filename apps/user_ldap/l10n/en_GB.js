@@ -19,6 +19,7 @@ OC.L10N.register(
     "Valid configuration, connection established!" : "Valid configuration, connection established!",
     "Please login with the new password" : "Please login with the new password",
     "Action does not exist" : "Action does not exist",
+    "Unsupported subject " : "Unsupported subject ",
     "Failed to clear the mappings." : "Failed to clear the mappings.",
     "LDAP User backend" : "LDAP User backend",
     "Your password will expire tomorrow." : "Your password will expire tomorrow.",

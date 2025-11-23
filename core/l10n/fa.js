@@ -223,6 +223,7 @@ OC.L10N.register(
     "Search in current app" : "جستجو در برنامه فعلی.",
     "Clear search" : "پاک کردن جستجو.",
     "Search everywhere" : "جستجو در هر کجا.",
+    "Searching …" : "درحال جستجو",
     "Start typing to search" : "برای جستجو شروع به تایپ کنید.",
     "No matching results" : "نتیجه مطابق یافت نشد.",
     "Today" : "امروز.",
