@@ -8,7 +8,6 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 
@@ -24,7 +23,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.0.1
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.34.0
