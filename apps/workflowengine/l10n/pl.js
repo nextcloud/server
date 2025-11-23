@@ -69,6 +69,7 @@ OC.L10N.register(
     "Select a user agent" : "Wybierz klienta użytkownika",
     "Select groups" : "Wybierz grupy",
     "Groups" : "Grupy",
+    "Type to search for group …" : "Wpisz aby wyszukać grupę …",
     "At least one event must be selected" : "Należy wybrać co najmniej jedno wydarzenie",
     "Add new flow" : "Dodaj nowy przepływ",
     "The configuration is invalid" : "Konfiguracja jest nieprawidłowa",
@@ -76,6 +77,7 @@ OC.L10N.register(
     "Save" : "Zapisz",
     "When" : "Kiedy",
     "and" : "i",
+    "Add a new filter" : "Dodaj nowy filtr",
     "Cancel" : "Anuluj",
     "Delete" : "Usuń",
     "Available flows" : "Dostępne przepływy",
@@ -110,7 +112,9 @@ OC.L10N.register(
     "between" : "pomiędzy",
     "not between" : "nie pomiędzy",
     "Request user agent" : "Żądanie agenta użytkownika",
+    "Group membership" : "Członkostwo grupy",
     "is member of" : "jest członkiem w",
-    "is not member of" : "nie jest członkiem w"
+    "is not member of" : "nie jest członkiem w",
+    "Type to search for group …" : "Wpisz, aby wyszukać grupę …"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

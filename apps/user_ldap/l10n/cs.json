@@ -17,6 +17,7 @@
     "Valid configuration, connection established!" : "Nastavení je v pořádku a spojení bylo navázáno.",
     "Please login with the new password" : "Přihlaste se pomocí nového hesla",
     "Action does not exist" : "Tato akce neexistuje",
+    "Unsupported subject " : "Nepodporovaný předmět",
     "Failed to clear the mappings." : "Mapování se nepodařilo zrušit.",
     "LDAP User backend" : "Podpůrná vrstva pro uživatele z LDAP",
     "Your password will expire tomorrow." : "Platnost hesla zítra skončí.",

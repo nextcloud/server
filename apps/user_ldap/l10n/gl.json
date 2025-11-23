@@ -17,6 +17,7 @@
     "Valid configuration, connection established!" : "A configuración é correcta, estabeleceuse a conexión!",
     "Please login with the new password" : "Acceda co novo contrasinal",
     "Action does not exist" : "Non existe esta acción",
+    "Unsupported subject " : "Suxeito non admitido",
     "Failed to clear the mappings." : "Non foi posíbel limpar as asignacións.",
     "LDAP User backend" : "Infraestrutura do usuario LDAP",
     "Your password will expire tomorrow." : "O seu contrasinal caduca mañá.",
