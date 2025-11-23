@@ -176,7 +176,7 @@ OC.L10N.register(
     "HTML document" : "Document HTML",
     "Markdown document" : "Document Markdown",
     "Org-mode file" : "Fichier Org-mode",
-    "Plain text document" : "Document texte brut",
+    "Plain text document" : "Document en texte brut",
     "Rich Text document" : "Document texte enrichi",
     "Electronic business card" : "Carte de visite électronique",
     "C++ source code" : "Code source C++",

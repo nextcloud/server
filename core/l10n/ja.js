@@ -263,7 +263,7 @@ OC.L10N.register(
     "An internal error occurred." : "内部エラーが発生しました。",
     "Please try again or contact your administrator." : "もう一度やり直してみるか、管理者にお問い合わせください。",
     "Password" : "パスワード",
-    "Remember me" : "リマインド",
+    "Remember me" : "ログイン情報を記憶",
     "Log in with a device" : "デバイスを使ってログインする",
     "Login or email" : "ログイン名またはEメール",
     "Your account is not setup for passwordless login." : "あなたのアカウントはパスワードなしでログインできるように設定されていません。",

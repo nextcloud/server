@@ -19,6 +19,7 @@ OC.L10N.register(
     "Valid configuration, connection established!" : "Cumraíocht bhailí, nasc bunaithe!",
     "Please login with the new password" : "Logáil isteach leis an bpasfhocal nua le do thoil",
     "Action does not exist" : "Ní gníomh ann",
+    "Unsupported subject " : "Ábhar gan tacaíocht",
     "Failed to clear the mappings." : "Theip ar na mapálacha a ghlanadh.",
     "LDAP User backend" : "Inneall Úsáideora LDAP",
     "Your password will expire tomorrow." : "Rachaidh do phasfhocal in éag amárach.",
