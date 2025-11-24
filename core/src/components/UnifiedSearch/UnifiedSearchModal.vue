@@ -24,13 +24,13 @@
 		<div class="unified-search-modal__header">
 			<NcInputField
 				ref="searchInput"
-				v-model="searchQuery"
+				v-model:value="searchQuery"
 				data-cy-unified-search-input
 				type="text"
 				:label="t('core', 'Search apps, files, tags, messages') + '...'"
 				@update:value="debouncedFind" />
 			<div class="unified-search-modal__filters" data-cy-unified-search-filters>
-				<NcActions :menu-name="t('core', 'Places')" :open.sync="providerActionMenuIsOpen" data-cy-unified-search-filter="places">
+				<NcActions v-model:open="providerActionMenuIsOpen" :menu-name="t('core', 'Places')" data-cy-unified-search-filter="places">
 					<template #icon>
 						<IconListBox :size="20" />
 					</template>
@@ -47,7 +47,7 @@
 						{{ provider.name }}
 					</NcActionButton>
 				</NcActions>
-				<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen" data-cy-unified-search-filter="date">
+				<NcActions v-model:open="dateActionMenuIsOpen" :menu-name="t('core', 'Date')" data-cy-unified-search-filter="date">
 					<template #icon>
 						<IconCalendarRange :size="20" />
 					</template>
@@ -567,10 +567,6 @@ export default defineComponent({
 				this.filters[existingPersonFilter].name = person.displayName
 			}
 
-			this.providers.forEach(async (provider, index) => {
-				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['person']))
-			})
-
 			this.debouncedFind(this.searchQuery)
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
@@ -628,7 +624,6 @@ export default defineComponent({
 				for (let i = 0; i < this.filters.length; i++) {
 					if (this.filters[i].id === filter.id) {
 						this.filters.splice(i, 1)
-						this.enableAllProviders()
 						break
 					}
 				}
@@ -669,9 +664,6 @@ export default defineComponent({
 				this.filters.push(this.dateFilter)
 			}
 
-			this.providers.forEach(async (provider, index) => {
-				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['since', 'until']))
-			})
 			this.debouncedFind(this.searchQuery)
 		},
 
