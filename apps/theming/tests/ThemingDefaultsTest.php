@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Tests;
 
+use OCA\Theming\ConfigLexicon;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
@@ -728,7 +729,7 @@ class ThemingDefaultsTest extends TestCase {
 			'theming-favicon-mime' => '\'jpeg\'',
 			'image-logoheader' => "url('custom-logoheader?v=0')",
 			'image-favicon' => "url('custom-favicon?v=0')",
-			'has-legal-links' => 'false'
+			'has-legal-links' => 'false',
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());
 	}
@@ -798,7 +799,7 @@ class ThemingDefaultsTest extends TestCase {
 			['core', 'test.png', false],
 			['core', 'manifest.json'],
 			['core', 'favicon.ico'],
-			['core', 'favicon-touch.png']
+			['core', 'favicon-touch.png'],
 		];
 	}
 
@@ -824,5 +825,36 @@ class ThemingDefaultsTest extends TestCase {
 				->willReturn('1234abcd');
 		}
 		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
+	}
+
+	public static function setTypesProvider(): array {
+		return [
+			[ConfigLexicon::BASE_URL, 'example.com', 'example.com'],
+			[ConfigLexicon::USER_THEMING_DISABLED, 'no', false],
+			[ConfigLexicon::USER_THEMING_DISABLED, 'true', true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('setTypesProvider')]
+	public function testSetTypes(string $setting, string $value, mixed $expected): void {
+		$setValue = null;
+		$cb = function ($setting, $value) use (&$setValue) {
+			if ($setting !== ConfigLexicon::CACHE_BUSTER) {
+				$setValue = $value;
+			}
+			return true;
+		};
+		$this->appConfig
+			->method('setAppValueBool')
+			->willReturnCallback($cb);
+		$this->appConfig
+			->method('setAppValueString')
+			->willReturnCallback($cb);
+		$this->appConfig
+			->method('setAppValueInt')
+			->willReturnCallback($cb);
+
+		$this->template->set($setting, $value);
+		$this->assertEquals($expected, $setValue);
 	}
 }
