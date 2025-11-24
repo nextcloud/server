@@ -95,7 +95,7 @@ class TeamManager implements ITeamManager {
 				$resources[] = $provider->getSharedWithList($teams, $userId);
 			} else {
 				foreach ($teams as $team) {
-					$resources[] = [$team->getId() => $provider->getSharedWith($team->getId())];
+					$resources[] = [$team => $provider->getSharedWith($team)];
 				}
 			}
 		}
