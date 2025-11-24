@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitAdminAudit
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\AdminAudit\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\AdminAudit\\' => 
+        'OCA\\AdminAudit\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

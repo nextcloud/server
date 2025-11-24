@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitWebhookListeners
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\WebhookListeners\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\WebhookListeners\\' => 
+        'OCA\\WebhookListeners\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

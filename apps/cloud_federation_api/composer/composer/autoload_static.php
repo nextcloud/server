@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitCloudFederationAPI
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\CloudFederationAPI\\' => 23,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\CloudFederationAPI\\' => 
+        'OCA\\CloudFederationAPI\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
