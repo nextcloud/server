@@ -14,15 +14,15 @@ use OCP\Migration\IRepairStep;
 
 class ShippedDashboardEnable implements IRepairStep {
 	public function __construct(
-		private IConfig $config,
+		private readonly IConfig $config,
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Remove old dashboard app config data';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$version = $this->config->getAppValue('dashboard', 'version', '7.0.0');
 		if (version_compare($version, '7.0.0', '<')) {
 			$this->config->deleteAppValues('dashboard');

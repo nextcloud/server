@@ -10,14 +10,12 @@ namespace OC\Repair\NC22;
 
 use OC\Core\BackgroundJobs\LookupServerSendCheckBackgroundJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class LookupServerSendCheck implements IRepairStep {
 	public function __construct(
-		private IJobList $jobList,
-		private IConfig $config,
+		private readonly IJobList $jobList,
 	) {
 	}
 

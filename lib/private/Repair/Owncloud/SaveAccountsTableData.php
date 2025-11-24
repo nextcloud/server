@@ -20,29 +20,19 @@ use OCP\PreConditionNotMetException;
 class SaveAccountsTableData implements IRepairStep {
 	public const BATCH_SIZE = 75;
 
-	protected $hasForeignKeyOnPersistentLocks = false;
+	protected bool $hasForeignKeyOnPersistentLocks = false;
 
-	/**
-	 * @param IDBConnection $db
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		protected IDBConnection $db,
 		protected IConfig $config,
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Copy data from accounts table when migrating from ownCloud';
 	}
 
-	/**
-	 * @param IOutput $output
-	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;
 		}
@@ -71,10 +61,7 @@ class SaveAccountsTableData implements IRepairStep {
 		$this->db->dropTable('accounts');
 	}
 
-	/**
-	 * @return bool
-	 */
-	protected function shouldRun() {
+	protected function shouldRun(): bool {
 		$schema = $this->db->createSchema();
 		$prefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
@@ -102,10 +89,9 @@ class SaveAccountsTableData implements IRepairStep {
 	}
 
 	/**
-	 * @param int $offset
 	 * @return int Number of copied users
 	 */
-	protected function runStep($offset) {
+	protected function runStep(int $offset): int {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
 			->from('accounts')
@@ -127,9 +113,7 @@ class SaveAccountsTableData implements IRepairStep {
 		while ($row = $result->fetch()) {
 			try {
 				$this->migrateUserInfo($update, $row);
-			} catch (PreConditionNotMetException $e) {
-				// Ignore and continue
-			} catch (\UnexpectedValueException $e) {
+			} catch (PreConditionNotMetException|\UnexpectedValueException) {
 				// Ignore and continue
 			}
 			$updatedUsers++;
@@ -140,12 +124,10 @@ class SaveAccountsTableData implements IRepairStep {
 	}
 
 	/**
-	 * @param IQueryBuilder $update
-	 * @param array $userdata
 	 * @throws PreConditionNotMetException
 	 * @throws \UnexpectedValueException
 	 */
-	protected function migrateUserInfo(IQueryBuilder $update, $userdata) {
+	protected function migrateUserInfo(IQueryBuilder $update, array $userdata): void {
 		$state = (int)$userdata['state'];
 		if ($state === 3) {
 			// Deleted user, ignore

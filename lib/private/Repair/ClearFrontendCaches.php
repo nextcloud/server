@@ -18,11 +18,11 @@ class ClearFrontendCaches implements IRepairStep {
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Clear frontend caches';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		try {
 			$c = $this->cacheFactory->createDistributed('imagePath');
 			$c->clear();

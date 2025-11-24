@@ -15,7 +15,7 @@ class CleanUpAbandonedApps implements IRepairStep {
 	protected const ABANDONED_APPS = ['accessibility', 'files_videoplayer'];
 
 	public function __construct(
-		private IConfig $config,
+		private readonly IConfig $config,
 	) {
 	}
 

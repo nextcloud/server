@@ -16,8 +16,8 @@ use OCP\Security\ISecureRandom;
 
 class AddMissingSecretJob implements IRepairStep {
 	public function __construct(
-		private IConfig $config,
-		private ISecureRandom $random,
+		private readonly IConfig $config,
+		private readonly ISecureRandom $random,
 	) {
 	}
 

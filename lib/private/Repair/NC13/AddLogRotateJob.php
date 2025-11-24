@@ -13,15 +13,15 @@ use OCP\Migration\IRepairStep;
 
 class AddLogRotateJob implements IRepairStep {
 	public function __construct(
-		private IJobList $jobList,
+		private readonly IJobList $jobList,
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Add log rotate job';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$this->jobList->add(Rotate::class);
 	}
 }

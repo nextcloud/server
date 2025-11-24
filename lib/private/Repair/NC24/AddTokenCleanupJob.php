@@ -15,7 +15,7 @@ use OCP\Migration\IRepairStep;
 
 class AddTokenCleanupJob implements IRepairStep {
 	public function __construct(
-		private IJobList $jobList,
+		private readonly IJobList $jobList,
 	) {
 	}
 

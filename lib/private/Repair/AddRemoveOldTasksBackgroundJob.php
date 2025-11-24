@@ -17,7 +17,7 @@ use OCP\Migration\IRepairStep;
 
 class AddRemoveOldTasksBackgroundJob implements IRepairStep {
 	public function __construct(
-		private IJobList $jobList,
+		private readonly IJobList $jobList,
 	) {
 	}
 
