@@ -92,7 +92,11 @@ class CacheJail extends CacheWrapper {
 
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['path'])) {
-			$entry['path'] = $this->getJailedPath($entry['path']);
+			$sourcePath = $entry['path'];
+			$entry['path'] = $this->getJailedPath($sourcePath);
+			if (is_null($entry['path'])) {
+				$this->logger->error("'$sourcePath' is not inside jail path {$this->root}", ['entry' => $entry]);
+			}
 		}
 		return $entry;
 	}

@@ -1528,7 +1528,7 @@ class View {
 				$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 			}
 			if (is_null($content['path'])) {
-				throw new \Exception('Directory listing of "' . $path . '" contains item with null path');
+				throw new \Exception('Directory listing of "' . $path . '" contains item with null path (' . $content['fileid'] . ')');
 			}
 			$ownerId = $storage->getOwner($content['path']);
 			if ($ownerId !== false) {
