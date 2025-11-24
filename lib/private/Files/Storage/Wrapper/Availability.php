@@ -228,6 +228,10 @@ class Availability extends Wrapper {
 		return $this->handleAvailability('getDirectDownload', $path);
 	}
 
+	public function getDirectDownloadById(string $fileId): array|false {
+		return $this->handleAvailability('getDirectDownloadById', $fileId);
+	}
+
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		return $this->handleAvailability('copyFromStorage', $sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}

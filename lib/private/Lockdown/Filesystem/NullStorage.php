@@ -145,6 +145,10 @@ class NullStorage extends Common {
 		return false;
 	}
 
+	public function getDirectDownloadById(string $fileId): array|false {
+		return false;
+	}
+
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}

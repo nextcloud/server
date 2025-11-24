@@ -40,6 +40,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Server;
 use OCP\Share\IShare;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -558,8 +559,15 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return parent::getUnjailedPath($path);
 	}
 
+	#[Override]
 	public function getDirectDownload(string $path): array|false {
 		// disable direct download for shares
-		return [];
+		return false;
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		// disable direct download for shares
+		return false;
 	}
 }

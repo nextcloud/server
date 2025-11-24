@@ -302,14 +302,27 @@ interface IStorage {
 	public function instanceOfStorage(string $class);
 
 	/**
-	 * A custom storage implementation can return an url for direct download of a give file.
+	 * A custom storage implementation can return a url for direct download of a give file.
 	 *
-	 * For now the returned array can hold the parameter url - in future more attributes might follow.
+	 * For now the returned array can hold the parameter url and expiration - in future more attributes might follow.
 	 *
-	 * @return array|false
+	 * @param string $path Either the path or the fileId
+	 * @return array{url: ?string, expiration: ?int}|false
 	 * @since 9.0.0
+	 * @deprecated Use IStorage::getDirectDownloadById instead.
 	 */
 	public function getDirectDownload(string $path);
+
+	/**
+	 * A custom storage implementation can return a url for direct download of a give file.
+	 *
+	 * For now the returned array can hold the parameter url and expiration - in future more attributes might follow.
+	 *
+	 * @param string $fileId The fileId of the file.
+	 * @return array{url: ?string, expiration: ?int}|false
+	 * @since 33.0.0
+	 */
+	public function getDirectDownloadById(string $fileId): array|false;
 
 	/**
 	 * @return void
