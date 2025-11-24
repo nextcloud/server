@@ -22,7 +22,9 @@ vi.mock('@nextcloud/axios', async (origial) => ({ ...(await origial()), default:
 vi.mock('@nextcloud/auth')
 
 const errorSpy = vi.spyOn(window.console, 'error').mockImplementation(() => {})
-beforeEach(() => errorSpy.mockClear())
+beforeEach(() => {
+	vi.resetAllMocks()
+})
 
 describe('files_trashbin: file actions - restore action', () => {
 	it('has id set', () => {

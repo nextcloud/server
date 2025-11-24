@@ -29,10 +29,10 @@
     "sass:watch": "sass --watch --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
     "stylelint": "stylelint $(for appdir in $(ls apps); do if ! $(git check-ignore -q \"apps/$appdir\"); then printf \"'apps/$appdir/**/*.{scss,vue}' \"; fi; done) 'core/**/*.{scss,vue}'",
     "stylelint:fix": "npm run stylelint -- --fix",
-    "test": "vitest run; cd build/frontend-legacy && npm run test",
-    "test:coverage": "vitest run --coverage --reporter=default",
-    "test:update-snapshots": "vitest run --update; cd build/frontend-legacy && npm run test:update-snapshots",
-    "test:watch": "concurrently 'vitest watch' 'cd build/frontend-legacy && npm run test:watch'",
+    "test": "build/demi.sh test",
+    "test:coverage": "build/demi.sh test:coverage",
+    "test:update-snapshots": "build/demi.sh test:update-snapshots",
+    "test:watch": "build/demi.sh --parallel test:watch",
     "watch": "build/demi.sh --parallel watch"
   },
   "browserslist": [
@@ -61,7 +61,7 @@
     "@testing-library/vue": "^8.1.0",
     "@types/dockerode": "^3.3.47",
     "@types/wait-on": "^5.3.4",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.13",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "@zip.js/zip.js": "^2.8.11",
@@ -85,7 +85,7 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
     "vite": "^7.2.4",
-    "vitest": "^3.2.4",
+    "vitest": "^4.0.13",
     "wait-on": "^9.0.3"
   },
   "engines": {
