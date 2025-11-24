@@ -44,7 +44,7 @@ class Job extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobId = (int)$input->getArgument('job-id');
+		$jobId = (string)$input->getArgument('job-id');
 
 		$job = $this->jobList->getById($jobId);
 		if ($job === null) {
@@ -87,7 +87,7 @@ class Job extends Command {
 		return 0;
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
+	protected function printJobInfo(string $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
