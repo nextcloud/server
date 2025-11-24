@@ -3,8 +3,12 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div :class="'theming__preview--' + theme.id" class="theming__preview">
-		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
+	<li :class="'theming__preview--' + theme.id" class="theming__preview">
+		<img
+			alt=""
+			class="theming__preview-image"
+			:src="imageUrl"
+			@click="onToggle">
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
 			<p class="theming__preview-explanation">
@@ -18,104 +22,88 @@
 			<NcCheckboxRadioSwitch
 				v-show="!enforced"
 				class="theming__preview-toggle"
-				:checked.sync="checked"
+				:model-value="checkboxModelValue"
 				:disabled="enforced"
-				:name="name"
-				:type="switchType">
+				:name="isSwitch ? undefined : name"
+				:type="isSwitch ? 'switch' : 'radio'"
+				:value="isSwitch ? undefined : theme.id"
+				@update:model-value="onToggle">
 				{{ theme.enableLabel }}
 			</NcCheckboxRadioSwitch>
 		</div>
-	</div>
+	</li>
 </template>
 
 <script>
 import { generateFilePath } from '@nextcloud/router'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import { logger } from '../logger.ts'
 
 export default {
-	name: 'ItemPreview',
+	name: 'ThemeListItem',
 	components: {
 		NcCheckboxRadioSwitch,
 	},
 
 	props: {
+		/**
+		 * If the theme is enforced by the admin
+		 */
 		enforced: {
 			type: Boolean,
 			default: false,
 		},
 
-		selected: {
-			type: Boolean,
-			default: false,
-		},
-
+		/**
+		 * The theme object
+		 */
 		theme: {
 			type: Object,
 			required: true,
 		},
 
-		type: {
+		/**
+		 * The name for the radio input to group them.
+		 */
+		name: {
 			type: String,
 			default: '',
 		},
 
-		unique: {
+		/**
+		 * Whether to use a switch instead of a radio
+		 */
+		isSwitch: {
 			type: Boolean,
 			default: false,
 		},
 	},
 
+	emits: ['selected'],
+
 	computed: {
-		switchType() {
-			return this.unique ? 'switch' : 'radio'
+		checkboxModelValue() {
+			if (this.isSwitch) {
+				return this.enforced || this.theme.enabled
+			}
+			if (this.enforced || this.theme.enabled) {
+				return this.theme.id
+			}
+			return ''
 		},
 
-		name() {
-			return !this.unique ? this.type : null
-		},
-
-		img() {
+		imageUrl() {
 			return generateFilePath('theming', 'img', this.theme.id + '.jpg')
-		},
-
-		checked: {
-			get() {
-				return this.selected
-			},
-
-			set(checked) {
-				if (this.enforced) {
-					return
-				}
-
-				logger.debug('Changed theme', this.theme.id, checked)
-
-				// If this is a radio, we can only enable
-				if (!this.unique) {
-					this.$emit('change', { enabled: true, id: this.theme.id })
-					return
-				}
-
-				// If this is a switch, we can disable the theme
-				this.$emit('change', { enabled: checked === true, id: this.theme.id })
-			},
 		},
 	},
 
 	methods: {
-		onToggle() {
+		onToggle(value) {
 			if (this.enforced) {
 				return
 			}
-
-			if (this.switchType === 'radio') {
-				this.checked = true
-				return
+			if (this.isSwitch || (value === this.theme.id) !== this.theme.enabled) {
+				this.$emit('selected')
 			}
-
-			// Invert state
-			this.checked = !this.checked
 		},
 	},
 }

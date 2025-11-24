@@ -16,7 +16,7 @@ SPDX-FileCopyrightText = "2012-2019 Abbie Gonzalez <https://abbiecod.es|support@
 SPDX-License-Identifier = "OFL-1.1-RFN"
 
 [[annotations]]
-path = ["img/dark-highcontrast.jpg", "img/dark.jpg", "img/default-source.svg", "img/default.jpg", "img/light-highcontrast.jpg", "img/light.jpg", "img/opendyslexic.jpg"]
+path = ["img/dark-highcontrast.jpg", "img/dark.jpg", "img/default-source.svg", "img/default.jpg", "img/light-highcontrast.jpg", "img/light.jpg", "img/opendyslexic.jpg", "img/reduced-motion.jpg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
