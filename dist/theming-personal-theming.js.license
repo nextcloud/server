@@ -30,7 +30,6 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Shuhei Kagawa
 SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
@@ -100,11 +99,8 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/browser-storage
 	- version: 0.5.0
 	- license: GPL-3.0-or-later
-- @nextcloud/initial-state
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
-	- version: 1.2.0
+	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @ckpack/vue-color
 	- version: 1.6.0
