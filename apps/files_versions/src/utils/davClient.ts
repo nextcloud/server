@@ -12,10 +12,10 @@ const rootPath = 'dav'
 const remote = generateRemoteUrl(rootPath)
 const client = createClient(remote)
 
-// set CSRF token header
 /**
+ * set CSRF token header
  *
- * @param token
+ * @param token - CSRF token
  */
 function setHeaders(token) {
 	client.setHeaders({
