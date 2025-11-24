@@ -80,7 +80,7 @@
     "jsdom": "^27.2.0",
     "jsdom-testing-mocks": "^1.16.0",
     "sass": "^1.94.0",
-    "stylelint": "^16.25.0",
+    "stylelint": "^16.26.0",
     "stylelint-use-logical": "^2.1.2",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
