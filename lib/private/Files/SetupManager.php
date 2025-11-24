@@ -60,7 +60,11 @@ class SetupManager {
 	private array $setupUsers = [];
 	// List of users for which all mounts are setup
 	private array $setupUsersComplete = [];
-	/** @var array<string, string[]> */
+	/**
+	 * An array of provider classes that have been set up, indexed by UserUID.
+	 *
+	 * @var array<string, class-string<IMountProvider>[]>
+	 */
 	private array $setupUserMountProviders = [];
 	private ICache $cache;
 	private bool $listeningForProviders;
@@ -213,7 +217,7 @@ class SetupManager {
 	}
 
 	/**
-	 * part of the user setup that is run only once per user
+	 * Part of the user setup that is run only once per user.
 	 */
 	private function oneTimeUserSetup(IUser $user) {
 		if ($this->isSetupStarted($user)) {
@@ -303,11 +307,16 @@ class SetupManager {
 	}
 
 	/**
+	 * Executes the one-time user setup and, if the user can access the
+	 * filesystem, executes $mountCallback.
+	 *
 	 * @param IUser $user
 	 * @param IMountPoint $mounts
 	 * @return void
 	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
+	 * @see self::oneTimeUserSetup()
+	 *
 	 */
 	private function setupForUserWith(IUser $user, callable $mountCallback): void {
 		$this->oneTimeUserSetup($user);
