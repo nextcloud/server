@@ -20,10 +20,9 @@ use Test\TestCase;
 
 class TestCollationRepair extends Collation {
 	/**
-	 * @param IDBConnection $connection
 	 * @return string[]
 	 */
-	public function getAllNonUTF8BinTables(IDBConnection $connection) {
+	public function getAllNonUTF8BinTables(IDBConnection $connection): array {
 		return parent::getAllNonUTF8BinTables($connection);
 	}
 }
@@ -49,7 +48,6 @@ class RepairCollationTest extends TestCase {
 		$this->connection = Server::get(ConnectionAdapter::class);
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
 			$this->markTestSkipped('Test only relevant on MySql');
-			return;
 		}
 
 		$this->logger = $this->createMock(LoggerInterface::class);

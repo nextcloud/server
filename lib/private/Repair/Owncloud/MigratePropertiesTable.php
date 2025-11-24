@@ -19,7 +19,7 @@ use OCP\Migration\IRepairStep;
 class MigratePropertiesTable implements IRepairStep {
 
 	public function __construct(
-		private Connection $db,
+		private readonly Connection $db,
 	) {
 	}
 

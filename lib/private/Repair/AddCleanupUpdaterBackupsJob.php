@@ -13,15 +13,15 @@ use OCP\Migration\IRepairStep;
 
 class AddCleanupUpdaterBackupsJob implements IRepairStep {
 	public function __construct(
-		protected IJobList $jobList,
+		protected readonly IJobList $jobList,
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Queue a one-time job to cleanup old backups of the updater';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$this->jobList->add(BackgroundCleanupUpdaterBackupsJob::class);
 	}
 }

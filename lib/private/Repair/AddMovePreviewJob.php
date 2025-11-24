@@ -10,18 +10,20 @@ use OC\Core\BackgroundJobs\PreviewMigrationJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Override;
 
 class AddMovePreviewJob implements IRepairStep {
 	public function __construct(
-		private IJobList $jobList,
+		private readonly IJobList $jobList,
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Queue a job to move the preview';
 	}
 
-	public function run(IOutput $output) {
+	#[Override]
+	public function run(IOutput $output): void {
 		$this->jobList->add(PreviewMigrationJob::class);
 	}
 }

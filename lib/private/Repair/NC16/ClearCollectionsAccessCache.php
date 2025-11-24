@@ -9,15 +9,14 @@ declare(strict_types=1);
 namespace OC\Repair\NC16;
 
 use OC\Collaboration\Resources\Manager;
-use OCP\Collaboration\Resources\IManager;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearCollectionsAccessCache implements IRepairStep {
 	public function __construct(
-		private IConfig $config,
-		private IManager $manager,
+		private readonly IConfig $config,
+		private readonly Manager $manager,
 	) {
 	}
 
@@ -32,9 +31,7 @@ class ClearCollectionsAccessCache implements IRepairStep {
 
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
-			/** @var Manager $man */
-			$man = $this->manager;
-			$man->invalidateAccessCacheForAllCollections();
+			$this->manager->invalidateAccessCacheForAllCollections();
 		}
 	}
 }

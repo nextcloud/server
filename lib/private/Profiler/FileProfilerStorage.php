@@ -30,10 +30,10 @@ class FileProfilerStorage {
 	 *
 	 * Example : "file:/path/to/the/storage/folder"
 	 *
+	 * @param string $folder Folder where profiler data are stored.
 	 * @throws \RuntimeException
 	 */
 	public function __construct(
-		/** @var string $folder Folder where profiler data are stored. */
 		private string $folder,
 	) {
 		if (!is_dir($this->folder) && @mkdir($this->folder, 0777, true) === false && !is_dir($this->folder)) {

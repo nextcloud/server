@@ -7,7 +7,6 @@
  */
 namespace OC;
 
-use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
@@ -57,42 +56,32 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
-use OC\Template\JSCombiner;
 use OCA\DAV\Migration\DeleteSchedulingObjects;
 use OCA\DAV\Migration\RemoveObjectProperties;
 use OCA\Files_Sharing\Repair\CleanupShareTarget;
-use OCP\AppFramework\QueryException;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJobList;
-use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\AppData\IAppDataFactory;
-use OCP\IAppConfig;
-use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroupManager;
-use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Repair implements IOutput {
-	/** @var IRepairStep[] */
+	/** @var list<IRepairStep> */
 	private array $repairSteps = [];
 
 	private string $currentStep;
 
 	public function __construct(
-		private IEventDispatcher $dispatcher,
-		private LoggerInterface $logger,
+		private readonly IEventDispatcher $dispatcher,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
-	/** @param IRepairStep[] $repairSteps */
+	/** @param list<IRepairStep> $repairSteps */
 	public function setRepairSteps(array $repairSteps): void {
 		$this->repairSteps = $repairSteps;
 	}
@@ -100,7 +89,7 @@ class Repair implements IOutput {
 	/**
 	 * Run a series of repair steps for common problems
 	 */
-	public function run() {
+	public function run(): void {
 		if (count($this->repairSteps) === 0) {
 			$this->dispatcher->dispatchTyped(new RepairInfoEvent('No repair steps available'));
 
@@ -124,19 +113,19 @@ class Repair implements IOutput {
 	/**
 	 * Add repair step
 	 *
-	 * @param IRepairStep|string $repairStep repair step
+	 * @param IRepairStep|class-string<IRepairStep> $repairStep repair step
 	 * @throws \Exception
 	 */
-	public function addStep($repairStep) {
+	public function addStep(IRepairStep|string $repairStep): void {
 		if (is_string($repairStep)) {
 			try {
 				$s = Server::get($repairStep);
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($repairStep)) {
 					try {
 						// Last resort: hope there are no constructor arguments
 						$s = new $repairStep();
-					} catch (Throwable $inner) {
+					} catch (Throwable) {
 						// Well, it was worth a try
 						throw new \Exception("Repair step '$repairStep' can't be instantiated: " . $e->getMessage(), 0, $e);
 					}
@@ -159,35 +148,28 @@ class Repair implements IOutput {
 	 * Returns the default repair steps to be run on the
 	 * command line or after an upgrade.
 	 *
-	 * @return IRepairStep[]
+	 * @return list<IRepairStep>
 	 */
 	public static function getRepairSteps(): array {
 		return [
 			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(IDBConnection::class), false),
-			new CleanTags(Server::get(IDBConnection::class), Server::get(IUserManager::class)),
-			new RepairInvalidShares(Server::get(IConfig::class), Server::get(IDBConnection::class)),
-			new MoveUpdaterStepFile(Server::get(IConfig::class)),
-			new MoveAvatars(
-				Server::get(IJobList::class),
-				Server::get(IConfig::class)
-			),
-			new CleanPreviews(
-				Server::get(IJobList::class),
-				Server::get(IUserManager::class),
-				Server::get(IConfig::class)
-			),
+			Server::get(CleanTags::class),
+			Server::get(RepairInvalidShares::class),
+			Server::get(MoveUpdaterStepFile::class),
+			Server::get(MoveAvatars::class),
+			Server::get(CleanPreviews::class),
 			Server::get(MigratePropertiesTable::class),
 			Server::get(MigrateOauthTables::class),
-			new UpdateLanguageCodes(Server::get(IDBConnection::class), Server::get(IConfig::class)),
-			new AddLogRotateJob(Server::get(IJobList::class)),
-			new ClearFrontendCaches(Server::get(ICacheFactory::class), Server::get(JSCombiner::class)),
+			Server::get(UpdateLanguageCodes::class),
+			Server::get(AddLogRotateJob::class),
+			Server::get(ClearFrontendCaches::class),
 			Server::get(ClearGeneratedAvatarCache::class),
-			new AddPreviewBackgroundCleanupJob(Server::get(IJobList::class)),
-			new AddCleanupUpdaterBackupsJob(Server::get(IJobList::class)),
-			new CleanupCardDAVPhotoCache(Server::get(IConfig::class), Server::get(IAppDataFactory::class), Server::get(LoggerInterface::class)),
-			new AddClenupLoginFlowV2BackgroundJob(Server::get(IJobList::class)),
-			new RemoveLinkShares(Server::get(IDBConnection::class), Server::get(IConfig::class), Server::get(IGroupManager::class), Server::get(INotificationManager::class), Server::get(ITimeFactory::class)),
-			new ClearCollectionsAccessCache(Server::get(IConfig::class), Server::get(IManager::class)),
+			Server::get(AddPreviewBackgroundCleanupJob::class),
+			Server::get(AddCleanupUpdaterBackupsJob::class),
+			Server::get(CleanupCardDAVPhotoCache::class),
+			Server::get(AddClenupLoginFlowV2BackgroundJob::class),
+			Server::get(RemoveLinkShares::class),
+			Server::get(ClearCollectionsAccessCache::class),
 			Server::get(ResetGeneratedAvatarFlag::class),
 			Server::get(EncryptionLegacyCipher::class),
 			Server::get(EncryptionMigration::class),
@@ -214,17 +196,13 @@ class Repair implements IOutput {
 	 * Returns expensive repair steps to be run on the
 	 * command line with a special option.
 	 *
-	 * @return IRepairStep[]
+	 * @return list<IRepairStep>
 	 */
-	public static function getExpensiveRepairSteps() {
+	public static function getExpensiveRepairSteps(): array {
 		return [
-			new OldGroupMembershipShares(Server::get(IDBConnection::class), Server::get(IGroupManager::class)),
-			new RemoveBrokenProperties(Server::get(IDBConnection::class)),
-			new RepairMimeTypes(
-				Server::get(IConfig::class),
-				Server::get(IAppConfig::class),
-				Server::get(IDBConnection::class)
-			),
+			Server::get(OldGroupMembershipShares::class),
+			Server::get(RemoveBrokenProperties::class),
+			Server::get(RepairMimeTypes::class),
 			Server::get(DeleteSchedulingObjects::class),
 			Server::get(RemoveObjectProperties::class),
 			Server::get(CleanupShareTarget::class),
@@ -235,19 +213,14 @@ class Repair implements IOutput {
 	 * Returns the repair steps to be run before an
 	 * upgrade.
 	 *
-	 * @return IRepairStep[]
+	 * @return list<IRepairStep>
 	 */
-	public static function getBeforeUpgradeRepairSteps() {
-		/** @var ConnectionAdapter $connectionAdapter */
-		$connectionAdapter = Server::get(ConnectionAdapter::class);
-		$config = Server::get(IConfig::class);
-		$steps = [
-			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), $connectionAdapter, true),
-			new SaveAccountsTableData($connectionAdapter, $config),
-			new DropAccountTermsTable($connectionAdapter),
+	public static function getBeforeUpgradeRepairSteps(): array {
+		return [
+			new Collation(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(IDBConnection::class), true),
+			Server::get(SaveAccountsTableData::class),
+			Server::get(DropAccountTermsTable::class),
 		];
-
-		return $steps;
 	}
 
 	public function debug(string $message): void {
@@ -256,7 +229,7 @@ class Repair implements IOutput {
 	/**
 	 * @param string $message
 	 */
-	public function info($message) {
+	public function info($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairInfoEvent($message));
 	}
@@ -264,7 +237,7 @@ class Repair implements IOutput {
 	/**
 	 * @param string $message
 	 */
-	public function warning($message) {
+	public function warning($message): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairWarningEvent($message));
 	}
@@ -272,7 +245,7 @@ class Repair implements IOutput {
 	/**
 	 * @param int $max
 	 */
-	public function startProgress($max = 0) {
+	public function startProgress($max = 0): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairStartEvent($max, $this->currentStep));
 	}
@@ -281,15 +254,12 @@ class Repair implements IOutput {
 	 * @param int $step number of step to advance
 	 * @param string $description
 	 */
-	public function advance($step = 1, $description = '') {
+	public function advance($step = 1, $description = ''): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairAdvanceEvent($step, $description));
 	}
 
-	/**
-	 * @param int $max
-	 */
-	public function finishProgress() {
+	public function finishProgress(): void {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairFinishEvent());
 	}

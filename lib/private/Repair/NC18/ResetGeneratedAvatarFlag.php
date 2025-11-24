@@ -15,8 +15,8 @@ use OCP\Migration\IRepairStep;
 
 class ResetGeneratedAvatarFlag implements IRepairStep {
 	public function __construct(
-		private IConfig $config,
-		private IDBConnection $connection,
+		private readonly IConfig $config,
+		private readonly IDBConnection $connection,
 	) {
 	}
 

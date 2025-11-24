@@ -12,19 +12,16 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveUpdaterStepFile implements IRepairStep {
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		protected $config,
+		protected IConfig $config,
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Move .step file of updater to backup location';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValueString('instanceid');
 

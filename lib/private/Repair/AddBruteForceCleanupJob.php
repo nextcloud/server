@@ -19,11 +19,11 @@ class AddBruteForceCleanupJob implements IRepairStep {
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Add job to cleanup the bruteforce entries';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$this->jobList->add(CleanupJob::class);
 	}
 }

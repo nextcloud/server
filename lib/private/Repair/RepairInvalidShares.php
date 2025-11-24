@@ -25,7 +25,7 @@ class RepairInvalidShares implements IRepairStep {
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Repair invalid shares';
 	}
 

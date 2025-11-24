@@ -20,29 +20,22 @@ use OCP\Migration\IRepairStep;
  */
 class CleanTags implements IRepairStep {
 
-	protected $deletedTags = 0;
+	protected int $deletedTags = 0;
 
-	/**
-	 * @param IDBConnection $connection
-	 * @param IUserManager $userManager
-	 */
 	public function __construct(
-		protected IDBConnection $connection,
-		protected IUserManager $userManager,
+		protected readonly IDBConnection $connection,
+		protected readonly IUserManager $userManager,
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Clean tags and favorites';
 	}
 
 	/**
 	 * Updates the configuration after running an update
 	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$this->deleteOrphanTags($output);
 		$this->deleteOrphanFileEntries($output);
 		$this->deleteOrphanTagEntries($output);
@@ -52,7 +45,7 @@ class CleanTags implements IRepairStep {
 	/**
 	 * Delete tags for deleted users
 	 */
-	protected function deleteOrphanTags(IOutput $output) {
+	protected function deleteOrphanTags(IOutput $output): void {
 		$offset = 0;
 		while ($this->checkTags($offset)) {
 			$offset += 50;
@@ -61,7 +54,7 @@ class CleanTags implements IRepairStep {
 		$output->info(sprintf('%d tags of deleted users have been removed.', $this->deletedTags));
 	}
 
-	protected function checkTags($offset) {
+	protected function checkTags(int $offset): bool {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('uid')
 			->from('vcategory')
@@ -98,7 +91,7 @@ class CleanTags implements IRepairStep {
 	/**
 	 * Delete tag entries for deleted files
 	 */
-	protected function deleteOrphanFileEntries(IOutput $output) {
+	protected function deleteOrphanFileEntries(IOutput $output): void {
 		$this->deleteOrphanEntries(
 			$output,
 			'%d tags for delete files have been removed.',
@@ -110,7 +103,7 @@ class CleanTags implements IRepairStep {
 	/**
 	 * Delete tag entries for deleted tags
 	 */
-	protected function deleteOrphanTagEntries(IOutput $output) {
+	protected function deleteOrphanTagEntries(IOutput $output): void {
 		$this->deleteOrphanEntries(
 			$output,
 			'%d tag entries for deleted tags have been removed.',
@@ -122,7 +115,7 @@ class CleanTags implements IRepairStep {
 	/**
 	 * Delete tags that have no entries
 	 */
-	protected function deleteOrphanCategoryEntries(IOutput $output) {
+	protected function deleteOrphanCategoryEntries(IOutput $output): void {
 		$this->deleteOrphanEntries(
 			$output,
 			'%d tags with no entries have been removed.',
@@ -138,15 +131,10 @@ class CleanTags implements IRepairStep {
 	 * whether $sourceNullColumn is null. If it is null, the entry in $deleteTable
 	 * is being deleted.
 	 *
-	 * @param string $repairInfo
-	 * @param string $deleteTable
-	 * @param string $deleteId
-	 * @param string $sourceTable
-	 * @param string $sourceId
 	 * @param string $sourceNullColumn If this column is null in the source table,
 	 *                                 the entry is deleted in the $deleteTable
 	 */
-	protected function deleteOrphanEntries(IOutput $output, $repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
+	protected function deleteOrphanEntries(IOutput $output, string $repairInfo, string $deleteTable, string $deleteId, string $sourceTable, string $sourceId, string $sourceNullColumn): void {
 		$qb = $this->connection->getQueryBuilder();
 
 		$qb->select('d.' . $deleteId)

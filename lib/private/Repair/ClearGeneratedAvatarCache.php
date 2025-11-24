@@ -14,9 +14,9 @@ use OCP\Migration\IRepairStep;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
 	public function __construct(
-		private IConfig $config,
-		protected AvatarManager $avatarManager,
-		private IJobList $jobList,
+		private readonly IConfig $config,
+		protected readonly AvatarManager $avatarManager,
+		private readonly IJobList $jobList,
 	) {
 	}
 

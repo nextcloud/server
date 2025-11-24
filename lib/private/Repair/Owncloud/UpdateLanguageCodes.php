@@ -13,27 +13,17 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class UpdateLanguageCodes implements IRepairStep {
-	/**
-	 * @param IDBConnection $connection
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		private IDBConnection $connection,
-		private IConfig $config,
+		private readonly IDBConnection $connection,
+		private readonly IConfig $config,
 	) {
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Repair language codes';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 
 		if (version_compare($versionFromBeforeUpdate, '12.0.0.13', '>')) {
