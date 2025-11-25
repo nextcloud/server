@@ -12,7 +12,6 @@ SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Christoph Wurst
 
 
 This file is generated from multiple sources. Included packages:
@@ -41,7 +40,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.0.1
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4

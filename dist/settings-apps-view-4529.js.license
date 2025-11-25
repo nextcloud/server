@@ -153,7 +153,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.2
+	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -195,10 +195,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.2
 	- license: MIT
 - @nextcloud/paths
-	- version: 2.2.2
+	- version: 2.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.0.1
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
 	- version: 0.3.0
@@ -585,7 +585,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - p-queue
-	- version: 9.0.0
+	- version: 9.0.1
 	- license: MIT
 - p-timeout
 	- version: 7.0.1

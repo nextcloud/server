@@ -10,8 +10,6 @@ name: Node handlebars tests
 
 on:
   pull_request:
-  schedule:
-    - cron: "5 2 * * *"
 
 permissions:
   contents: read
@@ -44,7 +42,7 @@ jobs:
               - 'apps/*/appinfo/info.xml'
               - 'core/src/**'
               - 'package.json'
-              - 'package-lock.json'
+              - '**/package-lock.json'
               - 'tsconfig.json'
               - '**.js'
               - '**.ts'
