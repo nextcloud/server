@@ -464,6 +464,7 @@ class Encryption extends Wrapper {
 			if (strlen($lastChunkContentEncrypted) > $blockSize) {
 				$newUnencryptedSize += $unencryptedBlockSize;
 				$lastChunkContentEncrypted = substr($lastChunkContentEncrypted, $blockSize);
+				$lastChunkNr++;
 			}
 		}
 
