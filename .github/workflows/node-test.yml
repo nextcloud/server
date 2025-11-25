@@ -44,7 +44,7 @@ jobs:
               - 'apps/*/appinfo/info.xml'
               - 'core/src/**'
               - 'package.json'
-              - 'package-lock.json'
+              - '**/package-lock.json'
               - 'tsconfig.json'
               - '**.js'
               - '**.ts'

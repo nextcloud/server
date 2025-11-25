@@ -37,14 +37,14 @@ jobs:
               - '.github/workflows/**'
               - '**/src/**'
               - '**/appinfo/info.xml'
+              - 'core/css/*'
+              - 'core/img/**'
               - 'package.json'
-              - 'package-lock.json'
+              - '**/package-lock.json'
               - 'tsconfig.json'
               - '**.js'
               - '**.ts'
               - '**.vue'
-              - 'core/css/*'
-              - 'core/img/**'
               - 'version.php'
 
   build:
