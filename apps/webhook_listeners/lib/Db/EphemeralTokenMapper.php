@@ -97,19 +97,6 @@ class EphemeralTokenMapper extends QBMapper {
 		);
 		return $this->insert($tempToken);
 	}
-
-	/**
-	 * @throws Exception
-	 */
-	public function deleteByTokenId(int $tokenId): bool {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->delete($this->getTableName())
-			->where($qb->expr()->eq('token_id', $qb->createNamedParameter($tokenId, IQueryBuilder::PARAM_INT)));
-
-		return $qb->executeStatement() > 0;
-	}
-
 	public function invalidateOldTokens(int $token_lifetime = self::TOKEN_LIFETIME) {
 		$olderThan = $this->time->getTime() - $token_lifetime;
 		try {
@@ -124,7 +111,7 @@ class EphemeralTokenMapper extends QBMapper {
 		foreach ($tokensToDelete as $token) {
 			try {
 				$this->tokenMapper->delete($this->tokenMapper->getTokenById($token->getTokenId())); // delete token itself
-				$this->deleteByTokenId($token->getTokenId()); // delete db row in webhook_tokens
+				$this->delete($token); // delete db row in webhook_tokens
 			} catch (Exception $e) {
 				$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
 			}
