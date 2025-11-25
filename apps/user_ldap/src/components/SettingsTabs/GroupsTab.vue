@@ -28,14 +28,14 @@
 
 		<div class="ldap-wizard__groups__line ldap-wizard__groups__groups-filter">
 			<NcCheckboxRadioSwitch
-				:checked="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				@update:checked="toggleFilterMode">
+				:model-value="ldapConfigProxy.ldapGroupFilterMode === '1'"
+				@update:model-value="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
 			<div v-if="ldapConfigProxy.ldapGroupFilterMode === '1'">
 				<NcTextArea
-					:value.sync="ldapConfigProxy.ldapGroupFilter"
+					v-model="ldapConfigProxy.ldapGroupFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
 					:helper-text="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
@@ -96,10 +96,10 @@ const ldapGroupFilterGroups = computed({
  */
 async function init() {
 	const response1 = await callWizard('determineGroupObjectClasses', props.configId)
-	groupObjectClasses.value = response1.options!.ldap_groupfilter_objectclass
+	groupObjectClasses.value = response1.options?.ldap_groupfilter_objectclass ?? []
 
 	const response2 = await callWizard('determineGroupsForGroups', props.configId)
-	groupGroups.value = response2.options!.ldap_groupfilter_groups
+	groupGroups.value = response2.options?.ldap_groupfilter_groups ?? []
 }
 
 init()
@@ -110,7 +110,7 @@ init()
 async function getGroupFilter() {
 	const response = await callWizard('getGroupFilter', props.configId)
 	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId].ldapGroupFilter = response.changes!.ldap_group_filter as string
+	ldapConfigs.value[props.configId]!.ldapGroupFilter = (response.changes?.ldap_group_filter as string | undefined) ?? ''
 }
 
 /**

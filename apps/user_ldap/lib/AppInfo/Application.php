@@ -45,8 +45,10 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
+	public const APP_ID = 'user_ldap';
+
 	public function __construct() {
-		parent::__construct('user_ldap');
+		parent::__construct(self::APP_ID);
 		$container = $this->getContainer();
 
 		/**

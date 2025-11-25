@@ -74,7 +74,7 @@ export async function getConfig(configId: string): Promise<LDAPConfig> {
  * @param configId
  * @param config
  */
-export async function updateConfig(configId: string, config: LDAPConfig): Promise<LDAPConfig> {
+export async function updateConfig(configId: string, config: Partial<LDAPConfig>): Promise<LDAPConfig> {
 	const response = await axios.put(
 		generateOcsUrl('apps/user_ldap/api/v1/config/{configId}', { configId }),
 		{ configData: config },
@@ -142,7 +142,7 @@ export async function clearMapping(subject: 'user' | 'group') {
 			{ subject },
 		) as AxiosResponse<OCSResponse>
 
-		logger.debug('Cleared mapping', { subject, params, response })
+		logger.debug('Cleared mapping', { subject, response })
 		showSuccess(t('user_ldap', 'Mapping cleared'))
 		return true
 	} catch (error) {

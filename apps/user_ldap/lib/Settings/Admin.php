@@ -6,6 +6,7 @@
  */
 namespace OCA\User_LDAP\Settings;
 
+use OCA\User_LDAP\AppInfo\Application;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -59,7 +60,9 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('ldapConfigs', $ldapConfigs);
 		$this->initialState->provideInitialState('ldapModuleInstalled', function_exists('ldap_connect'));
 
-		return new TemplateResponse('user_ldap', 'settings', $parameters);
+		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin');
+		\OCP\Util::addScript(Application::APP_ID, 'settings-admin');
+		return new TemplateResponse(Application::APP_ID, 'settings', $parameters);
 	}
 
 	public function getSection(): string {

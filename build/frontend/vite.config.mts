@@ -24,6 +24,9 @@ const modules = {
 	twofactor_backupcodes: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/twofactor_backupcodes/src', 'settings-personal.ts'),
 	},
+	user_ldap: {
+		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
+	},
 }
 
 // convert modules to modules entries prefied with the app id

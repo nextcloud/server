@@ -42,8 +42,8 @@
 						<NcCheckboxRadioSwitch
 							v-for="(tabLabel, tabId) in tabs"
 							:key="tabId"
+							v-model="selectedTab"
 							:button-variant="true"
-							:checked.sync="selectedTab"
 							:value="tabId"
 							type="radio"
 							:disabled="tabId !== 'server' && !selectedConfigHasServerInfo"
