@@ -5,7 +5,6 @@
 <template>
 	<NcSettingsSection
 		data-cy-settings-sharing-section
-		:limit-width="true"
 		:doc-url="documentationLink"
 		:name="t('settings', 'Sharing')"
 		:description="t('settings', 'As admin you can fine-tune the sharing behavior. Please see the documentation for more information.')">

@@ -31,33 +31,33 @@
 		</NcNoteCard>
 
 		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
 			type="radio"
-			:checked.sync="backgroundJobsMode"
 			name="backgroundJobsMode"
 			value="ajax"
 			class="ajaxSwitch"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
 		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single account instance.') }}</em>
 
 		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
 			type="radio"
-			:checked.sync="backgroundJobsMode"
 			name="backgroundJobsMode"
 			value="webcron"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'Webcron') }}
 		</NcCheckboxRadioSwitch>
 		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 accounts depending on the usage).') }}</em>
 
 		<NcCheckboxRadioSwitch
+			v-model="backgroundJobsMode"
 			type="radio"
 			:disabled="!cliBasedCronPossible"
-			:checked.sync="backgroundJobsMode"
 			value="cron"
 			name="backgroundJobsMode"
-			@update:checked="onBackgroundJobModeChanged">
+			@update:modelValue="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
 		</NcCheckboxRadioSwitch>
 		<!-- eslint-disable-next-line vue/no-v-html The translation is sanitized-->

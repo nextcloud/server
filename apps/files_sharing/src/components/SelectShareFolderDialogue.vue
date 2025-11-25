@@ -11,7 +11,7 @@
 				class="share-folder__picker"
 				type="text"
 				:label="t('files_sharing', 'Set default folder for accepted shares')"
-				:value="readableDirectory"
+				:model-value="readableDirectory"
 				@click.prevent="pickFolder" />
 
 			<!-- Show reset button if folder is different -->

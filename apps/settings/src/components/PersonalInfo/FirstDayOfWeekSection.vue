@@ -17,7 +17,7 @@
 			label="label"
 			label-outside
 			:options="dayOptions"
-			:value="valueOption"
+			:model-value="valueOption"
 			@option:selected="updateFirstDayOfWeek" />
 	</section>
 </template>

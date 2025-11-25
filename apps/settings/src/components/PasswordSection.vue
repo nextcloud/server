@@ -7,17 +7,17 @@
 		<form id="passwordform" method="POST" @submit.prevent="changePassword">
 			<NcPasswordField
 				id="old-pass"
+				v-model="oldPass"
 				:label="t('settings', 'Current password')"
 				name="oldpassword"
-				:value.sync="oldPass"
 				autocomplete="current-password"
 				autocapitalize="none"
 				spellcheck="false" />
 
 			<NcPasswordField
 				id="new-pass"
+				v-model="newPass"
 				:label="t('settings', 'New password')"
-				:value.sync="newPass"
 				:maxlength="469"
 				autocomplete="new-password"
 				autocapitalize="none"

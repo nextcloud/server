@@ -13,7 +13,7 @@
 			:id="inputId"
 			type="date"
 			label=""
-			:value="value"
+			:model-value="value"
 			@input="onInput" />
 
 		<p class="property__helper-text-message">

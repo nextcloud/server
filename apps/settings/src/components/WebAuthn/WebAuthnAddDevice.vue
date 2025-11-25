@@ -29,12 +29,12 @@
 			<form @submit.prevent="submit">
 				<NcTextField
 					ref="nameInput"
+					v-model="name"
 					class="new-webauthn-device__name"
 					:label="t('settings', 'Device name')"
-					:value.sync="name"
 					show-trailing-button
 					:trailing-button-label="t('settings', 'Add')"
-					trailing-button-icon="arrowRight"
+					trailing-button-icon="arrowEnd"
 					@trailing-button-click="submit" />
 			</form>
 		</div>

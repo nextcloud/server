@@ -23,6 +23,7 @@
 			<template v-if="editing && user.backendCapabilities.setDisplayName">
 				<NcTextField
 					ref="displayNameField"
+					v-model="editedDisplayName"
 					class="user-row-text-field"
 					data-cy-user-list-input-displayname
 					:data-loading="loading.displayName || undefined"
@@ -31,8 +32,7 @@
 					:show-trailing-button="true"
 					:disabled="loading.displayName || isLoadingField"
 					:label="t('settings', 'Change display name')"
-					trailing-button-icon="arrowRight"
-					:value.sync="editedDisplayName"
+					trailing-button-icon="arrowEnd"
 					autocapitalize="off"
 					autocomplete="off"
 					spellcheck="false"
@@ -57,6 +57,7 @@
 				<NcTextField
 					class="user-row-text-field"
 					data-cy-user-list-input-password
+					v-model="editedPassword"
 					:data-loading="loading.password || undefined"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{ 'icon-loading-small': loading.password }"
@@ -65,8 +66,7 @@
 					:minlength="minPasswordLength"
 					maxlength="469"
 					:label="t('settings', 'Set new password')"
-					trailing-button-icon="arrowRight"
-					:value.sync="editedPassword"
+					trailing-button-icon="arrowEnd"
 					autocapitalize="off"
 					autocomplete="new-password"
 					required
@@ -82,6 +82,7 @@
 		<td class="row__cell" data-cy-user-list-cell-email>
 			<template v-if="editing">
 				<NcTextField
+					v-model="editedMail"
 					class="user-row-text-field"
 					:class="{ 'icon-loading-small': loading.mailAddress }"
 					data-cy-user-list-input-email
@@ -90,8 +91,7 @@
 					:trailing-button-label="t('settings', 'Submit')"
 					:label="t('settings', 'Set new email address')"
 					:disabled="loading.mailAddress || isLoadingField"
-					trailing-button-icon="arrowRight"
-					:value.sync="editedMail"
+					trailing-button-icon="arrowEnd"
 					autocapitalize="off"
 					autocomplete="email"
 					spellcheck="false"
@@ -124,7 +124,7 @@
 					:options="availableGroups"
 					:placeholder="t('settings', 'Add account to group')"
 					:taggable="settings.isAdmin || settings.isDelegatedAdmin"
-					:value="userGroups"
+					:model-value="userGroups"
 					label="name"
 					:no-wrap="true"
 					:create-option="(value) => ({ id: value, name: value, isCreating: true })"
@@ -163,7 +163,7 @@
 					:no-wrap="true"
 					:options="availableSubAdminGroups"
 					:placeholder="t('settings', 'Set account as admin for')"
-					:value="userSubAdminGroups"
+					:model-value="userSubAdminGroups"
 					@search="searchGroups"
 					@option:deselected="removeUserSubAdmin"
 					@option:selected="options => addUserSubAdmin(options.at(-1))" />
@@ -230,7 +230,7 @@
 					:append-to-body="false"
 					:options="availableLanguages"
 					:placeholder="t('settings', 'No language set')"
-					:value="userLanguage"
+					:model-value="userLanguage"
 					label="name"
 					@input="setUserLanguage" />
 			</template>

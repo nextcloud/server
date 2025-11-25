@@ -10,10 +10,10 @@
 		@submit="createFederatedShare">
 		<NcTextField
 			ref="input"
+			v-model="remoteUrl"
 			:label="t('core', 'Federated user')"
 			:placeholder="t('core', 'user@your-nextcloud.org')"
-			required
-			:value.sync="remoteUrl" />
+			required />
 		<template #actions>
 			<NcButton :disabled="loading" variant="primary" type="submit">
 				<template v-if="loading" #icon>

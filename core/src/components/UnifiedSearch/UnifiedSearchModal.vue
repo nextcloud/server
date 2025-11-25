@@ -24,8 +24,8 @@
 		<div class="unified-search-modal__header">
 			<NcInputField
 				ref="searchInput"
+				v-model="searchQuery"
 				data-cy-unified-search-input
-				:value.sync="searchQuery"
 				type="text"
 				:label="t('core', 'Search apps, files, tags, messages') + '...'"
 				@update:value="debouncedFind" />

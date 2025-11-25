@@ -18,9 +18,9 @@
 			@submit.prevent="createUser">
 			<NcTextField
 				ref="username"
+				v-model="newUser.id"
 				class="dialog__item"
 				data-test="username"
-				:value.sync="newUser.id"
 				:disabled="settings.newUserGenerateUserID"
 				:label="usernameLabel"
 				autocapitalize="none"
@@ -29,9 +29,9 @@
 				pattern="[a-zA-Z0-9 _\.@\-']+"
 				required />
 			<NcTextField
+				v-model="newUser.displayName"
 				class="dialog__item"
 				data-test="displayName"
-				:value.sync="newUser.displayName"
 				:label="t('settings', 'Display name')"
 				autocapitalize="none"
 				autocomplete="off"
@@ -44,9 +44,9 @@
 			</span>
 			<NcPasswordField
 				ref="password"
+				v-model="newUser.password"
 				class="dialog__item"
 				data-test="password"
-				:value.sync="newUser.password"
 				:minlength="minPasswordLength"
 				:maxlength="469"
 				aria-describedby="password-email-hint"
@@ -56,10 +56,10 @@
 				spellcheck="false"
 				:required="newUser.mailAddress === ''" />
 			<NcTextField
+				v-model="newUser.mailAddress"
 				class="dialog__item"
 				data-test="email"
 				type="email"
-				:value.sync="newUser.mailAddress"
 				aria-describedby="password-email-hint"
 				:label="newUser.password === '' || settings.newUserRequireEmail ? t('settings', 'Email (required)') : t('settings', 'Email')"
 				autocapitalize="none"
@@ -74,7 +74,7 @@
 					:placeholder="t('settings', 'Set account groups')"
 					:disabled="loading.groups || loading.all"
 					:options="availableGroups"
-					:value="newUser.groups"
+					:model-value="newUser.groups"
 					label="name"
 					keep-open
 					:multiple="true"

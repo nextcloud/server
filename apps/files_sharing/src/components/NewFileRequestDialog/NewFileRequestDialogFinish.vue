@@ -13,7 +13,7 @@
 		<!-- Copy share link -->
 		<NcInputField
 			ref="clipboard"
-			:value="shareLink"
+			:model-value="shareLink"
 			:label="t('files_sharing', 'Share link')"
 			:readonly="true"
 			:show-trailing-button="true"
@@ -30,7 +30,7 @@
 		<template v-if="isShareByMailEnabled">
 			<!-- Email share-->
 			<NcTextField
-				:value.sync="email"
+				v-model="email"
 				:label="t('files_sharing', 'Send link via email')"
 				:placeholder="t('files_sharing', 'Enter an email address or paste a list')"
 				data-cy-file-request-dialog-fieldset="email"

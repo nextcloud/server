@@ -1,7 +1,2 @@
 {
-  "apps/dav/src/components/AbsenceForm.vue": {
-    "@nextcloud/vue/no-deprecated-props": {
-      "count": 1
-    }
-  }
 }

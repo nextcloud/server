@@ -12,33 +12,33 @@
 			id="visibility-settings"
 			:name="t('settings', 'Visibility')">
 			<NcCheckboxRadioSwitch
+				v-model="showLanguages"
 				type="switch"
-				data-test="showLanguages"
-				:checked.sync="showLanguages">
+				data-test="showLanguages">
 				{{ t('settings', 'Show language') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch
+				v-model="showUserBackend"
 				type="switch"
-				data-test="showUserBackend"
-				:checked.sync="showUserBackend">
+				data-test="showUserBackend">
 				{{ t('settings', 'Show account backend') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch
+				v-model="showStoragePath"
 				type="switch"
-				data-test="showStoragePath"
-				:checked.sync="showStoragePath">
+				data-test="showStoragePath">
 				{{ t('settings', 'Show storage path') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch
+				v-model="showFirstLogin"
 				type="switch"
-				data-test="showFirstLogin"
-				:checked.sync="showFirstLogin">
+				data-test="showFirstLogin">
 				{{ t('settings', 'Show first login') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch
+				v-model="showLastLogin"
 				type="switch"
-				data-test="showLastLogin"
-				:checked.sync="showLastLogin">
+				data-test="showLastLogin">
 				{{ t('settings', 'Show last login') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
@@ -56,8 +56,8 @@
 					type="info"
 					:text="t('settings', 'Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list.')" />
 				<NcCheckboxRadioSwitch
+					v-model="groupSorting"
 					type="radio"
-					:checked.sync="groupSorting"
 					data-test="sortGroupsByMemberCount"
 					:disabled="isGroupSortingEnforced"
 					name="group-sorting-mode"
@@ -65,8 +65,8 @@
 					{{ t('settings', 'By member count') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch
+					v-model="groupSorting"
 					type="radio"
-					:checked.sync="groupSorting"
 					data-test="sortGroupsByName"
 					:disabled="isGroupSortingEnforced"
 					name="group-sorting-mode"
@@ -80,9 +80,9 @@
 			id="email-settings"
 			:name="t('settings', 'Send email')">
 			<NcCheckboxRadioSwitch
+				v-model="sendWelcomeMail"
 				type="switch"
 				data-test="sendWelcomeMail"
-				:checked.sync="sendWelcomeMail"
 				:disabled="loadingSendMail">
 				{{ t('settings', 'Send welcome email to new accounts') }}
 			</NcCheckboxRadioSwitch>

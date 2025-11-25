@@ -8,32 +8,32 @@
 		:description="t('federatedfilesharing', 'Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing.')"
 		:doc-url="sharingFederatedDocUrl">
 		<NcCheckboxRadioSwitch
+			v-model="outgoingServer2serverShareEnabled"
 			type="switch"
-			:checked.sync="outgoingServer2serverShareEnabled"
-			@update:checked="update('outgoing_server2server_share_enabled', outgoingServer2serverShareEnabled)">
+			@update:modelValue="update('outgoing_server2server_share_enabled', outgoingServer2serverShareEnabled)">
 			{{ t('federatedfilesharing', 'Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
+			v-model="incomingServer2serverShareEnabled"
 			type="switch"
-			:checked.sync="incomingServer2serverShareEnabled"
-			@update:checked="update('incoming_server2server_share_enabled', incomingServer2serverShareEnabled)">
+			@update:modelValue="update('incoming_server2server_share_enabled', incomingServer2serverShareEnabled)">
 			{{ t('federatedfilesharing', 'Allow people on this server to receive shares from other servers') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
 			v-if="federatedGroupSharingSupported"
+			v-model="outgoingServer2serverGroupShareEnabled"
 			type="switch"
-			:checked.sync="outgoingServer2serverGroupShareEnabled"
-			@update:checked="update('outgoing_server2server_group_share_enabled', outgoingServer2serverGroupShareEnabled)">
+			@update:modelValue="update('outgoing_server2server_group_share_enabled', outgoingServer2serverGroupShareEnabled)">
 			{{ t('federatedfilesharing', 'Allow people on this server to send shares to groups on other servers') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
 			v-if="federatedGroupSharingSupported"
+			v-model="incomingServer2serverGroupShareEnabled"
 			type="switch"
-			:checked.sync="incomingServer2serverGroupShareEnabled"
-			@update:checked="update('incoming_server2server_group_share_enabled', incomingServer2serverGroupShareEnabled)">
+			@update:modelValue="update('incoming_server2server_group_share_enabled', incomingServer2serverGroupShareEnabled)">
 			{{ t('federatedfilesharing', 'Allow people on this server to receive group shares from other servers') }}
 		</NcCheckboxRadioSwitch>
 
@@ -42,17 +42,17 @@
 
 			<NcCheckboxRadioSwitch
 				type="switch"
-				:checked="lookupServerEnabled"
+				:model-value="lookupServerEnabled"
 				disabled
-				@update:checked="showLookupServerConfirmation">
+				@update:modelValue="showLookupServerConfirmation">
 				{{ t('federatedfilesharing', 'Search global and public address book for people') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcCheckboxRadioSwitch
 				type="switch"
-				:checked="lookupServerUploadEnabled"
+				:model-value="lookupServerUploadEnabled"
 				disabled
-				@update:checked="showLookupServerUploadConfirmation">
+				@update:modelValue="showLookupServerUploadConfirmation">
 				{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
 			</NcCheckboxRadioSwitch>
 		</fieldset>
@@ -63,9 +63,9 @@
 				{{ t('federatedfilesharing', 'Trusted federation') }}
 			</h3>
 			<NcCheckboxRadioSwitch
+				v-model="federatedTrustedShareAutoAccept"
 				type="switch"
-				:checked.sync="federatedTrustedShareAutoAccept"
-				@update:checked="update('federatedTrustedShareAutoAccept', federatedTrustedShareAutoAccept)">
+				@update:modelValue="update('federatedTrustedShareAutoAccept', federatedTrustedShareAutoAccept)">
 				{{ t('federatedfilesharing', 'Automatically accept shares from trusted federated accounts and groups by default') }}
 			</NcCheckboxRadioSwitch>
 		</div>

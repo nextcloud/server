@@ -205,7 +205,7 @@ export default {
 		/**
 		 * Debounce getSuggestions
 		 *
-		 * @param {...*} args the arguments
+		 * @param {[string]} args - The arguments
 		 */
 		debounceGetSuggestions: debounce(function(...args) {
 			this.getSuggestions(...args)

@@ -8,7 +8,7 @@
 		<label :for="id">{{ displayName }}</label>
 		<div class="field__row">
 			<NcColorPicker
-				:value.sync="localValue"
+				v-model="localValue"
 				:advanced-fields="true"
 				@update:value="debounceSave">
 				<NcButton

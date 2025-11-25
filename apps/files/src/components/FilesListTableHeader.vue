@@ -7,7 +7,10 @@
 		<th
 			class="files-list__column files-list__row-checkbox"
 			@keyup.esc.exact="resetSelection">
-			<NcCheckboxRadioSwitch v-bind="selectAllBind" data-cy-files-list-selection-checkbox @update:checked="onToggleAll" />
+			<NcCheckboxRadioSwitch
+				v-bind="selectAllBind"
+				data-cy-files-list-selection-checkbox
+				@update:modelValue="onToggleAll" />
 		</th>
 
 		<!-- Columns display -->
