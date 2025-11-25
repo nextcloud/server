@@ -8,6 +8,10 @@ on:
     # At 2:30 on Sundays
     - cron: '20 1 * * 0'
 
+permissions:
+    contents: read
+    issues: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -15,14 +19,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable30", "stable31"]
-  
+        branches: ["master", "stable31", "stable32"]
+
     name: cypress-snapshot-update-${{ matrix.branches }}
 
     steps:
       - name: Checkout app
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
+          persist-credentials: false
           ref: ${{ matrix.branches }}
 
       - name: Read package.json node and npm engines version
@@ -33,7 +38,7 @@ jobs:
           fallbackNpm: "^10"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -50,7 +55,7 @@ jobs:
 
       - name: Create Pull Request
         if: always()
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v5
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: "chore(deps): cypress snapshot update"
