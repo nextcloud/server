@@ -839,7 +839,7 @@ export default {
 
 		/**
 		 * Uncheck password protection
-		 * We need this method because @update:checked
+		 * We need this method because @update:modelValue
 		 * is ran simultaneously as @uncheck, so we
 		 * cannot ensure data is up-to-date
 		 */

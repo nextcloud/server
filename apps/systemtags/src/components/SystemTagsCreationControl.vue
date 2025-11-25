@@ -16,7 +16,7 @@
 		<NcCheckboxRadioSwitch
 			v-model="systemTagsCreationRestrictedToAdmin"
 			type="switch"
-			@update:checked="updateSystemTagsDefault">
+			@update:modelValue="updateSystemTagsDefault">
 			{{ t('systemtags', 'Restrict tag creation and editing to administrators') }}
 		</NcCheckboxRadioSwitch>
 	</div>

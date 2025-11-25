@@ -11,7 +11,7 @@
 				:id="id"
 				v-model="localValue"
 				type="switch"
-				@update:checked="save">
+				@update:modelValue="save">
 				{{ label }}
 			</NcCheckboxRadioSwitch>
 		</div>

@@ -135,7 +135,7 @@ async function enableEncryption(): Promise<void> {
 			:aria-describedby="encryptionEnabled ? 'server-side-encryption-disable-hint' : undefined"
 			:loading="loadingEncryptionState"
 			type="switch"
-			@update:checked="displayWarning">
+			@update:modelValue="displayWarning">
 			{{ t('settings', 'Enable server-side encryption') }}
 		</NcCheckboxRadioSwitch>
 		<p v-if="encryptionEnabled" id="server-side-encryption-disable-hint" class="disable-hint">
@@ -158,7 +158,7 @@ async function enableEncryption(): Promise<void> {
 						:value="module.id"
 						type="radio"
 						name="default_encryption_module"
-						@update:checked="checkDefaultModule">
+						@update:modelValue="checkDefaultModule">
 						{{ module.displayName }}
 					</NcCheckboxRadioSwitch>
 				</fieldset>

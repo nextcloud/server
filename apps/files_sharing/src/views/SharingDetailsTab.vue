@@ -31,7 +31,7 @@
 						name="sharing_permission_radio"
 						type="radio"
 						button-variant-grouped="vertical"
-						@update:checked="toggleCustomPermissions">
+						@update:modelValue="toggleCustomPermissions">
 						{{ t('files_sharing', 'View only') }}
 						<template #icon>
 							<ViewIcon :size="20" />
@@ -45,7 +45,7 @@
 						name="sharing_permission_radio"
 						type="radio"
 						button-variant-grouped="vertical"
-						@update:checked="toggleCustomPermissions">
+						@update:modelValue="toggleCustomPermissions">
 						<template v-if="allowsFileDrop">
 							{{ t('files_sharing', 'Allow upload and editing') }}
 						</template>
@@ -65,7 +65,7 @@
 						name="sharing_permission_radio"
 						type="radio"
 						button-variant-grouped="vertical"
-						@update:checked="toggleCustomPermissions">
+						@update:modelValue="toggleCustomPermissions">
 						{{ t('files_sharing', 'File request') }}
 						<small class="subline">{{ t('files_sharing', 'Upload only') }}</small>
 						<template #icon>
@@ -80,7 +80,7 @@
 						name="sharing_permission_radio"
 						type="radio"
 						button-variant-grouped="vertical"
-						@update:checked="expandCustomPermissions">
+						@update:modelValue="expandCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
 						<small class="subline">{{ customPermissionsList }}</small>
 						<template #icon>
@@ -156,7 +156,7 @@
 					<NcCheckboxRadioSwitch
 						v-if="canTogglePasswordProtectedByTalkAvailable"
 						v-model="isPasswordProtectedByTalk"
-						@update:checked="onPasswordProtectedByTalkChange">
+						@update:modelValue="onPasswordProtectedByTalkChange">
 						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-model="hasExpirationDate" :disabled="isExpiryDateEnforced">
@@ -179,7 +179,7 @@
 						v-if="isPublicShare"
 						v-model="share.hideDownload"
 						:disabled="canChangeHideDownload"
-						@update:checked="queueUpdate('hideDownload')">
+						@update:modelValue="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch

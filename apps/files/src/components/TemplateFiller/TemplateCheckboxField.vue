@@ -9,7 +9,7 @@
 			:id="fieldId"
 			v-model="value"
 			type="switch"
-			@update:checked="input">
+			@update:modelValue="input">
 			{{ fieldLabel }}
 		</NcCheckboxRadioSwitch>
 	</div>

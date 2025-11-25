@@ -45,7 +45,7 @@
 				<NcActionCheckbox
 					v-if="canChangeScope"
 					:model-value="token.scope.filesystem"
-					@update:checked="updateFileSystemScope">
+					@update:modelValue="updateFileSystemScope">
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}
 				</NcActionCheckbox>

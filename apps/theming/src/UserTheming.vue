@@ -41,7 +41,7 @@
 				type="checkbox"
 				:model-value="enableBlurFilter === 'yes'"
 				:indeterminate="enableBlurFilter === ''"
-				@update:checked="changeEnableBlurFilter">
+				@update:modelValue="changeEnableBlurFilter">
 				{{ t('theming', 'Enable blur background filter (may increase GPU load)') }}
 			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>

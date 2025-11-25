@@ -104,7 +104,7 @@
 					v-if="app.canUnInstall"
 					:model-value="removeData"
 					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
-					@update:checked="toggleRemoveData">
+					@update:modelValue="toggleRemoveData">
 					{{ t('settings', 'Delete data on remove') }}
 				</NcCheckboxRadioSwitch>
 			</div>

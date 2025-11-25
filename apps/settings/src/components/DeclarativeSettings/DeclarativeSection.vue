@@ -73,7 +73,7 @@
 					:id="formField.id + '_field'"
 					:model-value="Boolean(formFieldsData[formField.id].value)"
 					type="switch"
-					@update:checked="(value) => {
+					@update:modelValue="(value) => {
 						formField.value = value
 						updateFormFieldDataValue(+value, formField, true)
 					}
@@ -90,7 +90,7 @@
 					:id="formField.id + '_field_' + option.value"
 					:key="option.value"
 					:model-value="formFieldsData[formField.id].value[option.value]"
-					@update:checked="(value) => {
+					@update:modelValue="(value) => {
 						formFieldsData[formField.id].value[option.value] = value
 						// Update without re-generating initial formFieldsData.value object as the link to components are lost
 						updateDeclarativeSettingsValue(formField, JSON.stringify(formFieldsData[formField.id].value))
@@ -109,7 +109,7 @@
 					:value="option.value"
 					type="radio"
 					:model-value="formFieldsData[formField.id].value"
-					@update:checked="(value) => updateFormFieldDataValue(value, formField, true)">
+					@update:modelValue="(value) => updateFormFieldDataValue(value, formField, true)">
 					{{ t(formApp, option.name) }}
 				</NcCheckboxRadioSwitch>
 				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>

@@ -18,7 +18,7 @@
 				v-show="!isExpirationDateEnforced"
 				:model-value="isExpirationDateEnforced || expirationDate !== null"
 				:disabled="disabled || isExpirationDateEnforced"
-				@update:checked="onToggleDeadline">
+				@update:modelValue="onToggleDeadline">
 				{{ t('files_sharing', 'Set a submission expiration date') }}
 			</NcCheckboxRadioSwitch>
 
@@ -52,7 +52,7 @@
 				v-show="!isPasswordEnforced"
 				:model-value="isPasswordEnforced || password !== null"
 				:disabled="disabled || isPasswordEnforced"
-				@update:checked="onTogglePassword">
+				@update:modelValue="onTogglePassword">
 				{{ t('files_sharing', 'Set a password') }}
 			</NcCheckboxRadioSwitch>
 

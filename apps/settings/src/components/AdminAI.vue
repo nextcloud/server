@@ -75,7 +75,7 @@
 					:value="provider.id"
 					name="text2image_provider"
 					type="radio"
-					@update:checked="saveChanges">
+					@update:modelValue="saveChanges">
 					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
 			</template>

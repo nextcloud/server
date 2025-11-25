@@ -33,7 +33,7 @@
 					:model-value="app.isSelected || app.active"
 					:disabled="!app.isCompatible || app.active"
 					:loading="app.loading"
-					@update:checked="toggleSelect(app.id)" />
+					@update:modelValue="toggleSelect(app.id)" />
 			</template>
 		</div>
 

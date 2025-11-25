@@ -9,7 +9,7 @@
 			v-model="isProfileEnabled"
 			type="switch"
 			:loading="loading"
-			@update:checked="saveEnableProfile">
+			@update:modelValue="saveEnableProfile">
 			{{ t('settings', 'Enable profile') }}
 		</NcCheckboxRadioSwitch>
 	</div>
