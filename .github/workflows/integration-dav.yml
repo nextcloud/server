@@ -53,13 +53,13 @@ jobs:
 
     steps:
         - name: Checkout server
-          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+          uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
           with:
             persist-credentials: false
             submodules: true
 
         - name: Set up php ${{ matrix.php-versions }}
-          uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 #v2.35.4
+          uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
           with:
             php-version: ${{ matrix.php-versions }}
             # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -70,7 +70,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Set up Python
-          uses: LizardByte/actions/actions/setup_python@bff0a193747a3ac7930a665fc1d4b23eba583b99 # v2025.814.40518
+          uses: LizardByte/actions/actions/setup_python@329b1bcefe1cbe1ef289177471c9f2b2af98e6ca # v2025.1028.23217
           with:
             python-version: '2.7'
 
