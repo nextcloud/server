@@ -19,11 +19,11 @@ describe('Search service', () => {
 		window.OCP ??= {}
 		window.OCP.Files ??= {}
 		window.OCP.Files.Router ??= { params: {}, query: {} }
-		vi.spyOn(window.OCP.Files.Router, 'params', 'get').mockReturnValue({ view: 'files' })
 	})
 
 	beforeEach(() => {
-		vi.restoreAllMocks()
+		vi.resetAllMocks()
+		vi.spyOn(window.OCP.Files.Router, 'params', 'get').mockReturnValue({ view: 'files' })
 		setActivePinia(createPinia())
 	})
 

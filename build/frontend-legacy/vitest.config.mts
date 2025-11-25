@@ -27,6 +27,12 @@ try {
 }
 
 export default defineConfig({
+	root: import.meta.dirname,
+	// define some dummy globals for the tests
+	define: {
+		appName: '"nextcloud"',
+		appVersion: '"1.0.0"',
+	},
 	plugins: [
 		nodePolyfills({
 			include: ['fs', 'path'],
@@ -34,7 +40,6 @@ export default defineConfig({
 		}),
 		vue(),
 	],
-	root: import.meta.dirname,
 	resolve: {
 		preserveSymlinks: true,
 		alias: {
@@ -54,6 +59,7 @@ export default defineConfig({
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
 			provider: 'v8',
 			reporter: ['lcov', 'text'],
+			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},
 		setupFiles: [
 			'./__tests__/mock-window.js',
@@ -66,7 +72,9 @@ export default defineConfig({
 		globalSetup: './__tests__/setup-global.js',
 		server: {
 			deps: {
-				inline: true,
+				// @see https://github.com/vitest-dev/vitest/issues/7950
+				// inline: true,
+				inline: [ /^(?!.*vitest).*$/ ],
 			},
 		},
 	},
