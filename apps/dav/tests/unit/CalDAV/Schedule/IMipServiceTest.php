@@ -16,6 +16,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,6 +33,7 @@ class IMipServiceTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private ITimeFactory&MockObject $timeFactory;
 	private IMipService $service;
+	private IUserManager&MockObject $userManager;
 
 
 	private VCalendar $vCalendar1a;
@@ -51,6 +53,7 @@ class IMipServiceTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
@@ -64,7 +67,8 @@ class IMipServiceTest extends TestCase {
 			$this->db,
 			$this->random,
 			$this->l10nFactory,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->userManager
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
