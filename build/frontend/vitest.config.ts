@@ -28,6 +28,11 @@ try {
 export default defineConfig({
 	plugins: [vue()],
 	root: resolve(import.meta.dirname),
+	// define some dummy globals for the tests
+	define: {
+		appName: '"nextcloud"',
+		appVersion: '"1.0.0"',
+	},
 	resolve: {
 		preserveSymlinks: true,
 	},
@@ -47,6 +52,7 @@ export default defineConfig({
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
 			provider: 'v8',
 			reporter: ['lcov', 'text'],
+			reportsDirectory: resolve(import.meta.dirname, '../../coverage'),
 		},
 		setupFiles: [
 			resolve(import.meta.dirname, '__tests__/mock-window.js'),
