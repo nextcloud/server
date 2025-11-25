@@ -474,7 +474,7 @@ export default {
 		 */
 		filterByTrustedServer(result) {
 			const isRemoteEntity = result.value.shareType === ShareType.Remote || result.value.shareType === ShareType.RemoteGroup
-			if (isRemoteEntity && this.config.showFederatedSharesToTrustedServersAsInternal) {
+			if (isRemoteEntity && this.config.showFederatedSharesToTrustedServersAsInternal && !this.isExternal) {
 				return result.value.isTrustedServer === true
 			}
 			return true
