@@ -14,8 +14,7 @@
 				autocomplete="off"
 				:label="t('user_ldap', 'Internal Username Attribute:')"
 				:value="ldapConfigProxy.ldapExpertUsernameAttr"
-				:label-outside="true"
-				@change.native="(event) => ldapConfigProxy.ldapExpertUsernameAttr = event.target.value" />
+				@change="(event) => ldapConfigProxy.ldapExpertUsernameAttr = event.target.value" />
 		</div>
 
 		<div class="ldap-wizard__expert__line">
@@ -28,12 +27,12 @@
 				autocomplete="off"
 				:label="t('user_ldap', 'UUID Attribute for Users')"
 				:value="ldapConfigProxy.ldapExpertUUIDUserAttr"
-				@change.native="(event) => ldapConfigProxy.ldapExpertUUIDUserAttr = event.target.value" />
+				@change="(event) => ldapConfigProxy.ldapExpertUUIDUserAttr = event.target.value" />
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'UUID Attribute for Groups')"
 				:value="ldapConfigProxy.ldapExpertUUIDGroupAttr"
-				@change.native="(event) => ldapConfigProxy.ldapExpertUUIDGroupAttr = event.target.value" />
+				@change="(event) => ldapConfigProxy.ldapExpertUUIDGroupAttr = event.target.value" />
 		</div>
 	</fieldset>
 </template>
