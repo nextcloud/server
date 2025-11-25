@@ -46,7 +46,7 @@ jobs:
           exit 1
 
       - name: Checkout app
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           persist-credentials: false
 
@@ -54,7 +54,7 @@ jobs:
         id: check_composer
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
-          files: "composer.json"
+          files: 'composer.json'
 
       - name: Install composer dependencies
         if: steps.check_composer.outputs.files_exists == 'true'
@@ -64,11 +64,11 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: versions
         with:
-          fallbackNode: "^20"
-          fallbackNpm: "^10"
+          fallbackNode: '^24'
+          fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -93,11 +93,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: [0, 1, 2, 3, 4, 5, 6, 7]
-        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
-        # Always align this number with the total of e2e runners (max. index + 1)
-        total-containers: [8]
+        # Run multiple copies of the current job in parallel
+        # Please increase the number or runners as your tests suite grows
+        containers: ['component', '1', '2', '3']
 
     name: runner ${{ matrix.containers }}
 
@@ -110,26 +108,24 @@ jobs:
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
         run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
 
-      - name: Install cypress
-        run: ./node_modules/cypress/bin/cypress install
-
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@57b70560982e6a11d23d4b8bec7f8a487cdbb71b # v6.7.8
+        uses: cypress-io/github-action@7ef72e250a9e564efb4ed4c2433971ada4cc38b4 # v6.10.4
         with:
-          # We already installed the dependencies in the init job
-          install: false
+          record: ${{ secrets.CYPRESS_RECORD_KEY && true }}
+          parallel: ${{ secrets.CYPRESS_RECORD_KEY && true }}
           # cypress run type
           component: ${{ matrix.containers == 'component' }}
-          # Do not add Cypress record key config as this conflicts with cypress-split
-          # Cypress again tries to force users to buy their dashboard...
-
+          group: ${{ secrets.CYPRESS_RECORD_KEY && env.CYPRESS_GROUP }}
+          # cypress env
+          ci-build-id: ${{ secrets.CYPRESS_RECORD_KEY && env.CYPRESS_BUILD_ID }}
+          tag: ${{ secrets.CYPRESS_RECORD_KEY && github.event_name }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -138,11 +134,12 @@ jobs:
           # Needed for some specific code workarounds
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SPLIT: ${{ matrix.total-containers }}
-          SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_BUILD_ID: ${{ github.sha }}-${{ github.run_number }}
+          CYPRESS_GROUP: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -153,7 +150,7 @@ jobs:
         run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
