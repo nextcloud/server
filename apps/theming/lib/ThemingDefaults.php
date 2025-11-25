@@ -431,12 +431,12 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param string $value
 	 */
 	public function set($setting, $value): void {
-		switch ($value) {
+		switch ($setting) {
 			case ConfigLexicon::CACHE_BUSTER:
 				$this->appConfig->setAppValueInt(ConfigLexicon::CACHE_BUSTER, (int)$value);
 				break;
 			case ConfigLexicon::USER_THEMING_DISABLED:
-				$value = $value === 'true' || $value === 'yes' || $value === '1';
+				$value = in_array($value, ['1', 'true', 'yes', 'on']);
 				$this->appConfig->setAppValueBool(ConfigLexicon::USER_THEMING_DISABLED, $value);
 				break;
 			default:
