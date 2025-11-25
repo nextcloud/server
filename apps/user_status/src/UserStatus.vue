@@ -112,7 +112,7 @@ export default {
 				if (wasAway) {
 					this._backgroundHeartbeat()
 				}
-			}, 1000 * 2, true)
+			}, 1000 * 2, { immediate: true })
 			window.addEventListener('mousemove', this.mouseMoveListener, {
 				capture: true,
 				passive: true,
