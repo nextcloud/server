@@ -3,18 +3,21 @@
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
 #
-# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
 
-name: Lint eslint
+name: Node handlebars tests
 
-on: pull_request
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
 
 permissions:
   contents: read
 
 concurrency:
-  group: lint-eslint-${{ github.head_ref || github.run_id }}
+  group: node-tests-handlebars-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -25,7 +28,7 @@ jobs:
       pull-requests: read
 
     outputs:
-      src: ${{ steps.changes.outputs.src}}
+      src: ${{ steps.changes.outputs.src }}
 
     steps:
       - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
@@ -35,28 +38,30 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '**/src/**'
-              - '**/appinfo/info.xml'
+              - '**/__tests__/**'
+              - '**/__mocks__/**'
+              - 'apps/*/src/**'
+              - 'apps/*/appinfo/info.xml'
+              - 'core/src/**'
               - 'package.json'
               - 'package-lock.json'
               - 'tsconfig.json'
-              - '.eslintrc.*'
-              - '.eslintignore'
               - '**.js'
               - '**.ts'
               - '**.vue'
 
-  lint:
+  handlebars:
     runs-on: ubuntu-latest
-
-    needs: changes
+    needs: [changes]
     if: needs.changes.outputs.src != 'false'
 
-    name: NPM lint
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+      PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
 
@@ -76,25 +81,21 @@ jobs:
         run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
       - name: Install dependencies
-        env:
-          CYPRESS_INSTALL_BINARY: 0
-          PUPPETEER_SKIP_DOWNLOAD: true
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
+      - name: Run compile
+        run: ./build/compile-handlebars-templates.sh
 
   summary:
     permissions:
       contents: none
     runs-on: ubuntu-latest-low
-    needs: [changes, lint]
+    needs: [changes, handlebars]
 
     if: always()
 
-    # This is the summary, we just avoid to rename it so that branch protection rules still match
-    name: eslint
+    name: test-summary
 
     steps:
       - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.lint.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.handlebars.result != 'success' }}; then exit 1; fi
