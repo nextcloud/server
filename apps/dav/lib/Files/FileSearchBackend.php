@@ -482,7 +482,11 @@ class FileSearchBackend implements ISearchBackend {
 			case SearchPropertyDefinition::DATATYPE_DECIMAL:
 			case SearchPropertyDefinition::DATATYPE_INTEGER:
 			case SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER:
-				return 0 + $value;
+				if (is_int($value) || is_float($value)) {
+					return 0 + $value;
+				}
+				$v = filter_var($value, FILTER_VALIDATE_FLOAT);
+				return $v === false ? 0 : $v;
 			case SearchPropertyDefinition::DATATYPE_DATETIME:
 				if (is_numeric($value)) {
 					return max(0, 0 + $value);

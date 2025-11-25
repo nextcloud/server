@@ -16,6 +16,7 @@ use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\ObjectTree;
 use OCA\DAV\Connector\Sabre\Server;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Files\FileSearchBackend;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -171,6 +172,85 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
+	public function testNumericLiteralIntPassThrough(): void {
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->willReturn($this->davFolder);
+
+		$receivedQuery = null;
+		$this->searchFolder
+			->method('search')
+			->willReturnCallback(function (ISearchQuery $query) use (&$receivedQuery) {
+				$receivedQuery = $query;
+				return [
+					new \OC\Files\Node\File($this->rootFolder, $this->view, '/test/file'),
+				];
+			});
+
+		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, FilesPlugin::SIZE_PROPERTYNAME, 10);
+		$this->search->search($query);
+
+		$this->assertNotNull($receivedQuery);
+		$comparison = $receivedQuery->getSearchOperation();
+		$this->assertInstanceOf(SearchComparison::class, $comparison);
+		$this->assertSame(ISearchComparison::COMPARE_GREATER_THAN, $comparison->getType());
+		$this->assertSame('size', $comparison->getField());
+		$this->assertSame(10, $comparison->getValue());
+	}
+
+	public function testNumericLiteralStringToFloat(): void {
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->willReturn($this->davFolder);
+
+		$receivedQuery = null;
+		$this->searchFolder
+			->method('search')
+			->willReturnCallback(function (ISearchQuery $query) use (&$receivedQuery) {
+				$receivedQuery = $query;
+				return [
+					new \OC\Files\Node\File($this->rootFolder, $this->view, '/test/file'),
+				];
+			});
+
+		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, FilesPlugin::SIZE_PROPERTYNAME, '10.5');
+		$this->search->search($query);
+
+		$this->assertNotNull($receivedQuery);
+		$comparison = $receivedQuery->getSearchOperation();
+		$this->assertInstanceOf(SearchComparison::class, $comparison);
+		$this->assertSame(ISearchComparison::COMPARE_GREATER_THAN, $comparison->getType());
+		$this->assertSame('size', $comparison->getField());
+		$this->assertSame(10, $comparison->getValue());
+	}
+
+	public function testNumericLiteralInvalidFallsBackToZero(): void {
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->willReturn($this->davFolder);
+
+		/** @var ISearchQuery|null $receivedQuery */
+		$receivedQuery = null;
+		$this->searchFolder
+			->method('search')
+			->willReturnCallback(function (ISearchQuery $query) use (&$receivedQuery) {
+				$receivedQuery = $query;
+				return [
+					new \OC\Files\Node\File($this->rootFolder, $this->view, '/test/file'),
+				];
+			});
+
+		$query = $this->getBasicQuery(Operator::OPERATION_GREATER_THAN, FilesPlugin::SIZE_PROPERTYNAME, 'not-a-number');
+		$this->search->search($query);
+
+		$this->assertNotNull($receivedQuery);
+		$comparison = $receivedQuery->getSearchOperation();
+		$this->assertInstanceOf(SearchComparison::class, $comparison);
+		$this->assertSame(ISearchComparison::COMPARE_GREATER_THAN, $comparison->getType());
+		$this->assertSame('size', $comparison->getField());
+		$this->assertSame(0, $comparison->getValue());
+	}
+
 	public function testSearchMtime(): void {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
@@ -258,12 +338,26 @@ class FileSearchBackendTest extends TestCase {
 		} else {
 			$where = new Operator(
 				$type,
-				[new SearchPropertyDefinition($property, true, true, true), new Literal($value)]
+				[new SearchPropertyDefinition($property, true, true, true, $this->getDataTypeForProperty($property)), new Literal($value)]
 			);
 		}
 		$limit = new Limit();
 
 		return new Query($select, $from, $where, $orderBy, $limit);
+	}
+
+	private function getDataTypeForProperty(string $property): string {
+		switch ($property) {
+			case FilesPlugin::SIZE_PROPERTYNAME:
+			case FilesPlugin::INTERNAL_FILEID_PROPERTYNAME:
+				return SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER;
+			case '{DAV:}getlastmodified':
+				return SearchPropertyDefinition::DATATYPE_DATETIME;
+			case TagsPlugin::FAVORITE_PROPERTYNAME:
+				return SearchPropertyDefinition::DATATYPE_BOOLEAN;
+			default:
+				return SearchPropertyDefinition::DATATYPE_STRING;
+		}
 	}
 
 
