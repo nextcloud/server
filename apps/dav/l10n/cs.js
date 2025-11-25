@@ -164,7 +164,7 @@ OC.L10N.register(
     "Occurring:" : "Opakuje se::",
     "Accept" : "Přijmout",
     "Decline" : "Odmítnout",
-    "More options …" : "Další volby…",
+    "More options …" : "Další volby …",
     "More options at %s" : "Další volby viz %s",
     "Monday" : "pondělí",
     "Tuesday" : "úterý",

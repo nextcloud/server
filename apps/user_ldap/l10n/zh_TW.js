@@ -19,6 +19,7 @@ OC.L10N.register(
     "Valid configuration, connection established!" : "有效的組態設定，連線已建立！",
     "Please login with the new password" : "請以新密碼登入",
     "Action does not exist" : "動作不存在",
+    "Unsupported subject " : "不支援的主體",
     "Failed to clear the mappings." : "無法清除映射。",
     "LDAP User backend" : "LDAP 使用者後端",
     "Your password will expire tomorrow." : "您的密碼將於明天到期。",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Renewing …" : "Obnovování …",
+    "Renewing …" : "Obnovování …",
     "Very weak password" : "Velmi snadno prolomitelné heslo",
     "Weak password" : "Snadno prolomitelné heslo",
     "So-so password" : "Ještě použitelné heslo",
@@ -231,9 +231,9 @@ OC.L10N.register(
     "No data specified" : "Neurčena žádná data",
     "Invalid data specified" : "Zadána neplatná data",
     "Could not set configuration %1$s to %2$s" : "Nepodařilo se nastavit konfiguraci %1$s na %2$s",
-    "Renewing …" : "Obnovování…",
+    "Renewing …" : "Obnovování …",
     "The Base DN appears to be wrong" : "Base DN se nezdá být pořádku",
-    "Testing configuration…" : "Zkoušení nastavení…",
+    "Testing configuration…" : "Zkoušení nastavení …",
     "Configuration incorrect" : "Nesprávná nastavení",
     "Configuration incomplete" : "Nastavení není dokončené",
     "Configuration OK" : "Nastavení v pořádku",
