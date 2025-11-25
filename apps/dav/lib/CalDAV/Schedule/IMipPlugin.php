@@ -167,7 +167,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
-		$this->imipService->setL10n($attendee);
+		$this->imipService->setL10nFromAttendee($attendee);
 
 		// Build the sender name.
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
