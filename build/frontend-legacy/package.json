@@ -107,7 +107,7 @@
     "@babel/plugin-transform-private-methods": "^7.27.1",
     "@babel/preset-typescript": "^7.28.5",
     "@nextcloud/babel-config": "^1.3.0",
-    "@nextcloud/typings": "^1.9.1",
+    "@nextcloud/typings": "^1.10.0",
     "@nextcloud/webpack-vue-config": "^7.0.1",
     "@pinia/testing": "^0.1.7",
     "@testing-library/jest-dom": "^6.6.4",
