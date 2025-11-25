@@ -7,6 +7,8 @@
  */
 namespace OCP\Comments;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Interface IComment
  *
@@ -14,6 +16,7 @@ namespace OCP\Comments;
  *
  * @since 9.0.0
  */
+#[Consumable('9.0.0')]
 interface IComment {
 	/**
 	 * @since 9.0.0
