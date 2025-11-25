@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node, View } from '@nextcloud/files'
+import type { INode, View } from '@nextcloud/files'
 
 import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
 import { FileAction } from '@nextcloud/files'
@@ -16,11 +16,11 @@ export const action = new FileAction({
 	displayName: () => t('files_reminders', 'Set reminder'),
 	iconSvgInline: () => AlarmSvg,
 
-	enabled: (nodes: Node[], view: View) => {
+	enabled: (nodes: INode[], view: View) => {
 		if (view.id === 'trashbin') {
 			return false
 		}
-		// Only allow on a single node
+		// Only allow on a single INode
 		if (nodes.length !== 1) {
 			return false
 		}

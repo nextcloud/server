@@ -7,16 +7,19 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
 const modules = {
+	dav: {
+		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
+		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
+		'settings-personal-availability': resolve(import.meta.dirname, 'apps/dav/src', 'settings-personal-availability.ts'),
+	},
+	files_reminders: {
+		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
+	},
 	files_trashbin: {
 		init: resolve(import.meta.dirname, 'apps/files_trashbin/src', 'files-init.ts'),
 	},
 	files_versions: {
 		'sidebar-tab': resolve(import.meta.dirname, 'apps/files_versions/src', 'sidebar_tab.ts'),
-	},
-	dav: {
-		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
-		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
-		'settings-personal-availability': resolve(import.meta.dirname, 'apps/dav/src', 'settings-personal-availability.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),

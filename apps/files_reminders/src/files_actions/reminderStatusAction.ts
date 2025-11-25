@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
-import {
-	type Node,
+import type { INode } from '@nextcloud/files'
 
-	FileAction,
-} from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
+import { FileAction } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import { pickCustomDate } from '../services/customPicker.ts'
 import { getVerboseDateString } from '../shared/utils.ts'
 
@@ -20,7 +18,7 @@ export const action = new FileAction({
 
 	displayName: () => '',
 
-	title: (nodes: Node[]) => {
+	title: (nodes: INode[]) => {
 		const node = nodes.at(0)!
 		const dueDate = new Date(node.attributes['reminder-due-date'])
 		return `${t('files_reminders', 'Reminder set')} – ${getVerboseDateString(dueDate)}`
@@ -28,7 +26,7 @@ export const action = new FileAction({
 
 	iconSvgInline: () => AlarmSvg,
 
-	enabled: (nodes: Node[]) => {
+	enabled: (nodes: INode[]) => {
 		// Only allow on a single node
 		if (nodes.length !== 1) {
 			return false
@@ -38,8 +36,8 @@ export const action = new FileAction({
 		return Boolean(dueDate)
 	},
 
-	async exec(node: Node) {
-		pickCustomDate(node)
+	async exec(node: INode) {
+		await pickCustomDate(node)
 		return null
 	},
 

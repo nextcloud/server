@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node, View } from '@nextcloud/files'
+import type { INode, View } from '@nextcloud/files'
 
 import CalendarClockSvg from '@mdi/svg/svg/calendar-clock.svg?raw'
 import { FileAction } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { pickCustomDate } from '../services/customPicker.ts'
 import { SET_REMINDER_MENU_ID } from './setReminderMenuAction.ts'
 
@@ -17,11 +17,11 @@ export const action = new FileAction({
 	title: () => t('files_reminders', 'Reminder at custom date & time'),
 	iconSvgInline: () => CalendarClockSvg,
 
-	enabled: (nodes: Node[], view: View) => {
+	enabled: (nodes: INode[], view: View) => {
 		if (view.id === 'trashbin') {
 			return false
 		}
-		// Only allow on a single node
+		// Only allow on a single INode
 		if (nodes.length !== 1) {
 			return false
 		}
@@ -32,7 +32,7 @@ export const action = new FileAction({
 
 	parent: SET_REMINDER_MENU_ID,
 
-	async exec(file: Node) {
+	async exec(file: INode) {
 		pickCustomDate(file)
 		return null
 	},

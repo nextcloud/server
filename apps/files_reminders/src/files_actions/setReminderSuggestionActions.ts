@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node, View } from '@nextcloud/files'
+import type { INode, View } from '@nextcloud/files'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import Vue from 'vue'
 import { setReminder } from '../services/reminderService.ts'
 import { logger } from '../shared/logger.ts'
 import { DateTimePreset, getDateString, getDateTime, getVerboseDateString } from '../shared/utils.ts'
@@ -73,11 +72,11 @@ function generateFileAction(option: ReminderOption): FileAction | null {
 		// Empty svg to hide the icon
 		iconSvgInline: () => '<svg></svg>',
 
-		enabled: (nodes: Node[], view: View) => {
+		enabled: (nodes: INode[], view: View) => {
 			if (view.id === 'trashbin') {
 				return false
 			}
-			// Only allow on a single node
+			// Only allow on a single INode
 			if (nodes.length !== 1) {
 				return false
 			}
@@ -88,7 +87,7 @@ function generateFileAction(option: ReminderOption): FileAction | null {
 
 		parent: SET_REMINDER_MENU_ID,
 
-		async exec(node: Node) {
+		async exec(node: INode) {
 			// Can't really happen, but just in case™
 			if (!node.fileid) {
 				logger.error('Failed to set reminder, missing file id')
@@ -100,7 +99,7 @@ function generateFileAction(option: ReminderOption): FileAction | null {
 			try {
 				const dateTime = getDateTime(option.dateTimePreset)!
 				await setReminder(node.fileid, dateTime)
-				Vue.set(node.attributes, 'reminder-due-date', dateTime.toISOString())
+				node.attributes['reminder-due-date'] = dateTime.toISOString()
 				emit('files:node:updated', node)
 				showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: node.basename }))
 			} catch (error) {

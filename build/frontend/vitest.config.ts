@@ -38,6 +38,10 @@ export default defineConfig({
 	},
 	test: {
 		include: ['apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		env: {
+			LANG: 'en_US',
+			TZ: 'UTC',
+		},
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
