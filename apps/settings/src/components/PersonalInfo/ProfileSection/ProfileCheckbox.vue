@@ -6,8 +6,8 @@
 <template>
 	<div class="checkbox-container">
 		<NcCheckboxRadioSwitch
+			v-model="isProfileEnabled"
 			type="switch"
-			:checked.sync="isProfileEnabled"
 			:loading="loading"
 			@update:checked="saveEnableProfile">
 			{{ t('settings', 'Enable profile') }}

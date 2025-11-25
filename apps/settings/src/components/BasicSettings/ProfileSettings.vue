@@ -16,8 +16,8 @@
 		</p>
 
 		<NcCheckboxRadioSwitch
+			v-model="initialProfileEnabledByDefault"
 			type="switch"
-			:checked.sync="initialProfileEnabledByDefault"
 			@update:checked="onProfileDefaultChange">
 			{{ t('settings', 'Enable') }}
 		</NcCheckboxRadioSwitch>

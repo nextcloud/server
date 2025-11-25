@@ -30,7 +30,7 @@
 					</p>
 				</div>
 				<NcCheckboxRadioSwitch
-					:checked="app.isSelected || app.active"
+					:model-value="app.isSelected || app.active"
 					:disabled="!app.isCompatible || app.active"
 					:loading="app.loading"
 					@update:checked="toggleSelect(app.id)" />

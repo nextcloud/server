@@ -14,7 +14,7 @@
 					@submit.prevent.stop="rename">
 					<NcTextField
 						ref="input"
-						:value.sync="newName"
+						v-model="newName"
 						:label="t('settings', 'Device name')"
 						:show-trailing-button="true"
 						:trailing-button-label="t('settings', 'Cancel renaming')"
@@ -44,7 +44,7 @@
 				:open.sync="actionOpen">
 				<NcActionCheckbox
 					v-if="canChangeScope"
-					:checked="token.scope.filesystem"
+					:model-value="token.scope.filesystem"
 					@update:checked="updateFileSystemScope">
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}

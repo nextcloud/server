@@ -47,7 +47,7 @@
 		<form class="oauth2-form" @submit.prevent="addClient">
 			<NcTextField
 				id="name"
-				:value.sync="newClient.name"
+				v-model="newClient.name"
 				type="text"
 				class="oauth2-form--input"
 				name="name"
@@ -55,7 +55,7 @@
 				:placeholder="t('oauth2', 'Name')" />
 			<NcTextField
 				id="redirectUri"
-				:value.sync="newClient.redirectUri"
+				v-model="newClient.redirectUri"
 				type="url"
 				class="oauth2-form--input"
 				name="redirectUri"

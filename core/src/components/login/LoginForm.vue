@@ -54,10 +54,10 @@
 			<NcTextField
 				id="user"
 				ref="user"
+				v-model="user"
 				:label="loginText"
 				name="user"
 				:maxlength="255"
-				:value.sync="user"
 				:class="{ shake: invalidPassword }"
 				autocapitalize="none"
 				:spellchecking="false"
@@ -71,9 +71,9 @@
 			<NcPasswordField
 				id="password"
 				ref="password"
+				v-model="password"
 				name="password"
 				:class="{ shake: invalidPassword }"
-				:value.sync="password"
 				:spellchecking="false"
 				autocapitalize="none"
 				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
@@ -88,9 +88,9 @@
 				v-if="remembermeAllowed"
 				id="rememberme"
 				ref="rememberme"
+				v-model="rememberme"
 				name="rememberme"
 				value="1"
-				:checked.sync="rememberme"
 				data-login-form-input-rememberme>
 				{{ t('core', 'Remember me') }}
 			</NcCheckboxRadioSwitch>

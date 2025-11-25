@@ -5,13 +5,10 @@
 
 import { getCSPNonce } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
-import VTooltip from '@nextcloud/vue/directives/Tooltip'
 import Vue from 'vue'
 import DashboardApp from './DashboardApp.vue'
 
 __webpack_nonce__ = getCSPNonce()
-
-Vue.directive('Tooltip', VTooltip)
 
 Vue.prototype.t = t
 

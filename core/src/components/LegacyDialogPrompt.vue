@@ -12,18 +12,18 @@
 		<NcPasswordField
 			v-if="isPassword"
 			ref="input"
+			v-model="inputValue"
 			autocomplete="new-password"
 			class="legacy-prompt__input"
 			:label="name"
-			:name="inputName"
-			:value.sync="inputValue" />
+			:name="inputName" />
 		<NcTextField
 			v-else
 			ref="input"
+			v-model="inputValue"
 			class="legacy-prompt__input"
 			:label="name"
-			:name="inputName"
-			:value.sync="inputValue" />
+			:name="inputName" />
 	</NcDialog>
 </template>
 

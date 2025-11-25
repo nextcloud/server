@@ -19,7 +19,7 @@
 				maxlength="80"
 				:disabled="disabled"
 				:placeholder="t('user_status', 'What is your status?')"
-				:value="message"
+				:model-value="message"
 				type="text"
 				:label="t('user_status', 'What is your status?')"
 				@input="onChange" />

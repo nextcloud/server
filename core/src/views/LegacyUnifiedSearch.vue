@@ -21,7 +21,7 @@
 			<div class="unified-search__input-row">
 				<NcTextField
 					ref="input"
-					:value.sync="query"
+					v-model="query"
 					trailing-button-icon="close"
 					:label="ariaLabel"
 					:trailing-button-label="t('core', 'Reset search')"

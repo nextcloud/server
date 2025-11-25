@@ -14,8 +14,8 @@
 		</p>
 
 		<NcCheckboxRadioSwitch
+			v-model="systemTagsCreationRestrictedToAdmin"
 			type="switch"
-			:checked.sync="systemTagsCreationRestrictedToAdmin"
 			@update:checked="updateSystemTagsDefault">
 			{{ t('systemtags', 'Restrict tag creation and editing to administrators') }}
 		</NcCheckboxRadioSwitch>

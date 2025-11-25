@@ -35,7 +35,7 @@
 						v-if="isLimitedToGroups(app)"
 						input-id="limitToGroups"
 						:options="groups"
-						:value="appGroups"
+						:model-value="appGroups"
 						:limit="5"
 						label="name"
 						:multiple="true"
@@ -102,7 +102,7 @@
 				</p>
 				<NcCheckboxRadioSwitch
 					v-if="app.canUnInstall"
-					:checked="removeData"
+					:model-value="removeData"
 					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
 					@update:checked="toggleRemoveData">
 					{{ t('settings', 'Delete data on remove') }}

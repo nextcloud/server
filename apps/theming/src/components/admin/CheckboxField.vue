@@ -9,8 +9,8 @@
 		<div class="field__row">
 			<NcCheckboxRadioSwitch
 				:id="id"
+				v-model="localValue"
 				type="switch"
-				:checked.sync="localValue"
 				@update:checked="save">
 				{{ label }}
 			</NcCheckboxRadioSwitch>

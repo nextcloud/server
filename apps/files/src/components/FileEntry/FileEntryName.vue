@@ -13,11 +13,11 @@
 		@submit.prevent.stop="onRename">
 		<NcTextField
 			ref="renameInput"
+			v-model="newName"
 			:label="renameLabel"
 			:autofocus="true"
 			:minlength="1"
 			:required="true"
-			:value.sync="newName"
 			enterkeyhint="done"
 			@keyup.esc="stopRenaming" />
 	</form>

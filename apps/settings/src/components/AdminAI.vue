@@ -71,7 +71,7 @@
 			<template v-for="provider in text2imageProviders">
 				<NcCheckboxRadioSwitch
 					:key="provider.id"
-					:checked.sync="settings['ai.text2image_provider']"
+					v-model="settings['ai.text2image_provider']"
 					:value="provider.id"
 					name="text2image_provider"
 					type="radio"

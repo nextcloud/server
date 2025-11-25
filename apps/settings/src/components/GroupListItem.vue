@@ -57,7 +57,7 @@
 					ref="displayNameInput"
 					:trailing-button-label="t('settings', 'Submit')"
 					type="text"
-					:value="name"
+					:model-value="name"
 					:label=" t('settings', 'Rename group')"
 					@submit="renameGroup(id)">
 					<template #icon>

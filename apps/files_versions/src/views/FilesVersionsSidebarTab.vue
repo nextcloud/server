@@ -278,6 +278,10 @@ function resetState() {
 	versions.value = []
 }
 
+/**
+ * @param payload - The event payload
+ * @param payload.version - The version to open
+ */
 function openVersion({ version }: { version: Version }) {
 	if (fileInfo.value === null) {
 		return
@@ -301,6 +305,10 @@ function openVersion({ version }: { version: Version }) {
 	})
 }
 
+/**
+ * @param payload - The event payload
+ * @param payload.version - The version to compare
+ */
 function compareVersion({ version }: { version: Version }) {
 	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
 

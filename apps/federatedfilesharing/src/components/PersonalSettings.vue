@@ -12,7 +12,7 @@
 			class="federated-cloud__cloud-id"
 			readonly
 			:label="t('federatedfilesharing', 'Your Federated Cloud ID')"
-			:value="cloudId"
+			:model-value="cloudId"
 			:success="isCopied"
 			show-trailing-button
 			:trailing-button-label="copyLinkTooltip"

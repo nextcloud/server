@@ -13,11 +13,11 @@
 		</template>
 		<NcActionInput
 			v-if="availableAccounts.length > 1"
+			v-model="accountFilter"
 			:label="t('files_sharing', 'Filter accounts')"
 			:label-outside="false"
 			:show-trailing-button="false"
-			type="search"
-			:value.sync="accountFilter" />
+			type="search" />
 		<NcActionButton
 			v-for="account of shownAccounts"
 			:key="account.id"

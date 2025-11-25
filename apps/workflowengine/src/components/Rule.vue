@@ -51,6 +51,7 @@
 				</NcButton>
 				<NcButton
 					:type="ruleStatus.type"
+					:title="ruleStatus.tooltip"
 					@click="saveRule">
 					<template #icon>
 						<component :is="ruleStatus.icon" :size="20" />
@@ -66,7 +67,6 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/directives/Tooltip'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -79,7 +79,6 @@ import Operation from './Operation.vue'
 import { logger } from '../logger.ts'
 
 export default {
-	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Rule',
 	components: {
 		Check,
@@ -88,10 +87,6 @@ export default {
 		NcActions,
 		NcButton,
 		Operation,
-	},
-
-	directives: {
-		Tooltip,
 	},
 
 	props: {
@@ -127,7 +122,7 @@ export default {
 					title: t('workflowengine', 'The configuration is invalid'),
 					icon: IconClose,
 					type: 'warning',
-					tooltip: { placement: 'bottom', show: true, content: this.error },
+					tooltip: this.error,
 				}
 			}
 			if (!this.dirty) {

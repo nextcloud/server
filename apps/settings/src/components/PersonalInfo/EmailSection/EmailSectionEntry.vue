@@ -23,6 +23,7 @@
 					:id="inputIdWithDefault"
 					ref="email"
 					class="email__input"
+					v-model="emailAddress"
 					autocapitalize="none"
 					autocomplete="email"
 					:error="hasError || !!helperText"
@@ -31,8 +32,7 @@
 					:placeholder="inputPlaceholder"
 					spellcheck="false"
 					:success="isSuccess"
-					type="email"
-					:value.sync="emailAddress" />
+					type="email" />
 
 				<div class="email__actions">
 					<NcActions :aria-label="actionsLabel">

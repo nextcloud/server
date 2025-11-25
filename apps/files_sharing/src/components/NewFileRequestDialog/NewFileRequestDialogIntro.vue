@@ -11,7 +11,7 @@
 				{{ t('files_sharing', 'What are you requesting?') }}
 			</legend>
 			<NcTextField
-				:value="label"
+				:model-value="label"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Request subject')"
 				:placeholder="t('files_sharing', 'Birthday party photos, History assignment…')"
@@ -26,7 +26,7 @@
 				{{ t('files_sharing', 'Where should these files go?') }}
 			</legend>
 			<NcTextField
-				:value="destination"
+				:model-value="destination"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Upload destination')"
 				:minlength="2/* cannot share root */"
@@ -56,7 +56,7 @@
 				{{ t('files_sharing', 'Add a note') }}
 			</legend>
 			<NcTextArea
-				:value="note"
+				:model-value="note"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Note for recipient')"
 				:placeholder="t('files_sharing', 'Add a note to help people understand what you are requesting.')"

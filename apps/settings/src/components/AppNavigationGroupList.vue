@@ -24,11 +24,11 @@
 					{{ t('settings', 'Create group') }}
 				</NcActionText>
 				<NcActionInput
+					v-model="newGroupName"
 					:label="t('settings', 'Group name')"
 					data-cy-users-settings-new-group-name
 					:label-outside="false"
 					:disabled="loadingAddGroup"
-					:value.sync="newGroupName"
 					:error="hasAddGroupError"
 					:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
 					@submit="createGroup" />

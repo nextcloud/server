@@ -53,9 +53,9 @@ const buttons = computed(() => [
 		</p>
 		<NcPasswordField
 			v-if="passwordRequired"
+			v-model="password"
 			class="remote-share-dialog__password"
-			:label="t('federatedfilesharing', 'Remote share password')"
-			:value.sync="password" />
+			:label="t('federatedfilesharing', 'Remote share password')" />
 	</NcDialog>
 </template>
 

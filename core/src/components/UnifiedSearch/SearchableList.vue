@@ -13,7 +13,7 @@
 		</template>
 		<div class="searchable-list__wrapper">
 			<NcTextField
-				:value.sync="searchTerm"
+				v-model="searchTerm"
 				:label="labelText"
 				trailing-button-icon="close"
 				:show-trailing-button="searchTerm !== ''"

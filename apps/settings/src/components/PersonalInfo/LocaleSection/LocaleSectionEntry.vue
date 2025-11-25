@@ -13,7 +13,7 @@
 			label="name"
 			label-outside
 			:options="allLocales"
-			:value="locale"
+			:model-value="locale"
 			@option:selected="updateLocale" />
 
 		<div class="example">

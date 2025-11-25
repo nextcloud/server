@@ -24,9 +24,9 @@
 			<template v-if="isTextFormField(formField)">
 				<div class="input-wrapper">
 					<NcInputField
+						v-model="formFieldsData[formField.id].value"
 						:type="formField.type"
 						:label="t(formApp, formField.title)"
-						:value.sync="formFieldsData[formField.id].value"
 						:placeholder="t(formApp, formField.placeholder)"
 						@update:value="onChangeDebounced(formField)"
 						@submit="updateDeclarativeSettingsValue(formField)" />
@@ -42,7 +42,7 @@
 						:options="formField.options"
 						:placeholder="t(formApp, formField.placeholder)"
 						:label-outside="true"
-						:value="formFieldsData[formField.id].value"
+						:model-value="formFieldsData[formField.id].value"
 						@input="(value) => updateFormFieldDataValue(value, formField, true)" />
 				</div>
 				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>
@@ -57,7 +57,7 @@
 						:placeholder="t(formApp, formField.placeholder)"
 						:multiple="true"
 						:label-outside="true"
-						:value="formFieldsData[formField.id].value"
+						:model-value="formFieldsData[formField.id].value"
 						@input="(value) => {
 							formFieldsData[formField.id].value = value
 							updateDeclarativeSettingsValue(formField, JSON.stringify(formFieldsData[formField.id].value))
@@ -71,7 +71,7 @@
 				<label v-if="formField.label" :for="formField.id + '_field'">{{ t(formApp, formField.title) }}</label>
 				<NcCheckboxRadioSwitch
 					:id="formField.id + '_field'"
-					:checked="Boolean(formFieldsData[formField.id].value)"
+					:model-value="Boolean(formFieldsData[formField.id].value)"
 					type="switch"
 					@update:checked="(value) => {
 						formField.value = value
@@ -89,7 +89,7 @@
 					v-for="option in formField.options"
 					:id="formField.id + '_field_' + option.value"
 					:key="option.value"
-					:checked="formFieldsData[formField.id].value[option.value]"
+					:model-value="formFieldsData[formField.id].value[option.value]"
 					@update:checked="(value) => {
 						formFieldsData[formField.id].value[option.value] = value
 						// Update without re-generating initial formFieldsData.value object as the link to components are lost
@@ -108,7 +108,7 @@
 					:key="option.value"
 					:value="option.value"
 					type="radio"
-					:checked="formFieldsData[formField.id].value"
+					:model-value="formFieldsData[formField.id].value"
 					@update:checked="(value) => updateFormFieldDataValue(value, formField, true)">
 					{{ t(formApp, option.name) }}
 				</NcCheckboxRadioSwitch>

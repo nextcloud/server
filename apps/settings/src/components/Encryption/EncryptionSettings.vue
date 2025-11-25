@@ -130,7 +130,7 @@ async function enableEncryption(): Promise<void> {
 
 		<NcCheckboxRadioSwitch
 			:class="{ disabled: encryptionEnabled }"
-			:checked="encryptionEnabled"
+			:model-value="encryptionEnabled"
 			:aria-disabled="encryptionEnabled ? 'true' : undefined"
 			:aria-describedby="encryptionEnabled ? 'server-side-encryption-disable-hint' : undefined"
 			:loading="loadingEncryptionState"
@@ -154,7 +154,7 @@ async function enableEncryption(): Promise<void> {
 					<NcCheckboxRadioSwitch
 						v-for="module in encryptionModules"
 						:key="module.id"
-						:checked.sync="defaultCheckedModule"
+						v-model="defaultCheckedModule"
 						:value="module.id"
 						type="radio"
 						name="default_encryption_module"
