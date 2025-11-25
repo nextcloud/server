@@ -8,8 +8,10 @@ declare(strict_types=1);
  */
 namespace OC\L10N;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Config\IUserConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -71,6 +73,7 @@ class Factory implements IFactory {
 	];
 
 	private ICache $cache;
+	private IUserConfig $userConfig;
 
 	public function __construct(
 		protected IConfig $config,
@@ -220,7 +223,8 @@ class Factory implements IFactory {
 			// Try to get the language from the Request
 			$lang = $this->getLanguageFromRequest($appId);
 			if ($userId !== null && $appId === null && !$userLang) {
-				$this->config->setUserValue($userId, 'core', 'lang', $lang);
+				$userConfig = \OCP\Server::get(IUserConfig::class);
+				$userConfig->setValueString($userId, 'core', ConfigLexicon::USER_LANGUAGE, $lang);
 			}
 			return $lang;
 		} catch (LanguageNotFoundException $e) {
