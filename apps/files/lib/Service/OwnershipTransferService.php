@@ -73,6 +73,7 @@ class OwnershipTransferService {
 		bool $move = false,
 		bool $firstLogin = false,
 		bool $includeExternalStorage = false,
+		bool $useUserId = false,
 	): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
@@ -104,7 +105,12 @@ class OwnershipTransferService {
 			$l = $this->l10nFactory->get('files', $this->l10nFactory->getUserLanguage($destinationUser));
 			$date = date('Y-m-d H-i-s');
 
-			$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName()) ?: $sourceUid;
+			if ($useUserId) {
+				$cleanUserName = $sourceUid;
+			} else {
+				$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName()) ?: $sourceUid;
+			}
+			
 			$finalTarget = "$destinationUid/files/" . $this->sanitizeFolderName($l->t('Transferred from %1$s on %2$s', [$cleanUserName, $date]));
 			try {
 				$view->verifyPath(dirname($finalTarget), basename($finalTarget));
