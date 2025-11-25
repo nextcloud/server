@@ -8,6 +8,20 @@
 			{{ t('user_ldap', 'When logging in, {instanceName} will find the user based on the following attributes:', { instanceName }) }}
 		</legend>
 
+		<NcCheckboxRadioSwitch
+			:model-value="ldapConfigProxy.ldapLoginFilterUsername === '1'"
+			:description="t('user_ldap', 'Allows login against the LDAP/AD username, which is either \'uid\' or \'sAMAccountName\' and will be detected.')"
+			@update:model-value="ldapConfigProxy.ldapLoginFilterUsername = $event ? '1' : '0'">
+			{{ t('user_ldap', 'LDAP/AD Username:') }}
+		</NcCheckboxRadioSwitch>
+
+		<NcCheckboxRadioSwitch
+			:model-value="ldapConfigProxy.ldapLoginFilterEmail === '1'"
+			:description="t('user_ldap', 'Allows login against an email attribute. \'mail\' and \'mailPrimaryAddress\' allowed.')"
+			@update:model-value="ldapConfigProxy.ldapLoginFilterEmail = $event ? '1' : '0'">
+			{{ t('user_ldap', 'LDAP/AD Email Address:') }}
+		</NcCheckboxRadioSwitch>
+
 		<div class="ldap-wizard__login__line ldap-wizard__login__login-attributes">
 			<NcSelect
 				v-model="ldapLoginFilterAttributes"
