@@ -6,7 +6,7 @@
 <template>
 	<div class="field">
 		<NcTextField
-			:value.sync="localValue"
+			v-model="localValue"
 			:label="displayName"
 			:placeholder="placeholder"
 			:type="type"

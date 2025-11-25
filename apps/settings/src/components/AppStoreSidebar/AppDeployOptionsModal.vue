@@ -24,7 +24,7 @@
 					v-for="envVar in environmentVariables"
 					:key="envVar.envName"
 					class="deploy-option">
-					<NcTextField :label="envVar.displayName" :value.sync="deployOptions.environment_variables[envVar.envName]" />
+					<NcTextField v-model="deployOptions.environment_variables[envVar.envName]" :label="envVar.displayName" />
 					<p class="deploy-option__hint">
 						{{ envVar.description }}
 					</p>
@@ -41,7 +41,7 @@
 					:key="key"
 					:label="value.displayName ?? key"
 					:helper-text="value.description"
-					:value="value.value"
+					:model-value="value.value"
 					readonly />
 			</fieldset>
 			<template v-else>
@@ -61,9 +61,9 @@
 					:key="mount.hostPath"
 					class="deploy-option"
 					style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
-					<NcTextField :label="t('settings', 'Host path')" :value.sync="mount.hostPath" />
-					<NcTextField :label="t('settings', 'Container path')" :value.sync="mount.containerPath" />
-					<NcCheckboxRadioSwitch :checked.sync="mount.readonly">
+					<NcTextField v-model="mount.hostPath" :label="t('settings', 'Host path')" />
+					<NcTextField v-model="mount.containerPath" :label="t('settings', 'Container path')" />
+					<NcCheckboxRadioSwitch v-model="mount.readonly">
 						{{ t('settings', 'Read-only') }}
 					</NcCheckboxRadioSwitch>
 					<NcButton
@@ -82,15 +82,15 @@
 					<div style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
 						<NcTextField
 							ref="newMountHostPath"
+							v-model="newMountPoint.hostPath"
 							:label="t('settings', 'Host path')"
-							:aria-label="t('settings', 'Enter path to host folder')"
-							:value.sync="newMountPoint.hostPath" />
+							:aria-label="t('settings', 'Enter path to host folder')" />
 						<NcTextField
+							v-model="newMountPoint.containerPath"
 							:label="t('settings', 'Container path')"
-							:aria-label="t('settings', 'Enter path to container folder')"
-							:value.sync="newMountPoint.containerPath" />
+							:aria-label="t('settings', 'Enter path to container folder')" />
 						<NcCheckboxRadioSwitch
-							:checked.sync="newMountPoint.readonly"
+							v-model="newMountPoint.readonly"
 							:aria-label="t('settings', 'Toggle read-only mode')">
 							{{ t('settings', 'Read-only') }}
 						</NcCheckboxRadioSwitch>
@@ -135,9 +135,9 @@
 					:key="mount.hostPath"
 					class="deploy-option"
 					style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
-					<NcTextField :label="t('settings', 'Host path')" :value.sync="mount.hostPath" readonly />
-					<NcTextField :label="t('settings', 'Container path')" :value.sync="mount.containerPath" readonly />
-					<NcCheckboxRadioSwitch :checked.sync="mount.readonly" disabled>
+					<NcTextField v-model="mount.hostPath" :label="t('settings', 'Host path')" readonly />
+					<NcTextField v-model="mount.containerPath" :label="t('settings', 'Container path')" readonly />
+					<NcCheckboxRadioSwitch v-model="mount.readonly" disabled>
 						{{ t('settings', 'Read-only') }}
 					</NcCheckboxRadioSwitch>
 				</div>

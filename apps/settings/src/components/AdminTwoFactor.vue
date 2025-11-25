@@ -14,7 +14,7 @@
 		<NcCheckboxRadioSwitch
 			v-else
 			id="two-factor-enforced"
-			:checked.sync="enforced"
+			v-model="enforced"
 			type="switch">
 			{{ t('settings', 'Enforce two-factor authentication') }}
 		</NcCheckboxRadioSwitch>

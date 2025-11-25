@@ -17,8 +17,8 @@
 			<!-- Only show checkbox if we can change themes -->
 			<NcCheckboxRadioSwitch
 				v-show="!enforced"
+				v-model="checked"
 				class="theming__preview-toggle"
-				:checked.sync="checked"
 				:disabled="enforced"
 				:name="name"
 				:type="switchType">

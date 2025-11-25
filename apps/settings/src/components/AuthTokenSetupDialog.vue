@@ -11,7 +11,7 @@
 			{{ t('settings', 'Use the credentials below to configure your app or device. For security reasons this password will only be shown once.') }}
 		</p>
 		<div class="token-dialog__name">
-			<NcTextField :label="t('settings', 'Login')" :value="loginName" readonly />
+			<NcTextField :label="t('settings', 'Login')" :model-value="loginName" readonly />
 			<NcButton
 				variant="tertiary"
 				:title="copyLoginNameLabel"
@@ -26,7 +26,7 @@
 			<NcTextField
 				ref="appPassword"
 				:label="t('settings', 'Password')"
-				:value="appPassword"
+				:model-value="appPassword"
 				readonly />
 			<NcButton
 				variant="tertiary"

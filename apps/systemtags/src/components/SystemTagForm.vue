@@ -35,7 +35,7 @@
 			<NcTextField
 				id="system-tag-name"
 				ref="tagNameInput"
-				:value.sync="tagName"
+				v-model="tagName"
 				:error="Boolean(errorMessage)"
 				:helper-text="errorMessage"
 				label-outside />

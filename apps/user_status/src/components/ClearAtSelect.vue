@@ -12,7 +12,7 @@
 			input-id="clearStatus"
 			class="clear-at-select__select"
 			:options="options"
-			:value="option"
+			:model-value="option"
 			:clearable="false"
 			placement="top"
 			label-outside

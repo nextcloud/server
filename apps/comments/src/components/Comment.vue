@@ -72,7 +72,7 @@
 						:contenteditable="!loading"
 						:label="editor ? t('comments', 'New comment') : t('comments', 'Edit comment')"
 						:placeholder="t('comments', 'Write a comment …')"
-						:value="localMessage"
+						:model-value="localMessage"
 						:user-data="userData"
 						aria-describedby="tab-comments__editor-description"
 						@update:value="updateLocalMessage"

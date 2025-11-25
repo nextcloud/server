@@ -10,7 +10,7 @@
 		@submit.prevent="submit">
 		<!-- Port to TextField component when available -->
 		<NcTextField
-			:value.sync="deviceName"
+			v-model="deviceName"
 			type="text"
 			:maxlength="120"
 			:disabled="loading"

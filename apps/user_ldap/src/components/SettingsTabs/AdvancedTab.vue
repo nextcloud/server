@@ -10,13 +10,13 @@
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Backup (Replica) Host')"
-				:value="ldapConfigProxy.ldapBackupHost"
+				:model-value="ldapConfigProxy.ldapBackupHost"
 				:helper-text="t('user_ldap', 'Give an optional backup host. It must be a replica of the main LDAP/AD server.')"
 				@change="(event) => ldapConfigProxy.ldapBackupHost = event.target.value" />
 
 			<NcTextField
 				type="number"
-				:value="ldapConfigProxy.ldapBackupPort"
+				:model-value="ldapConfigProxy.ldapBackupPort"
 				:label="t('user_ldap', 'Backup (Replica) Port')"
 				@change="(event) => ldapConfigProxy.ldapBackupPort = event.target.value" />
 
@@ -38,7 +38,7 @@
 			<NcTextField
 				type="number"
 				:label="t('user_ldap', 'Cache Time-To-Live')"
-				:value="ldapConfigProxy.ldapCacheTTL"
+				:model-value="ldapConfigProxy.ldapCacheTTL"
 				:helper-text="t('user_ldap', 'in seconds. A change empties the cache.')"
 				@change="(event) => ldapConfigProxy.ldapCacheTTL = event.target.value" />
 		</details>
@@ -48,14 +48,14 @@
 
 			<NcTextField
 				autocomplete="off"
-				:value="ldapConfigProxy.ldapUserDisplayName"
+				:model-value="ldapConfigProxy.ldapUserDisplayName"
 				:label="t('user_ldap', 'User Display Name Field')"
 				:helper-text="t('user_ldap', 'The LDAP attribute to use to generate the user\'s display name.')"
 				@change="(event) => ldapConfigProxy.ldapUserDisplayName = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
-				:value="ldapConfigProxy.ldapUserDisplayName2"
+				:model-value="ldapConfigProxy.ldapUserDisplayName2"
 				:label="t('user_ldap', '2nd User Display Name Field')"
 				:helper-text="t('user_ldap', 'Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«.')"
 				@change="(event) => ldapConfigProxy.ldapUserDisplayName2 = event.target.value" />
@@ -81,7 +81,7 @@
 
 			<NcTextField
 				autocomplete="off"
-				:value="ldapConfigProxy.ldapGroupDisplayName"
+				:model-value="ldapConfigProxy.ldapGroupDisplayName"
 				:label="t('user_ldap', 'Group Display Name Field')"
 				:title="t('user_ldap', 'The LDAP attribute to use to generate the groups\'s display name.')"
 				@change="(event) => ldapConfigProxy.ldapGroupDisplayName = event.target.value" />
@@ -113,7 +113,7 @@
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Dynamic Group Member URL')"
-				:value="ldapConfigProxy.ldapDynamicGroupMemberURL"
+				:model-value="ldapConfigProxy.ldapDynamicGroupMemberURL"
 				:helper-text="t('user_ldap', 'The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)')"
 				@change="(event) => ldapConfigProxy.ldapDynamicGroupMemberURL = event.target.value" />
 
@@ -127,7 +127,7 @@
 			<NcTextField
 				type="number"
 				:label="t('user_ldap', 'Paging chunksize')"
-				:value="ldapConfigProxy.ldapPagingSize"
+				:model-value="ldapConfigProxy.ldapPagingSize"
 				:helper-text="t('user_ldap', 'Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)')"
 				@change="(event) => ldapConfigProxy.ldapPagingSize = event.target.value" />
 
@@ -144,7 +144,7 @@
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Default password policy DN')"
-				:value="ldapConfigProxy.ldapDefaultPPolicyDN"
+				:model-value="ldapConfigProxy.ldapDefaultPPolicyDN"
 				:helper-text="t('user_ldap', 'The DN of a default password policy that will be used for password expiry handling. Works only when LDAP password changes per user are enabled and is only supported by OpenLDAP. Leave empty to disable password expiry handling.')"
 				@change="(event) => ldapConfigProxy.ldapDefaultPPolicyDN = event.target.value" />
 		</details>
@@ -154,21 +154,21 @@
 
 			<NcTextField
 				autocomplete="off"
-				:value="ldapConfigProxy.ldapQuotaAttribute"
+				:model-value="ldapConfigProxy.ldapQuotaAttribute"
 				:label="t('user_ldap', 'Quota Field')"
 				:helper-text="t('user_ldap', 'Leave empty for user\'s default quota. Otherwise, specify an LDAP/AD attribute.')"
 				@change="(event) => ldapConfigProxy.ldapQuotaAttribute = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
-				:value="ldapConfigProxy.ldapQuotaDefault"
+				:model-value="ldapConfigProxy.ldapQuotaDefault"
 				:label="t('user_ldap', 'Quota Default')"
 				:helper-text="t('user_ldap', 'Override default quota for LDAP users who do not have a quota set in the Quota Field.')"
 				@change="(event) => ldapConfigProxy.ldapQuotaDefault = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
-				:value="ldapConfigProxy.ldapEmailAttribute"
+				:model-value="ldapConfigProxy.ldapEmailAttribute"
 				:label="t('user_ldap', 'Email Field')"
 				:helper-text="t('user_ldap', 'Set the user\'s email from their LDAP attribute. Leave it empty for default behaviour.')"
 				@change="(event) => ldapConfigProxy.ldapEmailAttribute = event.target.value" />
@@ -176,14 +176,14 @@
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'User Home Folder Naming Rule')"
-				:value="ldapConfigProxy.homeFolderNamingRule"
+				:model-value="ldapConfigProxy.homeFolderNamingRule"
 				:helper-text="t('user_ldap', 'Leave empty for username (default). Otherwise, specify an LDAP/AD attribute.')"
 				@change="(event) => ldapConfigProxy.homeFolderNamingRule = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', '`$home` Placeholder Field')"
-				:value="ldapConfigProxy.ldapExtStorageHomeAttribute"
+				:model-value="ldapConfigProxy.ldapExtStorageHomeAttribute"
 				:helper-text="t('user_ldap', '$home in an external storage configuration will be replaced with the value of the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapExtStorageHomeAttribute = event.target.value" />
 		</details>
@@ -194,70 +194,70 @@
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Phone Field')"
-				:value="ldapConfigProxy.ldapAttributePhone"
+				:model-value="ldapConfigProxy.ldapAttributePhone"
 				:helper-text="t('user_ldap', 'User profile Phone will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributePhone = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Website Field')"
-				:value="ldapConfigProxy.ldapAttributeWebsite"
+				:model-value="ldapConfigProxy.ldapAttributeWebsite"
 				:helper-text="t('user_ldap', 'User profile Website will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeWebsite = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Address Field')"
-				:value="ldapConfigProxy.ldapAttributeAddress"
+				:model-value="ldapConfigProxy.ldapAttributeAddress"
 				:helper-text="t('user_ldap', 'User profile Address will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeAddress = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Twitter Field')"
-				:value="ldapConfigProxy.ldapAttributeTwitter"
+				:model-value="ldapConfigProxy.ldapAttributeTwitter"
 				:helper-text="t('user_ldap', 'User profile Twitter will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeTwitter = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Fediverse Field')"
-				:value="ldapConfigProxy.ldapAttributeFediverse"
+				:model-value="ldapConfigProxy.ldapAttributeFediverse"
 				:helper-text="t('user_ldap', 'User profile Fediverse will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeFediverse = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Organisation Field')"
-				:value="ldapConfigProxy.ldapAttributeOrganisation"
+				:model-value="ldapConfigProxy.ldapAttributeOrganisation"
 				:helper-text="t('user_ldap', 'User profile Organisation will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeOrganisation = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Role Field')"
-				:value="ldapConfigProxy.ldapAttributeRole"
+				:model-value="ldapConfigProxy.ldapAttributeRole"
 				:helper-text="t('user_ldap', 'User profile Role will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeRole = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Headline Field')"
-				:value="ldapConfigProxy.ldapAttributeHeadline"
+				:model-value="ldapConfigProxy.ldapAttributeHeadline"
 				:helper-text="t('user_ldap', 'User profile Headline will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeHeadline = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Biography Field')"
-				:value="ldapConfigProxy.ldapAttributeBiography"
+				:model-value="ldapConfigProxy.ldapAttributeBiography"
 				:helper-text="t('user_ldap', 'User profile Biography will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeBiography = event.target.value" />
 
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'Birthdate Field')"
-				:value="ldapConfigProxy.ldapAttributeBirthDate"
+				:model-value="ldapConfigProxy.ldapAttributeBirthDate"
 				:helper-text="t('user_ldap', 'User profile Date of birth will be set from the specified attribute')"
 				@change="(event) => ldapConfigProxy.ldapAttributeBirthDate = event.target.value" />
 		</details>

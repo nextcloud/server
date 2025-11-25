@@ -1,4 +1,9 @@
 {
+  "apps/files/src/components/FilesNavigationItem.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 1
+    }
+  },
   "apps/files/src/components/TransferOwnershipDialogue.vue": {
     "@nextcloud/vue/no-deprecated-props": {
       "count": 1
@@ -24,6 +29,11 @@
       "count": 1
     }
   },
+  "apps/settings/src/components/GroupListItem.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 1
+    }
+  },
   "apps/settings/src/components/Users/NewUserDialog.vue": {
     "@nextcloud/vue/no-deprecated-props": {
       "count": 1
@@ -32,12 +42,20 @@
       "count": 17
     }
   },
+  "apps/settings/src/views/UserManagementNavigation.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 4
+    }
+  },
   "apps/workflowengine/src/components/Check.vue": {
     "vue/no-mutating-props": {
       "count": 3
     }
   },
   "apps/workflowengine/src/components/Rule.vue": {
+    "vue/multi-word-component-names": {
+      "count": 1
+    },
     "vue/no-mutating-props": {
       "count": 1
     }

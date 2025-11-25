@@ -73,7 +73,7 @@
 				:disabled="false"
 				icon="icon-rename"
 				type="text"
-				value=""
+				model-value=""
 				@submit="onAddressSubmit" />
 			<template v-if="favorites.length > 0">
 				<NcActionCaption :name="t('weather_status', 'Favorites')" />

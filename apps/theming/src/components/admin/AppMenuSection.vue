@@ -9,7 +9,7 @@
 			{{ t('theming', 'The default app is the app that is e.g. opened after login or when the logo in the menu is clicked.') }}
 		</p>
 
-		<NcCheckboxRadioSwitch :checked.sync="hasCustomDefaultApp" type="switch" data-cy-switch-default-app="">
+		<NcCheckboxRadioSwitch v-model="hasCustomDefaultApp" type="switch" data-cy-switch-default-app="">
 			{{ t('theming', 'Use custom default app') }}
 		</NcCheckboxRadioSwitch>
 

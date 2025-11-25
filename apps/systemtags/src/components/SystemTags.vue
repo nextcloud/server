@@ -16,7 +16,7 @@
 			:input-label="t('systemtags', 'Search or create collaborative tags')"
 			:placeholder="t('systemtags', 'Collaborative tags …')"
 			:options="sortedTags"
-			:value="selectedTags"
+			:model-value="selectedTags"
 			:create-option="createOption"
 			:disabled="disabled"
 			:taggable="true"

@@ -23,25 +23,25 @@
 		<!-- Login -->
 		<NcTextField
 			ref="login"
+			v-model="login"
 			class="external-storage-auth__login"
 			data-cy-external-storage-auth-dialog-login
 			:label="t('files_external', 'Login')"
 			:placeholder="t('files_external', 'Enter the storage login')"
 			minlength="2"
 			name="login"
-			required
-			:value.sync="login" />
+			required />
 
 		<!-- Password -->
 		<NcPasswordField
 			ref="password"
+			v-model="password"
 			class="external-storage-auth__password"
 			data-cy-external-storage-auth-dialog-password
 			:label="t('files_external', 'Password')"
 			:placeholder="t('files_external', 'Enter the storage password')"
 			name="password"
-			required
-			:value.sync="password" />
+			required />
 	</NcDialog>
 </template>
 

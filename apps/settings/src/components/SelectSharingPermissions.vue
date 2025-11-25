@@ -4,16 +4,16 @@
 -->
 <template>
 	<fieldset class="permissions-select">
-		<NcCheckboxRadioSwitch :checked="canCreate" @update:checked="toggle(PERMISSION_CREATE)">
+		<NcCheckboxRadioSwitch :model-value="canCreate" @update:modelValue="toggle(PERMISSION_CREATE)">
 			{{ t('settings', 'Create') }}
 		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :checked="canUpdate" @update:checked="toggle(PERMISSION_UPDATE)">
+		<NcCheckboxRadioSwitch :model-value="canUpdate" @update:modelValue="toggle(PERMISSION_UPDATE)">
 			{{ t('settings', 'Change') }}
 		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :checked="canDelete" @update:checked="toggle(PERMISSION_DELETE)">
+		<NcCheckboxRadioSwitch :model-value="canDelete" @update:modelValue="toggle(PERMISSION_DELETE)">
 			{{ t('settings', 'Delete') }}
 		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :checked="canShare" @update:checked="toggle(PERMISSION_SHARE)">
+		<NcCheckboxRadioSwitch :model-value="canShare" @update:modelValue="toggle(PERMISSION_SHARE)">
 			{{ t('settings', 'Reshare') }}
 		</NcCheckboxRadioSwitch>
 	</fieldset>
