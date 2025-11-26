@@ -27,6 +27,9 @@ const modules = {
 	user_ldap: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
 	},
+	user_status: {
+		menu: resolve(import.meta.dirname, 'apps/user_status/src', 'menu.js'),
+	},
 }
 
 // convert modules to modules entries prefied with the app id
