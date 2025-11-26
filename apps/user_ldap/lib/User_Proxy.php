@@ -10,6 +10,8 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
@@ -30,6 +32,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		private UserPluginManager $userPluginManager,
 		private LoggerInterface $logger,
 		private DeletedUsersIndex $deletedUsersIndex,
+		private IUserManager $userManager,
 	) {
 		parent::__construct($helper, $ldap, $accessFactory);
 	}
@@ -41,6 +44,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 			$this->userPluginManager,
 			$this->logger,
 			$this->deletedUsersIndex,
+			$this->userManager,
 		);
 	}
 
@@ -431,4 +435,15 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 			)
 		);
 	}
+
+	public function getUserFromCustomAttribute(string $filter, string $attribute, string $searchTerm): ?IUser {
+		$this->setup();
+		foreach ($this->backends as $backend) {
+			if (method_exists($backend, 'getUserFromCustomAttribute')) {
+				$user = $backend->getUserFromCustomAttribute($filter, $attribute, $searchTerm);
+				return $user;
+			}
+		}		
+		return null;
+	}	
 }

@@ -11,6 +11,7 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IServerContainer;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
+use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -326,5 +327,15 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 		$connection->writeToCache($key, $values);
 		return $values;
+	}
+
+	/**
+	 * Search for a single user in ldap
+	 *
+	 * @return IUser|null Returns a IUser if found in ldap using the configured ldap filter
+	 * @throws \Exception if multiple users has been found (search query should not allow this)
+	 */
+	public function findOneUser(string $filter, string $attribute, string $searchTerm): ?IUser {
+		return $this->userBackend->getUserFromCustomAttribute($filter, $attribute, $searchTerm);
 	}
 }
