@@ -83,6 +83,7 @@ OC.L10N.register(
     "Create share" : "Crear compartición",
     "Start typing to search" : "Empieza a escribir para buscar",
     "Today" : "Hoy",
+    "Last 7 days" : "Últimos 7 días",
     "Last year" : "Último año",
     "Places" : "Lugares",
     "People" : "Personas",
