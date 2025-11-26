@@ -157,7 +157,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - call-bind
-	- version: 1.0.7
+	- version: 1.0.8
+	- license: MIT
+- call-bound
+	- version: 1.0.4
 	- license: MIT
 - charenc
 	- version: 0.0.2
@@ -205,7 +208,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.6.6
 	- license: MIT
 - for-each
-	- version: 0.3.3
+	- version: 0.3.5
 	- license: MIT
 - function-bind
 	- version: 1.1.2
@@ -262,7 +265,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.10
 	- license: MIT
 - is-typed-array
-	- version: 1.1.13
+	- version: 1.1.15
 	- license: MIT
 - layerr
 	- version: 3.0.0
@@ -286,7 +289,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - object-inspect
-	- version: 1.13.2
+	- version: 1.13.4
 	- license: MIT
 - path-posix
 	- version: 1.0.0
@@ -324,8 +327,17 @@ This file is generated from multiple sources. Included packages:
 - set-function-length
 	- version: 1.2.2
 	- license: MIT
+- side-channel-list
+	- version: 1.0.0
+	- license: MIT
+- side-channel-map
+	- version: 1.0.1
+	- license: MIT
+- side-channel-weakmap
+	- version: 1.0.2
+	- license: MIT
 - side-channel
-	- version: 1.0.6
+	- version: 1.1.0
 	- license: MIT
 - readable-stream
 	- version: 3.6.2
@@ -403,7 +415,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.103.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.15
+	- version: 1.1.19
 	- license: MIT
 - xtend
 	- version: 4.0.2
