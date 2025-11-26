@@ -248,4 +248,4 @@ prepareDocker
 
 echo "Running tests"
 # --tty is needed to get colourful output.
-docker exec --tty --user www-data $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud/build/integration && ./run.sh $SCENARIO_TO_RUN"
+docker exec --tty --user www-data -w "/nextcloud/build/integration" $NEXTCLOUD_LOCAL_CONTAINER bash -c "./run.sh $SCENARIO_TO_RUN"

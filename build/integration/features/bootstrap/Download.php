@@ -7,7 +7,7 @@
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\StreamInterface;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 trait Download {
 	/** @var string * */
