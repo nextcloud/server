@@ -12,7 +12,7 @@ ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
 DBCONFIGS="sqlite mysql pgsql oci"
-PHPUNIT=$(which phpunit)
+PHPUNIT="$PWD/lib/composer/bin/phpunit"
 
 _XDEBUG_CONFIG=$XDEBUG_CONFIG
 unset XDEBUG_CONFIG
@@ -28,13 +28,8 @@ function print_syntax {
 }
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, trying local one from build/integration" >&2
-	if [ -x "$PWD/build/integration/vendor/phpunit/phpunit/phpunit" ]; then
-		PHPUNIT="$PWD/build/integration/vendor/phpunit/phpunit/phpunit"
-	else
-		echo "phpunit executable not found, please install phpunit version >= 9.0" >&2
-		exit 3
-	fi
+	echo "phpunit executable not found, please run 'composer install' in the root directory first." >&2
+	exit 3
 fi
 
 PHPUNIT_VERSION=$("$PHPUNIT" --version | cut -d" " -f2)
