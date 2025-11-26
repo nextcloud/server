@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<div id="profile-settings"
+	<div
+		id="profile-settings"
 		class="section">
 		<h2 class="inlineblock">
 			{{ t('settings', 'Profile') }}
@@ -14,23 +15,22 @@
 			{{ t('settings', 'Enable or disable profile by default for new accounts.') }}
 		</p>
 
-		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="initialProfileEnabledByDefault"
-			@update:checked="onProfileDefaultChange">
+		<NcCheckboxRadioSwitch
+			v-model="initialProfileEnabledByDefault"
+			type="switch"
+			@update:modelValue="onProfileDefaultChange">
 			{{ t('settings', 'Enable') }}
 		</NcCheckboxRadioSwitch>
 	</div>
 </template>
 
 <script>
-import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-
+import { loadState } from '@nextcloud/initial-state'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import logger from '../../logger.ts'
 import { saveProfileDefault } from '../../service/ProfileService.js'
 import { validateBoolean } from '../../utils/validate.js'
-import logger from '../../logger.ts'
-
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 const profileEnabledByDefault = loadState('settings', 'profileEnabledByDefault', true)
 

@@ -16,7 +16,7 @@ OC.L10N.register(
     "Customize" : "პერსონალიზაცია",
     "Edit widgets" : "ვიჯეტების დაედითება",
     "Weather service" : "ამინდის სერვისი",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "თქვენი კონფენდენციალურობისთვის, ამინდზე ინფორმაცია მოთხოვნილია ჩვენი Nextcloud-ის სერვერის მიერ, ამჟამად ამინდის სერვისები თქვენს პირად ინფორმაციას არ მიიღებენ.",
-    "Weather data from Met.no" : "ამინდის პროგნოზი Met.no-დან"
+    "Weather data from Met.no" : "ამინდის პროგნოზი Met.no-დან",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "თქვენი კონფენდენციალურობისთვის, ამინდზე ინფორმაცია მოთხოვნილია ჩვენი Nextcloud-ის სერვერის მიერ, ამჟამად ამინდის სერვისები თქვენს პირად ინფორმაციას არ მიიღებენ."
 },
 "nplurals=2; plural=(n!=1);");

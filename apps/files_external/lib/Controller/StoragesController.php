@@ -40,7 +40,7 @@ abstract class StoragesController extends Controller {
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		protected IL10N $l10n,
 		protected StoragesService $service,
@@ -49,7 +49,7 @@ abstract class StoragesController extends Controller {
 		protected IGroupManager $groupManager,
 		protected IConfig $config,
 	) {
-		parent::__construct($AppName, $request);
+		parent::__construct($appName, $request);
 	}
 
 	/**

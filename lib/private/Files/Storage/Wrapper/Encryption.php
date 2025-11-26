@@ -337,7 +337,7 @@ class Encryption extends Wrapper {
 			}
 
 			// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
-			if (!$encryptionEnabled || !$this->shouldEncrypt($path)) {
+			if (!$this->shouldEncrypt($path)) {
 				if (!$targetExists || !$targetIsEncrypted) {
 					$shouldEncrypt = false;
 				}
@@ -464,6 +464,7 @@ class Encryption extends Wrapper {
 			if (strlen($lastChunkContentEncrypted) > $blockSize) {
 				$newUnencryptedSize += $unencryptedBlockSize;
 				$lastChunkContentEncrypted = substr($lastChunkContentEncrypted, $blockSize);
+				$lastChunkNr++;
 			}
 		}
 
@@ -585,7 +586,7 @@ class Encryption extends Wrapper {
 		bool $isRename,
 		bool $keepEncryptionVersion,
 	): void {
-		$isEncrypted = $this->encryptionManager->isEnabled() && $this->shouldEncrypt($targetInternalPath);
+		$isEncrypted = $this->shouldEncrypt($targetInternalPath);
 		$cacheInformation = [
 			'encrypted' => $isEncrypted,
 		];
@@ -683,6 +684,8 @@ class Encryption extends Wrapper {
 				}
 			}
 		} else {
+			$source = false;
+			$target = false;
 			try {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
@@ -692,10 +695,10 @@ class Encryption extends Wrapper {
 					[, $result] = Files::streamCopy($source, $target, true);
 				}
 			} finally {
-				if (isset($source) && $source !== false) {
+				if ($source !== false) {
 					fclose($source);
 				}
-				if (isset($target) && $target !== false) {
+				if ($target !== false) {
 					fclose($target);
 				}
 			}
@@ -882,7 +885,10 @@ class Encryption extends Wrapper {
 	/**
 	 * check if the given storage should be encrypted or not
 	 */
-	protected function shouldEncrypt(string $path): bool {
+	public function shouldEncrypt(string $path): bool {
+		if (!$this->encryptionManager->isEnabled()) {
+			return false;
+		}
 		$fullPath = $this->getFullPath($path);
 		$mountPointConfig = $this->mount->getOption('encrypt', true);
 		if ($mountPointConfig === false) {

@@ -19,3 +19,7 @@ af6de04e9e141466dc229e444ff3f146f4a34765
 b06f5ba4c47450f355a8903c1a93ac68e8c6cfc2
 # Update to coding-standard 1.4.0
 5981b7eb512aa411f51cad541d01c5c6e93476f0
+# Migrate `and` `or` operators to logical `&&` `||` operators
+660f3f6fd1ae5539b8f74bfa48859d1b9f1e6abf
+# Migrate to ESLint v9 enforced code style
+91f3b6b4ee60e0f8bb6e21f92d5bc52e4cebe657

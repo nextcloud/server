@@ -10,8 +10,9 @@
 		<td>
 			<div class="action-secret">
 				<code>{{ renderedSecret }}</code>
-				<NcButton v-if="clientSecret !== ''"
-					type="tertiary-no-background"
+				<NcButton
+					v-if="clientSecret !== ''"
+					variant="tertiary-no-background"
 					:aria-label="toggleAriaLabel"
 					@click="toggleSecret">
 					<template #icon>
@@ -21,11 +22,13 @@
 			</div>
 		</td>
 		<td class="action-column">
-			<NcButton type="tertiary-no-background"
+			<NcButton
+				variant="tertiary-no-background"
 				:aria-label="t('oauth2', 'Delete')"
 				@click="$emit('delete', id)">
 				<template #icon>
-					<Delete :size="20"
+					<Delete
+						:size="20"
 						:title="t('oauth2', 'Delete')" />
 				</template>
 			</NcButton>
@@ -35,9 +38,9 @@
 
 <script>
 
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
-import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 
 export default {
 	name: 'OAuthItem',
@@ -46,12 +49,14 @@ export default {
 		NcButton,
 		EyeOutline,
 	},
+
 	props: {
 		client: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			id: this.client.id,
@@ -62,6 +67,7 @@ export default {
 			renderSecret: false,
 		}
 	},
+
 	computed: {
 		renderedSecret() {
 			if (this.renderSecret) {
@@ -70,6 +76,7 @@ export default {
 				return '****'
 			}
 		},
+
 		toggleAriaLabel() {
 			if (!this.renderSecret) {
 				return t('oauth2', 'Show client secret')
@@ -77,6 +84,7 @@ export default {
 			return t('oauth2', 'Hide client secret')
 		},
 	},
+
 	methods: {
 		toggleSecret() {
 			this.renderSecret = !this.renderSecret

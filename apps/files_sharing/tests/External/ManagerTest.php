@@ -41,10 +41,10 @@ use Test\Traits\UserTrait;
 /**
  * Class ManagerTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\External
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
 	use UserTrait;
 
@@ -116,9 +116,7 @@ class ManagerTest extends TestCase {
 
 	protected function tearDown(): void {
 		// clear the share external table to avoid side effects
-		$query = Server::get(IDBConnection::class)->prepare('DELETE FROM `*PREFIX*share_external`');
-		$result = $query->execute();
-		$result->closeCursor();
+		Server::get(IDBConnection::class)->getQueryBuilder()->delete('share_external')->executeStatement();
 
 		parent::tearDown();
 	}

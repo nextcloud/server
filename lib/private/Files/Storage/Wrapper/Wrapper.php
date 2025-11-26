@@ -227,7 +227,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 			// FIXME Temporary fix to keep existing checks working
 			$class = '\OCA\Files_Sharing\SharedStorage';
 		}
-		return is_a($this, $class) or $this->getWrapperStorage()->instanceOfStorage($class);
+		return is_a($this, $class) || $this->getWrapperStorage()->instanceOfStorage($class);
 	}
 
 	/**

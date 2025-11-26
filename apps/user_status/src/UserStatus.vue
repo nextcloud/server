@@ -5,13 +5,15 @@
 
 <template>
 	<Fragment>
-		<NcListItem v-if="!inline"
+		<NcListItem
+			v-if="!inline"
 			class="user-status-menu-item"
 			compact
 			:name="visibleMessage"
 			@click.stop="openModal">
 			<template #icon>
-				<NcUserStatusIcon class="user-status-icon"
+				<NcUserStatusIcon
+					class="user-status-icon"
 					:status="statusType"
 					aria-hidden="true" />
 			</template>
@@ -21,7 +23,8 @@
 			<!-- Dashboard Status -->
 			<NcButton @click.stop="openModal">
 				<template #icon>
-					<NcUserStatusIcon class="user-status-icon"
+					<NcUserStatusIcon
+						class="user-status-icon"
 						:status="statusType"
 						aria-hidden="true" />
 				</template>
@@ -29,7 +32,8 @@
 			</NcButton>
 		</div>
 		<!-- Status management modal -->
-		<SetStatusModal v-if="isModalOpen"
+		<SetStatusModal
+			v-if="isModalOpen"
 			:inline="inline"
 			@close="closeModal" />
 	</Fragment>
@@ -38,14 +42,14 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import debounce from 'debounce'
 import { Fragment } from 'vue-frag'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
-import debounce from 'debounce'
-
-import { sendHeartbeat } from './services/heartbeatService.js'
+import { logger } from './logger.ts'
 import OnlineStatusMixin from './mixins/OnlineStatusMixin.js'
+import { sendHeartbeat } from './services/heartbeatService.js'
 
 export default {
 	name: 'UserStatus',
@@ -57,6 +61,7 @@ export default {
 		NcUserStatusIcon,
 		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
+
 	mixins: [OnlineStatusMixin],
 
 	props: {
@@ -107,7 +112,7 @@ export default {
 				if (wasAway) {
 					this._backgroundHeartbeat()
 				}
-			}, 1000 * 2, true)
+			}, 1000 * 2, { immediate: true })
 			window.addEventListener('mousemove', this.mouseMoveListener, {
 				capture: true,
 				passive: true,
@@ -134,6 +139,7 @@ export default {
 		openModal() {
 			this.isModalOpen = true
 		},
+
 		/**
 		 * Closes the modal
 		 */
@@ -156,9 +162,10 @@ export default {
 					await this.$store.dispatch('reFetchStatusFromServer')
 				}
 			} catch (error) {
-				console.debug('Failed sending heartbeat, got: ' + error.response?.status)
+				logger.debug('Failed sending heartbeat, got: ' + error.response?.status)
 			}
 		},
+
 		handleUserStatusUpdated(state) {
 			if (getCurrentUser()?.uid === state.userId) {
 				this.$store.dispatch('setStatusFromObject', {

@@ -13,7 +13,6 @@ import type { Folder, Header, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import PQueue from 'p-queue'
-
 import logger from '../logger.ts'
 
 /**
@@ -29,15 +28,18 @@ export default {
 			type: Object as PropType<Header>,
 			required: true,
 		},
+
 		currentFolder: {
 			type: Object as PropType<Folder>,
 			required: true,
 		},
+
 		currentView: {
 			type: Object as PropType<View>,
 			required: true,
 		},
 	},
+
 	setup() {
 		// Create a queue to ensure that the header is only rendered once at a time
 		const queue = new PQueue({ concurrency: 1 })
@@ -46,11 +48,13 @@ export default {
 			queue,
 		}
 	},
+
 	computed: {
 		enabled() {
 			return this.header.enabled?.(this.currentFolder, this.currentView) ?? true
 		},
 	},
+
 	watch: {
 		enabled(enabled) {
 			if (!enabled) {
@@ -60,11 +64,13 @@ export default {
 			logger.debug(`Enabled ${this.header.id} FilesListHeader`, { header: this.header })
 			this.queueUpdate(this.currentFolder, this.currentView)
 		},
+
 		currentFolder(folder: Folder) {
 			// This method can be used to queue an update of the header
 			// It will ensure that the header is only updated once at a time
 			this.queueUpdate(folder, this.currentView)
 		},
+
 		currentView(view: View) {
 			this.queueUpdate(this.currentFolder, view)
 		},
@@ -79,6 +85,7 @@ export default {
 			logger.error(`Error rendering ${this.header.id} FilesListHeader`, { header: this.header, error })
 		})
 	},
+
 	destroyed() {
 		logger.debug(`Destroyed ${this.header.id} FilesListHeader`, { header: this.header })
 	},

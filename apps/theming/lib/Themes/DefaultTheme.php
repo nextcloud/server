@@ -77,16 +77,23 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		/*
+		colorX: The background color for e.g. buttons and note-card
+		colorXText: The text color on that background
+		colorXElement: When that color needs to have element contrast like borders
+		*/
 		$colorError = '#FFE7E7';
 		$colorErrorText = '#8A0000';
 		$colorErrorElement = '#c90000';
 		$colorWarning = '#FFEEC5';
 		$colorWarningText = '#664700';
+		$colorWarningElement = '#BF7900';
 		$colorSuccess = '#D8F3DA';
 		$colorSuccessText = '#005416';
 		$colorSuccessElement = '#099f05';
 		$colorInfo = '#D5F1FA';
 		$colorInfoText = '#0066AC';
+		$colorInfoElement = '#0077C7';
 
 		$user = $this->userSession->getUser();
 		// Chromium based browsers currently (2024) have huge performance issues with blur filters
@@ -128,11 +135,21 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
-			'--color-text-error' => $colorErrorElement,
-			'--color-text-light' => 'var(--color-main-text)', // deprecated
-			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
+			'--color-text-error' => $this->util->darken($colorErrorElement, 2),
+			'--color-text-success' => $this->util->darken($colorSuccessElement, 10),
 
-			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
+			// border colors
+			'--color-border' => $this->util->darken($colorMainBackground, 7),
+			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
+			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
+			'--color-border-error' => 'var(--color-element-error)',
+			'--color-border-success' => 'var(--color-element-success)',
+
+			// special colors for elements (providing corresponding contrast) e.g. icons
+			'--color-element-error' => $colorErrorElement,
+			'--color-element-info' => $colorInfoElement,
+			'--color-element-success' => $colorSuccessElement,
+			'--color-element-warning' => $colorWarningElement,
 
 			// error/warning/success/info feedback colors
 			'--color-error' => $colorError,
@@ -158,14 +175,18 @@ class DefaultTheme implements ITheme {
 			'--color-loading-light' => '#cccccc',
 			'--color-loading-dark' => '#444444',
 
+			// Scrollbar
+			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
+
+			// Box shadow of elements
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
 			'--color-box-shadow' => 'rgba(var(--color-box-shadow-rgb), 0.5)',
 
-			'--color-border' => $this->util->darken($colorMainBackground, 7),
-			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
-			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
-			'--color-border-error' => $colorErrorElement,
-			'--color-border-success' => $colorSuccessElement,
+			// Assistant colors (marking AI generated content)
+			'--color-background-assistant' => '#F6F5FF', // Background for AI generated content
+			'--color-border-assistant' => 'linear-gradient(125deg, #7398FE 50%, #6104A4 125%)', // Border for AI generated content
+			'--color-element-assistant' => 'linear-gradient(214deg, #A569D3 12%, #00679E 39%, #422083 86%)', // Background of primary buttons to interact with the Assistant (e.g. generate content)
+			'--color-element-assistant-icon' => 'linear-gradient(214deg, #9669D3 15%, #00679E 40%, #492083 80%)', // The color used for the Assistant icon
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',

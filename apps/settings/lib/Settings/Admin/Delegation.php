@@ -45,32 +45,19 @@ class Delegation implements ISettings {
 
 	private function initSettingState(): void {
 		// Available settings page initialization
-		$sections = $this->settingManager->getAdminSections();
+		$delegatedSettings = $this->settingManager->getAdminDelegatedSettings();
 		$settings = [];
-		foreach ($sections as $sectionPriority) {
-			foreach ($sectionPriority as $section) {
-				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
-				$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
-				$settings = array_merge(
-					$settings,
-					array_map(function (IDelegatedSettings $setting) use ($section) {
-						$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
-						return [
-							'class' => get_class($setting),
-							'sectionName' => $sectionName,
-							'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
-							'priority' => $section->getPriority(),
-						];
-					}, $sectionSettings)
-				);
+		foreach ($delegatedSettings as ['section' => $section, 'settings' => $sectionSettings]) {
+			foreach ($sectionSettings as $setting) {
+				$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
+				$settings[] = [
+					'class' => get_class($setting),
+					'sectionName' => $sectionName,
+					'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
+					'priority' => $section->getPriority(),
+				];
 			}
 		}
-		usort($settings, function (array $a, array $b) {
-			if ($a['priority'] == $b['priority']) {
-				return 0;
-			}
-			return ($a['priority'] < $b['priority']) ? -1 : 1;
-		});
 		$this->initialStateService->provideInitialState('available-settings', $settings);
 	}
 

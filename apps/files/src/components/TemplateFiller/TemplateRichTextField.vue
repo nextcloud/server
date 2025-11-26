@@ -9,9 +9,10 @@
 			{{ fieldLabel }}
 		</label>
 
-		<NcTextField :id="fieldId"
+		<NcTextField
+			:id="fieldId"
+			v-model="value"
 			type="text"
-			:value.sync="value"
 			:label="fieldLabel"
 			:label-outside="true"
 			:placeholder="field.content"
@@ -49,6 +50,7 @@ export default defineComponent({
 
 			return (label.charAt(0).toUpperCase() + label.slice(1))
 		},
+
 		fieldId() {
 			return 'text-field' + this.field.index
 		},

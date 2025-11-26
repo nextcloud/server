@@ -83,7 +83,7 @@ class OC {
 	public static function initPaths(): void {
 		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
+		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
 		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
 			self::$configDir = rtrim($dir, '/') . '/';
@@ -384,13 +384,6 @@ class OC {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', 'true');
 
-		// Do not initialize sessions for 'status.php' requests
-		// Monitoring endpoints can quickly flood session handlers
-		// and 'status.php' doesn't require sessions anyway
-		if (str_ends_with($request->getScriptName(), '/status.php')) {
-			return;
-		}
-
 		// set the cookie path to the Nextcloud directory
 		$cookie_path = OC::$WEBROOT ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
@@ -399,6 +392,14 @@ class OC {
 		$cookie_domain = self::$config->getValue('cookie_domain', '');
 		if ($cookie_domain) {
 			ini_set('session.cookie_domain', $cookie_domain);
+		}
+
+		// Do not initialize sessions for 'status.php' requests
+		// Monitoring endpoints can quickly flood session handlers
+		// and 'status.php' doesn't require sessions anyway
+		// We still need to run the ini_set above so that same-site cookies use the correct configuration.
+		if (str_ends_with($request->getScriptName(), '/status.php')) {
+			return;
 		}
 
 		// Let the session name be changed in the initSession Hook
@@ -578,6 +579,41 @@ class OC {
 		}
 	}
 
+	/**
+	 * This function adds some security related headers to all requests served via base.php
+	 * The implementation of this function has to happen here to ensure that all third-party
+	 * components (e.g. SabreDAV) also benefit from this headers.
+	 */
+	private static function addSecurityHeaders(): void {
+		/**
+		 * FIXME: Content Security Policy for legacy components. This
+		 * can be removed once \OCP\AppFramework\Http\Response from the AppFramework
+		 * is used everywhere.
+		 * @see \OCP\AppFramework\Http\Response::getHeaders
+		 */
+		$policy = 'default-src \'self\'; '
+			. 'script-src \'self\' \'nonce-' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '\'; '
+			. 'style-src \'self\' \'unsafe-inline\'; '
+			. 'frame-src *; '
+			. 'img-src * data: blob:; '
+			. 'font-src \'self\' data:; '
+			. 'media-src *; '
+			. 'connect-src *; '
+			. 'object-src \'none\'; '
+			. 'base-uri \'self\'; ';
+		header('Content-Security-Policy:' . $policy);
+
+		// Send fallback headers for installations that don't have the possibility to send
+		// custom headers on the webserver side
+		if (getenv('modHeadersAvailable') !== 'true') {
+			header('Referrer-Policy: no-referrer'); // https://www.w3.org/TR/referrer-policy/
+			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
+			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
+			header('X-Robots-Tag: noindex, nofollow'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
+		}
+	}
+
 	public static function init(): void {
 		// First handle PHP configuration and copy auth headers to the expected
 		// $_SERVER variable before doing anything Server object related
@@ -701,7 +737,7 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled($systemConfig);
 
-		OC_Response::addSecurityHeaders();
+		self::addSecurityHeaders();
 
 		self::performSameSiteCookieProtection($config);
 

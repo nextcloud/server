@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcDialog :open="show"
+	<NcDialog
+		:open="show"
 		size="normal"
 		:name="t('settings', 'Advanced deploy options')"
 		@update:open="$emit('update:show', $event)">
@@ -19,25 +20,28 @@
 				{{ t('settings', 'Environment variables') }}
 			</h3>
 			<template v-if="configuredDeployOptions === null">
-				<div v-for="envVar in environmentVariables"
+				<div
+					v-for="envVar in environmentVariables"
 					:key="envVar.envName"
 					class="deploy-option">
-					<NcTextField :label="envVar.displayName" :value.sync="deployOptions.environment_variables[envVar.envName]" />
+					<NcTextField v-model="deployOptions.environment_variables[envVar.envName]" :label="envVar.displayName" />
 					<p class="deploy-option__hint">
 						{{ envVar.description }}
 					</p>
 				</div>
 			</template>
-			<fieldset v-else-if="Object.keys(configuredDeployOptions).length > 0"
+			<fieldset
+				v-else-if="Object.keys(configuredDeployOptions).length > 0"
 				class="envs">
 				<legend class="deploy-option__hint">
 					{{ t('settings', 'ExApp container environment variables') }}
 				</legend>
-				<NcTextField v-for="(value, key) in configuredDeployOptions.environment_variables"
+				<NcTextField
+					v-for="(value, key) in configuredDeployOptions.environment_variables"
 					:key="key"
 					:label="value.displayName ?? key"
 					:helper-text="value.description"
-					:value="value.value"
+					:model-value="value.value"
 					readonly />
 			</fieldset>
 			<template v-else>
@@ -52,16 +56,18 @@
 					{{ t('settings', 'Define host folder mounts to bind to the ExApp container') }}
 				</p>
 				<NcNoteCard type="info" :text="t('settings', 'Must exist on the Deploy daemon host prior to installing the ExApp')" />
-				<div v-for="mount in deployOptions.mounts"
+				<div
+					v-for="mount in deployOptions.mounts"
 					:key="mount.hostPath"
 					class="deploy-option"
 					style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
-					<NcTextField :label="t('settings', 'Host path')" :value.sync="mount.hostPath" />
-					<NcTextField :label="t('settings', 'Container path')" :value.sync="mount.containerPath" />
-					<NcCheckboxRadioSwitch :checked.sync="mount.readonly">
+					<NcTextField v-model="mount.hostPath" :label="t('settings', 'Host path')" />
+					<NcTextField v-model="mount.containerPath" :label="t('settings', 'Container path')" />
+					<NcCheckboxRadioSwitch v-model="mount.readonly">
 						{{ t('settings', 'Read-only') }}
 					</NcCheckboxRadioSwitch>
-					<NcButton :aria-label="t('settings', 'Remove mount')"
+					<NcButton
+						:aria-label="t('settings', 'Remove mount')"
 						style="margin-top: 6px;"
 						@click="removeMount(mount)">
 						<template #icon>
@@ -74,27 +80,32 @@
 						{{ t('settings', 'New mount') }}
 					</h4>
 					<div style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
-						<NcTextField ref="newMountHostPath"
+						<NcTextField
+							ref="newMountHostPath"
+							v-model="newMountPoint.hostPath"
 							:label="t('settings', 'Host path')"
-							:aria-label="t('settings', 'Enter path to host folder')"
-							:value.sync="newMountPoint.hostPath" />
-						<NcTextField :label="t('settings', 'Container path')"
-							:aria-label="t('settings', 'Enter path to container folder')"
-							:value.sync="newMountPoint.containerPath" />
-						<NcCheckboxRadioSwitch :checked.sync="newMountPoint.readonly"
+							:aria-label="t('settings', 'Enter path to host folder')" />
+						<NcTextField
+							v-model="newMountPoint.containerPath"
+							:label="t('settings', 'Container path')"
+							:aria-label="t('settings', 'Enter path to container folder')" />
+						<NcCheckboxRadioSwitch
+							v-model="newMountPoint.readonly"
 							:aria-label="t('settings', 'Toggle read-only mode')">
 							{{ t('settings', 'Read-only') }}
 						</NcCheckboxRadioSwitch>
 					</div>
 					<div style="display: flex; align-items: center; margin-top: 4px;">
-						<NcButton :aria-label="t('settings', 'Confirm adding new mount')"
+						<NcButton
+							:aria-label="t('settings', 'Confirm adding new mount')"
 							@click="addMountPoint">
 							<template #icon>
 								<NcIconSvgWrapper :path="mdiCheck" />
 							</template>
 							{{ t('settings', 'Confirm') }}
 						</NcButton>
-						<NcButton :aria-label="t('settings', 'Cancel adding mount')"
+						<NcButton
+							:aria-label="t('settings', 'Cancel adding mount')"
 							style="margin-left: 4px;"
 							@click="cancelAddMountPoint">
 							<template #icon>
@@ -104,7 +115,8 @@
 						</NcButton>
 					</div>
 				</div>
-				<NcButton v-if="!addingMount"
+				<NcButton
+					v-if="!addingMount"
 					:aria-label="t('settings', 'Add mount')"
 					style="margin-top: 5px;"
 					@click="startAddingMount">
@@ -118,13 +130,14 @@
 				<p class="deploy-option__hint">
 					{{ t('settings', 'ExApp container mounts') }}
 				</p>
-				<div v-for="mount in configuredDeployOptions.mounts"
+				<div
+					v-for="mount in configuredDeployOptions.mounts"
 					:key="mount.hostPath"
 					class="deploy-option"
 					style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
-					<NcTextField :label="t('settings', 'Host path')" :value.sync="mount.hostPath" readonly />
-					<NcTextField :label="t('settings', 'Container path')" :value.sync="mount.containerPath" readonly />
-					<NcCheckboxRadioSwitch :checked.sync="mount.readonly" disabled>
+					<NcTextField v-model="mount.hostPath" :label="t('settings', 'Host path')" readonly />
+					<NcTextField v-model="mount.containerPath" :label="t('settings', 'Container path')" readonly />
+					<NcCheckboxRadioSwitch v-model="mount.readonly" disabled>
 						{{ t('settings', 'Read-only') }}
 					</NcCheckboxRadioSwitch>
 				</div>
@@ -135,9 +148,10 @@
 		</div>
 
 		<template v-if="!app.active && (app.canInstall || app.isCompatible) && configuredDeployOptions === null" #actions>
-			<NcButton :title="enableButtonTooltip"
+			<NcButton
+				:title="enableButtonTooltip"
 				:aria-label="enableButtonTooltip"
-				type="primary"
+				variant="primary"
 				:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
 				@click.stop="submitDeployOptions">
 				{{ enableButtonText }}
@@ -147,26 +161,21 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
-
+import { mdiCheck, mdiClose, mdiDeleteOutline, mdiPlus } from '@mdi/js'
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
 import { emit } from '@nextcloud/event-bus'
-
-import NcDialog from '@nextcloud/vue/components/NcDialog'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
+import { computed, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-
-import { mdiPlus, mdiCheck, mdiClose, mdiDeleteOutline } from '@mdi/js'
-
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import AppManagement from '../../mixins/AppManagement.js'
 import { useAppApiStore } from '../../store/app-api-store.ts'
 import { useAppsStore } from '../../store/apps-store.ts'
-
-import AppManagement from '../../mixins/AppManagement.js'
 
 export default {
 	name: 'AppDeployOptionsModal',
@@ -178,17 +187,20 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcIconSvgWrapper,
 	},
+
 	mixins: [AppManagement],
 	props: {
 		app: {
 			type: Object,
 			required: true,
 		},
+
 		show: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	setup(props) {
 		// for AppManagement mixin
 		const store = useAppsStore()
@@ -220,6 +232,7 @@ export default {
 			mdiDeleteOutline,
 		}
 	},
+
 	data() {
 		return {
 			addingMount: false,
@@ -228,11 +241,13 @@ export default {
 				containerPath: '',
 				readonly: false,
 			},
+
 			addingPortBinding: false,
 			configuredDeployOptions: null,
 			deployOptionsDocsUrl: loadState('settings', 'deployOptionsDocsUrl', null),
 		}
 	},
+
 	watch: {
 		show(newShow) {
 			if (newShow) {
@@ -242,6 +257,7 @@ export default {
 			}
 		},
 	},
+
 	methods: {
 		startAddingMount() {
 			this.addingMount = true
@@ -249,6 +265,7 @@ export default {
 				this.$refs.newMountHostPath.focus()
 			})
 		},
+
 		addMountPoint() {
 			this.deployOptions.mounts.push(this.newMountPoint)
 			this.newMountPoint = {
@@ -258,6 +275,7 @@ export default {
 			}
 			this.addingMount = false
 		},
+
 		cancelAddMountPoint() {
 			this.newMountPoint = {
 				hostPath: '',
@@ -266,18 +284,21 @@ export default {
 			}
 			this.addingMount = false
 		},
+
 		removeMount(mountToRemove) {
-			this.deployOptions.mounts = this.deployOptions.mounts.filter(mount => mount !== mountToRemove)
+			this.deployOptions.mounts = this.deployOptions.mounts.filter((mount) => mount !== mountToRemove)
 		},
+
 		async fetchExAppDeployOptions() {
 			return axios.get(generateUrl(`/apps/app_api/apps/deploy-options/${this.app.id}`))
-				.then(response => {
+				.then((response) => {
 					this.configuredDeployOptions = response.data
 				})
 				.catch(() => {
 					this.configuredDeployOptions = null
 				})
 		},
+
 		async submitDeployOptions() {
 			await this.appApiStore.fetchDockerDaemons()
 			if (this.appApiStore.dockerDaemons.length === 1 && this.app.needsDownload) {

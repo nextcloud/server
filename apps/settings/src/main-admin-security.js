@@ -5,12 +5,10 @@
 import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
-
 import AdminTwoFactor from './components/AdminTwoFactor.vue'
 import EncryptionSettings from './components/Encryption/EncryptionSettings.vue'
 import store from './store/admin-security.js'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t
@@ -19,9 +17,7 @@ Vue.prototype.t = t
 window.OC = window.OC || {}
 window.OC.Settings = window.OC.Settings || {}
 
-store.replaceState(
-	loadState('settings', 'mandatory2FAState'),
-)
+store.replaceState(loadState('settings', 'mandatory2FAState'))
 
 const View = Vue.extend(AdminTwoFactor)
 new View({

@@ -4,18 +4,22 @@
 -->
 <template>
 	<div class="unified-search-menu">
-		<NcHeaderButton v-show="!showLocalSearch"
+		<NcHeaderButton
+			v-show="!showLocalSearch"
+			id="unified-search"
 			:aria-label="t('core', 'Unified search')"
 			@click="toggleUnifiedSearch">
 			<template #icon>
 				<NcIconSvgWrapper :path="mdiMagnify" />
 			</template>
 		</NcHeaderButton>
-		<UnifiedSearchLocalSearchBar v-if="supportsLocalSearch"
+		<UnifiedSearchLocalSearchBar
+			v-if="supportsLocalSearch"
 			:open.sync="showLocalSearch"
 			:query.sync="queryText"
 			@global-search="openModal" />
-		<UnifiedSearchModal :local-search="supportsLocalSearch"
+		<UnifiedSearchModal
+			:local-search="supportsLocalSearch"
 			:query.sync="queryText"
 			:open.sync="showUnifiedSearch" />
 	</div>
@@ -30,8 +34,8 @@ import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import NcHeaderButton from '@nextcloud/vue/components/NcHeaderButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
 import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
+import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
 import logger from '../logger.js'
 
 export default defineComponent({
@@ -126,6 +130,7 @@ export default defineComponent({
 	methods: {
 		/**
 		 * Handle the key down event to open search on `ctrl + F`
+		 *
 		 * @param event The keyboard event
 		 */
 		onKeyDown(event: KeyboardEvent) {

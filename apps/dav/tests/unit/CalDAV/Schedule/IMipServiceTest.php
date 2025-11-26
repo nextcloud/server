@@ -16,6 +16,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,6 +33,7 @@ class IMipServiceTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private ITimeFactory&MockObject $timeFactory;
 	private IMipService $service;
+	private IUserManager&MockObject $userManager;
 
 
 	private VCalendar $vCalendar1a;
@@ -51,6 +53,7 @@ class IMipServiceTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
@@ -64,7 +67,8 @@ class IMipServiceTest extends TestCase {
 			$this->db,
 			$this->random,
 			$this->l10nFactory,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->userManager
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -167,11 +171,11 @@ class IMipServiceTest extends TestCase {
 		);
 		$this->l10n->method('n')->willReturnMap([
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			]
 		]);
 		// construct time factory return(s)
@@ -215,11 +219,11 @@ class IMipServiceTest extends TestCase {
 		);
 		$this->l10n->method('n')->willReturnMap([
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			]
 		]);
 		// construct time factory return(s)
@@ -360,85 +364,85 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular entire day
 			[
-				'In a minute on %1$s for the entire day',
+				'In %n minute on %1$s for the entire day',
 				'In %n minutes on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a minute on July 1, 2024 for the entire day'
+				'In 1 minute on July 1, 2024 for the entire day'
 			],
 			[
-				'In a hour on %1$s for the entire day',
+				'In %n hour on %1$s for the entire day',
 				'In %n hours on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a hour on July 1, 2024 for the entire day'
+				'In 1 hour on July 1, 2024 for the entire day'
 			],
 			[
-				'In a day on %1$s for the entire day',
+				'In %n day on %1$s for the entire day',
 				'In %n days on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024 for the entire day'
+				'In 1 day on July 1, 2024 for the entire day'
 			],
 			[
-				'In a week on %1$s for the entire day',
+				'In %n week on %1$s for the entire day',
 				'In %n weeks on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a week on July 1, 2024 for the entire day'
+				'In 1 week on July 1, 2024 for the entire day'
 			],
 			[
-				'In a month on %1$s for the entire day',
+				'In %n month on %1$s for the entire day',
 				'In %n months on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a month on July 1, 2024 for the entire day'
+				'In 1 month on July 1, 2024 for the entire day'
 			],
 			[
-				'In a year on %1$s for the entire day',
+				'In %n year on %1$s for the entire day',
 				'In %n years on %1$s for the entire day',
 				1,
 				['July 1, 2024'],
-				'In a year on July 1, 2024 for the entire day'
+				'In 1 year on July 1, 2024 for the entire day'
 			],
 			// plural entire day
 			[
-				'In a minute on %1$s for the entire day',
+				'In %n minute on %1$s for the entire day',
 				'In %n minutes on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 minutes on July 1, 2024 for the entire day'
 			],
 			[
-				'In a hour on %1$s for the entire day',
+				'In %n hour on %1$s for the entire day',
 				'In %n hours on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 hours on July 1, 2024 for the entire day'
 			],
 			[
-				'In a day on %1$s for the entire day',
+				'In %n day on %1$s for the entire day',
 				'In %n days on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024 for the entire day'
 			],
 			[
-				'In a week on %1$s for the entire day',
+				'In %n week on %1$s for the entire day',
 				'In %n weeks on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 weeks on July 1, 2024 for the entire day'
 			],
 			[
-				'In a month on %1$s for the entire day',
+				'In %n month on %1$s for the entire day',
 				'In %n months on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
 				'In 2 months on July 1, 2024 for the entire day'
 			],
 			[
-				'In a year on %1$s for the entire day',
+				'In %n year on %1$s for the entire day',
 				'In %n years on %1$s for the entire day',
 				2,
 				['July 1, 2024'],
@@ -446,85 +450,85 @@ class IMipServiceTest extends TestCase {
 			],
 			// singular partial day
 			[
-				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minute on %1$s between %2$s - %3$s',
 				'In %n minutes on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hour on %1$s between %2$s - %3$s',
 				'In %n hours on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a week on %1$s between %2$s - %3$s',
+				'In %n week on %1$s between %2$s - %3$s',
 				'In %n weeks on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a month on %1$s between %2$s - %3$s',
+				'In %n month on %1$s between %2$s - %3$s',
 				'In %n months on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a year on %1$s between %2$s - %3$s',
+				'In %n year on %1$s between %2$s - %3$s',
 				'In %n years on %1$s between %2$s - %3$s',
 				1,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
-				'In a year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
+				'In 1 year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			// plural partial day
 			[
-				'In a minute on %1$s between %2$s - %3$s',
+				'In %n minute on %1$s between %2$s - %3$s',
 				'In %n minutes on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 minutes on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a hour on %1$s between %2$s - %3$s',
+				'In %n hour on %1$s between %2$s - %3$s',
 				'In %n hours on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 hours on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a day on %1$s between %2$s - %3$s',
+				'In %n day on %1$s between %2$s - %3$s',
 				'In %n days on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 days on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a week on %1$s between %2$s - %3$s',
+				'In %n week on %1$s between %2$s - %3$s',
 				'In %n weeks on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 weeks on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a month on %1$s between %2$s - %3$s',
+				'In %n month on %1$s between %2$s - %3$s',
 				'In %n months on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
 				'In 2 months on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)'
 			],
 			[
-				'In a year on %1$s between %2$s - %3$s',
+				'In %n year on %1$s between %2$s - %3$s',
 				'In %n years on %1$s between %2$s - %3$s',
 				2,
 				['July 1, 2024', '8:00 AM', '9:00 AM (America/Toronto)'],
@@ -607,7 +611,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar1a;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 minute on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -615,7 +619,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar2;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a minute on July 1, 2024 for the entire day',
+			'In 1 minute on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -639,7 +643,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar1a;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 hour on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -647,7 +651,7 @@ class IMipServiceTest extends TestCase {
 		$vCalendar = clone $this->vCalendar2;
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		$this->assertEquals(
-			'In a hour on July 1, 2024 for the entire day',
+			'In 1 hour on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -673,7 +677,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -683,7 +687,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 for the entire day',
+			'In 1 day on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -713,7 +717,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -723,7 +727,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a week on July 1, 2024 for the entire day',
+			'In 1 week on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -753,7 +757,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -763,7 +767,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a month on July 1, 2024 for the entire day',
+			'In 1 month on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -793,7 +797,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
+			'In 1 year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -803,7 +807,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a year on July 1, 2024 for the entire day',
+			'In 1 year on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
 
@@ -1543,43 +1547,43 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 3, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 3, 2024'],
 				'In 2 days on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
@@ -1610,7 +1614,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader)
 		);
 
@@ -1621,7 +1625,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024',
 			$this->service->generateOccurringString($eventReader)
 		);
 
@@ -1632,7 +1636,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
 			$this->service->generateOccurringString($eventReader)
 		);
 
@@ -1685,43 +1689,43 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 3, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 3, 2024'],
 				'In 2 days on July 1, 2024 then on July 3, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 3, 2024', 'July 5, 2024'],
@@ -1752,7 +1756,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with single occurrence remaining'
 		);
@@ -1764,7 +1768,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with two occurrences remaining'
 		);
@@ -1776,7 +1780,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 3, 2024 and July 5, 2024',
 			$this->service->generateOccurringString($eventReader),
 			''
 		);
@@ -1836,43 +1840,43 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 5, 2024', 'July 7, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024 and July 7, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 5, 2024'],
 				'In 2 days on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 5, 2024', 'July 7, 2024'],
@@ -1908,7 +1912,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with single occurrence remaining and one exception'
 		);
@@ -1921,7 +1925,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with two occurrences remaining and one exception'
 		);
@@ -1934,7 +1938,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with three occurrences remaining and one exception'
 		);
@@ -1947,7 +1951,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024 and July 7, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024 and July 7, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with four occurrences remaining and one exception'
 		);
@@ -2020,43 +2024,43 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('n')->willReturnMap([
 			// singular
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				1,
 				['July 1, 2024'],
-				'In a day on July 1, 2024'
+				'In 1 day on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				1,
 				['July 1, 2024', 'July 5, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				1,
 				['July 1, 2024', 'July 5, 2024', 'July 9, 2024'],
-				'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024'
+				'In 1 day on July 1, 2024 then on July 5, 2024 and July 9, 2024'
 			],
 			// plural
 			[
-				'In a day on %1$s',
+				'In %n day on %1$s',
 				'In %n days on %1$s',
 				2,
 				['July 1, 2024'],
 				'In 2 days on July 1, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s',
+				'In %n day on %1$s then on %2$s',
 				'In %n days on %1$s then on %2$s',
 				2,
 				['July 1, 2024', 'July 5, 2024'],
 				'In 2 days on July 1, 2024 then on July 5, 2024'
 			],
 			[
-				'In a day on %1$s then on %2$s and %3$s',
+				'In %n day on %1$s then on %2$s and %3$s',
 				'In %n days on %1$s then on %2$s and %3$s',
 				2,
 				['July 1, 2024', 'July 5, 2024', 'July 9, 2024'],
@@ -2093,7 +2097,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with single occurrence remaining and two exception'
 		);
@@ -2107,7 +2111,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024',
+			'In 1 day on July 1, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with two occurrences remaining and two exception'
 		);
@@ -2121,7 +2125,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with three occurrences remaining and two exception'
 		);
@@ -2135,7 +2139,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// test output
 		$this->assertEquals(
-			'In a day on July 1, 2024 then on July 5, 2024 and July 9, 2024',
+			'In 1 day on July 1, 2024 then on July 5, 2024 and July 9, 2024',
 			$this->service->generateOccurringString($eventReader),
 			'test patrial day recurring event in 1 day with four occurrences remaining and two exception'
 		);

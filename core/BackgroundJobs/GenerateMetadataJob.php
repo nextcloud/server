@@ -48,7 +48,7 @@ class GenerateMetadataJob extends TimedJob {
 
 		$lastHandledUser = $this->appConfig->getValueString('core', 'metadataGenerationLastHandledUser', '');
 
-		$users = $this->userManager->search('');
+		$users = $this->userManager->searchDisplayName('');
 
 		// we'll only start timer once we have found a valid user to handle
 		// meaning NOW if we have not handled any user from a previous run
@@ -98,7 +98,8 @@ class GenerateMetadataJob extends TimedJob {
 			// Files are loaded in memory so very big files can lead to an OOM on the server
 			$nodeSize = $node->getSize();
 			$nodeLimit = $this->config->getSystemValueInt('metadata_max_filesize', self::DEFAULT_MAX_FILESIZE);
-			if ($nodeSize > $nodeLimit * 1000000) {
+			$nodeLimitMib = $nodeLimit * 1024 * 1024;
+			if ($nodeSize > $nodeLimitMib) {
 				$this->logger->debug('Skipping generating metadata for fileid ' . $node->getId() . " as its size exceeds configured 'metadata_max_filesize'.");
 				continue;
 			}

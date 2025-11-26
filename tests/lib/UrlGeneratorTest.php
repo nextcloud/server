@@ -69,7 +69,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test linkTo URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideDocRootAppUrlParts')]
@@ -80,7 +79,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test linkTo URL construction in sub directory
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubDirAppUrlParts')]
@@ -116,22 +114,21 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	public static function provideDocRootAppUrlParts(): array {
 		return [
-			['files_external', 'ajax/oauth2.php', [], '/index.php/apps/files_external/ajax/oauth2.php'],
-			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
+			['testing', 'ajax/endpoint.php', [], '/index.php/apps/testing/ajax/endpoint.php'],
+			['testing', 'ajax/endpoint.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/testing/ajax/endpoint.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php?trut=trat&dut=dat'],
 		];
 	}
 
 	public static function provideSubDirAppUrlParts(): array {
 		return [
-			['files_external', 'ajax/oauth2.php', [], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php'],
-			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
+			['testing', 'ajax/endpoint.php', [], '/nextcloud/index.php/apps/testing/ajax/endpoint.php'],
+			['testing', 'ajax/endpoint.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/testing/ajax/endpoint.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php?trut=trat&dut=dat'],
 		];
 	}
 
 	/**
-	 * @small
 	 * test absolute URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideDocRootURLs')]
@@ -143,7 +140,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test absolute URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubDirURLs')]

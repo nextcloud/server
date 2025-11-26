@@ -8,10 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -24,8 +20,8 @@ class SupportedDatabase implements ISetupCheck {
 	private const MAX_MARIADB = '11.8';
 	private const MIN_MYSQL = '8.0';
 	private const MAX_MYSQL = '8.4';
-	private const MIN_POSTGRES = '13';
-	private const MAX_POSTGRES = '17';
+	private const MIN_POSTGRES = '14';
+	private const MAX_POSTGRES = '18';
 
 	public function __construct(
 		private IL10N $l10n,
@@ -43,12 +39,11 @@ class SupportedDatabase implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$version = null;
-		$databasePlatform = $this->connection->getDatabasePlatform();
-		if ($databasePlatform instanceof MySQLPlatform) {
+		$databasePlatform = $this->connection->getDatabaseProvider();
+		if ($databasePlatform === IDBConnection::PLATFORM_MYSQL || $databasePlatform === IDBConnection::PLATFORM_MARIADB) {
 			$statement = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
 			$result = $statement->execute();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$version = $row['Value'];
 			$versionlc = strtolower($version);
 			// we only care about X.Y not X.Y.Z differences
@@ -91,10 +86,10 @@ class SupportedDatabase implements ISetupCheck {
 					);
 				}
 			}
-		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
+		} elseif ($databasePlatform === IDBConnection::PLATFORM_POSTGRES) {
 			$statement = $this->connection->prepare('SHOW server_version;');
 			$result = $statement->execute();
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$version = $row['server_version'];
 			$versionlc = strtolower($version);
 			// we only care about X not X.Y or X.Y.Z differences
@@ -111,9 +106,9 @@ class SupportedDatabase implements ISetupCheck {
 						])
 				);
 			}
-		} elseif ($databasePlatform instanceof OraclePlatform) {
+		} elseif ($databasePlatform === IDBConnection::PLATFORM_ORACLE) {
 			$version = 'Oracle';
-		} elseif ($databasePlatform instanceof SqlitePlatform) {
+		} elseif ($databasePlatform === IDBConnection::PLATFORM_SQLITE) {
 			return SetupResult::warning(
 				$this->l10n->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: "occ db:convert-type".'),
 				$this->urlGenerator->linkToDocs('admin-db-conversion')

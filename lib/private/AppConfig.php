@@ -69,6 +69,8 @@ class AppConfig implements IAppConfig {
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
+	private array $strictnessApplied = [];
+
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
 	private ?ICache $localCache = null;
@@ -80,7 +82,7 @@ class AppConfig implements IAppConfig {
 		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
-		readonly CacheFactory $cacheFactory,
+		public readonly CacheFactory $cacheFactory,
 	) {
 		if ($config->getSystemValueBool('cache_app_config', true) && $cacheFactory->isLocalCacheAvailable()) {
 			$cacheFactory->withServerVersionPrefix(function (ICacheFactory $factory) {
@@ -876,8 +878,12 @@ class AppConfig implements IAppConfig {
 				$type |= self::VALUE_SENSITIVE;
 			}
 
-			if ($lazy !== $this->isLazy($app, $key)) {
-				$refreshCache = true;
+			try {
+				if ($lazy !== $this->isLazy($app, $key)) {
+					$refreshCache = true;
+				}
+			} catch (AppConfigUnknownKeyException) {
+				// pass
 			}
 
 			$update = $this->connection->getQueryBuilder();
@@ -1109,7 +1115,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $app id of the app
 	 * @param string $key config key
 	 *
-	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, default?: string, definition?: string, note?: string}
+	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, internal?: bool, default?: string, definition?: string, note?: string}
 	 * @since 32.0.0
 	 */
 	public function getKeyDetails(string $app, string $key): array {
@@ -1137,6 +1143,7 @@ class AppConfig implements IAppConfig {
 				'valueType' => $lexiconEntry->getValueType(),
 				'valueTypeName' => $lexiconEntry->getValueType()->name,
 				'sensitive' => $lexiconEntry->isFlagged(self::FLAG_SENSITIVE),
+				'internal' => $lexiconEntry->isFlagged(self::FLAG_INTERNAL),
 				'default' => $lexiconEntry->getDefault($this->presetManager->getLexiconPreset()),
 				'definition' => $lexiconEntry->getDefinition(),
 				'note' => $lexiconEntry->getNote(),
@@ -1232,6 +1239,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param bool $reload set to TRUE to refill cache instantly after clearing it
 	 *
+	 * @internal
 	 * @since 29.0.0
 	 */
 	public function clearCache(bool $reload = false): void {
@@ -1693,7 +1701,7 @@ class AppConfig implements IAppConfig {
 		}
 
 		if (!array_key_exists($key, $configDetails['entries'])) {
-			return $this->applyLexiconStrictness($configDetails['strictness'], 'The app config key ' . $app . '/' . $key . ' is not defined in the config lexicon');
+			return $this->applyLexiconStrictness($configDetails['strictness'], $app . '/' . $key);
 		}
 
 		// if lazy is NULL, we ignore all check on the type/lazyness/default from Lexicon
@@ -1738,22 +1746,26 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigUnknownKeyException if strictness implies exception
 	 * @see \OCP\Config\Lexicon\ILexicon::getStrictness()
 	 */
-	private function applyLexiconStrictness(
-		?Strictness $strictness,
-		string $line = '',
-	): bool {
+	private function applyLexiconStrictness(?Strictness $strictness, string $configAppKey): bool {
 		if ($strictness === null) {
 			return true;
 		}
 
+		$line = 'The app config key ' . $configAppKey . ' is not defined in the config lexicon';
 		switch ($strictness) {
 			case Strictness::IGNORE:
 				return true;
 			case Strictness::NOTICE:
-				$this->logger->notice($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->notice($line);
+				}
 				return true;
 			case Strictness::WARNING:
-				$this->logger->warning($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->warning($line);
+				}
 				return false;
 		}
 

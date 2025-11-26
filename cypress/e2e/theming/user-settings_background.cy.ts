@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { User } from '@nextcloud/cypress'
 
-import { defaultPrimary, defaultBackground, validateBodyThemingCss } from './themingUtils'
-import { NavigationHeader } from '../../pages/NavigationHeader'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { NavigationHeader } from '../../pages/NavigationHeader.ts'
+import { defaultBackground, defaultPrimary, validateBodyThemingCss } from './themingUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -215,14 +215,14 @@ describe('User select a custom background', function() {
 		cy.on('uncaught:exception', (err) => {
 			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
 			if (err.message.includes('ResizeObserver loop limit exceeded')) {
-			  return false
+				return false
 			}
 		})
 
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
 		cy.get('.file-picker__files tr').contains(image).click()
-		cy.get('.dialog__actions .button-vue--vue-primary').click()
+		cy.findByRole('button', { name: 'Select background' }).click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
@@ -253,14 +253,14 @@ describe('User changes settings and reload the page', function() {
 		cy.on('uncaught:exception', (err) => {
 			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
 			if (err.message.includes('ResizeObserver loop limit exceeded')) {
-			  return false
+				return false
 			}
 		})
 
 		// Pick background
 		cy.get('[data-user-theming-background-custom]').click()
 		cy.get('.file-picker__files tr').contains(image).click()
-		cy.get('.dialog__actions .button-vue--vue-primary').click()
+		cy.findByRole('button', { name: 'Select background' }).click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')

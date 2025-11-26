@@ -27,29 +27,14 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CoordinatorTest extends TestCase {
-	/** @var IAppManager|MockObject */
-	private $appManager;
-
-	/** @var IServerContainer|MockObject */
-	private $serverContainer;
-
-	/** @var Registry|MockObject */
-	private $crashReporterRegistry;
-
-	/** @var IManager|MockObject */
-	private $dashboardManager;
-
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-
-	/** @var IEventLogger|MockObject */
-	private $eventLogger;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var Coordinator */
-	private $coordinator;
+	private IAppManager&MockObject $appManager;
+	private IServerContainer&MockObject $serverContainer;
+	private Registry&MockObject $crashReporterRegistry;
+	private IManager&MockObject $dashboardManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IEventLogger&MockObject $eventLogger;
+	private LoggerInterface&MockObject $logger;
+	private Coordinator $coordinator;
 
 	protected function setUp(): void {
 		parent::setUp();

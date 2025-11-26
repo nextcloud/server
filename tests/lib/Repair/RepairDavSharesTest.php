@@ -131,7 +131,7 @@ class RepairDavSharesTest extends TestCase {
 			->method('where')
 			->willReturnSelf();
 		$selectMock->expects($this->once())
-			->method('execute')
+			->method('executeQuery')
 			->willReturn($shareResults);
 
 		$updateCalls = [];
@@ -155,7 +155,7 @@ class RepairDavSharesTest extends TestCase {
 				return $updateMock;
 			});
 		$updateMock->expects($this->exactly(2))
-			->method('execute');
+			->method('executeStatement');
 
 		$this->dbc->expects($this->atLeast(2))
 			->method('getQueryBuilder')

@@ -4,7 +4,7 @@
  -->
 <template>
 	<NcContent app-name="files">
-		<Navigation v-if="!isPublic" />
+		<FilesNavigation v-if="!isPublic" />
 		<FilesList :is-public="isPublic" />
 	</NcContent>
 </template>
@@ -13,9 +13,9 @@
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { defineComponent } from 'vue'
 import NcContent from '@nextcloud/vue/components/NcContent'
-import Navigation from './views/Navigation.vue'
 import FilesList from './views/FilesList.vue'
-import { useHotKeys } from './composables/useHotKeys'
+import FilesNavigation from './views/FilesNavigation.vue'
+import { useHotKeys } from './composables/useHotKeys.ts'
 
 export default defineComponent({
 	name: 'FilesApp',
@@ -23,7 +23,7 @@ export default defineComponent({
 	components: {
 		NcContent,
 		FilesList,
-		Navigation,
+		FilesNavigation,
 	},
 
 	setup() {

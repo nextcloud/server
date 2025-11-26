@@ -17,7 +17,8 @@ use OCP\TaskProcessing\IManager;
 
 class TaskProcessingPickupSpeed implements ISetupCheck {
 	public const MAX_SLOW_PERCENTAGE = 0.2;
-	public const TIME_SPAN = 24;
+
+	public const MAX_DAYS = 14;
 
 	public function __construct(
 		private IL10N $l10n,
@@ -35,10 +36,22 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - 60 * 60 * self::TIME_SPAN); // userId: '' means no filter, whereas null would mean guest
-		$taskCount = count($tasks);
+		$taskCount = 0;
+		$lastNDays = 1;
+		while ($taskCount === 0 && $lastNDays < self::MAX_DAYS) {
+			$lastNDays++;
+			// userId: '' means no filter, whereas null would mean guest
+			$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays));
+			$taskCount = count($tasks);
+		}
 		if ($taskCount === 0) {
-			return SetupResult::success($this->l10n->n('No scheduled tasks in the last %n hour.', 'No scheduled tasks in the last %n hours.', self::TIME_SPAN));
+			return SetupResult::success(
+				$this->l10n->n(
+					'No scheduled tasks in the last day.',
+					'No scheduled tasks in the last %n days.',
+					$lastNDays
+				)
+			);
 		}
 		$slowCount = 0;
 		foreach ($tasks as $task) {
@@ -54,10 +67,23 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 			}
 		}
 
-		if ($slowCount / $taskCount < self::MAX_SLOW_PERCENTAGE) {
-			return SetupResult::success($this->l10n->n('The task pickup speed has been ok in the last %n hour.', 'The task pickup speed has been ok in the last %n hours.', self::TIME_SPAN));
+		if (($slowCount / $taskCount) < self::MAX_SLOW_PERCENTAGE) {
+			return SetupResult::success(
+				$this->l10n->n(
+					'The task pickup speed has been ok in the last day.',
+					'The task pickup speed has been ok in the last %n days.',
+					$lastNDays
+				)
+			);
 		} else {
-			return SetupResult::warning($this->l10n->n('The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.', 'The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.', self::TIME_SPAN), 'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed');
+			return SetupResult::warning(
+				$this->l10n->n(
+					'The task pickup speed has been slow in the last day. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.',
+					'The task pickup speed has been slow in the last %n days. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.',
+					$lastNDays
+				),
+				'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed'
+			);
 		}
 	}
 }

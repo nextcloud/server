@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions, deleteVersion } from './filesVersionsUtils'
-import { navigateToFolder, getRowForFile } from '../files/FilesUtils'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { randomString } from '../../support/utils/randomString.ts'
+import { getRowForFile, navigateToFolder } from '../files/FilesUtils.ts'
+import { deleteVersion, doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions restoration', () => {
 	const folderName = 'shared_folder'
-	const randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+	const randomFileName = randomString(10) + '.txt'
 	const randomFilePath = `/${folderName}/${randomFileName}`
 	let user: User
 	let versionCount = 0
@@ -59,11 +61,11 @@ describe('Versions restoration', () => {
 		})
 
 		it('Does not work without delete permission through direct API access', () => {
-			let fileId: string|undefined
-			let versionId: string|undefined
+			let fileId: string | undefined
+			let versionId: string | undefined
 
 			setupTestSharedFileFromUser(user, folderName, { delete: false })
-				.then(recipient => {
+				.then((recipient) => {
 					navigateToFolder(folderName)
 					openVersionsPanel(randomFilePath)
 

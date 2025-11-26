@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s opende %s",
     "%s renamed %s" : "%s hernoemde %s",
     "%s copied %s" : "%s kopieerde %s",
-    "%s assigned %s to %s" : "%s wees %s toe aan %s",
     "Operation #%s does not exist" : "Bewerking #%s bestaat niet",
     "Entity %s does not exist" : "Entiteit %s bestaat niet",
     "Entity %s is invalid" : "Entiteit %s is ongeldig",
@@ -47,12 +46,13 @@
     "Select a filter" : "Selecteer een filter",
     "Select a comparator" : "Selecteer een comparator",
     "Remove filter" : "Verwijder filter",
+    "Audio" : "Geluid",
     "Folder" : "Map",
     "Images" : "Afbeeldingen",
     "Office documents" : "Office documenten",
     "PDF documents" : "PDF documenten",
+    "Video" : "Video",
     "Custom MIME type" : "Maatwerk mimetype",
-    "Custom mimetype" : "Maatwerk mimetype",
     "Select a file type" : "Selecteer een bestandstype",
     "e.g. httpd/unix-directory" : "bijv. httpd/unix-directory",
     "Please enter a valid time span" : "Geef een geldige tijdsinterval op",
@@ -67,7 +67,6 @@
     "Select a user agent" : "Selecteer een 'user agent'",
     "Select groups" : "Selecteer groepen",
     "Groups" : "Groepen",
-    "Type to search for group …" : "Type om groep te zoeken …",
     "Select a trigger" : "Selecteer een trigger",
     "At least one event must be selected" : "Er moet minimaal één gebeurtenis worden geselecteerd",
     "Add new flow" : "Nieuwe flow toevoegen",
@@ -116,6 +115,7 @@
     "Request user agent" : "Useragent aanvraag",
     "Group membership" : "Groepslidmaatschap",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van"
+    "is not member of" : "is geen lid van",
+    "Type to search for group …" : "Type om groep te zoeken …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -38,7 +38,10 @@ updates:
 
 # Main master npm frontend dependencies
 - package-ecosystem: npm
-  directory: "/"
+  directories:
+    - "/"
+    - "/build/frontend"
+    - "/build/frontend-legacy"
   schedule:
     interval: weekly
     day: saturday
@@ -50,11 +53,20 @@ updates:
     - "feature: dependencies"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
+  groups:
+    vite:
+      patterns:
+        - "vite"
+        - "@nextcloud/vite-config"
+    vitest:
+      patterns:
+        - "vitest"
+        - "@vitest/*"
 
 # Latest stable release
 # Composer dependencies for linting and testing
 - package-ecosystem: composer
-  target-branch: stable31
+  target-branch: stable32
   directories:
     - "/"
     - "/build/integration"
@@ -78,7 +90,7 @@ updates:
 # Latest stable branch
 # frontend dependencies
 - package-ecosystem: npm
-  target-branch: stable31
+  target-branch: stable32
   directory: "/"
   schedule:
     interval: weekly
@@ -100,7 +112,7 @@ updates:
 
 # Composer dependencies for linting and testing
 - package-ecosystem: composer
-  target-branch: stable30
+  target-branch: stable31
   directories:
     - "/"
     - "/build/integration"
@@ -123,7 +135,7 @@ updates:
 
 # frontend dependencies
 - package-ecosystem: npm
-  target-branch: stable30
+  target-branch: stable31
   directory: "/"
   schedule:
     interval: weekly

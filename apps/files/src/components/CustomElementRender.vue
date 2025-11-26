@@ -20,26 +20,32 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		currentView: {
 			type: Object,
 			required: true,
 		},
+
 		render: {
 			type: Function,
 			required: true,
 		},
 	},
+
 	watch: {
 		source() {
 			this.updateRootElement()
 		},
+
 		currentView() {
 			this.updateRootElement()
 		},
 	},
+
 	mounted() {
 		this.updateRootElement()
 	},
+
 	methods: {
 		async updateRootElement() {
 			const element = await this.render(this.source, this.currentView)

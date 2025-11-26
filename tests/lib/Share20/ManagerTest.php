@@ -74,8 +74,8 @@ class DummyShareManagerListener {
  * Class ManagerTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends \Test\TestCase {
 	/** @var Manager */
 	protected $manager;
@@ -831,183 +831,238 @@ class ManagerTest extends \Test\TestCase {
 		return $share;
 	}
 
-	public function dataGeneralChecks() {
+	public static function dataGeneralChecks(): array {
 		$user0 = 'user0';
 		$user2 = 'user1';
 		$group0 = 'group0';
-		$owner = $this->createMock(IUser::class);
-		$owner->method('getUID')
-			->willReturn($user0);
 
-		$file = $this->createMock(File::class);
-		$node = $this->createMock(Node::class);
-		$storage = $this->createMock(IStorage::class);
-		$storage->method('instanceOfStorage')
-			->with('\OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
-		$file->method('getStorage')
-			->willReturn($storage);
-		$file->method('getId')->willReturn(108);
-		$node->method('getStorage')
-			->willReturn($storage);
-		$node->method('getId')->willReturn(108);
-
-		$data = [
-			[$this->createShare(null, IShare::TYPE_USER, $file, null, $user0, $user0, 31, null, null), 'Share recipient is not a valid user', true],
-			[$this->createShare(null, IShare::TYPE_USER, $file, $group0, $user0, $user0, 31, null, null), 'Share recipient is not a valid user', true],
-			[$this->createShare(null, IShare::TYPE_USER, $file, 'foo@bar.com', $user0, $user0, 31, null, null), 'Share recipient is not a valid user', true],
-			[$this->createShare(null, IShare::TYPE_GROUP, $file, null, $user0, $user0, 31, null, null), 'Share recipient is not a valid group', true],
-			[$this->createShare(null, IShare::TYPE_GROUP, $file, $user2, $user0, $user0, 31, null, null), 'Share recipient is not a valid group', true],
-			[$this->createShare(null, IShare::TYPE_GROUP, $file, 'foo@bar.com', $user0, $user0, 31, null, null), 'Share recipient is not a valid group', true],
-			[$this->createShare(null, IShare::TYPE_LINK, $file, $user2, $user0, $user0, 31, null, null), 'Share recipient should be empty', true],
-			[$this->createShare(null, IShare::TYPE_LINK, $file, $group0, $user0, $user0, 31, null, null), 'Share recipient should be empty', true],
-			[$this->createShare(null, IShare::TYPE_LINK, $file, 'foo@bar.com', $user0, $user0, 31, null, null), 'Share recipient should be empty', true],
-			[$this->createShare(null, -1, $file, null, $user0, $user0, 31, null, null), 'Unknown share type', true],
-
-			[$this->createShare(null, IShare::TYPE_USER, $file, $user2, null, $user0, 31, null, null), 'Share initiator must be set', true],
-			[$this->createShare(null, IShare::TYPE_GROUP, $file, $group0, null, $user0, 31, null, null), 'Share initiator must be set', true],
-			[$this->createShare(null, IShare::TYPE_LINK, $file, null, null, $user0, 31, null, null), 'Share initiator must be set', true],
-
-			[$this->createShare(null, IShare::TYPE_USER, $file, $user0, $user0, $user0, 31, null, null), 'Cannot share with yourself', true],
-
-			[$this->createShare(null, IShare::TYPE_USER, null, $user2, $user0, $user0, 31, null, null), 'Shared path must be set', true],
-			[$this->createShare(null, IShare::TYPE_GROUP, null, $group0, $user0, $user0, 31, null, null), 'Shared path must be set', true],
-			[$this->createShare(null, IShare::TYPE_LINK, null, null, $user0, $user0, 31, null, null), 'Shared path must be set', true],
-
-			[$this->createShare(null, IShare::TYPE_USER, $node, $user2, $user0, $user0, 31, null, null), 'Shared path must be either a file or a folder', true],
-			[$this->createShare(null, IShare::TYPE_GROUP, $node, $group0, $user0, $user0, 31, null, null), 'Shared path must be either a file or a folder', true],
-			[$this->createShare(null, IShare::TYPE_LINK, $node, null, $user0, $user0, 31, null, null), 'Shared path must be either a file or a folder', true],
+		$file = [
+			File::class,
+			[
+				'getId' => 108,
+			],
+			'default',
 		];
 
-		$nonShareAble = $this->createMock(Folder::class);
-		$nonShareAble->method('getId')->willReturn(108);
-		$nonShareAble->method('isShareable')->willReturn(false);
-		$nonShareAble->method('getPath')->willReturn('path');
-		$nonShareAble->method('getName')->willReturn('name');
-		$nonShareAble->method('getOwner')
-			->willReturn($owner);
-		$nonShareAble->method('getStorage')
-			->willReturn($storage);
+		$node = [
+			Node::class,
+			[
+				'getId' => 108,
+			],
+			'default',
+		];
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $nonShareAble, $user2, $user0, $user0, 31, null, null), 'You are not allowed to share name', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $nonShareAble, $group0, $user0, $user0, 31, null, null), 'You are not allowed to share name', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $nonShareAble, null, $user0, $user0, 31, null, null), 'You are not allowed to share name', true];
+		$data = [
+			[[null, IShare::TYPE_USER, $file, null, $user0, $user0, 31, null, null], 'Share recipient is not a valid user', true],
+			[[null, IShare::TYPE_USER, $file, $group0, $user0, $user0, 31, null, null], 'Share recipient is not a valid user', true],
+			[[null, IShare::TYPE_USER, $file, 'foo@bar.com', $user0, $user0, 31, null, null], 'Share recipient is not a valid user', true],
+			[[null, IShare::TYPE_GROUP, $file, null, $user0, $user0, 31, null, null], 'Share recipient is not a valid group', true],
+			[[null, IShare::TYPE_GROUP, $file, $user2, $user0, $user0, 31, null, null], 'Share recipient is not a valid group', true],
+			[[null, IShare::TYPE_GROUP, $file, 'foo@bar.com', $user0, $user0, 31, null, null], 'Share recipient is not a valid group', true],
+			[[null, IShare::TYPE_LINK, $file, $user2, $user0, $user0, 31, null, null], 'Share recipient should be empty', true],
+			[[null, IShare::TYPE_LINK, $file, $group0, $user0, $user0, 31, null, null], 'Share recipient should be empty', true],
+			[[null, IShare::TYPE_LINK, $file, 'foo@bar.com', $user0, $user0, 31, null, null], 'Share recipient should be empty', true],
+			[[null, -1, $file, null, $user0, $user0, 31, null, null], 'Unknown share type', true],
 
-		$limitedPermssions = $this->createMock(File::class);
-		$limitedPermssions->method('isShareable')->willReturn(true);
-		$limitedPermssions->method('getPermissions')->willReturn(Constants::PERMISSION_READ);
-		$limitedPermssions->method('getId')->willReturn(108);
-		$limitedPermssions->method('getPath')->willReturn('path');
-		$limitedPermssions->method('getName')->willReturn('name');
-		$limitedPermssions->method('getOwner')
-			->willReturn($owner);
-		$limitedPermssions->method('getStorage')
-			->willReturn($storage);
+			[[null, IShare::TYPE_USER, $file, $user2, null, $user0, 31, null, null], 'Share initiator must be set', true],
+			[[null, IShare::TYPE_GROUP, $file, $group0, null, $user0, 31, null, null], 'Share initiator must be set', true],
+			[[null, IShare::TYPE_LINK, $file, null, null, $user0, 31, null, null], 'Share initiator must be set', true],
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $limitedPermssions, $user2, $user0, $user0, null, null, null), 'Valid permissions are required for sharing', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, null, null, null), 'Valid permissions are required for sharing', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $limitedPermssions, null, $user0, $user0, null, null, null), 'Valid permissions are required for sharing', true];
+			[[null, IShare::TYPE_USER, $file, $user0, $user0, $user0, 31, null, null], 'Cannot share with yourself', true],
 
-		$mount = $this->createMock(MoveableMount::class);
-		$limitedPermssions->method('getMountPoint')->willReturn($mount);
+			[[null, IShare::TYPE_USER, null, $user2, $user0, $user0, 31, null, null], 'Shared path must be set', true],
+			[[null, IShare::TYPE_GROUP, null, $group0, $user0, $user0, 31, null, null], 'Shared path must be set', true],
+			[[null, IShare::TYPE_LINK, null, null, $user0, $user0, 31, null, null], 'Shared path must be set', true],
+
+			[[null, IShare::TYPE_USER, $node, $user2, $user0, $user0, 31, null, null], 'Shared path must be either a file or a folder', true],
+			[[null, IShare::TYPE_GROUP, $node, $group0, $user0, $user0, 31, null, null], 'Shared path must be either a file or a folder', true],
+			[[null, IShare::TYPE_LINK, $node, null, $user0, $user0, 31, null, null], 'Shared path must be either a file or a folder', true],
+		];
+
+		$nonShareAble = [
+			Folder::class,
+			[
+				'getId' => 108,
+				'isShareable' => false,
+				'getPath' => 'path',
+				'getName' => 'name',
+				'getOwner' => $user0,
+			],
+			'default',
+		];
+
+		$data[] = [[null, IShare::TYPE_USER, $nonShareAble, $user2, $user0, $user0, 31, null, null], 'You are not allowed to share name', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $nonShareAble, $group0, $user0, $user0, 31, null, null], 'You are not allowed to share name', true];
+		$data[] = [[null, IShare::TYPE_LINK, $nonShareAble, null, $user0, $user0, 31, null, null], 'You are not allowed to share name', true];
+
+		$limitedPermssions = [
+			File::class,
+			[
+				'isShareable' => true,
+				'getPermissions' => Constants::PERMISSION_READ,
+				'getId' => 108,
+				'getPath' => 'path',
+				'getName' => 'name',
+				'getOwner' => $user0,
+			],
+			'default',
+		];
+
+		$data[] = [[null, IShare::TYPE_USER, $limitedPermssions, $user2, $user0, $user0, null, null, null], 'Valid permissions are required for sharing', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, null, null, null], 'Valid permissions are required for sharing', true];
+		$data[] = [[null, IShare::TYPE_LINK, $limitedPermssions, null, $user0, $user0, null, null, null], 'Valid permissions are required for sharing', true];
+
+		$limitedPermssions[1]['getMountPoint'] = MoveableMount::class;
 
 		// increase permissions of a re-share
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $limitedPermssions, $user2, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null], 'Cannot increase permissions of path', true];
+		$data[] = [[null, IShare::TYPE_USER, $limitedPermssions, $user2, $user0, $user0, 3, null, null], 'Cannot increase permissions of path', true];
 
-		$nonMovableStorage = $this->createMock(IStorage::class);
-		$nonMovableStorage->method('instanceOfStorage')
-			->with('\OCA\Files_Sharing\External\Storage')
-			->willReturn(false);
-		$nonMovableStorage->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
-		$nonMoveableMountPermssions = $this->createMock(Folder::class);
-		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
-		$nonMoveableMountPermssions->method('getPermissions')->willReturn(Constants::PERMISSION_READ);
-		$nonMoveableMountPermssions->method('getId')->willReturn(108);
-		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
-		$nonMoveableMountPermssions->method('getName')->willReturn('name');
-		$nonMoveableMountPermssions->method('getInternalPath')->willReturn('');
-		$nonMoveableMountPermssions->method('getOwner')
-			->willReturn($owner);
-		$nonMoveableMountPermssions->method('getStorage')
-			->willReturn($nonMovableStorage);
+		$nonMoveableMountPermssions = [
+			Folder::class,
+			[
+				'isShareable' => true,
+				'getPermissions' => Constants::PERMISSION_READ,
+				'getId' => 108,
+				'getPath' => 'path',
+				'getName' => 'name',
+				'getInternalPath' => '',
+				'getOwner' => $user0,
+			],
+			'allPermssions',
+		];
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
+		$data[] = [[null, IShare::TYPE_USER, $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null], 'Cannot increase permissions of path', false];
+		$data[] = [[null, IShare::TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null], 'Cannot increase permissions of path', false];
 
-		$rootFolder = $this->createMock(Folder::class);
-		$rootFolder->method('isShareable')->willReturn(true);
-		$rootFolder->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
-		$rootFolder->method('getId')->willReturn(42);
+		$rootFolder = [
+			Folder::class,
+			[
+				'isShareable' => true,
+				'getPermissions' => Constants::PERMISSION_ALL,
+				'getId' => 42,
+			],
+			'none',
+		];
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $rootFolder, $user2, $user0, $user0, 30, null, null), 'You cannot share your root folder', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You cannot share your root folder', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $rootFolder, null, $user0, $user0, 16, null, null), 'You cannot share your root folder', true];
+		$data[] = [[null, IShare::TYPE_USER, $rootFolder, $user2, $user0, $user0, 30, null, null], 'You cannot share your root folder', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null], 'You cannot share your root folder', true];
+		$data[] = [[null, IShare::TYPE_LINK, $rootFolder, null, $user0, $user0, 16, null, null], 'You cannot share your root folder', true];
 
-		$allPermssionsFiles = $this->createMock(File::class);
-		$allPermssionsFiles->method('isShareable')->willReturn(true);
-		$allPermssionsFiles->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
-		$allPermssionsFiles->method('getId')->willReturn(187);
-		$allPermssionsFiles->method('getOwner')
-			->willReturn($owner);
-		$allPermssionsFiles->method('getStorage')
-			->willReturn($storage);
+		$allPermssionsFiles = [
+			File::class,
+			[
+				'isShareable' => true,
+				'getPermissions' => Constants::PERMISSION_ALL,
+				'getId' => 187,
+				'getOwner' => $user0,
+			],
+			'default',
+		];
 
 		// test invalid CREATE or DELETE permissions
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssionsFiles, $user2, $user0, $user0, Constants::PERMISSION_ALL, null, null), 'File shares cannot have create or delete permissions', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssionsFiles, $group0, $user0, $user0, Constants::PERMISSION_READ | Constants::PERMISSION_CREATE, null, null), 'File shares cannot have create or delete permissions', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $allPermssionsFiles, null, $user0, $user0, Constants::PERMISSION_READ | Constants::PERMISSION_DELETE, null, null), 'File shares cannot have create or delete permissions', true];
+		$data[] = [[null, IShare::TYPE_USER, $allPermssionsFiles, $user2, $user0, $user0, Constants::PERMISSION_ALL, null, null], 'File shares cannot have create or delete permissions', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $allPermssionsFiles, $group0, $user0, $user0, Constants::PERMISSION_READ | Constants::PERMISSION_CREATE, null, null], 'File shares cannot have create or delete permissions', true];
+		$data[] = [[null, IShare::TYPE_LINK, $allPermssionsFiles, null, $user0, $user0, Constants::PERMISSION_READ | Constants::PERMISSION_DELETE, null, null], 'File shares cannot have create or delete permissions', true];
 
-		$allPermssions = $this->createMock(Folder::class);
-		$allPermssions->method('isShareable')->willReturn(true);
-		$allPermssions->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
-		$allPermssions->method('getId')->willReturn(108);
-		$allPermssions->method('getOwner')
-			->willReturn($owner);
-		$allPermssions->method('getStorage')
-			->willReturn($storage);
+		$allPermssions = [
+			Folder::class,
+			[
+				'isShareable' => true,
+				'getPermissions' => Constants::PERMISSION_ALL,
+				'getId' => 108,
+				'getOwner' => $user0,
+			],
+			'default',
+		];
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 30, null, null), 'Shares need at least read permissions', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 2, null, null), 'Shares need at least read permissions', true];
+		$data[] = [[null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 30, null, null], 'Shares need at least read permissions', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 2, null, null], 'Shares need at least read permissions', true];
 
 		// test invalid permissions
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 32, null, null), 'Valid permissions are required for sharing', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 63, null, null), 'Valid permissions are required for sharing', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $allPermssions, null, $user0, $user0, -1, null, null), 'Valid permissions are required for sharing', true];
+		$data[] = [[null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 32, null, null], 'Valid permissions are required for sharing', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 63, null, null], 'Valid permissions are required for sharing', true];
+		$data[] = [[null, IShare::TYPE_LINK, $allPermssions, null, $user0, $user0, -1, null, null], 'Valid permissions are required for sharing', true];
 
 		// working shares
-		$data[] = [$this->createShare(null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 31, null, null), null, false];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 3, null, null), null, false];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $allPermssions, null, $user0, $user0, 17, null, null), null, false];
+		$data[] = [[null, IShare::TYPE_USER, $allPermssions, $user2, $user0, $user0, 31, null, null], null, false];
+		$data[] = [[null, IShare::TYPE_GROUP, $allPermssions, $group0, $user0, $user0, 3, null, null], null, false];
+		$data[] = [[null, IShare::TYPE_LINK, $allPermssions, null, $user0, $user0, 17, null, null], null, false];
 
+		$remoteFile = [
+			Folder::class,
+			[
+				'isShareable' => true,
+				'getPermissions' => Constants::PERMISSION_READ ^ Constants::PERMISSION_UPDATE,
+				'getId' => 108,
+				'getOwner' => $user0,
+			],
+			'remote',
+		];
 
-		$remoteStorage = $this->createMock(IStorage::class);
-		$remoteStorage->method('instanceOfStorage')
-			->with('\OCA\Files_Sharing\External\Storage')
-			->willReturn(true);
-		$remoteFile = $this->createMock(Folder::class);
-		$remoteFile->method('isShareable')->willReturn(true);
-		$remoteFile->method('getPermissions')->willReturn(Constants::PERMISSION_READ ^ Constants::PERMISSION_UPDATE);
-		$remoteFile->method('getId')->willReturn(108);
-		$remoteFile->method('getOwner')
-			->willReturn($owner);
-		$remoteFile->method('getStorage')
-			->willReturn($storage);
-		$data[] = [$this->createShare(null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 1, null, null), null, false];
-		$data[] = [$this->createShare(null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 3, null, null), null, false];
-		$data[] = [$this->createShare(null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null), 'Cannot increase permissions of ', true];
+		$data[] = [[null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 1, null, null], null, false];
+		$data[] = [[null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 3, null, null], null, false];
+		$data[] = [[null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null], 'Cannot increase permissions of ', true];
 
 		return $data;
 	}
 
-	/**
-	 *
-	 * @param $share
-	 * @param $exceptionMessage
-	 * @param $exception
-	 */
+	private function createNodeMock(string $class, array $methods, string $storageType): MockObject {
+		$mock = $this->createMock($class);
+		foreach ($methods as $methodName => $return) {
+			if ($methodName === 'getOwner') {
+				$uid = $return;
+				$return = $this->createMock(IUser::class);
+				$return->method('getUID')
+					->willReturn($uid);
+			} elseif ($methodName === 'getMountPoint') {
+				$return = $this->createMock($return);
+			}
+			$mock->method($methodName)->willReturn($return);
+		}
+		switch ($storageType) {
+			case 'default':
+				$storage = $this->createMock(IStorage::class);
+				$storage->method('instanceOfStorage')
+					->with('\OCA\Files_Sharing\External\Storage')
+					->willReturn(false);
+				break;
+			case 'allPermssions':
+				$storage = $this->createMock(IStorage::class);
+				$storage->method('instanceOfStorage')
+					->with('\OCA\Files_Sharing\External\Storage')
+					->willReturn(false);
+				$storage->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+				break;
+			case 'none':
+				$storage = false;
+				break;
+			case 'remote':
+				$storage = $this->createMock(IStorage::class);
+				$storage->method('instanceOfStorage')
+					->with('\OCA\Files_Sharing\External\Storage')
+					->willReturn(true);
+				break;
+			default:
+				throw new \Exception('Unknown storage type ' . $storageType);
+		}
+		if ($storage === false) {
+			$mock->expects(self::never())->method('getStorage');
+		} else {
+			$mock->method('getStorage')
+				->willReturn($storage);
+		}
+
+		return $mock;
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGeneralChecks')]
-	public function testGeneralChecks($share, $exceptionMessage, $exception): void {
+	public function testGeneralChecks(array $shareParams, ?string $exceptionMessage, bool $exception): void {
+		if ($shareParams[2] !== null) {
+			$shareParams[2] = $this->createNodeMock(...$shareParams[2]);
+		}
+		$share = $this->createShare(...$shareParams);
+
 		$thrown = null;
 
 		$this->userManager->method('userExists')->willReturnMap([

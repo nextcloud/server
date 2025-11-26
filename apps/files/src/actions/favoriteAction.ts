@@ -4,31 +4,39 @@
  */
 import type { Node, View } from '@nextcloud/files'
 
+import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
+import StarSvg from '@mdi/svg/svg/star.svg?raw'
+import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
-import { Permission, FileAction } from '@nextcloud/files'
+import { FileAction, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import axios from '@nextcloud/axios'
 import PQueue from 'p-queue'
 import Vue from 'vue'
-
-import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
-import StarSvg from '@mdi/svg/svg/star.svg?raw'
-
 import logger from '../logger.ts'
 
 export const ACTION_FAVORITE = 'favorite'
 
 const queue = new PQueue({ concurrency: 5 })
 
-// If any of the nodes is not favorited, we display the favorite action.
-const shouldFavorite = (nodes: Node[]): boolean => {
-	return nodes.some(node => node.attributes.favorite !== 1)
+/**
+ * If any of the nodes is not favorited, we display the favorite action.
+ *
+ * @param nodes - The nodes to check
+ */
+function shouldFavorite(nodes: Node[]): boolean {
+	return nodes.some((node) => node.attributes.favorite !== 1)
 }
 
-export const favoriteNode = async (node: Node, view: View, willFavorite: boolean): Promise<boolean> => {
+/**
+ *
+ * @param node
+ * @param view
+ * @param willFavorite
+ */
+export async function favoriteNode(node: Node, view: View, willFavorite: boolean): Promise<boolean> {
 	try {
 		// TODO: migrate to webdav tags plugin
 		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
@@ -83,9 +91,9 @@ export const action = new FileAction({
 		}
 
 		// We can only favorite nodes if they are located in files
-		return nodes.every(node => node.root?.startsWith?.('/files'))
+		return nodes.every((node) => node.root?.startsWith?.('/files'))
 			// and we have permissions
-			&& nodes.every(node => node.permissions !== Permission.NONE)
+			&& nodes.every((node) => node.permissions !== Permission.NONE)
 	},
 
 	async exec(node: Node, view: View) {
@@ -96,9 +104,9 @@ export const action = new FileAction({
 		const willFavorite = shouldFavorite(nodes)
 
 		// Map each node to a promise that resolves with the result of exec(node)
-		const promises = nodes.map(node => {
+		const promises = nodes.map((node) => {
 			// Create a promise that resolves with the result of exec(node)
-			const promise = new Promise<boolean>(resolve => {
+			const promise = new Promise<boolean>((resolve) => {
 				queue.add(async () => {
 					try {
 						await favoriteNode(node, view, willFavorite)
@@ -116,4 +124,9 @@ export const action = new FileAction({
 	},
 
 	order: -50,
+
+	hotkey: {
+		description: t('files', 'Add or remove favorite'),
+		key: 'S',
+	},
 })

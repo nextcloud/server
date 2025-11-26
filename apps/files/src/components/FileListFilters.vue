@@ -5,19 +5,22 @@
 <template>
 	<div class="file-list-filters">
 		<div class="file-list-filters__filter" data-cy-files-filters>
-			<span v-for="filter of visualFilters"
+			<span
+				v-for="filter of visualFilters"
 				:key="filter.id"
 				ref="filterElements" />
 		</div>
 		<ul v-if="activeChips.length > 0" class="file-list-filters__active" :aria-label="t('files', 'Active filters')">
 			<li v-for="(chip, index) of activeChips" :key="index">
-				<NcChip :aria-label-close="t('files', 'Remove filter')"
+				<NcChip
+					:aria-label-close="t('files', 'Remove filter')"
 					:icon-svg="chip.icon"
 					:text="chip.text"
 					@close="chip.onclick">
 					<template v-if="chip.user" #icon>
-						<NcAvatar disable-menu
-							:show-user-status="false"
+						<NcAvatar
+							disable-menu
+							hide-status
 							:size="24"
 							:user="chip.user" />
 					</template>
@@ -30,10 +33,9 @@
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
 import { computed, ref, watchEffect } from 'vue'
-import { useFiltersStore } from '../store/filters.ts'
-
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcChip from '@nextcloud/vue/components/NcChip'
+import { useFiltersStore } from '../store/filters.ts'
 
 const filterStore = useFiltersStore()
 const visualFilters = computed(() => filterStore.filtersWithUI)

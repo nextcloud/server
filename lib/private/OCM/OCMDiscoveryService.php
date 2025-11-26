@@ -84,9 +84,11 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 					throw new OCMProviderException('Previous discovery failed.');
 				}
 
-				$provider->import(json_decode($cached ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				$this->remoteProviders[$remote] = $provider;
-				return $provider;
+				if ($cached !== null) {
+					$provider->import(json_decode($cached, true, 8, JSON_THROW_ON_ERROR) ?? []);
+					$this->remoteProviders[$remote] = $provider;
+					return $provider;
+				}
 			} catch (JsonException|OCMProviderException $e) {
 				$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 			}
@@ -101,22 +103,46 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates') === true) {
 				$options['verify'] = false;
 			}
-			$response = $client->get($remote . '/ocm-provider/', $options);
+			$urls = [
+				$remote . '/.well-known/ocm',
+				$remote . '/ocm-provider',
+			];
 
-			$body = null;
-			if ($response->getStatusCode() === Http::STATUS_OK) {
-				$body = $response->getBody();
-				// update provider with data returned by the request
-				$provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
-				$this->cache->set($remote, $body, 60 * 60 * 24);
-				$this->remoteProviders[$remote] = $provider;
-				return $provider;
+
+			foreach ($urls as $url) {
+				$exception = null;
+				$body = null;
+				$status = null;
+				try {
+					$response = $client->get($url, $options);
+					if ($response->getStatusCode() === Http::STATUS_OK) {
+						$body = $response->getBody();
+						$status = $response->getStatusCode();
+						// update provider with data returned by the request
+						$provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
+						$this->cache->set($remote, $body, 60 * 60 * 24);
+						$this->remoteProviders[$remote] = $provider;
+						return $provider;
+					}
+				} catch (\Exception $e) {
+					$this->logger->debug("Tried unsuccesfully to do discovery at: {$url}", [
+						'exception' => $e,
+						'remote' => $remote
+					]);
+					// We want to throw only the last exception
+					$exception = $e;
+					continue;
+				}
 			}
+			if ($exception) {
+				throw $exception;
+			}
+
 
 			throw new OCMProviderException('invalid remote ocm endpoint');
 		} catch (JsonException|OCMProviderException) {
 			$this->cache->set($remote, false, 5 * 60);
-			throw new OCMProviderException('data returned by remote seems invalid - status:' . $response->getStatusCode() . ' - ' . ($body ?? ''));
+			throw new OCMProviderException('data returned by remote seems invalid - status: ' . ($status ?? '') . ' - body: ' . ($body ?? ''));
 		} catch (\Exception $e) {
 			$this->cache->set($remote, false, 5 * 60);
 			$this->logger->warning('error while discovering ocm provider', [
@@ -151,6 +177,12 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
 		$provider->setCapabilities(['/invite-accepted', '/notifications', '/shares']);
+
+		// The inviteAcceptDialog is available from the contacts app, if this config value is set
+		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
+		if ($inviteAcceptDialog !== '') {
+			$provider->setInviteAcceptDialog($this->urlGenerator->linkToRouteAbsolute($inviteAcceptDialog));
+		}
 
 		$resource = $provider->createNewResourceType();
 		$resource->setName('file')

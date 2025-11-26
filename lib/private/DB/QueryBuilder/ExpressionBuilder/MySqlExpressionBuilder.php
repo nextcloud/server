@@ -44,6 +44,8 @@ class MySqlExpressionBuilder extends ExpressionBuilder {
 		switch ($type) {
 			case IQueryBuilder::PARAM_STR:
 				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS CHAR)');
+			case IQueryBuilder::PARAM_JSON:
+				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS JSON)');
 			default:
 				return parent::castColumn($column, $type);
 		}

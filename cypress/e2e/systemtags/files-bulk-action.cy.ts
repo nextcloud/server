@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
 import { randomBytes } from 'crypto'
-import { getRowForFile, selectAllFiles, selectRowForFile, triggerSelectionAction } from '../files/FilesUtils'
-import { createShare } from '../files_sharing/FilesSharingUtils'
+import { getRowForFile, selectAllFiles, selectRowForFile, triggerSelectionAction } from '../files/FilesUtils.ts'
+import { createShare } from '../files_sharing/FilesSharingUtils.ts'
 
 let tags = {} as Record<string, number>
 const files = [
@@ -19,7 +20,7 @@ const files = [
 
 function resetTags() {
 	tags = {}
-	for (const tag in [0, 1, 2, 3, 4]) {
+	for (let i = 0; i < 5; i++) {
 		tags[randomBytes(8).toString('base64').slice(0, 6)] = 0
 	}
 
@@ -44,7 +45,7 @@ function expectInlineTagForFile(file: string, tags: string[]) {
 		.find('[data-systemtags-fileid]')
 		.findAllByRole('listitem')
 		.should('have.length', tags.length)
-		.each(tag => {
+		.each((tag) => {
 			expect(tag.text()).to.be.oneOf(tags)
 		})
 }
@@ -181,7 +182,6 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 		expectInlineTagForFile('file3.txt', [tag1])
 		expectInlineTagForFile('file4.txt', [firstTag, tag1])
 		expectInlineTagForFile('file5.txt', [tag1, tag2])
-
 	})
 
 	it('Can remove multiple tags from selection', () => {

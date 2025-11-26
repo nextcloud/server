@@ -26,9 +26,9 @@ use Test\TestCase;
 /**
  * Class TestSystemTagManager
  *
- * @group DB
  * @package Test\SystemTag
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SystemTagManagerTest extends TestCase {
 	private ISystemTagManager $tagManager;
 	private IDBConnection $connection;
@@ -65,8 +65,8 @@ class SystemTagManagerTest extends TestCase {
 
 	protected function pruneTagsTables() {
 		$query = $this->connection->getQueryBuilder();
-		$query->delete(SystemTagObjectMapper::RELATION_TABLE)->execute();
-		$query->delete(SystemTagManager::TAG_TABLE)->execute();
+		$query->delete(SystemTagObjectMapper::RELATION_TABLE)->executeStatement();
+		$query->delete(SystemTagManager::TAG_TABLE)->executeStatement();
 	}
 
 	public static function getAllTagsDataProvider(): array {

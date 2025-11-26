@@ -32,7 +32,6 @@ OC.L10N.register(
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossibile decifrare questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossibile leggere questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
     "Default encryption module" : "Modulo di cifratura predefinito",
-    "Default encryption module for server-side encryption" : "Modulo di cifratura predefinito per la cifratura lato server",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "Encrypt the home storage" : "Cifra l'archiviazione principale",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "L'abilitazione di questa opzione cifra tutti i file memorizzati sull'archiviazione principale, altrimenti saranno cifrati solo i file sull'archiviazione esterna.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Abilita il ripristino della password:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password",
     "Enabled" : "Abilitata",
-    "Disabled" : "Disabilitata"
+    "Disabled" : "Disabilitata",
+    "Default encryption module for server-side encryption" : "Modulo di cifratura predefinito per la cifratura lato server"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

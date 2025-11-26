@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { FileAction } from '@nextcloud/files'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils'
-import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction'
-import { ACTION_DELETE } from '../../../apps/files/src/actions/deleteAction'
-import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction'
+import { FileAction } from '@nextcloud/files'
+import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils.ts'
+
+const ACTION_DELETE = 'delete'
+const ACTION_COPY_MOVE = 'move-copy'
+const ACTION_DETAILS = 'details'
 
 declare global {
 	interface Window {
@@ -83,7 +84,9 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here
 			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) win._nc_fileactions = []
+				if (!win._nc_fileactions) {
+					win._nc_fileactions = []
+				}
 				// Cannot use registerFileAction here
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
@@ -172,7 +175,9 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here
 			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) win._nc_fileactions = []
+				if (!win._nc_fileactions) {
+					win._nc_fileactions = []
+				}
 				// Cannot use registerFileAction here
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
@@ -209,6 +214,55 @@ describe('Files: Actions', { testIsolation: true }, () => {
 
 		// Check we have the parent action but not the children
 		getSelectionActionEntry('nested-action').should('be.visible')
+		getSelectionActionEntry('menu-back').should('not.exist')
+		getSelectionActionEntry('nested-child-1').should('not.exist')
+		getSelectionActionEntry('nested-child-2').should('not.exist')
+	})
+
+	it('Do not show parent if nested action has no batch support', () => {
+		const parent = new FileAction({
+			id: 'nested-action',
+			displayName: () => 'Nested Action',
+			exec: cy.spy(),
+			iconSvgInline: () => '<svg></svg>',
+		})
+
+		const child1 = new FileAction({
+			id: 'nested-child-1',
+			displayName: () => 'Nested Child 1',
+			exec: cy.spy(),
+			iconSvgInline: () => '<svg></svg>',
+			parent: 'nested-action',
+		})
+
+		const child2 = new FileAction({
+			id: 'nested-child-2',
+			displayName: () => 'Nested Child 2',
+			exec: cy.spy(),
+			iconSvgInline: () => '<svg></svg>',
+			parent: 'nested-action',
+		})
+
+		cy.visit('/apps/files', {
+			// Cannot use registerFileAction here
+			onBeforeLoad: (win) => {
+				if (!win._nc_fileactions) {
+					win._nc_fileactions = []
+				}
+				// Cannot use registerFileAction here
+				win._nc_fileactions.push(parent)
+				win._nc_fileactions.push(child1)
+				win._nc_fileactions.push(child2)
+			},
+		})
+
+		selectRowForFile('image.jpg')
+
+		// Open the menu
+		getSelectionActionButton().click({ force: true })
+
+		// Check we have the parent action but not the children
+		getSelectionActionEntry('nested-action').should('not.exist')
 		getSelectionActionEntry('menu-back').should('not.exist')
 		getSelectionActionEntry('nested-child-1').should('not.exist')
 		getSelectionActionEntry('nested-child-2').should('not.exist')

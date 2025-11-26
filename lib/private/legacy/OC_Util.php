@@ -332,7 +332,7 @@ class OC_Util {
 
 		// Check if config folder is writable.
 		if (!(bool)$config->getValue('config_is_read_only', false)) {
-			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
+			if (!is_writable(OC::$configDir) || !is_readable(OC::$configDir)) {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "config" directory.'),
 					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
@@ -356,7 +356,7 @@ class OC_Util {
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
-			} elseif (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
+			} elseif (!is_writable($CONFIG_DATADIRECTORY) || !is_readable($CONFIG_DATADIRECTORY)) {
 				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');
@@ -456,22 +456,6 @@ class OC_Util {
 				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
 			];
 			$webServerRestart = true;
-		}
-
-		/**
-		 * The mbstring.func_overload check can only be performed if the mbstring
-		 * module is installed as it will return null if the checking setting is
-		 * not available and thus a check on the boolean value fails.
-		 *
-		 * TODO: Should probably be implemented in the above generic dependency
-		 *       check somehow in the long-term.
-		 */
-		if ($iniWrapper->getBool('mbstring.func_overload') !== null
-			&& $iniWrapper->getBool('mbstring.func_overload') === true) {
-			$errors[] = [
-				'error' => $l->t('<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>.', [$iniWrapper->getString('mbstring.func_overload')]),
-				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini.')
-			];
 		}
 
 		if (!self::isAnnotationsWorking()) {

@@ -2,59 +2,26 @@
   - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-<template>
-	<div>
-		<CalendarAvailability :slots.sync="slots"
-			:loading="loading"
-			:l10n-to="t('dav', 'to')"
-			:l10n-delete-slot="t('dav', 'Delete slot')"
-			:l10n-empty-day="t('dav', 'No working hours set')"
-			:l10n-add-slot="t('dav', 'Add slot')"
-			:l10n-week-day-list-label="t('dav', 'Weekdays')"
-			:l10n-monday="t('dav', 'Monday')"
-			:l10n-tuesday="t('dav', 'Tuesday')"
-			:l10n-wednesday="t('dav', 'Wednesday')"
-			:l10n-thursday="t('dav', 'Thursday')"
-			:l10n-friday="t('dav', 'Friday')"
-			:l10n-saturday="t('dav', 'Saturday')"
-			:l10n-sunday="t('dav', 'Sunday')"
-			:l10n-start-picker-label="(dayName) => t('dav', 'Pick a start time for {dayName}', { dayName })"
-			:l10n-end-picker-label="(dayName) => t('dav', 'Pick a end time for {dayName}', { dayName })" />
-
-		<NcCheckboxRadioSwitch v-model="automated">
-			{{ t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}
-		</NcCheckboxRadioSwitch>
-
-		<NcButton :disabled="loading || saving"
-			variant="primary"
-			@click="save">
-			{{ t('dav', 'Save') }}
-		</NcButton>
-	</div>
-</template>
 
 <script setup lang="ts">
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import {
-	showError,
-	showSuccess,
-} from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { onMounted, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import {
 	findScheduleInboxAvailability,
 	getEmptySlots,
 	saveScheduleInboxAvailability,
 } from '../service/CalendarService.js'
+import { logger } from '../service/logger.ts'
 import {
-	enableUserStatusAutomation,
 	disableUserStatusAutomation,
+	enableUserStatusAutomation,
 } from '../service/PreferenceService.js'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { onMounted, ref } from 'vue'
-import logger from '../service/logger.js'
-import { t } from '@nextcloud/l10n'
 
 // @ts-expect-error capabilities is missing the capability to type it...
 const timezone = getCapabilities().core.user?.timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -95,15 +62,47 @@ async function save() {
 		}
 
 		showSuccess(t('dav', 'Saved availability'))
-	} catch (e) {
-		console.error('could not save availability', e)
-
+	} catch (error) {
+		logger.error('could not save availability', { error })
 		showError(t('dav', 'Failed to save availability'))
 	} finally {
 		saving.value = false
 	}
 }
 </script>
+
+<template>
+	<div>
+		<CalendarAvailability
+			v-model:slots="slots"
+			:loading="loading"
+			:l10n-to="t('dav', 'to')"
+			:l10n-delete-slot="t('dav', 'Delete slot')"
+			:l10n-empty-day="t('dav', 'No working hours set')"
+			:l10n-add-slot="t('dav', 'Add slot')"
+			:l10n-week-day-list-label="t('dav', 'Weekdays')"
+			:l10n-monday="t('dav', 'Monday')"
+			:l10n-tuesday="t('dav', 'Tuesday')"
+			:l10n-wednesday="t('dav', 'Wednesday')"
+			:l10n-thursday="t('dav', 'Thursday')"
+			:l10n-friday="t('dav', 'Friday')"
+			:l10n-saturday="t('dav', 'Saturday')"
+			:l10n-sunday="t('dav', 'Sunday')"
+			:l10n-start-picker-label="(dayName) => t('dav', 'Pick a start time for {dayName}', { dayName })"
+			:l10n-end-picker-label="(dayName) => t('dav', 'Pick a end time for {dayName}', { dayName })" />
+
+		<NcCheckboxRadioSwitch v-model="automated">
+			{{ t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}
+		</NcCheckboxRadioSwitch>
+
+		<NcButton
+			:disabled="loading || saving"
+			variant="primary"
+			@click="save">
+			{{ t('dav', 'Save') }}
+		</NcButton>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 :deep(.availability-day) {

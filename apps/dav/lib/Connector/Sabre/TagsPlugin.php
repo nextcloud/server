@@ -176,8 +176,9 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @param int $fileId
 	 * @param array $tags array of tag strings
+	 * @param string $path path of the file
 	 */
-	private function updateTags($fileId, $tags) {
+	private function updateTags($fileId, $tags, string $path) {
 		$tagger = $this->getTagger();
 		$currentTags = $this->getTags($fileId);
 
@@ -186,14 +187,14 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			if ($tag === self::TAG_FAVORITE) {
 				continue;
 			}
-			$tagger->tagAs($fileId, $tag);
+			$tagger->tagAs($fileId, $tag, $path);
 		}
 		$deletedTags = array_diff($currentTags, $tags);
 		foreach ($deletedTags as $tag) {
 			if ($tag === self::TAG_FAVORITE) {
 				continue;
 			}
-			$tagger->unTag($fileId, $tag);
+			$tagger->unTag($fileId, $tag, $path);
 		}
 	}
 
@@ -269,16 +270,16 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
-		$propPatch->handle(self::TAGS_PROPERTYNAME, function ($tagList) use ($node) {
-			$this->updateTags($node->getId(), $tagList->getTags());
+		$propPatch->handle(self::TAGS_PROPERTYNAME, function ($tagList) use ($node, $path) {
+			$this->updateTags($node->getId(), $tagList->getTags(), $path);
 			return true;
 		});
 
 		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node, $path) {
 			if ((int)$favState === 1 || $favState === 'true') {
-				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE, $path);
 			} else {
-				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE);
+				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE, $path);
 			}
 
 			if (is_null($favState)) {

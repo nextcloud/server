@@ -9,7 +9,7 @@
  * @param {Function} request the axios promise request
  * @return {object}
  */
-const cancelableRequest = function(request) {
+function cancelableRequest(request) {
 	const controller = new AbortController()
 	const signal = controller.signal
 
@@ -22,7 +22,7 @@ const cancelableRequest = function(request) {
 	const fetch = async function(url, options) {
 		const response = await request(
 			url,
-			Object.assign({ signal }, options),
+			{ signal, ...options },
 		)
 		return response
 	}

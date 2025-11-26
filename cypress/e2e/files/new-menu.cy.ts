@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createFolder, getRowForFile, haveValidity, navigateToFolder } from './FilesUtils'
+import { createFolder, getRowForFile, haveValidity, navigateToFolder } from './FilesUtils.ts'
 
 describe('"New"-menu', { testIsolation: true }, () => {
-
 	beforeEach(() => {
 		cy.createRandomUser().then(($user) => {
 			cy.login($user)

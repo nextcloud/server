@@ -12,14 +12,21 @@ export enum DateTimePreset {
 	NextWeek = 'next-week',
 }
 
-const getFirstWorkdayOfWeek = () => {
+/**
+ *
+ */
+function getFirstWorkdayOfWeek() {
 	const now = new Date()
 	now.setHours(0, 0, 0, 0)
 	now.setDate(now.getDate() - now.getDay() + 1)
 	return new Date(now)
 }
 
-const getWeek = (date: Date) => {
+/**
+ *
+ * @param date
+ */
+function getWeek(date: Date) {
 	const dateClone = new Date(date)
 	dateClone.setHours(0, 0, 0, 0)
 	const firstDayOfYear = new Date(date.getFullYear(), 0, 1, 0, 0, 0, 0)
@@ -27,18 +34,32 @@ const getWeek = (date: Date) => {
 	return Math.ceil((daysFromFirstDay + firstDayOfYear.getDay() + 1) / 7)
 }
 
-const isSameWeek = (a: Date, b: Date) => {
+/**
+ *
+ * @param a
+ * @param b
+ */
+function isSameWeek(a: Date, b: Date) {
 	return getWeek(a) === getWeek(b)
 		&& a.getFullYear() === b.getFullYear()
 }
 
-const isSameDate = (a: Date, b: Date) => {
+/**
+ *
+ * @param a
+ * @param b
+ */
+function isSameDate(a: Date, b: Date) {
 	return a.getDate() === b.getDate()
 		&& a.getMonth() === b.getMonth()
 		&& a.getFullYear() === b.getFullYear()
 }
 
-export const getDateTime = (dateTime: DateTimePreset): null | Date => {
+/**
+ *
+ * @param dateTime
+ */
+export function getDateTime(dateTime: DateTimePreset): null | Date {
 	const matchPreset: Record<DateTimePreset, () => null | Date> = {
 		[DateTimePreset.LaterToday]: () => {
 			const now = new Date()
@@ -94,14 +115,21 @@ export const getDateTime = (dateTime: DateTimePreset): null | Date => {
 	return matchPreset[dateTime]()
 }
 
-export const getInitialCustomDueDate = (): Date => {
+/**
+ *
+ */
+export function getInitialCustomDueDate(): Date {
 	const now = new Date()
 	const dueDate = new Date()
 	dueDate.setHours(now.getHours() + 2, 0, 0, 0)
 	return dueDate
 }
 
-export const getDateString = (dueDate: Date): string => {
+/**
+ *
+ * @param dueDate
+ */
+export function getDateString(dueDate: Date): string {
 	let formatOptions: Intl.DateTimeFormatOptions = {
 		hour: 'numeric',
 		minute: '2-digit',
@@ -137,7 +165,11 @@ export const getDateString = (dueDate: Date): string => {
 	)
 }
 
-export const getVerboseDateString = (dueDate: Date): string => {
+/**
+ *
+ * @param dueDate
+ */
+export function getVerboseDateString(dueDate: Date): string {
 	let formatOptions: Intl.DateTimeFormatOptions = {
 		month: 'long',
 		day: 'numeric',

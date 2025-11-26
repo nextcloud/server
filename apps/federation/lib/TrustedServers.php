@@ -88,7 +88,7 @@ class TrustedServers {
 	public function removeServer(int $id): void {
 		$server = $this->dbHandler->getServerById($id);
 		$this->dbHandler->removeServer($id);
-		$this->dispatcher->dispatchTyped(new TrustedServerRemovedEvent($server['url_hash']));
+		$this->dispatcher->dispatchTyped(new TrustedServerRemovedEvent($server['url_hash'], $server['url']));
 
 	}
 

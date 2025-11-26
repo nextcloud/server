@@ -18,9 +18,9 @@ OC.L10N.register(
     "Edit widgets" : "Editar los widgets",
     "Get more widgets from the App Store" : "Consigui más widgets de l'App Store",
     "Weather service" : "Serviciu del clima",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pa la to privacidá, los datos del clima solicítense dende esta instancia de Nextcloud y, polo tanto, el serviciu del clima no recibe nenguna información personal.",
     "Weather data from Met.no" : "datos del clima de Met.no",
     "geocoding with Nominatim" : "xeocodificación con Nominatim",
-    "elevation data from OpenTopoData" : "datos d'elevaciones d'OpenTopoData"
+    "elevation data from OpenTopoData" : "datos d'elevaciones d'OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pa la to privacidá, los datos del clima solicítense dende esta instancia de Nextcloud y, polo tanto, el serviciu del clima no recibe nenguna información personal."
 },
 "nplurals=2; plural=(n != 1);");

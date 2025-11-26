@@ -22,8 +22,6 @@ class Entry {
 	/** @since 32.0.0 */
 	public const RENAME_INVERT_BOOLEAN = 1;
 
-	private string $definition = '';
-	private string $note = '';
 	private ?string $default = null;
 
 	/**
@@ -46,23 +44,17 @@ class Entry {
 		private readonly string $key,
 		private readonly ValueType $type,
 		private null|string|int|float|bool|array|Closure $defaultRaw = null,
-		string $definition = '',
+		private readonly string $definition = '',
 		private readonly bool $lazy = false,
 		private readonly int $flags = 0,
 		private readonly bool $deprecated = false,
 		private readonly ?string $rename = null,
 		private readonly int $options = 0,
-		string $note = '',
+		private readonly string $note = '',
 	) {
 		// key can only contain alphanumeric chars and underscore "_"
 		if (preg_match('/[^[:alnum:]_]/', $key)) {
 			throw new \Exception('invalid config key');
-		}
-
-		/** @psalm-suppress UndefinedClass */
-		if (\OC::$CLI) { // only store definition if ran from CLI
-			$this->definition = $definition;
-			$this->note = $note;
 		}
 	}
 

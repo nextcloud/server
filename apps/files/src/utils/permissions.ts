@@ -9,6 +9,7 @@ import { Permission } from '@nextcloud/files'
 
 /**
  * Check permissions on the node if it can be downloaded
+ *
  * @param node The node to check
  * @return True if downloadable, false otherwise
  */

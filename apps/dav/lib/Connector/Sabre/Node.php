@@ -32,13 +32,6 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	protected $path;
 
-	/**
-	 * node properties cache
-	 *
-	 * @var array
-	 */
-	protected $property_cache = null;
-
 	protected FileInfo $info;
 
 	/**
@@ -138,10 +131,6 @@ abstract class Node implements \Sabre\DAV\INode {
 		$this->path = $newPath;
 
 		$this->refreshInfo();
-	}
-
-	public function setPropertyCache($property_cache) {
-		$this->property_cache = $property_cache;
 	}
 
 	/**

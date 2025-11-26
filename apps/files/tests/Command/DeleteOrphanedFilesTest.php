@@ -22,10 +22,10 @@ use Test\TestCase;
 /**
  * Class DeleteOrphanedFilesTest
  *
- * @group DB
  *
  * @package OCA\Files\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeleteOrphanedFilesTest extends TestCase {
 
 	private DeleteOrphanedFiles $command;
@@ -62,7 +62,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$query->select('*')
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
-		return $query->executeQuery()->fetchAll();
+		return $query->executeQuery()->fetchAllAssociative();
 	}
 
 	protected function getMounts(int $storageId): array {
@@ -70,7 +70,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$query->select('*')
 			->from('mounts')
 			->where($query->expr()->eq('storage_id', $query->createNamedParameter($storageId)));
-		return $query->executeQuery()->fetchAll();
+		return $query->executeQuery()->fetchAllAssociative();
 	}
 
 	/**

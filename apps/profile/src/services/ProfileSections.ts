@@ -4,7 +4,6 @@
  */
 
 export default class ProfileSections {
-
 	_sections
 
 	constructor() {
@@ -12,7 +11,7 @@ export default class ProfileSections {
 	}
 
 	/**
-	 * @param {registerSectionCallback} section To be called to mount the section to the profile page
+	 * @param section To be called to mount the section to the profile page
 	 */
 	registerSection(section) {
 		this._sections.push(section)
@@ -21,5 +20,4 @@ export default class ProfileSections {
 	getSections() {
 		return this._sections
 	}
-
 }

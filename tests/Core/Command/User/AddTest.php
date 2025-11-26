@@ -22,8 +22,11 @@ use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 class AddTest extends TestCase {
+	use EmailValidatorTrait;
+
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
@@ -62,7 +65,6 @@ class AddTest extends TestCase {
 
 		$this->userManager = static::createMock(IUserManager::class);
 		$this->groupManager = static::createStub(IGroupManager::class);
-		$this->mailer = static::createMock(IMailer::class);
 		$this->appConfig = static::createMock(IAppConfig::class);
 		$this->mailHelper = static::createMock(NewUserMailHelper::class);
 		$this->eventDispatcher = static::createStub(IEventDispatcher::class);
@@ -76,7 +78,7 @@ class AddTest extends TestCase {
 		$this->addCommand = new Add(
 			$this->userManager,
 			$this->groupManager,
-			$this->mailer,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->appConfig,
 			$this->mailHelper,
 			$this->eventDispatcher,
@@ -99,9 +101,6 @@ class AddTest extends TestCase {
 
 		$this->appConfig->method('getValueString')
 			->willReturn($shouldSendEmail ? 'yes' : 'no');
-
-		$this->mailer->method('validateMailAddress')
-			->willReturn($isEmailValid);
 
 		$this->mailHelper->method('generateTemplate')
 			->willReturn(static::createMock(IEMailTemplate::class));

@@ -27,7 +27,6 @@ class Update {
 		protected Manager $encryptionManager,
 		protected File $file,
 		protected LoggerInterface $logger,
-		protected string $uid,
 	) {
 	}
 
@@ -108,10 +107,10 @@ class Update {
 		foreach ($allFiles as $file) {
 			$usersSharing = $this->file->getAccessList($file);
 			try {
-				$encryptionModule->update($file, $this->uid, $usersSharing);
+				$encryptionModule->update($file, '', $usersSharing);
 			} catch (GenericEncryptionException $e) {
 				// If the update of an individual file fails e.g. due to a corrupt key we should continue the operation and just log the failure
-				$this->logger->error('Failed to update encryption module for ' . $this->uid . ' ' . $file, [ 'exception' => $e ]);
+				$this->logger->error('Failed to update encryption module for ' . $file, [ 'exception' => $e ]);
 			}
 		}
 	}

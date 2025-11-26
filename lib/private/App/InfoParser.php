@@ -184,6 +184,12 @@ class InfoParser {
 		if (isset($array['settings']['personal-section']) && !is_array($array['settings']['personal-section'])) {
 			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
+		if (isset($array['settings']['admin-delegation']) && !is_array($array['settings']['admin-delegation'])) {
+			$array['settings']['admin-delegation'] = [$array['settings']['admin-delegation']];
+		}
+		if (isset($array['settings']['admin-delegation-section']) && !is_array($array['settings']['admin-delegation-section'])) {
+			$array['settings']['admin-delegation-section'] = [$array['settings']['admin-delegation-section']];
+		}
 		if (isset($array['navigations']['navigation']) && $this->isNavigationItem($array['navigations']['navigation'])) {
 			$array['navigations']['navigation'] = [$array['navigations']['navigation']];
 		}

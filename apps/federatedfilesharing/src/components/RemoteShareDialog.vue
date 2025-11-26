@@ -35,25 +35,27 @@ const buttons = computed(() => [
 	},
 	{
 		label: t('federatedfilesharing', 'Add remote share'),
-		nativeType: props.passwordRequired ? 'submit' : undefined,
-		type: 'primary',
+		type: props.passwordRequired ? 'submit' : undefined,
+		variant: 'primary',
 		callback: () => emit('close', true, password.value),
 	},
 ])
 </script>
 
 <template>
-	<NcDialog :buttons="buttons"
+	<NcDialog
+		:buttons="buttons"
 		:is-form="passwordRequired"
 		:name="t('federatedfilesharing', 'Remote share')"
 		@submit="emit('close', true, password)">
 		<p>
 			{{ t('federatedfilesharing', 'Do you want to add the remote share {name} from {owner}@{remote}?', { name, owner, remote }) }}
 		</p>
-		<NcPasswordField v-if="passwordRequired"
+		<NcPasswordField
+			v-if="passwordRequired"
+			v-model="password"
 			class="remote-share-dialog__password"
-			:label="t('federatedfilesharing', 'Remote share password')"
-			:value.sync="password" />
+			:label="t('federatedfilesharing', 'Remote share password')" />
 	</NcDialog>
 </template>
 

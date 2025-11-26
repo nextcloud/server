@@ -33,9 +33,8 @@ use OCP\Share\IShare;
 
 /**
  * Class Test_Encryption
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TrashbinTest extends \Test\TestCase {
 	public const TEST_TRASHBIN_USER1 = 'test-trashbin-user1';
 	public const TEST_TRASHBIN_USER2 = 'test-trashbin-user2';
@@ -654,6 +653,28 @@ class TrashbinTest extends \Test\TestCase {
 
 			chmod($folderAbsPath, 0755);
 		}
+	}
+
+	public function testTrashSizePropagation(): void {
+		$view = new View('/' . self::TEST_TRASHBIN_USER1 . '/files_trashbin/files');
+
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$file1 = $userFolder->newFile('foo.txt');
+		$file1->putContent('1');
+
+		$this->assertTrue($userFolder->nodeExists('foo.txt'));
+		$file1->delete();
+		$this->assertFalse($userFolder->nodeExists('foo.txt'));
+		$this->assertEquals(1, $view->getFileInfo('')->getSize());
+
+		$folder = $userFolder->newFolder('bar');
+		$file2 = $folder->newFile('baz.txt');
+		$file2->putContent('22');
+
+		$this->assertTrue($userFolder->nodeExists('bar'));
+		$folder->delete();
+		$this->assertFalse($userFolder->nodeExists('bar'));
+		$this->assertEquals(3, $view->getFileInfo('')->getSize());
 	}
 
 	/**

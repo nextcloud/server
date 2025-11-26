@@ -17,7 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Вилучити коментар",
     "Cancel edit" : "Скасувати редагування",
     "New comment" : "Новий коментар",
-    "Write a comment …" : "Додати коментар ...",
+    "Write a comment …" : "Додайте коментар …",
     "Post comment" : "Опублікувати коментар",
     "@ for mentions, : for emoji, / for smart picker" : "@ згадати, : емоційки, / асистент вибору",
     "Could not reload comments" : "Не вдалося перезавантажити коментарі",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Під час редагування коментаря сталася помилка",
     "Comment deleted" : "Коментар вилучено",
     "An error occurred while trying to delete the comment" : "Під час спроби вилучити коментар сталася помилка",
-    "An error occurred while trying to create the comment" : "Під час створення коментаря сталася помилка"
+    "An error occurred while trying to create the comment" : "Під час створення коментаря сталася помилка",
+    "Write a comment …" : "Додати коментар ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

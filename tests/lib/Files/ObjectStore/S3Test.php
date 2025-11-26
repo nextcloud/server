@@ -44,9 +44,7 @@ class NonSeekableStream extends Wrapper {
 	}
 }
 
-/**
- * @group PRIMARY-s3
- */
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
 class S3Test extends ObjectStoreTestCase {
 	public function setUp(): void {
 		parent::setUp();
@@ -110,6 +108,13 @@ class S3Test extends ObjectStoreTestCase {
 		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
 
+		$warnings = [];
+		set_error_handler(
+			function (int $errno, string $errstr) use (&$warnings): void {
+				$warnings[] = $errstr;
+			},
+		);
+
 		$s3->writeObject('emptystream', $emptyStream);
 
 		$this->assertNoUpload('emptystream');
@@ -126,6 +131,8 @@ class S3Test extends ObjectStoreTestCase {
 		self::assertTrue($thrown, 'readObject with range requests are not expected to work on empty objects');
 
 		$s3->deleteObject('emptystream');
+		$this->assertOnlyExpectedWarnings($warnings);
+		restore_error_handler();
 	}
 
 	/** File size to upload in bytes */

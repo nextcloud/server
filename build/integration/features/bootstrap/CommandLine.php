@@ -26,7 +26,7 @@ trait CommandLine {
 	 * @param []string $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
 	 * @return int exit code
 	 */
-	public function runOcc($args = []) {
+	public function runOcc($args = [], string $inputString = '') {
 		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);
@@ -39,6 +39,10 @@ trait CommandLine {
 			2 => ['pipe', 'w'],
 		];
 		$process = proc_open('php console.php ' . $args, $descriptor, $pipes, $this->ocPath);
+		if ($inputString !== '') {
+			fwrite($pipes[0], $inputString . "\n");
+			fclose($pipes[0]);
+		}
 		$this->lastStdOut = stream_get_contents($pipes[1]);
 		$this->lastStdErr = stream_get_contents($pipes[2]);
 		$this->lastCode = proc_close($process);
@@ -56,6 +60,14 @@ trait CommandLine {
 	public function invokingTheCommand($cmd) {
 		$args = explode(' ', $cmd);
 		$this->runOcc($args);
+	}
+
+	/**
+	 * @Given /^invoking occ with "([^"]*)" with input "([^"]+)"$/
+	 */
+	public function invokingTheCommandWith($cmd, $inputString) {
+		$args = explode(' ', $cmd);
+		$this->runOcc($args, $inputString);
 	}
 
 	/**
@@ -124,6 +136,13 @@ trait CommandLine {
 	 */
 	public function theCommandOutputContainsTheText($text) {
 		Assert::assertStringContainsString($text, $this->lastStdOut, 'The command did not output the expected text on stdout');
+	}
+
+	/**
+	 * @Then /^the command output does not contain the text "([^"]*)"$/
+	 */
+	public function theCommandOutputDoesNotContainTheText($text) {
+		Assert::assertStringNotContainsString($text, $this->lastStdOut, 'The command did output the not expected text on stdout');
 	}
 
 	/**

@@ -101,7 +101,7 @@ OC.L10N.register(
     "Delete storage?" : "Poistetaanko tallennustila?",
     "Click to recheck the configuration" : "Napsauta tarkistaaksesi uudelleen määritykset",
     "Saved" : "Tallennettu",
-    "Saving …" : "Tallennetaan…",
+    "Saving …" : "Tallennetaan …",
     "Save" : "Tallenna",
     "No external storage configured or you don't have the permission to configure them" : "Erillistä tallennustilaa ei ole määritelty tai sinulla ei ole oikeuksia määrittää erillisiä tallennustiloja",
     "Open documentation" : "Avaa dokumentaatio",
@@ -117,6 +117,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Sovellusavain ja salaus ovat virheelliset",
     "OAuth1" : "OAuth1",
     "App key" : "Sovellusavain",
-    "App secret" : "Sovellussalaisuus"
+    "App secret" : "Sovellussalaisuus",
+    "Saving …" : "Tallennetaan…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "347262bc75027c88fa21b011f732aa31",
+    "content-hash": "95ec45e01b8b0c2e38a68797676d1673",
     "packages": [],
     "packages-dev": [
         {
             "name": "nextcloud/ocp",
-            "version": "v31.0.4",
+            "version": "v32.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "1fb984268039921920ade298ef5a58e8fe3de7da"
+                "reference": "f25b267f759f10e5aad18ed15f14b9881df5652d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/1fb984268039921920ade298ef5a58e8fe3de7da",
-                "reference": "1fb984268039921920ade298ef5a58e8fe3de7da",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/f25b267f759f10e5aad18ed15f14b9881df5652d",
+                "reference": "f25b267f759f10e5aad18ed15f14b9881df5652d",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +31,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-stable31": "31.0.0-dev"
+                    "dev-stable32": "32.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -51,9 +51,9 @@
             "description": "Composer package containing Nextcloud's public OCP API and the unstable NCU API",
             "support": {
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
-                "source": "https://github.com/nextcloud-deps/ocp/tree/v31.0.4"
+                "source": "https://github.com/nextcloud-deps/ocp/tree/v32.0.0"
             },
-            "time": "2025-04-15T00:50:16+00:00"
+            "time": "2025-09-16T00:45:44+00:00"
         },
         {
             "name": "nextcloud/rector",
@@ -122,16 +122,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.22",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "41600c8379eb5aee63e9413fe9e97273e25d57e4"
-            },
+            "version": "2.1.32",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/41600c8379eb5aee63e9413fe9e97273e25d57e4",
-                "reference": "41600c8379eb5aee63e9413fe9e97273e25d57e4",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e126cad1e30a99b137b8ed75a85a676450ebb227",
+                "reference": "e126cad1e30a99b137b8ed75a85a676450ebb227",
                 "shasum": ""
             },
             "require": {
@@ -176,7 +171,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-04T19:17:37+00:00"
+            "time": "2025-11-11T15:18:17+00:00"
         },
         {
             "name": "psr/clock",
@@ -381,21 +376,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.1.4",
+            "version": "2.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "fe613c528819222f8686a9a037a315ef9d4915b3"
+                "reference": "303aa811649ccd1d32e51e62d5c85949d01b5f1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/fe613c528819222f8686a9a037a315ef9d4915b3",
-                "reference": "fe613c528819222f8686a9a037a315ef9d4915b3",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/303aa811649ccd1d32e51e62d5c85949d01b5f1b",
+                "reference": "303aa811649ccd1d32e51e62d5c85949d01b5f1b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
-                "phpstan/phpstan": "^2.1.18"
+                "phpstan/phpstan": "^2.1.32"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -429,7 +424,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.1.4"
+                "source": "https://github.com/rectorphp/rector/tree/2.2.8"
             },
             "funding": [
                 {
@@ -437,32 +432,32 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-15T14:41:36+00:00"
+            "time": "2025-11-12T18:38:00+00:00"
         },
         {
             "name": "webmozart/assert",
-            "version": "1.11.0",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "11cb2199493b2f8a3b53e7f19068fc6aac760991"
+                "reference": "541057574806f942c94662b817a50f63f7345360"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/11cb2199493b2f8a3b53e7f19068fc6aac760991",
-                "reference": "11cb2199493b2f8a3b53e7f19068fc6aac760991",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/541057574806f942c94662b817a50f63f7345360",
+                "reference": "541057574806f942c94662b817a50f63f7345360",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
+                "ext-date": "*",
+                "ext-filter": "*",
                 "php": "^7.2 || ^8.0"
             },
-            "conflict": {
-                "phpstan/phpstan": "<0.12.20",
-                "vimeo/psalm": "<4.6.1 || 4.6.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5.13"
+            "suggest": {
+                "ext-intl": "",
+                "ext-simplexml": "",
+                "ext-spl": ""
             },
             "type": "library",
             "extra": {
@@ -493,9 +488,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.11.0"
+                "source": "https://github.com/webmozarts/assert/tree/1.12.0"
             },
-            "time": "2022-06-03T18:03:27+00:00"
+            "time": "2025-10-20T12:43:39+00:00"
         }
     ],
     "aliases": [],
@@ -505,5 +500,8 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
+    "platform-overrides": {
+        "php": "8.2"
+    },
     "plugin-api-version": "2.6.0"
 }

@@ -7,14 +7,15 @@
  */
 namespace OC;
 
+use Closure;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
-use OCP\AppFramework\QueryException;
+use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
-use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -22,24 +23,32 @@ use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\Preview\IProviderV2;
+use OCP\Snowflake\IGenerator;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 use function array_key_exists;
 
+/**
+ * @psalm-import-type ProviderClosure from IPreview
+ */
 class PreviewManager implements IPreview {
 	protected IConfig $config;
 	protected IRootFolder $rootFolder;
-	protected IAppData $appData;
 	protected IEventDispatcher $eventDispatcher;
 	private ?Generator $generator = null;
 	private GeneratorHelper $helper;
 	protected bool $providerListDirty = false;
 	protected bool $registeredCoreProviders = false;
+	/**
+	 * @var array<string, list<ProviderClosure>> $providers
+	 */
 	protected array $providers = [];
 
 	/** @var array mime type => support status */
 	protected array $mimeTypeSupportMap = [];
+	/** @var ?list<class-string<IProviderV2>> $defaultProviders */
 	protected ?array $defaultProviders = null;
 	protected ?string $userId;
 	private Coordinator $bootstrapCoordinator;
@@ -57,7 +66,6 @@ class PreviewManager implements IPreview {
 	public function __construct(
 		IConfig $config,
 		IRootFolder $rootFolder,
-		IAppData $appData,
 		IEventDispatcher $eventDispatcher,
 		GeneratorHelper $helper,
 		?string $userId,
@@ -68,7 +76,6 @@ class PreviewManager implements IPreview {
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
-		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->helper = $helper;
 		$this->userId = $userId;
@@ -83,13 +90,10 @@ class PreviewManager implements IPreview {
 	 * In order to improve lazy loading a closure can be registered which will be
 	 * called in case preview providers are actually requested
 	 *
-	 * $callable has to return an instance of \OCP\Preview\IProvider or \OCP\Preview\IProviderV2
-	 *
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
-	 * @param \Closure $callable
-	 * @return void
+	 * @param ProviderClosure $callable
 	 */
-	public function registerProvider($mimeTypeRegex, \Closure $callable): void {
+	public function registerProvider(string $mimeTypeRegex, Closure $callable): void {
 		if (!$this->enablePreviews) {
 			return;
 		}
@@ -133,13 +137,12 @@ class PreviewManager implements IPreview {
 			$this->generator = new Generator(
 				$this->config,
 				$this,
-				$this->appData,
-				new GeneratorHelper(
-					$this->rootFolder,
-					$this->config
-				),
+				new GeneratorHelper(),
 				$this->eventDispatcher,
 				$this->container->get(LoggerInterface::class),
+				$this->container->get(PreviewMapper::class),
+				$this->container->get(StorageFactory::class),
+				$this->container->get(IGenerator::class),
 			);
 		}
 		return $this->generator;
@@ -147,11 +150,11 @@ class PreviewManager implements IPreview {
 
 	public function getPreview(
 		File $file,
-		$width = -1,
-		$height = -1,
-		$crop = false,
-		$mode = IPreview::MODE_FILL,
-		$mimeType = null,
+		int $width = -1,
+		int $height = -1,
+		bool $crop = false,
+		string $mode = IPreview::MODE_FILL,
+		?string $mimeType = null,
 		bool $cacheResult = true,
 	): ISimpleFile {
 		$this->throwIfPreviewsDisabled($file, $mimeType);
@@ -169,26 +172,18 @@ class PreviewManager implements IPreview {
 	/**
 	 * Generates previews of a file
 	 *
-	 * @param File $file
 	 * @param array $specifications
-	 * @param string $mimeType
 	 * @return ISimpleFile the last preview that was generated
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 * @since 19.0.0
 	 */
-	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
+	public function generatePreviews(File $file, array $specifications, ?string $mimeType = null): ISimpleFile {
 		$this->throwIfPreviewsDisabled($file, $mimeType);
 		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
-	/**
-	 * returns true if the passed mime type is supported
-	 *
-	 * @param string $mimeType
-	 * @return boolean
-	 */
-	public function isMimeSupported($mimeType = '*') {
+	public function isMimeSupported(string $mimeType = '*'): bool {
 		if (!$this->enablePreviews) {
 			return false;
 		}
@@ -210,9 +205,6 @@ class PreviewManager implements IPreview {
 		return false;
 	}
 
-	/**
-	 * Check if a preview can be generated for a file
-	 */
 	public function isAvailable(\OCP\Files\FileInfo $file, ?string $mimeType = null): bool {
 		if (!$this->enablePreviews) {
 			return false;
@@ -226,7 +218,7 @@ class PreviewManager implements IPreview {
 		}
 
 		$mount = $file->getMountPoint();
-		if ($mount and !$mount->getOption('previews', true)) {
+		if ($mount && !$mount->getOption('previews', true)) {
 			return false;
 		}
 
@@ -234,10 +226,9 @@ class PreviewManager implements IPreview {
 			if (preg_match($supportedMimeType, $fileMimeType)) {
 				foreach ($providers as $providerClosure) {
 					$provider = $this->helper->getProvider($providerClosure);
-					if (!($provider instanceof IProviderV2)) {
+					if (!$provider) {
 						continue;
 					}
-
 					if ($provider->isAvailable($file)) {
 						return true;
 					}
@@ -250,35 +241,9 @@ class PreviewManager implements IPreview {
 	/**
 	 * List of enabled default providers
 	 *
-	 * The following providers are enabled by default:
-	 *  - OC\Preview\PNG
-	 *  - OC\Preview\JPEG
-	 *  - OC\Preview\GIF
-	 *  - OC\Preview\BMP
-	 *  - OC\Preview\XBitmap
-	 *  - OC\Preview\MarkDown
-	 *  - OC\Preview\MP3
-	 *  - OC\Preview\TXT
-	 *
-	 * The following providers are disabled by default due to performance or privacy concerns:
-	 *  - OC\Preview\Font
-	 *  - OC\Preview\HEIC
-	 *  - OC\Preview\Illustrator
-	 *  - OC\Preview\Movie
-	 *  - OC\Preview\MSOfficeDoc
-	 *  - OC\Preview\MSOffice2003
-	 *  - OC\Preview\MSOffice2007
-	 *  - OC\Preview\OpenDocument
-	 *  - OC\Preview\PDF
-	 *  - OC\Preview\Photoshop
-	 *  - OC\Preview\Postscript
-	 *  - OC\Preview\StarOffice
-	 *  - OC\Preview\SVG
-	 *  - OC\Preview\TIFF
-	 *
-	 * @return array
+	 * @return list<class-string<IProviderV2>>
 	 */
-	protected function getEnabledDefaultProvider() {
+	protected function getEnabledDefaultProvider(): array {
 		if ($this->defaultProviders !== null) {
 			return $this->defaultProviders;
 		}
@@ -295,7 +260,6 @@ class PreviewManager implements IPreview {
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
 			Preview\MarkDown::class,
-			Preview\MP3::class,
 			Preview\TXT::class,
 			Preview\OpenDocument::class,
 		], $imageProviders));
@@ -303,17 +267,16 @@ class PreviewManager implements IPreview {
 		if (in_array(Preview\Image::class, $this->defaultProviders)) {
 			$this->defaultProviders = array_merge($this->defaultProviders, $imageProviders);
 		}
-		$this->defaultProviders = array_unique($this->defaultProviders);
-		return $this->defaultProviders;
+		$this->defaultProviders = array_values(array_unique($this->defaultProviders));
+		/** @var list<class-string<IProviderV2>> $providers */
+		$providers = $this->defaultProviders;
+		return $providers;
 	}
 
 	/**
 	 * Register the default providers (if enabled)
-	 *
-	 * @param string $class
-	 * @param string $mimeType
 	 */
-	protected function registerCoreProvider($class, $mimeType, $options = []) {
+	protected function registerCoreProvider(string $class, string $mimeType, array $options = []): void {
 		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
 			$this->registerProvider($mimeType, function () use ($class, $options) {
 				return new $class($options);
@@ -324,7 +287,7 @@ class PreviewManager implements IPreview {
 	/**
 	 * Register the default providers (if enabled)
 	 */
-	protected function registerCoreProviders() {
+	protected function registerCoreProviders(): void {
 		if ($this->registeredCoreProviders) {
 			return;
 		}
@@ -373,14 +336,11 @@ class PreviewManager implements IPreview {
 
 		$this->registerCoreProvidersOffice();
 
-		// Video requires avconv or ffmpeg
+		// Video requires ffmpeg
 		if (in_array(Preview\Movie::class, $this->getEnabledDefaultProvider())) {
 			$movieBinary = $this->config->getSystemValue('preview_ffmpeg_path', null);
 			if (!is_string($movieBinary)) {
-				$movieBinary = $this->binaryFinder->findBinaryPath('avconv');
-				if (!is_string($movieBinary)) {
-					$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
-				}
+				$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
 			}
 
 
@@ -444,11 +404,11 @@ class PreviewManager implements IPreview {
 			}
 			$this->loadedBootstrapProviders[$key] = null;
 
-			$this->registerProvider($provider->getMimeTypeRegex(), function () use ($provider) {
+			$this->registerProvider($provider->getMimeTypeRegex(), function () use ($provider): IProviderV2|false {
 				try {
 					return $this->container->get($provider->getService());
-				} catch (QueryException $e) {
-					return null;
+				} catch (NotFoundExceptionInterface) {
+					return false;
 				}
 			});
 		}

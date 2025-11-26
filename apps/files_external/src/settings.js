@@ -1,16 +1,19 @@
+/* eslint-disable no-undef */
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
-import { generateUrl } from '@nextcloud/router'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import axios, { isAxiosError } from '@nextcloud/axios'
+import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
+import _ from 'underscore'
 
-import jQuery from 'jquery'
+// we cannot use this as we need the global jQuery here for select2
+// import $ from 'jquery'
 
 addPasswordConfirmationInterceptors(axios)
 
@@ -71,12 +74,12 @@ function highlightBorder($element, highlight) {
 function isInputValid($input) {
 	const optional = $input.hasClass('optional')
 	switch ($input.attr('type')) {
-	case 'text':
-	case 'password':
-		if ($input.val() === '' && !optional) {
-			return false
-		}
-		break
+		case 'text':
+		case 'password':
+			if ($input.val() === '' && !optional) {
+				return false
+			}
+			break
 	}
 	return true
 }
@@ -87,9 +90,9 @@ function isInputValid($input) {
  */
 function highlightInput($input) {
 	switch ($input.attr('type')) {
-	case 'text':
-	case 'password':
-		return highlightBorder($input, !isInputValid($input))
+		case 'text':
+		case 'password':
+			return highlightBorder($input, !isInputValid($input))
 	}
 }
 
@@ -120,7 +123,7 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
 		dropdownCssClass: 'files-external-select2',
 		// minimumInputLength: 1,
 		ajax: {
-			url: OC.generateUrl('apps/files_external/applicable'),
+			url: OC.generateUrl('apps/files_external/ajax/applicable'),
 			dataType: 'json',
 			quietMillis: 100,
 			data(term, page) { // page is the one-based page number tracked by Select2
@@ -131,26 +134,21 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
 				}
 			},
 			results(data) {
-				if (data.status === 'success') {
+				const results = []
+				let userCount = 0 // users is an object
 
-					const results = []
-					let userCount = 0 // users is an object
+				// add groups
+				$.each(data.groups, function(gid, group) {
+					results.push({ name: gid + '(group)', displayname: group, type: 'group' })
+				})
+				// add users
+				$.each(data.users, function(id, user) {
+					userCount++
+					results.push({ name: id, displayname: user, type: 'user' })
+				})
 
-					// add groups
-					$.each(data.groups, function(gid, group) {
-						results.push({ name: gid + '(group)', displayname: group, type: 'group' })
-					})
-					// add users
-					$.each(data.users, function(id, user) {
-						userCount++
-						results.push({ name: id, displayname: user, type: 'user' })
-					})
-
-					const more = (userCount >= userListLimit) || (data.groups.length >= userListLimit)
-					return { results, more }
-				} else {
-					// FIXME add error handling
-				}
+				const more = (userCount >= userListLimit) || (data.groups.length >= userListLimit)
+				return { results, more }
 			},
 		},
 		initSelection(element, callback) {
@@ -221,7 +219,7 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
  *
  * @classdesc External storage config
  */
-const StorageConfig = function(id) {
+function StorageConfig(id) {
 	this.id = id
 	this.backendOptions = {}
 }
@@ -306,6 +304,7 @@ StorageConfig.prototype = {
 
 	/**
 	 * Private implementation of the save function (called after potential password confirmation)
+	 *
 	 * @param {string} method
 	 * @param {string} url
 	 * @param {{success: Function, error: Function}} options
@@ -425,16 +424,19 @@ StorageConfig.prototype = {
  *
  * @classdesc Global external storage config
  */
-const GlobalStorageConfig = function(id) {
+function GlobalStorageConfig(id) {
 	this.id = id
 	this.applicableUsers = []
 	this.applicableGroups = []
 }
 /**
- * @memberOf OCA.Files_External.Settings
+ * @namespace OCA.Files_External.Settings
  */
-GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
-	/** @lends OCA.Files_External.Settings.GlobalStorageConfig.prototype */ {
+GlobalStorageConfig.prototype = _.extend(
+	{},
+	StorageConfig.prototype,
+	/** @lends OCA.Files_External.Settings.GlobalStorageConfig.prototype */
+	{
 		_url: 'apps/files_external/globalstorages',
 
 		/**
@@ -471,7 +473,8 @@ GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
 				priority: this.priority,
 			})
 		},
-	})
+	},
+)
 
 /**
  * @param id
@@ -480,13 +483,17 @@ GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
  *
  * @classdesc User external storage config
  */
-const UserStorageConfig = function(id) {
+function UserStorageConfig(id) {
 	this.id = id
 }
-UserStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
-	/** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */ {
+UserStorageConfig.prototype = _.extend(
+	{},
+	StorageConfig.prototype,
+	/** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */
+	{
 		_url: 'apps/files_external/userstorages',
-	})
+	},
+)
 
 /**
  * @param id
@@ -495,14 +502,18 @@ UserStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
  *
  * @classdesc User external storage config
  */
-const UserGlobalStorageConfig = function(id) {
+function UserGlobalStorageConfig(id) {
 	this.id = id
 }
-UserGlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
-	/** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */ {
+UserGlobalStorageConfig.prototype = _.extend(
+	{},
+	StorageConfig.prototype,
+	/** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */
+	{
 
 		_url: 'apps/files_external/userglobalstorages',
-	})
+	},
+)
 
 /**
  * @class OCA.Files_External.Settings.MountOptionsDropdown
@@ -511,7 +522,7 @@ UserGlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
  *
  * @param {object} $container container DOM object
  */
-const MountOptionsDropdown = function() {
+function MountOptionsDropdown() {
 }
 /**
  * @memberof OCA.Files_External.Settings
@@ -554,6 +565,8 @@ MountOptionsDropdown.prototype = {
 		this.setOptions(mountOptions, visibleOptions, storage)
 
 		this.$el.appendTo($container)
+
+		this._initialOptions = JSON.stringify(this.getOptions())
 		MountOptionsDropdown._last = this
 
 		this.$el.trigger('show')
@@ -640,7 +653,7 @@ MountOptionsDropdown.prototype = {
  * @param {object} [options]
  * @param {number} [options.userListLimit] page size in applicable users dropdown
  */
-const MountConfigListView = function($el, options) {
+function MountConfigListView($el, options) {
 	this.initialize($el, options)
 }
 
@@ -657,7 +670,7 @@ MountConfigListView.ParameterTypes = {
 }
 
 /**
- * @memberOf OCA.Files_External.Settings
+ * @namespace OCA.Files_External.Settings
  */
 MountConfigListView.prototype = _.extend({
 
@@ -738,6 +751,7 @@ MountConfigListView.prototype = _.extend({
 	/**
 	 * Custom JS event handlers
 	 * Trigger callback for all existing configurations
+	 *
 	 * @param callback
 	 */
 	whenSelectBackend(callback) {
@@ -814,7 +828,7 @@ MountConfigListView.prototype = _.extend({
 
 		$tr.find('.selectBackend').prop('selectedIndex', 0)
 
-		const onCompletion = jQuery.Deferred()
+		const onCompletion = $.Deferred()
 		$tr = this.newStorage(storageConfig, onCompletion)
 		$tr.find('.applicableToAllUsers').prop('checked', false).trigger('change')
 		onCompletion.resolve()
@@ -828,7 +842,7 @@ MountConfigListView.prototype = _.extend({
 		const $tr = $target.closest('tr')
 		const authMechanism = $target.val()
 
-		const onCompletion = jQuery.Deferred()
+		const onCompletion = $.Deferred()
 		this.configureAuthMechanism($tr, authMechanism, onCompletion)
 		onCompletion.resolve()
 
@@ -853,19 +867,21 @@ MountConfigListView.prototype = _.extend({
 	 *
 	 * @param {jQuery} $tr config row
 	 * @param {string} authMechanism
-	 * @param {jQuery.Deferred} onCompletion
+	 * @param {$.Deferred} onCompletion
 	 */
 	configureAuthMechanism($tr, authMechanism, onCompletion) {
 		const authMechanismConfiguration = this._allAuthMechanisms[authMechanism]
 		const $td = $tr.find('td.configuration')
 		$td.find('.auth-param').remove()
 
-		$.each(authMechanismConfiguration.configuration, _.partial(
-			this.writeParameterInput, $td, _, _, ['auth-param'],
-		).bind(this))
+		$.each(authMechanismConfiguration.configuration, _.partial(this.writeParameterInput, $td, _, _, ['auth-param']).bind(this))
 
-		this.trigger('selectAuthMechanism',
-			$tr, authMechanism, authMechanismConfiguration.scheme, onCompletion,
+		this.trigger(
+			'selectAuthMechanism',
+			$tr,
+			authMechanism,
+			authMechanismConfiguration.scheme,
+			onCompletion,
 		)
 	},
 
@@ -873,7 +889,7 @@ MountConfigListView.prototype = _.extend({
 	 * Create a config row for a new storage
 	 *
 	 * @param {StorageConfig} storageConfig storage config to pull values from
-	 * @param {jQuery.Deferred} onCompletion
+	 * @param {$.Deferred} onCompletion
 	 * @param {boolean} deferAppend
 	 * @return {jQuery} created row
 	 */
@@ -931,9 +947,7 @@ MountConfigListView.prototype = _.extend({
 		const neededVisibility = (this._isPersonal) ? StorageConfig.Visibility.PERSONAL : StorageConfig.Visibility.ADMIN
 		$.each(this._allAuthMechanisms, function(authIdentifier, authMechanism) {
 			if (backend.authSchemes[authMechanism.scheme] && (authMechanism.visibility & neededVisibility)) {
-				selectAuthMechanism.append(
-					$('<option value="' + authMechanism.identifier + '" data-scheme="' + authMechanism.scheme + '">' + authMechanism.name + '</option>'),
-				)
+				selectAuthMechanism.append($('<option value="' + authMechanism.identifier + '" data-scheme="' + authMechanism.scheme + '">' + authMechanism.name + '</option>'))
 			}
 		})
 		if (storageConfig.authMechanism) {
@@ -968,11 +982,9 @@ MountConfigListView.prototype = _.extend({
 			applicable = applicable.concat(storageConfig.applicableUsers)
 		}
 		if (storageConfig.applicableGroups) {
-			applicable = applicable.concat(
-				_.map(storageConfig.applicableGroups, function(group) {
-					return group + '(group)'
-				}),
-			)
+			applicable = applicable.concat(_.map(storageConfig.applicableGroups, function(group) {
+				return group + '(group)'
+			}))
 		}
 		if (applicable.length) {
 			$tr.find('.applicableUsers').val(applicable).trigger('change')
@@ -1026,7 +1038,7 @@ MountConfigListView.prototype = _.extend({
 				contentType: 'application/json',
 				success(result) {
 					result = Object.values(result)
-					const onCompletion = jQuery.Deferred()
+					const onCompletion = $.Deferred()
 					let $rows = $()
 					result.forEach(function(storageParams) {
 						let storageConfig
@@ -1090,7 +1102,7 @@ MountConfigListView.prototype = _.extend({
 			contentType: 'application/json',
 			success(result) {
 				result = Object.values(result)
-				const onCompletion = jQuery.Deferred()
+				const onCompletion = $.Deferred()
 				let $rows = $()
 				result.forEach(function(storageParams) {
 					storageParams.mountPoint = (storageParams.mountPoint === '/') ? '/' : storageParams.mountPoint.substr(1) // trim leading slash
@@ -1272,23 +1284,30 @@ MountConfigListView.prototype = _.extend({
 		}
 		const storage = new this._storageConfigClass(configId)
 
-		OC.dialogs.confirm(t('files_external', 'Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.', {
-			storage: this.mountPoint,
-		}), t('files_external', 'Delete storage?'), function(confirm) {
-			if (confirm) {
-				self.updateStatus($tr, StorageConfig.Status.IN_PROGRESS)
+		OC.dialogs.confirm(
+			t('files_external', 'Are you sure you want to disconnect this external storage?')
+			+ ' '
+			+ t('files_external', 'It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.', {
+				storage: this.mountPoint,
+				instanceName: window.OC.theme.name,
+			}),
+			t('files_external', 'Delete storage?'),
+			function(confirm) {
+				if (confirm) {
+					self.updateStatus($tr, StorageConfig.Status.IN_PROGRESS)
 
-				storage.destroy({
-					success() {
-						$tr.remove()
-					},
-					error(result) {
-						const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined
-						self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage)
-					},
-				})
-			}
-		})
+					storage.destroy({
+						success() {
+							$tr.remove()
+						},
+						error(result) {
+							const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined
+							self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage)
+						},
+					})
+				}
+			},
+		)
 	},
 
 	/**
@@ -1366,21 +1385,21 @@ MountConfigListView.prototype = _.extend({
 	updateStatus($tr, status, message) {
 		const $statusSpan = $tr.find('.status span')
 		switch (status) {
-		case null:
+			case null:
 			// remove status
-			$statusSpan.hide()
-			break
-		case StorageConfig.Status.IN_PROGRESS:
-			$statusSpan.attr('class', 'icon-loading-small')
-			break
-		case StorageConfig.Status.SUCCESS:
-			$statusSpan.attr('class', 'success icon-checkmark-white')
-			break
-		case StorageConfig.Status.INDETERMINATE:
-			$statusSpan.attr('class', 'indeterminate icon-info-white')
-			break
-		default:
-			$statusSpan.attr('class', 'error icon-error-white')
+				$statusSpan.hide()
+				break
+			case StorageConfig.Status.IN_PROGRESS:
+				$statusSpan.attr('class', 'icon-loading-small')
+				break
+			case StorageConfig.Status.SUCCESS:
+				$statusSpan.attr('class', 'success icon-checkmark-white')
+				break
+			case StorageConfig.Status.INDETERMINATE:
+				$statusSpan.attr('class', 'indeterminate icon-info-white')
+				break
+			default:
+				$statusSpan.attr('class', 'error icon-error-white')
 		}
 		if (status !== null) {
 			$statusSpan.show()
@@ -1455,11 +1474,14 @@ MountConfigListView.prototype = _.extend({
 		})
 
 		dropDown.$el.on('hide', function() {
-			const mountOptions = dropDown.getOptions()
+			const newOptions = dropDown.getOptions()
+			const newOptionsStr = JSON.stringify(newOptions)
 			$('body').off('mouseup.mountOptionsDropdown')
-			$tr.find('input.mountOptions').val(JSON.stringify(mountOptions))
 			$tr.find('td.mountOptionsToggle>.icon-more').attr('aria-expanded', 'false')
-			self.saveStorageConfig($tr)
+			if (dropDown._initialOptions !== newOptionsStr) {
+				$tr.find('input.mountOptions').val(newOptionsStr)
+				self.saveStorageConfig($tr)
+			}
 		})
 	},
 }, OC.Backbone.Events)
@@ -1511,7 +1533,6 @@ window.addEventListener('DOMContentLoaded', function() {
 		if (userMountingBackends.length === 0) {
 			$allowUserMounting.prop('checked', false)
 			$allowUserMounting.trigger('change')
-
 		}
 	})
 
@@ -1519,7 +1540,7 @@ window.addEventListener('DOMContentLoaded', function() {
 		event.preventDefault()
 		const $form = $(this)
 		const $submit = $form.find('[type=submit]')
-		$submit.val(t('files_external', 'Saving …'))
+		$submit.val(t('files_external', 'Saving …'))
 
 		const uid = $form.find('[name=uid]').val()
 		const user = $form.find('[name=username]').val()

@@ -181,7 +181,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preRemoveUser', [$this, $user]);
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
+			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) && $backend->inGroup($user->getUID(), $this->gid)) {
 				$backend->removeFromGroup($user->getUID(), $this->gid);
 				$result = true;
 			}
@@ -220,7 +220,7 @@ class Group implements IGroup {
 					}
 				}
 			}
-			if (!is_null($limit) and $limit <= 0) {
+			if (!is_null($limit) && $limit <= 0) {
 				return $users;
 			}
 		}

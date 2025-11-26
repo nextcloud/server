@@ -8,6 +8,7 @@
 
 namespace Test\BackgroundJob;
 
+use ArrayIterator;
 use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\Job;
@@ -98,20 +99,23 @@ class DummyJobList extends JobList {
 		return $this->jobs;
 	}
 
-	public function getJobsIterator($job, ?int $limit, int $offset): array {
+	public function getJobsIterator($job, ?int $limit, int $offset): iterable {
 		if ($job instanceof IJob) {
 			$jobClass = get_class($job);
 		} else {
 			$jobClass = $job;
 		}
-		return array_slice(
+
+		$jobs = array_slice(
 			array_filter(
 				$this->jobs,
-				fn ($job) => ($jobClass === null) || (get_class($job) == $jobClass)
+				fn ($job) => ($jobClass === null) || (get_class($job) === $jobClass)
 			),
 			$offset,
 			$limit
 		);
+
+		return new ArrayIterator($jobs);
 	}
 
 	/**

@@ -13,6 +13,7 @@ use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
@@ -94,7 +95,7 @@ class EmbeddedCalDavServer {
 			Server::get(IURLGenerator::class)
 		));
 		if ($appConfig->getValueString('dav', 'sendInvitations', 'yes') === 'yes') {
-			$this->server->addPlugin(Server::get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+			$this->server->addPlugin(Server::get(IMipPlugin::class));
 		}
 
 		// collection preload plugin

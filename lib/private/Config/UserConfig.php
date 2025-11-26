@@ -23,9 +23,11 @@ use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\User\Events\UserConfigChangedEvent;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -66,6 +68,7 @@ class UserConfig implements IUserConfig {
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
+	private array $strictnessApplied = [];
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -74,6 +77,7 @@ class UserConfig implements IUserConfig {
 		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		protected IEventDispatcher $dispatcher,
 	) {
 	}
 
@@ -476,40 +480,55 @@ class UserConfig implements IUserConfig {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
 
+		$lexiconEntry = $this->getLexiconEntry($app, $key);
+		if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) === false) {
+			$this->logger->notice('UserConfig+Lexicon: using searchUsersByTypedValue on config key ' . $app . '/' . $key . ' which is not set as indexed');
+		}
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
 		$qb->select('userid');
 		$qb->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)));
 		$qb->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 
-		// search within 'indexed' OR 'configvalue' only if 'flags' is set as not indexed
-		// TODO: when implementing config lexicon remove the searches on 'configvalue' if value is set as indexed
 		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) ? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR) : 'configvalue';
 		if (is_array($value)) {
-			$where = $qb->expr()->orX(
-				$qb->expr()->in('indexed', $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY)),
-				$qb->expr()->andX(
-					$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
-					$qb->expr()->in($configValueColumn, $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY))
-				)
-			);
+			$where = $qb->expr()->in('indexed', $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY));
+			// in case lexicon does not exist for this key - or is not set as indexed - we keep searching for non-index entries if 'flags' is set as not indexed
+			if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) !== true) {
+				$where = $qb->expr()->orX(
+					$where,
+					$qb->expr()->andX(
+						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
+						$qb->expr()->in($configValueColumn, $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY))
+					)
+				);
+			}
 		} else {
 			if ($caseInsensitive) {
-				$where = $qb->expr()->orX(
-					$qb->expr()->eq($qb->func()->lower('indexed'), $qb->createNamedParameter(strtolower($value))),
-					$qb->expr()->andX(
-						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
-						$qb->expr()->eq($qb->func()->lower($configValueColumn), $qb->createNamedParameter(strtolower($value)))
-					)
-				);
+				$where = $qb->expr()->eq($qb->func()->lower('indexed'), $qb->createNamedParameter(strtolower($value)));
+				// in case lexicon does not exist for this key - or is not set as indexed - we keep searching for non-index entries if 'flags' is set as not indexed
+				if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) !== true) {
+					$where = $qb->expr()->orX(
+						$where,
+						$qb->expr()->andX(
+							$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
+							$qb->expr()->eq($qb->func()->lower($configValueColumn), $qb->createNamedParameter(strtolower($value)))
+						)
+					);
+				}
 			} else {
-				$where = $qb->expr()->orX(
-					$qb->expr()->eq('indexed', $qb->createNamedParameter($value)),
-					$qb->expr()->andX(
-						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
-						$qb->expr()->eq($configValueColumn, $qb->createNamedParameter($value))
-					)
-				);
+				$where = $qb->expr()->eq('indexed', $qb->createNamedParameter($value));
+				// in case lexicon does not exist for this key - or is not set as indexed - we keep searching for non-index entries if 'flags' is set as not indexed
+				if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) !== true) {
+					$where = $qb->expr()->orX(
+						$where,
+						$qb->expr()->andX(
+							$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
+							$qb->expr()->eq($configValueColumn, $qb->createNamedParameter($value))
+						)
+					);
+				}
 			}
 		}
 
@@ -1107,12 +1126,14 @@ class UserConfig implements IUserConfig {
 			}
 		}
 
+		$oldValue = null;
 		if ($this->hasKey($userId, $app, $key, $lazy)) {
 			/**
 			 * no update if key is already known with set lazy status and value is
 			 * not different, unless sensitivity is switched from false to true.
 			 */
-			if ($origValue === $this->getTypedValue($userId, $app, $key, $value, $lazy, $type)
+			$oldValue = $this->getTypedValue($userId, $app, $key, $value, $lazy, $type);
+			if ($origValue === $oldValue
 				&& (!$sensitive || $this->isSensitive($userId, $app, $key, $lazy))) {
 				return false;
 			}
@@ -1193,6 +1214,8 @@ class UserConfig implements IUserConfig {
 
 			$update->executeStatement();
 		}
+
+		$this->dispatcher->dispatchTyped(new UserConfigChangedEvent($userId, $app, $key, $value, $oldValue));
 
 		if ($refreshCache) {
 			$this->clearCache($userId);
@@ -1407,13 +1430,32 @@ class UserConfig implements IUserConfig {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
 
-		foreach (array_keys($this->getValuesByUsers($app, $key)) as $userId) {
-			try {
-				$this->updateIndexed($userId, $app, $key, $indexed);
-			} catch (UnknownKeyException) {
-				// should not happen and can be ignored
-			}
+		$update = $this->connection->getQueryBuilder();
+		$update->update('preferences')
+			->where(
+				$update->expr()->eq('appid', $update->createNamedParameter($app)),
+				$update->expr()->eq('configkey', $update->createNamedParameter($key))
+			);
+
+		// switching flags 'indexed' on and off is about adding/removing the bit value on the correct entries
+		if ($indexed) {
+			$update->set('indexed', $update->func()->substring('configvalue', $update->createNamedParameter(1, IQueryBuilder::PARAM_INT), $update->createNamedParameter(64, IQueryBuilder::PARAM_INT)));
+			$update->set('flags', $update->func()->add('flags', $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)));
+			$update->andWhere(
+				$update->expr()->neq($update->expr()->castColumn(
+					$update->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), IQueryBuilder::PARAM_INT), $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)
+				));
+		} else {
+			// emptying field 'indexed' if key is not set as indexed anymore
+			$update->set('indexed', $update->createNamedParameter(''));
+			$update->set('flags', $update->func()->subtract('flags', $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)));
+			$update->andWhere(
+				$update->expr()->eq($update->expr()->castColumn(
+					$update->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), IQueryBuilder::PARAM_INT), $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)
+				));
 		}
+
+		$update->executeStatement();
 
 		// we clear all cache
 		$this->clearCacheAll();
@@ -1903,7 +1945,7 @@ class UserConfig implements IUserConfig {
 		}
 
 		if (!array_key_exists($key, $configDetails['entries'])) {
-			return $this->applyLexiconStrictness($configDetails['strictness'], 'The user config key ' . $app . '/' . $key . ' is not defined in the config lexicon');
+			return $this->applyLexiconStrictness($configDetails['strictness'], $app . '/' . $key);
 		}
 
 		// if lazy is NULL, we ignore all check on the type/lazyness/default from Lexicon
@@ -1970,21 +2012,28 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @return bool TRUE if conflict can be fully ignored
 	 * @throws UnknownKeyException
-	 *@see ILexicon::getStrictness()
+	 * @see ILexicon::getStrictness()
 	 */
-	private function applyLexiconStrictness(?Strictness $strictness, string $line = ''): bool {
+	private function applyLexiconStrictness(?Strictness $strictness, string $configAppKey): bool {
 		if ($strictness === null) {
 			return true;
 		}
 
+		$line = 'The user config key ' . $configAppKey . ' is not defined in the config lexicon';
 		switch ($strictness) {
 			case Strictness::IGNORE:
 				return true;
 			case Strictness::NOTICE:
-				$this->logger->notice($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->notice($line);
+				}
 				return true;
 			case Strictness::WARNING:
-				$this->logger->warning($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->warning($line);
+				}
 				return false;
 			case Strictness::EXCEPTION:
 				throw new UnknownKeyException($line);
@@ -1999,8 +2048,7 @@ class UserConfig implements IUserConfig {
 	 * @param string $appId
 	 *
 	 * @return array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}
-	 *@internal
-	 *
+	 * @internal
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
@@ -2024,7 +2072,13 @@ class UserConfig implements IUserConfig {
 		return $this->configLexiconDetails[$appId];
 	}
 
-	private function getLexiconEntry(string $appId, string $key): ?Entry {
+	/**
+	 * get Lexicon Entry using appId and config key entry
+	 *
+	 * @return Entry|null NULL if entry does not exist in user's Lexicon
+	 * @internal
+	 */
+	public function getLexiconEntry(string $appId, string $key): ?Entry {
 		return $this->getConfigDetailsFromLexicon($appId)['entries'][$key] ?? null;
 	}
 

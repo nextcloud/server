@@ -108,7 +108,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		$token = $share->getShareSecret();
 		$name = $share->getResourceName();
-		$owner = $share->getOwnerDisplayName();
+		$owner = $share->getOwnerDisplayName() ?: $share->getOwner();
 		$sharedBy = $share->getSharedByDisplayName();
 		$shareWith = $share->getShareWith();
 		$remoteId = $share->getProviderId();
@@ -482,7 +482,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			);
 
 		$result = $qb->executeQuery();
-		$share = $result->fetch();
+		$share = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($token && $id && !empty($share)) {

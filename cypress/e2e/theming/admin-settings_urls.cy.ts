@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { User } from '@nextcloud/cypress'
+import { User } from '@nextcloud/e2e-test-server/cypress'
 
 const admin = new User('admin', 'admin')
 
@@ -71,7 +71,6 @@ describe('Admin theming: Setting custom project URLs', function() {
 			.should('be.visible')
 			.and('have.attr', 'href', 'http://privacy.local/path?query#fragment')
 	})
-
 })
 
 describe('Admin theming: Web link corner cases', function() {
@@ -139,5 +138,4 @@ describe('Admin theming: Web link corner cases', function() {
 			.should('be.visible')
 			.and('have.attr', 'href', 'http://example.com/%22the%20path%22')
 	})
-
 })

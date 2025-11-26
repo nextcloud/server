@@ -3,11 +3,12 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcModal v-if="isModalOpen"
+	<NcModal
+		v-if="isModalOpen"
 		id="unified-search"
 		:name="t('core', 'Custom date range')"
 		:show.sync="isModalOpen"
-		:size="'small'"
+		size="small"
 		:clear-view-delay="0"
 		:title="t('core', 'Custom date range')"
 		@close="closeModal">
@@ -15,11 +16,13 @@
 		<div class="unified-search-custom-date-modal">
 			<h1>{{ t('core', 'Custom date range') }}</h1>
 			<div class="unified-search-custom-date-modal__pickers">
-				<NcDateTimePicker :id="'unifiedsearch-custom-date-range-start'"
+				<NcDateTimePicker
+					id="unifiedsearch-custom-date-range-start"
 					v-model="dateFilter.startFrom"
 					:label="t('core', 'Pick start date')"
 					type="date" />
-				<NcDateTimePicker :id="'unifiedsearch-custom-date-range-end'"
+				<NcDateTimePicker
+					id="unifiedsearch-custom-date-range-end"
 					v-model="dateFilter.endAt"
 					:label="t('core', 'Pick end date')"
 					type="date" />
@@ -50,31 +53,37 @@ export default {
 		CalendarRangeIcon,
 		NcDateTimePicker,
 	},
+
 	props: {
 		isOpen: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			dateFilter: { startFrom: null, endAt: null },
 		}
 	},
+
 	computed: {
 		isModalOpen: {
 			get() {
 				return this.isOpen
 			},
+
 			set(value) {
 				this.$emit('update:is-open', value)
 			},
 		},
 	},
+
 	methods: {
 		closeModal() {
 			this.isModalOpen = false
 		},
+
 		applyCustomRange() {
 			this.$emit('set:custom-date-range', this.dateFilter)
 			this.closeModal()

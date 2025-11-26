@@ -10,9 +10,9 @@ OC.L10N.register(
     "Two factor backup codes" : "Dviejų faktorių atsarginiai kodai",
     "An error occurred while generating your backup codes" : "Generuojant jūsų atsarginius kodus, įvyko klaida",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Atsarginiai kodai sugeneruoti. Panaudota {used} iš {total} kodų.",
-    "Save backup codes" : "Įrašyti atsarginius kodus",
-    "Print backup codes" : "Spausdinti atsarginius kodus",
     "Regenerate backup codes" : "Iš naujo generuoti atsarginius kodus",
+    "Print backup codes" : "Spausdinti atsarginius kodus",
+    "Save backup codes" : "Įrašyti atsarginius kodus",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeigu iš naujo generuosite atsarginius kodus, automatiškai paversite senuosius kodus nebegaliojančiais.",
     "{name} backup codes" : "{name} atsarginiai kodai",
     "Submit" : "Pateikti"

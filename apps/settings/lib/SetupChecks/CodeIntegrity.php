@@ -50,13 +50,13 @@ class CodeIntegrity implements ISetupCheck {
 					'link1' => [
 						'type' => 'highlight',
 						'id' => 'getFailedIntegrityCheckFiles',
-						'name' => 'List of invalid files…',
+						'name' => $this->l10n->t('List of invalid files…'),
 						'link' => $this->urlGenerator->linkToRoute('settings.CheckSetup.getFailedIntegrityCheckFiles'),
 					],
 					'link2' => [
 						'type' => 'highlight',
 						'id' => 'rescanFailedIntegrityCheck',
-						'name' => 'Rescan…',
+						'name' => $this->l10n->t('Rescan…'),
 						'link' => $this->urlGenerator->linkToRoute('settings.CheckSetup.rescanFailedIntegrityCheck'),
 					],
 				],

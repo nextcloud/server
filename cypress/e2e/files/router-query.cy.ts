@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { join } from 'path'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { joinPaths as join } from '@nextcloud/paths'
 import { getRowForFileId } from './FilesUtils.ts'
 
 /**

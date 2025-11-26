@@ -5,16 +5,14 @@
 
 import type { IAppstoreApp, IAppstoreCategory } from '../app-types.ts'
 
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-
-import axios from '@nextcloud/axios'
-
-import logger from '../logger'
 import APPSTORE_CATEGORY_ICONS from '../constants/AppstoreCategoryIcons.ts'
+import logger from '../logger.ts'
 
 const showApiError = () => showError(t('settings', 'An error occurred during the request. Unable to proceed.'))
 
@@ -80,8 +78,15 @@ export const useAppsStore = defineStore('settings-apps', {
 			return this.categories.find(({ id }) => id === categoryId) ?? null
 		},
 
-		getAppById(appId: string): IAppstoreApp|null {
+		getAppById(appId: string): IAppstoreApp | null {
 			return this.apps.find(({ id }) => id === appId) ?? null
+		},
+
+		updateAppGroups(appId: string, groups: string[]) {
+			const app = this.apps.find(({ id }) => id === appId)
+			if (app) {
+				app.groups = [...groups]
+			}
 		},
 	},
 })

@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder } from './FilesUtils'
-import { FilesNavigationPage } from '../../pages/FilesNavigation'
-import { FilesFilterPage } from '../../pages/FilesFilters'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { FilesFilterPage } from '../../pages/FilesFilters.ts'
+import { FilesNavigationPage } from '../../pages/FilesNavigation.ts'
+import { getRowForFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('files: Filter in files list', { testIsolation: true }, () => {
 	const appNavigation = new FilesNavigationPage()
@@ -148,26 +149,6 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		getRowForFile('folder').should('be.visible')
 	})
 
-	it('keeps name filter when changing the directory', () => {
-		// All are visible by default
-		getRowForFile('folder').should('be.visible')
-		getRowForFile('file.txt').should('be.visible')
-
-		// Set up a search query
-		appNavigation.searchInput()
-			.type('folder')
-
-		// See that only the folder is visible
-		getRowForFile('folder').should('be.visible')
-		getRowForFile('file.txt').should('not.exist')
-
-		// go to that folder
-		navigateToFolder('folder')
-
-		// see that the folder is also filtered
-		getRowForFile('text.txt').should('not.exist')
-	})
-
 	it('keeps type filter when changing the directory', () => {
 		// All are visible by default
 		getRowForFile('folder').should('be.visible')
@@ -248,6 +229,31 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
 			.should('be.visible')
 			.and('have.attr', 'aria-checked', 'true')
+	})
+
+	/** Regression test of https://github.com/nextcloud/server/issues/53038 */
+	it('resets name filter when changing the directory', () => {
+		// All are visible by default
+		getRowForFile('folder').should('be.visible')
+		getRowForFile('file.txt').should('be.visible')
+
+		// Set up a search query
+		appNavigation.searchInput()
+			.type('folder')
+
+		// See that only the folder is visible
+		getRowForFile('folder').should('be.visible')
+		getRowForFile('file.txt').should('not.exist')
+
+		// go to that folder
+		navigateToFolder('folder')
+
+		// see the search is cleared
+		appNavigation.searchInput()
+			.should('have.value', '')
+
+		// see that the folder content is showed
+		getRowForFile('text.txt').should('be.visible')
 	})
 
 	it('resets filter when changing the view', () => {

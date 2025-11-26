@@ -3,14 +3,16 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<td class="files-list__row-checkbox"
+	<td
+		class="files-list__row-checkbox"
 		@keyup.esc.exact="resetSelection">
 		<NcLoadingIcon v-if="isLoading" :name="loadingLabel" />
-		<NcCheckboxRadioSwitch v-else
+		<NcCheckboxRadioSwitch
+			v-else
 			:aria-label="ariaLabel"
-			:checked="isSelected"
+			:model-value="isSelected"
 			data-cy-files-list-row-checkbox
-			@update:checked="onSelectionChange" />
+			@update:modelValue="onSelectionChange" />
 	</td>
 </template>
 
@@ -23,14 +25,12 @@ import { FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
-
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
+import logger from '../../logger.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { useKeyboardStore } from '../../store/keyboard.ts'
 import { useSelectionStore } from '../../store/selection.ts'
-import logger from '../../logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryCheckbox',
@@ -45,14 +45,17 @@ export default defineComponent({
 			type: Number,
 			required: true,
 		},
+
 		isLoading: {
 			type: Boolean,
 			default: false,
 		},
+
 		nodes: {
 			type: Array as PropType<Node[]>,
 			required: true,
 		},
+
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
@@ -80,20 +83,25 @@ export default defineComponent({
 		selectedFiles() {
 			return this.selectionStore.selected
 		},
+
 		isSelected() {
 			return this.selectedFiles.includes(this.source.source)
 		},
+
 		index() {
 			return this.nodes.findIndex((node: Node) => node.source === this.source.source)
 		},
+
 		isFile() {
 			return this.source.type === FileType.File
 		},
+
 		ariaLabel() {
 			return this.isFile
 				? t('files', 'Toggle selection for file "{displayName}"', { displayName: this.source.basename })
 				: t('files', 'Toggle selection for folder "{displayName}"', { displayName: this.source.basename })
 		},
+
 		loadingLabel() {
 			return this.isFile
 				? t('files', 'File is loading')
@@ -132,13 +140,13 @@ export default defineComponent({
 
 				const lastSelection = this.selectionStore.lastSelection
 				const filesToSelect = this.nodes
-					.map(file => file.source)
+					.map((file) => file.source)
 					.slice(start, end + 1)
 					.filter(Boolean) as FileSource[]
 
 				// If already selected, update the new selection _without_ the current file
 				const selection = [...lastSelection, ...filesToSelect]
-					.filter(source => !isAlreadySelected || source !== this.source.source)
+					.filter((source) => !isAlreadySelected || source !== this.source.source)
 
 				logger.debug('Shift key pressed, selecting all files in between', { start, end, filesToSelect, isAlreadySelected })
 				// Keep previous lastSelectedIndex to be use for further shift selections
@@ -148,7 +156,7 @@ export default defineComponent({
 
 			const selection = selected
 				? [...this.selectedFiles, this.source.source]
-				: this.selectedFiles.filter(source => source !== this.source.source)
+				: this.selectedFiles.filter((source) => source !== this.source.source)
 
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)

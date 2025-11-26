@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
 import { generateOcsUrl } from '@nextcloud/router'
-
+import $ from 'jquery'
+import _ from 'underscore'
 import OC from '../OC/index.js'
 
 /**

@@ -16,24 +16,23 @@ use OCP\Server;
 /**
  * Class WebdavTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class WebdavTest extends \Test\Files\Storage\Storage {
+	use ConfigurableStorageTrait;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$config = include('files_external/tests/config.webdav.php');
-		if (!is_array($config) or !$config['run']) {
-			$this->markTestSkipped('WebDAV backend not configured');
+		$this->loadConfig('files_external/tests/config.webdav.php');
+		if (isset($this->config['wait'])) {
+			$this->waitDelay = $this->config['wait'];
 		}
-		if (isset($config['wait'])) {
-			$this->waitDelay = $config['wait'];
-		}
-		$config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new DAV($config);
+		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new DAV($this->config);
 		$this->instance->mkdir('/');
 	}
 

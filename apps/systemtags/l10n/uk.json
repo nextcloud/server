@@ -54,7 +54,6 @@
     "Failed to delete tag" : "Не вдалося вилучити мітку",
     "Create or edit tags" : "Створити чи редагувати мітки",
     "Search for a tag to edit" : "Пошук мітки для редагування",
-    "Collaborative tags …" : "Спільні мітки...",
     "No tags to select" : "Відсутні мітки для вибору",
     "Tag name" : "Назва мітки",
     "Tag level" : "Рівень мітки",
@@ -62,7 +61,6 @@
     "Update" : "Оновити",
     "Delete" : "Вилучити",
     "Reset" : "Скидання",
-    "Loading …" : "Завантаження …",
     "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} буде встановлено та {tag2} буде видалено для 1 файлу.","{tag1} буде встановлено та {tag2} буде видалено для {count} файлів.","{tag1} буде встановлено та {tag2} буде видалено для {count} файлів.","{tag1} буде встановлено та {tag2} буде видалено для {count} файлів."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} буде встановлено для 1 файлу.","{tag} буде встановлено для {count} файлів.","{tag} буде встановлено для {count} файлів.","{tag} буде встановлено для {count} файлів."],
     "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} буде видалено з 1 файлу.","{tag} буде видалено з {count} файлів.","{tag} буде видалено з {count} файлів.","{tag} буде видалено з {count} файлів."],
@@ -81,11 +79,10 @@
     "Choose tags for the selected files" : "Виберіть теги для вибраних файлів",
     "Cancel" : "Скасувати",
     "Apply" : "Застосувати",
-    "Failed to load tags" : "Не вдалося завантажити мітки",
     "Failed to load selected tags" : "Не вдалося завантажити вибрані мітки",
+    "Failed to load tags" : "Не вдалося завантажити мітки",
     "Failed to select tag" : "Не вдалося вибрати мітку",
     "System admin disabled tag creation. You can only use existing ones." : "Системний адміністратор вимкнув створення тегів. Ви можете використовувати тільки наявні.",
-    "Loading collaborative tags …" : "Завантажую спільні мітки ...",
     "Search or create collaborative tags" : "Пошук або створення спільних міток",
     "No tags to select, type to create a new tag" : "Немає міток для вибору, почніть вводити, щоб додати нову мітку",
     "Unable to update setting" : "Не вдалося оновити налаштування",
@@ -107,9 +104,12 @@
     "Failed to load tags for file" : "Не вдалося завантажити мітки для файлу",
     "Failed to set tag for file" : "Не вдалося встановити мітку для файлу",
     "Failed to delete tag for file" : "Не вдалося вилучить мітку для файлу",
+    "Collaborative tags …" : "Спільні мітки...",
+    "Loading …" : "Завантаження …",
     "File tags modification canceled" : "Скасовано зміни до міток файлів",
     "Select or create tags to apply to all selected files" : "Застосувати до всіх вибраних файлів шукати або створити мітки",
     "Select tags to apply to all selected files" : "Виберіть теги, які потрібно застосувати до всіх вибраних файлів",
-    "Apply changes" : "Застосувати зміни"
+    "Apply changes" : "Застосувати зміни",
+    "Loading collaborative tags …" : "Завантажую спільні мітки ..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

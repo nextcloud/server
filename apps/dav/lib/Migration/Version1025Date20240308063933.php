@@ -64,7 +64,7 @@ class Version1025Date20240308063933 extends SimpleMigrationStep {
 				->setFirstResult($limit)
 				->setMaxResults(1);
 			$oldestIdResult = $thresholdSelect->executeQuery();
-			$oldestId = $oldestIdResult->fetchColumn();
+			$oldestId = $oldestIdResult->fetchOne();
 			$oldestIdResult->closeCursor();
 
 			$qb = $this->db->getQueryBuilder();

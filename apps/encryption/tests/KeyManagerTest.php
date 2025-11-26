@@ -22,6 +22,7 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage as FilesIStorage;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -335,34 +336,30 @@ class KeyManagerTest extends TestCase {
 		return [
 			['user1', false, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			['user1', false, 'privateKey', '', 'multiKeyDecryptResult'],
-			['user1', false, false, 'legacyKey', ''],
-			['user1', false, false, '', ''],
+			['user1', false, '', 'legacyKey', ''],
+			['user1', false, '', '', ''],
 			['user1', true, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			['user1', true, 'privateKey', '', 'multiKeyDecryptResult'],
-			['user1', true, false, 'legacyKey', ''],
-			['user1', true, false, '', ''],
+			['user1', true, '', 'legacyKey', ''],
+			['user1', true, '', '', ''],
 			[null, false, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			[null, false, 'privateKey', '', 'multiKeyDecryptResult'],
-			[null, false, false, 'legacyKey', ''],
-			[null, false, false, '', ''],
+			[null, false, '', 'legacyKey', ''],
+			[null, false, '', '', ''],
 			[null, true, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			[null, true, 'privateKey', '', 'multiKeyDecryptResult'],
-			[null, true, false, 'legacyKey', ''],
-			[null, true, false, '', ''],
+			[null, true, '', 'legacyKey', ''],
+			[null, true, '', '', ''],
 		];
 	}
 
-	/**
-	 *
-	 * @param $uid
-	 * @param $isMasterKeyEnabled
-	 * @param $privateKey
-	 * @param $expected
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetFileKey')]
-	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $encryptedFileKey, $expected): void {
+	public function testGetFileKey(?string $uid, bool $isMasterKeyEnabled, string $privateKey, string $encryptedFileKey, string $expected): void {
 		$path = '/foo.txt';
 
+		$this->userMock->expects(self::once())
+			->method('isLoggedIn')
+			->willReturn($uid !== null);
 		if ($isMasterKeyEnabled) {
 			$expectedUid = 'masterKeyId';
 			$this->configMock->expects($this->any())->method('getSystemValue')->with('secret')
@@ -371,6 +368,13 @@ class KeyManagerTest extends TestCase {
 			$expectedUid = 'systemKeyId';
 		} else {
 			$expectedUid = $uid;
+			$userObjectMock = $this->createMock(IUser::class);
+			$userObjectMock->expects(self::once())
+				->method('getUID')
+				->willReturn($uid);
+			$this->userMock->expects(self::once())
+				->method('getUser')
+				->willReturn($userObjectMock);
 		}
 
 		$this->invokePrivate($this->instance, 'masterKeyId', ['masterKeyId']);
@@ -423,7 +427,7 @@ class KeyManagerTest extends TestCase {
 		}
 
 		$this->assertSame($expected,
-			$this->instance->getFileKey($path, $uid, null)
+			$this->instance->getFileKey($path, null)
 		);
 	}
 

@@ -676,7 +676,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
 	 */
 	public function getHttpProtocol(): string {
-		$claimedProtocol = $this->server['SERVER_PROTOCOL'];
+		$claimedProtocol = $this->server['SERVER_PROTOCOL'] ?? '';
 
 		if (\is_string($claimedProtocol)) {
 			$claimedProtocol = strtoupper($claimedProtocol);
@@ -876,5 +876,24 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
 
 		return \is_array($trustedProxies) && $this->isTrustedProxy($trustedProxies, $remoteAddress);
+	}
+
+	public function getFormat(): ?string {
+		$format = $this->getParam('format');
+		if ($format !== null) {
+			return $format;
+		}
+
+		$prefix = 'application/';
+		$headers = explode(',', $this->getHeader('Accept'));
+		foreach ($headers as $header) {
+			$header = strtolower(trim($header));
+
+			if (str_starts_with($header, $prefix)) {
+				return substr($header, strlen($prefix));
+			}
+		}
+
+		return null;
 	}
 }

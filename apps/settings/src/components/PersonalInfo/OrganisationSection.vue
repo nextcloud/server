@@ -4,16 +4,15 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="organisation"
+	<AccountPropertySection
+		v-bind.sync="organisation"
 		autocomplete="organization"
 		:placeholder="t('settings', 'Your organisation')" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { organisation } = loadState('settings', 'personalInfoParameters', {})

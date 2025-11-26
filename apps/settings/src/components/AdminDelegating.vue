@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcSettingsSection :name="t('settings', 'Administration privileges')"
+	<NcSettingsSection
+		:name="t('settings', 'Administration privileges')"
 		:description="t('settings', 'Here you can decide which group can access certain sections of the administration settings.')"
 		:doc-url="authorizedSettingsDocLink">
 		<div class="setting-list">
@@ -16,9 +17,9 @@
 </template>
 
 <script>
-import GroupSelect from './AdminDelegation/GroupSelect.vue'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import GroupSelect from './AdminDelegation/GroupSelect.vue'
 
 export default {
 	name: 'AdminDelegating',
@@ -26,6 +27,7 @@ export default {
 		GroupSelect,
 		NcSettingsSection,
 	},
+
 	data() {
 		return {
 			availableSettings: loadState('settings', 'available-settings'),
@@ -42,6 +44,6 @@ label {
 	color: var(--color-text-maxcontrast);
 	display: block;
 	font-size: 16px;
-	margin: 12px 0;
+	margin: 12px 0 6px 0;
 }
 </style>

@@ -62,7 +62,7 @@ class MountProvider implements IMountProvider {
 
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		$otherMounts = $this->mountManager->getAll();
+		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
@@ -93,7 +93,7 @@ class MountProvider implements IMountProvider {
 				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
-					array_merge($mounts, $otherMounts),
+					$allMounts,
 					[
 						'user' => $user->getUID(),
 						// parent share
@@ -116,9 +116,9 @@ class MountProvider implements IMountProvider {
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
 
-				$mounts[$mount->getMountPoint()] = $mount;
+				$mounts[$mount->getMountPoint()] = $allMounts[$mount->getMountPoint()] = $mount;
 				foreach ($event->getAdditionalMounts() as $additionalMount) {
-					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
+					$allMounts[$additionalMount->getMountPoint()] = $mounts[$additionalMount->getMountPoint()] = $additionalMount;
 				}
 			} catch (\Exception $e) {
 				$this->logger->error(

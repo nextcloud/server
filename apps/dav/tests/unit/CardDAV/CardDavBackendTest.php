@@ -8,12 +8,14 @@
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OC\KnownUser\KnownUserService;
+use OCA\DAV\CalDAV\Federation\FederationSharingService;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Sharing\Backend;
 use OCA\DAV\CardDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -41,16 +43,18 @@ use function time;
 /**
  * Class CardDavBackendTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\CardDAV
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CardDavBackendTest extends TestCase {
 	private Principal&MockObject $principal;
 	private IUserManager&MockObject $userManager;
 	private IGroupManager&MockObject $groupManager;
 	private IEventDispatcher&MockObject $dispatcher;
 	private IConfig&MockObject $config;
+	private RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
+	private FederationSharingService&MockObject $federationSharingService;
 	private Backend $sharingBackend;
 	private IDBConnection $db;
 	private CardDavBackend $backend;
@@ -122,13 +126,17 @@ class CardDavBackendTest extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
+		$this->federationSharingService = $this->createMock(FederationSharingService::class);
 
 		$this->db = Server::get(IDBConnection::class);
 		$this->sharingBackend = new Backend($this->userManager,
 			$this->groupManager,
 			$this->principal,
+			$this->remoteUserPrincipalBackend,
 			$this->createMock(ICacheFactory::class),
 			new Service(new SharingMapper($this->db)),
+			$this->federationSharingService,
 			$this->createMock(LoggerInterface::class)
 		);
 
@@ -541,8 +549,8 @@ class CardDavBackendTest extends TestCase {
 			->from('cards_properties')
 			->orderBy('name');
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(2, count($result));
@@ -566,8 +574,8 @@ class CardDavBackendTest extends TestCase {
 		$query->select('*')
 			->from('cards_properties');
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(1, count($result));
@@ -590,7 +598,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('cards_properties')
@@ -603,7 +611,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$this->invokePrivate($this->backend, 'purgeProperties', [1, 1]);
 
@@ -611,8 +619,8 @@ class CardDavBackendTest extends TestCase {
 		$query->select('*')
 			->from('cards_properties');
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(1, count($result));
@@ -634,7 +642,7 @@ class CardDavBackendTest extends TestCase {
 					'size' => $query->createNamedParameter(120)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$id = $query->getLastInsertId();
 
 		$this->assertSame($id,
@@ -678,7 +686,7 @@ class CardDavBackendTest extends TestCase {
 						'size' => $query->createNamedParameter(120),
 					]
 				);
-			$query->execute();
+			$query->executeStatement();
 			$vCardIds[] = $query->getLastInsertId();
 		}
 
@@ -693,7 +701,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -705,7 +713,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -717,7 +725,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -729,7 +737,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -741,7 +749,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$result = $this->backend->search(0, $pattern, $properties, $options);
 
@@ -787,7 +795,7 @@ class CardDavBackendTest extends TestCase {
 					'size' => $query->createNamedParameter(120),
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 
 		$id = $query->getLastInsertId();
 
@@ -815,7 +823,7 @@ class CardDavBackendTest extends TestCase {
 						'size' => $query->createNamedParameter(120),
 					]
 				);
-			$query->execute();
+			$query->executeStatement();
 		}
 
 		$result = $this->backend->getContact(0, 'uri0');
@@ -848,7 +856,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			)
-			->execute();
+			->executeStatement();
 
 		$result = $this->backend->collectCardProperties(666, 'FN');
 		$this->assertEquals(['John Doe'], $result);

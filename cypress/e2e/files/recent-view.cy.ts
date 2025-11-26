@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { getRowForFile, triggerActionForFile } from './FilesUtils'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { getRowForFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Recent view', { testIsolation: true }, () => {
 	let user: User

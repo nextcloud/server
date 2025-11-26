@@ -3,20 +3,28 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Folder } from '@nextcloud/files'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import * as ncEventBus from '@nextcloud/event-bus'
+import { Folder } from '@nextcloud/files'
 import isSvg from 'is-svg'
-
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { trashbinView } from '../files_views/trashbinView.ts'
 import { restoreAction } from './restoreAction.ts'
-import { PERMISSION_ALL, PERMISSION_NONE } from '../../../../core/src/OC/constants.js'
+
+// TODO: once core is migrated to the new frontend use the import instead:
+// import { PERMISSION_ALL, PERMISSION_NONE } from '../../../../core/src/OC/constants.js'
+export const PERMISSION_NONE = 0
+export const PERMISSION_ALL = 31
 
 const axiosMock = vi.hoisted(() => ({
 	request: vi.fn(),
 }))
-vi.mock('@nextcloud/axios', () => ({ default: axiosMock }))
+vi.mock('@nextcloud/axios', async (origial) => ({ ...(await origial()), default: axiosMock }))
 vi.mock('@nextcloud/auth')
+
+const errorSpy = vi.spyOn(window.console, 'error').mockImplementation(() => {})
+beforeEach(() => {
+	vi.resetAllMocks()
+})
 
 describe('files_trashbin: file actions - restore action', () => {
 	it('has id set', () => {
@@ -100,9 +108,9 @@ describe('files_trashbin: file actions - restore action', () => {
 
 			expect(await restoreAction.exec(node, trashbinView, '/')).toBe(true)
 			expect(axiosMock.request).toBeCalled()
-			expect(axiosMock.request.mock.calls[0][0].method).toBe('MOVE')
-			expect(axiosMock.request.mock.calls[0][0].url).toBe(node.encodedSource)
-			expect(axiosMock.request.mock.calls[0][0].headers.destination).toContain('/restore/')
+			expect(axiosMock.request.mock.calls[0]![0].method).toBe('MOVE')
+			expect(axiosMock.request.mock.calls[0]![0].url).toBe(node.encodedSource)
+			expect(axiosMock.request.mock.calls[0]![0].headers.destination).toContain('/restore/')
 		})
 
 		it('deletes node from current view after successfull request', async () => {
@@ -116,15 +124,18 @@ describe('files_trashbin: file actions - restore action', () => {
 			expect(emitSpy).toBeCalledWith('files:node:deleted', node)
 		})
 
-		it('does not delete node from view if reuest failed', async () => {
+		it('does not delete node from view if request failed', async () => {
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
-			axiosMock.request.mockImplementationOnce(() => { throw new Error() })
+			axiosMock.request.mockImplementationOnce(() => {
+				throw new Error()
+			})
 			const emitSpy = vi.spyOn(ncEventBus, 'emit')
 
 			expect(await restoreAction.exec(node, trashbinView, '/')).toBe(false)
 			expect(axiosMock.request).toBeCalled()
 			expect(emitSpy).not.toBeCalled()
+			expect(errorSpy).toBeCalled()
 		})
 
 		it('batch: only returns success if all requests worked', async () => {
@@ -137,9 +148,12 @@ describe('files_trashbin: file actions - restore action', () => {
 		it('batch: only returns success if all requests worked - one failed', async () => {
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
-			axiosMock.request.mockImplementationOnce(() => { throw new Error() })
+			axiosMock.request.mockImplementationOnce(() => {
+				throw new Error()
+			})
 			expect(await restoreAction.execBatch!([node, node], trashbinView, '/')).toStrictEqual([false, true])
 			expect(axiosMock.request).toBeCalledTimes(2)
+			expect(errorSpy).toBeCalled()
 		})
 	})
 })

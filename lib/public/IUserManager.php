@@ -104,6 +104,7 @@ interface IUserManager {
 	 * @param int $offset
 	 * @return \OCP\IUser[]
 	 * @since 8.0.0
+	 * @deprecated 27.0.0, use searchDisplayName instead
 	 */
 	public function search($pattern, $limit = null, $offset = null);
 
@@ -113,7 +114,7 @@ interface IUserManager {
 	 * @param string $pattern
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @return list<IUser>
 	 * @since 8.0.0
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null);
@@ -239,8 +240,9 @@ interface IUserManager {
 	 * The offset argument allows the caller to continue the iteration at a specific offset.
 	 *
 	 * @param int $offset from which offset to fetch
+	 * @param int|null $limit maximum number of records to fetch
 	 * @return \Iterator<IUser> list of IUser object
 	 * @since 32.0.0
 	 */
-	public function getSeenUsers(int $offset = 0): \Iterator;
+	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator;
 }

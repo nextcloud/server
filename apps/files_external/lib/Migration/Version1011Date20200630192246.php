@@ -103,7 +103,7 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['mount_id', 'key'], 'config_mount_key');
 		} else {
 			$table = $schema->getTable('external_config');
-			$table->changeColumn('value', [
+			$table->modifyColumn('value', [
 				'notnull' => false,
 				'length' => 4000,
 			]);

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Original location" : "Alkuperäinen sijainti",
     "Deleted by" : "Poistanut",
     "Deleted" : "Poistettu",
+    "few seconds ago" : "muutama sekunti sitten",
     "A long time ago" : "Kauan aikaa sitten",
     "Unknown" : "Tuntematon",
     "All files" : "Kaikki tiedostot",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "Luettelo poistetuista tiedostoista.",
     "No deleted files" : "Ei poistettuja tiedostoja",
     "Files and folders you have deleted will show up here" : "Poistamasi tiedostot ja kansiot näkyvät täällä",
+    "All files have been permanently deleted" : "Kaikki tiedostot on poistettu pysyvästi",
     "Deletion cancelled" : "Poistaminen peruttu"
 },
 "nplurals=2; plural=(n != 1);");

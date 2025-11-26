@@ -7,8 +7,9 @@
 	<div class="field">
 		<label :for="id">{{ displayName }}</label>
 		<div class="field__row">
-			<NcButton :id="id"
-				type="secondary"
+			<NcButton
+				:id="id"
+				variant="secondary"
 				:aria-label="ariaLabel"
 				data-admin-theming-setting-file-picker
 				@click="activateLocalFilePicker">
@@ -17,8 +18,9 @@
 				</template>
 				{{ t('theming', 'Upload') }}
 			</NcButton>
-			<NcButton v-if="showReset"
-				type="tertiary"
+			<NcButton
+				v-if="showReset"
+				variant="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
 				data-admin-theming-setting-file-reset
 				@click="undo">
@@ -26,8 +28,9 @@
 					<Undo :size="20" />
 				</template>
 			</NcButton>
-			<NcButton v-if="showRemove"
-				type="tertiary"
+			<NcButton
+				v-if="showRemove"
+				variant="tertiary"
 				:aria-label="t('theming', 'Remove background image')"
 				data-admin-theming-setting-file-remove
 				@click="removeBackground">
@@ -35,25 +38,29 @@
 					<Delete :size="20" />
 				</template>
 			</NcButton>
-			<NcLoadingIcon v-if="showLoading"
+			<NcLoadingIcon
+				v-if="showLoading"
 				class="field__loading-icon"
 				:size="20" />
 		</div>
 
-		<div v-if="(name === 'logoheader' || name === 'favicon') && mimeValue !== defaultMimeValue"
+		<div
+			v-if="(name === 'logoheader' || name === 'favicon') && mimeValue !== defaultMimeValue"
 			class="field__preview"
 			:class="{
 				'field__preview--logoheader': name === 'logoheader',
 				'field__preview--favicon': name === 'favicon',
 			}" />
 
-		<NcNoteCard v-if="errorMessage"
+		<NcNoteCard
+			v-if="errorMessage"
 			type="error"
 			:show-alert="true">
 			<p>{{ errorMessage }}</p>
 		</NcNoteCard>
 
-		<input ref="input"
+		<input
+			ref="input"
 			:accept="acceptMime"
 			type="file"
 			@change="onChange">
@@ -62,16 +69,14 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-
+import { generateUrl } from '@nextcloud/router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
-import Upload from 'vue-material-design-icons/Upload.vue'
-
 import FieldMixin from '../../mixins/admin/FieldMixin.js'
 
 const {
@@ -99,22 +104,27 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		mimeName: {
 			type: String,
 			required: true,
 		},
+
 		mimeValue: {
 			type: String,
 			required: true,
 		},
+
 		defaultMimeValue: {
 			type: String,
 			default: '',
 		},
+
 		displayName: {
 			type: String,
 			required: true,
 		},
+
 		ariaLabel: {
 			type: String,
 			required: true,

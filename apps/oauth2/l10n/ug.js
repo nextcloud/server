@@ -10,7 +10,7 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 سىرتقى مۇلازىمەتلەرنىڭ {instanceName} access نى زىيارەت قىلىشىنى تەلەپ قىلىدۇ.",
     "Name" : "ئاتى",
     "Redirection URI" : "قايتا نىشانلاش URI",
-    "Client Identifier" : "Client Identifier",
+    "Client Identifier" : "خېرىدار تونۇغۇچ",
     "Secret key" : "مەخپىي ئاچقۇچ",
     "Delete client" : "خېرىدارنى ئۆچۈرۈڭ",
     "Make sure you store the secret key, it cannot be recovered." : "مەخپىي ئاچقۇچنى ساقلىغانلىقىڭىزنى جەزملەشتۈرۈڭ ، ئەسلىگە كەلتۈرگىلى بولمايدۇ.",

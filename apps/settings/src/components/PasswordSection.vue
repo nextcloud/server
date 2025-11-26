@@ -5,25 +5,28 @@
 <template>
 	<NcSettingsSection :name="t('settings', 'Password')">
 		<form id="passwordform" method="POST" @submit.prevent="changePassword">
-			<NcPasswordField id="old-pass"
+			<NcPasswordField
+				id="old-pass"
+				v-model="oldPass"
 				:label="t('settings', 'Current password')"
 				name="oldpassword"
-				:value.sync="oldPass"
 				autocomplete="current-password"
 				autocapitalize="none"
 				spellcheck="false" />
 
-			<NcPasswordField id="new-pass"
+			<NcPasswordField
+				id="new-pass"
+				v-model="newPass"
 				:label="t('settings', 'New password')"
-				:value.sync="newPass"
 				:maxlength="469"
 				autocomplete="new-password"
 				autocapitalize="none"
 				spellcheck="false"
 				:check-password-strength="true" />
 
-			<NcButton type="primary"
-				native-type="submit"
+			<NcButton
+				variant="primary"
+				type="submit"
 				:disabled="newPass.length === 0 || oldPass.length === 0">
 				{{ t('settings', 'Change password') }}
 			</NcButton>
@@ -32,12 +35,12 @@
 </template>
 
 <script>
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import axios from '@nextcloud/axios'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { generateUrl } from '@nextcloud/router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
-import { showSuccess, showError } from '@nextcloud/dialogs'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
 export default {
 	name: 'PasswordSection',
@@ -46,20 +49,22 @@ export default {
 		NcButton,
 		NcPasswordField,
 	},
+
 	data() {
 		return {
 			oldPass: '',
 			newPass: '',
 		}
 	},
+
 	methods: {
 		changePassword() {
 			axios.post(generateUrl('/settings/personal/changepassword'), {
 				oldpassword: this.oldPass,
 				newpassword: this.newPass,
 			})
-				.then(res => res.data)
-				.then(data => {
+				.then((res) => res.data)
+				.then((data) => {
 					if (data.status === 'error') {
 						this.errorMessage = data.data.message
 						showError(data.data.message)

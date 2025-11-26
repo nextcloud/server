@@ -4,7 +4,8 @@
 -->
 <template>
 	<div>
-		<NcSelect :model-value="currentValue"
+		<NcSelect
+			:model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			:options="options"
@@ -29,7 +30,8 @@
 				</span>
 			</template>
 		</NcSelect>
-		<input v-if="!isPredefined"
+		<input
+			v-if="!isPredefined"
 			:value="currentValue.id"
 			type="text"
 			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
@@ -38,9 +40,9 @@
 </template>
 
 <script>
+import { imagePath } from '@nextcloud/router'
 import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { imagePath } from '@nextcloud/router'
 
 export default {
 	name: 'FileMimeType',
@@ -48,6 +50,7 @@ export default {
 		NcEllipsisedOption,
 		NcSelect,
 	},
+
 	props: {
 		modelValue: {
 			type: String,
@@ -60,6 +63,11 @@ export default {
 	data() {
 		return {
 			predefinedTypes: [
+				{
+					iconUrl: imagePath('core', 'filetypes/audio'),
+					label: t('workflowengine', 'Audio'),
+					id: '/audio\\/.*/',
+				},
 				{
 					icon: 'icon-folder',
 					label: t('workflowengine', 'Folder'),
@@ -80,14 +88,22 @@ export default {
 					label: t('workflowengine', 'PDF documents'),
 					id: 'application/pdf',
 				},
+				{
+					iconUrl: imagePath('core', 'filetypes/video'),
+					label: t('workflowengine', 'Video'),
+					id: '/video\\/.*/',
+				},
 			],
+
 			newValue: '',
 		}
 	},
+
 	computed: {
 		options() {
 			return [...this.predefinedTypes, this.customValue]
 		},
+
 		isPredefined() {
 			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
 			if (matchingPredefined) {
@@ -95,6 +111,7 @@ export default {
 			}
 			return false
 		},
+
 		customValue() {
 			return {
 				icon: 'icon-settings-dark',
@@ -102,6 +119,7 @@ export default {
 				id: '',
 			}
 		},
+
 		currentValue() {
 			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
 			if (matchingPredefined) {
@@ -109,11 +127,12 @@ export default {
 			}
 			return {
 				icon: 'icon-settings-dark',
-				label: t('workflowengine', 'Custom mimetype'),
+				label: t('workflowengine', 'Custom MIME type'),
 				id: this.newValue,
 			}
 		},
 	},
+
 	watch: {
 		modelValue() {
 			this.updateInternalValue()
@@ -126,15 +145,18 @@ export default {
 			const result = regexRegex.exec(string)
 			return result !== null
 		},
+
 		updateInternalValue() {
 			this.newValue = this.modelValue
 		},
+
 		setValue(value) {
 			if (value !== null) {
 				this.newValue = value.id
 				this.$emit('update:model-value', this.newValue)
 			}
 		},
+
 		updateCustom(event) {
 			this.newValue = event.target.value || event.detail[0]
 			this.$emit('update:model-value', this.newValue)
@@ -142,6 +164,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .v-select,
 input[type='text'] {

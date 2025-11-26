@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import moment from 'moment'
-
-import History from './util-history.js'
-import OC from './index.js'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
+import moment from 'moment'
+import logger from '../logger.js'
+import OC from './index.js'
+import History from './util-history.js'
 
 /**
  * @param {any} t -
@@ -57,8 +57,6 @@ export default {
 	 *
 	 * @param  {string} string file size in human-readable format
 	 * @return {number} or null if string could not be parsed
-	 *
-	 *
 	 */
 	computerFileSize(string) {
 		if (typeof string !== 'string') {
@@ -105,8 +103,8 @@ export default {
 	 * @return {string} timestamp formatted as requested
 	 */
 	formatDate(timestamp, format) {
-		if (window.TESTING === undefined) {
-			OC.debug && console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+		if (window.TESTING === undefined && OC.debug) {
+			logger.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		}
 		format = format || 'LLL'
 		return moment(timestamp).format(format)
@@ -117,8 +115,8 @@ export default {
 	 * @return {string} human readable difference from now
 	 */
 	relativeModifiedDate(timestamp) {
-		if (window.TESTING === undefined) {
-			OC.debug && console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+		if (window.TESTING === undefined && OC.debug) {
+			logger.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		}
 		const diff = moment().diff(moment(timestamp))
 		if (diff >= 0 && diff < 45000) {
@@ -193,9 +191,10 @@ export default {
 
 		for (x = 0; aa[x] && bb[x]; x++) {
 			if (aa[x] !== bb[x]) {
-				const aNum = Number(aa[x]); const bNum = Number(bb[x])
-				// note: == is correct here
-				/* eslint-disable-next-line */
+				const aNum = Number(aa[x])
+				const bNum = Number(bb[x])
+				// note: == is correct here to include null == undefined
+				// eslint-disable-next-line eqeqeq
 				if (aNum == aa[x] && bNum == bb[x]) {
 					return aNum - bNum
 				} else {

@@ -2,13 +2,12 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
+import WebAuthnSection from './components/WebAuthn/WebAuthnSection.vue'
 
-import WebAuthnSection from './components/WebAuthn/Section.vue'
-
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t

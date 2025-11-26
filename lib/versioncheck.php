@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // Show warning if a PHP version below 8.1 is used,
-if (PHP_VERSION_ID < 80100) {
+if (PHP_VERSION_ID < 80200) {
 	http_response_code(500);
-	echo 'This version of Nextcloud requires at least PHP 8.1<br/>';
+	echo 'This version of Nextcloud requires at least PHP 8.2<br/>';
 	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.';
 	exit(1);
 }

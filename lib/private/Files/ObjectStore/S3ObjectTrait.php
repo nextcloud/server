@@ -82,7 +82,11 @@ trait S3ObjectTrait {
 	private function buildS3Metadata(array $metadata): array {
 		$result = [];
 		foreach ($metadata as $key => $value) {
-			$result['x-amz-meta-' . $key] = $value;
+			if (mb_check_encoding($value, 'ASCII')) {
+				$result['x-amz-meta-' . $key] = $value;
+			} else {
+				$result['x-amz-meta-' . $key] = 'base64:' . base64_encode($value);
+			}
 		}
 		return $result;
 	}
@@ -222,7 +226,19 @@ trait S3ObjectTrait {
 				// buffer is fully seekable, so use it directly for the small upload
 				$this->writeSingle($urn, $buffer, $metaData);
 			} else {
-				$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				if ($psrStream->isSeekable()) {
+					// If the body is seekable, just rewind the body.
+					$psrStream->rewind();
+					$loadStream = $psrStream;
+				} else {
+					// If the body is non-seekable, stitch the rewind the buffer and
+					// the partially read body together into one stream. This avoids
+					// unnecessary disk usage and does not require seeking on the
+					// original stream.
+					$buffer->rewind();
+					$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				}
+
 				$this->writeMultiPart($urn, $loadStream, $metaData);
 			}
 		} else {

@@ -50,4 +50,11 @@ abstract class SharingService {
 	public function getSharesForIds(array $resourceIds): array {
 		return $this->mapper->getSharesForIds($resourceIds, $this->getResourceType());
 	}
+
+	/**
+	 * @param string[] $principals
+	 */
+	public function getSharesByPrincipals(array $principals): array {
+		return $this->mapper->getSharesByPrincipals($principals, $this->getResourceType());
+	}
 }

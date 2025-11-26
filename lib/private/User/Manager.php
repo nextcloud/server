@@ -7,7 +7,6 @@
  */
 namespace OC\User;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
 use OC\Hooks\PublicEmitter;
 use OC\Memcache\WithLocalCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -16,6 +15,7 @@ use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserBackend;
@@ -252,15 +252,6 @@ class Manager extends PublicEmitter implements IUserManager {
 		return false;
 	}
 
-	/**
-	 * Search by user id
-	 *
-	 * @param string $pattern
-	 * @param int $limit
-	 * @param int $offset
-	 * @return IUser[]
-	 * @deprecated 27.0.0, use searchDisplayName instead
-	 */
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -278,14 +269,6 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $users;
 	}
 
-	/**
-	 * Search by displayName
-	 *
-	 * @param string $pattern
-	 * @param int $limit
-	 * @param int $offset
-	 * @return IUser[]
-	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -581,7 +564,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 12.0.0
 	 */
 	public function countDisabledUsers(): int {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
@@ -589,7 +572,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
 
-		$result = $queryBuilder->execute();
+		$result = $queryBuilder->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -609,13 +592,13 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 11.0.0
 	 */
 	public function countSeenUsers() {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
 			->from('preferences')
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('login')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('lastLogin')));
 
-		$query = $queryBuilder->execute();
+		$query = $queryBuilder->executeQuery();
 
 		$result = (int)$query->fetchOne();
 		$query->closeCursor();
@@ -634,7 +617,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * Getting all userIds that have a listLogin value requires checking the
+	 * Getting all userIds that have a lastLogin value requires checking the
 	 * value in php because on oracle you cannot use a clob in a where clause,
 	 * preventing us from doing a not null or length(value) > 0 check.
 	 *
@@ -643,7 +626,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return string[] with user ids
 	 */
 	private function getSeenUserIds($limit = null, $offset = null) {
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select(['userid'])
 			->from('preferences')
 			->where($queryBuilder->expr()->eq(
@@ -661,7 +644,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		if ($offset !== null) {
 			$queryBuilder->setFirstResult($offset);
 		}
-		$query = $queryBuilder->execute();
+		$query = $queryBuilder->executeQuery();
 		$result = [];
 
 		while ($row = $query->fetch()) {
@@ -745,7 +728,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		// We can't load all users who already logged in
 		$limit = min(100, $limit ?: 25);
 
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = Server::get(IDBConnection::class);
 		$queryBuilder = $connection->getQueryBuilder();
 		$queryBuilder->select('pref_login.userid')
 			->from('preferences', 'pref_login')
@@ -756,7 +739,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		;
 
 		// Oracle don't want to run ORDER BY on CLOB column
-		$loginOrder = $connection->getDatabasePlatform() instanceof OraclePlatform
+		$loginOrder = $connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE
 			? $queryBuilder->expr()->castColumn('pref_login.configvalue', IQueryBuilder::PARAM_INT)
 			: 'pref_login.configvalue';
 		$queryBuilder
@@ -813,29 +796,29 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $this->displayNameCache;
 	}
 
-	/**
-	 * Gets the list of users sorted by lastLogin, from most recent to least recent
-	 *
-	 * @param int $offset from which offset to fetch
-	 * @return \Iterator<IUser> list of user IDs
-	 * @since 30.0.0
-	 */
-	public function getSeenUsers(int $offset = 0): \Iterator {
-		$limit = 1000;
+	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator {
+		$maxBatchSize = 1000;
 
 		do {
-			$userIds = $this->getSeenUserIds($limit, $offset);
-			$offset += $limit;
+			if ($limit !== null) {
+				$batchSize = min($limit, $maxBatchSize);
+				$limit -= $batchSize;
+			} else {
+				$batchSize = $maxBatchSize;
+			}
+
+			$userIds = $this->getSeenUserIds($batchSize, $offset);
+			$offset += $batchSize;
 
 			foreach ($userIds as $userId) {
 				foreach ($this->backends as $backend) {
 					if ($backend->userExists($userId)) {
-						$user = $this->getUserObject($userId, $backend, false);
+						$user = new LazyUser($userId, $this, null, $backend);
 						yield $user;
 						break;
 					}
 				}
 			}
-		} while (count($userIds) === $limit);
+		} while (count($userIds) === $batchSize && $limit !== 0);
 	}
 }

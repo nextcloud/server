@@ -4,13 +4,15 @@
 -->
 
 <template>
-	<NcButton type="primary"
+	<NcButton
+		variant="primary"
 		:href="href"
 		alignment="center"
 		:target="target"
 		:disabled="disabled">
 		<template #icon>
-			<img class="icon"
+			<img
+				class="icon"
 				aria-hidden="true"
 				:src="icon"
 				alt="">
@@ -20,8 +22,8 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import { t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default defineComponent({
@@ -36,14 +38,17 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+
 		href: {
 			type: String,
 			required: true,
 		},
+
 		icon: {
 			type: String,
 			required: true,
 		},
+
 		target: {
 			type: String,
 			required: true,

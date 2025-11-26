@@ -7,9 +7,9 @@ import type { RawLocation, Route } from 'vue-router'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import queryString from 'query-string'
-import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import Vue from 'vue'
-import logger from '../services/logger'
+import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
+import logger from '../services/logger.ts'
 
 const view = loadState<string>('files_sharing', 'view')
 const sharingToken = loadState<string>('files_sharing', 'sharingToken')
@@ -35,6 +35,7 @@ Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof or
 
 /**
  * Ignore duplicated-navigation error but forward real exceptions
+ *
  * @param error The thrown error
  */
 function ignoreDuplicateNavigation(error: unknown): void {

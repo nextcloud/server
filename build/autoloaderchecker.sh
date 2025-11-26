@@ -22,8 +22,8 @@ COMPOSER_MAJOR_VERSION=$(echo "$COMPOSER_VERSION" | cut -d"." -f1)
 COMPOSER_MINOR_VERSION=$(echo "$COMPOSER_VERSION" | cut -d"." -f2)
 COMPOSER_PATCH_VERSION=$(echo "$COMPOSER_VERSION" | cut -d"." -f3)
 
-if ! [ "$COMPOSER_MAJOR_VERSION" -gt 2 -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -ge 6 \) -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -eq 5 -a "$COMPOSER_PATCH_VERSION" -ge 5 \) ]; then
-	echo "composer version >= 2.5.5 required. Version found: $COMPOSER_VERSION" >&2
+if ! [ "$COMPOSER_MAJOR_VERSION" -gt 2 -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -ge 9 \) -o \( "$COMPOSER_MAJOR_VERSION" -eq 2 -a "$COMPOSER_MINOR_VERSION" -eq 8 -a "$COMPOSER_PATCH_VERSION" -ge 12 \) ]; then
+	echo "composer version >= 2.8.12 required. Version found: $COMPOSER_VERSION" >&2
 	exit 1
 fi
 

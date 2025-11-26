@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import { getRowForFile } from './FilesUtils.ts'
 
@@ -149,10 +149,13 @@ function showHiddenFiles() {
 	// Open the files settings
 	cy.get('[data-cy-files-navigation-settings-button] a').click({ force: true })
 	// Toggle the hidden files setting
-	cy.get('[data-cy-files-settings-setting="show_hidden"]').within(() => {
-		cy.get('input').should('not.be.checked')
-		cy.get('input').check({ force: true })
-	})
+	cy.findByRole('switch', { name: /show hidden files/i })
+		.as('hiddenFiles')
+		.scrollIntoView()
+	cy.get('@hiddenFiles')
+		.should('not.be.checked')
+		.check({ force: true })
+
 	// Close the dialog
 	cy.get('[data-cy-files-navigation-settings] button[aria-label="Close"]').click()
 }

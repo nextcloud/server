@@ -20,27 +20,23 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
  * Class ManagerTest
  *
- * @group DB
  *
  * @package Test\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
-	/** @var IConfig */
-	private $config;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var ICache */
-	private $cache;
-	/** @var LoggerInterface */
-	private $logger;
+	private IConfig&MockObject $config;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private ICacheFactory&MockObject $cacheFactory;
+	private ICache&MockObject $cache;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -68,7 +64,7 @@ class ManagerTest extends TestCase {
 
 	public function testUserExistsSingleBackendExists(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -98,7 +94,7 @@ class ManagerTest extends TestCase {
 
 	public function testUserExistsSingleBackendNotExists(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -120,7 +116,7 @@ class ManagerTest extends TestCase {
 
 	public function testUserExistsTwoBackendsSecondExists(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend1
+		 * @var \Test\Util\User\Dummy&MockObject $backend1
 		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->once())
@@ -129,7 +125,7 @@ class ManagerTest extends TestCase {
 			->willReturn(false);
 
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend2
+		 * @var \Test\Util\User\Dummy&MockObject $backend2
 		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->once())
@@ -146,7 +142,7 @@ class ManagerTest extends TestCase {
 
 	public function testUserExistsTwoBackendsFirstExists(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend1
+		 * @var \Test\Util\User\Dummy&MockObject $backend1
 		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->once())
@@ -155,7 +151,7 @@ class ManagerTest extends TestCase {
 			->willReturn(true);
 
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend2
+		 * @var \Test\Util\User\Dummy&MockObject $backend2
 		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->never())
@@ -170,7 +166,7 @@ class ManagerTest extends TestCase {
 
 	public function testCheckPassword(): void {
 		/**
-		 * @var \OC\User\Backend | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \OC\User\Backend&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -197,7 +193,7 @@ class ManagerTest extends TestCase {
 
 	public function testCheckPasswordNotSupported(): void {
 		/**
-		 * @var \OC\User\Backend | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \OC\User\Backend&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
@@ -215,7 +211,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetOneBackendExists(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -233,7 +229,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetOneBackendNotExists(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -263,7 +259,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetOneBackendDoNotTranslateLoginNames(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -281,7 +277,7 @@ class ManagerTest extends TestCase {
 
 	public function testSearchOneBackend(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -304,7 +300,7 @@ class ManagerTest extends TestCase {
 
 	public function testSearchTwoBackendLimitOffset(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend1
+		 * @var \Test\Util\User\Dummy&MockObject $backend1
 		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->once())
@@ -315,7 +311,7 @@ class ManagerTest extends TestCase {
 			->method('loginName2UserName');
 
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend2
+		 * @var \Test\Util\User\Dummy&MockObject $backend2
 		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->once())
@@ -370,7 +366,7 @@ class ManagerTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateUserInvalid')]
 	public function testCreateUserInvalid($uid, $password, $exception): void {
-		/** @var \Test\Util\User\Dummy|\PHPUnit\Framework\MockObject\MockObject $backend */
+		/** @var \Test\Util\User\Dummy&MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('implementsActions')
@@ -387,7 +383,7 @@ class ManagerTest extends TestCase {
 
 	public function testCreateUserSingleBackendNotExists(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())
@@ -417,7 +413,7 @@ class ManagerTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())
@@ -440,7 +436,7 @@ class ManagerTest extends TestCase {
 
 	public function testCreateUserSingleBackendNotSupported(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())
@@ -470,9 +466,7 @@ class ManagerTest extends TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Could not create account');
 
-		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
-		$config = $this->createMock(IConfig::class);
-		/** @var \Test\Util\User\Dummy|\PHPUnit\Framework\MockObject\MockObject $backend */
+		/** @var \Test\Util\User\Dummy&MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend
 			->expects($this->once())
@@ -489,7 +483,7 @@ class ManagerTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend1
+		 * @var \Test\Util\User\Dummy&MockObject $backend1
 		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->any())
@@ -505,7 +499,7 @@ class ManagerTest extends TestCase {
 			->willReturn(false);
 
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend2
+		 * @var \Test\Util\User\Dummy&MockObject $backend2
 		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->any())
@@ -537,7 +531,7 @@ class ManagerTest extends TestCase {
 
 	public function testCountUsersOneBackend(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -566,7 +560,7 @@ class ManagerTest extends TestCase {
 
 	public function testCountUsersTwoBackends(): void {
 		/**
-		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
+		 * @var \Test\Util\User\Dummy&MockObject $backend
 		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->once())
@@ -694,10 +688,8 @@ class ManagerTest extends TestCase {
 		$user4->delete();
 	}
 
-	/**
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 */
+	#[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
+	#[\PHPUnit\Framework\Attributes\PreserveGlobalState(enabled: false)]
 	public function testRecentlyActive(): void {
 		$config = Server::get(IConfig::class);
 		$manager = Server::get(IUserManager::class);
@@ -755,6 +747,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeleteUser(): void {
+		/** @var AllConfig&MockObject */
 		$config = $this->getMockBuilder(AllConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -778,6 +771,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetByEmail(): void {
+		/** @var AllConfig&MockObject */
 		$config = $this->getMockBuilder(AllConfig::class)
 			->disableOriginalConstructor()
 			->getMock();

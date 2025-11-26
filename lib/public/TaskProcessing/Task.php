@@ -31,7 +31,23 @@ final class Task implements \JsonSerializable {
 	protected int $lastUpdated;
 
 	protected ?string $webhookUri = null;
+
 	protected ?string $webhookMethod = null;
+
+	/**
+	 * @psalm-var self::STATUS_*
+	 */
+	protected int $status = self::STATUS_UNKNOWN;
+
+	protected ?int $scheduledAt = null;
+
+	protected ?int $startedAt = null;
+
+	protected ?int $endedAt = null;
+
+	protected bool $allowCleanup = true;
+
+	protected ?string $userFacingErrorMessage = null;
 
 	/**
 	 * @since 30.0.0
@@ -58,15 +74,6 @@ final class Task implements \JsonSerializable {
 	 */
 	public const STATUS_UNKNOWN = 0;
 
-	/**
-	 * @psalm-var self::STATUS_*
-	 */
-	protected int $status = self::STATUS_UNKNOWN;
-
-	protected ?int $scheduledAt = null;
-	protected ?int $startedAt = null;
-	protected ?int $endedAt = null;
-	protected bool $allowCleanup = true;
 
 	/**
 	 * @param string $taskTypeId
@@ -388,5 +395,19 @@ final class Task implements \JsonSerializable {
 			self::STATUS_SCHEDULED => 'STATUS_SCHEDULED',
 			default => 'STATUS_UNKNOWN',
 		};
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function setUserFacingErrorMessage(?string $userFacingErrorMessage): void {
+		$this->userFacingErrorMessage = $userFacingErrorMessage;
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function getUserFacingErrorMessage(): ?string {
+		return $this->userFacingErrorMessage;
 	}
 }

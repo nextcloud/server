@@ -4,9 +4,11 @@
 -->
 <template>
 	<div class="daemon-selection-list">
-		<ul v-if="dockerDaemons.length > 0"
+		<ul
+			v-if="dockerDaemons.length > 0"
 			:aria-label="t('settings', 'Registered Deploy daemons list')">
-			<DaemonSelectionEntry v-for="daemon in dockerDaemons"
+			<DaemonSelectionEntry
+				v-for="daemon in dockerDaemons"
 				:key="daemon.id"
 				:daemon="daemon"
 				:is-default="defaultDaemon.name === daemon.name"
@@ -14,7 +16,8 @@
 				:deploy-options="deployOptions"
 				@close="closeModal" />
 		</ul>
-		<NcEmptyContent v-else
+		<NcEmptyContent
+			v-else
 			class="daemon-selection-list__empty-content"
 			:name="t('settings', 'No Deploy daemons configured')"
 			:description="t('settings', 'Register a custom one or setup from available templates')">
@@ -31,11 +34,10 @@
 </template>
 
 <script setup>
-import { computed, defineProps } from 'vue'
 import { generateUrl } from '@nextcloud/router'
-
-import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import { computed, defineProps } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import FormatListBullet from 'vue-material-design-icons/FormatListBulleted.vue'
 import DaemonSelectionEntry from './DaemonSelectionEntry.vue'
 import { useAppApiStore } from '../../store/app-api-store.ts'
@@ -52,13 +54,17 @@ defineProps({
 	},
 })
 
+const emit = defineEmits(['close'])
+
 const appApiStore = useAppApiStore()
 
 const dockerDaemons = computed(() => appApiStore.dockerDaemons)
 const defaultDaemon = computed(() => appApiStore.defaultDaemon)
 const appApiAdminPage = computed(() => generateUrl('/settings/admin/app_api'))
-const emit = defineEmits(['close'])
-const closeModal = () => {
+/**
+ *
+ */
+function closeModal() {
 	emit('close')
 }
 </script>

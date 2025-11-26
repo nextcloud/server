@@ -5,9 +5,9 @@
 import Color from 'color'
 
 type hexColor = `#${string & (
-  `${string}${string}${string}` |
-  `${string}${string}${string}${string}${string}${string}`
-)}`;
+  `${string}${string}${string}`
+  | `${string}${string}${string}${string}${string}${string}`
+)}`
 
 /**
  * Is the current theme dark?
@@ -29,6 +29,7 @@ export function isHighContrastModeEnabled() {
 
 /**
  * Should we invert the text on this background color?
+ *
  * @param color RGB color value as a hex string
  * @return boolean
  */
@@ -38,6 +39,7 @@ export function invertTextColor(color: hexColor): boolean {
 
 /**
  * Is this color too bright?
+ *
  * @param color RGB color value as a hex string
  * @return boolean
  */
@@ -48,6 +50,7 @@ export function isBrightColor(color: hexColor): boolean {
 /**
  * Get color for on-page elements
  * theme color by default, grey if theme color is too bright.
+ *
  * @param color the color to contrast against, e.g. #ffffff
  * @param backgroundColor the background color to contrast against, e.g. #000000
  */
@@ -84,6 +87,7 @@ export function elementColor(
 /**
  * Get color for on-page text:
  * black if background is bright, white if background is dark.
+ *
  * @param color1 the color to contrast against, e.g. #ffffff
  * @param color2 the background color to contrast against, e.g. #000000
  * @param factor the factor to mix the colors between -100 and 100, e.g. 66
@@ -97,6 +101,7 @@ export function mix(color1: hexColor, color2: hexColor, factor: number): hexColo
 
 /**
  * Lighten a color by a factor
+ *
  * @param color the color to lighten, e.g. #000000
  * @param factor the factor to lighten the color by between -100 and 100, e.g. -41
  */
@@ -109,6 +114,7 @@ export function lighten(color: hexColor, factor: number): hexColor {
 
 /**
  * Darken a color by a factor
+ *
  * @param color the color to darken, e.g. #ffffff
  * @param factor the factor to darken the color by between -100 and 100, e.g. 32
  */
@@ -121,6 +127,7 @@ export function darken(color: hexColor, factor: number): hexColor {
 
 /**
  * Calculate the luminance of a color
+ *
  * @param color the color to calculate the luminance of, e.g. #ffffff
  */
 export function calculateLuminance(color: hexColor): number {
@@ -129,6 +136,7 @@ export function calculateLuminance(color: hexColor): number {
 
 /**
  * Calculate the luma of a color
+ *
  * @param color the color to calculate the luma of, e.g. #ffffff
  */
 export function calculateLuma(color: hexColor): number {
@@ -144,6 +152,7 @@ export function calculateLuma(color: hexColor): number {
 
 /**
  * Calculate the contrast between two colors
+ *
  * @param color1 the first color to calculate the contrast of, e.g. #ffffff
  * @param color2 the second color to calculate the contrast of, e.g. #000000
  */
@@ -155,6 +164,7 @@ export function colorContrast(color1: hexColor, color2: hexColor): number {
 
 /**
  * Convert hex color to RGB
+ *
  * @param color RGB color value as a hex string
  */
 export function hexToRGB(color: hexColor): [number, number, number] {
@@ -163,26 +173,29 @@ export function hexToRGB(color: hexColor): [number, number, number] {
 
 /**
  * Convert RGB color to hex
+ *
  * @param color RGB color value as a hex string
  */
-export function hexToHSL(color: hexColor): { h: number; s: number; l: number } {
+export function hexToHSL(color: hexColor): { h: number, s: number, l: number } {
 	const hsl = new Color(color).hsl()
 	return { h: hsl.color[0], s: hsl.color[1], l: hsl.color[2] }
 }
 
 /**
  * Convert HSL color to hex
+ *
  * @param hsl HSL color value as an object
  * @param hsl.h hue
  * @param hsl.s saturation
  * @param hsl.l lightness
  */
-export function hslToHex(hsl: { h: number; s: number; l: number }): hexColor {
+export function hslToHex(hsl: { h: number, s: number, l: number }): hexColor {
 	return new Color(hsl).hex()
 }
 
 /**
  * Convert RGB color to hex
+ *
  * @param r red
  * @param g green
  * @param b blue

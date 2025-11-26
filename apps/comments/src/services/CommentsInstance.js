@@ -4,14 +4,14 @@
  */
 
 import { getCSPNonce } from '@nextcloud/auth'
-import { t, n } from '@nextcloud/l10n'
-import { PiniaVuePlugin, createPinia } from 'pinia'
+import { n, t } from '@nextcloud/l10n'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 import CommentsApp from '../views/Comments.vue'
 import logger from '../logger.js'
 
 Vue.use(PiniaVuePlugin)
-// eslint-disable-next-line camelcase
+
 __webpack_nonce__ = getCSPNonce()
 
 // Add translates functions
@@ -28,7 +28,6 @@ Vue.mixin({
 })
 
 export default class CommentInstance {
-
 	/**
 	 * Initialize a new Comments instance for the desired type
 	 *
@@ -51,5 +50,4 @@ export default class CommentInstance {
 		const View = Vue.extend(CommentsApp)
 		return new View(options)
 	}
-
 }

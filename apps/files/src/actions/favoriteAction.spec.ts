@@ -2,14 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { action } from './favoriteAction'
+import type { View } from '@nextcloud/files'
+
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import * as favoriteAction from './favoriteAction'
-import logger from '../logger'
+import { File, FileAction, Permission } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import logger from '../logger.ts'
+import { action } from './favoriteAction.ts'
+import * as favoriteAction from './favoriteAction.ts'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
@@ -30,7 +32,7 @@ beforeAll(() => {
 		...window.OC,
 		TAG_FAVORITE: '_$!<Favorite>!$_',
 	};
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 	(window as any)._oc_webroot = ''
 })
 
@@ -132,7 +134,9 @@ describe('Favorite action enabled tests', () => {
 })
 
 describe('Favorite action execute tests', () => {
-	beforeEach(() => { vi.resetAllMocks() })
+	beforeEach(() => {
+		vi.resetAllMocks()
+	})
 
 	test('Favorite triggers tag addition', async () => {
 		vi.spyOn(axios, 'post')
@@ -247,7 +251,9 @@ describe('Favorite action execute tests', () => {
 
 	test('Favorite fails and show error', async () => {
 		const error = new Error('Mock error')
-		vi.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(axios, 'post').mockImplementation(() => {
+			throw new Error('Mock error')
+		})
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
@@ -277,7 +283,9 @@ describe('Favorite action execute tests', () => {
 
 	test('Removing from favorites fails and show error', async () => {
 		const error = new Error('Mock error')
-		vi.spyOn(axios, 'post').mockImplementation(() => { throw error })
+		vi.spyOn(axios, 'post').mockImplementation(() => {
+			throw error
+		})
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
@@ -307,7 +315,9 @@ describe('Favorite action execute tests', () => {
 })
 
 describe('Favorite action batch execute tests', () => {
-	beforeEach(() => { vi.restoreAllMocks() })
+	beforeEach(() => {
+		vi.restoreAllMocks()
+	})
 
 	test('Favorite action batch execute with mixed files', async () => {
 		vi.spyOn(favoriteAction, 'favoriteNode')
@@ -337,7 +347,7 @@ describe('Favorite action batch execute tests', () => {
 		// Mixed states triggers favorite action
 		const exec = await action.execBatch!([file1, file2], view, '/')
 		expect(exec).toStrictEqual([true, true])
-		expect([file1, file2].every(file => file.attributes.favorite === 1)).toBe(true)
+		expect([file1, file2].every((file) => file.attributes.favorite === 1)).toBe(true)
 
 		expect(axios.post).toBeCalledTimes(2)
 		expect(axios.post).toHaveBeenNthCalledWith(1, '/index.php/apps/files/api/v1/files/foo.txt', { tags: ['_$!<Favorite>!$_'] })
@@ -372,7 +382,7 @@ describe('Favorite action batch execute tests', () => {
 		// Mixed states triggers favorite action
 		const exec = await action.execBatch!([file1, file2], view, '/')
 		expect(exec).toStrictEqual([true, true])
-		expect([file1, file2].every(file => file.attributes.favorite === 0)).toBe(true)
+		expect([file1, file2].every((file) => file.attributes.favorite === 0)).toBe(true)
 
 		expect(axios.post).toBeCalledTimes(2)
 		expect(axios.post).toHaveBeenNthCalledWith(1, '/index.php/apps/files/api/v1/files/foo.txt', { tags: [] })

@@ -14,7 +14,7 @@ use OCP\IConfig;
 use OCP\IUser;
 
 /**
- * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, ...}}
+ * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, objectPrefix?: string, ...}}
  */
 class PrimaryObjectStoreConfig {
 	public function __construct(
@@ -115,16 +115,18 @@ class PrimaryObjectStoreConfig {
 		// new-style multibucket config uses the same 'objectstore' key but sets `'multibucket' => true`, transparently upgrade older style config
 		if ($objectStoreMultiBucket) {
 			$objectStoreMultiBucket['arguments']['multibucket'] = true;
-			return [
+			$configs = [
 				'default' => 'server1',
 				'server1' => $this->validateObjectStoreConfig($objectStoreMultiBucket),
 				'root' => 'server1',
+				'preview' => 'server1',
 			];
 		} elseif ($objectStore) {
 			if (!isset($objectStore['default'])) {
 				$objectStore = [
 					'default' => 'server1',
 					'root' => 'server1',
+					'preview' => 'server1',
 					'server1' => $objectStore,
 				];
 			}
@@ -132,17 +134,34 @@ class PrimaryObjectStoreConfig {
 				$objectStore['root'] = 'default';
 			}
 
+			if (!isset($objectStore['preview'])) {
+				$objectStore['preview'] = 'default';
+			}
+
 			if (!is_string($objectStore['default'])) {
 				throw new InvalidObjectStoreConfigurationException('The \'default\' object storage configuration is required to be a reference to another configuration.');
 			}
-			return array_map($this->validateObjectStoreConfig(...), $objectStore);
+			$configs = array_map($this->validateObjectStoreConfig(...), $objectStore);
 		} else {
 			return null;
 		}
+
+		$usedBuckets = [];
+		foreach ($configs as $config) {
+			if (is_array($config)) {
+				$bucket = $config['arguments']['bucket'] ?? '';
+				if (in_array($bucket, $usedBuckets)) {
+					throw new InvalidObjectStoreConfigurationException('Each object store configuration must use distinct bucket names');
+				}
+				$usedBuckets[] = $bucket;
+			}
+		}
+
+		return $configs;
 	}
 
 	/**
-	 * @param array|string $config
+	 * @param array{multibucket?: bool, objectPrefix?: string, ...}|string $config
 	 * @return string|ObjectStoreConfig
 	 */
 	private function validateObjectStoreConfig(array|string $config): array|string {
@@ -196,7 +215,7 @@ class PrimaryObjectStoreConfig {
 			if (!isset($config['arguments']['bucket'])) {
 				$config['arguments']['bucket'] = '';
 			}
-			$mapper = new Mapper($user, $this->config);
+			$mapper = new Mapper($user, $config);
 			$numBuckets = $config['arguments']['num_buckets'] ?? 64;
 			$bucket = $config['arguments']['bucket'] . $mapper->getBucket($numBuckets);
 

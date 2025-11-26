@@ -10,7 +10,9 @@ namespace Test;
 
 use DOMDocument;
 use DOMNode;
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Command\QueueBus;
+use OC\Files\AppData\Factory;
 use OC\Files\Cache\Storage;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Filesystem;
@@ -20,7 +22,9 @@ use OC\Files\Mount\RootMountProvider;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
 use OC\Files\View;
+use OC\Installer;
 use OC\Template\Base;
+use OC\Updater;
 use OCP\AppFramework\QueryException;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -34,6 +38,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 if (version_compare(\PHPUnit\Runner\Version::id(), 10, '>=')) {
 	trait OnNotSuccessfulTestTrait {
@@ -336,6 +341,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
 
+		// Ensure we start with fresh instances of some classes to reduce side-effects between tests
+		unset(\OC::$server[Factory::class]);
+		unset(\OC::$server[AppFetcher::class]);
+		unset(\OC::$server[Installer::class]);
+		unset(\OC::$server[Updater::class]);
+
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);
 		$setupManager->tearDown();
@@ -363,7 +374,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function tearDownAfterClassCleanShares(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('share')
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -373,7 +384,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function tearDownAfterClassCleanStorages(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('storages')
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -384,7 +395,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected static function tearDownAfterClassCleanFileCache(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('filecache')
 			->runAcrossAllShards()
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -545,11 +556,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		$r = new \ReflectionClass($this);
 		$doc = $r->getDocComment();
+
+		if (class_exists(Group::class)) {
+			$attributes = array_map(function (\ReflectionAttribute $attribute) {
+				/** @var Group $group */
+				$group = $attribute->newInstance();
+				return $group->name();
+			}, $r->getAttributes(Group::class));
+			if (count($attributes) > 0) {
+				return $attributes;
+			}
+		}
 		preg_match_all('#@group\s+(.*?)\n#s', $doc, $annotations);
 		return $annotations[1] ?? [];
 	}
 
-	protected function IsDatabaseAccessAllowed() {
+	protected function IsDatabaseAccessAllowed(): bool {
 		$annotations = $this->getGroupAnnotations();
 		if (isset($annotations)) {
 			if (in_array('DB', $annotations) || in_array('SLOWDB', $annotations)) {

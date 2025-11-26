@@ -33,7 +33,6 @@
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "无法解密此文件，可能这是一个共享文件。请通知文件所有者与你重新共享该文件。",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "无法读取此文件，可能这是一个共享文件。请通知文件所有者与你重新共享该文件。",
     "Default encryption module" : "默认加密模块",
-    "Default encryption module for server-side encryption" : "服务端加密的默认加密模块",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "加密应用已启用，但您的密钥未初始化，请登出并再次登录",
     "Encrypt the home storage" : "加密主目录储存",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "启用此选项将加密存储在主存储上的所有文件，否则只会加密外部存储上的文件",
@@ -56,6 +55,7 @@
     "Enable password recovery:" : "启用密码恢复：",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "启用该项将允许您在密码丢失后取回您的加密文件",
     "Enabled" : "启用",
-    "Disabled" : "禁用"
+    "Disabled" : "禁用",
+    "Default encryption module for server-side encryption" : "服务端加密的默认加密模块"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

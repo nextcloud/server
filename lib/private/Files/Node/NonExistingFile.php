@@ -122,7 +122,7 @@ class NonExistingFile extends File {
 		throw new NotFoundException();
 	}
 
-	public function getMimeType() {
+	public function getMimeType(): string {
 		if ($this->fileInfo) {
 			return parent::getMimeType();
 		} else {

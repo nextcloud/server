@@ -11,6 +11,7 @@ namespace Test\Avatar;
 
 use OC\Avatar\GuestAvatar;
 use OCP\Files\SimpleFS\InMemoryFile;
+use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -28,14 +29,12 @@ class GuestAvatarTest extends TestCase {
 
 	/**
 	 * Setups a guest avatar instance for tests.
-	 *
-	 * @before
-	 * @return void
 	 */
-	public function setupGuestAvatar() {
+	#[\PHPUnit\Framework\Attributes\Before()]
+	public function setupGuestAvatar(): void {
 		/* @var MockObject|LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$config = $this->createMock(\OCP\IConfig::class);
+		$config = $this->createMock(IConfig::class);
 		$this->guestAvatar = new GuestAvatar('einstein', $config, $logger);
 	}
 

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from "@nextcloud/cypress"
-import { createShare } from "./FilesSharingUtils"
-import { createLinkShare, openLinkShareDetails } from "./PublicShareUtils"
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { createLinkShare, openLinkShareDetails } from './PublicShareUtils.ts'
 
 describe('files_sharing: sidebar tab', () => {
 	let alice: User

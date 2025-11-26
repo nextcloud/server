@@ -13,23 +13,22 @@
 			{{ t('systemtags', 'If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files.') }}
 		</p>
 
-		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="systemTagsCreationRestrictedToAdmin"
-			@update:checked="updateSystemTagsDefault">
+		<NcCheckboxRadioSwitch
+			v-model="systemTagsCreationRestrictedToAdmin"
+			type="switch"
+			@update:modelValue="updateSystemTagsDefault">
 			{{ t('systemtags', 'Restrict tag creation and editing to administrators') }}
 		</NcCheckboxRadioSwitch>
 	</div>
 </template>
 
 <script lang="ts">
-import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-
-import { updateSystemTagsAdminRestriction } from '../services/api.js'
-import logger from '../logger.ts'
-
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import logger from '../logger.ts'
+import { updateSystemTagsAdminRestriction } from '../services/api.js'
 
 export default {
 	name: 'SystemTagsCreationControl',
@@ -50,11 +49,12 @@ export default {
 			systemTagsCreationRestrictedToAdmin: loadState('systemtags', 'restrictSystemTagsCreationToAdmin', false),
 		}
 	},
+
 	methods: {
 		async updateSystemTagsDefault(isRestricted: boolean) {
 			try {
 				const responseData = await updateSystemTagsAdminRestriction(isRestricted)
-				console.debug('updateSystemTagsDefault', responseData)
+				logger.debug('updateSystemTagsDefault', responseData)
 				this.handleResponse({
 					isRestricted,
 					status: responseData.ocs?.meta?.status,
@@ -72,8 +72,7 @@ export default {
 				this.systemTagsCreationRestrictedToAdmin = isRestricted
 				showSuccess(isRestricted
 					? t('systemtags', 'System tag creation is now restricted to administrators')
-					: t('systemtags', 'System tag creation is now allowed for everybody'),
-				)
+					: t('systemtags', 'System tag creation is now allowed for everybody'))
 				return
 			}
 

@@ -52,7 +52,7 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Lõikelaud pole saadaval. Palun kopeeri kasutajatunnus liitpilves käsitsi.",
     "Copied!" : "Kopeeritud!",
     "Federated Cloud" : "Liitpilv",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Saad jagada kõigiga, kes kasutavad Nextcloudi serverit või muid Open Cloud Meshi (OCM) ühilduvaid servereid ja teenuseid! Lihtsalt sisesta nende kasutajatunnus liitpilves jagamise vaates. See näeb välja nagu isiksus@pilv.toreserver.com",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Saad jagada kõigiga, kes kasutavad {productName}i serverit või muid Open Cloud Meshi (OCM) ühilduvaid servereid ja teenuseid! Lihtsalt sisesta jagamise vaates nende kasutajatunnus liitpilves. See näeb välja nagu kasutajanimi@pilv.toreserver.com",
     "Your Federated Cloud ID" : "Sinu kasutajatunnus liitpilves",
     "Share it so your friends can share files with you:" : "Jaga seda, et su sõbrad saaksid sinuga faile jagada:",
     "Facebook" : "Facebook",
@@ -61,6 +61,7 @@ OC.L10N.register(
     "Mastodon" : "Mastodon",
     "Bluesky" : "Bluesky",
     "Add to your website" : "Lisa oma veebisaidile",
+    "Share with me via {productName}" : "Jaga minuga {productName}i vahendusel",
     "HTML Code:" : "HTML kood:",
     "Cancel" : "Tühista",
     "Add remote share" : "Lisa kaugjagamine",
@@ -69,6 +70,7 @@ OC.L10N.register(
     "Remote share password" : "Kaugjagamise salasõna",
     "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda",
     "Cloud ID copied to the clipboard" : "Kasutajatunnus liitpilves on kopeeritud lõikelauale",
-    "Copy to clipboard" : "Kopeeri lõikelauale"
+    "Copy to clipboard" : "Kopeeri lõikelauale",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Saad jagada kõigiga, kes kasutavad Nextcloudi serverit või muid Open Cloud Meshi (OCM) ühilduvaid servereid ja teenuseid! Lihtsalt sisesta nende kasutajatunnus liitpilves jagamise vaates. See näeb välja nagu isiksus@pilv.toreserver.com"
 },
 "nplurals=2; plural=(n != 1);");

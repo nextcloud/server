@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, renameFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
@@ -87,7 +88,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			/\/remote.php\/dav\/files\//,
 			(request) => {
 				// we need to wait in the onResponse handler as the intercept handler times out otherwise
-				request.on('response', async () => { await promise })
+				request.on('response', async () => {
+					await promise
+				})
 			},
 		).as('moveFile')
 

@@ -17,7 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Ta bort kommentar",
     "Cancel edit" : "Avbryt redigering",
     "New comment" : "Ny kommentar",
-    "Write a comment …" : "Skriv en kommentar ...",
+    "Write a comment …" : "Skriv en kommentar …",
     "Post comment" : "Publicera kommentar",
     "@ for mentions, : for emoji, / for smart picker" : "@ för omnämnanden, : för emoji, / för smart picker",
     "Could not reload comments" : "Kunde inte ladda om kommentarer",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Ett fel uppstod vid redigering av kommentaren",
     "Comment deleted" : "Kommentar borttagen",
     "An error occurred while trying to delete the comment" : "Ett fel uppstod vid borttagning av kommentaren",
-    "An error occurred while trying to create the comment" : "Ett fel uppstod vid skapande av kommentaren"
+    "An error occurred while trying to create the comment" : "Ett fel uppstod vid skapande av kommentaren",
+    "Write a comment …" : "Skriv en kommentar ..."
 },
 "nplurals=2; plural=(n != 1);");

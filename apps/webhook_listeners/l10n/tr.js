@@ -2,6 +2,8 @@ OC.L10N.register(
     "webhook_listeners",
     {
     "Webhooks" : "İnternet kancaları",
+    "Nextcloud Webhook Support" : "Nextcloud internet kancası desteği",
+    "Send notifications to external services whenever something important happens, like when files are changed or updated." : "Dosyaların değiştirilmesi veya güncellenmesi gibi önemli bir şey olduğunda dış hizmetlere bildirim gönderin.",
     "Nextcloud webhook support" : "Nextcloud internet kancası desteği"
 },
 "nplurals=2; plural=(n > 1);");

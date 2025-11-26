@@ -5,12 +5,16 @@
 import type { ContentsWithRoot } from '@nextcloud/files'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { Folder, Permission, davRemoteURL, davRootPath, getFavoriteNodes } from '@nextcloud/files'
+import { davRemoteURL, davRootPath, Folder, getFavoriteNodes, Permission } from '@nextcloud/files'
 import { CancelablePromise } from 'cancelable-promise'
 import { getContents as filesContents } from './Files.ts'
 import { client } from './WebdavClient.ts'
 
-export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
+/**
+ *
+ * @param path
+ */
+export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
 	// We only filter root files for favorites, for subfolders we can simply reuse the files contents
 	if (path !== '/') {
 		return filesContents(path)

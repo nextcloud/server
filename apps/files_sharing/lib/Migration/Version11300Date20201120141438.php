@@ -88,7 +88,7 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 		} else {
 			$table = $schema->getTable('share_external');
 			$remoteIdColumn = $table->getColumn('remote_id');
-			if ($remoteIdColumn && $remoteIdColumn->getType()->getName() !== Types::STRING) {
+			if ($remoteIdColumn && Type::lookupName($remoteIdColumn->getType()) !== Types::STRING) {
 				$remoteIdColumn->setNotnull(false);
 				$remoteIdColumn->setType(Type::getType(Types::STRING));
 				$remoteIdColumn->setOptions(['length' => 255]);
@@ -114,11 +114,11 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 		return $schema;
 	}
 
-	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('share_external')
 			->set('remote_id', $qb->createNamedParameter(''))
 			->where($qb->expr()->eq('remote_id', $qb->createNamedParameter('-1')));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 }

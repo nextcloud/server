@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { describe, expect, test } from 'vitest'
-
 import {
+	addPermissions,
 	ATOMIC_PERMISSIONS,
 	BUNDLED_PERMISSIONS,
-	addPermissions,
-	subtractPermissions,
+	canTogglePermissions,
 	hasPermissions,
 	permissionsSetIsValid,
+	subtractPermissions,
 	togglePermissions,
-	canTogglePermissions,
 } from '../lib/SharePermissionsToolBox.js'
 
 describe('SharePermissionsToolBox', () => {

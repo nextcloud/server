@@ -54,14 +54,16 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 		$colorError = '#552121';
 		$colorErrorText = '#FFCCCC';
-		$colorErrorElement = '#ff6c69';
+		$colorErrorElement = '#FF5050';
 		$colorWarning = '#3D3010';
 		$colorWarningText = '#FFEEC5';
+		$colorWarningElement = '#FFCC00';
 		$colorSuccess = '#11321A';
 		$colorSuccessText = '#D5F2DC';
-		$colorSuccessElement = '#3B973B';
+		$colorSuccessElement = '#40A330';
 		$colorInfo = '#003553';
 		$colorInfoText = '#00AEFF';
+		$colorInfoElement = '#0099E0';
 
 		return array_merge(
 			$defaultVariables,
@@ -82,9 +84,23 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-text-maxcontrast' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 6),
-				'--color-text-error' => $colorErrorElement,
-				'--color-text-light' => 'var(--color-main-text)', // deprecated
-				'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
+				'--color-text-error' => $this->util->lighten($colorErrorElement, 6),
+				'--color-text-success' => $this->util->lighten($colorSuccessElement, 6),
+
+				'--color-border' => $this->util->lighten($colorMainBackground, 7),
+				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
+
+				// Assistant colors (see default theme)
+				'--color-background-assistant' => '#221D2B',
+				'--color-border-assistant' => 'linear-gradient(125deg, #0C3A65 50%, #6204A5 125%)',
+				'--color-element-assistant' => 'linear-gradient(214deg, #C8A3E8 12%, #007CFF 39%, #C297DD 86%)',
+				'--color-element-assistant-icon' => 'linear-gradient(214deg, #CDACE7 15.28%, #008FDB 39.98%, #A180E0 82.05%)',
+
+				'--color-element-error' => $colorErrorElement,
+				'--color-element-info' => $colorInfoElement,
+				'--color-element-success' => $colorSuccessElement,
+				'--color-element-warning' => $colorWarningElement,
 
 				'--color-error' => $colorError,
 				'--color-error-hover' => $this->util->lighten($colorError, 10),
@@ -111,12 +127,6 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-box-shadow' => $colorBoxShadow,
 				'--color-box-shadow-rgb' => $colorBoxShadowRGB,
-
-				'--color-border' => $this->util->lighten($colorMainBackground, 7),
-				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
-				'--color-border-error' => $colorErrorElement,
-				'--color-border-success' => $colorSuccessElement,
 
 				'--background-invert-if-dark' => 'invert(100%)',
 				'--background-invert-if-bright' => 'no',

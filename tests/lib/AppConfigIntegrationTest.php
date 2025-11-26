@@ -23,10 +23,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
- * @group DB
- *
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppConfigIntegrationTest extends TestCase {
 	protected IAppConfig $appConfig;
 	protected IDBConnection $connection;
@@ -116,7 +115,7 @@ class AppConfigIntegrationTest extends TestCase {
 		$sql->select('*')
 			->from('appconfig');
 		$result = $sql->executeQuery();
-		$this->originalConfig = $result->fetchAll();
+		$this->originalConfig = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$sql = $this->connection->getQueryBuilder();

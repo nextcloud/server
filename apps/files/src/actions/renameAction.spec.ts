@@ -2,12 +2,15 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './renameAction'
-import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
+
+import type { View } from '@nextcloud/files'
+
 import * as eventBus from '@nextcloud/event-bus'
-import { describe, expect, test, vi, beforeEach } from 'vitest'
-import { useFilesStore } from '../store/files'
+import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { useFilesStore } from '../store/files.ts'
 import { getPinia } from '../store/index.ts'
+import { action } from './renameAction.ts'
 
 const view = {
 	id: 'files',
@@ -59,6 +62,7 @@ describe('Rename action enabled tests', () => {
 	})
 
 	test('Disabled if more than one node', () => {
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: {} } }
 
 		const file1 = new File({

@@ -10,6 +10,7 @@
     "Deleted" : "Izdzēsts",
     "Unknown" : "Nezināms",
     "All files" : "Visas datnes",
+    "You" : "Tu",
     "No deleted files" : "Nav izdzēstu datņu",
     "Files and folders you have deleted will show up here" : "Datnes un mapes, ko izdzēsi, parādīsies šeit"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"

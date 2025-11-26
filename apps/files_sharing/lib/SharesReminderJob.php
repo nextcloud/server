@@ -132,11 +132,11 @@ class SharesReminderJob extends TimedJob {
 			)
 			->setMaxResults(SharesReminderJob::CHUNK_SIZE);
 
-		$shares = $qb->executeQuery()->fetchAll();
-		return array_values(array_map(fn ($share): array => [
+		$shares = $qb->executeQuery()->fetchAllAssociative();
+		return array_map(fn ($share): array => [
 			'id' => (int)$share['id'],
 			'share_type' => (int)$share['share_type'],
-		], $shares));
+		], $shares);
 	}
 
 	/**
@@ -171,12 +171,12 @@ class SharesReminderJob extends TimedJob {
 				)
 			);
 
-		$shares = $qb->executeQuery()->fetchAll();
-		$shares = array_values(array_map(fn ($share): array => [
+		$shares = $qb->executeQuery()->fetchAllAssociative();
+		$shares = array_map(fn ($share): array => [
 			'id' => (int)$share['id'],
 			'share_type' => (int)$share['share_type'],
 			'file_source' => (int)$share['file_source'],
-		], $shares));
+		], $shares);
 		return $this->filterSharesWithEmptyFolders($shares, self::CHUNK_SIZE);
 	}
 
@@ -198,7 +198,7 @@ class SharesReminderJob extends TimedJob {
 			$chunkFileIds = array_map(fn ($share): int => $share['file_source'], $chunk);
 			$chunkByFileId = array_combine($chunkFileIds, $chunk);
 			$query->setParameter('fileids', $chunkFileIds, IQueryBuilder::PARAM_INT_ARRAY);
-			$chunkResults = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$chunkResults = $query->executeQuery()->fetchFirstColumn();
 			foreach ($chunkResults as $folderId) {
 				$results[] = $chunkByFileId[$folderId];
 			}

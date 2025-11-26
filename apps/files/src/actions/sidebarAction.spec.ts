@@ -2,11 +2,13 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction, Folder } from '@nextcloud/files'
-import { describe, expect, test, vi } from 'vitest'
 
-import { action } from './sidebarAction'
-import logger from '../logger'
+import type { View } from '@nextcloud/files'
+
+import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import logger from '../logger.ts'
+import { action } from './sidebarAction.ts'
 
 const view = {
 	id: 'files',
@@ -26,6 +28,7 @@ describe('Open sidebar action conditions tests', () => {
 
 describe('Open sidebar action enabled tests', () => {
 	test('Enabled for ressources within user root folder', () => {
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: {} } }
 
 		const file = new File({
@@ -41,6 +44,7 @@ describe('Open sidebar action enabled tests', () => {
 	})
 
 	test('Disabled without permissions', () => {
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: {} } }
 
 		const file = new File({
@@ -53,10 +57,10 @@ describe('Open sidebar action enabled tests', () => {
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(false)
-
 	})
 
 	test('Disabled if more than one node', () => {
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: {} } }
 
 		const file1 = new File({
@@ -77,6 +81,7 @@ describe('Open sidebar action enabled tests', () => {
 	})
 
 	test('Disabled if no Sidebar', () => {
+		// @ts-expect-error mocking for tests
 		window.OCA = {}
 
 		const file = new File({
@@ -91,6 +96,7 @@ describe('Open sidebar action enabled tests', () => {
 	})
 
 	test('Disabled for non-dav ressources', () => {
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: {} } }
 
 		const file = new File({
@@ -109,10 +115,10 @@ describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
 		const openMock = vi.fn()
 		const defaultTabMock = vi.fn()
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
 
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -138,10 +144,10 @@ describe('Open sidebar action exec tests', () => {
 	test('Open sidebar for folder', async () => {
 		const openMock = vi.fn()
 		const defaultTabMock = vi.fn()
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
 
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new Folder({
@@ -165,8 +171,11 @@ describe('Open sidebar action exec tests', () => {
 	})
 
 	test('Open sidebar fails', async () => {
-		const openMock = vi.fn(() => { throw new Error('Mock error') })
+		const openMock = vi.fn(() => {
+			throw new Error('Mock error')
+		})
 		const defaultTabMock = vi.fn()
+		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 

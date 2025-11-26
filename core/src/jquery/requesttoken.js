@@ -4,7 +4,6 @@
  */
 
 import $ from 'jquery'
-
 import { getRequestToken } from '../OC/requesttoken.ts'
 
 $(document).on('ajaxSend', function(elm, xhr, settings) {

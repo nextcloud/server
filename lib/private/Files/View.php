@@ -11,6 +11,7 @@ use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
+use OC\Files\Utils\PathHelper;
 use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
@@ -55,6 +56,8 @@ use Psr\Log\LoggerInterface;
  *
  * Filesystem functions are not called directly; they are passed to the correct
  * \OC\Files\Storage\Storage object
+ *
+ * @internal Since 33.0.0. use IRootFolder and the Folder/File/Node API instead in new code.
  */
 class View {
 	private string $fakeRoot = '';
@@ -90,13 +93,7 @@ class View {
 			return null;
 		}
 		$this->assertPathLength($path);
-		if ($path === '') {
-			$path = '/';
-		}
-		if ($path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		return $this->fakeRoot . $path;
+		return PathHelper::normalizePath($this->fakeRoot . '/' . $path);
 	}
 
 	/**

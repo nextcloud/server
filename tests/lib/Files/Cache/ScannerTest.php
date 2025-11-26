@@ -22,10 +22,10 @@ use Test\TestCase;
 /**
  * Class ScannerTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ScannerTest extends TestCase {
 	private Storage $storage;
 	private Scanner $scanner;
@@ -343,7 +343,7 @@ class ScannerTest extends TestCase {
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($oldFolderId)));
-		$query->execute();
+		$query->executeStatement();
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);
@@ -369,7 +369,7 @@ class ScannerTest extends TestCase {
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($oldFolderId)));
-		$query->execute();
+		$query->executeStatement();
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);

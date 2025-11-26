@@ -7,14 +7,13 @@ import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { ServerTag, Tag, TagWithId } from '../types.js'
 
 import axios from '@nextcloud/axios'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
-import { t } from '@nextcloud/l10n'
-
-import { davClient } from './davClient.js'
-import { formatTag, parseIdFromLocation, parseTags } from '../utils'
-import logger from '../logger.ts'
 import { emit } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+import logger from '../logger.ts'
+import { formatTag, parseIdFromLocation, parseTags } from '../utils.ts'
+import { davClient } from './davClient.js'
 
 export const fetchTagsPayload = `<?xml version="1.0"?>
 <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
@@ -29,7 +28,10 @@ export const fetchTagsPayload = `<?xml version="1.0"?>
 	</d:prop>
 </d:propfind>`
 
-export const fetchTags = async (): Promise<TagWithId[]> => {
+/**
+ *
+ */
+export async function fetchTags(): Promise<TagWithId[]> {
 	const path = '/systemtags'
 	try {
 		const { data: tags } = await davClient.getDirectoryContents(path, {
@@ -44,7 +46,11 @@ export const fetchTags = async (): Promise<TagWithId[]> => {
 	}
 }
 
-export const fetchTag = async (tagId: number): Promise<TagWithId> => {
+/**
+ *
+ * @param tagId
+ */
+export async function fetchTag(tagId: number): Promise<TagWithId> {
 	const path = '/systemtags/' + tagId
 	try {
 		const { data: tag } = await davClient.stat(path, {
@@ -58,7 +64,10 @@ export const fetchTag = async (tagId: number): Promise<TagWithId> => {
 	}
 }
 
-export const fetchLastUsedTagIds = async (): Promise<number[]> => {
+/**
+ *
+ */
+export async function fetchLastUsedTagIds(): Promise<number[]> {
 	const url = generateUrl('/apps/systemtags/lastused')
 	try {
 		const { data: lastUsedTagIds } = await axios.get<string[]>(url)
@@ -74,7 +83,7 @@ export const fetchLastUsedTagIds = async (): Promise<number[]> => {
  *
  * @param tag The tag to create
  */
-export const createTag = async (tag: Tag | ServerTag): Promise<number> => {
+export async function createTag(tag: Tag | ServerTag): Promise<number> {
 	const path = '/systemtags'
 	const tagToPost = formatTag(tag)
 	try {
@@ -99,7 +108,11 @@ export const createTag = async (tag: Tag | ServerTag): Promise<number> => {
 	}
 }
 
-export const updateTag = async (tag: TagWithId): Promise<void> => {
+/**
+ *
+ * @param tag
+ */
+export async function updateTag(tag: TagWithId): Promise<void> {
 	const path = '/systemtags/' + tag.id
 	const data = `<?xml version="1.0"?>
 	<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
@@ -125,7 +138,11 @@ export const updateTag = async (tag: TagWithId): Promise<void> => {
 	}
 }
 
-export const deleteTag = async (tag: TagWithId): Promise<void> => {
+/**
+ *
+ * @param tag
+ */
+export async function deleteTag(tag: TagWithId): Promise<void> {
 	const path = '/systemtags/' + tag.id
 	try {
 		await davClient.deleteFile(path)
@@ -137,16 +154,21 @@ export const deleteTag = async (tag: TagWithId): Promise<void> => {
 }
 
 type TagObject = {
-	id: number,
-	type: string,
+	id: number
+	type: string
 }
 
 type TagObjectResponse = {
-	etag: string,
-	objects: TagObject[],
+	etag: string
+	objects: TagObject[]
 }
 
-export const getTagObjects = async function(tag: TagWithId, type: string): Promise<TagObjectResponse> {
+/**
+ *
+ * @param tag
+ * @param type
+ */
+export async function getTagObjects(tag: TagWithId, type: string): Promise<TagObjectResponse> {
 	const path = `/systemtags/${tag.id}/${type}`
 	const data = `<?xml version="1.0"?>
 	<d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
@@ -169,12 +191,13 @@ export const getTagObjects = async function(tag: TagWithId, type: string): Promi
 /**
  * Set the objects for a tag.
  * Warning: This will overwrite the existing objects.
+ *
  * @param tag The tag to set the objects for
  * @param type The type of the objects
  * @param objectIds The objects to set
  * @param etag Strongly recommended to avoid conflict and data loss.
  */
-export const setTagObjects = async function(tag: TagWithId, type: string, objectIds: TagObject[], etag: string = ''): Promise<void> {
+export async function setTagObjects(tag: TagWithId, type: string, objectIds: TagObject[], etag: string = ''): Promise<void> {
 	const path = `/systemtags/${tag.id}/${type}`
 	let data = `<?xml version="1.0"?>
 	<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
@@ -206,10 +229,14 @@ export const setTagObjects = async function(tag: TagWithId, type: string, object
 }
 
 type OcsResponse = {
-	ocs: NonNullable<unknown>,
+	ocs: NonNullable<unknown>
 }
 
-export const updateSystemTagsAdminRestriction = async (isAllowed: boolean): Promise<OcsResponse> => {
+/**
+ *
+ * @param isAllowed
+ */
+export async function updateSystemTagsAdminRestriction(isAllowed: boolean): Promise<OcsResponse> {
 	// Convert to string for compatibility
 	const isAllowedString = isAllowed ? '1' : '0'
 

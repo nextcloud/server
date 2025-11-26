@@ -2,12 +2,14 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+
+import type { View } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as nextcloudDialogs from '@nextcloud/dialogs'
-import { action } from './openLocallyAction'
+import { File, FileAction, Permission } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { action } from './openLocallyAction.ts'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
@@ -19,9 +21,8 @@ const view = {
 
 // Mock web root variable
 beforeAll(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = '';
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 	(window as any).OCA = { Viewer: { open: vi.fn() } }
 })
 

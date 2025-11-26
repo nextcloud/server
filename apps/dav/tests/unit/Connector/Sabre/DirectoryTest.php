@@ -55,9 +55,7 @@ class TestViewDirectory extends View {
 }
 
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
 

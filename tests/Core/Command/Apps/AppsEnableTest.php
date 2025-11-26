@@ -18,9 +18,8 @@ use Test\TestCase;
 
 /**
  * Class AppsEnableTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppsEnableTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;

@@ -6,20 +6,23 @@
 	<main id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
-			<li v-for="status in sortedRegisteredStatus"
+			<li
+				v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
 				<div :ref="'status-' + status" />
 			</li>
 		</ul>
 
-		<Draggable v-model="layout"
+		<Draggable
+			v-model="layout"
 			class="panels"
-			v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+			v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 			handle=".panel--header"
 			@end="saveLayout">
 			<template v-for="panelId in layout">
-				<div v-if="isApiWidgetV2(panels[panelId].id)"
+				<div
+					v-if="isApiWidgetV2(panels[panelId].id)"
 					:key="`${panels[panelId].id}-v2`"
 					class="panel">
 					<div class="panel--header">
@@ -30,7 +33,8 @@
 						</h2>
 					</div>
 					<div class="panel--content">
-						<ApiDashboardWidget :widget="apiWidgets[panels[panelId].id]"
+						<ApiDashboardWidget
+							:widget="apiWidgets[panels[panelId].id]"
 							:data="apiWidgetItems[panels[panelId].id]"
 							:loading="loadingItems" />
 					</div>
@@ -63,7 +67,8 @@
 				<h2>{{ t('dashboard', 'Edit widgets') }}</h2>
 				<ol class="panels">
 					<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
-						<input :id="'status-checkbox-' + status"
+						<input
+							:id="'status-checkbox-' + status"
 							type="checkbox"
 							class="checkbox"
 							:checked="isStatusActive(status)"
@@ -75,14 +80,16 @@
 						</label>
 					</li>
 				</ol>
-				<Draggable v-model="layout"
+				<Draggable
+					v-model="layout"
 					class="panels"
 					tag="ol"
-					v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+					v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 					handle=".draggable"
 					@end="saveLayout">
 					<li v-for="panel in sortedPanels" :key="panel.id" :class="'panel-' + panel.id">
-						<input :id="'panel-checkbox-' + panel.id"
+						<input
+							:id="'panel-checkbox-' + panel.id"
 							type="checkbox"
 							class="checkbox"
 							:checked="isActive(panel)"
@@ -100,7 +107,7 @@
 				<div v-if="statuses.weather && isStatusActive('weather')">
 					<h2>{{ t('dashboard', 'Weather service') }}</h2>
 					<p>
-						{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
+						{{ t('dashboard', 'For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information.', { productName }) }}
 					</p>
 					<p class="credits--end">
 						<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>,
@@ -114,19 +121,19 @@
 </template>
 
 <script>
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import NcButton from '@nextcloud/vue/components/NcButton'
+import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+import Vue from 'vue'
 import Draggable from 'vuedraggable'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
-import Vue from 'vue'
-
-import isMobile from './mixins/isMobile.js'
 import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
+import { logger } from './logger.ts'
+import isMobile from './mixins/isMobile.js'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
@@ -152,9 +159,16 @@ export default {
 		Pencil,
 		NcUserStatusIcon,
 	},
+
 	mixins: [
 		isMobile,
 	],
+
+	setup() {
+		return {
+			productName: window.OC.theme.productName,
+		}
+	},
 
 	data() {
 		return {
@@ -181,6 +195,7 @@ export default {
 			birthdate,
 		}
 	},
+
 	computed: {
 		greeting() {
 			const time = this.timer.getHours()
@@ -208,19 +223,23 @@ export default {
 					generic: t('dashboard', 'Good morning'),
 					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
+
 				afternoon: {
 					generic: t('dashboard', 'Good afternoon'),
 					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
+
 				evening: {
 					generic: t('dashboard', 'Good evening'),
 					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
+
 				night: {
 					// Don't use "Good night" as it's not a greeting
 					generic: t('dashboard', 'Hello'),
 					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
+
 				birthday: {
 					generic: t('dashboard', 'Happy birthday 🥳🤩🎂🎉'),
 					withName: t('dashboard', 'Happy birthday, {name} 🥳🤩🎂🎉', { name: this.displayName }, undefined, { escape: false }),
@@ -235,6 +254,7 @@ export default {
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
 		},
+
 		isStatusActive() {
 			return (status) => this.enabledStatuses.findIndex((s) => s === status) !== -1
 		},
@@ -242,6 +262,7 @@ export default {
 		sortedAllStatuses() {
 			return Object.keys(this.allCallbacksStatus).slice().sort(this.sortStatuses)
 		},
+
 		sortedPanels() {
 			return Object.values(this.panels).sort((a, b) => {
 				const indexA = this.layout.indexOf(a.id)
@@ -252,6 +273,7 @@ export default {
 				return indexA - indexB || a.id - b.id
 			})
 		},
+
 		sortedRegisteredStatus() {
 			return this.registeredStatus.slice().sort(this.sortStatuses)
 		},
@@ -261,6 +283,7 @@ export default {
 		callbacks() {
 			this.rerenderPanels()
 		},
+
 		callbacksStatus() {
 			for (const app in this.callbacksStatus) {
 				const element = this.$refs['status-' + app]
@@ -271,7 +294,7 @@ export default {
 					this.callbacksStatus[app](element[0])
 					Vue.set(this.statuses, app, { mounted: true })
 				} else {
-					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
+					logger.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
 				}
 			}
 		},
@@ -282,9 +305,9 @@ export default {
 
 		const apiWidgetIdsToFetch = Object
 			.values(this.apiWidgets)
-			.filter(widget => this.isApiWidgetV2(widget.id) && this.layout.includes(widget.id))
-			.map(widget => widget.id)
-		await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))
+			.filter((widget) => this.isApiWidgetV2(widget.id) && this.layout.includes(widget.id))
+			.map((widget) => widget.id)
+		await Promise.all(apiWidgetIdsToFetch.map((id) => this.fetchApiWidgetItems([id], true)))
 
 		for (const widget of Object.values(this.apiWidgets)) {
 			if (widget.reload_interval > 0) {
@@ -298,6 +321,7 @@ export default {
 			}
 		}
 	},
+
 	mounted() {
 		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
@@ -310,6 +334,7 @@ export default {
 			window.addEventListener('scroll', this.disableFirstrunHint)
 		}
 	},
+
 	destroyed() {
 		window.removeEventListener('scroll', this.handleScroll)
 	},
@@ -324,6 +349,7 @@ export default {
 		register(app, callback) {
 			Vue.set(this.callbacks, app, callback)
 		},
+
 		registerStatus(app, callback) {
 			// always save callbacks in case user enables the status later
 			Vue.set(this.allCallbacksStatus, app, callback)
@@ -335,6 +361,7 @@ export default {
 				})
 			}
 		},
+
 		rerenderPanels() {
 			for (const app in this.callbacks) {
 				// TODO: Properly rerender v2 widgets
@@ -355,27 +382,32 @@ export default {
 					})
 					Vue.set(this.panels[app], 'mounted', true)
 				} else {
-					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
+					logger.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
 				}
 			}
 		},
+
 		saveLayout() {
 			axios.post(generateOcsUrl('/apps/dashboard/api/v3/layout'), {
 				layout: this.layout,
 			})
 		},
+
 		saveStatuses() {
 			axios.post(generateOcsUrl('/apps/dashboard/api/v3/statuses'), {
 				statuses: this.enabledStatuses,
 			})
 		},
+
 		showModal() {
 			this.modal = true
 			this.firstRun = false
 		},
+
 		closeModal() {
 			this.modal = false
 		},
+
 		updateCheckbox(panel, currentValue) {
 			const index = this.layout.indexOf(panel.id)
 			if (!currentValue && index > -1) {
@@ -390,16 +422,19 @@ export default {
 			this.saveLayout()
 			this.$nextTick(() => this.rerenderPanels())
 		},
+
 		disableFirstrunHint() {
 			window.removeEventListener('scroll', this.disableFirstrunHint)
 			setTimeout(() => {
 				this.firstRun = false
 			}, 1000)
 		},
+
 		updateSkipLink() {
 			// Make sure "Skip to main content" link points to the app content
 			document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')
 		},
+
 		updateStatusCheckbox(app, checked) {
 			if (checked) {
 				this.enableStatus(app)
@@ -407,11 +442,13 @@ export default {
 				this.disableStatus(app)
 			}
 		},
+
 		enableStatus(app) {
 			this.enabledStatuses.push(app)
 			this.registerStatus(app, this.allCallbacksStatus[app])
 			this.saveStatuses()
 		},
+
 		disableStatus(app) {
 			const i = this.enabledStatuses.findIndex((s) => s === app)
 			if (i !== -1) {
@@ -427,6 +464,7 @@ export default {
 			}
 			this.saveStatuses()
 		},
+
 		sortStatuses(a, b) {
 			const al = a.toLowerCase()
 			const bl = b.toLowerCase()
@@ -436,6 +474,7 @@ export default {
 					? -1
 					: 0
 		},
+
 		handleScroll() {
 			if (window.scrollY > 70) {
 				document.body.classList.add('dashboard--scrolled')
@@ -443,18 +482,20 @@ export default {
 				document.body.classList.remove('dashboard--scrolled')
 			}
 		},
+
 		async fetchApiWidgets() {
 			const { data } = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))
 			this.apiWidgets = data.ocs.data
 		},
+
 		async fetchApiWidgetItems(widgetIds, merge = false) {
 			try {
 				const url = generateOcsUrl('/apps/dashboard/api/v2/widget-items')
-				const params = new URLSearchParams(widgetIds.map(id => ['widgets[]', id]))
+				const params = new URLSearchParams(widgetIds.map((id) => ['widgets[]', id]))
 				const response = await axios.get(`${url}?${params.toString()}`)
 				const widgetItems = response.data.ocs.data
 				if (merge) {
-					this.apiWidgetItems = Object.assign({}, this.apiWidgetItems, widgetItems)
+					this.apiWidgetItems = { ...this.apiWidgetItems, ...widgetItems }
 				} else {
 					this.apiWidgetItems = widgetItems
 				}
@@ -462,6 +503,7 @@ export default {
 				this.loadingItems = false
 			}
 		},
+
 		isApiWidgetV2(id) {
 			for (const widget of Object.values(this.apiWidgets)) {
 				if (widget.id === id && widget.item_api_versions.includes(2)) {
@@ -746,6 +788,7 @@ export default {
 	}
 }
 </style>
+
 <style>
 html, body {
 	background-attachment: fixed;

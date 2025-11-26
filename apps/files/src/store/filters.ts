@@ -2,15 +2,18 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { FilterUpdateChipsEvent, IFileListFilter, IFileListFilterChip } from '@nextcloud/files'
+
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { getFileListFilters } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import logger from '../logger'
+import logger from '../logger.ts'
 
 /**
  * Check if the given value is an instance file list filter with mount function
+ *
  * @param value The filter to check
  */
 function isFileListFilterWithUi(value: IFileListFilter): value is Required<IFileListFilter> {
@@ -24,23 +27,17 @@ export const useFiltersStore = defineStore('filters', () => {
 	/**
 	 * Currently active filter chips
 	 */
-	const activeChips = computed<IFileListFilterChip[]>(
-		() => Object.values(chips.value).flat(),
-	)
+	const activeChips = computed<IFileListFilterChip[]>(() => Object.values(chips.value).flat())
 
 	/**
 	 * Filters sorted by order
 	 */
-	const sortedFilters = computed<IFileListFilter[]>(
-		() => filters.value.sort((a, b) => a.order - b.order),
-	)
+	const sortedFilters = computed<IFileListFilter[]>(() => filters.value.sort((a, b) => a.order - b.order))
 
 	/**
 	 * All filters that provide a UI for visual controlling the filter state
 	 */
-	const filtersWithUI = computed<Required<IFileListFilter>[]>(
-		() => sortedFilters.value.filter(isFileListFilterWithUi),
-	)
+	const filtersWithUI = computed<Required<IFileListFilter>[]>(() => sortedFilters.value.filter(isFileListFilterWithUi))
 
 	/**
 	 * Register a new filter on the store.
@@ -59,6 +56,7 @@ export const useFiltersStore = defineStore('filters', () => {
 	/**
 	 * Unregister a filter from the store.
 	 * This will remove the filter from the store and unsubscribe the store from the filer events.
+	 *
 	 * @param filterId Id of the filter to remove
 	 */
 	function removeFilter(filterId: string) {
@@ -73,7 +71,7 @@ export const useFiltersStore = defineStore('filters', () => {
 
 	/**
 	 * Event handler for filter update events
-	 * @private
+	 *
 	 */
 	function onFilterUpdate() {
 		emit('files:filters:changed')
@@ -81,8 +79,8 @@ export const useFiltersStore = defineStore('filters', () => {
 
 	/**
 	 * Event handler for filter chips updates
+	 *
 	 * @param event The update event
-	 * @private
 	 */
 	function onFilterUpdateChips(event: FilterUpdateChipsEvent) {
 		const id = (event.target as IFileListFilter).id
@@ -96,7 +94,7 @@ export const useFiltersStore = defineStore('filters', () => {
 
 	/**
 	 * Event handler that resets all filters if the file list view was changed.
-	 * @private
+	 *
 	 */
 	function onViewChanged() {
 		logger.debug('Reset all file list filters - view changed')

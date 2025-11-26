@@ -12,7 +12,8 @@
 				</h3>
 
 				<div v-for="field in fields" :key="field.index">
-					<component :is="getFieldComponent(field.type)"
+					<component
+						:is="getFieldComponent(field.type)"
 						v-if="fieldHasLabel(field)"
 						:field="field"
 						@input="trackInput" />
@@ -21,9 +22,10 @@
 		</div>
 
 		<div class="template-field-modal__buttons">
-			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields …')" />
-			<NcButton aria-label="Submit button"
-				type="primary"
+			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields …')" />
+			<NcButton
+				aria-label="Submit button"
+				variant="primary"
 				@click="submit">
 				{{ t('files', 'Submit') }}
 			</NcButton>
@@ -32,13 +34,13 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import { t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcModal from '@nextcloud/vue/components/NcModal'
-import TemplateRichTextField from './TemplateFiller/TemplateRichTextField.vue'
 import TemplateCheckboxField from './TemplateFiller/TemplateCheckboxField.vue'
+import TemplateRichTextField from './TemplateFiller/TemplateRichTextField.vue'
 
 export default defineComponent({
 	name: 'TemplateFiller',
@@ -56,6 +58,7 @@ export default defineComponent({
 			type: Array,
 			default: () => [],
 		},
+
 		onSubmit: {
 			type: Function,
 			default: async () => {},
@@ -78,6 +81,7 @@ export default defineComponent({
 
 			this.localFields[index][property] = value
 		},
+
 		getFieldComponent(fieldType) {
 			const fieldComponentType = fieldType.split('-')
 				.map((str) => {
@@ -87,9 +91,11 @@ export default defineComponent({
 
 			return `Template${fieldComponentType}Field`
 		},
+
 		fieldHasLabel(field) {
 			return field.name || field.alias
 		},
+
 		async submit() {
 			this.loading = true
 

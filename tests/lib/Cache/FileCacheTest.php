@@ -24,10 +24,10 @@ use Test\Traits\UserTrait;
 /**
  * Class FileCacheTest
  *
- * @group DB
  *
  * @package Test\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileCacheTest extends TestCache {
 	use UserTrait;
 
@@ -150,7 +150,8 @@ class FileCacheTest extends TestCache {
 			->method('filemtime')
 			->willReturn(100);
 		$mockStorage->expects($this->atLeastOnce())
-			->method('unlink')->willReturnOnConsecutiveCalls($this->throwException($testException), $this->returnValue(true));
+			->method('unlink')
+			->willReturnOnConsecutiveCalls($this->throwException($testException), true);
 
 		$this->instance->set('key1', 'value1');
 		$this->instance->set('key2', 'value2');

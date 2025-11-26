@@ -6,7 +6,6 @@
 import $ from 'jquery'
 
 import './avatar.js'
-import './contactsmenu.js'
 import './exists.js'
 import './filterattr.js'
 import './ocdialog.js'
@@ -16,7 +15,6 @@ import './requesttoken.js'
 import './selectrange.js'
 import './showpassword.js'
 import './ui-fixes.js'
-
 import './css/jquery-ui-fixes.scss'
 import './css/jquery.ocdialog.scss'
 

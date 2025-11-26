@@ -101,7 +101,6 @@
     "Enter missing credentials" : "Introdueix les credencials que falten",
     "Credentials successfully set" : "S'han establert correctament les credencials",
     "Error while setting credentials: {error}" : "Error en parametritzar les credencials: {error}",
-    "Checking storage …" : "S'està comprovant l'emmagatzematge …",
     "There was an error with this external storage." : "S'ha produït un error amb aquest emmagatzematge extern.",
     "We were unable to check the external storage {basename}" : "No s'ha pogut comprovar l'emmagatzematge extern {basename}",
     "Examine this faulty external storage configuration" : "Examina la configuració d'aquest emmagatzematge extern amb errors",
@@ -131,11 +130,10 @@
     "Unknown backend: {backendName}" : "Backend desconegut: {backendName}",
     "Admin defined" : "S'ha definit l'administrador",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprovació automàtica de l'estat està inhabilitada a causa del gran nombre d'emmagatzematges configurats; feu clic per a comprovar l'estat",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Segur que voleu desconnectar aquest emmagatzematge extern? Això farà que l'emmagatzematge no estigui disponible en el Nextcloud i provocarà la supressió d'aquests fitxers i carpetes en qualsevol client que s'hi sincronitzi, però no se suprimirà cap fitxer ni carpeta en l'emmagatzematge extern en si.",
     "Delete storage?" : "Voleu suprimir l'emmagatzematge?",
     "Click to recheck the configuration" : "Feu clic per a tornar a comprovar la configuració",
     "Saved" : "S'ha desat",
-    "Saving …" : "S'està desant…",
+    "Saving …" : "S'està desant…",
     "Save" : "Desa",
     "Failed to save global credentials" : "No s'han pogut desar les credencials globals",
     "Failed to save global credentials: {message}" : "No s'han pogut desar les credencials globals: {message}",
@@ -155,6 +153,9 @@
     "Please provide a valid app key and secret." : "Proporcioneu una clau d'aplicació i un secret vàlids.",
     "OAuth1" : "OAuth1",
     "App key" : "Clau d'aplicació",
-    "App secret" : "Secret d'aplicació"
+    "App secret" : "Secret d'aplicació",
+    "Checking storage …" : "S'està comprovant l'emmagatzematge …",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Segur que voleu desconnectar aquest emmagatzematge extern? Això farà que l'emmagatzematge no estigui disponible en el Nextcloud i provocarà la supressió d'aquests fitxers i carpetes en qualsevol client que s'hi sincronitzi, però no se suprimirà cap fitxer ni carpeta en l'emmagatzematge extern en si.",
+    "Saving …" : "S'està desant…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

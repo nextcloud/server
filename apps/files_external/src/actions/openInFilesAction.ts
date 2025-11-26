@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { Node } from '@nextcloud/files'
-import type { StorageConfig } from '../services/externalStorage'
+import type { StorageConfig } from '../services/externalStorage.ts'
 
-import { generateUrl } from '@nextcloud/router'
-import { translate as t } from '@nextcloud/l10n'
-
-import { FileAction, DefaultType } from '@nextcloud/files'
-import { STORAGE_STATUS } from '../utils/credentialsUtils'
 import { getCurrentUser } from '@nextcloud/auth'
+import { DefaultType, FileAction } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
 
 export const action = new FileAction({
 	id: 'open-in-files-external-storage',

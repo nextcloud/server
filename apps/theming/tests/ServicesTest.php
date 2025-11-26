@@ -24,9 +24,9 @@ use Test\TestCase;
 /**
  * Class ServicesTest
  *
- * @group DB
  * @package OCA\Theming\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ServicesTest extends TestCase {
 	protected App $app;
 

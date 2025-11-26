@@ -7,16 +7,19 @@
 	<div class="field">
 		<label :for="id">{{ displayName }}</label>
 		<div class="field__row">
-			<NcColorPicker :value.sync="localValue"
+			<NcColorPicker
+				v-model="localValue"
 				:advanced-fields="true"
 				@update:value="debounceSave">
-				<NcButton :id="id"
+				<NcButton
+					:id="id"
 					class="field__button"
-					type="primary"
+					variant="primary"
 					:aria-label="t('theming', 'Select a custom color')"
 					data-admin-theming-setting-color-picker>
 					<template #icon>
-						<NcLoadingIcon v-if="loading"
+						<NcLoadingIcon
+							v-if="loading"
 							:appearance="calculatedTextColor === '#ffffff' ? 'light' : 'dark'"
 							:size="20" />
 						<Palette v-else :size="20" />
@@ -25,8 +28,9 @@
 				</NcButton>
 			</NcColorPicker>
 			<div class="field__color-preview" data-admin-theming-setting-color />
-			<NcButton v-if="value !== defaultValue"
-				type="tertiary"
+			<NcButton
+				v-if="value !== defaultValue"
+				variant="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
 				data-admin-theming-setting-color-reset
 				@click="undo">
@@ -39,7 +43,8 @@
 			{{ description }}
 		</div>
 
-		<NcNoteCard v-if="errorMessage"
+		<NcNoteCard
+			v-if="errorMessage"
 			type="error"
 			:show-alert="true">
 			<p>{{ errorMessage }}</p>
@@ -50,14 +55,12 @@
 <script>
 import { colord } from 'colord'
 import debounce from 'debounce'
-
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import Undo from 'vue-material-design-icons/UndoVariant.vue'
 import Palette from 'vue-material-design-icons/Palette.vue'
-
+import Undo from 'vue-material-design-icons/UndoVariant.vue'
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 
 export default {
@@ -81,22 +84,27 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		description: {
 			type: String,
 			default: '',
 		},
+
 		value: {
 			type: String,
 			required: true,
 		},
+
 		textColor: {
 			type: String,
 			default: null,
 		},
+
 		defaultValue: {
 			type: String,
 			required: true,
 		},
+
 		displayName: {
 			type: String,
 			required: true,
@@ -116,6 +124,7 @@ export default {
 			const color = colord(this.value)
 			return color.isLight() ? '#000000' : '#ffffff'
 		},
+
 		usedTextColor() {
 			if (this.textColor) {
 				return this.textColor

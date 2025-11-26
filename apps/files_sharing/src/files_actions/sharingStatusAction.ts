@@ -2,23 +2,29 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getCurrentUser } from '@nextcloud/auth'
-import { Node, View, registerFileAction, FileAction, Permission } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import { ShareType } from '@nextcloud/sharing'
-import { isPublicShare } from '@nextcloud/sharing/public'
+
+import type { Node, View } from '@nextcloud/files'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { FileAction, Permission, registerFileAction } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
-
-import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
-import { generateAvatarSvg } from '../utils/AccountIcon'
+import { action as sidebarAction } from '../../../files/src/actions/sidebarAction.ts'
+import { generateAvatarSvg } from '../utils/AccountIcon.ts'
 
 import './sharingStatusAction.scss'
 
-const isExternal = (node: Node) => {
+/**
+ *
+ * @param node
+ */
+function isExternal(node: Node) {
 	return node.attributes?.['is-federated'] ?? false
 }
 
@@ -58,12 +64,12 @@ export const action = new FileAction({
 
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
 		switch (sharee.type) {
-		case ShareType.User:
-			return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
-		case ShareType.Group:
-			return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
-		default:
-			return t('files_sharing', 'Shared with others')
+			case ShareType.User:
+				return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
+			case ShareType.Group:
+				return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
+			default:
+				return t('files_sharing', 'Shared with others')
 		}
 	},
 
@@ -125,15 +131,23 @@ export const action = new FileAction({
 			return true
 		}
 
+		// You need share permissions to share this file
+		// and read permissions to see the sidebar
 		return (node.permissions & Permission.SHARE) !== 0
+			&& (node.permissions & Permission.READ) !== 0
 	},
 
 	async exec(node: Node, view: View, dir: string) {
 		// You need read permissions to see the sidebar
 		if ((node.permissions & Permission.READ) !== 0) {
 			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
-			return sidebarAction.exec(node, view, dir)
+			sidebarAction.exec(node, view, dir)
+			return null
 		}
+
+		// Should not happen as the enabled check should prevent this
+		// leaving it here for safety or in case someone calls this action directly
+		showError(t('files_sharing', 'You do not have enough permissions to share this file.'))
 		return null
 	},
 

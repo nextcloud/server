@@ -9,7 +9,7 @@ declare(strict_types=1);
  */
 namespace OC\SystemTag;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
@@ -17,7 +17,9 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\MapperEvent;
+use OCP\SystemTag\TagAssignedEvent;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\SystemTag\TagUnassignedEvent;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public const RELATION_TABLE = 'systemtag_object_mapping';
@@ -149,9 +151,12 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		foreach ($tagIds as $tagId) {
 			try {
 				$query->setParameter('tagid', $tagId);
-				$query->execute();
+				$query->executeStatement();
 				$tagsAssigned[] = $tagId;
-			} catch (UniqueConstraintViolationException $e) {
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
 				// ignore existing relations
 			}
 		}
@@ -169,6 +174,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$objId,
 			$tagsAssigned
 		));
+		$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, [$objId], $tagsAssigned));
 	}
 
 	/**
@@ -199,6 +205,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$objId,
 			$tagIds
 		));
+		$this->dispatcher->dispatchTyped(new TagUnassignedEvent($objectType, [$objId], $tagIds));
 	}
 
 	/**
@@ -213,7 +220,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$query->update('systemtag')
 			->set('etag', $query->createNamedParameter($md5))
 			->where($query->expr()->in('id', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -304,6 +311,9 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				[(int)$tagId]
 			));
 		}
+		if (!empty($removedObjectIds)) {
+			$this->dispatcher->dispatchTyped(new TagUnassignedEvent($objectType, array_map(fn ($objectId) => (string)$objectId, $removedObjectIds), [(int)$tagId]));
+		}
 
 		if (empty($objectIds)) {
 			return;
@@ -334,6 +344,9 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				(string)$objectId,
 				[(int)$tagId]
 			));
+		}
+		if (!empty($addedObjectIds)) {
+			$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, array_map(fn ($objectId) => (string)$objectId, $addedObjectIds), [(int)$tagId]));
 		}
 
 		// Dispatch unassign events for removed object ids

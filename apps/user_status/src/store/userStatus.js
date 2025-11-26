@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {
-	fetchCurrentStatus,
-	setStatus,
-	setPredefinedMessage,
-	setCustomMessage,
-	clearMessage,
-} from '../services/statusService.js'
-import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getTimestampForClearAt } from '../services/clearAtService.js'
 import { emit } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+import { getTimestampForClearAt } from '../services/clearAtService.js'
+import {
+	clearMessage,
+	fetchCurrentStatus,
+	setCustomMessage,
+	setPredefinedMessage,
+	setStatus,
+} from '../services/statusService.js'
 
 const state = {
 	// Status (online / away / dnd / invisible / offline)
@@ -170,7 +170,7 @@ const actions = {
 	 * @param {string} status The new status
 	 * @return {Promise<void>}
 	 */
-	async setStatusFromObject({ commit, state }, status) {
+	async setStatusFromObject({ commit }, status) {
 		commit('loadStatusFromServer', status)
 	},
 

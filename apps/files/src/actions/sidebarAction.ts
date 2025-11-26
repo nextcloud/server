@@ -4,12 +4,10 @@
  */
 import type { Node, View } from '@nextcloud/files'
 
-import { Permission, FileAction } from '@nextcloud/files'
+import InformationSvg from '@mdi/svg/svg/information-outline.svg?raw'
+import { FileAction, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
-
-import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
-
 import logger from '../logger.ts'
 
 export const ACTION_DETAILS = 'details'
@@ -45,15 +43,15 @@ export const action = new FileAction({
 	async exec(node: Node, view: View, dir: string) {
 		try {
 			// If the sidebar is already open for the current file, do nothing
-			if (window.OCA.Files.Sidebar.file === node.path) {
+			if (window.OCA.Files?.Sidebar?.file === node.path) {
 				logger.debug('Sidebar already open for this file', { node })
 				return null
 			}
 			// Open sidebar and set active tab to sharing by default
-			window.OCA.Files.Sidebar.setActiveTab('sharing')
+			window.OCA.Files?.Sidebar?.setActiveTab('sharing')
 
 			// TODO: migrate Sidebar to use a Node instead
-			await window.OCA.Files.Sidebar.open(node.path)
+			await window.OCA.Files?.Sidebar?.open(node.path)
 
 			// Silently update current fileid
 			window.OCP?.Files?.Router?.goToRoute(

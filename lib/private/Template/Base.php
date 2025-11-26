@@ -1,39 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Template;
 
 use OCP\Defaults;
+use OCP\IL10N;
 
 class Base {
-	private $template; // The template
 	private array $vars = [];
 
-	/** @var \OCP\IL10N */
-	private $l10n;
-
-	/** @var Defaults */
-	private $theme;
-
-	/**
-	 * @param string $template
-	 * @param string $requestToken
-	 * @param \OCP\IL10N $l10n
-	 * @param string $cspNonce
-	 * @param Defaults $theme
-	 */
-	public function __construct($template, $requestToken, $l10n, $theme, $cspNonce) {
+	public function __construct(
+		private string $template,
+		string $requestToken,
+		private IL10N $l10n,
+		private Defaults $theme,
+		string $cspNonce,
+	) {
 		$this->vars = [
 			'cspNonce' => $cspNonce,
 			'requesttoken' => $requestToken,
 		];
-		$this->l10n = $l10n;
-		$this->template = $template;
-		$this->theme = $theme;
 	}
 
 	/**

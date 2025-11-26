@@ -50,11 +50,14 @@ use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
+use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
@@ -79,15 +82,21 @@ class Manager implements IManager {
 		'ai.taskprocessing_provider_preferences',
 	];
 
-	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 30 * 4; // 4 months
+	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 31 * 6; // 6 months
+
+	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
+	private const TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
 
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
 
 	/**
-	 * @var array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
+	 * @var array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, isInternal: bool, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 */
 	private ?array $availableTaskTypes = null;
+
+	/** @var list<string>|null */
+	private ?array $availableTaskTypeIds = null;
 
 	private IAppData $appData;
 	private ?array $preferences = null;
@@ -116,6 +125,7 @@ class Manager implements IManager {
 		private IUserManager $userManager,
 		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
+		private IFactory $l10nFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
@@ -202,7 +212,7 @@ class Manager implements IManager {
 					try {
 						return ['output' => $this->provider->process($input['input'])];
 					} catch (\RuntimeException $e) {
-						throw new ProcessingException($e->getMessage(), 0, $e);
+						throw new ProcessingException($e->getMessage(), previous: $e);
 					}
 				}
 
@@ -353,7 +363,7 @@ class Manager implements IManager {
 					try {
 						$this->provider->generate($input['input'], $resources);
 					} catch (\RuntimeException $e) {
-						throw new ProcessingException($e->getMessage(), 0, $e);
+						throw new ProcessingException($e->getMessage(), previous: $e);
 					}
 					for ($i = 0; $i < $input['numberOfImages']; $i++) {
 						if (is_resource($resources[$i])) {
@@ -471,7 +481,7 @@ class Manager implements IManager {
 					try {
 						$result = $this->provider->transcribeFile($input['input']);
 					} catch (\RuntimeException $e) {
-						throw new ProcessingException($e->getMessage(), 0, $e);
+						throw new ProcessingException($e->getMessage(), previous: $e);
 					}
 					return ['output' => $result];
 				}
@@ -829,12 +839,15 @@ class Manager implements IManager {
 	}
 
 	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array {
+		// We cache by language, because some task type fields are translated
+		$cacheKey = self::TASK_TYPES_CACHE_KEY . ':' . $this->l10nFactory->findLanguage();
+
 		// userId will be obtained from the session if left to null
 		if (!$this->checkGuestAccess($userId)) {
 			return [];
 		}
 		if ($this->availableTaskTypes === null) {
-			$cachedValue = $this->distributedCache->get('available_task_types_v2');
+			$cachedValue = $this->distributedCache->get($cacheKey);
 			if ($cachedValue !== null) {
 				$this->availableTaskTypes = unserialize($cachedValue);
 			}
@@ -868,6 +881,7 @@ class Manager implements IManager {
 						'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
 						'optionalOutputShape' => $provider->getOptionalOutputShape(),
 						'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
+						'isInternal' => $taskType instanceof IInternalTaskType,
 					];
 				} catch (\Throwable $e) {
 					$this->logger->error('Failed to set up TaskProcessing provider ' . $provider::class, ['exception' => $e]);
@@ -880,11 +894,52 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
-			$this->distributedCache->set('available_task_types_v2', serialize($this->availableTaskTypes), 60);
+			$this->distributedCache->set($cacheKey, serialize($this->availableTaskTypes), 60);
 		}
 
 
 		return $this->availableTaskTypes;
+	}
+	public function getAvailableTaskTypeIds(bool $showDisabled = false, ?string $userId = null): array {
+		// userId will be obtained from the session if left to null
+		if (!$this->checkGuestAccess($userId)) {
+			return [];
+		}
+		if ($this->availableTaskTypeIds === null) {
+			$cachedValue = $this->distributedCache->get(self::TASK_TYPE_IDS_CACHE_KEY);
+			if ($cachedValue !== null) {
+				$this->availableTaskTypeIds = $cachedValue;
+			}
+		}
+		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
+		if ($this->availableTaskTypeIds === null || $showDisabled) {
+			$taskTypes = $this->_getTaskTypes();
+			$taskTypeSettings = $this->_getTaskTypeSettings();
+
+			$availableTaskTypeIds = [];
+			foreach ($taskTypes as $taskType) {
+				if ((!$showDisabled) && isset($taskTypeSettings[$taskType->getId()]) && !$taskTypeSettings[$taskType->getId()]) {
+					continue;
+				}
+				try {
+					$provider = $this->getPreferredProvider($taskType->getId());
+				} catch (\OCP\TaskProcessing\Exception\Exception $e) {
+					continue;
+				}
+				$availableTaskTypeIds[] = $taskType->getId();
+			}
+
+			if ($showDisabled) {
+				// Do not cache showDisabled, ever.
+				return $availableTaskTypeIds;
+			}
+
+			$this->availableTaskTypeIds = $availableTaskTypeIds;
+			$this->distributedCache->set(self::TASK_TYPE_IDS_CACHE_KEY, $this->availableTaskTypeIds, 60);
+		}
+
+
+		return $this->availableTaskTypeIds;
 	}
 
 	public function canHandleTask(Task $task): bool {
@@ -922,6 +977,28 @@ class Manager implements IManager {
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
 		if ($provider instanceof ISynchronousProvider) {
 			$this->jobList->add(SynchronousBackgroundJob::class, null);
+		}
+		if ($provider instanceof ITriggerableProvider) {
+			try {
+				if (!$this->taskMapper->hasRunningTasksForTaskType($task->getTaskTypeId())) {
+					// If no tasks are currently running for this task type, nudge the provider to ask for tasks
+					try {
+						$provider->trigger();
+					} catch (\Throwable $e) {
+						$this->logger->error('Failed to trigger the provider after scheduling a task.', [
+							'exception' => $e,
+							'taskId' => $task->getId(),
+							'providerId' => $provider->getId(),
+						]);
+					}
+				}
+			} catch (Exception $e) {
+				$this->logger->error('Failed to check DB for running tasks after a task was scheduled for a triggerable provider. Not triggering the provider.', [
+					'exception' => $e,
+					'taskId' => $task->getId(),
+					'providerId' => $provider->getId()
+				]);
+			}
 		}
 	}
 
@@ -965,7 +1042,8 @@ class Manager implements IManager {
 				$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));
 			} catch (ProcessingException $e) {
 				$this->logger->warning('Failed to process a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
-				$this->setTaskResult($task->getId(), $e->getMessage(), null);
+				$userFacingErrorMessage = $e instanceof UserFacingProcessingException ? $e->getUserFacingMessage() : null;
+				$this->setTaskResult($task->getId(), $e->getMessage(), null, userFacingError: $userFacingErrorMessage);
 				return false;
 			} catch (\Throwable $e) {
 				$this->logger->error('Unknown error while processing TaskProcessing task', ['exception' => $e]);
@@ -1036,7 +1114,7 @@ class Manager implements IManager {
 		return true;
 	}
 
-	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false): void {
+	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
 		if ($task->getStatus() === Task::STATUS_CANCELLED) {
@@ -1046,8 +1124,12 @@ class Manager implements IManager {
 		if ($error !== null) {
 			$task->setStatus(Task::STATUS_FAILED);
 			$task->setEndedAt(time());
-			// truncate error message to 1000 characters
-			$task->setErrorMessage(mb_substr($error, 0, 1000));
+			// truncate error message to 4000 characters
+			$task->setErrorMessage(substr($error, 0, 4000));
+			// truncate error message to 4000 characters
+			if ($userFacingError !== null) {
+				$task->setUserFacingErrorMessage(substr($userFacingError, 0, 4000));
+			}
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskTypeId() . ' task with id ' . $id . ' failed with the following message: ' . $error);
 		} elseif ($result !== null) {
 			$taskTypes = $this->getAvailableTaskTypes();
@@ -1131,11 +1213,23 @@ class Manager implements IManager {
 			$taskEntity = $this->taskMapper->findOldestScheduledByType($taskTypeIds, $taskIdsToIgnore);
 			return $taskEntity->toPublicTask();
 		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
 		} catch (\OCP\DB\Exception $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
+		}
+	}
+
+	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array {
+		try {
+			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $this->taskMapper->findNOldestScheduledByType($taskTypeIds, $taskIdsToIgnore, $numberOfTasks));
+		} catch (DoesNotExistException $e) {
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
 		}
 	}
 

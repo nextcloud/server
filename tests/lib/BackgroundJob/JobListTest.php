@@ -23,9 +23,9 @@ use Test\TestCase;
 /**
  * Class JobList
  *
- * @group DB
  * @package Test\BackgroundJob
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class JobListTest extends TestCase {
 	/** @var \OC\BackgroundJob\JobList */
 	protected $instance;
@@ -58,7 +58,7 @@ class JobListTest extends TestCase {
 	protected function clearJobsList() {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs');
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	protected function getAllSorted() {

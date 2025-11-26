@@ -13,25 +13,26 @@ use OCA\Files_External\Lib\Storage\SFTP_Key;
 /**
  * Class SFTP_KeyTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SFTP_KeyTest extends \Test\Files\Storage\Storage {
-	private $config;
+	use ConfigurableStorageTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.php');
-		if (! is_array($this->config) or ! isset($this->config['sftp_key']) or ! $this->config['sftp_key']['run']) {
-			$this->markTestSkipped('SFTP with key backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.php');
 		// Make sure we have an new empty folder to work in
 		$this->config['sftp_key']['root'] .= '/' . $id;
 		$this->instance = new SFTP_Key($this->config['sftp_key']);
 		$this->instance->mkdir('/');
+	}
+
+	protected function shouldRunConfig(mixed $config): bool {
+		return is_array($config) && ($config['sftp_key']['run'] ?? false);
 	}
 
 	protected function tearDown(): void {

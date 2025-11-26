@@ -27,7 +27,6 @@ OC.L10N.register(
     "%s accessed %s" : "%s pasiekiamas %s",
     "%s renamed %s" : "%s pervadino %s",
     "%s copied %s" : "%s nukopijavo %s",
-    "%s assigned %s to %s" : "%s priskyrė %s į %s",
     "Operation #%s does not exist" : "Operacijos #%s nėra",
     "Entity %s does not exist" : "Subjektas %s neegzistuoja",
     "Entity %s is invalid" : "Subjektas %s yra neteisingas",
@@ -47,12 +46,12 @@ OC.L10N.register(
     "Select a filter" : "Pasirinkite filtrą",
     "Select a comparator" : "Pasirinkite palyginimą",
     "Remove filter" : "Šalinti filtrą",
+    "Audio" : "Garso įrašai",
     "Folder" : "Aplankas",
     "Images" : "Paveikslai",
     "Office documents" : "Raštinės dokumentai",
     "PDF documents" : "PDF dokumentai",
     "Custom MIME type" : "Tinkintas MIME tipas",
-    "Custom mimetype" : "Tinkintas MIME tipas",
     "Select a file type" : "Pasirinkite failo tipą",
     "e.g. httpd/unix-directory" : "pvz., httpd/unix-directory",
     "Please enter a valid time span" : "Įveskite teisingą laiko intervalą",
@@ -67,7 +66,6 @@ OC.L10N.register(
     "Select a user agent" : "Pasirinkite naudotojo agentą",
     "Select groups" : "Pasirinkti grupes",
     "Groups" : "Grupės",
-    "Type to search for group …" : "Rašykite norėdami ieškoti grupės…",
     "At least one event must be selected" : "Privalo būti pasirinktas bent vienas įvykis",
     "Add new flow" : "Pridėti naują eigą",
     "The configuration is invalid" : "Konfigūracija yra neteisinga",
@@ -111,6 +109,7 @@ OC.L10N.register(
     "not between" : "nėra tarp",
     "Request user agent" : "Užklausti naudotojo agentą",
     "is member of" : "priklauso grupei",
-    "is not member of" : "nepriklauso grupei"
+    "is not member of" : "nepriklauso grupei",
+    "Type to search for group …" : "Rašykite norėdami ieškoti grupės…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

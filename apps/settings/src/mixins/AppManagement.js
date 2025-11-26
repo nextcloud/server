@@ -6,10 +6,14 @@
 import { showError } from '@nextcloud/dialogs'
 import rebuildNavigation from '../service/rebuild-navigation.js'
 
+const productName = window.OC.theme.productName
+
 export default {
 	computed: {
 		appGroups() {
-			return this.app.groups.map(group => { return { id: group, name: group } })
+			return this.app.groups.map((group) => {
+				return { id: group, name: group }
+			})
 		},
 		installing() {
 			if (this.app?.app_api) {
@@ -50,10 +54,10 @@ export default {
 		enableButtonText() {
 			if (this.app?.app_api) {
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
-					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy ?? 0 })
+					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy ?? 0 })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
-					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init ?? 0 })
+					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init ?? 0 })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
 					return t('settings', 'Health checking')
@@ -72,10 +76,10 @@ export default {
 		disableButtonText() {
 			if (this.app?.app_api) {
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
-					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy })
+					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
-					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init })
+					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
 					return t('settings', 'Health checking')
@@ -96,7 +100,9 @@ export default {
 			return null
 		},
 		forceEnableButtonTooltip() {
-			const base = t('settings', 'This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.')
+			const base = t('settings', 'This app is not marked as compatible with your {productName} version.', { productName })
+				+ ' '
+				+ t('settings', 'If you continue you will still be able to install the app. Note that the app might not work as expected.')
 			if (this.app.needsDownload) {
 				return base + ' ' + t('settings', 'The app will be downloaded from the App Store')
 			}
@@ -133,7 +139,7 @@ export default {
 		asyncFindGroup(query) {
 			return this.$store.dispatch('getGroups', { search: query, limit: 5, offset: 0 })
 		},
-		isLimitedToGroups(app) {
+		isLimitedToGroups() {
 			if (this.app?.app_api) {
 				return false
 			}
@@ -149,32 +155,46 @@ export default {
 		},
 		canLimitToGroups(app) {
 			if ((app.types && app.types.includes('filesystem'))
-					|| app.types.includes('prelogin')
-					|| app.types.includes('authentication')
-					|| app.types.includes('logging')
-					|| app.types.includes('prevent_group_restriction')
-					|| app?.app_api) {
+				|| app.types.includes('prelogin')
+				|| app.types.includes('authentication')
+				|| app.types.includes('logging')
+				|| app.types.includes('prevent_group_restriction')
+				|| app?.app_api) {
 				return false
 			}
 			return true
 		},
 		addGroupLimitation(groupArray) {
 			if (this.app?.app_api) {
-				return // not supported for app_api apps
+				return
 			}
 			const group = groupArray.pop()
 			const groups = this.app.groups.concat([]).concat([group.id])
+
+			if (this.store && this.store.updateAppGroups) {
+				this.store.updateAppGroups(this.app.id, groups)
+			}
+
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups })
 		},
 		removeGroupLimitation(group) {
 			if (this.app?.app_api) {
-				return // not supported for app_api apps
+				return
 			}
 			const currentGroups = this.app.groups.concat([])
 			const index = currentGroups.indexOf(group.id)
 			if (index > -1) {
 				currentGroups.splice(index, 1)
 			}
+
+			if (this.store && this.store.updateAppGroups) {
+				this.store.updateAppGroups(this.app.id, currentGroups)
+			}
+
+			if (currentGroups.length === 0) {
+				this.groupCheckedAppsData = false
+			}
+
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups })
 		},
 		forceEnable(appId) {
@@ -184,7 +204,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('forceEnableApp', { appId, groups: [] })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},
@@ -195,7 +215,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('enableApp', { appId, groups: [] })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},
@@ -206,7 +226,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('disableApp', { appId })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},
@@ -229,7 +249,7 @@ export default {
 					.catch((error) => { showError(error) })
 			} else {
 				this.$store.dispatch('enableApp', { appId })
-					.then((response) => { rebuildNavigation() })
+					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			}
 		},

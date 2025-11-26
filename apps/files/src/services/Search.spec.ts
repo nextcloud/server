@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { Folder, Permission } from '@nextcloud/files'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { getContents } from './Search.ts'
-import { Folder, Permission } from '@nextcloud/files'
 
 const searchNodes = vi.hoisted(() => vi.fn())
 vi.mock('./WebDavSearch.ts', () => ({ searchNodes }))
@@ -19,16 +19,18 @@ describe('Search service', () => {
 		window.OCP ??= {}
 		window.OCP.Files ??= {}
 		window.OCP.Files.Router ??= { params: {}, query: {} }
-		vi.spyOn(window.OCP.Files.Router, 'params', 'get').mockReturnValue({ view: 'files' })
 	})
 
 	beforeEach(() => {
-		vi.restoreAllMocks()
+		vi.resetAllMocks()
+		vi.spyOn(window.OCP.Files.Router, 'params', 'get').mockReturnValue({ view: 'files' })
 		setActivePinia(createPinia())
 	})
 
 	it('rejects on error', async () => {
-		searchNodes.mockImplementationOnce(() => { throw new Error('expected error') })
+		searchNodes.mockImplementationOnce(() => {
+			throw new Error('expected error')
+		})
 		expect(getContents).rejects.toThrow('expected error')
 	})
 
@@ -45,7 +47,7 @@ describe('Search service', () => {
 
 	it('can be cancelled', async () => {
 		const { promise, resolve } = Promise.withResolvers<Event>()
-		searchNodes.mockImplementationOnce(async (_, { signal }: { signal: AbortSignal}) => {
+		searchNodes.mockImplementationOnce(async (_, { signal }: { signal: AbortSignal }) => {
 			signal.addEventListener('abort', resolve)
 			await promise
 			return []

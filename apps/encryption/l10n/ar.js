@@ -35,8 +35,6 @@ OC.L10N.register(
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "تعذّر فك تشفير هذا الملف؛ ربما يكون ملفّاً مُشتركاً. رجاءً، أطلب من مالك الملف إلغاء مشاركته معك.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "تعذرت قراءة هذا الملف؛ ربما يكون ملفّاً مُشتركاً. رجاءً، أطلب من مالك الملف إلغاء مشاركته معك.",
     "Default encryption module" : "وحدة التشفير الافتراضية",
-    "Default encryption module for server-side encryption" : "وحدة التشفير الافتراضية للتشفير من جانب الخادم",
-    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "لاستخدام وحدة التشفير هذه ، تحتاج إلى تمكين التشفير من جانب الخادم في إعدادات المدير. بمجرد تمكين هذه الوحدة ، ستقوم بتشفير جميع ملفاتك بشفافية. يعتمد التشفير على مفاتيح AES 256. لن تلمس الوحدة الملفات الموجودة ، سيتم تشفير الملفات الجديدة فقط بعد تمكين التشفير من جانب الخادم. لكن لاحظ أنه لن يُمكن تعطيل التشفير والعودة إلى حالة عدم التشفير. يرجى قراءة الوثائق لمعرفة جميع العواقب قبل أن تقرر تمكين التشفير من جانب الخادم.",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "تم تمكين تطبيق التشفير، ولكن لم تتم تهيئة المفاتيح الخاصة بك. يرجى تسجيل الخروج ثم تسجيل الدخول من جديد.",
     "Encrypt the home storage" : "تشفير وحدة التخزين الأساسية",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "يؤدي تمكين هذا الخيار إلى تشفير جميع الملفات المخزنة على وحدة التخزين الرئيسية، وإلا فسيتم تشفير الملفات الموجودة على وحدة التخزين الخارجية فقط",
@@ -60,6 +58,8 @@ OC.L10N.register(
     "Enable password recovery:" : "تفعيل استعادة كلمة المرور:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "تفعيل هذا الخيار يمكنك من اعادة الوصول الى ملفاتك المشفرة عند فقدان كلمة المرور",
     "Enabled" : "مفعلة",
-    "Disabled" : "معطلة"
+    "Disabled" : "معطلة",
+    "Default encryption module for server-side encryption" : "وحدة التشفير الافتراضية للتشفير من جانب الخادم",
+    "In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.\nThe module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.\nPlease read the documentation to know all implications before you decide to enable server-side encryption." : "لاستخدام وحدة التشفير هذه ، تحتاج إلى تمكين التشفير من جانب الخادم في إعدادات المدير. بمجرد تمكين هذه الوحدة ، ستقوم بتشفير جميع ملفاتك بشفافية. يعتمد التشفير على مفاتيح AES 256. لن تلمس الوحدة الملفات الموجودة ، سيتم تشفير الملفات الجديدة فقط بعد تمكين التشفير من جانب الخادم. لكن لاحظ أنه لن يُمكن تعطيل التشفير والعودة إلى حالة عدم التشفير. يرجى قراءة الوثائق لمعرفة جميع العواقب قبل أن تقرر تمكين التشفير من جانب الخادم."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

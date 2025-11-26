@@ -3,16 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { assertVersionContent, doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils'
-import type { User } from '@nextcloud/cypress'
-import { getRowForFile } from '../files/FilesUtils'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { randomString } from '../../support/utils/randomString.ts'
+import { getRowForFile } from '../files/FilesUtils.ts'
+import { assertVersionContent, doesNotHaveAction, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('Versions download', () => {
 	let randomFileName = ''
 	let user: User
 
 	before(() => {
-		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
+		randomFileName = randomString(10) + '.txt'
 
 		cy.runOccCommand('config:app:set --value no core shareapi_allow_view_without_download')
 		cy.createRandomUser()
@@ -57,8 +59,8 @@ describe('Versions download', () => {
 		})
 
 		it('Does not work without download permission through direct API access', () => {
-			let fileId: string|undefined
-			let versionId: string|undefined
+			let fileId: string | undefined
+			let versionId: string | undefined
 
 			setupTestSharedFileFromUser(user, randomFileName, { download: false })
 				.then((recipient) => {

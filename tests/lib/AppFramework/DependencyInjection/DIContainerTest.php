@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,9 +22,7 @@ use OCP\IConfig;
 use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DIContainerTest extends \Test\TestCase {
 	private DIContainer&MockObject $container;
 

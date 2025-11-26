@@ -2,13 +2,14 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { User } from '@nextcloud/cypress'
-import { createShare } from './FilesSharingUtils.ts'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
 import {
 	getActionButtonForFile,
 	getActionEntryForFile,
 	getRowForFile,
 } from '../files/FilesUtils.ts'
+import { createShare } from './FilesSharingUtils.ts'
 
 describe('files_sharing: Download forbidden', { testIsolation: true }, () => {
 	let user: User

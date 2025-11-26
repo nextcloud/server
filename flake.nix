@@ -2,9 +2,13 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
+    haze = {
+      url = "git+https://codeberg.org/icewind/haze.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, flake-utils, ... }:
+  outputs = { nixpkgs, flake-utils, haze, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -81,6 +85,8 @@
               # Preview generation
               pkgs.ffmpeg
               pkgs.libreoffice
+
+              haze.packages.${system}.default
             ];
           };
       }

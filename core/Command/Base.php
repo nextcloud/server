@@ -8,6 +8,8 @@
 namespace OC\Core\Command;
 
 use OC\Core\Command\User\ListCommand;
+use OCP\Defaults;
+use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -26,7 +28,10 @@ class Base extends Command implements CompletionAwareInterface {
 	private bool $interrupted = false;
 
 	protected function configure() {
+		// Some of our commands do not extend this class; and some of those that do do not call parent::configure()
+		$defaultHelp = 'More extensive and thorough documentation may be found at ' . Server::get(Defaults::class)->getDocBaseUrl() . PHP_EOL;
 		$this
+			->setHelp($defaultHelp)
 			->addOption(
 				'output',
 				null,

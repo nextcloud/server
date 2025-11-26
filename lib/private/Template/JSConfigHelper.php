@@ -141,8 +141,12 @@ class JSConfigHelper {
 
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
-		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, null);
-		$firstDay = (int)($userFirstDay ?? $this->l->l('firstday', null));
+		$firstDay = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
+		if ($firstDay === '') {
+			$firstDay = (int)$this->l->l('firstday', null);
+		} else {
+			$firstDay = (int)$firstDay;
+		}
 
 		$config = [
 			/** @deprecated 30.0.0 - use files capabilities instead */

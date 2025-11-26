@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Ван канцеларије",
     "Working remotely" : "Радим од куће",
     "In a call" : "У позиву",
+    "Be right back" : "Брзо се враћам",
     "User status" : "Корисников статус",
     "Clear status after" : "Обриши статус након",
     "Emoji for your status message" : "Емођи за вашу статусну поруку",

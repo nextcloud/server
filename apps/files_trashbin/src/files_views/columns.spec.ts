@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import * as ncAuth from '@nextcloud/auth'
 import { File } from '@nextcloud/files'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { deleted, deletedBy, originalLocation } from './columns.ts'
 import { trashbinView } from './trashbinView.ts'
-import * as ncAuth from '@nextcloud/auth'
 
 vi.mock('@nextcloud/l10n', async (originalModule) => ({
 	...(await originalModule()),
@@ -16,7 +16,6 @@ vi.mock('@nextcloud/l10n', async (originalModule) => ({
 }))
 
 describe('files_trashbin: file list columns', () => {
-
 	describe('column: original location', () => {
 		it('has id set', () => {
 			expect(originalLocation.id).toBe('files_trashbin--original-location')
@@ -181,14 +180,14 @@ describe('files_trashbin: file list columns', () => {
 				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'user-id' } })
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toMatch(/\suser-id\s/)
+				expect(el.textContent.trim()).toBe('user-id')
 			})
 
 			it('renders a node with deleting user display name', () => {
 				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-display-name': 'user-name', 'trashbin-deleted-by-id': 'user-id' } })
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toMatch(/\suser-name\s/)
+				expect(el.textContent.trim()).toBe('user-name')
 			})
 
 			it('renders a node even when information is missing', () => {
@@ -211,7 +210,5 @@ describe('files_trashbin: file list columns', () => {
 				expect(el.textContent).toBe('You')
 			})
 		})
-
 	})
-
 })

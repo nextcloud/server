@@ -72,13 +72,13 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 				->from($this->dbTableName);
-			$stmt = $query->execute();
+			$stmt = $query->executeQuery();
 
 			$metaDataQuery = $this->db->getQueryBuilder();
 			$metaDataQuery->select([$this->dbForeignKeyName, 'key', 'value'])
 				->from($this->dbMetaDataTableName);
-			$metaDataStmt = $metaDataQuery->execute();
-			$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+			$metaDataStmt = $metaDataQuery->executeQuery();
+			$metaDataRows = $metaDataStmt->fetchAllAssociative();
 
 			$metaDataById = [];
 			foreach ($metaDataRows as $metaDataRow) {
@@ -90,7 +90,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					= $metaDataRow['value'];
 			}
 
-			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			while ($row = $stmt->fetchAssociative()) {
 				$id = $row['id'];
 
 				if (isset($metaDataById[$id])) {
@@ -128,8 +128,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			->from($this->dbTableName)
 			->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
-		$stmt = $query->execute();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$stmt = $query->executeQuery();
+		$row = $stmt->fetchAssociative();
 
 		if (!$row) {
 			return null;
@@ -139,8 +139,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$metaDataQuery->select(['key', 'value'])
 			->from($this->dbMetaDataTableName)
 			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
-		$metaDataStmt = $metaDataQuery->execute();
-		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+		$metaDataStmt = $metaDataQuery->executeQuery();
+		$metaDataRows = $metaDataStmt->fetchAllAssociative();
 		$metadata = [];
 
 		foreach ($metaDataRows as $metaDataRow) {
@@ -159,8 +159,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 			->from($this->dbTableName)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
-		$stmt = $query->execute();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$stmt = $query->executeQuery();
+		$row = $stmt->fetchAssociative();
 
 		if (!$row) {
 			return null;
@@ -170,8 +170,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		$metaDataQuery->select(['key', 'value'])
 			->from($this->dbMetaDataTableName)
 			->where($metaDataQuery->expr()->eq($this->dbForeignKeyName, $metaDataQuery->createNamedParameter($row['id'])));
-		$metaDataStmt = $metaDataQuery->execute();
-		$metaDataRows = $metaDataStmt->fetchAll(\PDO::FETCH_ASSOC);
+		$metaDataStmt = $metaDataQuery->executeQuery();
+		$metaDataRows = $metaDataStmt->fetchAllAssociative();
 		$metadata = [];
 
 		foreach ($metaDataRows as $metaDataRow) {
@@ -219,9 +219,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 						->from($this->dbTableName)
 						->where($query->expr()->iLike('email', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
 
-					$stmt = $query->execute();
+					$stmt = $query->executeQuery();
 					$principals = [];
-					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+					while ($row = $stmt->fetchAssociative()) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
 							continue;
 						}
@@ -238,9 +238,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 						->from($this->dbTableName)
 						->where($query->expr()->iLike('displayname', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
 
-					$stmt = $query->execute();
+					$stmt = $query->executeQuery();
 					$principals = [];
-					while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+					while ($row = $stmt->fetchAssociative()) {
 						if (!$this->isAllowedToAccessResource($row, $usersGroups)) {
 							continue;
 						}
@@ -366,7 +366,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 
 		$rows = [];
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetchAssociative()) {
 			$principalRow = $this->getPrincipalById($row[$this->dbForeignKeyName]);
 			if (!$principalRow) {
 				continue;
@@ -406,8 +406,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				->from($this->dbTableName)
 				->where($query->expr()->eq('email', $query->createNamedParameter($email)));
 
-			$stmt = $query->execute();
-			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+			$stmt = $query->executeQuery();
+			$row = $stmt->fetchAssociative();
 
 			if (!$row) {
 				return null;
@@ -433,8 +433,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				->from($this->dbTableName)
 				->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)))
 				->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
-			$stmt = $query->execute();
-			$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+			$stmt = $query->executeQuery();
+			$row = $stmt->fetchAssociative();
 
 			if (!$row) {
 				return null;

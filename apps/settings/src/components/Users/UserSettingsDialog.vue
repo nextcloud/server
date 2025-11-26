@@ -4,58 +4,69 @@
 -->
 
 <template>
-	<NcAppSettingsDialog :open.sync="isModalOpen"
+	<NcAppSettingsDialog
+		:open.sync="isModalOpen"
 		:show-navigation="true"
 		:name="t('settings', 'Account management settings')">
-		<NcAppSettingsSection id="visibility-settings"
+		<NcAppSettingsSection
+			id="visibility-settings"
 			:name="t('settings', 'Visibility')">
-			<NcCheckboxRadioSwitch type="switch"
-				data-test="showLanguages"
-				:checked.sync="showLanguages">
+			<NcCheckboxRadioSwitch
+				v-model="showLanguages"
+				type="switch"
+				data-test="showLanguages">
 				{{ t('settings', 'Show language') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch type="switch"
-				data-test="showUserBackend"
-				:checked.sync="showUserBackend">
+			<NcCheckboxRadioSwitch
+				v-model="showUserBackend"
+				type="switch"
+				data-test="showUserBackend">
 				{{ t('settings', 'Show account backend') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch type="switch"
-				data-test="showStoragePath"
-				:checked.sync="showStoragePath">
+			<NcCheckboxRadioSwitch
+				v-model="showStoragePath"
+				type="switch"
+				data-test="showStoragePath">
 				{{ t('settings', 'Show storage path') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch type="switch"
-				data-test="showFirstLogin"
-				:checked.sync="showFirstLogin">
+			<NcCheckboxRadioSwitch
+				v-model="showFirstLogin"
+				type="switch"
+				data-test="showFirstLogin">
 				{{ t('settings', 'Show first login') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch type="switch"
-				data-test="showLastLogin"
-				:checked.sync="showLastLogin">
+			<NcCheckboxRadioSwitch
+				v-model="showLastLogin"
+				type="switch"
+				data-test="showLastLogin">
 				{{ t('settings', 'Show last login') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
-		<NcAppSettingsSection id="groups-sorting"
+		<NcAppSettingsSection
+			id="groups-sorting"
 			:name="t('settings', 'Sorting')">
 			<NcNoteCard v-if="isGroupSortingEnforced" type="warning">
 				{{ t('settings', 'The system config enforces sorting the groups by name. This also disables showing the member count.') }}
 			</NcNoteCard>
 			<fieldset>
 				<legend>{{ t('settings', 'Group list sorting') }}</legend>
-				<NcNoteCard class="dialog__note"
+				<NcNoteCard
+					class="dialog__note"
 					type="info"
 					:text="t('settings', 'Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list.')" />
-				<NcCheckboxRadioSwitch type="radio"
-					:checked.sync="groupSorting"
+				<NcCheckboxRadioSwitch
+					v-model="groupSorting"
+					type="radio"
 					data-test="sortGroupsByMemberCount"
 					:disabled="isGroupSortingEnforced"
 					name="group-sorting-mode"
 					value="member-count">
 					{{ t('settings', 'By member count') }}
 				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch type="radio"
-					:checked.sync="groupSorting"
+				<NcCheckboxRadioSwitch
+					v-model="groupSorting"
+					type="radio"
 					data-test="sortGroupsByName"
 					:disabled="isGroupSortingEnforced"
 					name="group-sorting-mode"
@@ -65,19 +76,23 @@
 			</fieldset>
 		</NcAppSettingsSection>
 
-		<NcAppSettingsSection id="email-settings"
+		<NcAppSettingsSection
+			id="email-settings"
 			:name="t('settings', 'Send email')">
-			<NcCheckboxRadioSwitch type="switch"
+			<NcCheckboxRadioSwitch
+				v-model="sendWelcomeMail"
+				type="switch"
 				data-test="sendWelcomeMail"
-				:checked.sync="sendWelcomeMail"
 				:disabled="loadingSendMail">
 				{{ t('settings', 'Send welcome email to new accounts') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
-		<NcAppSettingsSection id="default-settings"
+		<NcAppSettingsSection
+			id="default-settings"
 			:name="t('settings', 'Defaults')">
-			<NcSelect v-model="defaultQuota"
+			<NcSelect
+				v-model="defaultQuota"
 				:clearable="false"
 				:create-option="validateQuota"
 				:filter-by="filterQuotas"
@@ -92,19 +107,17 @@
 </template>
 
 <script>
+import axios from '@nextcloud/axios'
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
-
-import axios from '@nextcloud/axios'
 import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
 import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-
 import { GroupSorting } from '../../constants/GroupManagement.ts'
-import { unlimitedQuota } from '../../utils/userUtils.ts'
 import logger from '../../logger.ts'
+import { unlimitedQuota } from '../../utils/userUtils.ts'
 
 export default {
 	name: 'UserSettingsDialog',
@@ -136,6 +149,7 @@ export default {
 			get() {
 				return this.$store.getters.getGroupSorting === GroupSorting.GroupName ? 'name' : 'member-count'
 			},
+
 			set(sorting) {
 				this.$store.commit('setGroupSorting', sorting === 'name' ? GroupSorting.GroupName : GroupSorting.UserCount)
 			},
@@ -152,6 +166,7 @@ export default {
 			get() {
 				return this.open
 			},
+
 			set(open) {
 				this.$emit('update:open', open)
 			},
@@ -169,6 +184,7 @@ export default {
 			get() {
 				return this.showConfig.showLanguages
 			},
+
 			set(status) {
 				this.setShowConfig('showLanguages', status)
 			},
@@ -178,6 +194,7 @@ export default {
 			get() {
 				return this.showConfig.showFirstLogin
 			},
+
 			set(status) {
 				this.setShowConfig('showFirstLogin', status)
 			},
@@ -187,6 +204,7 @@ export default {
 			get() {
 				return this.showConfig.showLastLogin
 			},
+
 			set(status) {
 				this.setShowConfig('showLastLogin', status)
 			},
@@ -196,6 +214,7 @@ export default {
 			get() {
 				return this.showConfig.showUserBackend
 			},
+
 			set(status) {
 				this.setShowConfig('showUserBackend', status)
 			},
@@ -205,6 +224,7 @@ export default {
 			get() {
 				return this.showConfig.showStoragePath
 			},
+
 			set(status) {
 				this.setShowConfig('showStoragePath', status)
 			},
@@ -231,6 +251,7 @@ export default {
 				}
 				return unlimitedQuota // unlimited
 			},
+
 			set(quota) {
 				this.selectedQuota = quota
 			},
@@ -240,6 +261,7 @@ export default {
 			get() {
 				return this.settings.newUserSendEmail
 			},
+
 			async set(value) {
 				try {
 					this.loadingSendMail = true
@@ -262,9 +284,9 @@ export default {
 		 * Check if a quota matches the current search.
 		 * This is a custom filter function to allow to map "1GB" to the label "1 GB" (ignoring whitespaces).
 		 *
-		 * @param option The quota to check
-		 * @param label The label of the quota
-		 * @param search The search string
+		 * @param {object} option The quota to check
+		 * @param {string} label The label of the quota
+		 * @param {string} search The search string
 		 */
 		filterQuotas(option, label, search) {
 			const searchValue = search.toLocaleLowerCase().replaceAll(/\s/g, '')

@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
 import { closeSidebar } from '../files/FilesUtils.ts'
 import { createShare, openSharingDetails, openSharingPanel, updateShare } from './FilesSharingUtils.ts'
 
@@ -124,5 +125,4 @@ describe('files_sharing: Expiry date', () => {
 			.should('exist')
 			.and('have.value', expectedDate)
 	}
-
 })

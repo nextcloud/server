@@ -185,7 +185,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		$this->remove($target);
 
 		$this->removeCachedFile($source);
-		return $this->copy($source, $target) and $this->remove($source);
+		return $this->copy($source, $target) && $this->remove($source);
 	}
 
 	public function copy(string $source, string $target): bool {
@@ -711,7 +711,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	/**
-	 * @return array [ available, last_checked ]
+	 * @return array{available: bool, last_checked: int}
 	 */
 	public function getAvailability(): array {
 		return $this->getStorageCache()->getAvailability();

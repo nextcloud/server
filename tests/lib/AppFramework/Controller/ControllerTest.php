@@ -8,7 +8,6 @@
 
 namespace Test\AppFramework\Controller;
 
-use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -18,7 +17,7 @@ use OCP\IRequest;
 use OCP\IRequestId;
 
 class ChildController extends Controller {
-	public function __construct($appName, $request) {
+	public function __construct(string $appName, IRequest $request) {
 		parent::__construct($appName, $request);
 		$this->registerResponder('tom', function ($respone) {
 			return 'hi';
@@ -33,7 +32,7 @@ class ChildController extends Controller {
 		return $in;
 	}
 
-	public function customDataResponse($in) {
+	public function customDataResponse(mixed $in): DataResponse {
 		$response = new DataResponse($in, 300);
 		$response->addHeader('test', 'something');
 		return $response;
@@ -41,12 +40,8 @@ class ChildController extends Controller {
 };
 
 class ControllerTest extends \Test\TestCase {
-	/**
-	 * @var Controller
-	 */
-	private $controller;
-	private $app;
-	private $request;
+	private Controller $controller;
+	private Request $request;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,15 +60,7 @@ class ControllerTest extends \Test\TestCase {
 			$this->createMock(IConfig::class)
 		);
 
-		$this->app = $this->getMockBuilder(DIContainer::class)
-			->onlyMethods(['getAppName'])
-			->setConstructorArgs(['test'])
-			->getMock();
-		$this->app->expects($this->any())
-			->method('getAppName')
-			->willReturn('apptemplate_advanced');
-
-		$this->controller = new ChildController($this->app, $request);
+		$this->controller = new ChildController('apptemplate_advanced', $request);
 		$this->overwriteService(IRequest::class, $request);
 		$this->request = $request;
 	}

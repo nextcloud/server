@@ -12,6 +12,7 @@ OC.L10N.register(
     "Deleted" : "Izdzēsts",
     "Unknown" : "Nezināms",
     "All files" : "Visas datnes",
+    "You" : "Tu",
     "No deleted files" : "Nav izdzēstu datņu",
     "Files and folders you have deleted will show up here" : "Datnes un mapes, ko izdzēsi, parādīsies šeit"
 },

@@ -13,20 +13,20 @@ import { dateFactory } from '../services/dateService.js'
  * @param {object} clearAt The clearAt object
  * @return {string|null}
  */
-const clearAtFilter = (clearAt) => {
+function clearAtFilter(clearAt) {
 	if (clearAt === null) {
 		return t('user_status', 'Don\'t clear')
 	}
 
 	if (clearAt.type === 'end-of') {
 		switch (clearAt.time) {
-		case 'day':
-			return t('user_status', 'Today')
-		case 'week':
-			return t('user_status', 'This week')
+			case 'day':
+				return t('user_status', 'Today')
+			case 'week':
+				return t('user_status', 'This week')
 
-		default:
-			return null
+			default:
+				return null
 		}
 	}
 

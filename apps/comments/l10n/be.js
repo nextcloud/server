@@ -17,9 +17,9 @@ OC.L10N.register(
     "Delete comment" : "Выдаліць каментарый",
     "Cancel edit" : "Скасаваць рэдагаванне",
     "New comment" : "Новы каментарый",
-    "Write a comment …" : "Напішыце каментарый …",
+    "Write a comment …" : "Напішыце каментарый …",
     "Post comment" : "Апублікаваць каментарый",
-    "@ for mentions, : for emoji, / for smart picker" : "@ - згадкі, : - эмодзі, / - разумны выбар",
+    "@ for mentions, : for emoji, / for smart picker" : "@ - згадкі, : - эмодзі, / - smart picker",
     "Could not reload comments" : "Не ўдалося перазагрузіць каментарыі",
     "Failed to mark comments as read" : "Не атрымалася пазначыць каментарыі як прачытаныя",
     "Unable to load the comments list" : "Не ўдалося загрузіць спіс каментарыяў",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Падчас спробы рэдагавання каментарыя ўзнікла памылка",
     "Comment deleted" : "Каментарый выдалены",
     "An error occurred while trying to delete the comment" : "Падчас спробы выдалення каментарыя ўзнікла памылка",
-    "An error occurred while trying to create the comment" : "Падчас спробы стварэння каментарыя ўзнікла памылка"
+    "An error occurred while trying to create the comment" : "Падчас спробы стварэння каментарыя ўзнікла памылка",
+    "Write a comment …" : "Напішыце каментарый …"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

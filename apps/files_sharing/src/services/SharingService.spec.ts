@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
+import * as auth from '@nextcloud/auth'
 import { File, Folder } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-
-import { getContents } from './SharingService'
-import * as auth from '@nextcloud/auth'
-import logger from './logger'
+import logger from './logger.ts'
+import { getContents } from './SharingService.ts'
 
 const TAG_FAVORITE = '_$!<Favorite>!$_'
 
@@ -327,7 +327,9 @@ describe('SharingService share to Node mapping', () => {
 		accepted: 0,
 	}
 
-	beforeEach(() => { vi.resetAllMocks() })
+	beforeEach(() => {
+		vi.resetAllMocks()
+	})
 
 	test('File', async () => {
 		axios.get.mockReturnValueOnce(Promise.resolve({

@@ -17,9 +17,9 @@ OC.L10N.register(
     "Edit widgets" : "Редактиране на изпълнимите модули",
     "Get more widgets from the App Store" : "Вземете повече приспособления от  App Store",
     "Weather service" : "Метеорологична услуга",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За вашата поверителност данните за времето се изискват от Nextcloud  сървъра ви от ваше име, така че метеорологичната служба не получава лична информация.",
     "Weather data from Met.no" : "Данни за времето от Met.no",
     "geocoding with Nominatim" : "геокодиране с Nominatim",
-    "elevation data from OpenTopoData" : " кота данни от OpenTopoData"
+    "elevation data from OpenTopoData" : " кота данни от OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За вашата поверителност данните за времето се изискват от Nextcloud  сървъра ви от ваше име, така че метеорологичната служба не получава лична информация."
 },
 "nplurals=2; plural=(n != 1);");

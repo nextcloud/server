@@ -25,9 +25,7 @@ use Sabre\DAVACL\IACL;
 use Sabre\DAVACL\IPrincipal;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CustomPropertiesBackendTest extends TestCase {
 	private const BASE_URI = '/remote.php/dav/';
 
@@ -67,7 +65,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	protected function tearDown(): void {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->delete('properties');
-		$query->execute();
+		$query->executeStatement();
 
 		parent::tearDown();
 	}
@@ -102,7 +100,7 @@ class CustomPropertiesBackendTest extends TestCase {
 				'propertyvalue' => $query->createNamedParameter($value),
 				'valuetype' => $query->createNamedParameter($type, IQueryBuilder::PARAM_INT)
 			]);
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	protected function getProps(string $user, string $path): array {
@@ -112,9 +110,9 @@ class CustomPropertiesBackendTest extends TestCase {
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
 			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$data = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$value = $row['propertyvalue'];
 			if ((int)$row['valuetype'] === CustomPropertiesBackend::PROPERTY_TYPE_HREF) {
 				$value = new Href($value);

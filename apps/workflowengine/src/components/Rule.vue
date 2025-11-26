@@ -11,7 +11,8 @@
 			</p>
 			<p v-for="(check, index) in rule.checks" :key="index">
 				<span>{{ t('workflowengine', 'and') }}</span>
-				<Check :check="check"
+				<Check
+					:check="check"
 					:rule="rule"
 					@update="updateRule"
 					@validate="validate"
@@ -19,7 +20,8 @@
 			</p>
 			<p>
 				<span />
-				<input v-if="lastCheckComplete"
+				<input
+					v-if="lastCheckComplete"
 					type="button"
 					class="check--add"
 					:value="t('workflowengine', 'Add a new filter')"
@@ -29,11 +31,13 @@
 		<div class="flow-icon icon-confirm" />
 		<div class="action">
 			<Operation :operation="operation" :colored="false">
-				<component :is="operation.element"
+				<component
+					:is="operation.element"
 					v-if="operation.element"
 					:model-value="inputValue"
 					@update:model-value="updateOperationByEvent" />
-				<component :is="operation.options"
+				<component
+					:is="operation.options"
 					v-else-if="operation.options"
 					v-model="rule.operation"
 					@input="updateOperation" />
@@ -45,7 +49,9 @@
 				<NcButton v-else-if="!dirty" @click="deleteRule">
 					{{ t('workflowengine', 'Delete') }}
 				</NcButton>
-				<NcButton :type="ruleStatus.type"
+				<NcButton
+					:type="ruleStatus.type"
+					:title="ruleStatus.tooltip"
 					@click="saveRule">
 					<template #icon>
 						<component :is="ruleStatus.icon" :size="20" />
@@ -61,17 +67,16 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import Tooltip from '@nextcloud/vue/directives/Tooltip'
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconCheckMark from 'vue-material-design-icons/Check.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
-
-import Event from './Event.vue'
 import Check from './Check.vue'
+import Event from './Event.vue'
 import Operation from './Operation.vue'
+import { logger } from '../logger.ts'
 
 export default {
 	name: 'Rule',
@@ -83,15 +88,14 @@ export default {
 		NcButton,
 		Operation,
 	},
-	directives: {
-		Tooltip,
-	},
+
 	props: {
 		rule: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			editing: false,
@@ -103,6 +107,7 @@ export default {
 			inputValue: '',
 		}
 	},
+
 	computed: {
 		/**
 		 * @return {OperatorPlugin}
@@ -110,26 +115,28 @@ export default {
 		operation() {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
+
 		ruleStatus() {
 			if (this.error || !this.rule.valid || this.rule.checks.length === 0 || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
 					icon: IconClose,
 					type: 'warning',
-					tooltip: { placement: 'bottom', show: true, content: this.error },
+					tooltip: this.error,
 				}
 			}
 			if (!this.dirty) {
 				return { title: t('workflowengine', 'Active'), icon: IconCheckMark, type: 'success' }
 			}
 			return { title: t('workflowengine', 'Save'), icon: IconArrowRight, type: 'primary' }
-
 		},
+
 		lastCheckComplete() {
 			const lastCheck = this.rule.checks[this.rule.checks.length - 1]
 			return typeof lastCheck === 'undefined' || lastCheck.class !== null
 		},
 	},
+
 	mounted() {
 		this.originalRule = JSON.parse(JSON.stringify(this.rule))
 		if (this.operation?.element) {
@@ -137,23 +144,27 @@ export default {
 		} else if (this.operation?.options) {
 			// keeping this in an else for apps that try to be backwards compatible and may ship both
 			// to be removed in 03/2028
-			console.warn('Developer warning: `OperatorPlugin.options` is deprecated. Use `OperatorPlugin.element` instead.')
+			logger.warn('Developer warning: `OperatorPlugin.options` is deprecated. Use `OperatorPlugin.element` instead.')
 		}
 	},
+
 	methods: {
 		async updateOperation(operation) {
 			this.$set(this.rule, 'operation', operation)
 			this.updateRule()
 		},
+
 		async updateOperationByEvent(event) {
 			this.inputValue = event.detail[0]
 			this.$set(this.rule, 'operation', event.detail[0])
 			this.updateRule()
 		},
+
 		validate(/* state */) {
 			this.error = null
 			this.$store.dispatch('updateRule', this.rule)
 		},
+
 		updateRule() {
 			if (!this.dirty) {
 				this.dirty = true
@@ -162,25 +173,28 @@ export default {
 			this.error = null
 			this.$store.dispatch('updateRule', this.rule)
 		},
+
 		async saveRule() {
 			try {
 				await this.$store.dispatch('pushUpdateRule', this.rule)
 				this.dirty = false
 				this.error = null
 				this.originalRule = JSON.parse(JSON.stringify(this.rule))
-			} catch (e) {
-				console.error('Failed to save operation')
-				this.error = e.response.data.ocs.meta.message
+			} catch (error) {
+				logger.error('Failed to save operation', { error })
+				this.error = error.response.data.ocs.meta.message
 			}
 		},
+
 		async deleteRule() {
 			try {
 				await this.$store.dispatch('deleteRule', this.rule)
-			} catch (e) {
-				console.error('Failed to delete operation')
-				this.error = e.response.data.ocs.meta.message
+			} catch (error) {
+				logger.error('Failed to delete operation', { error })
+				this.error = error.response.data.ocs.meta.message
 			}
 		},
+
 		cancelRule() {
 			if (this.rule.id < 0) {
 				this.$store.dispatch('removeRule', this.rule)
@@ -193,7 +207,7 @@ export default {
 		},
 
 		async removeCheck(check) {
-			const index = this.rule.checks.findIndex(item => item === check)
+			const index = this.rule.checks.findIndex((item) => item === check)
 			if (index > -1) {
 				this.$delete(this.rule.checks, index)
 			}

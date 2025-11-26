@@ -29,14 +29,17 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * Class ShareByMailProviderTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareByMailProviderTest extends TestCase {
+	use EmailValidatorTrait;
+
 	/** @var IDBConnection */
 	protected $dbConn;
 
@@ -103,7 +106,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 
 		// Empty share table
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->provider = new ShareByMailProvider(
 			$this->config,
@@ -121,13 +124,14 @@ class ShareByMailProviderTest extends TestCase {
 			$this->hasher,
 			$this->eventDispatcher,
 			$this->shareManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
 	protected function tearDown(): void {
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
-		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
 	}
 
 	/**
@@ -186,7 +190,7 @@ class ShareByMailProviderTest extends TestCase {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
 		}
 
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
 

@@ -10,6 +10,7 @@ namespace OC\Core\Command\Db;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
@@ -341,7 +342,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			try {
 				$toDB->beginTransaction();
 
-				while ($row = $result->fetch()) {
+				foreach ($result->iterateAssociative() as $row) {
 					$progress->advance();
 					if (!$parametersCreated) {
 						foreach ($row as $key => $value) {
@@ -358,7 +359,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 							$insertQuery->setParameter($key, $value);
 						}
 					}
-					$insertQuery->execute();
+					$insertQuery->executeStatement();
 				}
 				$result->closeCursor();
 
@@ -379,7 +380,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return $this->columnTypes[$tableName][$columnName];
 		}
 
-		$type = $table->getColumn($columnName)->getType()->getName();
+		$type = Type::lookupName($table->getColumn($columnName)->getType());
 
 		switch ($type) {
 			case Types::BLOB:

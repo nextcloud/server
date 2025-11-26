@@ -20,10 +20,10 @@ use OCP\Share\IShare;
 /**
  * Class DeleteOrphanedSharesJobTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	/**
 	 * @var bool
@@ -105,7 +105,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	private function getShares() {
 		$shares = [];
 		$result = $this->connection->executeQuery('SELECT * FROM `*PREFIX*share`');
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$shares[] = $row;
 		}
 		$result->closeCursor();

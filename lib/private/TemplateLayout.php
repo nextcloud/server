@@ -7,11 +7,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Token\IProvider;
+use OC\Core\AppInfo\Application;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FilenameValidator;
 use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
@@ -40,8 +43,8 @@ class TemplateLayout {
 	/** @var string[] */
 	private static array $cacheBusterCache = [];
 
-	public static ?CSSResourceLocator $cssLocator = null;
-	public static ?JSResourceLocator $jsLocator = null;
+	public ?CSSResourceLocator $cssLocator = null;
+	public ?JSResourceLocator $jsLocator = null;
 
 	public function __construct(
 		private IConfig $config,
@@ -74,9 +77,9 @@ class TemplateLayout {
 				$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 				$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
 
+				$this->initialState->provideInitialState('unified-search', 'min-search-length', $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH));
 				if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
 					$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-					$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
 					$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 					Util::addScript('core', 'legacy-unified-search', 'core');
 				} else {
@@ -212,7 +215,7 @@ class TemplateLayout {
 		}
 
 		// Add the js files
-		$jsFiles = self::findJavascriptFiles(Util::getScripts());
+		$jsFiles = $this->findJavascriptFiles(Util::getScripts());
 		$page->assign('jsfiles', []);
 		if ($this->config->getSystemValueBool('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
@@ -263,12 +266,12 @@ class TemplateLayout {
 			&& !preg_match('/^\/login/', $pathInfo)
 			&& $renderAs !== TemplateResponse::RENDER_AS_ERROR
 		) {
-			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+			$cssFiles = $this->findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			// If we ignore the scss compiler,
 			// we need to load the guest css fallback
 			Util::addStyle('guest');
-			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+			$cssFiles = $this->findStylesheetFiles(\OC_Util::$styles);
 		}
 
 		$page->assign('cssfiles', []);
@@ -363,12 +366,12 @@ class TemplateLayout {
 		return self::$cacheBusterCache[$path];
 	}
 
-	public static function findStylesheetFiles(array $styles): array {
-		if (!self::$cssLocator) {
-			self::$cssLocator = \OCP\Server::get(CSSResourceLocator::class);
+	private function findStylesheetFiles(array $styles): array {
+		if ($this->cssLocator === null) {
+			$this->cssLocator = \OCP\Server::get(CSSResourceLocator::class);
 		}
-		self::$cssLocator->find($styles);
-		return self::$cssLocator->getResources();
+		$this->cssLocator->find($styles);
+		return $this->cssLocator->getResources();
 	}
 
 	public function getAppNamefromPath(string $path): string|false {
@@ -385,12 +388,12 @@ class TemplateLayout {
 		return false;
 	}
 
-	public static function findJavascriptFiles(array $scripts): array {
-		if (!self::$jsLocator) {
-			self::$jsLocator = \OCP\Server::get(JSResourceLocator::class);
+	private function findJavascriptFiles(array $scripts): array {
+		if ($this->jsLocator === null) {
+			$this->jsLocator = \OCP\Server::get(JSResourceLocator::class);
 		}
-		self::$jsLocator->find($scripts);
-		return self::$jsLocator->getResources();
+		$this->jsLocator->find($scripts);
+		return $this->jsLocator->getResources();
 	}
 
 	/**

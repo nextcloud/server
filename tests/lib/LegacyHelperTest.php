@@ -12,18 +12,6 @@ use OC\Files\View;
 use OC_Helper;
 
 class LegacyHelperTest extends \Test\TestCase {
-	/** @var string */
-	private $originalWebRoot;
-
-	protected function setUp(): void {
-		$this->originalWebRoot = \OC::$WEBROOT;
-	}
-
-	protected function tearDown(): void {
-		// Reset webRoot
-		\OC::$WEBROOT = $this->originalWebRoot;
-	}
-
 	public function testBuildNotExistingFileNameForView(): void {
 		$viewMock = $this->createMock(View::class);
 		$this->assertEquals('/filename', OC_Helper::buildNotExistingFileNameForView('/', 'filename', $viewMock));
@@ -114,37 +102,5 @@ class LegacyHelperTest extends \Test\TestCase {
 				['dir/filename(1) (2) (4).ext', false],
 			]);
 		$this->assertEquals('dir/filename(1) (2) (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('streamCopyDataProvider')]
-	public function testStreamCopy($expectedCount, $expectedResult, $source, $target): void {
-		if (is_string($source)) {
-			$source = fopen($source, 'r');
-		}
-		if (is_string($target)) {
-			$target = fopen($target, 'w');
-		}
-
-		[$count, $result] = \OC_Helper::streamCopy($source, $target);
-
-		if (is_resource($source)) {
-			fclose($source);
-		}
-		if (is_resource($target)) {
-			fclose($target);
-		}
-
-		$this->assertSame($expectedCount, $count);
-		$this->assertSame($expectedResult, $result);
-	}
-
-
-	public static function streamCopyDataProvider(): array {
-		return [
-			[0, false, false, false],
-			[0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false],
-			[filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'],
-			[3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'],
-		];
 	}
 }

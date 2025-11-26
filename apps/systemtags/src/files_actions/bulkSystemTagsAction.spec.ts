@@ -2,9 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
+
+import type { View } from '@nextcloud/files'
+
+import { File, FileAction, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
-import { action } from './bulkSystemTagsAction'
+import { action } from './bulkSystemTagsAction.ts'
 
 const view = {
 	id: 'files',

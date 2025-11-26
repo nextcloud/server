@@ -64,7 +64,7 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 		$query = $qb->select($qb->func()->count('*'))
 			->from('calendarsubscriptions');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -87,8 +87,8 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 			->setMaxResults(self::SUBSCRIPTIONS_CHUNK_SIZE)
 			->setFirstResult($this->progress);
 
-		$result = $query->execute();
-		while ($row = $result->fetch()) {
+		$result = $query->executeQuery();
+		while ($row = $result->fetchAssociative()) {
 			$username = $this->getPrincipal($row['principaluri']);
 			if (!$this->userManager->userExists($username)) {
 				$this->orphanSubscriptionIds[] = (int)$row['id'];

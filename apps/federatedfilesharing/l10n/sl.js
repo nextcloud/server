@@ -37,7 +37,6 @@ OC.L10N.register(
     "Copy" : "Kopiraj",
     "Copied!" : "Kopirano!",
     "Federated Cloud" : "Zvezni oblak",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Souporaba različnih predmetov je mogoča s komerkoli, ki uporablja strežnik Nextcloud oziroma katerikoli strežnik, skladen s storitvami Open Cloud Mesh (OCM). Vpisati je treba zgolj njihov zvezni naslov ID v polje souporabe, ki je zapisano v obliki oseba@domena-oblaka.si oziroma oseba@domena.si/oblak.",
     "Share it so your friends can share files with you:" : "Objavite naslov in omogočite souporabo s prijatelji:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (prej Twitter)",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ali želite dodati oddaljeno mesto uporabe {name} uporabnika {owner}@{remote}?",
     "Remote share password" : "Geslo za oddaljeno souporabo",
     "Cloud ID copied to the clipboard" : "Določilo ID oblaka je kopirano v odložišče",
-    "Copy to clipboard" : "Kopiraj v odložišče"
+    "Copy to clipboard" : "Kopiraj v odložišče",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Souporaba različnih predmetov je mogoča s komerkoli, ki uporablja strežnik Nextcloud oziroma katerikoli strežnik, skladen s storitvami Open Cloud Mesh (OCM). Vpisati je treba zgolj njihov zvezni naslov ID v polje souporabe, ki je zapisano v obliki oseba@domena-oblaka.si oziroma oseba@domena.si/oblak."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

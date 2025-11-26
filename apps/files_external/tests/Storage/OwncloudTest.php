@@ -13,24 +13,25 @@ use OCA\Files_External\Lib\Storage\OwnCloud;
 /**
  * Class OwnCloudTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OwncloudTest extends \Test\Files\Storage\Storage {
-	private $config;
+	use ConfigurableStorageTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.php');
-		if (! is_array($this->config) or ! isset($this->config['owncloud']) or ! $this->config['owncloud']['run']) {
-			$this->markTestSkipped('Nextcloud backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.php');
 		$this->config['owncloud']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new OwnCloud($this->config['owncloud']);
 		$this->instance->mkdir('/');
+	}
+
+	protected function shouldRunConfig(mixed $config): bool {
+		return is_array($config) && ($config['owncloud']['run'] ?? false);
 	}
 
 	protected function tearDown(): void {

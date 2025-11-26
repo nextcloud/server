@@ -4,14 +4,13 @@
  */
 import type { Node, View } from '@nextcloud/files'
 
-import { emit } from '@nextcloud/event-bus'
-import { generateOcsUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction } from '@nextcloud/files'
-import { translatePlural as n } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
 import CheckSvg from '@mdi/svg/svg/check.svg?raw'
-
-import { pendingSharesViewId } from '../files_views/shares'
+import axios from '@nextcloud/axios'
+import { emit } from '@nextcloud/event-bus'
+import { FileAction, registerFileAction } from '@nextcloud/files'
+import { translatePlural as n } from '@nextcloud/l10n'
+import { generateOcsUrl } from '@nextcloud/router'
+import { pendingSharesViewId } from '../files_views/shares.ts'
 
 export const action = new FileAction({
 	id: 'accept-share',
@@ -33,12 +32,12 @@ export const action = new FileAction({
 			emit('files:node:deleted', node)
 
 			return true
-		} catch (error) {
+		} catch {
 			return false
 		}
 	},
 	async execBatch(nodes: Node[], view: View, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+		return Promise.all(nodes.map((node) => this.exec(node, view, dir)))
 	},
 
 	order: 1,

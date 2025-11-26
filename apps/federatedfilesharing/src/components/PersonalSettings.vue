@@ -4,13 +4,15 @@
 -->
 
 <template>
-	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud')"
-		:description="t('federatedfilesharing', 'You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')"
+	<NcSettingsSection
+		:name="t('federatedfilesharing', 'Federated Cloud')"
+		:description="t('federatedfilesharing', 'You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com', { productName })"
 		:doc-url="docUrlFederated">
-		<NcInputField class="federated-cloud__cloud-id"
+		<NcInputField
+			class="federated-cloud__cloud-id"
 			readonly
 			:label="t('federatedfilesharing', 'Your Federated Cloud ID')"
-			:value="cloudId"
+			:model-value="cloudId"
 			:success="isCopied"
 			show-trailing-button
 			:trailing-button-label="copyLinkTooltip"
@@ -29,7 +31,8 @@
 					<img class="social-button__icon social-button__icon--bright" :src="urlFacebookIcon">
 				</template>
 			</NcButton>
-			<NcButton :aria-label="t('federatedfilesharing', 'X (formerly Twitter)')"
+			<NcButton
+				:aria-label="t('federatedfilesharing', 'X (formerly Twitter)')"
 				:href="shareXUrl">
 				{{ t('federatedfilesharing', 'formerly Twitter') }}
 				<template #icon>
@@ -48,7 +51,8 @@
 					<img class="social-button__icon" :src="urlBlueSkyIcon">
 				</template>
 			</NcButton>
-			<NcButton class="social-button__website-button"
+			<NcButton
+				class="social-button__website-button"
 				@click="showHtml = !showHtml">
 				<template #icon>
 					<IconWeb :size="20" />
@@ -59,12 +63,13 @@
 
 		<template v-if="showHtml">
 			<p style="margin: 10px 0">
-				<a target="_blank"
+				<a
+					target="_blank"
 					rel="noreferrer noopener"
 					:href="reference"
 					:style="backgroundStyle">
 					<span :style="linkStyle" />
-					{{ t('federatedfilesharing', 'Share with me via Nextcloud') }}
+					{{ t('federatedfilesharing', 'Share with me via {productName}', { productName }) }}
 				</a>
 			</p>
 
@@ -82,12 +87,12 @@ import { showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { imagePath } from '@nextcloud/router'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
-import IconWeb from 'vue-material-design-icons/Web.vue'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconClipboard from 'vue-material-design-icons/ContentCopy.vue'
+import IconWeb from 'vue-material-design-icons/Web.vue'
 
 export default {
 	name: 'PersonalSettings',
@@ -99,10 +104,12 @@ export default {
 		IconClipboard,
 		IconWeb,
 	},
+
 	setup() {
 		return {
 			t,
 
+			productName: window.OC.theme.productName,
 			cloudId: loadState<string>('federatedfilesharing', 'cloudId'),
 			reference: loadState<string>('federatedfilesharing', 'reference'),
 			urlFacebookIcon: imagePath('core', 'facebook'),
@@ -111,6 +118,7 @@ export default {
 			urlXIcon: imagePath('core', 'x'),
 		}
 	},
+
 	data() {
 		return {
 			color: loadState('federatedfilesharing', 'color'),
@@ -121,50 +129,62 @@ export default {
 			isCopied: false,
 		}
 	},
+
 	computed: {
 		messageWithURL() {
 			return t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID, see {url}', { url: this.reference })
 		},
+
 		messageWithoutURL() {
 			return t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID')
 		},
+
 		shareMastodonUrl() {
 			return `https://mastodon.social/?text=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
 		},
+
 		shareXUrl() {
 			return `https://x.com/intent/tweet?text=${encodeURIComponent(this.messageWithURL)}`
 		},
+
 		shareFacebookUrl() {
 			return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.reference)}`
 		},
+
 		shareBlueSkyUrl() {
 			return `https://bsky.app/intent/compose?text=${encodeURIComponent(this.messageWithURL)}`
 		},
+
 		logoPathAbsolute() {
 			return window.location.protocol + '//' + window.location.host + this.logoPath
 		},
+
 		backgroundStyle() {
 			return `padding:10px;background-color:${this.color};color:${this.textColor};border-radius:3px;padding-inline-start:4px;`
 		},
+
 		linkStyle() {
 			return `background-image:url(${this.logoPathAbsolute});width:50px;height:30px;position:relative;top:8px;background-size:contain;display:inline-block;background-repeat:no-repeat; background-position: center center;`
 		},
+
 		htmlCode() {
 			return `<a target="_blank" rel="noreferrer noopener" href="${this.reference}" style="${this.backgroundStyle}">
 	<span style="${this.linkStyle}"></span>
 	${t('federatedfilesharing', 'Share with me via Nextcloud')}
 </a>`
 		},
+
 		copyLinkTooltip() {
 			return this.isCopied ? t('federatedfilesharing', 'Cloud ID copied') : t('federatedfilesharing', 'Copy')
 		},
 	},
+
 	methods: {
 		async copyCloudId(): Promise<void> {
 			try {
 				await navigator.clipboard.writeText(this.cloudId)
 				showSuccess(t('federatedfilesharing', 'Cloud ID copied'))
-			} catch (e) {
+			} catch {
 				// no secure context or really old browser - need a fallback
 				window.prompt(t('federatedfilesharing', 'Clipboard not available. Please copy the cloud ID manually.'), this.reference)
 			}

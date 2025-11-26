@@ -7,10 +7,12 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\DAV\Sharing;
 
+use OCA\DAV\CalDAV\Federation\FederationSharingService;
 use OCA\DAV\CalDAV\Sharing\Backend as CalendarSharingBackend;
 use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\CardDAV\Sharing\Backend as ContactsSharingBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\ICache;
@@ -32,6 +34,8 @@ class BackendTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private ICacheFactory&MockObject $cacheFactory;
 	private Service&MockObject $calendarService;
+	private RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
+	private FederationSharingService&MockObject $federationSharingService;
 	private CalendarSharingBackend $backend;
 
 	protected function setUp(): void {
@@ -47,13 +51,17 @@ class BackendTest extends TestCase {
 		$this->cacheFactory->expects(self::any())
 			->method('createInMemory')
 			->willReturn($this->shareCache);
+		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
+		$this->federationSharingService = $this->createMock(FederationSharingService::class);
 
 		$this->backend = new CalendarSharingBackend(
 			$this->userManager,
 			$this->groupManager,
 			$this->principalBackend,
+			$this->remoteUserPrincipalBackend,
 			$this->cacheFactory,
 			$this->calendarService,
+			$this->federationSharingService,
 			$this->logger,
 		);
 	}
@@ -296,8 +304,8 @@ class BackendTest extends TestCase {
 			->with($resourceId)
 			->willReturn($rows);
 		$this->principalBackend->expects(self::once())
-			->method('getPrincipalByPath')
-			->with($principal)
+			->method('getPrincipalPropertiesByPath')
+			->with($principal, ['uri', '{DAV:}displayname'])
 			->willReturn(['uri' => $principal, '{DAV:}displayname' => 'bob']);
 		$this->shareCache->expects(self::once())
 			->method('set')
@@ -313,8 +321,10 @@ class BackendTest extends TestCase {
 			$this->userManager,
 			$this->groupManager,
 			$this->principalBackend,
+			$this->remoteUserPrincipalBackend,
 			$this->cacheFactory,
 			$service,
+			$this->federationSharingService,
 			$this->logger);
 		$resourceId = 42;
 		$principal = 'principals/groups/bob';
@@ -344,8 +354,8 @@ class BackendTest extends TestCase {
 			->with($resourceId)
 			->willReturn($rows);
 		$this->principalBackend->expects(self::once())
-			->method('getPrincipalByPath')
-			->with($principal)
+			->method('getPrincipalPropertiesByPath')
+			->with($principal, ['uri', '{DAV:}displayname'])
 			->willReturn(['uri' => $principal, '{DAV:}displayname' => 'bob']);
 		$this->shareCache->expects(self::once())
 			->method('set')
@@ -382,7 +392,7 @@ class BackendTest extends TestCase {
 			->with($resourceIds)
 			->willReturn($rows);
 		$this->principalBackend->expects(self::exactly(2))
-			->method('getPrincipalByPath')
+			->method('getPrincipalPropertiesByPath')
 			->willReturnCallback(function (string $principal) use ($principalResults) {
 				switch ($principal) {
 					case 'principals/groups/bob':

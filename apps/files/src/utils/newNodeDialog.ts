@@ -4,7 +4,8 @@
  */
 
 import type { Node } from '@nextcloud/files'
-import { spawnDialog } from '@nextcloud/dialogs'
+
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import NewNodeDialog from '../components/NewNodeDialog.vue'
 
 interface ILabels {
@@ -20,6 +21,7 @@ interface ILabels {
 
 /**
  * Ask user for file or folder name
+ *
  * @param defaultName Default name to use
  * @param folderContent Nodes with in the current folder to check for unique name
  * @param labels Labels to set on the dialog
@@ -28,13 +30,13 @@ interface ILabels {
 export function newNodeName(defaultName: string, folderContent: Node[], labels: ILabels = {}) {
 	const contentNames = folderContent.map((node: Node) => node.basename)
 
-	return new Promise<string|null>((resolve) => {
+	return new Promise<string | null>((resolve) => {
 		spawnDialog(NewNodeDialog, {
 			...labels,
 			defaultName,
 			otherNames: contentNames,
 		}, (folderName) => {
-			resolve(folderName as string|null)
+			resolve(folderName as string | null)
 		})
 	})
 }

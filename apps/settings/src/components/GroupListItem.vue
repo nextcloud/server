@@ -5,22 +5,26 @@
 
 <template>
 	<Fragment>
-		<NcModal v-if="showRemoveGroupModal"
+		<NcModal
+			v-if="showRemoveGroupModal"
 			@close="showRemoveGroupModal = false">
 			<div class="modal__content">
 				<h2 class="modal__header">
 					{{ t('settings', 'Please confirm the group removal') }}
 				</h2>
-				<NcNoteCard type="warning"
+				<NcNoteCard
+					type="warning"
 					show-alert>
 					{{ t('settings', 'You are about to delete the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
 				</NcNoteCard>
 				<div class="modal__button-row">
-					<NcButton type="secondary"
+					<NcButton
+						variant="secondary"
 						@click="showRemoveGroupModal = false">
 						{{ t('settings', 'Cancel') }}
 					</NcButton>
-					<NcButton type="primary"
+					<NcButton
+						variant="primary"
 						@click="removeGroup">
 						{{ t('settings', 'Confirm') }}
 					</NcButton>
@@ -28,7 +32,8 @@
 			</div>
 		</NcModal>
 
-		<NcAppNavigationItem :key="id"
+		<NcAppNavigationItem
+			:key="id"
 			ref="listItem"
 			:exact="true"
 			:name="name"
@@ -40,24 +45,27 @@
 				<AccountGroup :size="20" />
 			</template>
 			<template #counter>
-				<NcCounterBubble v-if="count"
+				<NcCounterBubble
+					v-if="count"
 					:type="active ? 'highlighted' : undefined">
 					{{ count }}
 				</NcCounterBubble>
 			</template>
 			<template #actions>
-				<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
+				<NcActionInput
+					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					ref="displayNameInput"
 					:trailing-button-label="t('settings', 'Submit')"
 					type="text"
-					:value="name"
+					:model-value="name"
 					:label=" t('settings', 'Rename group')"
 					@submit="renameGroup(id)">
 					<template #icon>
 						<Pencil :size="20" />
 					</template>
 				</NcActionInput>
-				<NcActionButton v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
+				<NcActionButton
+					v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					@click="showRemoveGroupModal = true">
 					<template #icon>
 						<Delete :size="20" />
@@ -70,8 +78,8 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
 import { Fragment } from 'vue-frag'
-
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -79,12 +87,9 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-
 import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
-
-import { showError } from '@nextcloud/dialogs'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 
 export default {
 	name: 'GroupListItem',
@@ -101,6 +106,7 @@ export default {
 		NcNoteCard,
 		Pencil,
 	},
+
 	props: {
 		/**
 		 * If this group is currently selected
@@ -109,6 +115,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		/**
 		 * Number of members within this group
 		 */
@@ -116,6 +123,7 @@ export default {
 			type: Number,
 			default: null,
 		},
+
 		/**
 		 * Identifier of this group
 		 */
@@ -123,6 +131,7 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		/**
 		 * Name of this group
 		 */
@@ -131,6 +140,7 @@ export default {
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			loadingRenameGroup: false,
@@ -138,15 +148,18 @@ export default {
 			showRemoveGroupModal: false,
 		}
 	},
+
 	computed: {
 		settings() {
 			return this.$store.getters.getServerData
 		},
 	},
+
 	methods: {
 		handleGroupMenuOpen() {
 			this.openGroupMenu = true
 		},
+
 		async renameGroup(gid) {
 			// check if group id is valid
 			if (gid.trim() === '') {
@@ -174,11 +187,12 @@ export default {
 				this.loadingRenameGroup = false
 			}
 		},
+
 		async removeGroup() {
 			try {
 				await this.$store.dispatch('removeGroup', this.id)
 				this.showRemoveGroupModal = false
-			} catch (error) {
+			} catch {
 				showError(t('settings', 'Failed to delete group "{group}"', { group: this.name }))
 			}
 		},

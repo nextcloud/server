@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { describe, beforeEach, test, expect } from 'vitest'
-import { setActivePinia, createPinia } from 'pinia'
-import { usePathsStore } from './paths.ts'
 import { emit } from '@nextcloud/event-bus'
 import { File, Folder } from '@nextcloud/files'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, test } from 'vitest'
 import { useFilesStore } from './files.ts'
+import { usePathsStore } from './paths.ts'
 
 describe('Path store', () => {
-
 	let store: ReturnType<typeof usePathsStore>
 	let files: ReturnType<typeof useFilesStore>
 	let root: Folder & { _children?: string[] }
@@ -77,7 +76,6 @@ describe('Path store', () => {
 		// see that there are still no paths and the children are not duplicated
 		expect(store.paths).toEqual({})
 		expect(root._children).toEqual([node1.source])
-
 	})
 
 	test('Existing folder is created', () => {

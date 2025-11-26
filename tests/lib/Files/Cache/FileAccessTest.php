@@ -9,14 +9,17 @@ namespace Test\Files\Cache;
 
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\FileAccess;
+use OC\Files\Mount\LocalHomeMountProvider;
+use OC\FilesMetadata\FilesMetadataManager;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileAccessTest extends TestCase {
 	private IDBConnection $dbConnection;
 	private FileAccess $fileAccess;
@@ -25,15 +28,15 @@ class FileAccessTest extends TestCase {
 		parent::setUp();
 
 		// Setup the actual database connection (assume the database is configured properly in PHPUnit setup)
-		$this->dbConnection = \OCP\Server::get(IDBConnection::class);
+		$this->dbConnection = Server::get(IDBConnection::class);
 
 		// Ensure FileAccess is instantiated with the real connection
 		$this->fileAccess = new FileAccess(
 			$this->dbConnection,
-			\OCP\Server::get(\OC\SystemConfig::class),
-			\OCP\Server::get(LoggerInterface::class),
-			\OCP\Server::get(\OC\FilesMetadata\FilesMetadataManager::class),
-			\OCP\Server::get(\OCP\Files\IMimeTypeLoader::class)
+			Server::get(SystemConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(FilesMetadataManager::class),
+			Server::get(IMimeTypeLoader::class)
 		);
 
 		// Clear and prepare `filecache` table for tests
@@ -142,7 +145,7 @@ class FileAccessTest extends TestCase {
 			->values([
 				'storage_id' => $queryBuilder->createNamedParameter(4, IQueryBuilder::PARAM_INT),
 				'root_id' => $queryBuilder->createNamedParameter(40, IQueryBuilder::PARAM_INT),
-				'mount_provider_class' => $queryBuilder->createNamedParameter(\OC\Files\Mount\LocalHomeMountProvider::class),
+				'mount_provider_class' => $queryBuilder->createNamedParameter(LocalHomeMountProvider::class),
 				'mount_point' => $queryBuilder->createNamedParameter('/home/user'),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
@@ -206,6 +209,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('files'),
 				'mimetype' => 1,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -219,6 +223,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('documents'),
 				'mimetype' => 2,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -232,6 +237,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('photos'),
 				'mimetype' => 3,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -245,6 +251,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('endtoendencrypted'),
 				'mimetype' => 4,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -258,6 +265,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('serversideencrypted'),
 				'mimetype' => 4,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -271,6 +279,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('storage2'),
 				'mimetype' => 5,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -284,6 +293,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('file'),
 				'mimetype' => 6,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 	}

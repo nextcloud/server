@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Ofisda emas",
     "Working remotely" : "Masofadan ishlash",
     "In a call" : "Qo'ng'iroqda",
+    "Be right back" : "Hoziroq orqaga qaytish",
     "User status" : "Foydalanuvchi holati",
     "Clear status after" : "Holatni tozalashdan keyin",
     "Emoji for your status message" : "Xabar holati uchun emoji",

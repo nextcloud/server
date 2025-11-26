@@ -53,7 +53,6 @@ OC.L10N.register(
     "Failed to delete tag" : "Failed to delete tag",
     "Create or edit tags" : "Create or edit tags",
     "Search for a tag to edit" : "Search for a tag to edit",
-    "Collaborative tags …" : "Collaborative tags …",
     "No tags to select" : "No tags to select",
     "Tag name" : "Tag name",
     "Tag level" : "Tag level",
@@ -61,12 +60,10 @@ OC.L10N.register(
     "Update" : "Update",
     "Delete" : "Delete",
     "Reset" : "Reset",
-    "Loading …" : "Loading …",
     "Cancel" : "Cancel",
-    "Failed to load tags" : "Failed to load tags",
     "Failed to load selected tags" : "Failed to load selected tags",
+    "Failed to load tags" : "Failed to load tags",
     "Failed to select tag" : "Failed to select tag",
-    "Loading collaborative tags …" : "Loading collaborative tags …",
     "Search or create collaborative tags" : "Search or create collaborative tags",
     "No tags to select, type to create a new tag" : "No tags to select, type to create a new tag",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.",
@@ -78,6 +75,9 @@ OC.L10N.register(
     "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
     "Failed to load tags for file" : "Failed to load tags for file",
     "Failed to set tag for file" : "Failed to set tag for file",
-    "Failed to delete tag for file" : "Failed to delete tag for file"
+    "Failed to delete tag for file" : "Failed to delete tag for file",
+    "Collaborative tags …" : "Collaborative tags …",
+    "Loading …" : "Loading …",
+    "Loading collaborative tags …" : "Loading collaborative tags …"
 },
 "nplurals=2; plural=(n!=1);");

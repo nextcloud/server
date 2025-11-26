@@ -8,17 +8,18 @@
 namespace OC;
 
 use OC\DB\ConnectionAdapter;
-use OC\Repair\AddAppConfigLazyMigration;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
+use OC\Repair\AddMovePreviewJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanTags;
 use OC\Repair\CleanUpAbandonedApps;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
+use OC\Repair\ConfigKeyMigration;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -46,6 +47,7 @@ use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\MigrateOauthTables;
+use OC\Repair\Owncloud\MigratePropertiesTable;
 use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
@@ -57,6 +59,7 @@ use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
 use OC\Template\JSCombiner;
 use OCA\DAV\Migration\DeleteSchedulingObjects;
+use OCA\DAV\Migration\RemoveObjectProperties;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
@@ -167,6 +170,7 @@ class Repair implements IOutput {
 				\OC::$server->getUserManager(),
 				\OC::$server->getConfig()
 			),
+			\OCP\Server::get(MigratePropertiesTable::class),
 			\OC::$server->get(MigrateOauthTables::class),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
@@ -191,11 +195,12 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddMissingSecretJob::class),
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
 			\OCP\Server::get(AddMetadataGenerationJob::class),
-			\OCP\Server::get(AddAppConfigLazyMigration::class),
 			\OCP\Server::get(RepairLogoDimension::class),
 			\OCP\Server::get(RemoveLegacyDatadirFile::class),
 			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),
 			\OCP\Server::get(SanitizeAccountProperties::class),
+			\OCP\Server::get(AddMovePreviewJob::class),
+			\OCP\Server::get(ConfigKeyMigration::class),
 		];
 	}
 
@@ -215,6 +220,7 @@ class Repair implements IOutput {
 				\OCP\Server::get(IDBConnection::class)
 			),
 			\OCP\Server::get(DeleteSchedulingObjects::class),
+			\OC::$server->get(RemoveObjectProperties::class),
 		];
 	}
 

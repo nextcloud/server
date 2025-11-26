@@ -3,14 +3,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Folder } from '@nextcloud/files'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { emptyTrashAction } from './emptyTrashAction.ts'
-import { trashbinView } from '../files_views/trashbinView.ts'
 import * as ncDialogs from '@nextcloud/dialogs'
 import * as ncEventBus from '@nextcloud/event-bus'
-import * as ncInitialState from '@nextcloud/initial-state'
+import { Folder } from '@nextcloud/files'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { trashbinView } from '../files_views/trashbinView.ts'
 import * as api from '../services/api.ts'
+import { emptyTrashAction } from './emptyTrashAction.ts'
+
+const loadState = vi.hoisted(() => vi.fn((app, key, fallback) => {
+	if (fallback) {
+		return fallback
+	}
+	throw new Error()
+}))
+
+vi.mock('@nextcloud/initial-state', () => ({
+	loadState,
+}))
+
+beforeEach(() => vi.resetAllMocks())
 
 describe('files_trashbin: file list actions - empty trashbin', () => {
 	it('has id set', () => {
@@ -27,7 +39,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 	})
 
 	it('is enabled on trashbin view', () => {
-		const spy = vi.spyOn(ncInitialState, 'loadState').mockImplementationOnce(() => ({ allow_delete: true }))
+		loadState.mockImplementation(() => ({ allow_delete: true }))
 
 		const root = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/', root: '/trashbin/test/' })
 		const nodes = [
@@ -36,12 +48,12 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 		expect(emptyTrashAction.enabled).toBeTypeOf('function')
 		expect(emptyTrashAction.enabled!(trashbinView, nodes, root)).toBe(true)
-		expect(spy).toHaveBeenCalled()
-		expect(spy).toHaveBeenCalledWith('files_trashbin', 'config')
+		expect(loadState).toHaveBeenCalled()
+		expect(loadState).toHaveBeenCalledWith('files_trashbin', 'config')
 	})
 
 	it('is not enabled on another view enabled', () => {
-		vi.spyOn(ncInitialState, 'loadState').mockImplementationOnce(() => ({ allow_delete: true }))
+		loadState.mockImplementation(() => ({ allow_delete: true }))
 
 		const root = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/', root: '/trashbin/test/' })
 		const nodes = [
@@ -62,7 +74,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 	})
 
 	it('is not enabled when deletion is forbidden', () => {
-		const spy = vi.spyOn(ncInitialState, 'loadState').mockImplementationOnce(() => ({ allow_delete: false }))
+		loadState.mockImplementation(() => ({ allow_delete: false }))
 
 		const root = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/', root: '/trashbin/test/' })
 		const nodes = [
@@ -71,13 +83,12 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 		expect(emptyTrashAction.enabled).toBeTypeOf('function')
 		expect(emptyTrashAction.enabled!(trashbinView, nodes, root)).toBe(false)
-		expect(spy).toHaveBeenCalled()
-		expect(spy).toHaveBeenCalledWith('files_trashbin', 'config')
+		expect(loadState).toHaveBeenCalled()
+		expect(loadState).toHaveBeenCalledWith('files_trashbin', 'config')
 	})
 
 	it('is not enabled when not in trashbin root', () => {
-		vi.spyOn(ncInitialState, 'loadState').mockImplementationOnce(() => ({ allow_delete: true }))
-
+		loadState.mockImplementation(() => ({ allow_delete: true }))
 		const root = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/other-folder', root: '/trashbin/test/' })
 		const nodes = [
 			new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/' }),
@@ -101,6 +112,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 		}
 
 		beforeEach(() => {
+			vi.resetAllMocks()
 			dialogBuilder = {
 				setSeverity: vi.fn(() => dialogBuilder),
 				setText: vi.fn(() => dialogBuilder),
@@ -126,7 +138,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 			dialogBuilder.build.mockImplementationOnce(() => ({
 				show: async () => {
-					const buttons = dialogBuilder.setButtons.mock.calls[0][0]
+					const buttons = dialogBuilder.setButtons.mock.calls[0]![0]
 					const cancel = buttons.find(({ label }) => label === 'Cancel')
 					await cancel.callback()
 				},
@@ -142,7 +154,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 			dialogBuilder.build.mockImplementationOnce(() => ({
 				show: async () => {
-					const buttons = dialogBuilder.setButtons.mock.calls[0][0]
+					const buttons = dialogBuilder.setButtons.mock.calls[0]![0]
 					const cancel = buttons.find(({ label }) => label === 'Empty deleted files')
 					await cancel.callback()
 				},
@@ -160,7 +172,7 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 			dialogBuilder.build.mockImplementationOnce(() => ({
 				show: async () => {
-					const buttons = dialogBuilder.setButtons.mock.calls[0][0]
+					const buttons = dialogBuilder.setButtons.mock.calls[0]![0]
 					const cancel = buttons.find(({ label }) => label === 'Empty deleted files')
 					await cancel.callback()
 				},

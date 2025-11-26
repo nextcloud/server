@@ -54,7 +54,7 @@ class OauthApiController extends Controller {
 	/**
 	 * Get a token
 	 *
-	 * @param string $grant_type Token type that should be granted
+	 * @param 'authorization_code'|'refresh_token' $grant_type Token type that should be granted
 	 * @param ?string $code Code of the flow
 	 * @param ?string $refresh_token Refresh token
 	 * @param ?string $client_id Client ID

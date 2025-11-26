@@ -6,21 +6,20 @@
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { extname } from 'path'
-import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
+import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import { showError } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
+import { extname } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
-
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import logger from '../logger.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isDownloadable } from '../utils/permissions.ts'
-import logger from '../logger.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
@@ -149,7 +148,7 @@ export default defineComponent({
 
 			// If we're dragging a selection, we need to check all files
 			if (this.selectedFiles.length > 0) {
-				const nodes = this.selectedFiles.map(source => this.filesStore.getNode(source)) as Node[]
+				const nodes = this.selectedFiles.map((source) => this.filesStore.getNode(source)) as Node[]
 				return nodes.every(canDrag)
 			}
 			return canDrag(this.source)
@@ -236,7 +235,7 @@ export default defineComponent({
 			}
 
 			return actions
-				.filter(action => {
+				.filter((action) => {
 					if (!action.enabled) {
 						return true
 					}
@@ -262,6 +261,7 @@ export default defineComponent({
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
+		 *
 		 * @param newSource The new value of the source prop
 		 * @param oldSource The previous value
 		 */
@@ -439,7 +439,7 @@ export default defineComponent({
 			}
 
 			const nodes = this.draggingStore.dragging
-				.map(source => this.filesStore.getNode(source)) as Node[]
+				.map((source) => this.filesStore.getNode(source)) as Node[]
 
 			const image = await getDragAndDropPreview(nodes)
 			event.dataTransfer?.setDragImage(image, -10, -10)
@@ -493,12 +493,12 @@ export default defineComponent({
 			}
 
 			// Else we're moving/copying files
-			const nodes = selection.map(source => this.filesStore.getNode(source)) as Node[]
+			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
 			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
-			if (selection.some(source => this.selectedFiles.includes(source))) {
+			if (selection.some((source) => this.selectedFiles.includes(source))) {
 				logger.debug('Dropped selection, resetting select store...')
 				this.selectionStore.reset()
 			}

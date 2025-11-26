@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * @since 31.0.0
  */
-class ServerVersion {
+#[Consumable(since: '31.0.0')]
+readonly class ServerVersion {
 
+	/** @var int[] */
 	private array $version;
 	private string $versionString;
 	private string $build;
@@ -59,6 +63,7 @@ class ServerVersion {
 	}
 
 	/**
+	 * @return int[]
 	 * @since 31.0.0
 	 */
 	public function getVersion(): array {
@@ -103,6 +108,5 @@ class ServerVersion {
 			$version .= ' Build:' . $build;
 		}
 		return $version;
-
 	}
 }

@@ -15,10 +15,10 @@ use OCP\Server;
 /**
  * Class MovieTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MovieTest extends Provider {
 	protected string $fileName = 'testimage.mp4';
 	protected int $width = 560;
@@ -26,10 +26,7 @@ class MovieTest extends Provider {
 
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);
-		$movieBinary = $binaryFinder->findBinaryPath('avconv');
-		if (!is_string($movieBinary)) {
-			$movieBinary = $binaryFinder->findBinaryPath('ffmpeg');
-		}
+		$movieBinary = $binaryFinder->findBinaryPath('ffmpeg');
 
 		if (is_string($movieBinary)) {
 			parent::setUp();

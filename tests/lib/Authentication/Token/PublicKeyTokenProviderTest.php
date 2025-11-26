@@ -18,6 +18,7 @@ use OC\Authentication\Token\PublicKeyTokenProvider;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -49,6 +50,8 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $cacheFactory;
 	/** @var int */
 	private $time;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -72,6 +75,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->timeFactory->method('getTime')
 			->willReturn($this->time);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->eventDispatcher = Server::get(IEventDispatcher::class);
 
 		$this->tokenProvider = new PublicKeyTokenProvider(
 			$this->mapper,
@@ -82,6 +86,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 			$this->timeFactory,
 			$this->hasher,
 			$this->cacheFactory,
+			$this->eventDispatcher,
 		);
 	}
 

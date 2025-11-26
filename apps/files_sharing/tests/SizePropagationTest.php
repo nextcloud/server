@@ -17,10 +17,10 @@ use Test\Traits\UserTrait;
 /**
  * Class SizePropagationTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SizePropagationTest extends TestCase {
 	use UserTrait;
 

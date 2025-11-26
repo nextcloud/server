@@ -89,7 +89,7 @@ class TAR extends Archive {
 		if ($this->fileExists($path)) {
 			$this->remove($path);
 		}
-		if ($source and $source[0] == '/' and file_exists($source)) {
+		if ($source && $source[0] === '/' && file_exists($source)) {
 			$source = file_get_contents($source);
 		}
 		$result = $this->tar->addString($path, $source);
@@ -122,9 +122,9 @@ class TAR extends Archive {
 		}
 		foreach ($this->cachedHeaders as $header) {
 			if ($file == $header['filename']
-				or $file . '/' == $header['filename']
-				or '/' . $file . '/' == $header['filename']
-				or '/' . $file == $header['filename']
+				|| $file . '/' == $header['filename']
+				|| '/' . $file . '/' == $header['filename']
+				|| '/' . $file == $header['filename']
 			) {
 				return $header;
 			}
@@ -161,7 +161,7 @@ class TAR extends Archive {
 			if ($file[0] == '/') {
 				$file = substr($file, 1);
 			}
-			if (substr($file, 0, $pathLength) == $path and $file != $path) {
+			if (substr($file, 0, $pathLength) == $path && $file != $path) {
 				$result = substr($file, $pathLength);
 				if ($pos = strpos($result, '/')) {
 					$result = substr($result, 0, $pos + 1);
@@ -244,13 +244,13 @@ class TAR extends Archive {
 	 */
 	public function fileExists(string $path): bool {
 		$files = $this->getFiles();
-		if ((in_array($path, $files)) or (in_array($path . '/', $files))) {
+		if ((in_array($path, $files)) || (in_array($path . '/', $files))) {
 			return true;
 		} else {
 			$folderPath = rtrim($path, '/') . '/';
 			$pathLength = strlen($folderPath);
 			foreach ($files as $file) {
-				if (strlen($file) > $pathLength and substr($file, 0, $pathLength) == $folderPath) {
+				if (strlen($file) > $pathLength && substr($file, 0, $pathLength) == $folderPath) {
 					return true;
 				}
 			}
@@ -296,10 +296,10 @@ class TAR extends Archive {
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
-		} elseif ($mode == 'r' or $mode == 'rb') {
+		} elseif ($mode == 'r' || $mode == 'rb') {
 			return false;
 		}
-		if ($mode == 'r' or $mode == 'rb') {
+		if ($mode == 'r' || $mode == 'rb') {
 			return fopen($tmpFile, $mode);
 		} else {
 			$handle = fopen($tmpFile, $mode);

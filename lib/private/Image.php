@@ -898,7 +898,7 @@ class Image implements IImage {
 		}
 
 		// preserve transparency
-		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
+		if ($this->imageType === IMAGETYPE_GIF || $this->imageType === IMAGETYPE_PNG) {
 			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
 			if ($alpha === false) {
 				$alpha = null;
@@ -930,7 +930,7 @@ class Image implements IImage {
 		}
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
-		if ($widthOrig === $heightOrig and $size == 0) {
+		if ($widthOrig === $heightOrig && $size == 0) {
 			return true;
 		}
 		$ratioOrig = $widthOrig / $heightOrig;
@@ -957,7 +957,7 @@ class Image implements IImage {
 		}
 
 		// preserve transparency
-		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
+		if ($this->imageType === IMAGETYPE_GIF || $this->imageType === IMAGETYPE_PNG) {
 			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
 			if ($alpha === false) {
 				$alpha = null;
@@ -1018,7 +1018,7 @@ class Image implements IImage {
 		}
 
 		// preserve transparency
-		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
+		if ($this->imageType === IMAGETYPE_GIF || $this->imageType === IMAGETYPE_PNG) {
 			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
 			if ($alpha === false) {
 				$alpha = null;

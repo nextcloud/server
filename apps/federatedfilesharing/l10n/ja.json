@@ -45,18 +45,21 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "私の #Nextcloud Federated Cloud ID を通して共有してください、 {url} を参照してください。",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud の「クラウド共有ID」で私と共有できます。",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
+    "Cloud ID copied" : "クラウドIDをコピーしました",
     "Copy" : "コピー",
     "Clipboard not available. Please copy the cloud ID manually." : "クリップボードが使用できません。手動でクラウドIDをコピーしてください。",
     "Copied!" : "コピーしました！",
     "Federated Cloud" : "クラウド共有",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud サーバーまたはその他の Open Cloud Mesh (OCM) 互換のサーバーとサービスを使用しているユーザーであれば、共有ダイアログに Federated Cloud ID を入力するだけで誰とでも共有できます。例: person@cloud.example.com",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "{productName} サーバーまたはその他の Open Cloud Mesh (OCM) 互換のサーバーとサービスを使用しているユーザーであれば、共有ダイアログに Federated Cloud ID を入力するだけで誰とでも共有できます。例: person@cloud.example.com",
     "Your Federated Cloud ID" : "あなたのクラウド共有ID",
     "Share it so your friends can share files with you:" : "友達があなたとファイルを共有できるよう、シェアしましょう:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (旧 Twitter)",
     "formerly Twitter" : " 旧 Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "ウェブサイトに追加",
+    "Share with me via {productName}" : "{productName}で共有",
     "HTML Code:" : "HTMLコード:",
     "Cancel" : "キャンセル",
     "Add remote share" : "リモート共有を追加",
@@ -65,6 +68,7 @@
     "Remote share password" : "リモート共有のパスワード",
     "Incoming share could not be processed" : "受信した共有を処理できませんでした",
     "Cloud ID copied to the clipboard" : "クリップボードにクラウドIDをコピーしました",
-    "Copy to clipboard" : "クリップボードにコピー"
+    "Copy to clipboard" : "クリップボードにコピー",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud サーバーまたはその他の Open Cloud Mesh (OCM) 互換のサーバーとサービスを使用しているユーザーであれば、共有ダイアログに Federated Cloud ID を入力するだけで誰とでも共有できます。例: person@cloud.example.com"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

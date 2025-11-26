@@ -4,34 +4,32 @@
  */
 
 import type { ContentsWithRoot } from '@nextcloud/files'
+import type { CancelablePromise } from 'cancelable-promise'
 
-import { CancelablePromise } from 'cancelable-promise'
-import { davRemoteURL } from '@nextcloud/files'
-import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
+import axios from '@nextcloud/axios'
+import { davRemoteURL } from '@nextcloud/files'
 import { getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
-
+import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
+import { generateOcsUrl } from '@nextcloud/router'
 import { getContents as getFiles } from './Files.ts'
 
-// eslint-disable-next-line no-use-before-define
 type Tree = TreeNodeData[]
 
 interface TreeNodeData {
-	id: number,
-	basename: string,
-	displayName?: string,
-	children: Tree,
+	id: number
+	basename: string
+	displayName?: string
+	children: Tree
 }
 
 export interface TreeNode {
-	source: string,
-	encodedSource: string,
-	path: string,
-	fileid: number,
-	basename: string,
-	displayName?: string,
+	source: string
+	encodedSource: string
+	path: string
+	fileid: number
+	basename: string
+	displayName?: string
 }
 
 export const folderTreeId = 'folders'
@@ -48,7 +46,13 @@ const collator = Intl.Collator(
 
 const compareNodes = (a: TreeNodeData, b: TreeNodeData) => collator.compare(a.displayName ?? a.basename, b.displayName ?? b.basename)
 
-const getTreeNodes = (tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] => {
+/**
+ *
+ * @param tree
+ * @param currentPath
+ * @param nodes
+ */
+function getTreeNodes(tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] {
 	const sortedTree = tree.toSorted(compareNodes)
 	for (const { id, basename, displayName, children } of sortedTree) {
 		const path = joinPaths(currentPath, basename)
@@ -71,7 +75,12 @@ const getTreeNodes = (tree: Tree, currentPath: string = '/', nodes: TreeNode[] =
 	return nodes
 }
 
-export const getFolderTreeNodes = async (path: string = '/', depth: number = 1): Promise<TreeNode[]> => {
+/**
+ *
+ * @param path
+ * @param depth
+ */
+export async function getFolderTreeNodes(path: string = '/', depth: number = 1): Promise<TreeNode[]> {
 	const { data: tree } = await axios.get<Tree>(generateOcsUrl('/apps/files/api/v1/folder-tree'), {
 		params: new URLSearchParams({ path, depth: String(depth) }),
 	})
@@ -81,12 +90,20 @@ export const getFolderTreeNodes = async (path: string = '/', depth: number = 1):
 
 export const getContents = (path: string): CancelablePromise<ContentsWithRoot> => getFiles(path)
 
-export const encodeSource = (source: string): string => {
+/**
+ *
+ * @param source
+ */
+export function encodeSource(source: string): string {
 	const { origin } = new URL(source)
 	return origin + encodePath(source.slice(origin.length))
 }
 
-export const getSourceParent = (source: string): string => {
+/**
+ *
+ * @param source
+ */
+export function getSourceParent(source: string): string {
 	const parent = dirname(source)
 	if (parent === sourceRoot) {
 		return folderTreeId

@@ -228,27 +228,7 @@ class Factory implements IFactory {
 			return $defaultLanguage;
 		}
 
-		// Step 3.1: Check if Nextcloud is already installed before we try to access user info
-		if (!$this->config->getSystemValueBool('installed', false)) {
-			return 'en';
-		}
-		// Step 3.2: Check the current user (if any) for their preferred language
-		$user = $this->userSession->getUser();
-		if ($user !== null) {
-			$userLang = $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
-			if ($userLang !== null) {
-				return $userLang;
-			}
-		}
-
-		// Step 4: Check the request headers
-		try {
-			return $this->getLanguageFromRequest($appId);
-		} catch (LanguageNotFoundException $e) {
-			// Ignore and continue
-		}
-
-		// Step 5: fall back to English
+		// Step 3: fall back to English
 		return 'en';
 	}
 
@@ -496,7 +476,7 @@ class Factory implements IFactory {
 
 				// Fallback from de_De to de
 				foreach ($available as $available_language) {
-					if (substr($preferred_language, 0, 2) === $available_language) {
+					if ($preferred_language_parts[0] === $available_language) {
 						return $available_language;
 					}
 				}

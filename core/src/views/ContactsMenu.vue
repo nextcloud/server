@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcHeaderMenu id="contactsmenu"
+	<NcHeaderMenu
+		id="contactsmenu"
 		class="contactsmenu"
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
@@ -14,19 +15,21 @@
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__search-container">
 				<div class="contactsmenu__menu__input-wrapper">
-					<NcTextField id="contactsmenu__menu__search"
+					<NcTextField
+						id="contactsmenu__menu__search"
 						ref="contactsMenuInput"
 						v-model="searchTerm"
 						trailing-button-icon="close"
 						:label="t('core', 'Search contacts')"
-						:trailing-button-label="t('core','Reset search')"
+						:trailing-button-label="t('core', 'Reset search')"
 						:show-trailing-button="searchTerm !== ''"
-						:placeholder="t('core', 'Search contacts …')"
+						:placeholder="t('core', 'Search contacts …')"
 						class="contactsmenu__menu__search"
 						@input="onInputDebounced"
 						@trailing-button-click="onReset" />
 				</div>
-				<NcButton v-for="action in actions"
+				<NcButton
+					v-for="action in actions"
 					:key="action.id"
 					:aria-label="action.label"
 					:title="action.label"
@@ -56,16 +59,16 @@
 			<div v-else class="contactsmenu__menu__content">
 				<div id="contactsmenu-contacts">
 					<ul>
-						<Contact v-for="contact in contacts" :key="contact.id" :contact="contact" />
+						<ContactMenuEntry v-for="contact in contacts" :key="contact.id" :contact="contact" />
 					</ul>
 				</div>
 				<div v-if="contactsAppEnabled" class="contactsmenu__menu__content__footer">
-					<NcButton type="tertiary" :href="contactsAppURL">
+					<NcButton variant="tertiary" :href="contactsAppURL">
 						{{ t('core', 'Show all contacts') }}
 					</NcButton>
 				</div>
 				<div v-else-if="canInstallApp" class="contactsmenu__menu__content__footer">
-					<NcButton type="tertiary" :href="contactsAppMgmtURL">
+					<NcButton variant="tertiary" :href="contactsAppMgmtURL">
 						{{ t('core', 'Install the Contacts app') }}
 					</NcButton>
 				</div>
@@ -76,20 +79,18 @@
 
 <script>
 import { mdiContacts, mdiMagnify } from '@mdi/js'
-import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
+import { t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import debounce from 'debounce'
-
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
-import Contact from '../components/ContactsMenu/Contact.vue'
+import ContactMenuEntry from '../components/ContactsMenu/ContactMenuEntry.vue'
 import logger from '../logger.js'
 import Nextcloud from '../mixins/Nextcloud.js'
 
@@ -97,7 +98,7 @@ export default {
 	name: 'ContactsMenu',
 
 	components: {
-		Contact,
+		ContactMenuEntry,
 		NcButton,
 		NcEmptyContent,
 		NcHeaderMenu,
@@ -134,11 +135,12 @@ export default {
 		async handleOpen() {
 			await this.getContacts('')
 		},
+
 		async getContacts(searchTerm) {
 			if (searchTerm === '') {
-				this.loadingText = t('core', 'Loading your contacts …')
+				this.loadingText = t('core', 'Loading your contacts …')
 			} else {
-				this.loadingText = t('core', 'Looking for {term} …', {
+				this.loadingText = t('core', 'Looking for {term} …', {
 					term: searchTerm,
 				})
 			}
@@ -161,6 +163,7 @@ export default {
 				this.error = true
 			}
 		},
+
 		onInputDebounced: debounce(function() {
 			this.getContacts(this.searchTerm)
 		}, 500),
@@ -210,12 +213,13 @@ export default {
 		}
 
 		&__search-container {
+			padding: 10px;
 			display: flex;
 			flex: row nowrap;
+			column-gap: 10px;
 		}
 
 		&__input-wrapper {
-			padding: 10px;
 			z-index: 2;
 			top: 0;
 			flex-grow: 1;

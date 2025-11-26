@@ -3,9 +3,10 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<VirtualList ref="table"
+	<VirtualList
+		ref="table"
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
-		:data-key="'source'"
+		data-key="source"
 		:data-sources="nodes"
 		:grid-mode="userConfig.grid_view"
 		:extra-props="{
@@ -24,13 +25,15 @@
 			<span class="files-list__selected">
 				{{ n('files', '{count} selected', '{count} selected', selectedNodes.length, { count: selectedNodes.length }) }}
 			</span>
-			<FilesListTableHeaderActions :current-view="currentView"
+			<FilesListTableHeaderActions
+				:current-view="currentView"
 				:selected-nodes="selectedNodes" />
 		</template>
 
 		<template #before>
 			<!-- Headers -->
-			<FilesListHeader v-for="header in headers"
+			<FilesListHeader
+				v-for="header in headers"
 				:key="header.id"
 				:current-folder="currentFolder"
 				:current-view="currentView"
@@ -40,7 +43,8 @@
 		<!-- Thead-->
 		<template #header>
 			<!-- Table header and sort buttons -->
-			<FilesListTableHeader ref="thead"
+			<FilesListTableHeader
+				ref="thead"
 				:files-list-width="fileListWidth"
 				:is-mime-available="isMimeAvailable"
 				:is-mtime-available="isMtimeAvailable"
@@ -55,7 +59,8 @@
 
 		<!-- Tfoot-->
 		<template #footer>
-			<FilesListTableFooter :current-view="currentView"
+			<FilesListTableFooter
+				:current-view="currentView"
 				:files-list-width="fileListWidth"
 				:is-mime-available="isMimeAvailable"
 				:is-mtime-available="isMtimeAvailable"
@@ -67,26 +72,16 @@
 </template>
 
 <script lang="ts">
-import type { UserConfig } from '../types'
 import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
+import type { UserConfig } from '../types.ts'
 
-import { Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { FileType, Folder, getFileActions, Permission, View } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
-
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useActiveStore } from '../store/active.ts'
-import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
-import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import { useSelectionStore } from '../store/selection.js'
-import { useUserConfigStore } from '../store/userconfig.ts'
-import logger from '../logger.ts'
-
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
 import FileListFilters from './FileListFilters.vue'
@@ -95,6 +90,14 @@ import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import VirtualList from './VirtualList.vue'
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import logger from '../logger.ts'
+import { useActiveStore } from '../store/active.ts'
+import { useSelectionStore } from '../store/selection.js'
+import { useUserConfigStore } from '../store/userconfig.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -113,14 +116,17 @@ export default defineComponent({
 			type: View,
 			required: true,
 		},
+
 		currentFolder: {
 			type: Folder,
 			required: true,
 		},
+
 		nodes: {
 			type: Array as PropType<NcNode[]>,
 			required: true,
 		},
+
 		summary: {
 			type: String,
 			required: true,
@@ -172,21 +178,23 @@ export default defineComponent({
 			if (this.fileListWidth < 1024) {
 				return false
 			}
-			return this.nodes.some(node => node.mime !== undefined || node.mime !== 'application/octet-stream')
+			return this.nodes.some((node) => node.mime !== undefined || node.mime !== 'application/octet-stream')
 		},
+
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
 			if (this.fileListWidth < 768) {
 				return false
 			}
-			return this.nodes.some(node => node.mtime !== undefined)
+			return this.nodes.some((node) => node.mtime !== undefined)
 		},
+
 		isSizeAvailable() {
 			// Hide size column on narrow screens
 			if (this.fileListWidth < 768) {
 				return false
 			}
-			return this.nodes.some(node => node.size !== undefined)
+			return this.nodes.some((node) => node.size !== undefined)
 		},
 
 		cantUpload() {
@@ -232,12 +240,15 @@ export default defineComponent({
 		isEmpty() {
 			this.handleOpenQueries()
 		},
+
 		fileId() {
 			this.handleOpenQueries()
 		},
+
 		openFile() {
 			this.handleOpenQueries()
 		},
+
 		openDetails() {
 			this.handleOpenQueries()
 		},
@@ -299,7 +310,7 @@ export default defineComponent({
 		openSidebarForFile(fileId) {
 			// Open the sidebar for the given URL fileid
 			// iif we just loaded the app.
-			const node = this.nodes.find(n => n.fileid === fileId) as NcNode
+			const node = this.nodes.find((n) => n.fileid === fileId) as NcNode
 			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
 				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
@@ -308,14 +319,14 @@ export default defineComponent({
 			logger.warn(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
-		scrollToFile(fileId: number|null, warn = true) {
+		scrollToFile(fileId: number | null, warn = true) {
 			if (fileId) {
 				// Do not uselessly scroll to the top of the list.
 				if (fileId === this.currentFolder.fileid) {
 					return
 				}
 
-				const index = this.nodes.findIndex(node => node.fileid === fileId)
+				const index = this.nodes.findIndex((node) => node.fileid === fileId)
 				if (warn && index === -1 && fileId !== this.currentFolder.fileid) {
 					showError(t('files', 'File not found'))
 				}
@@ -357,10 +368,11 @@ export default defineComponent({
 
 		/**
 		 * Handle opening a file (e.g. by ?openfile=true)
+		 *
 		 * @param fileId File to open
 		 */
 		async handleOpenFile(fileId: number) {
-			const node = this.nodes.find(n => n.fileid === fileId) as NcNode
+			const node = this.nodes.find((n) => n.fileid === fileId) as NcNode
 			if (node === undefined) {
 				return
 			}
@@ -427,7 +439,7 @@ export default defineComponent({
 			// Up and down arrow keys
 			if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
 				const columnCount = this.$refs.table?.columnCount ?? 1
-				const index = this.nodes.findIndex(node => node.fileid === this.fileId) ?? 0
+				const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 				const nextIndex = event.key === 'ArrowUp' ? index - columnCount : index + columnCount
 				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
 					return
@@ -442,7 +454,7 @@ export default defineComponent({
 
 			// if grid mode, left and right arrow keys
 			if (this.userConfig.grid_view && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-				const index = this.nodes.findIndex(node => node.fileid === this.fileId) ?? 0
+				const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 				const nextIndex = event.key === 'ArrowLeft' ? index - 1 : index + 1
 				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
 					return
@@ -530,6 +542,7 @@ export default defineComponent({
 		.files-list__selected {
 			padding-inline-end: 12px;
 			white-space: nowrap;
+			font-variant-numeric: tabular-nums;
 		}
 
 		.files-list__table {

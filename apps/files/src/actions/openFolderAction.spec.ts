@@ -2,10 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Folder, Node, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
-import { describe, expect, test, vi } from 'vitest'
 
-import { action } from './openFolderAction'
+import type { Node, View } from '@nextcloud/files'
+
+import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import { action } from './openFolderAction.ts'
 
 const view = {
 	id: 'files',

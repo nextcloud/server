@@ -176,8 +176,8 @@ class Notify extends StorageAuthBase {
 			->innerJoin('m', 'filecache', 'f', $qb->expr()->eq('m.storage_id', 'f.storage'))
 			->where($qb->expr()->eq('mount_id', $qb->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash, IQueryBuilder::PARAM_STR)))
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 	}
 
 	private function updateParent(array $storageIds, string $parent): int {

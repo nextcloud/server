@@ -1931,6 +1931,10 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 	}
 
+	public function matchUserId(): bool {
+		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+	}
+
 	public function ignoreSecondDisplayName(): bool {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 	}

@@ -2,11 +2,13 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-/* eslint-disable jsdoc/require-jsdoc */
-import type { User } from '@nextcloud/cypress'
-import { createShare, type ShareSetting } from '../files_sharing/FilesSharingUtils'
 
-export const uploadThreeVersions = (user: User, fileName: string) => {
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+import type { ShareSetting } from '../files_sharing/FilesSharingUtils.ts'
+
+import { createShare } from '../files_sharing/FilesSharingUtils.ts'
+
+export function uploadThreeVersions(user: User, fileName: string) {
 	// A new version will not be created if the changes occur
 	// within less than one second of each other.
 	// eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -23,18 +25,18 @@ export function openVersionsPanel(fileName: string) {
 	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('getVersions')
 
 	// Open the versions tab
-	cy.window().then(win => {
-		win.OCA.Files.Sidebar.setActiveTab('version_vue')
+	cy.window().then((win) => {
+		win.OCA.Files.Sidebar.setActiveTab('files_versions')
 		win.OCA.Files.Sidebar.open(`/${fileName}`)
 	})
 
 	// Wait for the versions list to be fetched
 	cy.wait('@getVersions')
-	cy.get('#tab-version_vue').should('be.visible', { timeout: 10000 })
+	cy.get('#tab-files_versions').should('be.visible', { timeout: 10000 })
 }
 
 export function toggleVersionMenu(index: number) {
-	cy.get('#tab-version_vue [data-files-versions-version]')
+	cy.get('#tab-files_versions [data-files-versions-version]')
 		.eq(index)
 		.find('button')
 		.click()

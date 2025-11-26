@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
+import { isA11yActivation } from '@nextcloud/vue/functions/a11y'
 import { createFocusTrap } from 'focus-trap'
-import { isA11yActivation } from '../Util/a11y.js'
+import $ from 'jquery'
 
 $.widget('oc.ocdialog', {
 	options: {
@@ -104,88 +104,88 @@ $.widget('oc.ocdialog', {
 	_setOption(key, value) {
 		const self = this
 		switch (key) {
-		case 'title':
-			if (this.$title) {
-				this.$title.text(value)
-			} else {
-				const $title = $('<h2 class="oc-dialog-title">'
+			case 'title':
+				if (this.$title) {
+					this.$title.text(value)
+				} else {
+					const $title = $('<h2 class="oc-dialog-title">'
 						+ value
 						+ '</h2>')
-				this.$title = $title.prependTo(this.$dialog)
-			}
-			this._setSizes()
-			break
-		case 'buttons':
-			if (this.$buttonrow) {
-				this.$buttonrow.empty()
-			} else {
-				const $buttonrow = $('<div class="oc-dialog-buttonrow"></div>')
-				this.$buttonrow = $buttonrow.appendTo(this.$dialog)
-			}
-			if (value.length === 1) {
-				this.$buttonrow.addClass('onebutton')
-			} else if (value.length === 2) {
-				this.$buttonrow.addClass('twobuttons')
-			} else if (value.length === 3) {
-				this.$buttonrow.addClass('threebuttons')
-			}
-			$.each(value, function(idx, val) {
-				const $button = $('<button>').text(val.text)
-				if (val.classes) {
-					$button.addClass(val.classes)
+					this.$title = $title.prependTo(this.$dialog)
 				}
-				if (val.defaultButton) {
-					$button.addClass('primary')
-					self.$defaultButton = $button
+				this._setSizes()
+				break
+			case 'buttons':
+				if (this.$buttonrow) {
+					this.$buttonrow.empty()
+				} else {
+					const $buttonrow = $('<div class="oc-dialog-buttonrow"></div>')
+					this.$buttonrow = $buttonrow.appendTo(this.$dialog)
 				}
-				self.$buttonrow.append($button)
-				$button.on('click keydown', function(event) {
-					if (isA11yActivation(event)) {
-						val.click.apply(self.element[0], arguments)
+				if (value.length === 1) {
+					this.$buttonrow.addClass('onebutton')
+				} else if (value.length === 2) {
+					this.$buttonrow.addClass('twobuttons')
+				} else if (value.length === 3) {
+					this.$buttonrow.addClass('threebuttons')
+				}
+				$.each(value, function(idx, val) {
+					const $button = $('<button>').text(val.text)
+					if (val.classes) {
+						$button.addClass(val.classes)
 					}
-				})
-			})
-			this.$buttonrow.find('button')
-				.on('focus', function(event) {
-					self.$buttonrow.find('button').removeClass('primary')
-					$(this).addClass('primary')
-				})
-			this._setSizes()
-			break
-		case 'style':
-			if (value.buttons !== undefined) {
-				this.$buttonrow.addClass(value.buttons)
-			}
-			break
-		case 'closeButton':
-			if (value) {
-				const $closeButton = $('<button class="oc-dialog-close"></button>')
-				$closeButton.attr('aria-label', t('core', 'Close "{dialogTitle}" dialog', { dialogTitle: this.$title || this.options.title }))
-				this.$dialog.prepend($closeButton)
-				$closeButton.on('click keydown', function(event) {
-					if (isA11yActivation(event)) {
-						self.options.closeCallback && self.options.closeCallback()
-						self.close()
+					if (val.defaultButton) {
+						$button.addClass('primary')
+						self.$defaultButton = $button
 					}
+					self.$buttonrow.append($button)
+					$button.on('click keydown', function(event) {
+						if (isA11yActivation(event)) {
+							val.click.apply(self.element[0], arguments)
+						}
+					})
 				})
-			} else {
-				this.$dialog.find('.oc-dialog-close').remove()
-			}
-			break
-		case 'width':
-			this.$dialog.css('width', value)
-			break
-		case 'height':
-			this.$dialog.css('height', value)
-			break
-		case 'close':
-			this.closeCB = value
-			break
+				this.$buttonrow.find('button')
+					.on('focus', function() {
+						self.$buttonrow.find('button').removeClass('primary')
+						$(this).addClass('primary')
+					})
+				this._setSizes()
+				break
+			case 'style':
+				if (value.buttons !== undefined) {
+					this.$buttonrow.addClass(value.buttons)
+				}
+				break
+			case 'closeButton':
+				if (value) {
+					const $closeButton = $('<button class="oc-dialog-close"></button>')
+					$closeButton.attr('aria-label', t('core', 'Close "{dialogTitle}" dialog', { dialogTitle: this.$title || this.options.title }))
+					this.$dialog.prepend($closeButton)
+					$closeButton.on('click keydown', function(event) {
+						if (isA11yActivation(event)) {
+							self.options.closeCallback && self.options.closeCallback()
+							self.close()
+						}
+					})
+				} else {
+					this.$dialog.find('.oc-dialog-close').remove()
+				}
+				break
+			case 'width':
+				this.$dialog.css('width', value)
+				break
+			case 'height':
+				this.$dialog.css('height', value)
+				break
+			case 'close':
+				this.closeCB = value
+				break
 		}
 		// this._super(key, value);
 		$.Widget.prototype._setOption.apply(this, arguments)
 	},
-	_setOptions(options) {
+	_setOptions() {
 		// this._super(options);
 		$.Widget.prototype._setOptions.apply(this, arguments)
 	},
@@ -219,7 +219,6 @@ $.widget('oc.ocdialog', {
 			if (event.target !== self.$dialog.get(0) && self.$dialog.find($(event.target)).length === 0) {
 				event.preventDefault()
 				event.stopPropagation()
-
 			}
 		})
 	},

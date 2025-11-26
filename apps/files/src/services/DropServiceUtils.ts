@@ -1,15 +1,15 @@
+import type { Folder, Node } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
+import { showInfo, showWarning } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { Folder, Node, davGetClient, davGetDefaultPropfind, davResultToNode } from '@nextcloud/files'
-import { openConflictPicker } from '@nextcloud/upload'
-import { showError, showInfo } from '@nextcloud/dialogs'
+import { davGetClient, davGetDefaultPropfind, davResultToNode } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-
+import { openConflictPicker } from '@nextcloud/upload'
 import logger from '../logger.ts'
 
 /**
@@ -20,20 +20,18 @@ import logger from '../logger.ts'
  * properties to compute them dynamically.
  */
 export class Directory extends File {
+	_contents: (Directory | File)[]
 
-	/* eslint-disable no-use-before-define */
-	_contents: (Directory|File)[]
-
-	constructor(name, contents: (Directory|File)[] = []) {
+	constructor(name, contents: (Directory | File)[] = []) {
 		super([], name, { type: 'httpd/unix-directory' })
 		this._contents = contents
 	}
 
-	set contents(contents: (Directory|File)[]) {
+	set contents(contents: (Directory | File)[]) {
 		this._contents = contents
 	}
 
-	get contents(): (Directory|File)[] {
+	get contents(): (Directory | File)[] {
 		return this._contents
 	}
 
@@ -51,6 +49,7 @@ export class Directory extends File {
 	/**
 	 * Get the last modification time of a file tree
 	 * This is not perfect, but will get us a pretty good approximation
+	 *
 	 * @param directory the directory to traverse
 	 */
 	_computeDirectoryMtime(directory: Directory): number {
@@ -66,17 +65,17 @@ export class Directory extends File {
 
 	/**
 	 * Get the size of a file tree
+	 *
 	 * @param directory the directory to traverse
 	 */
 	_computeDirectorySize(directory: Directory): number {
-		return directory.contents.reduce((acc: number, entry: Directory|File) => {
+		return directory.contents.reduce((acc: number, entry: Directory | File) => {
 			// If the file is a directory, the size will
 			// also return the results of its _computeDirectorySize method
 			// Fancy recursion, huh?
 			return acc + entry.size
 		}, 0)
 	}
-
 }
 
 export type RootDirectory = Directory & {
@@ -85,9 +84,10 @@ export type RootDirectory = Directory & {
 
 /**
  * Traverse a file tree using the Filesystem API
+ *
  * @param entry the entry to traverse
  */
-export const traverseTree = async (entry: FileSystemEntry): Promise<Directory|File> => {
+export async function traverseTree(entry: FileSystemEntry): Promise<Directory | File> {
 	// Handle file
 	if (entry.isFile) {
 		return new Promise<File>((resolve, reject) => {
@@ -105,9 +105,10 @@ export const traverseTree = async (entry: FileSystemEntry): Promise<Directory|Fi
 
 /**
  * Read a directory using Filesystem API
+ *
  * @param directory the directory to read
  */
-const readDirectory = (directory: FileSystemDirectoryEntry): Promise<FileSystemEntry[]> => {
+function readDirectory(directory: FileSystemDirectoryEntry): Promise<FileSystemEntry[]> {
 	const dirReader = directory.createReader()
 
 	return new Promise<FileSystemEntry[]>((resolve, reject) => {
@@ -129,7 +130,11 @@ const readDirectory = (directory: FileSystemDirectoryEntry): Promise<FileSystemE
 	})
 }
 
-export const createDirectoryIfNotExists = async (absolutePath: string) => {
+/**
+ *
+ * @param absolutePath
+ */
+export async function createDirectoryIfNotExists(absolutePath: string) {
 	const davClient = davGetClient()
 	const dirExists = await davClient.exists(absolutePath)
 	if (!dirExists) {
@@ -140,15 +145,21 @@ export const createDirectoryIfNotExists = async (absolutePath: string) => {
 	}
 }
 
-export const resolveConflict = async <T extends ((Directory|File)|Node)>(files: Array<T>, destination: Folder, contents: Node[]): Promise<T[]> => {
+/**
+ *
+ * @param files
+ * @param destination
+ * @param contents
+ */
+export async function resolveConflict<T extends ((Directory | File) | Node)>(files: Array<T>, destination: Folder, contents: Node[]): Promise<T[]> {
 	try {
 		// List all conflicting files
-		const conflicts = files.filter((file: File|Node) => {
+		const conflicts = files.filter((file: File | Node) => {
 			return contents.find((node: Node) => node.basename === (file instanceof File ? file.name : file.basename))
-		}).filter(Boolean) as (File|Node)[]
+		}).filter(Boolean) as (File | Node)[]
 
 		// List of incoming files that are NOT in conflict
-		const uploads = files.filter((file: File|Node) => {
+		const uploads = files.filter((file: File | Node) => {
 			return !conflicts.includes(file)
 		})
 
@@ -158,7 +169,7 @@ export const resolveConflict = async <T extends ((Directory|File)|Node)>(files: 
 		logger.debug('Conflict resolution', { uploads, selected, renamed })
 
 		// If the user selected nothing, we cancel the upload
-		if (selected.length === 0 && renamed.length === 0) {
+		if (selected.length === 0 && renamed.length === 0 && uploads.length === 0) {
 			// User skipped
 			showInfo(t('files', 'Conflicts resolution skipped'))
 			logger.info('User skipped the conflict resolution')
@@ -168,10 +179,9 @@ export const resolveConflict = async <T extends ((Directory|File)|Node)>(files: 
 		// Update the list of files to upload
 		return [...uploads, ...selected, ...renamed] as (typeof files)
 	} catch (error) {
-		console.error(error)
 		// User cancelled
-		showError(t('files', 'Upload cancelled'))
-		logger.error('User cancelled the upload')
+		logger.warn('User cancelled the upload', { error })
+		showWarning(t('files', 'Upload cancelled'))
 	}
 
 	return []

@@ -20,10 +20,10 @@ use OCP\Files\Storage\IStorage;
 /**
  * Class UpdaterTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UpdaterTest extends \Test\TestCase {
 	/**
 	 * @var Storage

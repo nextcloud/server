@@ -62,6 +62,7 @@ jobs:
           - '--tags ~@large files_features'
           - 'filesdrop_features'
           - 'file_conversions'
+          - 'files_reminders'
           - 'openldap_features'
           - 'openldap_numerical_features'
           - 'ldap_features'
@@ -73,7 +74,7 @@ jobs:
           - 'theming_features'
           - 'videoverification_features'
 
-        php-versions: ['8.1']
+        php-versions: ['8.4']
         spreed-versions: ['main']
         activity-versions: ['master']
 
@@ -84,9 +85,10 @@ jobs:
         ports:
           - 6379:6379/tcp
       openldap:
-        image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7 # zizmor: ignore[unpinned-images]
+        image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-8 # zizmor: ignore[unpinned-images]
         ports:
           - 389:389
+          - 636:636
         env:
           SLAPD_DOMAIN: nextcloud.ci
           SLAPD_ORGANIZATION: Nextcloud
@@ -95,14 +97,14 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           persist-credentials: false
           submodules: true
 
       - name: Checkout Talk app
         if: ${{ matrix.test-suite == 'videoverification_features' }}
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           persist-credentials: false
           repository: nextcloud/spreed
@@ -111,7 +113,7 @@ jobs:
 
       - name: Checkout Activity app
         if: ${{ matrix.test-suite == 'sharing_features' }}
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           persist-credentials: false
           repository: nextcloud/activity
@@ -119,7 +121,7 @@ jobs:
           ref: ${{ matrix.activity-versions }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@ccf2c627fe61b1b4d924adfcbd19d661a18133a0 #v2.35.2
+        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation

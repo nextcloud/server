@@ -90,4 +90,11 @@ interface ISchemaWrapper {
 	 * @since 23.0.0
 	 */
 	public function getDatabasePlatform();
+
+	/**
+	 * Drop autoincrement from an existing table of the database.
+	 *
+	 * @since 33.0.0
+	 */
+	public function dropAutoincrementColumn(string $table, string $column): void;
 }

@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<form class="system-tag-form"
+	<form
+		class="system-tag-form"
 		:disabled="loading"
 		aria-labelledby="system-tag-form-heading"
 		@submit.prevent="handleSubmit"
@@ -15,9 +16,10 @@
 
 		<div class="system-tag-form__group">
 			<label for="system-tags-input">{{ t('systemtags', 'Search for a tag to edit') }}</label>
-			<NcSelectTags v-model="selectedTag"
+			<NcSelectTags
+				v-model="selectedTag"
 				input-id="system-tags-input"
-				:placeholder="t('systemtags', 'Collaborative tags …')"
+				:placeholder="t('systemtags', 'Collaborative tags …')"
 				:fetch-tags="false"
 				:options="tags"
 				:multiple="false"
@@ -30,9 +32,10 @@
 
 		<div class="system-tag-form__group">
 			<label for="system-tag-name">{{ t('systemtags', 'Tag name') }}</label>
-			<NcTextField id="system-tag-name"
+			<NcTextField
+				id="system-tag-name"
 				ref="tagNameInput"
-				:value.sync="tagName"
+				v-model="tagName"
 				:error="Boolean(errorMessage)"
 				:helper-text="errorMessage"
 				label-outside />
@@ -40,7 +43,8 @@
 
 		<div class="system-tag-form__group">
 			<label for="system-tag-level">{{ t('systemtags', 'Tag level') }}</label>
-			<NcSelect v-model="tagLevel"
+			<NcSelect
+				v-model="tagLevel"
 				input-id="system-tag-level"
 				:options="tagLevelOptions"
 				:reduce="level => level.id"
@@ -49,49 +53,50 @@
 		</div>
 
 		<div class="system-tag-form__row">
-			<NcButton v-if="isCreating"
-				native-type="submit"
+			<NcButton
+				v-if="isCreating"
+				type="submit"
 				:disabled="isCreateDisabled || loading">
 				{{ t('systemtags', 'Create') }}
 			</NcButton>
 			<template v-else>
-				<NcButton native-type="submit"
+				<NcButton
+					type="submit"
 					:disabled="isUpdateDisabled || loading">
 					{{ t('systemtags', 'Update') }}
 				</NcButton>
-				<NcButton :disabled="loading"
+				<NcButton
+					:disabled="loading"
 					@click="handleDelete">
 					{{ t('systemtags', 'Delete') }}
 				</NcButton>
 			</template>
-			<NcButton native-type="reset"
+			<NcButton
+				type="reset"
 				:disabled="isResetDisabled || loading">
 				{{ t('systemtags', 'Reset') }}
 			</NcButton>
-			<NcLoadingIcon v-if="loading"
-				:name="t('systemtags', 'Loading …')"
+			<NcLoadingIcon
+				v-if="loading"
+				:name="t('systemtags', 'Loading …')"
 				:size="32" />
 		</div>
 	</form>
 </template>
 
 <script lang="ts">
-/* eslint-disable */
-import Vue, { type PropType } from 'vue'
+import type { Tag, TagWithId } from '../types.js'
 
+import { showSuccess } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import Vue, { type PropType } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
-import { translate as t } from '@nextcloud/l10n'
-import { showSuccess } from '@nextcloud/dialogs'
-
-import { defaultBaseTag } from '../utils.js'
 import { createTag, deleteTag, updateTag } from '../services/api.js'
-
-import type { Tag, TagWithId } from '../types.js'
+import { defaultBaseTag } from '../utils.js'
 
 enum TagLevel {
 	Public = 'Public',
@@ -119,7 +124,12 @@ const tagLevelOptions: TagLevelOption[] = [
 	},
 ]
 
-const getTagLevel = (userVisible: boolean, userAssignable: boolean): TagLevel => {
+/**
+ *
+ * @param userVisible
+ * @param userAssignable
+ */
+function getTagLevel(userVisible: boolean, userAssignable: boolean): TagLevel {
 	const matchLevel: Record<string, TagLevel> = {
 		[[true, true].join(',')]: TagLevel.Public,
 		[[true, false].join(',')]: TagLevel.Restricted,
@@ -155,13 +165,6 @@ export default Vue.extend({
 			tagName: '',
 			tagLevel: TagLevel.Public,
 		}
-	},
-
-	watch: {
-		selectedTag(tag: null | TagWithId) {
-			this.tagName = tag ? tag.displayName : ''
-			this.tagLevel = tag ? getTagLevel(tag.userVisible, tag.userAssignable) : TagLevel.Public
-		},
 	},
 
 	computed: {
@@ -217,6 +220,13 @@ export default Vue.extend({
 		},
 	},
 
+	watch: {
+		selectedTag(tag: null | TagWithId) {
+			this.tagName = tag ? tag.displayName : ''
+			this.tagLevel = tag ? getTagLevel(tag.userVisible, tag.userAssignable) : TagLevel.Public
+		},
+	},
+
 	methods: {
 		t,
 
@@ -237,7 +247,7 @@ export default Vue.extend({
 				this.$emit('tag:created', createdTag)
 				showSuccess(t('systemtags', 'Created tag'))
 				this.reset()
-			} catch (error) {
+			} catch {
 				this.errorMessage = t('systemtags', 'Failed to create tag')
 			}
 			this.loading = false
@@ -255,7 +265,7 @@ export default Vue.extend({
 				this.$emit('tag:updated', tag)
 				showSuccess(t('systemtags', 'Updated tag'))
 				this.$refs.tagNameInput?.focus()
-			} catch (error) {
+			} catch {
 				this.errorMessage = t('systemtags', 'Failed to update tag')
 			}
 			this.loading = false
@@ -271,7 +281,7 @@ export default Vue.extend({
 				this.$emit('tag:deleted', this.selectedTag)
 				showSuccess(t('systemtags', 'Deleted tag'))
 				this.reset()
-			} catch (error) {
+			} catch {
 				this.errorMessage = t('systemtags', 'Failed to delete tag')
 			}
 			this.loading = false

@@ -2,13 +2,19 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { FileType, Node } from '@nextcloud/files'
-import type { MountEntry } from '../services/externalStorage'
 
-export const isNodeExternalStorage = function(node: Node) {
+import type { Node } from '@nextcloud/files'
+import type { MountEntry } from '../services/externalStorage.ts'
+
+import { FileType } from '@nextcloud/files'
+
+/**
+ * @param node
+ */
+export function isNodeExternalStorage(node: Node) {
 	// Not a folder, not a storage
 	if (node.type === FileType.File) {
-		 return false
+		return false
 	}
 
 	// No backend or scope, not a storage

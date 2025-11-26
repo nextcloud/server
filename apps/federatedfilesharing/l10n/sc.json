@@ -24,7 +24,6 @@
     "Copy" : "Còpia",
     "Copied!" : "Copiadu!",
     "Federated Cloud" : "Nue virtuale federada",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podes cumpartzire con chie si siat mpreet su serbidore Nextcloud o àteros serbidores Open Cloud Mesh (OCM) cumpatìbiles. Ti bastat de nche insertare s'ID issoro de sa nue virtuale federada in sa bentana de cumpartzidura. Assimìgiat a persone@nue.esempru.com ",
     "Share it so your friends can share files with you:" : " Condividilo in modo che i tuoi amici possano condividere file con te:",
     "X (formerly Twitter)" : "X (in antis, Twitter)",
     "formerly Twitter" : "in antis, Twitter",
@@ -36,6 +35,7 @@
     "Remote share" : "Cumpartzidura remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Nche cheres agiùnghere sa cumpartzidura remota {name} dae {owner}@{remote}?",
     "Remote share password" : "Cumpartzidura remota crae",
-    "Copy to clipboard" : "Còpia in is punta de billete"
+    "Copy to clipboard" : "Còpia in is punta de billete",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podes cumpartzire con chie si siat mpreet su serbidore Nextcloud o àteros serbidores Open Cloud Mesh (OCM) cumpatìbiles. Ti bastat de nche insertare s'ID issoro de sa nue virtuale federada in sa bentana de cumpartzidura. Assimìgiat a persone@nue.esempru.com "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

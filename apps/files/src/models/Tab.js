@@ -5,7 +5,6 @@
 import DOMPurify from 'dompurify'
 
 export default class Tab {
-
 	_id
 	_name
 	_icon
@@ -23,8 +22,8 @@ export default class Tab {
 	 * @param {object} options destructuring object
 	 * @param {string} options.id the unique id of this tab
 	 * @param {string} options.name the translated tab name
-	 * @param {?string} options.icon the icon css class
-	 * @param {?string} options.iconSvg the icon in svg format
+	 * @param {string} [options.icon] the icon css class
+	 * @param {string} [options.iconSvg] the icon in svg format
 	 * @param {Function} options.mount function to mount the tab
 	 * @param {Function} [options.setIsActive] function to forward the active state of the tab
 	 * @param {Function} options.update function to update the tab
@@ -82,7 +81,6 @@ export default class Tab {
 		if (typeof iconSvg === 'string') {
 			this._iconSvgSanitized = DOMPurify.sanitize(iconSvg)
 		}
-
 	}
 
 	get id() {
@@ -124,5 +122,4 @@ export default class Tab {
 	get scrollBottomReached() {
 		return this._scrollBottomReached
 	}
-
 }

@@ -32,7 +32,6 @@ use Psr\Log\LoggerInterface;
  * }
  */
 class OC_Helper {
-	private static $templateManager;
 	private static ?ICacheFactory $cacheFactory = null;
 	private static ?bool $quotaIncludeExternalStorage = null;
 
@@ -67,17 +66,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * @deprecated 18.0.0
-	 * @return \OC\Files\Type\TemplateManager
-	 */
-	public static function getFileTemplateManager() {
-		if (!self::$templateManager) {
-			self::$templateManager = new \OC\Files\Type\TemplateManager();
-		}
-		return self::$templateManager;
-	}
-
-	/**
 	 * detect if a given program is found in the search PATH
 	 *
 	 * @param string $name
@@ -101,7 +89,7 @@ class OC_Helper {
 		$obd = OC::$server->get(IniGetWrapper::class)->getString('open_basedir');
 		if ($obd != 'none') {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if (count($obd_values) > 0 and $obd_values[0]) {
+			if (count($obd_values) > 0 && $obd_values[0]) {
 				// open_basedir is in effect !
 				// We need to check if the program is in one of these dirs :
 				$dirs = $obd_values;
@@ -115,18 +103,6 @@ class OC_Helper {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * copy the contents of one stream to another
-	 *
-	 * @param resource $source
-	 * @param resource $target
-	 * @return array the number of bytes copied and result
-	 * @deprecated 5.0.0 - Use \OCP\Files::streamCopy
-	 */
-	public static function streamCopy($source, $target) {
-		return \OCP\Files::streamCopy($source, $target, true);
 	}
 
 	/**

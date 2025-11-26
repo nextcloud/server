@@ -6,22 +6,24 @@
  */
 namespace OC\Preview;
 
+use OC\Preview\Db\Preview;
+use OC\Preview\Db\PreviewMapper;
+use OC\Preview\Storage\PreviewFile;
+use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
-use OCP\Files\IAppData;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
-use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
+use OCP\Snowflake\IGenerator;
 use Psr\Log\LoggerInterface;
 
 class Generator {
@@ -31,10 +33,12 @@ class Generator {
 	public function __construct(
 		private IConfig $config,
 		private IPreview $previewManager,
-		private IAppData $appData,
 		private GeneratorHelper $helper,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
+		private PreviewMapper $previewMapper,
+		private StorageFactory $storageFactory,
+		private IGenerator $snowflakeGenerator,
 	) {
 	}
 
@@ -104,32 +108,31 @@ class Generator {
 			$mimeType = $file->getMimeType();
 		}
 
-		$previewFolder = $this->getPreviewFolder($file);
-		// List every existing preview first instead of trying to find them one by one
-		$previewFiles = $previewFolder->getDirectoryListing();
+		[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 
-		$previewVersion = '';
+		$previewVersion = null;
 		if ($file instanceof IVersionedPreviewFile) {
-			$previewVersion = $file->getPreviewVersion() . '-';
+			$previewVersion = $file->getPreviewVersion();
 		}
 
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion);
+		$maxPreview = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
 		$maxPreviewImage = null; // only load the image when we need it
 		if ($maxPreview->getSize() === 0) {
-			$maxPreview->delete();
+			$this->storageFactory->deletePreview($maxPreview);
+			$this->previewMapper->delete($maxPreview);
 			$this->logger->error('Max preview generated for file {path} has size 0, deleting and throwing exception.', ['path' => $file->getPath()]);
 			throw new NotFoundException('Max preview size 0, invalid!');
 		}
 
-		[$maxWidth, $maxHeight] = $this->getPreviewSize($maxPreview, $previewVersion);
+		$maxWidth = $maxPreview->getWidth();
+		$maxHeight = $maxPreview->getHeight();
 
 		if ($maxWidth <= 0 || $maxHeight <= 0) {
 			throw new NotFoundException('The maximum preview sizes are zero or less pixels');
 		}
 
-		$preview = null;
-
+		$previewFile = null;
 		foreach ($specifications as $specification) {
 			$width = $specification['width'] ?? -1;
 			$height = $specification['height'] ?? -1;
@@ -148,38 +151,40 @@ class Generator {
 			// No need to generate a preview that is just the max preview
 			if ($width === $maxWidth && $height === $maxHeight) {
 				// ensure correct return value if this was the last one
-				$preview = $maxPreview;
+				$previewFile = new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper);
 				continue;
 			}
 
 			// Try to get a cached preview. Else generate (and store) one
 			try {
-				try {
-					$preview = $this->getCachedPreview($previewFiles, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
-				} catch (NotFoundException $e) {
+				$preview = array_find($previews, fn (Preview $preview): bool => $preview->getWidth() === $width
+					&& $preview->getHeight() === $height && $preview->getMimetype() === $maxPreview->getMimetype()
+					&& $preview->getVersion() === $previewVersion && $preview->isCropped() === $crop);
+
+				if ($preview) {
+					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper);
+				} else {
 					if (!$this->previewManager->isMimeSupported($mimeType)) {
 						throw new NotFoundException();
 					}
 
 					if ($maxPreviewImage === null) {
-						$maxPreviewImage = $this->helper->getImage($maxPreview);
+						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
 					}
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
-					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
-					// New file, augment our array
-					$previewFiles[] = $preview;
+					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException('', 0, $e);
 			}
 
-			if ($preview->getSize() === 0) {
-				$preview->delete();
+			if ($previewFile->getSize() === 0) {
+				$previewFile->delete();
 				throw new NotFoundException('Cached preview size 0, invalid!');
 			}
 		}
-		assert($preview !== null);
+		assert($previewFile !== null);
 
 		// Free memory being used by the embedded image resource.  Without this the image is kept in memory indefinitely.
 		// Garbage Collection does NOT free this memory.  We have to do it ourselves.
@@ -187,7 +192,7 @@ class Generator {
 			$maxPreviewImage->destroy();
 		}
 
-		return $preview;
+		return $previewFile;
 	}
 
 	/**
@@ -289,31 +294,25 @@ class Generator {
 	}
 
 	/**
-	 * @param ISimpleFolder $previewFolder
-	 * @param ISimpleFile[] $previewFiles
-	 * @param File $file
-	 * @param string $mimeType
-	 * @param string $prefix
-	 * @return ISimpleFile
+	 * @param Preview[] $previews
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, $mimeType, $prefix) {
+	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): Preview {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
-		foreach ($previewFiles as $node) {
-			$name = $node->getName();
-			if (($prefix === '' || str_starts_with($name, $prefix)) && strpos($name, 'max')) {
-				return $node;
+		foreach ($previews as $preview) {
+			if ($preview->isMax() && ($version === $preview->getVersion())) {
+				return $preview;
 			}
 		}
 
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
 		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
 
-		return $this->generateProviderPreview($previewFolder, $file, $maxWidth, $maxHeight, false, true, $mimeType, $prefix);
+		return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
 	}
 
-	private function generateProviderPreview(ISimpleFolder $previewFolder, File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, string $prefix) {
+	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -322,8 +321,9 @@ class Generator {
 			}
 
 			foreach ($providers as $providerClosure) {
+
 				$provider = $this->helper->getProvider($providerClosure);
-				if (!($provider instanceof IProviderV2)) {
+				if (!$provider) {
 					continue;
 				}
 
@@ -348,18 +348,25 @@ class Generator {
 					continue;
 				}
 
-				$path = $this->generatePath($preview->width(), $preview->height(), $crop, $max, $preview->dataMimeType(), $prefix);
 				try {
-					if ($preview instanceof IStreamImage) {
-						return $previewFolder->newFile($path, $preview->resource());
-					} else {
-						return $previewFolder->newFile($path, $preview->data());
-					}
-				} catch (NotPermittedException $e) {
+					$previewEntry = new Preview();
+					$previewEntry->setId($this->snowflakeGenerator->nextId());
+					$previewEntry->setFileId($file->getId());
+					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
+					$previewEntry->setSourceMimeType($file->getMimeType());
+					$previewEntry->setWidth($preview->width());
+					$previewEntry->setHeight($preview->height());
+					$previewEntry->setVersion($version);
+					$previewEntry->setMax($max);
+					$previewEntry->setCropped($crop);
+					$previewEntry->setEncrypted(false);
+					$previewEntry->setMimetype($preview->dataMimeType());
+					$previewEntry->setEtag($file->getEtag());
+					$previewEntry->setMtime((new \DateTime())->getTimestamp());
+					return $this->savePreview($previewEntry, $preview);
+				} catch (NotPermittedException) {
 					throw new NotFoundException();
 				}
-
-				return $file;
 			}
 		}
 
@@ -367,49 +374,10 @@ class Generator {
 	}
 
 	/**
-	 * @param ISimpleFile $file
-	 * @param string $prefix
+	 * @psalm-param IPreview::MODE_* $mode
 	 * @return int[]
 	 */
-	private function getPreviewSize(ISimpleFile $file, string $prefix = '') {
-		$size = explode('-', substr($file->getName(), strlen($prefix)));
-		return [(int)$size[0], (int)$size[1]];
-	}
-
-	/**
-	 * @param int $width
-	 * @param int $height
-	 * @param bool $crop
-	 * @param bool $max
-	 * @param string $mimeType
-	 * @param string $prefix
-	 * @return string
-	 */
-	private function generatePath($width, $height, $crop, $max, $mimeType, $prefix) {
-		$path = $prefix . (string)$width . '-' . (string)$height;
-		if ($crop) {
-			$path .= '-crop';
-		}
-		if ($max) {
-			$path .= '-max';
-		}
-
-		$ext = $this->getExtension($mimeType);
-		$path .= '.' . $ext;
-		return $path;
-	}
-
-
-	/**
-	 * @param int $width
-	 * @param int $height
-	 * @param bool $crop
-	 * @param string $mode
-	 * @param int $maxWidth
-	 * @param int $maxHeight
-	 * @return int[]
-	 */
-	private function calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight) {
+	private function calculateSize(int $width, int $height, bool $crop, string $mode, int $maxWidth, int $maxHeight): array {
 		/*
 		 * If we are not cropping we have to make sure the requested image
 		 * respects the aspect ratio of the original.
@@ -492,14 +460,14 @@ class Generator {
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
 	private function generatePreview(
-		ISimpleFolder $previewFolder,
+		File $file,
 		IImage $maxPreview,
 		int $width,
 		int $height,
 		bool $crop,
 		int $maxWidth,
 		int $maxHeight,
-		string $prefix,
+		?string $version,
 		bool $cacheResult,
 	): ISimpleFile {
 		$preview = $maxPreview;
@@ -535,82 +503,49 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
-
-		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $prefix);
-		try {
-			if ($cacheResult) {
-				return $previewFolder->newFile($path, $preview->data());
-			} else {
-				return new InMemoryFile($path, $preview->data());
-			}
-		} catch (NotPermittedException $e) {
-			throw new NotFoundException();
+		$previewEntry = new Preview();
+		$previewEntry->setId($this->snowflakeGenerator->nextId());
+		$previewEntry->setFileId($file->getId());
+		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
+		$previewEntry->setWidth($width);
+		$previewEntry->setSourceMimeType($file->getMimeType());
+		$previewEntry->setHeight($height);
+		$previewEntry->setVersion($version);
+		$previewEntry->setMax(false);
+		$previewEntry->setCropped($crop);
+		$previewEntry->setEncrypted(false);
+		$previewEntry->setMimeType($preview->dataMimeType());
+		$previewEntry->setEtag($file->getEtag());
+		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+		if ($cacheResult) {
+			$previewEntry = $this->savePreview($previewEntry, $preview);
+			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
+		} else {
+			return new InMemoryFile($previewEntry->getName(), $preview->data());
 		}
-		return $file;
 	}
 
 	/**
-	 * @param ISimpleFile[] $files Array of FileInfo, as the result of getDirectoryListing()
-	 * @param int $width
-	 * @param int $height
-	 * @param bool $crop
-	 * @param string $mimeType
-	 * @param string $prefix
-	 * @return ISimpleFile
-	 *
-	 * @throws NotFoundException
-	 */
-	private function getCachedPreview($files, $width, $height, $crop, $mimeType, $prefix) {
-		$path = $this->generatePath($width, $height, $crop, false, $mimeType, $prefix);
-		foreach ($files as $file) {
-			if ($file->getName() === $path) {
-				$this->logger->debug('Found cached preview: {path}', ['path' => $path]);
-				return $file;
-			}
-		}
-		throw new NotFoundException();
-	}
-
-	/**
-	 * Get the specific preview folder for this file
-	 *
-	 * @param File $file
-	 * @return ISimpleFolder
-	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
+	 * @throws \OCP\DB\Exception
 	 */
-	private function getPreviewFolder(File $file) {
-		// Obtain file id outside of try catch block to prevent the creation of an existing folder
-		$fileId = (string)$file->getId();
-
-		try {
-			$folder = $this->appData->getFolder($fileId);
-		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($fileId);
+	public function savePreview(Preview $previewEntry, IImage $preview): Preview {
+		// we need to save to DB first
+		if ($preview instanceof IStreamImage) {
+			$size = $this->storageFactory->writePreview($previewEntry, $preview->resource());
+		} else {
+			$stream = fopen('php://temp', 'w+');
+			fwrite($stream, $preview->data());
+			rewind($stream);
+			$size = $this->storageFactory->writePreview($previewEntry, $stream);
 		}
-
-		return $folder;
-	}
-
-	/**
-	 * @param string $mimeType
-	 * @return null|string
-	 * @throws \InvalidArgumentException
-	 */
-	private function getExtension($mimeType) {
-		switch ($mimeType) {
-			case 'image/png':
-				return 'png';
-			case 'image/jpeg':
-				return 'jpg';
-			case 'image/webp':
-				return 'webp';
-			case 'image/gif':
-				return 'gif';
-			default:
-				throw new \InvalidArgumentException('Not a valid mimetype: "' . $mimeType . '"');
+		if (!$size) {
+			throw new \RuntimeException('Unable to write preview file');
 		}
+		$previewEntry->setSize($size);
+
+		return $this->previewMapper->insert($previewEntry);
 	}
 }

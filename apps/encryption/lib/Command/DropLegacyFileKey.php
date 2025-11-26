@@ -11,9 +11,11 @@ namespace OCA\Encryption\Command;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\FileInfo;
+use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,8 +25,9 @@ class DropLegacyFileKey extends Command {
 	private View $rootView;
 
 	public function __construct(
-		private IUserManager $userManager,
-		private KeyManager $keyManager,
+		private readonly IUserManager $userManager,
+		private readonly KeyManager $keyManager,
+		private readonly SetupManager $setupManager,
 	) {
 		parent::__construct();
 
@@ -42,18 +45,10 @@ class DropLegacyFileKey extends Command {
 
 		$output->writeln('<info>Scanning all files for legacy filekey</info>');
 
-		foreach ($this->userManager->getBackends() as $backend) {
-			$limit = 500;
-			$offset = 0;
-			do {
-				$users = $backend->getUsers('', $limit, $offset);
-				foreach ($users as $user) {
-					$output->writeln('Scanning all files for ' . $user);
-					$this->setupUserFS($user);
-					$result = $result && $this->scanFolder($output, '/' . $user);
-				}
-				$offset += $limit;
-			} while (count($users) >= $limit);
+		foreach ($this->userManager->getSeenUsers() as $user) {
+			$output->writeln('Scanning all files for ' . $user->getUID());
+			$this->setupUserFileSystem($user);
+			$result = $result && $this->scanFolder($output, '/' . $user->getUID());
 		}
 
 		if ($result) {
@@ -85,7 +80,7 @@ class DropLegacyFileKey extends Command {
 					$output->writeln('<error>' . $path . ' does not have a proper header</error>');
 				} else {
 					try {
-						$legacyFileKey = $this->keyManager->getFileKey($path, null, true);
+						$legacyFileKey = $this->keyManager->getFileKey($path, true);
 						if ($legacyFileKey === '') {
 							$output->writeln('Got an empty legacy filekey for ' . $path . ', continuing', OutputInterface::VERBOSITY_VERBOSE);
 							continue;
@@ -143,8 +138,8 @@ class DropLegacyFileKey extends Command {
 	/**
 	 * setup user file system
 	 */
-	protected function setupUserFS(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+	protected function setupUserFileSystem(IUser $user): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 	}
 }

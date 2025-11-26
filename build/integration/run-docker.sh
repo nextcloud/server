@@ -149,6 +149,7 @@ function prepareDocker() {
 
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER mkdir /nextcloud
 	docker cp - $NEXTCLOUD_LOCAL_CONTAINER:/nextcloud/ < "$NEXTCLOUD_LOCAL_TAR"
+	docker exec $NEXTCLOUD_LOCAL_CONTAINER chown -R www-data:www-data /nextcloud
 
 	# Database options are needed only when a database other than SQLite is
 	# used.
@@ -158,7 +159,7 @@ function prepareDocker() {
 	fi
 
 	echo "Installing Nextcloud in the container"
-	docker exec $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && php occ maintenance:install --admin-pass=admin $NEXTCLOUD_LOCAL_CONTAINER_INSTALL_DATABASE_OPTIONS"
+	docker exec --user www-data $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && php occ maintenance:install --admin-pass=admin $NEXTCLOUD_LOCAL_CONTAINER_INSTALL_DATABASE_OPTIONS"
 }
 
 # Removes/stops temporal elements created/started by this script.
@@ -247,4 +248,4 @@ prepareDocker
 
 echo "Running tests"
 # --tty is needed to get colourful output.
-docker exec --tty $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud/build/integration && ./run.sh $SCENARIO_TO_RUN"
+docker exec --tty --user www-data $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud/build/integration && ./run.sh $SCENARIO_TO_RUN"

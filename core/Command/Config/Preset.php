@@ -30,6 +30,7 @@ class Preset extends Base {
 			->setDescription('Select a config preset')
 			->addArgument('preset', InputArgument::OPTIONAL, 'Preset to use for all unset config values', '')
 			->addOption('list', '', InputOption::VALUE_NONE, 'display available preset')
+			->addOption('apps', '', InputOption::VALUE_NONE, 'return list of enabled/disabled apps when switching preset')
 			->addOption('compare', '', InputOption::VALUE_NONE, 'compare preset');
 	}
 
@@ -40,14 +41,19 @@ class Preset extends Base {
 			return self::SUCCESS;
 		}
 
+		if ($input->getOption('apps')) {
+			$this->writeArrayInOutputFormat($input, $output, $this->presetManager->retrieveLexiconPresetApps());
+			return self::SUCCESS;
+		}
+
 		if ($input->getOption('compare')) {
 			$list = $this->presetManager->retrieveLexiconPreset();
 			if ($input->getOption('output') === 'plain') {
 				$table = new Table($output);
-				$table->setHeaders(['app', 'config key', 'value', ...array_map(static fn (ConfigLexiconPreset $p): string => $p->name, ConfigLexiconPreset::cases())]);
+				$table->setHeaders(['app', 'config', 'config key', 'value', ...array_map(static fn (ConfigLexiconPreset $p): string => $p->name, ConfigLexiconPreset::cases())]);
 				foreach ($list as $appId => $entries) {
 					foreach ($entries as $item) {
-						$table->addRow([$appId, $item['entry']['key'], '<comment>' . ($item['value'] ?? '') . '</comment>', ...($item['defaults'] ?? [])]);
+						$table->addRow([$appId, $item['config'], $item['entry']['key'], '<comment>' . ($item['value'] ?? '') . '</comment>', ...($item['defaults'] ?? [])]);
 					}
 				}
 				$table->render();

@@ -4,11 +4,12 @@
 -->
 <template>
 	<div>
-		<NcSelect :aria-label-combobox="t('workflowengine', 'Select groups')"
+		<NcSelect
+			:aria-label-combobox="t('workflowengine', 'Select groups')"
 			:aria-label-listbox="t('workflowengine', 'Groups')"
 			:clearable="false"
 			:loading="status.isLoading && groups.length === 0"
-			:placeholder="t('workflowengine', 'Type to search for group …')"
+			:placeholder="t('workflowengine', 'Type to search for group …')"
 			:options="groups"
 			:model-value="currentValue"
 			label="displayname"
@@ -18,11 +19,11 @@
 </template>
 
 <script>
-import { translate as t } from '@nextcloud/l10n'
-import { generateOcsUrl } from '@nextcloud/router'
-
 import axios from '@nextcloud/axios'
+import { t } from '@nextcloud/l10n'
+import { generateOcsUrl } from '@nextcloud/router'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { logger } from '../../logger.ts'
 
 const groups = []
 const wantedGroups = []
@@ -35,16 +36,19 @@ export default {
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		modelValue: {
 			type: String,
 			default: '',
 		},
+
 		check: {
 			type: Object,
 			default: () => { return {} },
 		},
 	},
+
 	emits: ['update:model-value'],
 	data() {
 		return {
@@ -54,21 +58,25 @@ export default {
 			newValue: '',
 		}
 	},
+
 	computed: {
 		currentValue: {
 			get() {
-				return this.groups.find(group => group.id === this.newValue) || null
+				return this.groups.find((group) => group.id === this.newValue) || null
 			},
+
 			set(value) {
 				this.newValue = value
 			},
 		},
 	},
+
 	watch: {
 		modelValue() {
 			this.updateInternalValue()
 		},
 	},
+
 	async mounted() {
 		// If empty, load first chunk of groups
 		if (this.groups.length === 0) {
@@ -79,6 +87,7 @@ export default {
 			await this.searchAsync(this.newValue)
 		}
 	},
+
 	methods: {
 		t,
 
@@ -105,35 +114,41 @@ export default {
 				this.status.isLoading = false
 				this.findGroupByQueue()
 			}, (error) => {
-				console.error('Error while loading group list', error.response)
+				logger.error('Error while loading group list', { error })
 			})
 		},
+
 		async updateInternalValue() {
 			if (!this.newValue) {
 				await this.searchAsync(this.modelValue)
 			}
 			this.newValue = this.modelValue
 		},
+
 		addGroup(group) {
 			const index = this.groups.findIndex((item) => item.id === group.id)
 			if (index === -1) {
 				this.groups.push(group)
 			}
 		},
+
 		hasGroup(group) {
 			const index = this.groups.findIndex((item) => item.id === group)
 			return index > -1
 		},
+
 		update(value) {
 			this.newValue = value.id
 			this.$emit('update:model-value', this.newValue)
 		},
+
 		enqueueWantedGroup(expectedGroupId) {
 			const index = this.wantedGroups.findIndex((groupId) => groupId === expectedGroupId)
 			if (index === -1) {
 				this.wantedGroups.push(expectedGroupId)
 			}
 		},
+
 		async findGroupByQueue() {
 			let nextQuery
 			do {
@@ -149,6 +164,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped>
 .v-select {
 	width: 100%;

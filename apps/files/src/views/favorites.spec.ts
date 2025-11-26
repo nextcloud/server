@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,18 +5,16 @@
 
 import type { Folder as CFolder, Navigation } from '@nextcloud/files'
 
+import * as eventBus from '@nextcloud/event-bus'
 import * as filesUtils from '@nextcloud/files'
 import * as filesDavUtils from '@nextcloud/files/dav'
 import { CancelablePromise } from 'cancelable-promise'
 import { basename } from 'path'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import * as eventBus from '@nextcloud/event-bus'
+import { action } from '../actions/favoriteAction.ts'
+import * as favoritesService from '../services/Favorites.ts'
+import { registerFavoritesView } from './favorites.ts'
 
-import { action } from '../actions/favoriteAction'
-import * as favoritesService from '../services/Favorites'
-import { registerFavoritesView } from './favorites'
-
-// eslint-disable-next-line import/namespace
 const { Folder, getNavigation } = filesUtils
 
 vi.mock('@nextcloud/axios')
@@ -49,8 +46,8 @@ describe('Favorites view definition', () => {
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as CFolder, contents: [] }))
 
 		await registerFavoritesView()
-		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
-		const favoriteFoldersViews = Navigation.views.filter(view => view.parent === 'favorites')
+		const favoritesView = Navigation.views.find((view) => view.id === 'favorites')
+		const favoriteFoldersViews = Navigation.views.filter((view) => view.parent === 'favorites')
 
 		expect(eventBus.subscribe).toHaveBeenCalledTimes(3)
 		expect(eventBus.subscribe).toHaveBeenNthCalledWith(1, 'files:favorites:added', expect.anything())
@@ -102,8 +99,8 @@ describe('Favorites view definition', () => {
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as CFolder, contents: [] }))
 
 		await registerFavoritesView()
-		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
-		const favoriteFoldersViews = Navigation.views.filter(view => view.parent === 'favorites')
+		const favoritesView = Navigation.views.find((view) => view.id === 'favorites')
+		const favoriteFoldersViews = Navigation.views.filter((view) => view.parent === 'favorites')
 
 		// one main view and 3 children
 		expect(Navigation.views.length).toBe(5)
@@ -147,8 +144,8 @@ describe('Dynamic update of favorite folders', () => {
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as CFolder, contents: [] }))
 
 		await registerFavoritesView()
-		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
-		const favoriteFoldersViews = Navigation.views.filter(view => view.parent === 'favorites')
+		const favoritesView = Navigation.views.find((view) => view.id === 'favorites')
+		const favoriteFoldersViews = Navigation.views.filter((view) => view.parent === 'favorites')
 
 		// one main view and no children
 		expect(Navigation.views.length).toBe(1)
@@ -182,8 +179,8 @@ describe('Dynamic update of favorite folders', () => {
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as CFolder, contents: [] }))
 
 		await registerFavoritesView()
-		let favoritesView = Navigation.views.find(view => view.id === 'favorites')
-		let favoriteFoldersViews = Navigation.views.filter(view => view.parent === 'favorites')
+		let favoritesView = Navigation.views.find((view) => view.id === 'favorites')
+		let favoriteFoldersViews = Navigation.views.filter((view) => view.parent === 'favorites')
 
 		// one main view and no children
 		expect(Navigation.views.length).toBe(2)
@@ -211,8 +208,8 @@ describe('Dynamic update of favorite folders', () => {
 		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', folder)
 		expect(fo).toHaveBeenCalled()
 
-		favoritesView = Navigation.views.find(view => view.id === 'favorites')
-		favoriteFoldersViews = Navigation.views.filter(view => view.parent === 'favorites')
+		favoritesView = Navigation.views.find((view) => view.id === 'favorites')
+		favoriteFoldersViews = Navigation.views.filter((view) => view.parent === 'favorites')
 
 		// one main view and no children
 		expect(Navigation.views.length).toBe(1)
@@ -226,8 +223,8 @@ describe('Dynamic update of favorite folders', () => {
 		vi.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as CFolder, contents: [] }))
 
 		await registerFavoritesView()
-		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
-		const favoriteFoldersViews = Navigation.views.filter(view => view.parent === 'favorites')
+		const favoritesView = Navigation.views.find((view) => view.id === 'favorites')
+		const favoriteFoldersViews = Navigation.views.filter((view) => view.parent === 'favorites')
 
 		// one main view and no children
 		expect(Navigation.views.length).toBe(1)

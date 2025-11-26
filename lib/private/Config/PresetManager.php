@@ -13,6 +13,7 @@ use OC\AppConfig;
 use OC\Installer;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Config\IUserConfig;
 use OCP\Config\Lexicon\Preset;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -65,7 +66,7 @@ class PresetManager {
 	 *
 	 * **Warning** This method MUST be considered resource-needy!
 	 *
-	 * @return array<string, list<array{defaults: array{CLUB: null|string, FAMILY: null|string, LARGE: null|string, MEDIUM: null|string, NONE: null|string, PRIVATE: null|string, SCHOOL: null|string, SHARED: null|string, SMALL: null|string, UNIVERSITY: null|string}, entry: array{definition: string, deprecated: bool, key: string, lazy: bool, note: string, type: 'ARRAY'|'BOOL'|'FLOAT'|'INT'|'MIXED'|'STRING'}, value?: mixed}>>
+	 * @return array<string, list<array{config: string, defaults: array{CLUB: null|string, FAMILY: null|string, LARGE: null|string, MEDIUM: null|string, NONE: null|string, PRIVATE: null|string, SCHOOL: null|string, SHARED: null|string, SMALL: null|string, UNIVERSITY: null|string}, entry: array{definition: string, deprecated: bool, key: string, lazy: bool, note: string, type: 'ARRAY'|'BOOL'|'FLOAT'|'INT'|'MIXED'|'STRING'}, value?: mixed}>>
 	 */
 	public function retrieveLexiconPreset(?string $appId = null): array {
 		if ($appId === null) {
@@ -77,17 +78,41 @@ class PresetManager {
 			return $apps;
 		}
 
-		/** @var AppConfig|null $appConfig */
-		$appConfig = Server::get(IAppConfig::class);
-		$lexicon = $appConfig->getConfigDetailsFromLexicon($appId);
+		return [
+			$appId => array_merge(
+				$this->extractLexiconPresetFromConfigClass($appId, 'app', Server::get(IAppConfig::class)),
+				$this->extractLexiconPresetFromConfigClass($appId, 'user', Server::get(IUserConfig::class))
+			),
+		];
+	}
+
+	/**
+	 * @param string $appId
+	 *
+	 * @return list<array{config: string, defaults: array{CLUB: null|string, FAMILY: null|string, LARGE: null|string, MEDIUM: null|string, NONE: null|string, PRIVATE: null|string, SCHOOL: null|string, SHARED: null|string, SMALL: null|string, UNIVERSITY: null|string}, entry: array{definition: string, deprecated: bool, key: string, lazy: bool, note: string, type: 'ARRAY'|'BOOL'|'FLOAT'|'INT'|'MIXED'|'STRING'}, value?: mixed}>
+	 */
+	private function extractLexiconPresetFromConfigClass(
+		string $appId,
+		string $configType,
+		AppConfig|UserConfig $config,
+	): array {
 		$presets = [];
+		$lexicon = $config->getConfigDetailsFromLexicon($appId);
 		foreach ($lexicon['entries'] as $entry) {
 			$defaults = [];
 			foreach (Preset::cases() as $case) {
 				// for each case, we need to use a fresh IAppConfig with clear cache
 				// cloning to avoid conflict while emulating preset
-				$newConfig = clone $appConfig;
-				$newConfig->clearCache(); // needed to ignore cache and rebuild default
+				$newConfig = clone $config;
+				if ($newConfig instanceof AppConfig) {
+					// needed to ignore cache and rebuild default
+					$newConfig->clearCache();
+				}
+				if ($newConfig instanceof UserConfig) {
+					// in the case of IUserConfig, clear all users' cache
+					$newConfig->clearCacheAll();
+				}
+
 				$newLexicon = $newConfig->getLexiconEntry($appId, $entry->getKey());
 				$defaults[$case->name] = $newLexicon?->getDefault($case);
 			}
@@ -99,6 +124,7 @@ class PresetManager {
 			}
 
 			$details = [
+				'config' => $configType,
 				'entry' => [
 					'key' => $entry->getKey(),
 					'type' => $entry->getValueType()->name,
@@ -111,14 +137,17 @@ class PresetManager {
 			];
 
 			try {
-				$details['value'] = $appConfig->getDetails($appId, $entry->getKey())['value'];
+				// not interested if a users config value is already set
+				if ($config instanceof AppConfig) {
+					$details['value'] = $config->getDetails($appId, $entry->getKey())['value'];
+				}
 			} catch (AppConfigUnknownKeyException) {
 			}
 
 			$presets[] = $details;
 		}
 
-		return [$appId => $presets];
+		return $presets;
 	}
 
 	/**
@@ -184,14 +213,28 @@ class PresetManager {
 	}
 
 	/**
+	 * return list of apps that are enabled/disabled when switching current Preset
+	 *
+	 * @return array<string, array{disabled: list<string>, enabled: list<string>}>
+	 */
+	public function retrieveLexiconPresetApps(): array {
+		$apps = [];
+		foreach (Preset::cases() as $case) {
+			$apps[$case->name] = $this->getPresetApps($case);
+		}
+
+		return $apps;
+	}
+
+	/**
 	 * get listing of enabled/disabled app from Preset
 	 *
 	 * @return array{enabled: list<string>, disabled: list<string>}
 	 */
 	private function getPresetApps(Preset $preset): array {
 		return match ($preset) {
-			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::UNIVERSITY, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => ['enabled' => ['user_status', 'intros', 'guests'], 'disabled' => []],
-			Preset::SHARED => ['enabled' => ['intros', 'external'], 'disabled' => ['user_status']],
+			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::UNIVERSITY, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => ['enabled' => ['user_status', 'guests'], 'disabled' => []],
+			Preset::SHARED => ['enabled' => ['external'], 'disabled' => ['user_status']],
 			default => ['enabled' => [], 'disabled' => []],
 		};
 	}

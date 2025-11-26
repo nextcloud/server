@@ -23,10 +23,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class ShareesTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests\API
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareesAPIControllerTest extends TestCase {
 	/** @var ShareesAPIController */
 	protected $sharees;

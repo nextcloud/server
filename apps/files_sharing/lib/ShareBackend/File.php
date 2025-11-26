@@ -191,7 +191,7 @@ class File implements Share_Backend_File_Dependent {
 						$qb->expr()->eq('id', $qb->createNamedParameter($parent))
 					);
 				$result = $qb->executeQuery();
-				$item = $result->fetch();
+				$item = $result->fetchAssociative();
 				$result->closeCursor();
 				if (isset($item['parent'])) {
 					$parent = $item['parent'];

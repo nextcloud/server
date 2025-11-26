@@ -2,27 +2,30 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Entry, Node } from '@nextcloud/files'
-
-import { basename } from 'path'
-import { emit } from '@nextcloud/event-bus'
-import { getCurrentUser } from '@nextcloud/auth'
-import { Permission, Folder } from '@nextcloud/files'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
+import type { NewMenuEntry, Node } from '@nextcloud/files'
 
 import FolderPlusSvg from '@mdi/svg/svg/folder-plus-outline.svg?raw'
-
-import { newNodeName } from '../utils/newNodeDialog'
-import logger from '../logger'
+import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { Folder, Permission } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { basename } from 'path'
+import logger from '../logger.ts'
+import { newNodeName } from '../utils/newNodeDialog.ts'
 
 type createFolderResponse = {
 	fileid: number
 	source: string
 }
 
-const createNewFolder = async (root: Folder, name: string): Promise<createFolderResponse> => {
+/**
+ *
+ * @param root
+ * @param name
+ */
+async function createNewFolder(root: Folder, name: string): Promise<createFolderResponse> {
 	const source = root.source + '/' + name
 	const encodedSource = root.encodedSource + '/' + encodeURIComponent(name)
 
@@ -39,7 +42,7 @@ const createNewFolder = async (root: Folder, name: string): Promise<createFolder
 	}
 }
 
-export const entry = {
+export const entry: NewMenuEntry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
 	enabled: (context: Folder) => Boolean(context.permissions & Permission.CREATE) && Boolean(context.permissions & Permission.READ),
@@ -88,4 +91,4 @@ export const entry = {
 			showError('Creating new folder failed')
 		}
 	},
-} as Entry
+}

@@ -16,9 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { translate as t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
-
+import { translate as t } from '@nextcloud/l10n'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import Markdown from '../components/Markdown.vue'

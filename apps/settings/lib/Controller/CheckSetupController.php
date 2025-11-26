@@ -31,7 +31,7 @@ class CheckSetupController extends Controller {
 	private $checker;
 
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
@@ -40,7 +40,7 @@ class CheckSetupController extends Controller {
 		private LoggerInterface $logger,
 		private ISetupCheckManager $setupCheckManager,
 	) {
-		parent::__construct($AppName, $request);
+		parent::__construct($appName, $request);
 		$this->checker = $checker;
 	}
 
@@ -129,10 +129,6 @@ Raw output
 	 */
 	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function check() {
-		return new DataResponse(
-			[
-				'generic' => $this->setupCheckManager->runAll(),
-			]
-		);
+		return new DataResponse($this->setupCheckManager->runAll());
 	}
 }

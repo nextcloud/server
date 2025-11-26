@@ -140,7 +140,7 @@ class CleanupRemoteStorages extends Command {
 
 		$remoteStorages = [];
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$remoteStorages[$row['id']] = $row['numeric_id'];
 		}
 		$result->closeCursor();
@@ -156,7 +156,7 @@ class CleanupRemoteStorages extends Command {
 
 		$remoteShareIds = [];
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$cloudId = $this->cloudIdManager->getCloudId($row['owner'], $row['remote']);
 			$remote = $cloudId->getRemote();
 

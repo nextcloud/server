@@ -24,10 +24,10 @@ use Test\TestCase;
 /**
  * Class ExpireTrashTest
  *
- * @group DB
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExpireTrashTest extends TestCase {
 	private Expiration $expiration;
 	private Node $userFolder;
@@ -64,9 +64,7 @@ class ExpireTrashTest extends TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @dataProvider retentionObligationProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('retentionObligationProvider')]
 	public function testRetentionObligation(string $obligation, string $quota, int $elapsed, int $fileSize, bool $shouldExpire): void {
 		$this->config->setSystemValues(['trashbin_retention_obligation' => $obligation]);
 		$this->expiration->setRetentionObligation($obligation);
@@ -110,7 +108,7 @@ class ExpireTrashTest extends TestCase {
 		$this->assertEquals($shouldExpire ? 0 : 1, count($trashFiles));
 	}
 
-	public function retentionObligationProvider(): array {
+	public static function retentionObligationProvider(): array {
 		$hour = 3600; // 60 * 60
 
 		$oneDay = 24 * $hour;

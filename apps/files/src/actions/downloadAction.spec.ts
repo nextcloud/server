@@ -2,10 +2,19 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Folder, Permission, View, FileAction, DefaultType } from '@nextcloud/files'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { action } from './downloadAction'
+import type { View } from '@nextcloud/files'
+
+import axios from '@nextcloud/axios'
+import * as dialogs from '@nextcloud/dialogs'
+import * as eventBus from '@nextcloud/event-bus'
+import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { action } from './downloadAction.ts'
+
+vi.mock('@nextcloud/axios')
+vi.mock('@nextcloud/dialogs')
+vi.mock('@nextcloud/event-bus')
 
 const view = {
 	id: 'files',
@@ -14,7 +23,6 @@ const view = {
 
 // Mock webroot variable
 beforeAll(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = ''
 })
 
@@ -187,5 +195,47 @@ describe('Download action execute tests', () => {
 		expect(link.download).toEqual('')
 		expect(link.href).toMatch('https://cloud.domain.com/remote.php/dav/files/admin/Dir/?accept=zip&files=%5B%22foo.txt%22%2C%22bar.txt%22%5D')
 		expect(link.click).toHaveBeenCalledTimes(1)
+	})
+
+	test('Download fails with error', async () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
+
+		const errorSpy = vi.spyOn(dialogs, 'showError')
+		const exec = await action.exec(file, view, '/')
+		expect(exec).toBe(null)
+		expect(errorSpy).toHaveBeenCalledWith('The requested file is not available.')
+		expect(link.click).not.toHaveBeenCalled()
+	})
+
+	test('Download batch fails with error', async () => {
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		const file2 = new File({
+			id: 2,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
+		vi.spyOn(eventBus, 'emit').mockImplementation(() => {})
+
+		const errorSpy = vi.spyOn(dialogs, 'showError')
+		const exec = await action.execBatch!([file1, file2], view, '/')
+		expect(exec).toStrictEqual([null, null])
+		expect(errorSpy).toHaveBeenCalledWith('The requested files are not available.')
+		expect(link.click).not.toHaveBeenCalled()
 	})
 })

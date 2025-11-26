@@ -7,9 +7,9 @@ OC.L10N.register(
     "Backup code" : "Dublēšanas kods",
     "Use backup code" : "Izmantot rezerves kodu",
     "An error occurred while generating your backup codes" : "Atgadījās kļūda rezerves kodu izveidošanas laikā",
-    "Save backup codes" : "Saglabāt rezerves kodus",
-    "Print backup codes" : "Drukāt dublējuma kodus",
     "Regenerate backup codes" : "Atjaunot dublējuma kodus",
+    "Print backup codes" : "Drukāt dublējuma kodus",
+    "Save backup codes" : "Saglabāt rezerves kodus",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ja atjaunot dublējum kodus, tiek automātiski anulēti vecie kodi.",
     "Submit" : "Iesniegt"
 },

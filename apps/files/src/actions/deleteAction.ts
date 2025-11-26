@@ -2,17 +2,22 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, Node, View, FileAction } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
-import PQueue from 'p-queue'
+
+import type { Node, View } from '@nextcloud/files'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
 import TrashCanSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
-
-import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
-import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
+import { FileAction, Permission } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import PQueue from 'p-queue'
 import logger from '../logger.ts'
+import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
+
+// TODO: once the files app is migrated to the new frontend use the import instead:
+// import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+const TRASHBIN_VIEW_ID = 'trashbin'
 
 const queue = new PQueue({ concurrency: 5 })
 
@@ -42,8 +47,8 @@ export const action = new FileAction({
 		}
 
 		return nodes.length > 0 && nodes
-			.map(node => node.permissions)
-			.every(permission => (permission & Permission.DELETE) !== 0)
+			.map((node) => node.permissions)
+			.every((permission) => (permission & Permission.DELETE) !== 0)
 	},
 
 	async exec(node: Node, view: View) {
@@ -89,9 +94,9 @@ export const action = new FileAction({
 		}
 
 		// Map each node to a promise that resolves with the result of exec(node)
-		const promises = nodes.map(node => {
+		const promises = nodes.map((node) => {
 			// Create a promise that resolves with the result of exec(node)
-			const promise = new Promise<boolean>(resolve => {
+			const promise = new Promise<boolean>((resolve) => {
 				queue.add(async () => {
 					try {
 						await deleteNode(node)
@@ -110,4 +115,9 @@ export const action = new FileAction({
 
 	destructive: true,
 	order: 100,
+
+	hotkey: {
+		description: t('files', 'Delete'),
+		key: 'Delete',
+	},
 })

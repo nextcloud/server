@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="predefined-status backup-status"
+	<div
+		class="predefined-status backup-status"
 		tabindex="0"
 		@keyup.enter="select"
 		@keyup.space="select"
@@ -41,11 +42,13 @@ export default {
 			type: [String, null],
 			required: true,
 		},
+
 		message: {
 			type: String,
 			required: true,
 		},
 	},
+
 	methods: {
 		/**
 		 * Emits an event when the user clicks the row

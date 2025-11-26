@@ -44,7 +44,7 @@ class ZIP extends Archive {
 	 * @param string $source either a local file or string data
 	 */
 	public function addFile(string $path, string $source = ''): bool {
-		if ($source and $source[0] == '/' and file_exists($source)) {
+		if ($source && $source[0] === '/' && file_exists($source)) {
 			$result = $this->zip->addFile($source, $path);
 		} else {
 			$result = $this->zip->addFromString($path, $source);
@@ -92,7 +92,7 @@ class ZIP extends Archive {
 		$folderContent = [];
 		$pathLength = strlen($path);
 		foreach ($files as $file) {
-			if (substr($file, 0, $pathLength) == $path and $file != $path) {
+			if (substr($file, 0, $pathLength) == $path && $file != $path) {
 				if (strrpos(substr($file, 0, -1), '/') <= $pathLength) {
 					$folderContent[] = substr($file, $pathLength);
 				}
@@ -169,7 +169,7 @@ class ZIP extends Archive {
 	 * check if a file or folder exists in the archive
 	 */
 	public function fileExists(string $path): bool {
-		return ($this->zip->locateName($path) !== false) or ($this->zip->locateName($path . '/') !== false);
+		return ($this->zip->locateName($path) !== false) || ($this->zip->locateName($path . '/') !== false);
 	}
 
 	/**
@@ -188,7 +188,7 @@ class ZIP extends Archive {
 	 * @return bool|resource
 	 */
 	public function getStream(string $path, string $mode) {
-		if ($mode == 'r' or $mode == 'rb') {
+		if ($mode === 'r' || $mode === 'rb') {
 			return $this->zip->getStream($path);
 		} else {
 			//since we can't directly get a writable stream,

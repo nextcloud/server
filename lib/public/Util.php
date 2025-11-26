@@ -15,7 +15,7 @@ use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -305,8 +305,8 @@ class Util {
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part . '@' . $host_name;
 
-		$mailer = \OCP\Server::get(IMailer::class);
-		if ($mailer->validateMailAddress($defaultEmailAddress)) {
+		$emailValidator = \OCP\Server::get(IEmailValidator::class);
+		if ($emailValidator->isValid($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 
@@ -315,7 +315,7 @@ class Util {
 	}
 
 	/**
-	 * Converts string to int of float depending if it fits an int
+	 * Converts string to int of float depending on if it fits an int
 	 * @param numeric-string|float|int $number numeric string
 	 * @return int|float int if it fits, float if it is too big
 	 * @since 26.0.0
@@ -514,7 +514,7 @@ class Util {
 		$it = new \RecursiveIteratorIterator($aIt);
 
 		while ($it->valid()) {
-			if (((isset($index) and ($it->key() == $index)) or !isset($index)) and ($it->current() == $needle)) {
+			if (((isset($index) && ($it->key() == $index)) || !isset($index)) && ($it->current() == $needle)) {
 				return $aIt->key();
 			}
 

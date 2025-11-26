@@ -94,7 +94,6 @@ OC.L10N.register(
     "Delete storage?" : "Ĉu forigi konservejon?",
     "Click to recheck the configuration" : "Alklaku por rekontroli la agordon",
     "Saved" : "Konservita",
-    "Saving …" : "Konservado...",
     "Save" : "Konservi",
     "No external storage configured or you don't have the permission to configure them" : "Neniu ekstera konservejo agordita, aŭ vi ne rajtas agordi ĝin.",
     "Open documentation" : "Malfermi la dokumentaron",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Bv. doni validan aplikaĵan ŝlosilon kaj sekreton.",
     "OAuth1" : "OAuth1",
     "App key" : "Aplikaĵa ŝlosilo",
-    "App secret" : "Aplikaĵosekreto"
+    "App secret" : "Aplikaĵosekreto",
+    "Saving …" : "Konservado..."
 },
 "nplurals=2; plural=(n != 1);");

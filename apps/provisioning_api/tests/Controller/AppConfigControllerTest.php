@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use OC\AppConfig;
+use OC\Config\ConfigManager;
 use OCA\Provisioning_API\Controller\AppConfigController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -38,6 +39,7 @@ class AppConfigControllerTest extends TestCase {
 	private IManager&MockObject $settingManager;
 	private IGroupManager&MockObject $groupManager;
 	private IAppManager $appManager;
+	private ConfigManager $configManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -48,6 +50,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->settingManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = Server::get(IAppManager::class);
+		$this->configManager = Server::get(ConfigManager::class);
 	}
 
 	/**
@@ -67,6 +70,7 @@ class AppConfigControllerTest extends TestCase {
 				$this->groupManager,
 				$this->settingManager,
 				$this->appManager,
+				$this->configManager,
 			);
 		} else {
 			return $this->getMockBuilder(AppConfigController::class)
@@ -79,6 +83,7 @@ class AppConfigControllerTest extends TestCase {
 					$this->groupManager,
 					$this->settingManager,
 					$this->appManager,
+					$this->configManager,
 				])
 				->onlyMethods($methods)
 				->getMock();

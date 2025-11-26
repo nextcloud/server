@@ -25,6 +25,10 @@ html {
 }
 
 body {
+	// Legacy variables deprecated in Nextcloud 20 - to be removed soon
+	--color-text-light: var(--color-main-text);
+	--color-text-lighter: var(--color-text-maxcontrast);
+
 	// color-background-plain should always be defined.
 	background-color: var(--color-background-plain, var(--color-main-background));
 	// user background, or plain color

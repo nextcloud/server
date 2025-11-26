@@ -36,4 +36,11 @@ interface IFilterCollection extends IteratorAggregate {
 	 * @since 28.0.0
 	 */
 	public function getIterator(): \Traversable;
+
+	/**
+	 * Return the number of filters
+	 *
+	 * @since 33.0.0
+	 */
+	public function count(): int;
 }

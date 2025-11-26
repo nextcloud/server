@@ -5,10 +5,12 @@
 
 <template>
 	<section>
-		<HeaderBar :input-id="inputId"
+		<HeaderBar
+			:input-id="inputId"
 			:readable="propertyReadable" />
 
-		<Locale v-if="isEditable"
+		<LocaleSectionEntry
+			v-if="isEditable"
 			:input-id="inputId"
 			:locales-for-language="localesForLanguage"
 			:other-locales="otherLocales"
@@ -22,10 +24,8 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
-import Locale from './Locale.vue'
 import HeaderBar from '../shared/HeaderBar.vue'
-
+import LocaleSectionEntry from './LocaleSectionEntry.vue'
 import { ACCOUNT_SETTING_PROPERTY_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 const { localeMap: { activeLocale, localesForLanguage, otherLocales } } = loadState('settings', 'personalInfoParameters', {})
@@ -34,7 +34,7 @@ export default {
 	name: 'LocaleSection',
 
 	components: {
-		Locale,
+		LocaleSectionEntry,
 		HeaderBar,
 	},
 

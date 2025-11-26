@@ -20,9 +20,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	use UserTrait;
 
@@ -75,6 +73,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 			$this->groupManager,
 			$this->mountCache,
 			$this->eventDispatcher,
+			$this->appConfig,
 		);
 	}
 

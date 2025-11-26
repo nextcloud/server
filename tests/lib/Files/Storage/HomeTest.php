@@ -37,10 +37,10 @@ class DummyUser extends User {
 /**
  * Class Home
  *
- * @group DB
  *
  * @package Test\Files\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HomeTest extends Storage {
 	/**
 	 * @var string tmpDir

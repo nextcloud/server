@@ -25,7 +25,6 @@
     "%s accessed %s" : "%s ha accedido a %s",
     "%s renamed %s" : "%s ha renombrado %s",
     "%s copied %s" : "%s ha copiado %s",
-    "%s assigned %s to %s" : "%s ha asignado %s a %s",
     "Operation #%s does not exist" : "La operación #%s  no existe",
     "Entity %s does not exist" : "La entidad %s no existe",
     "Entity %s is invalid" : "La entidad %s no es válida",
@@ -47,12 +46,13 @@
     "Select a filter" : "Seleccionar un filtro",
     "Select a comparator" : "Seleccionar un comparador",
     "Remove filter" : "Quitar filtro",
+    "Audio" : "Audio",
     "Folder" : "Carpeta",
     "Images" : "Imágenes",
     "Office documents" : "Documentos de oficina",
     "PDF documents" : "Documentos PDF",
+    "Video" : "Video",
     "Custom MIME type" : "Tipo de MIME personalizado",
-    "Custom mimetype" : "mimetype personalizado",
     "Select a file type" : "Seleccionar un tipo de archivo",
     "e.g. httpd/unix-directory" : "p. ej. httpd/unix-directory",
     "Please enter a valid time span" : "Por favor introduzca un período de tiempo válido",
@@ -67,7 +67,6 @@
     "Select a user agent" : "Seleccionar un agente de usuario",
     "Select groups" : "Seleccionar grupos",
     "Groups" : "Grupos",
-    "Type to search for group …" : "Escriba para seleccionar un grupo...",
     "Select a trigger" : "Seleccionar un desencadenante",
     "At least one event must be selected" : "Debe seleccionar al menos un evento",
     "Add new flow" : "Añadir nuevo flujo",
@@ -116,6 +115,7 @@
     "Request user agent" : "Solicitar agente de usuario",
     "Group membership" : "Membresía a grupos",
     "is member of" : "es miembro de",
-    "is not member of" : "no es miembro de"
+    "is not member of" : "no es miembro de",
+    "Type to search for group …" : "Escriba para seleccionar un grupo..."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

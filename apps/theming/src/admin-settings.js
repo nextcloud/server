@@ -4,10 +4,8 @@
  */
 import { getCSPNonce } from '@nextcloud/auth'
 import Vue from 'vue'
-
 import App from './AdminTheming.vue'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.OC = OC

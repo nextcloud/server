@@ -1,13 +1,13 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { describe, expect, it } from 'vitest'
-import isSvg from 'is-svg'
 
-import { deleted, deletedBy, originalLocation } from './columns'
-import { TRASHBIN_VIEW_ID, trashbinView } from './trashbinView.ts'
+import isSvg from 'is-svg'
+import { describe, expect, it } from 'vitest'
 import { getContents } from '../services/trashbin.ts'
+import { deleted, deletedBy, originalLocation } from './columns.ts'
+import { TRASHBIN_VIEW_ID, trashbinView } from './trashbinView.ts'
 
 describe('files_trasbin: trashbin files view', () => {
 	it('has correct strings', () => {

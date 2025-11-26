@@ -3,17 +3,20 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<li :data-cy-app-order-element="app.id"
+	<li
+		:data-cy-app-order-element="app.id"
+		class="order-selector-element"
 		:class="{
-			'order-selector-element': true,
-			'order-selector-element--disabled': app.default
+			'order-selector-element--disabled': app.default,
 		}"
 		@focusin="$emit('update:focus')">
-		<svg width="20"
+		<svg
+			width="20"
 			height="20"
 			viewBox="0 0 20 20"
 			role="presentation">
-			<image preserveAspectRatio="xMinYMin meet"
+			<image
+				preserveAspectRatio="xMinYMin meet"
 				x="0"
 				y="0"
 				width="20"
@@ -27,26 +30,28 @@
 		</div>
 
 		<div class="order-selector-element__actions">
-			<NcButton v-show="!isFirst && !app.default"
+			<NcButton
+				v-show="!isFirst && !app.default"
 				ref="buttonUp"
 				:aria-label="t('settings', 'Move up')"
 				:aria-describedby="ariaDescribedby"
 				:aria-details="ariaDetails"
 				data-cy-app-order-button="up"
-				type="tertiary-no-background"
+				variant="tertiary-no-background"
 				@click="moveUp">
 				<template #icon>
 					<IconArrowUp :size="20" />
 				</template>
 			</NcButton>
 			<div v-show="isFirst || !!app.default" aria-hidden="true" class="order-selector-element__placeholder" />
-			<NcButton v-show="!isLast && !app.default"
+			<NcButton
+				v-show="!isLast && !app.default"
 				ref="buttonDown"
 				:aria-label="t('settings', 'Move down')"
 				:aria-describedby="ariaDescribedby"
 				:aria-details="ariaDetails"
 				data-cy-app-order-button="down"
-				type="tertiary-no-background"
+				variant="tertiary-no-background"
 				@click="moveDown">
 				<template #icon>
 					<IconArrowDown :size="20" />
@@ -62,10 +67,9 @@ import type { PropType } from 'vue'
 
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent, nextTick, ref } from 'vue'
-
+import NcButton from '@nextcloud/vue/components/NcButton'
 import IconArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import IconArrowUp from 'vue-material-design-icons/ArrowUp.vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
 
 interface IApp {
 	id: string // app id
@@ -81,6 +85,7 @@ export default defineComponent({
 		IconArrowUp,
 		NcButton,
 	},
+
 	props: {
 		/**
 		 * Needs to be forwarded to the buttons (as interactive elements)
@@ -89,23 +94,28 @@ export default defineComponent({
 			type: String,
 			default: null,
 		},
+
 		ariaDetails: {
 			type: String,
 			default: null,
 		},
+
 		app: {
 			type: Object as PropType<IApp>,
 			required: true,
 		},
+
 		isFirst: {
 			type: Boolean,
 			default: false,
 		},
+
 		isLast: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	emits: {
 		'move:up': () => true,
 		'move:down': () => true,
@@ -114,6 +124,7 @@ export default defineComponent({
 		 */
 		'update:focus': () => true,
 	},
+
 	setup(props, { emit }) {
 		const buttonUp = ref()
 		const buttonDown = ref()
@@ -134,7 +145,7 @@ export default defineComponent({
 		/**
 		 * Handle move down, ensure focus is kept on the button
 		 */
-		 const moveDown = () => {
+		const moveDown = () => {
 			emit('move:down')
 			needsFocus = -1 // request focus on buttonDown
 		}

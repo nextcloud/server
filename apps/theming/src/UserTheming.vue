@@ -5,7 +5,8 @@
 
 <template>
 	<section>
-		<NcSettingsSection :name="t('theming', 'Appearance and accessibility settings')"
+		<NcSettingsSection
+			:name="t('theming', 'Appearance and accessibility settings')"
 			class="theming">
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="description" />
@@ -13,7 +14,8 @@
 			<p v-html="descriptionDetail" />
 
 			<div class="theming__preview-list">
-				<ItemPreview v-for="theme in themes"
+				<ItemPreview
+					v-for="theme in themes"
 					:key="theme.id"
 					:enforced="theme.id === enforceTheme"
 					:selected="selectedTheme.id === theme.id"
@@ -24,7 +26,8 @@
 			</div>
 
 			<div class="theming__preview-list">
-				<ItemPreview v-for="theme in fonts"
+				<ItemPreview
+					v-for="theme in fonts"
 					:key="theme.id"
 					:selected="theme.enabled"
 					:theme="theme"
@@ -34,37 +37,44 @@
 			</div>
 
 			<h3>{{ t('theming', 'Misc accessibility options') }}</h3>
-			<NcCheckboxRadioSwitch type="checkbox"
-				:checked="enableBlurFilter === 'yes'"
+			<NcCheckboxRadioSwitch
+				type="checkbox"
+				:model-value="enableBlurFilter === 'yes'"
 				:indeterminate="enableBlurFilter === ''"
-				@update:checked="changeEnableBlurFilter">
+				@update:modelValue="changeEnableBlurFilter">
 				{{ t('theming', 'Enable blur background filter (may increase GPU load)') }}
 			</NcCheckboxRadioSwitch>
 		</NcSettingsSection>
 
-		<NcSettingsSection :name="t('theming', 'Primary color')"
+		<NcSettingsSection
+			:name="t('theming', 'Primary color')"
 			:description="isUserThemingDisabled
 				? t('theming', 'Customization has been disabled by your administrator')
 				: t('theming', 'Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements.')">
-			<UserPrimaryColor v-if="!isUserThemingDisabled"
+			<UserPrimaryColor
+				v-if="!isUserThemingDisabled"
 				ref="primaryColor"
 				@refresh-styles="refreshGlobalStyles" />
 		</NcSettingsSection>
 
-		<NcSettingsSection class="background"
+		<NcSettingsSection
+			class="background"
 			:name="t('theming', 'Background and color')"
 			:description="isUserThemingDisabled
 				? t('theming', 'Customization has been disabled by your administrator')
 				: t('theming', 'The background can be set to an image from the default set, a custom uploaded image, or a plain color.')">
-			<BackgroundSettings v-if="!isUserThemingDisabled"
+			<BackgroundSettings
+				v-if="!isUserThemingDisabled"
 				class="background__grid"
 				@update:background="refreshGlobalStyles" />
 		</NcSettingsSection>
 
-		<NcSettingsSection :name="t('theming', 'Keyboard shortcuts')"
+		<NcSettingsSection
+			:name="t('theming', 'Keyboard shortcuts')"
 			:description="t('theming', 'In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.')">
-			<NcCheckboxRadioSwitch class="theming__preview-toggle"
-				:checked.sync="shortcutsDisabled"
+			<NcCheckboxRadioSwitch
+				v-model="shortcutsDisabled"
+				class="theming__preview-toggle"
 				type="switch"
 				@change="changeShortcutsDisabled">
 				{{ t('theming', 'Disable all keyboard shortcuts') }}
@@ -76,20 +86,18 @@
 </template>
 
 <script>
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import { refreshStyles } from './helpers/refreshStyles'
-
-import axios, { isAxiosError } from '@nextcloud/axios'
-
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
 import UserAppMenuSection from './components/UserAppMenuSection.vue'
 import UserPrimaryColor from './components/UserPrimaryColor.vue'
+import { refreshStyles } from './helpers/refreshStyles.js'
+import { logger } from './logger.js'
 
 const availableThemes = loadState('theming', 'themes', [])
 const enforceTheme = loadState('theming', 'enforceTheme', '')
@@ -125,16 +133,16 @@ export default {
 
 	computed: {
 		themes() {
-			return this.availableThemes.filter(theme => theme.type === 1)
+			return this.availableThemes.filter((theme) => theme.type === 1)
 		},
 
 		fonts() {
-			return this.availableThemes.filter(theme => theme.type === 2)
+			return this.availableThemes.filter((theme) => theme.type === 2)
 		},
 
 		// Selected theme, fallback on first (default) if none
 		selectedTheme() {
-			return this.themes.find(theme => theme.enabled === true) || this.themes[0]
+			return this.themes.find((theme) => theme.enabled === true) || this.themes[0]
 		},
 
 		description() {
@@ -182,7 +190,7 @@ export default {
 
 		changeTheme({ enabled, id }) {
 			// Reset selected and select new one
-			this.themes.forEach(theme => {
+			this.themes.forEach((theme) => {
 				if (theme.id === id && enabled) {
 					theme.enabled = true
 					return
@@ -196,7 +204,7 @@ export default {
 
 		changeFont({ enabled, id }) {
 			// Reset selected and select new one
-			this.fonts.forEach(font => {
+			this.fonts.forEach((font) => {
 				if (font.id === id && enabled) {
 					font.enabled = true
 					return
@@ -248,13 +256,13 @@ export default {
 		},
 
 		updateBodyAttributes() {
-			const enabledThemesIDs = this.themes.filter(theme => theme.enabled === true).map(theme => theme.id)
-			const enabledFontsIDs = this.fonts.filter(font => font.enabled === true).map(font => font.id)
+			const enabledThemesIDs = this.themes.filter((theme) => theme.enabled === true).map((theme) => theme.id)
+			const enabledFontsIDs = this.fonts.filter((font) => font.enabled === true).map((font) => font.id)
 
-			this.themes.forEach(theme => {
+			this.themes.forEach((theme) => {
 				document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
 			})
-			this.fonts.forEach(font => {
+			this.fonts.forEach((font) => {
 				document.body.toggleAttribute(`data-theme-${font.id}`, font.enabled)
 			})
 
@@ -281,9 +289,8 @@ export default {
 						method: 'DELETE',
 					})
 				}
-
 			} catch (error) {
-				console.error('theming: Unable to apply setting.', error)
+				logger.error('theming: Unable to apply setting.', { error })
 				let message = t('theming', 'Unable to apply the setting.')
 				if (isAxiosError(error) && error.response.data.ocs?.meta?.message) {
 					message = `${error.response.data.ocs.meta.message}. ${message}`

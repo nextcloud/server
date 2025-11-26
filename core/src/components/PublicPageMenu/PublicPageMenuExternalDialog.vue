@@ -3,17 +3,19 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcDialog is-form
+	<NcDialog
+		is-form
 		:name="label"
 		:open.sync="open"
 		@submit="createFederatedShare">
-		<NcTextField ref="input"
+		<NcTextField
+			ref="input"
+			v-model="remoteUrl"
 			:label="t('core', 'Federated user')"
 			:placeholder="t('core', 'user@your-nextcloud.org')"
-			required
-			:value.sync="remoteUrl" />
+			required />
 		<template #actions>
-			<NcButton :disabled="loading" type="primary" native-type="submit">
+			<NcButton :disabled="loading" variant="primary" type="submit">
 				<template v-if="loading" #icon>
 					<NcLoadingIcon />
 				</template>
@@ -26,17 +28,17 @@
 <script setup lang="ts">
 import type Vue from 'vue'
 
-import { t } from '@nextcloud/l10n'
+import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { getSharingToken } from '@nextcloud/sharing/public'
 import { nextTick, onMounted, ref, watch } from 'vue'
-import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../../logger'
+import logger from '../../logger.js'
 
 defineProps<{
 	label: string

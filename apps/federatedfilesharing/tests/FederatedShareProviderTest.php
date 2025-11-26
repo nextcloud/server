@@ -36,8 +36,8 @@ use Psr\Log\LoggerInterface;
  * Class FederatedShareProviderTest
  *
  * @package OCA\FederatedFileSharing\Tests
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FederatedShareProviderTest extends \Test\TestCase {
 	protected IDBConnection $connection;
 	protected AddressHandler&MockObject $addressHandler;
@@ -169,7 +169,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 			->executeQuery();
 
-		$data = $stmt->fetch();
+		$data = $stmt->fetchAssociative();
 		$stmt->closeCursor();
 
 		$expected = [
@@ -256,7 +256,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 			->executeQuery();
 
-		$data = $stmt->fetch();
+		$data = $stmt->fetchAssociative();
 		$stmt->closeCursor();
 
 		$this->assertFalse($data);
@@ -317,7 +317,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 			->executeQuery();
 
-		$data = $stmt->fetch();
+		$data = $stmt->fetchAssociative();
 		$stmt->closeCursor();
 
 		$this->assertFalse($data);
@@ -360,7 +360,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 			->executeQuery();
 
-		$data = $stmt->fetch();
+		$data = $stmt->fetchAssociative();
 		$stmt->closeCursor();
 
 		$this->assertFalse($data);
@@ -732,7 +732,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$qb->expr()->eq('id', $qb->createNamedParameter($id))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertCount($rowDeleted ? 0 : 1, $data);

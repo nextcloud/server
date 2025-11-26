@@ -2,10 +2,19 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import { render } from '@testing-library/vue'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-
 import CalDavSettings from './CalDavSettings.vue'
+
+const initialState = vi.hoisted(() => ({
+	userSyncCalendarsDocUrl: 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars',
+	sendInvitations: true,
+	generateBirthdayCalendar: true,
+	sendEventReminders: true,
+	sendEventRemindersToSharedUsers: true,
+	sendEventRemindersPush: true,
+}))
 
 vi.mock('@nextcloud/axios')
 vi.mock('@nextcloud/router', () => {
@@ -17,7 +26,7 @@ vi.mock('@nextcloud/router', () => {
 })
 vi.mock('@nextcloud/initial-state', () => {
 	return {
-		loadState: vi.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
+		loadState: vi.fn((app, key) => app === 'dav' && initialState[key]),
 	}
 })
 
@@ -32,43 +41,16 @@ describe('CalDavSettings', () => {
 	})
 
 	test('interactions', async () => {
-		const TLUtils = render(
-			CalDavSettings,
-			{
-				data() {
-					return {
-						sendInvitations: true,
-						generateBirthdayCalendar: true,
-						sendEventReminders: true,
-						sendEventRemindersToSharedUsers: true,
-						sendEventRemindersPush: true,
-					}
-				},
-			},
-			Vue => {
-				Vue.prototype.$t = vi.fn((app, text) => text)
-			},
-		)
-		expect(TLUtils.container).toMatchSnapshot()
-		const sendInvitations = TLUtils.getByLabelText(
-			'Send invitations to attendees',
-		)
+		const TLUtils = render(CalDavSettings)
+		const sendInvitations = TLUtils.getByLabelText('Send invitations to attendees')
 		expect(sendInvitations).toBeChecked()
-		const generateBirthdayCalendar = TLUtils.getByLabelText(
-			'Automatically generate a birthday calendar',
-		)
+		const generateBirthdayCalendar = TLUtils.getByLabelText('Automatically generate a birthday calendar')
 		expect(generateBirthdayCalendar).toBeChecked()
-		const sendEventReminders = TLUtils.getByLabelText(
-			'Send notifications for events',
-		)
+		const sendEventReminders = TLUtils.getByLabelText('Send notifications for events')
 		expect(sendEventReminders).toBeChecked()
-		const sendEventRemindersToSharedUsers = TLUtils.getByLabelText(
-			'Send reminder notifications to calendar sharees as well',
-		)
+		const sendEventRemindersToSharedUsers = TLUtils.getByLabelText('Send reminder notifications to calendar sharees as well')
 		expect(sendEventRemindersToSharedUsers).toBeChecked()
-		const sendEventRemindersPush = TLUtils.getByLabelText(
-			'Enable notifications for events via push',
-		)
+		const sendEventRemindersPush = TLUtils.getByLabelText('Enable notifications for events via push')
 		expect(sendEventRemindersPush).toBeChecked()
 
 		/*

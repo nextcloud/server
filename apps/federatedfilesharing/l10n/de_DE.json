@@ -22,7 +22,7 @@
     "Federated file sharing" : "Federated Datei-Freigabe",
     "Provide federated file sharing across servers" : "Bietet Cloud-übergreifende Datei-Freigaben",
     "Confirm data upload to lookup server" : "Datenupload zum Lookup-Server bestätigen",
-    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Wenn diese Option aktiviert ist, werden alle Kontoeigenschaften (z. B. E-Mail-Adresse) mit der auf „veröffentlicht“ eingestellten Bereichssichtbarkeit automatisch synchronisiert und an ein externes System übertragen sowie in einem öffentlichen, globalen Adressbuch verfügbar gemacht.",
+    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Wenn diese Option aktiviert ist, werden alle Kontoeigenschaften (z. B. E-Mail-Adresse) mit der auf \"veröffentlicht\" eingestellten Bereichssichtbarkeit automatisch synchronisiert und an ein externes System übertragen sowie in einem öffentlichen, globalen Adressbuch verfügbar gemacht.",
     "Disable upload" : "Hochladen deaktivieren",
     "Enable data upload" : "Datenhochladen aktivieren",
     "Confirm querying lookup server" : "Abfrage des Lookup-Servers bestätigen",
@@ -50,7 +50,7 @@
     "Clipboard not available. Please copy the cloud ID manually." : "Zwischenablage nicht verfügbar. Bitte die Cloud-ID manuell kopieren.",
     "Copied!" : "Kopiert!",
     "Federated Cloud" : "Federated Cloud",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit jedem teilen, der einen Nextcloud-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Geben Sie einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit jedem teilen, der einen {productName}-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Geben Sie einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com",
     "Your Federated Cloud ID" : "Ihre Federated-Cloud-ID",
     "Share it so your friends can share files with you:" : "Teilen Sie es, damit Ihre Freunde Dateien mit Ihnen teilen können:",
     "Facebook" : "Facebook",
@@ -59,6 +59,7 @@
     "Mastodon" : "Mastodon",
     "Bluesky" : "Bluesky",
     "Add to your website" : "Zu Ihrer Webseite hinzufügen",
+    "Share with me via {productName}" : "Mit mir über {productName} teilen",
     "HTML Code:" : "HTML-Code:",
     "Cancel" : "Abbrechen",
     "Add remote share" : "Externe Freigabe hinzufügen",
@@ -67,6 +68,7 @@
     "Remote share password" : "Passwort für die externe Freigabe",
     "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
     "Cloud ID copied to the clipboard" : "Cloud-ID wurde in die Zwischenablage kopiert",
-    "Copy to clipboard" : "In die Zwischenablage kopieren"
+    "Copy to clipboard" : "In die Zwischenablage kopieren",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit jedem teilen, der einen Nextcloud-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Geben Sie einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

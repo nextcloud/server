@@ -41,10 +41,10 @@ use Test\TestCase;
 /**
  * Class ViewControllerTest
  *
- * @group RoutingWeirdness
  *
  * @package OCA\Files\Tests\Controller
  */
+#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 class ViewControllerTest extends TestCase {
 	private ContainerInterface&MockObject $container;
 	private IAppManager&MockObject $appManager;
@@ -301,12 +301,18 @@ class ViewControllerTest extends TestCase {
 		$invokedCountProvideInitialState = $this->exactly(9);
 		$this->initialState->expects($invokedCountProvideInitialState)
 			->method('provideInitialState')
-			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState) {
+			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState): void {
 				if ($invokedCountProvideInitialState->numberOfInvocations() === 9) {
 					$this->assertEquals('isTwoFactorEnabled', $key);
 					$this->assertTrue($data);
 				}
 			});
+
+		$this->config
+			->method('getUserValue')
+			->willReturnMap([
+				[$this->user->getUID(), 'files', 'files_sorting_configs', '{}', '{}'],
+			]);
 
 		$this->viewController->index('', '', null);
 	}

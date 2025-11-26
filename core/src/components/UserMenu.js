@@ -4,17 +4,18 @@
  */
 
 import Vue from 'vue'
-
 import AccountMenu from '../views/AccountMenu.vue'
 
-export const setUp = () => {
+/**
+ *
+ */
+export function setUp() {
 	const mountPoint = document.getElementById('user-menu')
 	if (mountPoint) {
-		// eslint-disable-next-line no-new
 		new Vue({
 			name: 'AccountMenuRoot',
 			el: mountPoint,
-			render: h => h(AccountMenu),
+			render: (h) => h(AccountMenu),
 		})
 	}
 }

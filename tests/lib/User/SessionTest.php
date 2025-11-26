@@ -42,9 +42,9 @@ use function array_diff;
 use function get_class_methods;
 
 /**
- * @group DB
  * @package Test\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SessionTest extends \Test\TestCase {
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;

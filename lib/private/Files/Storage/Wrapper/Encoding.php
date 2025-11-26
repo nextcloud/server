@@ -11,7 +11,6 @@ use OC\Files\Filesystem;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\Storage\IStorage;
-use OCP\ICache;
 
 /**
  * Encoding wrapper that deals with file names that use unsupported encodings like NFD.
@@ -20,10 +19,7 @@ use OCP\ICache;
  * the actual given name and then try its NFD form.
  */
 class Encoding extends Wrapper {
-	/**
-	 * @var ICache
-	 */
-	private $namesCache;
+	private CappedMemoryCache $namesCache;
 
 	/**
 	 * @param array $parameters

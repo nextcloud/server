@@ -18,9 +18,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PartitionedQueryBuilderTest extends TestCase {
 	private IDBConnection $connection;
 	private ShardConnectionManager $shardConnectionManager;
@@ -29,6 +27,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 	protected function setUp(): void {
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
+			return;
 		}
 		$this->connection = Server::get(IDBConnection::class);
 		$this->shardConnectionManager = Server::get(ShardConnectionManager::class);
@@ -38,7 +37,11 @@ class PartitionedQueryBuilderTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->cleanupDb();
+		// PHP unit also runs tearDown when the test is skipped, but we only initialized when using 64bit
+		// see https://github.com/sebastianbergmann/phpunit/issues/6394
+		if (PHP_INT_SIZE >= 8) {
+			$this->cleanupDb();
+		}
 		parent::tearDown();
 	}
 

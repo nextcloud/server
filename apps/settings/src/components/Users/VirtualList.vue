@@ -7,15 +7,18 @@
 	<table class="user-list">
 		<slot name="before" />
 
-		<thead ref="thead"
+		<thead
+			ref="thead"
 			role="rowgroup"
 			class="user-list__header">
 			<slot name="header" />
 		</thead>
 
-		<tbody :style="tbodyStyle"
+		<tbody
+			:style="tbodyStyle"
 			class="user-list__body">
-			<component :is="dataComponent"
+			<component
+				:is="dataComponent"
 				v-for="(item, i) in renderedItems"
 				:key="item[dataKey]"
 				:user="item"
@@ -23,7 +26,8 @@
 				v-bind="extraProps" />
 		</tbody>
 
-		<tfoot ref="tfoot"
+		<tfoot
+			ref="tfoot"
 			v-element-visibility="handleFooterVisibility"
 			role="rowgroup"
 			class="user-list__footer">
@@ -33,10 +37,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { vElementVisibility } from '@vueuse/components'
 import debounce from 'debounce'
-
+import Vue from 'vue'
 import logger from '../../logger.ts'
 
 Vue.directive('elementVisibility', vElementVisibility)
@@ -52,18 +55,22 @@ export default Vue.extend({
 			type: [Object, Function],
 			required: true,
 		},
+
 		dataKey: {
 			type: String,
 			required: true,
 		},
+
 		dataSources: {
 			type: Array,
 			required: true,
 		},
+
 		itemHeight: {
 			type: Number,
 			required: true,
 		},
+
 		extraProps: {
 			type: Object,
 			default: () => ({}),
@@ -114,7 +121,7 @@ export default Vue.extend({
 			this.tableHeight = root?.clientHeight ?? 0
 			logger.debug('VirtualList resizeObserver updated')
 			this.onScroll()
-		}, 100, false))
+		}, 100))
 
 		this.resizeObserver.observe(root)
 		this.resizeObserver.observe(tfoot)

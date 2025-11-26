@@ -936,19 +936,13 @@ class EncryptionTest extends Storage {
 		];
 	}
 
-	/**
-	 *
-	 * @param bool $encryptMountPoint
-	 * @param mixed $encryptionModule
-	 * @param bool $encryptionModuleShouldEncrypt
-	 * @param bool $expected
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldEncrypt')]
 	public function testShouldEncrypt(
-		$encryptMountPoint,
-		$encryptionModule,
-		$encryptionModuleShouldEncrypt,
-		$expected,
+		bool $encryptionEnabled,
+		bool $encryptMountPoint,
+		?bool $encryptionModule,
+		bool $encryptionModuleShouldEncrypt,
+		bool $expected,
 	): void {
 		$encryptionManager = $this->createMock(\OC\Encryption\Manager::class);
 		$util = $this->createMock(Util::class);
@@ -978,13 +972,15 @@ class EncryptionTest extends Storage {
 			->onlyMethods(['getFullPath', 'getEncryptionModule'])
 			->getMock();
 
+		$encryptionManager->method('isEnabled')->willReturn($encryptionEnabled);
+
 		if ($encryptionModule === true) {
 			/** @var IEncryptionModule|MockObject $encryptionModule */
 			$encryptionModule = $this->createMock(IEncryptionModule::class);
 		}
 
 		$wrapper->method('getFullPath')->with($path)->willReturn($fullPath);
-		$wrapper->expects($encryptMountPoint ? $this->once() : $this->never())
+		$wrapper->expects(($encryptionEnabled && $encryptMountPoint) ? $this->once() : $this->never())
 			->method('getEncryptionModule')
 			->with($fullPath)
 			->willReturnCallback(
@@ -995,7 +991,8 @@ class EncryptionTest extends Storage {
 					return $encryptionModule;
 				}
 			);
-		$mount->expects($this->once())->method('getOption')->with('encrypt', true)
+		$mount->expects($encryptionEnabled ? $this->once() : $this->never())
+			->method('getOption')->with('encrypt', true)
 			->willReturn($encryptMountPoint);
 
 		if ($encryptionModule !== null && $encryptionModule !== false) {
@@ -1019,11 +1016,12 @@ class EncryptionTest extends Storage {
 
 	public static function dataTestShouldEncrypt(): array {
 		return [
-			[false, false, false, false],
-			[true, false, false, false],
-			[true, true, false, false],
-			[true, true, true, true],
-			[true, null, false, true],
+			[true, false, false, false, false],
+			[true, true, false, false, false],
+			[true, true, true, false, false],
+			[true, true, true, true, true],
+			[true, true, null, false, true],
+			[false, true, true, true, false],
 		];
 	}
 }

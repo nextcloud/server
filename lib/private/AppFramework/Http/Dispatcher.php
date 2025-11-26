@@ -201,7 +201,18 @@ class Dispatcher {
 		}
 
 		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
-		$response = \call_user_func_array([$controller, $methodName], $arguments);
+		try {
+			$response = \call_user_func_array([$controller, $methodName], $arguments);
+		} catch (\TypeError $e) {
+			// Only intercept TypeErrors occurring on the first line, meaning that the invocation of the controller method failed.
+			// Any other TypeError happens inside the controller method logic and should be logged as normal.
+			if ($e->getFile() === $this->reflector->getFile() && $e->getLine() === $this->reflector->getStartLine()) {
+				$this->logger->debug('Failed to call controller method: ' . $e->getMessage(), ['exception' => $e]);
+				return new Response(Http::STATUS_BAD_REQUEST);
+			}
+
+			throw $e;
+		}
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
 		if (!($response instanceof Response)) {
@@ -210,16 +221,8 @@ class Dispatcher {
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
-			// get format from the url format or request format parameter
-			$format = $this->request->getParam('format');
-
-			// if none is given try the first Accept header
-			if ($format === null) {
-				$headers = $this->request->getHeader('Accept');
-				$format = $controller->getResponderByHTTPHeader($headers, null);
-			}
-
-			if ($format !== null) {
+			$format = $this->request->getFormat();
+			if ($format !== null && $controller->isResponderRegistered($format)) {
 				$response = $controller->buildResponse($response, $format);
 			} else {
 				$response = $controller->buildResponse($response);

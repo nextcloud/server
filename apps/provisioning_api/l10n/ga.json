@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "Ní fo-riarthóir den ghrúpa seo é an t-úsáideoir",
     "Email address not available" : "Níl an seoladh ríomhphoist ar fáil",
     "Sending email failed" : "Theip ar sheoladh ríomhphoist",
+    "Logged in account is not mail address owner" : "Ní úinéir an seoladh ríomhphoist atá ar an gcuntas atá logáilte isteach",
     "Email confirmation" : "Deimhniú ríomhphoist",
     "To enable the email address %s please click the button below." : "Chun an seoladh ríomhphoist %s a chumasú cliceáil ar an gcnaipe thíos le do thoil.",
     "Confirm" : "Deimhnigh",
