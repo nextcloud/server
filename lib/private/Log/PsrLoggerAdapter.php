@@ -54,7 +54,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function emergency($message, array $context = []): void {
+	public function emergency(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::EMERGENCY, (string)$message, $context);
 	}
 
@@ -67,7 +67,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function alert($message, array $context = []): void {
+	public function alert(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::ALERT, (string)$message, $context);
 	}
 
@@ -79,7 +79,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function critical($message, array $context = []): void {
+	public function critical(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::CRITICAL, (string)$message, $context);
 	}
 
@@ -90,7 +90,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function error($message, array $context = []): void {
+	public function error(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::ERROR, (string)$message, $context);
 	}
 
@@ -103,7 +103,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function warning($message, array $context = []): void {
+	public function warning(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::WARNING, (string)$message, $context);
 	}
 
@@ -113,7 +113,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function notice($message, array $context = []): void {
+	public function notice(string|Stringable $message, array $context = []): void {
 		this->log(LogLevel::NOTICE, (string)$message, $context);
 	}
 
@@ -125,7 +125,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function info($message, array $context = []): void {
+	public function info(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::INFO, (string)$message, $context);
 	}
 
@@ -135,7 +135,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param string|Stringable $message
 	 * @param mixed[] $context
 	 */
-	public function debug($message, array $context = []): void {
+	public function debug(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::DEBUG, (string)$message, $context);
 	}
 
