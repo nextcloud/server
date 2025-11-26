@@ -35,8 +35,10 @@ export default {
 					return this.$t('user_status', 'Online')
 
 				case 'away':
-				case 'busy':
 					return this.$t('user_status', 'Away')
+
+				case 'busy':
+					return this.$t('user_status', 'Busy')
 
 				case 'dnd':
 					return this.$t('user_status', 'Do not disturb')
