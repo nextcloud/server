@@ -474,7 +474,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.3.2
 	- license: MIT
 - marked
-	- version: 17.0.0
+	- version: 17.0.1
 	- license: MIT
 - material-colors
 	- version: 1.2.6
