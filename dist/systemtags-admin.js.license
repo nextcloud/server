@@ -304,7 +304,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.4
 	- license: MIT
 - camelcase
-	- version: 8.0.0
+	- version: 9.0.0
 	- license: MIT
 - charenc
 	- version: 0.0.2
