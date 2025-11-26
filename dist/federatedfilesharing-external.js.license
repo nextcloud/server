@@ -114,6 +114,9 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 13.9.0
 	- license: MIT
+- debounce
+	- version: 2.2.0
+	- license: MIT
 - rehype-react
 	- version: 8.0.0
 	- license: MIT
@@ -159,6 +162,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
+- debounce
+	- version: 2.2.0
+	- license: MIT
 - @nextcloud/vue
 	- version: 8.34.0
 	- license: AGPL-3.0-or-later
@@ -269,9 +275,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - date-fns
 	- version: 4.1.0
-	- license: MIT
-- debounce
-	- version: 2.2.0
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.2.0
