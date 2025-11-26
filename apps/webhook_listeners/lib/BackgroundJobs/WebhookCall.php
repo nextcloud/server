@@ -12,6 +12,7 @@ namespace OCA\WebhookListeners\BackgroundJobs;
 use OCA\AppAPI\PublicFunctions;
 use OCA\WebhookListeners\Db\AuthMethod;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
+use OCA\WebhookListeners\Service\TokenService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
@@ -30,6 +31,7 @@ class WebhookCall extends QueuedJob {
 		private WebhookListenerMapper $mapper,
 		private LoggerInterface $logger,
 		private IAppManager $appManager,
+		private TokenService $tokenService,
 		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
@@ -42,6 +44,9 @@ class WebhookCall extends QueuedJob {
 		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);
 		$client = $this->clientService->newClient();
+
+		// adding Ephemeral auth tokens to the call
+		$data['tokens'] = $this->tokenService->getTokens($webhookListener, $data['user']['uid'] ?? null);
 		$options = [
 			'verify' => $this->certificateManager->getAbsoluteBundlePath(),
 			'headers' => $webhookListener->getHeaders() ?? [],
