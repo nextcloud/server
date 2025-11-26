@@ -36,7 +36,7 @@ jobs:
           blocklist=$(curl https://raw.githubusercontent.com/nextcloud/.github/master/non-community-usernames.txt | paste -s -d, -)
           echo "blocklist=$blocklist" >> "$GITHUB_OUTPUT"
 
-      - uses: nextcloud/pr-feedback-action@1883b38a033fb16f576875e0cf45f98b857655c4 # main
+      - uses: nextcloud/pr-feedback-action@f0cab224dea8e1f282f9451de322f323c78fc7a5 # main
         with:
           feedback-message: |
             Hello there,
@@ -50,6 +50,6 @@ jobs:
 
             (If you believe you should not receive this message, you can add yourself to the [blocklist](https://github.com/nextcloud/.github/blob/master/non-community-usernames.txt).)
           days-before-feedback: 14
-          start-date: '2024-04-30'
+          start-date: '2025-06-12'
           exempt-authors: '${{ steps.blocklist.outputs.blocklist }},${{ steps.scrape.outputs.users }}'
           exempt-bots: true

@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Get repository from pull request comment
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         id: get-repository
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -57,7 +57,7 @@ jobs:
           require: write
 
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
@@ -83,7 +83,7 @@ jobs:
         id: comment-branch
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -103,7 +103,7 @@ jobs:
           key: git-repo
 
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           # Needed to allow force push later
           persist-credentials: true
@@ -120,11 +120,11 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: package-engines-versions
         with:
-          fallbackNode: '^20'
-          fallbackNpm: '^10'
+          fallbackNode: '^24'
+          fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
@@ -136,35 +136,35 @@ jobs:
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
         run: |
           git fetch origin '${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}'
-          
+
           # Start the rebase
           git rebase 'origin/${{ needs.init.outputs.base_ref }}' || {
             # Handle rebase conflicts in a loop
             while [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; do
               echo "Handling rebase conflict..."
-              
+
               # Remove and checkout /dist and /js folders from the base branch
               if [ -d "dist" ]; then
                 rm -rf dist
                 git checkout origin/${{ needs.init.outputs.base_ref }} -- dist/ 2>/dev/null || echo "No dist folder in base branch"
               fi
               if [ -d "js" ]; then
-                rm -rf js  
+                rm -rf js
                 git checkout origin/${{ needs.init.outputs.base_ref }} -- js/ 2>/dev/null || echo "No js folder in base branch"
               fi
-              
+
               # Stage all changes
               git add .
-              
+
               # Check if there are any changes after resolving conflicts
               if git diff --cached --quiet; then
                 echo "No changes after conflict resolution, skipping commit"
                 git rebase --skip
               else
-                echo "Changes found, continuing rebase"
-                git rebase --continue
+                echo "Changes found, continuing rebase without editing commit message"
+                git -c core.editor=true rebase --continue
               fi
-              
+
               # Break if rebase is complete
               if [ ! -d .git/rebase-merge ] && [ ! -d .git/rebase-apply ]; then
                 break
@@ -213,7 +213,7 @@ jobs:
         run: git push --force-with-lease origin "$HEAD_REF"
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
