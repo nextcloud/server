@@ -165,7 +165,8 @@
                     "scheduledAt",
                     "startedAt",
                     "endedAt",
-                    "allowCleanup"
+                    "allowCleanup",
+                    "includeWatermark"
                 ],
                 "properties": {
                     "id": {
@@ -238,6 +239,9 @@
                         "nullable": true
                     },
                     "allowCleanup": {
+                        "type": "boolean"
+                    },
+                    "includeWatermark": {
                         "type": "boolean"
                     }
                 }

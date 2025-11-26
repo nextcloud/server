@@ -659,7 +659,8 @@
                     "scheduledAt",
                     "startedAt",
                     "endedAt",
-                    "allowCleanup"
+                    "allowCleanup",
+                    "includeWatermark"
                 ],
                 "properties": {
                     "id": {
@@ -732,6 +733,9 @@
                         "nullable": true
                     },
                     "allowCleanup": {
+                        "type": "boolean"
+                    },
+                    "includeWatermark": {
                         "type": "boolean"
                     }
                 }
@@ -4944,6 +4948,11 @@
                                         "nullable": true,
                                         "default": null,
                                         "description": "Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)"
+                                    },
+                                    "includeWatermark": {
+                                        "type": "boolean",
+                                        "default": true,
+                                        "description": "Whether to include a watermark in the output file or not"
                                     }
                                 }
                             }
