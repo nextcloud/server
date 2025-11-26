@@ -80,12 +80,6 @@ export default {
 	},
 
 	beforeMount() {
-		/**
-		 * Update storage stats every minute
-		 * TODO: remove when all views are migrated to Vue
-		 */
-		setInterval(this.throttleUpdateStorageStats, 60 * 1000)
-
 		subscribe('files:node:created', this.throttleUpdateStorageStats)
 		subscribe('files:node:deleted', this.throttleUpdateStorageStats)
 		subscribe('files:node:moved', this.throttleUpdateStorageStats)
