@@ -98,7 +98,7 @@ import { showInfo } from '@nextcloud/dialogs'
 import { n, t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import { callWizard } from '../../services/ldapConfigService.ts'
@@ -119,6 +119,18 @@ const localLdapAgentPassword = ref(ldapConfigProxy.value.ldapAgentPassword)
 const needsToSaveCredentials = computed(() => {
 	return ldapConfigProxy.value.ldapAgentName !== localLdapAgentName.value || ldapConfigProxy.value.ldapAgentPassword !== localLdapAgentPassword.value
 })
+
+watch(
+	ldapConfigProxy,
+	(newVal) => {
+		localLdapAgentName.value = newVal.ldapAgentName
+		if (newVal.ldapAgentPassword === '***') {
+			localLdapAgentPassword.value = ''
+		} else {
+			localLdapAgentPassword.value = newVal.ldapAgentPassword
+		}
+	},
+)
 
 /**
  *
