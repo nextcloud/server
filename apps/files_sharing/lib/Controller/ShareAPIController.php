@@ -543,6 +543,8 @@ class ShareAPIController extends OCSController {
 			$this->lock($share->getNode());
 		} catch (LockedException $e) {
 			throw new OCSNotFoundException($this->l->t('Could not delete share'));
+		} catch (NotFoundException $e) {
+			$this->logger->debug('File of to be deleted share was not found, skip locking', ['exception' => $e]);
 		}
 
 		if (!$this->canAccessShare($share)) {
