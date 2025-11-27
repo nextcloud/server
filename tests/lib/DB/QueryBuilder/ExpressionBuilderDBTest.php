@@ -142,16 +142,6 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	public function testJson(): void {
-		if ($this->connection->getDatabaseProvider(true) === IDBConnection::PLATFORM_ORACLE) {
-			$result = $this->connection->executeQuery('SELECT VERSION FROM PRODUCT_COMPONENT_VERSION');
-			$version = $result->fetchOne();
-			$result->closeCursor();
-			if (str_starts_with($version, '11.')) {
-				$this->markTestSkipped('JSON is not supported on Oracle 11, skipping until deprecation was clarified: ' . $version);
-			}
-		}
-
-
 		$appId = $this->getUniqueID('testing');
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('share')

@@ -60,8 +60,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - oracle-versions: '11'
-            php-versions: '8.2'
           - oracle-versions: '18'
             php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
