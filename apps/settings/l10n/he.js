@@ -221,6 +221,7 @@ OC.L10N.register(
     "Your phone number" : "מספר הטלפון שלך",
     "Timezone" : "אזור זמן",
     "Add" : "הוספה",
+    "Create" : "יצירה",
     "Change" : "שינוי",
     "Delete" : "מחיקה",
     "Reshare" : "שיתוף מחדש",
