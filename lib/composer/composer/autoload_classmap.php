@@ -490,6 +490,7 @@ return array(
     'OCP\\Files\\Notify\\IChange' => $baseDir . '/lib/public/Files/Notify/IChange.php',
     'OCP\\Files\\Notify\\INotifyHandler' => $baseDir . '/lib/public/Files/Notify/INotifyHandler.php',
     'OCP\\Files\\Notify\\IRenameChange' => $baseDir . '/lib/public/Files/Notify/IRenameChange.php',
+    'OCP\\Files\\ObjectStore\\Events\\BucketCreatedEvent' => $baseDir . '/lib/public/Files/ObjectStore/Events/BucketCreatedEvent.php',
     'OCP\\Files\\ObjectStore\\IObjectStore' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStore.php',
     'OCP\\Files\\ObjectStore\\IObjectStoreMetaData' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStoreMetaData.php',
     'OCP\\Files\\ObjectStore\\IObjectStoreMultiPartUpload' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStoreMultiPartUpload.php',
