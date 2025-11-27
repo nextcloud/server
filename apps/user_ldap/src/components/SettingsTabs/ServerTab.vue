@@ -148,7 +148,7 @@ async function guessPortAndTLS() {
 		loadingGuessPortAndTLS.value = true
 		const { changes } = await callWizard('guessPortAndTLS', props.configId)
 		// Not using ldapConfigProxy to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapPort = (changes!.ldap_port as string) ?? ''
+		ldapConfigs.value[props.configId]!.ldapPort = (changes!.ldap_port as string) ?? ''
 	} finally {
 		loadingGuessPortAndTLS.value = false
 	}
