@@ -10,30 +10,22 @@ namespace OCP\Share\Events;
 
 use OC\Files\View;
 use OCP\EventDispatcher\Event;
+use OCP\IUser;
 use OCP\Share\IShare;
 
 /**
  * @since 19.0.0
  */
 class VerifyMountPointEvent extends Event {
-	/** @var IShare */
-	private $share;
-	/** @var View */
-	private $view;
-	/** @var string */
-	private $parent;
-
 	/**
 	 * @since 19.0.0
 	 */
-	public function __construct(IShare $share,
-		View $view,
-		string $parent) {
+	public function __construct(
+		private IShare $share,
+		private readonly IUser $recipient,
+		private string $parent
+	) {
 		parent::__construct();
-
-		$this->share = $share;
-		$this->view = $view;
-		$this->parent = $parent;
 	}
 
 	/**
@@ -45,9 +37,17 @@ class VerifyMountPointEvent extends Event {
 
 	/**
 	 * @since 19.0.0
+	 * @depreacted 33.0.0 use getRecipient instead to get the user folder
 	 */
 	public function getView(): View {
-		return $this->view;
+		return new View('/' . $this->recipient->getUID() . '/files');
+	}
+
+	/**
+	 * @since 33.0.0
+	 */
+	public function getRecipient(): IUser {
+		return $this->recipient;
 	}
 
 	/**
