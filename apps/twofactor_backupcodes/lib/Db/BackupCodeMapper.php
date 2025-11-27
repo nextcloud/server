@@ -9,49 +9,37 @@ declare(strict_types=1);
 namespace OCA\TwoFactorBackupCodes\Db;
 
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\Db\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 
 /**
- * @template-extends QBMapper<BackupCode>
+ * @template-extends Repository<BackupCode>
  */
-class BackupCodeMapper extends QBMapper {
+class BackupCodeMapper extends Repository {
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'twofactor_backupcodes');
+		parent::__construct($db, BackupCode::class);
 	}
 
 	/**
-	 * @param IUser $user
-	 * @return BackupCode[]
+	 * @return \Generator<BackupCode>
 	 */
-	public function getBackupCodes(IUser $user): array {
-		/* @var IQueryBuilder $qb */
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('id', 'user_id', 'code', 'used')
-			->from('twofactor_backupcodes')
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID())));
-
-		return self::findEntities($qb);
+	public function findByUser(IUser $user): \Generator {
+		return $this->findBy([
+			'userId' => $user->getUID(),
+		]);
 	}
 
-	/**
-	 * @param IUser $user
-	 */
-	public function deleteCodes(IUser $user): void {
-		$this->deleteCodesByUserId($user->getUID());
+	public function deleteByUser(IUser $user): void {
+		$this->deleteBy([
+			'userId' => $user->getUID(),
+		]);
 	}
 
-	/**
-	 * @param string $uid
-	 */
-	public function deleteCodesByUserId(string $uid): void {
-		/* @var IQueryBuilder $qb */
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->delete('twofactor_backupcodes')
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
-		$qb->executeStatement();
+	public function findOneByUser(IUser $user): BackupCode|null {
+		return $this->findOneBy([
+			'userId' => $user->getUID(),
+		]);
 	}
 }
