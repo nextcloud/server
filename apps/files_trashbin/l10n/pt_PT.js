@@ -1,0 +1,22 @@
+OC.L10N.register(
+    "files_trashbin",
+    {
+    "restored" : "Restaurado",
+    "Deleted files" : "Ficheiros eliminados",
+    "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Ficheiros e pastas eliminados na reciclagem (podem expirar durante a exportação se tiver pouco espaço de armazenamento)",
+    "This application enables people to restore files that were deleted from the system." : "Esta aplicação permite que as pessoas restaurem ficheiros que foram eliminados do sistema.",
+    "This application enables people to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the people file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent an account from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Esta aplicação permite que os utilizadores restaurem ficheiros eliminados do sistema. Exibe uma lista dos ficheiros eliminados na interface web e oferece opções para os restaurar para os diretórios de ficheiros do utilizador ou removê-los permanentemente do sistema. A restauração de um ficheiro também restaura as versões relacionadas, caso a funcionalidade de versões esteja ativada. Quando um ficheiro é eliminado de uma partilha, pode ser restaurado da mesma forma, embora já não esteja partilhado. Por predefinição, estes ficheiros permanecem na lixeira durante 30 dias. Para evitar que uma conta fique sem espaço em disco, a aplicação Ficheiros eliminados não utilizará mais de 50% da quota livre disponível para ficheiros eliminados. Se o número de ficheiros eliminados exceder este limite, a aplicação eliminará os ficheiros mais antigos até que o espaço disponível fique abaixo do limite. Mais informações estão disponíveis na documentação da aplicação Ficheiros Eliminados.",
+    "Restore" : "Restaurar",
+    "Empty deleted files" : "Esvaziar ficheiros eliminados",
+    "Cancel" : "Cancelar",
+    "Deleted" : "Eliminado",
+    "Unknown" : "Desconhecido",
+    "All files" : "Todos os ficheiros",
+    "You" : "Vovê",
+    "List of files that have been deleted." : "Lista de ficheiros que foram eliminados.",
+    "No deleted files" : "Sem ficheiros eliminados",
+    "Files and folders you have deleted will show up here" : "Ficheiros e pastas que você eliminou aparecerão aqui",
+    "All files have been permanently deleted" : "Todos os ficheiros foram eliminados permanentemente",
+    "Failed to empty deleted files" : "Falha ao esvaziar ficheiros eliminados"
+},
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
