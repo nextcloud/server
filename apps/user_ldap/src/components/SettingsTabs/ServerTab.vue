@@ -47,7 +47,7 @@
 					type="number"
 					autocomplete="off"
 					@change="(event) => ldapConfigProxy.ldapPort = event.target.value" />
-				<NcButton :disabled="loadingGuessPortAndTLS" @click="guessPortAndTLS">
+				<NcButton :disabled="loadingGuessPortAndTLS || ldapConfigProxy.ldapHost === ''" @click="guessPortAndTLS">
 					{{ t('user_ldap', 'Detect Port') }}
 				</NcButton>
 			</div>
@@ -83,7 +83,7 @@
 				:helper-text="t('user_ldap', 'You can specify Base DN for users and groups in the Advanced tab')"
 				@change="(event) => ldapConfigProxy.ldapBase = event.target.value" />
 
-			<NcButton :disabled="loadingGuessBaseDN" @click="guessBaseDN">
+			<NcButton :disabled="loadingGuessBaseDN || needsToSaveCredentials" @click="guessBaseDN">
 				{{ t('user_ldap', 'Detect Base DN') }}
 			</NcButton>
 			<NcButton :disabled="loadingCountInBaseDN || ldapConfigProxy.ldapBase === ''" @click="countInBaseDN">
