@@ -150,6 +150,14 @@ interface IManager {
 	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
 
 	/**
+	 * Get shares shared with $user, filtering by $nodeIds
+	 *
+	 * @return IShare[]
+	 * @since 33.0.0
+	 */
+	public function getSharedWithByNodes($userId, $shareType, $nodeIds, $limit = 50, $offset = 0);
+
+	/**
 	 * Get deleted shares shared with $user.
 	 * Filter by $node if provided
 	 *

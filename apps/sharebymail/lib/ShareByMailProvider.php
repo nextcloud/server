@@ -944,6 +944,39 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $shares;
 	}
 
+	public function getSharedWithByNodeIds($userId, $shareType, $nodeIds, $limit, $offset): array {
+		/** @var IShare[] $shares */
+		$shares = [];
+
+		//Get shares directly with this user
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('*')
+			->from('share');
+
+		// Order by id
+		$qb->orderBy('id');
+
+		// Set limit and offset
+		if ($limit !== -1) {
+			$qb->setMaxResults($limit);
+		}
+		$qb->setFirstResult($offset);
+
+		$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
+		$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
+		$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter ($nodeIds, IQueryBuilder::PARAM_INT_ARRAY)));
+
+		$cursor = $qb->executeQuery();
+
+		while ($data = $cursor->fetch()) {
+			$shares[] = $this->createShareObject($data);
+		}
+		$cursor->closeCursor();
+
+
+		return $shares;
+	}
+
 	/**
 	 * Get a share by token
 	 *
