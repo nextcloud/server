@@ -9,7 +9,7 @@ import { randomString } from '../../support/utils/randomString.ts'
 import { getRowForFile } from '../files/FilesUtils.ts'
 import { doesNotHaveAction, nameVersion, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
-describe('Versions naming', () => {
+describe.only('Versions naming', () => {
 	let randomFileName = ''
 	let user: User
 
@@ -70,7 +70,7 @@ describe('Versions naming', () => {
 			})
 		})
 
-		context('without edit permission', () => {
+		context.only('without edit permission', () => {
 			let recipient: User
 
 			beforeEach(() => {

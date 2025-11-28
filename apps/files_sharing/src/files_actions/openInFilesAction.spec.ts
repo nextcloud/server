@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { Folder, View } from '@nextcloud/files'
 
 import { DefaultType, File, FileAction, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
@@ -33,8 +33,18 @@ describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('files_sharing:open-in-files')
-		expect(action.displayName([], validViews[0])).toBe('Open in Files')
-		expect(action.iconSvgInline([], validViews[0])).toBe('')
+		expect(action.displayName({
+			nodes: [],
+			view: validViews[0]!,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Open in Files')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view: validViews[0]!,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)
 		expect(action.inline).toBeUndefined()
@@ -45,14 +55,24 @@ describe('Open in files action enabled tests', () => {
 	test('Enabled with on valid view', () => {
 		validViews.forEach((view) => {
 			expect(action.enabled).toBeDefined()
-			expect(action.enabled!([], view)).toBe(true)
+			expect(action.enabled!({
+				nodes: [],
+				view,
+				folder: {} as Folder,
+				contents: [],
+			})).toBe(true)
 		})
 	})
 
 	test('Disabled on wrong view', () => {
 		invalidViews.forEach((view) => {
 			expect(action.enabled).toBeDefined()
-			expect(action.enabled!([], view)).toBe(false)
+			expect(action.enabled!({
+				nodes: [],
+				view,
+				folder: {} as Folder,
+				contents: [],
+			})).toBe(false)
 		})
 	})
 })
@@ -71,7 +91,12 @@ describe('Open in files action execute tests', () => {
 			permissions: Permission.READ,
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)

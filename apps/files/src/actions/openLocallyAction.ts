@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { Node } from '@nextcloud/files'
-
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -24,9 +21,9 @@ export const action = new FileAction({
 	iconSvgInline: () => LaptopSvg,
 
 	// Only works on single files
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		// Only works on single node
-		if (nodes.length !== 1) {
+		if (nodes.length !== 1 || !nodes[0]) {
 			return false
 		}
 
@@ -38,8 +35,8 @@ export const action = new FileAction({
 		return isSyncable(nodes[0])
 	},
 
-	async exec(node: Node) {
-		await attemptOpenLocalClient(node.path)
+	async exec({ nodes }) {
+		await attemptOpenLocalClient(nodes[0].path)
 		return null
 	},
 
@@ -68,7 +65,7 @@ async function attemptOpenLocalClient(path: string) {
 
 /**
  * Try to open a file in the Nextcloud client.
- * There is no way to get notified if this action was successfull.
+ * There is no way to get notified if this action was successful.
  *
  * @param path - Path to open
  */

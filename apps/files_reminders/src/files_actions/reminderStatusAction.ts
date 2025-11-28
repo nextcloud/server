@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { INode } from '@nextcloud/files'
-
 import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
 import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
@@ -18,7 +15,7 @@ export const action = new FileAction({
 
 	displayName: () => '',
 
-	title: (nodes: INode[]) => {
+	title: ({ nodes }) => {
 		const node = nodes.at(0)!
 		const dueDate = new Date(node.attributes['reminder-due-date'])
 		return `${t('files_reminders', 'Reminder set')} – ${getVerboseDateString(dueDate)}`
@@ -26,17 +23,19 @@ export const action = new FileAction({
 
 	iconSvgInline: () => AlarmSvg,
 
-	enabled: (nodes: INode[]) => {
+	enabled: ({ nodes }) => {
 		// Only allow on a single node
 		if (nodes.length !== 1) {
 			return false
 		}
+
 		const node = nodes.at(0)!
 		const dueDate = node.attributes['reminder-due-date']
 		return Boolean(dueDate)
 	},
 
-	async exec(node: INode) {
+	async exec({ nodes }) {
+		const node = nodes.at(0)!
 		await pickCustomDate(node)
 		return null
 	},

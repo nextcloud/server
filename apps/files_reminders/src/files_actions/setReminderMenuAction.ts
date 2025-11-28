@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { INode, View } from '@nextcloud/files'
-
 import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
 import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -16,7 +13,7 @@ export const action = new FileAction({
 	displayName: () => t('files_reminders', 'Set reminder'),
 	iconSvgInline: () => AlarmSvg,
 
-	enabled: (nodes: INode[], view: View) => {
+	enabled: ({ nodes, view }) => {
 		if (view.id === 'trashbin') {
 			return false
 		}

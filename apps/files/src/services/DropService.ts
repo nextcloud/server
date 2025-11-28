@@ -8,7 +8,8 @@ import type { Upload } from '@nextcloud/upload'
 import type { RootDirectory } from './DropServiceUtils.ts'
 
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
-import { davRootPath, NodeStatus } from '@nextcloud/files'
+import { NodeStatus } from '@nextcloud/files'
+import { getRootPath } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
 import { getUploader, hasConflict } from '@nextcloud/upload'
@@ -125,7 +126,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 			// If the file is a directory, we need to create it first
 			// then browse its tree and upload its contents.
 			if (file instanceof Directory) {
-				const absolutePath = joinPaths(davRootPath, destination.path, relativePath)
+				const absolutePath = joinPaths(getRootPath(), destination.path, relativePath)
 				try {
 					logger.debug('Processing directory', { relativePath })
 					await createDirectoryIfNotExists(absolutePath)

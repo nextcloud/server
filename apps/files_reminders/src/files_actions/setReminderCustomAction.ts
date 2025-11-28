@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { INode, View } from '@nextcloud/files'
-
 import CalendarClockSvg from '@mdi/svg/svg/calendar-clock.svg?raw'
 import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
@@ -17,7 +14,7 @@ export const action = new FileAction({
 	title: () => t('files_reminders', 'Reminder at custom date & time'),
 	iconSvgInline: () => CalendarClockSvg,
 
-	enabled: (nodes: INode[], view: View) => {
+	enabled: ({ nodes, view }) => {
 		if (view.id === 'trashbin') {
 			return false
 		}
@@ -32,8 +29,9 @@ export const action = new FileAction({
 
 	parent: SET_REMINDER_MENU_ID,
 
-	async exec(file: INode) {
-		pickCustomDate(file)
+	async exec({ nodes }) {
+		const node = nodes.at(0)!
+		pickCustomDate(node)
 		return null
 	},
 
