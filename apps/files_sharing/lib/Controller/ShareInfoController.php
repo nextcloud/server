@@ -64,7 +64,7 @@ class ShareInfoController extends ApiController {
 		try {
 			$share = $this->shareManager->getShareByToken($t);
 		} catch (ShareNotFound $e) {
-			$response = new JSONResponse(["message" => "Not found " . $t . " "], Http::STATUS_NOT_FOUND);
+			$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
 			$response->throttle(['token' => $t]);
 			return $response;
 		}

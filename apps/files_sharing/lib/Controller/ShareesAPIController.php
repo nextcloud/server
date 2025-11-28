@@ -39,14 +39,11 @@ use function usort;
  */
 class ShareesAPIController extends OCSController {
 
-	/** @var int */
-	protected $offset = 0;
-
-	/** @var int */
-	protected $limit = 10;
+	protected int $offset = 0;
+	protected int $limit = 10;
 
 	/** @var Files_SharingShareesSearchResult */
-	protected $result = [
+	protected array $result = [
 		'exact' => [
 			'users' => [],
 			'groups' => [],
@@ -66,8 +63,6 @@ class ShareesAPIController extends OCSController {
 		'rooms' => [],
 		'lookupEnabled' => false,
 	];
-
-	protected $reachedEndFor = [];
 
 	public function __construct(
 		string $appName,

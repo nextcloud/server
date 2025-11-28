@@ -325,6 +325,9 @@ class Event implements IEvent {
 		if (isset($objectName[4000])) {
 			throw new InvalidValueException('objectName');
 		}
+		if (is_string($objectId) && isset($objectId[19])) {
+			throw new InvalidValueException('objectId');
+		}
 		$this->objectType = $objectType;
 		$this->objectId = $objectId;
 		$this->objectName = $objectName;
