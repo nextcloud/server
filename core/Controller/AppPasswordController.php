@@ -26,6 +26,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
@@ -44,6 +45,7 @@ class AppPasswordController extends OCSController {
 		private Session $userSession,
 		private IUserManager $userManager,
 		private IThrottler $throttler,
+		private IConfig $serverConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -63,6 +65,11 @@ class AppPasswordController extends OCSController {
 		// We do not allow the creation of new tokens if this is an app password
 		if ($this->session->exists('app_password')) {
 			throw new OCSForbiddenException('You cannot request an new apppassword with an apppassword');
+		}
+
+		if ($this->userSession->getImpersonatingUserID() !== null
+			|| !$this->serverConfig->getSystemValueBool('auth_can_create_app_token', true)) {
+			throw new OCSForbiddenException();
 		}
 
 		try {

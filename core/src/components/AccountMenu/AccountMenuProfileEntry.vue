@@ -15,7 +15,7 @@
 		<template v-if="profileEnabled" #subname>
 			{{ name }}
 		</template>
-		<template v-if="canCreateToken" #extra-actions>
+		<template v-if="canCreateAppToken" #extra-actions>
 			<NcButton variant="secondary" @click="handleQrCodeClick">
 				<template #icon>
 					<IconQrcodeScan :size="20" />
@@ -33,6 +33,7 @@ import type { ITokenResponse } from '../../../../apps/settings/src/store/authtok
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { confirmPassword } from '@nextcloud/password-confirmation'
@@ -46,6 +47,9 @@ import IconQrcodeScan from 'vue-material-design-icons/QrcodeScan.vue'
 import AccountQrLoginDialog from './AccountQRLoginDialog.vue'
 
 const { profileEnabled } = loadState('user_status', 'profileEnabled', { profileEnabled: false })
+
+// @ts-expect-error capabilities is missing the capability to type it...
+const canCreateAppToken = getCapabilities().core?.['can-create-app-token'] ?? false
 
 export default defineComponent({
 	name: 'AccountMenuProfileEntry',
@@ -81,6 +85,7 @@ export default defineComponent({
 
 	setup() {
 		return {
+			canCreateAppToken,
 			profileEnabled,
 			displayName: getCurrentUser()!.displayName,
 		}
@@ -89,7 +94,6 @@ export default defineComponent({
 	data() {
 		return {
 			loading: false,
-			canCreateToken: true, // loadState('settings', 'can_create_app_token'),
 		}
 	},
 

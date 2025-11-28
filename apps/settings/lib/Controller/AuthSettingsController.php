@@ -26,6 +26,7 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -47,6 +48,7 @@ class AuthSettingsController extends Controller {
 		private IAppConfig $appConfig,
 		private RemoteWipe $remoteWipe,
 		private LoggerInterface $logger,
+		private IConfig $serverConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -69,6 +71,10 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		}
 		if ($this->userSession->getImpersonatingUserID() !== null) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
+		if (!$this->serverConfig->getSystemValueBool('auth_can_create_app_token', true)) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
