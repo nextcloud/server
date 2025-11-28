@@ -157,10 +157,16 @@ describe('Dynamic update of favorite folders', () => {
 			id: 1,
 			source: 'http://nextcloud.local/remote.php/dav/files/admin/Foo/Bar',
 			owner: 'admin',
+			root: '/files/admin',
 		})
 
 		// Exec the action
-		await action.exec(folder, favoritesView, '/')
+		await action.exec({
+			nodes: [folder],
+			view: favoritesView,
+			folder: {} as CFolder,
+			contents: [],
+		})
 
 		expect(eventBus.emit).toHaveBeenCalledTimes(1)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:added', folder)
@@ -202,7 +208,12 @@ describe('Dynamic update of favorite folders', () => {
 		eventBus.subscribe('files:favorites:removed', fo)
 
 		// Exec the action
-		await action.exec(folder, favoritesView, '/')
+		await action.exec({
+			nodes: [folder],
+			view: favoritesView,
+			folder: {} as CFolder,
+			contents: [],
+		})
 
 		expect(eventBus.emit).toHaveBeenCalledTimes(1)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', folder)
@@ -238,10 +249,16 @@ describe('Dynamic update of favorite folders', () => {
 			id: 1,
 			source: 'http://nextcloud.local/remote.php/dav/files/admin/Foo/Bar',
 			owner: 'admin',
+			root: '/files/admin',
 		})
 
 		// Exec the action
-		await action.exec(folder, favoritesView, '/')
+		await action.exec({
+			nodes: [folder],
+			view: favoritesView,
+			folder: {} as CFolder,
+			contents: [],
+		})
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:favorites:added', folder)
 
 		// Create a folder with the same id but renamed
@@ -249,6 +266,7 @@ describe('Dynamic update of favorite folders', () => {
 			id: 1,
 			source: 'http://nextcloud.local/remote.php/dav/files/admin/Foo/Bar.renamed',
 			owner: 'admin',
+			root: '/files/admin',
 		})
 
 		// Exec the rename action

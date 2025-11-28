@@ -19,9 +19,12 @@ import { getPinia } from '../store/index.ts'
  */
 export async function executeAction(action: FileAction) {
 	const activeStore = useActiveStore(getPinia())
-	const currentDir = (window?.OCP?.Files?.Router?.query?.dir || '/') as string
-	const currentNode = activeStore.activeNode
-	const currentView = activeStore.activeView
+	const currentFolder = activeStore.activeFolder!
+	const currentNode = activeStore.activeNode!
+	const currentView = activeStore.activeView!
+
+	// @ts-expect-error _children is private
+	const contents = currentFolder?._children || []
 
 	if (!currentNode || !currentView) {
 		logger.error('No active node or view', { node: currentNode, view: currentView })
@@ -33,14 +36,24 @@ export async function executeAction(action: FileAction) {
 		return
 	}
 
-	if (!action.enabled!([currentNode], currentView)) {
+	if (!action.enabled!({
+		nodes: [currentNode],
+		view: currentView,
+		folder: currentFolder,
+		contents,
+	})) {
 		logger.debug('Action is not not available for the current context', { action, node: currentNode, view: currentView })
 		return
 	}
 
 	let displayName = action.id
 	try {
-		displayName = action.displayName([currentNode], currentView)
+		displayName = action.displayName({
+			nodes: [currentNode],
+			view: currentView,
+			folder: currentFolder,
+			contents,
+		})
 	} catch (error) {
 		logger.error('Error while getting action display name', { action, error })
 	}
@@ -50,7 +63,12 @@ export async function executeAction(action: FileAction) {
 		Vue.set(currentNode, 'status', NodeStatus.LOADING)
 		activeStore.activeAction = action
 
-		const success = await action.exec(currentNode, currentView, currentDir)
+		const success = await action.exec({
+			nodes: [currentNode],
+			view: currentView,
+			folder: currentFolder!,
+			contents,
+		})
 
 		// If the action returns null, we stay silent
 		if (success === null || success === undefined) {

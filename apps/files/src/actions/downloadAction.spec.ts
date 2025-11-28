@@ -30,8 +30,18 @@ describe('Download action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('download')
-		expect(action.displayName([], view)).toBe('Download')
-		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Download')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBe(DefaultType.DEFAULT)
 		expect(action.order).toBe(30)
 	})
@@ -45,10 +55,16 @@ describe('Download action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled without READ permissions', () => {
@@ -58,10 +74,16 @@ describe('Download action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.NONE,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled if not all nodes have READ permissions', () => {
@@ -70,23 +92,45 @@ describe('Download action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/',
 			owner: 'admin',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 		const folder2 = new Folder({
 			id: 2,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Bar/',
 			owner: 'admin',
 			permissions: Permission.NONE,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([folder1], view)).toBe(true)
-		expect(action.enabled!([folder2], view)).toBe(false)
-		expect(action.enabled!([folder1, folder2], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [folder1],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
+		expect(action.enabled!({
+			nodes: [folder2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
+		expect(action.enabled!({
+			nodes: [folder1, folder2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled without nodes', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
@@ -107,9 +151,15 @@ describe('Download action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toBe(null)
@@ -125,9 +175,15 @@ describe('Download action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
-		const exec = await action.execBatch!([file], view, '/')
+		const exec = await action.execBatch!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toStrictEqual([null])
@@ -144,9 +200,15 @@ describe('Download action execute tests', () => {
 			mime: 'text/plain',
 			displayname: 'baz.txt',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
-		const exec = await action.execBatch!([file], view, '/')
+		const exec = await action.execBatch!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toStrictEqual([null])
@@ -161,9 +223,15 @@ describe('Download action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/FooBar/',
 			owner: 'admin',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(folder, view, '/')
+		const exec = await action.exec({
+			nodes: [folder],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toBe(null)
@@ -179,6 +247,7 @@ describe('Download action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -186,9 +255,15 @@ describe('Download action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
-		const exec = await action.execBatch!([file1, file2], view, '/Dir')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toStrictEqual([null, null])
@@ -204,11 +279,17 @@ describe('Download action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
 
 		const errorSpy = vi.spyOn(dialogs, 'showError')
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toBe(null)
 		expect(errorSpy).toHaveBeenCalledWith('The requested file is not available.')
 		expect(link.click).not.toHaveBeenCalled()
@@ -221,6 +302,7 @@ describe('Download action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 2,
@@ -228,12 +310,18 @@ describe('Download action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
 		vi.spyOn(eventBus, 'emit').mockImplementation(() => {})
 
 		const errorSpy = vi.spyOn(dialogs, 'showError')
-		const exec = await action.execBatch!([file1, file2], view, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toStrictEqual([null, null])
 		expect(errorSpy).toHaveBeenCalledWith('The requested files are not available.')
 		expect(link.click).not.toHaveBeenCalled()

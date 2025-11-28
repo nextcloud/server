@@ -60,8 +60,6 @@ describe('core: LoginForm', () => {
 			},
 		})
 
-		page.debug()
-
 		const input: HTMLInputElement = page.getByRole('textbox', { name: /Account name or email/ })
 		expect(input.id).toBe('user')
 		expect(input.name).toBe('user')

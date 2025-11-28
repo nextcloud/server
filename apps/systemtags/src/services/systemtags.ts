@@ -7,13 +7,13 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { TagWithId } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { davGetClient, davRemoteURL, davResultToNode, davRootPath, Folder, getDavNameSpaces, getDavProperties, Permission } from '@nextcloud/files'
+import { Folder, Permission } from '@nextcloud/files'
+import { getClient, getDavNameSpaces, getDavProperties, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { fetchTags } from './api.ts'
 
 const rootPath = '/systemtags'
 
-const client = davGetClient()
-const resultToNode = (node: FileStat) => davResultToNode(node)
+const client = getClient()
 
 /**
  *
@@ -38,7 +38,7 @@ function formatReportPayload(tagId: number) {
 function tagToNode(tag: TagWithId): Folder {
 	return new Folder({
 		id: tag.id,
-		source: `${davRemoteURL}${rootPath}/${tag.id}`,
+		source: `${getRemoteURL()}${rootPath}/${tag.id}`,
 		owner: String(getCurrentUser()?.uid ?? 'anonymous'),
 		root: rootPath,
 		displayname: tag.displayName,
@@ -62,7 +62,7 @@ export async function getContents(path = '/'): Promise<ContentsWithRoot> {
 		return {
 			folder: new Folder({
 				id: 0,
-				source: `${davRemoteURL}${rootPath}`,
+				source: `${getRemoteURL()}${rootPath}`,
 				owner: getCurrentUser()?.uid as string,
 				root: rootPath,
 				permissions: Permission.NONE,
@@ -79,7 +79,7 @@ export async function getContents(path = '/'): Promise<ContentsWithRoot> {
 	}
 
 	const folder = tagToNode(tag)
-	const contentsResponse = await client.getDirectoryContents(davRootPath, {
+	const contentsResponse = await client.getDirectoryContents(getRootPath(), {
 		details: true,
 		// Only filter favorites if we're at the root
 		data: formatReportPayload(tagId),
@@ -91,6 +91,6 @@ export async function getContents(path = '/'): Promise<ContentsWithRoot> {
 
 	return {
 		folder,
-		contents: contentsResponse.data.map(resultToNode),
+		contents: contentsResponse.data.map((stat) => resultToNode(stat)),
 	}
 }

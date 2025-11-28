@@ -2,8 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View } from '@nextcloud/files'
-
 import InformationSvg from '@mdi/svg/svg/information-outline.svg?raw'
 import { FileAction, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -18,7 +16,7 @@ export const action = new FileAction({
 	iconSvgInline: () => InformationSvg,
 
 	// Sidebar currently supports user folder only, /files/USER
-	enabled: (nodes: Node[]) => {
+	enabled: ({ nodes }) => {
 		if (isPublicShare()) {
 			return false
 		}
@@ -40,7 +38,8 @@ export const action = new FileAction({
 		return (nodes[0].root?.startsWith('/files/') && nodes[0].permissions !== Permission.NONE) ?? false
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec({ nodes, view, folder }) {
+		const node = nodes[0]
 		try {
 			// If the sidebar is already open for the current file, do nothing
 			if (window.OCA.Files?.Sidebar?.file === node.path) {
@@ -57,7 +56,7 @@ export const action = new FileAction({
 			window.OCP?.Files?.Router?.goToRoute(
 				null,
 				{ view: view.id, fileid: String(node.fileid) },
-				{ ...window.OCP.Files.Router.query, dir, opendetails: 'true' },
+				{ ...window.OCP.Files.Router.query, dir: folder.path, opendetails: 'true' },
 				true,
 			)
 
