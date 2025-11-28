@@ -125,6 +125,19 @@ class Cache extends CacheJail {
 		if (is_null($path)) {
 			$path = $entry['path'] ?? '';
 			$entry['path'] = $this->getJailedPath($path);
+
+			if ($entry['path'] === null) {
+				if ($this->inCache($entry['name'])) {
+					// $cache->remove($content['fileid']);
+				} else {
+					// We didn't find a duplicate, update the entry with the correct path.
+					$path = $this->getRoot() . '/' . $entry['name'];
+					$data = $entry->getData();
+					$data['path'] = $path;
+					$this->update($entry['fileid'], $data);
+					$entry['path'] = $this->getJailedPath($path);
+				}
+			}
 		} else {
 			$entry['path'] = $path;
 		}
