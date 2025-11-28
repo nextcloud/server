@@ -2274,8 +2274,6 @@
       <code><![CDATA[IAppContainer]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo')]]></code>
-      <code><![CDATA[Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword')]]></code>
       <code><![CDATA[getConfig]]></code>
       <code><![CDATA[getCrypto]]></code>
       <code><![CDATA[getL10NFactory]]></code>
