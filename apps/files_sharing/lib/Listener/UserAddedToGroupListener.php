@@ -10,9 +10,11 @@ namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IConfig;
+use OCP\Share\Events\UserAddedToShareEvent;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -20,8 +22,9 @@ use OCP\Share\IShare;
 class UserAddedToGroupListener implements IEventListener {
 
 	public function __construct(
-		private IManager $shareManager,
-		private IConfig $config,
+		private readonly IManager $shareManager,
+		private readonly IConfig $config,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -33,11 +36,7 @@ class UserAddedToGroupListener implements IEventListener {
 		$user = $event->getUser();
 		$group = $event->getGroup();
 
-		// This user doesn't have autoaccept so we can skip it all
-		if (!$this->hasAutoAccept($user->getUID())) {
-			return;
-		}
-
+		// todo: add a way to get shares by group id
 		// Get all group shares this user has access to now to filter later
 		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1);
 
@@ -48,7 +47,11 @@ class UserAddedToGroupListener implements IEventListener {
 			}
 
 			// Accept the share if needed
-			$this->shareManager->acceptShare($share, $user->getUID());
+			if ($this->hasAutoAccept($user->getUID())) {
+				$this->shareManager->acceptShare($share, $user->getUID());
+			}
+
+			$this->eventDispatcher->dispatchTyped(new UserAddedToShareEvent($share, $user));
 		}
 	}
 
