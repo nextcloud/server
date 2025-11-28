@@ -148,6 +148,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param string $customId An arbitrary identifier for the task
 	 * @param string|null $webhookUri URI to be requested when the task finishes
 	 * @param string|null $webhookMethod Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)
+	 * @param bool $includeWatermark Whether to include a watermark in the output file or not
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
@@ -160,11 +161,12 @@ class TaskProcessingApiController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
-		?string $webhookUri = null, ?string $webhookMethod = null,
+		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
 	): DataResponse {
 		$task = new Task($type, $input, $appId, $this->userId, $customId);
 		$task->setWebhookUri($webhookUri);
 		$task->setWebhookMethod($webhookMethod);
+		$task->setIncludeWatermark($includeWatermark);
 		try {
 			$this->taskProcessingManager->scheduleTask($task);
 

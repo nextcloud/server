@@ -49,6 +49,8 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method int getAllowCleanup()
  * @method setUserFacingErrorMessage(null|string $message)
  * @method null|string getUserFacingErrorMessage()
+ * @method setIncludeWatermark(int $includeWatermark)
+ * @method int getIncludeWatermark()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -69,16 +71,17 @@ class Task extends Entity {
 	protected $endedAt;
 	protected $allowCleanup;
 	protected $userFacingErrorMessage;
+	protected $includeWatermark;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup', 'user_facing_error_message'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup', 'user_facing_error_message', 'include_watermark'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage', 'includeWatermark'];
 
 
 	public function __construct() {
@@ -102,6 +105,7 @@ class Task extends Entity {
 		$this->addType('endedAt', 'integer');
 		$this->addType('allowCleanup', 'integer');
 		$this->addType('userFacingErrorMessage', 'string');
+		$this->addType('includeWatermark', 'integer');
 	}
 
 	public function toRow(): array {
@@ -132,6 +136,7 @@ class Task extends Entity {
 			'endedAt' => $task->getEndedAt(),
 			'allowCleanup' => $task->getAllowCleanup() ? 1 : 0,
 			'userFacingErrorMessage' => $task->getUserFacingErrorMessage(),
+			'includeWatermark' => $task->getIncludeWatermark() ? 1 : 0,
 		]);
 		return $taskEntity;
 	}
@@ -156,6 +161,7 @@ class Task extends Entity {
 		$task->setEndedAt($this->getEndedAt());
 		$task->setAllowCleanup($this->getAllowCleanup() !== 0);
 		$task->setUserFacingErrorMessage($this->getUserFacingErrorMessage());
+		$task->setIncludeWatermark($this->getIncludeWatermark() !== 0);
 		return $task;
 	}
 }
