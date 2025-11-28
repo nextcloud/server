@@ -10,6 +10,8 @@ namespace OCA\Files_Sharing\AppInfo;
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Share\Share;
 use OC\User\DisplayNameCache;
+use OCA\Circles\Events\CircleMemberAddedEvent;
+use OCA\Circles\Events\CircleMemberRemovedEvent;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
@@ -23,8 +25,11 @@ use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadPublicFileRequestAuthListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
+use OCA\Files_Sharing\Listener\MemberAddedToCircleListener;
+use OCA\Files_Sharing\Listener\MemberRemovedFromCircleListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
+use OCA\Files_Sharing\Listener\UserRemovedFromGroupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
@@ -49,6 +54,7 @@ use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -97,6 +103,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$context->registerEventListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupListener::class);
+		$context->registerEventListener(CircleMemberAddedEvent::class, MemberAddedToCircleListener::class);
+		$context->registerEventListener(CircleMemberRemovedEvent::class, MemberRemovedFromCircleListener::class);
 
 		// Publish activity for public download
 		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
