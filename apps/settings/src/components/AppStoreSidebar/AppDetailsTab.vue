@@ -172,6 +172,7 @@
 					<NcButton
 						:disabled="!app.bugs"
 						:href="app.bugs ?? '#'"
+						target="_blank"
 						:aria-label="t('settings', 'Report a bug')"
 						:title="t('settings', 'Report a bug')">
 						<template #icon>
@@ -181,6 +182,7 @@
 					<NcButton
 						:disabled="!app.bugs"
 						:href="app.bugs ?? '#'"
+						target="_blank"
 						:aria-label="t('settings', 'Request feature')"
 						:title="t('settings', 'Request feature')">
 						<template #icon>
@@ -190,6 +192,7 @@
 					<NcButton
 						v-if="app.appstoreData?.discussion"
 						:href="app.appstoreData.discussion"
+						target="_blank"
 						:aria-label="t('settings', 'Ask questions or discuss')"
 						:title="t('settings', 'Ask questions or discuss')">
 						<template #icon>
@@ -199,6 +202,7 @@
 					<NcButton
 						v-if="!app.internal"
 						:href="rateAppUrl"
+						target="_blank"
 						:aria-label="t('settings', 'Rate the app')"
 						:title="t('settings', 'Rate')">
 						<template #icon>
