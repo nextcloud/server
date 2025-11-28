@@ -1,6 +1,7 @@
 OC.L10N.register(
     "webhook_listeners",
     {
+    "Ephemeral webhook authentication" : "Kurzlebige Webhook-Authentifizierung",
     "Webhooks" : "Webhooks",
     "Nextcloud Webhook Support" : "Nextcloud Webhook-Unterstützung",
     "Send notifications to external services whenever something important happens, like when files are changed or updated." : "Benachrichtigungen an externe Dienste senden, wenn etwas Wichtiges passiert, beispielsweise wenn Dateien geändert oder aktualisiert werden.",
