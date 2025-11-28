@@ -37,7 +37,6 @@ export function isDownloadable(node: Node): boolean {
 	return true
 }
 
-
 /**
  * Check permissions on the node if it can be synced/open locally
  *
@@ -45,25 +44,14 @@ export function isDownloadable(node: Node): boolean {
  * @return True if syncable, false otherwise
  */
 export function isSyncable(node: Node): boolean {
+	if (!node.isDavResource) {
+		return false
+	}
+
 	if ((node.permissions & Permission.UPDATE) === 0) {
 		return false
 	}
 
-	// check hide-download property of shares
-	if (node.attributes['hide-download'] === true
-		|| node.attributes['hide-download'] === 'true'
-	) {
-		return false
-	}
-
-	// If the mount type is a share, ensure it got download permissions.
-	if (node.attributes['share-attributes']) {
-		const shareAttributes = JSON.parse(node.attributes['share-attributes'] || '[]') as Array<ShareAttribute>
-		const downloadAttribute = shareAttributes.find(({ scope, key }: ShareAttribute) => scope === 'permissions' && key === 'download')
-		if (downloadAttribute !== undefined) {
-			return downloadAttribute.value === true
-		}
-	}
-
-	return true
+	// Syncable has the same permissions as downloadable for now
+	return isDownloadable(node)
 }
