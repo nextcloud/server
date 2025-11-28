@@ -949,6 +949,39 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	}
 
 	/**
+	 * Get all shares shared with a group
+	 *
+	 * @return Share[]
+	 */
+	public function getSharedWithGroup(string $groupId): array {
+		/** @var Share[] $shares */
+		$shares = [];
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('s.*',
+			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
+		)
+			->selectAlias('st.id', 'storage_string_id')
+			->from('share', 's')
+			->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+			->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
+			->orderBy('s.id');
+
+		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($groupId)))
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$cursor = $qb->executeQuery();
+		while ($data = $cursor->fetch()) {
+			$share = $this->createShare($data);
+			$shares[$share->getId()] = $share;
+		}
+
+		return $shares;
+	}
+
+	/**
 	 * Get a share by token
 	 *
 	 * @param string $token
