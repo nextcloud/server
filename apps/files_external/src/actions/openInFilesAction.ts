@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node } from '@nextcloud/files'
 import type { StorageConfig } from '../services/externalStorage.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -13,7 +12,7 @@ import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
 
 export const action = new FileAction({
 	id: 'open-in-files-external-storage',
-	displayName: (nodes: Node[]) => {
+	displayName: ({ nodes }) => {
 		const config = nodes?.[0]?.attributes?.config as StorageConfig || { status: STORAGE_STATUS.INDETERMINATE }
 		if (config.status !== STORAGE_STATUS.SUCCESS) {
 			return t('files_external', 'Examine this faulty external storage configuration')
@@ -22,10 +21,10 @@ export const action = new FileAction({
 	},
 	iconSvgInline: () => '',
 
-	enabled: (nodes: Node[], view) => view.id === 'extstoragemounts',
+	enabled: ({ view }) => view.id === 'extstoragemounts',
 
-	async exec(node: Node) {
-		const config = node.attributes.config as StorageConfig
+	async exec({ nodes }) {
+		const config = nodes[0]?.attributes?.config as StorageConfig
 		if (config?.status !== STORAGE_STATUS.SUCCESS) {
 			window.OC.dialogs.confirm(
 				t('files_external', 'There was an error with this external storage. Do you want to review this mount point config in the settings page?'),
@@ -45,7 +44,7 @@ export const action = new FileAction({
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
 			{ view: 'files' },
-			{ dir: node.path },
+			{ dir: nodes[0].path },
 		)
 		return null
 	},

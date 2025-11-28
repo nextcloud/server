@@ -6,7 +6,8 @@
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
-import { davGetDefaultPropfind, davRemoteURL, davResultToNode, davRootPath, Folder, getNavigation, Permission, View } from '@nextcloud/files'
+import { Folder, getNavigation, Permission, View } from '@nextcloud/files'
+import { getDefaultPropfind, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { CancelablePromise } from 'cancelable-promise'
 import { client } from '../../../files/src/services/WebdavClient.ts'
@@ -30,9 +31,9 @@ export default () => {
 				onCancel(() => abort.abort())
 				try {
 					const node = await client.stat(
-						davRootPath,
+						getRootPath(),
 						{
-							data: davGetDefaultPropfind(),
+							data: getDefaultPropfind(),
 							details: true,
 							signal: abort.signal,
 						},
@@ -40,12 +41,12 @@ export default () => {
 
 					resolve({
 						// We only have one file as the content
-						contents: [davResultToNode(node.data)],
+						contents: [resultToNode(node.data)],
 						// Fake a readonly folder as root
 						folder: new Folder({
 							id: 0,
-							source: `${davRemoteURL}${davRootPath}`,
-							root: davRootPath,
+							source: `${getRemoteURL()}${getRootPath()}`,
+							root: getRootPath(),
 							owner: null,
 							permissions: Permission.READ,
 							attributes: {

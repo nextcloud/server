@@ -18,7 +18,13 @@ const view = {
 } as View
 
 beforeEach(() => {
-	const root = new Folder({ owner: 'test', source: 'https://cloud.domain.com/remote.php/dav/files/admin/', id: 1, permissions: Permission.CREATE })
+	const root = new Folder({
+		owner: 'test',
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/',
+		id: 1,
+		permissions: Permission.CREATE,
+		root: '/files/admin',
+	})
 	const files = useFilesStore(getPinia())
 	files.setRoot({ service: 'files', root })
 })
@@ -27,8 +33,18 @@ describe('Rename action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('rename')
-		expect(action.displayName([], view)).toBe('Rename')
-		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Rename')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(10)
 	})
@@ -42,10 +58,16 @@ describe('Rename action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.UPDATE | Permission.DELETE,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled for node without DELETE permission', () => {
@@ -55,10 +77,16 @@ describe('Rename action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled if more than one node', () => {
@@ -70,16 +98,23 @@ describe('Rename action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 2,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file1, file2], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
@@ -92,9 +127,15 @@ describe('Rename action exec tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		// Silent action
 		expect(exec).toBe(null)

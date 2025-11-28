@@ -2,10 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { View } from '@nextcloud/files'
-import type { Node } from '@nextcloud/files'
-
 import PencilSvg from '@mdi/svg/svg/pencil-outline.svg?raw'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, Permission } from '@nextcloud/files'
@@ -21,8 +17,8 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Rename'),
 	iconSvgInline: () => PencilSvg,
 
-	enabled: (nodes: Node[], view: View) => {
-		if (nodes.length === 0) {
+	enabled: ({ nodes, view }) => {
+		if (nodes.length === 0 || !nodes[0]) {
 			return false
 		}
 
@@ -44,9 +40,9 @@ export const action = new FileAction({
 			&& Boolean(parentPermissions & Permission.CREATE)
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
 		// Renaming is a built-in feature of the files app
-		emit('files:node:rename', node)
+		emit('files:node:rename', nodes[0])
 		return null
 	},
 

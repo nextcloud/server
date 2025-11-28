@@ -26,14 +26,14 @@
 				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-selection-action="action.id"
 				:is-menu="isValidMenu(action)"
-				:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
-				:title="action.title?.(nodes, currentView)"
+				:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+				:title="action.title?.(actionContext)"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
-					<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
+					<NcIconSvgWrapper v-else :svg="action.iconSvgInline(actionContext)" />
 				</template>
-				{{ action.displayName(nodes, currentView) }}
+				{{ action.displayName(actionContext) }}
 			</NcActionButton>
 
 			<!-- Submenu actions list-->
@@ -55,14 +55,14 @@
 					class="files-list__row-actions-batch--submenu"
 					close-after-click
 					:data-cy-files-list-selection-action="action.id"
-					:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
-					:title="action.title?.(nodes, currentView)"
+					:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+					:title="action.title?.(actionContext)"
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loading === action.id" :size="18" />
-						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(actionContext)" />
 					</template>
-					{{ action.displayName(nodes, currentView) }}
+					{{ action.displayName(actionContext) }}
 				</NcActionButton>
 			</template>
 		</NcActions>
@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Node, View } from '@nextcloud/files'
+import type { ActionContext, FileAction, Node, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
@@ -84,10 +84,10 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import actionsMixins from '../mixins/actionsMixin.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 
@@ -120,19 +120,18 @@ export default defineComponent({
 	},
 
 	setup() {
+		const { activeFolder } = useActiveStore()
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
 		const fileListWidth = useFileListWidth()
-		const { directory } = useRouteParameters()
 
 		const boundariesElement = document.getElementById('app-content-vue')
 
 		return {
-			directory,
-			fileListWidth,
-
 			actionsMenuStore,
+			activeFolder,
+			fileListWidth,
 			filesStore,
 			selectionStore,
 
@@ -157,7 +156,7 @@ export default defineComponent({
 				// but children actions always need to have it
 				.filter((action) => action.execBatch || !action.parent)
 				// We filter out actions that are not enabled for the current selection
-				.filter((action) => !action.enabled || action.enabled(this.nodes, this.currentView))
+				.filter((action) => !action.enabled || action.enabled(this.actionContext))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
@@ -227,6 +226,15 @@ export default defineComponent({
 			return [...this.enabledInlineActions, ...menuActions]
 		},
 
+		actionContext(): ActionContext {
+			return {
+				nodes: this.nodes,
+				view: this.currentView,
+				folder: this.activeFolder!,
+				contents: this.nodes,
+			}
+		},
+
 		nodes() {
 			return this.selectedNodes
 				.map((source) => this.getNode(source))
@@ -294,7 +302,7 @@ export default defineComponent({
 				})
 
 				// Dispatch action execution
-				const results = await action.execBatch(this.nodes, this.currentView, this.directory)
+				const results = await action.execBatch(this.actionContext)
 
 				// Check if all actions returned null
 				if (!results.some((result) => result !== null)) {

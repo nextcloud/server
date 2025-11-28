@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ContentsWithRoot, File, Folder, Node } from '@nextcloud/files'
+import type { ContentsWithRoot, File, Folder } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { resultToNode as davResultToNode, defaultRootPath, getDefaultPropfind } from '@nextcloud/files/dav'
+import { getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { CancelablePromise } from 'cancelable-promise'
 import { join } from 'path'
 import logger from '../logger.ts'
@@ -14,12 +14,6 @@ import { getPinia } from '../store/index.ts'
 import { useSearchStore } from '../store/search.ts'
 import { client } from './WebdavClient.ts'
 import { searchNodes } from './WebDavSearch.ts'
-/**
- * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
- *
- * @param stat The result returned by the webdav library
- */
-export const resultToNode = (stat: FileStat): Node => davResultToNode(stat)
 
 /**
  * Get contents implementation for the files view.
@@ -49,7 +43,7 @@ export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
  * @param path - The path to get the contents
  */
 export function defaultGetContents(path: string): CancelablePromise<ContentsWithRoot> {
-	path = join(defaultRootPath, path)
+	path = join(getRootPath(), path)
 	const controller = new AbortController()
 	const propfindPayload = getDefaultPropfind()
 
@@ -66,7 +60,7 @@ export function defaultGetContents(path: string): CancelablePromise<ContentsWith
 
 			const root = contentsResponse.data[0]
 			const contents = contentsResponse.data.slice(1)
-			if (root.filename !== path && `${root.filename}/` !== path) {
+			if (root?.filename !== path && `${root?.filename}/` !== path) {
 				logger.debug(`Exepected "${path}" but got filename "${root.filename}" instead.`)
 				throw new Error('Root node does not match requested path')
 			}
@@ -99,7 +93,7 @@ async function getLocalSearch(path: string, query: string, signal: AbortSignal):
 	const filesStore = useFilesStore(getPinia())
 	let folder = filesStore.getDirectoryByPath('files', path)
 	if (!folder) {
-		const rootPath = join(defaultRootPath, path)
+		const rootPath = join(getRootPath(), path)
 		const stat = await client.stat(rootPath, { details: true }) as ResponseDataDetailed<FileStat>
 		folder = resultToNode(stat.data) as Folder
 	}

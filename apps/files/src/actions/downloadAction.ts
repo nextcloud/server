@@ -67,6 +67,10 @@ function longestCommonPath(first: string, second: string): string {
 async function downloadNodes(nodes: Node[]) {
 	let url: URL
 
+	if (!nodes[0]) {
+		throw new Error('No nodes to download')
+	}
+
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
 			await triggerDownload(nodes[0].encodedSource, nodes[0].displayname)
@@ -125,7 +129,7 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
-	enabled(nodes: Node[], view: View) {
+	enabled({ nodes, view }): boolean {
 		if (nodes.length === 0) {
 			return false
 		}
@@ -143,25 +147,25 @@ export const action = new FileAction({
 		return nodes.every(isDownloadable)
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
 		try {
-			await downloadNodes([node])
+			await downloadNodes(nodes)
 		} catch (error) {
 			showError(t('files', 'The requested file is not available.'))
 			logger.error('The requested file is not available.', { error })
-			emit('files:node:deleted', node)
+			emit('files:node:deleted', nodes[0])
 		}
 		return null
 	},
 
-	async execBatch(nodes: Node[], view: View, dir: string) {
+	async execBatch({ nodes, view, folder }) {
 		try {
 			await downloadNodes(nodes)
 		} catch (error) {
 			showError(t('files', 'The requested files are not available.'))
 			logger.error('The requested files are not available.', { error })
 			// Try to reload the current directory to update the view
-			const directory = getCurrentDirectory(view, dir)!
+			const directory = getCurrentDirectory(view, folder.path)!
 			emit('files:node:updated', directory)
 		}
 		return new Array(nodes.length).fill(null)

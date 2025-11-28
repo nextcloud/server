@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { Node, View } from '@nextcloud/files'
-
 import AutoRenewSvg from '@mdi/svg/svg/autorenew.svg?raw'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { FileAction, registerFileAction } from '@nextcloud/files'
@@ -31,20 +28,24 @@ export function registerConvertActions() {
 			id: `convert-${from}-${to}`,
 			displayName: () => t('files', 'Save as {displayName}', { displayName }),
 			iconSvgInline: () => generateIconSvg(to),
-			enabled: (nodes: Node[]) => {
+			enabled: ({ nodes }) => {
 				// Check that all nodes have the same mime type
 				return nodes.every((node) => from === node.mime)
 			},
 
-			async exec(node: Node) {
+			async exec({ nodes }) {
+				if (!nodes[0]) {
+					return false
+				}
+
 				// If we're here, we know that the node has a fileid
-				convertFile(node.fileid as number, to)
+				convertFile(nodes[0].fileid as number, to)
 
 				// Silently terminate, we'll handle the UI in the background
 				return null
 			},
 
-			async execBatch(nodes: Node[]) {
+			async execBatch({ nodes }) {
 				const fileIds = nodes.map((node) => node.fileid).filter(Boolean) as number[]
 				convertFiles(fileIds, to)
 
@@ -61,8 +62,8 @@ export function registerConvertActions() {
 		id: ACTION_CONVERT,
 		displayName: () => t('files', 'Save as …'),
 		iconSvgInline: () => AutoRenewSvg,
-		enabled: (nodes: Node[], view: View) => {
-			return actions.some((action) => action.enabled!(nodes, view))
+		enabled: (context) => {
+			return actions.some((action) => action.enabled!(context))
 		},
 		async exec() {
 			return null

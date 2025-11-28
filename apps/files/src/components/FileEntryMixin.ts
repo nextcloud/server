@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { FileAction } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
@@ -122,7 +123,9 @@ export default defineComponent({
 		},
 
 		isActive() {
-			return String(this.fileid) === String(this.currentFileId)
+			// Not using activeNode here because we want to
+			// be reactive to the url change directly
+			return String(this.fileid) === String(this.currentRouteFileId)
 		},
 
 		/**
@@ -235,7 +238,7 @@ export default defineComponent({
 			}
 
 			return actions
-				.filter((action) => {
+				.filter((action: FileAction) => {
 					if (!action.enabled) {
 						return true
 					}
@@ -243,7 +246,12 @@ export default defineComponent({
 					// In case something goes wrong, since we don't want to break
 					// the entire list, we filter out actions that throw an error.
 					try {
-						return action.enabled([this.source], this.currentView)
+						return action.enabled({
+							nodes: [this.source],
+							view: this.activeView,
+							folder: this.activeFolder!,
+							contents: this.nodes,
+						})
 					} catch (error) {
 						logger.error('Error while checking action', { action, error })
 						return false
@@ -253,7 +261,7 @@ export default defineComponent({
 		},
 
 		defaultFileAction() {
-			return this.enabledFileActions.find((action) => action.default !== undefined)
+			return this.enabledFileActions.find((action: FileAction) => action.default !== undefined)
 		},
 	},
 
@@ -378,14 +386,29 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 			// Execute the first default action if any
-			this.defaultFileAction.exec(this.source, this.currentView, this.currentDir)
+			this.defaultFileAction.exec({
+				nodes: [this.source],
+				folder: this.activeFolder!,
+				contents: this.nodes,
+				view: this.activeView!,
+			})
 		},
 
 		openDetailsIfAvailable(event) {
 			event.preventDefault()
 			event.stopPropagation()
-			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
-				sidebarAction.exec(this.source, this.currentView, this.currentDir)
+			if (sidebarAction?.enabled?.({
+				nodes: [this.source],
+				folder: this.activeFolder!,
+				contents: this.nodes,
+				view: this.activeView!,
+			})) {
+				sidebarAction.exec({
+					nodes: [this.source],
+					folder: this.activeFolder!,
+					contents: this.nodes,
+					view: this.activeView!,
+				})
 			}
 		},
 
@@ -468,7 +491,7 @@ export default defineComponent({
 			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(this.source.path)
+			const contents = await this.activeView?.getContents(this.source.path)
 			const folder = contents?.folder
 			if (!folder) {
 				showError(this.t('files', 'Target folder does not exist any more'))

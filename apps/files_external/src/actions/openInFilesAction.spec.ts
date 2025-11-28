@@ -38,8 +38,18 @@ describe('Open in files action conditions tests', () => {
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-in-files-external-storage')
-		expect(action.displayName([storage], externalStorageView)).toBe('Open in Files')
-		expect(action.iconSvgInline([storage], externalStorageView)).toBe('')
+		expect(action.displayName({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Open in Files')
+		expect(action.iconSvgInline({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)
 		expect(action.inline).toBeUndefined()
@@ -58,19 +68,34 @@ describe('Open in files action conditions tests', () => {
 				} as StorageConfig,
 			},
 		})
-		expect(action.displayName([failingStorage], externalStorageView)).toBe('Examine this faulty external storage configuration')
+		expect(action.displayName({
+			nodes: [failingStorage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Examine this faulty external storage configuration')
 	})
 })
 
 describe('Open in files action enabled tests', () => {
 	test('Enabled with on valid view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], externalStorageView)).toBe(true)
+		expect(action.enabled!({
+			nodes: [],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled on wrong view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
@@ -92,7 +117,12 @@ describe('Open in files action execute tests', () => {
 			},
 		})
 
-		const exec = await action.exec(storage, externalStorageView, '/')
+		const exec = await action.exec({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
@@ -116,7 +146,12 @@ describe('Open in files action execute tests', () => {
 			},
 		})
 
-		const exec = await action.exec(storage, externalStorageView, '/')
+		const exec = await action.exec({
+			nodes: [storage],
+			view: externalStorageView,
+			folder: {} as Folder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
 		expect(confirmMock).toBeCalledTimes(1)

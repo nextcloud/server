@@ -22,8 +22,8 @@
 				<NcTextField
 					:id="inputIdWithDefault"
 					ref="email"
-					class="email__input"
 					v-model="emailAddress"
+					class="email__input"
 					autocapitalize="none"
 					autocomplete="email"
 					:error="hasError || !!helperText"
