@@ -38,9 +38,7 @@ use OCP\Snowflake\IGenerator;
 use Psr\Log\LoggerInterface;
 
 class Manager {
-	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
-
-	private ?IUser $user = null;
+	private ?IUser $user;
 
 	public function __construct(
 		private IDBConnection $connection,
@@ -410,7 +408,7 @@ class Manager {
 		$mountPoint = '/' . $user->getUID() . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
 		$data['certificateManager'] = $this->certificateManager;
-		return new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
+		return new Mount(Storage::class, $mountPoint, $data, $this, $this->storageLoader);
 	}
 
 	protected function mountShare(array $data, ?IUser $user = null): Mount {

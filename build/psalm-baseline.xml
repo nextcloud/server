@@ -1261,17 +1261,6 @@
 			)]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
-    <InvalidArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$remoteId]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -1282,13 +1271,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
-    <InvalidArgument>
-      <code><![CDATA[$shareId]]></code>
-      <code><![CDATA[$shareId]]></code>
-      <code><![CDATA[$shareId]]></code>
-      <code><![CDATA[$shareId]]></code>
-      <code><![CDATA[(int)$data['id']]]></code>
-    </InvalidArgument>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <DeprecatedMethod>

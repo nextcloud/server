@@ -106,7 +106,7 @@ class ExternalShare extends Entity implements \JsonSerializable {
 			'owner' => $this->getOwner(),
 			'user' => $this->getUser(),
 			'mountpoint' => $this->getMountpoint(),
-			'accepted' => $this->getAccepted(),
+			'accepted' => $this->getAccepted() === IShare::STATUS_ACCEPTED,
 
 			// Added later on
 			'file_id' => null,

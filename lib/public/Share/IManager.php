@@ -7,6 +7,7 @@
  */
 namespace OCP\Share;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 
@@ -18,22 +19,17 @@ use OCP\Share\Exceptions\ShareTokenException;
 /**
  * This interface allows to manage sharing files between users and groups.
  *
- * This interface must not be implemented in your application but
- * instead should be used as a service and injected in your code with
- * dependency injection.
- *
  * @since 9.0.0
  */
+#[Consumable(since: '9.0.0')]
 interface IManager {
 	/**
 	 * Create a Share
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
 	 * @throws \Exception
 	 * @since 9.0.0
 	 */
-	public function createShare(IShare $share);
+	public function createShare(IShare $share): IShare;
 
 	/**
 	 * Update a share.
@@ -41,20 +37,15 @@ interface IManager {
 	 * The share can't be removed this way (permission 0): use deleteShare
 	 * The state can't be changed this way: use acceptShare
 	 *
-	 * @param IShare $share
 	 * @param bool $onlyValid Only updates valid shares, invalid shares will be deleted automatically and are not updated
-	 * @return IShare The share object
 	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
-	public function updateShare(IShare $share, bool $onlyValid = true);
+	public function updateShare(IShare $share, bool $onlyValid = true): IShare;
 
 	/**
 	 * Accept a share.
 	 *
-	 * @param IShare $share
-	 * @param string $recipientId
-	 * @return IShare The share object
 	 * @throws \InvalidArgumentException
 	 * @since 18.0.0
 	 */
@@ -63,12 +54,11 @@ interface IManager {
 	/**
 	 * Delete a share
 	 *
-	 * @param IShare $share
 	 * @throws ShareNotFound
 	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
-	public function deleteShare(IShare $share);
+	public function deleteShare(IShare $share): void;
 
 	/**
 	 * Unshare a file as the recipient.
@@ -76,11 +66,9 @@ interface IManager {
 	 * the users in a groups deletes that share. But the provider should
 	 * handle this.
 	 *
-	 * @param IShare $share
-	 * @param string $recipientId
 	 * @since 9.0.0
 	 */
-	public function deleteFromSelf(IShare $share, $recipientId);
+	public function deleteFromSelf(IShare $share, string $recipientId): void;
 
 	/**
 	 * Restore the share when it has been deleted
@@ -100,13 +88,10 @@ interface IManager {
 	 * Move the share as a recipient of the share.
 	 * This is updating the share target. So where the recipient has the share mounted.
 	 *
-	 * @param IShare $share
-	 * @param string $recipientId
-	 * @return IShare
 	 * @throws \InvalidArgumentException If $share is a link share or the $recipient does not match
 	 * @since 9.0.0
 	 */
-	public function moveShare(IShare $share, $recipientId);
+	public function moveShare(IShare $share, string $recipientId): IShare;
 
 	/**
 	 * Get all shares shared by (initiated) by the provided user in a folder.
@@ -115,16 +100,16 @@ interface IManager {
 	 * @param Folder $node
 	 * @param bool $reshares
 	 * @param bool $shallow Whether the method should stop at the first level, or look into sub-folders.
-	 * @return IShare[][] [$fileId => IShare[], ...]
+	 * @return array<int, list<IShare>> [$fileId => IShare[], ...]
 	 * @since 11.0.0
 	 */
-	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true);
+	public function getSharesInFolder(string $userId, Folder $node, bool $reshares = false, bool $shallow = true): array;
 
 	/**
 	 * Get shares shared by (initiated) by the provided user.
 	 *
 	 * @param string $userId
-	 * @param int $shareType
+	 * @param IShare::TYPE_* $shareType
 	 * @param Node|null $path
 	 * @param bool $reshares
 	 * @param int $limit The maximum number of returned results, -1 for all results
@@ -133,35 +118,32 @@ interface IManager {
 	 * @return IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, bool $onlyValid = true);
+	public function getSharesBy(string $userId, int $shareType, ?Node $path = null, bool $reshares = false, int $limit = 50, int $offset = 0, bool $onlyValid = true): array;
 
 	/**
 	 * Get shares shared with $user.
 	 * Filter by $node if provided
 	 *
 	 * @param string $userId
-	 * @param int $shareType
+	 * @param IShare::TYPE_* $shareType
 	 * @param Node|null $node
 	 * @param int $limit The maximum number of shares returned, -1 for all
 	 * @param int $offset
 	 * @return IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
+	public function getSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array;
 
 	/**
 	 * Get deleted shares shared with $user.
 	 * Filter by $node if provided
 	 *
-	 * @param string $userId
-	 * @param int $shareType
-	 * @param Node|null $node
+	 * @param IShare::TYPE_* $shareType
 	 * @param int $limit The maximum number of shares returned, -1 for all
-	 * @param int $offset
 	 * @return IShare[]
 	 * @since 14.0.0
 	 */
-	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
+	public function getDeletedSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array;
 
 	/**
 	 * Retrieve a share by the share id.
@@ -169,34 +151,27 @@ interface IManager {
 	 * This makes sure that if a user has moved/deleted a group share this
 	 * is reflected.
 	 *
-	 * @param string $id
 	 * @param string|null $recipient userID of the recipient
 	 * @param bool $onlyValid Only returns valid shares, invalid shares will be deleted automatically and are not returned
-	 * @return IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
-	public function getShareById($id, $recipient = null, bool $onlyValid = true);
+	public function getShareById(string $id, ?string $recipient = null, bool $onlyValid = true): IShare;
 
 	/**
 	 * Get the share by token possible with password
 	 *
-	 * @param string $token
-	 * @return IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
-	public function getShareByToken($token);
+	public function getShareByToken(string $token): IShare;
 
 	/**
 	 * Verify the password of a public share
 	 *
-	 * @param IShare $share
-	 * @param ?string $password
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function checkPassword(IShare $share, $password);
+	public function checkPassword(IShare $share, ?string $password): bool;
 
 	/**
 	 * The user with UID is deleted.
@@ -204,29 +179,25 @@ interface IManager {
 	 * as shares owned by this user.
 	 * Shares only initiated by this user are fine.
 	 *
-	 * @param string $uid
 	 * @since 9.1.0
 	 */
-	public function userDeleted($uid);
+	public function userDeleted(string $uid): void;
 
 	/**
 	 * The group with $gid is deleted
 	 * We need to clear up all shares to this group
 	 *
-	 * @param string $gid
 	 * @since 9.1.0
 	 */
-	public function groupDeleted($gid);
+	public function groupDeleted(string $gid): void;
 
 	/**
 	 * The user $uid is deleted from the group $gid
 	 * All user specific group shares have to be removed
 	 *
-	 * @param string $uid
-	 * @param string $gid
 	 * @since 9.1.0
 	 */
-	public function userDeletedFromGroup($uid, $gid);
+	public function userDeletedFromGroup(string $uid, string $gid): void;
 
 	/**
 	 * Get access list to a path. This means
@@ -270,7 +241,6 @@ interface IManager {
 	 *
 	 * This is required for encryption/activity
 	 *
-	 * @param \OCP\Files\Node $path
 	 * @param bool $recursive Should we check all parent folders as well
 	 * @param bool $currentAccess Should the user have currently access to the file
 	 * @return ($currentAccess is true
@@ -283,24 +253,22 @@ interface IManager {
 	 *      : array{users?: list<string>, remote?: bool, public?: bool, mail?: list<string>})
 	 * @since 12.0.0
 	 */
-	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false);
+	public function getAccessList(Node $path, bool $recursive = true, bool $currentAccess = false): array;
 
 	/**
 	 * Instantiates a new share object. This is to be passed to
 	 * createShare.
 	 *
-	 * @return IShare
 	 * @since 9.0.0
 	 */
-	public function newShare();
+	public function newShare(): IShare;
 
 	/**
 	 * Is the share API enabled
 	 *
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function shareApiEnabled();
+	public function shareApiEnabled(): bool;
 
 	/**
 	 * Is public link sharing enabled
@@ -310,46 +278,41 @@ interface IManager {
 	 * @since 9.0.0
 	 * @since 33.0.0 Added optional $user parameter
 	 */
-	public function shareApiAllowLinks(?IUser $user = null);
+	public function shareApiAllowLinks(): bool;
 
 	/**
 	 * Is password on public link required
 	 *
 	 * @param bool $checkGroupMembership Check group membership exclusion
-	 * @return bool
 	 * @since 9.0.0
 	 * @since 24.0.0 Added optional $checkGroupMembership parameter
 	 */
-	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true);
+	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true): bool;
 
 	/**
 	 * Is default expire date enabled
 	 *
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function shareApiLinkDefaultExpireDate();
+	public function shareApiLinkDefaultExpireDate(): bool;
 
 	/**
 	 * Is default expire date enforced
 	 *`
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function shareApiLinkDefaultExpireDateEnforced();
+	public function shareApiLinkDefaultExpireDateEnforced(): bool;
 
 	/**
 	 * Number of default expire days
 	 *
-	 * @return int
 	 * @since 9.0.0
 	 */
-	public function shareApiLinkDefaultExpireDays();
+	public function shareApiLinkDefaultExpireDays(): int;
 
 	/**
 	 * Is default internal expire date enabled
 	 *
-	 * @return bool
 	 * @since 22.0.0
 	 */
 	public function shareApiInternalDefaultExpireDate(): bool;
@@ -357,7 +320,6 @@ interface IManager {
 	/**
 	 * Is default remote expire date enabled
 	 *
-	 * @return bool
 	 * @since 22.0.0
 	 */
 	public function shareApiRemoteDefaultExpireDate(): bool;
@@ -365,7 +327,6 @@ interface IManager {
 	/**
 	 * Is default expire date enforced
 	 *
-	 * @return bool
 	 * @since 22.0.0
 	 */
 	public function shareApiInternalDefaultExpireDateEnforced(): bool;
@@ -373,7 +334,6 @@ interface IManager {
 	/**
 	 * Is default expire date enforced for remote shares
 	 *
-	 * @return bool
 	 * @since 22.0.0
 	 */
 	public function shareApiRemoteDefaultExpireDateEnforced(): bool;
@@ -381,7 +341,6 @@ interface IManager {
 	/**
 	 * Number of default expire days
 	 *
-	 * @return int
 	 * @since 22.0.0
 	 */
 	public function shareApiInternalDefaultExpireDays(): int;
@@ -389,7 +348,6 @@ interface IManager {
 	/**
 	 * Number of default expire days for remote shares
 	 *
-	 * @return int
 	 * @since 22.0.0
 	 */
 	public function shareApiRemoteDefaultExpireDays(): int;
@@ -397,17 +355,16 @@ interface IManager {
 	/**
 	 * Allow public upload on link shares
 	 *
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function shareApiLinkAllowPublicUpload();
+	public function shareApiLinkAllowPublicUpload(): bool;
 
 	/**
-	 * check if user can only share with group members
-	 * @return bool
+	 * Check if user can only share with group members.
+	 *
 	 * @since 9.0.0
 	 */
-	public function shareWithGroupMembersOnly();
+	public function shareWithGroupMembersOnly(): bool;
 
 	/**
 	 * If shareWithGroupMembersOnly is enabled, return an optional
@@ -416,19 +373,18 @@ interface IManager {
 	 * @return array
 	 * @since 27.0.0
 	 */
-	public function shareWithGroupMembersOnlyExcludeGroupsList();
+	public function shareWithGroupMembersOnlyExcludeGroupsList(): array;
 
 	/**
 	 * Check if users can share with groups
-	 * @return bool
+	 *
 	 * @since 9.0.1
 	 */
-	public function allowGroupSharing();
+	public function allowGroupSharing(): bool;
 
 	/**
 	 * Check if user enumeration is allowed
 	 *
-	 * @return bool
 	 * @since 19.0.0
 	 */
 	public function allowEnumeration(): bool;
@@ -436,7 +392,6 @@ interface IManager {
 	/**
 	 * Check if user enumeration is limited to the users groups
 	 *
-	 * @return bool
 	 * @since 19.0.0
 	 */
 	public function limitEnumerationToGroups(): bool;
@@ -444,7 +399,6 @@ interface IManager {
 	/**
 	 * Check if user enumeration is limited to the phonebook matches
 	 *
-	 * @return bool
 	 * @since 21.0.1
 	 */
 	public function limitEnumerationToPhone(): bool;
@@ -453,7 +407,6 @@ interface IManager {
 	 * Check if user enumeration is allowed to return also on full match
 	 * and ignore limitations to phonebook or groups.
 	 *
-	 * @return bool
 	 * @since 21.0.1
 	 */
 	public function allowEnumerationFullMatch(): bool;
@@ -462,7 +415,6 @@ interface IManager {
 	 * When `allowEnumerationFullMatch` is enabled and `matchEmail` is set,
 	 * then also return results for full email matches.
 	 *
-	 * @return bool
 	 * @since 25.0.0
 	 */
 	public function matchEmail(): bool;
@@ -471,7 +423,6 @@ interface IManager {
 	 * When `allowEnumerationFullMatch` is enabled and `matchUserId` is set,
 	 * then also return results for full user id matches.
 	 *
-	 * @return bool
 	 * @since 33.0.0
 	 */
 	public function matchUserId(): bool;
@@ -480,7 +431,6 @@ interface IManager {
 	 * When `allowEnumerationFullMatch` is enabled and `ignoreSecondDisplayName` is set,
 	 * then the search should ignore matches on the second displayname and only use the first.
 	 *
-	 * @return bool
 	 * @since 25.0.0
 	 */
 	public function ignoreSecondDisplayName(): bool;
@@ -504,9 +454,6 @@ interface IManager {
 	/**
 	 * Check if the current user can enumerate the target user
 	 *
-	 * @param IUser|null $currentUser
-	 * @param IUser $targetUser
-	 * @return bool
 	 * @since 23.0.0
 	 */
 	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool;
@@ -520,26 +467,23 @@ interface IManager {
 
 	/**
 	 * Check if outgoing server2server shares are allowed
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function outgoingServer2ServerSharesAllowed();
+	public function outgoingServer2ServerSharesAllowed(): bool;
 
 	/**
 	 * Check if outgoing server2server shares are allowed
-	 * @return bool
 	 * @since 14.0.0
 	 */
-	public function outgoingServer2ServerGroupSharesAllowed();
+	public function outgoingServer2ServerGroupSharesAllowed(): bool;
 
 
 	/**
 	 * Check if a given share provider exists
-	 * @param int $shareType
-	 * @return bool
+	 * @param IShare::TYPE_* $shareType
 	 * @since 11.0.0
 	 */
-	public function shareProviderExists($shareType);
+	public function shareProviderExists(int $shareType): bool;
 
 	/**
 	 * @param string $shareProviderClass

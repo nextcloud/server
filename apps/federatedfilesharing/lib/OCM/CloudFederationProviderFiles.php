@@ -618,7 +618,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			$share->setSharedBy($share->getSharedWith());
 			$share->setSharedWith($shareWith);
 			$result = $this->federatedShareProvider->create($share);
-			$this->federatedShareProvider->storeRemoteId((int)$result->getId(), $senderId);
+			$this->federatedShareProvider->storeRemoteId($result->getId(), $senderId);
 			return ['token' => $result->getToken(), 'providerId' => $result->getId()];
 		} else {
 			throw new ProviderCouldNotAddShareException('resharing not allowed for share: ' . $id);
