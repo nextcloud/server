@@ -72,6 +72,8 @@ class Application {
 			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 		}
 
+		// TODO: This check should probably be moved to \OC_Util::checkServer() (which is already called below) 
+		// or somewhere else more suitable (albeit w/o an exception)
 		if ($this->memoryInfo->isMemoryLimitSufficient() === false) {
 			$output->getErrorOutput()->writeln(
 				'<comment>The current PHP memory limit '
@@ -79,56 +81,46 @@ class Application {
 			);
 		}
 
-		try {
-			require_once __DIR__ . '/../../../core/register_command.php';
-			if ($this->config->getSystemValueBool('installed', false)) {
-				if (\OCP\Util::needUpgrade()) {
-					throw new NeedsUpdateException();
-				} elseif ($this->config->getSystemValueBool('maintenance')) {
-					$this->writeMaintenanceModeInfo($input, $output);
-				} else {
-					$this->appManager->loadApps();
-					foreach ($this->appManager->getEnabledApps() as $app) {
-						try {
-							$appPath = $this->appManager->getAppPath($app);
-						} catch (AppPathNotFoundException) {
-							continue;
-						}
-						// load commands using info.xml
-						$info = $this->appManager->getAppInfo($app);
-						if (isset($info['commands'])) {
-							try {
-								$this->loadCommandsFromInfoXml($info['commands']);
-							} catch (\Throwable $e) {
-								$output->writeln('<error>' . $e->getMessage() . '</error>');
-								$this->logger->error($e->getMessage(), [
-									'exception' => $e,
-								]);
-							}
-						}
-						// load from register_command.php
-						\OC_App::registerAutoloading($app, $appPath);
-						$file = $appPath . '/appinfo/register_command.php';
-						if (file_exists($file)) {
-							try {
-								require $file;
-							} catch (\Exception $e) {
-								$this->logger->error($e->getMessage(), [
-									'exception' => $e,
-								]);
-							}
-						}
+		$installed = $config->getSystemValueBool('installed', false);
+		$maintenance = $installed && $config->getSystemValueBool('maintenance', false);
+		$needUpgrade = $installed && \OCP\Util::needUpgrade();
+
+		require_once __DIR__ . '/../../../core/register_command.php';
+
+		if ($needUpgrade) {
+			$this->writeNeedsUpdateInfo($input, $output);
+		} elseif (!$installed)
+			$this->writeNotInstalledInfo($input, $output);
+		} elseif ($maintenance) {
+			$this->writeMaintenanceModeInfo($input, $output);
+		} elseif ($installed) {
+			$this->appManager->loadApps();
+			foreach ($this->appManager->getEnabledApps() as $app) {
+				try {
+					$appPath = $this->appManager->getAppPath($app);
+				} catch (AppPathNotFoundException) {
+					continue;
+				}
+				// load commands using info.xml
+				$info = $this->appManager->getAppInfo($app);
+				if (isset($info['commands'])) {
+					try {
+						$this->loadCommandsFromInfoXml($info['commands']);
+					} catch (\Throwable $e) {
+						$output->writeln('<error>' . $e->getMessage() . '</error>');
+						$this->logger->error($e->getMessage(), [ 'exception' => $e, ]);
 					}
 				}
-			} elseif ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
-				$errorOutput = $output->getErrorOutput();
-				$errorOutput->writeln('Nextcloud is not installed - only a limited number of commands are available');
-			}
-		} catch (NeedsUpdateException) {
-			if ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'upgrade') {
-				$errorOutput = $output->getErrorOutput();
-				$errorOutput->writeln('Nextcloud or one of the apps require upgrade - only a limited number of commands are available');
-				$errorOutput->writeln('You may use your browser or the occ upgrade command to do the upgrade');
+				// load from register_command.php
+				\OC_App::registerAutoloading($app, $appPath);
+				$file = $appPath . '/appinfo/register_command.php';
+				if (file_exists($file)) {
+					try {
+						require $file;
+					} catch (\Exception $e) {
+						$this->logger->error($e->getMessage(), [ 'exception' => $e, ]);
+					}
+				}
 			}
 		}
 
@@ -145,19 +137,33 @@ class Application {
 		}
 	}
 
+	private function writeNeedsUpdateInfo(InputInterface $input, ConsoleOutputInterface $output): void {
+		if ($input->getArgument('command') !== '_completion'
+			&& $input->getArgument('command') !== 'upgrade'
+		   ) {
+			$errorOutput = $output->getErrorOutput();
+			$errorOutput->writeln('Nextcloud or one of the apps require upgrade - only a limited number of commands are available');
+			$errorOutput->writeln('You may use your browser or the occ upgrade command to do the upgrade');
+		}
+	}
+
+	private function writeNotInstalledInfo(InputInterface $input, ConsoleOutputInterface $output): void {
+		if ($input->getArgument('command') !== '_completion'
+			&& $input->getArgument('command') !== 'maintenance:install'
+		   ) {
+			$errorOutput = $output->getErrorOutput();
+			$errorOutput->writeln('Nextcloud is not installed - only a limited number of commands are available');
+		}
+	}
+
 	/**
 	 * Write a maintenance mode info.
-	 * The commands "_completion" and "maintenance:mode" are excluded.
-	 *
-	 * @param InputInterface $input The input implementation for reading inputs.
-	 * @param ConsoleOutputInterface $output The output implementation
-	 *                                       for writing outputs.
-	 * @return void
 	 */
 	private function writeMaintenanceModeInfo(InputInterface $input, ConsoleOutputInterface $output): void {
 		if ($input->getArgument('command') !== '_completion'
 			&& $input->getArgument('command') !== 'maintenance:mode'
-			&& $input->getArgument('command') !== 'status') {
+			&& $input->getArgument('command') !== 'status'
+		   ) {
 			$errOutput = $output->getErrorOutput();
 			$errOutput->writeln('<comment>Nextcloud is in maintenance mode, no apps are loaded.</comment>');
 			$errOutput->writeln('<comment>Commands provided by apps are unavailable.</comment>');
