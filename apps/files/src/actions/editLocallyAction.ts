@@ -5,13 +5,14 @@
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { FileAction, Permission, type Node } from '@nextcloud/files'
+import { FileAction, type Node } from '@nextcloud/files'
 import { showError, DialogBuilder } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { isSyncable } from '../utils/permissions.ts'
 
 export const action = new FileAction({
 	id: 'edit-locally',
@@ -30,7 +31,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		return (nodes[0].permissions & Permission.UPDATE) !== 0
+		return isSyncable(nodes[0])
 	},
 
 	async exec(node: Node) {
