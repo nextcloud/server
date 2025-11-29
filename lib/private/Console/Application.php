@@ -41,7 +41,10 @@ class Application {
 		private IAppManager $appManager,
 		private Defaults $defaults,
 	) {
-		$this->application = new SymfonyApplication($defaults->getName(), $serverVersion->getVersionString());
+		$this->application = new SymfonyApplication(
+			$defaults->getName(),
+			$serverVersion->getVersionString()
+		);
 	}
 
 	/**
@@ -72,8 +75,7 @@ class Application {
 			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 		}
 
-		// TODO: This check should probably be moved to \OC_Util::checkServer() (which is already called below) 
-		// or somewhere else more suitable (albeit w/o an exception)
+		// TODO: move to \OC_Util::checkServer() (which is already called below) or similar (albeit w/o an exception)
 		if ($this->memoryInfo->isMemoryLimitSufficient() === false) {
 			$output->getErrorOutput()->writeln(
 				'<comment>The current PHP memory limit '
@@ -81,15 +83,15 @@ class Application {
 			);
 		}
 
-		$installed = $config->getSystemValueBool('installed', false);
-		$maintenance = $installed && $config->getSystemValueBool('maintenance', false);
+		$installed = $this->config->getSystemValueBool('installed', false);
+		$maintenance = $installed && $this->config->getSystemValueBool('maintenance', false);
 		$needUpgrade = $installed && \OCP\Util::needUpgrade();
 
 		require_once __DIR__ . '/../../../core/register_command.php';
 
 		if ($needUpgrade) {
 			$this->writeNeedsUpdateInfo($input, $output);
-		} elseif (!$installed)
+		} elseif (!$installed) {
 			$this->writeNotInstalledInfo($input, $output);
 		} elseif ($maintenance) {
 			$this->writeMaintenanceModeInfo($input, $output);
