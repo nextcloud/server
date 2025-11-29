@@ -125,7 +125,7 @@ use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
  *
  * TODO (maybe): 
  * - Refactor this into a real class/service provider w/ clear dependency handling/etc.
- * - Make each core command a tagged service and have the container or a dedicated service aggregator register them automatically.
+ * - Make each core command a tagged service and have the container or a service aggregator auto-register them.
  */
 
 $config = Server::get(IConfig::class);
@@ -161,6 +161,7 @@ $alwaysCommands = [
  * Commands required when an upgrade is needed (besides _completion)
  */
 $upgradeCommands = [
+	Command\Maintenance\Mode::class,
 	Upgrade::class,
 ];
 
@@ -176,7 +177,6 @@ $installerCommands = [
  */
 $maintenanceCommands = [
 	Command\Maintenance\Mode::class,
-	// Also Status::class, but already an "always" command
 ];
 
 /*
@@ -372,18 +372,21 @@ $addCommands = function (array $classes) use ($application) {
 	}
 };
 
-// Register commands according to state
+/*
+ * Register commands according to state
+ */
 
+// Register always available commands
 $addCommands($alwaysCommands);
 
 if ($needUpgrade) {
-	// Register minimal extra commands needed to perform or diagnose the upgrade,
-	// then return early so the including loader can throw NeedsUpdateException
+	// Register minimal extra commands needed to perform or diagnose the upgrade.
 	$addCommands($upgradeCommands);
 	return;
 }
 
 if (!$installed) {
+	// Register pre-install only commands
 	$addCommands($installerCommands);
 	return;
 }
