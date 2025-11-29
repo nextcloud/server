@@ -310,6 +310,8 @@ OC.L10N.register(
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 MariaDB 版本「%1$s」。建議使用 MariaDB >=%2$s 且 <=%3$s 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
     "MySQL version \"%1$s\" detected. MySQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 MySQL 版本「%1$s」。建議使用 MySQL >=%2$s 且 <=%3$s 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
     "PostgreSQL version \"%1$s\" detected. PostgreSQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 PostgreSQL 版本「%1$s」。建議使用 PostgreSQL >=%2$s 且 <=%3$s 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
+    "Nextcloud %d does not support your current version, so be sure to update the database before updating your Nextcloud Server." : "Nextcloud %d 不支援您目前的版本，因此請在更新您的 Nextcloud 伺服器前更新資料庫。",
+    "Oracle version \"%1$s\" detected. Oracle >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 Oracle 版本「%1$s」。建議使用 Oracle >=%2$s 且 <=%3$s 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "目前使用 SQLite 作為後端資料庫。對於較大型的站台，我們建議您切換到其他資料庫後端。當使用桌面客戶端進行檔案同步時，我們更強烈建議您這麼做。若要遷移到其他資料庫，請使用命令列工具：「occ db:convert-type」。",
     "Unknown database platform" : "未知資料庫平台",
     "Architecture" : "架構",
