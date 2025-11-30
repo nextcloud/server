@@ -124,25 +124,20 @@ use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
  * OC\Console\Application::loadCommands).
  *
  * TODO (maybe): 
- * - Refactor this into a real class/service provider w/ clear dependency handling/etc.
- * - Make each core command a tagged service and have the container or a service aggregator auto-register them.
+ * - Refactor this into a real class/service/callable w/ clear dependency handling/etc.
+ * - Make each core command a tagged service and have the container or a service aggregator
+ *	 auto-register them.
  */
 
-$config = Server::get(IConfig::class);
-
-// State lifecycle flags
-$installed = $config->getSystemValueBool('installed', false);
-$maintenance = $installed && $config->getSystemValueBool('maintenance', false);
-$needUpgrade = $installed && \OCP\Util::needUpgrade();
-$debug = $config->getSystemValueBool('debug', false);
+// These variables are expected to be provided by the including scope (Application::loadCommands)
+/** @var \Symfony\Component\Console\Application $application */
+/** @var bool $installed */
+/** @var bool $maintenance */
+/** @var bool $needUpgrade */
+/** @var bool $debug */
 
 /*
- * Commands that should always be registered.
- *
- * In addition availability in normal operating mode, these commands are to be available:
- * - pre-install
- * - in maintenance mode
- * - when an upgrade is needed
+ * Commands that should always be registered (i.e. normal, pre-install, maintenance, upgrade needed)
 */
 $alwaysCommands = [
 	CompletionCommand::class,
@@ -158,7 +153,7 @@ $alwaysCommands = [
 ];
 
 /*
- * Commands required when an upgrade is needed (besides _completion)
+ * Commands required when an upgrade is needed (besides above)
  */
 $upgradeCommands = [
 	Command\Maintenance\Mode::class,
@@ -166,21 +161,21 @@ $upgradeCommands = [
 ];
 
 /*
- * Commands available only when not installed (installer)
+ * Commands available only when not installed
  */
 $installerCommands = [
 	Command\Maintenance\Install::class,
 ];
 
 /*
- * Small set of commands allowed in maintenance mode (no apps loaded)
+ * Commands allowed in maintenance mode (no apps loaded)
  */
 $maintenanceCommands = [
 	Command\Maintenance\Mode::class,
 ];
 
 /*
- * Commands for a normal installed instance
+ * Commands for normal (installed/up-to-date/non-maintenance) operating mode
  */
 $installedCommands = [
 	// "app"
@@ -358,9 +353,12 @@ $debugCommands = [
 	StatusCommand::class,
 ];
 
-/** @var \Symfony\Component\Console\Application $application */
-
-// Helper to resolve & add a list of command classes.
+/** 
+ * Helper to resolve & add a list of command classes.
+ *
+ * Will abort registering if any app/service fails to load.
+ * 
+ */
 $addCommands = function (array $classes) use ($application) {
 	foreach ($classes as $class) {
 		// CompletionCommand is instantiated directly (not resolved from container).
