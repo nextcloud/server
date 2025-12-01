@@ -10,7 +10,7 @@
     "Please check the Nextcloud and server log files for errors." : "Nextcloud ۋە مۇلازىمېتىر خاتىرى ھۆججىتىنىڭ خاتالىقلىرىنى تەكشۈرۈپ بېقىڭ.",
     "Update to {serverAndVersion} is available." : "{serverAndVersion} غا يېڭىلاشقا بولىدۇ.",
     "Update for {app} to version %s is available." : "{app} نى %s نەشرىگە يېڭىلاشقا بولىدۇ.",
-    "Update notification" : "ئۇقتۇرۇشنى يېڭىلاش",
+    "Update notification" : "يېڭىلاش ئۇقتۇرۇشى",
     "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "Nextcloud نىڭ يېڭىلاش ئۇقتۇرۇشى ، ئەپ يېڭىلانمىلىرىنى كۆرسىتىدۇ ۋە يېڭىلاش ئۈچۈن SSO تەمىنلەيدۇ.",
     "Give feedback" : "پىكىر بېرىڭ",
     "Get started" : "باشلاڭ",
