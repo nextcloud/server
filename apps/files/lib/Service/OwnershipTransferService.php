@@ -109,7 +109,7 @@ class OwnershipTransferService {
 				$cleanUserName = $sourceUid;
 			} else {
 				$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName());
-				if (empty($cleanUserName)) {
+				if ($cleanUserName === '') {
 					$cleanUserName = $sourceUid;
 				}
 			}
