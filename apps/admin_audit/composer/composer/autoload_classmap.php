@@ -19,6 +19,7 @@ return array(
     'OCA\\AdminAudit\\IAuditLogger' => $baseDir . '/../lib/IAuditLogger.php',
     'OCA\\AdminAudit\\Listener\\AppManagementEventListener' => $baseDir . '/../lib/Listener/AppManagementEventListener.php',
     'OCA\\AdminAudit\\Listener\\AuthEventListener' => $baseDir . '/../lib/Listener/AuthEventListener.php',
+    'OCA\\AdminAudit\\Listener\\CacheEventListener' => $baseDir . '/../lib/Listener/CacheEventListener.php',
     'OCA\\AdminAudit\\Listener\\ConsoleEventListener' => $baseDir . '/../lib/Listener/ConsoleEventListener.php',
     'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => $baseDir . '/../lib/Listener/CriticalActionPerformedEventListener.php',
     'OCA\\AdminAudit\\Listener\\FileEventListener' => $baseDir . '/../lib/Listener/FileEventListener.php',
