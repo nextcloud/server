@@ -66,7 +66,7 @@ const testCases = {
 			'color-primary-element-light-hover',
 		],
 	},
-	'Servity information texts': {
+	'Severity information texts': {
 		foregroundColors: [
 			'color-error-text',
 			'color-warning-text',
@@ -76,6 +76,15 @@ const testCases = {
 		backgroundColors: [
 			'color-main-background',
 			'color-background-hover',
+		],
+	},
+	// only most important severity colors are supported on the blur
+	'Severity information on blur': {
+		foregroundColors: [
+			'color-error-text',
+			'color-success-text',
+		],
+		backgroundColors: [
 			'color-main-background-blur',
 		],
 	},
