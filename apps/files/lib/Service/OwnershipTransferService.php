@@ -108,9 +108,12 @@ class OwnershipTransferService {
 			if ($useUserId) {
 				$cleanUserName = $sourceUid;
 			} else {
-				$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName()) ?: $sourceUid;
+				$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName());
+				if (empty($cleanUserName)) {
+					$cleanUserName = $sourceUid;
+				}
 			}
-			
+
 			$finalTarget = "$destinationUid/files/" . $this->sanitizeFolderName($l->t('Transferred from %1$s on %2$s', [$cleanUserName, $date]));
 			try {
 				$view->verifyPath(dirname($finalTarget), basename($finalTarget));
