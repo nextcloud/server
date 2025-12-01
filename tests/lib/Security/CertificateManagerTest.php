@@ -48,6 +48,11 @@ class CertificateManagerTest extends \Test\TestCase {
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->any())->method('getSystemValueBool')
 			->with('installed', false)->willReturn(true);
+		$config
+			->expects($this->any())
+			->method('getSystemValueString')
+			->with('default_certificates_bundle_path', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt')
+			->willReturn(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->random->method('generate')
