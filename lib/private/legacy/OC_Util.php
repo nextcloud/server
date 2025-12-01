@@ -94,24 +94,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Get the quota of a user
-	 *
-	 * @param IUser|null $user
-	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false|float Quota bytes
-	 * @deprecated 9.0.0 - Use \OCP\IUser::getQuota or \OCP\IUser::getQuotaBytes
-	 */
-	public static function getUserQuota(?IUser $user) {
-		if (is_null($user)) {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
-		}
-		$userQuota = $user->getQuota();
-		if ($userQuota === 'none') {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
-		}
-		return \OCP\Util::computerFileSize($userQuota);
-	}
-
-	/**
 	 * copies the skeleton to the users /files
 	 *
 	 * @param string $userId
@@ -297,7 +279,7 @@ class OC_Util {
 	}
 
 	/**
-	 * check if the current server configuration is suitable for ownCloud
+	 * Check if the current server environment configuration is suitable for Nextcloud
 	 *
 	 * @return array arrays with error messages and hints
 	 */
