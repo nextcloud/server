@@ -450,11 +450,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$sharedBy . '@http://localhost'
 			)->willReturn(true);
 
-		if ($owner === $sharedBy) {
-			$this->provider->expects($this->never())->method('sendPermissionUpdate');
-		} else {
-			$this->provider->expects($this->once())->method('sendPermissionUpdate');
-		}
+		$this->provider->expects($this->never())->method('sendPermissionUpdate');
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
