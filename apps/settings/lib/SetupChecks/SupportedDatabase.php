@@ -26,6 +26,8 @@ class SupportedDatabase implements ISetupCheck {
 	private const MAX_MYSQL = '8.4';
 	private const MIN_POSTGRES = '13';
 	private const MAX_POSTGRES = '17';
+	private const MIN_ORACLE = '12.2';
+	private const MAX_ORACLE = '26';
 
 	public function __construct(
 		private IL10N $l10n,
@@ -112,7 +114,29 @@ class SupportedDatabase implements ISetupCheck {
 				);
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
-			$version = 'Oracle';
+			$result = $this->connection->executeQuery('SELECT VERSION FROM PRODUCT_COMPONENT_VERSION');
+			$version = $result->fetchOne();
+			$result->closeCursor();
+			$versionLower = strtolower($version);
+			// we only care about X.Y not X.Y.Z differences
+			[$major, $minor, ] = explode('.', $versionLower);
+			$versionConcern = $major . '.' . $minor;
+			if (version_compare($versionConcern, self::MIN_ORACLE, '<') || version_compare($versionConcern, self::MAX_ORACLE, '>')) {
+				$extendedWarning = '';
+				if (version_compare($versionConcern, self::MIN_ORACLE, '<')) {
+					$extendedWarning = "\n" . $this->l10n->t('Nextcloud %d does not support your current version, so be sure to update the database before updating your Nextcloud Server.', [33]);
+				}
+				return SetupResult::warning(
+					$this->l10n->t(
+						'Oracle version "%1$s" detected. Oracle >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud.',
+						[
+							$version,
+							self::MIN_ORACLE,
+							self::MAX_ORACLE,
+						])
+					. $extendedWarning
+				);
+			}
 		} elseif ($databasePlatform instanceof SqlitePlatform) {
 			return SetupResult::warning(
 				$this->l10n->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: "occ db:convert-type".'),
