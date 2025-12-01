@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_reminders",
     {
     "File reminders" : "ھۆججەت ئەسكەرتىشلىرى",
-    "Reminder for {name}" : "{name} for ئەسكەرتىش",
+    "Reminder for {name}" : "{name} نىڭ ئەسكەرتىشى",
     "View file" : "ھۆججەتنى كۆرۈش",
     "View folder" : "ھۆججەت قىسقۇچنى كۆرۈش",
     "Files reminder" : "ھۆججەت ئەسلەتكۈ",
