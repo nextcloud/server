@@ -62,17 +62,9 @@ class MountProvider implements IMountProvider {
 
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
-		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
-		/** @var CappedMemoryCache<bool> $folderExistCache */
-		$foldersExistCache = new CappedMemoryCache();
-
-		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
-		$maxValidatedShare = $validShareCache->get($user->getUID()) ?? 0;
-		$newMaxValidatedShare = $maxValidatedShare;
 
 		foreach ($superShares as $share) {
 			try {
@@ -90,10 +82,8 @@ class MountProvider implements IMountProvider {
 				if (!isset($ownerViews[$owner])) {
 					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
 				}
-				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
-					$allMounts,
 					[
 						'user' => $user->getUID(),
 						// parent share
@@ -104,14 +94,9 @@ class MountProvider implements IMountProvider {
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$loader,
-					$view,
-					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
-					($shareId <= $maxValidatedShare),
 				);
-
-				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);
 
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
@@ -130,8 +115,6 @@ class MountProvider implements IMountProvider {
 				);
 			}
 		}
-
-		$validShareCache->set($user->getUID(), $newMaxValidatedShare, 24 * 60 * 60);
 
 		// array_filter removes the null values from the array
 		return array_values(array_filter($mounts));

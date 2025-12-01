@@ -29,6 +29,7 @@ use OCA\Files_Sharing\Listener\LoadPublicFileRequestAuthListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\MemberAddedToCircleListener;
 use OCA\Files_Sharing\Listener\MemberRemovedFromCircleListener;
+use OCA\Files_Sharing\Listener\ResolveFileConflictListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
 use OCA\Files_Sharing\Listener\UserRemovedFromGroupListener;
@@ -60,6 +61,7 @@ use OCP\Group\Events\UserRemovedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\UserAddedToShareEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -108,6 +110,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupListener::class);
 		$context->registerEventListener(AddingCircleMemberEvent::class, MemberAddedToCircleListener::class);
 		$context->registerEventListener(RemovingCircleMemberEvent::class, MemberRemovedFromCircleListener::class);
+
+		$context->registerEventListener(ShareCreatedEvent::class, ResolveFileConflictListener::class);
+		$context->registerEventListener(UserAddedToShareEvent::class, ResolveFileConflictListener::class);
 
 		// Publish activity for public download
 		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
