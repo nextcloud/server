@@ -41,11 +41,18 @@ class SupportedDatabaseTest extends TestCase {
 	}
 
 	public function testPass(): void {
+		$severities = [SetupResult::SUCCESS, SetupResult::INFO];
 		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
-			/** SQlite always gets a warning */
-			$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
-		} else {
-			$this->assertContains($this->check->run()->getSeverity(), [SetupResult::SUCCESS, SetupResult::INFO]);
+			$severities = [SetupResult::WARNING];
+		} elseif ($this->connection->getDatabaseProvider(true) === IDBConnection::PLATFORM_ORACLE) {
+			$result = $this->connection->executeQuery('SELECT VERSION FROM PRODUCT_COMPONENT_VERSION');
+			$version = $result->fetchOne();
+			$result->closeCursor();
+			if (str_starts_with($version, '11.')) {
+				$severities = [SetupResult::WARNING];
+			}
 		}
+
+		$this->assertContains($this->check->run()->getSeverity(), $severities, 'Oracle 11 and SQLite expect a warning, other databases should be success or info only');
 	}
 }
