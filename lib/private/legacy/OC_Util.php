@@ -833,9 +833,9 @@ class OC_Util {
 				[ 'installed' => $installedVersion, 'code' => $codeVersion, 'app' => 'core', ]
 			);
 			throw new \OCP\HintException(sprintf(
-				'Downgrading Nextcloud from %s to %s is not supported and may corrupt your instance (database and data directory). ' .
-				'Restore a full backup (code, database, and data directory) taken before the change, ' .
-				'or restore the previous codebase so that it matches the installed version (version %s).',					
+				'Downgrading Nextcloud from %s to %s is not supported and may corrupt your instance (database and data directory). '
+				. 'Restore a full backup (code, database, and data directory) taken before the change, '
+				. 'or restore the previous codebase so that it matches the installed version (version %s).',
 				$installedVersion, $codeVersion, $installedVersion
 			));
 		}
