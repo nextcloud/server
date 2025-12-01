@@ -57,7 +57,6 @@ class MountProvider implements IMountProvider {
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_CIRCLE, null, -1),
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_ROOM, null, -1),
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_DECK, null, -1),
-			$this->shareManager->getSharedWith($userId, IShare::TYPE_SCIENCEMESH, null, -1),
 		);
 
 		$shares = $this->filterShares($shares, $userId);

@@ -171,10 +171,7 @@ class Manager implements IManager {
 			if ($circle === null) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
 			}
-		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
-		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
-		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
-		} else {
+		} elseif ($share->getShareType() !== IShare::TYPE_ROOM && $share->getShareType() !== IShare::TYPE_DECK) {
 			// We cannot handle other types yet
 			throw new \InvalidArgumentException($this->l->t('Unknown share type'));
 		}
