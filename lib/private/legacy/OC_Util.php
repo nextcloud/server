@@ -733,12 +733,16 @@ class OC_Util {
 	}
 
 	/**
-	 * Checks whether the server is running on Mac OS X
+	 * Checks whether PHP is running directly on macOS. 
+	 *
+	 * Note: In a Linux container, this will be false even on a macOS host 
+	 * (PHP just sees "Linux").
 	 *
 	 * @return bool true if running on Mac OS X, false otherwise
+	 * @deprecated 33.0.0 Query PHP_OS_FAMILY directly.
 	 */
 	public static function runningOnMac() {
-		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
+		return (PHP_OS_FAMILY === 'Darwin');
 	}
 
 	/**
