@@ -91,7 +91,8 @@
 				</NcAppNavigationItem>
 			</template>
 
-			<NcAppNavigationItem id="app-developer-docs"
+			<NcAppNavigationItem  v-if="developerDocsUrl"
+				id="app-developer-docs"
 				:name="t('settings', 'Developer documentation ↗')"
 				:href="developerDocsUrl" />
 		</template>
