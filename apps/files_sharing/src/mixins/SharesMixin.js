@@ -173,9 +173,8 @@ export default {
 				if (this.passwordProtectedState !== undefined) {
 					return this.passwordProtectedState
 				}
-				return this.share.newPassword !== undefined
-					|| this.share.password !== undefined
-
+				return typeof this.share.newPassword === 'string'
+					|| typeof this.share.password === 'string'
 			},
 			async set(enabled) {
 				if (enabled) {
