@@ -70,7 +70,7 @@ class RefreshWebcalService {
 				}
 
 				// Some calendar providers (e.g. Google, MS) use very long UIDs
-				if (strlen($vBase->UID->getValue()) > 255) {
+				if (strlen($vBase->UID->getValue()) > 512) {
 					continue;
 				}
 
