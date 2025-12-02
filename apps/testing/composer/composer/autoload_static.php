@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitTesting
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Testing\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Testing\\' => 
+        'OCA\\Testing\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitProfile
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Profile\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Profile\\' => 
+        'OCA\\Profile\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

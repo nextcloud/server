@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitTheming
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Theming\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Theming\\' => 
+        'OCA\\Theming\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFilesReminders
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\FilesReminders\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\FilesReminders\\' => 
+        'OCA\\FilesReminders\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

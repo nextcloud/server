@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFiles
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Files\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Files\\' => 
+        'OCA\\Files\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
