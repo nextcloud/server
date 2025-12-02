@@ -12,6 +12,8 @@ use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application as FilesApplication;
 use OCA\Files\ConfigLexicon;
 use OCA\Files_External\AppInfo\Application;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -20,7 +22,6 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
@@ -36,13 +37,11 @@ abstract class StoragesService {
 	/**
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfig
-	 * @param IUserMountCache $userMountCache
 	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
 		protected BackendService $backendService,
 		protected DBConfigService $dbConfig,
-		protected IUserMountCache $userMountCache,
 		protected IEventDispatcher $eventDispatcher,
 		protected IAppConfig $appConfig,
 	) {
@@ -244,6 +243,7 @@ abstract class StoragesService {
 		// add new storage
 		$allStorages[$configId] = $newStorage;
 
+		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
 		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
@@ -424,15 +424,6 @@ abstract class StoragesService {
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
 
-		if (($wasGlobal && !$isGlobal) || count($removedGroups) > 0) { // to expensive to properly handle these on the fly
-			$this->userMountCache->remoteStorageMounts($this->getStorageId($updatedStorage));
-		} else {
-			$storageId = $this->getStorageId($updatedStorage);
-			foreach ($removedUsers as $userId) {
-				$this->userMountCache->removeUserStorageMount($storageId, $userId);
-			}
-		}
-
 		$this->updateOverwriteHomeFolders();
 
 		return $this->getStorage($id);
@@ -455,6 +446,7 @@ abstract class StoragesService {
 		$this->dbConfig->removeMount($id);
 
 		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
+		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache

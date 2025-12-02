@@ -239,9 +239,11 @@ interface IUserManager {
 	 * An iterator is returned allowing the caller to stop the iteration at any time.
 	 * The offset argument allows the caller to continue the iteration at a specific offset.
 	 *
+	 * @since 33.0.0 users are yielded with the user id as key
+	 *
 	 * @param int $offset from which offset to fetch
 	 * @param int|null $limit maximum number of records to fetch
-	 * @return \Iterator<IUser> list of IUser object
+	 * @return \Iterator<string, IUser> list of IUser object
 	 * @since 32.0.0
 	 */
 	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator;

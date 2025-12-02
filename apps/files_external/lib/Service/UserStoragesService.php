@@ -8,11 +8,12 @@
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
 use OCP\IAppConfig;
 use OCP\IUserSession;
 
@@ -30,12 +31,11 @@ class UserStoragesService extends StoragesService {
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IUserMountCache $userMountCache,
 		IEventDispatcher $eventDispatcher,
 		IAppConfig $appConfig,
 	) {
 		$this->userSession = $userSession;
-		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher, $appConfig);
+		parent::__construct($backendService, $dbConfig, $eventDispatcher, $appConfig);
 	}
 
 	protected function readDBConfig() {
@@ -72,6 +72,8 @@ class UserStoragesService extends StoragesService {
 	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
+			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
+			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
 			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 		}
