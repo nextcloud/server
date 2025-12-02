@@ -3,31 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 
-import Vue from 'vue'
+import { spawnDialog } from '@nextcloud/vue'
 import SetCustomReminderModal from '../components/SetCustomReminderModal.vue'
 
-const View = Vue.extend(SetCustomReminderModal)
-const mount = document.createElement('div')
-mount.id = 'set-custom-reminder-modal'
-document.body.appendChild(mount)
-
-// Create a new Vue instance and mount it to our modal container
-const CustomReminderModal = new View({
-	name: 'SetCustomReminderModal',
-	el: mount,
-})
-
 /**
- *
- * @param node
+ * @param node - The file or folder node to set the custom reminder for
  */
-export function pickCustomDate(node: Node): Promise<void> {
-	CustomReminderModal.open(node)
-
-	// Wait for the modal to close
-	return new Promise((resolve) => {
-		CustomReminderModal.$once('close', resolve)
+export async function pickCustomDate(node: INode): Promise<void> {
+	await spawnDialog(SetCustomReminderModal, {
+		node,
 	})
 }

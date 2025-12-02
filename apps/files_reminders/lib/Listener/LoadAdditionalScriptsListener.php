@@ -36,6 +36,7 @@ class LoadAdditionalScriptsListener implements IEventListener {
 			return;
 		}
 
+		Util::addStyle(Application::APP_ID, 'init');
 		Util::addInitScript(Application::APP_ID, 'init');
 	}
 }
