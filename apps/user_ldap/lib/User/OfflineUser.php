@@ -101,7 +101,7 @@ class OfflineUser {
 	 * getter for LDAP uid
 	 * @return string
 	 */
-	public function getUID() {
+	public function getUID(): string {
 		if ($this->uid === null) {
 			$this->fetchDetails();
 		}

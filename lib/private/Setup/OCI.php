@@ -14,7 +14,7 @@ class OCI extends AbstractDatabase {
 
 	protected $dbtablespace;
 
-	public function initialize($config) {
+	public function initialize(array $config): void {
 		parent::initialize($config);
 		if (array_key_exists('dbtablespace', $config)) {
 			$this->dbtablespace = $config['dbtablespace'];
@@ -30,7 +30,7 @@ class OCI extends AbstractDatabase {
 		]);
 	}
 
-	public function validate($config) {
+	public function validate(array $config): array {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
 			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
@@ -42,7 +42,7 @@ class OCI extends AbstractDatabase {
 		return $errors;
 	}
 
-	public function setupDatabase() {
+	public function setupDatabase(): void {
 		try {
 			$this->connect();
 		} catch (\Exception $e) {
@@ -72,9 +72,8 @@ class OCI extends AbstractDatabase {
 
 	/**
 	 * @param resource $connection
-	 * @return string
 	 */
-	protected function getLastError($connection = null) {
+	protected function getLastError($connection = null): string {
 		if ($connection) {
 			$error = oci_error($connection);
 		} else {

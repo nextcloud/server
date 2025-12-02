@@ -16,6 +16,8 @@ use OCP\Files\Node;
 use OCP\Server;
 
 class WatcherConnector {
+	private ?Watcher $watcher = null;
+
 	public function __construct(
 		private IRootFolder $root,
 		private SystemConfig $config,
@@ -24,7 +26,11 @@ class WatcherConnector {
 	}
 
 	private function getWatcher(): Watcher {
-		return Server::get(Watcher::class);
+		if ($this->watcher !== null) {
+			return $this->watcher;
+		}
+		$this->watcher = Server::get(Watcher::class);
+		return $this->watcher;
 	}
 
 	public function connectWatcher(): void {

@@ -22,17 +22,16 @@ use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use Psr\Log\LoggerInterface;
 
 /**
- * Manages the ownCloud navigation
+ * Manages the nextcloud navigation
  */
 
 class NavigationManager implements INavigationManager {
-	protected $entries = [];
-	protected $closureEntries = [];
+	protected array $entries = [];
+	protected array $closureEntries = [];
+	/** @var string $activeEntry */
 	protected $activeEntry;
-	protected $unreadCounters = [];
-
-	/** @var bool */
-	protected $init = false;
+	protected array $unreadCounters = [];
+	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
 	private array $customAppOrder;
 

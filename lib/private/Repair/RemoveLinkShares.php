@@ -51,9 +51,6 @@ class RemoveLinkShares implements IRepairStep {
 		return false;
 	}
 
-	/**
-	 * Delete the share
-	 */
 	private function deleteShare(int $id): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('share')

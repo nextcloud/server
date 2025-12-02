@@ -12,8 +12,7 @@ use OC\Diagnostics\QueryLogger;
 use Test\TestCase;
 
 class QueryLoggerTest extends TestCase {
-	/** @var QueryLogger */
-	private $logger;
+	private QueryLogger $logger;
 
 	protected function setUp(): void {
 		parent::setUp();

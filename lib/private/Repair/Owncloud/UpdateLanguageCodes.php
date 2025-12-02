@@ -11,6 +11,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Override;
 
 class UpdateLanguageCodes implements IRepairStep {
 	public function __construct(
@@ -19,10 +20,12 @@ class UpdateLanguageCodes implements IRepairStep {
 	) {
 	}
 
+	#[Override]
 	public function getName(): string {
 		return 'Repair language codes';
 	}
 
+	#[Override]
 	public function run(IOutput $output): void {
 		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 

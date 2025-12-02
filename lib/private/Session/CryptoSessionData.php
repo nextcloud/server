@@ -21,17 +21,10 @@ use function OCP\Log\logger;
  * @template-implements \ArrayAccess<string,mixed>
  */
 class CryptoSessionData implements \ArrayAccess, ISession {
-	/** @var array */
-	protected $sessionValues;
-	/** @var bool */
-	protected $isModified = false;
+	protected array $sessionValues = [];
+	protected bool $isModified = false;
 	public const encryptedSessionName = 'encrypted_session_data';
 
-	/**
-	 * @param ISession $session
-	 * @param ICrypto $crypto
-	 * @param string $passphrase
-	 */
 	public function __construct(
 		protected ISession $session,
 		protected ICrypto $crypto,

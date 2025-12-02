@@ -52,14 +52,8 @@ class Database extends ABackend implements
 
 	use TTransactional;
 
-	/**
-	 * \OC\User\Database constructor.
-	 *
-	 * @param IEventDispatcher $eventDispatcher
-	 * @param string $table
-	 */
 	public function __construct(
-		$eventDispatcher = null,
+		?IEventDispatcher $eventDispatcher = null,
 		private string $table = 'users',
 	) {
 		$this->cache = new CappedMemoryCache();

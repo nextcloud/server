@@ -256,12 +256,10 @@ class Setup {
 	/**
 	 * Check if the .htaccess file is working
 	 *
-	 * @param IConfig $config
-	 * @return bool
 	 * @throws Exception
 	 * @throws HintException If the test file can't get written.
 	 */
-	public function isHtaccessWorking(string $dataDir) {
+	public function isHtaccessWorking(string $dataDir): bool {
 		$config = Server::get(IConfig::class);
 
 		if (\OC::$CLI || !$config->getSystemValueBool('check_for_working_htaccess', true)) {
@@ -552,7 +550,6 @@ class Setup {
 	/**
 	 * Append the correct ErrorDocument path for Apache hosts
 	 *
-	 * @return bool True when success, False otherwise
 	 * @throws QueryException
 	 */
 	public static function updateHtaccess(): bool {

@@ -7,30 +7,33 @@
 namespace OC\Repair\Owncloud;
 
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Override;
 
 class CleanPreviews implements IRepairStep {
 	public function __construct(
 		private readonly IJobList $jobList,
 		private readonly IUserManager $userManager,
-		private readonly IConfig $config,
+		private readonly IAppConfig $appConfig,
 	) {
 	}
 
+	#[Override]
 	public function getName(): string {
 		return 'Add preview cleanup background jobs';
 	}
 
+	#[Override]
 	public function run(IOutput $output): void {
-		if (!$this->config->getAppValue('core', 'previewsCleanedUp', false)) {
+		if (!$this->appConfig->getValueBool('core', 'previewsCleanedUp')) {
 			$this->userManager->callForSeenUsers(function (IUser $user): void {
 				$this->jobList->add(CleanPreviewsBackgroundJob::class, ['uid' => $user->getUID()]);
 			});
-			$this->config->setAppValue('core', 'previewsCleanedUp', '1');
+			$this->appConfig->setValueBool('core', 'previewsCleanedUp', true);
 		}
 	}
 }

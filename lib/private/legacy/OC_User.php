@@ -142,11 +142,8 @@ class OC_User {
 	 * has already happened (e.g. via Single Sign On).
 	 *
 	 * Log in a user and regenerate a new session.
-	 *
-	 * @param IApacheBackend $backend
-	 * @return bool
 	 */
-	public static function loginWithApache(IApacheBackend $backend) {
+	public static function loginWithApache(IApacheBackend $backend): bool {
 		$uid = $backend->getCurrentUserId();
 		$run = true;
 		OC_Hook::emit('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
@@ -225,12 +222,12 @@ class OC_User {
 	/**
 	 * Verify with Apache whether user is authenticated.
 	 *
-	 * @return boolean|null
-	 *                      true: authenticated
-	 *                      false: not authenticated
-	 *                      null: not handled / no backend available
+	 * @return bool|null
+	 *                   true: authenticated
+	 *                   false: not authenticated
+	 *                   null: not handled / no backend available
 	 */
-	public static function handleApacheAuth() {
+	public static function handleApacheAuth(): ?bool {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
 			OC_App::loadApps();
@@ -250,10 +247,8 @@ class OC_User {
 
 	/**
 	 * Sets user id for session and triggers emit
-	 *
-	 * @param string $uid
 	 */
-	public static function setUserId($uid) {
+	public static function setUserId(?string $uid): void {
 		$userSession = Server::get(IUserSession::class);
 		$userManager = Server::get(IUserManager::class);
 		if ($user = $userManager->get($uid)) {
@@ -264,30 +259,23 @@ class OC_User {
 	}
 
 	/**
-	 * set incognito mode, e.g. if a user wants to open a public link
-	 *
-	 * @param bool $status
+	 * Set incognito mode, e.g. if a user wants to open a public link
 	 */
-	public static function setIncognitoMode($status) {
+	public static function setIncognitoMode(bool $status): void {
 		self::$incognitoMode = $status;
 	}
 
 	/**
-	 * get incognito mode status
-	 *
-	 * @return bool
+	 * Get incognito mode status
 	 */
-	public static function isIncognitoMode() {
+	public static function isIncognitoMode(): bool {
 		return self::$incognitoMode;
 	}
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
-	 *
-	 * @param IURLGenerator $urlGenerator
-	 * @return string
 	 */
-	public static function getLogoutUrl(IURLGenerator $urlGenerator) {
+	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
 			return $backend->getLogoutUrl();
@@ -311,9 +299,8 @@ class OC_User {
 	 * Check if the user is an admin user
 	 *
 	 * @param string $uid uid of the admin
-	 * @return bool
 	 */
-	public static function isAdminUser($uid) {
+	public static function isAdminUser(string $uid): bool {
 		$user = Server::get(IUserManager::class)->get($uid);
 		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
 		return $isAdmin && self::$incognitoMode === false;
@@ -325,7 +312,7 @@ class OC_User {
 	 *
 	 * @return string|false uid or false
 	 */
-	public static function getUser() {
+	public static function getUser(): string|false {
 		$uid = Server::get(ISession::class)?->get('user_id');
 		if (!is_null($uid) && self::$incognitoMode === false) {
 			return $uid;
@@ -340,11 +327,10 @@ class OC_User {
 	 * @param string $uid The username
 	 * @param string $password The new password
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
-	 * @return bool
 	 *
 	 * Change the password of a user
 	 */
-	public static function setPassword($uid, $password, $recoveryPassword = null) {
+	public static function setPassword(string $uid, string $password, ?string $recoveryPassword = null): bool {
 		$user = Server::get(IUserManager::class)->get($uid);
 		if ($user) {
 			return $user->setPassword($password, $recoveryPassword);
@@ -358,7 +344,7 @@ class OC_User {
 	 *
 	 * @return IApacheBackend|null if no backend active, otherwise OCP\Authentication\IApacheBackend
 	 */
-	private static function findFirstActiveUsedBackend() {
+	private static function findFirstActiveUsedBackend(): ?IApacheBackend {
 		foreach (Server::get(IUserManager::class)->getBackends() as $backend) {
 			if ($backend instanceof IApacheBackend) {
 				if ($backend->isSessionActive()) {

@@ -17,20 +17,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StorageTest extends TestCase {
-	/** @var Storage */
-	protected $storage;
-
-	/** @var MockObject|Util */
-	protected $util;
-
-	/** @var MockObject|View */
-	protected $view;
-
-	/** @var MockObject|IConfig */
-	protected $config;
-
-	/** @var MockObject|ICrypto */
-	protected $crypto;
+	protected Storage $storage;
+	protected Util&MockObject $util;
+	protected View&MockObject $view;
+	protected IConfig&MockObject $config;
+	protected ICrypto&MockObject $crypto;
 
 	private array $mkdirStack = [];
 

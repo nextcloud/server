@@ -17,11 +17,9 @@ use Psr\Log\LoggerInterface;
 
 class TempManager implements ITempManager {
 	/** @var string[] Current temporary files and folders, used for cleanup */
-	protected $current = [];
-	/** @var string i.e. /tmp on linux systems */
-	protected $tmpBaseDir;
-	/** @var IniGetWrapper */
-	protected $iniGetWrapper;
+	protected array $current = [];
+	/** @var ?string i.e. /tmp on linux systems */
+	protected ?string $tmpBaseDir = null;
 
 	/** Prefix */
 	public const TMP_PREFIX = 'oc_tmp_';
@@ -29,9 +27,8 @@ class TempManager implements ITempManager {
 	public function __construct(
 		protected LoggerInterface $log,
 		protected IConfig $config,
-		IniGetWrapper $iniGetWrapper,
+		protected IniGetWrapper $iniGetWrapper,
 	) {
-		$this->iniGetWrapper = $iniGetWrapper;
 		$this->tmpBaseDir = $this->getTempBaseDir();
 	}
 
@@ -149,7 +146,7 @@ class TempManager implements ITempManager {
 	 * @return string Path to the temporary directory or null
 	 * @throws \UnexpectedValueException
 	 */
-	public function getTempBaseDir() {
+	public function getTempBaseDir(): string {
 		if ($this->tmpBaseDir) {
 			return $this->tmpBaseDir;
 		}

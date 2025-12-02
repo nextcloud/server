@@ -20,7 +20,7 @@ class PostgreSQL extends AbstractDatabase {
 	/**
 	 * @throws DatabaseSetupException
 	 */
-	public function setupDatabase() {
+	public function setupDatabase(): void {
 		try {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
@@ -103,7 +103,7 @@ class PostgreSQL extends AbstractDatabase {
 		}
 	}
 
-	private function createDatabase(Connection $connection) {
+	private function createDatabase(Connection $connection): void {
 		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
 			$query = $connection->prepare('CREATE DATABASE ' . addslashes($this->dbName) . ' OWNER "' . addslashes($this->dbUser) . '"');
@@ -126,7 +126,7 @@ class PostgreSQL extends AbstractDatabase {
 		}
 	}
 
-	private function userExists(Connection $connection) {
+	private function userExists(Connection $connection): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('*')
@@ -136,7 +136,7 @@ class PostgreSQL extends AbstractDatabase {
 		return $result->rowCount() > 0;
 	}
 
-	private function databaseExists(Connection $connection) {
+	private function databaseExists(Connection $connection): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('datname')
@@ -146,7 +146,7 @@ class PostgreSQL extends AbstractDatabase {
 		return $result->rowCount() > 0;
 	}
 
-	private function createDBUser(Connection $connection) {
+	private function createDBUser(Connection $connection): void {
 		$dbUser = $this->dbUser;
 		try {
 			$i = 1;

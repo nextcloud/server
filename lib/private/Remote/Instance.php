@@ -10,24 +10,17 @@ use OC\Remote\Api\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\Remote\IInstance;
+use Override;
 
 /**
  * Provides some basic info about a remote Nextcloud instance
  */
 class Instance implements IInstance {
-	/** @var string */
-	private $url;
+	private string $url;
+	private ?array $status = null;
 
-	/** @var array|null */
-	private $status;
-
-	/**
-	 * @param string $url
-	 * @param ICache $cache
-	 * @param IClientService $clientService
-	 */
 	public function __construct(
-		$url,
+		string $url,
 		private ICache $cache,
 		private IClientService $clientService,
 	) {
@@ -35,52 +28,35 @@ class Instance implements IInstance {
 		$this->url = str_replace('http://', '', $url);
 	}
 
-	/**
-	 * @return string The url of the remote server without protocol
-	 */
-	public function getUrl() {
+	#[Override]
+	public function getUrl(): string {
 		return $this->url;
 	}
 
-	/**
-	 * @return string The of the remote server with protocol
-	 */
-	public function getFullUrl() {
+	#[Override]
+	public function getFullUrl(): string {
 		return $this->getProtocol() . '://' . $this->getUrl();
 	}
 
-	/**
-	 * @return string The full version string in '13.1.2.3' format
-	 */
-	public function getVersion() {
+	#[Override]
+	public function getVersion(): string {
 		$status = $this->getStatus();
 		return $status['version'];
 	}
 
-	/**
-	 * @return string 'http' or 'https'
-	 */
-	public function getProtocol() {
+	#[Override]
+	public function getProtocol(): string {
 		$status = $this->getStatus();
 		return $status['protocol'];
 	}
 
-	/**
-	 * Check that the remote server is installed and not in maintenance mode
-	 *
-	 * @return bool
-	 */
-	public function isActive() {
+	#[Override]
+	public function isActive(): bool {
 		$status = $this->getStatus();
 		return $status['installed'] && !$status['maintenance'];
 	}
 
-	/**
-	 * @return array
-	 * @throws NotFoundException
-	 * @throws \Exception
-	 */
-	private function getStatus() {
+	private function getStatus(): array {
 		if ($this->status) {
 			return $this->status;
 		}
@@ -113,11 +89,7 @@ class Instance implements IInstance {
 		return $status;
 	}
 
-	/**
-	 * @param string $url
-	 * @return bool|string
-	 */
-	private function downloadStatus($url) {
+	private function downloadStatus(string $url): false|string {
 		try {
 			$request = $this->clientService->newClient()->get($url);
 			$content = $request->getBody();
@@ -127,7 +99,7 @@ class Instance implements IInstance {
 			assert(is_string($content));
 
 			return $content;
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return false;
 		}
 	}

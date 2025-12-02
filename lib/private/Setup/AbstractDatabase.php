@@ -18,20 +18,13 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
-	/** @var string */
-	protected $dbUser;
-	/** @var string */
-	protected $dbPassword;
-	/** @var string */
-	protected $dbName;
-	/** @var string */
-	protected $dbHost;
-	/** @var string */
-	protected $dbPort;
-	/** @var string */
-	protected $tablePrefix;
-	/** @var bool */
-	protected $tryCreateDbUser;
+	protected string $dbUser;
+	protected string $dbPassword;
+	protected string $dbName;
+	protected string $dbHost;
+	protected string $dbPort;
+	protected string $tablePrefix;
+	protected bool $tryCreateDbUser;
 
 	public function __construct(
 		protected IL10N $trans,
@@ -41,7 +34,7 @@ abstract class AbstractDatabase {
 	) {
 	}
 
-	public function validate($config) {
+	public function validate(array $config): array {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
 			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
@@ -56,7 +49,7 @@ abstract class AbstractDatabase {
 		return $errors;
 	}
 
-	public function initialize($config) {
+	public function initialize(array $config): void {
 		$dbUser = $config['dbuser'];
 		$dbPass = $config['dbpass'];
 		$dbName = $config['dbname'];

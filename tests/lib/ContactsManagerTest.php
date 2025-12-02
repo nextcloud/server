@@ -12,8 +12,7 @@ use OCP\Constants;
 use OCP\IAddressBook;
 
 class ContactsManagerTest extends \Test\TestCase {
-	/** @var ContactsManager */
-	private $cm;
+	private ContactsManager $cm;
 
 	protected function setUp(): void {
 		parent::setUp();

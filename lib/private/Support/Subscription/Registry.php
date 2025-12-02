@@ -8,28 +8,25 @@ declare(strict_types=1);
  */
 namespace OC\Support\Subscription;
 
-use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Registry implements IRegistry {
-	/** @var ISubscription */
-	private $subscription = null;
-
-	/** @var string */
-	private $subscriptionService = null;
+	private ?ISubscription $subscription = null;
+	private ?string $subscriptionService = null;
 
 	public function __construct(
 		private IConfig $config,
-		private IServerContainer $container,
+		private ContainerInterface $container,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
@@ -39,8 +36,8 @@ class Registry implements IRegistry {
 	private function getSubscription(): ?ISubscription {
 		if ($this->subscription === null && $this->subscriptionService !== null) {
 			try {
-				$this->subscription = $this->container->query($this->subscriptionService);
-			} catch (QueryException $e) {
+				$this->subscription = $this->container->get($this->subscriptionService);
+			} catch (ContainerExceptionInterface) {
 				// Ignore this
 			}
 		}
@@ -52,7 +49,6 @@ class Registry implements IRegistry {
 	 * Register a subscription instance. In case it is called multiple times the
 	 * first one is used.
 	 *
-	 * @param ISubscription $subscription
 	 * @throws AlreadyRegisteredException
 	 *
 	 * @since 17.0.0

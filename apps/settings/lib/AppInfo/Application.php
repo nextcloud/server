@@ -11,7 +11,7 @@ namespace OCA\Settings\AppInfo;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
-use OC\Server;
+use OC\Settings\Manager;
 use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
@@ -84,25 +84,28 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IServerContainer;
+use OCP\IConfig;
+use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'settings';
 
-	/**
-	 * @param array $urlParams
-	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
@@ -139,32 +142,23 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->query(IProvider::class);
+		$context->registerService(IProvider::class, function (): IProvider {
+			return Server::get(IProvider::class);
 		});
-		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->getSettingsManager();
+		$context->registerService(IManager::class, function (): Manager {
+			return  Server::get(Manager::class);
 		});
 
-		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
-			/** @var Server $server */
-			$server = $appContainer->query(IServerContainer::class);
-			/** @var Defaults $defaults */
-			$defaults = $server->query(Defaults::class);
-
+		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $appContainer) {
 			return new NewUserMailHelper(
-				$defaults,
-				$server->getURLGenerator(),
-				$server->getL10NFactory(),
-				$server->getMailer(),
-				$server->getSecureRandom(),
+				Server::get(Defaults::class),
+				$appContainer->get(IURLGenerator::class),
+				$appContainer->get(IFactory::class),
+				$appContainer->get(IMailer::class),
+				$appContainer->get(ISecureRandom::class),
 				new TimeFactory(),
-				$server->getConfig(),
-				$server->getCrypto(),
+				$appContainer->get(IConfig::class),
+				$appContainer->get(ICrypto::class),
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
