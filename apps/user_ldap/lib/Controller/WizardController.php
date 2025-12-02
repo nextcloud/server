@@ -104,7 +104,7 @@ class WizardController extends OCSController {
 					throw new OCSException();
 
 				default:
-					throw new OCSException($this->l->t('Action does not exist'));
+					throw new OCSException('Action ' . $wizardAction . 'does not exist');
 					break;
 			}
 		} catch (OCSException $e) {
@@ -149,7 +149,7 @@ class WizardController extends OCSController {
 				$mapping = Server::get(GroupMapping::class);
 				$result = $mapping->clear();
 			} else {
-				throw new OCSException($this->l->t('Unsupported subject ' . $subject));
+				throw new OCSException('Unsupported subject ' . $subject);
 			}
 
 			if (!$result) {
