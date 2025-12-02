@@ -41,8 +41,8 @@ use function OCP\Log\logger;
  * upgrading and removing apps.
  */
 class OC_App {
-	private static $altLogin = [];
-	private static $alreadyRegistered = [];
+	private static array $altLogin = [];
+	private static array $alreadyRegistered = [];
 	public const supportedApp = 300;
 	public const officialApp = 200;
 
@@ -63,8 +63,6 @@ class OC_App {
 	/**
 	 * Check if an app is loaded
 	 *
-	 * @param string $app
-	 * @return bool
 	 * @deprecated 27.0.0 use IAppManager::isAppLoaded
 	 */
 	public static function isAppLoaded(string $app): bool {
@@ -75,7 +73,6 @@ class OC_App {
 	 * loads all apps
 	 *
 	 * @param string[] $types
-	 * @return bool
 	 *
 	 * This function walks through the Nextcloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/info.xml
@@ -96,7 +93,6 @@ class OC_App {
 	/**
 	 * load a single app
 	 *
-	 * @param string $app
 	 * @throws Exception
 	 * @deprecated 27.0.0 use IAppManager::loadApp
 	 */
@@ -106,11 +102,8 @@ class OC_App {
 
 	/**
 	 * @internal
-	 * @param string $app
-	 * @param string $path
-	 * @param bool $force
 	 */
-	public static function registerAutoloading(string $app, string $path, bool $force = false) {
+	public static function registerAutoloading(string $app, string $path, bool $force = false): void {
 		$key = $app . '-' . $path;
 		if (!$force && isset(self::$alreadyRegistered[$key])) {
 			return;
@@ -135,11 +128,8 @@ class OC_App {
 	}
 
 	/**
-	 * check if an app is of a specific type
+	 * Check if an app is of a specific type
 	 *
-	 * @param string $app
-	 * @param array $types
-	 * @return bool
 	 * @deprecated 27.0.0 use IAppManager::isType
 	 */
 	public static function isType(string $app, array $types): bool {
@@ -149,7 +139,7 @@ class OC_App {
 	/**
 	 * read app types from info.xml and cache them in the database
 	 */
-	public static function setAppTypes(string $app) {
+	public static function setAppTypes(string $app): void {
 		$appManager = Server::get(IAppManager::class);
 		$appData = $appManager->getAppInfo($app);
 		if (!is_array($appData)) {
@@ -211,16 +201,13 @@ class OC_App {
 	/**
 	 * enables an app
 	 *
-	 * @param string $appId
 	 * @param array $groups (optional) when set, only these groups will have access to the app
 	 * @throws \Exception
-	 * @return void
 	 * @deprecated 32.0.0 Use the installer and the app manager instead
 	 *
 	 * This function set an app as enabled in appconfig.
 	 */
-	public function enable(string $appId,
-		array $groups = []) {
+	public function enable(string $appId, array $groups = []): void {
 		// Check if app is already downloaded
 		/** @var Installer $installer */
 		$installer = Server::get(Installer::class);
@@ -274,8 +261,6 @@ class OC_App {
 
 	/**
 	 * get the id of loaded app
-	 *
-	 * @return string
 	 */
 	public static function getCurrentApp(): string {
 		if (\OC::$CLI) {
@@ -306,10 +291,9 @@ class OC_App {
 	}
 
 	/**
-	 * @param array $entry
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
-	public static function registerLogIn(array $entry) {
+	public static function registerLogIn(array $entry): void {
 		Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
 		self::$altLogin[] = $entry;
 	}
@@ -387,8 +371,6 @@ class OC_App {
 
 	/**
 	 * List all apps, this is used in apps.php
-	 *
-	 * @return array
 	 */
 	public function listAllApps(): array {
 		$appManager = Server::get(IAppManager::class);
@@ -559,7 +541,7 @@ class OC_App {
 	/**
 	 * @deprecated 32.0.0 Use the IJobList directly instead
 	 */
-	public static function setupBackgroundJobs(array $jobs) {
+	public static function setupBackgroundJobs(array $jobs): void {
 		$queue = Server::get(IJobList::class);
 		foreach ($jobs as $job) {
 			$queue->add($job);
@@ -567,12 +549,9 @@ class OC_App {
 	}
 
 	/**
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 * @param array $info
 	 * @throws \Exception
 	 */
-	public static function checkAppDependencies(IConfig $config, IL10N $l, array $info, bool $ignoreMax) {
+	public static function checkAppDependencies(IConfig $config, IL10N $l, array $info, bool $ignoreMax): void {
 		$dependencyAnalyzer = Server::get(DependencyAnalyzer::class);
 		$missing = $dependencyAnalyzer->analyze($info, $ignoreMax);
 		if (!empty($missing)) {

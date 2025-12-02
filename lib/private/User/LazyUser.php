@@ -41,7 +41,7 @@ class LazyUser implements IUser {
 		return $this->user;
 	}
 
-	public function getUID() {
+	public function getUID(): string {
 		return $this->uid;
 	}
 

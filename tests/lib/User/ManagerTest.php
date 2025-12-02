@@ -21,17 +21,12 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * Class ManagerTest
- *
- *
- * @package Test\User
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group('DB')]
 class ManagerTest extends TestCase {
 	private IConfig&MockObject $config;
 	private IEventDispatcher&MockObject $eventDispatcher;
@@ -151,7 +146,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('checkPassword')
 			->with($this->equalTo('foo'), $this->equalTo('bar'))
-			->willReturn(true);
+			->willReturn('foo');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -345,7 +340,8 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->once())
 			->method('createUser')
-			->with($this->equalTo('foo'), $this->equalTo('bar'));
+			->with($this->equalTo('foo'), $this->equalTo('bar'))
+			->willReturn(true);
 
 		$backend->expects($this->once())
 			->method('userExists')

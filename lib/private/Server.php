@@ -290,12 +290,8 @@ use Psr\Log\LoggerInterface;
  * TODO: hookup all manager classes
  */
 class Server extends ServerContainer implements IServerContainer {
-	/**
-	 * @param string $webRoot
-	 * @param Config $config
-	 */
 	public function __construct(
-		private $webRoot,
+		private string $webRoot,
 		Config $config,
 	) {
 		parent::__construct();
@@ -1047,7 +1043,10 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isEnabledForAnyone('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists
+				&& $c->get(IConfig::class)->getSystemValueBool('installed', false)
+				&& $c->get(IAppManager::class)->isEnabledForAnyone('theming')
+				&& $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->get(IAppDataFactory::class)->get('theming'),
@@ -1394,7 +1393,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return Folder|null
 	 * @deprecated 20.0.0
 	 */
-	public function getUserFolder($userId = null) {
+	public function getUserFolder($userId = null): ?Folder {
 		if ($userId === null) {
 			$user = $this->get(IUserSession::class)->getUser();
 			if (!$user) {
@@ -1428,44 +1427,36 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return ISession
 	 * @deprecated 20.0.0
 	 */
-	public function getSession() {
+	public function getSession(): ISession {
 		return $this->get(Session::class)->getSession();
 	}
 
-	/**
-	 * @param ISession $session
-	 * @return void
-	 */
-	public function setSession(ISession $session) {
+	public function setSession(ISession $session): void {
 		$this->get(SessionStorage::class)->setSession($session);
 		$this->get(Session::class)->setSession($session);
 		$this->get(Store::class)->setSession($session);
 	}
 
 	/**
-	 * @return IConfig
 	 * @deprecated 20.0.0
 	 */
-	public function getConfig() {
+	public function getConfig(): IConfig {
 		return $this->get(AllConfig::class);
 	}
 
 	/**
-	 * @return SystemConfig
 	 * @deprecated 20.0.0
 	 */
-	public function getSystemConfig() {
+	public function getSystemConfig(): SystemConfig {
 		return $this->get(SystemConfig::class);
 	}
 
 	/**
-	 * @return IFactory
 	 * @deprecated 20.0.0
 	 */
-	public function getL10NFactory() {
+	public function getL10NFactory(): IFactory {
 		return $this->get(IFactory::class);
 	}
 

@@ -12,7 +12,7 @@ use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
-use OC\Share\Helper;
+use OC\Share\Constants as ShareConstants;
 use OC\Share20\Exception\ProviderException;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Files_Sharing\AppInfo\Application;
@@ -1884,10 +1884,18 @@ class Manager implements IManager {
 		}
 	}
 
+	private function getTokenLength(): int {
+		$tokenLength = $this->appConfig->getValueInt('core', 'shareapi_token_length', ShareConstants::DEFAULT_TOKEN_LENGTH);
+		$tokenLength = $tokenLength ?: ShareConstants::DEFAULT_TOKEN_LENGTH;
+
+		// Token length should be within the defined min and max limits
+		return max(ShareConstants::MIN_TOKEN_LENGTH, min($tokenLength, ShareConstants::MAX_TOKEN_LENGTH));
+	}
+
 	#[Override]
 	public function generateToken(): string {
 		// Initial token length
-		$tokenLength = Helper::getTokenLength();
+		$tokenLength = $this->getTokenLength();
 
 		do {
 			$tokenExists = false;
@@ -1915,7 +1923,7 @@ class Manager implements IManager {
 				$tokenLength++;
 
 				// Check if the token length exceeds the maximum allowed length
-				if ($tokenLength > \OC\Share\Constants::MAX_TOKEN_LENGTH) {
+				if ($tokenLength > ShareConstants::MAX_TOKEN_LENGTH) {
 					throw new ShareTokenException('Unable to generate a unique share token. Maximum token length exceeded.');
 				}
 			}

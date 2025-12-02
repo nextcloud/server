@@ -10,13 +10,13 @@ namespace OC\Setup;
 use OC\DB\ConnectionFactory;
 
 class Sqlite extends AbstractDatabase {
-	public $dbprettyname = 'Sqlite';
+	public string $dbprettyname = 'Sqlite';
 
-	public function validate($config) {
+	public function validate(array $config): array {
 		return [];
 	}
 
-	public function initialize($config) {
+	public function initialize(array $config): void {
 		/*
 		 * Web: When using web based installer its not possible to set dbname
 		 * or dbtableprefix. Defaults used from ConnectionFactory and dbtype = 'sqlite'
@@ -45,7 +45,7 @@ class Sqlite extends AbstractDatabase {
 		}
 	}
 
-	public function setupDatabase() {
+	public function setupDatabase(): void {
 		$datadir = $this->config->getValue(
 			'datadirectory',
 			\OC::$SERVERROOT . '/data'

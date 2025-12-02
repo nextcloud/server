@@ -375,7 +375,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @throws \InvalidArgumentException
 	 * @throws HintException
 	 */
-	public function createUser($uid, $password) {
+	public function createUser($uid, $password): IUser|false {
 		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
 		/** @var IAssertion $assertion */
 		$assertion = Server::get(IAssertion::class);
@@ -406,11 +406,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
-	 * @param UserInterface $backend
-	 * @return IUser|false
 	 * @throws \InvalidArgumentException
 	 */
-	public function createUserFromBackend($uid, $password, UserInterface $backend) {
+	public function createUserFromBackend($uid, $password, UserInterface $backend): IUser|false {
 		$l = Util::getL10N('lib');
 
 		$this->validateUserId($uid, true);

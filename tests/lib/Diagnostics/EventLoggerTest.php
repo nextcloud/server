@@ -15,8 +15,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EventLoggerTest extends TestCase {
-	/** @var EventLogger */
-	private $logger;
+	private EventLogger $logger;
 
 	protected function setUp(): void {
 		parent::setUp();

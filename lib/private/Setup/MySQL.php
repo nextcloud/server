@@ -16,9 +16,9 @@ use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
-	public $dbprettyname = 'MySQL/MariaDB';
+	public string $dbprettyname = 'MySQL/MariaDB';
 
-	public function setupDatabase() {
+	public function setupDatabase(): void {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
 
@@ -58,10 +58,7 @@ class MySQL extends AbstractDatabase {
 		}
 	}
 
-	/**
-	 * @param \OC\DB\Connection $connection
-	 */
-	private function createDatabase($connection): void {
+	private function createDatabase(\OC\DB\Connection $connection): void {
 		try {
 			$name = $this->dbName;
 			$user = $this->dbUser;
@@ -90,10 +87,9 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @param IDBConnection $connection
 	 * @throws DatabaseSetupException
 	 */
-	private function createDBUser($connection): void {
+	private function createDBUser(IDBConnection $connection): void {
 		$name = $this->dbUser;
 		$password = $this->dbPassword;
 
@@ -127,11 +123,7 @@ class MySQL extends AbstractDatabase {
 		}
 	}
 
-	/**
-	 * @param string $username
-	 * @param IDBConnection $connection
-	 */
-	private function createSpecificUser($username, $connection): void {
+	private function createSpecificUser(string $username, IDBConnection $connection): void {
 		$rootUser = $this->dbUser;
 		$rootPassword = $this->dbPassword;
 

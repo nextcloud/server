@@ -2175,31 +2175,6 @@
       <code><![CDATA[Response]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/settings/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[$serverContainer]]></code>
-      <code><![CDATA[$serverContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getCrypto]]></code>
-      <code><![CDATA[getL10NFactory]]></code>
-      <code><![CDATA[getMailer]]></code>
-      <code><![CDATA[getSecureRandom]]></code>
-      <code><![CDATA[getURLGenerator]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-    </DeprecatedMethod>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getSettingsManager]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/settings/lib/BackgroundJobs/VerifyUserData.php">
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
@@ -3867,16 +3842,6 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[array]]></code>
     </ImplementedReturnTypeMismatch>
-  </file>
-  <file src="lib/private/Remote/Instance.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$response]]></code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="lib/private/Repair/Owncloud/CleanPreviews.php">
-    <InvalidArgument>
-      <code><![CDATA[false]]></code>
-    </InvalidArgument>
   </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>

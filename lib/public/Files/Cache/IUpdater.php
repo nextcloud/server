@@ -40,7 +40,6 @@ interface IUpdater {
 	/**
 	 * Remove $path from the cache and update the size, etag and mtime of the parent folders
 	 *
-	 * @param string $path
 	 * @since 9.0.0
 	 */
 	public function remove(string $path): void;
@@ -48,9 +47,6 @@ interface IUpdater {
 	/**
 	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
 	 *
-	 * @param IStorage $sourceStorage
-	 * @param string $source
-	 * @param string $target
 	 * @since 9.0.0
 	 */
 	public function renameFromStorage(IStorage $sourceStorage, string $source, string $target): void;

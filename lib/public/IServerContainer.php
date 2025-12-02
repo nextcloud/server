@@ -45,7 +45,7 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getRequest();
 
 	/**
-	 * Returns the root folder of ownCloud's data directory
+	 * Returns the root folder of Nextcloud's data directory
 	 *
 	 * @return \OCP\Files\IRootFolder
 	 * @since 6.0.0 - between 6.0.0 and 8.0.0 this returned \OCP\Files\Folder

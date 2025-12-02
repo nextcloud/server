@@ -21,12 +21,8 @@ use OCP\IUserSession;
 use OCP\Server;
 use RuntimeException;
 
-/**
- * Class to generate URLs
- */
 class URLGenerator implements IURLGenerator {
-	/** @var null|string */
-	private $baseUrl = null;
+	private ?string $baseUrl = null;
 	private ?IAppManager $appManager = null;
 	private ?INavigationManager $navigationManager = null;
 
