@@ -100,10 +100,6 @@
 				</NcAppNavigationItem>
 			</template>
 
-			<NcAppNavigationItem
-				id="app-developer-docs"
-				:name="t('settings', 'Developer documentation ↗')"
-				:href="developerDocsUrl" />
 		</template>
 	</NcAppNavigation>
 </template>
@@ -123,7 +119,6 @@ import APPSTORE_CATEGORY_ICONS from '../constants/AppstoreCategoryIcons.ts'
 import { useAppsStore } from '../store/apps-store.ts'
 
 const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
-const developerDocsUrl = loadState<string>('settings', 'appstoreDeveloperDocs', '')
 
 const store = useAppsStore()
 const categories = computed(() => store.categories)
