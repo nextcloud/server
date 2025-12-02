@@ -359,6 +359,7 @@ $debugCommands = [
  * Will abort registering if any app/service fails to load.
  * 
  */
+/** @var \Symfony\Component\Console\Application $application */
 $addCommands = function (array $classes) use ($application) {
 	foreach ($classes as $class) {
 		// CompletionCommand is instantiated directly (not resolved from container).
