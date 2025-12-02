@@ -24,6 +24,7 @@ class FilesDropPluginTest extends TestCase {
 	private FilesDropPlugin $plugin;
 
 	private Folder&MockObject $node;
+	private IAttributes&MockObject $attributes;
 	private IShare&MockObject $share;
 	private Server&MockObject $server;
 	private RequestInterface&MockObject $request;
@@ -46,21 +47,14 @@ class FilesDropPluginTest extends TestCase {
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->response = $this->createMock(ResponseInterface::class);
 
-		$attributes = $this->createMock(IAttributes::class);
+		$this->attributes = $this->createMock(IAttributes::class);
 		$this->share->expects($this->any())
 			->method('getAttributes')
-			->willReturn($attributes);
+			->willReturn($this->attributes);
 
 		$this->share
 			->method('getToken')
 			->willReturn('token');
-	}
-
-	public function testNotEnabled(): void {
-		$this->request->expects($this->never())
-			->method($this->anything());
-
-		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
 	public function testValid(): void {
@@ -112,24 +106,46 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testNoMKCOLWithoutNickname(): void {
+	public function testFileDropMKCOLWithoutNickname(): void {
 		$this->plugin->enable();
 		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('MKCOL');
+
+		$this->expectNotToPerformAssertions();
+
+		$this->plugin->beforeMethod($this->request, $this->response);
+	}
+
+	public function testFileRequestNoMKCOLWithoutNickname(): void {
+		$this->plugin->enable();
+		$this->plugin->setShare($this->share);
+
+		$this->request->method('getMethod')
+			->willReturn('MKCOL');
+
+		$this->attributes
+			->method('getAttribute')
+			->with('fileRequest', 'enabled')
+			->willReturn(true);
 
 		$this->expectException(BadRequest::class);
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testMKCOLWithNickname(): void {
+	public function testFileRequestMKCOLWithNickname(): void {
 		$this->plugin->enable();
 		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('MKCOL');
+
+		$this->attributes
+			->method('getAttribute')
+			->with('fileRequest', 'enabled')
+			->willReturn(true);
 
 		$this->request->method('hasHeader')
 			->with('X-NC-Nickname')
@@ -137,8 +153,6 @@ class FilesDropPluginTest extends TestCase {
 		$this->request->method('getHeader')
 			->with('X-NC-Nickname')
 			->willReturn('nickname');
-
-		$this->expectNotToPerformAssertions();
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
