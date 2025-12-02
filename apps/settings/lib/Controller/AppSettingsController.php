@@ -92,7 +92,6 @@ class AppSettingsController extends Controller {
 
 		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
-		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
 
 		if ($this->appManager->isEnabledForAnyone('app_api')) {
