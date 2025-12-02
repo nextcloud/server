@@ -447,6 +447,7 @@ class OC_Util {
 			} else {
 				// re-evaluate readability/writability after creation for later checks
 				$dataDirWritable = is_readable($dataDir) && is_writable($dataDir);
+			}
 		// Utilize a secondary writability check to catch false positives
 		} elseif (!$dataDirWritable) {
 			// is_writable doesn't work on NFS; try to write an actual file.
