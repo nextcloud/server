@@ -1883,12 +1883,16 @@ class View {
 		}, $providers));
 
 		foreach ($shares as $share) {
-			$sharedPath = $share->getNode()->getPath();
-			if ($targetPath === $sharedPath || str_starts_with($targetPath, $sharedPath . '/')) {
-				$this->logger->debug(
-					'It is not allowed to move one mount point into a shared folder',
-					['app' => 'files']);
-				return false;
+			try {
+				$sharedPath = $share->getNode()->getPath();
+				if ($targetPath === $sharedPath || str_starts_with($targetPath, $sharedPath . '/')) {
+					$this->logger->debug(
+						'It is not allowed to move one mount point into a shared folder',
+						['app' => 'files']);
+					return false;
+				}
+			} catch (NotFoundException $e) {
+				// ignore
 			}
 		}
 
