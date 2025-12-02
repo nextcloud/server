@@ -296,10 +296,30 @@ interface IManager {
 	public function shareApiEnabled();
 
 	/**
+	 * Check if public link sharing is enabled globally
+	 *
+	 * @return bool
+	 * @since 33.0.0
+	 */
+	public function isLinkSharingEnabled(): bool;
+
+	/**
+	 * Check if a specific user can create public link shares
+	 *
+	 * This considers both global settings and user-specific group restrictions
+	 *
+	 * @param string|null $userId The user ID to check, or null for current user
+	 * @return bool
+	 * @since 33.0.0
+	 */
+	public function canUserCreateLinkShares(?string $userId = null): bool;
+
+	/**
 	 * Is public link sharing enabled
 	 *
 	 * @return bool
 	 * @since 9.0.0
+	 * @deprecated 33.0.0 Use isLinkSharingEnabled() or canUserCreateLinkShares() instead
 	 */
 	public function shareApiAllowLinks();
 

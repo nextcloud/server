@@ -559,7 +559,7 @@ class Manager implements IManager {
 	 */
 	protected function linkCreateChecks(IShare $share) {
 		// Are link shares allowed?
-		if (!$this->shareApiAllowLinks()) {
+		if (!$this->canUserCreateLinkShares()) {
 			throw new \Exception($this->l->t('Link sharing is not allowed'));
 		}
 
@@ -1413,7 +1413,7 @@ class Manager implements IManager {
 		}
 		$share = null;
 		try {
-			if ($this->shareApiAllowLinks()) {
+			if ($this->isLinkSharingEnabled()) {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
@@ -1740,25 +1740,55 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Is public link sharing enabled
+	 * Check if public link sharing is enabled globally
 	 *
 	 * @return bool
+	 * @since 33.0.0
 	 */
-	public function shareApiAllowLinks() {
-		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+	public function isLinkSharingEnabled(): bool {
+		return $this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes';
+	}
+
+	/**
+	 * Check if a specific user can create public link shares
+	 *
+	 * This considers both global settings and user-specific group restrictions
+	 *
+	 * @param string|null $userId The user ID to check, or null for current user
+	 * @return bool
+	 * @since 33.0.0
+	 */
+	public function canUserCreateLinkShares(?string $userId = null): bool {
+		if (!$this->isLinkSharingEnabled()) {
 			return false;
 		}
 
-		$user = $this->userSession->getUser();
-		if ($user) {
-			$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
-			if ($excludedGroups) {
-				$userGroups = $this->groupManager->getUserGroupIds($user);
-				return !(bool)array_intersect($excludedGroups, $userGroups);
-			}
+		$user = $userId ? $this->userManager->get($userId) : $this->userSession->getUser();
+		if (!$user) {
+			return true;
+		}
+
+		$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
+		if ($excludedGroups) {
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+			return !(bool)array_intersect($excludedGroups, $userGroups);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Is public link sharing enabled
+	 *
+	 * @param bool $checkGroupExclusion Whether to check the current user's group exclusions
+	 * @return bool
+	 * @deprecated 33.0.0 Use isLinkSharingEnabled() or canUserCreateLinkShares() instead
+	 */
+	public function shareApiAllowLinks(bool $checkGroupExclusion = true) {
+		if ($checkGroupExclusion) {
+			return $this->canUserCreateLinkShares();
+		}
+		return $this->isLinkSharingEnabled();
 	}
 
 	/**
