@@ -7,11 +7,17 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Db;
 
+use BadMethodCallException;
 use Generator;
+use OCP\AppFramework\Db\Attribute\Table;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IDBConnection;
+use OCP\Server;
+use OCP\Snowflake\IGenerator;
+use ReflectionObject;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 /**
  * Simple parent class for inheriting your data access layer from. This class
@@ -22,14 +28,8 @@ use OCP\IDBConnection;
  * @template T of Entity
  */
 abstract class QBMapper {
-	/** @var string */
-	protected $tableName;
-
 	/** @var string|class-string<T> */
-	protected $entityClass;
-
-	/** @var IDBConnection */
-	protected $db;
+	protected string $entityClass;
 
 	/**
 	 * @param IDBConnection $db Instance of the Db abstraction layer
@@ -38,10 +38,11 @@ abstract class QBMapper {
 	 *                                          mapped to queries without using sql
 	 * @since 14.0.0
 	 */
-	public function __construct(IDBConnection $db, string $tableName, ?string $entityClass = null) {
-		$this->db = $db;
-		$this->tableName = $tableName;
-
+	public function __construct(
+		protected IDBConnection $db,
+		protected string $tableName,
+		?string $entityClass = null,
+	) {
 		// if not given set the entity name to the class without the mapper part
 		// cache it here for later use since reflection is slow
 		if ($entityClass === null) {
@@ -51,7 +52,6 @@ abstract class QBMapper {
 		}
 	}
 
-
 	/**
 	 * @return string the table name
 	 * @since 14.0.0
@@ -59,7 +59,6 @@ abstract class QBMapper {
 	public function getTableName(): string {
 		return $this->tableName;
 	}
-
 
 	/**
 	 * Deletes an entity from the table
@@ -98,6 +97,18 @@ abstract class QBMapper {
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
 		$properties = $entity->getUpdatedFields();
+
+		if ($entity->id === null) {
+			$reflection = new ReflectionObject($entity);
+			$tables = $reflection->getAttributes(Table::class);
+			if (count($tables) > 0) {
+				/** @var Table $table */
+				$table = $tables[0];
+				if ($table->useSnowflakeId) {
+					$entity->id = Server::get(IGenerator::class);
+				}
+			}
+		}
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert($this->tableName);
@@ -359,8 +370,8 @@ abstract class QBMapper {
 
 
 	/**
-	 * Returns an db result and throws exceptions when there are more or less
-	 * results
+	 * Returns a db result and throws exceptions when there are more or less
+	 * results.
 	 *
 	 * @param IQueryBuilder $query
 	 * @return Entity the entity
@@ -372,5 +383,71 @@ abstract class QBMapper {
 	 */
 	protected function findEntity(IQueryBuilder $query): Entity {
 		return $this->mapRowToEntity($this->findOneQuery($query));
+	}
+
+	/**
+	 * Finds all entities in the repository.
+	 *
+	 * @return \Generator<T>
+	 * @since 33.0.0
+	 */
+	public function findAll(): \Generator {
+		return $this->findBy([]);
+	}
+
+	/**
+	 * Finds entities by a set of criteria.
+	 *
+	 * @param array<string, int|float|string> $criteria
+	 * @param array<string, 'asc'|'desc'>|null $orderBy
+	 * @return \Generator<T>
+	 * @since 33.0.0
+	 */
+	public function findBy(array $criteria, array|null $orderBy = null, int|null $limit = null, int|null $offset = null): \Generator {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*');
+		foreach ($criteria as $field => $value) {
+			$qb->andWhere($qb->expr()->eq($field, $qb->createNamedParameter($field)));
+		}
+		foreach ($orderBy as $field => $direction) {
+			$qb->addOrderBy($qb->createNamedParameter($field), $direction);
+		}
+
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
+		}
+
+		if ($offset !== null) {
+			$qb->setFirstResult($offset);
+		}
+
+		return $this->yieldEntities($qb);
+	}
+
+	/**
+	 * Finds a single entity by a set of criteria.
+	 *
+	 * @param array<string, int|float|string> $criteria
+	 * @param array<string, 'asc'|'desc'>|null $orderBy
+	 * @return T|null
+	 * @since 33.0.0
+	 */
+	public function findOneBy(array $criteria, array|null $orderBy = null): Entity|null {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*');
+		foreach ($criteria as $field => $value) {
+			$qb->andWhere($qb->expr()->eq($field, $qb->createNamedParameter($field)));
+		}
+		foreach ($orderBy as $field => $direction) {
+			$qb->addOrderBy($qb->createNamedParameter($field), $direction);
+		}
+
+		$qb->setMaxResults(1);
+
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException) {
+			return null;
+		}
 	}
 }
