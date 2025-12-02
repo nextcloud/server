@@ -809,7 +809,7 @@ class ViewTest extends \Test\TestCase {
 		 */
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
 		$tmpdirLength = strlen(Server::get(ITempManager::class)->getTemporaryFolder());
-		if (\OC_Util::runningOnMac()) {
+		if (PHP_OS_FAMILY === 'Darwin') { // macOS
 			$depth = ((1024 - $tmpdirLength) / 57);
 		} else {
 			$depth = ((4000 - $tmpdirLength) / 57);
