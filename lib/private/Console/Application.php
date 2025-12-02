@@ -60,15 +60,15 @@ class Application {
 		// Variables utilized by downstream `require_once */register_command.php` files (i.e. core)
 		$application = $this->application;
 		// State flags used to determine which commands to load, checks to do, and warnings/errors to show.
-		$installed = $this->config->getSystemValueBool('installed', false);
-		$maintenance = $installed && $this->config->getSystemValueBool('maintenance', false);
-		$needUpgrade = $installed && \OCP\Util::needUpgrade();
+		$installed = (bool) $this->config->getSystemValueBool('installed', false);
+		$maintenance = (bool) ($installed && $this->config->getSystemValueBool('maintenance', false));
+		$needUpgrade = (bool) ($installed && \OCP\Util::needUpgrade());
 		/**
 		 * @var bool $debug Used by core/register_command.php (required file reads this local)
 		 * @psalm-suppress UnusedVariable
 		 * @noinspection PhpUnusedLocalVariableInspection
 		 */ 
-		$debug = $this->config->getSystemValueBool('debug', false);
+		$debug = (bool) $this->config->getSystemValueBool('debug', false);
 
 		// Add and handle `--no-warnings` by default regardless of command
 		$inputDefinition = $application->getDefinition();
@@ -98,7 +98,8 @@ class Application {
 			$this->writeNotInstalledInfo($input, $output);
 		} elseif ($maintenance) {
 			$this->writeMaintenanceModeInfo($input, $output);
-		} elseif ($installed) {
+		} else {
+			// Normal installed path
 			$this->loadAppCommands($input, $output);
 		}
 	}
