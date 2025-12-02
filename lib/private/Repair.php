@@ -19,11 +19,7 @@ use OC\Repair\CleanUpAbandonedApps;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
-<<<<<<< HEAD
 use OC\Repair\ConfigKeyMigration;
-use OC\Repair\DeduplicateMounts;
-=======
->>>>>>> 40ad8fd0dfc (fixup! feat: Add repair step for deduplicating mounts)
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
