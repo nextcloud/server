@@ -1876,8 +1876,11 @@ class View {
 		foreach ($shares as $share) {
 			try {
 				$sharedPath = $share->getNode()->getPath();
-			} catch (NotFoundException) {
+			} catch (NotFoundException $e) {
 				// node is not found, ignoring
+				$this->logger->debug(
+					'Could not find the node linked to a share',
+					['app' => 'files', 'exception' => $e]);
 				continue;
 			}
 			if ($targetPath === $sharedPath || str_starts_with($targetPath, $sharedPath . '/')) {
