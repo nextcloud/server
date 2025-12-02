@@ -137,10 +137,14 @@ trait S3ConnectionTrait {
 
 		if (isset($this->params['request_checksum_calculation'])) {
 			$options['request_checksum_calculation'] = $this->params['request_checksum_calculation'];
+		} else {
+			$options['request_checksum_calculation'] = 'when_required';
 		}
 
 		if (isset($this->params['response_checksum_validation'])) {
 			$options['response_checksum_validation'] = $this->params['response_checksum_validation'];
+		} else {
+			$options['response_checksum_validation'] = 'when_required';
 		}
 
 		if ($this->getProxy()) {
