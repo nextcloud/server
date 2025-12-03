@@ -15,21 +15,17 @@ use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Snowflake\IGenerator;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
-/**
- * Class CleanupRemoteStoragesTest
- *
- *
- * @package OCA\Files_Sharing\Tests\Command
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group('DB')]
 class CleanupRemoteStoragesTest extends TestCase {
 
 	protected IDBConnection $connection;
+	protected ExternalShareMapper $mapper;
 	protected CleanupRemoteStorages $command;
 	private ICloudIdManager&MockObject $cloudIdManager;
 
@@ -47,6 +43,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 		parent::setUp();
 
 		$this->connection = Server::get(IDBConnection::class);
+		$this->mapper = Server::get(ExternalShareMapper::class);
 
 		$storageQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$storageQuery->insert('storages')
@@ -74,7 +71,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 				$externalShare->setOwner('irrelevant');
 				$externalShare->setUser($storage['user']);
 				$externalShare->setMountpoint('irrelevant');
-				Server::get(ExternalShareMapper::class)->insert($externalShare);
+				$this->mapper->insert($externalShare);
 			}
 
 			if (isset($storage['files_count'])) {

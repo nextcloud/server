@@ -17,8 +17,6 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
@@ -114,7 +112,7 @@ class RemoteController extends OCSController {
 
 		try {
 			$mountPointNode = $userFolder->get($share->getMountpoint());
-		} catch (NotPermittedException|NotFoundException) {
+		} catch (\Exception) {
 			return $share->jsonSerialize();
 		}
 
@@ -182,7 +180,7 @@ class RemoteController extends OCSController {
 			throw new OCSNotFoundException('Share does not exist');
 		}
 
-		$mountPoint = '/' . $this->userId . '/files' . $shareInfo->getMountPoint();
+		$mountPoint = '/' . $this->userId . '/files' . $shareInfo->getMountpoint();
 
 		if ($this->externalManager->removeShare($mountPoint) === true) {
 			return new DataResponse();

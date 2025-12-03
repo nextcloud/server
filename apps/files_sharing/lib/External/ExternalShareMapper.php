@@ -75,10 +75,6 @@ class ExternalShareMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
-	public function get() {
-
-	}
-
 	public function getByMountPointAndUser(string $mountPoint, IUser $user) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
@@ -152,6 +148,17 @@ class ExternalShareMapper extends QBMapper {
 	}
 
 	/**
+	 * @return \Generator<ExternalShare>
+	 */
+	public function getAllShares(): \Generator {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from(self::TABLE_NAME);
+
+		return $this->yieldEntities($qb);
+	}
+
+	/**
 	 * Return a list of shares for the user.
 	 *
 	 * @psalm-param IShare::STATUS_PENDING|IShare::STATUS_ACCEPTED|null $status Filter share by their status or return all shares of the user if null.
@@ -200,5 +207,11 @@ class ExternalShareMapper extends QBMapper {
 			});
 		}
 		return array_values($shares);
+	}
+
+	public function deleteAll(): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('share_external')
+			->executeStatement();
 	}
 }
