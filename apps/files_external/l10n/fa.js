@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos default realm, defaults to \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Kerberos ticket Apache mode",
     "Kerberos ticket" : "تیکت کربروس",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "باکت",
     "Hostname" : "نام میزبان",
     "Port" : "درگاه",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "کلید برنامه",
     "App secret" : "کد برنامه",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "بررسی فضای ذخیره‌سازی…",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
     "Saving …" : "ذخیره کردن …"

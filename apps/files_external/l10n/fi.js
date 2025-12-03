@@ -43,7 +43,6 @@ OC.L10N.register(
     "RSA private key" : "Yksityinen RSA-avain",
     "Private key" : "Yksityinen avain",
     "Kerberos ticket" : "Kerberos-tiketti",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Isäntänimi",
     "Port" : "Portti",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Sovellusavain",
     "App secret" : "Sovellussalaisuus",
+    "Amazon S3" : "Amazon S3",
     "Saving …" : "Tallennetaan…"
 },
 "nplurals=2; plural=(n != 1);");

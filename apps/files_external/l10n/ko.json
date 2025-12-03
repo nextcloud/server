@@ -45,7 +45,6 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 기본 영역, 기본값은 \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Kerberos 티켓 Apache 모드",
     "Kerberos ticket" : "Kerberos 티켓",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "버킷",
     "Hostname" : "호스트 이름",
     "Port" : "포트",
@@ -147,6 +146,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "앱 키",
     "App secret" : "앱 비밀 값",
+    "Amazon S3" : "Amazon S3",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "이 외부 저장소를 해제하겠습니까? Nextcloud에서 이 저장소에 더 이상 접근할 수 없게 되며, 연결된 모든 동기화 클라이언트에서 이 저장소의 파일이 사라질 것입니다. 단, 저장소에 있는 파일 자체는 삭제되지 않습니다.",
     "Saving …" : "저장 중 …"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Ufalme chaguo-msingi wa Kerberos, chaguomsingi kuwa \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Njia ya Apache ya tikiti ya Kerberos",
     "Kerberos ticket" : "Tikiti za Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : " Ndoo",
     "Hostname" : "Jina la mwenyeji",
     "Port" : "Port",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Kitufe cha programu",
     "App secret" : "Siri ya programu",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Inakagua hifadhi...",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Je, una uhakika unataka kukata hifadhi hii ya nje? Itafanya hifadhi isipatikane katika Nextcloud na itasababisha kufutwa kwa faili na folda hizi kwenye kiteja chochote cha kusawazisha ambacho kimeunganishwa kwa sasa lakini hakitafuta faili na folda zozote kwenye hifadhi ya nje yenyewe.",
     "Saving …" : "Inahifadhi..."

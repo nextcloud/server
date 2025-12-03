@@ -40,7 +40,6 @@ OC.L10N.register(
     "RSA private key" : "מפתח RSA פרט",
     "Private key" : "מפתח פרט",
     "Kerberos ticket" : "כרטיס Kerberos",
-    "Amazon S3" : "אמזון S3",
     "Bucket" : "סל",
     "Hostname" : "שם מארח",
     "Port" : "שער",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "מפתח יישום",
     "App secret" : "סוד יישום",
+    "Amazon S3" : "אמזון S3",
     "Saving …" : "מתבצעת שמירה…"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

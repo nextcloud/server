@@ -43,7 +43,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Privzeto območje Kerberos je »WORKGROUP«",
     "Kerberos ticket Apache mode" : "Način Apache kartice Kerberos",
     "Kerberos ticket" : "Kartica Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Amazon Bucket",
     "Hostname" : "Ime gostitelja",
     "Port" : "Vrata",
@@ -122,6 +121,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Programski ključ",
     "App secret" : "Skrivni programski ključ",
+    "Amazon S3" : "Amazon S3",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ali ste prepričani, da želite odklopiti to mesto zunanje shrambe? Odklopljena shramba ni na voljo v oblaku Nextcloud, mape in datoteke pa ne bodo dostopne in ne usklajevanje. Datoteke zunanje shrambe ostanejo nedotaknjene.",
     "Saving …" : "Poteka shranjevanje ..."
 },
