@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace OCP\AppFramework\Db;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -19,6 +24,11 @@ abstract class SnowflakeAwareEntity extends Entity {
 	/** @var array<string, \OCP\DB\Types::*> */
 	private array $_fieldTypes = ['id' => 'string'];
 
+	/**
+	 * Automatically creates a snowflake ID
+	 *
+	 * @return void
+	 */
 	#[\Override]
 	public function setId(): void {
 		if (empty($this->id)) {
@@ -27,6 +37,9 @@ abstract class SnowflakeAwareEntity extends Entity {
 		}
 	}
 
+	/**
+	 * @psalm-suppress InvalidReturnStatement
+	 */
 	#[\Override]
 	public function getId(): string {
 		return $this->id;
