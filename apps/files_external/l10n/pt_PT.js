@@ -35,7 +35,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "Credenciais de início de sessão, guardar na sessão",
     "RSA public key" : "Chave pública RSA",
     "Public key" : "Chave pública",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nome do Anfitrião",
     "Port" : "Porta",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Chave da App",
     "App secret" : "Segredo da app",
+    "Amazon S3" : "Amazon S3",
     "Saving …" : "A guardar..."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

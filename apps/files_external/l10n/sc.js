@@ -40,7 +40,6 @@ OC.L10N.register(
     "RSA private key" : "Crae privada RSA",
     "Private key" : "Crae privada",
     "Kerberos ticket" : "Billete de Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nùmene retzidore",
     "Port" : "Porta",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Crae de s'aplicatzione",
     "App secret" : "Segretu de s'aplicatzione",
+    "Amazon S3" : "Amazon S3",
     "Saving …" : "Sarvende ..."
 },
 "nplurals=2; plural=(n != 1);");

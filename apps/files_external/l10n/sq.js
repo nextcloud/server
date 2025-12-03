@@ -35,7 +35,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "Kredenciale hyrjesh, ruaji për sesion",
     "RSA public key" : "Kyç publik RSA ",
     "Public key" : "Kyç publik",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Strehëemër",
     "Port" : "Portë",
@@ -94,6 +93,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Ju lutemi jepni një kyç dhe një të fshehtë aplikacioni të vlefshme.",
     "OAuth1" : "OAuth1",
     "App key" : "Kyç aplikacioni",
-    "App secret" : "E fshehtë aplikacioni"
+    "App secret" : "E fshehtë aplikacioni",
+    "Amazon S3" : "Amazon S3"
 },
 "nplurals=2; plural=(n != 1);");

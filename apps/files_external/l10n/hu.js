@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Az alapértelmezett Kerberos tartomány, alapértelmezetten „WORKGROUP”",
     "Kerberos ticket Apache mode" : "Kerberos jegy Apache módja",
     "Kerberos ticket" : "Kerberos jegy",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Gépnév",
     "Port" : "Port",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Alkalmazáskulcs",
     "App secret" : "Alkalmazás titka",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Tároló ellenőrzése…",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Biztos, hogy bontja a kapcsolatot ezzel a külső tárolóval? A tároló nem lesz elérhető a Nextcloudban, és a szinkronizálási kliensek is törölni fogják azokat a fájlokat, amelyek jelenleg kapcsolatban vannak, viszont magáról a külső tárolóról nem fogja törölni a fájlokat és mappákat.",
     "Saving …" : "Mentés…"

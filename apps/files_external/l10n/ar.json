@@ -47,7 +47,6 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "المجال الافتراضي لـ\"كيربيروس\" Kerberos default realm، يتمّ تعيينه افتراضيّاً على أساس \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "تذكرة \"كيربيروس\" في حالة \"الأباتشي\" Kerberos ticket Apache mode",
     "Kerberos ticket" : "تذكرة \"كيربيروس\" Kerberos ticket",
-    "Amazon S3" : "أمازون S3",
     "Bucket" : "الحزمة",
     "Hostname" : "اسم الإستضافة",
     "Port" : "المنفذ",
@@ -154,6 +153,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "مفتاح التطبيق",
     "App secret" : "كلمة مرور التطبيق",
+    "Amazon S3" : "أمازون S3",
     "Checking storage …" : "فحص التخزين ...",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "هل أنت متأكد أنك تريد قطع الاتصال بوحدة التخزين الخارجية هذه؟ سيتسبب ذلك في  جعل وحدة التخزين هذه غير مُتاحة في نكست كلاود، و سيؤدي إلى منع الوصول إلى هذه الملفات والمجلدات عن أي عميل مزامنة مُتصلٍ حاليّاً، و لكنه لن يحذف أي ملفات أو مجلدات على وحدة التخزين الخارجية نفسها.",
     "Saving …" : "جاري الحفظ…"

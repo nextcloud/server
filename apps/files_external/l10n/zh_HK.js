@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 默認領域，默認為 “WORKGROUP”",
     "Kerberos ticket Apache mode" : "Kerberos 票證 Apache 模式",
     "Kerberos ticket" : "Kerberos 票證",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "主機名稱",
     "Port" : "連接埠",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App 密鑰",
     "App secret" : "App 密碼",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "正在檢查儲存空間 …",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要斷開此外部存儲嗎？ 這將使該外部存儲在 Nextcloud 中不可用，將導致在目前連接的任何同步客戶端上刪除這些檔案件和資料夾，但不會刪除外部存儲本身上的任何檔案和資料夾。",
     "Saving …" : "儲存中 ..."

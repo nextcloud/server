@@ -47,7 +47,6 @@ OC.L10N.register(
     "RSA private key" : "RSA privaatvõti",
     "Private key" : "Privaatvõti",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberose nimi (realm), vaikimisi „WORKGROUP“",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Korv",
     "Hostname" : "Hostinimi",
     "Port" : "Port",
@@ -155,6 +154,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Rakenduse võti",
     "App secret" : "Rakenduse salasõna",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Kontrollin andmeruumi…",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Kas oled kindel, et soovid selle välise andmeruumi lahti ühendada? Sellega muutub see andmeruum Nextcloudis kättesaadamatuks ning kustuvad kõikide hetkel ühendatud sünkroonimisklientide juurest vastavad kaustad ja failid. Aga sellega ei kustu need kaustad ja failid antud välisest andmeruumist endast.",
     "Saving …" : "Salvestan…"

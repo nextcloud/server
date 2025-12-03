@@ -47,7 +47,6 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Подразумеванo Kerberos подручје, „WORKGROUP”",
     "Kerberos ticket Apache mode" : "Kerberos тикет Apache режим",
     "Kerberos ticket" : "Керберос карта",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Канта",
     "Hostname" : "Име домаћина",
     "Port" : "Порт",
@@ -157,6 +156,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "Кључ апликације",
     "App secret" : "Тајна апликације",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Проверава се складиште …",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Да ли сте сигурни да желите да искључите ово спољно складиште? Nextcloud неће моћи више да га користи, па ће се ови фајлови и фолдери обрисати на било ком синхронизационом клијенту који је тренутно повезан, мада се неће обрисати ниједан фајл или фолдер на самом спољном складишту.",
     "Saving …" : "Чувам…"

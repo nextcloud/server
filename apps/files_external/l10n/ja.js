@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberosのデフォルトのレルム、デフォルトは「WORKGROUP」です",
     "Kerberos ticket Apache mode" : "Kerberosチケット Apache モード",
     "Kerberos ticket" : "ケルベロスチケット",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "バケット名",
     "Hostname" : "ホスト名",
     "Port" : "ポート",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "アプリキー",
     "App secret" : "アプリシークレット",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "ストレージのチェック...",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "本当にこの外部ストレージを切断しますか？これにより、Nextcloudでストレージが使用できなくなり、現在接続されている同期クライアント上のこれらのファイルとフォルダーが削除されますが、外部ストレージ自体のファイルとフォルダーは削除されません。",
     "Saving …" : "保存中..."
