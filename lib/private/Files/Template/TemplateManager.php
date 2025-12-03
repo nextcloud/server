@@ -223,12 +223,18 @@ class TemplateManager implements ITemplateManager {
 		foreach ($this->getRegisteredProviders() as $provider) {
 			foreach ($type->getMimetypes() as $mimetype) {
 				foreach ($provider->getCustomTemplates($mimetype) as $template) {
-					$templates[] = $template;
+					$templateId = $template->jsonSerialize()['templateId'];
+
+					if (array_key_exists($templateId, $templates)) {
+						continue;
+					}
+
+					$templates[$templateId] = $template;
 				}
 			}
 		}
 
-		return $templates;
+		return array_values($templates);
 	}
 
 	/**
