@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCA\DAV\CalDAV\Import\ImportService;
+use OCP\AppFramework\Utility\ITimeFactory;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component;
