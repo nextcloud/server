@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command;
 
-use OCP\Snowflake\IDecoder;
+use OCP\Snowflake\ISnowflakeDecoder;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SnowflakeDecodeId extends Base {
 	public function __construct(
-		private readonly IDecoder $decoder,
+		private readonly ISnowflakeDecoder $decoder,
 	) {
 		parent::__construct();
 	}

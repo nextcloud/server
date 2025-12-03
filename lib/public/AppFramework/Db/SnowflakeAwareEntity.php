@@ -2,14 +2,17 @@
 
 namespace OCP\AppFramework\Db;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Server;
-use OCP\Snowflake\IDecoder;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeDecoder;
+use OCP\Snowflake\ISnowflakeGenerator;
+use OCP\Snowflake\Snowflake;
 
 /**
- * @method string getId()
+ * @since 33.0.0
  */
-class SnowflakeAwareEntity extends Entity {
+#[Consumable(since: '33.0.0')]
+abstract class SnowflakeAwareEntity extends Entity {
 	/** @var string $id */
 	public $id;
 
@@ -19,24 +22,27 @@ class SnowflakeAwareEntity extends Entity {
 	#[\Override]
 	public function setId(): void {
 		if (empty($this->id)) {
-			$generator = Server::get(IGenerator::class);
-			$this->id = $generator->nextId();
+			$this->id = Server::get(ISnowflakeGenerator::class)->nextId();
 			$this->markFieldUpdated('id');
 		}
+	}
+
+	#[\Override]
+	public function getId(): string {
+		return $this->id;
 	}
 
 	public function getCreatedAt(): ?\DateTimeImmutable {
 		if (empty($this->id)) {
 			return null;
 		}
-		$decoder = Server::get(IDecoder::class);
-		return $decoder->decode($this->id)['created_at'];
+		return Server::get(ISnowflakeDecoder::class)->decodeToSnowflake($this->id)->getCreatedAt();
 	}
 
-	public function getDecodedId(): array {
+	public function getSnowflake(): ?Snowflake {
 		if (empty($this->id)) {
-			return [];
+			return null;
 		}
-		return Server::get(IDecoder::class)->decode($this->id);
+		return Server::get(ISnowflakeDecoder::class)->decodeToSnowflake($this->id);
 	}
 }

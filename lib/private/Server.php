@@ -117,10 +117,10 @@ use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
 use OC\Snowflake\APCuSequence;
-use OC\Snowflake\Decoder;
 use OC\Snowflake\FileSequence;
-use OC\Snowflake\Generator;
 use OC\Snowflake\ISequence;
+use OC\Snowflake\SnowflakeDecoder;
+use OC\Snowflake\SnowflakeGenerator;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
@@ -230,8 +230,8 @@ use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShareHelper;
-use OCP\Snowflake\IDecoder;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeDecoder;
+use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -1266,7 +1266,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(ISignatureManager::class, SignatureManager::class);
 
-		$this->registerAlias(IGenerator::class, Generator::class);
+		$this->registerAlias(ISnowflakeGenerator::class, SnowflakeGenerator::class);
 		$this->registerService(ISequence::class, function (ContainerInterface $c): ISequence {
 			if (PHP_SAPI !== 'cli') {
 				$sequence = $c->get(APCuSequence::class);
@@ -1277,7 +1277,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return $c->get(FileSequence::class);
 		}, false);
-		$this->registerAlias(IDecoder::class, Decoder::class);
+		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
 
 		$this->connectDispatcher();
 	}

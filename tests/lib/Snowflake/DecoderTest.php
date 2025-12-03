@@ -7,7 +7,7 @@
 
 namespace Test\Snowflake;
 
-use OC\Snowflake\Decoder;
+use OC\Snowflake\SnowflakeDecoder;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
@@ -15,10 +15,10 @@ use Test\TestCase;
  * @package Test
  */
 class DecoderTest extends TestCase {
-	private Decoder $decoder;
+	private SnowflakeDecoder $decoder;
 
 	public function setUp():void {
-		$this->decoder = new Decoder();
+		$this->decoder = new SnowflakeDecoder();
 	}
 
 	#[DataProvider('provideSnowflakeIds')]

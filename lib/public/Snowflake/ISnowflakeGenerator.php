@@ -25,7 +25,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * @since 33.0.0
  */
 #[Consumable(since: '33.0.0')]
-interface IGenerator {
+interface ISnowflakeGenerator {
 
 	/**
 	 * Offset applied on timestamps to keep it short

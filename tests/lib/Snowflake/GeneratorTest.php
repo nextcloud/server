@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace Test\Snowflake;
 
 use OC\AppFramework\Utility\TimeFactory;
-use OC\Snowflake\Decoder;
-use OC\Snowflake\Generator;
 use OC\Snowflake\ISequence;
+use OC\Snowflake\SnowflakeDecoder;
+use OC\Snowflake\SnowflakeGenerator;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -24,12 +24,12 @@ use Test\TestCase;
  * @package Test
  */
 class GeneratorTest extends TestCase {
-	private Decoder $decoder;
+	private SnowflakeDecoder $decoder;
 	private IConfig&MockObject $config;
 	private ISequence&MockObject $sequence;
 
 	public function setUp():void {
-		$this->decoder = new Decoder();
+		$this->decoder = new SnowflakeDecoder();
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->config->method('getSystemValueInt')
@@ -43,7 +43,7 @@ class GeneratorTest extends TestCase {
 	}
 
 	public function testGenerator(): void {
-		$generator = new Generator(new TimeFactory(), $this->config, $this->sequence);
+		$generator = new SnowflakeGenerator(new TimeFactory(), $this->config, $this->sequence);
 		$snowflakeId = $generator->nextId();
 		$data = $this->decoder->decode($generator->nextId());
 
@@ -72,10 +72,10 @@ class GeneratorTest extends TestCase {
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('now')->willReturn($dt);
 
-		$generator = new Generator($timeFactory, $this->config, $this->sequence);
+		$generator = new SnowflakeGenerator($timeFactory, $this->config, $this->sequence);
 		$data = $this->decoder->decode($generator->nextId());
 
-		$this->assertEquals($expectedSeconds, ($data['createdAt']->format('U') - IGenerator::TS_OFFSET));
+		$this->assertEquals($expectedSeconds, ($data['createdAt']->format('U') - ISnowflakeGenerator::TS_OFFSET));
 		$this->assertEquals($expectedMilliseconds, (int)$data['createdAt']->format('v'));
 		$this->assertEquals(42, $data['serverId']);
 	}

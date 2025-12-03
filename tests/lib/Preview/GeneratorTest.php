@@ -22,7 +22,7 @@ use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -42,7 +42,7 @@ class GeneratorTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private StorageFactory&MockObject $storageFactory;
 	private PreviewMapper&MockObject $previewMapper;
-	private IGenerator&MockObject $snowflakeGenerator;
+	private ISnowflakeGenerator&MockObject $snowflakeGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -54,7 +54,7 @@ class GeneratorTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
-		$this->snowflakeGenerator = $this->createMock(IGenerator::class);
+		$this->snowflakeGenerator = $this->createMock(ISnowflakeGenerator::class);
 
 		$this->generator = new Generator(
 			$this->config,

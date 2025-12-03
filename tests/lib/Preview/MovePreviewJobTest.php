@@ -24,7 +24,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -124,7 +124,7 @@ class MovePreviewJobTest extends TestCase {
 			$this->mimeTypeDetector,
 			$this->mimeTypeLoader,
 			$this->logger,
-			Server::get(IGenerator::class),
+			Server::get(ISnowflakeGenerator::class),
 			Server::get(IAppDataFactory::class),
 		);
 		$this->invokePrivate($job, 'run', [[]]);
@@ -157,7 +157,7 @@ class MovePreviewJobTest extends TestCase {
 			$this->mimeTypeDetector,
 			$this->mimeTypeLoader,
 			$this->logger,
-			Server::get(IGenerator::class),
+			Server::get(ISnowflakeGenerator::class),
 			Server::get(IAppDataFactory::class)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
@@ -198,7 +198,7 @@ class MovePreviewJobTest extends TestCase {
 			$this->mimeTypeDetector,
 			$this->mimeTypeLoader,
 			$this->logger,
-			Server::get(IGenerator::class),
+			Server::get(ISnowflakeGenerator::class),
 			Server::get(IAppDataFactory::class)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
