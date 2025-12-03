@@ -733,9 +733,9 @@ class OC_Util {
 	}
 
 	/**
-	 * Checks whether PHP is running directly on macOS. 
+	 * Checks whether PHP is running directly on macOS.
 	 *
-	 * Note: In a Linux container, this will be false even on a macOS host 
+	 * Note: In a Linux container, this will be false even on a macOS host
 	 * (PHP just sees "Linux").
 	 *
 	 * @return bool true if running on Mac OS X, false otherwise
