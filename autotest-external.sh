@@ -28,11 +28,11 @@ function print_syntax {
 }
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, trying local one from build/integration" >&2
-	if [ -x "$PWD/build/integration/vendor/phpunit/phpunit/phpunit" ]; then
-		PHPUNIT="$PWD/build/integration/vendor/phpunit/phpunit/phpunit"
+	echo "phpunit executable not found, trying local one from vendor-bin" >&2
+	if [ -x "$PWD/lib/composer/bin/phpunit" ]; then
+		PHPUNIT="$PWD/lib/composer/bin/phpunit"
 	else
-		echo "phpunit executable not found, please install phpunit version >= 9.0" >&2
+		echo "phpunit executable not found, please install phpunit version >= 10.0" >&2
 		exit 3
 	fi
 fi
