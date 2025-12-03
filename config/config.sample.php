@@ -1903,6 +1903,25 @@ $CONFIG = [
 ],
 
 /**
+ * To use S3 object storage
+ */
+'objectstore' => [
+	'class' => 'OC\\Files\\ObjectStore\\S3',
+	'arguments' => [
+		'bucket' => 'nextcloud',
+		'key' => 'your-access-key',
+		'secret' => 'your-secret-key',
+		'hostname' => 's3.example.com',
+		'port' => 443,
+		'use_ssl' => true,
+		'region' => 'us-east-1',
+		// optional: Maximum number of retry attempts for failed S3 requests
+		// Default: 5
+		'retriesMaxAttempts' => 5,
+	],
+],
+
+/**
  * If this is set to true and a multibucket object store is configured, then
  * newly created previews are put into 256 dedicated buckets.
  *
