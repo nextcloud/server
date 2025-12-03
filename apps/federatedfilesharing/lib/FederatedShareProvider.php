@@ -63,24 +63,19 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	) {
 	}
 
-	/**
-	 * Return the identifier of this provider.
-	 *
-	 * @return string Containing only [a-zA-Z0-9]
-	 */
-	public function identifier() {
+	#[Override]
+	public function identifier(): string {
 		return 'ocFederatedSharing';
 	}
 
 	/**
 	 * Share a path
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
-	public function create(IShare $share) {
+	#[Override]
+	public function create(IShare $share): IShare {
 		$shareWith = $share->getSharedWith();
 		$itemSource = $share->getNodeId();
 		$itemType = $share->getNodeType();
@@ -141,7 +136,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($remoteShare) {
 			try {
 				$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
-				$shareId = (string)$this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType, $expirationDate);
+				$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType, $expirationDate);
 				$share->setId($shareId);
 				[$token, $remoteId] = $this->askOwnerToReShare($shareWith, $share, $shareId);
 				// remote share was create successfully if we get a valid token as return
@@ -176,7 +171,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 */
 	protected function createFederatedShare(IShare $share): string {
 		$token = $this->tokenHandler->generateToken();
-		$shareId = (string)$this->addShareToDB(
+		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
 			$share->getSharedWith(),
@@ -292,9 +287,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @param string $token
 	 * @param int $shareType
 	 * @param \DateTime $expirationDate
-	 * @return int
 	 */
-	private function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType, $expirationDate) {
+	private function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $shareType, $expirationDate): string {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter($shareType))
@@ -316,7 +310,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
 		$qb->executeStatement();
-		return $qb->getLastInsertId();
+		return (string)$qb->getLastInsertId();
 	}
 
 	/**

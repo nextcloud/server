@@ -31,8 +31,8 @@ use OCP\Share\IShare;
  * @method void setRemoteId(string $remoteId)
  * @method string getShareToken()
  * @method void setShareToken(string $shareToken)
- * @method string getPassword()
- * @method void setPassword(string $password)
+ * @method string|null getPassword()
+ * @method void setPassword(?string $password)
  * @method string getName()
  * @method string getOwner()
  * @method void setOwner(string $owner)
@@ -97,7 +97,7 @@ class ExternalShare extends Entity implements \JsonSerializable {
 		$parent = $this->getParent();
 		return [
 			'id' => $this->getId(),
-			'parent' => $parent === '-1' ? null : $parent,
+			'parent' => $parent,
 			'share_type' => $this->getShareType() ?? IShare::TYPE_USER, // unfortunately nullable on the DB level, but never null.
 			'remote' => $this->getRemote(),
 			'remote_id' => $this->getRemoteId(),
@@ -106,7 +106,7 @@ class ExternalShare extends Entity implements \JsonSerializable {
 			'owner' => $this->getOwner(),
 			'user' => $this->getUser(),
 			'mountpoint' => $this->getMountpoint(),
-			'accepted' => $this->getAccepted() === IShare::STATUS_ACCEPTED,
+			'accepted' => $this->getAccepted(),
 
 			// Added later on
 			'file_id' => null,

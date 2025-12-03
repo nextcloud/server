@@ -81,7 +81,7 @@ namespace OCA\Files_Sharing;
  * }
  *
  * @psalm-type Files_SharingRemoteShare = array{
- *     accepted: bool,
+ *     accepted: int,
  *     file_id: int|null,
  *     id: string,
  *     mimetype: string|null,
@@ -89,7 +89,7 @@ namespace OCA\Files_Sharing;
  *     mtime: int|null,
  *     name: string,
  *     owner: string,
- *     parent: string|null,
+ *     parent: string,
  *     permissions: int|null,
  *     remote: string,
  *     remote_id: string,

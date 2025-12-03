@@ -141,6 +141,8 @@ function prepareDocker() {
 		--exclude="./config/config.php" \
 		--exclude="./config/*.config.php" \
 		--exclude="./data" \
+		--exclude="./apps-extra" \
+		--exclude="./apps-extra2" \
 		--exclude="./data-autotest" \
 		--exclude="./tests" \
 		--exclude="node_modules" \

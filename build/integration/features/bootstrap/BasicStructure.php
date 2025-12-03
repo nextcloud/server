@@ -74,26 +74,23 @@ trait BasicStructure {
 
 	/**
 	 * @Given /^using api version "(\d+)"$/
-	 * @param string $version
 	 */
-	public function usingApiVersion($version) {
+	public function usingApiVersion(int $version): void {
 		$this->apiVersion = (int)$version;
 	}
 
 	/**
 	 * @Given /^As an "([^"]*)"$/
-	 * @param string $user
 	 */
-	public function asAn($user) {
+	public function asAn(string $user): void {
 		$this->currentUser = $user;
 	}
 
 	/**
 	 * @Given /^Using server "(LOCAL|REMOTE)"$/
-	 * @param string $server
 	 * @return string Previous used server
 	 */
-	public function usingServer($server) {
+	public function usingServer(string $server): string {
 		$previousServer = $this->currentServer;
 		if ($server === 'LOCAL') {
 			$this->baseUrl = $this->localBaseUrl;
@@ -108,21 +105,16 @@ trait BasicStructure {
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)"$/
-	 * @param string $verb
-	 * @param string $url
 	 */
-	public function sendingTo($verb, $url) {
+	public function sendingTo(string $verb, string $url): void {
 		$this->sendingToWith($verb, $url, null);
 	}
 
 	/**
 	 * Parses the xml or json answer to get ocs response which doesn't match with
 	 * http one in v1 of the api.
-	 *
-	 * @param ResponseInterface $response
-	 * @return string
 	 */
-	public function getOCSResponseCode($response): int {
+	public function getOCSResponseCode(ResponseInterface $response): int {
 		if ($response === null) {
 			throw new \RuntimeException('No response available');
 		}
@@ -141,11 +133,8 @@ trait BasicStructure {
 
 	/**
 	 * This function is needed to use a vertical fashion in the gherkin tables.
-	 *
-	 * @param array $arrayOfArrays
-	 * @return array
 	 */
-	public function simplifyArray($arrayOfArrays) {
+	public function simplifyArray(array $arrayOfArrays): array {
 		$a = array_map(function ($subArray) {
 			return $subArray[0];
 		}, $arrayOfArrays);
@@ -154,11 +143,8 @@ trait BasicStructure {
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
-	 * @param string $verb
-	 * @param string $url
-	 * @param TableNode $body
 	 */
-	public function sendingToWith($verb, $url, $body) {
+	public function sendingToWith(string $verb, string $url, ?TableNode $body): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
 		$client = new Client();
 		$options = [];
@@ -191,13 +177,7 @@ trait BasicStructure {
 		}
 	}
 
-	/**
-	 * @param string $verb
-	 * @param string $url
-	 * @param TableNode|array|null $body
-	 * @param array $headers
-	 */
-	protected function sendRequestForJSON(string $verb, string $url, $body = null, array $headers = []): void {
+	protected function sendRequestForJSON(string $verb, string $url, TableNode|array|null $body = null, array $headers = []): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
 		$client = new Client();
 		$options = [];
