@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCA\DAV\CalDAV\Import\ImportService;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
@@ -30,6 +31,7 @@ class RefreshWebcalService {
 		private CalDavBackend $calDavBackend,
 		private LoggerInterface $logger,
 		private Connection $connection,
+		private ITimeFactory $time,
 		private ImportService $importService,
 	) {
 	}
@@ -38,6 +40,17 @@ class RefreshWebcalService {
 		$subscription = $this->getSubscription($principalUri, $uri);
 		if (!$subscription) {
 			return;
+		}
+
+		// Check the refresh rate if there is any
+		if (!empty($subscription[self::REFRESH_RATE])) {
+			// add the refresh interval to the last modified timestamp
+			$refreshInterval = new \DateInterval($subscription[self::REFRESH_RATE]);
+			$updateTime = $this->time->getDateTime();
+			$updateTime->setTimestamp($subscription['lastmodified'])->add($refreshInterval);
+			if ($updateTime->getTimestamp() > $this->time->getTime()) {
+				return;
+			}
 		}
 
 		$result = $this->connection->queryWebcalFeed($subscription);
@@ -71,6 +84,10 @@ class RefreshWebcalService {
 
 				// Some calendar providers (e.g. Google, MS) use very long UIDs
 				if (strlen($vBase->UID->getValue()) > 512) {
+					$this->logger->warning('Skipping calendar object with overly long UID from subscription "{subscriptionId}"', [
+						'subscriptionId' => $subscription['id'],
+						'uid' => $vBase->UID->getValue(),
+					]);
 					continue;
 				}
 

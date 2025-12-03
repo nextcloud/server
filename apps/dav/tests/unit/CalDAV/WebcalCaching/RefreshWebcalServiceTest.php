@@ -11,6 +11,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
+use OCP\AppFramework\Utility\ITimeFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
@@ -24,6 +25,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	private Connection&MockObject $connection;
 	private LoggerInterface&MockObject $logger;
 	private ImportService&MockObject $importService;
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -32,6 +34,10 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->connection = $this->createMock(Connection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->importService = $this->createMock(ImportService::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		// Default time factory behavior: current time is far in the future so refresh always happens
+		$this->timeFactory->method('getTime')->willReturn(PHP_INT_MAX);
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime());
 	}
 
 	/**
@@ -50,6 +56,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			$this->caldavBackend,
 			$this->logger,
 			$this->connection,
+			$this->timeFactory,
 			$this->importService
 		);
 
@@ -118,6 +125,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			$this->caldavBackend,
 			$this->logger,
 			$this->connection,
+			$this->timeFactory,
 			$this->importService
 		);
 
@@ -179,6 +187,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			$this->caldavBackend,
 			$this->logger,
 			$this->connection,
+			$this->timeFactory,
 			$this->importService
 		);
 
@@ -198,6 +207,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			$this->caldavBackend,
 			$this->logger,
 			$this->connection,
+			$this->timeFactory,
 			$this->importService
 		);
 
@@ -234,6 +244,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			$this->caldavBackend,
 			$this->logger,
 			$this->connection,
+			$this->timeFactory,
 			$this->importService
 		);
 
@@ -295,6 +306,7 @@ class RefreshWebcalServiceTest extends TestCase {
 			$this->caldavBackend,
 			$this->logger,
 			$this->connection,
+			$this->timeFactory,
 			$this->importService
 		);
 
@@ -313,8 +325,8 @@ class RefreshWebcalServiceTest extends TestCase {
 				],
 			]);
 
-		// Create a UID that is longer than 255 characters
-		$longUid = str_repeat('a', 256);
+		// Create a UID that is longer than 512 characters
+		$longUid = str_repeat('a', 513);
 		$body = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Test//EN\r\nBEGIN:VEVENT\r\nUID:$longUid\r\nDTSTAMP:20160218T133704Z\r\nDTSTART:20160218T133704Z\r\nSUMMARY:Event with long UID\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
 		$stream = $this->createStreamFromString($body);
 
@@ -346,7 +358,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	public function testRunCreateCalendarNoException(string $body, string $format, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getSubscription'])
-			->setConstructorArgs([$this->caldavBackend, $this->logger, $this->connection, $this->importService])
+			->setConstructorArgs([$this->caldavBackend, $this->logger, $this->connection, $this->timeFactory, $this->importService])
 			->getMock();
 
 		$refreshWebcalService
@@ -399,7 +411,7 @@ class RefreshWebcalServiceTest extends TestCase {
 	public function testRunCreateCalendarBadRequest(string $body, string $format, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getSubscription'])
-			->setConstructorArgs([$this->caldavBackend, $this->logger, $this->connection, $this->importService])
+			->setConstructorArgs([$this->caldavBackend, $this->logger, $this->connection, $this->timeFactory, $this->importService])
 			->getMock();
 
 		$refreshWebcalService
