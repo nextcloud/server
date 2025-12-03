@@ -43,7 +43,17 @@ class ResetToken extends TimedJob {
 			return;
 		}
 
-		$secretCreated = $this->appConfig->getValueInt('core', 'updater.secret.created');
+		$secretCreated = $this->appConfig->getValueInt('core', 'updater.secret.created', 0);
+
+		if ($secretCreated === 0) {
+			if ($this->config->getSystemValueString('updater.secret') !== '') {
+				$this->logger->error('Cleared old `updater.secret` with unknown creation date', ['app' => 'updatenotification']);
+				$this->config->deleteSystemValue('updater.secret');
+			}
+			$this->logger->debug('Skipping `updater.secret` reset since there is none', ['app' => 'updatenotification']);
+			return;
+		}
+
 		// Delete old tokens after 2 days and also tokens without any created date
 		$secretCreatedDiff = $this->time->getTime() - $secretCreated;
 		if ($secretCreatedDiff >= 172800) {
