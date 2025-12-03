@@ -29,7 +29,6 @@ OC.L10N.register(
     "Public key" : "Јавен клуч",
     "RSA private key" : "RSA приватен клуч",
     "Private key" : "Приватен клуч",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Кофа",
     "Hostname" : "Име на серверот",
     "Port" : "Порта",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Клуч на апликацијата",
     "App secret" : "Тајна на апликацијата",
+    "Amazon S3" : "Amazon S3",
     "Saving …" : "Зачувува ..."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

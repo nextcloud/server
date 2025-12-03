@@ -47,7 +47,6 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Сфера за замовчуванням Kerberos, за замовчуванням \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Квиток Kerberos Режим ApacheКвиток Kerberos Режим Apache",
     "Kerberos ticket" : "Квиток Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Кошик",
     "Hostname" : "Ім'я хоста",
     "Port" : "Порт",
@@ -154,6 +153,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "Ключ застосунку",
     "App secret" : "Секретний ключ застосунку",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Перевірка сховища ...",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати це зовнішнє сховище? Це призведе до того, що сховище стане недоступним у хмарі Nextcloud, а також вилучить файли та каталоги на клієнтських пристроях, які наразі синхронізуються з хмарою. Файли та каталоги у зовнішньому сховищі не буде вилучено.",
     "Saving …" : "Збереження …"

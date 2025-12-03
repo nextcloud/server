@@ -47,7 +47,6 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Varsayılan Kerberos alanı, varsayılan olarak \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Kerberos kaydı Apache kipi",
     "Kerberos ticket" : "Kerberos kaydı",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Buket",
     "Hostname" : "Sunucu adı",
     "Port" : "Bağlantı noktası",
@@ -157,6 +156,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "Uygulama anahtarı",
     "App secret" : "Uygulama parolası",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Depolama alanı denetleniyor…",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Bu dış depolama biriminin bağlantısını kesmek istediğinize emin misiniz? Bu işlem, depolamayı Nextcloud üzerinden kaldırırarak, şu anda bağlı olan ve eşitlenen herhangi bir istemcide bu dosya ve klasörlerin silinmesine yol açar. Ancak dış depolama üzerindeki hiçbir dosya ve klasör silinmez.",
     "Saving …" : "Kaydediliyor …"

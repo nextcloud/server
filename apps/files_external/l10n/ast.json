@@ -45,7 +45,6 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "L'equipu predetermináu de Kerberos, por defeutu ye «WORKGROUP»",
     "Kerberos ticket Apache mode" : "Mou Apache de ticket de Kerberos",
     "Kerberos ticket" : "Ticket de Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Agospiador",
     "Port" : "Puertu",
@@ -141,6 +140,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "Clave d'aplicación",
     "App secret" : "Secretu d'aplicación",
+    "Amazon S3" : "Amazon S3",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿De xuru que quies desconectar esti almacenamientu esternu? Esta aición va facer que l'almacenamientu dexe de tar disponible en Nextcloud y va facer que se desanicien los ficheros y carpetes en cualesquier veceru sincronizáu que tea conectáu mas nun se va desaniciar nengún ficheru nin carpeta del almacenamientu esternu.",
     "Saving …" : "Guardando…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos domeinu lehenetsia, balio lehenetsia \"WORKGROUP\" da",
     "Kerberos ticket Apache mode" : "Kerberos txartela Apache modua",
     "Kerberos ticket" : "Kerberos tiketa",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Ontzia",
     "Hostname" : "Ostalari-izena",
     "Port" : "Ataka",
@@ -158,6 +157,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Aplikazio-gakoa",
     "App secret" : "Aplikazio-sekretua",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Biltegiratzea egiaztatzen...",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ziur kanpoko biltegiratze hau deskonektatu nahi duzula? Biltegiratzea ez da erabilgarri egongo Nextclouden eta fitxategi eta karpeta hauek ezabatuko ditu une honetan konektatuta dagoen edozein sinkronizazio-bezerotan, baina ez du fitxategi edo karpetarik ezabatuko kanpoko biltegian.",
     "Saving …" : "Gordetzen …"

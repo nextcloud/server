@@ -47,7 +47,6 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Domyślna dziedzina Kerberos, domyślnie \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Metoda Apache zgłoszenia Kerberos",
     "Kerberos ticket" : "Poświadczenia kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Kosz",
     "Hostname" : "Nazwa serwera",
     "Port" : "Port",
@@ -157,6 +156,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "Klucz aplikacji",
     "App secret" : "Tajny klucz aplikacji",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Sprawdzanie pamięci masowej…",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Czy na pewno chcesz odłączyć tę pamięć zewnętrzną? Spowoduje to, że pamięć będzie niedostępna w Nextcloud i doprowadzi do usunięcia tych plików i katalogów na dowolnym kliencie synchronizacji, który jest aktualnie podłączony, ale nie usunie żadnych plików i katalogów z samej pamięci zewnętrznej.",
     "Saving …" : "Zapisywanie…"

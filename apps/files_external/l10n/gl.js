@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Dominio predeterminado de Kerberos, o valor predeterminado é «WORKGROUP»",
     "Kerberos ticket Apache mode" : "Billete Kerberos modo Apache",
     "Kerberos ticket" : "Billete Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nome de máquina",
     "Port" : "Porto",
@@ -159,6 +158,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Chave da aplicación",
     "App secret" : "Segredo da aplicación",
+    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "Comprobando o almacenamento…",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Confirma que quere desconectar este almacenamento externo? Isto fará que o almacenamento non estea dispoñíbel en Nextcloud e provocará a eliminación destes ficheiros e cartafoles en calquera cliente de sincronización que estea conectado agora, mais non eliminará ningún ficheiro e cartafol do propio almacenamento externo.",
     "Saving …" : "Gardando…"

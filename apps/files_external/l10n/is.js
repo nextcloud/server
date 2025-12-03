@@ -46,7 +46,6 @@ OC.L10N.register(
     "Private key" : "Einkalykill",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Sjálfgefið Kerberos svæði, er sjálfgefið \"WORKGROUP\"",
     "Kerberos ticket" : "Kerberos aðgöngumerki",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Vélarheiti",
     "Port" : "Gátt",
@@ -140,6 +139,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Lykill forrits",
     "App secret" : "Leynilykill forrits",
+    "Amazon S3" : "Amazon S3",
     "Saving …" : "Vista …"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

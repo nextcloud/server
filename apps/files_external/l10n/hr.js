@@ -40,7 +40,6 @@ OC.L10N.register(
     "RSA private key" : "Privatni ključ RSA",
     "Private key" : "Privatni ključ",
     "Kerberos ticket" : "Kerberos ticket",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Naziv poslužitelja",
     "Port" : "Port",
@@ -113,6 +112,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Ključ aplikacije",
     "App secret" : "Tajna aplikacije",
+    "Amazon S3" : "Amazon S3",
     "Saving …" : "Spremanje..."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

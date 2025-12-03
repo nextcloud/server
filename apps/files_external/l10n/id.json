@@ -32,7 +32,6 @@
     "Log-in credentials, save in session" : "Kredensial masuk, simpan dalam sesi",
     "RSA public key" : "Kunci publik RSA",
     "Public key" : "Kunci Public",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Keranjang",
     "Hostname" : "Nama Host",
     "Port" : "Port",
@@ -92,6 +91,7 @@
     "OAuth1" : "OAuth1",
     "App key" : "Kunci Apl",
     "App secret" : "Rahasia Apl",
+    "Amazon S3" : "Amazon S3",
     "Saving …" : "Menyimpan ..."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
