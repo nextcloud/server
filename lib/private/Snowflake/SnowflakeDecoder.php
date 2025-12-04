@@ -123,6 +123,13 @@ final class SnowflakeDecoder implements ISnowflakeDecoder {
 
 	public function decodeToSnowflake(string $snowflakeId): Snowflake {
 		$data = $this->decode($snowflakeId);
-		return Snowflake::fromArray($data);
+		return new Snowflake(
+			$data['serverId'],
+			$data['sequenceId'],
+			$data['isCli'],
+			$data['seconds'],
+			$data['milliseconds'],
+			$data['createdAt'],
+		);
 	}
 }
