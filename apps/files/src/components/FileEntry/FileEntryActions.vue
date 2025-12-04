@@ -11,8 +11,8 @@
 			v-for="action in enabledRenderActions"
 			:key="action.id"
 			:class="'files-list__row-action-' + action.id"
-			:active-folder="activeFolder"
-			:active-view="activeView"
+			:active-folder="activeStore.activeFolder"
+			:active-view="activeStore.activeView"
 			:render="action.renderInline"
 			:source="source"
 			class="files-list__row-action--inline" />
@@ -121,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Node } from '@nextcloud/files'
+import type { ActionContextSingle, FileAction, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
@@ -175,13 +175,11 @@ export default defineComponent({
 
 	setup() {
 		// The file list is guaranteed to be  shown with active view - thus we can set the `loaded` flag
-		const { activeNode, activeFolder, activeView } = useActiveStore()
+		const activeStore = useActiveStore()
 		const filesListWidth = useFileListWidth()
 		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
 		return {
-			activeFolder,
-			activeNode,
-			activeView,
+			activeStore,
 			enabledFileActions,
 			filesListWidth,
 			t,
@@ -190,18 +188,18 @@ export default defineComponent({
 
 	computed: {
 		isActive() {
-			return this.activeNode?.source === this.source.source
+			return this.activeStore.activeNode?.source === this.source.source
 		},
 
 		isLoading() {
 			return this.source.status === NodeStatus.LOADING
 		},
 
-		actionContext() {
+		actionContext(): ActionContextSingle {
 			return {
 				nodes: [this.source],
-				view: this.activeView,
-				folder: this.activeFolder!,
+				view: this.activeStore.activeView!,
+				folder: this.activeStore.activeFolder!,
 				contents: [],
 			}
 		},
@@ -307,22 +305,12 @@ export default defineComponent({
 				if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
 					// if an inline action is rendered in the menu for
 					// lack of space we use the title first if defined
-					const title = action.title({
-						nodes: [this.source],
-						view: this.activeView,
-						folder: this.activeFolder!,
-						contents: [],
-					})
+					const title = action.title(this.actionContext)
 					if (title) {
 						return title
 					}
 				}
-				return action.displayName({
-					nodes: [this.source],
-					view: this.activeView,
-					folder: this.activeFolder!,
-					contents: [],
-				})
+				return action.displayName(this.actionContext)
 			} catch (error) {
 				logger.error('Error while getting action display name', { action, error })
 				// Not ideal, but better than nothing
@@ -334,7 +322,7 @@ export default defineComponent({
 			if (!this.isActive) {
 				return false
 			}
-			return this.activeStore?.activeAction?.id === action.id
+			return this.activeStore.activeAction?.id === action.id
 		},
 
 		async onActionClick(action) {

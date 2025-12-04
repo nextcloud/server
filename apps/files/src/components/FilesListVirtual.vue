@@ -456,6 +456,7 @@ export default defineComponent({
 		},
 
 		onKeyDown(event: KeyboardEvent) {
+			console.debug('FilesListVirtual: onKeyDown', { key: event.key })
 			// Up and down arrow keys
 			if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
 				const columnCount = this.$refs.table?.columnCount ?? 1
@@ -469,6 +470,7 @@ export default defineComponent({
 
 				if (nextNode && nextNode?.fileid) {
 					this.setActiveNode(nextNode)
+					return
 				}
 			}
 
@@ -484,6 +486,7 @@ export default defineComponent({
 
 				if (nextNode && nextNode?.fileid) {
 					this.setActiveNode(nextNode)
+					return
 				}
 			}
 		},
