@@ -158,7 +158,6 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "ئەپ ئاچقۇچى",
     "App secret" : "ئەپ مەخپىيىتى",
-    "Amazon S3" : "Amazon S3",
     "Checking storage …" : "بوشلۇقنى تەكشۈرۋاتىدۇ ...",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "بۇ سىرتقى ساقلاشنى ئۈزۈۋېتىشنى خالامسىز؟ ئۇ Nextcloud دا ساقلاشنى ئىشلەتكىلى بولمايدۇ ھەمدە بۇ ھۆججەت ۋە ھۆججەت قىسقۇچلارنىڭ نۆۋەتتىكى ئۇلانغان ، ئەمما سىرتقى ساقلاشنىڭ ئۆزىدىكى ھۆججەت ۋە ھۆججەت قىسقۇچلارنى ئۆچۈرمەيدۇ.",
     "Saving …" : "ساقلاۋاتىدۇ…"

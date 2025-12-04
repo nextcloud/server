@@ -63,7 +63,7 @@ OC.L10N.register(
     "Add to your website" : "Tilføj til dit websted",
     "Share with me via {productName}" : "Del med mig via {productName}",
     "HTML Code:" : "HTML kode:",
-    "Cancel" : "Annuller",
+    "Cancel" : "Annullér",
     "Add remote share" : "Tilføj ekstern deling",
     "Remote share" : "Eksterne drev",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
