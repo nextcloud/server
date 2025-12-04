@@ -18,6 +18,12 @@ use OCP\AppFramework\Attribute\Consumable;
  */
 #[Consumable(since: '33.0.0')]
 final class Snowflake {
+	/**
+	 * @psalm-param int<0,1023> $serverId
+	 * @psalm-param int<0,4095> $sequenceId
+	 * @psalm-param non-negative-int $seconds
+	 * @psalm-param int<0,999> $milliseconds
+	 */
 	public function __construct(
 		public int $serverId,
 		public int $sequenceId,

@@ -39,6 +39,7 @@ abstract class SnowflakeAwareEntity extends Entity {
 
 	/**
 	 * @psalm-suppress InvalidReturnStatement
+	 * @psalm-suppress InvalidReturnType
 	 */
 	#[\Override]
 	public function getId(): string {
