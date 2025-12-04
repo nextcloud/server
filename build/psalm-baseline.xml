@@ -2197,11 +2197,6 @@
       <code><![CDATA[$limit === null]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/Log/LogDetails.php">
-    <RedundantCondition>
-      <code><![CDATA[is_string($request->getMethod())]]></code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction>
       <code><![CDATA[sd_journal_send('PRIORITY=' . $journal_level,
