@@ -16,6 +16,7 @@ use OC\Files\Utils\PathHelper;
 use OC\User\LazyUser;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder as IFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
@@ -26,8 +27,9 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IUserManager;
+use Override;
 
-class Folder extends Node implements \OCP\Files\Folder {
+class Folder extends Node implements IFolder {
 
 	private ?IUserManager $userManager = null;
 
@@ -478,6 +480,30 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($this->wasDeleted) {
 			$this->newFolder('');
 			$this->wasDeleted = false;
+		}
+	}
+
+	#[Override]
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): IFolder {
+		$i = 0;
+		while (true) {
+			$path = $i === 0 ? $path : $path . ' (' . $i . ')';
+			try {
+				$folder = $this->get($path);
+				if ($folder instanceof IFolder) {
+					return $folder;
+				}
+			} catch (NotFoundException) {
+				$folder = dirname($path) === '.' ? $this : $this->get(dirname($path));
+				if (!($folder instanceof Folder)) {
+					throw new NotPermittedException("Unable to create folder $path. Parent is not a directory.");
+				}
+				return $folder->newFolder(basename($path));
+			}
+			$i++;
+			if ($i === $maxRetries) {
+				throw new NotPermittedException('Unable to load or create folder.');
+			}
 		}
 	}
 }

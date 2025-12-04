@@ -17,6 +17,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\Node\Node;
+use OC\Files\Node\NonExistingFolder;
 use OC\Files\Node\Root;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
@@ -37,6 +38,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Storage\IStorage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -47,7 +49,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FolderTest extends NodeTestCase {
-	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
+	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): Folder {
 		$view->expects($this->any())
 			->method('getRoot')
 			->willReturn('');
@@ -58,23 +60,20 @@ class FolderTest extends NodeTestCase {
 		}
 	}
 
-	protected function getNodeClass() {
-		return '\OC\Files\Node\Folder';
+	protected function getNodeClass(): string {
+		return Folder::class;
 	}
 
-	protected function getNonExistingNodeClass() {
-		return '\OC\Files\Node\NonExistingFolder';
+	protected function getNonExistingNodeClass(): string {
+		return NonExistingFolder::class;
 	}
 
-	protected function getViewDeleteMethod() {
+	protected function getViewDeleteMethod(): string {
 		return 'rmdir';
 	}
 
 	public function testGetDirectoryContent(): void {
 		$manager = $this->createMock(Manager::class);
-		/**
-		 * @var View|\PHPUnit\Framework\MockObject\MockObject $view
-		 */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
 			->getMock();
@@ -299,7 +298,6 @@ class FolderTest extends NodeTestCase {
 			->getMock();
 		$root->method('getUser')
 			->willReturn($this->user);
-		/** @var Storage\IStorage&MockObject $storage */
 		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::1');
 		$cache = new Cache($storage);
@@ -349,7 +347,6 @@ class FolderTest extends NodeTestCase {
 		$root->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		/** @var \PHPUnit\Framework\MockObject\MockObject|Storage $storage */
 		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::2');
 		$cache = new Cache($storage);
@@ -1040,5 +1037,88 @@ class FolderTest extends NodeTestCase {
 			return $info->getPath();
 		}, $result);
 		$this->assertEquals($expectedPaths, $ids);
+	}
+
+	public static function dataGetOrCreateFolder(): \Generator {
+		yield 'Create new folder' => [0];
+		yield 'Get existing folder' => [1];
+		yield 'Create new folder while a file with the same name already exists' => [2];
+	}
+
+	#[DataProvider('dataGetOrCreateFolder')]
+	public function testGetOrCreateFolder(int $case): void {
+		$folderName = 'asd';
+
+		$view = $this->getRootViewMock();
+		$manager = $this->createMock(Manager::class);
+		$root = $this->getMockBuilder(Root::class)
+			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
+			->getMock();
+		$root->expects($this->any())
+			->method('getUser')
+			->willReturn($this->user);
+
+		$view->method('getFileInfo')
+			->willReturnCallback(function (string $path) use ($folderName) {
+				if ($path === '/bar/foo' || $path === '/bar/foo/' . $folderName) {
+					return $this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]);
+				}
+				$this->fail('Trying to get ' . $path);
+			});
+
+		$view->method('mkdir')
+			->willReturn(true);
+
+		$view->method('touch')
+			->with('/bar/foo/asd')
+			->willReturn(true);
+
+		$node = new Folder($root, $view, '/bar/foo');
+
+		switch ($case) {
+			case 0:
+				$child = new Folder($root, $view, '/bar/foo/' . $folderName, null, $node);
+
+				$root->expects($this->any())
+					->method('get')
+					->willReturnCallback(function (string $path) use ($root, $view, $folderName) {
+						if ($path === '/bar/foo/') {
+							return new Folder($root, $view, '/bar/foo/');
+						} elseif ($path === '/bar/foo/' . $folderName) {
+							throw new NotFoundException();
+						}
+						$this->fail('Trying to get ' . $path);
+					});
+
+				break; // do nothing
+			case 1:
+				$child = new Folder($root, $view, '/bar/foo/' . $folderName, null, $node);
+
+				$root->expects($this->any())
+					->method('get')
+					->with('/bar/foo/' . $folderName)
+					->willReturn($child);
+				$node->newFolder($folderName);
+				break;
+			case 2:
+				$child = new Folder($root, $view, '/bar/foo/' . $folderName . ' (1)', null, $node);
+				$root->expects($this->any())
+					->method('get')
+					->willReturnCallback(function (string $path) use ($root, $view, $folderName) {
+						if ($path === '/bar/foo/') {
+							return new Folder($root, $view, '/bar/foo/');
+						} elseif ($path === '/bar/foo/' . $folderName) {
+							return new File($root, $view, '/bar/foo/asd');
+						} elseif ($path === '/bar/foo/' . $folderName . ' (1)') {
+							throw new NotFoundException();
+						}
+						$this->fail('Trying to get ' . $path);
+					});
+				$node->newFile($folderName);
+				break;
+		}
+
+		$result = $node->getOrCreateFolder($folderName);
+		$this->assertEquals($child, $result);
 	}
 }

@@ -17,9 +17,10 @@ namespace OCA\Files;
  *     filename: ?string,
  *     lastmod: int,
  *     mime: string,
- *     size: int,
+ *     size: int|float,
  *     type: string,
  *     hasPreview: bool,
+ *     permissions: int,
  * }
  *
  * @psalm-type FilesTemplateField = array{
