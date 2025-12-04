@@ -8,9 +8,11 @@ declare(strict_types=1);
  */
 namespace OCA\Files\Command;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RepairTree extends Command {
@@ -30,7 +32,10 @@ class RepairTree extends Command {
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		$rows = $this->findBrokenTreeBits();
+		$rows = $this->findBrokenTreeBits(
+			$input->getOption('storage-id'),
+			$input->getOption('path'),
+		);
 		$fix = !$input->getOption('dry-run');
 
 		$output->writeln('Found ' . count($rows) . ' file entries with an invalid path');
@@ -88,7 +93,7 @@ class RepairTree extends Command {
 		$query->execute();
 	}
 
-	private function findBrokenTreeBits(): array {
+	private function findBrokenTreeBits(?string $storageId, ?string $path): array {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('f.fileid', 'f.path', 'f.parent', 'f.name')
