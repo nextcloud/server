@@ -173,7 +173,7 @@ OC.L10N.register(
     "To ensure you can receive files, verify you have enough storage available." : "For at sikre at du kan modtage filer, så vær sikker på at du har nok plads tilgængelig.",
     "File request" : "Filforespørgsler",
     "Previous step" : "Forrige trin",
-    "Cancel" : "Annuller",
+    "Cancel" : "Annullér",
     "Cancel the file request creation" : "Annuller oprettelse af filforespørgslen",
     "Close without sending emails" : "Luk uden at sende e-mails",
     "Continue" : "Videre",

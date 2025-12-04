@@ -93,7 +93,6 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Ju lutemi jepni një kyç dhe një të fshehtë aplikacioni të vlefshme.",
     "OAuth1" : "OAuth1",
     "App key" : "Kyç aplikacioni",
-    "App secret" : "E fshehtë aplikacioni",
-    "Amazon S3" : "Amazon S3"
+    "App secret" : "E fshehtë aplikacioni"
 },
 "nplurals=2; plural=(n != 1);");
