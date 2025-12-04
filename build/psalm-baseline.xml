@@ -4252,15 +4252,4 @@
       <code><![CDATA[getRequest]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="public.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="remote.php">
-    <DeprecatedMethod>
-      <code><![CDATA[exec]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
 </files>
