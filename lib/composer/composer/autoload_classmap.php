@@ -814,6 +814,7 @@ return array(
     'OCP\\Share\\IProviderFactory' => $baseDir . '/lib/public/Share/IProviderFactory.php',
     'OCP\\Share\\IPublicShareTemplateFactory' => $baseDir . '/lib/public/Share/IPublicShareTemplateFactory.php',
     'OCP\\Share\\IPublicShareTemplateProvider' => $baseDir . '/lib/public/Share/IPublicShareTemplateProvider.php',
+    'OCP\\Share\\IPublicShareTemplateProviderWithPriority' => $baseDir . '/lib/public/Share/IPublicShareTemplateProviderWithPriority.php',
     'OCP\\Share\\IShare' => $baseDir . '/lib/public/Share/IShare.php',
     'OCP\\Share\\IShareHelper' => $baseDir . '/lib/public/Share/IShareHelper.php',
     'OCP\\Share\\IShareProvider' => $baseDir . '/lib/public/Share/IShareProvider.php',

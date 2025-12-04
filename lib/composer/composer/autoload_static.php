@@ -855,6 +855,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\IProviderFactory' => __DIR__ . '/../../..' . '/lib/public/Share/IProviderFactory.php',
         'OCP\\Share\\IPublicShareTemplateFactory' => __DIR__ . '/../../..' . '/lib/public/Share/IPublicShareTemplateFactory.php',
         'OCP\\Share\\IPublicShareTemplateProvider' => __DIR__ . '/../../..' . '/lib/public/Share/IPublicShareTemplateProvider.php',
+        'OCP\\Share\\IPublicShareTemplateProviderWithPriority' => __DIR__ . '/../../..' . '/lib/public/Share/IPublicShareTemplateProviderWithPriority.php',
         'OCP\\Share\\IShare' => __DIR__ . '/../../..' . '/lib/public/Share/IShare.php',
         'OCP\\Share\\IShareHelper' => __DIR__ . '/../../..' . '/lib/public/Share/IShareHelper.php',
         'OCP\\Share\\IShareProvider' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProvider.php',
