@@ -290,6 +290,11 @@ div.v-popper--theme-dropdown.v-popper__popper:has(.v-popper__wrapper), .header-m
 
 	&:has(.viewer__content) {
 		background-color: transparent;
+
+		.editor__content pre {
+			background-color: var(--ion-surface-secondary);
+			color: var(--ion-text);
+		}
 	}
 
 	&:has(.nc-generic-dialog) {
