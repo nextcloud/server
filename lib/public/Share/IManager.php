@@ -273,8 +273,15 @@ interface IManager {
 	 * @param \OCP\Files\Node $path
 	 * @param bool $recursive Should we check all parent folders as well
 	 * @param bool $currentAccess Should the user have currently access to the file
-	 * @return array
-	 * @since 12
+	 * @return ($currentAccess is true
+	 * 		? array{
+	 *     		users?: array<string, array{node_id: int, node_path: string}>,
+	 *     		remote?: array<string, array{node_id: int, node_path: string}>,
+	 *     		public?: bool,
+	 *     		mail?: array<string, array{node_id: int, node_path: string}>
+	 *     	}
+	 *      : array{users?: list<string>, remote?: bool, public?: bool, mail?: list<string>})
+	 * @since 12.0.0
 	 */
 	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false);
 
@@ -545,9 +552,9 @@ interface IManager {
 	 *
 	 * Get all the shares as iterable to reduce memory overhead
 	 * Note, since this opens up database cursors the iterable should
-	 * be fully itterated.
+	 * be fully iterated.
 	 *
-	 * @return iterable
+	 * @return iterable<IShare>
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
