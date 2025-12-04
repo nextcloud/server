@@ -245,8 +245,8 @@ class Setup {
 	/**
 	 * Check whether the .htaccess protection is effective for the given data directory.
 	 *
-	 * Creates a temporary file (htaccesstest.txt) under $dataDir and performs an HTTP 
-	 * probe. Bypassed under some scenarios (see code) when unnecessary or to avoid false 
+	 * Creates a temporary file (htaccesstest.txt) under $dataDir and performs an HTTP
+	 * probe. Bypassed under some scenarios (see code) when unnecessary or to avoid false
 	 * negatives.
 	 *
 	 * @return bool True when .htaccess protection appears to work, false otherwise.
@@ -272,7 +272,7 @@ class Setup {
 		// Create a temporary htaccess test file
 		$testContent = $this->createHtaccessTestFile($dataDir);
 		if ($testContent === false) { // File already exists for some reason
-			// Note: createHtaccessTestFile() passes up a HintException for most real-world 
+			// Note: createHtaccessTestFile() passes up a HintException for most real-world
 			// failure scenarios which we currently expect our caller to handle.
 			return false;
 		}
@@ -557,10 +557,10 @@ class Setup {
 	}
 
 	/**
-	 * Update the default (installation provided) .htaccess by inserting or overwriting 
-	 * the non-static section (ErrorDocument and optional front end controller) while 
+	 * Update the default (installation provided) .htaccess by inserting or overwriting
+	 * the non-static section (ErrorDocument and optional front end controller) while
 	 * preserving all static (install artifact) content above the preservation marker.
-	 * 
+	 *
 	 * Runs regardless of web server in use, but only effective on Apache web servers.
 	 *
 	 * TODO: Make this no longer static (looks easy; few calls)
@@ -574,7 +574,7 @@ class Setup {
 		// The distributed .htaccess file is required
 		if (!is_writable($htaccessPath)
 			|| !is_readable($htaccessPath)
-		   ) {
+		) {
 			// cannot update .htaccess (bad permissions or it is missing)
 			return false;
 		}
@@ -610,21 +610,21 @@ class Setup {
 		$newContent .= "\nErrorDocument 403 " . $webRoot . '/index.php/error/403';
 		$newContent .= "\nErrorDocument 404 " . $webRoot . '/index.php/error/404';
 
-		// RewriteBase tells mod_rewrite the URL base for the rules in this 
+		// RewriteBase tells mod_rewrite the URL base for the rules in this
 		// .htaccess file. It is required when Nextcloud is served from a subpath (so the
 		// rewrite rules generate and match the correct prefixed request paths). It
 		// also enables "pretty" URLs by routing most requests to the primary front
 		// controller (index.php).
 		//
 		// When served from the document root, RewriteBase is usually not required,
-		// though some specific server setups may still need it. In Nextcloud, setting 
+		// though some specific server setups may still need it. In Nextcloud, setting
 		// htaccess.RewriteBase to '/' (instead of leaving it empty or unconfigured) is
 		// the trigger that causes updateHtaccess() to write the bundled rewrite rules
 		// and thus enable "pretty" URLs for root installs.
 
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
 		// Notes:
-		//  - Equivalent handling may be provided by the web server (e.g. nginx location 
+		//  - Equivalent handling may be provided by the web server (e.g. nginx location
 		//	  / Apache vhost blocks) even without this.
 		//  - This is not the entire Nextcloud .htaccess file; these are merely appended
 		//	  to the base file distributed with each release.
