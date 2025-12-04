@@ -8,7 +8,7 @@ on:
 
 jobs:
   s3-primary-tests-minio:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -23,6 +23,7 @@ jobs:
 
     services:
       minio:
+        image: bitnami/minio@sha256:50cec18ac4184af4671a78aedd5554942c8ae105d51a465fa82037949046da01 # v2025.4.22
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
@@ -68,7 +69,7 @@ jobs:
 
 
   s3-primary-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [s3-primary-tests-minio]
 
     if: always()
