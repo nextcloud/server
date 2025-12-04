@@ -84,6 +84,8 @@ class SetupManager {
 	private array $fullSetupRequired = [];
 	private bool $setupBuiltinWrappersDone = false;
 	private bool $forceFullSetup = false;
+	private const SETUP_WITH_CHILDREN = ':*';
+	private const SETUP_WITHOUT_CHILDREN = ':';
 
 	public function __construct(
 		private IEventLogger $eventLogger,
@@ -120,16 +122,16 @@ class SetupManager {
 	 * Checks if a path has been cached either directly or through a full setup
 	 * of one of its parents.
 	 */
-	private function isPathSetup(string $path, bool $withChildren): bool {
+	private function isPathSetup(string $path): bool {
 		// if the exact path was already setup
-		$cacheKey = $path . ':' . $withChildren;
-		if (array_key_exists($cacheKey, $this->setupMountProviderPaths)) {
+		if (array_key_exists($path . self::SETUP_WITH_CHILDREN, $this->setupMountProviderPaths)
+		|| array_key_exists($path . self::SETUP_WITHOUT_CHILDREN, $this->setupMountProviderPaths)) {
 			return true;
 		}
 
 		// or if any of the ancestors was fully setup
 		while (($path = dirname($path)) !== '/') {
-			$cacheKey = $path . ':1';
+			$cacheKey = $path . self::SETUP_WITH_CHILDREN;
 			if (array_key_exists($cacheKey, $this->setupMountProviderPaths)) {
 				return true;
 			}
@@ -465,7 +467,7 @@ class SetupManager {
 		$mountPoint = $cachedMount->getMountPoint();
 		$isMountProviderSetup = in_array($mountProvider, $setupProviders);
 		$isPathSetupAsAuthoritative
-			= $this->isPathSetup(rtrim($mountPoint, '/'), false);
+			= $this->isPathSetup($mountPoint);
 		if (!$isMountProviderSetup && !$isPathSetupAsAuthoritative) {
 			if ($mountProvider === '') {
 				$this->logger->debug('mount at ' . $cachedMount->getMountPoint() . ' has no provider set, performing full setup');
@@ -481,7 +483,7 @@ class SetupManager {
 				$rootMetadata = array_first($rootsMetadata);
 				$providerArgs = new IMountProviderArgs($cachedMount, $rootMetadata);
 				// mark the path as cached (without children for now...)
-				$cacheKey = rtrim($mountPoint, '/') . ':';
+				$cacheKey = rtrim($mountPoint, '/') . self::SETUP_WITHOUT_CHILDREN;
 				$this->setupMountProviderPaths[$cacheKey] = true;
 				$authoritativeMounts[] = array_values(
 					$this->mountProviderCollection->getUserMountsFromProviderByPath(
@@ -527,7 +529,7 @@ class SetupManager {
 
 				if (is_a($mountProvider, IPartialMountProvider::class, true)) {
 					// skip setup if path was set up as authoritative before
-					if ($this->isPathSetup(rtrim($cachedMount->getMountPoint(), '/'), false)) {
+					if ($this->isPathSetup($cachedMount->getMountPoint())) {
 						continue;
 					}
 					// collect cached mount points for authoritative providers
@@ -551,7 +553,7 @@ class SetupManager {
 					array_merge(...array_values($authoritativeCachedMounts)),
 				);
 				$rootsMetadata = $this->fileMetadataCache->getByFileIds($rootIds);
-				$cacheKey = rtrim($mountPoint, '/') . ':1';
+				$cacheKey = rtrim($mountPoint, '/') . self::SETUP_WITH_CHILDREN;
 				$this->setupMountProviderPaths[$cacheKey] = true;
 				foreach ($authoritativeCachedMounts as $providerClass => $cachedMounts) {
 					$providerArgs = array_map(
