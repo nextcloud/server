@@ -18,6 +18,8 @@ HIDE_OC_LOGS=$2
 INSTALLED=$($OCC status | grep installed: | cut -d " " -f 5)
 
 if [ "$INSTALLED" == "true" ]; then
+    # Run in debug mode
+    $OCC config:system:set debug --value=true --type=boolean
     # Disable appstore to avoid spamming from CI
     $OCC config:system:set appstoreenabled --value=false --type=boolean
     # Disable bruteforce protection because the integration tests do trigger them

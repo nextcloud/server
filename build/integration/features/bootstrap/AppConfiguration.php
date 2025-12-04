@@ -7,6 +7,7 @@
  */
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
@@ -19,8 +20,8 @@ trait AppConfiguration {
 	/** @var ResponseInterface */
 	private $response = null;
 
-	abstract public function sendingTo($verb, $url);
-	abstract public function sendingToWith($verb, $url, $body);
+	abstract public function sendingTo(string $verb, string $url);
+	abstract public function sendingToWith(string $verb, string $url, ?TableNode $body);
 	abstract public function theOCSStatusCodeShouldBe($statusCode);
 	abstract public function theHTTPStatusCodeShouldBe($statusCode);
 

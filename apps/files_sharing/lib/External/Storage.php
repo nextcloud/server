@@ -192,7 +192,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 * @throws StorageNotAvailableException
 	 * @throws StorageInvalidException
 	 */
-	public function checkStorageAvailability() {
+	public function checkStorageAvailability(): void {
 		// see if we can find out why the share is unavailable
 		try {
 			$this->getShareInfo(0);
@@ -230,9 +230,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	/**
-	 * Check if the configured remote is a valid federated share provider
-	 *
-	 * @return bool
+	 * Check if the configured remote is a valid-federated share provider
 	 */
 	protected function testRemote(): bool {
 		try {
