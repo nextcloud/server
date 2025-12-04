@@ -30,7 +30,7 @@ interface IPartialMountProvider extends IMountProvider {
 	 * @return array<string, IMountPoint> IMountPoint instances, indexed by
 	 *                                    mount-point
 	 */
-	public function getMountsFromMountPoints(
+	public function getMountsForPath(
 		string $path,
 		array $mountProviderArgs,
 		IStorageFactory $loader,
