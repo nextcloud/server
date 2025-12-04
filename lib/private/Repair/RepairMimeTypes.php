@@ -19,14 +19,12 @@ use OCP\Migration\IRepairStep;
 class RepairMimeTypes implements IRepairStep {
 	private bool $dryRun = false;
 	private int $changeCount = 0;
-
-	/** @var int */
 	protected int $folderMimeTypeId;
 
 	public function __construct(
-		protected IConfig $config,
-		protected IAppConfig $appConfig,
-		protected IDBConnection $connection,
+		protected readonly IConfig $config,
+		protected readonly IAppConfig $appConfig,
+		protected readonly IDBConnection $connection,
 	) {
 	}
 

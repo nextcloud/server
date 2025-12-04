@@ -18,10 +18,9 @@ use OCP\User\Events\UserChangedEvent;
  * @template-implements IEventListener<UserChangedEvent>
  */
 class UserChangedListener implements IEventListener {
-	private IAvatarManager $avatarManager;
-
-	public function __construct(IAvatarManager $avatarManager) {
-		$this->avatarManager = $avatarManager;
+	public function __construct(
+		private IAvatarManager $avatarManager,
+	) {
 	}
 
 	public function handle(Event $event): void {

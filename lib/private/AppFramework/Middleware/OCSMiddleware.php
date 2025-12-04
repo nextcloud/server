@@ -20,17 +20,15 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class OCSMiddleware extends Middleware {
-	/** @var IRequest */
-	private $request;
-
 	/** @var int */
 	private $ocsVersion;
 
 	/**
 	 * @param IRequest $request
 	 */
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
 	/**
@@ -59,7 +57,7 @@ class OCSMiddleware extends Middleware {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
 			if ($code === 0) {
-				$code = \OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR;
+				$code = OCSController::RESPOND_UNKNOWN_ERROR;
 			}
 
 			return $this->buildNewResponse($controller, $code, $exception->getMessage());
@@ -72,7 +70,7 @@ class OCSMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 * @param Response $response
-	 * @return \OCP\AppFramework\Http\Response
+	 * @return Response
 	 */
 	public function afterController($controller, $methodName, Response $response) {
 		/*

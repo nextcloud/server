@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\Files\Cache;
 
+use OC\Files\Storage\Storage;
 use OCP\IConfig;
 use OCP\Server;
 use Override;
@@ -15,7 +16,7 @@ use Override;
 class LocalRootScanner extends Scanner {
 	private string $previewFolder;
 
-	public function __construct(\OC\Files\Storage\Storage $storage) {
+	public function __construct(Storage $storage) {
 		parent::__construct($storage);
 		$config = Server::get(IConfig::class);
 		$this->previewFolder = 'appdata_' . $config->getSystemValueString('instanceid', '') . '/preview';

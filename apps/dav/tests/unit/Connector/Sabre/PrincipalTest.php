@@ -78,7 +78,7 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testGetPrincipalsByPrefixWithUsers(): void {
-		$fooUser = $this->createMock(User::class);
+		$fooUser = $this->createMock(IUser::class);
 		$fooUser
 			->expects($this->once())
 			->method('getUID')
@@ -91,7 +91,7 @@ class PrincipalTest extends TestCase {
 			->expects($this->once())
 			->method('getSystemEMailAddress')
 			->willReturn('');
-		$barUser = $this->createMock(User::class);
+		$barUser = $this->createMock(IUser::class);
 		$barUser
 			->expects($this->once())
 			->method('getUID')
@@ -183,7 +183,7 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testGetPrincipalsByPathWithoutMail(): void {
-		$fooUser = $this->createMock(User::class);
+		$fooUser = $this->createMock(IUser::class);
 		$fooUser
 			->expects($this->once())
 			->method('getUID')
@@ -211,7 +211,7 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testGetPrincipalsByPathWithMail(): void {
-		$fooUser = $this->createMock(User::class);
+		$fooUser = $this->createMock(IUser::class);
 		$fooUser
 			->expects($this->once())
 			->method('getSystemEMailAddress')

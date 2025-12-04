@@ -11,15 +11,6 @@ namespace OC\Authentication\TwoFactorAuth;
 use JsonSerializable;
 
 class EnforcementState implements JsonSerializable {
-	/** @var bool */
-	private $enforced;
-
-	/** @var array */
-	private $enforcedGroups;
-
-	/** @var array */
-	private $excludedGroups;
-
 	/**
 	 * EnforcementState constructor.
 	 *
@@ -27,12 +18,11 @@ class EnforcementState implements JsonSerializable {
 	 * @param string[] $enforcedGroups
 	 * @param string[] $excludedGroups
 	 */
-	public function __construct(bool $enforced,
-		array $enforcedGroups = [],
-		array $excludedGroups = []) {
-		$this->enforced = $enforced;
-		$this->enforcedGroups = $enforcedGroups;
-		$this->excludedGroups = $excludedGroups;
+	public function __construct(
+		private bool $enforced,
+		private array $enforcedGroups = [],
+		private array $excludedGroups = [],
+	) {
 	}
 
 	/**

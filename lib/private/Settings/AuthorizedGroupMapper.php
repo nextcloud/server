@@ -6,7 +6,9 @@
  */
 namespace OC\Settings;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -14,6 +16,7 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Server;
 
 /**
  * @template-extends QBMapper<AuthorizedGroup>
@@ -30,7 +33,7 @@ class AuthorizedGroupMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		/** @var IGroupManager $groupManager */
-		$groupManager = \OC::$server->get(IGroupManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		$groups = $groupManager->getUserGroups($user);
 		if (count($groups) === 0) {
 			return [];
@@ -52,8 +55,8 @@ class AuthorizedGroupMapper extends QBMapper {
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\Db\DoesNotExistException
-	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \OCP\DB\Exception
 	 */
 	public function find(int $id): AuthorizedGroup {

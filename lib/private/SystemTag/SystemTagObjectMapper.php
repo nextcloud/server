@@ -268,7 +268,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 *
 	 * @param string[] $tagIds tag ids to check
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
+	 * @throws TagNotFoundException if at least one tag did not exist
 	 */
 	private function assertTagsExist(array $tagIds): void {
 		$tags = $this->tagManager->getTagsByIds($tagIds);

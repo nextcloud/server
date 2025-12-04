@@ -8,6 +8,7 @@
 namespace OC;
 
 use OCP\HintException;
+use OCP\Util;
 
 /**
  * This class is responsible for reading and writing config.php, the very basic
@@ -16,27 +17,20 @@ use OCP\HintException;
 class Config {
 	public const ENV_PREFIX = 'NC_';
 
-	/** @var array Associative array ($key => $value) */
-	protected $cache = [];
-	/** @var array */
-	protected $envCache = [];
-	/** @var string */
-	protected $configDir;
-	/** @var string */
-	protected $configFilePath;
-	/** @var string */
-	protected $configFileName;
-	/** @var bool */
-	protected $isReadOnly;
+	protected array $cache = [];
+	protected array $envCache = [];
+	protected string $configFilePath;
+	protected bool $isReadOnly;
 
 	/**
 	 * @param string $configDir Path to the config dir, needs to end with '/'
-	 * @param string $fileName (Optional) Name of the config file. Defaults to config.php
+	 * @param string $configFileName (Optional) Name of the config file. Defaults to config.php
 	 */
-	public function __construct($configDir, $fileName = 'config.php') {
-		$this->configDir = $configDir;
-		$this->configFilePath = $this->configDir . $fileName;
-		$this->configFileName = $fileName;
+	public function __construct(
+		protected string $configDir,
+		protected string $configFileName = 'config.php',
+	) {
+		$this->configFilePath = $this->configDir . $this->configFileName;
 		$this->readData();
 		$this->isReadOnly = $this->getValue('config_is_read_only', false);
 	}
@@ -48,7 +42,7 @@ class Config {
 	 *
 	 * @return array an array of key names
 	 */
-	public function getKeys() {
+	public function getKeys(): array {
 		return array_merge(array_keys($this->cache), array_keys($this->envCache));
 	}
 
@@ -237,7 +231,7 @@ class Config {
 				// syntax issues in the config file like leading spaces causing PHP to send output
 				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
 				if (!defined('OC_CONSOLE')) {
-					print(\OCP\Util::sanitizeHTML($errorMessage));
+					print(Util::sanitizeHTML($errorMessage));
 				}
 				throw new \Exception($errorMessage);
 			}

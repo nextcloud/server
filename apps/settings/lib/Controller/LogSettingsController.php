@@ -17,12 +17,12 @@ use OCP\IRequest;
 
 class LogSettingsController extends Controller {
 
-	/** @var Log */
-	private $log;
-
-	public function __construct(string $appName, IRequest $request, Log $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Log $log,
+	) {
 		parent::__construct($appName, $request);
-		$this->log = $logger;
 	}
 
 	/**

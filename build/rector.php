@@ -64,11 +64,9 @@ $config = RectorConfig::configure()
 		$nextcloudDir . '/remote.php',
 		$nextcloudDir . '/status.php',
 		$nextcloudDir . '/version.php',
-		$nextcloudDir . '/lib/private/Share20/ProviderFactory.php',
-		$nextcloudDir . '/lib/private/Template',
+		$nextcloudDir . '/lib/private',
 		$nextcloudDir . '/tests',
 		// $nextcloudDir . '/config',
-		// $nextcloudDir . '/lib',
 		// $nextcloudDir . '/themes',
 	])
 	->withSkip([
@@ -76,6 +74,8 @@ $config = RectorConfig::configure()
 		$nextcloudDir . '/apps/*/build/stubs/*',
 		$nextcloudDir . '/apps/*/composer/*',
 		$nextcloudDir . '/apps/*/config/*',
+		$nextcloudDir . '/lib/private/AppFramework/Middleware/Security/RateLimitingMiddleware.php',
+		$nextcloudDir . '/lib/private/Files/Node/*',
 		// The mock classes are excluded, as the tests explicitly test the annotations which should not be migrated to attributes
 		$nextcloudDir . '/tests/lib/AppFramework/Middleware/Mock/*',
 		$nextcloudDir . '/tests/lib/AppFramework/Middleware/Security/Mock/*',

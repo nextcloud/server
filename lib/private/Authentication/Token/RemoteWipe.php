@@ -18,21 +18,11 @@ use Psr\Log\LoggerInterface;
 use function array_filter;
 
 class RemoteWipe {
-	/** @var IProvider */
-	private $tokenProvider;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IProvider $tokenProvider,
-		IEventDispatcher $eventDispatcher,
-		LoggerInterface $logger) {
-		$this->tokenProvider = $tokenProvider;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private IProvider $tokenProvider,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**

@@ -8,7 +8,6 @@
 namespace OC;
 
 use InvalidArgumentException;
-use OC\App\AppManager;
 use OC\Group\Manager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -23,50 +22,29 @@ use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use Psr\Log\LoggerInterface;
 
 /**
- * Manages the ownCloud navigation
+ * Manages the nextcloud navigation
  */
 
 class NavigationManager implements INavigationManager {
-	protected $entries = [];
-	protected $closureEntries = [];
+	protected array $entries = [];
+	protected array $closureEntries = [];
+	/** @var string $activeEntry */
 	protected $activeEntry;
-	protected $unreadCounters = [];
-
-	/** @var bool */
-	protected $init = false;
-	/** @var IAppManager|AppManager */
-	protected $appManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IFactory */
-	private $l10nFac;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var Manager */
-	private $groupManager;
-	/** @var IConfig */
-	private $config;
+	protected array $unreadCounters = [];
+	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
 	private array $customAppOrder;
-	private LoggerInterface $logger;
 
 	public function __construct(
-		IAppManager $appManager,
-		IURLGenerator $urlGenerator,
-		IFactory $l10nFac,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		IConfig $config,
-		LoggerInterface $logger,
+		protected IAppManager $appManager,
+		private IURLGenerator $urlGenerator,
+		private IFactory $l10nFac,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private IConfig $config,
+		private LoggerInterface $logger,
 		protected IEventDispatcher $eventDispatcher,
 	) {
-		$this->appManager = $appManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10nFac = $l10nFac;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->config = $config;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -410,7 +388,7 @@ class NavigationManager implements INavigationManager {
 
 	private function isSubadmin() {
 		$user = $this->userSession->getUser();
-		if ($user !== null) {
+		if ($user !== null && $this->groupManager instanceof Manager) {
 			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
 		}
 		return false;

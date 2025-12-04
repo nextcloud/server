@@ -12,16 +12,10 @@ use Psr\Log\LoggerInterface;
 use function array_merge;
 
 class ScopedPsrLogger implements LoggerInterface {
-	/** @var LoggerInterface */
-	private $inner;
-
-	/** @var string */
-	private $appId;
-
-	public function __construct(LoggerInterface $inner,
-		string $appId) {
-		$this->inner = $inner;
-		$this->appId = $appId;
+	public function __construct(
+		private LoggerInterface $inner,
+		private string $appId,
+	) {
 	}
 
 	public function emergency($message, array $context = []): void {

@@ -8,6 +8,7 @@
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -16,28 +17,17 @@ use OCP\IUser;
  * Mount provider for custom cache storages
  */
 class CacheMountProvider implements IMountProvider {
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * ObjectStoreHomeMountProvider constructor.
-	 *
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**
 	 * Get the cache mount for a user
 	 *
-	 * @param IUser $user
-	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 */
-	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		$cacheBaseDir = $this->config->getSystemValueString('cache_path', '');
 		if ($cacheBaseDir !== '') {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user->getUID();

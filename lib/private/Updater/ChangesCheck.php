@@ -14,20 +14,15 @@ use OCP\Http\Client\IResponse;
 use Psr\Log\LoggerInterface;
 
 class ChangesCheck {
-	/** @var IClientService */
-	protected $clientService;
-	/** @var ChangesMapper */
-	private $mapper;
-	private LoggerInterface $logger;
-
 	public const RESPONSE_NO_CONTENT = 0;
 	public const RESPONSE_USE_CACHE = 1;
 	public const RESPONSE_HAS_CONTENT = 2;
 
-	public function __construct(IClientService $clientService, ChangesMapper $mapper, LoggerInterface $logger) {
-		$this->clientService = $clientService;
-		$this->mapper = $mapper;
-		$this->logger = $logger;
+	public function __construct(
+		protected IClientService $clientService,
+		private ChangesMapper $mapper,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**

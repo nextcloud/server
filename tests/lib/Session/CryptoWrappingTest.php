@@ -20,7 +20,7 @@ class CryptoWrappingTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ISession */
 	protected $wrappedSession;
 
-	/** @var \OC\Session\CryptoSessionData */
+	/** @var CryptoSessionData */
 	protected $instance;
 
 	protected function setUp(): void {

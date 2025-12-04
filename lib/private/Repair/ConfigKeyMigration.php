@@ -23,7 +23,7 @@ class ConfigKeyMigration implements IRepairStep {
 		return 'Migrate config keys';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$this->configManager->migrateConfigLexiconKeys();
 		$this->configManager->updateLexiconEntries('core');
 	}

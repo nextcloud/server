@@ -8,6 +8,7 @@
 namespace OC\User;
 
 use OC;
+use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
@@ -16,6 +17,7 @@ use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
+use OC\Http\CookieHelper;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
 use OC_Util;
@@ -36,6 +38,7 @@ use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
@@ -275,7 +278,7 @@ class Session implements IUserSession, Emitter {
 		$currentUser = $this->getUser();
 
 		if ($currentUser === null) {
-			throw new \OC\User\NoUserException();
+			throw new NoUserException();
 		}
 		$this->session->set('oldUserId', $currentUser->getUID());
 	}
@@ -319,7 +322,7 @@ class Session implements IUserSession, Emitter {
 		if (!$user->isEnabled()) {
 			// disabled users can not log in
 			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-			$message = \OCP\Util::getL10N('lib')->t('Account disabled');
+			$message = Util::getL10N('lib')->t('Account disabled');
 			throw new DisabledUserException($message);
 		}
 
@@ -359,7 +362,7 @@ class Session implements IUserSession, Emitter {
 			return true;
 		}
 
-		$message = \OCP\Util::getL10N('lib')->t('Login canceled by app');
+		$message = Util::getL10N('lib')->t('Login canceled by app');
 		throw new LoginException($message);
 	}
 
@@ -440,7 +443,7 @@ class Session implements IUserSession, Emitter {
 		$this->logger->warning("Login failed: '" . $user . "' (Remote IP: '" . $remoteAddress . "')", ['app' => 'core']);
 
 		$throttler->registerAttempt('login', $remoteAddress, ['user' => $user]);
-		$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user, $password));
+		$this->dispatcher->dispatchTyped(new LoginFailed($user, $password));
 
 		if ($currentDelay === 0) {
 			$throttler->sleepDelayOrThrowOnMax($remoteAddress, 'login');
@@ -477,7 +480,7 @@ class Session implements IUserSession, Emitter {
 			$user = $users[0];
 		}
 		// DI not possible due to cyclic dependencies :'-/
-		return OC::$server->get(TwoFactorAuthManager::class)->isTwoFactorAuthenticated($user);
+		return Server::get(TwoFactorAuthManager::class)->isTwoFactorAuthenticated($user);
 	}
 
 	/**
@@ -505,7 +508,7 @@ class Session implements IUserSession, Emitter {
 		if ($refreshCsrfToken) {
 			// TODO: mock/inject/use non-static
 			// Refresh the token
-			\OC::$server->get(CsrfTokenManager::class)->refreshToken();
+			Server::get(CsrfTokenManager::class)->refreshToken();
 		}
 
 		if ($firstTimeLogin) {
@@ -525,8 +528,8 @@ class Session implements IUserSession, Emitter {
 			}
 
 			// trigger any other initialization
-			\OC::$server->get(IEventDispatcher::class)->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
-			\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));
+			Server::get(IEventDispatcher::class)->dispatch(IUser::class . '::firstLogin', new GenericEvent($this->getUser()));
+			Server::get(IEventDispatcher::class)->dispatchTyped(new UserFirstTimeLoggedInEvent($this->getUser()));
 		}
 	}
 
@@ -647,10 +650,10 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
 			// Make sure the current sessionId has no leftover tokens
-			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember) {
+			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember): void {
 				$this->tokenProvider->invalidateToken($sessionId);
 				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
-			}, \OCP\Server::get(IDBConnection::class));
+			}, Server::get(IDBConnection::class));
 			return true;
 		} catch (SessionNotAvailableException $ex) {
 			// This can happen with OCC, where a memory session is used
@@ -963,7 +966,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $token
 	 */
 	public function setMagicInCookie($username, $token) {
-		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$secureCookie = Server::get(IRequest::class)->getServerProtocol() === 'https';
 		$webRoot = \OC::$WEBROOT;
 		if ($webRoot === '') {
 			$webRoot = '/';
@@ -971,7 +974,7 @@ class Session implements IUserSession, Emitter {
 		$domain = $this->config->getSystemValueString('cookie_domain');
 
 		$maxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		\OC\Http\CookieHelper::setCookie(
+		CookieHelper::setCookie(
 			'nc_username',
 			$username,
 			$maxAge,
@@ -979,9 +982,9 @@ class Session implements IUserSession, Emitter {
 			$domain,
 			$secureCookie,
 			true,
-			\OC\Http\CookieHelper::SAMESITE_LAX
+			CookieHelper::SAMESITE_LAX
 		);
-		\OC\Http\CookieHelper::setCookie(
+		CookieHelper::setCookie(
 			'nc_token',
 			$token,
 			$maxAge,
@@ -989,10 +992,10 @@ class Session implements IUserSession, Emitter {
 			$domain,
 			$secureCookie,
 			true,
-			\OC\Http\CookieHelper::SAMESITE_LAX
+			CookieHelper::SAMESITE_LAX
 		);
 		try {
-			\OC\Http\CookieHelper::setCookie(
+			CookieHelper::setCookie(
 				'nc_session_id',
 				$this->session->getId(),
 				$maxAge,
@@ -1000,7 +1003,7 @@ class Session implements IUserSession, Emitter {
 				$domain,
 				$secureCookie,
 				true,
-				\OC\Http\CookieHelper::SAMESITE_LAX
+				CookieHelper::SAMESITE_LAX
 			);
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
@@ -1012,7 +1015,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function unsetMagicInCookie() {
 		//TODO: DI for cookies and IRequest
-		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$secureCookie = Server::get(IRequest::class)->getServerProtocol() === 'https';
 		$domain = $this->config->getSystemValueString('cookie_domain');
 
 		unset($_COOKIE['nc_username']); //TODO: DI

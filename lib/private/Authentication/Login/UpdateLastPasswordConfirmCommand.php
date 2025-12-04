@@ -11,11 +11,9 @@ namespace OC\Authentication\Login;
 use OCP\ISession;
 
 class UpdateLastPasswordConfirmCommand extends ALoginCommand {
-	/** @var ISession */
-	private $session;
-
-	public function __construct(ISession $session) {
-		$this->session = $session;
+	public function __construct(
+		private ISession $session,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {

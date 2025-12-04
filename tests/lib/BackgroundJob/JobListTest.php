@@ -27,7 +27,7 @@ use Test\TestCase;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class JobListTest extends TestCase {
-	/** @var \OC\BackgroundJob\JobList */
+	/** @var JobList */
 	protected $instance;
 
 	/** @var IDBConnection */

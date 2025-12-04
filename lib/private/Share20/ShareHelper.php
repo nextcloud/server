@@ -14,11 +14,9 @@ use OCP\Share\IManager;
 use OCP\Share\IShareHelper;
 
 class ShareHelper implements IShareHelper {
-	/** @var IManager */
-	private $shareManager;
-
-	public function __construct(IManager $shareManager) {
-		$this->shareManager = $shareManager;
+	public function __construct(
+		private IManager $shareManager,
+	) {
 	}
 
 	/**

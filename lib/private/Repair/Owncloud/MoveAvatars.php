@@ -12,32 +12,17 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveAvatars implements IRepairStep {
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * MoveAvatars constructor.
-	 *
-	 * @param IJobList $jobList
-	 * @param IConfig $config
-	 */
-	public function __construct(IJobList $jobList,
-		IConfig $config) {
-		$this->jobList = $jobList;
-		$this->config = $config;
+	public function __construct(
+		private readonly IJobList $jobList,
+		private readonly IConfig $config,
+	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Add move avatar background job';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		// only run once
 		if ($this->config->getAppValue('core', 'moveavatarsdone') === 'yes') {
 			$output->info('Repair step already executed');

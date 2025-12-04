@@ -29,7 +29,7 @@ class ObjectStoreScanner extends Scanner {
 		// find any path marked as unscanned and run the scanner until no more paths are unscanned (or we get stuck)
 		// we sort by path DESC to ensure that contents of a folder are handled before the parent folder
 		while (($path = $this->getIncomplete()) !== false && $path !== $lastPath) {
-			$this->runBackgroundScanJob(function () use ($path) {
+			$this->runBackgroundScanJob(function () use ($path): void {
 				$item = $this->cache->get($path);
 				if ($item && $item->getMimeType() !== FileInfo::MIMETYPE_FOLDER) {
 					$fh = $this->storage->fopen($path, 'r');

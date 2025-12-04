@@ -8,6 +8,7 @@
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IHomeMountProvider;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 
@@ -20,7 +21,7 @@ class LocalHomeMountProvider implements IHomeMountProvider {
 	 *
 	 * @param IUser $user
 	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint|null
+	 * @return IMountPoint|null
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 		$arguments = ['user' => $user];

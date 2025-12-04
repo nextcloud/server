@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\External;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
+use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\ISharedMountPoint;
 
 class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
@@ -19,7 +20,7 @@ class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	 * @param string $mountpoint
 	 * @param array $options
 	 * @param \OCA\Files_Sharing\External\Manager $manager
-	 * @param \OC\Files\Storage\StorageFactory $loader
+	 * @param StorageFactory $loader
 	 */
 	public function __construct(
 		$storage,

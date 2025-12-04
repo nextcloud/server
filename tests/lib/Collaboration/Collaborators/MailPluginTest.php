@@ -23,35 +23,22 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 use Test\Traits\EmailValidatorTrait;
 
 class MailPluginTest extends TestCase {
 	use EmailValidatorTrait;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $cloudIdManager;
-
-	/** @var MailPlugin */
-	protected $plugin;
-
-	/** @var SearchResult */
-	protected $searchResult;
-
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-
-	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
-	protected $knownUserService;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
+	protected IConfig&MockObject $config;
+	protected IManager&MockObject $contactsManager;
+	protected ICloudIdManager $cloudIdManager;
+	protected MailPlugin $plugin;
+	protected SearchResult $searchResult;
+	protected IGroupManager&MockObject $groupManager;
+	protected KnownUserService&MockObject $knownUserService;
+	protected IUserSession&MockObject $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -86,18 +73,8 @@ class MailPluginTest extends TestCase {
 		);
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param bool $shareeEnumeration
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 * @param bool $validEmail
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEmail')]
-	public function testSearchEmail($searchTerm, $contacts, $shareeEnumeration, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $validEmail): void {
+	#[DataProvider('dataSearchEmail')]
+	public function testSearchEmail(string $searchTerm, array $contacts, bool $shareeEnumeration, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults, bool $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -564,17 +541,8 @@ class MailPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param bool $shareeEnumeration
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchUser')]
-	public function testSearchUser($searchTerm, $contacts, $shareeEnumeration, $expectedResult, $expectedExactIdMatch, $expectedMoreResults): void {
+	#[DataProvider('dataSearchUser')]
+	public function testSearchUser(string $searchTerm, array $contacts, bool $shareeEnumeration, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -860,18 +828,8 @@ class MailPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 * @param array $userToGroupMapping
-	 * @param bool $validEmail
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEmailGroupsOnly')]
-	public function testSearchEmailGroupsOnly($searchTerm, $contacts, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $userToGroupMapping, $validEmail): void {
+	#[DataProvider('dataSearchEmailGroupsOnly')]
+	public function testSearchEmailGroupsOnly(string $searchTerm, array $contacts, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults, array $userToGroupMapping, bool $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -995,17 +953,8 @@ class MailPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 * @param array $userToGroupMapping
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchUserGroupsOnly')]
-	public function testSearchUserGroupsOnly($searchTerm, $contacts, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $userToGroupMapping): void {
+	#[DataProvider('dataSearchUserGroupsOnly')]
+	public function testSearchUserGroupsOnly(string $searchTerm, array $contacts, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults, array $userToGroupMapping): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -1021,8 +970,7 @@ class MailPluginTest extends TestCase {
 
 		$this->instantiatePlugin(IShare::TYPE_USER);
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-		$currentUser = $this->createMock('\OCP\IUser');
+		$currentUser = $this->createMock(\OCP\IUser::class);
 
 		$currentUser->expects($this->any())
 			->method('getUID')

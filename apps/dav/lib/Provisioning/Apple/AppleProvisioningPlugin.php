@@ -23,22 +23,16 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * @var \OC_Defaults
-	 */
-	protected $themingDefaults;
-
-	/**
 	 * AppleProvisioningPlugin constructor.
 	 */
 	public function __construct(
 		protected IUserSession $userSession,
 		protected IURLGenerator $urlGenerator,
-		\OC_Defaults $themingDefaults,
+		protected \OC_Defaults $themingDefaults,
 		protected IRequest $request,
 		protected IL10N $l10n,
 		protected \Closure $uuidClosure,
 	) {
-		$this->themingDefaults = $themingDefaults;
 	}
 
 	/**

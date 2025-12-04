@@ -19,19 +19,18 @@ class ProviderSet {
 	/** @var IProvider */
 	private $providers;
 
-	/** @var bool */
-	private $providerMissing;
-
 	/**
 	 * @param IProvider[] $providers
 	 * @param bool $providerMissing
 	 */
-	public function __construct(array $providers, bool $providerMissing) {
+	public function __construct(
+		array $providers,
+		private bool $providerMissing,
+	) {
 		$this->providers = [];
 		foreach ($providers as $provider) {
 			$this->providers[$provider->getId()] = $provider;
 		}
-		$this->providerMissing = $providerMissing;
 	}
 
 	/**

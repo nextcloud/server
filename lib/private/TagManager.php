@@ -45,7 +45,7 @@ class TagManager implements ITagManager, IEventListener {
 	 * @param boolean $includeShared Whether to include tags for items shared with this user by others.
 	 * @param string $userId user for which to retrieve the tags, defaults to the currently
 	 *                       logged in user
-	 * @return \OCP\ITags
+	 * @return ?ITags
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */

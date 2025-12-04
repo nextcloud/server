@@ -6,30 +6,25 @@
  */
 namespace OC\Files\Notify;
 
+use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 
 class RenameChange extends Change implements IRenameChange {
-	/** @var string */
-	private $targetPath;
-
 	/**
-	 * Change constructor.
-	 *
-	 * @param int $type
-	 * @param string $path
-	 * @param string $targetPath
+	 * @param IChange::ADDED|IChange::REMOVED|IChange::MODIFIED|IChange::RENAMED $type
 	 */
-	public function __construct($type, $path, $targetPath) {
+	public function __construct(
+		int $type,
+		string $path,
+		private readonly string $targetPath,
+	) {
 		parent::__construct($type, $path);
-		$this->targetPath = $targetPath;
 	}
 
 	/**
 	 * Get the new path of the renamed file relative to the storage root
-	 *
-	 * @return string
 	 */
-	public function getTargetPath() {
+	public function getTargetPath(): string {
 		return $this->targetPath;
 	}
 }

@@ -49,7 +49,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 		}
 
 		$counter = 0;
-		$this->userManager->callForSeenUsers(function (IUser $user) use (&$counter) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$counter): void {
 			$uid = $user->getUID();
 
 			$path = 'avatars/' . $this->buildOwnCloudAvatarPath($uid);

@@ -7,6 +7,7 @@
 namespace OC\DirectEditing;
 
 use Doctrine\DBAL\FetchMode;
+use OCA\Encryption\Util;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -27,6 +28,7 @@ use OCP\IL10N;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IShare;
 use Throwable;
 use function array_key_exists;
@@ -288,8 +290,8 @@ class Manager implements IManager {
 		try {
 			$moduleId = $this->encryptionManager->getDefaultEncryptionModuleId();
 			$module = $this->encryptionManager->getEncryptionModule($moduleId);
-			/** @var \OCA\Encryption\Util $util */
-			$util = \OCP\Server::get(\OCA\Encryption\Util::class);
+			/** @var Util $util */
+			$util = Server::get(Util::class);
 			if ($module->isReadyForUser($this->userId) && $util->isMasterKeyEnabled()) {
 				return true;
 			}

@@ -11,21 +11,20 @@ use OC\Support\Subscription\Registry;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
 	private Registry $registry;
-
 	private MockObject&IConfig $config;
-	private MockObject&IServerContainer $serverContainer;
+	private MockObject&ContainerInterface $serverContainer;
 	private MockObject&IUserManager $userManager;
 	private MockObject&IGroupManager $groupManager;
 	private MockObject&LoggerInterface $logger;
@@ -35,7 +34,7 @@ class RegistryTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -119,7 +118,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testSubscriptionService(): void {
-		$this->serverContainer->method('query')
+		$this->serverContainer->method('get')
 			->with(DummySubscription::class)
 			->willReturn(new DummySubscription(true, false, false));
 		$this->registry->registerService(DummySubscription::class);

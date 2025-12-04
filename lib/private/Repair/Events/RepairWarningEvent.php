@@ -11,12 +11,9 @@ namespace OC\Repair\Events;
 use OCP\EventDispatcher\Event;
 
 class RepairWarningEvent extends Event {
-	private string $message;
-
 	public function __construct(
-		string $message,
+		private string $message,
 	) {
-		$this->message = $message;
 	}
 
 	public function getMessage(): string {

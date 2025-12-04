@@ -19,6 +19,7 @@ use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\Image;
 use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
@@ -188,7 +189,7 @@ class Generator {
 
 		// Free memory being used by the embedded image resource.  Without this the image is kept in memory indefinitely.
 		// Garbage Collection does NOT free this memory.  We have to do it ourselves.
-		if ($maxPreviewImage instanceof \OCP\Image) {
+		if ($maxPreviewImage instanceof Image) {
 			$maxPreviewImage->destroy();
 		}
 

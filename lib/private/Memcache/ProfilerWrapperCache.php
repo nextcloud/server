@@ -24,13 +24,12 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	/** @var string $prefix */
 	protected $prefix;
 
-	/** @var string $type */
-	private $type;
-
-	public function __construct(Redis $wrappedCache, string $type) {
+	public function __construct(
+		Redis $wrappedCache,
+		private string $type,
+	) {
 		$this->prefix = $wrappedCache->getPrefix();
 		$this->wrappedCache = $wrappedCache;
-		$this->type = $type;
 		$this->data['queries'] = [];
 		$this->data['cacheHit'] = 0;
 		$this->data['cacheMiss'] = 0;
