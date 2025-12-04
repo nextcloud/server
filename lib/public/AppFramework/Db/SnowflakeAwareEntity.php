@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Db;
 
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\DB\Types;
 use OCP\Server;
 use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -21,8 +22,10 @@ abstract class SnowflakeAwareEntity extends Entity {
 	/** @var string $id */
 	public $id;
 
+	protected ?Snowflake $snowflake = null;
+
 	/** @var array<string, \OCP\DB\Types::*> */
-	private array $_fieldTypes = ['id' => 'string'];
+	private array $_fieldTypes = ['id' => Types::STRING];
 
 	/**
 	 * Automatically creates a snowflake ID
@@ -50,13 +53,18 @@ abstract class SnowflakeAwareEntity extends Entity {
 		if (empty($this->id)) {
 			return null;
 		}
-		return Server::get(ISnowflakeDecoder::class)->decodeToSnowflake($this->id)->getCreatedAt();
+		return $this->getSnowflake()?->getCreatedAt();
 	}
 
 	public function getSnowflake(): ?Snowflake {
 		if (empty($this->id)) {
 			return null;
 		}
-		return Server::get(ISnowflakeDecoder::class)->decodeToSnowflake($this->id);
+
+		if (empty($this->snowflake)) {
+			$this->snowflake = Server::get(ISnowflakeDecoder::class)->decodeToSnowflake($this->id);
+		}
+
+		return $this->snowflake;
 	}
 }
