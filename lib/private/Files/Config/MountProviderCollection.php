@@ -105,7 +105,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		}
 
 		/** @var IPartialMountProvider $provider */
-		return $provider->getMountsFromMountPoints(
+		return $provider->getMountsForPath(
 			$path,
 			$mountProviderArgs,
 			$this->loader,
