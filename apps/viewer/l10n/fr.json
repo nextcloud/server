@@ -17,6 +17,7 @@
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "This file no longer exists" : "Ce fichier n'existe plus",
     "There is no plugin available to display this file type" : "Il n'y a pas d'extension disponible pour afficher ce type de fichier.",
+    "Failed to save file before download" : "Impossible d'enregistrer le fichier avant le téléchargement",
     "Edit" : "Modifier",
     "Exit full screen" : "Quitter le plein écran",
     "Full screen" : "Plein écran",
