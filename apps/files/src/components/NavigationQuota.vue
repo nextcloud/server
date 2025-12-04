@@ -33,6 +33,8 @@ import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 import logger from '../logger.js'
 import { subscribe } from '@nextcloud/event-bus'
 
+const { session_keepalive: keepSessionAlive } = loadState('core', 'config', {})
+
 export default {
 	name: 'NavigationQuota',
 
@@ -78,7 +80,9 @@ export default {
 		 * Update storage stats every minute
 		 * TODO: remove when all views are migrated to Vue
 		 */
-		setInterval(this.throttleUpdateStorageStats, 60 * 1000)
+		if (keepSessionAlive !== false) {
+			setInterval(this.throttleUpdateStorageStats, 60 * 1000)
+		}
 
 		subscribe('files:node:created', this.throttleUpdateStorageStats)
 		subscribe('files:node:deleted', this.throttleUpdateStorageStats)
