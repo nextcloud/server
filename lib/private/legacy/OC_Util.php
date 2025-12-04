@@ -733,19 +733,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Checks whether PHP is running directly on macOS.
-	 *
-	 * Note: In a Linux container, this will be false even on a macOS host
-	 * (PHP just sees "Linux").
-	 *
-	 * @return bool true if running on Mac OS X, false otherwise
-	 * @deprecated 33.0.0 Query PHP_OS_FAMILY directly.
-	 */
-	public static function runningOnMac() {
-		return (PHP_OS_FAMILY === 'Darwin');
-	}
-
-	/**
 	 * Handles the case that there may not be a theme, then check if a "default"
 	 * theme exists and take that one
 	 *
