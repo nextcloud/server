@@ -287,7 +287,7 @@ OC.L10N.register(
     "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Du er ved at slette {count} element permanent","Du er ved at slette {count} elementer permanent"],
     "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Du er ved at slette {count} element","Du er ved at slette {count} elementer"],
     "Confirm deletion" : "Bekræft sletning",
-    "Cancel" : "annuller",
+    "Cancel" : "Annullér",
     "Download" : "Download",
     "The requested file is not available." : "Den forespurgte fil er ikke tilgængelig.",
     "The requested files are not available." : "De forespurgte filer er ikke tilgængelige.",

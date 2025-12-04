@@ -99,7 +99,6 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Клуч на апликацијата",
     "App secret" : "Тајна на апликацијата",
-    "Amazon S3" : "Amazon S3",
     "Saving …" : "Зачувува ..."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "取消",
     "Clear reminder" : "清除提醒",
     "Set reminder" : "設定提醒",
+    "Set reminder for " : "設定提醒",
     "Reminder set" : "提醒設定",
     "Custom reminder" : "自訂提醒",
     "Later today" : "今天稍後",
