@@ -58,13 +58,13 @@ export async function executeAction(action: FileAction) {
 		}
 
 		if (success) {
-			showSuccess(t('files', '{displayName}: done', { displayName }))
+			showSuccess(t('files', '{displayName}: Done', { displayName }))
 			return
 		}
-		showError(t('files', '{displayName}: failed', { displayName }))
+		showError(t('files', '{displayName}: Failed', { displayName }))
 	} catch (error) {
 		logger.error('Error while executing action', { action, error })
-		showError(t('files', '{displayName}: failed', { displayName }))
+		showError(t('files', '{displayName}: Failed', { displayName }))
 	} finally {
 		// Reset the loading marker
 		Vue.set(currentNode, 'status', undefined)
