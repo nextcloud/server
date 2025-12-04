@@ -38,6 +38,7 @@ return array(
     'OCA\\Settings\\Controller\\TwoFactorSettingsController' => $baseDir . '/../lib/Controller/TwoFactorSettingsController.php',
     'OCA\\Settings\\Controller\\UsersController' => $baseDir . '/../lib/Controller/UsersController.php',
     'OCA\\Settings\\Controller\\WebAuthnController' => $baseDir . '/../lib/Controller/WebAuthnController.php',
+    'OCA\\Settings\\Events\\AfterAuthTokenCreatedEvent' => $baseDir . '/../lib/Events/AfterAuthTokenCreatedEvent.php',
     'OCA\\Settings\\Events\\BeforeTemplateRenderedEvent' => $baseDir . '/../lib/Events/BeforeTemplateRenderedEvent.php',
     'OCA\\Settings\\Hooks' => $baseDir . '/../lib/Hooks.php',
     'OCA\\Settings\\Listener\\AppPasswordCreatedActivityListener' => $baseDir . '/../lib/Listener/AppPasswordCreatedActivityListener.php',
