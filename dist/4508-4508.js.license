@@ -193,7 +193,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.0
 	- license: MIT
 - mdast-util-to-hast
-	- version: 13.2.0
+	- version: 13.2.1
 	- license: MIT
 - mdast-util-to-string
 	- version: 4.0.0
