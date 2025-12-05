@@ -686,6 +686,21 @@ class Connection extends LDAPUtility {
 			$this->ldap->setOption(null, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_DEMAND);
 		}
 
+		$defaultCertificatePath = $this->configuration->getSystemValue('default_certificates_bundle_path');
+		if ($defaultCertificatePath) {
+			if ($this->ldap->setOption(null, LDAP_OPT_X_TLS_CACERTFILE, $defaultCertificatePath)) {
+				$this->logger->debug(
+					'Adjusted the tls certificate file path to ' . $defaultCertificatePath,
+					['app' => 'user_ldap']
+				);
+			} else {
+				$this->logger->warning(
+					'Could not change the tls certificate file path.',
+					['app' => 'user_ldap']
+				);
+			}
+		}
+
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port) ?: null;
 
 		if ($this->ldapConnectionRes === null) {
