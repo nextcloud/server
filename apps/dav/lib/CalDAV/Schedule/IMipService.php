@@ -24,6 +24,7 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
+use function htmlspecialchars;
 
 class IMipService {
 
@@ -88,10 +89,11 @@ class IMipService {
 		if (!isset($vevent->$property)) {
 			return $default;
 		}
-		$newstring = $vevent->$property->getValue();
+		$value = $vevent->$property->getValue();
+		$newstring = $value === null ? null : htmlspecialchars($value);
 		if (isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
 			$oldstring = $oldVEvent->$property->getValue();
-			return sprintf($strikethrough, $oldstring, $newstring);
+			return sprintf($strikethrough, htmlspecialchars($oldstring), $newstring);
 		}
 		return $newstring;
 	}
@@ -103,9 +105,9 @@ class IMipService {
 		if (!isset($vevent->$property)) {
 			return $default;
 		}
-		/** @var string|null $newString */
-		$newString = $vevent->$property->getValue();
-		$oldString = isset($oldVEvent->$property) ? $oldVEvent->$property->getValue() : null;
+		$value = $vevent->$property->getValue();
+		$newString = $value === null ? null : htmlspecialchars($value);
+		$oldString = isset($oldVEvent->$property) ? htmlspecialchars($oldVEvent->$property->getValue()) : null;
 		if ($oldString !== $newString) {
 			return sprintf(
 				"<span style='text-decoration: line-through'>%s</span><br />%s",
@@ -805,10 +807,10 @@ class IMipService {
 		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
 		$newMeetingWhen = $this->generateWhenString($eventReaderCurrent);
-		$newSummary = isset($vEvent->SUMMARY) && (string) $vEvent->SUMMARY !== '' ? (string) $vEvent->SUMMARY : $this->l10n->t('Untitled event');
-		$newDescription = isset($vEvent->DESCRIPTION) && (string) $vEvent->DESCRIPTION !== '' ? (string) $vEvent->DESCRIPTION : $defaultVal;
+		$newSummary = htmlspecialchars(isset($vEvent->SUMMARY) && (string) $vEvent->SUMMARY !== '' ? (string) $vEvent->SUMMARY : $this->l10n->t('Untitled event'));
+		$newDescription = htmlspecialchars(isset($vEvent->DESCRIPTION) && (string) $vEvent->DESCRIPTION !== '' ? (string) $vEvent->DESCRIPTION : $defaultVal);
 		$newUrl = isset($vEvent->URL) && (string) $vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
-		$newLocation = isset($vEvent->LOCATION) && (string) $vEvent->LOCATION !== '' ? (string) $vEvent->LOCATION : $defaultVal;
+		$newLocation = htmlspecialchars(isset($vEvent->LOCATION) && (string) $vEvent->LOCATION !== '' ? (string) $vEvent->LOCATION : $defaultVal);
 		$newLocationHtml = $this->linkify($newLocation) ?? $newLocation;
 
 		$data = [];
@@ -1058,22 +1060,22 @@ class IMipService {
 	 */
 	public function addBulletList(IEMailTemplate $template, VEvent $vevent, $data) {
 		$template->addBodyListItem(
-			$data['meeting_title_html'] ?? $data['meeting_title'], $this->l10n->t('Title:'),
+			$data['meeting_title_html'] ?? htmlspecialchars($data['meeting_title']), $this->l10n->t('Title:'),
 			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
 		if ($data['meeting_when'] !== '') {
-			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('When:'),
+			$template->addBodyListItem($data['meeting_when_html'] ?? htmlspecialchars($data['meeting_when']), $this->l10n->t('When:'),
 				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_when'], '', IMipPlugin::IMIP_INDENT);
 		}
 		if ($data['meeting_location'] !== '') {
-			$template->addBodyListItem($data['meeting_location_html'] ?? $data['meeting_location'], $this->l10n->t('Location:'),
+			$template->addBodyListItem($data['meeting_location_html'] ?? htmlspecialchars($data['meeting_location']), $this->l10n->t('Location:'),
 				$this->getAbsoluteImagePath('caldav/location.png'), $data['meeting_location'], '', IMipPlugin::IMIP_INDENT);
 		}
 		if ($data['meeting_url'] !== '') {
-			$template->addBodyListItem($data['meeting_url_html'] ?? $data['meeting_url'], $this->l10n->t('Link:'),
+			$template->addBodyListItem($data['meeting_url_html'] ?? htmlspecialchars($data['meeting_url']), $this->l10n->t('Link:'),
 				$this->getAbsoluteImagePath('caldav/link.png'), $data['meeting_url'], '', IMipPlugin::IMIP_INDENT);
 		}
 		if (isset($data['meeting_occurring'])) {
-			$template->addBodyListItem($data['meeting_occurring_html'] ?? $data['meeting_occurring'], $this->l10n->t('Occurring:'),
+			$template->addBodyListItem($data['meeting_occurring_html'] ?? htmlspecialchars($data['meeting_occurring']), $this->l10n->t('Occurring:'),
 				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_occurring'], '', IMipPlugin::IMIP_INDENT);
 		}
 
@@ -1081,7 +1083,7 @@ class IMipService {
 
 		/* Put description last, like an email body, since it can be arbitrarily long */
 		if ($data['meeting_description']) {
-			$template->addBodyListItem($data['meeting_description_html'] ?? $data['meeting_description'], $this->l10n->t('Description:'),
+			$template->addBodyListItem($data['meeting_description_html'] ?? htmlspecialchars($data['meeting_description']), $this->l10n->t('Description:'),
 				$this->getAbsoluteImagePath('caldav/description.png'), $data['meeting_description'], '', IMipPlugin::IMIP_INDENT);
 		}
 	}
