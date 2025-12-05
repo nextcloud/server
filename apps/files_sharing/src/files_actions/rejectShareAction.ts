@@ -2,8 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View } from '@nextcloud/files'
-
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
@@ -15,10 +13,10 @@ import { pendingSharesViewId } from '../files_views/shares.ts'
 
 export const action = new FileAction({
 	id: 'reject-share',
-	displayName: (nodes: Node[]) => n('files_sharing', 'Reject share', 'Reject shares', nodes.length),
+	displayName: ({ nodes }) => n('files_sharing', 'Reject share', 'Reject shares', nodes.length),
 	iconSvgInline: () => CloseSvg,
 
-	enabled: (nodes, view) => {
+	enabled: ({ nodes, view }) => {
 		if (view.id !== pendingSharesViewId) {
 			return false
 		}
@@ -37,8 +35,9 @@ export const action = new FileAction({
 		return true
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
 		try {
+			const node = nodes[0]
 			const isRemote = !!node.attributes.remote
 			const shareBase = isRemote ? 'remote_shares' : 'shares'
 			const id = node.attributes.id
@@ -64,8 +63,8 @@ export const action = new FileAction({
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view: View, dir: string) {
-		return Promise.all(nodes.map((node) => this.exec(node, view, dir)))
+	async execBatch({ nodes, view, folder, contents }) {
+		return Promise.all(nodes.map((node) => this.exec({ nodes: [node], view, folder, contents })))
 	},
 
 	order: 2,

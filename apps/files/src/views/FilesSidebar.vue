@@ -112,7 +112,8 @@ import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
+import { File, Folder, formatFileSize } from '@nextcloud/files'
+import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
@@ -210,7 +211,7 @@ export default defineComponent({
 		 * @return {string}
 		 */
 		davPath() {
-			return `${davRemoteURL}${davRootPath}${encodePath(this.file)}`
+			return `${getRemoteURL()}${getRootPath()}${encodePath(this.file)}`
 		},
 
 		/**
@@ -342,7 +343,7 @@ export default defineComponent({
 		this.handleWindowResize()
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('file:node:deleted', this.onNodeDeleted)
 		window.removeEventListener('resize', this.handleWindowResize)
 	},
@@ -451,9 +452,10 @@ export default defineComponent({
 				const isDir = this.fileInfo.type === 'dir'
 				const Node = isDir ? Folder : File
 				const node = new Node({
-					fileid: this.fileInfo.id,
-					source: `${davRemoteURL}${davRootPath}${this.file}`,
-					root: davRootPath,
+					id: this.fileInfo.id,
+					source: `${getRemoteURL()}${getRootPath()}${this.file}`,
+					root: getRootPath(),
+					owner: null,
 					mime: isDir ? undefined : this.fileInfo.mimetype,
 					attributes: {
 						favorite: 1,

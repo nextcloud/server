@@ -97,6 +97,7 @@ describe('systemtags - utils', () => {
 						'system-tag': 'tag',
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag'])
 		})
@@ -113,6 +114,7 @@ describe('systemtags - utils', () => {
 						],
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
 		})
@@ -129,6 +131,7 @@ describe('systemtags - utils', () => {
 						},
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag'])
 		})
@@ -151,6 +154,7 @@ describe('systemtags - utils', () => {
 						],
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
 		})
@@ -170,6 +174,7 @@ describe('systemtags - utils', () => {
 						],
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
 		})

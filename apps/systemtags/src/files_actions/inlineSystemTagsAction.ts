@@ -24,7 +24,7 @@ export const action = new FileAction({
 	displayName: () => '',
 	iconSvgInline: () => '',
 
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		// Only show the action on single nodes
 		if (nodes.length !== 1) {
 			return false
@@ -36,7 +36,12 @@ export const action = new FileAction({
 	},
 
 	exec: async () => null,
-	renderInline,
+	renderInline: ({ nodes }) => {
+		if (nodes.length !== 1 || !nodes[0]) {
+			return Promise.resolve(null)
+		}
+		return renderInline(nodes[0])
+	},
 
 	order: 0,
 

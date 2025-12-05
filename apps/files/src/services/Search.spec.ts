@@ -13,7 +13,11 @@ vi.mock('./WebDavSearch.ts', () => ({ searchNodes }))
 vi.mock('@nextcloud/auth')
 
 describe('Search service', () => {
-	const fakeFolder = new Folder({ owner: 'owner', source: 'https://cloud.example.com/remote.php/dav/files/owner/folder', root: '/files/owner' })
+	const fakeFolder = new Folder({
+		owner: 'owner',
+		source: 'https://cloud.example.com/remote.php/dav/files/owner/folder',
+		root: '/files/owner',
+	})
 
 	beforeAll(() => {
 		window.OCP ??= {}

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node, View } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
@@ -31,8 +31,8 @@ function isExternal(node: Node) {
 export const ACTION_SHARING_STATUS = 'sharing-status'
 export const action = new FileAction({
 	id: ACTION_SHARING_STATUS,
-	displayName(nodes: Node[]) {
-		const node = nodes[0]
+	displayName({ nodes }) {
+		const node = nodes[0]!
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
 
 		if (shareTypes.length > 0
@@ -43,9 +43,8 @@ export const action = new FileAction({
 		return ''
 	},
 
-	title(nodes: Node[]) {
-		const node = nodes[0]
-
+	title({ nodes }) {
+		const node = nodes[0]!
 		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
 			const ownerDisplayName = node?.attributes?.['owner-display-name']
 			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
@@ -63,7 +62,7 @@ export const action = new FileAction({
 		}
 
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
-		switch (sharee.type) {
+		switch (sharee?.type) {
 			case ShareType.User:
 				return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
 			case ShareType.Group:
@@ -73,8 +72,8 @@ export const action = new FileAction({
 		}
 	},
 
-	iconSvgInline(nodes: Node[]) {
-		const node = nodes[0]
+	iconSvgInline({ nodes }) {
+		const node = nodes[0]!
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
 
 		// Mixed share types
@@ -106,7 +105,7 @@ export const action = new FileAction({
 		return AccountPlusSvg
 	},
 
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		if (nodes.length !== 1) {
 			return false
 		}
@@ -116,7 +115,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		const node = nodes[0]
+		const node = nodes[0]!
 		const shareTypes = node.attributes?.['share-types']
 		const isMixed = Array.isArray(shareTypes) && shareTypes.length > 0
 
@@ -137,11 +136,12 @@ export const action = new FileAction({
 			&& (node.permissions & Permission.READ) !== 0
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec({ nodes, view, folder, contents }) {
 		// You need read permissions to see the sidebar
+		const node = nodes[0]
 		if ((node.permissions & Permission.READ) !== 0) {
 			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
-			sidebarAction.exec(node, view, dir)
+			sidebarAction.exec({ nodes, view, folder, contents })
 			return null
 		}
 

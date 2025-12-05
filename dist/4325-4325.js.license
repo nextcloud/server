@@ -13,6 +13,7 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
@@ -42,6 +43,12 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.12.0
+	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 9.0.1
 	- license: AGPL-3.0-or-later
@@ -60,12 +67,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
-- @nextcloud/initial-state
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
-- @nextcloud/files
-	- version: 3.12.0
-	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
 	- license: GPL-3.0-or-later
@@ -152,4 +153,7 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - typescript-event-target
 	- version: 1.1.1
+	- license: MIT
+- webdav
+	- version: 5.8.0
 	- license: MIT

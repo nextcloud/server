@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { INode, View } from '@nextcloud/files'
-
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction } from '@nextcloud/files'
@@ -72,7 +69,7 @@ function generateFileAction(option: ReminderOption): FileAction | null {
 		// Empty svg to hide the icon
 		iconSvgInline: () => '<svg></svg>',
 
-		enabled: (nodes: INode[], view: View) => {
+		enabled: ({ nodes, view }) => {
 			if (view.id === 'trashbin') {
 				return false
 			}
@@ -87,8 +84,9 @@ function generateFileAction(option: ReminderOption): FileAction | null {
 
 		parent: SET_REMINDER_MENU_ID,
 
-		async exec(node: INode) {
+		async exec({ nodes }) {
 			// Can't really happen, but just in case™
+			const node = nodes.at(0)!
 			if (!node.fileid) {
 				logger.error('Failed to set reminder, missing file id')
 				showError(t('files_reminders', 'Failed to set reminder'))

@@ -34,6 +34,7 @@ describe('HotKeysService testing', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		// Setting the view first as it reset the active node

@@ -84,9 +84,16 @@ describe('HotKeysService testing', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
-		const root = new Folder({ owner: 'test', source: 'https://cloud.domain.com/remote.php/dav/files/admin/', id: 1, permissions: Permission.CREATE })
+		const root = new Folder({
+			owner: 'test',
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/',
+			id: 1,
+			permissions: Permission.CREATE,
+			root: '/files/admin',
+		})
 		const files = useFilesStore(getPinia())
 		files.setRoot({ service: 'files', root })
 

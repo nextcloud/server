@@ -5,7 +5,8 @@
 import type { ContentsWithRoot } from '@nextcloud/files'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { davRemoteURL, davRootPath, Folder, getFavoriteNodes, Permission } from '@nextcloud/files'
+import { Folder, Permission } from '@nextcloud/files'
+import { getFavoriteNodes, getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { CancelablePromise } from 'cancelable-promise'
 import { getContents as filesContents } from './Files.ts'
 import { client } from './WebdavClient.ts'
@@ -32,8 +33,8 @@ export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
 					contents,
 					folder: new Folder({
 						id: 0,
-						source: `${davRemoteURL}${davRootPath}`,
-						root: davRootPath,
+						source: `${getRemoteURL()}${getRootPath()}`,
+						root: getRootPath(),
 						owner: getCurrentUser()?.uid || null,
 						permissions: Permission.READ,
 					}),

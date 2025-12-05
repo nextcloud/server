@@ -66,10 +66,11 @@ export function isAllFolders(nodes: Node[]) {
 
 /**
  *
- * @param nodes
- * @param view
+ * @param root0
+ * @param root0.nodes
+ * @param root0.view
  */
-export function displayName(nodes: Node[], view: View) {
+export function displayName({ nodes, view }: { nodes: Node[], view: View }) {
 	/**
 	 * If those nodes are all the root node of a
 	 * share, we can only unshare them.
@@ -154,7 +155,7 @@ export async function askConfirmation(nodes: Node[], view: View) {
 			t('files', 'Confirm deletion'),
 			{
 				type: window.OC.dialogs.YES_NO_BUTTONS,
-				confirm: displayName(nodes, view),
+				confirm: displayName({ nodes, view }),
 				confirmClasses: 'error',
 				cancel: t('files', 'Cancel'),
 			},
