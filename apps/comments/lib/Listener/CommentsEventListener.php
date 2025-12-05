@@ -35,8 +35,7 @@ class CommentsEventListener implements IEventListener {
 		}
 
 		$eventType = $event->getEvent();
-		if ($eventType === CommentsEvent::EVENT_ADD
-		) {
+		if ($eventType === CommentsEvent::EVENT_ADD) {
 			$this->notificationHandler($event);
 			$this->activityHandler($event);
 			return;
