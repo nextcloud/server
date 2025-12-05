@@ -98,6 +98,7 @@ interface IShare {
 
 	/**
 	 * @since 26.0.0
+	 * @deprecated 33.0.0 The app is abandonned.
 	 */
 	public const TYPE_SCIENCEMESH = 15;
 

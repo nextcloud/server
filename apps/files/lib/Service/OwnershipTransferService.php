@@ -328,7 +328,6 @@ class OwnershipTransferService {
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_DECK,
-			IShare::TYPE_SCIENCEMESH,
 		];
 
 		foreach ($supportedShareTypes as $shareType) {

@@ -146,10 +146,6 @@ class ShareesAPIController extends OCSController {
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
-
-			if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
-				$shareTypes[] = IShare::TYPE_SCIENCEMESH;
-			}
 		} else {
 			if ($this->shareManager->allowGroupSharing()) {
 				$shareTypes[] = IShare::TYPE_GROUP;
@@ -160,10 +156,6 @@ class ShareesAPIController extends OCSController {
 		// FIXME: DI
 		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
-		}
-
-		if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
-			$shareTypes[] = IShare::TYPE_SCIENCEMESH;
 		}
 
 		if ($itemType === 'calendar') {
