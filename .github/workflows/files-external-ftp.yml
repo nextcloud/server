@@ -71,7 +71,7 @@ jobs:
           if [[ "${{ matrix.ftpd }}" == 'pure-ftpd' ]]; then docker run --name ftp -d --net host -e "PUBLICHOST=localhost" -e FTP_USER_NAME=test -e FTP_USER_PASS=test -e FTP_USER_HOME=/home/test -v /tmp/ftp:/home/test -v /tmp/ftp:/etc/pure-ftpd/passwd stilliard/pure-ftpd; fi
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
