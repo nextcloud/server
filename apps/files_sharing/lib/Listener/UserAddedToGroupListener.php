@@ -8,20 +8,24 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Listener;
 
+use OC\Share20\DefaultShareProvider;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IConfig;
+use OCP\Share\Events\UserAddedToShareEvent;
 use OCP\Share\IManager;
-use OCP\Share\IShare;
 
 /** @template-implements IEventListener<UserAddedEvent> */
 class UserAddedToGroupListener implements IEventListener {
 
 	public function __construct(
-		private IManager $shareManager,
-		private IConfig $config,
+		private readonly IManager $shareManager,
+		private readonly IConfig $config,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly DefaultShareProvider $shareProvider,
 	) {
 	}
 
@@ -33,22 +37,15 @@ class UserAddedToGroupListener implements IEventListener {
 		$user = $event->getUser();
 		$group = $event->getGroup();
 
-		// This user doesn't have autoaccept so we can skip it all
-		if (!$this->hasAutoAccept($user->getUID())) {
-			return;
-		}
-
-		// Get all group shares this user has access to now to filter later
-		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1);
+		$shares = $this->shareProvider->getSharedWithGroup($group->getGID());
 
 		foreach ($shares as $share) {
-			// If this is not the new group we can skip it
-			if ($share->getSharedWith() !== $group->getGID()) {
-				continue;
+			// Accept the share if needed
+			if ($this->hasAutoAccept($user->getUID())) {
+				$this->shareManager->acceptShare($share, $user->getUID());
 			}
 
-			// Accept the share if needed
-			$this->shareManager->acceptShare($share, $user->getUID());
+			$this->eventDispatcher->dispatchTyped(new UserAddedToShareEvent($share, $user));
 		}
 	}
 
