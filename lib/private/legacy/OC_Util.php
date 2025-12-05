@@ -733,15 +733,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Checks whether the server is running on Mac OS X
-	 *
-	 * @return bool true if running on Mac OS X, false otherwise
-	 */
-	public static function runningOnMac() {
-		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
-	}
-
-	/**
 	 * Handles the case that there may not be a theme, then check if a "default"
 	 * theme exists and take that one
 	 *
