@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
+use OC\Files\Cache\FileAccess;
 use OC\Files\Cache\FileMetadataCache;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\HomeMountPoint;
@@ -101,7 +102,7 @@ class SetupManager {
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
 		private IAppManager $appManager,
-		private FileMetadataCache $fileMetadataCache,
+		private FileAccess $fileAccess,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -479,8 +480,7 @@ class SetupManager {
 
 			if (is_a($mountProvider, IPartialMountProvider::class, true)) {
 				$rootId = $cachedMount->getRootId();
-				$rootsMetadata = $this->fileMetadataCache->getByFileIds([$rootId]);
-				$rootMetadata = array_first($rootsMetadata);
+				$rootMetadata = $this->fileAccess->getByFileId($rootId);
 				$providerArgs = new IMountProviderArgs($cachedMount, $rootMetadata);
 				// mark the path as cached (without children for now...)
 				$cacheKey = rtrim($mountPoint, '/') . self::SETUP_WITHOUT_CHILDREN;
@@ -552,7 +552,13 @@ class SetupManager {
 					fn (ICachedMountInfo $mount) => $mount->getRootId(),
 					array_merge(...array_values($authoritativeCachedMounts)),
 				);
-				$rootsMetadata = $this->fileMetadataCache->getByFileIds($rootIds);
+
+				$rootsMetadata = [];
+				foreach (array_chunk($rootIds, 1000) as $chunk) {
+					foreach ($this->fileAccess->getByFileIds($chunk) as $id => $fileMetadata) {
+						$rootsMetadata[$id] = $fileMetadata;
+					}
+				}
 				$cacheKey = rtrim($mountPoint, '/') . self::SETUP_WITH_CHILDREN;
 				$this->setupMountProviderPaths[$cacheKey] = true;
 				foreach ($authoritativeCachedMounts as $providerClass => $cachedMounts) {

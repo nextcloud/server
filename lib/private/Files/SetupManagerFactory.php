@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
-use OC\Files\Cache\FileMetadataCache;
+use OC\Files\Cache\FileAccess;
 use OC\Share20\ShareDisableChecker;
 use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
@@ -39,7 +39,7 @@ class SetupManagerFactory {
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
 		private IAppManager $appManager,
-		private FileMetadataCache $fileMetadataCache,
+		private FileAccess $fileAccess,
 	) {
 		$this->setupManager = null;
 	}
@@ -60,7 +60,7 @@ class SetupManagerFactory {
 				$this->config,
 				$this->shareDisableChecker,
 				$this->appManager,
-				$this->fileMetadataCache,
+				$this->fileAccess,
 			);
 		}
 		return $this->setupManager;
