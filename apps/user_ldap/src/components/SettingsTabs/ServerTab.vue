@@ -47,7 +47,7 @@
 					type="number"
 					autocomplete="off"
 					@change="(event) => ldapConfigProxy.ldapPort = event.target.value" />
-				<NcButton :disabled="loadingGuessPortAndTLS" @click="guessPortAndTLS">
+				<NcButton :disabled="loadingGuessPortAndTLS || ldapConfigProxy.ldapHost === ''" @click="guessPortAndTLS">
 					{{ t('user_ldap', 'Detect Port') }}
 				</NcButton>
 			</div>
@@ -83,7 +83,7 @@
 				:helper-text="t('user_ldap', 'You can specify Base DN for users and groups in the Advanced tab')"
 				@change="(event) => ldapConfigProxy.ldapBase = event.target.value" />
 
-			<NcButton :disabled="loadingGuessBaseDN" @click="guessBaseDN">
+			<NcButton :disabled="loadingGuessBaseDN || needsToSaveCredentials" @click="guessBaseDN">
 				{{ t('user_ldap', 'Detect Base DN') }}
 			</NcButton>
 			<NcButton :disabled="loadingCountInBaseDN || ldapConfigProxy.ldapBase === ''" @click="countInBaseDN">
@@ -98,7 +98,7 @@ import { showInfo } from '@nextcloud/dialogs'
 import { n, t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import { callWizard } from '../../services/ldapConfigService.ts'
@@ -120,6 +120,18 @@ const needsToSaveCredentials = computed(() => {
 	return ldapConfigProxy.value.ldapAgentName !== localLdapAgentName.value || ldapConfigProxy.value.ldapAgentPassword !== localLdapAgentPassword.value
 })
 
+watch(
+	ldapConfigProxy,
+	(newVal) => {
+		localLdapAgentName.value = newVal.ldapAgentName
+		if (newVal.ldapAgentPassword === '***') {
+			localLdapAgentPassword.value = ''
+		} else {
+			localLdapAgentPassword.value = newVal.ldapAgentPassword
+		}
+	},
+)
+
 /**
  *
  */
@@ -136,7 +148,7 @@ async function guessPortAndTLS() {
 		loadingGuessPortAndTLS.value = true
 		const { changes } = await callWizard('guessPortAndTLS', props.configId)
 		// Not using ldapConfigProxy to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapPort = (changes!.ldap_port as string) ?? ''
+		ldapConfigs.value[props.configId]!.ldapPort = (changes!.ldap_port as string) ?? ''
 	} finally {
 		loadingGuessPortAndTLS.value = false
 	}

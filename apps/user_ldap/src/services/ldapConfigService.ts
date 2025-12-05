@@ -174,10 +174,15 @@ export async function callWizard(action: WizardAction, configId: string, extraPa
 
 		return response.data.ocs.data
 	} catch (error) {
+		let message = t('user_ldap', 'An error occurred')
+
 		if (isAxiosError(error) && error.response?.data.ocs.meta.status === 'failure') {
-			const message = error.response.data.ocs.meta.message ?? t('user_ldap', 'An error occurred')
-			showError(message)
+			if (error.response.data.ocs.meta.message !== '' && error.response.data.ocs.meta.message !== undefined) {
+				message = error.response.data.ocs.meta.message
+			}
 		}
+
+		showError(message)
 
 		throw error
 	}
