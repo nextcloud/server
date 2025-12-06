@@ -19,6 +19,8 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use Psr\Log\LoggerInterface;
+
 
 class MailSettingsController extends Controller {
 
@@ -39,6 +41,7 @@ class MailSettingsController extends Controller {
 		private IUserSession $userSession,
 		private IURLGenerator $urlGenerator,
 		private IMailer $mailer,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -144,6 +147,7 @@ class MailSettingsController extends Controller {
 				$this->config->setAppValue('core', 'emailTestSuccessful', '1');
 				return new DataResponse();
 			} catch (\Exception $e) {
+				$this->logger->error('Failed sending test email: ' . $e->getMessage(), ['exception' => $e]);
 				$this->config->setAppValue('core', 'emailTestSuccessful', '0');
 				return new DataResponse($this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]), Http::STATUS_BAD_REQUEST);
 			}
