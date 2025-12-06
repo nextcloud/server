@@ -15,6 +15,22 @@
         "type": "github"
       }
     },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761588595,
+        "narHash": "sha256-XKUZz9zewJNUj46b4AJdiRZJAvSZ0Dqj2BNfXvFlJC4=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -115,11 +131,36 @@
         "type": "github"
       }
     },
+    "phps": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "utils": [
+          "flake-utils"
+        ]
+      },
+      "locked": {
+        "lastModified": 1763965909,
+        "narHash": "sha256-Hx/ZHl8Tc8C6gP2xN0zAl7txk1sUZA98NrflyJuw+70=",
+        "owner": "fossar",
+        "repo": "nix-phps",
+        "rev": "8b3b0250e31d56283a8fa1b66dbd78fb21fa4893",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fossar",
+        "repo": "nix-phps",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
         "haze": "haze",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "phps": "phps"
       }
     },
     "rust-overlay": {

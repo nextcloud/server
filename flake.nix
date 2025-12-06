@@ -1,14 +1,26 @@
 {
+  nixConfig = {
+    extra-substituters = [ "https://fossar.cachix.org" ];
+    extra-trusted-public-keys = [ "fossar.cachix.org-1:Zv6FuqIboeHPWQS7ysLCJ7UT7xExb4OE8c4LyGb5AsE=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
+	phps = {
+	  url = "github:fossar/nix-phps";
+	  inputs = {
+	    nixpkgs.follows = "nixpkgs";
+	    utils.follows = "flake-utils";
+	  };
+	};
     haze = {
       url = "git+https://codeberg.org/icewind/haze.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { nixpkgs, flake-utils, haze, ... }:
+  outputs = { nixpkgs, flake-utils, phps, haze, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -18,7 +30,7 @@
         devShells.default =
           let
             php_version = lib.strings.concatStrings (builtins.match ".*PHP_VERSION_ID < ([0-9])0([0-9])00.*" (builtins.readFile ./lib/versioncheck.php));
-            php = pkgs.pkgs."php${php_version}".buildEnv {
+            php = phps.packages.${system}."php${php_version}".buildEnv {
               # Based off https://docs.nextcloud.com/server/latest/admin_manual/installation/php_configuration.html
               extensions = ({ enabled, all }: enabled ++ (with all; [
                 # Required
