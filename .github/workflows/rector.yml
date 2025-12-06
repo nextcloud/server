@@ -1,0 +1,45 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Rector
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rector-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  strict:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Set up php
+        uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 #v2.35.4
+        with:
+          php-version: '8.2'
+          extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Composer install
+        run: composer i
+
+      - name: Rector
+        run: composer run rector:strict
+
+      - name: Show changes
+        if: always()
+        run: git diff --exit-code -- . ':!lib/composer'
