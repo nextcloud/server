@@ -10,7 +10,7 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\OfflineUser;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,19 +19,19 @@ use Test\TestCase;
 class OfflineUserTest extends TestCase {
 	protected UserMapping&MockObject $mapping;
 	protected string $uid;
-	protected IConfig&MockObject $config;
+	protected IUserConfig&MockObject $userConfig;
 	protected IManager&MockObject $shareManager;
 	protected OfflineUser $offlineUser;
 
 	public function setUp(): void {
 		$this->uid = 'deborah';
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->mapping = $this->createMock(UserMapping::class);
 		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->offlineUser = new OfflineUser(
 			$this->uid,
-			$this->config,
+			$this->userConfig,
 			$this->mapping,
 			$this->shareManager
 		);

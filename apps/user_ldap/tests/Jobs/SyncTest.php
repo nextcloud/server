@@ -15,8 +15,8 @@ use OCA\User_LDAP\Jobs\Sync;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -24,7 +24,6 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -34,6 +33,8 @@ class SyncTest extends TestCase {
 	protected Manager&MockObject $userManager;
 	protected UserMapping&MockObject $mapper;
 	protected IConfig&MockObject $config;
+	protected IAppConfig&MockObject $appConfig;
+	protected \OCP\IAppConfig&MockObject $globalAppConfig;
 	protected IAvatarManager&MockObject $avatarManager;
 	protected IDBConnection&MockObject $dbc;
 	protected IUserManager&MockObject $ncUserManager;
@@ -51,6 +52,8 @@ class SyncTest extends TestCase {
 		$this->userManager = $this->createMock(Manager::class);
 		$this->mapper = $this->createMock(UserMapping::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->globalAppConfig = $this->createMock(\OCP\IAppConfig::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->dbc = $this->createMock(IDBConnection::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
@@ -64,13 +67,9 @@ class SyncTest extends TestCase {
 
 		$this->sync = new Sync(
 			Server::get(ITimeFactory::class),
-			Server::get(IEventDispatcher::class),
 			$this->config,
-			$this->dbc,
-			$this->avatarManager,
-			$this->ncUserManager,
-			Server::get(LoggerInterface::class),
-			$this->notificationManager,
+			$this->appConfig,
+			$this->globalAppConfig,
 			$this->mapper,
 			$this->helper,
 			$this->connectionFactory,
@@ -102,15 +101,15 @@ class SyncTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('intervalDataProvider')]
 	public function testUpdateInterval(int $userCount, int $pagingSize1, int $pagingSize2): void {
-		$this->config->expects($this->once())
-			->method('setAppValue')
-			->with('user_ldap', 'background_sync_interval', $this->anything())
+		$this->appConfig->expects($this->once())
+			->method('setAppValueInt')
+			->with('background_sync_interval', $this->anything())
 			->willReturnCallback(function ($a, $k, $interval) {
 				$this->assertTrue($interval >= SYNC::MIN_INTERVAL);
 				$this->assertTrue($interval <= SYNC::MAX_INTERVAL);
 				return true;
 			});
-		$this->config->expects($this->atLeastOnce())
+		$this->appConfig->expects($this->atLeastOnce())
 			->method('getAppKeys')
 			->willReturn([
 				'blabla',
@@ -119,8 +118,8 @@ class SyncTest extends TestCase {
 				'installed',
 				's07ldap_paging_size'
 			]);
-		$this->config->expects($this->exactly(2))
-			->method('getAppValue')
+		$this->appConfig->expects($this->exactly(2))
+			->method('getAppValueInt')
 			->willReturnOnConsecutiveCalls($pagingSize1, $pagingSize2);
 
 		$this->mapper->expects($this->atLeastOnce())
@@ -189,8 +188,8 @@ class SyncTest extends TestCase {
 		$lastCycle = ['prefix' => 's01', 'offset' => 1000];
 		$lastCycle2 = ['prefix' => '', 'offset' => 1000];
 		return [
-			[ null, ['s01'], ['prefix' => 's01', 'offset' => 0] ],
-			[ null, [''], ['prefix' => '', 'offset' => 0] ],
+			[ 0, ['s01'], ['prefix' => 's01', 'offset' => 0] ],
+			[ 0, [''], ['prefix' => '', 'offset' => 0] ],
 			[ $lastCycle, ['s01', 's02'], ['prefix' => 's02', 'offset' => 0] ],
 			[ $lastCycle, [''], ['prefix' => '', 'offset' => 0] ],
 			[ $lastCycle2, ['', 's01'], ['prefix' => 's01', 'offset' => 0] ],
@@ -206,19 +205,18 @@ class SyncTest extends TestCase {
 			->willReturn($prefixes);
 
 		if (is_array($expectedCycle)) {
-			$calls = [
-				['user_ldap', 'background_sync_prefix', $expectedCycle['prefix']],
-				['user_ldap', 'background_sync_offset', $expectedCycle['offset']],
-			];
-			$this->config->expects($this->exactly(2))
-				->method('setAppValue')
-				->willReturnCallback(function () use (&$calls): void {
-					$expected = array_shift($calls);
-					$this->assertEquals($expected, func_get_args());
-				});
+			$this->appConfig->expects($this->once())
+				->method('setAppValueInt')
+				->with('background_sync_offset', $expectedCycle['offset']);
+
+			$this->appConfig->expects($this->once())
+				->method('setAppValueString')
+				->with('background_sync_prefix', $expectedCycle['prefix']);
 		} else {
-			$this->config->expects($this->never())
-				->method('setAppValue');
+			$this->appConfig->expects($this->never())
+				->method('setAppValueString');
+			$this->appConfig->expects($this->never())
+				->method('setAppValueInt');
 		}
 
 		$this->sync->setArgument($this->arguments);
@@ -278,31 +276,40 @@ class SyncTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRun(array $runData): void {
-		$this->config->expects($this->any())
-			->method('getAppValue')
+		$this->globalAppConfig->expects($this->any())
+			->method('getValueString')
 			->willReturnCallback(function ($app, $key, $default) use ($runData) {
 				if ($app === 'core' && $key === 'backgroundjobs_mode') {
 					return 'cron';
 				}
-				if ($app = 'user_ldap') {
-					// for getCycle()
-					if ($key === 'background_sync_prefix') {
-						return $runData['scheduledCycle']['prefix'];
-					}
-					if ($key === 'background_sync_offset') {
-						return $runData['scheduledCycle']['offset'];
-					}
-					// for qualifiesToRun()
-					if ($key === $runData['scheduledCycle']['prefix'] . '_lastChange') {
-						return time() - 60 * 40;
-					}
-					// for getMinPagingSize
-					if ($key === $runData['scheduledCycle']['prefix'] . 'ldap_paging_size') {
-						return $runData['pagingSize'];
-					}
+				return $default;
+			});
+
+		$this->appConfig->expects($this->any())
+			->method('getValueInt')
+			->willReturnCallback(function ($app, $key, $default) use ($runData) {
+				if ($key === 'background_sync_offset') {
+					return $runData['scheduledCycle']['offset'];
+				}
+				// for getMinPagingSize
+				if ($key === $runData['scheduledCycle']['prefix'] . 'ldap_paging_size') {
+					return $runData['pagingSize'];
+				}
+				// for qualifiesToRun()
+				if ($key === $runData['scheduledCycle']['prefix'] . '_lastChange') {
+					return time() - 60 * 40;
 				}
 
 				return $default;
+			});
+
+		$this->appConfig->expects($this->any())
+			->method('getValueString')
+			->willReturnCallback(function ($app, $key, $default) use ($runData) {
+				// for getCycle()
+				if ($key === 'background_sync_prefix') {
+					return $runData['scheduledCycle']['prefix'];
+				}
 			});
 
 		$calls = [
@@ -310,15 +317,21 @@ class SyncTest extends TestCase {
 			['user_ldap', 'background_sync_offset', $runData['expectedNextCycle']['offset']],
 			['user_ldap', 'background_sync_interval', '43200'],
 		];
-		$this->config->expects($this->exactly(3))
-			->method('setAppValue')
+		$this->appConfig->expects($this->once())
+			->method('setAppValueString')
 			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
-		$this->config->expects($this->any())
+		$this->appConfig->expects($this->exactly(2))
+			->method('setAppValueInt')
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
+		$this->appConfig->expects($this->any())
 			->method('getAppKeys')
-			->with('user_ldap')
 			->willReturn([$runData['scheduledCycle']['prefix'] . 'ldap_paging_size']);
 
 		$this->helper->expects($this->any())

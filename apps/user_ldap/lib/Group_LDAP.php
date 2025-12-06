@@ -11,12 +11,12 @@ use Exception;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Config\IUserConfig;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IIsAdminBackend;
 use OCP\GroupInterface;
-use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -41,7 +41,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	public function __construct(
 		protected Access $access,
 		protected GroupPluginManager $groupPluginManager,
-		private IConfig $config,
+		private IUserConfig $userConfig,
 		private IUserManager $ncUserManager,
 	) {
 		$filter = $this->access->connection->ldapGroupFilter;
@@ -643,7 +643,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return list<string>
 	 */
 	protected function getCachedGroupsForUserId(string $uid): array {
-		$groupStr = $this->config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
+		$groupStr = $this->userConfig->getValueString($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
 		return json_decode($groupStr, true) ?? [];
 	}
 
@@ -801,7 +801,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$this->access->connection->writeToCache($cacheKey, $groups);
 
 		$groupStr = \json_encode($groups);
-		$this->config->setUserValue($ncUid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), $groupStr);
+		$this->userConfig->setValueString($ncUid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), $groupStr);
 
 		return $groups;
 	}

@@ -20,6 +20,7 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IAppConfig;
@@ -49,7 +50,6 @@ class AccessTest extends TestCase {
 	private LDAP&MockObject $ldap;
 	private Manager&MockObject $userManager;
 	private Helper&MockObject $helper;
-	private IConfig&MockObject $config;
 	private IUserManager&MockObject $ncUserManager;
 	private LoggerInterface&MockObject $logger;
 	private IAppConfig&MockObject $appConfig;
@@ -63,7 +63,6 @@ class AccessTest extends TestCase {
 			->getMock();
 		$this->userManager = $this->createMock(Manager::class);
 		$this->helper = $this->createMock(Helper::class);
-		$this->config = $this->createMock(IConfig::class);
 		$this->userMapper = $this->createMock(UserMapping::class);
 		$this->groupMapper = $this->createMock(GroupMapping::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
@@ -77,7 +76,6 @@ class AccessTest extends TestCase {
 			$this->connection,
 			$this->userManager,
 			$this->helper,
-			$this->config,
 			$this->ncUserManager,
 			$this->logger,
 			$this->appConfig,
@@ -102,6 +100,8 @@ class AccessTest extends TestCase {
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
+				$this->createMock(IUserConfig::class),
+				$this->createMock(\OCP\AppFramework\Services\IAppConfig::class),
 				$this->createMock(LoggerInterface::class),
 				$this->createMock(IAvatarManager::class),
 				$this->createMock(Image::class),
@@ -222,9 +222,7 @@ class AccessTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
 	public function testStringResemblesDN(string $input, array|bool $interResult, bool $expectedResult): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig&MockObject $config */
-		$config = $this->createMock(IConfig::class);
-		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
+		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
@@ -241,10 +239,8 @@ class AccessTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
 	public function testStringResemblesDNLDAPmod(string $input, array|bool $interResult, bool $expectedResult): void {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig&MockObject $config */
-		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
-		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
+		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		if (!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -413,9 +409,6 @@ class AccessTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('dNAttributeProvider')]
 	public function testSanitizeDN(string $attribute): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig&MockObject $config */
-		$config = $this->createMock(IConfig::class);
-
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
 
 		$lw->expects($this->any())
@@ -427,7 +420,7 @@ class AccessTest extends TestCase {
 				$attribute => ['count' => 1, $dnFromServer]
 			]);
 
-		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
+		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}

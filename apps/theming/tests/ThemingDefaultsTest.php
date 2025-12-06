@@ -17,7 +17,6 @@ use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\NotFoundException;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
@@ -28,7 +27,7 @@ use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
 	private IL10N&MockObject $l10n;
 	private IUserSession&MockObject $userSession;
 	private IURLGenerator&MockObject $urlGenerator;
@@ -46,7 +45,7 @@ class ThemingDefaultsTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -63,8 +62,8 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getBaseUrl')
 			->willReturn('');
 		$this->template = new ThemingDefaults(
-			$this->config,
 			$this->appConfig,
+			$this->userConfig,
 			$this->l10n,
 			$this->userSession,
 			$this->urlGenerator,

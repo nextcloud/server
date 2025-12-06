@@ -10,21 +10,21 @@ declare(strict_types=1);
 namespace OCA\User_LDAP\Jobs;
 
 use OCA\User_LDAP\Service\UpdateGroupsService;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
-use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class UpdateGroups extends TimedJob {
 	public function __construct(
 		private UpdateGroupsService $service,
 		private LoggerInterface $logger,
-		IConfig $config,
+		IAppConfig $appConfig,
 		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
-		$this->interval = (int)$config->getAppValue('user_ldap', 'bgjRefreshInterval', '3600');
+		$this->interval = $appConfig->getAppValueInt('bgjRefreshInterval', 3600);
 	}
 
 	/**
