@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "Tühista",
     "Clear reminder" : "Eemalda meeldetuletus",
     "Set reminder" : "Lisa meeldetuletus",
+    "Set reminder for " : "Lisa meeldetuletuse ajaks",
     "Reminder set" : "Meeldetuletus on lisatud",
     "Custom reminder" : "Enda valitud meeldetuletus",
     "Later today" : "Täna hiljem",

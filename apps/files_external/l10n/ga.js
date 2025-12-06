@@ -49,6 +49,7 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Réimse réamhshocraithe Kerberos, mainneachtainí chuig \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Mód Apache ticéad Kerberos",
     "Kerberos ticket" : "ticéad Kerberos",
+    "S3 Storage" : "Stóráil S3",
     "Bucket" : "Buicéad",
     "Hostname" : "Óstainm",
     "Port" : "Port",
