@@ -93,20 +93,20 @@ p($theme->getTitle());
 		<?php print_unescaped($_['content']); ?>
 	</div>
 
-	<?php if (isset($template) && $template->getFooterVisible() && ($theme->getLongFooter() !== '' || $_['showSimpleSignUpLink'])) { ?>
+	<?php if ((isset($template) && $template->getFooterVisible()) || $theme->getLongFooter() !== '' || $_['showSimpleSignUpLink']) { ?>
 	<footer>
-		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
-		<?php
-if ($_['showSimpleSignUpLink']) {
-	?>
-			<p class="footer__simple-sign-up">
-				<a href="<?php p($_['signUpLink']); ?>" target="_blank" rel="noreferrer noopener">
-					<?php p($l->t('Get your own free account')); ?>
-				</a>
-			</p>
-			<?php
-}
-		?>
+		<?php if ($theme->getLongFooter() !== '') { ?>
+		<p>
+			<?php  print_unescaped($theme->getLongFooter()); ?>
+		</p>
+		<?php } ?>
+		<?php if ($_['showSimpleSignUpLink']) { ?>
+		<p class="footer__simple-sign-up">
+			<a href="<?php p($_['signUpLink']); ?>" target="_blank" rel="noreferrer noopener">
+				<?php p($l->t('Get your own free account')); ?>
+			</a>
+		</p>
+		<?php } ?>
 	</footer>
 	<?php } ?>
 
