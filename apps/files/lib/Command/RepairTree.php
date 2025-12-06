@@ -8,9 +8,11 @@ declare(strict_types=1);
  */
 namespace OCA\Files\Command;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RepairTree extends Command {
@@ -26,11 +28,16 @@ class RepairTree extends Command {
 		$this
 			->setName('files:repair-tree')
 			->setDescription('Try and repair malformed filesystem tree structures')
-			->addOption('dry-run');
+			->addOption('dry-run')
+			->addOption('storage-id', 's', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given storage numeric ID', null)
+			->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given path', null);
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		$rows = $this->findBrokenTreeBits();
+		$rows = $this->findBrokenTreeBits(
+			$input->getOption('storage-id'),
+			$input->getOption('path'),
+		);
 		$fix = !$input->getOption('dry-run');
 
 		$output->writeln('Found ' . count($rows) . ' file entries with an invalid path');
@@ -88,7 +95,7 @@ class RepairTree extends Command {
 		$query->execute();
 	}
 
-	private function findBrokenTreeBits(): array {
+	private function findBrokenTreeBits(?string $storageId, ?string $path): array {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('f.fileid', 'f.path', 'f.parent', 'f.name')
@@ -107,6 +114,14 @@ class RepairTree extends Command {
 				),
 				$query->expr()->neq('f.storage', 'p.storage')
 			));
+
+		if ($storageId !== null) {
+			$query->andWhere($query->expr()->eq('f.storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
+		}
+
+		if ($path !== null) {
+			$query->andWhere($query->expr()->like('f.path', $query->createNamedParameter($path . '%')));
+		}
 
 		return $query->execute()->fetchAll();
 	}
