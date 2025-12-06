@@ -11,7 +11,7 @@ OC.L10N.register(
     "Empty deleted files" : "Tøm slettede filer",
     "Confirm permanent deletion" : "Bekræft permanent sletning",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Er du sikker på, at du vil slette alle filer og mapper i papirkurven permanent? Dette kan ikke fortrydes.",
-    "Cancel" : "Annuller",
+    "Cancel" : "Annullér",
     "Original location" : "Oprindelig filplacering",
     "Deleted by" : "Slettet af ",
     "Deleted" : "Slettet",

@@ -100,7 +100,6 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "გთხოვთ უზრუნველყოთ სწორი აპლიკაციის გასაღები და საიდუმლო.",
     "OAuth1" : "OAuth1",
     "App key" : "აპლიკაციის გასაღები",
-    "App secret" : "აპლიკაციის საიდუმლო",
-    "Amazon S3" : "Amazon S3-ი"
+    "App secret" : "აპლიკაციის საიდუმლო"
 },
 "nplurals=2; plural=(n!=1);");

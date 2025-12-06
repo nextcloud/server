@@ -11,7 +11,7 @@ use OCP\IL10N;
 
 class Setting extends ActivitySettings {
 	public function __construct(
-		protected IL10N $l,
+		protected readonly IL10N $l,
 	) {
 	}
 
@@ -23,11 +23,11 @@ class Setting extends ActivitySettings {
 		return $this->l->t('<strong>Comments</strong> for files');
 	}
 
-	public function getGroupIdentifier() {
+	public function getGroupIdentifier(): string {
 		return 'files';
 	}
 
-	public function getGroupName() {
+	public function getGroupName(): string {
 		return $this->l->t('Files');
 	}
 

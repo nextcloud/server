@@ -93,7 +93,6 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Kunci Apl",
     "App secret" : "Rahasia Apl",
-    "Amazon S3" : "Amazon S3",
     "Saving …" : "Menyimpan ..."
 },
 "nplurals=1; plural=0;");

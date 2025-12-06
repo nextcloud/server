@@ -250,7 +250,7 @@ class ConfigAPIController extends OCSController {
 			$this->ensureConfigIDExists($configID);
 			$connection = $this->connectionFactory->get($configID);
 			$conf = $connection->getConfiguration();
-			if ($conf['ldap_configuration_active'] === '0') {
+			if ($conf['ldap_configuration_active'] !== '1') {
 				//needs to be true, otherwise it will also fail with an irritating message
 				$conf['ldap_configuration_active'] = '1';
 			}

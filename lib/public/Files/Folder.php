@@ -66,6 +66,15 @@ interface Folder extends Node {
 	public function get($path);
 
 	/**
+	 * Get or create new folder if the folder does not already exist.
+	 *
+	 * @param string $path relative path of the file or folder
+	 * @throw \OCP\Files\NotPermittedException
+	 * @since 33.0.0
+	 */
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): Folder;
+
+	/**
 	 * Check if a file or folder exists in the folder
 	 *
 	 * @param string $path relative path of the file or folder

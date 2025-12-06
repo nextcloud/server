@@ -80,11 +80,21 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	 */
 	async function removeConfig(configId: string) {
 		const result = await deleteConfig(configId)
-		if (result === true) {
-			delete ldapConfigs.value[configId]
-		}
 
-		selectedConfigId.value = Object.keys(ldapConfigs.value)[0] ?? await create()
+		if (result === true) {
+			if (Object.keys(ldapConfigs.value).length === 1) {
+				// Ensure at least one config exists before deleting the last one
+				selectedConfigId.value = await create()
+				// The new config id could be the same as the deleted one, so only delete if different
+				if (selectedConfigId.value !== configId) {
+					delete ldapConfigs.value[configId]
+				}
+			} else {
+				// Select the first config that is not the deleted one
+				selectedConfigId.value = Object.keys(ldapConfigs.value).filter((_configId) => configId !== _configId)[0]
+				delete ldapConfigs.value[configId]
+			}
+		}
 	}
 
 	return {

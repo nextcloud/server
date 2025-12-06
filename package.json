@@ -91,7 +91,7 @@
     "jsdom": "^27.2.0",
     "jsdom-testing-mocks": "^1.16.0",
     "sass": "^1.94.2",
-    "stylelint": "^16.26.0",
+    "stylelint": "^16.26.1",
     "stylelint-use-logical": "^2.1.2",
     "vite": "^7.2.4",
     "vitest": "^4.0.14"

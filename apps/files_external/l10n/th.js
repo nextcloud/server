@@ -85,7 +85,6 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "คีย์แอป",
     "App secret" : "ข้อมูลลับแอป",
-    "Amazon S3" : "Amazon S3",
     "Saving …" : "กำลังบันทึก …"
 },
 "nplurals=1; plural=0;");

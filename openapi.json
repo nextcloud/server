@@ -1912,7 +1912,8 @@
                     "mime",
                     "size",
                     "type",
-                    "hasPreview"
+                    "hasPreview",
+                    "permissions"
                 ],
                 "properties": {
                     "basename": {
@@ -1937,14 +1938,26 @@
                         "type": "string"
                     },
                     "size": {
-                        "type": "integer",
-                        "format": "int64"
+                        "anyOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "number",
+                                "format": "double"
+                            }
+                        ]
                     },
                     "type": {
                         "type": "string"
                     },
                     "hasPreview": {
                         "type": "boolean"
+                    },
+                    "permissions": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },

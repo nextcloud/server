@@ -87,7 +87,7 @@ OC.L10N.register(
     "Failed to load tags" : "Impossible de charger les étiquettes",
     "Failed to select tag" : "Impossible de sélectionner l'étiquette",
     "System admin disabled tag creation. You can only use existing ones." : "L'administrateur a désactivé la création d'étiquettes. Vous ne pouvez utiliser que les étiquettes existantes.",
-    "Loading collaborative tags …" : "Chargement des étiquettes collaboratives  ...",
+    "Loading collaborative tags …" : "Chargement des étiquettes collaboratives...",
     "Search or create collaborative tags" : "Rechercher ou créer des étiquettes collaboratives",
     "No tags to select, type to create a new tag" : "Aucune étiquette à sélectionner, entrez une nouvelle étiquette",
     "Unable to update setting" : "Impossible de mettre à jour les paramètres",

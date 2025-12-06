@@ -80,7 +80,7 @@ OC.L10N.register(
     "Change tag color" : "Skift mærkefarve",
     "Create new tag" : "Opret nyt mærke",
     "Choose tags for the selected files" : "Vælg tags til de valgte filer",
-    "Cancel" : "Annuller",
+    "Cancel" : "Annullér",
     "Apply" : "Anvend",
     "Failed to load selected tags" : "Kunne ikke indlæse markerede mærker",
     "Failed to load tags" : "Kunne ikke indlæse tags.",

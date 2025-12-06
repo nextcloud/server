@@ -14,7 +14,7 @@ OC.L10N.register(
     "Restore version" : "Gendan version",
     "Download version" : "Download version",
     "Delete version" : "Slet version",
-    "Cancel" : "Annuller",
+    "Cancel" : "Annullér",
     "Remove version name" : "Fjern versionsnavn",
     "Save version name" : "Gem versionsnavn",
     "Version name" : "Versionsnavn",

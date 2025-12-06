@@ -99,7 +99,6 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
     "OAuth1" : "OAuth1",
     "App key" : "Llave de la aplicación",
-    "App secret" : "Secreto de la aplicación",
-    "Amazon S3" : "Amazon S3"
+    "App secret" : "Secreto de la aplicación"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

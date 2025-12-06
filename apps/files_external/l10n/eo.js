@@ -108,7 +108,6 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Aplikaĵa ŝlosilo",
     "App secret" : "Aplikaĵosekreto",
-    "Amazon S3" : "Amazon S3",
     "Saving …" : "Konservado..."
 },
 "nplurals=2; plural=(n != 1);");

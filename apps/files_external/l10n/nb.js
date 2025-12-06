@@ -143,7 +143,6 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App-nøkkel",
     "App secret" : "App-hemmelighet",
-    "Amazon S3" : "Amazon S3",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på at du vil koble fra denne eksterne lagringen? Det vil gjøre lagringen utilgjengelig i Nextcloud og vil føre til sletting av disse filene og mappene på enhver synkroniseringsklient som for øyeblikket er tilkoblet, men vil ikke slette noen filer og mapper på selve den eksterne lagringen.",
     "Saving …" : "Lagrer..."
 },

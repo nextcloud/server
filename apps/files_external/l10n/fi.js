@@ -117,7 +117,6 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Sovellusavain",
     "App secret" : "Sovellussalaisuus",
-    "Amazon S3" : "Amazon S3",
     "Saving …" : "Tallennetaan…"
 },
 "nplurals=2; plural=(n != 1);");

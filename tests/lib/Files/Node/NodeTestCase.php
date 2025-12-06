@@ -92,30 +92,24 @@ abstract class NodeTestCase extends \Test\TestCase {
 		return $view;
 	}
 
+	abstract protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): Node;
+
 	/**
-	 * @param IRootFolder $root
-	 * @param View $view
-	 * @param string $path
-	 * @return Node
+	 * @return class-string<Node>
 	 */
-	abstract protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null);
+	abstract protected function getNodeClass(): string;
+
+	/**
+	 * @return class-string<Node>
+	 */
+	abstract protected function getNonExistingNodeClass(): string;
 
 	/**
 	 * @return string
 	 */
-	abstract protected function getNodeClass();
+	abstract protected function getViewDeleteMethod(): string;
 
-	/**
-	 * @return string
-	 */
-	abstract protected function getNonExistingNodeClass();
-
-	/**
-	 * @return string
-	 */
-	abstract protected function getViewDeleteMethod();
-
-	protected function getMockStorage() {
+	protected function getMockStorage(): IStorage&MockObject {
 		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -125,7 +119,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 		return $storage;
 	}
 
-	protected function getFileInfo($data, $internalPath = '', $storage = null) {
+	protected function getFileInfo($data, $internalPath = '', ?IStorage $storage = null) {
 		$mount = $this->createMock(IMountPoint::class);
 		$mount->method('getStorage')
 			->willReturn($storage);
