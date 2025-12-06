@@ -16,11 +16,11 @@ class SecureRandomTest extends \Test\TestCase {
 	public static function stringGenerationProvider(): array {
 		return [
 			[1, 1],
+			[16, 16],
+			[31, 31],
+			[64, 64],
 			[128, 128],
-			[256, 256],
 			[1024, 1024],
-			[2048, 2048],
-			[64000, 64000],
 		];
 	}
 
@@ -80,5 +80,57 @@ class SecureRandomTest extends \Test\TestCase {
 		$this->expectException(\LengthException::class);
 		$generator = $this->rng;
 		$generator->generate($length);
+	}
+
+	public static function invalidCharProviders(): array {
+		return [
+			'invalid_too_short' => ['abc'],
+			'invalid_duplicates' => ['aabcd'],
+			'invalid_non_ascii' => ["abcd\xf0"],
+		];
+	}
+
+	/**
+	 * @dataProvider invalidCharProviders
+	 */
+	public function testInvalidCharacterSets(string $invalidCharset): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->rng->generate(10, $invalidCharset);
+	}
+
+	public function testDefaultCharsetBase64Characters(): void {
+		$randomString = $this->rng->generate(100);
+		$this->assertMatchesRegularExpression('/^[A-Za-z0-9\+\/]+$/', $randomString);
+	}
+
+	public function testAllOutputsAreUnique(): void {
+		// While collisions are technically possible, extremely unlikely for these sizes
+		$first = $this->rng->generate(1000);
+		$second = $this->rng->generate(1000);
+		$this->assertNotEquals($first, $second, "Random output should not be repeated.");
+	}
+
+	public function testMinimumValidCharset(): void {
+		$charset = 'abcd';
+		$randomString = $this->rng->generate(500, $charset);
+		$this->assertMatchesRegularExpression('/^[abcd]+$/', $randomString);
+		$this->assertEquals(500, strlen($randomString));
+	}
+
+	public function testLargeCustomCharset(): void {
+		$charset = '';
+		for ($i = 32; $i <= 126; $i++) { // all printable ASCII
+			$charset .= chr($i);
+		}
+		$randomString = $this->rng->generate(200, $charset);
+		foreach (str_split($randomString) as $char) {
+			$this->assertStringContainsString($char, $charset);
+		}
+	}
+
+	public function testUserProvidedValidCharset(): void {
+		$charset = '@#$!';
+		$randomString = $this->rng->generate(64, $charset);
+		$this->assertMatchesRegularExpression('/^[@#$!]+$/', $randomString);
 	}
 }
