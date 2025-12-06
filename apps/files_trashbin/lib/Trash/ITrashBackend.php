@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin\Trash;
 
+use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
@@ -64,4 +65,13 @@ interface ITrashBackend {
 	 * @return Node|null
 	 */
 	public function getTrashNodeById(IUser $user, int $fileId);
+
+	/**
+	 * Returns a non-exhaustive list of folder which can then be used to pre-fetch some metadata
+	 * * for the trash root.
+	 *
+	 * @return Folder[]
+	 * @since 32.0.0
+	 */
+	public function getCacheableRootsForUser(IUser $user): array;
 }
