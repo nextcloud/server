@@ -249,7 +249,7 @@ export default {
 				return t('core', 'This account is disabled')
 			}
 			if (this.throttleDelay > 5000) {
-				return t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')
+				return t('core', 'Too many incorrect login attempts. Please try again in 30 seconds.')
 			}
 			return undefined
 		},
