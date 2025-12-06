@@ -147,7 +147,7 @@ class MailSettingsController extends Controller {
 				$this->config->setAppValue('core', 'emailTestSuccessful', '1');
 				return new DataResponse();
 			} catch (\Exception $e) {
-				$this->logger->error('Nextcloud Mail Test Error: ' . $e->getMessage(), ['exception' => $e]);
+				$this->logger->error('Failed sending test email: ' . $e->getMessage(), ['exception' => $e]);
 				$this->config->setAppValue('core', 'emailTestSuccessful', '0');
 				return new DataResponse($this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]), Http::STATUS_BAD_REQUEST);
 			}
