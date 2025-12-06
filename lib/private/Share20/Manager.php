@@ -1265,16 +1265,16 @@ class Manager implements IManager {
 		while (true) {
 			$added = 0;
 			foreach ($shares as $share) {
+				$added++;
 				if ($onlyValid) {
 					try {
-						$this->checkShare($share);
+						$this->checkShare($share, $added);
 					} catch (ShareNotFound $e) {
 						// Ignore since this basically means the share is deleted
 						continue;
 					}
 				}
 
-				$added++;
 				$shares2[] = $share;
 
 				if (count($shares2) === $limit) {
@@ -1480,11 +1480,14 @@ class Manager implements IManager {
 	/**
 	 * Check expire date and disabled owner
 	 *
+	 * @param int &$added If given, will be decremented if the share is deleted
 	 * @throws ShareNotFound
 	 */
-	protected function checkShare(IShare $share): void {
+	private function checkShare(IShare $share, int &$added = 1): void {
 		if ($share->isExpired()) {
 			$this->deleteShare($share);
+			// Remove 1 to added, because this share was deleted
+			$added--;
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
