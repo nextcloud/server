@@ -769,7 +769,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string the script name
 	 */
 	public function getScriptName(): string {
-		$name = $this->server['SCRIPT_NAME'];
+		$name = $this->server['SCRIPT_NAME'] ?? '';
 		$overwriteWebRoot = $this->config->getSystemValueString('overwritewebroot');
 		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
 			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
