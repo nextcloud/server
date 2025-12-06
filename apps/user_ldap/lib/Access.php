@@ -57,6 +57,7 @@ class Access extends LDAPUtility {
 		private Helper $helper,
 		private IConfig $config,
 		private IUserManager $ncUserManager,
+		private IGroupManager $ncGroupManager,
 		private LoggerInterface $logger,
 		private IAppConfig $appConfig,
 		private IEventDispatcher $dispatcher,
@@ -595,17 +596,34 @@ class Access extends LDAPUtility {
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if ($intName !== ''
-			&& (($isUser && !$this->ncUserManager->userExists($intName))
-				|| (!$isUser && !Server::get(IGroupManager::class)->groupExists($intName))
+			&& (($isUser
+					&& (
+						!$this->ncUserManager->userExists($intName)
+						// DN might be cached if the user was deleted within last month.
+						// If it was a valid user we would have returned earlier at the
+						// $mapper->getNameByDN($fdn) call, which does not run against the cache.
+						|| $this->ncUserManager->get($intName)?->getBackendClassName() === 'LDAP'
+					))
+				|| (!$isUser
+					&& (
+						// DN might be cached if the group was deleted within last month.
+						// If it was a valid group we would have returned earlier at the
+						// $mapper->getNameByDN($fdn) call, which does not run against the cache.
+						!$this->ncGroupManager->groupExists($intName)
+						|| in_array('LDAP', $this->ncGroupManager->get($intName)?->getBackendNames() ?? [], true)
+					))
 			)
 		) {
 			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 			$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
 			if ($newlyMapped) {
-				$this->logger->debug('Mapped {fdn} as {name}', ['fdn' => $fdn,'name' => $intName]);
+				$this->logger->debug('Mapped {fdn} as {name}', ['fdn' => $fdn, 'name' => $intName]);
 				return $intName;
 			}
 		}
+
+		$dude = $this->ncUserManager->get($intName);
+		$dude->getBackendClassName() === 'LDAP';
 
 		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
@@ -830,7 +848,7 @@ class Access extends LDAPUtility {
 			// Check to be really sure it is unique
 			// while loop is just a precaution. If a name is not generated within
 			// 20 attempts, something else is very wrong. Avoids infinite loop.
-			if (!Server::get(IGroupManager::class)->groupExists($altName)) {
+			if (!$this->ncGroupManager->groupExists($altName)) {
 				return $altName;
 			}
 			$altName = $name . '_' . ($lastNo + $attempts);
