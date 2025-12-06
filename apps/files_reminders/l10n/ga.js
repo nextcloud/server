@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "Cealaigh",
     "Clear reminder" : "Meabhrúchán soiléir",
     "Set reminder" : "Socraigh meabhrúchán",
+    "Set reminder for " : "Socraigh meabhrúchán do",
     "Reminder set" : "Meabhrúchán socraithe",
     "Custom reminder" : "Meabhrúchán saincheaptha",
     "Later today" : "Níos déanaí inniu",

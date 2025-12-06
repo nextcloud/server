@@ -47,6 +47,7 @@ OC.L10N.register(
     "RSA private key" : "RSA privaatvõti",
     "Private key" : "Privaatvõti",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberose nimi (realm), vaikimisi „WORKGROUP“",
+    "S3 Storage" : "Amazon S3",
     "Bucket" : "Korv",
     "Hostname" : "Hostinimi",
     "Port" : "Port",
