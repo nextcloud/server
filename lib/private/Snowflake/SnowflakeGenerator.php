@@ -11,7 +11,7 @@ namespace OC\Snowflake;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 
 /**
@@ -21,7 +21,7 @@ use Override;
  *
  * @since 33.0.0
  */
-final class Generator implements IGenerator {
+final class SnowflakeGenerator implements ISnowflakeGenerator {
 	public function __construct(
 		private readonly ITimeFactory $timeFactory,
 		private readonly IConfig $config,

@@ -26,7 +26,7 @@ use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -45,7 +45,7 @@ class MovePreviewJob extends TimedJob {
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly IMimeTypeLoader $mimeTypeLoader,
 		private readonly LoggerInterface $logger,
-		private readonly IGenerator $generator,
+		private readonly ISnowflakeGenerator $generator,
 		IAppDataFactory $appDataFactory,
 	) {
 		parent::__construct($time);

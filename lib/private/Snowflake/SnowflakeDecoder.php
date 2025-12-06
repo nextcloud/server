@@ -9,8 +9,9 @@ declare(strict_types=1);
 
 namespace OC\Snowflake;
 
-use OCP\Snowflake\IDecoder;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeDecoder;
+use OCP\Snowflake\ISnowflakeGenerator;
+use OCP\Snowflake\Snowflake;
 use Override;
 
 /**
@@ -20,7 +21,7 @@ use Override;
  *
  * @since 33.0.0
  */
-final class Decoder implements IDecoder {
+final class SnowflakeDecoder implements ISnowflakeDecoder {
 	#[Override]
 	public function decode(string $snowflakeId): array {
 		if (!ctype_digit($snowflakeId)) {
@@ -35,7 +36,7 @@ final class Decoder implements IDecoder {
 		$data['createdAt'] = new \DateTimeImmutable(
 			sprintf(
 				'@%d.%03d',
-				$data['seconds'] + IGenerator::TS_OFFSET + intdiv($data['milliseconds'], 1000),
+				$data['seconds'] + ISnowflakeGenerator::TS_OFFSET + intdiv($data['milliseconds'], 1000),
 				$data['milliseconds'] % 1000,
 			)
 		);
@@ -51,11 +52,11 @@ final class Decoder implements IDecoder {
 		$milliseconds = $secondHalf >> 22;
 
 		return [
-			'seconds' => $seconds,
-			'milliseconds' => $milliseconds,
 			'serverId' => ($secondHalf >> 13) & 0x1FF,
 			'sequenceId' => $secondHalf & 0xFFF,
 			'isCli' => (bool)(($secondHalf >> 12) & 0x1),
+			'seconds' => $seconds,
+			'milliseconds' => $milliseconds,
 		];
 	}
 
@@ -88,12 +89,12 @@ final class Decoder implements IDecoder {
 		$hex = '';
 		$digits = '0123456789ABCDEF';
 
-		while (strlen($decimal) > 0 && $decimal !== '0') {
+		while ($decimal !== '' && $decimal !== '0') {
 			$remainder = 0;
 			$newDecimal = '';
 
 			// Perform division by 16 manually for arbitrary precision
-			for ($i = 0; $i < strlen($decimal); $i++) {
+			for ($i = 0, $iMax = strlen($decimal); $i < $iMax; $i++) {
 				$digit = (int)$decimal[$i];
 				$current = $remainder * 10 + $digit;
 
@@ -104,7 +105,7 @@ final class Decoder implements IDecoder {
 				} else {
 					$remainder = $current;
 					// Only add quotient digit if we already have some digits in result
-					if (strlen($newDecimal) > 0) {
+					if ($newDecimal !== '') {
 						$newDecimal .= '0';
 					}
 				}
@@ -118,5 +119,17 @@ final class Decoder implements IDecoder {
 		}
 
 		return str_pad($hex, 16, '0', STR_PAD_LEFT);
+	}
+
+	public function decodeToSnowflake(string $snowflakeId): Snowflake {
+		$data = $this->decode($snowflakeId);
+		return new Snowflake(
+			$data['serverId'],
+			$data['sequenceId'],
+			$data['isCli'],
+			$data['seconds'],
+			$data['milliseconds'],
+			$data['createdAt'],
+		);
 	}
 }

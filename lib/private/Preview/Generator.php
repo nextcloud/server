@@ -23,7 +23,7 @@ use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IVersionedPreviewFile;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Psr\Log\LoggerInterface;
 
 class Generator {
@@ -38,7 +38,7 @@ class Generator {
 		private LoggerInterface $logger,
 		private PreviewMapper $previewMapper,
 		private StorageFactory $storageFactory,
-		private IGenerator $snowflakeGenerator,
+		private ISnowflakeGenerator $snowflakeGenerator,
 	) {
 	}
 
