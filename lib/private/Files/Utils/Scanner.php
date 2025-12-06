@@ -9,12 +9,15 @@ namespace OC\Files\Utils;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
+use OC\Files\Mount\MountPoint;
+use OC\Files\SetupManager;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Home;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileScannedEvent;
 use OCP\Files\Events\BeforeFolderScannedEvent;
@@ -28,6 +31,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
@@ -42,45 +46,26 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Utils
  */
 class Scanner extends PublicEmitter {
-	public const MAX_ENTRIES_TO_COMMIT = 10000;
-
-	/** @var string $user */
-	private $user;
-
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	protected LoggerInterface $logger;
+	private const TRANSACTION_SECOND_TIMEOUT = 10;
 
 	/**
 	 * Whether to use a DB transaction
-	 *
-	 * @var bool
 	 */
-	protected $useTransaction;
+	protected bool $useTransaction;
+	protected int $transactionStartTime;
 
-	/**
-	 * Number of entries scanned to commit
-	 *
-	 * @var int
-	 */
-	protected $entriesToCommit;
-
-	/**
-	 * @param string $user
-	 * @param IDBConnection|null $db
-	 * @param IEventDispatcher $dispatcher
-	 */
-	public function __construct($user, $db, IEventDispatcher $dispatcher, LoggerInterface $logger) {
-		$this->user = $user;
-		$this->db = $db;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private readonly ?string $user,
+		private readonly ?IDBConnection $db,
+		private readonly IEventDispatcher $dispatcher,
+		private readonly LoggerInterface $logger,
+		private readonly SetupManager $setupManager,
+		private readonly IUserManager $userManager,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly ITimeFactory $timeFactory,
+	) {
 		// when DB locking is used, no DB transactions will be used
-		$this->useTransaction = !(\OC::$server->get(ILockingProvider::class) instanceof DBLockingProvider);
+		$this->useTransaction = !(\OCP\Server::get(ILockingProvider::class) instanceof DBLockingProvider);
 	}
 
 	/**
@@ -91,8 +76,12 @@ class Scanner extends PublicEmitter {
 	 */
 	protected function getMounts($dir) {
 		//TODO: move to the node based fileapi once that's done
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($this->user);
+		$this->setupManager->tearDown();
+
+		if ($this->user !== null) {
+			$userObject = $this->userManager->get($this->user);
+			$this->setupManager->setupForUser($userObject);
+		}
 
 		$mountManager = Filesystem::getMountManager();
 		$mounts = $mountManager->findIn($dir);
@@ -105,37 +94,32 @@ class Scanner extends PublicEmitter {
 
 	/**
 	 * attach listeners to the scanner
-	 *
-	 * @param \OC\Files\Mount\MountPoint $mount
 	 */
-	protected function attachListener($mount) {
+	protected function attachListener(MountPoint $mount) {
 		/** @var \OC\Files\Cache\Scanner $scanner */
 		$scanner = $mount->getStorage()->getScanner();
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount) {
 			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new BeforeFileScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new BeforeFileScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount) {
 			$this->emit('\OC\Files\Utils\Scanner', 'scanFolder', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount) {
 			$this->emit('\OC\Files\Utils\Scanner', 'postScanFile', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount) {
 			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', [$mount->getMountPoint() . $path]);
-			$this->dispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
+			$this->eventDispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', function ($path) use ($mount) {
 			$this->emit('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', [$path]);
 		});
 	}
 
-	/**
-	 * @param string $dir
-	 */
-	public function backgroundScan($dir) {
+	public function backgroundScan(string $dir) {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
 			try {
@@ -174,13 +158,10 @@ class Scanner extends PublicEmitter {
 	}
 
 	/**
-	 * @param string $dir
-	 * @param $recursive
-	 * @param callable|null $mountFilter
 	 * @throws ForbiddenException
 	 * @throws NotFoundException
 	 */
-	public function scan($dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, ?callable $mountFilter = null) {
+	public function scan(string $dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, ?callable $mountFilter = null) {
 		if (!Filesystem::isValidPath($dir)) {
 			throw new \InvalidArgumentException('Invalid path to scan');
 		}
@@ -236,18 +217,18 @@ class Scanner extends PublicEmitter {
 
 			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
 				$this->postProcessEntry($storage, $path);
-				$this->dispatcher->dispatchTyped(new NodeRemovedFromCache($storage, $path));
+				$this->eventDispatcher->dispatchTyped(new NodeRemovedFromCache($storage, $path));
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
 				$this->postProcessEntry($storage, $path);
-				$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
+				$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage) {
 				$this->postProcessEntry($storage, $path);
 				if ($fileId) {
-					$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
+					$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 				} else {
-					$this->dispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
+					$this->eventDispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
 				}
 			});
 
@@ -256,6 +237,7 @@ class Scanner extends PublicEmitter {
 			}
 
 			if ($this->useTransaction) {
+				$this->transactionStartTime = $this->timeFactory->getTime();
 				$this->db->beginTransaction();
 			}
 			try {
@@ -292,16 +274,17 @@ class Scanner extends PublicEmitter {
 
 	private function postProcessEntry(IStorage $storage, $internalPath) {
 		$this->triggerPropagator($storage, $internalPath);
-		if ($this->useTransaction) {
-			$this->entriesToCommit++;
-			if ($this->entriesToCommit >= self::MAX_ENTRIES_TO_COMMIT) {
-				$propagator = $storage->getPropagator();
-				$this->entriesToCommit = 0;
-				$this->db->commit();
-				$propagator->commitBatch();
-				$this->db->beginTransaction();
-				$propagator->beginBatch();
-			}
+
+		if (
+			$this->useTransaction
+			&& $this->transactionStartTime + self::TRANSACTION_SECOND_TIMEOUT <= $this->timeFactory->getTime()
+		) {
+			$propagator = $storage->getPropagator();
+			$this->db->commit();
+			$propagator->commitBatch();
+			$this->db->beginTransaction();
+			$propagator->beginBatch();
+			$this->transactionStartTime = $this->timeFactory->getTime();
 		}
 	}
 }
