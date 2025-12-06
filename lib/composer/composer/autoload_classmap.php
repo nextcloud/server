@@ -2018,6 +2018,7 @@ return array(
     'OC\\Repair\\RepairInvalidShares' => $baseDir . '/lib/private/Repair/RepairInvalidShares.php',
     'OC\\Repair\\RepairLogoDimension' => $baseDir . '/lib/private/Repair/RepairLogoDimension.php',
     'OC\\Repair\\RepairMimeTypes' => $baseDir . '/lib/private/Repair/RepairMimeTypes.php',
+    'OC\\Repair\\TruncateMounts' => $baseDir . '/lib/private/Repair/TruncateMounts.php',
     'OC\\RichObjectStrings\\RichTextFormatter' => $baseDir . '/lib/private/RichObjectStrings/RichTextFormatter.php',
     'OC\\RichObjectStrings\\Validator' => $baseDir . '/lib/private/RichObjectStrings/Validator.php',
     'OC\\Route\\CachingRouter' => $baseDir . '/lib/private/Route/CachingRouter.php',
