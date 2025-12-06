@@ -27,7 +27,7 @@ abstract class JobBase extends Base {
 		parent::__construct();
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
+	protected function printJobInfo(string $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		if ($row === null) {

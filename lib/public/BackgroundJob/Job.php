@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -21,7 +22,7 @@ use Psr\Log\LoggerInterface;
  * @since 33.0.0 removed deprecated `execute()` method
  */
 abstract class Job implements IJob, IParallelAwareJob {
-	protected int $id = 0;
+	protected string $id = '0';
 	protected int $lastRun = 0;
 	protected mixed $argument = null;
 	protected bool $allowParallelRuns = true;
@@ -34,10 +35,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 * @since 25.0.0
-	 */
+	#[Override]
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
 		$logger = \OCP\Server::get(LoggerInterface::class);
@@ -61,74 +59,45 @@ abstract class Job implements IJob, IParallelAwareJob {
 		}
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	final public function setId(int $id) {
+	#[Override]
+	final public function setId(string $id): void {
 		$this->id = $id;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	final public function setLastRun(int $lastRun) {
+	#[Override]
+	final public function setLastRun(int $lastRun): void {
 		$this->lastRun = $lastRun;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	public function setArgument($argument) {
+	#[Override]
+	public function setArgument(mixed $argument): void {
 		$this->argument = $argument;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	final public function getId(): int {
+	#[Override]
+	final public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
+	#[Override]
 	final public function getLastRun(): int {
 		return $this->lastRun;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
-	public function getArgument() {
+	#[Override]
+	public function getArgument(): mixed {
 		return $this->argument;
 	}
 
-	/**
-	 * Set this to false to prevent two Jobs from this class from running in parallel
-	 *
-	 * @param bool $allow
-	 * @return void
-	 * @since 27.0.0
-	 */
+	#[Override]
 	public function setAllowParallelRuns(bool $allow): void {
 		$this->allowParallelRuns = $allow;
 	}
 
-	/**
-	 * @return bool
-	 * @since 27.0.0
-	 */
+	#[Override]
 	public function getAllowParallelRuns(): bool {
 		return $this->allowParallelRuns;
 	}
 
-	/**
-	 * The actual function that is called to run the job
-	 *
-	 * @param $argument
-	 * @return void
-	 *
-	 * @since 15.0.0
-	 */
 	abstract protected function run($argument);
 }
