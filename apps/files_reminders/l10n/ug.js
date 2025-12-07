@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "بىكار قىلىش",
     "Clear reminder" : "ئەسكەرتىش",
     "Set reminder" : "ئەسكەرتىش بەلگىلەڭ",
+    "Set reminder for " : "ئەسكەرتىش بەلگىلەڭ",
     "Reminder set" : "ئەسكەرتىش",
     "Custom reminder" : "ئىختىيارى ئەسلەتكۈ",
     "Later today" : "بۈگۈن بۈگۈن",
