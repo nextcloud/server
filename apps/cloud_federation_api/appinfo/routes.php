@@ -25,6 +25,15 @@ return [
 			'url' => '/invite-accepted',
 			'verb' => 'POST',
 			'root' => '/ocm',
-		]
+		],
+
+		// needs to be kept at the bottom of the list
+		[
+			'name' => 'OCMRequest#manageOCMRequests',
+			'url' => '/{ocmPath}',
+			'requirements' => ['ocmPath' => '.*'],
+			'verb' => ['GET', 'POST', 'PUT', 'DELETE'],
+			'root' => '/ocm',
+		],
 	],
 ];

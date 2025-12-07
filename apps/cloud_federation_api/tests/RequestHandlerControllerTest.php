@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\CloudFederationApi\Tests;
 
 use NCU\Security\Signature\ISignatureManager;
-use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Controller\RequestHandlerController;
 use OCA\CloudFederationAPI\Db\FederatedInvite;
@@ -29,6 +28,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\OCM\IOCMDiscoveryService;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -45,10 +45,11 @@ class RequestHandlerControllerTest extends TestCase {
 	private FederatedInviteMapper&MockObject $federatedInviteMapper;
 	private AddressHandler&MockObject $addressHandler;
 	private IAppConfig&MockObject $appConfig;
+
 	private ICloudFederationFactory&MockObject $cloudFederationFactory;
 	private ICloudIdManager&MockObject $cloudIdManager;
+	private IOCMDiscoveryService&MockObject $discoveryService;
 	private ISignatureManager&MockObject $signatureManager;
-	private OCMSignatoryManager&MockObject $signatoryManager;
 	private ITimeFactory&MockObject $timeFactory;
 
 	private RequestHandlerController $requestHandlerController;
@@ -69,8 +70,8 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+		$this->discoveryService = $this->createMock(IOCMDiscoveryService::class);
 		$this->signatureManager = $this->createMock(ISignatureManager::class);
-		$this->signatoryManager = $this->createMock(OCMSignatoryManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->requestHandlerController = new RequestHandlerController(
@@ -88,8 +89,8 @@ class RequestHandlerControllerTest extends TestCase {
 			$this->appConfig,
 			$this->cloudFederationFactory,
 			$this->cloudIdManager,
+			$this->discoveryService,
 			$this->signatureManager,
-			$this->signatoryManager,
 			$this->timeFactory,
 		);
 	}
