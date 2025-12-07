@@ -186,7 +186,7 @@ class Setup {
 		}
 
 		// Check if running directly on macOS (note: Linux containers on macOS will not trigger this)
-		if (PHP_OS_FAMILY === 'Darwin') {
+		if (!getenv('CI') && PHP_OS_FAMILY === 'Darwin') {
 			$errors[] = [
 				'error' => $this->l10n->t(
 					'PHP_OS_FAMILY: ' . PHP_OS_FAMILY
