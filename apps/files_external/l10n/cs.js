@@ -49,6 +49,7 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Výchozí kerberos oblast (realm) – výchozí je „WORKGROUP“",
     "Kerberos ticket Apache mode" : "Režim kerberos lístku (ticket) apache serveru",
     "Kerberos ticket" : "Kerberos ticket",
+    "S3 Storage" : "Úložiště S3",
     "Bucket" : "Bucket",
     "Hostname" : "Název stroje",
     "Port" : "Port",
