@@ -23,7 +23,7 @@
 				}
 			}
 
-			&.button-vue--vue-primary[aria-label*="Copy"],
+			&.button-vue--vue-primary[aria-label*="Copy"][type="button"],
 			&.button-vue--vue-secondary, &.button-vue--vue-tertiary[aria-label="Cancel"] {
 				background-color: var(--ion-button-secondary-background-default);
 				border: var(--ion-button-secondary-border-default);
