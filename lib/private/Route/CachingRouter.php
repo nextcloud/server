@@ -13,6 +13,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -33,6 +34,7 @@ class CachingRouter extends Router {
 		IEventLogger $eventLogger,
 		ContainerInterface $container,
 		IAppManager $appManager,
+		private IUserSession $userSession,
 	) {
 		$this->cache = $cacheFactory->createLocal('route');
 		parent::__construct($logger, $request, $config, $eventLogger, $container, $appManager);
@@ -76,6 +78,11 @@ class CachingRouter extends Router {
 	public function findMatchingRoute(string $url): array {
 		$this->eventLogger->start('cacheroute:match', 'Match route');
 		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . '#rootCollection';
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			// Some routes depend on the user, for example due to app group restrictions
+			$key .= '#' . $user->getUID();
+		}
 		$cachedRoutes = $this->cache->get($key);
 		if (!$cachedRoutes) {
 			parent::loadRoutes();
