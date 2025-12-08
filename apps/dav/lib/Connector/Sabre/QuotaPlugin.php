@@ -146,7 +146,7 @@ final class QuotaPlugin extends ServerPlugin {
 			return true;
 		}
 
-		return $this->checkQuota($node->getPath(), $this->getLength());
+		return $this->checkQuota($node->getPath(), (float)$this->getLength() - (float)$node->getSize());
 	}
 
 	/**
@@ -167,6 +167,14 @@ final class QuotaPlugin extends ServerPlugin {
 		}
 
 		$quotaPath = $this->getPathForDestination($destinationPath);
+
+		if ($this->getServer()->tree->nodeExists($destinationPath)) {
+			$targetNode = $this->getServer()->tree->getNodeForPath($destinationPath);
+			if ($targetNode instanceof IFile) {
+				return $this->checkQuota($quotaPath, $sourceNode->getSize() - $targetNode->getSize());
+			}
+		}
+
 		return $this->checkQuota($quotaPath, $sourceNode->getSize());
 	}
 
@@ -188,6 +196,14 @@ final class QuotaPlugin extends ServerPlugin {
 		}
 
 		$quotaPath = $this->getPathForDestination($destinationPath);
+
+		if ($this->getServer()->tree->nodeExists($destinationPath)) {
+			$targetNode = $this->getServer()->tree->getNodeForPath($destinationPath);
+			if ($targetNode instanceof IFile) {
+				return $this->checkQuota($quotaPath, (float)$sourceNode->getSize() - (float)$targetNode->getSize());
+			}
+		}
+
 		return $this->checkQuota($quotaPath, $sourceNode->getSize());
 	}
 
