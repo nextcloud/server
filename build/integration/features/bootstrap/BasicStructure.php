@@ -478,6 +478,13 @@ trait BasicStructure {
 	/**
 	 * @BeforeSuite
 	 */
+	public static function createPHPUnitConfiguration(): void {
+		(new \PHPUnit\TextUI\Configuration\Builder())->build([]);
+	}
+
+	/**
+	 * @BeforeSuite
+	 */
 	public static function addFilesToSkeleton() {
 		for ($i = 0; $i < 5; $i++) {
 			file_put_contents('../../core/skeleton/' . 'textfile' . "$i" . '.txt', "Nextcloud test text file\n");
