@@ -11,6 +11,30 @@
 			}
 			&:hover {
 				background-color: var(--ion-list-background-hover);
+
+				/* Comment box */
+				.text-editor__wrapper .editor {
+					background-color: transparent;
+				}
+			}
+
+			td button[data-cy="editRowBtn"] {
+				background-color: var(--ion-button--icon-only-background);
+				.button-vue__icon span[role=img] {
+					color: var(--ion-button--icon-only-text);
+				}
+
+				&:hover {
+					background-color: var(--ion-button--icon-only-background-hover);
+
+					.button-vue__icon span[role=img] {
+						color: var(--ion-button--icon-only-text-hover) !important;
+					}
+				}
+
+				&:active {
+					background-color: var(--ion-button--icon-only-background-active);
+				}
 			}
 		}
 	}
