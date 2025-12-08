@@ -27,6 +27,7 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Controller\\ConfigController' => __DIR__ . '/..' . '/../lib/Controller/ConfigController.php',
         'OCA\\Testing\\Controller\\LockingController' => __DIR__ . '/..' . '/../lib/Controller/LockingController.php',
         'OCA\\Testing\\Controller\\RateLimitTestController' => __DIR__ . '/..' . '/../lib/Controller/RateLimitTestController.php',
+        'OCA\\Testing\\Controller\\RoutesController' => __DIR__ . '/..' . '/../lib/Controller/RoutesController.php',
         'OCA\\Testing\\Conversion\\ConversionProvider' => __DIR__ . '/..' . '/../lib/Conversion/ConversionProvider.php',
         'OCA\\Testing\\HiddenGroupBackend' => __DIR__ . '/..' . '/../lib/HiddenGroupBackend.php',
         'OCA\\Testing\\Listener\\GetDeclarativeSettingsValueListener' => __DIR__ . '/..' . '/../lib/Listener/GetDeclarativeSettingsValueListener.php',
