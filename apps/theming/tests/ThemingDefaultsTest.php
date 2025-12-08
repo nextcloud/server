@@ -806,33 +806,37 @@ class ThemingDefaultsTest extends TestCase {
 	public function dataReplaceImagePath() {
 		return [
 			['core', 'test.png', false],
-			['core', 'manifest.json'],
-			['core', 'favicon.ico'],
-			['core', 'favicon-touch.png']
+			['core', 'manifest.json', 'themingRoute?v=1234abcd'],
+			['core', 'favicon.ico', 'themingRoute?v=1234abcd'],
+			['core', 'favicon-touch.png', 'themingRoute?v=1234abcd'],
+			['core', 'favicon.svg', 'themingLink?v=1234abcd'],
+			['core', 'favicon.png', 'themingLink?v=1234abcd'],
+			['core', 'favicon-touch.svg', 'themingLink?v=1234abcd'],
+			['core', 'favicon-mask.svg', 'themingLink?v=1234abcd'],
+			['mail', 'favicon.ico', 'themingRoute?v=1234abcd'],
+			['calendar', 'favicon-touch.png', 'themingRoute?v=1234abcd'],
 		];
 	}
 
 	/** @dataProvider dataReplaceImagePath */
-	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=1234abcd'): void {
-		$this->cache->expects($this->any())
-			->method('get')
-			->with('shouldReplaceIcons')
-			->willReturn(true);
+	public function testReplaceImagePath($app, $image, $result = false): void {
 		$this->config
 			->expects($this->any())
 			->method('getAppValue')
 			->with('theming', 'cachebuster', '0')
 			->willReturn('0');
-		$this->urlGenerator
-			->expects($this->any())
-			->method('linkToRoute')
-			->willReturn('themingRoute');
-		if ($result) {
+
+		if (str_contains($result, '?v=')) {
+			$this->urlGenerator
+				->expects($this->once())
+				->method(str_starts_with($result, 'themingRoute') ? 'linkToRoute' : 'linkTo')
+				->willReturn(str_starts_with($result, 'themingRoute') ? 'themingRoute' : 'themingLink');
 			$this->util
 				->expects($this->once())
 				->method('getCacheBuster')
 				->willReturn('1234abcd');
 		}
+
 		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
 	}
 

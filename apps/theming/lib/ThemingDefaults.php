@@ -380,11 +380,22 @@ class ThemingDefaults extends \OC_Defaults {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 
 		$route = false;
-		if ($image === 'favicon.ico' && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
+		// Always use theming favicons for all apps to ensure consistent branding
+		if ($image === 'favicon.ico') {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
-		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
+		if ($image === 'favicon-touch.png' || $image === 'favicon-fb.png') {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
+		}
+		if ($image === 'favicon.svg' || $image === 'favicon.png') {
+			// Redirect to static theming favicon files
+			$route = $this->urlGenerator->linkTo('theming', 'img/' . $image);
+		}
+		if ($image === 'favicon-touch.svg') {
+			$route = $this->urlGenerator->linkTo('theming', 'img/favicon-touch.svg');
+		}
+		if ($image === 'favicon-mask.svg') {
+			$route = $this->urlGenerator->linkTo('theming', 'img/favicon.svg');
 		}
 		if ($image === 'manifest.json') {
 			try {

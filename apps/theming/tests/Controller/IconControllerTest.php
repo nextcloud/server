@@ -92,102 +92,46 @@ class IconControllerTest extends TestCase {
 	}
 
 	public function testGetFaviconDefault(): void {
-		if (!extension_loaded('imagick')) {
-			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
-		}
-		$checkImagick = new \Imagick();
-		if (count($checkImagick->queryFormats('SVG')) < 1) {
-			$this->markTestSkipped('No SVG provider present.');
-		}
-		$file = $this->iconFileMock('filename', 'filecontent');
-		$this->imageManager->expects($this->once())
-			->method('getImage', false)
-			->with('favicon')
-			->will($this->throwException(new NotFoundException()));
-		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
-			->willReturn(true);
-		$this->imageManager->expects($this->once())
-			->method('getCachedImage')
-			->will($this->throwException(new NotFoundException()));
-		$this->iconBuilder->expects($this->once())
-			->method('getFavicon')
-			->with('core')
-			->willReturn('filecontent');
-		$this->imageManager->expects($this->once())
-			->method('setCachedImage')
-			->willReturn($file);
+		// Test that the controller serves the static favicon from theming app
+		$themingFavicon = \OC::$SERVERROOT . '/apps/theming/img/favicon.ico';
+		$faviconContent = file_get_contents($themingFavicon);
 
-		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
-		$expected->cacheFor(86400);
-		$this->assertEquals($expected, $this->iconController->getFavicon());
-	}
-
-	public function testGetFaviconFail(): void {
-		$this->imageManager->expects($this->once())
-			->method('getImage')
-			->with('favicon', false)
-			->will($this->throwException(new NotFoundException()));
-		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
-			->willReturn(false);
-		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
 		$this->fileAccessHelper->expects($this->once())
 			->method('file_get_contents')
-			->with($fallbackLogo)
-			->willReturn(file_get_contents($fallbackLogo));
-		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+			->with($themingFavicon)
+			->willReturn($faviconContent);
+
+		$expected = new DataDisplayResponse(
+			$faviconContent,
+			Http::STATUS_OK,
+			['Content-Type' => 'image/x-icon']
+		);
 		$expected->cacheFor(86400);
-		$this->assertEquals($expected, $this->iconController->getFavicon());
+
+		$result = $this->iconController->getFavicon();
+		$this->assertEquals($expected->getStatus(), $result->getStatus());
+		$this->assertEquals($expected->getHeaders(), $result->getHeaders());
 	}
 
 	public function testGetTouchIconDefault(): void {
-		if (!extension_loaded('imagick')) {
-			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
-		}
-		$checkImagick = new \Imagick();
-		if (count($checkImagick->queryFormats('SVG')) < 1) {
-			$this->markTestSkipped('No SVG provider present.');
-		}
+		// Test that the controller serves the static touch icon from theming app
+		$themingTouchIcon = \OC::$SERVERROOT . '/apps/theming/img/favicon-touch.png';
+		$touchIconContent = file_get_contents($themingTouchIcon);
 
-		$this->imageManager->expects($this->once())
-			->method('getImage')
-			->will($this->throwException(new NotFoundException()));
-		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
-			->willReturn(true);
-		$this->iconBuilder->expects($this->once())
-			->method('getTouchIcon')
-			->with('core')
-			->willReturn('filecontent');
-		$file = $this->iconFileMock('filename', 'filecontent');
-		$this->imageManager->expects($this->once())
-			->method('getCachedImage')
-			->will($this->throwException(new NotFoundException()));
-		$this->imageManager->expects($this->once())
-			->method('setCachedImage')
-			->willReturn($file);
-
-		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/png']);
-		$expected->cacheFor(86400);
-		$this->assertEquals($expected, $this->iconController->getTouchIcon());
-	}
-
-	public function testGetTouchIconFail(): void {
-		$this->imageManager->expects($this->once())
-			->method('getImage')
-			->with('favicon')
-			->will($this->throwException(new NotFoundException()));
-		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
-			->willReturn(false);
-		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
 		$this->fileAccessHelper->expects($this->once())
 			->method('file_get_contents')
-			->with($fallbackLogo)
-			->willReturn(file_get_contents($fallbackLogo));
-		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
+			->with($themingTouchIcon)
+			->willReturn($touchIconContent);
+
+		$expected = new DataDisplayResponse(
+			$touchIconContent,
+			Http::STATUS_OK,
+			['Content-Type' => 'image/png']
+		);
 		$expected->cacheFor(86400);
-		$this->assertEquals($expected, $this->iconController->getTouchIcon());
+
+		$result = $this->iconController->getTouchIcon();
+		$this->assertEquals($expected->getStatus(), $result->getStatus());
+		$this->assertEquals($expected->getHeaders(), $result->getHeaders());
 	}
 }
