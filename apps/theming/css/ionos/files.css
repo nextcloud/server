@@ -59,7 +59,6 @@ div.files-list__header:has(div.files-list__breadcrumbs), .file-picker {
 	div.files-list__breadcrumbs, .file-picker__breadcrumbs {
 		ul.breadcrumb__crumbs {
 			a, a:hover, a:active, a:disabled, button {
-				padding: 2px 0;
 				font-weight: 400;
 				color: var(--ion-breadcrumb-text-default);
 				background-color: transparent;
@@ -83,7 +82,6 @@ div.files-list__header:has(div.files-list__breadcrumbs), .file-picker {
 			button.button-vue--icon-only, a.button-vue--icon-only svg {
 				background-color: transparent;
 				color: var(--ion-breadcrumb-text);
-				padding: 2px 0;
 				&:hover {
 					color: var(--ion-breadcrumb-text-hover);
 					background-color: inherit;
