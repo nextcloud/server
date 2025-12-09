@@ -364,6 +364,7 @@
     "The text to generate an emoji for" : "De tekst om een emoji voor te maken",
     "Generated emoji" : "Gemaakte emoji",
     "The generated emoji based on the input text" : "De gemaakte emoji op basis van de opgegeven tekst",
+    "Optical character recognition" : "Optische tekenherkening (OCR)",
     "Generate image" : "Gegegeneerde afbeelding",
     "Generate an image from a text prompt" : "Maak een afbeelding op basis van een tekstprompt",
     "Prompt" : "Prompt",

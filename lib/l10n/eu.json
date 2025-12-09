@@ -376,6 +376,7 @@
     "The text to generate an emoji for" : "Emoji bat sortzeko testua",
     "Generated emoji" : "Sortutako emojia",
     "The generated emoji based on the input text" : "Sarrerako testuan oinarrituta sortutako emojia",
+    "Optical character recognition" : "Karaktereen errekonozimendu optikoa",
     "Generate image" : "Sortu irudia",
     "Generate an image from a text prompt" : "Sortu irudi bat testu-gonbita batetik",
     "Prompt" : "Galdera",

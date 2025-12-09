@@ -376,6 +376,7 @@
     "The text to generate an emoji for" : "Текст за који желите да се генерише емођи",
     "Generated emoji" : "Генерисани емођи",
     "The generated emoji based on the input text" : "Емођи генерисан на основу улазног текста",
+    "Optical character recognition" : "Оптичко препознавање знакова",
     "Generate image" : "Генериши слику",
     "Generate an image from a text prompt" : "Генерише слику на основу унетог текста",
     "Prompt" : "Захтев за унос",

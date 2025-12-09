@@ -376,6 +376,7 @@
     "The text to generate an emoji for" : "Texten att generera en emoji för",
     "Generated emoji" : "Genererad emoji",
     "The generated emoji based on the input text" : "Den genererade emojin baserad på inmatningstexten",
+    "Optical character recognition" : "Optisk teckenigenkänning",
     "Generate image" : "Skapa bild",
     "Generate an image from a text prompt" : "Skapa en bild från en textuppmaning",
     "Prompt" : "Uppmaning",
