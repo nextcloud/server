@@ -80,7 +80,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
 	 * @param 'LOCAL'|'REMOTE' $shareeServer
 	 */
-	public function federateGroupSharing(string $sharerUser, string $sharerServer, string $sharerPath, string $shareeGroup, string $shareeServer) {
+	public function federateGroupSharing(string $sharerUser, string $sharerServer, string $sharerPath, string $shareeGroup, string $shareeServer): void {
 		if ($shareeServer == 'REMOTE') {
 			$shareWith = "$shareeGroup@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
