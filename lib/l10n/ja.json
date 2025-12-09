@@ -376,6 +376,7 @@
     "The text to generate an emoji for" : "絵文字を生成するテキスト",
     "Generated emoji" : "生成された絵文字",
     "The generated emoji based on the input text" : "入力テキストに基づいて生成された絵文字",
+    "Optical character recognition" : "OCR",
     "Generate image" : "画像生成",
     "Generate an image from a text prompt" : "テキストプロンプトから画像を生成する",
     "Prompt" : "プロンプト",

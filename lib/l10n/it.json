@@ -377,6 +377,7 @@
     "The text to generate an emoji for" : "Il testo per cui generare un'emoji",
     "Generated emoji" : "Emoji generata",
     "The generated emoji based on the input text" : "L'emoji generata in base al testo inserito",
+    "Optical character recognition" : "Riconoscimento ottico dei caratteri",
     "Generate image" : "Genera immagine",
     "Generate an image from a text prompt" : "Genera un'immagine da un prompt di testo",
     "Prompt" : "Prompt",

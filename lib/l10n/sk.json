@@ -360,6 +360,7 @@
     "The text to generate an emoji for" : "Text pre ktorý vygeneruje emotikon",
     "Generated emoji" : "Vygenerované emotikony",
     "The generated emoji based on the input text" : "Vygenerovaný emotikon založený na vstupnom texte",
+    "Optical character recognition" : "Optické rozpoznávanie znakov",
     "Generate image" : "Vygenerovať obrázok",
     "Generate an image from a text prompt" : "Vygenerovať obrázok na základe textového zadania",
     "Prompt" : "Zadanie",

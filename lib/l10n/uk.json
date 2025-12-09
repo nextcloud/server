@@ -376,6 +376,7 @@
     "The text to generate an emoji for" : "Текст для створення емодзі для",
     "Generated emoji" : "Зґенеровані емоційки",
     "The generated emoji based on the input text" : "Згенеровані емодзі на основі введеного тексту",
+    "Optical character recognition" : "Оптичне розпізнавання символів",
     "Generate image" : "Зґенерувати зображення",
     "Generate an image from a text prompt" : "Створити зображення з текстової підказки",
     "Prompt" : "Запрошення",

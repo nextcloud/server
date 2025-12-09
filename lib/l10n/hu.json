@@ -230,6 +230,7 @@
     "Images" : "Képek",
     "Question" : "Kérdés",
     "Confirmation" : "Megerősítés",
+    "Optical character recognition" : "Optikai karakterfelismerés",
     "Prompt" : "Prompt",
     "Generates a possible headline for a text." : "Egy lehetséges címsort állít elő egy szöveghez.",
     "Text" : "Szöveg",
