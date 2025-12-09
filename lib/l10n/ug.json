@@ -376,6 +376,7 @@
     "The text to generate an emoji for" : "ئۈچۈن emoji ھاسىل قىلىدىغان تېكىست",
     "Generated emoji" : "ھاسىل قىلىنغان emoji",
     "The generated emoji based on the input text" : "كىرگۈزۈلگەن تېكىستنى ئاساس قىلغان ھاسىل قىلىنغان emoji",
+    "Optical character recognition" : "ئوپتىكىلىق خاراكتېر تونۇش",
     "Generate image" : "رەسىم ھاسىل قىلىش",
     "Generate an image from a text prompt" : "تېكىست ئەسكەرتمىسىدىن رەسىم ھاسىل قىلىڭ",
     "Prompt" : "تېز",
