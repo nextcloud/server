@@ -188,7 +188,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('https://photo', $entries[1]->getAvatar());
 	}
 
-	public function testGetContactsWhenUserIsInExcludeGroups(): void {
+	public function testGetContactsOnlyShareIfInTheSameGroupWhenUserIsInExcludeGroups(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
