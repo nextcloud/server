@@ -982,9 +982,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $calendarType
 	 * @return array
 	 */
-	public function getLimitedCalendarObjects(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR):array {
+	public function getLimitedCalendarObjects(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR, array $fields = []):array {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id','uid', 'etag', 'uri', 'calendardata'])
+		$query->select($fields ?: ['id', 'uid', 'etag', 'uri', 'calendardata'])
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)))
@@ -993,12 +993,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$result = [];
 		while (($row = $stmt->fetch()) !== false) {
-			$result[$row['uid']] = [
-				'id' => $row['id'],
-				'etag' => $row['etag'],
-				'uri' => $row['uri'],
-				'calendardata' => $row['calendardata'],
-			];
+			$result[$row['uid']] = $row;
 		}
 		$stmt->closeCursor();
 
