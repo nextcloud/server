@@ -53,6 +53,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Controller\\TwoFactorSettingsController' => __DIR__ . '/..' . '/../lib/Controller/TwoFactorSettingsController.php',
         'OCA\\Settings\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
         'OCA\\Settings\\Controller\\WebAuthnController' => __DIR__ . '/..' . '/../lib/Controller/WebAuthnController.php',
+        'OCA\\Settings\\Events\\AfterAuthTokenCreatedEvent' => __DIR__ . '/..' . '/../lib/Events/AfterAuthTokenCreatedEvent.php',
         'OCA\\Settings\\Events\\BeforeTemplateRenderedEvent' => __DIR__ . '/..' . '/../lib/Events/BeforeTemplateRenderedEvent.php',
         'OCA\\Settings\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Settings\\Listener\\AppPasswordCreatedActivityListener' => __DIR__ . '/..' . '/../lib/Listener/AppPasswordCreatedActivityListener.php',
