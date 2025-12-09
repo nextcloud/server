@@ -611,6 +611,7 @@ class Manager implements IManager {
 			\OCP\TaskProcessing\TaskTypes\AudioToAudioChat::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\AudioToAudioChat::class),
 			\OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction::class),
 			\OCP\TaskProcessing\TaskTypes\AnalyzeImages::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\AnalyzeImages::class),
+			\OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition::class),
 		];
 
 		foreach ($context->getTaskProcessingTaskTypes() as $providerServiceRegistration) {
