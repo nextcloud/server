@@ -7,6 +7,7 @@
  */
 namespace OC\Files\Config;
 
+use Doctrine\DBAL\TransactionIsolationLevel;
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -99,6 +100,8 @@ class UserMountCache implements IUserMountCache {
 		$changedMounts = $this->findChangedMounts($newMounts, $cachedMounts);
 
 		if ($addedMounts || $removedMounts || $changedMounts) {
+			$this->connection->setTransactionIsolation(TransactionIsolationLevel::REPEATABLE_READ);
+
 			$this->connection->beginTransaction();
 			$userUID = $user->getUID();
 			try {
@@ -124,6 +127,8 @@ class UserMountCache implements IUserMountCache {
 			} catch (\Throwable $e) {
 				$this->connection->rollBack();
 				throw $e;
+			} finally {
+				$this->connection->setTransactionIsolation(TransactionIsolationLevel::READ_COMMITTED);
 			}
 
 			// Only fire events after all mounts have already been adjusted in the database.
