@@ -86,8 +86,8 @@ class ExternalShare extends Entity implements \JsonSerializable {
 		$this->setter('name', [$name]);
 	}
 
-	public function setUserOrGroup(IUser|IGroup|null $userOrGroup): void {
-		$this->setUser($userOrGroup instanceof IGroup ? $userOrGroup->getGID() : $userOrGroup->getUID());
+	public function setShareWith(IUser|IGroup $shareWith): void {
+		$this->setUser($shareWith instanceof IGroup ? $shareWith->getGID() : $shareWith->getUID());
 	}
 
 	/**

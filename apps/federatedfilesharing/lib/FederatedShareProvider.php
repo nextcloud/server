@@ -867,7 +867,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('share_external')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)))
 			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
 			->executeStatement();
 	}

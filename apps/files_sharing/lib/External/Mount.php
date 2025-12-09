@@ -10,23 +10,17 @@ namespace OCA\Files_Sharing\External;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
+use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\ISharedMountPoint;
+use Override;
 
 class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
-
-	/**
-	 * @param string|Storage $storage
-	 * @param string $mountpoint
-	 * @param array $options
-	 * @param \OCA\Files_Sharing\External\Manager $manager
-	 * @param \OC\Files\Storage\StorageFactory $loader
-	 */
 	public function __construct(
-		$storage,
-		$mountpoint,
-		$options,
-		protected $manager,
-		$loader = null,
+		string|Storage $storage,
+		string $mountpoint,
+		array $options,
+		protected Manager $manager,
+		?StorageFactory $loader = null,
 	) {
 		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
 	}
@@ -50,12 +44,7 @@ class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 		return $this->manager->removeShare($this->mountPoint);
 	}
 
-	/**
-	 * Get the type of mount point, used to distinguish things like shares and external storage
-	 * in the web interface
-	 *
-	 * @return string
-	 */
+	#[Override]
 	public function getMountType(): string {
 		return 'shared';
 	}

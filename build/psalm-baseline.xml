@@ -1286,9 +1286,6 @@
     </InvalidReturnType>
   </file>
   <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user)]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[Util::emitHook(
 					'\OCA\Files_Sharing\API\Server2Server',
@@ -1299,12 +1296,6 @@
       <code><![CDATA[sendNotification]]></code>
       <code><![CDATA[sendNotification]]></code>
     </DeprecatedMethod>
-    <InvalidArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$id]]></code>
-    </InvalidArgument>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
     <LessSpecificReturnStatement>
@@ -2537,12 +2528,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
-  </file>
-  <file src="apps/sharebymail/lib/ShareByMailProvider.php">
-    <InvalidArgument>
-      <code><![CDATA[$share->getId()]]></code>
-      <code><![CDATA[(int)$data['id']]]></code>
-    </InvalidArgument>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
     <DeprecatedConstant>
@@ -4251,17 +4236,7 @@
       <code><![CDATA[$this->dbprettyname]]></code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Share20/DefaultShareProvider.php">
-    <InvalidArgument>
-      <code><![CDATA[$share->getId()]]></code>
-      <code><![CDATA[$share->getId()]]></code>
-      <code><![CDATA[(int)$data['id']]]></code>
-    </InvalidArgument>
-  </file>
   <file src="lib/private/Share20/Manager.php">
-    <InvalidArgument>
-      <code><![CDATA[$id]]></code>
-    </InvalidArgument>
     <UndefinedClass>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>

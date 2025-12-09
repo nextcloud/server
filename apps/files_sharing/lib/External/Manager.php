@@ -69,26 +69,26 @@ class Manager {
 	 * @throws NotPermittedException
 	 * @throws NoUserException
 	 */
-	public function addShare(ExternalShare $shareExternal, IUser|IGroup|null $userOrGroup = null): ?Mount {
-		$userOrGroup = $userOrGroup ?? $this->user;
+	public function addShare(ExternalShare $externalShare, IUser|IGroup|null $shareWith = null): ?Mount {
+		$shareWith = $shareWith ?? $this->user;
 
-		if ($shareExternal->getAccepted() !== IShare::STATUS_ACCEPTED) {
+		if ($externalShare->getAccepted() !== IShare::STATUS_ACCEPTED) {
 			// To avoid conflicts with the mount point generation later,
 			// we only use a temporary mount point name here. The real
 			// mount point name will be generated when accepting the share,
 			// using the original share item name.
-			$tmpMountPointName = '{{TemporaryMountPointName#' . $shareExternal->getName() . '}}';
-			$shareExternal->setMountpoint($tmpMountPointName);
-			$shareExternal->setUserOrGroup($userOrGroup);
+			$tmpMountPointName = '{{TemporaryMountPointName#' . $externalShare->getName() . '}}';
+			$externalShare->setMountpoint($tmpMountPointName);
+			$externalShare->setShareWith($shareWith);
 
 			$i = 1;
 			while (true) {
 				try {
-					$this->externalShareMapper->insert($shareExternal);
+					$this->externalShareMapper->insert($externalShare);
 					break;
 				} catch (Exception $e) {
 					if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-						$shareExternal->setMountpoint($tmpMountPointName . '-' . $i);
+						$externalShare->setMountpoint($tmpMountPointName . '-' . $i);
 						$i++;
 					} else {
 						throw $e;
@@ -99,22 +99,22 @@ class Manager {
 			return null;
 		}
 
-		$user = $userOrGroup instanceof IUser ? $userOrGroup : $this->user;
+		$user = $shareWith instanceof IUser ? $shareWith : $this->user;
 
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$mountPoint = $userFolder->getNonExistingName($shareExternal->getName());
+		$mountPoint = $userFolder->getNonExistingName($externalShare->getName());
 
 		$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
-		$shareExternal->setMountpoint($mountPoint);
-		$shareExternal->setUserOrGroup($user);
-		$this->externalShareMapper->insert($shareExternal);
+		$externalShare->setMountpoint($mountPoint);
+		$externalShare->setShareWith($user);
+		$this->externalShareMapper->insert($externalShare);
 
 		$options = [
-			'remote' => $shareExternal->getRemote(),
-			'token' => $shareExternal->getShareToken(),
-			'password' => $shareExternal->getPassword(),
-			'mountpoint' => $shareExternal->getMountpoint(),
-			'owner' => $shareExternal->getOwner(),
+			'remote' => $externalShare->getRemote(),
+			'token' => $externalShare->getShareToken(),
+			'password' => $externalShare->getPassword(),
+			'mountpoint' => $externalShare->getMountpoint(),
+			'owner' => $externalShare->getOwner(),
 		];
 		return $this->mountShare($options, $user);
 	}
@@ -168,7 +168,7 @@ class Manager {
 	public function getShareByToken(string $token): ExternalShare|false {
 		try {
 			return $this->externalShareMapper->getShareByToken($token);
-		} catch (DoesNotExistException $e) {
+		} catch (DoesNotExistException) {
 			return false;
 		}
 	}
@@ -184,7 +184,7 @@ class Manager {
 		} else {
 			try {
 				$subShare = $this->externalShareMapper->getUserShare($externalShare, $user);
-			} catch (DoesNotExistException $e) {
+			} catch (DoesNotExistException) {
 				$subShare = new ExternalShare();
 				$subShare->setId($this->snowflakeGenerator->nextId());
 				$subShare->setRemote($externalShare->getRemote());

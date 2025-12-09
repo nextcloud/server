@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\External;
 
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -19,6 +20,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Share\IShare;
+use Override;
 
 /**
  * @template-extends QBMapper<ExternalShare>
@@ -213,5 +215,38 @@ class ExternalShareMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('share_external')
 			->executeStatement();
+	}
+
+	#[Override]
+	public function delete(Entity $entity): ExternalShare {
+		/** @var ExternalShare $share */
+		$share = $entity;
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete(self::TABLE_NAME)
+			// delete the share itself
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+			// delete all child in case of a group share
+			->orWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+			->executeStatement();
+		return $share;
+	}
+
+	public function getShareByRemoteIdAndToken(string $id, mixed $token): ?ExternalShare {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from(self::TABLE_NAME)
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
+					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+				)
+			);
+
+		try {
+			return $this->findEntity($qb);
+		} catch (Exception) {
+			return null;
+		}
 	}
 }

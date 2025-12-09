@@ -7,7 +7,6 @@
  */
 namespace OCA\Files_Sharing\Command;
 
-use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
