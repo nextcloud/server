@@ -289,7 +289,7 @@ div.v-popper--theme-dropdown.v-popper__popper:has(.v-popper__wrapper), .header-m
 	min-width: min-content;
 
 	&:has(.viewer__content) {
-		background-color: transparent;
+		background-color: var(--ion-surface-viewer) !important;
 
 		.editor__content pre {
 			background-color: var(--ion-surface-secondary);
