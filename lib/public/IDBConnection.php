@@ -388,4 +388,26 @@ interface IDBConnection {
 	 * @since 30.0.0
 	 */
 	public function getCrossShardMoveHelper(): CrossShardMoveHelper;
+
+	/**
+	 * Sets the transaction isolation level.
+	 *
+	 * @param \Doctrine\DBAL\TransactionIsolationLevel::* $level The level to set.
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 *
+	 * @since 33.0.0
+	 */
+	public function setTransactionIsolation(int $level): int;
+
+	/**
+	 * Gets the currently active transaction isolation level.
+	 *
+	 * @return \Doctrine\DBAL\TransactionIsolationLevel::* The current transaction isolation level.
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 *
+	 * @since 33.0.0
+	 */
+	public function getTransactionIsolation(): int;
 }

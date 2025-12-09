@@ -26,6 +26,13 @@ class ConnectionAdapter implements IDBConnection {
 	/** @var Connection */
 	private $inner;
 
+	/**
+	 * The currently active transaction isolation level or NULL before it has been determined.
+	 *
+	 * @var \Doctrine\DBAL\TransactionIsolationLevel::*|null
+	 */
+	private ?int $transactionIsolationLevel = null;
+
 	public function __construct(Connection $inner) {
 		$this->inner = $inner;
 	}
@@ -261,5 +268,15 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
 		return $this->inner->getCrossShardMoveHelper();
+	}
+
+	public function setTransactionIsolation(int $level): int {
+		$this->transactionIsolationLevel = $level;
+
+		return $this->executeStatement($this->getDatabasePlatform()->getSetTransactionIsolationSQL($level));
+	}
+
+	public function getTransactionIsolation(): int {
+		return $this->transactionIsolationLevel ??= $this->getDatabasePlatform()->getDefaultTransactionIsolationLevel();
 	}
 }
