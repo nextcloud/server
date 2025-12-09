@@ -103,7 +103,7 @@ Feature: contacts-menu
     And searching for contacts matching with "test"
     Then the list of searched contacts has "0" contacts
 
-  Scenario: users can not be searched by display name when searcher belongs to both a group excluded from sharing and another group
+  Scenario: users can be searched by display name when searcher belongs to both a group excluded from sharing and another group
     Given user "user0" exists
     And group "ExcludedGroup" exists
     And user "user0" belongs to group "ExcludedGroup"
@@ -118,9 +118,10 @@ Feature: contacts-menu
       | value | Test name |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
-    Then the list of searched contacts has "0" contacts
+    Then the list of searched contacts has "1" contacts
+    And searched contact "0" is named "Test name"
 
-  Scenario: users can not be searched by email when searcher belongs to both a group excluded from sharing and another group
+  Scenario: users can be searched by email when searcher belongs to both a group excluded from sharing and another group
     Given user "user0" exists
     And group "ExcludedGroup" exists
     And user "user0" belongs to group "ExcludedGroup"
@@ -135,7 +136,8 @@ Feature: contacts-menu
       | value | test@example.com |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
-    Then the list of searched contacts has "0" contacts
+    Then the list of searched contacts has "1" contacts
+    And searched contact "0" is named "user1"
 
   Scenario: users can not be searched by display name when searcher does not belong to a group allowed to share
     Given user "user0" exists
