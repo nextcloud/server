@@ -48,7 +48,7 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	 * @since 33.0.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Extract text from an image');
+		return $this->l->t('Extract text from files like images or PDFs');
 	}
 
 	/**
@@ -65,9 +65,9 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
-				$this->l->t('Input Image'),
-				$this->l->t('The image to extract text from'),
-				EShapeType::Image
+				$this->l->t('Input files'),
+				$this->l->t('The files to extract text from'),
+				EShapeType::ListOfFiles
 			),
 		];
 	}
@@ -79,9 +79,9 @@ class ImageToTextOpticalCharacterRecognition implements ITaskType {
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(
-				$this->l->t('Output text'),
-				$this->l->t('The text that was extracted from the image'),
-				EShapeType::Text
+				$this->l->t('Output texts'),
+				$this->l->t('The texts that were extracted from the files'),
+				EShapeType::ListOfTexts
 			),
 		];
 	}
