@@ -154,6 +154,10 @@ class FailedStorage extends Common {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	public function getDirectDownloadById(string $fileId): never {
+		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
+	}
+
 	public function verifyPath(string $path, string $fileName): void {
 	}
 

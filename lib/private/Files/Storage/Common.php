@@ -38,6 +38,7 @@ use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -445,13 +446,14 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		return is_a($this, $class);
 	}
 
-	/**
-	 * A custom storage implementation can return an url for direct download of a give file.
-	 *
-	 * For now the returned array can hold the parameter url - in future more attributes might follow.
-	 */
+	#[Override]
 	public function getDirectDownload(string $path): array|false {
-		return [];
+		return false;
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		return false;
 	}
 
 	public function verifyPath(string $path, string $fileName): void {
