@@ -151,6 +151,9 @@ function prepareDocker() {
 	docker cp - $NEXTCLOUD_LOCAL_CONTAINER:/nextcloud/ < "$NEXTCLOUD_LOCAL_TAR"
 	docker exec $NEXTCLOUD_LOCAL_CONTAINER chown -R www-data:www-data /nextcloud
 
+	# Install Nextcloud in the container
+	docker exec -w /nextcloud $NEXTCLOUD_LOCAL_CONTAINER composer install
+
 	# Database options are needed only when a database other than SQLite is
 	# used.
 	NEXTCLOUD_LOCAL_CONTAINER_INSTALL_DATABASE_OPTIONS=""
@@ -159,7 +162,7 @@ function prepareDocker() {
 	fi
 
 	echo "Installing Nextcloud in the container"
-	docker exec --user www-data $NEXTCLOUD_LOCAL_CONTAINER bash -c "cd nextcloud && php occ maintenance:install --admin-pass=admin $NEXTCLOUD_LOCAL_CONTAINER_INSTALL_DATABASE_OPTIONS"
+	docker exec --user www-data --workdir /nextcloud $NEXTCLOUD_LOCAL_CONTAINER php occ maintenance:install --admin-pass=admin $NEXTCLOUD_LOCAL_CONTAINER_INSTALL_DATABASE_OPTIONS
 }
 
 # Removes/stops temporal elements created/started by this script.
@@ -200,9 +203,8 @@ trap cleanUp EXIT
 cd "$(dirname $0)"
 
 # "--image XXX" option can be provided to set the Docker image to use to run
-# the integration tests (one of the "nextcloudci/phpX.Y:phpX.Y-Z" or
-# "ghcr.io/nextcloud/continuous-integration-integration-phpX.Y:latest" images).
-NEXTCLOUD_LOCAL_IMAGE="ghcr.io/nextcloud/continuous-integration-integration-php8.2:latest"
+# the integration tests (one of the "nextcloud/continuous-integration-phpX.Y:latest" images).
+NEXTCLOUD_LOCAL_IMAGE="ghcr.io/nextcloud/continuous-integration-php8.3:latest"
 if [ "$1" = "--image" ]; then
 	NEXTCLOUD_LOCAL_IMAGE=$2
 
