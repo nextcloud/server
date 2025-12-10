@@ -3,7 +3,13 @@
 # SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
 # SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
 # SPDX-License-Identifier: AGPL-3.0-only
-#
+
+BEHAT_EXECUTABLE=../../lib/composer/bin/behat
+if [ ! -f "$BEHAT_EXECUTABLE" ]; then
+    echo "Behat executable not found. Please run 'composer install' in the root directory first." >&2
+    exit 1
+fi
+
 OC_PATH=../../
 OCC=${OC_PATH}occ
 TAGS=""
@@ -37,8 +43,6 @@ else
     fi
 fi
 NC_DATADIR=$($OCC config:system:get datadirectory)
-
-composer install
 
 # avoid port collision on jenkins - use $EXECUTOR_NUMBER
 if [ -z "$EXECUTOR_NUMBER" ]; then
@@ -88,7 +92,14 @@ if [ "$INSTALLED" == "true" ]; then
 
 fi
 
-vendor/bin/behat --strict --colors -f junit -f pretty $TAGS $SCENARIO_TO_RUN
+$BEHAT_EXECUTABLE \
+    --strict  \
+    --colors  \
+    -f junit  \
+    -f pretty \
+    $TAGS     \
+    $SCENARIO_TO_RUN
+
 RESULT=$?
 
 if [ "$INSTALLED" == "true" ]; then

@@ -11,7 +11,7 @@ use Behat\Step\When;
 use PHPUnit\Framework\Assert;
 use Sabre\DAV\Client as SClient;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 class MetadataContext implements Context {
 	private string $davPath = '/remote.php/dav';

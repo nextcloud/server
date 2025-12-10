@@ -90,6 +90,7 @@ jobs:
 
       - name: Set up Nextcloud
         run: |
+          composer install
           mkdir data
           echo '<?php $CONFIG=["${{ matrix.key }}" => ["class" => "OC\Files\ObjectStore\S3", "arguments" => ["bucket" => "nextcloud", "autocreate" => true, "key" => "nextcloud", "secret" => "bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=", "hostname" => "localhost", "port" => 9000, "use_ssl" => false, "use_path_style" => true, "uploadPartSize" => 52428800]]];' > config/config.php
           echo '<?php $CONFIG=["redis" => ["host" => "localhost", "port" => 6379], "memcache.local" => "\OC\Memcache\Redis", "memcache.distributed" => "\OC\Memcache\Redis"];' > config/redis.config.php
