@@ -19,6 +19,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Tarayıcınız görüntüleri desteklemiyor.",
     "This file no longer exists" : "Bu dosya artık yok",
     "There is no plugin available to display this file type" : "Bu dosya türünü görüntüleyebilecek bir eklenti yok",
+    "Failed to save file before download" : "Dosya indirmeden önce kaydedilemedi",
     "Edit" : "Düzenle",
     "Exit full screen" : "Tam ekrandan çık",
     "Full screen" : "Tam ekran",
