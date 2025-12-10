@@ -172,7 +172,7 @@
     "puppeteer": "^24.31.0",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
-    "sass": "^1.94.2",
+    "sass": "^1.95.1",
     "sinon": "<= 5.0.7",
     "stylelint": "^16.26.1",
     "stylelint-use-logical": "^2.1.2",
