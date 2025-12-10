@@ -3641,12 +3641,6 @@
     <InvalidOperand>
       <code><![CDATA[$user]]></code>
     </InvalidOperand>
-    <RedundantCondition>
-      <code><![CDATA[get_class($provider) !== 'OCA\Files_Sharing\MountProvider']]></code>
-    </RedundantCondition>
-    <TypeDoesNotContainType>
-      <code><![CDATA[get_class($provider) === 'OCA\Files_Sharing\MountProvider']]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
     <InvalidReturnType>
