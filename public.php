@@ -89,13 +89,10 @@ try {
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
-	if ($ex instanceof ServiceUnavailableException && $ex->getCode() === 0) {
-		$status = 503;
-	}
 	if ($ex->getCode() > 0) {
 		$status = $ex->getCode();
 	} else {
-		$status = 500;
+		$status = $ex instanceof ServiceUnavailableException ? 503 : 500;
 	}
 	//show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
