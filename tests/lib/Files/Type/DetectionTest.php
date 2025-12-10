@@ -123,7 +123,7 @@ class DetectionTest extends \Test\TestCase {
 		try {
 			// Create a default / shipped mapping file (dist)
 			file_put_contents($tmpDir . '/mimetypemapping.dist.json', json_encode([]));
-			
+
 			// Create new custom mapping file that should be picked up by Detection
 			file_put_contents($tmpDir . '/mimetypemapping.json', json_encode([$ext => [$mime]]));
 
@@ -158,7 +158,7 @@ class DetectionTest extends \Test\TestCase {
 			// Create new custom mapping file with potentially problematic keys
 			$mappings = [
 				'001' => ['application/x-zeroone', null],
-				'1'   => ['application/x-one', null],
+				'1' => ['application/x-one', null],
 			];
 			file_put_contents($tmpDir . '/mimetypemapping.json', json_encode($mappings));
 
@@ -166,7 +166,7 @@ class DetectionTest extends \Test\TestCase {
 			$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
 				->disableOriginalConstructor()
 				->getMock();
-			
+
 			/** @var LoggerInterface $logger */
 			$logger = $this->createMock(LoggerInterface::class);
 
@@ -175,7 +175,7 @@ class DetectionTest extends \Test\TestCase {
 
 			$this->assertArrayHasKey('001', $mappings, 'Expected mapping to contain key "001"');
 			$this->assertArrayHasKey('1', $mappings, 'Expected mapping to contain key "1"');
-			
+
 			$this->assertEquals('application/x-zeroone', $detection->detectPath('foo.001'));
 			$this->assertEquals('application/x-one', $detection->detectPath('foo.1'));
 		} finally {
