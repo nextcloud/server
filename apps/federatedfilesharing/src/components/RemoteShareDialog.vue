@@ -20,15 +20,17 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-	(e: 'close', state: boolean, password?: string): void
+	close: [state: boolean, password?: string]
 }>()
 
 const password = ref('')
 
+type INcDialogButtons = InstanceType<typeof NcDialog>['$props']['buttons']
+
 /**
  * The dialog buttons
  */
-const buttons = computed(() => [
+const buttons = computed<INcDialogButtons>(() => [
 	{
 		label: t('federatedfilesharing', 'Cancel'),
 		callback: () => emit('close', false),
@@ -54,16 +56,13 @@ const buttons = computed(() => [
 		<NcPasswordField
 			v-if="passwordRequired"
 			v-model="password"
-			class="remote-share-dialog__password"
+			:class="$style.remoteShareDialog__password"
 			:label="t('federatedfilesharing', 'Remote share password')" />
 	</NcDialog>
 </template>
 
-<style scoped lang="scss">
-.remote-share-dialog {
-
-	&__password {
-		margin-block: 1em .5em;
-	}
+<style module>
+.remoteShareDialog__password {
+	margin-block: 1em .5em;
 }
 </style>

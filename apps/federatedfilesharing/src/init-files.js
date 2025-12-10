@@ -13,33 +13,6 @@ import { generateUrl } from '@nextcloud/router'
 import { showRemoteShareDialog } from './services/dialogService.ts'
 import logger from './services/logger.ts'
 
-window.OCA.Sharing = window.OCA.Sharing ?? {}
-
-/**
- * Shows "add external share" dialog.
- *
- * @param {object} share the share
- * @param {string} share.remote remote server URL
- * @param {string} share.owner owner name
- * @param {string} share.name name of the shared folder
- * @param {string} share.token authentication token
- * @param {boolean} passwordProtected true if the share is password protected
- * @param {Function} callback the callback
- */
-window.OCA.Sharing.showAddExternalDialog = function(share, passwordProtected, callback) {
-	const owner = share.ownerDisplayName || share.owner
-	const name = share.name
-
-	// Clean up the remote URL for display
-	const remote = share.remote
-		.replace(/^https?:\/\//, '') // remove http:// or https://
-		.replace(/\/$/, '') // remove trailing slash
-
-	showRemoteShareDialog(name, owner, remote, passwordProtected)
-		.then((password) => callback(true, { ...share, password }))
-		.catch(() => callback(false, share))
-}
-
 window.addEventListener('DOMContentLoaded', () => {
 	processIncomingShareFromUrl()
 
@@ -118,7 +91,7 @@ function processIncomingShareFromUrl() {
 		// clear hash, it is unlikely that it contain any extra parameters
 		location.hash = ''
 		params.passwordProtected = parseInt(params.protected, 10) === 1
-		window.OCA.Sharing.showAddExternalDialog(
+		showAddExternalDialog(
 			params,
 			params.passwordProtected,
 			callbackAddShare,
@@ -133,7 +106,7 @@ async function processSharesToConfirm() {
 	// check for new server-to-server shares which need to be approved
 	const { data: shares } = await axios.get(generateUrl('/apps/files_sharing/api/externalShares'))
 	for (let index = 0; index < shares.length; ++index) {
-		window.OCA.Sharing.showAddExternalDialog(
+		showAddExternalDialog(
 			shares[index],
 			false,
 			function(result, share) {
@@ -148,4 +121,29 @@ async function processSharesToConfirm() {
 			},
 		)
 	}
+}
+
+/**
+ * Shows "add external share" dialog.
+ *
+ * @param {object} share the share
+ * @param {string} share.remote remote server URL
+ * @param {string} share.owner owner name
+ * @param {string} share.name name of the shared folder
+ * @param {string} share.token authentication token
+ * @param {boolean} passwordProtected true if the share is password protected
+ * @param {Function} callback the callback
+ */
+function showAddExternalDialog(share, passwordProtected, callback) {
+	const owner = share.ownerDisplayName || share.owner
+	const name = share.name
+
+	// Clean up the remote URL for display
+	const remote = share.remote
+		.replace(/^https?:\/\//, '') // remove http:// or https://
+		.replace(/\/$/, '') // remove trailing slash
+
+	showRemoteShareDialog(name, owner, remote, passwordProtected)
+		.then((password) => callback(true, { ...share, password }))
+		.catch(() => callback(false, share))
 }

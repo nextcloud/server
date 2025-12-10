@@ -57,11 +57,6 @@ module.exports = {
 	oauth2: {
 		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
 	},
-	federatedfilesharing: {
-		external: path.join(__dirname, 'apps/federatedfilesharing/src', 'external.js'),
-		'vue-settings-admin': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-admin.js'),
-		'vue-settings-personal': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-personal.js'),
-	},
 	profile: {
 		main: path.join(__dirname, 'apps/profile/src', 'main.ts'),
 	},

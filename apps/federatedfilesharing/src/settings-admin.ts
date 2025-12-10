@@ -3,23 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import AdminSettings from './components/AdminSettings.vue'
 
-__webpack_nonce__ = getCSPNonce()
-
-Vue.mixin({
-	methods: {
-		t,
-	},
-})
+import 'vite/modulepreload-polyfill'
 
 const internalOnly = loadState('federatedfilesharing', 'internalOnly', false)
 
 if (!internalOnly) {
-	const AdminSettingsView = Vue.extend(AdminSettings)
-	new AdminSettingsView().$mount('#vue-admin-federated')
+	const app = createApp(AdminSettings)
+	app.mount('#vue-admin-federated')
 }
