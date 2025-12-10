@@ -186,11 +186,10 @@ class Setup {
 		}
 
 		// Check if running directly on macOS (note: Linux containers on macOS will not trigger this)
-		if (PHP_OS_FAMILY === 'Darwin') {
+		if (!getenv('CI') && PHP_OS_FAMILY === 'Darwin') {
 			$errors[] = [
 				'error' => $this->l10n->t(
-					'macOS is not supported and %s will not work properly on this platform. '
-					. 'Use it at your own risk!',
+					'macOS is not supported and %s will not work properly on this platform.',
 					[$this->defaults->getProductName()]
 				),
 				'hint' => $this->l10n->t('For the best results, please consider using a GNU/Linux server instead.'),
