@@ -108,15 +108,16 @@ class RemoteController extends OCSController {
 	 * @return Files_SharingRemoteShare Enriched share info with data from the filecache
 	 */
 	private function extendShareInfo(ExternalShare $share): array {
+		$shareData = $share->jsonSerialize();
+
+		$shareData['parent'] = $shareData['parent'] !== '-1' ? $shareData['parent'] : null;
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		try {
 			$mountPointNode = $userFolder->get($share->getMountpoint());
 		} catch (\Exception) {
-			return $share->jsonSerialize();
+			return $shareData;
 		}
-
-		$shareData = $share->jsonSerialize();
 
 		$shareData['mimetype'] = $mountPointNode->getMimetype();
 		$shareData['mtime'] = $mountPointNode->getMTime();

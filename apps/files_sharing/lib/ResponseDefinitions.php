@@ -89,7 +89,7 @@ namespace OCA\Files_Sharing;
  *     mtime: int|null,
  *     name: string,
  *     owner: string,
- *     parent: string,
+ *     parent: string|null,
  *     permissions: int|null,
  *     remote: string,
  *     remote_id: string,
