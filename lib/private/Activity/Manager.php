@@ -19,6 +19,7 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Activity\ISetting;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -26,6 +27,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
 
@@ -49,6 +51,8 @@ class Manager implements IManager {
 		protected IRichTextFormatter $richTextFormatter,
 		protected IL10N $l10n,
 		protected ITimeFactory $timeFactory,
+		protected IAppConfig $appConfig,
+		protected LoggerInterface $logger,
 	) {
 	}
 
@@ -92,7 +96,7 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent(): IEvent {
-		return new Event($this->validator, $this->richTextFormatter);
+		return new Event($this->validator, $this->richTextFormatter, $this->logger, $this->appConfig);
 	}
 
 	/**
