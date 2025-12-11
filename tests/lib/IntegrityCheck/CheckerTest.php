@@ -67,9 +67,8 @@ class CheckerTest extends TestCase {
 		$this->environmentHelper->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 
-		// Stubs cacheFactory->createDistributed to return a NullCache for the specific cache key used by the checker
+		// Stub cacheFactory->createDistributed to return a NullCache for the specific cache key used by the checker
 		$this->cacheFactory
-			->expects($this->any())
 			->method('createDistributed')
 			->with('oc.integritycheck.checker')
 			->willReturn(new NullCache());
@@ -96,6 +95,8 @@ class CheckerTest extends TestCase {
 			->method('assertDirectoryExists')
 			->with('NotExistingApp/appinfo')
 			->willThrowException(new \Exception('Exception message'));
+
+		// Check expected path is passed (and no write permission exception is thrown)
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
@@ -390,6 +391,8 @@ class CheckerTest extends TestCase {
 			->expects($this->once())
 			->method('assertDirectoryExists')
 			->willThrowException(new \Exception('Exception message'));
+
+		// Check expected path is passed (and no write permission exception is thrown)
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
@@ -414,6 +417,8 @@ class CheckerTest extends TestCase {
 			->expects($this->once())
 			->method('assertDirectoryExists')
 			->willThrowException(new \Exception('Exception message'));
+
+		// Check expected path is passed AND that "not writable" exception is thrown
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
