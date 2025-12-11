@@ -1107,6 +1107,10 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function orderBy($sort, $order = null) {
+		if ($order !== null && !in_array(strtoupper((string) $order), ['ASC', 'DESC'], true)) {
+			$order = null;
+		}
+
 		$this->queryBuilder->orderBy(
 			$this->helper->quoteColumnName($sort),
 			$order
@@ -1124,6 +1128,10 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function addOrderBy($sort, $order = null) {
+		if ($order !== null && !in_array(strtoupper((string) $order), ['ASC', 'DESC'], true)) {
+			$order = null;
+		}
+
 		$this->queryBuilder->addOrderBy(
 			$this->helper->quoteColumnName($sort),
 			$order
