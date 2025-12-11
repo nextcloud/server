@@ -45,6 +45,8 @@ class CheckerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		// Mock all external dependencies the Checker needs 
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
@@ -54,15 +56,25 @@ class CheckerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->mimeTypeDetector = $this->createMock(Detection::class);
 
-		$this->config->method('getAppValue')
-			->willReturnArgument(2);
+		// Stub $this->serverVersion->getChannel to return `stable` by default
+		$this->serverVersion->method('getChannel')->willReturn('stable');
 
+		// Stub $this->config->getSystemValueBool to return false for the `integrity.check.disabled` system config key by default
+		$this->config->method('getSystemValueBool')
+			->willReturnCallback(fn($key, $default = false) => $key === 'integrity.check.disabled' ? false : $default);
+
+		// Stub $this->environmentHelper->getServerRoot to return a default that us useful in multiple tests
+		$this->environmentHelper->method('getServerRoot')
+			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
+
+		// Stubs cacheFactory->createDistributed to return a NullCache for the specific cache key used by the checker
 		$this->cacheFactory
 			->expects($this->any())
 			->method('createDistributed')
 			->with('oc.integritycheck.checker')
 			->willReturn(new NullCache());
 
+		// Instantiates a real Checker with the above mocks so most tests exercise real logic while controlling interactions.
 		$this->checker = new Checker(
 			$this->serverVersion,
 			$this->environmentHelper,
@@ -74,7 +86,6 @@ class CheckerTest extends TestCase {
 			$this->mimeTypeDetector
 		);
 	}
-
 
 	public function testWriteAppSignatureOfNotExistingApp(): void {
 		$this->expectException(\Exception::class);
@@ -151,16 +162,6 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithoutSignatureData(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$expected = [
 			'EXCEPTION' => [
 				'class' => 'OC\IntegrityCheck\Exceptions\InvalidSignatureException',
@@ -171,21 +172,12 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithValidSignatureData(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -206,21 +198,12 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedSignatureData(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "tampered",
@@ -247,21 +230,12 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedFiles(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData/');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -304,20 +278,11 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedFilesAndAlternatePath(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->appManager
 			->expects($this->never())
 			->method('getAppPath')
 			->with('SomeApp');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -359,21 +324,12 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppWithDifferentScope(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData/');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -400,21 +356,12 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppWithDifferentScopeAndAlwaysTrustedCore(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -491,10 +438,7 @@ class CheckerTest extends TestCase {
     "signature": "dYoohBaWIFR\/To1FXEbMQB5apUhVYlEauBGSPo12nq84wxWkBx2EM3KDRgkB5Sub2tr0CgmAc2EVjPhKIEzAam26cyUb48bJziz1V6wvW7z4GZAfaJpzLkyHdSfV5117VSf5w1rDcAeZDXfGUaaNEJPWytaF4ZIxVge7f3NGshHy4odFVPADy\/u6c43BWvaOtJ4m3aJQbP6sxCO9dxwcm5yJJJR3n36jfh229sdWBxyl8BhwhH1e1DEv78\/aiL6ckKFPVNzx01R6yDFt3TgEMR97YZ\/R6lWiXG+dsJ305jNFlusLu518zBUvl7g5yjzGN778H29b2C8VLZKmi\/h1CH9jGdD72fCqCYdenD2uZKzb6dsUtXtvBmVcVT6BUGz41W1pkkEEB+YJpMrHILIxAiHRGv1+aZa9\/Oz8LWFd+BEUQjC2LJgojPnpzaG\/msw1nBkX16NNVDWWtJ25Bc\/r\/mG46rwjWB\/cmV6Lwt6KODiqlxgrC4lm9ALOCEWw+23OcYhLwNfQTYevXqHqsFfXOkhUnM8z5vDUb\/HBraB1DjFXN8iLK+1YewD4P495e+SRzrR79Oi3F8SEqRIzRLfN2rnW1BTms\/wYsz0p67cup1Slk1XlNmHwbWX25NVd2PPlLOvZRGoqcKFpIjC5few8THiZfyjiNFwt3RM0AFdZcXY=",
     "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
 }';
-		$this->environmentHelper
-			->expects($this->any())
-			->method('getServerRoot')
-			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
+
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('file_put_contents')
@@ -618,16 +562,6 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithoutSignatureData(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$expected = [
 			'EXCEPTION' => [
 				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
@@ -638,20 +572,6 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithValidSignatureData(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
-		$this->environmentHelper
-			->expects($this->any())
-			->method('getServerRoot')
-			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -672,20 +592,11 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithValidModifiedHtaccessSignatureData(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->environmentHelper
 			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent');
+
 		$signatureDataFile = '{
     "hashes": {
         ".htaccess": "b1a6a9fbb85417f3f461e654f1a8ae56a131fe54e4257b2b8b7ba6b3fedd55b83c0df20550cd6c52bd3a96d148a5a3c4ea24d99dca5d45a644491e56ad99df8e",
@@ -738,16 +649,6 @@ class CheckerTest extends TestCase {
 		// occ integrity:sign-core --privateKey=./tests/data/integritycheck/core.key --certificate=./tests/data/integritycheck/core.crt --path=./tests/data/integritycheck/mimetypeListModified
 		self::assertEquals($newFile, file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js'));
 
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->environmentHelper
 			->expects($this->any())
 			->method('getServerRoot')
@@ -765,20 +666,6 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithValidSignatureDataAndNotAlphabeticOrder(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
-		$this->environmentHelper
-			->expects($this->any())
-			->method('getServerRoot')
-			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -799,20 +686,11 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithTamperedSignatureData(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->environmentHelper
 			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData/');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "tampered",
@@ -839,20 +717,11 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithTamperedFiles(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
 		$this->environmentHelper
 			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData/');
+
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -894,20 +763,6 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreWithInvalidCertificate(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
-		$this->environmentHelper
-			->expects($this->any())
-			->method('getServerRoot')
-			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -934,20 +789,6 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreWithDifferentScope(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
-		$this->environmentHelper
-			->expects($this->any())
-			->method('getServerRoot')
-			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 		$signatureDataFile = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -1049,10 +890,6 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithoutSignatureDataAndCodeCheckerDisabled(): void {
-		$this->serverVersion
-			->expects($this->once())
-			->method('getChannel')
-			->willReturn('stable');
 		$this->config
 			->expects($this->any())
 			->method('getSystemValueBool')
@@ -1081,7 +918,7 @@ class CheckerTest extends TestCase {
 			->method('getChannel')
 			->willReturn($channel);
 		$this->config
-			->expects($this->any())
+			->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
@@ -1099,7 +936,7 @@ class CheckerTest extends TestCase {
 			->method('getChannel')
 			->willReturn($channel);
 		$this->config
-			->expects($this->any())
+			->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(true);
