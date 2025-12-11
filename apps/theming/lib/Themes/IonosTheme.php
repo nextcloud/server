@@ -157,6 +157,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		$ionColorCoolGreyC6 = '#465A75';
 		$ionColorCoolGreyC7 = '#2E4360';
 		$ionColorCoolGreyC8 = '#1D2D42';
+		$ionColorCoolGreyC9 = '#0A121C';
 		$ionColorTypoMild = 'light-dark(var(--ion-color-cool-grey-c7), var(--ion-color-cool-grey-c1))';
 		$ionColorLightGrey = '#d7d7d7';
 		$ionColorGreenG3 = '#12cf76';
@@ -188,6 +189,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			'--ion-color-cool-grey-c6' => $ionColorCoolGreyC6,
 			'--ion-color-cool-grey-c7' => $ionColorCoolGreyC7,
 			'--ion-color-cool-grey-c8' => $ionColorCoolGreyC8,
+			'--ion-color-cool-grey-c9' => $ionColorCoolGreyC9,
 			'--ion-color-typo-mild' => $ionColorTypoMild,
 			'--ion-color-light-grey' => $ionColorLightGrey,
 			'--ion-color-green-g3' => $ionColorGreenG3,
