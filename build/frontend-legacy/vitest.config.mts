@@ -57,7 +57,7 @@ export default defineConfig({
 		coverage: {
 			include: ['./apps/*/src/**', 'core/src/**'],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
-			provider: 'v8',
+			provider: 'istanbul',
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},
@@ -74,7 +74,7 @@ export default defineConfig({
 			deps: {
 				// @see https://github.com/vitest-dev/vitest/issues/7950
 				// inline: true,
-				inline: [ /^(?!.*vitest).*$/ ],
+				inline: [/^(?!.*vitest).*$/],
 			},
 		},
 	},

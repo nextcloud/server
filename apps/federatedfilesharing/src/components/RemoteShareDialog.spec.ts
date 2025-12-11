@@ -41,7 +41,7 @@ describe('RemoteShareDialog', () => {
 			},
 		})
 
-		await expect(findByLabelText(component.element, 'Remote share password')).rejects.toThrow()
+		await expect(findByLabelText(document.body, 'Remote share password')).rejects.toThrow()
 	})
 
 	it('emits true when accepted', async () => {
@@ -59,7 +59,7 @@ describe('RemoteShareDialog', () => {
 			},
 		})
 
-		const button = getByRole(component.element, 'button', { name: 'Cancel' })
+		const button = getByRole(document.body, 'button', { name: 'Cancel' })
 		await fireEvent.click(button)
 		expect(onClose).toHaveBeenCalledWith(false)
 	})
@@ -74,7 +74,7 @@ describe('RemoteShareDialog', () => {
 			},
 		})
 
-		await expect(findByLabelText(component.element, 'Remote share password')).resolves.not.toThrow()
+		await expect(findByLabelText(document.body, 'Remote share password')).resolves.not.toThrow()
 	})
 
 	it('emits the submitted password', async () => {
@@ -92,9 +92,9 @@ describe('RemoteShareDialog', () => {
 			},
 		})
 
-		const input = getByLabelText(component.element, 'Remote share password')
+		const input = getByLabelText(document.body, 'Remote share password')
 		await fireEvent.update(input, 'my password')
-		const button = getByRole(component.element, 'button', { name: 'Add remote share' })
+		const button = getByRole(document.body, 'button', { name: 'Add remote share' })
 		await fireEvent.click(button)
 		expect(onClose).toHaveBeenCalledWith(true, 'my password')
 	})
@@ -114,9 +114,9 @@ describe('RemoteShareDialog', () => {
 			},
 		})
 
-		const input = getByLabelText(component.element, 'Remote share password')
+		const input = getByLabelText(document.body, 'Remote share password')
 		await fireEvent.update(input, 'my password')
-		const button = getByRole(component.element, 'button', { name: 'Cancel' })
+		const button = getByRole(document.body, 'button', { name: 'Cancel' })
 		await fireEvent.click(button)
 		expect(onClose).toHaveBeenCalledWith(false)
 	})
