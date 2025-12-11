@@ -142,19 +142,31 @@ class EmailProvider extends AbstractProvider {
 		IL10N $l10n,
 		string $calendarDisplayName,
 		VEvent $vevent):void {
-		$template->addBodyListItem($calendarDisplayName, $l10n->t('Calendar:'),
-			$this->getAbsoluteImagePath('actions/info.png'));
+		$template->addBodyListItem(
+			htmlspecialchars($calendarDisplayName),
+			$l10n->t('Calendar:'),
+			$this->getAbsoluteImagePath('actions/info.png'),
+			htmlspecialchars($calendarDisplayName),
+		);
 
 		$template->addBodyListItem($this->generateDateString($l10n, $vevent), $l10n->t('Date:'),
 			$this->getAbsoluteImagePath('places/calendar.png'));
 
 		if (isset($vevent->LOCATION)) {
-			$template->addBodyListItem((string) $vevent->LOCATION, $l10n->t('Where:'),
-				$this->getAbsoluteImagePath('actions/address.png'));
+			$template->addBodyListItem(
+				htmlspecialchars((string) $vevent->LOCATION),
+				$l10n->t('Where:'),
+				$this->getAbsoluteImagePath('actions/address.png'),
+				htmlspecialchars((string) $vevent->LOCATION),
+			);
 		}
 		if (isset($vevent->DESCRIPTION)) {
-			$template->addBodyListItem((string) $vevent->DESCRIPTION, $l10n->t('Description:'),
-				$this->getAbsoluteImagePath('actions/more.png'));
+			$template->addBodyListItem(
+				htmlspecialchars((string) $vevent->DESCRIPTION),
+				$l10n->t('Description:'),
+				$this->getAbsoluteImagePath('actions/more.png'),
+				htmlspecialchars((string) $vevent->DESCRIPTION),
+			);
 		}
 	}
 
