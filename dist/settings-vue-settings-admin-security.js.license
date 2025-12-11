@@ -152,7 +152,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
-	- version: 3.0.2
+	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 9.2.0
