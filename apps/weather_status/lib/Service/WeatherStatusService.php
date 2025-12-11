@@ -285,8 +285,8 @@ class WeatherStatusService {
 		$address = $this->userConfig->getValueString($this->userId, Application::APP_ID, 'address');
 		$mode = $this->userConfig->getValueInt($this->userId, Application::APP_ID, 'mode', self::MODE_MANUAL_LOCATION);
 		return [
-			'lat' => $lat === 0.0 ? '' : (string)$lat,
-			'lon' => $lon === 0.0 ? '' : (string)$lon,
+			'lat' => abs($lat) < PHP_FLOAT_EPSILON ? '' : (string)$lat,
+			'lon' => abs($lon) < PHP_FLOAT_EPSILON ? '' : (string)$lon,
 			'address' => $address,
 			'mode' => $mode,
 		];

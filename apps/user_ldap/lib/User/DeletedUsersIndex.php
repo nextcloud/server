@@ -85,6 +85,6 @@ class DeletedUsersIndex {
 	}
 
 	public function isUserMarked(string $ocName): bool {
-		return ($this->userConfig->getValueBool($ocName, 'user_ldap', 'isDeleted', false) === true);
+		return $this->userConfig->getValueBool($ocName, 'user_ldap', 'isDeleted');
 	}
 }
