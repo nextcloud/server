@@ -103,10 +103,10 @@ class EncryptAllTest extends TestCase {
 		$this->user2 = $this->createMock(IUser::class);
 		$this->user2->method('getUID')->willReturn('user2');
 
-		$this->userManager->expects($this->any())->method('getSeenUsers')->will($this->returnCallback(function () {
+		$this->userManager->expects($this->any())->method('getSeenUsers')->willReturnCallback(function () {
 			yield $this->user1;
 			yield $this->user2;
-		}));
+		});
 		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->disableOriginalConstructor()->getMock();
 		$this->secureRandom->expects($this->any())->method('generate')->willReturn('12345678');
 

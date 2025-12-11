@@ -144,8 +144,6 @@ class OcxProvicersTest extends TestCase {
 	 * Helper function creates a nicer interface for mocking Generator behavior
 	 */
 	protected function generate(array $yield_values) {
-		return $this->returnCallback(function () use ($yield_values) {
-			yield from $yield_values;
-		});
+		yield from $yield_values;
 	}
 }
