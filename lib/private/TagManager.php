@@ -63,7 +63,7 @@ class TagManager implements ITagManager, IEventListener {
 	}
 
 	/**
-	 * Get all users who favorited an object
+	 * Get all users who marked an object as favorite.
 	 *
 	 * @param string $objectType
 	 * @param int $objectId
