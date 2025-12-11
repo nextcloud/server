@@ -46,6 +46,8 @@ class CheckerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->fixtureDir = __DIR__ . '/../../data/integritycheck/';
+
 		// Mock all external dependencies the Checker needs 
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
@@ -86,6 +88,24 @@ class CheckerTest extends TestCase {
 		);
 	}
 
+	/*
+	 * Helper methods
+	 */
+
+	private function createRsaAndX509(string $certFile = 'SomeApp.crt', string $keyFile = 'SomeApp.key'): array {
+		$keyBundle = file_get_contents($this->fixtureDir . $certFile);
+		$rsaPrivateKey = file_get_contents($this->fixtureDir . $keyFile);
+		$rsa = new RSA();
+		$rsa->loadKey($rsaPrivateKey);
+		$x509 = new X509();
+		$x509->loadX509($keyBundle); 
+		return [$x509, $rsa]; 
+	}
+
+	/*
+	 * Tests
+	 */
+
 	public function testWriteAppSignatureOfNotExistingApp(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Exception message');
@@ -103,12 +123,8 @@ class CheckerTest extends TestCase {
 			->with('NotExistingApp/appinfo')
 			->willReturn(true);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('SomeApp.crt', 'SomeApp.key');
+
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
 	}
 
@@ -122,12 +138,8 @@ class CheckerTest extends TestCase {
 			->method('file_put_contents')
 			->willThrowException(new \Exception('Exception message'));
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('SomeApp.crt', 'SomeApp.key');
+
 		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
 	}
 
@@ -153,12 +165,8 @@ class CheckerTest extends TestCase {
 				})
 			);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('SomeApp.crt', 'SomeApp.key');
+
 		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
 	}
 
@@ -399,12 +407,8 @@ class CheckerTest extends TestCase {
 			->with(__DIR__ . '/core')
 			->willReturn(true);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('SomeApp.crt', 'SomeApp.key');
+
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
@@ -425,12 +429,8 @@ class CheckerTest extends TestCase {
 			->with(__DIR__ . '/core')
 			->willReturn(false);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('SomeApp.crt', 'SomeApp.key');
+
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
@@ -457,12 +457,8 @@ class CheckerTest extends TestCase {
 				})
 			);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('core.crt', 'core.key');
+
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 	}
 
@@ -492,12 +488,8 @@ class CheckerTest extends TestCase {
 				})
 			);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('core.crt', 'core.key');
+
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified/');
 	}
 
@@ -522,12 +514,8 @@ class CheckerTest extends TestCase {
 				})
 			);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('core.crt', 'core.key');
+
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithInvalidModifiedContent/');
 	}
 
@@ -557,12 +545,8 @@ class CheckerTest extends TestCase {
 				})
 			);
 
-		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
-		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
-		$rsa = new RSA();
-		$rsa->loadKey($rsaPrivateKey);
-		$x509 = new X509();
-		$x509->loadX509($keyBundle);
+		[$x509, $rsa] = $this->createRsaAndX509('core.crt', 'core.key');
+
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent');
 	}
 
