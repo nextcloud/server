@@ -8,9 +8,14 @@ declare(strict_types=1);
  */
 namespace OCA\TwoFactorBackupCodes\Db;
 
+use OCP\AppFramework\Db\Attribute\Column;
+use OCP\AppFramework\Db\Attribute\Table;
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
+ * @method string getId()
+ * @method void setId(string $id)
  * @method string getUserId()
  * @method void setUserId(string $userId)
  * @method string getCode()
@@ -18,14 +23,14 @@ use OCP\AppFramework\Db\Entity;
  * @method int getUsed()
  * @method void setUsed(int $code)
  */
+#[Table(name: 'twofactor_backupcodes', useSnowflakeId: true)]
 class BackupCode extends Entity {
+	#[Column(name: 'user_id', type: Types::STRING, length: 64, nullable: false)]
+	protected ?string $userId = null;
 
-	/** @var string */
-	protected $userId;
+	#[Column(name: 'code', type: Types::STRING, length: 128, nullable: false)]
+	protected ?string $code = null;
 
-	/** @var string */
-	protected $code;
-
-	/** @var int */
-	protected $used;
+	#[Column(name: 'used', type: Types::SMALLINT, nullable: false)]
+	protected ?int $used = null;
 }
