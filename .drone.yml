@@ -2392,4 +2392,6 @@ trigger:
 #    - push
 ---
 kind: signature
-hmac: 5647bd81c8bc7327a18b657fb5223e5345fe9ee28754d0e5e34c3fe02ea1876f
+hmac: 0924fb2a2720d9e44d86b90ff35d4c9318eaf330722b505d3a140da4aa9cb014
+
+...
