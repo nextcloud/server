@@ -3,6 +3,7 @@
     "activity",
     "admin_audit",
     "app_api",
+    "appstore",
     "bruteforcesettings",
     "circles",
     "cloud_federation_api",
@@ -57,6 +58,7 @@
   "defaultEnabled": [
     "activity",
     "app_api",
+    "appstore",
     "bruteforcesettings",
     "circles",
     "comments",
@@ -99,6 +101,7 @@
     "webhook_listeners"
   ],
   "alwaysEnabled": [
+    "appstore",
     "cloud_federation_api",
     "dav",
     "federatedfilesharing",

@@ -15,7 +15,6 @@ const WebpackSPDXPlugin = require('./WebpackSPDXPlugin.cjs')
 
 const appVersion = readFileSync(path.join(__dirname, '../../version.php')).toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
 const isDev = process.env.NODE_ENV === 'development'
-const isTesting = process.env.TESTING === 'true'
 
 /**
  *
