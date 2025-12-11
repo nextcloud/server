@@ -84,6 +84,10 @@ class EntityCollection extends RootCollection implements IProperties {
 	public function getChild($name) {
 		try {
 			$comment = $this->commentsManager->get($name);
+			if ($comment->getObjectType() !== $this->name
+				|| $comment->getObjectId() !== $this->id) {
+				throw new NotFound();
+			}
 			return new CommentNode(
 				$this->commentsManager,
 				$comment,
@@ -137,8 +141,9 @@ class EntityCollection extends RootCollection implements IProperties {
 	 */
 	public function childExists($name) {
 		try {
-			$this->commentsManager->get($name);
-			return true;
+			$comment = $this->commentsManager->get($name);
+			return $comment->getObjectType() === $this->name
+				&& $comment->getObjectId() === $this->id;
 		} catch (NotFoundException $e) {
 			return false;
 		}
