@@ -8,7 +8,7 @@ import { showError, showInfo } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import Vue from 'vue'
-import logger from '../logger.ts'
+import logger from '../utils/logger.ts'
 import api from './api.js'
 
 const state = {

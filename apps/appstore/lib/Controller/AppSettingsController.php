@@ -5,7 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace OCA\Settings\Controller;
+namespace OCA\Appstore\Controller;
 
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -108,8 +108,7 @@ class AppSettingsController extends Controller {
 		$templateResponse = new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 		$templateResponse->setContentSecurityPolicy($policy);
 
-		Util::addStyle('settings', 'settings');
-		Util::addScript('settings', 'vue-settings-apps-users-management');
+		Util::addScript('appstore', 'main');
 
 		return $templateResponse;
 	}

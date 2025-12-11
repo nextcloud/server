@@ -42,7 +42,7 @@ import { defineAsyncComponent, defineComponent, onBeforeMount, ref } from 'vue'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import logger from '../../logger.ts'
+import logger from '../../utils/logger.ts'
 import { filterElements, parseApiResponse } from '../../utils/appDiscoverParser.ts'
 
 const PostType = defineAsyncComponent(() => import('./PostType.vue'))

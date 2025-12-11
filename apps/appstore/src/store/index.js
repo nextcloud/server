@@ -5,10 +5,8 @@
 
 import { showError } from '@nextcloud/dialogs'
 import { Store } from 'vuex'
-import logger from '../logger.js'
-import oc from './oc.js'
-import settings from './users-settings.js'
-import users from './users.js'
+import logger from '../utils/logger.js'
+import apps from './apps.js'
 
 const mutations = {
 	API_FAILURE(state, error) {
@@ -31,9 +29,7 @@ export function useStore() {
 	if (store === null) {
 		store = new Store({
 			modules: {
-				users,
-				settings,
-				oc,
+				apps,
 			},
 			strict: !PRODUCTION,
 			mutations,

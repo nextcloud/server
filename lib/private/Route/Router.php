@@ -265,6 +265,8 @@ class Router implements IRouter {
 			$app = $this->appManager->cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
+		} elseif (str_starts_with($url, '/settings/apps')) {
+			$this->loadRoutes('appstore');
 		} elseif (str_starts_with($url, '/settings/')) {
 			$this->loadRoutes('settings');
 		} elseif (str_starts_with($url, '/core/')) {

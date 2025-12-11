@@ -13,7 +13,7 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
-import logger from '../logger.ts'
+import logger from '../utils/logger.ts'
 import api from './api.js'
 
 interface AppApiState {

@@ -12,7 +12,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import APPSTORE_CATEGORY_ICONS from '../constants/AppstoreCategoryIcons.ts'
-import logger from '../logger.ts'
+import logger from '../utils/logger.ts'
 
 const showApiError = () => showError(t('settings', 'An error occurred during the request. Unable to proceed.'))
 

@@ -8,7 +8,7 @@ import type { IAppstoreApp } from '../app-types.ts'
 import { mdiCog, mdiCogOutline } from '@mdi/js'
 import { computed, ref, watchEffect } from 'vue'
 import AppstoreCategoryIcons from '../constants/AppstoreCategoryIcons.ts'
-import logger from '../logger.ts'
+import logger from '../utils/logger.ts'
 
 /**
  * Get the app icon raw SVG for use with `NcIconSvgWrapper` (do never use without sanitizing)
