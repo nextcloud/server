@@ -553,6 +553,7 @@ steps:
 - name: integration-capabilities_features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -578,6 +579,7 @@ steps:
 - name: integration-collaboration_features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -603,6 +605,7 @@ steps:
 - name: integration-federation_features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin
     - cd build/integration
@@ -628,6 +631,7 @@ steps:
 - name: integration-auth
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -653,6 +657,7 @@ steps:
 - name: integration-avatar
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -678,6 +683,7 @@ steps:
 - name: integration-maintenance-mode
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -703,6 +709,7 @@ steps:
 - name: integration-ratelimiting
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
@@ -738,6 +745,7 @@ steps:
 - name: integration-carddav
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -763,6 +771,7 @@ steps:
 - name: integration-dav-v2
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -788,6 +797,7 @@ steps:
 - name: integration-ocs-v1
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -813,6 +823,7 @@ steps:
 - name: integration-checksums-v1
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -838,6 +849,7 @@ steps:
 - name: integration-external-storage
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -863,6 +875,7 @@ steps:
 - name: integration-provisioning-v1
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -888,6 +901,7 @@ steps:
 - name: integration-tags
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -913,6 +927,7 @@ steps:
 - name: integration-caldav
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -938,6 +953,7 @@ steps:
 - name: integration-comments
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -963,6 +979,7 @@ steps:
 - name: integration-comments-search
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -988,6 +1005,7 @@ steps:
 - name: integration-contacts-menu
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1013,6 +1031,7 @@ steps:
 - name: integration-favorites
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1038,6 +1057,7 @@ steps:
 - name: integration-provisioning-v2
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1063,6 +1083,7 @@ steps:
 - name: integration-webdav-related
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1088,6 +1109,7 @@ steps:
 - name: integration-sharees-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1113,6 +1135,7 @@ steps:
 - name: integration-sharees-v2-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1138,6 +1161,7 @@ steps:
 - name: integration-sharing-v1
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1163,6 +1187,7 @@ steps:
 - name: integration-sharing-v1-part2
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1188,6 +1213,7 @@ steps:
 - name: integration-sharing-v1-part3
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1219,6 +1245,7 @@ steps:
 - name: integration-sharing-v1-video-verification
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1244,6 +1271,7 @@ steps:
 - name: integration-setup-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - cd build/integration
     - ./run.sh setup_features/setup.feature
@@ -1268,6 +1296,7 @@ steps:
 - name: integration-filesdrop-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1293,6 +1322,7 @@ steps:
 - name: integration-transfer-ownership-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1318,6 +1348,7 @@ steps:
 - name: integration-ldap-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1343,6 +1374,7 @@ steps:
 - name: integration-ldap-openldap-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
@@ -1384,6 +1416,7 @@ steps:
     - name: integration-ldap-openldap-uid-features
       image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
       commands:
+          - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
           - bash tests/drone-run-integration-tests.sh || exit 0
           - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
           - ./occ config:system:set redis host --value=cache
@@ -1426,6 +1459,7 @@ steps:
 - name: integration-ldap-openldap-numerical-id-features
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
@@ -1467,6 +1501,7 @@ steps:
 - name: integration-trashbin
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1492,6 +1527,7 @@ steps:
 - name: integration-remote-api
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1517,6 +1553,7 @@ steps:
 - name: integration-download
   image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1997,4 +2034,6 @@ trigger:
     - push
 ---
 kind: signature
-hmac: cf4a43148731e2cbb73e87b7033e1c4aed5ddcda7ee433c6e3d72f07cb59964e
+hmac: 0c4d3ce2e129d533e7f69584b295db9d7e3fbf3324e96499f85fa68197b8da61
+
+...
