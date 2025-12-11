@@ -4,18 +4,14 @@
  */
 
 import { loadState } from '@nextcloud/initial-state'
-import Vue from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue'
+import AdminSettings from './views/AdminSettings.vue'
 
-Vue.prototype.t = t
-Vue.prototype.OC = OC
+import 'vite/modulepreload-polyfill'
 
 const clients = loadState('oauth2', 'clients')
 
-const View = Vue.extend(App)
-const oauth = new View({
-	propsData: {
-		clients,
-	},
+const app = createApp(AdminSettings, {
+	modelValue: clients,
 })
-oauth.$mount('#oauth2')
+app.mount('#oauth2')
