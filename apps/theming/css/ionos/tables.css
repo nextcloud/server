@@ -1,7 +1,9 @@
 .content.app-tables {
 	table {
-		thead tr th {
-			background: var(--ion-tables-header-background-color);
+		thead tr th,
+		tr>th.sticky:first-child,
+		tr>th.sticky:last-child {
+			background-color: var(--ion-tables-header-background-color);
 			border: 1px solid #ccc;
 		}
 
