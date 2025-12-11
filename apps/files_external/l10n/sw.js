@@ -49,6 +49,7 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Ufalme chaguo-msingi wa Kerberos, chaguomsingi kuwa \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Njia ya Apache ya tikiti ya Kerberos",
     "Kerberos ticket" : "Tikiti za Kerberos",
+    "S3 Storage" : "Hifadhi ya S3",
     "Bucket" : " Ndoo",
     "Hostname" : "Jina la mwenyeji",
     "Port" : "Port",
