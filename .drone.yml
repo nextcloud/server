@@ -742,6 +742,7 @@ steps:
 - name: integration-capabilities_features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -767,6 +768,7 @@ steps:
 - name: integration-collaboration_features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -792,6 +794,7 @@ steps:
 - name: integration-federation_features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin
     - cd build/integration
@@ -817,6 +820,7 @@ steps:
 - name: integration-auth
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -842,6 +846,7 @@ steps:
 - name: integration-avatar
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -867,6 +872,7 @@ steps:
 - name: integration-maintenance-mode
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -892,6 +898,7 @@ steps:
 - name: integration-ratelimiting
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
@@ -927,6 +934,7 @@ steps:
 - name: integration-carddav
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -952,6 +960,7 @@ steps:
 - name: integration-dav-v2
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -977,6 +986,7 @@ steps:
 - name: integration-ocs-v1
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1002,6 +1012,7 @@ steps:
 - name: integration-checksums-v1
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1027,6 +1038,7 @@ steps:
 - name: integration-external-storage
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1052,6 +1064,7 @@ steps:
 - name: integration-provisioning-v1
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1077,6 +1090,7 @@ steps:
 - name: integration-tags
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1102,6 +1116,7 @@ steps:
 - name: integration-caldav
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1127,6 +1142,7 @@ steps:
 - name: integration-comments
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1152,6 +1168,7 @@ steps:
 - name: integration-comments-search
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1177,6 +1194,7 @@ steps:
 - name: integration-contacts-menu
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1202,6 +1220,7 @@ steps:
 - name: integration-favorites
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1227,6 +1246,7 @@ steps:
 - name: integration-provisioning-v2
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1252,6 +1272,7 @@ steps:
 - name: integration-webdav-related
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1277,6 +1298,7 @@ steps:
 - name: integration-sharees-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1302,6 +1324,7 @@ steps:
 - name: integration-sharees-v2-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1327,6 +1350,7 @@ steps:
 - name: integration-sharing-v1
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1352,6 +1376,7 @@ steps:
 - name: integration-sharing-v1-part2
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1377,6 +1402,7 @@ steps:
 - name: integration-sharing-v1-part3
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1408,6 +1434,7 @@ steps:
 - name: integration-sharing-v1-video-verification
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1433,6 +1460,7 @@ steps:
 - name: integration-setup-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - cd build/integration
     - ./run.sh setup_features/setup.feature
@@ -1457,6 +1485,7 @@ steps:
 - name: integration-filesdrop-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1482,6 +1511,7 @@ steps:
 - name: integration-transfer-ownership-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1507,6 +1537,7 @@ steps:
 - name: integration-ldap-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1532,6 +1563,7 @@ steps:
 - name: integration-ldap-openldap-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
@@ -1573,6 +1605,7 @@ steps:
     - name: integration-ldap-openldap-uid-features
       image: nextcloudci/integration-php7.3:integration-php7.3-2
       commands:
+          - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
           - bash tests/drone-run-integration-tests.sh || exit 0
           - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
           - ./occ config:system:set redis host --value=cache
@@ -1615,6 +1648,7 @@ steps:
 - name: integration-ldap-openldap-numerical-id-features
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - ./occ config:system:set redis host --value=cache
@@ -1656,6 +1690,7 @@ steps:
 - name: integration-trashbin
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1681,6 +1716,7 @@ steps:
 - name: integration-remote-api
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -1706,6 +1742,7 @@ steps:
 - name: integration-download
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
+    - curl -O -L https://getcomposer.org/download/2.9.2/composer.phar && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
@@ -2321,4 +2358,6 @@ trigger:
 #    - push
 ---
 kind: signature
-hmac: b82547a74214385d268f21b3bfb624f7872428e71600e9ccc63407b0ae5a5ddc
+hmac: c07faae837ce2103bd0c3bd36a6eecf3bf04ccbef1be2466a06b9f01da634f05
+
+...
