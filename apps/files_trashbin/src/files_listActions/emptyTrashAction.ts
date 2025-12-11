@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { Folder, Node, View } from '@nextcloud/files'
-
 import { getDialogBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileListAction } from '@nextcloud/files'
@@ -23,7 +20,7 @@ export const emptyTrashAction = new FileListAction({
 	displayName: () => t('files_trashbin', 'Empty deleted files'),
 	order: 0,
 
-	enabled(view: View, nodes: Node[], folder: Folder) {
+	enabled({ view, folder, contents }) {
 		if (view.id !== TRASHBIN_VIEW_ID) {
 			return false
 		}
@@ -33,10 +30,10 @@ export const emptyTrashAction = new FileListAction({
 			return false
 		}
 
-		return nodes.length > 0 && folder.path === '/'
+		return contents.length > 0 && folder.path === '/'
 	},
 
-	async exec(view: View, nodes: Node[]): Promise<null> {
+	async exec({ contents }): Promise<null> {
 		const askConfirmation = new Promise<boolean>((resolve) => {
 			const dialog = getDialogBuilder(t('files_trashbin', 'Confirm permanent deletion'))
 				.setSeverity('warning')
@@ -63,7 +60,7 @@ export const emptyTrashAction = new FileListAction({
 		const result = await askConfirmation
 		if (result === true) {
 			if (await emptyTrash()) {
-				nodes.forEach((node) => emit('files:node:deleted', node))
+				contents.forEach((node) => emit('files:node:deleted', node))
 			}
 			return null
 		}

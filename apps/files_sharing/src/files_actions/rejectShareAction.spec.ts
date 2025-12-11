@@ -39,16 +39,32 @@ describe('Reject share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('reject-share')
-		expect(action.displayName([file], pendingShareView)).toBe('Reject share')
-		expect(action.iconSvgInline([file], pendingShareView)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Reject share')
+		expect(action.iconSvgInline({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(2)
 		expect(action.inline).toBeDefined()
-		expect(action.inline!(file, pendingShareView)).toBe(true)
+		expect(action.inline!({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Default values for multiple files', () => {
@@ -58,6 +74,7 @@ describe('Reject share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 2,
@@ -65,9 +82,15 @@ describe('Reject share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file1, file2], pendingShareView)).toBe('Reject shares')
+		expect(action.displayName({
+			nodes: [file1, file2],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Reject shares')
 	})
 })
 
@@ -79,20 +102,36 @@ describe('Reject share action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], pendingShareView)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled on wrong view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled without nodes', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], pendingShareView)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled if some nodes are remote group shares', () => {
@@ -104,6 +143,7 @@ describe('Reject share action enabled tests', () => {
 			attributes: {
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 		const folder2 = new Folder({
 			id: 2,
@@ -114,12 +154,28 @@ describe('Reject share action enabled tests', () => {
 				remote_id: 1,
 				share_type: ShareType.RemoteGroup,
 			},
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([folder1], pendingShareView)).toBe(true)
-		expect(action.enabled!([folder2], pendingShareView)).toBe(false)
-		expect(action.enabled!([folder1, folder2], pendingShareView)).toBe(false)
+		expect(action.enabled!({
+			nodes: [folder1],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
+		expect(action.enabled!({
+			nodes: [folder2],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
+		expect(action.enabled!({
+			nodes: [folder1, folder2],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
@@ -142,9 +198,15 @@ describe('Reject share action execute tests', () => {
 				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 		expect(axios.delete).toBeCalledTimes(1)
@@ -169,9 +231,15 @@ describe('Reject share action execute tests', () => {
 				remote: 3,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 		expect(axios.delete).toBeCalledTimes(1)
@@ -195,6 +263,7 @@ describe('Reject share action execute tests', () => {
 				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
 		const file2 = new File({
@@ -207,9 +276,15 @@ describe('Reject share action execute tests', () => {
 				id: 456,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.execBatch!([file1, file2], pendingShareView, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.delete).toBeCalledTimes(2)
@@ -236,9 +311,15 @@ describe('Reject share action execute tests', () => {
 				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(false)
 		expect(axios.delete).toBeCalledTimes(1)

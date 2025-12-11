@@ -65,9 +65,9 @@
 		<!-- Actions -->
 		<FileEntryActions
 			ref="actions"
+			:opened.sync="openedMenu"
 			:class="`files-list__row-actions-${uniqueId}`"
 			:grid-mode="true"
-			:opened.sync="openedMenu"
 			:source="source" />
 	</tr>
 </template>
@@ -79,9 +79,10 @@ import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
@@ -105,29 +106,35 @@ export default defineComponent({
 
 	inheritAttrs: false,
 
+	// keep in sync with FileEntry.vue
 	setup() {
 		const actionsMenuStore = useActionsMenuStore()
 		const draggingStore = useDragAndDropStore()
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const { currentView } = useNavigation(true)
+		const filesListWidth = useFileListWidth()
 		const {
-			directory: currentDir,
-			fileId: currentFileId,
+			fileId: currentRouteFileId,
 		} = useRouteParameters()
+
+		const {
+			activeFolder,
+			activeNode,
+			activeView,
+		} = useActiveStore()
 
 		return {
 			actionsMenuStore,
+			activeFolder,
+			activeNode,
+			activeView,
+			currentRouteFileId,
 			draggingStore,
+			filesListWidth,
 			filesStore,
 			renamingStore,
 			selectionStore,
-
-			currentDir,
-			currentFileId,
-			currentView,
 		}
 	},
 

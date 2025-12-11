@@ -92,12 +92,13 @@
 		<td
 			v-for="column in columns"
 			:key="column.id"
-			:class="`files-list__row-${currentView.id}-${column.id}`"
+			:class="`files-list__row-${activeView.id}-${column.id}`"
 			class="files-list__row-column-custom"
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
 			<CustomElementRender
-				:current-view="currentView"
+				:active-folder="activeFolder"
+				:active-view="activeView"
 				:render="column.render"
 				:source="source" />
 		</td>
@@ -116,9 +117,9 @@ import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
@@ -160,24 +161,27 @@ export default defineComponent({
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		const filesListWidth = useFileListWidth()
-		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const { currentView } = useNavigation(true)
 		const {
-			directory: currentDir,
-			fileId: currentFileId,
+			fileId: currentRouteFileId,
 		} = useRouteParameters()
+
+		const {
+			activeFolder,
+			activeNode,
+			activeView,
+		} = useActiveStore()
 
 		return {
 			actionsMenuStore,
+			activeFolder,
+			activeNode,
+			activeView,
+			currentRouteFileId,
 			draggingStore,
+			filesListWidth,
 			filesStore,
 			renamingStore,
 			selectionStore,
-
-			currentDir,
-			currentFileId,
-			currentView,
-			filesListWidth,
 		}
 	},
 
@@ -208,7 +212,7 @@ export default defineComponent({
 			if (this.filesListWidth < 512 || this.compact) {
 				return []
 			}
-			return this.currentView.columns || []
+			return this.activeView.columns || []
 		},
 
 		mime() {
@@ -281,7 +285,12 @@ export default defineComponent({
 				return
 			}
 
-			this.defaultFileAction?.exec(this.source, this.currentView, this.currentDir)
+			this.defaultFileAction?.exec({
+				nodes: [this.source],
+				folder: this.activeFolder!,
+				contents: this.nodes,
+				view: this.activeView!,
+			})
 		},
 	},
 })
