@@ -18,7 +18,9 @@ class ExternalCalendarTest extends TestCase {
 		parent::setUp();
 
 		$this->abstractExternalCalendar
-			= $this->getMockForAbstractClass(ExternalCalendar::class, ['example-app-id', 'calendar-uri-in-backend']);
+			= $this->getMockBuilder(ExternalCalendar::class)
+				->setConstructorArgs(['example-app-id', 'calendar-uri-in-backend'])
+				->getMock();
 	}
 
 	public function testGetName():void {
