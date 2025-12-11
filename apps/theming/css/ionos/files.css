@@ -34,7 +34,7 @@ tfoot.files-list__tfoot tr {
 
 #app-content-vue button.files-list__header-grid-button {
 	position: absolute;
-	top: 88px;
+	top: 70px;
 	right: 20px;
 	z-index: 33;
 }
