@@ -276,13 +276,21 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	public function addOrderBy($sort, $order = null) {
-		$this->registerOrder((string) $sort, (string) $order ?? 'ASC');
+		if ($order !== null && !in_array(strtoupper((string) $order), ['ASC', 'DESC'], true)) {
+			$order = null;
+		}
+
+		$this->registerOrder((string) $sort, (string) ($order ?? 'ASC'));
 		return parent::addOrderBy($sort, $order);
 	}
 
 	public function orderBy($sort, $order = null) {
+		if ($order !== null && !in_array(strtoupper((string) $order), ['ASC', 'DESC'], true)) {
+			$order = null;
+		}
+
 		$this->sortList = [];
-		$this->registerOrder((string) $sort, (string) $order ?? 'ASC');
+		$this->registerOrder((string) $sort, (string) ($order ?? 'ASC'));
 		return parent::orderBy($sort, $order);
 	}
 
