@@ -74,8 +74,6 @@ class CachingRouter extends Router {
 	 * @return array
 	 */
 	public function findMatchingRoute(string $url): array {
-		return parent::findMatchingRoute($url);
-
 		$this->eventLogger->start('cacheroute:match', 'Match route');
 		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . '#rootCollection';
 		$cachedRoutes = $this->cache->get($key);
