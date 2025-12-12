@@ -1,4 +1,4 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
@@ -8,12 +8,13 @@
  * This resolves when all themes are reloaded
  */
 export async function refreshStyles() {
-	const themes = [...document.head.querySelectorAll('link.theme')]
-	const promises = themes.map((theme) => new Promise((resolve) => {
+	const themes = [...document.head.querySelectorAll('link.theme')] as HTMLLinkElement[]
+	const promises = themes.map((theme) => new Promise<void>((resolve, reject) => {
 		const url = new URL(theme.href)
-		url.searchParams.set('v', Date.now())
-		const newTheme = theme.cloneNode()
+		url.searchParams.set('v', Date.now().toString())
+		const newTheme = theme.cloneNode() as HTMLLinkElement
 		newTheme.href = url.toString()
+		newTheme.onerror = reject
 		newTheme.onload = () => {
 			theme.remove()
 			resolve()

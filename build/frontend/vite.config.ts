@@ -32,6 +32,10 @@ const modules = {
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
 	},
+	theming: {
+		'settings-personal': resolve(import.meta.dirname, 'apps/theming/src', 'settings-personal.ts'),
+		'settings-admin': resolve(import.meta.dirname, 'apps/theming/src', 'settings-admin.ts'),
+	},
 	twofactor_backupcodes: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/twofactor_backupcodes/src', 'settings-personal.ts'),
 	},

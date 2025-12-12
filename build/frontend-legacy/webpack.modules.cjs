@@ -79,10 +79,6 @@ module.exports = {
 		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
 		admin: path.join(__dirname, 'apps/systemtags/src', 'admin.ts'),
 	},
-	theming: {
-		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),
-		'admin-theming': path.join(__dirname, 'apps/theming/src', 'admin-settings.js'),
-	},
 	updatenotification: {
 		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),

@@ -2,6 +2,66 @@
   - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { generateFilePath } from '@nextcloud/router'
+import { computed } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+
+export interface ITheme {
+	id: string
+	name: string
+	title: string
+	description: string
+	enableLabel: string
+	type: number // 1 = theme, 2 = font
+	enabled: boolean
+}
+
+const selected = defineModel<boolean>('selected', { required: true })
+const props = defineProps<{
+	enforced?: boolean
+	theme: ITheme
+	type: string
+	unique: boolean
+}>()
+
+const switchType = computed(() => props.unique ? 'switch' : 'radio')
+const name = computed(() => !props.unique ? props.type : null)
+const img = computed(() => generateFilePath('theming', 'img', props.theme.id + '.jpg'))
+
+const checked = computed({
+	get() {
+		return selected.value
+	},
+
+	set(checked) {
+		if (props.enforced) {
+			return
+		}
+		selected.value = props.unique ? checked : true
+	},
+})
+
+/**
+ * Handle toggle click
+ */
+function onToggle() {
+	if (props.enforced) {
+		return
+	}
+
+	if (switchType.value === 'radio') {
+		checked.value = true
+		return
+	}
+
+	// Invert state
+	checked.value = !checked.value
+}
+</script>
+
 <template>
 	<div :class="'theming__preview--' + theme.id" class="theming__preview">
 		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
@@ -27,99 +87,6 @@
 		</div>
 	</div>
 </template>
-
-<script>
-import { generateFilePath } from '@nextcloud/router'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import { logger } from '../logger.ts'
-
-export default {
-	name: 'ItemPreview',
-	components: {
-		NcCheckboxRadioSwitch,
-	},
-
-	props: {
-		enforced: {
-			type: Boolean,
-			default: false,
-		},
-
-		selected: {
-			type: Boolean,
-			default: false,
-		},
-
-		theme: {
-			type: Object,
-			required: true,
-		},
-
-		type: {
-			type: String,
-			default: '',
-		},
-
-		unique: {
-			type: Boolean,
-			default: false,
-		},
-	},
-
-	computed: {
-		switchType() {
-			return this.unique ? 'switch' : 'radio'
-		},
-
-		name() {
-			return !this.unique ? this.type : null
-		},
-
-		img() {
-			return generateFilePath('theming', 'img', this.theme.id + '.jpg')
-		},
-
-		checked: {
-			get() {
-				return this.selected
-			},
-
-			set(checked) {
-				if (this.enforced) {
-					return
-				}
-
-				logger.debug('Changed theme', this.theme.id, checked)
-
-				// If this is a radio, we can only enable
-				if (!this.unique) {
-					this.$emit('change', { enabled: true, id: this.theme.id })
-					return
-				}
-
-				// If this is a switch, we can disable the theme
-				this.$emit('change', { enabled: checked === true, id: this.theme.id })
-			},
-		},
-	},
-
-	methods: {
-		onToggle() {
-			if (this.enforced) {
-				return
-			}
-
-			if (this.switchType === 'radio') {
-				this.checked = true
-				return
-			}
-
-			// Invert state
-			this.checked = !this.checked
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 @use 'sass:math';
