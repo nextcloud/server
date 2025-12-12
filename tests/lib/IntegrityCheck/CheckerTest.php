@@ -854,6 +854,17 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp'));
 	}
 
+	public function testMockOverride(): void {
+ 	   // Should return 'stable' from setUp
+    	$this->assertSame('stable', $this->serverVersion->getChannel());
+    
+	    // Override it
+    	$this->serverVersion->method('getChannel')->willReturn('git');
+    
+	    // Should now return 'git'
+    	$this->assertSame('git', $this->serverVersion->getChannel());
+	}
+
 	public static function channelDataProvider(): array {
 		return [
 			['stable', true],
@@ -868,6 +879,7 @@ class CheckerTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
 		$this->serverVersion
+			->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
 		$this->config // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
@@ -884,6 +896,7 @@ class CheckerTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
 		$this->serverVersion
+			->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
 		$this->config // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
