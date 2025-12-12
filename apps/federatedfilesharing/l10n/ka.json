@@ -28,7 +28,6 @@
     "Federated Cloud" : "Federated Cloud",
     "Share it so your friends can share files with you:" : "Share it so your friends can share files with you:",
     "Facebook" : "Facebook",
-    "X (formerly Twitter)" : "X (formerly Twitter)",
     "Add to your website" : "Add to your website",
     "HTML Code:" : "HTML Code:",
     "Cancel" : "Cancel",
@@ -38,6 +37,7 @@
     "Remote share password" : "Remote share password",
     "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
     "Copy to clipboard" : "Copy to clipboard",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com"
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com",
+    "X (formerly Twitter)" : "X (formerly Twitter)"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -295,6 +295,7 @@ OC.L10N.register(
     "Move" : "Flytt",
     "Move or copy operation failed" : "Flytte- eller kopieringsoperason feilet",
     "Move or copy" : "Flytt eller kopier",
+    "Open folder" : "Åpne mappe",
     "Open folder {displayName}" : "Åpne mappe {displayName}",
     "Open in Files" : "Åpne i Filer",
     "Open locally" : "Åpne lokalt",

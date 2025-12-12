@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Преместване",
     "Move or copy operation failed" : "Операцията за преместване или копиране не бе успешна",
     "Move or copy" : "Премести или копирай",
+    "Open folder" : "Отвори папката",
     "Open folder {displayName}" : "Отворете папка {displayName}",
     "Open in Files" : "Отворете във Файлове",
     "Open locally" : "Локално отваряне",

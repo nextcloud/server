@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Hamisha",
     "Move or copy operation failed" : "Operesheni ya kuhamisha au kunakili imeshindikana",
     "Move or copy" : "Hamisha au nakili",
+    "Open folder" : "Fungua folda",
     "Open folder {displayName}" : "Fungua kisanduku {displayName}",
     "Open in Files" : "Fungua ndani ya faili",
     "Open locally" : "Fungua kikawaida",

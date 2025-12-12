@@ -248,6 +248,7 @@ OC.L10N.register(
     "Results" : "Sonuçlar",
     "Load more results" : "Diğer sonuçları yükle",
     "Search in" : "Şurada aransın",
+    "Partial matches" : "Bir parçası uyanlar",
     "Log in" : "Oturum aç",
     "Logging in …" : "Oturum açılıyor…",
     "Log in to {productName}" : "{productName} oturumu aç",
