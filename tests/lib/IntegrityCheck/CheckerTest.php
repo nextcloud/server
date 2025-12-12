@@ -62,8 +62,13 @@ class CheckerTest extends TestCase {
 		$this->serverVersion->method('getChannel')->willReturn('stable');
 
 		// Stub $this->config->getSystemValueBool to return false for the `integrity.check.disabled` system config key by default
-		$this->config->method('getSystemValueBool')
-			->willReturnCallback(fn($key, $default = false) => $key === 'integrity.check.disabled' ? false : $default);
+		//$this->config->method('getSystemValueBool')
+		//	->willReturnCallback(fn($key, $default = false) => $key === 'integrity.check.disabled' ? false : $default);
+		$this->config
+			->method('getSystemValueBool')
+			->with('integrity.check.disabled', false)
+			->willReturn(false);
+
 
 		// Stub $this->environmentHelper->getServerRoot to return a default that us useful in multiple tests
 		$this->environmentHelper->method('getServerRoot')
@@ -465,7 +470,7 @@ class CheckerTest extends TestCase {
 }';
 		$target = \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified//core/signature.json';
 
-		$this->environmentHelper->expects(atLeastOnce())
+		$this->environmentHelper->expects($this->atLeastOnce())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified/');
 
@@ -859,7 +864,7 @@ class CheckerTest extends TestCase {
     	$this->assertSame('stable', $this->serverVersion->getChannel());
     
 	    // Override it
-    	$this->serverVersion>expects($this->once())->method('getChannel')->willReturn('git');
+    	$this->serverVersion->expects($this->once())->method('getChannel')->willReturn('git');
     
 	    // Should now return 'git'
     	$this->assertSame('git', $this->serverVersion->getChannel());
