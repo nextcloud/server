@@ -466,7 +466,6 @@ class CheckerTest extends TestCase {
 		$target = \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified//core/signature.json';
 
 		$this->environmentHelper
-			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified/');
 
@@ -506,7 +505,6 @@ class CheckerTest extends TestCase {
 		$target = \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/core/signature.json';
 
 		$this->environmentHelper
-			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent');
 
@@ -549,7 +547,6 @@ class CheckerTest extends TestCase {
 
 	public function testVerifyCoreSignatureWithValidModifiedHtaccessSignatureData(): void {
 		$this->environmentHelper
-			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent');
 
@@ -606,7 +603,6 @@ class CheckerTest extends TestCase {
 		self::assertEquals($newFile, file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js'));
 
 		$this->environmentHelper
-			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified');
 
@@ -643,7 +639,6 @@ class CheckerTest extends TestCase {
 
 	public function testVerifyCoreSignatureWithTamperedSignatureData(): void {
 		$this->environmentHelper
-			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData/');
 
@@ -674,7 +669,6 @@ class CheckerTest extends TestCase {
 
 	public function testVerifyCoreSignatureWithTamperedFiles(): void {
 		$this->environmentHelper
-			->expects($this->any())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData/');
 
@@ -852,7 +846,6 @@ class CheckerTest extends TestCase {
 
 	public function testVerifyAppSignatureWithoutSignatureDataAndCodeCheckerDisabled(): void {
 		$this->config
-			->expects($this->any())
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(true);
@@ -875,11 +868,9 @@ class CheckerTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
 		$this->serverVersion
-			->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
-		$this->config
-			->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
+		$this->config // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
@@ -893,11 +884,9 @@ class CheckerTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
 		$this->serverVersion
-			->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
-		$this->config
-			->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
+		$this->config // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(true);
