@@ -68,11 +68,11 @@
 				</a>
 			</p>
 
-			<p>
-				{{ t('federatedfilesharing', 'HTML Code:') }}
+			<div>
+				<p>{{ t('federatedfilesharing', 'HTML Code:') }}</p>
 				<br>
-				<pre>{{ htmlCode }}</pre>
-			</p>
+				<pre><code>{{ htmlCode }}</code></pre>
+			</div>
 		</template>
 	</NcSettingsSection>
 </template>
