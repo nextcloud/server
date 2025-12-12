@@ -465,7 +465,7 @@ class CheckerTest extends TestCase {
 }';
 		$target = \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified//core/signature.json';
 
-		$this->environmentHelper
+		$this->environmentHelper->expects(atLeastOnce())
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified/');
 
@@ -859,7 +859,7 @@ class CheckerTest extends TestCase {
     	$this->assertSame('stable', $this->serverVersion->getChannel());
     
 	    // Override it
-    	$this->serverVersion->method('getChannel')->willReturn('git');
+    	$this->serverVersion>expects($this->once())->method('getChannel')->willReturn('git');
     
 	    // Should now return 'git'
     	$this->assertSame('git', $this->serverVersion->getChannel());
@@ -904,6 +904,6 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(true);
 
-		$this->assertFalse(self::invokePrivate($this->checker, 'isCodeCheckEnforced'));
+		$this->assertFalse($this->checker->isCodeCheckEnforced());
 	}
 }
