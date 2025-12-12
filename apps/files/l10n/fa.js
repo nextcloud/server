@@ -311,6 +311,7 @@ OC.L10N.register(
     "Move" : "انتقال",
     "Move or copy operation failed" : "عملیات انتقال یا کپی ناموفق بود",
     "Move or copy" : "انتقال یا رونوشت",
+    "Open folder" : "پوشه را بازکن",
     "Open folder {displayName}" : "باز کردن پوشه {displayName}",
     "Open in Files" : "در فایل باز کنید",
     "Open locally" : "گشودن محلی",

@@ -187,6 +187,7 @@
     "Move" : "Mover",
     "Move or copy operation failed" : "La operación de mover o copiar falló",
     "Move or copy" : "Mover o copiar",
+    "Open folder" : "Abrir la carpeta",
     "Open folder {displayName}" : "Abrir la carpeta «{displayName}»",
     "Open in Files" : "Abrir en Ficheros",
     "Open locally" : "Abrir llocalmente",

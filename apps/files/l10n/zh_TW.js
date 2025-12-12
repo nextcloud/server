@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "移動",
     "Move or copy operation failed" : "移動或複製操作失敗",
     "Move or copy" : "移動或複製",
+    "Open folder" : "開啟資料夾",
     "Open folder {displayName}" : "開啟資料夾 {displayName}",
     "Open in Files" : "以「檔案」開啟",
     "Open locally" : "在本機開啟",

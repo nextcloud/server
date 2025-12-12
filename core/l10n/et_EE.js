@@ -248,6 +248,7 @@ OC.L10N.register(
     "Results" : "Tulemused",
     "Load more results" : "Laadi veel tulemusi",
     "Search in" : "Otsi siin:",
+    "Partial matches" : "Osaline vaste",
     "Log in" : "Logi sisse",
     "Logging in …" : "Sisselogimisel...",
     "Log in to {productName}" : "Logi sisse: {productName}",

@@ -177,6 +177,7 @@ OC.L10N.register(
     "Move" : "Perkelti",
     "Move or copy operation failed" : "Perkėlimo ar kopijavimo operacija patyrė nesėkmę",
     "Move or copy" : "Perkelti ar kopijuoti",
+    "Open folder" : "Atverti aplanką",
     "Open folder {displayName}" : "Atverti aplanką {displayName}",
     "Failed to redirect to client" : "Nepavyko peradresuoti į klientą",
     "Retry and close" : "Bandyti dar kartą ir užverti",

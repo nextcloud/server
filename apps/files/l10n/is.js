@@ -306,6 +306,7 @@ OC.L10N.register(
     "Move" : "Færa",
     "Move or copy operation failed" : "Aðgerð við að færa eða afrita mistókst",
     "Move or copy" : "Færa eða afrita",
+    "Open folder" : "Opna möppu",
     "Open folder {displayName}" : "Opna möppu {displayName}",
     "Open in Files" : "Opna í skráaforritinu",
     "Open locally" : "Opna staðvært",
