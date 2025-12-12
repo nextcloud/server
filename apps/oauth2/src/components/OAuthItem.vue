@@ -2,120 +2,71 @@
   - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import type { IOauthClient } from '../views/AdminSettings.vue'
+
+import { t } from '@nextcloud/l10n'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import IconTrashCanOutline from 'vue-material-design-icons/TrashCanOutline.vue'
+
+defineProps<{
+	/**
+	 * The OAuth client to display
+	 */
+	client: IOauthClient
+}>()
+
+defineEmits<{
+	delete: []
+}>()
+</script>
+
 <template>
 	<tr>
-		<td>{{ name }}</td>
-		<td>{{ redirectUri }}</td>
-		<td><code>{{ clientId }}</code></td>
+		<td>{{ client.name }}</td>
 		<td>
-			<div class="action-secret">
-				<code>{{ renderedSecret }}</code>
-				<NcButton
-					v-if="clientSecret !== ''"
-					variant="tertiary-no-background"
-					:aria-label="toggleAriaLabel"
-					@click="toggleSecret">
-					<template #icon>
-						<EyeOutline :size="20" />
-					</template>
-				</NcButton>
-			</div>
+			<code :class="$style.oAuthItem__code">{{ client.redirectUri }}</code>
 		</td>
-		<td class="action-column">
+		<td>
+			<code :class="$style.oAuthItem__code">{{ client.clientId }}</code>
+		</td>
+		<td>
+			<NcPasswordField
+				v-if="client.clientSecret"
+				:class="$style.oAuthItem__clientSecret"
+				:aria-label="t('oauth2', 'Secret key')"
+				as-text
+				:model-value="client.clientSecret"
+				show-trailing-button />
+			<span v-else>*****</span>
+		</td>
+		<td>
 			<NcButton
-				variant="tertiary-no-background"
 				:aria-label="t('oauth2', 'Delete')"
-				@click="$emit('delete', id)">
+				:title="t('oauth2', 'Delete')"
+				variant="error"
+				@click="$emit('delete')">
 				<template #icon>
-					<Delete
-						:size="20"
-						:title="t('oauth2', 'Delete')" />
+					<IconTrashCanOutline :size="20" />
 				</template>
 			</NcButton>
 		</td>
 	</tr>
 </template>
 
-<script>
-
-import NcButton from '@nextcloud/vue/components/NcButton'
-import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-
-export default {
-	name: 'OAuthItem',
-	components: {
-		Delete,
-		NcButton,
-		EyeOutline,
-	},
-
-	props: {
-		client: {
-			type: Object,
-			required: true,
-		},
-	},
-
-	data() {
-		return {
-			id: this.client.id,
-			name: this.client.name,
-			redirectUri: this.client.redirectUri,
-			clientId: this.client.clientId,
-			clientSecret: this.client.clientSecret,
-			renderSecret: false,
-		}
-	},
-
-	computed: {
-		renderedSecret() {
-			if (this.renderSecret) {
-				return this.clientSecret
-			} else {
-				return '****'
-			}
-		},
-
-		toggleAriaLabel() {
-			if (!this.renderSecret) {
-				return t('oauth2', 'Show client secret')
-			}
-			return t('oauth2', 'Hide client secret')
-		},
-	},
-
-	methods: {
-		toggleSecret() {
-			this.renderSecret = !this.renderSecret
-		},
-	},
+<style module>
+.oAuthItem__code {
+	display: inline-block;
+	overflow-x: scroll;
+	padding-block: var(--default-grid-baseline);
+	text-wrap: nowrap;
+	vertical-align: middle;
+	width: 100%;
 }
-</script>
 
-<style scoped>
-	.action-secret {
-		display: flex;
-		align-items: center;
-	}
-
-	.action-secret code {
-		padding-top: 5px;
-	}
-
-	td code {
-		display: inline-block;
-		vertical-align: middle;
-	}
-
-	table.inline td {
-		border: none;
-		padding: 5px;
-	}
-
-	.action-column {
-		display: flex;
-		justify-content: flex-end;
-		padding-inline-end: 0;
-	}
+.oAuthItem__clientSecret {
+	min-width: 200px;
+}
 </style>

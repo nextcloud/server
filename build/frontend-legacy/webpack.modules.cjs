@@ -54,9 +54,6 @@ module.exports = {
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
 	},
-	oauth2: {
-		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
-	},
 	profile: {
 		main: path.join(__dirname, 'apps/profile/src', 'main.ts'),
 	},
