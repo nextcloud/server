@@ -428,6 +428,14 @@ interface IManager {
 	public function matchUserId(): bool;
 
 	/**
+	 * When `allowEnumerationFullMatch` is enabled and `matchDisplayName` is set,
+	 * then also return results for full display name matches.
+	 *
+	 * @since 33.0.0
+	 */
+	public function matchDisplayName(): bool;
+
+	/**
 	 * When `allowEnumerationFullMatch` is enabled and `ignoreSecondDisplayName` is set,
 	 * then the search should ignore matches on the second displayname and only use the first.
 	 *
