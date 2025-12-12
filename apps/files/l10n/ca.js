@@ -249,6 +249,7 @@ OC.L10N.register(
     "Move" : "Mou",
     "Move or copy operation failed" : "Error en l'operació de desplaçament o còpia",
     "Move or copy" : "Mou o copia",
+    "Open folder" : "Obre la carpeta",
     "Open folder {displayName}" : "Obre la carpeta {displayName}",
     "Open in Files" : "Obre a Fitxers",
     "Open locally" : "Obre en local",

@@ -250,6 +250,7 @@ OC.L10N.register(
     "Move" : "نقل",
     "Move or copy operation failed" : "عملية النسخ أو النقل فشلت",
     "Move or copy" : "نقل أو نسخ",
+    "Open folder" : "فتح المجلد",
     "Open folder {displayName}" : "فتح المجلد {displayName}",
     "Open in Files" : "فتح في \"الملفات\"",
     "Open locally" : "الفتح محلّيّاً",

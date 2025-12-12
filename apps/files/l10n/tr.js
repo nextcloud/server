@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Taşı",
     "Move or copy operation failed" : "Taşıma ya da kopyalama yapılamadı",
     "Move or copy" : "Taşı ya da kopyala",
+    "Open folder" : "Klasörü aç",
     "Open folder {displayName}" : "{displayName} klasörünü aç",
     "Open in Files" : "Dosyalar uygulamasında aç",
     "Open locally" : "Yerel olarak aç",

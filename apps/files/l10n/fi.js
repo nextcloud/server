@@ -265,6 +265,7 @@ OC.L10N.register(
     "Move" : "Siirrä",
     "Move or copy operation failed" : "Siirto- tai kopiointitoiminto epäonnistui",
     "Move or copy" : "Siirrä tai kopioi",
+    "Open folder" : "Avaa kansio",
     "Open folder {displayName}" : "Avaa kansio {displayName}",
     "Open in Files" : "Avaa tiedostosovelluksessa",
     "Open locally" : "Avaa paikallisesti",

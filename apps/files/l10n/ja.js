@@ -309,6 +309,7 @@ OC.L10N.register(
     "Move" : "移動",
     "Move or copy operation failed" : "移動またはコピー操作は失敗しました",
     "Move or copy" : "移動またはコピー",
+    "Open folder" : "フォルダーを開く",
     "Open folder {displayName}" : "フォルダ {displayName} を開く",
     "Open in Files" : "ファイルアプリで開く",
     "Open locally" : "ローカルで開く",

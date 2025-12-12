@@ -244,6 +244,7 @@ OC.L10N.register(
     "Move" : "Premakni",
     "Move or copy operation failed" : "Opravilo kopiranja oziroma premikanja je spodletelo",
     "Move or copy" : "Premakni ali kopiraj",
+    "Open folder" : "Odpri mapo",
     "Open folder {displayName}" : "Odpri mapo {displayName}",
     "Open in Files" : "Open in Files",
     "Open locally" : "Odpri krajevno",

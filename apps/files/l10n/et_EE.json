@@ -311,6 +311,7 @@
     "Move" : "Teisalda",
     "Move or copy operation failed" : "Teisaldamine või kopeerimine ei õnnestunud",
     "Move or copy" : "Liiguta või kopeeri",
+    "Open folder" : "Ava kaust",
     "Open folder {displayName}" : "Ava kaust {displayName}",
     "Open in Files" : "Ava failirakenduses",
     "Open locally" : "Ava kohalikust andmeruumist",

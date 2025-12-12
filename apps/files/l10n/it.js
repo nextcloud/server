@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Sposta",
     "Move or copy operation failed" : "Operazione di spostamento o copia fallita",
     "Move or copy" : "Sposta o copia",
+    "Open folder" : "Apri cartella",
     "Open folder {displayName}" : "Apri la cartella {displayName}",
     "Open in Files" : "Apri in File",
     "Open locally" : "Aprire localmente",

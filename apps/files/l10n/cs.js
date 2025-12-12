@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Přesunout",
     "Move or copy operation failed" : "Operace přesunu či zkopírování se nezdařila",
     "Move or copy" : "Přesunout nebo zkopírovat",
+    "Open folder" : "Otevřít složku",
     "Open folder {displayName}" : "Otevřít složku {displayName}",
     "Open in Files" : "Otevřít v Souborech",
     "Open locally" : "Otevřít lokálně",
