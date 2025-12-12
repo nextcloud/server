@@ -42,8 +42,6 @@ jobs:
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
         with:
           args: /bin/sh -c "
-            apt-get update &&
-            apt-get install -y unzip &&
             git config --global --add safe.directory /github/workspace &&
             composer install --no-interaction"
 
