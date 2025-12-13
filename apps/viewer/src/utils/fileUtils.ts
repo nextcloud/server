@@ -4,7 +4,7 @@
  */
 import type { FileStat } from 'webdav'
 
-import { davRemoteURL, davRootPath } from '@nextcloud/files'
+import { defaultRemoteURL, defaultRootPath } from '@nextcloud/files/dav'
 import { getLanguage } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -172,13 +172,13 @@ export function getDavPath({ filename, source = '' }: { filename: string, source
 	}
 
 	// If we have a source but we're not a dav resource, return null
-	if (source && !source.includes(davRootPath)) {
+	if (source && !source.includes(defaultRootPath)) {
 		return null
 	}
 
 	// Workaround for files with different root like /remote.php/dav
-	if (!filename.startsWith(davRootPath)) {
-		filename = `${davRootPath}${filename}`
+	if (!filename.startsWith(defaultRootPath)) {
+		filename = `${defaultRootPath}${filename}`
 	}
-	return davRemoteURL + encodePath(filename)
+	return defaultRemoteURL + encodePath(filename)
 }

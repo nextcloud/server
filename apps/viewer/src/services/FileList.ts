@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getDavNameSpaces, getDavProperties } from '@nextcloud/files'
+import { getDavNameSpaces, getDavProperties } from '@nextcloud/files/dav'
 import { client } from './WebdavClient'
 import { genFileInfo, type FileInfo } from '../utils/fileUtils'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
