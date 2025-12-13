@@ -59,24 +59,22 @@ class CheckerTest extends TestCase {
 		$this->mimeTypeDetector = $this->createMock(Detection::class);
 
 		// Stub $this->serverVersion->getChannel to return `stable` by default
-		$this->serverVersion->method('getChannel')->willReturn('stable');
+		$this->serverVersion->method('getChannel')
+			->willReturn('stable');
 
 		// Stub $this->config->getSystemValueBool to return false for the `integrity.check.disabled` system config key by default
 		//$this->config->method('getSystemValueBool')
 		//	->willReturnCallback(fn($key, $default = false) => $key === 'integrity.check.disabled' ? false : $default);
-		$this->config
-			->method('getSystemValueBool')
+		$this->config->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
-
 
 		// Stub $this->environmentHelper->getServerRoot to return a default that us useful in multiple tests
 		$this->environmentHelper->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 
 		// Stub cacheFactory->createDistributed to return a NullCache for the specific cache key used by the checker
-		$this->cacheFactory
-			->method('createDistributed')
+		$this->cacheFactory->method('createDistributed')
 			->with('oc.integritycheck.checker')
 			->willReturn(new NullCache());
 
@@ -108,8 +106,7 @@ class CheckerTest extends TestCase {
 	}
 
 	private function expectSignaturePutContents(string $targetPath, string $expectedJson): void {
-		$this->fileAccessHelper
-			->expects($this->once())
+		$this->fileAccessHelper->expects($this->once())
 			->method('file_put_contents')
 			->with(
 				$this->equalTo($targetPath),
@@ -864,7 +861,9 @@ class CheckerTest extends TestCase {
     	$this->assertSame('stable', $this->serverVersion->getChannel());
     
 	    // Override it
-    	$this->serverVersion->expects($this->once())->method('getChannel')->willReturn('git');
+    	$this->serverVersion->expects($this->once())
+			->method('getChannel')
+			->willReturn('git');
     
 	    // Should now return 'git'
     	$this->assertSame('git', $this->serverVersion->getChannel());
@@ -883,15 +882,18 @@ class CheckerTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
-		$this->serverVersion
-			->expects($this->once())
+		$this->serverVersion->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
-		$this->config->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
-			->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
+		//$this->config->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
+			//->method('getSystemValueBool')
+			//->with('integrity.check.disabled', false)
+			//->willReturn(false);
 
+		// Debug: Check what getChannel actually returns
+	    $actualChannel = $this->serverVersion->getChannel();
+    	$this->assertSame($channel, $actualChannel, "Channel should be $channel but got $actualChannel");
+		
 		$this->assertSame($isCodeSigningEnforced, $this->checker->isCodeCheckEnforced());
 	}
 
@@ -900,8 +902,7 @@ class CheckerTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
-		$this->serverVersion
-			->expects($this->once())
+		$this->serverVersion->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
 		$this->config->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
