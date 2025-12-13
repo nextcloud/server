@@ -11,8 +11,8 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\IUserBackend;
+use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
@@ -443,7 +443,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 				$user = $backend->getUserFromCustomAttribute($filter, $attribute, $searchTerm);
 				return $user;
 			}
-		}		
+		}
 		return null;
-	}	
+	}
 }

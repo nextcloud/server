@@ -9,9 +9,9 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IServerContainer;
+use OCP\IUser;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
-use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
 /**
