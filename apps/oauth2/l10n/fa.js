@@ -6,15 +6,15 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "اجازه احراز هویت سازگار OAuth2 را از دیگر برنامه های وب می دهد.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "برنامه OAuth2 به مدیران اجازه می دهد تا گردش کار داخلی تأیید اعتبار را پیکربندی کنند ، همچنین اجازه تأیید هویت سازگار OAuth2 را از دیگر برنامه های وب فراهم می کند.",
+    "Secret key" : "کلید مخفی",
+    "Delete" : "حذف",
     "OAuth 2.0 clients" : "مشتری OAuth 2.0",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth تأیید 2.0 اجازه می دهد تا خدمات خارجی به درخواست دسترسی به {} instanceName.",
     "Name" : "نام",
     "Redirection URI" : "تغییر مسیر URI",
-    "Client Identifier" : "شناسه مشتری",
-    "Secret key" : "کلید مخفی",
     "Add client" : "افزودن مشتری",
     "Add" : "افزودن",
-    "Show client secret" : "راز مشتری را نشان دهید",
-    "Delete" : "حذف"
+    "Client Identifier" : "شناسه مشتری",
+    "Show client secret" : "راز مشتری را نشان دهید"
 },
 "nplurals=2; plural=(n > 1);");
