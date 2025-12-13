@@ -158,7 +158,7 @@ interface ILDAPProvider {
 	 * Search for a single user in ldap
 	 *
 	 * @return IUser|null Returns a IUser if found in ldap using the configured ldap filter
-	 * @throws \Exception if multiple users has been found (search query should not allow this)
+	 * @throws MultipleUsersReturnedException if multiple users has been found (search query should not allow this)
 	 */
 	public function findOneUser(string $filter, string $attribute, string $searchTerm): ?IUser;
 }

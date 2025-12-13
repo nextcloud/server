@@ -17,6 +17,7 @@ use OCA\User_LDAP\User\User;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
+use OCP\LDAP\MultipleUsersReturnedException;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
@@ -653,7 +654,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * If no custom filter is provided or the filter is empty, it creates a simple equality filter with the given attribute.
 	 * If a custom filter is provided, it uses that filter directly and the attribute and search term are ignored.
 	 *
-	 * @throws \Exception if multiple users have been found (search query should not allow this)
+	 * @throws MultipleUsersReturnedException if multiple users have been found (search query should not allow this)
 	 *
 	 * @param string $filter The LDAP filter to use. If null or empty string, a default filter is constructed.
 	 * @param string $attribute The LDAP attribute name to search against (e.g., 'mail', 'cn', 'uid').
@@ -676,7 +677,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 				'Multiple users found for filter: ' . $filter,
 				['app' => 'user_ldap']
 			);
-			throw new \Exception('Multiple users found for single user search');
+			throw new MultipleUsersReturnedException();
 		}
 		return null;
 	}
