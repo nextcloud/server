@@ -19,6 +19,8 @@ use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
+use OCP\LDAP\MultipleUsersReturnedException;
+
 
 /**
  * @template-extends Proxy<User_LDAP>
@@ -438,12 +440,15 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 
 	public function getUserFromCustomAttribute(string $filter, string $attribute, string $searchTerm): ?IUser {
 		$this->setup();
+		$user = null;
 		foreach ($this->backends as $backend) {
-			if (method_exists($backend, 'getUserFromCustomAttribute')) {
-				$user = $backend->getUserFromCustomAttribute($filter, $attribute, $searchTerm);
-				return $user;
+			$fetchUser = $backend->getUserFromCustomAttribute($filter, $attribute, $searchTerm);
+			// if we found a different user, no need to continue
+			if ($user !== null && $fetchUser !== null && $fetchUser->getUID() !== $user->getUID()) {
+				throw new MultipleUsersReturnedException('Multiple users found for custom attribute search');
 			}
+			$user = $fetchUser; // may be null
 		}
-		return null;
+		return $user;
 	}
 }
