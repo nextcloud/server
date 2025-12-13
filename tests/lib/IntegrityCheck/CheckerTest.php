@@ -66,8 +66,8 @@ class CheckerTest extends TestCase {
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 
 		$this->config
-			->method('getSystemValueBool')-
-			>with('integrity.check.disabled', false)
+			->method('getSystemValueBool')
+			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
 		$this->cacheFactory
