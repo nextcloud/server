@@ -48,33 +48,30 @@ class CheckerTest extends TestCase {
 
 		$this->fixtureDir = __DIR__ . '/../../data/integritycheck/';
 
-		// Mock all external dependencies the Checker needs 
-		$this->serverVersion = $this->createMock(ServerVersion::class);
-		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
+		$this->serverVersion = $this->createStub(ServerVersion::class);
+		$this->environmentHelper = $this->createStub(EnvironmentHelper::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->config = $this->createStub(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory = $this->createStub(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->mimeTypeDetector = $this->createMock(Detection::class);
 
-		// Stub $this->serverVersion->getChannel to return `stable` by default
-		$this->serverVersion->method('getChannel')
+		$this->serverVersion
+			->method('getChannel')
 			->willReturn('stable');
 
-		// Stub $this->config->getSystemValueBool to return false for the `integrity.check.disabled` system config key by default
-		//$this->config->method('getSystemValueBool')
-		//	->willReturnCallback(fn($key, $default = false) => $key === 'integrity.check.disabled' ? false : $default);
-		$this->config->method('getSystemValueBool')
-			->with('integrity.check.disabled', false)
-			->willReturn(false);
-
-		// Stub $this->environmentHelper->getServerRoot to return a default that us useful in multiple tests
-		$this->environmentHelper->method('getServerRoot')
+		$this->environmentHelper
+			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 
-		// Stub cacheFactory->createDistributed to return a NullCache for the specific cache key used by the checker
-		$this->cacheFactory->method('createDistributed')
+		$this->config
+			->method('getSystemValueBool')-
+			>with('integrity.check.disabled', false)
+			->willReturn(false);
+
+		$this->cacheFactory
+			->method('createDistributed')
 			->with('oc.integritycheck.checker')
 			->willReturn(new NullCache());
 
@@ -847,7 +844,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithoutSignatureDataAndCodeCheckerDisabled(): void {
-		$this->config->expects($this->once())
+		$this->config
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(true);
@@ -861,7 +858,7 @@ class CheckerTest extends TestCase {
     	$this->assertSame('stable', $this->serverVersion->getChannel());
     
 	    // Override it
-    	$this->serverVersion->expects($this->once())
+    	$this->serverVersion
 			->method('getChannel')
 			->willReturn('git');
     
@@ -882,7 +879,7 @@ class CheckerTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
-		$this->serverVersion->expects($this->once())
+		$this->serverVersion
 			->method('getChannel')
 			->willReturn($channel);
 		//$this->config->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
@@ -902,10 +899,11 @@ class CheckerTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
-		$this->serverVersion->expects($this->once())
+		$this->serverVersion
 			->method('getChannel')
 			->willReturn($channel);
-		$this->config->expects($this->any()) // not consulted in current implementation if can be determined just based on channel (e.g. 'git')
+
+		$this->config
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(true);
