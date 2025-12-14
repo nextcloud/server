@@ -13,11 +13,12 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 võimaldab välisteenustel taotleda juurdepääsu {instanceName}ile",
     "Name" : "Nimi",
     "Redirection URI" : "Suunamise URI",
+    "Client identifier" : "Klienditunnus",
     "Delete client" : "Kustuta klient",
     "Make sure you store the secret key, it cannot be recovered." : "Salvesta salajane võti, seda ei saa taastada.",
     "Add client" : "Lisa klient",
     "Add" : "Lisa",
-    "Client Identifier" : "Kliendi identifikaator",
+    "Client Identifier" : "Klienditunnus",
     "Show client secret" : "Näita kliendi salakoodi",
     "Hide client secret" : "Peida kliendi salakood"
 },
