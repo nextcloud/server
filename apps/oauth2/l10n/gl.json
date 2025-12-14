@@ -11,6 +11,7 @@
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 permítelle aos servizos externos solicitar acceso a {instanceName}.",
     "Name" : "Nome",
     "Redirection URI" : "URI de redireccionamento",
+    "Client identifier" : "Identificador do cliente",
     "Delete client" : "Eliminar cliente",
     "Make sure you store the secret key, it cannot be recovered." : "Asegúrese de gardar a chave secreta, non é posíbel recuperala.",
     "Add client" : "Engadir cliente",
