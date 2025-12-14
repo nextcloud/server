@@ -380,7 +380,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				]
 			);
 		}
-		$message->setFrom([Util::getDefaultEmailAddress($instanceName) => $senderName]);
+		$message->setFrom([Util::getEmailAddressForUser($initiatorUser, $instanceName) => $senderName]);
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
