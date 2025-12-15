@@ -15,6 +15,7 @@ OC.L10N.register(
     "Delete comment" : "Poista kommentti",
     "Cancel edit" : "Peruuta muokkaus",
     "New comment" : "Uusi kommentti",
+    "Write a comment …" : "Kirjoita kommentti …",
     "Post comment" : "Lähetä viesti",
     "@ for mentions, : for emoji, / for smart picker" : "@ maininnoille, : emojille, / älykkäälle valitsimelle",
     "Could not reload comments" : "Kommenttien lataus epäonnistui",

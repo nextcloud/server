@@ -26,6 +26,7 @@ OC.L10N.register(
     "Copied!" : "Kopioitu!",
     "Federated Cloud" : "Federoitu pilvi",
     "Share it so your friends can share files with you:" : "Jaa se, jotta ystäväsi voivat jakaa tiedostoja kanssasi:",
+    "Bluesky" : "Bluesky",
     "Facebook" : "Facebook",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Lisää verkkosivuillesi",
