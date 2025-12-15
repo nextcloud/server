@@ -2,14 +2,16 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { Folder, Node } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { showWarning, showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { Folder, Node, davGetClient, davGetDefaultPropfind, davResultToNode } from '@nextcloud/files'
+import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
+import { t } from '@nextcloud/l10n'
+import { join } from '@nextcloud/paths'
 import { openConflictPicker } from '@nextcloud/upload'
-import { translate as t } from '@nextcloud/l10n'
-
 import logger from '../logger.ts'
 
 /**
@@ -129,14 +131,18 @@ const readDirectory = (directory: FileSystemDirectoryEntry): Promise<FileSystemE
 	})
 }
 
-export const createDirectoryIfNotExists = async (absolutePath: string) => {
-	const davClient = davGetClient()
-	const dirExists = await davClient.exists(absolutePath)
+/**
+ * @param path - The path relative to the dav root
+ */
+export async function createDirectoryIfNotExists(path: string) {
+	const davUrl = join(defaultRemoteURL, defaultRootPath)
+	const davClient = getClient(davUrl)
+	const dirExists = await davClient.exists(path)
 	if (!dirExists) {
-		logger.debug('Directory does not exist, creating it', { absolutePath })
-		await davClient.createDirectory(absolutePath, { recursive: true })
-		const stat = await davClient.stat(absolutePath, { details: true, data: davGetDefaultPropfind() }) as ResponseDataDetailed<FileStat>
-		emit('files:node:created', davResultToNode(stat.data))
+		logger.debug('Directory does not exist, creating it', { path })
+		await davClient.createDirectory(path, { recursive: true })
+		const stat = await davClient.stat(path, { details: true, data: getDefaultPropfind() }) as ResponseDataDetailed<FileStat>
+		emit('files:node:created', resultToNode(stat.data, defaultRootPath, davUrl))
 	}
 }
 
