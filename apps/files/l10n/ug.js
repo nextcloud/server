@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "يۆتكە",
     "Move or copy operation failed" : "يۆتكەش ياكى كۆچۈرۈش مەشغۇلاتى مەغلۇپ بولدى",
     "Move or copy" : "يۆتكەش ياكى كۆچۈرۈش",
+    "Open folder" : "ھۆججەت قىسقۇچنى ئېچىڭ",
     "Open folder {displayName}" : "ھۆججەت قىسقۇچ {displayName}",
     "Open in Files" : "ھۆججەتلەرنى ئېچىڭ",
     "Open locally" : "يەرلىكتە ئېچىڭ",

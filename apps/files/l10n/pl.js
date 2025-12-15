@@ -306,6 +306,7 @@ OC.L10N.register(
     "Move" : "Przenieś",
     "Move or copy operation failed" : "Operacja przenoszenia lub kopiowania nie powiodła się",
     "Move or copy" : "Przenieś lub kopiuj",
+    "Open folder" : "Otwórz katalog",
     "Open folder {displayName}" : "Otwórz katalog {displayName}",
     "Open in Files" : "Otwórz w Plikach",
     "Open locally" : "Otwórz lokalnie",

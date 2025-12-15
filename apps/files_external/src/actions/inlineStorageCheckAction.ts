@@ -4,7 +4,6 @@
  */
 
 import type { AxiosError } from '@nextcloud/axios'
-import type { Node } from '@nextcloud/files'
 import type { StorageConfig } from '../services/externalStorage.ts'
 
 import AlertSvg from '@mdi/svg/svg/alert-circle.svg?raw'
@@ -23,7 +22,7 @@ export const action = new FileAction({
 	displayName: () => '',
 	iconSvgInline: () => '',
 
-	enabled: (nodes: Node[]) => {
+	enabled: ({ nodes }) => {
 		return nodes.every((node) => isNodeExternalStorage(node) === true)
 	},
 	exec: async () => null,
@@ -34,7 +33,12 @@ export const action = new FileAction({
 	 *
 	 * @param node The node to render inline
 	 */
-	async renderInline(node: Node) {
+	async renderInline({ nodes }) {
+		if (nodes.length !== 1 || !nodes[0]) {
+			return null
+		}
+
+		const node = nodes[0]
 		const span = document.createElement('span')
 		span.className = 'files-list__row-status'
 		span.innerHTML = t('files_external', 'Checking storage …')

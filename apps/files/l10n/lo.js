@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "ຍ້າຍ",
     "Move or copy operation failed" : "Move or copy operation failed",
     "Move or copy" : "ຍ້າຍ ຫຼື ສຳເນົາ",
+    "Open folder" : "Open folder",
     "Open folder {displayName}" : "Open folder {displayName}",
     "Open in Files" : "ເປີດໃນ Files",
     "Open locally" : "Open locally",

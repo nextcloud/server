@@ -301,6 +301,7 @@ OC.L10N.register(
     "Could not check that your web server serves security headers correctly. Please check manually." : "Не вдалося перевірити, чи правильно ваш веб-сервер обслуговує заголовки безпеки. Будь ласка, перевірте вручну.",
     "Could not check that your web server serves security headers correctly, unable to query `%s`" : "Не вдалося перевірити, чи правильно ваш веб-сервер обслуговує заголовки безпеки, не вдалося виконати запит `%s`.",
     "Your server is correctly configured to send security headers." : "Ваш сервер правильно налаштовано для надсилання заголовків безпеки.",
+    "Configuration server ID" : "Налаштування ідентифікатора сервера",
     "Database version" : "Версія бази даних",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Виявлено MariaDB версії 10.3, ця версія застаріла і підтримується лише у складі Ubuntu 20.04. Рекомендується використовувати MariaDB >=%1$s та <=%2$s для кращої продуктивності, стабільності та функціональності з цією версією Nextcloud.",
     "MariaDB version \"%1$s\" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "Виявлено версію MariaDB \"%1$s\". Для кращої продуктивності, стабільності та функціональності цієї версії Nextcloud рекомендується використовувати MariaDB >=%2$s та <=%3$s.",

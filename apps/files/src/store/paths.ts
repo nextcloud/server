@@ -112,7 +112,12 @@ export function usePathsStore(...args) {
 				}
 
 				// Dummy simple clone of the renamed node from a previous state
-				const oldNode = new File({ source: oldSource, owner: node.owner, mime: node.mime })
+				const oldNode = new File({
+					source: oldSource,
+					owner: node.owner,
+					mime: node.mime,
+					root: node.root,
+				})
 
 				this.deleteNodeFromParentChildren(oldNode)
 				this.addNodeToParentChildren(node)

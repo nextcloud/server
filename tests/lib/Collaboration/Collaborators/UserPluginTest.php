@@ -570,7 +570,7 @@ class UserPluginTest extends TestCase {
 				[
 					'core' => [
 						'shareapi_allow_share_dialog_user_enumeration' => 'no',
-						'shareapi_restrict_user_enumeration_full_match_userid' => 'no',
+						'shareapi_restrict_user_enumeration_full_match_user_id' => 'no',
 					],
 				]
 			],
@@ -585,7 +585,7 @@ class UserPluginTest extends TestCase {
 				[
 					'core' => [
 						'shareapi_allow_share_dialog_user_enumeration' => 'no',
-						'shareapi_restrict_user_enumeration_full_match_userid' => 'no',
+						'shareapi_restrict_user_enumeration_full_match_user_id' => 'no',
 					],
 				]
 			],

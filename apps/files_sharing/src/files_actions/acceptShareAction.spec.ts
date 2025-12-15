@@ -1,4 +1,4 @@
-import type { View } from '@nextcloud/files'
+import type { Folder, View } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
@@ -38,16 +38,32 @@ describe('Accept share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('accept-share')
-		expect(action.displayName([file], pendingShareView)).toBe('Accept share')
-		expect(action.iconSvgInline([file], pendingShareView)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Accept share')
+		expect(action.iconSvgInline({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(1)
 		expect(action.inline).toBeDefined()
-		expect(action.inline!(file, pendingShareView)).toBe(true)
+		expect(action.inline!({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Default values for multiple files', () => {
@@ -57,6 +73,7 @@ describe('Accept share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 2,
@@ -64,9 +81,15 @@ describe('Accept share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file1, file2], pendingShareView)).toBe('Accept shares')
+		expect(action.displayName({
+			nodes: [file1, file2],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Accept shares')
 	})
 })
 
@@ -78,20 +101,36 @@ describe('Accept share action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], pendingShareView)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled on wrong view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled without nodes', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], pendingShareView)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
@@ -114,9 +153,15 @@ describe('Accept share action execute tests', () => {
 				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
@@ -141,9 +186,15 @@ describe('Accept share action execute tests', () => {
 				remote: 3,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
@@ -167,6 +218,7 @@ describe('Accept share action execute tests', () => {
 				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
 		const file2 = new File({
@@ -179,9 +231,15 @@ describe('Accept share action execute tests', () => {
 				id: 456,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.execBatch!([file1, file2], pendingShareView, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.post).toBeCalledTimes(2)
@@ -208,9 +266,15 @@ describe('Accept share action execute tests', () => {
 				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(false)
 		expect(axios.post).toBeCalledTimes(1)

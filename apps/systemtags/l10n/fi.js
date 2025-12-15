@@ -56,6 +56,7 @@ OC.L10N.register(
     "Update" : "Päivitys",
     "Delete" : "Poista",
     "Reset" : "Palauta",
+    "Loading …" : "Ladataan …",
     "Manage tags" : "Hallitse tunnisteita",
     "Cancel" : "Peruuta",
     "Apply" : "Toteuta",

@@ -246,6 +246,7 @@ OC.L10N.register(
     "Move" : "Presunúť",
     "Move or copy operation failed" : "Operácia presunu alebo kopírovania zlyhala",
     "Move or copy" : "Presunúť alebo kopírovať",
+    "Open folder" : "Otvoriť priečinok",
     "Open folder {displayName}" : "Otvoriť priečinok {displayName}",
     "Open in Files" : "Otvoriť v súboroch",
     "Open locally" : "Otvoriť lokálne",

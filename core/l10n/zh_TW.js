@@ -248,6 +248,7 @@ OC.L10N.register(
     "Results" : "結果",
     "Load more results" : "載入更多結果",
     "Search in" : "搜尋條件",
+    "Partial matches" : "部份符合",
     "Log in" : "登入",
     "Logging in …" : "正在登入……",
     "Log in to {productName}" : "登入 {productName}",

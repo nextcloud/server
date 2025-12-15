@@ -2,38 +2,184 @@
  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import type { OCSResponse } from '@nextcloud/typings/ocs'
+
+import axios from '@nextcloud/axios'
+import { showConfirmation, showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import { generateOcsUrl } from '@nextcloud/router'
+import { reactive } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import logger from '../services/logger.ts'
+
+const sharingFederatedDocUrl = loadState<string>('federatedfilesharing', 'sharingFederatedDocUrl')
+
+const internalState = new Proxy({
+	outgoingServer2serverShareEnabled: [
+		loadState<boolean>('federatedfilesharing', 'outgoingServer2serverShareEnabled'),
+		'outgoing_server2server_share_enabled',
+	],
+	incomingServer2serverShareEnabled: [
+		loadState<boolean>('federatedfilesharing', 'incomingServer2serverShareEnabled'),
+		'incoming_server2server_share_enabled',
+	],
+	outgoingServer2serverGroupShareEnabled: [
+		loadState<boolean>('federatedfilesharing', 'outgoingServer2serverGroupShareEnabled'),
+		'outgoing_server2server_group_share_enabled',
+	],
+	incomingServer2serverGroupShareEnabled: [
+		loadState<boolean>('federatedfilesharing', 'incomingServer2serverGroupShareEnabled'),
+		'incoming_server2server_group_share_enabled',
+	],
+	federatedGroupSharingSupported: [
+		loadState<boolean>('federatedfilesharing', 'federatedGroupSharingSupported'),
+		'federated_group_sharing_supported',
+	],
+	federatedTrustedShareAutoAccept: [
+		loadState<boolean>('federatedfilesharing', 'federatedTrustedShareAutoAccept'),
+		'federatedTrustedShareAutoAccept',
+	],
+	lookupServerEnabled: [
+		loadState<boolean>('federatedfilesharing', 'lookupServerEnabled'),
+		'lookupServerEnabled',
+	],
+	lookupServerUploadEnabled: [
+		loadState<boolean>('federatedfilesharing', 'lookupServerUploadEnabled'),
+		'lookupServerUploadEnabled',
+	],
+}, {
+	get(target, prop) {
+		return target[prop]?.[0]
+	},
+	set(target, prop, value) {
+		if (prop in target) {
+			target[prop][0] = value
+			updateAppConfig(target[prop][1], value)
+			return true
+		}
+		return false
+	},
+})
+
+const state = reactive<Record<string, boolean>>(internalState as never)
+
+/**
+ * Show confirmation dialog for enabling lookup server upload
+ *
+ * @param value - The new state
+ */
+async function showLookupServerUploadConfirmation(value: boolean) {
+	// No confirmation needed for disabling
+	if (value === false) {
+		return state.lookupServerUploadEnabled = false
+	}
+
+	await showConfirmation({
+		name: t('federatedfilesharing', 'Confirm data upload to lookup server'),
+		text: t('federatedfilesharing', 'When enabled, all account properties (e.g. email address) with scope visibility set to "published", will be automatically synced and transmitted to an external system and made available in a public, global address book.'),
+		labelConfirm: t('federatedfilesharing', 'Enable data upload'),
+		labelReject: t('federatedfilesharing', 'Disable upload'),
+		severity: 'warning',
+	}).then(() => {
+		state.lookupServerUploadEnabled = true
+	}).catch(() => {
+		state.lookupServerUploadEnabled = false
+	})
+}
+
+/**
+ * Show confirmation dialog for enabling lookup server
+ *
+ * @param value - The new state
+ */
+async function showLookupServerConfirmation(value: boolean) {
+	// No confirmation needed for disabling
+	if (value === false) {
+		return state.lookupServerEnabled = false
+	}
+
+	await showConfirmation({
+		name: t('federatedfilesharing', 'Confirm querying lookup server'),
+		text: t('federatedfilesharing', 'When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book.')
+			+ t('federatedfilesharing', 'This is used to retrieve the federated cloud ID to make federated sharing easier.')
+			+ t('federatedfilesharing', 'Moreover, email addresses of users might be sent to that system in order to verify them.'),
+		labelConfirm: t('federatedfilesharing', 'Enable querying'),
+		labelReject: t('federatedfilesharing', 'Disable querying'),
+		severity: 'warning',
+	}).then(() => {
+		state.lookupServerEnabled = true
+	}).catch(() => {
+		state.lookupServerEnabled = false
+	})
+}
+
+/**
+ * Update the app config
+ *
+ * @param key - The config key
+ * @param value - The config value
+ */
+async function updateAppConfig(key: string, value: boolean) {
+	await confirmPassword()
+
+	const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+		appId: 'files_sharing',
+		key,
+	})
+
+	const stringValue = value ? 'yes' : 'no'
+	try {
+		const { data } = await axios.post<OCSResponse>(url, {
+			value: stringValue,
+		})
+		if (data.ocs.meta.status !== 'ok') {
+			if (data.ocs.meta.message) {
+				showError(data.ocs.meta.message)
+				logger.error('Error updating federated files sharing config', { error: data.ocs })
+			} else {
+				throw new Error(`Failed to update federatedfilesharing config, ${data.ocs.meta.statuscode}`)
+			}
+		}
+	} catch (error) {
+		logger.error('Error updating federated files sharing config', { error })
+		showError(t('federatedfilesharing', 'Unable to update federated files sharing config'))
+	}
+}
+</script>
+
 <template>
 	<NcSettingsSection
 		:name="t('federatedfilesharing', 'Federated Cloud Sharing')"
 		:description="t('federatedfilesharing', 'Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing.')"
 		:doc-url="sharingFederatedDocUrl">
 		<NcCheckboxRadioSwitch
-			v-model="outgoingServer2serverShareEnabled"
-			type="switch"
-			@update:modelValue="update('outgoing_server2server_share_enabled', outgoingServer2serverShareEnabled)">
+			v-model="state.outgoingServer2serverShareEnabled"
+			type="switch">
 			{{ t('federatedfilesharing', 'Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
-			v-model="incomingServer2serverShareEnabled"
-			type="switch"
-			@update:modelValue="update('incoming_server2server_share_enabled', incomingServer2serverShareEnabled)">
+			v-model="state.incomingServer2serverShareEnabled"
+			type="switch">
 			{{ t('federatedfilesharing', 'Allow people on this server to receive shares from other servers') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
-			v-if="federatedGroupSharingSupported"
-			v-model="outgoingServer2serverGroupShareEnabled"
-			type="switch"
-			@update:modelValue="update('outgoing_server2server_group_share_enabled', outgoingServer2serverGroupShareEnabled)">
+			v-if="state.federatedGroupSharingSupported"
+			v-model="state.outgoingServer2serverGroupShareEnabled"
+			type="switch">
 			{{ t('federatedfilesharing', 'Allow people on this server to send shares to groups on other servers') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
-			v-if="federatedGroupSharingSupported"
-			v-model="incomingServer2serverGroupShareEnabled"
-			type="switch"
-			@update:modelValue="update('incoming_server2server_group_share_enabled', incomingServer2serverGroupShareEnabled)">
+			v-if="state.federatedGroupSharingSupported"
+			v-model="state.incomingServer2serverGroupShareEnabled"
+			type="switch">
 			{{ t('federatedfilesharing', 'Allow people on this server to receive group shares from other servers') }}
 		</NcCheckboxRadioSwitch>
 
@@ -42,17 +188,17 @@
 
 			<NcCheckboxRadioSwitch
 				type="switch"
-				:model-value="lookupServerEnabled"
+				:model-value="state.lookupServerEnabled"
 				disabled
-				@update:modelValue="showLookupServerConfirmation">
+				@update:model-value="showLookupServerConfirmation">
 				{{ t('federatedfilesharing', 'Search global and public address book for people') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcCheckboxRadioSwitch
 				type="switch"
-				:model-value="lookupServerUploadEnabled"
+				:model-value="state.lookupServerUploadEnabled"
 				disabled
-				@update:modelValue="showLookupServerUploadConfirmation">
+				@update:model-value="showLookupServerUploadConfirmation">
 				{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
 			</NcCheckboxRadioSwitch>
 		</fieldset>
@@ -63,146 +209,13 @@
 				{{ t('federatedfilesharing', 'Trusted federation') }}
 			</h3>
 			<NcCheckboxRadioSwitch
-				v-model="federatedTrustedShareAutoAccept"
-				type="switch"
-				@update:modelValue="update('federatedTrustedShareAutoAccept', federatedTrustedShareAutoAccept)">
+				v-model="state.federatedTrustedShareAutoAccept"
+				type="switch">
 				{{ t('federatedfilesharing', 'Automatically accept shares from trusted federated accounts and groups by default') }}
 			</NcCheckboxRadioSwitch>
 		</div>
 	</NcSettingsSection>
 </template>
-
-<script>
-import axios from '@nextcloud/axios'
-import { DialogBuilder, showError } from '@nextcloud/dialogs'
-import { loadState } from '@nextcloud/initial-state'
-import { confirmPassword } from '@nextcloud/password-confirmation'
-import { generateOcsUrl } from '@nextcloud/router'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import logger from '../services/logger.ts'
-
-export default {
-	name: 'AdminSettings',
-
-	components: {
-		NcCheckboxRadioSwitch,
-		NcSettingsSection,
-	},
-
-	data() {
-		return {
-			outgoingServer2serverShareEnabled: loadState('federatedfilesharing', 'outgoingServer2serverShareEnabled'),
-			incomingServer2serverShareEnabled: loadState('federatedfilesharing', 'incomingServer2serverShareEnabled'),
-			outgoingServer2serverGroupShareEnabled: loadState('federatedfilesharing', 'outgoingServer2serverGroupShareEnabled'),
-			incomingServer2serverGroupShareEnabled: loadState('federatedfilesharing', 'incomingServer2serverGroupShareEnabled'),
-			federatedGroupSharingSupported: loadState('federatedfilesharing', 'federatedGroupSharingSupported'),
-			lookupServerEnabled: loadState('federatedfilesharing', 'lookupServerEnabled'),
-			lookupServerUploadEnabled: loadState('federatedfilesharing', 'lookupServerUploadEnabled'),
-			federatedTrustedShareAutoAccept: loadState('federatedfilesharing', 'federatedTrustedShareAutoAccept'),
-			internalOnly: loadState('federatedfilesharing', 'internalOnly'),
-			sharingFederatedDocUrl: loadState('federatedfilesharing', 'sharingFederatedDocUrl'),
-		}
-	},
-
-	methods: {
-		setLookupServerUploadEnabled(state) {
-			if (state === this.lookupServerUploadEnabled) {
-				return
-			}
-			this.lookupServerUploadEnabled = state
-			this.update('lookupServerUploadEnabled', state)
-		},
-
-		async showLookupServerUploadConfirmation(state) {
-			// No confirmation needed for disabling
-			if (state === false) {
-				return this.setLookupServerUploadEnabled(false)
-			}
-
-			const dialog = new DialogBuilder(t('federatedfilesharing', 'Confirm data upload to lookup server'))
-			await dialog
-				.setSeverity('warning')
-				.setText(t('federatedfilesharing', 'When enabled, all account properties (e.g. email address) with scope visibility set to "published", will be automatically synced and transmitted to an external system and made available in a public, global address book.'))
-				.addButton({
-					callback: () => this.setLookupServerUploadEnabled(false),
-					label: t('federatedfilesharing', 'Disable upload'),
-				})
-				.addButton({
-					callback: () => this.setLookupServerUploadEnabled(true),
-					label: t('federatedfilesharing', 'Enable data upload'),
-					type: 'error',
-				})
-				.build()
-				.show()
-		},
-
-		setLookupServerEnabled(state) {
-			if (state === this.lookupServerEnabled) {
-				return
-			}
-			this.lookupServerEnabled = state
-			this.update('lookupServerEnabled', state)
-		},
-
-		async showLookupServerConfirmation(state) {
-			// No confirmation needed for disabling
-			if (state === false) {
-				return this.setLookupServerEnabled(false)
-			}
-
-			const dialog = new DialogBuilder(t('federatedfilesharing', 'Confirm querying lookup server'))
-			await dialog
-				.setSeverity('warning')
-				.setText(t('federatedfilesharing', 'When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book.')
-					+ t('federatedfilesharing', 'This is used to retrieve the federated cloud ID to make federated sharing easier.')
-					+ t('federatedfilesharing', 'Moreover, email addresses of users might be sent to that system in order to verify them.'))
-				.addButton({
-					callback: () => this.setLookupServerEnabled(false),
-					label: t('federatedfilesharing', 'Disable querying'),
-				})
-				.addButton({
-					callback: () => this.setLookupServerEnabled(true),
-					label: t('federatedfilesharing', 'Enable querying'),
-					type: 'error',
-				})
-				.build()
-				.show()
-		},
-
-		async update(key, value) {
-			await confirmPassword()
-
-			const url = generateOcsUrl('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
-				appId: 'files_sharing',
-				key,
-			})
-
-			const stringValue = value ? 'yes' : 'no'
-			try {
-				const { data } = await axios.post(url, {
-					value: stringValue,
-				})
-				this.handleResponse({
-					status: data.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('federatedfilesharing', 'Unable to update federated files sharing config'),
-					error: e,
-				})
-			}
-		},
-
-		async handleResponse({ status, errorMessage, error }) {
-			if (status !== 'ok') {
-				showError(errorMessage)
-				logger.error(errorMessage, { error })
-			}
-		},
-	},
-}
-</script>
 
 <style scoped>
 .settings-subsection {

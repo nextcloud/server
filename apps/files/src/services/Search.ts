@@ -7,7 +7,7 @@ import type { ContentsWithRoot } from '@nextcloud/files'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
-import { defaultRemoteURL } from '@nextcloud/files/dav'
+import { defaultRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { CancelablePromise } from 'cancelable-promise'
 import logger from '../logger.ts'
 import { getPinia } from '../store/index.ts'
@@ -30,9 +30,10 @@ export function getContents(): CancelablePromise<ContentsWithRoot> {
 				contents,
 				folder: new Folder({
 					id: 0,
-					source: `${defaultRemoteURL}#search`,
+					source: `${defaultRemoteURL}${getRootPath()}}#search`,
 					owner: getCurrentUser()!.uid,
 					permissions: Permission.READ,
+					root: getRootPath(),
 				}),
 			})
 		} catch (error) {

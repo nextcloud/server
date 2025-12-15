@@ -3,6 +3,75 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { imagePath } from '@nextcloud/router'
+import { computed, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import IconCheck from 'vue-material-design-icons/Check.vue'
+import IconClipboard from 'vue-material-design-icons/ContentCopy.vue'
+import IconWeb from 'vue-material-design-icons/Web.vue'
+
+const productName = window.OC.theme.productName
+const color = loadState<string>('federatedfilesharing', 'color')
+const textColor = loadState<string>('federatedfilesharing', 'textColor')
+const cloudId = loadState<string>('federatedfilesharing', 'cloudId')
+const docUrlFederated = loadState<string>('federatedfilesharing', 'docUrlFederated')
+const logoPath = loadState<string>('federatedfilesharing', 'logoPath')
+const reference = loadState<string>('federatedfilesharing', 'reference')
+const urlFacebookIcon = imagePath('core', 'facebook')
+const urlMastodonIcon = imagePath('core', 'mastodon')
+const urlBlueSkyIcon = imagePath('core', 'bluesky')
+const messageWithURL = t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID, see {url}', { url: reference })
+const messageWithoutURL = t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID')
+const shareMastodonUrl = `https://mastodon.social/?text=${encodeURIComponent(messageWithoutURL)}&url=${encodeURIComponent(reference)}`
+const shareFacebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(reference)}`
+const shareBlueSkyUrl = `https://bsky.app/intent/compose?text=${encodeURIComponent(messageWithURL)}`
+const logoPathAbsolute = new URL(logoPath, location.origin)
+
+const showHtml = ref(false)
+const isCopied = ref(false)
+
+const backgroundStyle = computed(() => `
+	padding:10px;
+	background-color:${color};
+	color:${textColor};
+	border-radius:3px;
+	padding-inline-start:4px;`)
+
+const linkStyle = `background-image:url(${logoPathAbsolute});width:50px;height:30px;position:relative;top:8px;background-size:contain;display:inline-block;background-repeat:no-repeat; background-position: center center;`
+const htmlCode = computed(() => `<a target="_blank" rel="noreferrer noopener" href="${reference}" style="${backgroundStyle.value}">
+	<span style="${linkStyle}"></span>
+	${t('federatedfilesharing', 'Share with me via Nextcloud')}
+</a>`)
+
+const copyLinkTooltip = computed(() => isCopied.value
+	? t('federatedfilesharing', 'Cloud ID copied')
+	: t('federatedfilesharing', 'Copy'))
+
+/**
+ *
+ */
+async function copyCloudId(): Promise<void> {
+	try {
+		await navigator.clipboard.writeText(cloudId)
+		showSuccess(t('federatedfilesharing', 'Cloud ID copied'))
+	} catch {
+		// no secure context or really old browser - need a fallback
+		window.prompt(t('federatedfilesharing', 'Clipboard not available. Please copy the cloud ID manually.'), cloudId)
+	}
+	isCopied.value = true
+	showSuccess(t('federatedfilesharing', 'Copied!'))
+	setTimeout(() => {
+		isCopied.value = false
+	}, 2000)
+}
+</script>
+
 <template>
 	<NcSettingsSection
 		:name="t('federatedfilesharing', 'Federated Cloud')"
@@ -25,30 +94,22 @@
 
 		<p class="social-button">
 			{{ t('federatedfilesharing', 'Share it so your friends can share files with you:') }}<br>
+			<NcButton :href="shareBlueSkyUrl">
+				{{ t('federatedfilesharing', 'Bluesky') }}
+				<template #icon>
+					<img class="social-button__icon" :src="urlBlueSkyIcon">
+				</template>
+			</NcButton>
 			<NcButton :href="shareFacebookUrl">
 				{{ t('federatedfilesharing', 'Facebook') }}
 				<template #icon>
 					<img class="social-button__icon social-button__icon--bright" :src="urlFacebookIcon">
 				</template>
 			</NcButton>
-			<NcButton
-				:aria-label="t('federatedfilesharing', 'X (formerly Twitter)')"
-				:href="shareXUrl">
-				{{ t('federatedfilesharing', 'formerly Twitter') }}
-				<template #icon>
-					<img class="social-button__icon" :src="urlXIcon">
-				</template>
-			</NcButton>
 			<NcButton :href="shareMastodonUrl">
 				{{ t('federatedfilesharing', 'Mastodon') }}
 				<template #icon>
 					<img class="social-button__icon" :src="urlMastodonIcon">
-				</template>
-			</NcButton>
-			<NcButton :href="shareBlueSkyUrl">
-				{{ t('federatedfilesharing', 'Bluesky') }}
-				<template #icon>
-					<img class="social-button__icon" :src="urlBlueSkyIcon">
 				</template>
 			</NcButton>
 			<NcButton
@@ -81,126 +142,6 @@
 		</template>
 	</NcSettingsSection>
 </template>
-
-<script lang="ts">
-import { showSuccess } from '@nextcloud/dialogs'
-import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
-import { imagePath } from '@nextcloud/router'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcInputField from '@nextcloud/vue/components/NcInputField'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import IconCheck from 'vue-material-design-icons/Check.vue'
-import IconClipboard from 'vue-material-design-icons/ContentCopy.vue'
-import IconWeb from 'vue-material-design-icons/Web.vue'
-
-export default {
-	name: 'PersonalSettings',
-	components: {
-		NcButton,
-		NcInputField,
-		NcSettingsSection,
-		IconCheck,
-		IconClipboard,
-		IconWeb,
-	},
-
-	setup() {
-		return {
-			t,
-
-			productName: window.OC.theme.productName,
-			cloudId: loadState<string>('federatedfilesharing', 'cloudId'),
-			reference: loadState<string>('federatedfilesharing', 'reference'),
-			urlFacebookIcon: imagePath('core', 'facebook'),
-			urlMastodonIcon: imagePath('core', 'mastodon'),
-			urlBlueSkyIcon: imagePath('core', 'bluesky'),
-			urlXIcon: imagePath('core', 'x'),
-		}
-	},
-
-	data() {
-		return {
-			color: loadState('federatedfilesharing', 'color'),
-			textColor: loadState('federatedfilesharing', 'textColor'),
-			logoPath: loadState('federatedfilesharing', 'logoPath'),
-			docUrlFederated: loadState('federatedfilesharing', 'docUrlFederated'),
-			showHtml: false,
-			isCopied: false,
-		}
-	},
-
-	computed: {
-		messageWithURL() {
-			return t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID, see {url}', { url: this.reference })
-		},
-
-		messageWithoutURL() {
-			return t('federatedfilesharing', 'Share with me through my #Nextcloud Federated Cloud ID')
-		},
-
-		shareMastodonUrl() {
-			return `https://mastodon.social/?text=${encodeURIComponent(this.messageWithoutURL)}&url=${encodeURIComponent(this.reference)}`
-		},
-
-		shareXUrl() {
-			return `https://x.com/intent/tweet?text=${encodeURIComponent(this.messageWithURL)}`
-		},
-
-		shareFacebookUrl() {
-			return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.reference)}`
-		},
-
-		shareBlueSkyUrl() {
-			return `https://bsky.app/intent/compose?text=${encodeURIComponent(this.messageWithURL)}`
-		},
-
-		logoPathAbsolute() {
-			return window.location.protocol + '//' + window.location.host + this.logoPath
-		},
-
-		backgroundStyle() {
-			return `padding:10px;background-color:${this.color};color:${this.textColor};border-radius:3px;padding-inline-start:4px;`
-		},
-
-		linkStyle() {
-			return `background-image:url(${this.logoPathAbsolute});width:50px;height:30px;position:relative;top:8px;background-size:contain;display:inline-block;background-repeat:no-repeat; background-position: center center;`
-		},
-
-		htmlCode() {
-			return `<a target="_blank" rel="noreferrer noopener" href="${this.reference}" style="${this.backgroundStyle}">
-	<span style="${this.linkStyle}"></span>
-	${t('federatedfilesharing', 'Share with me via Nextcloud')}
-</a>`
-		},
-
-		copyLinkTooltip() {
-			return this.isCopied ? t('federatedfilesharing', 'Cloud ID copied') : t('federatedfilesharing', 'Copy')
-		},
-	},
-
-	methods: {
-		async copyCloudId(): Promise<void> {
-			try {
-				await navigator.clipboard.writeText(this.cloudId)
-				showSuccess(t('federatedfilesharing', 'Cloud ID copied'))
-			} catch {
-				// no secure context or really old browser - need a fallback
-				window.prompt(t('federatedfilesharing', 'Clipboard not available. Please copy the cloud ID manually.'), this.reference)
-			}
-			this.isCopied = true
-			showSuccess(t('federatedfilesharing', 'Copied!'))
-			setTimeout(() => {
-				this.isCopied = false
-			}, 2000)
-		},
-
-		goTo(url: string): void {
-			window.location.href = url
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 	.social-button {

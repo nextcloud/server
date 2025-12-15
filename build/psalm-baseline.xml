@@ -433,11 +433,6 @@
       <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
-    <InvalidArgument>
-      <code><![CDATA[$webcalData]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/dav/lib/CardDAV/AddressBookImpl.php">
     <InvalidArgument>
       <code><![CDATA[$this->getKey()]]></code>
@@ -1213,11 +1208,6 @@
 				['uid' => &$user2]
 			)]]></code>
     </DeprecatedMethod>
-  </file>
-  <file src="apps/federatedfilesharing/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[IAppContainer]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
     <InvalidArgument>
@@ -3646,12 +3636,6 @@
     <InvalidOperand>
       <code><![CDATA[$user]]></code>
     </InvalidOperand>
-    <RedundantCondition>
-      <code><![CDATA[get_class($provider) !== 'OCA\Files_Sharing\MountProvider']]></code>
-    </RedundantCondition>
-    <TypeDoesNotContainType>
-      <code><![CDATA[get_class($provider) === 'OCA\Files_Sharing\MountProvider']]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
     <InvalidReturnType>

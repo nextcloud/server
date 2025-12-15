@@ -6,6 +6,7 @@
  */
 namespace OCA\FederatedFileSharing\Settings;
 
+use OCA\FederatedFileSharing\AppInfo\Application;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -43,7 +44,9 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('lookupServerUploadEnabled', $this->fedShareProvider->isLookupServerUploadEnabled());
 		$this->initialState->provideInitialState('federatedTrustedShareAutoAccept', $this->fedShareProvider->isFederatedTrustedShareAutoAccept());
 
-		return new TemplateResponse('federatedfilesharing', 'settings-admin', [], '');
+		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin');
+		\OCP\Util::addScript(Application::APP_ID, 'settings-admin');
+		return new TemplateResponse(Application::APP_ID, 'settings-admin', renderAs: '');
 	}
 
 	/**

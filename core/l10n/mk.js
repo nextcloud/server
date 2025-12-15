@@ -248,6 +248,7 @@ OC.L10N.register(
     "Results" : "Резултати",
     "Load more results" : "Вчитај повеќе резултати",
     "Search in" : "Барај во",
+    "Partial matches" : "Делумно совпаѓање",
     "Log in" : "Најава",
     "Logging in …" : "Најавување …",
     "Log in to {productName}" : "Најави се на {productName}",

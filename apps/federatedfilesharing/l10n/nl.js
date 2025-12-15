@@ -33,7 +33,6 @@ OC.L10N.register(
     "Your Federated Cloud ID" : "Jouw Federated Cloud-ID",
     "Share it so your friends can share files with you:" : "Deel het, zodat anderen bestanden met jou kunnen delen:",
     "Facebook" : "Facebook",
-    "X (formerly Twitter)" : "X (voorheen Twitter)",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Toevoegen aan je website",
     "HTML Code:" : "HTML Code:",
@@ -44,6 +43,7 @@ OC.L10N.register(
     "Remote share password" : "Wachtwoord externe share",
     "Cloud ID copied to the clipboard" : "Cloud-ID gekopieerd naar het klembord",
     "Copy to clipboard" : "Kopiëren naar het klembord",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereen delen die Nextcloud, ownCloud of een ander Open Cloud Mesh (OCM) compatible server of services gebruikt! Gebruik simpelweg hun gefedereerde Cloud-ID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com"
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Je kunt met iedereen delen die Nextcloud, ownCloud of een ander Open Cloud Mesh (OCM) compatible server of services gebruikt! Gebruik simpelweg hun gefedereerde Cloud-ID in de deel-dialoog. Het ziet eruit als iemand@cloud.voorbeeld.com",
+    "X (formerly Twitter)" : "X (voorheen Twitter)"
 },
 "nplurals=2; plural=(n != 1);");

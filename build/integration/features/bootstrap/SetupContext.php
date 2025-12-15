@@ -6,7 +6,7 @@
  */
 use Behat\Behat\Context\Context;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 
 /**

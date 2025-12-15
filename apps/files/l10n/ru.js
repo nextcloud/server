@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Переместить",
     "Move or copy operation failed" : "Ошибка перемещение или копирования",
     "Move or copy" : "Переместить или копировать",
+    "Open folder" : "Открыть папку",
     "Open folder {displayName}" : "Открыть папку «{displayName}»",
     "Open in Files" : "Открыть в приложении «Файлы»",
     "Open locally" : "Открыть локально",

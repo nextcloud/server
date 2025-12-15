@@ -9,18 +9,14 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use Psr\Log\LoggerInterface;
-use Sabre\DAV\Exception\BadRequest;
-use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
-use Sabre\VObject\Reader;
-use Sabre\VObject\Recur\NoInstancesException;
-use Sabre\VObject\Splitter\ICalendar;
 use Sabre\VObject\UUIDUtil;
 use function count;
 
@@ -36,20 +32,20 @@ class RefreshWebcalService {
 		private LoggerInterface $logger,
 		private Connection $connection,
 		private ITimeFactory $time,
+		private ImportService $importService,
 	) {
 	}
 
 	public function refreshSubscription(string $principalUri, string $uri) {
 		$subscription = $this->getSubscription($principalUri, $uri);
-		$mutations = [];
 		if (!$subscription) {
 			return;
 		}
 
 		// Check the refresh rate if there is any
-		if (!empty($subscription['{http://apple.com/ns/ical/}refreshrate'])) {
-			// add the refresh interval to the lastmodified timestamp
-			$refreshInterval = new \DateInterval($subscription['{http://apple.com/ns/ical/}refreshrate']);
+		if (!empty($subscription[self::REFRESH_RATE])) {
+			// add the refresh interval to the last modified timestamp
+			$refreshInterval = new \DateInterval($subscription[self::REFRESH_RATE]);
 			$updateTime = $this->time->getDateTime();
 			$updateTime->setTimestamp($subscription['lastmodified'])->add($refreshInterval);
 			if ($updateTime->getTimestamp() > $this->time->getTime()) {
@@ -57,109 +53,116 @@ class RefreshWebcalService {
 			}
 		}
 
-
-		$webcalData = $this->connection->queryWebcalFeed($subscription);
-		if (!$webcalData) {
+		$result = $this->connection->queryWebcalFeed($subscription);
+		if (!$result) {
 			return;
 		}
 
-		$localData = $this->calDavBackend->getLimitedCalendarObjects((int)$subscription['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+		$data = $result['data'];
+		$format = $result['format'];
 
 		$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
 		$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
 		$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
 
 		try {
-			$splitter = new ICalendar($webcalData, Reader::OPTION_FORGIVING);
+			$existingObjects = $this->calDavBackend->getLimitedCalendarObjects((int)$subscription['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION, ['id', 'uid', 'etag', 'uri']);
 
-			while ($vObject = $splitter->getNext()) {
-				/** @var Component $vObject */
-				$compName = null;
-				$uid = null;
+			$generator = match ($format) {
+				'xcal' => $this->importService->importXml(...),
+				'jcal' => $this->importService->importJson(...),
+				default => $this->importService->importText(...)
+			};
 
-				foreach ($vObject->getComponents() as $component) {
-					if ($component->name === 'VTIMEZONE') {
-						continue;
+			foreach ($generator($data) as $vObject) {
+				/** @var Component\VCalendar $vObject */
+				$vBase = $vObject->getBaseComponent();
+
+				if (!$vBase->UID) {
+					continue;
+				}
+
+				// Some calendar providers (e.g. Google, MS) use very long UIDs
+				if (strlen($vBase->UID->getValue()) > 512) {
+					$this->logger->warning('Skipping calendar object with overly long UID from subscription "{subscriptionId}"', [
+						'subscriptionId' => $subscription['id'],
+						'uid' => $vBase->UID->getValue(),
+					]);
+					continue;
+				}
+
+				if ($stripTodos && $vBase->name === 'VTODO') {
+					continue;
+				}
+
+				if ($stripAlarms || $stripAttachments) {
+					foreach ($vObject->getComponents() as $component) {
+						if ($component->name === 'VTIMEZONE') {
+							continue;
+						}
+						if ($stripAlarms) {
+							$component->remove('VALARM');
+						}
+						if ($stripAttachments) {
+							$component->remove('ATTACH');
+						}
 					}
+				}
 
-					$compName = $component->name;
+				$sObject = $vObject->serialize();
+				$uid = $vBase->UID->getValue();
+				$etag = md5($sObject);
 
-					if ($stripAlarms) {
-						unset($component->{'VALARM'});
+				// No existing object with this UID, create it
+				if (!isset($existingObjects[$uid])) {
+					try {
+						$this->calDavBackend->createCalendarObject(
+							$subscription['id'],
+							UUIDUtil::getUUID() . '.ics',
+							$sObject,
+							CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION
+						);
+					} catch (\Exception $ex) {
+						$this->logger->warning('Unable to create calendar object from subscription {subscriptionId}', [
+							'exception' => $ex,
+							'subscriptionId' => $subscription['id'],
+							'source' => $subscription['source'],
+						]);
 					}
-					if ($stripAttachments) {
-						unset($component->{'ATTACH'});
-					}
-
-					$uid = $component->{ 'UID' }->getValue();
-				}
-
-				if ($stripTodos && $compName === 'VTODO') {
-					continue;
-				}
-
-				if (!isset($uid)) {
-					continue;
-				}
-
-				try {
-					$denormalized = $this->calDavBackend->getDenormalizedData($vObject->serialize());
-				} catch (InvalidDataException|Forbidden $ex) {
-					$this->logger->warning('Unable to denormalize calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
-					continue;
-				}
-
-				// Find all identical sets and remove them from the update
-				if (isset($localData[$uid]) && $denormalized['etag'] === $localData[$uid]['etag']) {
-					unset($localData[$uid]);
-					continue;
-				}
-
-				$vObjectCopy = clone $vObject;
-				$identical = isset($localData[$uid]) && $this->compareWithoutDtstamp($vObjectCopy, $localData[$uid]);
-				if ($identical) {
-					unset($localData[$uid]);
-					continue;
-				}
-
-				// Find all modified sets and update them
-				if (isset($localData[$uid]) && $denormalized['etag'] !== $localData[$uid]['etag']) {
-					$this->calDavBackend->updateCalendarObject($subscription['id'], $localData[$uid]['uri'], $vObject->serialize(), CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-					unset($localData[$uid]);
-					continue;
-				}
-
-				// Only entirely new events get created here
-				try {
-					$objectUri = $this->getRandomCalendarObjectUri();
-					$this->calDavBackend->createCalendarObject($subscription['id'], $objectUri, $vObject->serialize(), CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-				} catch (NoInstancesException|BadRequest $ex) {
-					$this->logger->warning('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
+				} elseif ($existingObjects[$uid]['etag'] !== $etag) {
+					// Existing object with this UID but different etag, update it
+					$this->calDavBackend->updateCalendarObject(
+						$subscription['id'],
+						$existingObjects[$uid]['uri'],
+						$sObject,
+						CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION
+					);
+					unset($existingObjects[$uid]);
+				} else {
+					// Existing object with same etag, just remove from tracking
+					unset($existingObjects[$uid]);
 				}
 			}
 
-			$ids = array_map(static function ($dataSet): int {
-				return (int)$dataSet['id'];
-			}, $localData);
-			$uris = array_map(static function ($dataSet): string {
-				return $dataSet['uri'];
-			}, $localData);
-
-			if (!empty($ids) && !empty($uris)) {
-				// Clean up on aisle 5
-				// The only events left over in the $localData array should be those that don't exist upstream
-				// All deleted VObjects from upstream are removed
-				$this->calDavBackend->purgeCachedEventsForSubscription($subscription['id'], $ids, $uris);
+			// Clean up objects that no longer exist in the remote feed
+			// The only events left over should be those not found upstream
+			if (!empty($existingObjects)) {
+				$ids = array_map('intval', array_column($existingObjects, 'id'));
+				$uris = array_column($existingObjects, 'uri');
+				$this->calDavBackend->purgeCachedEventsForSubscription((int)$subscription['id'], $ids, $uris);
 			}
 
-			$newRefreshRate = $this->checkWebcalDataForRefreshRate($subscription, $webcalData);
-			if ($newRefreshRate) {
-				$mutations[self::REFRESH_RATE] = $newRefreshRate;
+			// Update refresh rate from the last processed object
+			if (isset($vObject)) {
+				$this->updateRefreshRate($subscription, $vObject);
 			}
-
-			$this->updateSubscription($subscription, $mutations);
 		} catch (ParseException $ex) {
 			$this->logger->error('Subscription {subscriptionId} could not be refreshed due to a parsing error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+		} finally {
+			// Close the data stream to free resources
+			if (is_resource($data)) {
+				fclose($data);
+			}
 		}
 	}
 
@@ -181,84 +184,34 @@ class RefreshWebcalService {
 		return $subscriptions[0];
 	}
 
-
 	/**
-	 * check if:
-	 *  - current subscription stores a refreshrate
-	 *  - the webcal feed suggests a refreshrate
-	 *  - return suggested refreshrate if user didn't set a custom one
-	 *
+	 * Update refresh rate from calendar object if:
+	 *  - current subscription does not store a refreshrate
+	 *  - the webcal feed suggests a valid refreshrate
 	 */
-	private function checkWebcalDataForRefreshRate(array $subscription, string $webcalData): ?string {
-		// if there is no refreshrate stored in the database, check the webcal feed
-		// whether it suggests any refresh rate and store that in the database
-		if (isset($subscription[self::REFRESH_RATE]) && $subscription[self::REFRESH_RATE] !== null) {
-			return null;
-		}
-
-		/** @var Component\VCalendar $vCalendar */
-		$vCalendar = Reader::read($webcalData);
-
-		$newRefreshRate = null;
-		if (isset($vCalendar->{'X-PUBLISHED-TTL'})) {
-			$newRefreshRate = $vCalendar->{'X-PUBLISHED-TTL'}->getValue();
-		}
-		if (isset($vCalendar->{'REFRESH-INTERVAL'})) {
-			$newRefreshRate = $vCalendar->{'REFRESH-INTERVAL'}->getValue();
-		}
-
-		if (!$newRefreshRate) {
-			return null;
-		}
-
-		// check if new refresh rate is even valid
-		try {
-			DateTimeParser::parseDuration($newRefreshRate);
-		} catch (InvalidDataException $ex) {
-			return null;
-		}
-
-		return $newRefreshRate;
-	}
-
-	/**
-	 * update subscription stored in database
-	 * used to set:
-	 *  - refreshrate
-	 *  - source
-	 *
-	 * @param array $subscription
-	 * @param array $mutations
-	 */
-	private function updateSubscription(array $subscription, array $mutations) {
-		if (empty($mutations)) {
+	private function updateRefreshRate(array $subscription, Component\VCalendar $vCalendar): void {
+		// if there is already a refreshrate stored in the database, don't override it
+		if (!empty($subscription[self::REFRESH_RATE])) {
 			return;
 		}
 
-		$propPatch = new PropPatch($mutations);
+		$refreshRate = $vCalendar->{'REFRESH-INTERVAL'}?->getValue()
+			?? $vCalendar->{'X-PUBLISHED-TTL'}?->getValue();
+
+		if ($refreshRate === null) {
+			return;
+		}
+
+		// check if refresh rate is valid
+		try {
+			DateTimeParser::parseDuration($refreshRate);
+		} catch (InvalidDataException) {
+			return;
+		}
+
+		$propPatch = new PropPatch([self::REFRESH_RATE => $refreshRate]);
 		$this->calDavBackend->updateSubscription($subscription['id'], $propPatch);
 		$propPatch->commit();
 	}
 
-	/**
-	 * Returns a random uri for a calendar-object
-	 *
-	 * @return string
-	 */
-	public function getRandomCalendarObjectUri():string {
-		return UUIDUtil::getUUID() . '.ics';
-	}
-
-	private function compareWithoutDtstamp(Component $vObject, array $calendarObject): bool {
-		foreach ($vObject->getComponents() as $component) {
-			unset($component->{'DTSTAMP'});
-		}
-
-		$localVobject = Reader::read($calendarObject['calendardata']);
-		foreach ($localVobject->getComponents() as $component) {
-			unset($component->{'DTSTAMP'});
-		}
-
-		return strcasecmp($localVobject->serialize(), $vObject->serialize()) === 0;
-	}
 }

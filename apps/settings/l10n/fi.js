@@ -474,6 +474,7 @@ OC.L10N.register(
     "Phone number" : "Puhelinnumero",
     "Role" : "Rooli",
     "X (formerly Twitter)" : "X (aiemmin Twitter)",
+    "Bluesky" : "Bluesky",
     "Website" : "Verkkosivusto",
     "Profile visibility" : "Profiilin näkyvyys",
     "Locale" : "Aluekohtainen asetus",

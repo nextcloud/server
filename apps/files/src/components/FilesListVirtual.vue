@@ -273,7 +273,7 @@ export default defineComponent({
 		subscribe('files:sidebar:closed', this.onSidebarClosed)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
 		unsubscribe('files:sidebar:closed', this.onSidebarClosed)
@@ -311,9 +311,19 @@ export default defineComponent({
 			// Open the sidebar for the given URL fileid
 			// iif we just loaded the app.
 			const node = this.nodes.find((n) => n.fileid === fileId) as NcNode
-			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
+			if (node && sidebarAction?.enabled?.({
+				nodes: [node],
+				folder: this.currentFolder,
+				view: this.currentView,
+				contents: this.nodes,
+			})) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
-				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
+				sidebarAction.exec({
+					nodes: [node],
+					folder: this.currentFolder,
+					view: this.currentView,
+					contents: this.nodes,
+				})
 				return
 			}
 			logger.warn(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
@@ -382,7 +392,12 @@ export default defineComponent({
 					// Get only default actions (visible and hidden)
 					.filter((action) => !!action?.default)
 					// Find actions that are either always enabled or enabled for the current node
-					.filter((action) => !action.enabled || action.enabled([node], this.currentView))
+					.filter((action) => (!action.enabled || action.enabled({
+						nodes: [node],
+						view: this.currentView,
+						folder: this.currentFolder,
+						contents: this.nodes,
+					})))
 					.filter((action) => action.id !== 'download')
 					// Sort enabled default actions by order
 					.sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -393,7 +408,12 @@ export default defineComponent({
 				// So if there is an enabled default action, so execute it
 				if (defaultAction) {
 					logger.debug('Opening file ' + node.path, { node })
-					return await defaultAction.exec(node, this.currentView, this.currentFolder.path)
+					return await defaultAction.exec({
+						nodes: [node],
+						view: this.currentView,
+						folder: this.currentFolder,
+						contents: this.nodes,
+					})
 				}
 			}
 			// The file is either a folder or has no default action other than downloading
@@ -449,6 +469,7 @@ export default defineComponent({
 
 				if (nextNode && nextNode?.fileid) {
 					this.setActiveNode(nextNode)
+					return
 				}
 			}
 
@@ -464,6 +485,7 @@ export default defineComponent({
 
 				if (nextNode && nextNode?.fileid) {
 					this.setActiveNode(nextNode)
+					return
 				}
 			}
 		},

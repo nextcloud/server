@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\FederatedFileSharing\Settings;
 
+use OCA\FederatedFileSharing\AppInfo\Application;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -41,7 +42,9 @@ class Personal implements ISettings {
 		$this->initialState->provideInitialState('cloudId', $cloudID);
 		$this->initialState->provideInitialState('docUrlFederated', $this->urlGenerator->linkToDocs('user-sharing-federated'));
 
-		return new TemplateResponse('federatedfilesharing', 'settings-personal', [], TemplateResponse::RENDER_AS_BLANK);
+		\OCP\Util::addStyle(Application::APP_ID, 'settings-personal');
+		\OCP\Util::addScript(Application::APP_ID, 'settings-personal');
+		return new TemplateResponse(Application::APP_ID, 'settings-personal', renderAs: TemplateResponse::RENDER_AS_BLANK);
 	}
 
 	/**

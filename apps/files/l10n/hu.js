@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Áthelyezés",
     "Move or copy operation failed" : "Nem sikerült az áthelyezés vagy a másolás",
     "Move or copy" : "Áthelyezés vagy másolás",
+    "Open folder" : "Mappa megnyitása",
     "Open folder {displayName}" : "A(z) {displayName} mappa megnyitása",
     "Open in Files" : "Megnyitás a Fájlokban",
     "Open locally" : "Megnyitás helyben",

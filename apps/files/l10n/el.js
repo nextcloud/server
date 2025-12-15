@@ -304,6 +304,7 @@ OC.L10N.register(
     "Move" : "Μετακίνηση",
     "Move or copy operation failed" : "Η λειτουργία μετακίνησης ή αντιγραφής απέτυχε",
     "Move or copy" : "Μετακίνηση ή αντιγραφή",
+    "Open folder" : "Άνοιγμα φακέλου",
     "Open folder {displayName}" : "Άνοιγμα φακέλου {displayName}",
     "Open in Files" : "Άνοιγμα στα Αρχεία",
     "Open locally" : "Άνοιγμα τοπικά",

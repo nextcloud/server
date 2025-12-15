@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "Ghairi",
     "Clear reminder" : "Futa kikumbusho ",
     "Set reminder" : "Weka ukumbusho",
+    "Set reminder for " : "Weka ukumbusho kwa",
     "Reminder set" : " Kikumbusho kimewekwa",
     "Custom reminder" : "Kikumbusho maalum",
     "Later today" : "Baadaye leo",

@@ -11,7 +11,8 @@
 			v-for="action in enabledRenderActions"
 			:key="action.id"
 			:class="'files-list__row-action-' + action.id"
-			:current-view="currentView"
+			:active-folder="activeStore.activeFolder"
+			:active-view="activeStore.activeView"
 			:render="action.renderInline"
 			:source="source"
 			class="files-list__row-action--inline" />
@@ -43,15 +44,15 @@
 				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
 				:is-menu="isValidMenu(action)"
-				:aria-label="action.title?.([source], currentView)"
-				:title="action.title?.([source], currentView)"
+				:aria-label="action.title?.(actionContext)"
+				:title="action.title?.(actionContext)"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="isLoadingAction(action)" />
 					<NcIconSvgWrapper
 						v-else
 						class="files-list__row-action-icon"
-						:svg="action.iconSvgInline([source], currentView)" />
+						:svg="action.iconSvgInline(actionContext)" />
 				</template>
 				{{ actionDisplayName(action) }}
 			</NcActionButton>
@@ -72,15 +73,15 @@
 					:close-after-click="!isValidMenu(action)"
 					:data-cy-files-list-row-action="action.id"
 					:is-menu="isValidMenu(action)"
-					:aria-label="action.title?.([source], currentView)"
-					:title="action.title?.([source], currentView)"
+					:aria-label="action.title?.(actionContext)"
+					:title="action.title?.(actionContext)"
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="isLoadingAction(action)" />
 						<NcIconSvgWrapper
 							v-else
 							class="files-list__row-action-icon"
-							:svg="action.iconSvgInline([source], currentView)" />
+							:svg="action.iconSvgInline(actionContext)" />
 					</template>
 					{{ actionDisplayName(action) }}
 				</NcActionButton>
@@ -105,12 +106,12 @@
 					class="files-list__row-action--submenu"
 					close-after-click
 					:data-cy-files-list-row-action="action.id"
-					:aria-label="action.title?.([source], currentView)"
-					:title="action.title?.([source], currentView)"
+					:aria-label="action.title?.(actionContext)"
+					:title="action.title?.(actionContext)"
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="isLoadingAction(action)" />
-						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(actionContext)" />
 					</template>
 					{{ actionDisplayName(action) }}
 				</NcActionButton>
@@ -120,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Node } from '@nextcloud/files'
+import type { ActionContextSingle, FileAction, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
@@ -135,8 +136,6 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import CustomElementRender from '../CustomElementRender.vue'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import { useNavigation } from '../../composables/useNavigation.ts'
-import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import logger from '../../logger.ts'
 import actionsMixins from '../../mixins/actionsMixin.ts'
 import { useActiveStore } from '../../store/active.ts'
@@ -175,17 +174,12 @@ export default defineComponent({
 	},
 
 	setup() {
-		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const { currentView } = useNavigation(true)
-		const { directory: currentDir } = useRouteParameters()
-
+		// The file list is guaranteed to be  shown with active view - thus we can set the `loaded` flag
 		const activeStore = useActiveStore()
 		const filesListWidth = useFileListWidth()
 		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
 		return {
 			activeStore,
-			currentDir,
-			currentView,
 			enabledFileActions,
 			filesListWidth,
 			t,
@@ -194,11 +188,20 @@ export default defineComponent({
 
 	computed: {
 		isActive() {
-			return this.activeStore?.activeNode?.source === this.source.source
+			return this.activeStore.activeNode?.source === this.source.source
 		},
 
 		isLoading() {
 			return this.source.status === NodeStatus.LOADING
+		},
+
+		actionContext(): ActionContextSingle {
+			return {
+				nodes: [this.source],
+				view: this.activeStore.activeView!,
+				folder: this.activeStore.activeFolder!,
+				contents: [],
+			}
 		},
 
 		// Enabled action that are displayed inline
@@ -208,7 +211,7 @@ export default defineComponent({
 			}
 			return this.enabledFileActions.filter((action) => {
 				try {
-					return action?.inline?.(this.source, this.currentView)
+					return action?.inline?.(this.actionContext) === true
 				} catch (error) {
 					logger.error('Error while checking if action is inline', { action, error })
 					return false
@@ -302,12 +305,12 @@ export default defineComponent({
 				if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
 					// if an inline action is rendered in the menu for
 					// lack of space we use the title first if defined
-					const title = action.title([this.source], this.currentView)
+					const title = action.title(this.actionContext)
 					if (title) {
 						return title
 					}
 				}
-				return action.displayName([this.source], this.currentView)
+				return action.displayName(this.actionContext)
 			} catch (error) {
 				logger.error('Error while getting action display name', { action, error })
 				// Not ideal, but better than nothing
@@ -319,7 +322,7 @@ export default defineComponent({
 			if (!this.isActive) {
 				return false
 			}
-			return this.activeStore?.activeAction?.id === action.id
+			return this.activeStore.activeAction?.id === action.id
 		},
 
 		async onActionClick(action) {

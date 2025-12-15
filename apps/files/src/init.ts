@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { addNewFileMenuEntry, registerDavProperty, registerFileAction } from '@nextcloud/files'
+import { addNewFileMenuEntry, registerFileAction } from '@nextcloud/files'
+import { registerDavProperty } from '@nextcloud/files/dav'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { registerConvertActions } from './actions/convertAction.ts'
 import { action as deleteAction } from './actions/deleteAction.ts'

@@ -5,13 +5,13 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Ļauj OAuth2 saderīgu autentifikāciju citām tīmekļa lietotnēm.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 lietotne ļauj pārvaldītājiem konfigurēt iebūvēto autentificēšanās darbplūsmu un ļauj ar OAuth2 saderīgu autentificēšanos no citām tīmekļa lietotnēm.",
+    "Secret key" : "Slepenā atslēga",
+    "Delete" : "Izdzēst",
     "OAuth 2.0 clients" : "OAuth 2.0 klients",
     "Name" : "Nosaukums",
     "Redirection URI" : "Pārvirzāmais URI",
-    "Client Identifier" : "Klienta identifikators",
-    "Secret key" : "Slepenā atslēga",
     "Add client" : "Pievienot klientu",
     "Add" : "Pievienot",
-    "Delete" : "Izdzēst"
+    "Client Identifier" : "Klienta identifikators"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

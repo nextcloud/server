@@ -7,7 +7,7 @@
 @use 'sass:math';
 @use 'functions';
 
-@media screen and (max-width: variables.$breakpoint-mobile) {
+@media screen and (width < #{variables.$breakpoint-mobile}) {
 	// Make the body full width on mobile
 	:root {
 		--body-container-margin: 0px !important;
@@ -715,7 +715,7 @@ body[dir='rtl'] {
 	}
 }
 
-@media only screen and (max-width: variables.$breakpoint-mobile) {
+@media only screen and (width < #{variables.$breakpoint-mobile}) {
 	#content {
 		border-start-start-radius: var(--border-radius-large);
 		border-start-end-radius: var(--border-radius-large);

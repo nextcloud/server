@@ -55,9 +55,9 @@
 			:class="{ 'row__cell--obfuscated': hasObfuscated }">
 			<template v-if="editing && settings.canChangePassword && user.backendCapabilities.setPassword">
 				<NcTextField
+					v-model="editedPassword"
 					class="user-row-text-field"
 					data-cy-user-list-input-password
-					v-model="editedPassword"
 					:data-loading="loading.password || undefined"
 					:trailing-button-label="t('settings', 'Submit')"
 					:class="{ 'icon-loading-small': loading.password }"

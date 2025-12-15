@@ -19,6 +19,8 @@ export function useNavigation<T extends boolean>(_loaded?: T) {
 	type MaybeView = T extends true ? View : (View | null)
 	const navigation = getNavigation()
 	const views: ShallowRef<View[]> = shallowRef(navigation.views)
+
+	/** @deprecated use activeStore.activeView instead */
 	const currentView: ShallowRef<MaybeView> = shallowRef(navigation.active as MaybeView)
 
 	/**

@@ -54,7 +54,7 @@ export default defineConfig({
 				/* 'core/src/**', */
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
-			provider: 'v8',
+			provider: 'istanbul',
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage'),
 		},

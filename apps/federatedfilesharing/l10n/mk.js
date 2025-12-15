@@ -37,8 +37,6 @@ OC.L10N.register(
     "Your Federated Cloud ID" : "Вашиот федерален ID",
     "Share it so your friends can share files with you:" : "Споделете и вашите пријатели ќе можат да споделуваат со вас:",
     "Facebook" : "Facebook",
-    "X (formerly Twitter)" : "X (поранешен Twitter)",
-    "formerly Twitter" : "поранешен Twitter",
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via {productName}" : "Сподели со мене преку {productName}",
     "HTML Code:" : "HTML код:",
@@ -49,6 +47,8 @@ OC.L10N.register(
     "Remote share password" : "Лозинка за далечинско споделување",
     "Cloud ID copied to the clipboard" : "Cloud ID е копиран во клипборд",
     "Copy to clipboard" : "Копирај во клипборд",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделувате со секој што користи Nextcloud сервер или друг вид на Open Cloud Mesh (OCM) компатибилен сервер или сервис! Само внесете го федералниот ID во полето за споделување. Треба да изгледа person@cloud.example.com"
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделувате со секој што користи Nextcloud сервер или друг вид на Open Cloud Mesh (OCM) компатибилен сервер или сервис! Само внесете го федералниот ID во полето за споделување. Треба да изгледа person@cloud.example.com",
+    "X (formerly Twitter)" : "X (поранешен Twitter)",
+    "formerly Twitter" : "поранешен Twitter"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

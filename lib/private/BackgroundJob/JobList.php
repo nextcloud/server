@@ -55,7 +55,7 @@ class JobList implements IJobList {
 		if (!$this->has($job, $argument)) {
 			$query->insert('jobs')
 				->values([
-					'id' => $query->createNamedParameter($this->generator->nextId(), IQueryBuilder::PARAM_INT),
+					'id' => $query->createNamedParameter($this->generator->nextId()),
 					'class' => $query->createNamedParameter($class),
 					'argument' => $query->createNamedParameter($argumentJson),
 					'argument_hash' => $query->createNamedParameter(hash('sha256', $argumentJson)),

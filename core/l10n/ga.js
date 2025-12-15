@@ -248,6 +248,7 @@ OC.L10N.register(
     "Results" : "Torthaí",
     "Load more results" : "Íoslódáil níos mó torthaí",
     "Search in" : "Cuardaigh isteach",
+    "Partial matches" : "Cluichí páirteacha",
     "Log in" : "Logáil isteach",
     "Logging in …" : "Ag logáil isteach …",
     "Log in to {productName}" : "Logáil isteach ar {productName}",

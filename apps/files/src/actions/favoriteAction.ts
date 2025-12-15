@@ -73,18 +73,18 @@ export async function favoriteNode(node: Node, view: View, willFavorite: boolean
 
 export const action = new FileAction({
 	id: ACTION_FAVORITE,
-	displayName(nodes: Node[]) {
+	displayName({ nodes }) {
 		return shouldFavorite(nodes)
 			? t('files', 'Add to favorites')
 			: t('files', 'Remove from favorites')
 	},
-	iconSvgInline: (nodes: Node[]) => {
+	iconSvgInline: ({ nodes }) => {
 		return shouldFavorite(nodes)
 			? StarOutlineSvg
 			: StarSvg
 	},
 
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		// Not enabled for public shares
 		if (isPublicShare()) {
 			return false
@@ -96,11 +96,11 @@ export const action = new FileAction({
 			&& nodes.every((node) => node.permissions !== Permission.NONE)
 	},
 
-	async exec(node: Node, view: View) {
-		const willFavorite = shouldFavorite([node])
-		return await favoriteNode(node, view, willFavorite)
+	async exec({ nodes, view }): Promise<boolean> {
+		const willFavorite = shouldFavorite([nodes[0]])
+		return await favoriteNode(nodes[0], view, willFavorite)
 	},
-	async execBatch(nodes: Node[], view: View) {
+	async execBatch({ nodes, view }): Promise<boolean[]> {
 		const willFavorite = shouldFavorite(nodes)
 
 		// Map each node to a promise that resolves with the result of exec(node)

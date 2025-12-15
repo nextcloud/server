@@ -81,18 +81,27 @@ describe('HotKeysService testing', () => {
 		file = new File({
 			id: 2,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			root: '/files/admin',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
 		})
 
-		const root = new Folder({ owner: 'test', source: 'https://cloud.domain.com/remote.php/dav/files/admin/', id: 1, permissions: Permission.CREATE })
+		const root = new Folder({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/',
+			root: '/files/admin',
+			owner: 'admin',
+			permissions: Permission.CREATE,
+		})
+
 		const files = useFilesStore(getPinia())
 		files.setRoot({ service: 'files', root })
 
 		// Setting the view first as it reset the active node
 		activeStore.activeView = view
 		activeStore.activeNode = file
+		activeStore.activeFolder = root
 
 		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: { async open() {}, setActiveTab: () => {} } } }
@@ -148,7 +157,7 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('Pressing Delete should delete the file', async () => {
-		// @ts-expect-error unit testing
+		// @ts-expect-error unit testing - private method access
 		vi.spyOn(deleteAction._action, 'exec').mockResolvedValue(() => true)
 
 		dispatchEvent({ key: 'Delete', code: 'Delete' })

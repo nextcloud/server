@@ -89,12 +89,8 @@ class ConnectionTest extends TestCase {
 
 	}
 
-	/**
-	 * @param string $result
-	 * @param string $contentType
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('urlDataProvider')]
-	public function testConnection(string $url, string $result, string $contentType): void {
+	public function testConnection(string $url, string $contentType, string $expectedFormat): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$subscription = [
@@ -124,15 +120,75 @@ class ConnectionTest extends TestCase {
 			->willReturn($response);
 
 		$response->expects($this->once())
-			->method('getBody')
-			->with()
-			->willReturn($result);
-		$response->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
 			->willReturn($contentType);
 
-		$this->connection->queryWebcalFeed($subscription);
+		// Create a stream resource to simulate streaming response
+		$stream = fopen('php://temp', 'r+');
+		fwrite($stream, 'test calendar data');
+		rewind($stream);
+
+		$response->expects($this->once())
+			->method('getBody')
+			->willReturn($stream);
+
+		$output = $this->connection->queryWebcalFeed($subscription);
+
+		$this->assertIsArray($output);
+		$this->assertArrayHasKey('data', $output);
+		$this->assertArrayHasKey('format', $output);
+		$this->assertIsResource($output['data']);
+		$this->assertEquals($expectedFormat, $output['format']);
+
+		// Cleanup
+		if (is_resource($output['data'])) {
+			fclose($output['data']);
+		}
+	}
+
+	public function testConnectionReturnsNullWhenBodyIsNotResource(): void {
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$subscription = [
+			'id' => 42,
+			'uri' => 'sub123',
+			'refreshreate' => 'P1H',
+			'striptodos' => 1,
+			'stripalarms' => 1,
+			'stripattachments' => 1,
+			'source' => 'https://foo.bar/bla2',
+			'lastmodified' => 0,
+		];
+
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->with()
+			->willReturn($client);
+
+		$this->config->expects($this->once())
+			->method('getValueString')
+			->with('dav', 'webcalAllowLocalAccess', 'no')
+			->willReturn('no');
+
+		$client->expects($this->once())
+			->method('get')
+			->with('https://foo.bar/bla2')
+			->willReturn($response);
+
+		$response->expects($this->once())
+			->method('getHeader')
+			->with('Content-Type')
+			->willReturn('text/calendar');
+
+		// Return a string instead of a resource
+		$response->expects($this->once())
+			->method('getBody')
+			->willReturn('not a resource');
+
+		$output = $this->connection->queryWebcalFeed($subscription);
+
+		$this->assertNull($output);
 	}
 
 	public static function runLocalURLDataProvider(): array {
@@ -156,21 +212,9 @@ class ConnectionTest extends TestCase {
 
 	public static function urlDataProvider(): array {
 		return [
-			[
-				'https://foo.bar/bla2',
-				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",
-				'text/calendar;charset=utf8',
-			],
-			[
-				'https://foo.bar/bla2',
-				'["vcalendar",[["prodid",{},"text","-//Example Corp.//Example Client//EN"],["version",{},"text","2.0"]],[["vtimezone",[["last-modified",{},"date-time","2004-01-10T03:28:45Z"],["tzid",{},"text","US/Eastern"]],[["daylight",[["dtstart",{},"date-time","2000-04-04T02:00:00"],["rrule",{},"recur",{"freq":"YEARLY","byday":"1SU","bymonth":4}],["tzname",{},"text","EDT"],["tzoffsetfrom",{},"utc-offset","-05:00"],["tzoffsetto",{},"utc-offset","-04:00"]],[]],["standard",[["dtstart",{},"date-time","2000-10-26T02:00:00"],["rrule",{},"recur",{"freq":"YEARLY","byday":"1SU","bymonth":10}],["tzname",{},"text","EST"],["tzoffsetfrom",{},"utc-offset","-04:00"],["tzoffsetto",{},"utc-offset","-05:00"]],[]]]],["vevent",[["dtstamp",{},"date-time","2006-02-06T00:11:21Z"],["dtstart",{"tzid":"US/Eastern"},"date-time","2006-01-02T14:00:00"],["duration",{},"duration","PT1H"],["recurrence-id",{"tzid":"US/Eastern"},"date-time","2006-01-04T12:00:00"],["summary",{},"text","Event #2"],["uid",{},"text","12345"]],[]]]]',
-				'application/calendar+json',
-			],
-			[
-				'https://foo.bar/bla2',
-				'<?xml version="1.0" encoding="utf-8" ?><icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0"><vcalendar><properties><prodid><text>-//Example Inc.//Example Client//EN</text></prodid><version><text>2.0</text></version></properties><components><vevent><properties><dtstamp><date-time>2006-02-06T00:11:21Z</date-time></dtstamp><dtstart><parameters><tzid><text>US/Eastern</text></tzid></parameters><date-time>2006-01-04T14:00:00</date-time></dtstart><duration><duration>PT1H</duration></duration><recurrence-id><parameters><tzid><text>US/Eastern</text></tzid></parameters><date-time>2006-01-04T12:00:00</date-time></recurrence-id><summary><text>Event #2 bis</text></summary><uid><text>12345</text></uid></properties></vevent></components></vcalendar></icalendar>',
-				'application/calendar+xml',
-			],
+			['https://foo.bar/bla2', 'text/calendar;charset=utf8', 'ical'],
+			['https://foo.bar/bla2', 'application/calendar+json', 'jcal'],
+			['https://foo.bar/bla2', 'application/calendar+xml', 'xcal'],
 		];
 	}
 }

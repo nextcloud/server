@@ -25,6 +25,7 @@
     "%s accessed %s" : "%s erişildi %s",
     "%s renamed %s" : "%s yeniden adlandırıldı%s",
     "%s copied %s" : "%s kopyalandı%s",
+    "%1$s assigned %2$s to %3$s" : "%1$s atandı %2$s => %3$s",
     "Operation #%s does not exist" : "#%s işlemi bulunamadı",
     "Entity %s is invalid" : "%s varlığı geçersiz",
     "Entity %s does not exist" : "%s varlığı bulunamadı",

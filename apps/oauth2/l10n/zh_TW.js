@@ -6,18 +6,19 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "允許來自其他網路應用程式的 OAuth2 相容身份認證。",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 應用程式讓管理員可以設定內建的身份認證工作流程，以讓其他網路應用程式可以進行相容於 OAuth2 的身份認證。",
+    "Secret key" : "私密金鑰",
+    "Delete" : "刪除",
+    "An unknown error occurred." : "發生未知錯誤。",
     "OAuth 2.0 clients" : "OAuth 2.0 客戶端",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 讓外部服務請求能存取 {instanceName}。",
     "Name" : "名稱",
     "Redirection URI" : "重新導向 URI",
-    "Client Identifier" : "客戶端識別",
-    "Secret key" : "私密金鑰",
     "Delete client" : "刪除客戶端",
     "Make sure you store the secret key, it cannot be recovered." : "請確定您儲存了私鑰，其無法還原。",
     "Add client" : "新增客戶端",
     "Add" : "新增",
+    "Client Identifier" : "客戶端識別",
     "Show client secret" : "顯示客戶端密碼",
-    "Hide client secret" : "隱藏客戶端密碼",
-    "Delete" : "刪除"
+    "Hide client secret" : "隱藏客戶端密碼"
 },
 "nplurals=1; plural=0;");

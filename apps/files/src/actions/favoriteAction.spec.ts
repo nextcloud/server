@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { Folder, View } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
@@ -43,12 +43,23 @@ describe('Favorite action conditions tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('favorite')
-		expect(action.displayName([file], view)).toBe('Add to favorites')
-		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)
 	})
@@ -62,9 +73,15 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file], view)).toBe('Remove from favorites')
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Remove from favorites')
 	})
 
 	test('Display name for multiple state files', () => {
@@ -77,6 +94,7 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -87,6 +105,7 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 0,
 			},
+			root: '/files/admin',
 		})
 		const file3 = new File({
 			id: 1,
@@ -97,12 +116,33 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file1, file2, file3], view)).toBe('Add to favorites')
-		expect(action.displayName([file1, file2], view)).toBe('Add to favorites')
-		expect(action.displayName([file2, file3], view)).toBe('Add to favorites')
-		expect(action.displayName([file1, file3], view)).toBe('Remove from favorites')
+		expect(action.displayName({
+			nodes: [file1, file2, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.displayName({
+			nodes: [file2, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.displayName({
+			nodes: [file2, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.displayName({
+			nodes: [file1, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Remove from favorites')
 	})
 })
 
@@ -114,10 +154,16 @@ describe('Favorite action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled for non-dav ressources', () => {
@@ -126,10 +172,16 @@ describe('Favorite action enabled tests', () => {
 			source: 'https://domain.com/data/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
@@ -147,9 +199,15 @@ describe('Favorite action execute tests', () => {
 			source: 'http://localhost/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -175,9 +233,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -203,9 +267,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, favoriteView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: favoriteView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -235,7 +305,12 @@ describe('Favorite action execute tests', () => {
 			},
 		})
 
-		const exec = await action.exec(file, favoriteView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: favoriteView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -264,9 +339,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 0,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(false)
 
@@ -296,9 +377,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(false)
 
@@ -332,6 +419,7 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -342,10 +430,16 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 0,
 			},
+			root: '/files/admin',
 		})
 
 		// Mixed states triggers favorite action
-		const exec = await action.execBatch!([file1, file2], view, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toStrictEqual([true, true])
 		expect([file1, file2].every((file) => file.attributes.favorite === 1)).toBe(true)
 
@@ -367,6 +461,7 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -377,10 +472,16 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
 		// Mixed states triggers favorite action
-		const exec = await action.execBatch!([file1, file2], view, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toStrictEqual([true, true])
 		expect([file1, file2].every((file) => file.attributes.favorite === 0)).toBe(true)
 

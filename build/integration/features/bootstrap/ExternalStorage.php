@@ -7,7 +7,7 @@
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 trait ExternalStorage {
 	private array $storageIds = [];

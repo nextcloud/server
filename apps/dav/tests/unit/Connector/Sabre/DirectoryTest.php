@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
+use OC\Files\Node\Folder;
 use OC\Files\Node\Node;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\View;
@@ -24,6 +25,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\NotFound;
 use Test\Traits\UserTrait;
 
 class TestViewDirectory extends View {
@@ -269,6 +271,146 @@ class DirectoryTest extends \Test\TestCase {
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
+	}
+
+	public function testGetNodeForPath(): void {
+		$directoryNode = $this->createMock(Folder::class);
+		$pathNode = $this->createMock(Folder::class);
+		$pathParentNode = $this->createMock(Folder::class);
+		$storage = $this->createMock(IStorage::class);
+
+		$directoryNode->expects($this->once())
+			->method('getStorage')
+			->willReturn($storage);
+		$storage->expects($this->once())
+			->method('instanceOfStorage')
+			->willReturn(false);
+
+		$directoryNode->expects($this->once())
+			->method('isReadable')
+			->willReturn(true);
+		$directoryNode->expects($this->once())
+			->method('getPath')
+			->willReturn('/admin/files/');
+		$directoryNode->expects($this->once())
+			->method('get')
+			->willReturn($pathNode);
+
+		$pathNode->expects($this->once())
+			->method('getPath')
+			->willReturn('/admin/files/my/deep/folder/');
+		$pathNode->expects($this->once())
+			->method('isReadable')
+			->willReturn(true);
+		$pathNode->expects($this->once())
+			->method('getMimetype')
+			->willReturn(FileInfo::MIMETYPE_FOLDER);
+
+		$this->view->method('getRelativePath')
+			->willReturnCallback(function ($path) {
+				return str_replace('/admin/files/', '', $path);
+			});
+
+		$this->view->expects($this->exactly(2))
+			->method('getFileInfo')
+			->willReturn($pathParentNode);
+
+		$pathParentNode->expects($this->exactly(2))
+			->method('getPath')
+			->willReturnOnConsecutiveCalls('/my/deep', '/my');
+		$pathParentNode->expects($this->exactly(2))
+			->method('isReadable')
+			->willReturn(true);
+
+		$dir = new Directory($this->view, $directoryNode);
+		$dir->getNodeForPath('/my/deep/folder/');
+	}
+
+	public function testGetNodeForPathFailsWithNoReadPermissionsForParent(): void {
+		$directoryNode = $this->createMock(Folder::class);
+		$pathNode = $this->createMock(Folder::class);
+		$pathParentNode = $this->createMock(Folder::class);
+		$storage = $this->createMock(IStorage::class);
+
+		$directoryNode->expects($this->once())
+			->method('getStorage')
+			->willReturn($storage);
+		$storage->expects($this->once())
+			->method('instanceOfStorage')
+			->willReturn(false);
+
+		$directoryNode->expects($this->once())
+			->method('isReadable')
+			->willReturn(true);
+		$directoryNode->expects($this->once())
+			->method('getPath')
+			->willReturn('/admin/files/');
+		$directoryNode->expects($this->once())
+			->method('get')
+			->willReturn($pathNode);
+
+		$pathNode->expects($this->once())
+			->method('getPath')
+			->willReturn('/admin/files/my/deep/folder/');
+		$pathNode->expects($this->once())
+			->method('isReadable')
+			->willReturn(true);
+		$pathNode->expects($this->once())
+			->method('getMimetype')
+			->willReturn(FileInfo::MIMETYPE_FOLDER);
+
+		$this->view->method('getRelativePath')
+			->willReturnCallback(function ($path) {
+				return str_replace('/admin/files/', '', $path);
+			});
+
+		$this->view->expects($this->exactly(2))
+			->method('getFileInfo')
+			->willReturn($pathParentNode);
+
+		$pathParentNode->expects($this->exactly(2))
+			->method('getPath')
+			->willReturnOnConsecutiveCalls('/my/deep', '/my');
+		$pathParentNode->expects($this->exactly(2))
+			->method('isReadable')
+			->willReturnOnConsecutiveCalls(true, false);
+
+		$this->expectException(NotFound::class);
+
+		$dir = new Directory($this->view, $directoryNode);
+		$dir->getNodeForPath('/my/deep/folder/');
+	}
+
+	public function testGetNodeForPathFailsWithNoReadPermissionsForPath(): void {
+		$directoryNode = $this->createMock(Folder::class);
+		$pathNode = $this->createMock(Folder::class);
+		$storage = $this->createMock(IStorage::class);
+
+		$directoryNode->expects($this->once())
+			->method('getStorage')
+			->willReturn($storage);
+		$storage->expects($this->once())
+			->method('instanceOfStorage')
+			->willReturn(false);
+
+		$directoryNode->expects($this->once())
+			->method('isReadable')
+			->willReturn(true);
+		$directoryNode->expects($this->once())
+			->method('getPath')
+			->willReturn('/admin/files/');
+		$directoryNode->expects($this->once())
+			->method('get')
+			->willReturn($pathNode);
+
+		$pathNode->expects($this->once())
+			->method('isReadable')
+			->willReturn(false);
+
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
+		$dir = new Directory($this->view, $directoryNode);
+		$dir->getNodeForPath('/my/deep/folder/');
 	}
 
 	public function testGetQuotaInfoUnlimited(): void {

@@ -313,6 +313,7 @@ OC.L10N.register(
     "Move" : "Flytta",
     "Move or copy operation failed" : "Flytta eller kopiera misslyckades",
     "Move or copy" : "Flytta eller kopiera",
+    "Open folder" : "Öppna mapp",
     "Open folder {displayName}" : "Öppna mappen {displayName}",
     "Open in Files" : "Öppna i Filer",
     "Open locally" : "Öppna lokalt",

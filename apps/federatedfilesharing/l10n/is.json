@@ -41,11 +41,9 @@
     "Federated Cloud" : "Skýjasamband (federated)",
     "Your Federated Cloud ID" : "Skýjasambandsauðkennið þitt (Federated Cloud ID)",
     "Share it so your friends can share files with you:" : "Deildu þessu svo að vinir þínir geti deilt skrám með þér:",
-    "Facebook" : "Facebook",
-    "X (formerly Twitter)" : "X (fyrrum Twitter)",
-    "formerly Twitter" : "fyrrum Twitter",
-    "Mastodon" : "Mastodon",
     "Bluesky" : "Bluesky",
+    "Facebook" : "Facebook",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via {productName}" : "Deila með mér í gegnum {productName}",
     "HTML Code:" : "HTML-kóði:",
@@ -57,6 +55,8 @@
     "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign",
     "Cloud ID copied to the clipboard" : "Skýjasambandsauðkenni afritað á klippispjald",
     "Copy to clipboard" : "Afrita á klippispjald",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is"
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is",
+    "X (formerly Twitter)" : "X (fyrrum Twitter)",
+    "formerly Twitter" : "fyrrum Twitter"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

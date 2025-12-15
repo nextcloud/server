@@ -306,6 +306,7 @@ OC.L10N.register(
     "Move" : "Verplaatsen",
     "Move or copy operation failed" : "Verplaatsen of kopiëren mislukt",
     "Move or copy" : "Verplaats of kopieer",
+    "Open folder" : "Open map",
     "Open folder {displayName}" : "Open map {displayName}",
     "Open in Files" : "Open in Bestanden",
     "Open locally" : "Lokaal openen",

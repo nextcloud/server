@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "İptal",
     "Clear reminder" : "Anımsatıcıyı temizle",
     "Set reminder" : "Anımsatıcı ayarla",
+    "Set reminder for " : "Şunun için anımsatıcı ayarla",
     "Reminder set" : "Anımsatıcı ayarlandı",
     "Custom reminder" : "Özel anımsatıcı",
     "Later today" : "Bugün daha sonra",

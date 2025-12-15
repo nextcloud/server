@@ -256,6 +256,7 @@ OC.L10N.register(
     "Move" : "이동",
     "Move or copy operation failed" : "이동 또는 복사 작업에 실패함",
     "Move or copy" : "이동이나 복사",
+    "Open folder" : "폴더를 열 수 없음",
     "Open folder {displayName}" : "{displayName} 폴더 열기",
     "Open in Files" : "파일에서 열기",
     "Open locally" : "로컬에서 열기",

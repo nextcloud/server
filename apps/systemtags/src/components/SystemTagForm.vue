@@ -17,13 +17,14 @@
 		<div class="system-tag-form__group">
 			<label for="system-tags-input">{{ t('systemtags', 'Search for a tag to edit') }}</label>
 			<NcSelectTags
-				v-model="selectedTag"
+				:model-value="selectedTag"
 				input-id="system-tags-input"
 				:placeholder="t('systemtags', 'Collaborative tags …')"
 				:fetch-tags="false"
 				:options="tags"
 				:multiple="false"
-				passthru>
+				label-outside
+				@update:model-value="onSelectTag">
 				<template #no-options>
 					{{ t('systemtags', 'No tags to select') }}
 				</template>
@@ -49,7 +50,8 @@
 				:options="tagLevelOptions"
 				:reduce="level => level.id"
 				:clearable="false"
-				:disabled="loading" />
+				:disabled="loading"
+				label-outside />
 		</div>
 
 		<div class="system-tag-form__row">
@@ -85,11 +87,12 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
 import type { Tag, TagWithId } from '../types.js'
 
 import { showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { type PropType } from 'vue'
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
@@ -135,10 +138,10 @@ function getTagLevel(userVisible: boolean, userAssignable: boolean): TagLevel {
 		[[true, false].join(',')]: TagLevel.Restricted,
 		[[false, false].join(',')]: TagLevel.Invisible,
 	}
-	return matchLevel[[userVisible, userAssignable].join(',')]
+	return matchLevel[[userVisible, userAssignable].join(',')]!
 }
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'SystemTagForm',
 
 	components: {
@@ -155,6 +158,12 @@ export default Vue.extend({
 			required: true,
 		},
 	},
+
+	emits: [
+		'tag:created',
+		'tag:updated',
+		'tag:deleted',
+	],
 
 	data() {
 		return {
@@ -229,6 +238,11 @@ export default Vue.extend({
 
 	methods: {
 		t,
+
+		onSelectTag(tagId: number | null) {
+			const tag = this.tags.find((search) => search.id === tagId) || null
+			this.selectedTag = tag
+		},
 
 		async handleSubmit() {
 			if (this.isCreating) {

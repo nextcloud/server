@@ -8,7 +8,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 class FilesDropContext implements Context, SnippetAcceptingContext {
 	use WebDav;

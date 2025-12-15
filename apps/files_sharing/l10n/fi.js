@@ -238,6 +238,7 @@ OC.L10N.register(
     "Expiration date (enforced)" : "Vanhenemispäivä (pakotettu)",
     "Set expiration date" : "Aseta vanhenemispäivä",
     "Hide download" : "Piilota lataus",
+    "Allow download and sync" : "Salli lataus ja synkronointi",
     "Note to recipient" : "Huomio vastaanottajalle",
     "Enter a note for the share recipient" : "Lisää muistiinpano jaon vastaanottajalle",
     "Show files in grid view" : "Näytä tiedostot ruudukkonäkymässä",

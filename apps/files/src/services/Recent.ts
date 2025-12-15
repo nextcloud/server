@@ -3,25 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { ContentsWithRoot, Node } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed, SearchResult } from 'webdav'
+import type { ResponseDataDetailed, SearchResult } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { davGetRecentSearch, davRemoteURL, davResultToNode, davRootPath, Folder, Permission } from '@nextcloud/files'
-import { getBaseUrl } from '@nextcloud/router'
+import { Folder, Permission } from '@nextcloud/files'
+import { getRecentSearch, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { CancelablePromise } from 'cancelable-promise'
 import { getPinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { client } from './WebdavClient.ts'
 
 const lastTwoWeeksTimestamp = Math.round((Date.now() / 1000) - (60 * 60 * 24 * 14))
-
-/**
- * Helper to map a WebDAV result to a Nextcloud node
- * The search endpoint already includes the dav remote URL so we must not include it in the source
- *
- * @param stat the WebDAV result
- */
-const resultToNode = (stat: FileStat) => davResultToNode(stat, davRootPath, getBaseUrl())
 
 /**
  * Get recently changed nodes
@@ -48,18 +40,22 @@ export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
 		const contentsResponse = await client.search('/', {
 			signal: controller.signal,
 			details: true,
-			data: davGetRecentSearch(lastTwoWeeksTimestamp),
+			data: getRecentSearch(lastTwoWeeksTimestamp),
 		}) as ResponseDataDetailed<SearchResult>
 
 		const contents = contentsResponse.data.results
-			.map(resultToNode)
+			.map((stat) => {
+				// The search endpoint already includes the dav remote URL so we must not include it in the source
+				stat.filename = stat.filename.replace('/remote.php/dav', '')
+				return resultToNode(stat)
+			})
 			.filter(filterHidden)
 
 		return {
 			folder: new Folder({
 				id: 0,
-				source: `${davRemoteURL}${davRootPath}`,
-				root: davRootPath,
+				source: `${getRemoteURL()}${getRootPath()}`,
+				root: getRootPath(),
 				owner: getCurrentUser()?.uid || null,
 				permissions: Permission.READ,
 			}),
