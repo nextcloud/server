@@ -132,7 +132,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))
-					logger.error('', { error, absolutePath, directory: file })
+					logger.error('Unable to create the directory', { error, relativePath, directory: file })
 				}
 				continue
 			}
