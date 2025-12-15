@@ -182,7 +182,7 @@ class SecurityHeadersTest extends TestCase {
 		$this->setupcheck
 			->expects($this->atLeastOnce())
 			->method('runRequest')
-			->willReturn($this->generate([$response]));	
+			->willReturn($this->generate([$response]));
 	}
 
 	/**
