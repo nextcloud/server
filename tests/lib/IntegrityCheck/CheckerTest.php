@@ -575,7 +575,7 @@ class CheckerTest extends TestCase {
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified');
 
 		$signatureDataFile = file_get_contents(__DIR__ . '/../../data/integritycheck/mimetypeListModified/core/signature.json');
-		$this->fileAccessHelperMock->($this->exactly(2))
+		$this->fileAccessHelperMock($this->exactly(2))
 			->method('file_get_contents')
 			->willReturnMap([
 				[\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/signature.json', $signatureDataFile],
@@ -738,14 +738,14 @@ class CheckerTest extends TestCase {
 		// XXX TODO: modernize
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 			->setConstructorArgs([
-				$this->serverVersion,
-				$this->environmentHelper,
-				$this->fileAccessHelper,
-				$this->config,
-				$this->appConfig,
-				$this->cacheFactory,
-				$this->appManager,
-				$this->mimeTypeDetector,
+				$this->serverVersionStub,
+				$this->environmentHelperStub,
+				$this->fileAccessHelperMock,
+				$this->configStub,
+				$this->appConfigMock,
+				$this->cacheFactoryStub,
+				$this->appManagerMock,
+				$this->mimeTypeDetectorStub,
 			])
 			->onlyMethods([
 				'verifyCoreSignature',
