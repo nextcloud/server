@@ -11,7 +11,7 @@ namespace OCA\Files_External\Tests;
 use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCA\Files_External\Lib\MissingDependency;
 
-class MockLegacyDependencyCheckPolyfill {
+class MockLegacyDependencyCheckPolyfillClass {
 	use LegacyDependencyCheckPolyfill;
 
 	public function getStorageClass(): string {
@@ -32,7 +32,7 @@ class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 	}
 
 	public function testCheckDependencies(): void {
-		$trait = new MockLegacyDependencyCheckPolyfill();
+		$trait = new MockLegacyDependencyCheckPolyfillClass();
 
 		$dependencies = $trait->checkDependencies();
 		$this->assertCount(2, $dependencies);
