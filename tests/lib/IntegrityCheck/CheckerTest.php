@@ -44,9 +44,9 @@ class CheckerTest extends TestCase {
 		$this->fixtureDir = __DIR__ . '/../../data/integritycheck/';
 
 		/*
-		 * Dependencies 
+		 * Dependencies
 		 */
-		
+
 		// Stubs (Pre-defined Answers + Matching Criteria)
 		$this->serverVersionStub = $this->createStub(ServerVersion::class);
 		$this->environmentHelperStub = $this->createStub(EnvironmentHelper::class);
@@ -67,7 +67,7 @@ class CheckerTest extends TestCase {
 		/*
 		 * System under test
 		 */
-		
+
 		$this->checker = new Checker(
 			$this->serverVersionStub,
 			$this->environmentHelperStub,
@@ -99,8 +99,8 @@ class CheckerTest extends TestCase {
 		$rsa = new RSA();
 		$rsa->loadKey($rsaPrivateKey);
 		$x509 = new X509();
-		$x509->loadX509($keyBundle); 
-		return [$x509, $rsa]; 
+		$x509->loadX509($keyBundle);
+		return [$x509, $rsa];
 	}
 
 	private function expectSignaturePutContents(string $targetPath, string $expectedJson): void {
@@ -114,7 +114,7 @@ class CheckerTest extends TestCase {
 				})
 			);
 	}
-	
+
 	/*
 	 * Tests
 	 */
@@ -573,14 +573,20 @@ class CheckerTest extends TestCase {
 
 		$this->environmentHelperStub->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified');
-
 		$signatureDataFile = file_get_contents(__DIR__ . '/../../data/integritycheck/mimetypeListModified/core/signature.json');
-		$this->fileAccessHelperMock->expects($this->exactly(2))
+		$map = [
+			\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/signature.json' => $signatureDataFile,
+			\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/resources/codesigning/root.crt' => file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt'),
+			\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js' => file_get_contents(__DIR__ . '/../../data/integritycheck/mimetypeListModified/core/js/mimetypelist.js'),
+		];
+		$this->fileAccessHelperMock->expects($this->exactly(3))
 			->method('file_get_contents')
-			->willReturnMap([
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/signature.json', $signatureDataFile],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
-			]);
+			->willReturnCallback(function ($path) use ($map) {
+				if (array_key_exists($path, $map)) {
+					return $map[$path];
+				}
+				throw new \RuntimeException('Unexpected file_get_contents call for: ' . $path);
+			});
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
@@ -837,7 +843,7 @@ class CheckerTest extends TestCase {
 		$this->configStub->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
-		
+
 		$this->assertSame($isCodeSigningEnforced, $this->checker->isCodeCheckEnforced());
 	}
 
