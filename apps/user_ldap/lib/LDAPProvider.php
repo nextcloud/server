@@ -5,38 +5,38 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCP\IServerContainer;
+use OCP\GroupInterface;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
+use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * LDAP provider for public access to the LDAP backend.
  */
 class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
-	private $userBackend;
-	private $groupBackend;
-	private $logger;
+	private IUserLDAP&UserInterface $userBackend;
+	private IGroupLDAP&GroupInterface $groupBackend;
 
 	/**
-	 * Create new LDAPProvider
-	 * @param IServerContainer $serverContainer
-	 * @param Helper $helper
-	 * @param DeletedUsersIndex $deletedUsersIndex
 	 * @throws \Exception if user_ldap app was not enabled
 	 */
 	public function __construct(
-		IServerContainer $serverContainer,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
 		private Helper $helper,
 		private DeletedUsersIndex $deletedUsersIndex,
+		private LoggerInterface $logger,
 	) {
-		$this->logger = $serverContainer->get(LoggerInterface::class);
 		$userBackendFound = false;
 		$groupBackendFound = false;
-		foreach ($serverContainer->getUserManager()->getBackends() as $backend) {
+		foreach ($userManager->getBackends() as $backend) {
 			$this->logger->debug('instance ' . get_class($backend) . ' user backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IUserLDAP) {
 				$this->userBackend = $backend;
@@ -44,7 +44,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 				break;
 			}
 		}
-		foreach ($serverContainer->getGroupManager()->getBackends() as $backend) {
+		foreach ($groupManager->getBackends() as $backend) {
 			$this->logger->debug('instance ' . get_class($backend) . ' group backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IGroupLDAP) {
 				$this->groupBackend = $backend;
