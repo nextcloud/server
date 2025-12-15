@@ -25,6 +25,7 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
@@ -51,6 +52,7 @@ class AccessTest extends TestCase {
 	private Helper&MockObject $helper;
 	private IConfig&MockObject $config;
 	private IUserManager&MockObject $ncUserManager;
+	private IGroupManager&MockObject $ncGroupManager;
 	private LoggerInterface&MockObject $logger;
 	private IAppConfig&MockObject $appConfig;
 	private IEventDispatcher&MockObject $dispatcher;
@@ -67,6 +69,7 @@ class AccessTest extends TestCase {
 		$this->userMapper = $this->createMock(UserMapping::class);
 		$this->groupMapper = $this->createMock(GroupMapping::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
+		$this->ncGroupManager = $this->createMock(IGroupManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
@@ -79,6 +82,7 @@ class AccessTest extends TestCase {
 			$this->helper,
 			$this->config,
 			$this->ncUserManager,
+			$this->ncGroupManager,
 			$this->logger,
 			$this->appConfig,
 			$this->dispatcher,
@@ -224,7 +228,7 @@ class AccessTest extends TestCase {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig&MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
+		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->ncGroupManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
@@ -244,7 +248,7 @@ class AccessTest extends TestCase {
 		/** @var IConfig&MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
-		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
+		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->ncGroupManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		if (!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -427,7 +431,7 @@ class AccessTest extends TestCase {
 				$attribute => ['count' => 1, $dnFromServer]
 			]);
 
-		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
+		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->ncGroupManager, $this->logger, $this->appConfig, $this->dispatcher);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
