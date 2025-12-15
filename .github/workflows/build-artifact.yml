@@ -31,10 +31,10 @@ on:
     branches:
       - ionos-dev
       - ionos-stable
-  workflow_dispatch:  # Manual trigger only for comparison testing
+  workflow_dispatch:  # Manual trigger to bypass all caches
     inputs:
       force_rebuild:
-        description: 'Force rebuild all apps (ignore cache)'
+        description: 'Force rebuild all apps and dependencies (bypass ALL caches)'
         required: false
         type: boolean
         default: false
@@ -63,8 +63,9 @@ jobs:
       apps_to_build: ${{ steps.detect.outputs.apps_to_build }}
       apps_to_restore: ${{ steps.detect.outputs.apps_to_restore }}
       external_apps_matrix: ${{ steps.set_matrix.outputs.matrix }}
-      has_cached_apps: ${{ steps.detect.outputs.has_cached_apps }}
       apps_sha_map: ${{ steps.detect.outputs.apps_sha_map }}
+      has_apps_to_build: ${{ steps.detect.outputs.has_apps_to_build }}
+      has_apps_to_restore: ${{ steps.detect.outputs.has_apps_to_restore }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -74,6 +75,43 @@ jobs:
 
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y make jq
+
+      - name: Check configuration
+        run: |
+          echo ""
+          echo "### 🔧 Remote Trigger Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**DISABLE_REMOTE_TRIGGER value:** \`${{ vars.DISABLE_REMOTE_TRIGGER }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🔧 Remote Trigger Configuration"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "DISABLE_REMOTE_TRIGGER = '${{ vars.DISABLE_REMOTE_TRIGGER }}'"
+          echo ""
+
+          if [ "${{ vars.DISABLE_REMOTE_TRIGGER }}" == "true" ]; then
+            echo "⚠️  Remote trigger is DISABLED"
+            echo "    The 'trigger-remote-dev-worflow' job will be SKIPPED"
+            echo "**Status:** ⚠️ Remote trigger is **DISABLED**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The \`trigger-remote-dev-worflow\` job will be skipped." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "To enable, delete the variable or set it to a value other than 'true' at:" >> $GITHUB_STEP_SUMMARY
+            echo "https://github.com/${{ github.repository }}/settings/variables/actions" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ Remote trigger is ENABLED"
+            echo "   The 'trigger-remote-dev-worflow' job will proceed"
+            echo "**Status:** ✅ Remote trigger is **ENABLED**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The \`trigger-remote-dev-worflow\` job will proceed to trigger the remote GitLab workflow." >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+      - name: List caches before restore
+        run: gh cache list
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Generate apps matrix dynamically from Makefile
         id: set_matrix
@@ -106,12 +144,57 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           CACHE_VERSION: ${{ env.CACHE_VERSION }}
+          FORCE_REBUILD: ${{ github.event.inputs.force_rebuild || 'false' }}
+          JF_URL: ${{ secrets.JF_ARTIFACTORY_URL }}
+          JF_USER: ${{ secrets.JF_ARTIFACTORY_USER }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          ARTIFACTORY_REPOSITORY_SNAPSHOT: ${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}
         run: |
           set -e  # Exit on error
           set -u  # Exit on undefined variable
           set -o pipefail  # Exit if any command in pipeline fails
 
           echo "Collecting app SHAs and checking cache status..."
+          echo "Force rebuild mode: $FORCE_REBUILD"
+          echo ""
+
+          # Setup JFrog CLI if credentials are available
+          JFROG_AVAILABLE="false"
+          echo "=== JFrog Setup ==="
+          echo "JF_URL present: $([ -n "$JF_URL" ] && echo 'YES' || echo 'NO')"
+          echo "JF_USER present: $([ -n "$JF_USER" ] && echo 'YES' || echo 'NO')"
+          echo "JF_ACCESS_TOKEN present: $([ -n "$JF_ACCESS_TOKEN" ] && echo 'YES' || echo 'NO')"
+          
+          if [ -n "$JF_URL" ] && [ -n "$JF_USER" ] && [ -n "$JF_ACCESS_TOKEN" ]; then
+            echo "✓ All JFrog credentials available"
+            echo "Installing JFrog CLI..."
+            # Install JFrog CLI
+            curl -fL https://install-cli.jfrog.io | sh
+            export PATH=$PATH:$PWD
+            echo "JFrog CLI version: $(jf --version)"
+            
+            # Configure JFrog
+            echo "Configuring JFrog server: $JF_URL"
+            jf config add jfrog-server --url="$JF_URL" --user="$JF_USER" --access-token="$JF_ACCESS_TOKEN" --interactive=false
+            
+            # Test connection with verbose output
+            echo "Testing JFrog connection..."
+            if jf rt ping; then
+              JFROG_AVAILABLE="true"
+              echo "✓ JFrog connection successful"
+              echo "Repository: $ARTIFACTORY_REPOSITORY_SNAPSHOT"
+            else
+              echo "⚠ JFrog ping failed, will fall back to GitHub cache"
+              echo "Ping output was unsuccessful"
+            fi
+          else
+            echo "⚠ JFrog credentials not available, using GitHub cache only"
+            [ -z "$JF_URL" ] && echo "  - Missing: JF_URL"
+            [ -z "$JF_USER" ] && echo "  - Missing: JF_USER"
+            [ -z "$JF_ACCESS_TOKEN" ] && echo "  - Missing: JF_ACCESS_TOKEN"
+          fi
+          echo "JFROG_AVAILABLE=$JFROG_AVAILABLE"
+          echo "==================="
           echo ""
 
           # Get the matrix from previous step
@@ -119,15 +202,27 @@ jobs:
 
           # Build JSON array for apps that actually need building
           APPS_TO_BUILD="[]"
-          # Build JSON array for apps that are cached and need restoring
+          # Build JSON array for apps that are cached/in JFrog and need restoring
+          # This combines both GitHub cache and JFrog sources
           APPS_TO_RESTORE="[]"
           APPS_CHECKED=0
           APPS_CACHED=0
+          APPS_IN_JFROG=0
           APPS_TO_BUILD_COUNT=0
+          APPS_TO_RESTORE_COUNT=0
           APPS_SHA_MAP="{}"
+          echo ""
 
-          echo "### 📦 Cache Status Report" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Cache Status Report for (${{ github.ref }})" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "$FORCE_REBUILD" == "true" ]; then
+            echo "**🔄 FORCE REBUILD MODE ENABLED** - All caches bypassed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ "$JFROG_AVAILABLE" == "true" ]; then
+            echo "**🎯 JFrog Artifact Cache**: Enabled for all branches" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
           echo "| App | SHA | Cache Key | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-----|-----|-----------|--------|" >> $GITHUB_STEP_SUMMARY
 
@@ -167,9 +262,57 @@ jobs:
 
             echo -n "  Checking $APP_NAME (SHA: $SHORT_SHA)... "
 
+            # If force rebuild is enabled, skip cache check and rebuild everything
+            if [ "$FORCE_REBUILD" == "true" ]; then
+              echo "🔄 force rebuild"
+              echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | 🔄 Force rebuild |" >> $GITHUB_STEP_SUMMARY
+              APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "$CURRENT_SHA" '. + [{name: $app, sha: $sha}]')
+              APPS_TO_BUILD_COUNT=$((APPS_TO_BUILD_COUNT + 1))
+              continue
+            fi
+
+            # Check JFrog first before GitHub cache (available for all branches)
+            if [ "$JFROG_AVAILABLE" == "true" ]; then
+              JFROG_PATH="${ARTIFACTORY_REPOSITORY_SNAPSHOT}/dev-poc/apps/${APP_NAME}/${APP_NAME}-${CURRENT_SHA}.tar.gz"
+              
+              echo ""
+              echo "  🔍 Checking JFrog for $APP_NAME..."
+              echo "     Path: $JFROG_PATH"
+              echo "     Full SHA: $CURRENT_SHA"
+              
+              # Check if artifact exists in JFrog with verbose output
+              echo "     Running: jf rt s \"$JFROG_PATH\""
+              SEARCH_OUTPUT=$(jf rt s "$JFROG_PATH" 2>&1)
+              SEARCH_EXIT_CODE=$?
+              
+              echo "     Search exit code: $SEARCH_EXIT_CODE"
+              if [ $SEARCH_EXIT_CODE -eq 0 ]; then
+                echo "     Search output:"
+                echo "$SEARCH_OUTPUT" | sed 's/^/       /'
+                
+                if echo "$SEARCH_OUTPUT" | grep -q "$JFROG_PATH"; then
+                  echo "     ✓ Artifact found in JFrog!"
+                  echo "✓ in JFrog"
+                  echo "| $APP_NAME | \`$SHORT_SHA\` | \`$JFROG_PATH\` | 📦 In JFrog |" >> $GITHUB_STEP_SUMMARY
+                  APPS_IN_JFROG=$((APPS_IN_JFROG + 1))
+                  APPS_TO_RESTORE_COUNT=$((APPS_TO_RESTORE_COUNT + 1))
+                  # Add to restore list with JFrog source
+                  APPS_TO_RESTORE=$(echo "$APPS_TO_RESTORE" | jq -c --argjson app "$app_json" --arg sha "$CURRENT_SHA" --arg jfrog_path "$JFROG_PATH" --arg source "jfrog" '. + [($app + {sha: $sha, jfrog_path: $jfrog_path, source: $source})]')
+                  continue
+                else
+                  echo "     ✗ Artifact not found in search results"
+                fi
+              else
+                echo "     ✗ Search failed with error:"
+                echo "$SEARCH_OUTPUT" | sed 's/^/       /'
+              fi
+              echo "     → Falling back to GitHub cache check"
+            fi
+
             # Check if cache exists using GitHub CLI
+            # Include --ref to access caches from the current ref (branch, PR, etc.)
             CACHE_EXISTS="false"
-            if ! CACHE_LIST=$(gh cache list --key "$CACHE_KEY" --json key --jq ".[].key" 2>&1); then
+            if ! CACHE_LIST=$(gh cache list --ref "${{ github.ref }}" --key "$CACHE_KEY" --json key --jq ".[].key" 2>&1); then
               echo "⚠️ Warning: Failed to query cache for $APP_NAME: $CACHE_LIST"
               echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | ⚠️ Cache check failed - will build |" >> $GITHUB_STEP_SUMMARY
               APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "$CURRENT_SHA" '. + [{name: $app, sha: $sha}]')
@@ -179,10 +322,11 @@ jobs:
             if echo "$CACHE_LIST" | grep -q "^${CACHE_KEY}$"; then
               CACHE_EXISTS="true"
               APPS_CACHED=$((APPS_CACHED + 1))
+              APPS_TO_RESTORE_COUNT=$((APPS_TO_RESTORE_COUNT + 1))
               echo "✓ cached"
               echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | ✅ Cached |" >> $GITHUB_STEP_SUMMARY
-              # Add to restore list with SHA
-              APPS_TO_RESTORE=$(echo "$APPS_TO_RESTORE" | jq -c --argjson app "$app_json" --arg sha "$CURRENT_SHA" '. + [($app + {sha: $sha})]')
+              # Add to restore list with GitHub cache source
+              APPS_TO_RESTORE=$(echo "$APPS_TO_RESTORE" | jq -c --argjson app "$app_json" --arg sha "$CURRENT_SHA" --arg cache_key "$CACHE_KEY" --arg source "github-cache" '. + [($app + {sha: $sha, cache_key: $cache_key, source: $source})]')
             else
               echo "⚡ needs build"
               echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | 🔨 Needs build |" >> $GITHUB_STEP_SUMMARY
@@ -195,12 +339,14 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Summary:**" >> $GITHUB_STEP_SUMMARY
           echo "- Total apps checked: $APPS_CHECKED" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Apps in JFrog: $APPS_IN_JFROG" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Apps with cached builds: $APPS_CACHED" >> $GITHUB_STEP_SUMMARY
           echo "- 🔨 Apps needing build: $APPS_TO_BUILD_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          if [ $APPS_CACHED -gt 0 ] && [ $APPS_CHECKED -gt 0 ]; then
-            CACHE_HIT_PERCENT=$((APPS_CACHED * 100 / APPS_CHECKED))
+          TOTAL_AVAILABLE=$((APPS_IN_JFROG + APPS_CACHED))
+          if [ $TOTAL_AVAILABLE -gt 0 ] && [ $APPS_CHECKED -gt 0 ]; then
+            CACHE_HIT_PERCENT=$((TOTAL_AVAILABLE * 100 / APPS_CHECKED))
             echo "**Cache hit rate: ${CACHE_HIT_PERCENT}%** 🎯" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
           fi
@@ -208,8 +354,20 @@ jobs:
           echo ""
           echo "Summary:"
           echo "  Total apps: $APPS_CHECKED"
+          echo "  In JFrog: $APPS_IN_JFROG"
           echo "  Cached: $APPS_CACHED"
           echo "  To build: $APPS_TO_BUILD_COUNT"
+
+          # Validate no duplicate apps in build and restore lists
+          BUILD_APPS=$(echo "$APPS_TO_BUILD" | jq -r '.[].name' | sort)
+          RESTORE_APPS=$(echo "$APPS_TO_RESTORE" | jq -r '.[].name' | sort)
+          DUPLICATE_APPS=$(comm -12 <(echo "$BUILD_APPS") <(echo "$RESTORE_APPS"))
+
+          if [ -n "$DUPLICATE_APPS" ]; then
+            echo "ERROR: Apps appear in both build and restore lists:"
+            echo "$DUPLICATE_APPS"
+            exit 1
+          fi
 
           # Validate that we built valid JSON
           if ! echo "$APPS_TO_BUILD" | jq empty 2>/dev/null; then
@@ -230,7 +388,7 @@ jobs:
           echo "$APPS_TO_BUILD" >> $GITHUB_OUTPUT
           echo "APPS_TO_BUILD_JSON_EOF" >> $GITHUB_OUTPUT
 
-          # Output the list of apps to restore from cache
+          # Output the unified list of apps to restore (from either GitHub cache or JFrog)
           echo "apps_to_restore<<APPS_TO_RESTORE_JSON_EOF" >> $GITHUB_OUTPUT
           echo "$APPS_TO_RESTORE" >> $GITHUB_OUTPUT
           echo "APPS_TO_RESTORE_JSON_EOF" >> $GITHUB_OUTPUT
@@ -240,12 +398,17 @@ jobs:
           echo "$APPS_SHA_MAP" >> $GITHUB_OUTPUT
           echo "APPS_SHA_MAP_JSON_EOF" >> $GITHUB_OUTPUT
 
-          # Determine if there are cached apps by comparing counts
-          # If apps_to_build count is less than total apps, some are cached
-          if [ $APPS_TO_BUILD_COUNT -lt $APPS_CHECKED ]; then
-            echo "has_cached_apps=true" >> $GITHUB_OUTPUT
+          # Output flags for conditional job execution
+          if [ $APPS_TO_BUILD_COUNT -gt 0 ]; then
+            echo "has_apps_to_build=true" >> $GITHUB_OUTPUT
           else
-            echo "has_cached_apps=false" >> $GITHUB_OUTPUT
+            echo "has_apps_to_build=false" >> $GITHUB_OUTPUT
+          fi
+
+          if [ $APPS_TO_RESTORE_COUNT -gt 0 ]; then
+            echo "has_apps_to_restore=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_apps_to_restore=false" >> $GITHUB_OUTPUT
           fi
 
           echo ""
@@ -258,8 +421,8 @@ jobs:
   build-external-apps:
     runs-on: ubuntu-latest
     needs: prepare-matrix
-    # Only run if there are apps to build
-    if: needs.prepare-matrix.outputs.apps_to_build != '[]'
+    # Only run if there are actually apps to build (prevents runner from starting)
+    if: needs.prepare-matrix.outputs.has_apps_to_build == 'true'
 
     permissions:
       contents: read
@@ -318,13 +481,14 @@ jobs:
         if: steps.app-config.outputs.has-composer == 'true'
         uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
         with:
+          php-version: '8.3'
           tools: composer:v2
           extensions: gd, zip, curl, xml, xmlrpc, mbstring, sqlite, xdebug, pgsql, intl, imagick, gmp, apcu, bcmath, redis, soap, imap, opcache
         env:
           runner: ubuntu-latest
 
       - name: Cache Composer dependencies for ${{ matrix.app_info.name }}
-        if: steps.app-config.outputs.has-composer == 'true'
+        if: steps.app-config.outputs.has-composer == 'true' && github.event.inputs.force_rebuild != 'true'
         uses: actions/cache@v4
         with:
           path: ${{ steps.app-config.outputs.path }}/vendor
@@ -351,8 +515,88 @@ jobs:
           path: ${{ steps.app-config.outputs.path }}
           key: ${{ env.CACHE_VERSION }}-app-build-${{ matrix.app_info.name }}-${{ matrix.app_info.sha }}
 
+      # Push to JFrog for ionos-dev branch builds
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@7c95feb32008765e1b4e626b078dfd897c4340ad # v4.4.1
+        env:
+          JF_URL: ${{ secrets.JF_ARTIFACTORY_URL }}
+          JF_USER: ${{ secrets.JF_ARTIFACTORY_USER }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+      - name: Push ${{ matrix.app_info.name }} to JFrog
+        run: |
+          set -e
+          APP_NAME="${{ matrix.app_info.name }}"
+          APP_SHA="${{ matrix.app_info.sha }}"
+          APP_PATH="${{ steps.app-config.outputs.path }}"
+
+          echo "=== JFrog Upload Debug Info ==="
+          echo "📦 Packaging $APP_NAME for JFrog upload..."
+          echo "App Name: $APP_NAME"
+          echo "App SHA: $APP_SHA"
+          echo "App Path: $APP_PATH"
+          echo "Repository: ${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}"
+          echo "==============================="
+
+          # Verify app path exists
+          if [ ! -d "$APP_PATH" ]; then
+            echo "❌ ERROR: App path does not exist: $APP_PATH"
+            exit 1
+          fi
+          
+          echo "App directory contents (top level):"
+          ls -la "$APP_PATH" | head -20
+
+          # Create tar.gz archive of the built app (excluding node_modules and other build artifacts)
+          ARCHIVE_NAME="${APP_NAME}-${APP_SHA}.tar.gz"
+          echo ""
+          echo "Creating archive: $ARCHIVE_NAME"
+          echo "Running: tar -czf \"$ARCHIVE_NAME\" --exclude=\"node_modules\" --exclude=\".git\" --exclude=\"*.log\" -C \"$(dirname "$APP_PATH")\" \"$(basename "$APP_PATH")\""
+          
+          tar -czf "$ARCHIVE_NAME" \
+            --exclude="node_modules" \
+            --exclude=".git" \
+            --exclude="*.log" \
+            -C "$(dirname "$APP_PATH")" \
+            "$(basename "$APP_PATH")"
+
+          echo "✓ Archive created successfully"
+          echo "Archive size:"
+          ls -lh "$ARCHIVE_NAME"
+
+          # Upload to JFrog - store in snapshot repo under dev/apps/
+          JFROG_PATH="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/dev-poc/apps/${APP_NAME}/${ARCHIVE_NAME}"
+
+          echo ""
+          echo "Uploading to JFrog..."
+          echo "Target Path: $JFROG_PATH"
+          echo "Properties: app.name=${APP_NAME};app.sha=${APP_SHA};vcs.branch=${{ github.ref_name }};vcs.revision=${{ github.sha }}"
+          echo "Running: jf rt upload \"$ARCHIVE_NAME\" \"$JFROG_PATH\" --target-props \"...\""
+          
+          if jf rt upload "$ARCHIVE_NAME" "$JFROG_PATH" \
+            --target-props "app.name=${APP_NAME};app.sha=${APP_SHA};vcs.branch=${{ github.ref_name }};vcs.revision=${{ github.sha }}"; then
+            echo "✅ Successfully uploaded $APP_NAME to JFrog"
+            echo ""
+            echo "Verifying upload..."
+            if jf rt s "$JFROG_PATH"; then
+              echo "✓ Upload verified - artifact is accessible in JFrog"
+            else
+              echo "⚠ Upload succeeded but verification search failed"
+            fi
+          else
+            UPLOAD_EXIT_CODE=$?
+            echo "❌ Failed to upload to JFrog (exit code: $UPLOAD_EXIT_CODE)"
+            echo "⚠️ Continuing workflow despite upload failure..."
+          fi
+
+          # Clean up archive
+          echo ""
+          echo "Cleaning up local archive..."
+          rm -f "$ARCHIVE_NAME"
+          echo "✓ Cleanup complete"
+
       - name: Upload ${{ matrix.app_info.name }} build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           retention-days: 1
           name: external-app-build-${{ matrix.app_info.name }}
@@ -360,66 +604,14 @@ jobs:
             ${{ steps.app-config.outputs.path }}
             !${{ steps.app-config.outputs.path }}/node_modules
 
-  restore-cached-apps:
-    runs-on: ubuntu-latest
-    needs: prepare-matrix
-    # Only run if there are cached apps to restore
-    if: needs.prepare-matrix.outputs.apps_to_restore != '[]'
-
-    permissions:
-      contents: read
-
-    name: restore-cached-apps
-    strategy:
-      max-parallel: 20
-      matrix:
-        # Use the filtered list of apps that need restoring from cache
-        app: ${{ fromJson(needs.prepare-matrix.outputs.apps_to_restore) }}
-
-    steps:
-      - name: Restore cached build from cache
-        uses: actions/cache/restore@v4
-        with:
-          path: ${{ matrix.app.path }}
-          key: ${{ env.CACHE_VERSION }}-app-build-${{ matrix.app.name }}-${{ matrix.app.sha }}
-          fail-on-cache-miss: true
-
-      - name: Validate cached build
-        run: |
-          APP_PATH="${{ matrix.app.path }}"
-
-          # Check that the directory exists and is not empty
-          if [ ! -d "$APP_PATH" ] || [ -z "$(ls -A $APP_PATH)" ]; then
-            echo "❌ Cache validation failed: Directory is empty or missing"
-            exit 1
-          fi
-
-          # Check for appinfo/info.xml (required for all Nextcloud apps)
-          if [ ! -f "$APP_PATH/appinfo/info.xml" ]; then
-            echo "❌ Cache validation failed: Missing appinfo/info.xml"
-            exit 1
-          fi
-
-          echo "✅ Cache validation passed for ${{ matrix.app.name }}"
-
-      - name: Upload cached ${{ matrix.app.name }} build artifacts
-        uses: actions/upload-artifact@v5
-        with:
-          retention-days: 1
-          name: external-app-build-${{ matrix.app.name }}
-          path: |
-            ${{ matrix.app.path }}
-            !${{ matrix.app.path }}/node_modules
-
   build-artifact:
     runs-on: ubuntu-latest
-    needs: [prepare-matrix, build-external-apps, restore-cached-apps]
-    # Always run this job, even if restore-cached-apps is skipped
+    needs: [prepare-matrix, build-external-apps]
+    # Always run this job, even if build-external-apps is skipped
     if: |
       always() &&
       needs.prepare-matrix.result == 'success' &&
-      (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
-      (needs.restore-cached-apps.result == 'success' || needs.restore-cached-apps.result == 'skipped')
+      (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped')
 
     permissions:
       contents: read
@@ -435,8 +627,93 @@ jobs:
           submodules: true
           fetch-depth: 1
 
+      - name: Setup JFrog CLI
+        if: needs.prepare-matrix.outputs.has_apps_to_restore == 'true'
+        uses: jfrog/setup-jfrog-cli@7c95feb32008765e1b4e626b078dfd897c4340ad # v4.4.1
+        env:
+          JF_URL: ${{ secrets.JF_ARTIFACTORY_URL }}
+          JF_USER: ${{ secrets.JF_ARTIFACTORY_USER }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+      - name: Restore cached apps
+        if: needs.prepare-matrix.outputs.has_apps_to_restore == 'true'
+        run: |
+          set -e
+          
+          echo "📦 Restoring cached apps..."
+          APPS_TO_RESTORE='${{ needs.prepare-matrix.outputs.apps_to_restore }}'
+          
+          # Process each app in the restore list
+          echo "$APPS_TO_RESTORE" | jq -c '.[]' | while read -r app_json; do
+            APP_NAME=$(echo "$app_json" | jq -r '.name')
+            APP_SHA=$(echo "$app_json" | jq -r '.sha')
+            APP_PATH=$(echo "$app_json" | jq -r '.path')
+            SOURCE=$(echo "$app_json" | jq -r '.source')
+            
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "Restoring: $APP_NAME (source: $SOURCE)"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            
+            if [ "$SOURCE" == "jfrog" ]; then
+              # Restore from JFrog
+              JFROG_PATH=$(echo "$app_json" | jq -r '.jfrog_path')
+              ARCHIVE_NAME="${APP_NAME}-${APP_SHA}.tar.gz"
+              
+              echo "📥 Downloading from JFrog: $JFROG_PATH"
+              
+              if jf rt download "$JFROG_PATH" "$ARCHIVE_NAME" --flat=true; then
+                echo "✅ Downloaded successfully"
+                echo "Extracting to $APP_PATH..."
+                mkdir -p "$(dirname "$APP_PATH")"
+                tar -xzf "$ARCHIVE_NAME" -C "$(dirname "$APP_PATH")"
+                
+                if [ -d "$APP_PATH" ] && [ -f "$APP_PATH/appinfo/info.xml" ]; then
+                  echo "✅ Restored $APP_NAME from JFrog"
+                else
+                  echo "❌ Failed to extract or validate $APP_NAME"
+                  exit 1
+                fi
+                
+                rm -f "$ARCHIVE_NAME"
+              else
+                echo "❌ Failed to download from JFrog"
+                exit 1
+              fi
+              
+            elif [ "$SOURCE" == "github-cache" ]; then
+              # Restore from GitHub cache
+              CACHE_KEY=$(echo "$app_json" | jq -r '.cache_key')
+              
+              echo "💾 Restoring from GitHub cache: $CACHE_KEY"
+              
+              # Use actions/cache/restore in a way that works in a script context
+              # We need to use gh CLI to restore the cache
+              if gh cache restore "$CACHE_KEY" --key "$CACHE_KEY"; then
+                echo "✅ Restored $APP_NAME from GitHub cache"
+                
+                # Validate restoration
+                if [ ! -d "$APP_PATH" ] || [ ! -f "$APP_PATH/appinfo/info.xml" ]; then
+                  echo "❌ Validation failed for $APP_NAME"
+                  exit 1
+                fi
+              else
+                echo "❌ Failed to restore from GitHub cache"
+                exit 1
+              fi
+            else
+              echo "❌ Unknown source: $SOURCE"
+              exit 1
+            fi
+          done
+          
+          echo ""
+          echo "✅ All cached apps restored successfully"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Download build external apps
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v5
         with:
           pattern: external-app-build-*
           path: apps-external/
@@ -489,7 +766,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version-file: "package.json"
-          cache: 'npm'
+          cache: ${{ github.event.inputs.force_rebuild != 'true' && 'npm' || '' }}
 
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y make zip unzip
@@ -500,12 +777,14 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
         with:
+          php-version: '8.3'
           tools: composer:v2
           extensions: gd, zip, curl, xml, xmlrpc, mbstring, sqlite, xdebug, pgsql, intl, imagick, gmp, apcu, bcmath, redis, soap, imap, opcache
         env:
           runner: ubuntu-latest
 
       - name: Cache Composer dependencies
+        if: github.event.inputs.force_rebuild != 'true'
         uses: actions/cache@v4
         with:
           path: vendor
@@ -540,7 +819,7 @@ jobs:
           echo "NC_VERSION=$NC_VERSION" >> $GITHUB_OUTPUT
 
       - name: Upload artifact result for job build-artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           retention-days: 30
           name: nextcloud_workspace_build_artifact
@@ -561,11 +840,10 @@ jobs:
       (github.event_name == 'pull_request' || github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
       needs.prepare-matrix.result == 'success' &&
       (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
-      (needs.restore-cached-apps.result == 'success' || needs.restore-cached-apps.result == 'skipped') &&
       needs.build-artifact.result == 'success'
 
     name: Push to artifactory
-    needs: [prepare-matrix, build-external-apps, restore-cached-apps, build-artifact]
+    needs: [prepare-matrix, build-external-apps, build-artifact]
 
     outputs:
       ARTIFACTORY_LAST_BUILD_PATH: ${{ steps.artifactory_upload.outputs.ARTIFACTORY_LAST_BUILD_PATH }}
@@ -603,7 +881,7 @@ jobs:
           fi
 
       - name: Download artifact zip
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v5
         with:
           name: nextcloud_workspace_build_artifact
 
@@ -691,7 +969,6 @@ jobs:
       always() &&
       needs.prepare-matrix.result == 'success' &&
       (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
-      (needs.restore-cached-apps.result == 'success' || needs.restore-cached-apps.result == 'skipped') &&
       needs.build-artifact.result == 'success'
 
     permissions:
@@ -699,11 +976,11 @@ jobs:
       packages: write
 
     name: Push artifact to ghcr.io
-    needs: [prepare-matrix, build-external-apps, restore-cached-apps, build-artifact]
+    needs: [prepare-matrix, build-external-apps, build-artifact]
 
     steps:
       - name: Download artifact zip
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v5
         with:
           name: nextcloud_workspace_build_artifact
 
@@ -757,12 +1034,15 @@ jobs:
     name: Trigger remote workflow
     needs: [prepare-matrix, build-artifact, upload-to-artifactory]
     # Trigger remote build on "ionos-dev|ionos-stable" branch *push* defined in the on:push:branches
+    # Can be disabled via repository variable 'DISABLE_REMOTE_TRIGGER' (set to 'true' to disable)
+    # Configure at: https://github.com/IONOS-Productivity/ncw-server/settings/variables/actions
     if: |
       github.event_name == 'push' &&
       (github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
       needs.prepare-matrix.result == 'success' &&
       needs.build-artifact.result == 'success' &&
-      needs.upload-to-artifactory.result == 'success'
+      needs.upload-to-artifactory.result == 'success' &&
+      vars.DISABLE_REMOTE_TRIGGER != 'true'
     steps:
       - name: Trigger remote workflow
         run: |
