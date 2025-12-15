@@ -24,6 +24,7 @@ use OCA\Files_Versions\Storage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Command\IBus;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
@@ -38,6 +39,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -368,12 +370,14 @@ class Trashbin implements IEventListener {
 	}
 
 	private static function getConfiguredTrashbinSize(string $user): int|float {
-		$config = Server::get(IConfig::class);
-		$userTrashbinSize = $config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
+		$userConfig = Server::get(IUserConfig::class);
+		$userTrashbinSize = $userConfig->getValueString($user, 'files_trashbin', 'trashbin_size', '-1');
 		if (is_numeric($userTrashbinSize) && ($userTrashbinSize > -1)) {
 			return Util::numericToNumber($userTrashbinSize);
 		}
-		$systemTrashbinSize = $config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+
+		$appConfig = Server::get(IAppConfig::class);
+		$systemTrashbinSize = $appConfig->getValueString('files_trashbin', 'trashbin_size', '-1');
 		if (is_numeric($systemTrashbinSize)) {
 			return Util::numericToNumber($systemTrashbinSize);
 		}
