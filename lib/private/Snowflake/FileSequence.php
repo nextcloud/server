@@ -20,12 +20,11 @@ class FileSequence implements ISequence {
 	/** Delete sequences after SEQUENCE_TTL seconds **/
 	private const SEQUENCE_TTL = 30;
 
-	private string $workDir;
+	private ?string $workDir = null;
 
 	public function __construct(
-		ITempManager $tempManager,
+		private ITempManager $tempManager,
 	) {
-		$this->workDir = $tempManager->getTemporaryFolder('.snowflakes');
 	}
 
 	#[Override]
@@ -84,6 +83,13 @@ class FileSequence implements ISequence {
 	}
 
 	private function getFilePath(int $fileId): string {
-		return $this->workDir . sprintf(self::LOCK_FILE_FORMAT, $fileId);
+		return $this->getWorkDir() . sprintf(self::LOCK_FILE_FORMAT, $fileId);
+	}
+
+	private function getWorkDir(): string {
+		if ($this->workDir === null || !is_dir($this->workDir)) {
+			$this->workDir = $this->tempManager->getTemporaryFolder('.snowflakes');
+		}
+		return $this->workDir;
 	}
 }
