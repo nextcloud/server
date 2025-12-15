@@ -14,6 +14,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
@@ -72,7 +73,12 @@ class UploadHome implements ICollection {
 	}
 
 	public function childExists($name): bool {
-		return !is_null($this->getChild($name));
+		try {
+			$this->getChild($name);
+			return true;
+		} catch (NotFound $e) {
+			return false;
+		}
 	}
 
 	public function delete() {
