@@ -890,3 +890,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
     opacity: 1;
   }
 }
+
+#sendtestmail_msg {
+	&.error {
+		display: inline-block;
+		margin-top: 5px;
+		border-radius: var(--border-radius);
+		padding: 5px 10px;
+	}
+}

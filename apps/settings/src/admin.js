@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			.then(() => {
 				OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'))
 			}).catch((error) => {
-				OC.msg.finishedError('#sendtestmail_msg', error)
+				OC.msg.finishedError('#sendtestmail_msg', error.response.data)
 			})
 	})
 

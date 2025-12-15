@@ -16,6 +16,7 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use Psr\Log\LoggerInterface;
 
 /**
  * @package Tests\Settings\Controller
@@ -32,6 +33,8 @@ class MailSettingsControllerTest extends \Test\TestCase {
 	private $l;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $logger;
 
 	/** @var MailSettingsController */
 	private $mailController;
@@ -44,6 +47,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
@@ -54,6 +58,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->urlGenerator,
 			$this->mailer,
+			$this->logger,
 			'no-reply@nextcloud.com'
 		);
 	}
