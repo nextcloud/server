@@ -217,7 +217,7 @@ class BirthdayService {
 		$vEvent->DTSTART['VALUE'] = 'DATE';
 		$vEvent->add('DTEND');
 
-		$dtEndDate = (new \DateTime())->setTimestamp($date->getTimeStamp());
+		$dtEndDate = \DateTime::createFromInterface($date);
 		$dtEndDate->add(new \DateInterval('P1D'));
 		$vEvent->DTEND->setDateTime(
 			$dtEndDate
