@@ -25,4 +25,12 @@ div#content.app-settings {
 			}
 		}
 	}
+
+	#groupfolders-wrapper {
+		table tbody {
+			select {
+				background-color: var(--ion-context-menu-background);
+			}
+		}
+	}
 }
