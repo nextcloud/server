@@ -182,7 +182,7 @@ class LastSeenTest extends TestCase {
 
 		$this->consoleOutput->expects($this->once())
 			->method('writeln')
-			->with($this->stringContains("'s last login:"));
+			->with($this->stringContains("enabled_user's last login:"));
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
