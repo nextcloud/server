@@ -575,7 +575,7 @@ class CheckerTest extends TestCase {
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified');
 
 		$signatureDataFile = file_get_contents(__DIR__ . '/../../data/integritycheck/mimetypeListModified/core/signature.json');
-		$this->fileAccessHelperMock($this->exactly(2))
+		$this->fileAccessHelperMock->expects($this->exactly(2))
 			->method('file_get_contents')
 			->willReturnMap([
 				[\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/signature.json', $signatureDataFile],
