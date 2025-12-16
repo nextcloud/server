@@ -325,7 +325,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	public function export(?CalendarExportOptions $options = null): Generator {
 		foreach (
 			$this->backend->exportCalendar(
-				$this->calendarInfo['id'],
+				(int)$this->calendarInfo['id'],
 				$this->backend::CALENDAR_TYPE_CALENDAR,
 				$options
 			) as $event
