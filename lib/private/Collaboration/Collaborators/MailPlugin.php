@@ -158,7 +158,7 @@ class MailPlugin implements ISearchPlugin {
 							return false;
 						}
 
-						if ($this->shareeEnumeration) {
+						if ($this->shareeEnumeration && isset($contact['CLOUD'])) {
 							try {
 								if (!isset($contact['CLOUD'])) {
 									continue;
