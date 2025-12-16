@@ -19,7 +19,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
 
 class LazyUserFolder extends LazyFolder implements IUserFolder {
 	private string $path;
@@ -48,19 +47,8 @@ class LazyUserFolder extends LazyFolder implements IUserFolder {
 			$rootFolder,
 			function () use ($user): UserFolder {
 				$root = $this->getRootFolder();
-				if (!$root->nodeExists('/' . $user->getUID())) {
-					$parent = $root->newFolder('/' . $user->getUID());
-				} else {
-					$parent = $root->get('/' . $user->getUID());
-				}
-				if (!($parent instanceof Folder)) {
-					$e = new \RuntimeException();
-					\OCP\Server::get(LoggerInterface::class)->error('User root storage is not a folder: ' . $this->path, [
-						'exception' => $e,
-					]);
-					throw $e;
-				}
-				$realFolder = $root->newFolder('/' . $user->getUID() . '/files');
+				$parent = $root->getOrCreateFolder('/' . $user->getUID(), maxRetries: 1);
+				$realFolder = $root->getOrCreateFolder('/' . $user->getUID() . '/files', maxRetries: 1);
 				return new UserFolder(
 					$root,
 					new View(),
