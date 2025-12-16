@@ -85,7 +85,7 @@ class ApiTest extends TestCase {
 		$mount = $this->view->getMount($this->filename);
 		$mount->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
 
-		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$this->userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->appConfig = $this->createMock(IAppConfig::class);
 	}

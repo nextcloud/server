@@ -507,6 +507,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Directory.php">
+    <DeprecatedMethod>
+      <code><![CDATA[\OC_Helper::getStorageInfo($relativePath, $this->info, false)]]></code>
+    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[copy]]></code>
       <code><![CDATA[file_exists]]></code>
@@ -1275,6 +1278,7 @@
   </file>
   <file src="apps/files/lib/Controller/ApiController.php">
     <DeprecatedMethod>
+      <code><![CDATA[\OC_Helper::getStorageInfo($dir ?: '/')]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[setUserValue]]></code>
       <code><![CDATA[setUserValue]]></code>
@@ -1292,6 +1296,7 @@
   </file>
   <file src="apps/files/lib/Controller/ViewController.php">
     <DeprecatedMethod>
+      <code><![CDATA[\OC_Helper::getStorageInfo($dir, $rootInfo ?: null)]]></code>
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
   </file>
@@ -2087,6 +2092,7 @@
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
+      <code><![CDATA[\OC_Helper::getStorageInfo('/', null, true, false)]]></code>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
@@ -2254,6 +2260,7 @@
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
+      <code><![CDATA[\OC_Helper::getStorageInfo('/')]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
@@ -3581,14 +3588,6 @@
       <code><![CDATA[$this->__call(__FUNCTION__, func_get_args())]]></code>
     </InvalidReturnStatement>
   </file>
-  <file src="lib/private/Files/Node/LazyUserFolder.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$node]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[Folder]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/private/Files/Node/Node.php">
     <InvalidNullableReturnType>
       <code><![CDATA[FileInfo]]></code>
@@ -3975,9 +3974,6 @@
     <InternalMethod>
       <code><![CDATA[getAbsolutePath]]></code>
     </InternalMethod>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getQuota]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass>
