@@ -346,31 +346,17 @@ class Root extends Folder implements IRootFolder {
 
 		if (!$this->userFolderCache->hasKey($userId)) {
 			if ($this->mountManager->getSetupManager()->isSetupComplete($userObject)) {
-				try {
-					$folder = $this->get('/' . $userId . '/files');
-					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("Account folder for \"$userId\" exists as a file");
-					}
-				} catch (NotFoundException $e) {
-					if (!$this->nodeExists('/' . $userId)) {
-						$parent = $this->newFolder('/' . $userId);
-					} else {
-						$parent = $this->get('/' . $userId);
-						if (!$parent instanceof \OCP\Files\Folder) {
-							throw new \Exception("Account folder for \"$userId\" exists as a file");
-						}
-					}
-					$realFolder = $this->newFolder('/' . $userId . '/files');
-					$folder = new UserFolder(
-						$this->root,
-						$this->view,
-						$realFolder->getPath(),
-						$parent,
-						Server::get(IConfig::class),
-						$userObject,
-						$this->cacheFactory,
-					);
-				}
+				$parent = $this->getOrCreateFolder('/' . $userId, maxRetries: 1);
+				$realFolder = $this->getOrCreateFolder('/' . $userId . '/files', maxRetries: 1);
+				$folder = new UserFolder(
+					$this,
+					$this->view,
+					$realFolder->getPath(),
+					$parent,
+					Server::get(IConfig::class),
+					$userObject,
+					$this->cacheFactory,
+				);
 			} else {
 				$folder = new LazyUserFolder($this, $userObject, $this->mountManager, $this->useDefaultHomeFoldersPermissions);
 			}

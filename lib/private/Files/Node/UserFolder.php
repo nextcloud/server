@@ -9,6 +9,7 @@ namespace OC\Files\Node;
 
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\View;
+use OCP\Files\Folder as IFolder;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\ICacheFactory;
@@ -24,7 +25,7 @@ class UserFolder extends Folder implements IUserFolder {
 		IRootFolder $root,
 		View $view,
 		string $path,
-		Folder $parent,
+		IFolder $parent,
 		protected IConfig $config,
 		protected IUser $user,
 		protected ICacheFactory $cacheFactory,
