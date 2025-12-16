@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,7 +10,6 @@ namespace OCA\User_LDAP\AppInfo;
 
 use Closure;
 use OCA\Files_External\Service\BackendService;
-use OCA\User_LDAP\Controller\RenewPasswordController;
 use OCA\User_LDAP\Events\GroupBackendRegistered;
 use OCA\User_LDAP\Events\UserBackendRegistered;
 use OCA\User_LDAP\Group_Proxy;
@@ -35,10 +36,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\IL10N;
 use OCP\Image;
-use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
@@ -52,32 +50,15 @@ class Application extends App implements IBootstrap {
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
-		$container = $this->getContainer();
-
-		/**
-		 * Controller
-		 */
-		$container->registerService('RenewPasswordController', function (ContainerInterface $appContainer) {
-			return new RenewPasswordController(
-				$appContainer->get('AppName'),
-				$appContainer->get(IRequest::class),
-				$appContainer->get(IUserManager::class),
-				$appContainer->get(IConfig::class),
-				$appContainer->get(IUserConfig::class),
-				$appContainer->get(IL10N::class),
-				$appContainer->get('Session'),
-				$appContainer->get(IURLGenerator::class),
-			);
-		});
-
-		$container->registerService(ILDAPWrapper::class, function (ContainerInterface $appContainer) {
-			return new LDAP(
-				$appContainer->get(IConfig::class)->getSystemValueString('ldap_log_file')
-			);
-		});
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerService(ILDAPWrapper::class, function (ContainerInterface $c) {
+			return new LDAP(
+				$c->get(IConfig::class)->getSystemValueString('ldap_log_file')
+			);
+		});
+
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerService(
