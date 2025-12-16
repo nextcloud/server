@@ -8,8 +8,8 @@
 namespace OCA\Files_Sharing\Tests\Collaboration;
 
 use OCA\Files_Sharing\Collaboration\ShareRecipientSorter;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -43,8 +43,7 @@ class ShareRecipientSorterTest extends TestCase {
 	public function testSort($data): void {
 		$node = $this->createMock(Node::class);
 
-		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
-		$folder = $this->createMock(Folder::class);
+		$folder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->willReturn($folder);
@@ -82,8 +81,7 @@ class ShareRecipientSorterTest extends TestCase {
 	}
 
 	public function testSortNoNodes(): void {
-		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
-		$folder = $this->createMock(Folder::class);
+		$folder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->willReturn($folder);

@@ -18,6 +18,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -82,7 +83,7 @@ class PreviewControllerTest extends TestCase {
 	}
 
 	public function testValidPreview(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);
 
@@ -135,7 +136,7 @@ class PreviewControllerTest extends TestCase {
 	}
 
 	public function testTrashFileNotFound(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);
 
@@ -159,7 +160,7 @@ class PreviewControllerTest extends TestCase {
 	}
 
 	public function testTrashFolder(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);
 

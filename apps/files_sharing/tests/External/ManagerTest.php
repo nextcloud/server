@@ -22,9 +22,9 @@ use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -99,8 +99,8 @@ class ManagerTest extends TestCase {
 		$this->setupManagerEncTrait = $this->createMock(ISetupManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder->method('getUserFolder')
-			->willReturnCallback(function (string $userId): Folder {
-				$folder = $this->createMock(Folder::class);
+			->willReturnCallback(function (string $userId): IUserFolder {
+				$folder = $this->createMock(IUserFolder::class);
 				$folder->method('get')
 					->willReturn($folder);
 				$folder->method('getNonExistingName')
