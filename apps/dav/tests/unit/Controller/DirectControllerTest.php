@@ -21,6 +21,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
@@ -68,7 +69,7 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
 			->willReturn($userFolder);
@@ -85,7 +86,7 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
 			->willReturn($userFolder);
@@ -104,7 +105,7 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
 			->willReturn($userFolder);

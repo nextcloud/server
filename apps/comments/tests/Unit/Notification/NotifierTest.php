@@ -13,8 +13,8 @@ use OCA\Comments\Notification\Notifier;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -82,7 +82,7 @@ class NotifierTest extends TestCase {
 			->method('getPath')
 			->willReturn('/you/files/' . $fileName);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->folder->expects($this->once())
 			->method('getUserFolder')
 			->with('you')
@@ -198,7 +198,7 @@ class NotifierTest extends TestCase {
 			->method('getPath')
 			->willReturn('/you/files/' . $fileName);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->folder->expects($this->once())
 			->method('getUserFolder')
 			->with('you')
@@ -488,7 +488,7 @@ class NotifierTest extends TestCase {
 
 		$displayName = 'Huraga';
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->folder->expects($this->once())
 			->method('getUserFolder')
 			->with('you')
