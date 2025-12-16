@@ -313,13 +313,6 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getUserFolder($userId) {
-		return $this->__call(__FUNCTION__, func_get_args());
-	}
-
 	public function getMimetype(): string {
 		if (isset($this->data['mimetype'])) {
 			return $this->data['mimetype'];
