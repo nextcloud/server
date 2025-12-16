@@ -41,13 +41,13 @@ interface IMountPoint {
 	 *
 	 * @return \OCP\Files\Storage\IStorage|null The mounted storage backend, or null if initialization failed.
 	 * @since 8.0.0
- 	*/
+	 */
 	public function getStorage();
 
 	/**
 	 * Get the storage's string identifier from the storage backend.
 	 *
-	 * If the identifier exceeds 64 characters, it will be MD5 hashed. 
+	 * If the identifier exceeds 64 characters, it will be MD5 hashed.
 	 *
 	 * @return string|null Storage id, or null if the storage cannot be initialized.
 	 * @since 8.0.0
