@@ -543,9 +543,6 @@ class File extends Node implements IFile {
 		}
 		$node = $this->getNode();
 		$storage = $node->getStorage();
-		if (!$storage) {
-			return false;
-		}
 
 		if (!($node->getPermissions() & Constants::PERMISSION_READ)) {
 			return false;
