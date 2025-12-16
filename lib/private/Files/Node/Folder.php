@@ -526,7 +526,7 @@ class Folder extends Node implements IFolder {
 					return $folder;
 				}
 			} catch (NotFoundException) {
-				$folder = dirname($path) === '.' ? $this : $this->get(dirname($path));
+				$folder = in_array(dirname($path), ['.','/']) ? $this : $this->get(dirname($path));
 				if (!($folder instanceof Folder)) {
 					throw new NotPermittedException("Unable to create folder $path. Parent is not a directory.");
 				}
