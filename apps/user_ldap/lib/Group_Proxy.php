@@ -8,6 +8,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\Config\IUserConfig;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
@@ -15,7 +16,6 @@ use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IIsAdminBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\GroupInterface;
-use OCP\IConfig;
 use OCP\IUserManager;
 
 /**
@@ -23,11 +23,11 @@ use OCP\IUserManager;
  */
 class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend, IIsAdminBackend {
 	public function __construct(
-		private Helper $helper,
+		Helper $helper,
 		ILDAPWrapper $ldap,
 		AccessFactory $accessFactory,
 		private GroupPluginManager $groupPluginManager,
-		private IConfig $config,
+		private IUserConfig $userConfig,
 		private IUserManager $ncUserManager,
 	) {
 		parent::__construct($helper, $ldap, $accessFactory);
@@ -35,7 +35,7 @@ class Group_Proxy extends Proxy implements GroupInterface, IGroupLDAP, IGetDispl
 
 
 	protected function newInstance(string $configPrefix): Group_LDAP {
-		return new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager, $this->config, $this->ncUserManager);
+		return new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager, $this->userConfig, $this->ncUserManager);
 	}
 
 	/**

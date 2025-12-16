@@ -82,7 +82,7 @@ enum EShapeType: int {
 	 */
 	public function validateInput(mixed $value): void {
 		$this->validateNonFileType($value);
-		if ($this === EShapeType::Text && is_string($value) && strlen($value) > 64_000) {
+		if ($this === EShapeType::Text && is_string($value) && strlen($value) > 512_000) {
 			throw new ValidationException('Text is too long');
 		}
 		if ($this === EShapeType::Image && !is_numeric($value)) {

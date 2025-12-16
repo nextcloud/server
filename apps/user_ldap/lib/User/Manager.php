@@ -8,7 +8,9 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Config\IUserConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -34,6 +36,8 @@ class Manager {
 
 	public function __construct(
 		protected IConfig $ocConfig,
+		protected IUserConfig $userConfig,
+		protected IAppConfig $appConfig,
 		protected LoggerInterface $logger,
 		protected IAvatarManager $avatarManager,
 		protected Image $image,
@@ -63,7 +67,7 @@ class Manager {
 	 */
 	private function createAndCache($dn, $uid) {
 		$this->checkAccess();
-		$user = new User($uid, $dn, $this->access, $this->ocConfig,
+		$user = new User($uid, $dn, $this->access, $this->ocConfig, $this->userConfig, $this->appConfig,
 			clone $this->image, $this->logger,
 			$this->avatarManager, $this->userManager,
 			$this->notificationManager);
@@ -158,25 +162,21 @@ class Manager {
 	}
 
 	/**
-	 * Checks whether the specified user is marked as deleted
-	 * @param string $id the Nextcloud user name
-	 * @return bool
+	 * Checks whether the specified user is marked as deleted.
+	 * @param string $id the Nextcloud username
 	 */
-	public function isDeletedUser($id) {
-		$isDeleted = $this->ocConfig->getUserValue(
-			$id, 'user_ldap', 'isDeleted', 0);
-		return (int)$isDeleted === 1;
+	public function isDeletedUser(string $id): bool {
+		return $this->userConfig->getValueBool(
+			$id, 'user_ldap', 'isDeleted');
 	}
 
 	/**
-	 * creates and returns an instance of OfflineUser for the specified user
-	 * @param string $id
-	 * @return OfflineUser
+	 * Creates and returns an instance of OfflineUser for the specified user.
 	 */
-	public function getDeletedUser($id) {
+	public function getDeletedUser(string $id): OfflineUser {
 		return new OfflineUser(
 			$id,
-			$this->ocConfig,
+			$this->userConfig,
 			$this->access->getUserMapper(),
 			$this->shareManager
 		);

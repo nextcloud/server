@@ -13,7 +13,8 @@ use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventReader;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -26,7 +27,8 @@ use Test\TestCase;
 
 class IMipServiceTest extends TestCase {
 	private URLGenerator&MockObject $urlGenerator;
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
+	private IAppConfig&MockObject $appConfig;
 	private IDBConnection&MockObject $db;
 	private ISecureRandom&MockObject $random;
 	private IFactory&MockObject $l10nFactory;
@@ -47,7 +49,8 @@ class IMipServiceTest extends TestCase {
 		parent::setUp();
 
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->db = $this->createMock(IDBConnection::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
@@ -63,12 +66,13 @@ class IMipServiceTest extends TestCase {
 			->willReturn($this->l10n);
 		$this->service = new IMipService(
 			$this->urlGenerator,
-			$this->config,
 			$this->db,
 			$this->random,
 			$this->l10nFactory,
 			$this->timeFactory,
-			$this->userManager
+			$this->userManager,
+			$this->userConfig,
+			$this->appConfig,
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones

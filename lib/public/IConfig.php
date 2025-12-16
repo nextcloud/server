@@ -164,6 +164,7 @@ interface IConfig {
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 * @since 6.0.0 - parameter $precondition was added in 8.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig} directly
 	 */
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null);
 
@@ -176,6 +177,7 @@ interface IConfig {
 	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return string
 	 * @since 6.0.0 - parameter $default was added in 7.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig} directly
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '');
 
@@ -186,6 +188,7 @@ interface IConfig {
 	 * @param string $key the key to get the value for
 	 * @param array $userIds the user IDs to fetch the values for
 	 * @return array Mapped values: userId => value
+	 * @deprecated 33.0.0 - use {@see IUserConfig::getValuesByUsers} directly
 	 * @since 8.0.0
 	 */
 	public function getUserValueForUsers($appName, $key, $userIds);
@@ -197,6 +200,7 @@ interface IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @return string[]
 	 * @since 8.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig::getKeys} directly
 	 */
 	public function getUserKeys($userId, $appName);
 
@@ -210,6 +214,7 @@ interface IConfig {
 	 *                 [ $key => $value ]
 	 *                 ]
 	 * @since 24.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig::getAllValues} directly
 	 */
 	public function getAllUserValues(string $userId): array;
 
@@ -220,6 +225,7 @@ interface IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @since 8.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig::deleteUserConfig} directly
 	 */
 	public function deleteUserValue($userId, $appName, $key);
 
@@ -228,6 +234,7 @@ interface IConfig {
 	 *
 	 * @param string $userId the userId of the user that we want to remove all values from
 	 * @since 8.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig::deleteAllUserConfig} directly
 	 */
 	public function deleteAllUserValues($userId);
 
@@ -236,6 +243,7 @@ interface IConfig {
 	 *
 	 * @param string $appName the appName of the app that we want to remove all values from
 	 * @since 8.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig::deleteApp} directly
 	 */
 	public function deleteAppFromAllUsers($appName);
 
@@ -246,8 +254,9 @@ interface IConfig {
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
 	 * @return list<string> of user IDs
-	 * @since 31.0.0 return type of `list<string>`
+	 * @since 33.0.0 return type of `list<string>`
 	 * @since 8.0.0
+	 * @deprecated 33.0.0 - use {@see IUserConfig::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValue($appName, $key, $value);
 }

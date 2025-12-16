@@ -12,6 +12,7 @@ return array(
     'OCA\\Testing\\Controller\\ConfigController' => $baseDir . '/../lib/Controller/ConfigController.php',
     'OCA\\Testing\\Controller\\LockingController' => $baseDir . '/../lib/Controller/LockingController.php',
     'OCA\\Testing\\Controller\\RateLimitTestController' => $baseDir . '/../lib/Controller/RateLimitTestController.php',
+    'OCA\\Testing\\Controller\\RoutesController' => $baseDir . '/../lib/Controller/RoutesController.php',
     'OCA\\Testing\\Conversion\\ConversionProvider' => $baseDir . '/../lib/Conversion/ConversionProvider.php',
     'OCA\\Testing\\HiddenGroupBackend' => $baseDir . '/../lib/HiddenGroupBackend.php',
     'OCA\\Testing\\Listener\\GetDeclarativeSettingsValueListener' => $baseDir . '/../lib/Listener/GetDeclarativeSettingsValueListener.php',
