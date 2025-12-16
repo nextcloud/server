@@ -11,6 +11,7 @@ namespace OC\Files\Node;
 use OC\Hooks\Emitter;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 
@@ -37,7 +38,7 @@ class LazyRoot extends LazyFolder implements IRootFolder, Emitter {
 	}
 
 	#[\Override]
-	public function getUserFolder($userId) {
+	public function getUserFolder(string $userId): IUserFolder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
