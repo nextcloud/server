@@ -180,6 +180,7 @@ OC.L10N.register(
     "Search in current app" : "Hľadať v aktuálnej aplikácii",
     "Clear search" : "Vymazať hľadanie",
     "Search everywhere" : "Hľadať všade",
+    "Searching …" : "Vyhľadáva sa …",
     "Start typing to search" : "Začnite písať pre vyhľadanie",
     "No matching results" : "Žiadne zhodujúce výsledky",
     "Today" : "Dnes",
