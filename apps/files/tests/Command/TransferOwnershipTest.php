@@ -162,7 +162,7 @@ class TransferOwnershipTest extends TestCase {
 		$this->assertEquals(0, $status);
 	}
 
-	public function userIdOptionProvider(): array {
+	public static function userIdOptionProvider(): array {
 		return [
 			'use false' => [false],
 			'use true' => [true],
@@ -206,7 +206,7 @@ class TransferOwnershipTest extends TestCase {
 		$this->assertEquals(0, $status);
 	}
 
-	public function moveOptionProvider(): array {
+	public static function moveOptionProvider(): array {
 		return [
 			'move disabled' => [false],
 			'move enabled' => [true],
@@ -249,7 +249,7 @@ class TransferOwnershipTest extends TestCase {
 		$this->assertEquals(0, $status);
 	}
 
-	public function pathOptionProvider(): array {
+	public static function pathOptionProvider(): array {
 		return [
 			'root path' => [''],
 			'sub-folder path' => ['sub-folder'],
