@@ -812,7 +812,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function createShare($id, $type, $node, $sharedWith, $sharedBy, $shareOwner,
-		$permissions, $expireDate = null, $password = null, $attributes = null) {
+		$permissions, $expireDate = null, $password = null, $attributes = null): IShare&MockObject {
 		$share = $this->createMock(IShare::class);
 
 		$share->method('getShareType')->willReturn($type);
@@ -840,6 +840,7 @@ class ManagerTest extends \Test\TestCase {
 			File::class,
 			[
 				'getId' => 108,
+				'getPath' => 'path',
 			],
 			'default',
 		];
@@ -848,6 +849,7 @@ class ManagerTest extends \Test\TestCase {
 			Node::class,
 			[
 				'getId' => 108,
+				'getPath' => 'path',
 			],
 			'default',
 		];
@@ -887,6 +889,7 @@ class ManagerTest extends \Test\TestCase {
 				'getPath' => 'path',
 				'getName' => 'name',
 				'getOwner' => $user0,
+				'getInternalPath' => 'not-null',
 			],
 			'default',
 		];
@@ -904,6 +907,7 @@ class ManagerTest extends \Test\TestCase {
 				'getPath' => 'path',
 				'getName' => 'name',
 				'getOwner' => $user0,
+				'getInternalPath' => 'not-null',
 			],
 			'default',
 		];
@@ -941,6 +945,8 @@ class ManagerTest extends \Test\TestCase {
 				'isShareable' => true,
 				'getPermissions' => Constants::PERMISSION_ALL,
 				'getId' => 42,
+				'getPath' => 'path',
+				'getInternalPath' => 'not-null',
 			],
 			'none',
 		];
@@ -956,6 +962,8 @@ class ManagerTest extends \Test\TestCase {
 				'getPermissions' => Constants::PERMISSION_ALL,
 				'getId' => 187,
 				'getOwner' => $user0,
+				'getPath' => 'path',
+				'getInternalPath' => 'not-null',
 			],
 			'default',
 		];
@@ -972,6 +980,8 @@ class ManagerTest extends \Test\TestCase {
 				'getPermissions' => Constants::PERMISSION_ALL,
 				'getId' => 108,
 				'getOwner' => $user0,
+				'getPath' => 'path',
+				'getInternalPath' => 'not-null',
 			],
 			'default',
 		];
@@ -996,13 +1006,15 @@ class ManagerTest extends \Test\TestCase {
 				'getPermissions' => Constants::PERMISSION_READ ^ Constants::PERMISSION_UPDATE,
 				'getId' => 108,
 				'getOwner' => $user0,
+				'getPath' => 'path',
+				'getInternalPath' => 'not-null',
 			],
 			'remote',
 		];
 
 		$data[] = [[null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 1, null, null], null, false];
 		$data[] = [[null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 3, null, null], null, false];
-		$data[] = [[null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null], 'Cannot increase permissions of ', true];
+		$data[] = [[null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null], 'Cannot increase permissions of path', true];
 
 		return $data;
 	}
@@ -1016,7 +1028,7 @@ class ManagerTest extends \Test\TestCase {
 				$return->method('getUID')
 					->willReturn($uid);
 			} elseif ($methodName === 'getMountPoint') {
-				$return = $this->createMock($return);
+				$return = $this->createMockForIntersectionOfInterfaces([IMountPoint::class, $return]);
 			}
 			$mock->method($methodName)->willReturn($return);
 		}
@@ -2986,7 +2998,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesByOwnerless(): void {
-		$mount = $this->createMock(IShareOwnerlessMount::class);
+		$mount = $this->createMockForIntersectionOfInterfaces([IMountPoint::class, IShareOwnerlessMount::class]);
 
 		$node = $this->createMock(Folder::class);
 		$node
@@ -4711,7 +4723,7 @@ class ManagerTest extends \Test\TestCase {
 		$share1 = $this->createMock(IShare::class);
 		$share2 = $this->createMock(IShare::class);
 
-		$mount = $this->createMock(IShareOwnerlessMount::class);
+		$mount = $this->createMockForIntersectionOfInterfaces([IMountPoint::class, IShareOwnerlessMount::class]);
 
 		$folder = $this->createMock(Folder::class);
 		$folder

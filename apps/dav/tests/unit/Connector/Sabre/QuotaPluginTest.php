@@ -19,7 +19,7 @@ class QuotaPluginTest extends TestCase {
 	private QuotaPlugin $plugin;
 
 	private function init(int $quota, string $checkedPath = ''): void {
-		$view = $this->buildFileViewMock((string)$quota, $checkedPath);
+		$view = $this->buildFileViewMock($quota, $checkedPath);
 		$this->server = new \Sabre\DAV\Server();
 		$this->plugin = new QuotaPlugin($view);
 		$this->plugin->initialize($this->server);
@@ -136,7 +136,7 @@ class QuotaPluginTest extends TestCase {
 		];
 	}
 
-	private function buildFileViewMock(string $quota, string $checkedPath): View {
+	private function buildFileViewMock(int $quota, string $checkedPath): View {
 		// mock filesystem
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['free_space'])

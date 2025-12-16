@@ -31,7 +31,7 @@ abstract class AbstractTrash implements ITrash {
 	}
 
 	public function getFileId(): int {
-		return $this->data->getId();
+		return $this->data->getId() ?? -1;
 	}
 
 	public function getFileInfo(): FileInfo {

@@ -26,6 +26,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
@@ -184,10 +185,10 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -227,12 +228,12 @@ class FileTest extends TestCase {
 		$info = new \OC\Files\FileInfo(
 			$viewRoot . '/' . ltrim($path, '/'),
 			$this->getMockStorage(),
-			null,
+			'',
 			[
 				'permissions' => Constants::PERMISSION_ALL,
 				'type' => FileInfo::TYPE_FOLDER,
 			],
-			null
+			$this->createMock(IMountPoint::class),
 		);
 
 		/** @var File&MockObject $file */
@@ -495,10 +496,10 @@ class FileTest extends TestCase {
 			'method' => 'PUT',
 		], $this->requestId, $this->config, null);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info, null, $request);
 
@@ -529,10 +530,10 @@ class FileTest extends TestCase {
 		// simulate situation where the target file is locked
 		$view->lockFile('/test.txt', ILockingProvider::LOCK_EXCLUSIVE);
 
-		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -567,10 +568,10 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo("/i\nvalid", $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo("/i\nvalid", $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 		$file = new File($view, $info);
 
 		// action
@@ -608,10 +609,10 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo('/valid', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/valid', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 		$file = new File($view, $info);
 
 		$file->setName("/i\nvalid");
@@ -642,10 +643,10 @@ class FileTest extends TestCase {
 			'method' => 'PUT',
 		], $this->requestId, $this->config, null);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info, null, $request);
 
@@ -674,14 +675,17 @@ class FileTest extends TestCase {
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
+		$view->method('getAbsolutePath')->willReturnArgument(0);
+		$view->method('getRelativePath')->willReturnArgument(0);
+
 		$view->expects($this->once())
 			->method('unlink')
 			->willReturn(true);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -698,10 +702,13 @@ class FileTest extends TestCase {
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$view->method('getAbsolutePath')->willReturnArgument(0);
+		$view->method('getRelativePath')->willReturnArgument(0);
+
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => 0,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -718,15 +725,18 @@ class FileTest extends TestCase {
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
+		$view->method('getAbsolutePath')->willReturnArgument(0);
+		$view->method('getRelativePath')->willReturnArgument(0);
+
 		// but fails
 		$view->expects($this->once())
 			->method('unlink')
 			->willReturn(false);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -743,15 +753,18 @@ class FileTest extends TestCase {
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
+		$view->method('getAbsolutePath')->willReturnArgument(0);
+		$view->method('getRelativePath')->willReturnArgument(0);
+
 		// but fails
 		$view->expects($this->once())
 			->method('unlink')
 			->willThrowException(new ForbiddenException('', true));
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -785,12 +798,12 @@ class FileTest extends TestCase {
 		$info = new \OC\Files\FileInfo(
 			'/' . $this->user . '/files/' . $path,
 			$this->getMockStorage(),
-			null,
+			'',
 			[
 				'permissions' => Constants::PERMISSION_ALL,
 				'type' => FileInfo::TYPE_FOLDER,
 			],
-			null
+			$this->createMock(IMountPoint::class)
 		);
 
 		$file = new File($view, $info);
@@ -921,10 +934,10 @@ class FileTest extends TestCase {
 			->method('fopen')
 			->willReturn(false);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FILE,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -943,10 +956,10 @@ class FileTest extends TestCase {
 			->method('fopen')
 			->willThrowException(new ForbiddenException('', true));
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FILE,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new File($view, $info);
 
@@ -964,10 +977,10 @@ class FileTest extends TestCase {
 		$view->expects($this->never())
 			->method('fopen');
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), '', [
 			'permissions' => Constants::PERMISSION_CREATE, // no read perm
 			'type' => FileInfo::TYPE_FOLDER,
-		], null);
+		], $this->createMock(IMountPoint::class));
 
 		$file = new  File($view, $info);
 
@@ -1012,12 +1025,12 @@ class FileTest extends TestCase {
 		$info = new \OC\Files\FileInfo(
 			'/' . $this->user . '/files/' . $path,
 			$this->getMockStorage(),
-			null,
+			'',
 			[
 				'permissions' => Constants::PERMISSION_ALL,
 				'type' => FileInfo::TYPE_FOLDER,
 			],
-			null
+			$this->createMock(IMountPoint::class)
 		);
 
 		$file = new File($view, $info);

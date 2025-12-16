@@ -1604,7 +1604,7 @@ class Manager implements IManager {
 	}
 
 	#[\Override]
-	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false): array {
 		$owner = $path->getOwner();
 
 		if ($owner === null) {

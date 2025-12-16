@@ -14,6 +14,7 @@ use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use Override;
 
 class NewSimpleFile implements ISimpleFile {
 	private Folder $parentFolder;
@@ -68,21 +69,10 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Get the content
-	 *
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
+	#[Override]
 	public function getContent(): string {
 		if ($this->file) {
-			$result = $this->file->getContent();
-
-			if ($result === false) {
-				$this->checkFile();
-			}
-
-			return $result;
+			return $this->file->getContent();
 		} else {
 			return '';
 		}

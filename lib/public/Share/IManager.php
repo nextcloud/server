@@ -275,10 +275,10 @@ interface IManager {
 	 * @param bool $currentAccess Should the user have currently access to the file
 	 * @return ($currentAccess is true
 	 * 		? array{
-	 *     		users?: array<string, array{node_id: int, node_path: string}>,
-	 *     		remote?: array<string, array{node_id: int, node_path: string}>,
+	 *     		users?: array<string, array{node_id: ?int, node_path: string}>,
+	 *     		remote?: array<string, array{node_id: ?int, node_path: string}>,
 	 *     		public?: bool,
-	 *     		mail?: array<string, array{node_id: int, node_path: string}>
+	 *     		mail?: array<string, array{node_id: ?int, node_path: string}>
 	 *     	}
 	 *      : array{users?: list<string>, remote?: bool, public?: bool, mail?: list<string>})
 	 * @since 12.0.0
