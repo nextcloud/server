@@ -25,6 +25,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Template\ITemplateManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -173,7 +174,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->getMockBuilder(IUserFolder::class)->getMock();
 
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -221,7 +222,7 @@ class ViewControllerTest extends TestCase {
 			->with('files')
 			->willReturn(true);
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->getMockBuilder(IUserFolder::class)->getMock();
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
 			->with('testuser1')
@@ -256,7 +257,7 @@ class ViewControllerTest extends TestCase {
 			->method('getPath')
 			->willReturn('testuser1/files_trashbin/files/test.d1462861890/sub');
 
-		$baseFolderFiles = $this->createMock(Folder::class);
+		$baseFolderFiles = $this->createMock(IUserFolder::class);
 		$baseFolderTrash = $this->createMock(Folder::class);
 
 		$this->rootFolder->expects($this->any())

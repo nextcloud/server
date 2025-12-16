@@ -17,6 +17,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -91,7 +92,7 @@ class TemplateManagerTest extends TestCase {
 		$fileDirectory = '/';
 		$filePath = $fileDirectory . str_repeat('a', 251);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('get')
 			->willReturnCallback(function ($path) use ($filePath, $fileDirectory) {
 				if ($path === $filePath) {
