@@ -23,6 +23,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
@@ -574,7 +575,7 @@ class StorageTest extends \Test\TestCase {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$rootFolder = $this->createMock(IRootFolder::class);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();
 		$trashManager = $this->createMock(ITrashManager::class);
 		$event = $this->getMockBuilder(MoveToTrashEvent::class)->disableOriginalConstructor()->getMock();

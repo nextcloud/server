@@ -17,6 +17,7 @@ use OCP\DirectEditing\IToken;
 use OCP\Encryption\IManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUser;
@@ -107,10 +108,7 @@ class ManagerTest extends TestCase {
 	 * @var MockObject|IRootFolder
 	 */
 	private $rootFolder;
-	/**
-	 * @var MockObject|Folder
-	 */
-	private $userFolder;
+	private IUserFolder&MockObject $userFolder;
 	/**
 	 * @var MockObject|IL10N
 	 */
@@ -129,7 +127,7 @@ class ManagerTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
 

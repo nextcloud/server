@@ -12,8 +12,8 @@ use OC\User\Manager;
 use OCA\Files_Versions\Command\CleanUp;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCP\Files\Cache\ICache;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Storage\IStorage;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -52,7 +52,7 @@ class CleanupTest extends TestCase {
 			->with('/testUser/files_versions')
 			->willReturn($nodeExists);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userHomeStorage = $this->createMock(IStorage::class);
 		$userHomeStorageCache = $this->createMock(ICache::class);
 		$this->rootFolder->expects($this->once())
