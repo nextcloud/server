@@ -192,6 +192,7 @@ abstract class TestCase extends \Test\TestCase {
 		Storage::getGlobalCache()->clearCache();
 		Server::get(IUserSession::class)->setUser(null);
 		Filesystem::tearDown();
+		\OC_User::setIncognitoMode(false);
 		Server::get(IUserSession::class)->login($user, $password);
 		\OC::$server->getUserFolder($user);
 

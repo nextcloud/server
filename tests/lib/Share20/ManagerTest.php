@@ -498,7 +498,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->exactly(1))->method('updateShare')->with($reShare)->willReturn($reShare);
 
 		$this->userManager->method('userExists')->willReturn(true);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
 		$userFolder->method('getFirstNodeById')
 			->with(42)
@@ -589,7 +589,7 @@ class ManagerTest extends \Test\TestCase {
 			});
 
 		$this->userManager->method('userExists')->willReturn(true);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
 		$userFolder->method('getFirstNodeById')
 			->willReturnCallback(function ($id) use ($subFolder, $otherFolder, $folder) {
@@ -651,7 +651,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('updateShare');
 
 		$this->userManager->method('userExists')->willReturn(true);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
 		$userFolder->method('getFirstNodeById')
 			->with(42)
@@ -733,7 +733,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->method('getSharedWith')->willReturn([]);
 
 		$this->userManager->method('userExists')->willReturn(true);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')->with('userA')->willReturn($userFolder);
 		$userFolder->method('getFirstNodeById')
 			->with(42)
