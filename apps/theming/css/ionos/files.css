@@ -498,3 +498,18 @@ aside#app-sidebar-vue {
 		color: var(--ion-text);
 	}
 }
+
+/* Files sharing css */
+span.checkbox-radio-switch.checkbox-radio-switch--checked
+> span.checkbox-radio-switch__content.checkbox-content--button-variant.checkbox-content--has-text {
+	background-color: var(--ion-button-tertiary-background-default);
+	color: var(--ion-button-tertiary-text);
+}
+
+.sharingTabDetailsView__delete {
+	display: flex;
+}
+
+.sharingTabDetailsView__footer .button-group button {
+	margin-inline-start: 1px !important;
+}
