@@ -53,6 +53,15 @@ updates:
     - "feature: dependencies"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
+  groups:
+    vite:
+      patterns:
+        - "vite"
+        - "@nextcloud/vite-config"
+    vitest:
+      patterns:
+        - "vitest"
+        - "@vitest/*"
 
 # Latest stable release
 # Composer dependencies for linting and testing
@@ -60,7 +69,7 @@ updates:
   target-branch: stable32
   directories:
     - "/"
-    - "/build/integration"
+    - "/vendor-bin/behat"
     - "/vendor-bin/cs-fixer"
     - "/vendor-bin/openapi-extractor"
     - "/vendor-bin/phpunit"

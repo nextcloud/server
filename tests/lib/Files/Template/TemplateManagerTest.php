@@ -13,6 +13,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\Files\FilenameValidator;
 use OC\Files\Template\TemplateManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
@@ -21,6 +22,8 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IPreview;
+use OCP\IServerContainer;
+use OCP\IUser;
 use OCP\L10N\IFactory;
 use Psr\Log\NullLogger;
 use Test\TestCase;
@@ -53,13 +56,17 @@ class TemplateManagerTest extends TestCase {
 			$logger,
 		);
 
-		$serverContainer = $this->createMock(\OCP\IServerContainer::class);
-		$eventDispatcher = $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class);
+		$serverContainer = $this->createMock(IServerContainer::class);
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->bootstrapCoordinator = $this->createMock(Coordinator::class);
 		$this->bootstrapCoordinator->method('getRegistrationContext')
 			->willReturn(new RegistrationContext($logger));
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
 		$userSession = $this->createMock(\OCP\IUserSession::class);
+		$userSession->method('getUser')
+			->willReturn($user);
 		$userManager = $this->createMock(\OCP\IUserManager::class);
 		$previewManager = $this->createMock(IPreview::class);
 

@@ -278,7 +278,7 @@ class EncryptAll {
 		$this->writePasswordsToFile($newPasswords);
 
 		$this->output->writeln('');
-		$question = new ConfirmationQuestion('Do you want to send the passwords directly to the users by mail? (y/n) ', false);
+		$question = new ConfirmationQuestion('Do you want to send the passwords directly to the users by mail? (y/n) ', true);
 		if ($this->questionHelper->ask($this->input, $this->output, $question)) {
 			$this->sendPasswordsByMail();
 		}

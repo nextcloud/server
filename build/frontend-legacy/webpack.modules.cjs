@@ -44,9 +44,6 @@ module.exports = {
 		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
 		settings: path.join(__dirname, 'apps/files_external/src', 'settings.js'),
 	},
-	files_reminders: {
-		init: path.join(__dirname, 'apps/files_reminders/src', 'init.ts'),
-	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
@@ -56,17 +53,6 @@ module.exports = {
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
-	},
-	files_trashbin: {
-		init: path.join(__dirname, 'apps/files_trashbin/src', 'files-init.ts'),
-	},
-	oauth2: {
-		oauth2: path.join(__dirname, 'apps/oauth2/src', 'main.js'),
-	},
-	federatedfilesharing: {
-		external: path.join(__dirname, 'apps/federatedfilesharing/src', 'external.js'),
-		'vue-settings-admin': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-admin.js'),
-		'vue-settings-personal': path.join(__dirname, 'apps/federatedfilesharing/src', 'main-personal.js'),
 	},
 	profile: {
 		main: path.join(__dirname, 'apps/profile/src', 'main.ts'),
@@ -102,12 +88,6 @@ module.exports = {
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
-	},
-	user_ldap: {
-		main: path.join(__dirname, 'apps/user_ldap/src', 'main.js'),
-	},
-	user_status: {
-		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
 	},
 	weather_status: {
 		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),

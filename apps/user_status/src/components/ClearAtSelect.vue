@@ -6,13 +6,13 @@
 <template>
 	<div class="clear-at-select">
 		<label class="clear-at-select__label" for="clearStatus">
-			{{ $t('user_status', 'Clear status after') }}
+			{{ t('user_status', 'Clear status after') }}
 		</label>
 		<NcSelect
 			input-id="clearStatus"
 			class="clear-at-select__select"
 			:options="options"
-			:value="option"
+			:model-value="option"
 			:clearable="false"
 			placement="top"
 			label-outside
@@ -21,9 +21,10 @@
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { clearAtFilter } from '../filters/clearAtFilter.js'
 import { getAllClearAtOptions } from '../services/clearAtOptionsService.js'
+import { clearAtFormat } from '../services/clearAtService.js'
 
 export default {
 	name: 'ClearAtSelect',
@@ -37,6 +38,8 @@ export default {
 			default: null,
 		},
 	},
+
+	emits: ['selectClearAt'],
 
 	data() {
 		return {
@@ -53,12 +56,14 @@ export default {
 		option() {
 			return {
 				clearAt: this.clearAt,
-				label: clearAtFilter(this.clearAt),
+				label: clearAtFormat(this.clearAt),
 			}
 		},
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Triggered when the user selects a new option.
 		 *
@@ -69,7 +74,7 @@ export default {
 				return
 			}
 
-			this.$emit('select-clear-at', option.clearAt)
+			this.$emit('selectClearAt', option.clearAt)
 		},
 	},
 }

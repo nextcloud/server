@@ -8,7 +8,7 @@ import type { CancelablePromise } from 'cancelable-promise'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-import { davRemoteURL } from '@nextcloud/files'
+import { getRemoteURL } from '@nextcloud/files/dav'
 import { getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
 import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -34,7 +34,7 @@ export interface TreeNode {
 
 export const folderTreeId = 'folders'
 
-export const sourceRoot = `${davRemoteURL}/files/${getCurrentUser()?.uid}`
+export const sourceRoot = `${getRemoteURL()}/files/${getCurrentUser()?.uid}`
 
 const collator = Intl.Collator(
 	[getLanguage(), getCanonicalLocale()],

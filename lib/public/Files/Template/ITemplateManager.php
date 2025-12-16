@@ -8,11 +8,25 @@ declare(strict_types=1);
  */
 namespace OCP\Files\Template;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\GenericFileException;
 
 /**
  * @since 21.0.0
+ * @psalm-type FilesTemplateFile = array{
+ *     basename: string,
+ *     etag: string,
+ *     fileid: int,
+ *     filename: ?string,
+ *     lastmod: int,
+ *     mime: string,
+ *     size: int|float,
+ *     type: string,
+ *     hasPreview: bool,
+ *     permissions: int,
+ * }
  */
+#[Consumable(since: '21.0.0')]
 interface ITemplateManager {
 	/**
 	 * Register a template type support
@@ -78,7 +92,7 @@ interface ITemplateManager {
 	 * @param string $templateId
 	 * @param string $templateType
 	 * @param array $templateFields Since 30.0.0
-	 * @return array
+	 * @return FilesTemplateFile
 	 * @throws GenericFileException
 	 * @since 21.0.0
 	 */

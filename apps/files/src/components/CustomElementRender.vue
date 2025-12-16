@@ -7,6 +7,11 @@
 </template>
 
 <script lang="ts">
+import type { FileAction, Folder, Node, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
+type RenderFunction = typeof FileAction.prototype.renderInline
+
 /**
  * This component is used to render custom
  * elements provided by an API. Vue doesn't allow
@@ -17,17 +22,22 @@ export default {
 	name: 'CustomElementRender',
 	props: {
 		source: {
-			type: Object,
+			type: Object as PropType<Node>,
 			required: true,
 		},
 
-		currentView: {
-			type: Object,
+		activeView: {
+			type: Object as PropType<View>,
+			required: true,
+		},
+
+		activeFolder: {
+			type: Object as PropType<Folder>,
 			required: true,
 		},
 
 		render: {
-			type: Function,
+			type: Function as PropType<RenderFunction>,
 			required: true,
 		},
 	},
@@ -48,7 +58,13 @@ export default {
 
 	methods: {
 		async updateRootElement() {
-			const element = await this.render(this.source, this.currentView)
+			const element = await this.render!({
+				nodes: [this.source],
+				view: this.activeView,
+				folder: this.activeFolder,
+				contents: [],
+			})
+
 			if (element) {
 				this.$el.replaceChildren(element)
 			} else {

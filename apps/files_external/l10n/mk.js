@@ -29,7 +29,6 @@ OC.L10N.register(
     "Public key" : "Јавен клуч",
     "RSA private key" : "RSA приватен клуч",
     "Private key" : "Приватен клуч",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Кофа",
     "Hostname" : "Име на серверот",
     "Port" : "Порта",

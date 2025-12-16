@@ -650,7 +650,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->orderBy('id');
 
 		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$children[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -845,7 +845,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -865,7 +865,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		if ($data === false) {
@@ -896,7 +896,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->executeQuery();
 
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -935,7 +935,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$cursor = $qb->executeQuery();
 
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -958,7 +958,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->executeQuery();
 
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
@@ -1099,7 +1099,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
+		$data = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
 		if ($data === false) {
@@ -1153,7 +1153,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			$shares[$data['fileid']][] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -1180,7 +1180,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$public = false;
 		$mail = [];
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$public = true;
 			if ($currentAccess === false) {
 				$mail[] = $row['share_with'];
@@ -1208,7 +1208,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			);
 
 		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			try {
 				$share = $this->createShareObject($data);
 			} catch (InvalidShare $e) {

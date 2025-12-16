@@ -48,7 +48,7 @@ class Backend {
 
 		return array_map(
 			[$this, 'fixRowTyping'],
-			$stmt->fetchAll()
+			$stmt->fetchAllAssociative()
 		);
 	}
 
@@ -67,7 +67,7 @@ class Backend {
 
 		return array_map(
 			[$this, 'fixRowTyping'],
-			$stmt->fetchAll()
+			$stmt->fetchAllAssociative()
 		);
 	}
 

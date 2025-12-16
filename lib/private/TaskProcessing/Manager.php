@@ -56,6 +56,7 @@ use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
+use OCP\TaskProcessing\ISynchronousWatermarkingProvider;
 use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
@@ -610,6 +611,7 @@ class Manager implements IManager {
 			\OCP\TaskProcessing\TaskTypes\AudioToAudioChat::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\AudioToAudioChat::class),
 			\OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction::class),
 			\OCP\TaskProcessing\TaskTypes\AnalyzeImages::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\AnalyzeImages::class),
+			\OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition::class),
 		];
 
 		foreach ($context->getTaskProcessingTaskTypes() as $providerServiceRegistration) {
@@ -1039,7 +1041,11 @@ class Manager implements IManager {
 			}
 			try {
 				$this->setTaskStatus($task, Task::STATUS_RUNNING);
-				$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));
+				if ($provider instanceof ISynchronousWatermarkingProvider) {
+					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress), $task->getIncludeWatermark());
+				} else {
+					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));
+				}
 			} catch (ProcessingException $e) {
 				$this->logger->warning('Failed to process a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
 				$userFacingErrorMessage = $e instanceof UserFacingProcessingException ? $e->getUserFacingMessage() : null;

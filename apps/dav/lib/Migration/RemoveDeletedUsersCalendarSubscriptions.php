@@ -88,7 +88,7 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 			->setFirstResult($this->progress);
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$username = $this->getPrincipal($row['principaluri']);
 			if (!$this->userManager->userExists($username)) {
 				$this->orphanSubscriptionIds[] = (int)$row['id'];

@@ -14,11 +14,12 @@ use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Server;
 use OCP\Template\ITemplate;
 use OCP\Template\ITemplateManager;
+use OCP\Util;
 
 class Personal implements IPersonalProviderSettings {
 	public function getBody(): ITemplate {
-		\OCP\Util::addScript(Application::APP_ID, 'settings-personal');
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-personal');
+		Util::addScript(Application::APP_ID, 'settings-personal');
+		Util::addStyle(Application::APP_ID, 'settings-personal');
 		return Server::get(ITemplateManager::class)
 			->getTemplate('twofactor_backupcodes', 'personal');
 	}

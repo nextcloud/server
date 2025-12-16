@@ -6,18 +6,18 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Tillåter OAuth2-kompatibel autentisering från andra webbapplikationer.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "I appen OAuth2 kan administratörer konfigurera det inbyggda autentiseringsflödet för att även tillåta OAuth2-kompatibel autentisering från andra webbapplikationer.",
+    "Secret key" : "Hemlig nyckel",
+    "Delete" : "Ta bort",
     "OAuth 2.0 clients" : "OAuth 2.0 klienter",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 tillåter externa tjänster att begära åtkomst till {instanceName}.",
     "Name" : "Namn",
     "Redirection URI" : "Omdirigerings-URI",
-    "Client Identifier" : "Klientidentifierare",
-    "Secret key" : "Hemlig nyckel",
     "Delete client" : "Ta bort klient",
     "Make sure you store the secret key, it cannot be recovered." : "Se till att du lagrar den hemliga nyckeln, den kan inte återställas.",
     "Add client" : "Lägg till klient",
     "Add" : "Lägg till",
+    "Client Identifier" : "Klientidentifierare",
     "Show client secret" : "Visa klienthemlighet",
-    "Hide client secret" : "Dölj klienthemlighet",
-    "Delete" : "Ta bort"
+    "Hide client secret" : "Dölj klienthemlighet"
 },
 "nplurals=2; plural=(n != 1);");

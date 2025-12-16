@@ -37,7 +37,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "ლოგინის მონაცემები, შენახვა სესიაში",
     "RSA public key" : "RSA ღია გასაღები",
     "Public key" : "ღია გასაღები",
-    "Amazon S3" : "Amazon S3-ი",
     "Bucket" : "ხაპია",
     "Hostname" : "ჰოსტი",
     "Port" : "პორტი",

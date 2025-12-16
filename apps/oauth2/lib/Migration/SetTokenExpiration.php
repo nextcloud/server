@@ -36,7 +36,7 @@ class SetTokenExpiration implements IRepairStep {
 
 		$cursor = $qb->executeQuery();
 
-		while ($row = $cursor->fetch()) {
+		while ($row = $cursor->fetchAssociative()) {
 			$token = AccessToken::fromRow($row);
 			try {
 				$appToken = $this->tokenProvider->getTokenById($token->getTokenId());

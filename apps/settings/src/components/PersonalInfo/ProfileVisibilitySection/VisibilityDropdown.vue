@@ -15,7 +15,7 @@
 			class="visibility-container__select"
 			:clearable="false"
 			:options="visibilityOptions"
-			:value="visibilityObject"
+			:model-value="visibilityObject"
 			label-outside
 			@option:selected="onVisibilityChange" />
 	</div>

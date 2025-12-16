@@ -7,15 +7,24 @@ import * as ncEventBus from '@nextcloud/event-bus'
 import { Folder } from '@nextcloud/files'
 import isSvg from 'is-svg'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { PERMISSION_ALL, PERMISSION_NONE } from '../../../../core/src/OC/constants.js'
 import { trashbinView } from '../files_views/trashbinView.ts'
 import { restoreAction } from './restoreAction.ts'
+
+// TODO: once core is migrated to the new frontend use the import instead:
+// import { PERMISSION_ALL, PERMISSION_NONE } from '../../../../core/src/OC/constants.js'
+export const PERMISSION_NONE = 0
+export const PERMISSION_ALL = 31
 
 const axiosMock = vi.hoisted(() => ({
 	request: vi.fn(),
 }))
-vi.mock('@nextcloud/axios', () => ({ default: axiosMock }))
+vi.mock('@nextcloud/axios', async (original) => ({ ...(await original()), default: axiosMock }))
 vi.mock('@nextcloud/auth')
+
+const errorSpy = vi.spyOn(window.console, 'error').mockImplementation(() => {})
+beforeEach(() => {
+	vi.resetAllMocks()
+})
 
 describe('files_trashbin: file actions - restore action', () => {
 	it('has id set', () => {
@@ -31,19 +40,34 @@ describe('files_trashbin: file actions - restore action', () => {
 		const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/' })
 
 		expect(restoreAction.inline).toBeTypeOf('function')
-		expect(restoreAction.inline!(node, trashbinView)).toBe(true)
+		expect(restoreAction.inline!({
+			nodes: [node],
+			view: trashbinView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	it('has the display name set', () => {
 		const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/' })
 
-		expect(restoreAction.displayName([node], trashbinView)).toBe('Restore')
+		expect(restoreAction.displayName({
+			nodes: [node],
+			view: trashbinView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Restore')
 	})
 
 	it('has an icon set', () => {
 		const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/' })
 
-		const icon = restoreAction.iconSvgInline([node], trashbinView)
+		const icon = restoreAction.iconSvgInline({
+			nodes: [node],
+			view: trashbinView,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(icon).toBeTypeOf('string')
 		expect(isSvg(icon)).toBe(true)
 	})
@@ -54,7 +78,12 @@ describe('files_trashbin: file actions - restore action', () => {
 		]
 
 		expect(restoreAction.enabled).toBeTypeOf('function')
-		expect(restoreAction.enabled!(nodes, trashbinView)).toBe(true)
+		expect(restoreAction.enabled!({
+			nodes,
+			view: trashbinView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	it('is not enabled when permissions are missing', () => {
@@ -63,12 +92,22 @@ describe('files_trashbin: file actions - restore action', () => {
 		]
 
 		expect(restoreAction.enabled).toBeTypeOf('function')
-		expect(restoreAction.enabled!(nodes, trashbinView)).toBe(false)
+		expect(restoreAction.enabled!({
+			nodes,
+			view: trashbinView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	it('is not enabled when no nodes are selected', () => {
 		expect(restoreAction.enabled).toBeTypeOf('function')
-		expect(restoreAction.enabled!([], trashbinView)).toBe(false)
+		expect(restoreAction.enabled!({
+			nodes: [],
+			view: trashbinView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	it('is not enabled for other views', () => {
@@ -86,7 +125,12 @@ describe('files_trashbin: file actions - restore action', () => {
 		})
 
 		expect(restoreAction.enabled).toBeTypeOf('function')
-		expect(restoreAction.enabled!(nodes, otherView)).toBe(false)
+		expect(restoreAction.enabled!({
+			nodes,
+			view: otherView,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	describe('execute', () => {
@@ -97,11 +141,16 @@ describe('files_trashbin: file actions - restore action', () => {
 		it('send restore request', async () => {
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
-			expect(await restoreAction.exec(node, trashbinView, '/')).toBe(true)
+			expect(await restoreAction.exec({
+				nodes: [node],
+				view: trashbinView,
+				folder: {} as Folder,
+				contents: [],
+			})).toBe(true)
 			expect(axiosMock.request).toBeCalled()
-			expect(axiosMock.request.mock.calls[0][0].method).toBe('MOVE')
-			expect(axiosMock.request.mock.calls[0][0].url).toBe(node.encodedSource)
-			expect(axiosMock.request.mock.calls[0][0].headers.destination).toContain('/restore/')
+			expect(axiosMock.request.mock.calls[0]![0].method).toBe('MOVE')
+			expect(axiosMock.request.mock.calls[0]![0].url).toBe(node.encodedSource)
+			expect(axiosMock.request.mock.calls[0]![0].headers.destination).toContain('/restore/')
 		})
 
 		it('deletes node from current view after successfull request', async () => {
@@ -109,13 +158,18 @@ describe('files_trashbin: file actions - restore action', () => {
 
 			const emitSpy = vi.spyOn(ncEventBus, 'emit')
 
-			expect(await restoreAction.exec(node, trashbinView, '/')).toBe(true)
+			expect(await restoreAction.exec({
+				nodes: [node],
+				view: trashbinView,
+				folder: {} as Folder,
+				contents: [],
+			})).toBe(true)
 			expect(axiosMock.request).toBeCalled()
 			expect(emitSpy).toBeCalled()
 			expect(emitSpy).toBeCalledWith('files:node:deleted', node)
 		})
 
-		it('does not delete node from view if reuest failed', async () => {
+		it('does not delete node from view if request failed', async () => {
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
 			axiosMock.request.mockImplementationOnce(() => {
@@ -123,15 +177,26 @@ describe('files_trashbin: file actions - restore action', () => {
 			})
 			const emitSpy = vi.spyOn(ncEventBus, 'emit')
 
-			expect(await restoreAction.exec(node, trashbinView, '/')).toBe(false)
+			expect(await restoreAction.exec({
+				nodes: [node],
+				view: trashbinView,
+				folder: {} as Folder,
+				contents: [],
+			})).toBe(false)
 			expect(axiosMock.request).toBeCalled()
 			expect(emitSpy).not.toBeCalled()
+			expect(errorSpy).toBeCalled()
 		})
 
 		it('batch: only returns success if all requests worked', async () => {
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
-			expect(await restoreAction.execBatch!([node, node], trashbinView, '/')).toStrictEqual([true, true])
+			expect(await restoreAction.execBatch!({
+				nodes: [node, node],
+				view: trashbinView,
+				folder: {} as Folder,
+				contents: [],
+			})).toStrictEqual([true, true])
 			expect(axiosMock.request).toBeCalledTimes(2)
 		})
 
@@ -141,8 +206,14 @@ describe('files_trashbin: file actions - restore action', () => {
 			axiosMock.request.mockImplementationOnce(() => {
 				throw new Error()
 			})
-			expect(await restoreAction.execBatch!([node, node], trashbinView, '/')).toStrictEqual([false, true])
+			expect(await restoreAction.execBatch!({
+				nodes: [node, node],
+				view: trashbinView,
+				folder: {} as Folder,
+				contents: [],
+			})).toStrictEqual([false, true])
 			expect(axiosMock.request).toBeCalledTimes(2)
+			expect(errorSpy).toBeCalled()
 		})
 	})
 })

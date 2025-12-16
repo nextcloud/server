@@ -13,6 +13,7 @@ use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\Job;
 use OCP\Server;
+use OCP\Snowflake\IGenerator;
 
 /**
  * Class DummyJobList
@@ -31,7 +32,6 @@ class DummyJobList extends JobList {
 	private array $reserved = [];
 
 	private int $last = 0;
-	private int $lastId = 0;
 
 	public function __construct() {
 	}
@@ -46,8 +46,7 @@ class DummyJobList extends JobList {
 			$job = Server::get($job);
 		}
 		$job->setArgument($argument);
-		$job->setId($this->lastId);
-		$this->lastId++;
+		$job->setId(Server::get(IGenerator::class)->nextId());
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
@@ -70,7 +69,7 @@ class DummyJobList extends JobList {
 		}
 	}
 
-	public function removeById(int $id): void {
+	public function removeById(string $id): void {
 		foreach ($this->jobs as $index => $listJob) {
 			if ($listJob->getId() === $id) {
 				unset($this->jobs[$index]);
@@ -148,7 +147,7 @@ class DummyJobList extends JobList {
 		}
 	}
 
-	public function getById(int $id): ?IJob {
+	public function getById(string $id): ?IJob {
 		foreach ($this->jobs as $job) {
 			if ($job->getId() === $id) {
 				return $job;
@@ -157,7 +156,7 @@ class DummyJobList extends JobList {
 		return null;
 	}
 
-	public function getDetailsById(int $id): ?array {
+	public function getDetailsById(string $id): ?array {
 		return null;
 	}
 

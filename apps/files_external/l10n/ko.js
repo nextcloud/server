@@ -47,7 +47,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 기본 영역, 기본값은 \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Kerberos 티켓 Apache 모드",
     "Kerberos ticket" : "Kerberos 티켓",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "버킷",
     "Hostname" : "호스트 이름",
     "Port" : "포트",

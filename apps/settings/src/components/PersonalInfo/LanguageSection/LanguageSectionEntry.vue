@@ -13,7 +13,7 @@
 			label="name"
 			label-outside
 			:options="allLanguages"
-			:value="language"
+			:model-value="language"
 			@option:selected="onLanguageChange" />
 
 		<a

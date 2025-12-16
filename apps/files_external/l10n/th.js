@@ -33,7 +33,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "ข้อมูลประจำตัวสำหรับเข้าสู่ระบบ, บันทึกในเซสชัน",
     "RSA public key" : "คีย์สาธารณะ RSA",
     "Public key" : "คีย์สาธารณะ",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "ชื่อโฮสต์",
     "Port" : "พอร์ต",

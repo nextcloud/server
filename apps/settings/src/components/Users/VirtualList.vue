@@ -121,7 +121,7 @@ export default Vue.extend({
 			this.tableHeight = root?.clientHeight ?? 0
 			logger.debug('VirtualList resizeObserver updated')
 			this.onScroll()
-		}, 100, false))
+		}, 100))
 
 		this.resizeObserver.observe(root)
 		this.resizeObserver.observe(tfoot)

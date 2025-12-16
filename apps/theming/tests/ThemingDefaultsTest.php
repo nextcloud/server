@@ -7,16 +7,17 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Tests;
 
+use OCA\Theming\ConfigLexicon;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\Files\NotFoundException;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
@@ -27,7 +28,7 @@ use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
 	private IL10N&MockObject $l10n;
 	private IUserSession&MockObject $userSession;
 	private IURLGenerator&MockObject $urlGenerator;
@@ -45,7 +46,7 @@ class ThemingDefaultsTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -62,8 +63,8 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getBaseUrl')
 			->willReturn('');
 		$this->template = new ThemingDefaults(
-			$this->config,
 			$this->appConfig,
+			$this->userConfig,
 			$this->l10n,
 			$this->userSession,
 			$this->urlGenerator,
@@ -467,9 +468,9 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValueString')
 			->with('primary_color', '')
 			->willReturn($primaryColor);
-		$this->config
+		$this->userConfig
 			->expects($this->any())
-			->method('getUserValue')
+			->method('getValueString')
 			->with('user', 'theming', 'primary_color', '')
 			->willReturn($userPrimaryColor);
 
@@ -728,7 +729,7 @@ class ThemingDefaultsTest extends TestCase {
 			'theming-favicon-mime' => '\'jpeg\'',
 			'image-logoheader' => "url('custom-logoheader?v=0')",
 			'image-favicon' => "url('custom-favicon?v=0')",
-			'has-legal-links' => 'false'
+			'has-legal-links' => 'false',
 		];
 		$this->assertEquals($expected, $this->template->getScssVariables());
 	}
@@ -798,7 +799,7 @@ class ThemingDefaultsTest extends TestCase {
 			['core', 'test.png', false],
 			['core', 'manifest.json'],
 			['core', 'favicon.ico'],
-			['core', 'favicon-touch.png']
+			['core', 'favicon-touch.png'],
 		];
 	}
 
@@ -824,5 +825,36 @@ class ThemingDefaultsTest extends TestCase {
 				->willReturn('1234abcd');
 		}
 		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
+	}
+
+	public static function setTypesProvider(): array {
+		return [
+			[ConfigLexicon::BASE_URL, 'example.com', 'example.com'],
+			[ConfigLexicon::USER_THEMING_DISABLED, 'no', false],
+			[ConfigLexicon::USER_THEMING_DISABLED, 'true', true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('setTypesProvider')]
+	public function testSetTypes(string $setting, string $value, mixed $expected): void {
+		$setValue = null;
+		$cb = function ($setting, $value) use (&$setValue) {
+			if ($setting !== ConfigLexicon::CACHE_BUSTER) {
+				$setValue = $value;
+			}
+			return true;
+		};
+		$this->appConfig
+			->method('setAppValueBool')
+			->willReturnCallback($cb);
+		$this->appConfig
+			->method('setAppValueString')
+			->willReturnCallback($cb);
+		$this->appConfig
+			->method('setAppValueInt')
+			->willReturnCallback($cb);
+
+		$this->template->set($setting, $value);
+		$this->assertEquals($expected, $setValue);
 	}
 }

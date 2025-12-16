@@ -91,7 +91,7 @@ class SetPasswordColumnTest extends TestCase {
 		$query->select('*')
 			->from('share');
 		$result = $query->executeQuery();
-		$allShares = $result->fetchAll();
+		$allShares = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		foreach ($allShares as $share) {

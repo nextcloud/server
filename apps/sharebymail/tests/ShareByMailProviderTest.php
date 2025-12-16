@@ -747,7 +747,7 @@ class ShareByMailProviderTest extends TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
 		$qResult = $qb->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(1, count($result));
@@ -800,7 +800,7 @@ class ShareByMailProviderTest extends TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
 		$qResult = $qb->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 
 		$this->assertSame(1, count($result));
@@ -1032,7 +1032,7 @@ class ShareByMailProviderTest extends TestCase {
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 
 		$result = $query->executeQuery();
-		$before = $result->fetchAll();
+		$before = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$this->assertTrue(is_array($before));
@@ -1045,7 +1045,7 @@ class ShareByMailProviderTest extends TestCase {
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 
 		$result = $query->executeQuery();
-		$after = $result->fetchAll();
+		$after = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$this->assertTrue(is_array($after));
@@ -1068,7 +1068,7 @@ class ShareByMailProviderTest extends TestCase {
 		$query->select('*')->from('share');
 
 		$result = $query->executeQuery();
-		$before = $result->fetchAll();
+		$before = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$this->assertTrue(is_array($before));
@@ -1083,7 +1083,7 @@ class ShareByMailProviderTest extends TestCase {
 		$query->select('*')->from('share');
 
 		$result = $query->executeQuery();
-		$after = $result->fetchAll();
+		$after = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$this->assertTrue(is_array($after));

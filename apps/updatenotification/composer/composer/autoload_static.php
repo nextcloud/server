@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitUpdateNotification
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\UpdateNotification\\' => 23,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\UpdateNotification\\' => 
+        'OCA\\UpdateNotification\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

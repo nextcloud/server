@@ -9,7 +9,6 @@
 namespace Test;
 
 use OC\AllConfig;
-use OC\SystemConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
@@ -54,7 +53,7 @@ class AllConfigTest extends \Test\TestCase {
 		$result = $this->connection->executeQuery(
 			'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences` WHERE `userid` = ?',
 			['userDelete']
-		)->fetch();
+		)->fetchAssociative();
 		$actualCount = $result['count'];
 
 		$this->assertEquals(0, $actualCount, 'There was one value in the database and after the tests there should be no entry left.');
@@ -66,7 +65,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$config->setUserValue('userSet', 'appSet', 'keySet', 'valueSet');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -79,7 +78,7 @@ class AllConfigTest extends \Test\TestCase {
 		// test if the method overwrites existing database entries
 		$config->setUserValue('userSet', 'appSet', 'keySet', 'valueSet2');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -103,7 +102,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$config->setUserValue('userSet', 'settings', 'email', 'mixed.CASE@domain.COM');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -121,7 +120,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$config->setUserValue('userPreCond', 'appPreCond', 'keyPreCond', 'valuePreCond');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond'])->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -134,7 +133,7 @@ class AllConfigTest extends \Test\TestCase {
 		// test if the method overwrites existing database entries with valid precond
 		$config->setUserValue('userPreCond', 'appPreCond', 'keyPreCond', 'valuePreCond2', 'valuePreCond');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond'])->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -178,7 +177,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -191,7 +190,7 @@ class AllConfigTest extends \Test\TestCase {
 		// test if the method overwrites existing database entries with valid precond
 		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond2', 'valuePreCond3');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -214,7 +213,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAllAssociative();
 
 		$this->assertCount(1, $result);
 		$this->assertEquals([
@@ -227,7 +226,7 @@ class AllConfigTest extends \Test\TestCase {
 		// test if the method throws with invalid precondition when the value is the same
 		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond', 'valuePreCond3');
 
-		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAllAssociative();
 
 		$this->assertCount(1, $result);
 		$this->assertEquals([
@@ -278,7 +277,7 @@ class AllConfigTest extends \Test\TestCase {
 		$result = $this->connection->executeQuery(
 			'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?',
 			['userGet']
-		)->fetchAll();
+		)->fetchAllAssociative();
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
@@ -299,7 +298,7 @@ class AllConfigTest extends \Test\TestCase {
 		$result = $this->connection->executeQuery(
 			'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?',
 			['userGet']
-		)->fetchAll();
+		)->fetchAllAssociative();
 
 		$this->assertEquals(0, count($result));
 	}
@@ -434,7 +433,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$result = $this->connection->executeQuery(
 			'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences`'
-		)->fetch();
+		)->fetchAssociative();
 		$actualCount = $result['count'];
 
 		$this->assertEquals(1, $actualCount, 'After removing `userFetch3` there should be exactly 1 entry left.');
@@ -468,7 +467,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$result = $this->connection->executeQuery(
 			'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences`'
-		)->fetch();
+		)->fetchAssociative();
 		$actualCount = $result['count'];
 
 		$this->assertEquals(4, $actualCount, 'After removing `appFetch1` there should be exactly 4 entries left.');
@@ -477,7 +476,7 @@ class AllConfigTest extends \Test\TestCase {
 
 		$result = $this->connection->executeQuery(
 			'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences`'
-		)->fetch();
+		)->fetchAssociative();
 		$actualCount = $result['count'];
 
 		$this->assertEquals(2, $actualCount, 'After removing `appFetch2` there should be exactly 2 entries left.');
@@ -515,19 +514,5 @@ class AllConfigTest extends \Test\TestCase {
 
 		// cleanup
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
-	}
-
-	public function testGetUsersForUserValueCaseInsensitive(): void {
-		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->createMock(SystemConfig::class);
-		$config = $this->getConfig($systemConfig);
-
-		$config->setUserValue('user1', 'myApp', 'myKey', 'test123');
-		$config->setUserValue('user2', 'myApp', 'myKey', 'TEST123');
-		$config->setUserValue('user3', 'myApp', 'myKey', 'test12345');
-
-		$users = $config->getUsersForUserValueCaseInsensitive('myApp', 'myKey', 'test123');
-		$this->assertSame(2, count($users));
-		$this->assertSame(['user1', 'user2'], $users);
 	}
 }

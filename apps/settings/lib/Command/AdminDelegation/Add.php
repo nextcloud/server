@@ -9,6 +9,7 @@ namespace OCA\Settings\Command\AdminDelegation;
 
 use OC\Core\Command\Base;
 use OCA\Settings\Service\AuthorizedGroupService;
+use OCA\Settings\Service\ConflictException;
 use OCP\IGroupManager;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IManager;
@@ -50,7 +51,12 @@ class Add extends Base {
 			return 3;
 		}
 
-		$this->authorizedGroupService->create($groupId, $settingClass);
+		try {
+			$this->authorizedGroupService->create($groupId, $settingClass);
+		} catch (ConflictException) {
+			$io->warning('Administration of ' . $settingClass . ' is already delegated to ' . $groupId . '.');
+			return 4;
+		}
 
 		$io->success('Administration of ' . $settingClass . ' delegated to ' . $groupId . '.');
 

@@ -40,7 +40,6 @@ OC.L10N.register(
     "RSA private key" : "Crae privada RSA",
     "Private key" : "Crae privada",
     "Kerberos ticket" : "Billete de Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nùmene retzidore",
     "Port" : "Porta",

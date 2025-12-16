@@ -13,17 +13,21 @@ vi.mock('./WebDavSearch.ts', () => ({ searchNodes }))
 vi.mock('@nextcloud/auth')
 
 describe('Search service', () => {
-	const fakeFolder = new Folder({ owner: 'owner', source: 'https://cloud.example.com/remote.php/dav/files/owner/folder', root: '/files/owner' })
+	const fakeFolder = new Folder({
+		owner: 'owner',
+		source: 'https://cloud.example.com/remote.php/dav/files/owner/folder',
+		root: '/files/owner',
+	})
 
 	beforeAll(() => {
 		window.OCP ??= {}
 		window.OCP.Files ??= {}
 		window.OCP.Files.Router ??= { params: {}, query: {} }
-		vi.spyOn(window.OCP.Files.Router, 'params', 'get').mockReturnValue({ view: 'files' })
 	})
 
 	beforeEach(() => {
-		vi.restoreAllMocks()
+		vi.resetAllMocks()
+		vi.spyOn(window.OCP.Files.Router, 'params', 'get').mockReturnValue({ view: 'files' })
 		setActivePinia(createPinia())
 	})
 

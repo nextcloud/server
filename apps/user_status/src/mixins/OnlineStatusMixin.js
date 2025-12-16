@@ -37,8 +37,10 @@ export default {
 						return t('user_status', 'Online')
 
 					case 'away':
-					case 'busy':
 						return t('user_status', 'Away')
+
+					case 'busy':
+						return t('user_status', 'Busy')
 
 					case 'dnd':
 						return t('user_status', 'Do not disturb')

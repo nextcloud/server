@@ -16,7 +16,7 @@
 				:placeholder="t('core', 'Search in current app')"
 				show-trailing-button
 				:trailing-button-label="t('core', 'Clear search')"
-				:value="query"
+				:model-value="query"
 				@update:value="$emit('update:query', $event)"
 				@trailing-button-click="clearAndCloseSearch">
 				<template #trailing-button-icon>

@@ -25,11 +25,11 @@
 			@submit.prevent="emit('close', localDefaultName)">
 			<NcTextField
 				ref="nameInput"
+				v-model="localDefaultName"
 				data-cy-files-new-node-dialog-input
 				:error="validity !== ''"
 				:helper-text="validity"
-				:label="label"
-				:value.sync="localDefaultName" />
+				:label="label" />
 
 			<!-- Hidden file warning -->
 			<NcNoteCard

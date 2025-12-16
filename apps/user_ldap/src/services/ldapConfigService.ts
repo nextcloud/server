@@ -8,14 +8,11 @@ import type { AxiosResponse } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { LDAPConfig } from '../models/index.ts'
 
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { getDialogBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { generateOcsUrl, generateUrl } from '@nextcloud/router'
-import path from 'path'
+import { generateOcsUrl } from '@nextcloud/router'
 import logger from './logger.ts'
-
-const AJAX_ENDPOINT = generateUrl('apps/user_ldap/ajax')
 
 export type WizardAction
 	= 'guessPortAndTLS'
@@ -35,7 +32,6 @@ export type WizardAction
 		| 'countGroups'
 		| 'countInBaseDN'
 		| 'testLoginName'
-		| 'save'
 
 /**
  *
@@ -55,12 +51,12 @@ export async function copyConfig(configId: string) {
 	params.set('copyConfig', configId)
 
 	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'getNewServerConfigPrefix.php'),
+		generateOcsUrl('apps/user_ldap/api/v1/config/{configId}/copy', { configId }),
 		params,
-	) as AxiosResponse<{ status: 'error' | 'success', configPrefix: string }>
+	) as AxiosResponse<OCSResponse<{ configID: string }>>
 
-	logger.debug('Created configuration', { configId: response.data.configPrefix })
-	return response.data.configPrefix
+	logger.debug('Created configuration', { configId: response.data.ocs.data.configID })
+	return response.data.ocs.data.configID
 }
 
 /**
@@ -78,7 +74,7 @@ export async function getConfig(configId: string): Promise<LDAPConfig> {
  * @param configId
  * @param config
  */
-export async function updateConfig(configId: string, config: LDAPConfig): Promise<LDAPConfig> {
+export async function updateConfig(configId: string, config: Partial<LDAPConfig>): Promise<LDAPConfig> {
 	const response = await axios.put(
 		generateOcsUrl('apps/user_ldap/api/v1/config/{configId}', { configId }),
 		{ configData: config },
@@ -119,16 +115,12 @@ export async function deleteConfig(configId: string): Promise<boolean> {
  */
 export async function testConfiguration(configId: string) {
 	const params = new FormData()
-	params.set('ldap_serverconfig_chooser', configId)
 
-	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'testConfiguration.php'),
-		params,
-	) as AxiosResponse<{ message: string, status: 'error' | 'success' }>
+	const response = await axios.post(generateOcsUrl('apps/user_ldap/api/v1/config/{configId}/test', { configId })) as AxiosResponse<OCSResponse<{ success: boolean, message: string }>>
 
-	logger.debug(`Configuration is ${response.data.status === 'success' ? 'valide' : 'invalide'}`, { configId, params, response })
+	logger.debug(`Configuration is ${response.data.ocs.data.success ? 'valide' : 'invalide'}`, { configId, params, response })
 
-	return response.data
+	return response.data.ocs.data
 }
 
 /**
@@ -144,19 +136,18 @@ export async function clearMapping(subject: 'user' | 'group') {
 		return false
 	}
 
-	const params = new FormData()
-	params.set('ldap_clear_mapping', subject)
+	try {
+		const response = await axios.post(
+			generateOcsUrl('apps/user_ldap/api/v1/wizard/clearMappings'),
+			{ subject },
+		) as AxiosResponse<OCSResponse>
 
-	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'clearMappings.php'),
-		params,
-	)
-
-	if (response.data.status === 'success') {
-		logger.debug('Cleared mapping', { subject, params, response })
+		logger.debug('Cleared mapping', { subject, response })
 		showSuccess(t('user_ldap', 'Mapping cleared'))
-	} else {
-		showError(t('user_ldap', 'Failed to clear mapping'))
+		return true
+	} catch (error) {
+		const errorResponse = (error as AxiosError<OCSResponse>).response
+		showError(errorResponse?.data.ocs.meta.message || t('user_ldap', 'Failed to clear mapping'))
 	}
 }
 
@@ -168,27 +159,33 @@ export async function clearMapping(subject: 'user' | 'group') {
  */
 export async function callWizard(action: WizardAction, configId: string, extraParams: Record<string, string> = {}) {
 	const params = new FormData()
-	params.set('action', action)
-	params.set('ldap_serverconfig_chooser', configId)
 
 	Object.entries(extraParams).forEach(([key, value]) => {
 		params.set(key, value)
 	})
 
-	const response = await axios.post(
-		path.join(AJAX_ENDPOINT, 'wizard.php'),
-		params,
-	) as AxiosResponse<{ status: 'error', message?: string } | { status: 'success', changes?: Record<string, unknown>, options?: Record<string, []> }>
+	try {
+		const response = await axios.post(
+			generateOcsUrl('apps/user_ldap/api/v1/wizard/{configId}/{action}', { configId, action }),
+			params,
+		) as AxiosResponse<OCSResponse<{ changes?: Record<string, unknown>, options?: Record<string, []> }>>
 
-	logger.debug(`Called wizard action: ${action}`, { configId, params, response })
+		logger.debug(`Called wizard action: ${action}`, { configId, params, response })
 
-	if (response.data.status === 'error') {
-		const message = response.data.message ?? t('user_ldap', 'An error occurred')
+		return response.data.ocs.data
+	} catch (error) {
+		let message = t('user_ldap', 'An error occurred')
+
+		if (isAxiosError(error) && error.response?.data.ocs.meta.status === 'failure') {
+			if (error.response.data.ocs.meta.message !== '' && error.response.data.ocs.meta.message !== undefined) {
+				message = error.response.data.ocs.meta.message
+			}
+		}
+
 		showError(message)
-		throw new Error(message)
-	}
 
-	return response.data
+		throw error
+	}
 }
 
 /**

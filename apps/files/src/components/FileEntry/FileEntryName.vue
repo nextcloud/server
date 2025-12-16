@@ -13,11 +13,11 @@
 		@submit.prevent.stop="onRename">
 		<NcTextField
 			ref="renameInput"
+			v-model="newName"
 			:label="renameLabel"
 			:autofocus="true"
 			:minlength="1"
 			:required="true"
-			:value.sync="newName"
 			enterkeyhint="done"
 			@keyup.esc="stopRenaming" />
 	</form>
@@ -48,9 +48,8 @@ import { translate as t } from '@nextcloud/l10n'
 import { defineComponent, inject } from 'vue'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import { useNavigation } from '../../composables/useNavigation.ts'
-import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import logger from '../../logger.ts'
+import { useActiveStore } from '../../store/active.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import { useUserConfigStore } from '../../store/userconfig.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
@@ -97,20 +96,18 @@ export default defineComponent({
 
 	setup() {
 		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const { currentView } = useNavigation(true)
-		const { directory } = useRouteParameters()
 		const filesListWidth = useFileListWidth()
 		const renamingStore = useRenamingStore()
 		const userConfigStore = useUserConfigStore()
+		const { activeFolder, activeView } = useActiveStore()
 
 		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
 
 		return {
-			currentView,
+			activeFolder,
+			activeView,
 			defaultFileAction,
-			directory,
 			filesListWidth,
-
 			renamingStore,
 			userConfigStore,
 		}
@@ -154,7 +151,12 @@ export default defineComponent({
 			}
 
 			if (this.defaultFileAction) {
-				const displayName = this.defaultFileAction.displayName([this.source], this.currentView)
+				const displayName = this.defaultFileAction.displayName({
+					nodes: [this.source],
+					view: this.activeView,
+					folder: this.activeFolder,
+					contents: [],
+				})
 				return {
 					is: 'button',
 					params: {

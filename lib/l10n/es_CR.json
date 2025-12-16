@@ -144,6 +144,7 @@
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
     "Images" : "Imágenes",
+    "Optical character recognition" : "Reconocimiento óptico de caracteres",
     "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",

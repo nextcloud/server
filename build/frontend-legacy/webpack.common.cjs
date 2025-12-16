@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-const { codecovWebpackPlugin } = require('@codecov/webpack-plugin')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const { readFileSync } = require('fs')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
@@ -229,11 +228,6 @@ const config = {
 		new webpack.IgnorePlugin({
 			resourceRegExp: /^\.\/locale$/,
 			contextRegExp: /moment\/min$/,
-		}),
-		codecovWebpackPlugin({
-			enableBundleAnalysis: !isDev && !isTesting,
-			bundleName: 'nextcloud',
-			telemetry: false,
 		}),
 	],
 	externals: {

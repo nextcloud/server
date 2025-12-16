@@ -94,7 +94,7 @@ class RecentContactMapper extends QBMapper {
 			->setMaxResults(1);
 
 		$cursor = $select->executeQuery();
-		$row = $cursor->fetch();
+		$row = $cursor->fetchAssociative();
 
 		if ($row === false) {
 			return null;

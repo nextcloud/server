@@ -47,7 +47,7 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Réimse réamhshocraithe Kerberos, mainneachtainí chuig \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Mód Apache ticéad Kerberos",
     "Kerberos ticket" : "ticéad Kerberos",
-    "Amazon S3" : "Amazon S3",
+    "S3 Storage" : "Stóráil S3",
     "Bucket" : "Buicéad",
     "Hostname" : "Óstainm",
     "Port" : "Port",

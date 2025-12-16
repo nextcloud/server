@@ -38,7 +38,6 @@ OC.L10N.register(
     "Public key" : "Viešasis raktas",
     "RSA private key" : "RSA privatusis raktas",
     "Private key" : "Privatusis raktas",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Amazon S3 saugykla",
     "Hostname" : "Domeno vardas",
     "Port" : "Prievadas",

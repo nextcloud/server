@@ -33,7 +33,6 @@
     "Log-in credentials, save in session" : "Credenciales de inicio de sesión, guardar en la sesión",
     "RSA public key" : "Llave pública RSA",
     "Public key" : "Llave pública",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nombre del servidor",
     "Port" : "Puerto",

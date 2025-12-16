@@ -64,6 +64,142 @@ class AdapterTest extends TestCase {
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($configKey)))
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
+	}
+
+	public function fetchAssociative(): void {
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('appconfig')
+			->values([
+				'appid' => $this->appId,
+				'configkey' => 'test',
+				'configvalue' => '1',
+			])
+			->executeStatement();
+
+		// fetch all associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+
+		$rows = $result->fetchAllAssociative();
+		$this->assertEquals([
+			[
+				'appid' => $this->appId,
+				'configkey' => 'test',
+				'configvalue' => '1',
+			]
+		], $rows);
+
+		// fetch associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+		$row = $result->fetchAssociative();
+		$this->assertEquals([
+			'appid' => $this->appId,
+			'configkey' => 'test',
+			'configvalue' => '1',
+		], $row);
+
+		// iterate associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+		$row = iterator_to_array($result->iterateAssociative());
+		$this->assertEquals([
+			'appid' => $this->appId,
+			'configkey' => 'test',
+			'configvalue' => '1',
+		], $row);
+	}
+
+	public function fetchNumeric(): void {
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('appconfig')
+			->values([
+				'appid' => $this->appId,
+				'configkey' => 'test',
+				'configvalue' => '1',
+			])
+			->executeStatement();
+
+		// fetch all associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+
+		$rows = $result->fetchAllNumeric();
+		$this->assertEquals([
+			[
+				0 => $this->appId,
+				1 => 'test',
+				2 => '1',
+			]
+		], $rows);
+
+		// fetch associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+		$row = $result->fetchNumeric();
+		$this->assertEquals([
+			0 => $this->appId,
+			1 => 'test',
+			2 => '1',
+		], $row);
+
+		// iterate associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+		$row = iterator_to_array($result->iterateNumeric());
+		$this->assertEquals([
+			0 => $this->appId,
+			1 => 'test',
+			2 => '1',
+		], $row);
+	}
+
+	public function fetchOne(): void {
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('appconfig')
+			->values([
+				'appid' => $this->appId,
+				'configkey' => 'test',
+				'configvalue' => '1',
+			])
+			->executeStatement();
+
+		// fetch all associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+
+		$rows = $result->fetchFirstColumn();
+		$this->assertEquals($this->appId, $rows);
+
+		// fetch associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+		$row = $result->fetchFirstColumn();
+		$this->assertEquals($this->appId, $row);
+
+		// iterate associative
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select(['configkey', 'configvalue', 'appid'])
+			->from('appconfig')
+			->executeQuery();
+		$rows = iterator_to_array($result->iterateNumeric());
+		$this->assertEquals([$this->appId], $rows);
 	}
 }

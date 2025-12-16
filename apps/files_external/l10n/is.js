@@ -46,7 +46,6 @@ OC.L10N.register(
     "Private key" : "Einkalykill",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Sjálfgefið Kerberos svæði, er sjálfgefið \"WORKGROUP\"",
     "Kerberos ticket" : "Kerberos aðgöngumerki",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Vélarheiti",
     "Port" : "Gátt",

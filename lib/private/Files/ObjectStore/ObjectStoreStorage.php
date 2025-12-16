@@ -29,6 +29,7 @@ use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
@@ -480,7 +481,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$metadata = [
 			'mimetype' => $mimetype,
 			'original-storage' => $this->getId(),
-			'original-path' => rawurlencode($path),
+			'original-path' => $path,
 		];
 		if ($size) {
 			$metadata['size'] = $size;
@@ -843,5 +844,23 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 
 		return $available;
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		$expiration = new \DateTimeImmutable('+60 minutes');
+		$url = $this->objectStore->preSignedUrl($this->getURN((int)$fileId), $expiration);
+		return $url ? ['url' => $url, 'expiration' => $expiration->getTimestamp()] : false;
+	}
+
+	#[Override]
+	public function getDirectDownload(string $path): array|false {
+		$path = $this->normalizePath($path);
+		$cacheEntry = $this->getCache()->get($path);
+
+		if (!$cacheEntry || $cacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			return false;
+		}
+		return $this->getDirectDownloadById((string)$cacheEntry->getId());
 	}
 }

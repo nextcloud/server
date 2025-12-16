@@ -7,7 +7,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { showInfo, showWarning } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { davGetClient, davGetDefaultPropfind, davResultToNode } from '@nextcloud/files'
+import { getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { openConflictPicker } from '@nextcloud/upload'
 import logger from '../logger.ts'
@@ -135,13 +135,13 @@ function readDirectory(directory: FileSystemDirectoryEntry): Promise<FileSystemE
  * @param absolutePath
  */
 export async function createDirectoryIfNotExists(absolutePath: string) {
-	const davClient = davGetClient()
+	const davClient = getClient()
 	const dirExists = await davClient.exists(absolutePath)
 	if (!dirExists) {
 		logger.debug('Directory does not exist, creating it', { absolutePath })
 		await davClient.createDirectory(absolutePath, { recursive: true })
-		const stat = await davClient.stat(absolutePath, { details: true, data: davGetDefaultPropfind() }) as ResponseDataDetailed<FileStat>
-		emit('files:node:created', davResultToNode(stat.data))
+		const stat = await davClient.stat(absolutePath, { details: true, data: getDefaultPropfind() }) as ResponseDataDetailed<FileStat>
+		emit('files:node:created', resultToNode(stat.data))
 	}
 }
 

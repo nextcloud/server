@@ -55,7 +55,7 @@ class Version1002Date20170607113030 extends SimpleMigrationStep {
 		$result = $query->executeQuery();
 
 		$output->startProgress();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$output->advance();
 
 			$insert

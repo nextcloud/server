@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' => 
+        'N' =>
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' => 
+        'NCU\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -309,6 +309,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Command\\ICommand' => __DIR__ . '/../../..' . '/lib/public/Command/ICommand.php',
         'OCP\\Comments\\CommentsEntityEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/CommentsEntityEvent.php',
         'OCP\\Comments\\CommentsEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/CommentsEvent.php',
+        'OCP\\Comments\\Events\\BeforeCommentUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/Events/BeforeCommentUpdatedEvent.php',
+        'OCP\\Comments\\Events\\CommentAddedEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/Events/CommentAddedEvent.php',
+        'OCP\\Comments\\Events\\CommentDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/Events/CommentDeletedEvent.php',
+        'OCP\\Comments\\Events\\CommentUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/Comments/Events/CommentUpdatedEvent.php',
         'OCP\\Comments\\IComment' => __DIR__ . '/../../..' . '/lib/public/Comments/IComment.php',
         'OCP\\Comments\\ICommentsEventHandler' => __DIR__ . '/../../..' . '/lib/public/Comments/ICommentsEventHandler.php',
         'OCP\\Comments\\ICommentsManager' => __DIR__ . '/../../..' . '/lib/public/Comments/ICommentsManager.php',
@@ -457,7 +461,9 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Config\\ICachedMountInfo' => __DIR__ . '/../../..' . '/lib/public/Files/Config/ICachedMountInfo.php',
         'OCP\\Files\\Config\\IHomeMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IHomeMountProvider.php',
         'OCP\\Files\\Config\\IMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IMountProvider.php',
+        'OCP\\Files\\Config\\IMountProviderArgs' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IMountProviderArgs.php',
         'OCP\\Files\\Config\\IMountProviderCollection' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IMountProviderCollection.php',
+        'OCP\\Files\\Config\\IPartialMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IPartialMountProvider.php',
         'OCP\\Files\\Config\\IRootMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IRootMountProvider.php',
         'OCP\\Files\\Config\\IUserMountCache' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IUserMountCache.php',
         'OCP\\Files\\ConnectionLostException' => __DIR__ . '/../../..' . '/lib/public/Files/ConnectionLostException.php',
@@ -531,6 +537,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Notify\\IChange' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/IChange.php',
         'OCP\\Files\\Notify\\INotifyHandler' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/INotifyHandler.php',
         'OCP\\Files\\Notify\\IRenameChange' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/IRenameChange.php',
+        'OCP\\Files\\ObjectStore\\Events\\BucketCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/Events/BucketCreatedEvent.php',
         'OCP\\Files\\ObjectStore\\IObjectStore' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStore.php',
         'OCP\\Files\\ObjectStore\\IObjectStoreMetaData' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreMetaData.php',
         'OCP\\Files\\ObjectStore\\IObjectStoreMultiPartUpload' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreMultiPartUpload.php',
@@ -854,6 +861,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\IProviderFactory' => __DIR__ . '/../../..' . '/lib/public/Share/IProviderFactory.php',
         'OCP\\Share\\IPublicShareTemplateFactory' => __DIR__ . '/../../..' . '/lib/public/Share/IPublicShareTemplateFactory.php',
         'OCP\\Share\\IPublicShareTemplateProvider' => __DIR__ . '/../../..' . '/lib/public/Share/IPublicShareTemplateProvider.php',
+        'OCP\\Share\\IPublicShareTemplateProviderWithPriority' => __DIR__ . '/../../..' . '/lib/public/Share/IPublicShareTemplateProviderWithPriority.php',
         'OCP\\Share\\IShare' => __DIR__ . '/../../..' . '/lib/public/Share/IShare.php',
         'OCP\\Share\\IShareHelper' => __DIR__ . '/../../..' . '/lib/public/Share/IShareHelper.php',
         'OCP\\Share\\IShareProvider' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProvider.php',
@@ -915,6 +923,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\IManager' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IManager.php',
         'OCP\\TaskProcessing\\IProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IProvider.php',
         'OCP\\TaskProcessing\\ISynchronousProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousProvider.php',
+        'OCP\\TaskProcessing\\ISynchronousWatermarkingProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousWatermarkingProvider.php',
         'OCP\\TaskProcessing\\ITaskType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITaskType.php',
         'OCP\\TaskProcessing\\ITriggerableProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITriggerableProvider.php',
         'OCP\\TaskProcessing\\ShapeDescriptor' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ShapeDescriptor.php',
@@ -927,6 +936,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\TaskTypes\\ContextAgentInteraction' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextAgentInteraction.php',
         'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',
         'OCP\\TaskProcessing\\TaskTypes\\GenerateEmoji' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/GenerateEmoji.php',
+        'OCP\\TaskProcessing\\TaskTypes\\ImageToTextOpticalCharacterRecognition' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ImageToTextOpticalCharacterRecognition.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToImage' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToImage.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToSpeech' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToSpeech.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToText' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToText.php',
@@ -1575,6 +1585,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version33000Date20251013110519' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251013110519.php',
         'OC\\Core\\Migrations\\Version33000Date20251023110529' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251023110529.php',
         'OC\\Core\\Migrations\\Version33000Date20251023120529' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251023120529.php',
+        'OC\\Core\\Migrations\\Version33000Date20251106131209' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251106131209.php',
+        'OC\\Core\\Migrations\\Version33000Date20251124110529' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251124110529.php',
+        'OC\\Core\\Migrations\\Version33000Date20251126152410' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251126152410.php',
+        'OC\\Core\\Migrations\\Version33000Date20251209123503' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251209123503.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\ResponseDefinitions' => __DIR__ . '/../../..' . '/core/ResponseDefinitions.php',
         'OC\\Core\\Service\\CronService' => __DIR__ . '/../../..' . '/core/Service/CronService.php',

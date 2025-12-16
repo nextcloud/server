@@ -9,7 +9,7 @@
 
 		<NcTextField
 			id="user"
-			:value.sync="user"
+			v-model="user"
 			name="user"
 			:maxlength="255"
 			autocapitalize="off"

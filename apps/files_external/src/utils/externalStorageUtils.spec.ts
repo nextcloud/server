@@ -18,6 +18,7 @@ describe('Is node an external storage', () => {
 				scope: 'personal',
 				backend: 'SFTP',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(true)
 	})
@@ -29,6 +30,7 @@ describe('Is node an external storage', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(file)).toBe(false)
 	})
@@ -42,6 +44,7 @@ describe('Is node an external storage', () => {
 			attributes: {
 				scope: 'personal',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(false)
 	})
@@ -55,6 +58,7 @@ describe('Is node an external storage', () => {
 			attributes: {
 				backend: 'SFTP',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(false)
 	})
@@ -69,6 +73,7 @@ describe('Is node an external storage', () => {
 				scope: 'null',
 				backend: 'SFTP',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(false)
 	})

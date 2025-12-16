@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitEncryption
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Encryption\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Encryption\\' => 
+        'OCA\\Encryption\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

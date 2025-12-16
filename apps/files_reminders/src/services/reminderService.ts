@@ -11,8 +11,9 @@ interface Reminder {
 }
 
 /**
+ * Get the reminder for a specific file
  *
- * @param fileId
+ * @param fileId - The file id to get the reminder for
  */
 export async function getReminder(fileId: number): Promise<Reminder> {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
@@ -25,9 +26,10 @@ export async function getReminder(fileId: number): Promise<Reminder> {
 }
 
 /**
+ * Set a reminder for a specific file
  *
- * @param fileId
- * @param dueDate
+ * @param fileId - The file id to set the reminder for
+ * @param dueDate - The due date for the reminder
  */
 export async function setReminder(fileId: number, dueDate: Date): Promise<[]> {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })
@@ -40,8 +42,9 @@ export async function setReminder(fileId: number, dueDate: Date): Promise<[]> {
 }
 
 /**
+ * Clear the reminder for a specific file
  *
- * @param fileId
+ * @param fileId - The file id to clear the reminder for
  */
 export async function clearReminder(fileId: number): Promise<[]> {
 	const url = generateOcsUrl('/apps/files_reminders/api/v1/{fileId}', { fileId })

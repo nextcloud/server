@@ -17,6 +17,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 use OCP\User\IAvailabilityCoordinator;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class AvailabilitySettings implements ISettings {
@@ -56,8 +57,8 @@ class AvailabilitySettings implements ISettings {
 			}
 		}
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-personal-availability');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-personal-availability');
+		Util::addStyle(Application::APP_ID, 'settings-personal-availability');
+		Util::addScript(Application::APP_ID, 'settings-personal-availability');
 		return new TemplateResponse(Application::APP_ID, 'settings-personal-availability');
 	}
 

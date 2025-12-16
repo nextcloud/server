@@ -1,6 +1,7 @@
 OC.L10N.register(
     "webhook_listeners",
     {
+    "Ephemeral webhook authentication" : "Fíordheimhniú gréasáin neamhbhuan",
     "Webhooks" : "Crúcaí gréasáin",
     "Nextcloud Webhook Support" : "Tacaíocht Webhook Nextcloud",
     "Send notifications to external services whenever something important happens, like when files are changed or updated." : "Seol fógraí chuig seirbhísí seachtracha aon uair a tharlaíonn rud éigin tábhachtach, amhail nuair a athraítear nó a nuashonraítear comhaid.",

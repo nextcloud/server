@@ -17,7 +17,7 @@
 
 		<NcTextField
 			required
-			:value="user"
+			:model-value="user"
 			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 			:error="!validCredentials"
 			:label="t('core', 'Login or email')"

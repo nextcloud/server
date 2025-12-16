@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitWorkflowEngine
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\WorkflowEngine\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\WorkflowEngine\\' => 
+        'OCA\\WorkflowEngine\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

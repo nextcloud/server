@@ -7,9 +7,9 @@
 	<div class="template-field__checkbox">
 		<NcCheckboxRadioSwitch
 			:id="fieldId"
-			:checked.sync="value"
+			v-model="value"
 			type="switch"
-			@update:checked="input">
+			@update:modelValue="input">
 			{{ fieldLabel }}
 		</NcCheckboxRadioSwitch>
 	</div>

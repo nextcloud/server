@@ -2,20 +2,18 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { Node } from '@nextcloud/files'
-
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { DialogBuilder, showError } from '@nextcloud/dialogs'
-import { FileAction, Permission } from '@nextcloud/files'
+import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import logger from '../logger.ts'
+import { isSyncable } from '../utils/permissions.ts'
 
 export const action = new FileAction({
 	id: 'edit-locally',
@@ -23,9 +21,9 @@ export const action = new FileAction({
 	iconSvgInline: () => LaptopSvg,
 
 	// Only works on single files
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		// Only works on single node
-		if (nodes.length !== 1) {
+		if (nodes.length !== 1 || !nodes[0]) {
 			return false
 		}
 
@@ -34,11 +32,11 @@ export const action = new FileAction({
 			return false
 		}
 
-		return (nodes[0].permissions & Permission.UPDATE) !== 0
+		return isSyncable(nodes[0])
 	},
 
-	async exec(node: Node) {
-		await attemptOpenLocalClient(node.path)
+	async exec({ nodes }) {
+		await attemptOpenLocalClient(nodes[0].path)
 		return null
 	},
 
@@ -67,7 +65,7 @@ async function attemptOpenLocalClient(path: string) {
 
 /**
  * Try to open a file in the Nextcloud client.
- * There is no way to get notified if this action was successfull.
+ * There is no way to get notified if this action was successful.
  *
  * @param path - Path to open
  */

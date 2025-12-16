@@ -104,7 +104,7 @@ class Manager implements IManager {
 
 		$result = $query->executeQuery();
 		$operations = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$eventNames = \json_decode($row['events']);
 
 			$operation = $row['class'];
@@ -152,7 +152,7 @@ class Manager implements IManager {
 		$result = $query->executeQuery();
 
 		$scopesByOperation[$operationClass] = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$scope = new ScopeContext($row['type'], $row['value']);
 
 			if (!$operation->isAvailableForScope((int)$row['type'])) {
@@ -187,7 +187,7 @@ class Manager implements IManager {
 		$result = $query->executeQuery();
 
 		$this->operations[$scopeContext->getHash()] = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			try {
 				/** @var IOperation $operation */
 				$operation = $this->container->get($row['class']);
@@ -226,7 +226,7 @@ class Manager implements IManager {
 			->from('flow_operations')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -422,14 +422,16 @@ class Manager implements IManager {
 	 * @param array $events
 	 */
 	protected function validateEvents(string $entity, array $events, IOperation $operation): void {
+		/** @psalm-suppress TaintedCallable newInstance is not called */
+		$reflection = new \ReflectionClass($entity);
+		if ($entity !== IEntity::class && !in_array(IEntity::class, $reflection->getInterfaceNames())) {
+			throw new \UnexpectedValueException($this->l->t('Entity %s is invalid', [$entity]));
+		}
+
 		try {
 			$instance = $this->container->get($entity);
 		} catch (ContainerExceptionInterface $e) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s does not exist', [$entity]));
-		}
-
-		if (!$instance instanceof IEntity) {
-			throw new \UnexpectedValueException($this->l->t('Entity %s is invalid', [$entity]));
 		}
 
 		if (empty($events)) {
@@ -458,15 +460,21 @@ class Manager implements IManager {
 	 * @throws \UnexpectedValueException
 	 */
 	public function validateOperation(string $class, string $name, array $checks, string $operation, ScopeContext $scope, string $entity, array $events): void {
+		if (strlen($operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
+			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
+		}
+
+		/** @psalm-suppress TaintedCallable newInstance is not called */
+		$reflection = new \ReflectionClass($class);
+		if ($class !== IOperation::class && !in_array(IOperation::class, $reflection->getInterfaceNames())) {
+			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]) . join(', ', $reflection->getInterfaceNames()));
+		}
+
 		try {
 			/** @var IOperation $instance */
 			$instance = $this->container->get($class);
 		} catch (ContainerExceptionInterface $e) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s does not exist', [$class]));
-		}
-
-		if (!($instance instanceof IOperation)) {
-			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]));
 		}
 
 		if (!$instance->isAvailableForScope($scope->getScope())) {
@@ -479,15 +487,20 @@ class Manager implements IManager {
 			throw new \UnexpectedValueException($this->l->t('At least one check needs to be provided'));
 		}
 
-		if (strlen($operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
-			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
-		}
-
 		$instance->validateOperation($name, $checks, $operation);
 
 		foreach ($checks as $check) {
 			if (!is_string($check['class'])) {
 				throw new \UnexpectedValueException($this->l->t('Invalid check provided'));
+			}
+
+			if (strlen((string)$check['value']) > IManager::MAX_CHECK_VALUE_BYTES) {
+				throw new \UnexpectedValueException($this->l->t('The provided check value is too long'));
+			}
+
+			$reflection = new \ReflectionClass($check['class']);
+			if ($check['class'] !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames())) {
+				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
 			}
 
 			try {
@@ -497,18 +510,10 @@ class Manager implements IManager {
 				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$class]));
 			}
 
-			if (!($instance instanceof ICheck)) {
-				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
-			}
-
 			if (!empty($instance->supportedEntities())
 				&& !in_array($entity, $instance->supportedEntities())
 			) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
-			}
-
-			if (strlen((string)$check['value']) > IManager::MAX_CHECK_VALUE_BYTES) {
-				throw new \UnexpectedValueException($this->l->t('The provided check value is too long'));
 			}
 
 			$instance->validateCheck($check['operator'], $check['value']);
@@ -540,7 +545,7 @@ class Manager implements IManager {
 			->where($query->expr()->in('id', $query->createNamedParameter($checkIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		$result = $query->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			/** @var Check $row */
 			$this->checks[(int)$row['id']] = $row;
 			$checks[(int)$row['id']] = $row;
@@ -569,7 +574,7 @@ class Manager implements IManager {
 			->where($query->expr()->eq('hash', $query->createNamedParameter($hash)));
 		$result = $query->executeQuery();
 
-		if ($row = $result->fetch()) {
+		if ($row = $result->fetchAssociative()) {
 			$result->closeCursor();
 			return (int)$row['id'];
 		}

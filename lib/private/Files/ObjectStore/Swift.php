@@ -134,4 +134,7 @@ class Swift implements IObjectStore {
 			'destination' => $this->getContainer()->name . '/' . $to
 		]);
 	}
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+		return null;
+	}
 }

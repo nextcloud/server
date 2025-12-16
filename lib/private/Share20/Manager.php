@@ -1265,16 +1265,16 @@ class Manager implements IManager {
 		while (true) {
 			$added = 0;
 			foreach ($shares as $share) {
+				$added++;
 				if ($onlyValid) {
 					try {
-						$this->checkShare($share);
+						$this->checkShare($share, $added);
 					} catch (ShareNotFound $e) {
 						// Ignore since this basically means the share is deleted
 						continue;
 					}
 				}
 
-				$added++;
 				$shares2[] = $share;
 
 				if (count($shares2) === $limit) {
@@ -1413,7 +1413,7 @@ class Manager implements IManager {
 		}
 		$share = null;
 		try {
-			if ($this->shareApiAllowLinks()) {
+			if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
@@ -1480,11 +1480,14 @@ class Manager implements IManager {
 	/**
 	 * Check expire date and disabled owner
 	 *
+	 * @param int &$added If given, will be decremented if the share is deleted
 	 * @throws ShareNotFound
 	 */
-	protected function checkShare(IShare $share): void {
+	private function checkShare(IShare $share, int &$added = 1): void {
 		if ($share->isExpired()) {
 			$this->deleteShare($share);
+			// Remove 1 to added, because this share was deleted
+			$added--;
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
@@ -1494,6 +1497,17 @@ class Manager implements IManager {
 				if ($user?->isEnabled() === false) {
 					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
 				}
+			}
+		}
+
+		// For link and email shares, verify the share owner can still create such shares
+		if ($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) {
+			$shareOwner = $this->userManager->get($share->getShareOwner());
+			if ($shareOwner === null) {
+				throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
+			}
+			if (!$this->userCanCreateLinkShares($shareOwner)) {
+				throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 			}
 		}
 	}
@@ -1589,54 +1603,7 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Get access list to a path. This means
-	 * all the users that can access a given path.
-	 *
-	 * Consider:
-	 * -root
-	 * |-folder1 (23)
-	 *  |-folder2 (32)
-	 *   |-fileA (42)
-	 *
-	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
-	 * folder2 is shared with group2 (user4 is a member of group2)
-	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
-	 *                        and email2@maildomain2
-	 *
-	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
-	 * [
-	 *  users  => [
-	 *      'user1' => ['node_id' => 42, 'node_path' => '/fileA'],
-	 *      'user4' => ['node_id' => 32, 'node_path' => '/folder2'],
-	 *      'user2' => ['node_id' => 23, 'node_path' => '/folder (1)'],
-	 *  ],
-	 *  remote => [
-	 *      'user1@server1' => ['node_id' => 42, 'token' => 'SeCr3t'],
-	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
-	 *  ],
-	 *  public => bool
-	 *  mail => [
-	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
-	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
-	 *  ]
-	 * ]
-	 *
-	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
-	 * [
-	 *  users  => ['user1', 'user2', 'user4'],
-	 *  remote => bool,
-	 *  public => bool
-	 *  mail => ['email1@maildomain1', 'email2@maildomain2']
-	 * ]
-	 *
-	 * This is required for encryption/activity
-	 *
-	 * @param \OCP\Files\Node $path
-	 * @param bool $recursive Should we check all parent folders as well
-	 * @param bool $currentAccess Ensure the recipient has access to the file (e.g. did not unshare it)
-	 * @return array
-	 */
+	#[\Override]
 	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
 		$owner = $path->getOwner();
 
@@ -1742,14 +1709,15 @@ class Manager implements IManager {
 	/**
 	 * Is public link sharing enabled
 	 *
+	 * @param ?IUser $user User to check against group exclusions, defaults to current session user
 	 * @return bool
 	 */
-	public function shareApiAllowLinks() {
+	public function shareApiAllowLinks(?IUser $user = null) {
 		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
 		}
 
-		$user = $this->userSession->getUser();
+		$user = $user ?? $this->userSession->getUser();
 		if ($user) {
 			$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
 			if ($excludedGroups) {
@@ -1759,6 +1727,16 @@ class Manager implements IManager {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check if a specific user can create link shares
+	 *
+	 * @param IUser $user The user to check
+	 * @return bool
+	 */
+	protected function userCanCreateLinkShares(IUser $user): bool {
+		return $this->shareApiAllowLinks($user);
 	}
 
 	/**
@@ -1932,7 +1910,7 @@ class Manager implements IManager {
 	}
 
 	public function matchUserId(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 	}
 
 	public function ignoreSecondDisplayName(): bool {

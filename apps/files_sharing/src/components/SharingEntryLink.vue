@@ -74,7 +74,7 @@
 			<!-- password -->
 			<NcActionCheckbox
 				v-if="pendingPassword"
-				:checked.sync="isPasswordProtected"
+				v-model="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
 				@uncheck="onPasswordDisable">
@@ -83,9 +83,9 @@
 
 			<NcActionInput
 				v-if="pendingEnforcedPassword || isPasswordProtected"
+				v-model="share.newPassword"
 				class="share-link-password"
 				:label="t('files_sharing', 'Enter a password')"
-				:value.sync="share.newPassword"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
@@ -98,7 +98,7 @@
 
 			<NcActionCheckbox
 				v-if="pendingDefaultExpirationDate"
-				:checked.sync="defaultExpirationDateEnabled"
+				v-model="defaultExpirationDateEnabled"
 				:disabled="pendingEnforcedExpirationDate || saving"
 				class="share-link-expiration-date-checkbox"
 				@update:model-value="onExpirationDateToggleUpdate">
@@ -114,7 +114,7 @@
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
-				:value="new Date(share.expireDate)"
+				:model-value="new Date(share.expireDate)"
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
@@ -839,7 +839,7 @@ export default {
 
 		/**
 		 * Uncheck password protection
-		 * We need this method because @update:checked
+		 * We need this method because @update:modelValue
 		 * is ran simultaneously as @uncheck, so we
 		 * cannot ensure data is up-to-date
 		 */

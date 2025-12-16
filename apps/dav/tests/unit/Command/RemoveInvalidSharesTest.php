@@ -71,7 +71,7 @@ class RemoveInvalidSharesTest extends TestCase {
 				),
 			));
 		$result = $query->executeQuery();
-		$data = $result->fetchAll();
+		$data = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $data;

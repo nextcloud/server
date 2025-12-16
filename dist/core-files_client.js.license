@@ -23,10 +23,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.2
+	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
-	- version: 3.0.2
+	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - escape-html
 	- version: 1.0.3
@@ -41,7 +41,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.13.7
 	- license: MIT
 - webpack
-	- version: 5.102.1
+	- version: 5.103.0
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -256,7 +256,7 @@ SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["composer.json", "composer.lock", ".github/CODEOWNERS", "__tests__/tsconfig.json", "tsconfig.json", "build/integration/composer.**", "vendor-bin/**/composer.json", "vendor-bin/**/composer.lock", "apps/**/composer/composer.json", "apps/**/composer/composer.lock", "apps/**/composer/composer/installed.json"]
+path = ["composer.json", "composer.lock", ".github/CODEOWNERS", "__tests__/tsconfig.json", "tsconfig.json", "apps/**/composer/composer.json", "apps/**/composer/composer.lock", "apps/**/composer/composer/installed.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-only OR AGPL-3.0-or-later"
@@ -400,7 +400,7 @@ SPDX-FileCopyrightText = "2019 Fabian Wiktor <https://www.pexels.com/photo/green
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["openapi.json", ".envrc", "flake.nix", "flake.lock", "build/eslint-baseline.json"]
+path = ["openapi.json", ".envrc", "flake.nix", "flake.lock", "build/eslint-baseline.json", "build/eslint-baseline-legacy.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

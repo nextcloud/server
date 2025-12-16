@@ -31,7 +31,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.2
+	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -40,13 +40,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
-	- version: 3.0.2
+	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.0.1
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.34.0
+	- version: 8.35.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0

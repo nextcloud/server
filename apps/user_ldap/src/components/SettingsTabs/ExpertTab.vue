@@ -13,9 +13,8 @@
 				aria-describedby="ldap_expert_username_attr"
 				autocomplete="off"
 				:label="t('user_ldap', 'Internal Username Attribute:')"
-				:value="ldapConfigProxy.ldapExpertUsernameAttr"
-				:label-outside="true"
-				@change.native="(event) => ldapConfigProxy.ldapExpertUsernameAttr = event.target.value" />
+				:model-value="ldapConfigProxy.ldapExpertUsernameAttr"
+				@change="(event) => ldapConfigProxy.ldapExpertUsernameAttr = event.target.value" />
 		</div>
 
 		<div class="ldap-wizard__expert__line">
@@ -27,13 +26,13 @@
 				aria-describedby="ldap_expert_uuid_user_attr"
 				autocomplete="off"
 				:label="t('user_ldap', 'UUID Attribute for Users')"
-				:value="ldapConfigProxy.ldapExpertUUIDUserAttr"
-				@change.native="(event) => ldapConfigProxy.ldapExpertUUIDUserAttr = event.target.value" />
+				:model-value="ldapConfigProxy.ldapExpertUUIDUserAttr"
+				@change="(event) => ldapConfigProxy.ldapExpertUUIDUserAttr = event.target.value" />
 			<NcTextField
 				autocomplete="off"
 				:label="t('user_ldap', 'UUID Attribute for Groups')"
-				:value="ldapConfigProxy.ldapExpertUUIDGroupAttr"
-				@change.native="(event) => ldapConfigProxy.ldapExpertUUIDGroupAttr = event.target.value" />
+				:model-value="ldapConfigProxy.ldapExpertUUIDGroupAttr"
+				@change="(event) => ldapConfigProxy.ldapExpertUUIDGroupAttr = event.target.value" />
 		</div>
 	</fieldset>
 </template>

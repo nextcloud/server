@@ -72,7 +72,7 @@ class CleanupOrphanedChildrenJob extends QueuedJob {
 		}
 
 		$result = $selectQb->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 		if (empty($rows)) {
 			return 0;

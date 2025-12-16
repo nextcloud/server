@@ -11,6 +11,8 @@ namespace OCA\Settings\Tests\Command\AdminDelegation;
 use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Command\AdminDelegation\Add;
 use OCA\Settings\Service\AuthorizedGroupService;
+use OCA\Settings\Service\ConflictException;
+use OCA\Settings\Settings\Admin\Server;
 use OCP\IGroupManager;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,7 +47,7 @@ class AddTest extends TestCase {
 	}
 
 	public function testExecuteSuccessfulDelegation(): void {
-		$settingClass = \OCA\Settings\Settings\Admin\Server::class;
+		$settingClass = Server::class;
 		$groupId = 'testgroup';
 
 		// Mock valid delegated settings class
@@ -77,6 +79,35 @@ class AddTest extends TestCase {
 		$this->assertEquals(0, $result);
 	}
 
+	public function testExecuteHandlesDuplicateAssignment(): void {
+		$settingClass = 'OCA\\Settings\\Settings\\Admin\\Server';
+		$groupId = 'testgroup';
+
+		// Mock valid delegated settings class
+		$this->input->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['settingClass', $settingClass],
+				['groupId', $groupId]
+			]);
+
+		// Mock group exists
+		$this->groupManager->expects($this->once())
+			->method('groupExists')
+			->with($groupId)
+			->willReturn(true);
+
+		// Mock ConflictException when trying to create duplicate
+		$this->authorizedGroupService->expects($this->once())
+			->method('create')
+			->with($groupId, $settingClass)
+			->willThrowException(new ConflictException('Group is already assigned to this class'));
+
+		$result = $this->command->execute($this->input, $this->output);
+
+		$this->assertEquals(4, $result, 'Duplicate assignment should return exit code 4');
+	}
+
 	public function testExecuteInvalidSettingClass(): void {
 		// Use a real class that exists but doesn't implement IDelegatedSettings
 		$settingClass = 'stdClass';
@@ -93,7 +124,7 @@ class AddTest extends TestCase {
 	}
 
 	public function testExecuteNonExistentGroup(): void {
-		$settingClass = \OCA\Settings\Settings\Admin\Server::class;
+		$settingClass = Server::class;
 		$groupId = 'nonexistentgroup';
 
 		$this->input->expects($this->exactly(2))

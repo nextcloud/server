@@ -47,7 +47,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "\"Kerberos default realm\", forvalgt til \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Kerberos-billett Apache-modus",
     "Kerberos ticket" : "Kerberos-billett",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bøtte",
     "Hostname" : "Servernavn",
     "Port" : "Port",

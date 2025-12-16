@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Set server major version environment
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -37,13 +37,13 @@ jobs:
             if (match) {
               console.log('Setting server_major to ' + match[1]);
               core.exportVariable('server_major', match[1]);
-              console.log('Setting current_month to ' + (new Date()).toISOString().substr(0, 7));
-              core.exportVariable('current_month', (new Date()).toISOString().substr(0, 7));
+              console.log('Setting current_day to ' + (new Date()).toISOString().substr(0, 10));
+              core.exportVariable('current_day', (new Date()).toISOString().substr(0, 10));
             }
 
       - name: Checking if server ${{ env.server_major }} is EOL
         if: ${{ env.server_major != '' }}
         run: |
           curl -s https://raw.githubusercontent.com/nextcloud-releases/updater_server/production/config/major_versions.json \
-            | jq '.["${{ env.server_major }}"]["eol"] // "9999-99" | . >= "${{ env.current_month }}"' \
+            | jq '.["${{ env.server_major }}"]["eol"] // "9999-99-99" | . >= "${{ env.current_day }}"' \
             | grep -q true

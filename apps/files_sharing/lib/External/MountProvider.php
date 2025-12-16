@@ -15,6 +15,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
+use OCP\Share\IShare;
 
 class MountProvider implements IMountProvider {
 	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -54,10 +55,10 @@ class MountProvider implements IMountProvider {
 		$qb->select('remote', 'share_token', 'password', 'mountpoint', 'owner')
 			->from('share_external')
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($user->getUID())))
-			->andWhere($qb->expr()->eq('accepted', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('accepted', $qb->createNamedParameter(IShare::STATUS_ACCEPTED, IQueryBuilder::PARAM_INT)));
 		$result = $qb->executeQuery();
 		$mounts = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$row['manager'] = $this;
 			$row['token'] = $row['share_token'];
 			$mounts[] = $this->getMount($user, $row, $loader);

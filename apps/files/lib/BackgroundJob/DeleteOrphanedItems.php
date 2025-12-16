@@ -81,7 +81,7 @@ class DeleteOrphanedItems extends TimedJob {
 
 			$deletedInLastChunk = self::CHUNK_SIZE;
 			while ($deletedInLastChunk === self::CHUNK_SIZE) {
-				$chunk = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+				$chunk = $query->executeQuery()->fetchFirstColumn();
 				$deletedInLastChunk = count($chunk);
 
 				$deleteQuery->setParameter('objectid', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
@@ -112,7 +112,7 @@ class DeleteOrphanedItems extends TimedJob {
 		$minId = 0;
 		while (true) {
 			$query->setParameter('min_id', $minId);
-			$rows = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$rows = $query->executeQuery()->fetchFirstColumn();
 			if (count($rows) > 0) {
 				$minId = $rows[count($rows) - 1];
 				yield $rows;
@@ -127,7 +127,7 @@ class DeleteOrphanedItems extends TimedJob {
 		$qb->select('fileid')
 			->from('filecache')
 			->where($qb->expr()->in('fileid', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
-		$found = $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		$found = $qb->executeQuery()->fetchFirstColumn();
 		return array_diff($ids, $found);
 	}
 

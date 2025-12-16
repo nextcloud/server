@@ -480,6 +480,7 @@ OC.L10N.register(
     "she/her" : "hon/henne",
     "he/him" : "han/honom",
     "they/them" : "de/dem",
+    "Your pronouns. E.g. {pronounsExample}" : "Dina pronomen. T.ex. {pronounsExample}",
     "Your role" : "Din roll",
     "Timezone" : "Tidszon",
     "Your X (formerly Twitter) handle" : "Ditt användarnamn på X (tidigare Twitter)",

@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "El ámbito por defecto de Kerberos es \"WORKGROUP\".",
     "Kerberos ticket Apache mode" : "Ticket Kerberos Modo Apache",
     "Kerberos ticket" : "Ticket de Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Dirección del servidor",
     "Port" : "Puerto",

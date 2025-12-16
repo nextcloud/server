@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Προεπιλεγμένη περιοχή Kerberos, προεπιλογή: «WORKGROUP»",
     "Kerberos ticket Apache mode" : "Λειτουργία Kerberos ticket για Apache",
     "Kerberos ticket" : "Εισητήριο Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Κάδος",
     "Hostname" : "Όνομα Υπολογιστή",
     "Port" : "Θύρα",

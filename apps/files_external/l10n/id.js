@@ -34,7 +34,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "Kredensial masuk, simpan dalam sesi",
     "RSA public key" : "Kunci publik RSA",
     "Public key" : "Kunci Public",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Keranjang",
     "Hostname" : "Nama Host",
     "Port" : "Port",

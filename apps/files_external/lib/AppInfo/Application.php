@@ -42,6 +42,7 @@ use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Listener\GroupDeletedListener;
 use OCA\Files_External\Listener\LoadAdditionalListener;
+use OCA\Files_External\Listener\StorePasswordListener;
 use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\App;
@@ -51,7 +52,9 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * @package OCA\Files_External\AppInfo
@@ -72,6 +75,8 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
+		$context->registerEventListener(UserLoggedInEvent::class, StorePasswordListener::class);
+		$context->registerEventListener(PasswordUpdatedEvent::class, StorePasswordListener::class);
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
@@ -86,10 +91,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 				return $userConfigHandler;
 			});
 		});
-
-		// force-load auth mechanisms since some will register hooks
-		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
-		$this->getAuthMechanisms();
 	}
 
 	/**

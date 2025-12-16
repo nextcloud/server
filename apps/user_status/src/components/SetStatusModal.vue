@@ -13,12 +13,12 @@
 		<div class="set-status-modal">
 			<!-- Status selector -->
 			<h2 id="user_status-set-dialog" class="set-status-modal__header">
-				{{ $t('user_status', 'Online status') }}
+				{{ t('user_status', 'Online status') }}
 			</h2>
 			<div
 				class="set-status-modal__online-status"
 				role="radiogroup"
-				:aria-label="$t('user_status', 'Online status')">
+				:aria-label="t('user_status', 'Online status')">
 				<OnlineStatusSelect
 					v-for="status in statuses"
 					:key="status.type"
@@ -30,7 +30,7 @@
 			<!-- Status message form -->
 			<form @submit.prevent="saveStatus" @reset="clearStatus">
 				<h3 class="set-status-modal__header">
-					{{ $t('user_status', 'Status message') }}
+					{{ t('user_status', 'Status message') }}
 				</h3>
 				<div class="set-status-modal__custom-input">
 					<CustomMessageInput
@@ -44,14 +44,14 @@
 						:href="absencePageUrl"
 						target="_blank"
 						variant="secondary"
-						:aria-label="$t('user_status', 'Set absence period')">
-						{{ $t('user_status', 'Set absence period and replacement') + ' ↗' }}
+						:aria-label="t('user_status', 'Set absence period')">
+						{{ t('user_status', 'Set absence period and replacement') + ' ↗' }}
 					</NcButton>
 				</div>
 				<div
 					v-if="hasBackupStatus"
 					class="set-status-modal__automation-hint">
-					{{ $t('user_status', 'Your status was set automatically') }}
+					{{ t('user_status', 'Your status was set automatically') }}
 				</div>
 				<PreviousStatus
 					v-if="hasBackupStatus"
@@ -67,17 +67,17 @@
 						:wide="true"
 						variant="tertiary"
 						type="reset"
-						:aria-label="$t('user_status', 'Clear status message')"
+						:aria-label="t('user_status', 'Clear status message')"
 						:disabled="isSavingStatus">
-						{{ $t('user_status', 'Clear status message') }}
+						{{ t('user_status', 'Clear status message') }}
 					</NcButton>
 					<NcButton
 						:wide="true"
 						variant="primary"
 						type="submit"
-						:aria-label="$t('user_status', 'Set status message')"
+						:aria-label="t('user_status', 'Set status message')"
 						:disabled="isSavingStatus">
-						{{ $t('user_status', 'Set status message') }}
+						{{ t('user_status', 'Set status message') }}
 					</NcButton>
 				</div>
 			</form>
@@ -126,6 +126,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['close'],
 
 	data() {
 		return {
@@ -218,6 +220,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Closes the Set Status modal
 		 */

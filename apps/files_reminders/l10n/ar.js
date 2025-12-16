@@ -8,8 +8,6 @@ OC.L10N.register(
     "Files reminder" : "التذكير بالملفات",
     "Set file reminders" : "ضبط تذكير بالملفات",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 التذكير بالملفات** \n\nضبط التذكير بالملفات. \n\nملاحظة: لاستخدام تطبيق \"التذكير بالملفات\"، تأكد من تثبيت تطبيق الإشعارات وتمكينه. يوفر تطبيق الإشعارات واجهة برمجة التطبيقات API اللازمة لتطبيق \"التذكير بالملفات\" ليعمل بالشكل الصحيح.",
-    "Set reminder for \"{fileName}\"" : "ضبط تذكير بالملف \"{fileName}\"",
-    "Clear reminder" : "محو التذكير",
     "Please choose a valid date & time" : "من فضلك، إختَر وقتاً و تاريخاً صحيحين",
     "Reminder set for \"{fileName}\"" : "تمّ ضبط تذكير بالملف \"{fileName}\"",
     "Failed to set reminder" : "تعذّر ضبط التذكير",
@@ -17,6 +15,7 @@ OC.L10N.register(
     "Failed to clear reminder" : "تعذّرت إزالة التذكير",
     "We will remind you of this file" : "سوف يتم تذكيرك بهذا الملف",
     "Cancel" : "إلغاء",
+    "Clear reminder" : "محو التذكير",
     "Set reminder" : "ضبط التذكير",
     "Reminder set" : "تمّ وضع تذكير",
     "Later today" : "في وقت لاحقٍ اليوم",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Set reminder for next week" : "إضبِط التذكير للأسبوع القادم",
     "This files_reminder can work properly." : "وظيفة التذكير بالملفات هذه تعمل بالشكل الصحيح.",
     "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "تطبيق التذكير بالملفات يحتاج إلى تطبيق الإشعارات ليعمل بالشكل الصحيح. عليك إمّا أن تقوم بتمكين الإشعارات او تعطيل التذكير بالملفات.",
+    "Set reminder for \"{fileName}\"" : "ضبط تذكير بالملف \"{fileName}\"",
     "Set reminder at custom date & time" : "حدّد التذكير في وقت و تاريخ مخصص",
     "Set custom reminder" : "ضبط تذكير مخصص"
 },

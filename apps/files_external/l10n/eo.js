@@ -40,7 +40,6 @@ OC.L10N.register(
     "RSA private key" : "Privata RSA-ŝlosilo",
     "Private key" : "Privata ŝlosilo",
     "Kerberos ticket" : "Kerberos-bileto (angle „ticket“)",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Ujo (angle „bucket“)",
     "Hostname" : "Gastigonomo",
     "Port" : "Pordo",

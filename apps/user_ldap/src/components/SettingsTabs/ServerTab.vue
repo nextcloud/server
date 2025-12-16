@@ -6,10 +6,10 @@
 	<fieldset class="ldap-wizard__server">
 		<div class="ldap-wizard__server__line">
 			<NcCheckboxRadioSwitch
-				:checked="ldapConfigProxy.ldapConfigurationActive === '1'"
+				:model-value="ldapConfigProxy.ldapConfigurationActive === '1'"
 				type="switch"
 				:aria-label="t('user_ldap', 'When unchecked, this configuration will be skipped.')"
-				@update:checked="ldapConfigProxy.ldapConfigurationActive = $event ? '1' : '0'">
+				@update:model-value="ldapConfigProxy.ldapConfigurationActive = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Configuration Active') }}
 			</NcCheckboxRadioSwitch>
 
@@ -33,19 +33,21 @@
 
 		<div class="ldap-wizard__server__line">
 			<NcTextField
-				:value="ldapConfigProxy.ldapHost"
+				:model-value="ldapConfigProxy.ldapHost"
 				:helper-text="t('user_ldap', 'You can omit the protocol, unless you require SSL. If so, start with ldaps://')"
-				:placeholder="t('user_ldap', 'Host')"
+				:label="t('user_ldap', 'Host')"
+				:placeholder="t('user_ldap', 'ldaps://localhost')"
 				autocomplete="off"
-				@change.native="(event) => ldapConfigProxy.ldapHost = event.target.value" />
+				@change="(event) => ldapConfigProxy.ldapHost = event.target.value" />
 			<div class="ldap-wizard__server__host__port">
 				<NcTextField
-					:value="ldapConfigProxy.ldapPort"
-					:placeholder="t('user_ldap', 'Port')"
+					:model-value="ldapConfigProxy.ldapPort"
+					:label="t('user_ldap', 'Port')"
+					:placeholder="t('user_ldap', '389')"
 					type="number"
 					autocomplete="off"
-					@change.native="(event) => ldapConfigProxy.ldapPort = event.target.value" />
-				<NcButton :disabled="loadingGuessPortAndTLS" @click="guessPortAndTLS">
+					@change="(event) => ldapConfigProxy.ldapPort = event.target.value" />
+				<NcButton :disabled="loadingGuessPortAndTLS || ldapConfigProxy.ldapHost === ''" @click="guessPortAndTLS">
 					{{ t('user_ldap', 'Detect Port') }}
 				</NcButton>
 			</div>
@@ -54,8 +56,9 @@
 		<div class="ldap-wizard__server__line">
 			<NcTextField
 				v-model="localLdapAgentName"
-				:helper-text="t('user_ldap', 'The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.')"
-				:placeholder="t('user_ldap', 'User DN')"
+				:helper-text="t('user_ldap', 'The DN of the client user with which the bind shall be done. For anonymous access, leave DN and Password empty.')"
+				:label="t('user_ldap', 'User DN')"
+				:placeholder="t('user_ldap', 'uid=agent,dc=example,dc=com')"
 				autocomplete="off" />
 		</div>
 
@@ -64,7 +67,7 @@
 				v-model="localLdapAgentPassword"
 				type="password"
 				:helper-text="t('user_ldap', 'For anonymous access, leave DN and Password empty.')"
-				:placeholder="t('user_ldap', 'Password')"
+				:label="t('user_ldap', 'Password')"
 				autocomplete="off" />
 
 			<NcButton :disabled="!needsToSaveCredentials" @click="updateCredentials">
@@ -75,15 +78,15 @@
 		<div class="ldap-wizard__server__line">
 			<NcTextArea
 				:label="t('user_ldap', 'Base DN')"
-				:value="ldapConfigProxy.ldapBase"
+				:model-value="ldapConfigProxy.ldapBase"
 				:placeholder="t('user_ldap', 'One Base DN per line')"
 				:helper-text="t('user_ldap', 'You can specify Base DN for users and groups in the Advanced tab')"
-				@change.native="(event) => ldapConfigProxy.ldapBase = event.target.value" />
+				@change="(event) => ldapConfigProxy.ldapBase = event.target.value" />
 
-			<NcButton :disabled="loadingGuessBaseDN" @click="guessBaseDN">
+			<NcButton :disabled="loadingGuessBaseDN || needsToSaveCredentials" @click="guessBaseDN">
 				{{ t('user_ldap', 'Detect Base DN') }}
 			</NcButton>
-			<NcButton :disabled="loadingCountInBaseDN" @click="countInBaseDN">
+			<NcButton :disabled="loadingCountInBaseDN || ldapConfigProxy.ldapBase === ''" @click="countInBaseDN">
 				{{ t('user_ldap', 'Test Base DN') }}
 			</NcButton>
 		</div>
@@ -95,7 +98,7 @@ import { showInfo } from '@nextcloud/dialogs'
 import { n, t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import { callWizard } from '../../services/ldapConfigService.ts'
@@ -117,6 +120,18 @@ const needsToSaveCredentials = computed(() => {
 	return ldapConfigProxy.value.ldapAgentName !== localLdapAgentName.value || ldapConfigProxy.value.ldapAgentPassword !== localLdapAgentPassword.value
 })
 
+watch(
+	ldapConfigProxy,
+	(newVal) => {
+		localLdapAgentName.value = newVal.ldapAgentName
+		if (newVal.ldapAgentPassword === '***') {
+			localLdapAgentPassword.value = ''
+		} else {
+			localLdapAgentPassword.value = newVal.ldapAgentPassword
+		}
+	},
+)
+
 /**
  *
  */
@@ -133,7 +148,7 @@ async function guessPortAndTLS() {
 		loadingGuessPortAndTLS.value = true
 		const { changes } = await callWizard('guessPortAndTLS', props.configId)
 		// Not using ldapConfigProxy to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapPort = (changes!.ldap_port as string) ?? ''
+		ldapConfigs.value[props.configId]!.ldapPort = (changes!.ldap_port as string) ?? ''
 	} finally {
 		loadingGuessPortAndTLS.value = false
 	}
@@ -146,8 +161,7 @@ async function guessBaseDN() {
 	try {
 		loadingGuessBaseDN.value = true
 		const { changes } = await callWizard('guessBaseDN', props.configId)
-		// Not using ldapConfigProxy to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapBase = (changes!.ldap_base as string) ?? ''
+		ldapConfigProxy.value.ldapBase = (changes!.ldap_base as string) ?? ''
 	} finally {
 		loadingGuessBaseDN.value = false
 	}

@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos domeinu lehenetsia, balio lehenetsia \"WORKGROUP\" da",
     "Kerberos ticket Apache mode" : "Kerberos txartela Apache modua",
     "Kerberos ticket" : "Kerberos tiketa",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Ontzia",
     "Hostname" : "Ostalari-izena",
     "Port" : "Ataka",

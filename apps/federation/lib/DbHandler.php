@@ -84,14 +84,15 @@ class DbHandler {
 			->setParameter('id', $id, IQueryBuilder::PARAM_INT);
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		/** @var array{id: int, url: string, url_hash: string, token: ?string, shared_secret: ?string, status: int, sync_token: ?string} $result */
+		$result = $qResult->fetchAssociative();
 		$qResult->closeCursor();
 
-		if (empty($result)) {
+		if ($result === false) {
 			throw new \Exception('No Server found with ID: ' . $id);
 		}
 
-		return $result[0];
+		return $result;
 	}
 
 	/**
@@ -105,7 +106,7 @@ class DbHandler {
 		$query->select(['url', 'url_hash', 'id', 'status', 'shared_secret', 'sync_token'])
 			->from($this->dbTable);
 		$statement = $query->executeQuery();
-		$result = $statement->fetchAll();
+		$result = $statement->fetchAllAssociative();
 		$statement->closeCursor();
 		return $result;
 	}
@@ -121,7 +122,7 @@ class DbHandler {
 			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
 			->setParameter('url_hash', $hash);
 		$statement = $query->executeQuery();
-		$result = $statement->fetchAll();
+		$result = $statement->fetchAllAssociative();
 		$statement->closeCursor();
 
 		return !empty($result);
@@ -153,7 +154,7 @@ class DbHandler {
 			->setParameter('url_hash', $hash);
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 
 		if (!isset($result['token'])) {
@@ -188,7 +189,7 @@ class DbHandler {
 			->setParameter('url_hash', $hash);
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 		return (string)$result['shared_secret'];
 	}
@@ -219,7 +220,7 @@ class DbHandler {
 			->setParameter('url_hash', $hash);
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 		return (int)$result['status'];
 	}
@@ -259,7 +260,7 @@ class DbHandler {
 			->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
 
 		$statement = $query->executeQuery();
-		$result = $statement->fetch();
+		$result = $statement->fetchAssociative();
 		$statement->closeCursor();
 		return !empty($result);
 	}

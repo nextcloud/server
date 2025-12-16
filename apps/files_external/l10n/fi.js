@@ -43,7 +43,6 @@ OC.L10N.register(
     "RSA private key" : "Yksityinen RSA-avain",
     "Private key" : "Yksityinen avain",
     "Kerberos ticket" : "Kerberos-tiketti",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Isäntänimi",
     "Port" : "Portti",

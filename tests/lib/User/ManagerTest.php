@@ -13,6 +13,7 @@ use OC\USER\BACKEND;
 use OC\User\Database;
 use OC\User\Manager;
 use OC\User\User;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -53,7 +54,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetBackends(): void {
 		$userDummyBackend = $this->createMock(\Test\Util\User\Dummy::class);
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($userDummyBackend);
 		$this->assertEquals([$userDummyBackend], $manager->getBackends());
 		$dummyDatabaseBackend = $this->createMock(Database::class);
@@ -63,77 +64,64 @@ class ManagerTest extends TestCase {
 
 
 	public function testUserExistsSingleBackendExists(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertTrue($manager->userExists('foo'));
 	}
 
 	public function testUserExistsTooLong(): void {
-		/** @var \Test\Util\User\Dummy|MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->userExists('foo' . str_repeat('a', 62)));
 	}
 
 	public function testUserExistsSingleBackendNotExists(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->userExists('foo'));
 	}
 
 	public function testUserExistsNoBackends(): void {
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 
 		$this->assertFalse($manager->userExists('foo'));
 	}
 
 	public function testUserExistsTwoBackendsSecondExists(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend1
-		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->once())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend2
-		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->once())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -141,23 +129,17 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testUserExistsTwoBackendsFirstExists(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend1
-		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->once())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend2
-		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->never())
 			->method('userExists');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -165,9 +147,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCheckPassword(): void {
-		/**
-		 * @var \OC\User\Backend&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('checkPassword')
@@ -184,7 +163,7 @@ class ManagerTest extends TestCase {
 				}
 			});
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$user = $manager->checkPassword('foo', 'bar');
@@ -192,9 +171,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCheckPasswordNotSupported(): void {
-		/**
-		 * @var \OC\User\Backend&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
 			->method('checkPassword');
@@ -203,16 +179,13 @@ class ManagerTest extends TestCase {
 			->method('implementsActions')
 			->willReturn(false);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->checkPassword('foo', 'bar'));
 	}
 
 	public function testGetOneBackendExists(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('userExists')
@@ -221,46 +194,39 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals('foo', $manager->get('foo')->getUID());
 	}
 
 	public function testGetOneBackendNotExists(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals(null, $manager->get('foo'));
 	}
 
 	public function testGetTooLong(): void {
-		/** @var \Test\Util\User\Dummy|MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
 			->method('userExists')
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals(null, $manager->get('foo' . str_repeat('a', 62)));
 	}
 
 	public function testGetOneBackendDoNotTranslateLoginNames(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('userExists')
@@ -269,16 +235,13 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertEquals('bLeNdEr', $manager->get('bLeNdEr')->getUID());
 	}
 
 	public function testSearchOneBackend(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('getUsers')
@@ -287,7 +250,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$result = $manager->search('fo');
@@ -299,9 +262,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSearchTwoBackendLimitOffset(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend1
-		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->once())
 			->method('getUsers')
@@ -310,9 +270,6 @@ class ManagerTest extends TestCase {
 		$backend1->expects($this->never())
 			->method('loginName2UserName');
 
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend2
-		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->once())
 			->method('getUsers')
@@ -321,7 +278,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -366,7 +323,6 @@ class ManagerTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateUserInvalid')]
 	public function testCreateUserInvalid($uid, $password, $exception): void {
-		/** @var \Test\Util\User\Dummy&MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('implementsActions')
@@ -374,7 +330,7 @@ class ManagerTest extends TestCase {
 			->willReturn(true);
 
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->expectException(\InvalidArgumentException::class, $exception);
@@ -382,9 +338,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreateUserSingleBackendNotExists(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -401,7 +354,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$user = $manager->createUser('foo', 'bar');
@@ -412,9 +365,6 @@ class ManagerTest extends TestCase {
 	public function testCreateUserSingleBackendExists(): void {
 		$this->expectException(\Exception::class);
 
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -428,16 +378,13 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$manager->createUser('foo', 'bar');
 	}
 
 	public function testCreateUserSingleBackendNotSupported(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -449,14 +396,14 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('userExists');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
 
 	public function testCreateUserNoBackends(): void {
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 
 		$this->assertFalse($manager->createUser('foo', 'bar'));
 	}
@@ -482,9 +429,6 @@ class ManagerTest extends TestCase {
 	public function testCreateUserTwoBackendExists(): void {
 		$this->expectException(\Exception::class);
 
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend1
-		 */
 		$backend1 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend1->expects($this->any())
 			->method('implementsActions')
@@ -498,9 +442,6 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend2
-		 */
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->any())
 			->method('implementsActions')
@@ -514,7 +455,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -522,7 +463,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersNoBackend(): void {
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 
 		$result = $manager->countUsers();
 		$this->assertTrue(is_array($result));
@@ -530,9 +471,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersOneBackend(): void {
-		/**
-		 * @var \Test\Util\User\Dummy&MockObject $backend
-		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
 			->method('countUsers')
@@ -547,7 +485,7 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->willReturn('Mock_Test_Util_User_Dummy');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
 
 		$result = $manager->countUsers();
@@ -588,7 +526,7 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->willReturn('Mock_Test_Util_User_Dummy');
 
-		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend1);
 		$manager->registerBackend($backend2);
 
@@ -760,7 +698,7 @@ class ManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$manager = new \OC\User\Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager = new Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$backend = new \Test\Util\User\Dummy();
 
 		$manager->registerBackend($backend);
@@ -771,27 +709,31 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetByEmail(): void {
-		/** @var AllConfig&MockObject */
-		$config = $this->getMockBuilder(AllConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$config
-			->expects($this->once())
-			->method('getUsersForUserValueCaseInsensitive')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->once())
+			->method('searchUsersByValueString')
 			->with('settings', 'email', 'test@example.com')
-			->willReturn(['uid1', 'uid99', 'uid2']);
+			->willReturnCallback(function () {
+				yield 'uid1';
+				yield 'uid99';
+				yield 'uid2';
+			});
 
-		$backend = $this->createMock(\Test\Util\User\Dummy::class);
-		$backend->expects($this->exactly(3))
-			->method('userExists')
-			->willReturnMap([
-				['uid1', true],
-				['uid99', false],
-				['uid2', true]
-			]);
-
-		$manager = new \OC\User\Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([$this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->onlyMethods(['getUserConfig', 'get'])
+			->getMock();
+		$manager->method('getUserConfig')->willReturn($userConfig);
+		$manager->expects($this->exactly(3))
+			->method('get')
+			->willReturnCallback(function (string $uid): ?IUser {
+				if ($uid === 'uid99') {
+					return null;
+				}
+				$user = $this->createMock(IUser::class);
+				$user->method('getUID')->willReturn($uid);
+				return $user;
+			});
 
 		$users = $manager->getByEmail('test@example.com');
 		$this->assertCount(2, $users);

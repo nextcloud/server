@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitWebhookListeners
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\WebhookListeners\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\WebhookListeners\\' => 
+        'OCA\\WebhookListeners\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -24,16 +24,21 @@ class ComposerStaticInitWebhookListeners
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\WebhookListeners\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\WebhookListeners\\BackgroundJobs\\WebhookCall' => __DIR__ . '/..' . '/../lib/BackgroundJobs/WebhookCall.php',
+        'OCA\\WebhookListeners\\BackgroundJobs\\WebhookTokenCleanup' => __DIR__ . '/..' . '/../lib/BackgroundJobs/WebhookTokenCleanup.php',
         'OCA\\WebhookListeners\\Command\\ListWebhooks' => __DIR__ . '/..' . '/../lib/Command/ListWebhooks.php',
         'OCA\\WebhookListeners\\Controller\\WebhooksController' => __DIR__ . '/..' . '/../lib/Controller/WebhooksController.php',
         'OCA\\WebhookListeners\\Db\\AuthMethod' => __DIR__ . '/..' . '/../lib/Db/AuthMethod.php',
+        'OCA\\WebhookListeners\\Db\\EphemeralToken' => __DIR__ . '/..' . '/../lib/Db/EphemeralToken.php',
+        'OCA\\WebhookListeners\\Db\\EphemeralTokenMapper' => __DIR__ . '/..' . '/../lib/Db/EphemeralTokenMapper.php',
         'OCA\\WebhookListeners\\Db\\WebhookListener' => __DIR__ . '/..' . '/../lib/Db/WebhookListener.php',
         'OCA\\WebhookListeners\\Db\\WebhookListenerMapper' => __DIR__ . '/..' . '/../lib/Db/WebhookListenerMapper.php',
         'OCA\\WebhookListeners\\Listener\\WebhooksEventListener' => __DIR__ . '/..' . '/../lib/Listener/WebhooksEventListener.php',
         'OCA\\WebhookListeners\\Migration\\Version1000Date20240527153425' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20240527153425.php',
         'OCA\\WebhookListeners\\Migration\\Version1001Date20240716184935' => __DIR__ . '/..' . '/../lib/Migration/Version1001Date20240716184935.php',
+        'OCA\\WebhookListeners\\Migration\\Version1500Date20251007130000' => __DIR__ . '/..' . '/../lib/Migration/Version1500Date20251007130000.php',
         'OCA\\WebhookListeners\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\WebhookListeners\\Service\\PHPMongoQuery' => __DIR__ . '/..' . '/../lib/Service/PHPMongoQuery.php',
+        'OCA\\WebhookListeners\\Service\\TokenService' => __DIR__ . '/..' . '/../lib/Service/TokenService.php',
         'OCA\\WebhookListeners\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\WebhookListeners\\Settings\\AdminSection' => __DIR__ . '/..' . '/../lib/Settings/AdminSection.php',
     );

@@ -19,7 +19,7 @@ use OCP\User\Events\PasswordUpdatedEvent;
  */
 class PasswordUpdatedListener implements IEventListener {
 	public function __construct(
-		readonly private IVerificationToken $verificationToken,
+		private readonly IVerificationToken $verificationToken,
 	) {
 
 	}

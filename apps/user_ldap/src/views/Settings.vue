@@ -19,10 +19,10 @@
 					:options="Object.keys(ldapConfigs)"
 					:input-label="t('user_ldap', 'Select LDAP Config')">
 					<template #option="{ label: configId }">
-						{{ `${configId}: ${ldapConfigs[configId].ldapHost}` }}
+						{{ `${configId}: ${ldapConfigs[configId]?.ldapHost ?? ''}` }}
 					</template>
 					<template #selected-option="{ label: configId }">
-						{{ `${configId}: ${ldapConfigs[configId].ldapHost}` }}
+						{{ `${configId}: ${ldapConfigs[configId]?.ldapHost ?? ''}` }}
 					</template>
 				</NcSelect>
 				<NcButton
@@ -42,8 +42,8 @@
 						<NcCheckboxRadioSwitch
 							v-for="(tabLabel, tabId) in tabs"
 							:key="tabId"
+							v-model="selectedTab"
 							:button-variant="true"
-							:checked.sync="selectedTab"
 							:value="tabId"
 							type="radio"
 							:disabled="tabId !== 'server' && !selectedConfigHasServerInfo"
@@ -123,7 +123,8 @@ const selectedTab = ref('server')
 const clearMappingLoading = ref(false)
 
 const selectedConfigHasServerInfo = computed(() => {
-	return selectedConfig.value.ldapHost !== ''
+	return selectedConfig.value !== undefined
+		&& selectedConfig.value.ldapHost !== ''
 		&& selectedConfig.value.ldapPort !== ''
 		&& selectedConfig.value.ldapBase !== ''
 		&& selectedConfig.value.ldapAgentName !== ''

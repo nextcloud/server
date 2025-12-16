@@ -49,7 +49,7 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos 默认领域，默认为“WORKGROUP”",
     "Kerberos ticket Apache mode" : "Kerberos 凭证 Apache 模式",
     "Kerberos ticket" : "Kerberos 票据",
-    "Amazon S3" : "Amazon S3",
+    "S3 Storage" : "S3 存储",
     "Bucket" : "Bucket",
     "Hostname" : "主机名",
     "Port" : "端口",

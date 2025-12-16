@@ -81,5 +81,12 @@ export const useAppsStore = defineStore('settings-apps', {
 		getAppById(appId: string): IAppstoreApp | null {
 			return this.apps.find(({ id }) => id === appId) ?? null
 		},
+
+		updateAppGroups(appId: string, groups: string[]) {
+			const app = this.apps.find(({ id }) => id === appId)
+			if (app) {
+				app.groups = [...groups]
+			}
+		},
 	},
 })

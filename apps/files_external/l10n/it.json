@@ -47,7 +47,7 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Regno predefinito di Kerberos, predefinito su \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Modalità Apache ticket Kerberos",
     "Kerberos ticket" : "Ticket Kerberos",
-    "Amazon S3" : "Amazon S3",
+    "S3 Storage" : "Archiviazione S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nome host",
     "Port" : "Porta",

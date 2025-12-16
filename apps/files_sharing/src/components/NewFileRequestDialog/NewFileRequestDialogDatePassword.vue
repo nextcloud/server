@@ -16,9 +16,9 @@
 			<legend>{{ t('files_sharing', 'When should the request expire?') }}</legend>
 			<NcCheckboxRadioSwitch
 				v-show="!isExpirationDateEnforced"
-				:checked="isExpirationDateEnforced || expirationDate !== null"
+				:model-value="isExpirationDateEnforced || expirationDate !== null"
 				:disabled="disabled || isExpirationDateEnforced"
-				@update:checked="onToggleDeadline">
+				@update:modelValue="onToggleDeadline">
 				{{ t('files_sharing', 'Set a submission expiration date') }}
 			</NcCheckboxRadioSwitch>
 
@@ -33,7 +33,7 @@
 				:min="minDate"
 				:placeholder="t('files_sharing', 'Select a date')"
 				:required="defaultExpireDateEnforced"
-				:value="expirationDate"
+				:model-value="expirationDate"
 				name="expirationDate"
 				type="date"
 				@input="$emit('update:expirationDate', $event)" />
@@ -50,9 +50,9 @@
 			<legend>{{ t('files_sharing', 'What password should be used for the request?') }}</legend>
 			<NcCheckboxRadioSwitch
 				v-show="!isPasswordEnforced"
-				:checked="isPasswordEnforced || password !== null"
+				:model-value="isPasswordEnforced || password !== null"
 				:disabled="disabled || isPasswordEnforced"
-				@update:checked="onTogglePassword">
+				@update:modelValue="onTogglePassword">
 				{{ t('files_sharing', 'Set a password') }}
 			</NcCheckboxRadioSwitch>
 
@@ -64,7 +64,7 @@
 					:label="t('files_sharing', 'Password')"
 					:placeholder="t('files_sharing', 'Enter a valid password')"
 					:required="enforcePasswordForPublicLink"
-					:value="password"
+					:model-value="password"
 					name="password"
 					@update:value="$emit('update:password', $event)" />
 				<NcButton

@@ -51,7 +51,6 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
-import { getAllStatusOptions } from '../../../apps/user_status/src/services/statusOptionsService.js'
 import logger from '../logger.js'
 
 interface ISettingsNavigationEntry {
@@ -93,7 +92,27 @@ interface ISettingsNavigationEntry {
 	classes: string
 }
 
-const USER_DEFINABLE_STATUSES = getAllStatusOptions()
+// See: apps/user_status/src/services/statusOptionsService.js
+// TODO: either import this again from the user_status app when core is migrated to Vue 3
+// Or get rid of the forbidden import
+const USER_DEFINABLE_STATUSES = [{
+	type: 'online',
+	label: t('user_status', 'Online'),
+}, {
+	type: 'away',
+	label: t('user_status', 'Away'),
+}, {
+	type: 'busy',
+	label: t('user_status', 'Busy'),
+}, {
+	type: 'dnd',
+	label: t('user_status', 'Do not disturb'),
+	subline: t('user_status', 'Mute all notifications'),
+}, {
+	type: 'invisible',
+	label: t('user_status', 'Invisible'),
+	subline: t('user_status', 'Appear offline'),
+}]
 
 export default defineComponent({
 	name: 'AccountMenu',

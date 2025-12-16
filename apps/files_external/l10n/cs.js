@@ -49,7 +49,7 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Výchozí kerberos oblast (realm) – výchozí je „WORKGROUP“",
     "Kerberos ticket Apache mode" : "Režim kerberos lístku (ticket) apache serveru",
     "Kerberos ticket" : "Kerberos ticket",
-    "Amazon S3" : "Amazon S3",
+    "S3 Storage" : "Úložiště S3",
     "Bucket" : "Bucket",
     "Hostname" : "Název stroje",
     "Port" : "Port",
@@ -103,7 +103,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Zadejte chybějící přihlašovací údaje",
     "Credentials successfully set" : "Přihlašovací údaje úspěšně nastaveny",
     "Error while setting credentials: {error}" : "Chyba při nastavování přihlašovacích údajů: {error}",
-    "Checking storage …" : "Kontrola úložiště …",
+    "Checking storage …" : "Kontrola úložiště …",
     "There was an error with this external storage." : "U tohoto externího úložiště došlo k chybě.",
     "We were unable to check the external storage {basename}" : "Nepodařilo se zkontrolovat externí úložiště {basename}",
     "Examine this faulty external storage configuration" : "Prozkoumejte nastavení tohoto vadného externího úložiště",
@@ -138,7 +138,7 @@ OC.L10N.register(
     "Delete storage?" : "Odstranit úložiště?",
     "Click to recheck the configuration" : "Klikněte pro opětovnou kontrolu nastavení",
     "Saved" : "Uloženo",
-    "Saving …" : "Ukládání…",
+    "Saving …" : "Ukládání …",
     "Save" : "Uložit",
     "Failed to save global credentials" : "Nepodařilo se uložit globální přihlašovací údaje",
     "Failed to save global credentials: {message}" : "Nepodařilo se uložit globální přihlašovací údaje: {message}",
@@ -159,8 +159,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Klíč aplikace",
     "App secret" : "Tajemství aplikace",
-    "Checking storage …" : "Kontrola úložiště…",
+    "Checking storage …" : "Kontrola úložiště …",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Opravdu chcete toto externí úložiště odpojit? Způsobí že toto úložiště nebude k dispozici v Nextcloud a povede to ke smazání těchto souborů a složek na jakémkoli synchronizačním klientovi, který je v tuto chvíli připojen, ale nesmaže žádné soubory a složky na externím úložišti jako takovém.",
-    "Saving …" : "Ukládání…"
+    "Saving …" : "Ukládání …"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

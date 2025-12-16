@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Az alapértelmezett Kerberos tartomány, alapértelmezetten „WORKGROUP”",
     "Kerberos ticket Apache mode" : "Kerberos jegy Apache módja",
     "Kerberos ticket" : "Kerberos jegy",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Gépnév",
     "Port" : "Port",

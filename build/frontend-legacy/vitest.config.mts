@@ -7,6 +7,7 @@ import vue from '@vitejs/plugin-vue2'
 import { exec } from 'node:child_process'
 import { resolve } from 'node:path'
 import { promisify } from 'node:util'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import { defaultExclude, defineConfig } from 'vitest/config'
 
 const gitIgnore: string[] = []
@@ -26,8 +27,19 @@ try {
 }
 
 export default defineConfig({
-	plugins: [vue()],
 	root: import.meta.dirname,
+	// define some dummy globals for the tests
+	define: {
+		appName: '"nextcloud"',
+		appVersion: '"1.0.0"',
+	},
+	plugins: [
+		nodePolyfills({
+			include: ['fs', 'path'],
+			protocolImports: false,
+		}),
+		vue(),
+	],
 	resolve: {
 		preserveSymlinks: true,
 		alias: {
@@ -45,8 +57,9 @@ export default defineConfig({
 		coverage: {
 			include: ['./apps/*/src/**', 'core/src/**'],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
-			provider: 'v8',
+			provider: 'istanbul',
 			reporter: ['lcov', 'text'],
+			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},
 		setupFiles: [
 			'./__tests__/mock-window.js',
@@ -59,7 +72,9 @@ export default defineConfig({
 		globalSetup: './__tests__/setup-global.js',
 		server: {
 			deps: {
-				inline: true,
+				// @see https://github.com/vitest-dev/vitest/issues/7950
+				// inline: true,
+				inline: [/^(?!.*vitest).*$/],
 			},
 		},
 	},

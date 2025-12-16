@@ -1965,6 +1965,31 @@ $CONFIG = [
 	],
 
 	/**
+	 * To use S3 object storage
+	 */
+	'objectstore' => [
+		'class' => 'OC\\Files\\ObjectStore\\S3',
+		'arguments' => [
+			'bucket' => 'nextcloud',
+			'key' => 'your-access-key',
+			'secret' => 'your-secret-key',
+			'hostname' => 's3.example.com',
+			'port' => 443,
+			'use_ssl' => true,
+			'region' => 'us-east-1',
+			// optional: Maximum number of retry attempts for failed S3 requests
+			// Default: 5
+			'retriesMaxAttempts' => 5,
+			// Data Integrity Protections for Amazon S3 (https://docs.aws.amazon.com/sdkref/latest/guide/feature-dataintegrity.html)
+			// Valid values are "when_required" (default) and "when_supported".
+			// To ensure compatibility with 3rd party S3 implementations, Nextcloud disables it by default. However, if you are
+			// using Amazon S3 (or any other implementation that supports it) we recommend enabling it by using "when_supported".
+			'request_checksum_calculation' => 'when_required',
+			'response_checksum_validation' => 'when_required',
+		],
+	],
+
+	/**
 	 * If this is set to true and a multibucket object store is configured, then
 	 * newly created previews are put into 256 dedicated buckets.
 	 *
@@ -2357,9 +2382,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.1.0``
+	 * Defaults to ``3.0.82``
 	 */
-	'minimum.supported.desktop.version' => '3.1.0',
+	'minimum.supported.desktop.version' => '3.0.82',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2858,4 +2883,13 @@ $CONFIG = [
 	 * Defaults to ``true``
 	 */
 	'enable_lazy_objects' => true,
+
+	/**
+	 * Change the default certificates bundle used for trusting certificates.
+	 *
+	 * Nextcloud ships its own up-to-date certificates bundle, but in certain cases admins may wish to specify a different bundle, for example the one shipped by their distro.
+	 *
+	 * Defaults to `\OC::$SERVERROOT . '/resources/config/ca-bundle.crt'`.
+	 */
+	'default_certificates_bundle_path' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
 ];

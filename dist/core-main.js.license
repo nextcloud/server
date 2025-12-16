@@ -32,7 +32,6 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Shuhei Kagawa
 SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
@@ -90,7 +89,6 @@ SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 SPDX-FileCopyrightText: 
 
@@ -123,11 +121,8 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/browser-storage
 	- version: 0.5.0
 	- license: GPL-3.0-or-later
-- @nextcloud/initial-state
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
-	- version: 1.2.0
+	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @ckpack/vue-color
 	- version: 1.6.0
@@ -143,6 +138,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @vueuse/shared
 	- version: 13.9.0
+	- license: MIT
+- debounce
+	- version: 2.2.0
 	- license: MIT
 - rehype-react
 	- version: 8.0.0
@@ -166,13 +164,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.2
-	- license: GPL-3.0-or-later
-- @nextcloud/initial-state
-	- version: 2.2.0
+	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.12.0
+	- version: 4.0.0-beta.4
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -181,7 +176,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
-	- version: 3.0.2
+	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 9.2.0
@@ -208,10 +203,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.2
 	- license: MIT
 - @nextcloud/paths
-	- version: 2.2.2
+	- version: 2.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.0.1
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
 	- version: 0.3.0
@@ -220,7 +215,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.34.0
+	- version: 8.35.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.3.0
@@ -306,9 +301,6 @@ This file is generated from multiple sources. Included packages:
 - call-bound
 	- version: 1.0.4
 	- license: MIT
-- cancelable-promise
-	- version: 4.3.1
-	- license: MIT
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
@@ -322,7 +314,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.3
 	- license: MIT
 - core-js
-	- version: 3.46.0
+	- version: 3.47.0
 	- license: MIT
 - core-util-is
 	- version: 1.0.3
@@ -355,7 +347,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.1
 	- license: BSD-3-Clause
 - debounce
-	- version: 2.2.0
+	- version: 3.0.0
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.2.0
@@ -529,7 +521,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.0
 	- license: MIT
 - mdast-util-to-hast
-	- version: 13.2.0
+	- version: 13.2.1
 	- license: MIT
 - mdast-util-to-string
 	- version: 4.0.0
@@ -613,7 +605,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - p-queue
-	- version: 9.0.0
+	- version: 9.0.1
 	- license: MIT
 - p-timeout
 	- version: 7.0.1
@@ -808,7 +800,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.102.1
+	- version: 5.103.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19

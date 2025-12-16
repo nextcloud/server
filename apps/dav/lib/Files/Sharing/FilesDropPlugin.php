@@ -69,8 +69,8 @@ class FilesDropPlugin extends ServerPlugin {
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 		$isChunkedUpload = $this->isChunkedUpload($request);
 
-		// For the final MOVE request of a chunked upload it is necessary to modify the Destination header.
-		if ($isChunkedUpload && $request->getMethod() !== 'MOVE') {
+		// For the PUT and MOVE requests of a chunked upload it is necessary to modify the Destination header.
+		if ($isChunkedUpload && $request->getMethod() !== 'MOVE' && $request->getMethod() !== 'PUT') {
 			return;
 		}
 
@@ -85,6 +85,23 @@ class FilesDropPlugin extends ServerPlugin {
 
 		if ($request->getMethod() !== 'PUT' && $request->getMethod() !== 'MKCOL' && (!$isChunkedUpload || $request->getMethod() !== 'MOVE')) {
 			throw new MethodNotAllowed('Only PUT, MKCOL and MOVE are allowed on files drop');
+		}
+
+		// Extract the attributes for the file request
+		$isFileRequest = false;
+		$attributes = $this->share->getAttributes();
+		if ($attributes !== null) {
+			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
+		}
+
+		// Retrieve the nickname from the request
+		$nickname = $request->hasHeader('X-NC-Nickname')
+			? trim(urldecode($request->getHeader('X-NC-Nickname')))
+			: null;
+
+		// We need a valid nickname for file requests
+		if ($isFileRequest && !$nickname) {
+			throw new BadRequest('A nickname header is required for file requests');
 		}
 
 		// If this is a folder creation request
@@ -113,32 +130,6 @@ class FilesDropPlugin extends ServerPlugin {
 		$rootPath = substr($path, 0, strpos($path, $token) + strlen($token));
 		// e.g /Folder/image.jpg
 		$relativePath = substr($path, strlen($rootPath));
-		$isRootUpload = substr_count($relativePath, '/') === 1;
-
-		// Extract the attributes for the file request
-		$isFileRequest = false;
-		$attributes = $this->share->getAttributes();
-		if ($attributes !== null) {
-			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
-		}
-
-		// Retrieve the nickname from the request
-		$nickname = $request->hasHeader('X-NC-Nickname')
-			? trim(urldecode($request->getHeader('X-NC-Nickname')))
-			: null;
-
-		// We need a valid nickname for file requests
-		if ($isFileRequest && !$nickname) {
-			throw new BadRequest('A nickname header is required for file requests');
-		}
-
-		// We're only allowing the upload of
-		// long path with subfolders if a nickname is set.
-		// This prevents confusion when uploading files and help
-		// classify them by uploaders.
-		if (!$nickname && !$isRootUpload) {
-			throw new BadRequest('A nickname header is required when uploading subfolders');
-		}
 
 		if ($nickname) {
 			try {

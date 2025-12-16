@@ -47,7 +47,7 @@
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Varsayılan Kerberos alanı, varsayılan olarak \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Kerberos kaydı Apache kipi",
     "Kerberos ticket" : "Kerberos kaydı",
-    "Amazon S3" : "Amazon S3",
+    "S3 Storage" : "S3 depolama alanı",
     "Bucket" : "Buket",
     "Hostname" : "Sunucu adı",
     "Port" : "Bağlantı noktası",

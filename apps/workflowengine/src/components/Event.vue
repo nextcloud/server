@@ -13,7 +13,7 @@
 			:disabled="allEvents.length <= 1"
 			:multiple="true"
 			:options="allEvents"
-			:value="currentEvent"
+			:model-value="currentEvent"
 			:placeholder="placeholderString"
 			class="event__trigger"
 			label="displayName"

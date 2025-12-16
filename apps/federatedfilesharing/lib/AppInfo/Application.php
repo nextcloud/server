@@ -16,12 +16,14 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\Federation\ICloudFederationProviderManager;
 
 class Application extends App implements IBootstrap {
+
+	public const APP_ID = 'federatedfilesharing';
+
 	public function __construct() {
-		parent::__construct('federatedfilesharing');
+		parent::__construct(self::APP_ID);
 	}
 
 	public function register(IRegistrationContext $context): void {
@@ -33,14 +35,13 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCloudFederationProvider']));
 	}
 
-	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
-		IAppContainer $appContainer): void {
+	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager): void {
 		$fileResourceTypes = ['file', 'folder'];
 		foreach ($fileResourceTypes as $type) {
 			$manager->addCloudFederationProvider($type,
 				'Federated Files Sharing',
-				function () use ($appContainer): CloudFederationProviderFiles {
-					return $appContainer->get(CloudFederationProviderFiles::class);
+				function (): CloudFederationProviderFiles {
+					return \OCP\Server::get(CloudFederationProviderFiles::class);
 				});
 		}
 	}

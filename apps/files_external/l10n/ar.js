@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "المجال الافتراضي لـ\"كيربيروس\" Kerberos default realm، يتمّ تعيينه افتراضيّاً على أساس \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "تذكرة \"كيربيروس\" في حالة \"الأباتشي\" Kerberos ticket Apache mode",
     "Kerberos ticket" : "تذكرة \"كيربيروس\" Kerberos ticket",
-    "Amazon S3" : "أمازون S3",
     "Bucket" : "الحزمة",
     "Hostname" : "اسم الإستضافة",
     "Port" : "المنفذ",

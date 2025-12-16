@@ -1034,12 +1034,12 @@ class Server extends ServerContainer implements IServerContainer {
 					$backgroundService,
 				);
 				return new ThemingDefaults(
-					$c->get(\OCP\IConfig::class),
 					new AppConfig(
 						$c->get(\OCP\IConfig::class),
 						$c->get(\OCP\IAppConfig::class),
 						'theming',
 					),
+					$c->get(IUserConfig::class),
 					$c->get(IFactory::class)->get('theming'),
 					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),

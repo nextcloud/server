@@ -16,6 +16,7 @@
 			<NcTextArea
 				v-if="multiLine"
 				:id="inputId"
+				v-model="inputValue"
 				autocapitalize="none"
 				autocomplete="off"
 				:error="hasError || !!helperText"
@@ -24,12 +25,12 @@
 				:placeholder="placeholder"
 				rows="8"
 				spellcheck="false"
-				:success="isSuccess"
-				:value.sync="inputValue" />
+				:success="isSuccess" />
 			<NcInputField
 				v-else
 				:id="inputId"
 				ref="input"
+				v-model="inputValue"
 				autocapitalize="none"
 				:autocomplete="autocomplete"
 				:error="hasError || !!helperText"
@@ -38,8 +39,7 @@
 				:placeholder="placeholder"
 				spellcheck="false"
 				:success="isSuccess"
-				:type="type"
-				:value.sync="inputValue" />
+				:type="type" />
 		</div>
 		<span v-else>
 			{{ value || t('settings', 'No {property} set', { property: readable.toLocaleLowerCase() }) }}

@@ -6,7 +6,7 @@
 	<div>
 		<NcSelect
 			v-model="newValue"
-			:value="currentValue"
+			:model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a request URL')"
 			label="label"
 			:clearable="false"

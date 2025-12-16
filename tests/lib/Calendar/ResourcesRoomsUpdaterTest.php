@@ -216,7 +216,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		$rows = [];
 		$ids = [];
 		$stmt = $query->executeQuery();
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetchAssociative()) {
 			$ids[$row['backend_id'] . '::' . $row['resource_id']] = $row['id'];
 			unset($row['id']);
 			$rows[] = $row;
@@ -286,7 +286,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 
 		$rows2 = [];
 		$stmt = $query2->executeQuery();
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetchAssociative()) {
 			unset($row['id']);
 			$rows2[] = $row;
 		}

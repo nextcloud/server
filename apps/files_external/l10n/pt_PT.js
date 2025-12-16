@@ -35,7 +35,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "Credenciais de início de sessão, guardar na sessão",
     "RSA public key" : "Chave pública RSA",
     "Public key" : "Chave pública",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nome do Anfitrião",
     "Port" : "Porta",

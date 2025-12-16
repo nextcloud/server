@@ -19,20 +19,17 @@
 				{{ message }}
 			</span>
 			<span class="predefined-status__label--clear-at">
-				{{ clearAt | clearAtFilter }}
+				{{ formattedClearAt }}
 			</span>
 		</label>
 	</li>
 </template>
 
 <script>
-import { clearAtFilter } from '../filters/clearAtFilter.js'
+import { clearAtFormat } from '../services/clearAtService.js'
 
 export default {
 	name: 'PredefinedStatus',
-	filters: {
-		clearAtFilter,
-	},
 
 	props: {
 		messageId: {
@@ -63,9 +60,15 @@ export default {
 		},
 	},
 
+	emits: ['select'],
+
 	computed: {
 		id() {
 			return `user-status-predefined-status-${this.messageId}`
+		},
+
+		formattedClearAt() {
+			return clearAtFormat(this.clearAt)
 		},
 	},
 

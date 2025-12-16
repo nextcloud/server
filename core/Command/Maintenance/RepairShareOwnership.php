@@ -92,7 +92,7 @@ class RepairShareOwnership extends Command {
 			->where($qb->expr()->neq('m.user_id', 's.uid_owner'))
 			->andWhere($qb->expr()->eq($qb->func()->concat($qb->expr()->literal('/'), 'm.user_id', $qb->expr()->literal('/')), 'm.mount_point'))
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$found = [];
 
@@ -126,7 +126,7 @@ class RepairShareOwnership extends Command {
 			->andWhere($qb->expr()->eq($qb->func()->concat($qb->expr()->literal('/'), 'm.user_id', $qb->expr()->literal('/')), 'm.mount_point'))
 			->andWhere($qb->expr()->eq('s.share_with', $qb->createNamedParameter($user->getUID())))
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$found = [];
 

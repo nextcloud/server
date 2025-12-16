@@ -27,7 +27,7 @@
 			<!-- Search or create input -->
 			<div class="systemtags-picker__input">
 				<NcTextField
-					:value.sync="input"
+					v-model="input"
 					:label="canEditOrCreateTag ? t('systemtags', 'Search or create tag') : t('systemtags', 'Search tag')"
 					data-cy-systemtags-picker-input>
 					<TagIcon :size="20" />
@@ -45,12 +45,12 @@
 					:style="tagListStyle(tag)"
 					class="systemtags-picker__tag">
 					<NcCheckboxRadioSwitch
-						:checked="isChecked(tag)"
+						:model-value="isChecked(tag)"
 						:disabled="!tag.canAssign"
 						:indeterminate="isIndeterminate(tag)"
 						:label="tag.displayName"
 						class="systemtags-picker__tag-checkbox"
-						@update:checked="onCheckUpdate(tag, $event)">
+						@update:modelValue="onCheckUpdate(tag, $event)">
 						{{ formatTagName(tag) }}
 					</NcCheckboxRadioSwitch>
 
@@ -58,7 +58,7 @@
 					<NcColorPicker
 						v-if="canEditOrCreateTag"
 						:data-cy-systemtags-picker-tag-color="tag.id"
-						:value="`#${tag.color || '000000'}`"
+						:model-value="`#${tag.color || '000000'}`"
 						:shown="openedPicker === tag.id"
 						class="systemtags-picker__tag-color"
 						@update:value="onColorChange(tag, $event)"

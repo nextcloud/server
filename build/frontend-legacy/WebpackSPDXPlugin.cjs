@@ -203,8 +203,10 @@ class WebpackSPDXPlugin {
 					const match = source.match(/asset\/inline\|data:image\/svg\+xml,(.+)/)
 					if (match) {
 						const content = decodeURI(match[1])
+						// REUSE-IgnoreStart
 						const [, license] = content.match(/SPDX-License-Identifier:\s*([^\s]+)/) ?? []
 						const [, author] = content.match(/SPDX-FileCopyrightText:\s*([^-]+)/) ?? []
+						// REUSE-IgnoreEnd
 						if (author && license) {
 							authors.add(author)
 							licenses.add(license)
@@ -218,12 +220,14 @@ class WebpackSPDXPlugin {
 				output = ''
 			}
 
+			// REUSE-IgnoreStart
 			for (const author of [...authors].sort()) {
 				output = `SPDX-FileCopyrightText: ${author}\n${output}`
 			}
 			for (const license of [...licenses].sort()) {
 				output = `SPDX-License-Identifier: ${license}\n${output}`
 			}
+			// REUSE-IgnoreEnd
 
 			compilation.emitAsset(
 				asset.split('?', 2)[0] + '.license',

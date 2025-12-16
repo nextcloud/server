@@ -153,6 +153,33 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
 
+	public function testSetPublicKey(): void {
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->exactly(1))
+			->method('getUID')
+			->willReturn('MyUid');
+		$publicFile = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder
+			->expects($this->once())
+			->method('newFile')
+			->willReturnMap([
+				['public', 'MyNewPublicKey', $publicFile],
+			]);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('user-MyUid')
+			->willReturn($folder);
+		$this->cache
+			->expects($this->once())
+			->method('set')
+			->with('user-MyUid-public', 'MyNewPublicKey');
+
+		$this->manager->setPublicKey($user, 'MyNewPublicKey');
+	}
+
 	public function testGetKeyWithNotExistingKey(): void {
 		$user = $this->createMock(IUser::class);
 		$user

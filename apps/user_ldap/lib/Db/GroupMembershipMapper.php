@@ -30,7 +30,7 @@ class GroupMembershipMapper extends QBMapper {
 			->from($this->getTableName())
 			->executeQuery();
 
-		$groups = array_column($result->fetchAll(), 'groupid');
+		$groups = array_column($result->fetchAllAssociative(), 'groupid');
 		$result->closeCursor();
 		return $groups;
 	}

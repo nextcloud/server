@@ -78,7 +78,7 @@ class Version20000Date20201109081918 extends SimpleMigrationStep {
 			->setValue('credentials', $insert->createParameter('credentials'));
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$insert->setParameter('user', (string)$row['user'])
 				->setParameter('identifier', (string)$row['identifier'])
 				->setParameter('credentials', (string)$row['credentials']);

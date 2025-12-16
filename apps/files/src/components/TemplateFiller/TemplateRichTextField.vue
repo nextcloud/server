@@ -11,8 +11,8 @@
 
 		<NcTextField
 			:id="fieldId"
+			v-model="value"
 			type="text"
-			:value.sync="value"
 			:label="fieldLabel"
 			:label-outside="true"
 			:placeholder="field.content"

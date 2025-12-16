@@ -35,7 +35,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "Kredenciale hyrjesh, ruaji për sesion",
     "RSA public key" : "Kyç publik RSA ",
     "Public key" : "Kyç publik",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Strehëemër",
     "Port" : "Portë",

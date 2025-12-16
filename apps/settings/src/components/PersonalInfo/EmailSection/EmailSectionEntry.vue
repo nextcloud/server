@@ -22,6 +22,7 @@
 				<NcTextField
 					:id="inputIdWithDefault"
 					ref="email"
+					v-model="emailAddress"
 					class="email__input"
 					autocapitalize="none"
 					autocomplete="email"
@@ -31,8 +32,7 @@
 					:placeholder="inputPlaceholder"
 					spellcheck="false"
 					:success="isSuccess"
-					type="email"
-					:value.sync="emailAddress" />
+					type="email" />
 
 				<div class="email__actions">
 					<NcActions :aria-label="actionsLabel">

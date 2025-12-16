@@ -15,7 +15,8 @@ import {
 	setStatus,
 } from '../services/statusService.js'
 
-const state = {
+// eslint-disable-next-line antfu/top-level-function
+const state = () => ({
 	// Status (online / away / dnd / invisible / offline)
 	status: null,
 	// Whether the status is user-defined
@@ -31,7 +32,7 @@ const state = {
 	messageIsPredefined: null,
 	// The id of the message in case it's predefined
 	messageId: null,
-}
+})
 
 const mutations = {
 

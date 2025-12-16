@@ -63,5 +63,10 @@ return [
 				'type' => null
 			]
 		],
+		[
+			'name' => 'Routes#getRoutesInRoutesPhp',
+			'url' => '/api/v1/routes/routesphp/{app}',
+			'verb' => 'GET',
+		],
 	],
 ];
