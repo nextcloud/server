@@ -283,11 +283,6 @@
       <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
-    <InvalidArgument>
-      <code><![CDATA[$webcalData]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/dav/lib/CardDAV/AddressBookImpl.php">
     <InvalidArgument>
       <code><![CDATA[$this->getKey()]]></code>
