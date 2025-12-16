@@ -29,8 +29,9 @@ function init() {
 		icon: imagePath('files', 'app.svg'),
 		callback: (showFilePicker: boolean = true) => {
 			if (showFilePicker) {
-				const filepicker = getFilePickerBuilder('Pick plain text files')
+				const filepicker = getFilePickerBuilder(t('files', 'Pick Folder to search in'))
 					.addMimeTypeFilter('httpd/unix-directory')
+					.setNoMenu(true)
 					.allowDirectories(true)
 					.addButton({
 						label: 'Pick',
