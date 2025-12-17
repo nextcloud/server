@@ -337,6 +337,13 @@ abstract class Node implements \Sabre\DAV\INode {
 		return DavUtil::getDavPermissions($this->info);
 	}
 
+	/**
+	 * Returns the DAV Permissions with share and mount infromation stripped.
+	 */
+	public function getPublicDavPermissions(): string {
+		return str_replace(['S', 'M'], '', $this->getDavPermissions());
+	}
+
 	public function getOwner() {
 		return $this->info->getOwner();
 	}
