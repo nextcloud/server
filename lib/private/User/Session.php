@@ -820,6 +820,10 @@ class Session implements IUserSession, Emitter {
 		} else {
 			return false;
 		}
+		return $this->doTryTokenLogin($token);
+	}
+
+	public function doTryTokenLogin($token) {
 
 		if (!$this->loginWithToken($token)) {
 			return false;
