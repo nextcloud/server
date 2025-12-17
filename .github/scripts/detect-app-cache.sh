@@ -150,7 +150,7 @@ while IFS= read -r app_json; do
 
   # Check JFrog first before GitHub cache (available for all branches)
   if [ "$JFROG_AVAILABLE" == "true" ]; then
-    JFROG_PATH="${ARTIFACTORY_REPOSITORY_SNAPSHOT}/dev-poc/apps/${APP_NAME}/${APP_NAME}-${CURRENT_SHA}.tar.gz"
+    JFROG_PATH="${ARTIFACTORY_REPOSITORY_SNAPSHOT}/apps/${CACHE_VERSION}/${APP_NAME}/${APP_NAME}-${CURRENT_SHA}.tar.gz"
 
     echo ""
     echo "  🔍 Checking JFrog for $APP_NAME..."

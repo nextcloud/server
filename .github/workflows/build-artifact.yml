@@ -300,7 +300,8 @@ jobs:
           ls -lh "$ARCHIVE_NAME"
 
           # Upload to JFrog - store in snapshot repo under dev/apps/
-          JFROG_PATH="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/dev-poc/apps/${APP_NAME}/${ARCHIVE_NAME}"
+          # Include CACHE_VERSION in path to enable complete cache invalidation
+          JFROG_PATH="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/apps/${{ env.CACHE_VERSION }}/${APP_NAME}/${ARCHIVE_NAME}"
 
           echo ""
           echo "Uploading to JFrog..."
