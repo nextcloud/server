@@ -7,6 +7,7 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
@@ -21,42 +22,40 @@ class ExternalSharesController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private \OCA\Files_Sharing\External\Manager $externalManager,
+		private readonly Manager $externalManager,
 	) {
 		parent::__construct($appName, $request);
 	}
 
 	/**
 	 * @NoOutgoingFederatedSharingRequired
-	 *
-	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function index() {
+	public function index(): JSONResponse {
 		return new JSONResponse($this->externalManager->getOpenShares());
 	}
 
 	/**
 	 * @NoOutgoingFederatedSharingRequired
-	 *
-	 * @param int $id
-	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function create($id) {
-		$this->externalManager->acceptShare($id);
+	public function create(string $id): JSONResponse {
+		$externalShare = $this->externalManager->getShare($id);
+		if ($externalShare !== false) {
+			$this->externalManager->acceptShare($externalShare);
+		}
 		return new JSONResponse();
 	}
 
 	/**
 	 * @NoOutgoingFederatedSharingRequired
-	 *
-	 * @param integer $id
-	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function destroy($id) {
-		$this->externalManager->declineShare($id);
+	public function destroy(string $id): JSONResponse {
+		$externalShare = $this->externalManager->getShare($id);
+		if ($externalShare !== false) {
+			$this->externalManager->declineShare($externalShare);
+		}
 		return new JSONResponse();
 	}
 }
