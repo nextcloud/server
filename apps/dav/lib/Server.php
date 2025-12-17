@@ -301,7 +301,6 @@ class Server {
 						\OCP\Server::get(IFilenameValidator::class),
 						\OCP\Server::get(IAccountManager::class),
 						false,
-						$config->getSystemValueBool('debug', false) === false,
 					)
 				);
 				$this->server->addPlugin(new ChecksumUpdatePlugin());
