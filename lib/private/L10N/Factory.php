@@ -94,11 +94,8 @@ class Factory implements IFactory {
 	public function get($app, $lang = null, $locale = null) {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
 			$app = $this->appManager->cleanAppId($app);
-			if ($lang !== null) {
-				$lang = str_replace(['\0', '/', '\\', '..'], '', $lang);
-			}
-
-			$forceLang = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
+			$lang = $this->cleanLanguage($lang);
+			$forceLang = $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValue('force_language', false);
 			if (is_string($forceLang)) {
 				$lang = $forceLang;
 			}
@@ -131,6 +128,29 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * Remove some invalid characters before using a string as a language
+	 *
+	 * @psalm-taint-escape callable
+	 * @psalm-taint-escape cookie
+	 * @psalm-taint-escape file
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape header
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape include
+	 * @psalm-taint-escape ldap
+	 * @psalm-taint-escape shell
+	 * @psalm-taint-escape sql
+	 * @psalm-taint-escape unserialize
+	 */
+	private function cleanLanguage(?string $lang): ?string {
+		if ($lang === null) {
+			return null;
+		}
+		$lang = preg_replace('/[^a-zA-Z0-9.;,=-]/', '', $lang);
+		return str_replace('..', '', $lang);
+	}
+
+	/**
 	 * Find the best language
 	 *
 	 * @param string|null $appId App id or null for core
@@ -139,7 +159,7 @@ class Factory implements IFactory {
 	 */
 	public function findLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
-		$forceLang = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
+		$forceLang = $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValue('force_language', false);
 		if (is_string($forceLang)) {
 			$this->requestLanguage = $forceLang;
 		}
@@ -196,7 +216,7 @@ class Factory implements IFactory {
 
 	public function findGenericLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
-		$forcedLanguage = $this->request->getParam('forceLanguage') ?? $this->config->getSystemValue('force_language', false);
+		$forcedLanguage = $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValue('force_language', false);
 		if ($forcedLanguage !== false) {
 			return $forcedLanguage;
 		}
@@ -391,7 +411,8 @@ class Factory implements IFactory {
 				return $language;
 			}
 
-			if (($forcedLanguage = $this->request->getParam('forceLanguage')) !== null) {
+			$forcedLanguage = $this->cleanLanguage($this->request->getParam('forceLanguage'));
+			if ($forcedLanguage !== null) {
 				return $forcedLanguage;
 			}
 
@@ -405,7 +426,7 @@ class Factory implements IFactory {
 			}
 		}
 
-		return $this->request->getParam('forceLanguage') ?? $this->config->getSystemValueString('default_language', 'en');
+		return $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValueString('default_language', 'en');
 	}
 
 	/**
@@ -431,7 +452,7 @@ class Factory implements IFactory {
 	 * @throws LanguageNotFoundException
 	 */
 	private function getLanguageFromRequest(?string $app = null): string {
-		$header = $this->request->getHeader('ACCEPT_LANGUAGE');
+		$header = $this->cleanLanguage($this->request->getHeader('ACCEPT_LANGUAGE'));
 		if ($header !== '') {
 			$available = $this->findAvailableLanguages($app);
 
