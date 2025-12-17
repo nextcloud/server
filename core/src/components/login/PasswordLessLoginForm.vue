@@ -16,17 +16,15 @@
 		</h2>
 
 		<NcTextField
-			required
 			:model-value="user"
 			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 			:error="!validCredentials"
-			:label="t('core', 'Login or email')"
-			:placeholder="t('core', 'Login or email')"
-			:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
+			:label="t('core', 'Login or email (optional)')"
+			:placeholder="t('core', 'Login or email (optional)')"
+			:helper-text="helperText"
 			@update:value="changeUsername" />
 
 		<LoginButton
-			v-if="validCredentials"
 			:loading="loading"
 			@click="authenticate" />
 	</form>
@@ -113,6 +111,7 @@ export default defineComponent({
 			user: this.username,
 			loading: false,
 			validCredentials: true,
+			helperText: this.t('core', 'Leave empty to use a discoverable credential.'),
 		}
 	},
 
@@ -125,11 +124,15 @@ export default defineComponent({
 
 			logger.debug('passwordless login initiated')
 
+			this.loading = true
 			try {
-				const params = await startAuthentication(this.user)
+				const trimmed = this.user.trim()
+				const params = await startAuthentication(trimmed !== '' ? trimmed : undefined)
 				await this.completeAuthentication(params)
 			} catch (error) {
-				if (error instanceof NoValidCredentials) {
+				this.loading = false
+				if (error instanceof NoValidCredentials && this.user.trim() === '') {
+					this.helperText = this.t('core', 'No discoverable credential found. Please enter your login or email and try again.')
 					this.validCredentials = false
 					return
 				}
@@ -139,6 +142,8 @@ export default defineComponent({
 
 		changeUsername(username) {
 			this.user = username
+			this.validCredentials = true
+			this.helperText = this.t('core', 'Leave empty to use a discoverable credential.')
 			this.$emit('update:username', this.user)
 		},
 
@@ -152,21 +157,28 @@ export default defineComponent({
 				})
 				.catch((error) => {
 					logger.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!', { error }) // Example: timeout, interaction refused...
+					this.loading = false
 				})
 		},
 
 		submit() {
-			// noop
+			if (!this.loading) {
+				void this.authenticate()
+			}
 		},
 	},
 })
 </script>
 
 <style lang="scss" scoped>
-.password-less-login-form {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	margin: 0;
-}
+	.password-less-login-form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin: 0;
+
+		&__discoverable {
+			align-self: flex-start;
+		}
+	}
 </style>
