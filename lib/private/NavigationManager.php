@@ -19,16 +19,20 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
  * Manages the Nextcloud navigation
+ * @psalm-import-type NavigationEntry from INavigationManager
+ * @psalm-import-type NavigationEntryOutput from INavigationManager
  */
 class NavigationManager implements INavigationManager {
+	/** @var array<string, NavigationEntryOutput> */
 	protected array $entries = [];
+	/** @var list<callable(): NavigationEntry> */
 	protected array $closureEntries = [];
-	/** @var string $activeEntry */
-	protected $activeEntry;
+	protected ?string $activeEntry = null;
 	protected array $unreadCounters = [];
 	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
@@ -46,10 +50,8 @@ class NavigationManager implements INavigationManager {
 	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function add($entry) {
+	#[Override]
+	public function add(array|callable $entry): void {
 		if ($entry instanceof \Closure) {
 			$this->closureEntries[] = $entry;
 			return;
@@ -86,7 +88,7 @@ class NavigationManager implements INavigationManager {
 		$this->updateDefaultEntries();
 	}
 
-	private function updateDefaultEntries() {
+	private function updateDefaultEntries(): void {
 		$defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
 		foreach ($this->entries as $id => $entry) {
 			if ($entry['type'] === 'link') {
@@ -95,9 +97,7 @@ class NavigationManager implements INavigationManager {
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	public function getAll(string $type = 'link'): array {
 		$this->init();
 
@@ -114,8 +114,8 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * Sort navigation entries default app is always sorted first, then by order, name and set active flag
 	 *
-	 * @param array $list
-	 * @return array
+	 * @param array<string, NavigationEntryOutput> $list
+	 * @return array<string, NavigationEntryOutput>
 	 */
 	private function proceedNavigation(array $list, string $type): array {
 		uasort($list, function ($a, $b) {
@@ -136,7 +136,7 @@ class NavigationManager implements INavigationManager {
 
 		if ($type === 'all' || $type === 'link') {
 			// There might be the case that no default app was set, in this case the first app is the default app.
-			// Otherwise the default app is already the ordered first, so setting the default prop will make no difference.
+			// Otherwise, the default app is already the ordered first, so setting the default prop will make no difference.
 			foreach ($list as $index => &$navEntry) {
 				if ($navEntry['type'] === 'link') {
 					$navEntry['default'] = true;
@@ -165,23 +165,19 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * removes all the entries
 	 */
-	public function clear($loadDefaultLinks = true) {
+	public function clear(bool $loadDefaultLinks = true): void {
 		$this->entries = [];
 		$this->closureEntries = [];
 		$this->init = !$loadDefaultLinks;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function setActiveEntry($appId) {
+	#[Override]
+	public function setActiveEntry(string $appId): void {
 		$this->activeEntry = $appId;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getActiveEntry() {
+	#[Override]
+	public function getActiveEntry(): ?string {
 		return $this->activeEntry;
 	}
 
@@ -377,7 +373,7 @@ class NavigationManager implements INavigationManager {
 		}
 	}
 
-	private function isAdmin() {
+	private function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
 			return $this->groupManager->isAdmin($user->getUID());
@@ -385,7 +381,7 @@ class NavigationManager implements INavigationManager {
 		return false;
 	}
 
-	private function isSubadmin() {
+	private function isSubadmin(): bool {
 		$user = $this->userSession->getUser();
 		if ($user !== null && $this->groupManager instanceof Manager) {
 			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
@@ -393,15 +389,18 @@ class NavigationManager implements INavigationManager {
 		return false;
 	}
 
+	#[Override]
 	public function setUnreadCounter(string $id, int $unreadCounter): void {
 		$this->unreadCounters[$id] = $unreadCounter;
 	}
 
+	#[Override]
 	public function get(string $id): ?array {
 		$this->init();
 		return $this->entries[$id];
 	}
 
+	#[Override]
 	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string {
 		$this->init();
 		// Disable fallbacks here, as we need to override them with the user defaults if none are configured.
@@ -443,6 +442,7 @@ class NavigationManager implements INavigationManager {
 		return $withFallbacks ? 'files' : '';
 	}
 
+	#[Override]
 	public function getDefaultEntryIds(bool $withFallbacks = true): array {
 		$this->init();
 		$storedIds = explode(',', $this->config->getSystemValueString('defaultapp', $withFallbacks ? 'dashboard,files' : ''));
@@ -456,6 +456,7 @@ class NavigationManager implements INavigationManager {
 		return array_filter($ids);
 	}
 
+	#[Override]
 	public function setDefaultEntryIds(array $ids): void {
 		$this->init();
 		$entryIds = array_keys($this->entries);
