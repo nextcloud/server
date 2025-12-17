@@ -460,7 +460,7 @@ OC.L10N.register(
     "Your client should now be connected!" : "Su klient peaks nüüd olema ühendatud!",
     "You can close this window." : "Võid selle akna sulgeda.",
     "Previous" : "Eelmine",
-    "This share is password-protected" : "See jaoskaust on salasõnaga kaitstud",
+    "This share is password-protected" : "See jaoskaust on kaitstud salasõnaga",
     "The password is wrong or expired. Please try again or request a new one." : "Salasõna on vale või aegunud. Palun proovi uuesti või taotle uut salasõna.",
     "Please type in your email address to request a temporary password" : "Palun sisesta oma e-posti aadress ajutise salasõna taotlemiseks",
     "Email address" : "E-posti aadress",
