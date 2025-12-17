@@ -8,6 +8,18 @@
 		{{ t('settings', 'Passwordless authentication requires a secure connection.') }}
 	</div>
 	<div v-else>
+		<div class="new-webauthn-device__option">
+			<NcCheckboxRadioSwitch
+				v-model="discoverable"
+				type="switch"
+				:disabled="step !== RegistrationSteps.READY">
+				{{ t('settings', 'Store passkey on this device (discoverable)') }}
+			</NcCheckboxRadioSwitch>
+			<p class="settings-hint">
+				{{ t('settings', 'Disable this option to use the classic flow that keeps the login name requirement.') }}
+			</p>
+		</div>
+
 		<NcButton v-if="step === RegistrationSteps.READY"
 			type="primary"
 			@click="start">
@@ -51,6 +63,7 @@
 import { showError } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import logger from '../../logger.ts'
@@ -78,6 +91,7 @@ export default {
 
 	components: {
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcTextField,
 	},
 
@@ -105,6 +119,7 @@ export default {
 			name: '',
 			credential: {},
 			step: RegistrationSteps.READY,
+			discoverable: true,
 		}
 	},
 
@@ -130,7 +145,7 @@ export default {
 
 			try {
 				await confirmPassword()
-				this.credential = await startRegistration()
+				this.credential = await startRegistration(this.discoverable)
 				this.step = RegistrationSteps.NAMING
 			} catch (err) {
 				showError(err)
@@ -190,5 +205,9 @@ export default {
 	&__name {
 		max-width: min(100vw, 400px);
 	}
+}
+
+.new-webauthn-device__option {
+	margin-bottom: 1rem;
 }
 </style>

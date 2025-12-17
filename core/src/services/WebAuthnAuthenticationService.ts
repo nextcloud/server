@@ -17,17 +17,20 @@ export class NoValidCredentials extends Error {}
  * Start webautn authentication
  * This loads the challenge, connects to the authenticator and returns the repose that needs to be sent to the server.
  *
- * @param loginName Name to login
+ * @param loginName Name to login (optional for discoverable credentials)
  */
-export async function startAuthentication(loginName: string) {
+export async function startAuthentication(loginName?: string) {
 	const url = generateUrl('/login/webauthn/start')
 
-	const { data } = await Axios.post<PublicKeyCredentialRequestOptionsJSON>(url, { loginName })
-	if (!data.allowCredentials || data.allowCredentials.length === 0) {
+	const body = loginName ? { loginName } : undefined
+	const { data } = await Axios.post<PublicKeyCredentialRequestOptionsJSON>(url, body)
+	if (loginName && (!data.allowCredentials || data.allowCredentials.length === 0)) {
 		logger.error('No valid credentials returned for webauthn')
 		throw new NoValidCredentials()
 	}
-	return await startWebauthnAuthentication({ optionsJSON: data })
+	return await startWebauthnAuthentication({
+		optionsJSON: data,
+	})
 }
 
 /**

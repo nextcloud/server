@@ -1,0 +1,13 @@
+onlyBuiltDependencies:
+  - '@nextcloud/webpack-vue-config'
+  - '@parcel/watcher'
+  - core-js
+  - cpu-features
+  - cypress
+  - esbuild
+  - msw
+  - protobufjs
+  - puppeteer
+  - ssh2
+  - unrs-resolver
+  - vue-demi
