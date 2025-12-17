@@ -17,8 +17,8 @@ use OCP\Comments\IComment;
 use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -94,7 +94,7 @@ class ListenerTest extends TestCase {
 		$node = $this->createMock(Node::class);
 		$nodes = [ $node ];
 
-		$ownerFolder = $this->createMock(Folder::class);
+		$ownerFolder = $this->createMock(IUserFolder::class);
 		$ownerFolder->expects($this->any())
 			->method('getById')
 			->willReturn($nodes);

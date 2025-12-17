@@ -22,6 +22,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
@@ -29,6 +30,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -67,7 +69,7 @@ class Root extends Folder implements IRootFolder {
 		private LoggerInterface $logger,
 		private IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,
-		ICacheFactory $cacheFactory,
+		private ICacheFactory $cacheFactory,
 		IAppConfig $appConfig,
 	) {
 		parent::__construct($this, $view, '');
@@ -318,12 +320,10 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * Returns a view to user's files folder
 	 *
-	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
 	 * @throws NoUserException
 	 * @throws NotPermittedException
 	 */
-	public function getUserFolder($userId) {
+	public function getUserFolder(string $userId): IUserFolder {
 		$userObject = $this->userManager->get($userId);
 
 		if (is_null($userObject)) {
@@ -345,17 +345,17 @@ class Root extends Folder implements IRootFolder {
 
 		if (!$this->userFolderCache->hasKey($userId)) {
 			if ($this->mountManager->getSetupManager()->isSetupComplete($userObject)) {
-				try {
-					$folder = $this->get('/' . $userId . '/files');
-					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("Account folder for \"$userId\" exists as a file");
-					}
-				} catch (NotFoundException $e) {
-					if (!$this->nodeExists('/' . $userId)) {
-						$this->newFolder('/' . $userId);
-					}
-					$folder = $this->newFolder('/' . $userId . '/files');
-				}
+				$parent = $this->getOrCreateFolder('/' . $userId, maxRetries: 1);
+				$realFolder = $this->getOrCreateFolder('/' . $userId . '/files', maxRetries: 1);
+				$folder = new UserFolder(
+					$this,
+					$this->view,
+					$realFolder->getPath(),
+					$parent,
+					Server::get(IConfig::class),
+					$userObject,
+					$this->cacheFactory,
+				);
 			} else {
 				$folder = new LazyUserFolder($this, $userObject, $this->mountManager, $this->useDefaultHomeFoldersPermissions);
 			}

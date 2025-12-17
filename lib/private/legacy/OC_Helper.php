@@ -195,6 +195,7 @@ class OC_Helper {
 	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
 	 * @throws \OCP\Files\NotFoundException
+	 * @deprecated 33.0.0 use \OCP\Files\IUserFolder::getUserQuota
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		if (!self::$cacheFactory) {
@@ -257,7 +258,7 @@ class OC_Helper {
 
 		// TODO: need a better way to get total space from storage
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
-			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
+			/** @var \OC\Files\Storage\Wrapper\Quota $sourceStorage */
 			$quota = $sourceStorage->getQuota();
 		}
 		try {
@@ -379,6 +380,9 @@ class OC_Helper {
 		];
 	}
 
+	/**
+	 * @deprecated 33.0.0
+	 */
 	public static function clearStorageInfo(string $absolutePath): void {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = \OC::$server->get(ICacheFactory::class);

@@ -18,6 +18,7 @@ use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -78,7 +79,7 @@ class ApplicationTest extends TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getStorage')->willReturn($fileStorage);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('get')->willReturn($file);
 
 		$user = $this->createMock(IUser::class);
@@ -166,7 +167,7 @@ class ApplicationTest extends TestCase {
 		$rootFolder->method('getStorage')->willReturn($nonSharedStorage);
 		$rootFolder->method('getDirectoryListing')->willReturn([$folder]);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('get')->willReturn($rootFolder);
 
 		$user = $this->createMock(IUser::class);

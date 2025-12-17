@@ -11,8 +11,8 @@ namespace Test;
 use OC\Tagging\TagMapper;
 use OC\TagManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\ITagManager;
@@ -55,7 +55,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$node = $this->createMock(Node::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder
