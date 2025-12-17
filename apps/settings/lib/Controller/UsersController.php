@@ -19,6 +19,7 @@ use OC\KnownUser\KnownUserService;
 use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
 use OCA\Settings\Settings\Admin\Users;
 use OCA\User_LDAP\User_Proxy;
@@ -62,12 +63,12 @@ class UsersController extends Controller {
 	private const COUNT_LIMIT_FOR_SUBADMINS = 999;
 
 	public const ALLOWED_USER_PREFERENCES = [
-		'user_list_show_storage_path',
-		'user_list_show_user_backend',
-		'user_list_show_first_login',
-		'user_list_show_last_login',
-		'user_list_show_new_user_form',
-		'user_list_show_languages',
+		ConfigLexicon::USER_LIST_SHOW_STORAGE_PATH,
+		ConfigLexicon::USER_LIST_SHOW_USER_BACKEND,
+		ConfigLexicon::USER_LIST_SHOW_FIRST_LOGIN,
+		ConfigLexicon::USER_LIST_SHOW_LAST_LOGIN,
+		ConfigLexicon::USER_LIST_SHOW_NEW_USER_FORM,
+		ConfigLexicon::USER_LIST_SHOW_LANGUAGES,
 	];
 
 	public function __construct(

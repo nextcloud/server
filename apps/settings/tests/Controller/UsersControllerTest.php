@@ -14,6 +14,7 @@ use OC\ForbiddenException;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager as UserManager;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Controller\UsersController;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -1043,13 +1044,14 @@ class UsersControllerTest extends \Test\TestCase {
 	public static function dataSetPreference(): array {
 		return [
 			['newUser.sendEmail', 'yes', false, true, Http::STATUS_OK],
+			['newUser.sendEmail', 'no', false, true, Http::STATUS_OK],
 			['group.sortBy', '1', false, true, Http::STATUS_OK],
-			['user_list_show_storage_path', 'true', true, false, Http::STATUS_OK],
-			['user_list_show_user_backend', 'false', true, false, Http::STATUS_OK],
-			['user_list_show_first_login', 'true', true, false, Http::STATUS_OK],
-			['user_list_show_last_login', 'true', true, false, Http::STATUS_OK],
-			['user_list_show_new_user_form', 'true', true, false, Http::STATUS_OK],
-			['user_list_show_languages', 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_STORAGE_PATH, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_USER_BACKEND, 'false', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_FIRST_LOGIN, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_LAST_LOGIN, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_NEW_USER_FORM, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_LANGUAGES, 'true', true, false, Http::STATUS_OK],
 			['invalidKey', 'value', false, false, Http::STATUS_FORBIDDEN],
 		];
 	}
