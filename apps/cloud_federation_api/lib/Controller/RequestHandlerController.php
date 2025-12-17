@@ -15,6 +15,7 @@ use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
 use NCU\Security\Signature\IIncomingSignedRequest;
 use NCU\Security\Signature\ISignatureManager;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
@@ -44,6 +45,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -518,6 +520,12 @@ class RequestHandlerController extends Controller {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			if ($provider instanceof ISignedCloudFederationProvider) {
 				$identity = $provider->getFederationIdFromSharedSecret($sharedSecret, $notification);
+				if ($identity === "") {
+					$tokenProvider = Server::get(PublicKeyTokenProvider::class);
+					$accessTokenDb = $tokenProvider->getToken($sharedSecret);
+					$refreshToken = $accessTokenDb->getUID();
+					$identity = $provider->getFederationIdFromSharedSecret($refreshToken, $notification);
+				}
 			} else {
 				$this->logger->debug('cloud federation provider {provider} does not implements ISignedCloudFederationProvider', ['provider' => $provider::class]);
 				return;
