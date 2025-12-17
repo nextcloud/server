@@ -16,9 +16,8 @@ import logger from '../logger.ts'
  *
  * @return The device attributes
  */
-export async function startRegistration() {
-	const url = generateUrl('/settings/api/personal/webauthn/registration')
-
+export async function startRegistration(discoverable = true): Promise<RegistrationResponseJSON> {
+	const url = generateUrl('/settings/api/personal/webauthn/registration') + (discoverable ? '' : '?discoverable=0')
 	try {
 		logger.debug('Fetching webauthn registration data')
 		const { data } = await axios.get<PublicKeyCredentialCreationOptionsJSON>(url)
@@ -26,6 +25,10 @@ export async function startRegistration() {
 		const attrs = await registerWebAuthn({ optionsJSON: data })
 		return attrs
 	} catch (e) {
+		if (shouldFallbackToLegacy(e) && discoverable) {
+			logger.debug('WebAuthn discoverable registration failed, falling back to legacy mode')
+			return await startRegistration(false)
+		}
 		logger.error(e as Error)
 		if (isAxiosError(e)) {
 			throw new Error(t('settings', 'Could not register device: Network error'))
@@ -34,6 +37,18 @@ export async function startRegistration() {
 		}
 		throw new Error(t('settings', 'Could not register device'))
 	}
+}
+
+function shouldFallbackToLegacy(error: unknown): boolean {
+	if (error instanceof Error) {
+		if (error.name === 'ConstraintError' || error.name === 'NotSupportedError') {
+			return true
+		}
+		if (error.message.includes('Discoverable credentials were required')) {
+			return true
+		}
+	}
+	return false
 }
 
 /**

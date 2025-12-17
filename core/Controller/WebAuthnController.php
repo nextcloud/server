@@ -43,21 +43,28 @@ class WebAuthnController extends Controller {
 	#[PublicPage]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: 'login/webauthn/start')]
-	public function startAuthentication(string $loginName): JSONResponse {
+	public function startAuthentication(?string $loginName = null): JSONResponse {
 		$this->logger->debug('Starting WebAuthn login');
 
-		$this->logger->debug('Converting login name to UID');
-		$uid = $loginName;
-		Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		);
-		$this->logger->debug('Got UID: ' . $uid);
+		$uid = null;
+		if ($loginName !== null && $loginName !== '') {
+			$this->logger->debug('Converting login name to UID');
+			$uid = $loginName;
+			Util::emitHook(
+				'\OCA\Files_Sharing\API\Server2Server',
+				'preLoginNameUsedAsUserName',
+				['uid' => &$uid]
+			);
+			$this->logger->debug('Got UID: ' . $uid);
+		}
 
 		$publicKeyCredentialRequestOptions = $this->webAuthnManger->startAuthentication($uid, $this->request->getServerHost());
 		$this->session->set(self::WEBAUTHN_LOGIN, json_encode($publicKeyCredentialRequestOptions));
-		$this->session->set(self::WEBAUTHN_LOGIN_UID, $uid);
+		if ($uid !== null && $uid !== '') {
+			$this->session->set(self::WEBAUTHN_LOGIN_UID, $uid);
+		} else {
+			$this->session->remove(self::WEBAUTHN_LOGIN_UID);
+		}
 
 		return new JSONResponse($publicKeyCredentialRequestOptions);
 	}
@@ -68,15 +75,18 @@ class WebAuthnController extends Controller {
 	public function finishAuthentication(string $data): JSONResponse {
 		$this->logger->debug('Validating WebAuthn login');
 
-		if (!$this->session->exists(self::WEBAUTHN_LOGIN) || !$this->session->exists(self::WEBAUTHN_LOGIN_UID)) {
+		if (!$this->session->exists(self::WEBAUTHN_LOGIN)) {
 			$this->logger->debug('Trying to finish WebAuthn login without session data');
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		// Obtain the publicKeyCredentialOptions from when we started the registration
 		$publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN));
-		$uid = $this->session->get(self::WEBAUTHN_LOGIN_UID);
-		$this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uid);
+		$uidFromSession = $this->session->get(self::WEBAUTHN_LOGIN_UID);
+		$this->session->remove(self::WEBAUTHN_LOGIN);
+		$this->session->remove(self::WEBAUTHN_LOGIN_UID);
+		$publicKeyCredentialSource = $this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uidFromSession);
+		$uid = $uidFromSession ?? $publicKeyCredentialSource->getUserHandle();
 
 		//TODO: add other parameters
 		$loginData = new LoginData(
