@@ -390,7 +390,7 @@ OC.L10N.register(
     "New Files" : "Novos ficheiros",
     "Already existing files" : "Ficheiros existentes",
     "Which files do you want to keep?" : "Que ficheiros quere conservar?",
-    "If you select both versions, the copied file will have a number added to its name." : "Se selecciona ambas versións, o ficheiro copiado terá un número engadido ao nome.",
+    "If you select both versions, the copied file will have a number added to its name." : "Se selecciona ámbalas dúas versións, o ficheiro copiado terá un número engadido ao nome.",
     "Cancel" : "Cancelar",
     "Continue" : "Continuar",
     "(all selected)" : "(todo o seleccionado)",
