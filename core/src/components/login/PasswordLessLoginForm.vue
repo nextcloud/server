@@ -14,18 +14,25 @@
 			{{ t('core', 'Log in with a device') }}
 		</h2>
 
-		<NcTextField required
-			:value="user"
-			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
-			:error="!validCredentials"
-			:label="t('core', 'Login or email')"
-			:placeholder="t('core', 'Login or email')"
-			:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
-			@update:value="changeUsername" />
+			<div v-if="manualFlow" class="password-less-login-form__manual">
+			<NcTextField required
+				:value="user"
+				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
+				:error="!validCredentials"
+				:label="t('core', 'Login or email')"
+				:placeholder="t('core', 'Login or email')"
+				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
+				@update:value="changeUsername" />
 
-		<LoginButton v-if="validCredentials"
-			:loading="loading"
-			@click="authenticate" />
+			<LoginButton v-if="validCredentials"
+				:loading="loading"
+				@click="authenticate" />
+		</div>
+		<div v-else class="password-less-login-form__discoverable">
+			<LoginButton :loading="loading"
+				:value="t('core', 'Log in with a device')"
+				:value-loading="t('core', 'Logging in …')" />
+		</div>
 	</form>
 
 	<NcEmptyContent v-else-if="!isHttps && !isLocalhost"
@@ -105,9 +112,26 @@ export default defineComponent({
 			user: this.username,
 			loading: false,
 			validCredentials: true,
+			manualFlow: false,
+		}
+	},
+	mounted() {
+		if ((this.isHttps || this.isLocalhost) && this.supportsWebauthn) {
+			this.tryDiscoverableAuthentication()
 		}
 	},
 	methods: {
+		async tryDiscoverableAuthentication() {
+			this.loading = true
+			try {
+				const params = await startAuthentication()
+				await this.completeAuthentication(params)
+			} catch (error) {
+				logger.debug(error)
+				this.loading = false
+				this.manualFlow = true
+			}
+		},
 		async authenticate() {
 			// check required fields
 			if (!this.$refs.loginForm.checkValidity()) {
@@ -116,10 +140,12 @@ export default defineComponent({
 
 			console.debug('passwordless login initiated')
 
+			this.loading = true
 			try {
 				const params = await startAuthentication(this.user)
 				await this.completeAuthentication(params)
 			} catch (error) {
+				this.loading = false
 				if (error instanceof NoValidCredentials) {
 					this.validCredentials = false
 					return
@@ -129,6 +155,7 @@ export default defineComponent({
 		},
 		changeUsername(username) {
 			this.user = username
+			this.validCredentials = true
 			this.$emit('update:username', this.user)
 		},
 		completeAuthentication(challenge) {
@@ -143,20 +170,28 @@ export default defineComponent({
 				.catch(error => {
 					console.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!')
 					console.debug(error) // Example: timeout, interaction refused...
+					this.loading = false
+					this.manualFlow = true
 				})
 		},
 		submit() {
-			// noop
+			if (this.manualFlow && !this.loading) {
+				void this.authenticate()
+			}
 		},
 	},
 })
 </script>
 
 <style lang="scss" scoped>
-.password-less-login-form {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	margin: 0;
-}
+	.password-less-login-form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin: 0;
+
+		&__discoverable {
+			align-self: flex-start;
+		}
+	}
 </style>

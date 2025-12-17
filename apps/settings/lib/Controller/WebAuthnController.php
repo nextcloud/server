@@ -48,7 +48,8 @@ class WebAuthnController extends Controller {
 	public function startRegistration(): JSONResponse {
 		$this->logger->debug('Starting WebAuthn registration');
 
-		$credentialOptions = $this->manager->startRegistration($this->userSession->getUser(), $this->request->getServerHost());
+		$discoverable = $this->request->getParam('discoverable', '1') !== '0';
+		$credentialOptions = $this->manager->startRegistration($this->userSession->getUser(), $this->request->getServerHost(), $discoverable);
 
 		// Set this in the session since we need it on finish
 		$this->session->set(self::WEBAUTHN_REGISTRATION, $credentialOptions);

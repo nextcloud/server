@@ -33,6 +33,7 @@ use Webauthn\PublicKeyCredentialLoader;
 use Webauthn\PublicKeyCredentialParameters;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
+use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
@@ -61,7 +62,7 @@ class Manager {
 		$this->config = $config;
 	}
 
-	public function startRegistration(IUser $user, string $serverHost): PublicKeyCredentialCreationOptions {
+	public function startRegistration(IUser $user, string $serverHost, bool $requireDiscoverable = true): PublicKeyCredentialCreationOptions {
 		$rpEntity = new PublicKeyCredentialRpEntity(
 			'Nextcloud', //Name
 			$this->stripPort($serverHost),  //ID
@@ -87,12 +88,20 @@ class Manager {
 		$excludedPublicKeyDescriptors = [
 		];
 
-		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
-			AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
-			null,
-			false,
-		);
+		if ($requireDiscoverable) {
+			$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
+				AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+				AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED,
+				AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_REQUIRED,
+			);
+		} else {
+			$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
+				AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+				AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+				AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_NO_PREFERENCE,
+				false,
+			);
+		}
 
 		return new PublicKeyCredentialCreationOptions(
 			$rpEntity,
@@ -159,19 +168,21 @@ class Manager {
 		return preg_replace('/(:\d+$)/', '', $serverHost);
 	}
 
-	public function startAuthentication(string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
-		// List of registered PublicKeyCredentialDescriptor classes associated to the user
+	public function startAuthentication(?string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
 		$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED;
-		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) use (&$userVerificationRequirement) {
-			if ($entity->getUserVerification() !== true) {
-				$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED;
-			}
-			$credential = $entity->toPublicKeyCredentialSource();
-			return new PublicKeyCredentialDescriptor(
-				$credential->type,
-				$credential->publicKeyCredentialId,
-			);
-		}, $this->credentialMapper->findAllForUid($uid));
+		$registeredPublicKeyCredentialDescriptors = [];
+		if ($uid !== null && $uid !== '') {
+			$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) use (&$userVerificationRequirement) {
+				if ($entity->getUserVerification() !== true) {
+					$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED;
+				}
+				$credential = $entity->toPublicKeyCredentialSource();
+				return new PublicKeyCredentialDescriptor(
+					$credential->type,
+					$credential->publicKeyCredentialId,
+				);
+			}, $this->credentialMapper->findAllForUid($uid));
+		}
 
 		// Public Key Credential Request Options
 		return new PublicKeyCredentialRequestOptions(
@@ -183,7 +194,7 @@ class Manager {
 		);
 	}
 
-	public function finishAuthentication(PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, string $data, string $uid) {
+	public function finishAuthentication(PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, string $data, ?string $uid = null): PublicKeyCredentialSource {
 		$attestationStatementSupportManager = new AttestationStatementSupportManager();
 		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
 
@@ -231,7 +242,7 @@ class Manager {
 			throw $e;
 		}
 
-		return true;
+		return $publicKeyCredentialSource;
 	}
 
 	public function deleteRegistration(IUser $user, int $id): void {
