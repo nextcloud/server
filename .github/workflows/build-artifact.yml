@@ -92,19 +92,19 @@ jobs:
 
           if [ "${{ vars.DISABLE_REMOTE_TRIGGER }}" == "true" ]; then
             echo "⚠️  Remote trigger is DISABLED"
-            echo "    The 'trigger-remote-dev-worflow' job will be SKIPPED"
+            echo "    The 'trigger-remote-dev-workflow' job will be SKIPPED"
             echo "**Status:** ⚠️ Remote trigger is **DISABLED**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "The \`trigger-remote-dev-worflow\` job will be skipped." >> $GITHUB_STEP_SUMMARY
+            echo "The \`trigger-remote-dev-workflow\` job will be skipped." >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "To enable, delete the variable or set it to a value other than 'true' at:" >> $GITHUB_STEP_SUMMARY
             echo "https://github.com/${{ github.repository }}/settings/variables/actions" >> $GITHUB_STEP_SUMMARY
           else
             echo "✅ Remote trigger is ENABLED"
-            echo "   The 'trigger-remote-dev-worflow' job will proceed"
+            echo "   The 'trigger-remote-dev-workflow' job will proceed"
             echo "**Status:** ✅ Remote trigger is **ENABLED**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "The \`trigger-remote-dev-worflow\` job will proceed to trigger the remote GitLab workflow." >> $GITHUB_STEP_SUMMARY
+            echo "The \`trigger-remote-dev-workflow\` job will proceed to trigger the remote GitLab workflow." >> $GITHUB_STEP_SUMMARY
           fi
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
@@ -278,7 +278,7 @@ jobs:
             echo "❌ ERROR: App path does not exist: $APP_PATH"
             exit 1
           fi
-          
+
           echo "App directory contents (top level):"
           ls -la "$APP_PATH" | head -20
 
@@ -287,7 +287,7 @@ jobs:
           echo ""
           echo "Creating archive: $ARCHIVE_NAME"
           echo "Running: tar -czf \"$ARCHIVE_NAME\" --exclude=\"node_modules\" --exclude=\".git\" --exclude=\"*.log\" -C \"$(dirname "$APP_PATH")\" \"$(basename "$APP_PATH")\""
-          
+
           tar -czf "$ARCHIVE_NAME" \
             --exclude="node_modules" \
             --exclude=".git" \
@@ -308,7 +308,7 @@ jobs:
           echo "Target Path: $JFROG_PATH"
           echo "Properties: app.name=${APP_NAME};app.sha=${APP_SHA};vcs.branch=${{ github.ref_name }};vcs.revision=${{ github.sha }}"
           echo "Running: jf rt upload \"$ARCHIVE_NAME\" \"$JFROG_PATH\" --target-props \"...\""
-          
+
           if jf rt upload "$ARCHIVE_NAME" "$JFROG_PATH" \
             --target-props "app.name=${APP_NAME};app.sha=${APP_SHA};vcs.branch=${{ github.ref_name }};vcs.revision=${{ github.sha }}"; then
             echo "✅ Successfully uploaded $APP_NAME to JFrog"
@@ -375,59 +375,59 @@ jobs:
         if: needs.prepare-matrix.outputs.has_apps_to_restore == 'true'
         run: |
           set -e
-          
+
           echo "📦 Restoring cached apps..."
           APPS_TO_RESTORE='${{ needs.prepare-matrix.outputs.apps_to_restore }}'
-          
+
           # Process each app in the restore list
           echo "$APPS_TO_RESTORE" | jq -c '.[]' | while read -r app_json; do
             APP_NAME=$(echo "$app_json" | jq -r '.name')
             APP_SHA=$(echo "$app_json" | jq -r '.sha')
             APP_PATH=$(echo "$app_json" | jq -r '.path')
             SOURCE=$(echo "$app_json" | jq -r '.source')
-            
+
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Restoring: $APP_NAME (source: $SOURCE)"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            
+
             if [ "$SOURCE" == "jfrog" ]; then
               # Restore from JFrog
               JFROG_PATH=$(echo "$app_json" | jq -r '.jfrog_path')
               ARCHIVE_NAME="${APP_NAME}-${APP_SHA}.tar.gz"
-              
+
               echo "📥 Downloading from JFrog: $JFROG_PATH"
-              
+
               if jf rt download "$JFROG_PATH" "$ARCHIVE_NAME" --flat=true; then
                 echo "✅ Downloaded successfully"
                 echo "Extracting to $APP_PATH..."
                 mkdir -p "$(dirname "$APP_PATH")"
                 tar -xzf "$ARCHIVE_NAME" -C "$(dirname "$APP_PATH")"
-                
+
                 if [ -d "$APP_PATH" ] && [ -f "$APP_PATH/appinfo/info.xml" ]; then
                   echo "✅ Restored $APP_NAME from JFrog"
                 else
                   echo "❌ Failed to extract or validate $APP_NAME"
                   exit 1
                 fi
-                
+
                 rm -f "$ARCHIVE_NAME"
               else
                 echo "❌ Failed to download from JFrog"
                 exit 1
               fi
-              
+
             elif [ "$SOURCE" == "github-cache" ]; then
               # Restore from GitHub cache
               CACHE_KEY=$(echo "$app_json" | jq -r '.cache_key')
-              
+
               echo "💾 Restoring from GitHub cache: $CACHE_KEY"
-              
+
               # Use actions/cache/restore in a way that works in a script context
               # We need to use gh CLI to restore the cache
               if gh cache restore "$CACHE_KEY" --key "$CACHE_KEY"; then
                 echo "✅ Restored $APP_NAME from GitHub cache"
-                
+
                 # Validate restoration
                 if [ ! -d "$APP_PATH" ] || [ ! -f "$APP_PATH/appinfo/info.xml" ]; then
                   echo "❌ Validation failed for $APP_NAME"
@@ -442,7 +442,7 @@ jobs:
               exit 1
             fi
           done
-          
+
           echo ""
           echo "✅ All cached apps restored successfully"
         env:
@@ -764,7 +764,7 @@ jobs:
           git diff
           exit 1 # make it red to grab attention
 
-  trigger-remote-dev-worflow:
+  trigger-remote-dev-workflow:
     runs-on: self-hosted
 
     name: Trigger remote workflow
