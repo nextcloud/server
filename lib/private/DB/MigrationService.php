@@ -18,6 +18,7 @@ use OC\Migration\SimpleOutput;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
+use OCP\DB\Exception;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\IDBConnection;
@@ -283,10 +284,20 @@ class MigrationService {
 	 * @param string $version
 	 */
 	private function markAsExecuted($version) {
-		$this->connection->insertIfNotExist('*PREFIX*migrations', [
-			'app' => $this->appName,
-			'version' => $version
-		]);
+		$qb = $this->connection->getQueryBuilder();
+		$qb
+			->insert('migrations')
+			->values([
+				'app' => $qb->createNamedParameter($this->appName),
+				'version' => $qb->createNamedParameter($version),
+			]);
+		try {
+			$qb->executeStatement();
+		} catch (Exception $e) {
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+		}
 	}
 
 	/**

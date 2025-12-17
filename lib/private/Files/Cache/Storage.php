@@ -7,6 +7,7 @@
  */
 namespace OC\Files\Cache;
 
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
@@ -56,9 +57,22 @@ class Storage {
 			$this->numericId = (int)$row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
+			$qb = $connection->getQueryBuilder();
+			$qb
+				->insert('storages')
+				->values([
+					'id' => $qb->createNamedParameter($this->storageId),
+					'available' => $qb->createNamedParameter($available, IQueryBuilder::PARAM_INT),
+				]);
+
+			try {
+				$qb->executeStatement();
 				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
-			} else {
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
 				} else {

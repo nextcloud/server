@@ -22,6 +22,7 @@ use OC\DB\SchemaWrapper;
 use OC\Migration\MetadataManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\Attributes\AddColumn;
 use OCP\Migration\Attributes\AddIndex;
@@ -113,6 +114,17 @@ class MigrationsTest extends \Test\TestCase {
 		$this->db->expects($this->once())
 			->method('migrateToSchema');
 
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb
+			->expects($this->once())
+			->method('insert')
+			->willReturn($qb);
+
+		$this->db
+			->expects($this->once())
+			->method('getQueryBuilder')
+			->willReturn($qb);
+
 		$wrappedSchema = $this->createMock(Schema::class);
 		$wrappedSchema->expects($this->exactly(2))
 			->method('getTables')
@@ -155,6 +167,17 @@ class MigrationsTest extends \Test\TestCase {
 
 		$this->db->expects($this->never())
 			->method('migrateToSchema');
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb
+			->expects($this->once())
+			->method('insert')
+			->willReturn($qb);
+
+		$this->db
+			->expects($this->once())
+			->method('getQueryBuilder')
+			->willReturn($qb);
 
 		$step = $this->createMock(IMigrationStep::class);
 		$step->expects($this->once())

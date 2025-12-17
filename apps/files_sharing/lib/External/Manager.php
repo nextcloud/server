@@ -88,27 +88,43 @@ class Manager {
 			// using the original share item name.
 			$tmpMountPointName = '{{TemporaryMountPointName#' . $name . '}}';
 			$mountPoint = $tmpMountPointName;
-			$hash = md5($tmpMountPointName);
-			$data = [
-				'remote' => $remote,
-				'share_token' => $token,
-				'password' => $password,
-				'name' => $name,
-				'owner' => $owner,
-				'user' => $user,
-				'mountpoint' => $mountPoint,
-				'mountpoint_hash' => $hash,
-				'accepted' => $accepted,
-				'remote_id' => $remoteId,
-				'share_type' => $shareType,
+
+			$qb = $this->connection->getQueryBuilder();
+			$qb->insert('share_external');
+
+			$values = [
+				'remote' => $qb->createNamedParameter($remote),
+				'share_token' => $qb->createNamedParameter($token),
+				'password' => $qb->createNamedParameter($password),
+				'name' => $qb->createNamedParameter($name),
+				'owner' => $qb->createNamedParameter($owner),
+				'user' => $qb->createNamedParameter($user),
+				'accepted' => $qb->createNamedParameter($accepted, IQueryBuilder::PARAM_INT),
+				'remote_id' => $qb->createNamedParameter($remoteId),
+				'share_type' => $qb->createNamedParameter($shareType, IQueryBuilder::PARAM_INT),
 			];
 
 			$i = 1;
-			while (!$this->connection->insertIfNotExist('*PREFIX*share_external', $data, ['user', 'mountpoint_hash'])) {
+			while (true) {
 				// The external share already exists for the user
-				$data['mountpoint'] = $tmpMountPointName . '-' . $i;
-				$data['mountpoint_hash'] = md5($data['mountpoint']);
-				$i++;
+				$qb->values(array_merge($values, [
+					'mountpoint' => $qb->createNamedParameter($mountPoint),
+					'mountpoint_hash' => $qb->createNamedParameter(md5($mountPoint)),
+				]));
+
+				try {
+					$qb->executeStatement();
+
+					break;
+				} catch (Exception $e) {
+					if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+						$mountPoint = $tmpMountPointName . '-' . $i;
+						$i++;
+						continue;
+					}
+
+					throw $e;
+				}
 			}
 			return null;
 		}
