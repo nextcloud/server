@@ -35,6 +35,9 @@ This file is generated from multiple sources. Included packages:
 - @floating-ui/core
 	- version: 1.7.3
 	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
+	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
 	- license: MIT
@@ -102,7 +105,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3

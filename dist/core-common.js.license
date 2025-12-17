@@ -21,6 +21,8 @@ SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: date-fns developers
+SPDX-FileCopyrightText: chenkai
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Varun A P
@@ -31,6 +33,8 @@ SPDX-FileCopyrightText: The Babel Team (https://babel.dev/team)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Shuhei Kagawa
+SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
 SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
@@ -42,6 +46,7 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
+SPDX-FileCopyrightText: Nick Frasser (https://nfrasser.com)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
 SPDX-FileCopyrightText: Max <max@nextcloud.com>
@@ -52,6 +57,7 @@ SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Julian Gruber
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
+SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
@@ -94,8 +100,14 @@ This file is generated from multiple sources. Included packages:
 - @babel/runtime
 	- version: 7.28.3
 	- license: MIT
+- @ctrl/tinycolor
+	- version: 3.6.1
+	- license: MIT
 - @floating-ui/core
 	- version: 1.7.3
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
@@ -130,8 +142,44 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
+- @ckpack/vue-color
+	- version: 1.6.0
+	- license: MIT
+- @vueuse/core
+	- version: 14.1.0
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- @vueuse/shared
+	- version: 14.1.0
+	- license: MIT
+- debounce
+	- version: 3.0.0
+	- license: MIT
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 9.0.1
+	- license: MIT
+- rehype-react
+	- version: 8.0.0
+	- license: MIT
+- splitpanes
+	- version: 4.0.4
+	- license: MIT
+- vue-router
+	- version: 4.6.4
+	- license: MIT
+- vue-select
+	- version: 4.0.0-beta.6
+	- license: MIT
+- vue
+	- version: 3.5.25
+	- license: MIT
 - @nextcloud/dialogs
-	- version: 6.4.1
+	- version: 7.1.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.2
@@ -157,6 +205,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/moment
 	- version: 1.3.5
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 6.4.1
+	- license: AGPL-3.0-or-later
 - @nextcloud/password-confirmation
 	- version: 5.3.2
 	- license: MIT
@@ -169,6 +220,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/sharing
 	- version: 0.3.0
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 6.4.1
+	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
@@ -192,6 +246,18 @@ This file is generated from multiple sources. Included packages:
 	- license: ISC
 - @vue/devtools-api
 	- version: 6.6.4
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.25
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.25
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.25
+	- license: MIT
+- @vue/shared
+	- version: 3.5.25
 	- license: MIT
 - @vueuse/components
 	- version: 11.3.0
@@ -265,6 +331,9 @@ This file is generated from multiple sources. Included packages:
 - css-loader
 	- version: 7.1.2
 	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
 - date-format-parse
 	- version: 0.2.7
 	- license: MIT
@@ -281,7 +350,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -300,6 +369,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- estree-util-is-identifier-name
+	- version: 3.0.0
 	- license: MIT
 - events
 	- version: 3.3.0
@@ -353,6 +425,15 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - hast-util-whitespace
+	- version: 3.0.0
+	- license: MIT
+- property-information
+	- version: 7.1.0
+	- license: MIT
+- hast-util-to-jsx-runtime
+	- version: 2.3.6
+	- license: MIT
+- hast-util-whitespace
 	- version: 2.0.1
 	- license: MIT
 - hot-patcher
@@ -403,12 +484,18 @@ This file is generated from multiple sources. Included packages:
 - layerr
 	- version: 3.0.0
 	- license: MIT
+- linkifyjs
+	- version: 4.3.2
+	- license: MIT
 - lodash
 	- version: 4.17.21
 	- license: MIT
 - marked
 	- version: 16.4.2
 	- license: MIT
+- material-colors
+	- version: 1.2.6
+	- license: ISC
 - math-intrinsics
 	- version: 1.1.0
 	- license: MIT
@@ -625,6 +712,15 @@ This file is generated from multiple sources. Included packages:
 - style-loader
 	- version: 4.0.0
 	- license: MIT
+- inline-style-parser
+	- version: 0.2.7
+	- license: MIT
+- style-to-object
+	- version: 1.0.14
+	- license: MIT
+- style-to-js
+	- version: 1.1.21
+	- license: MIT
 - style-to-object
 	- version: 0.4.4
 	- license: MIT
@@ -633,6 +729,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - toastify-js
 	- version: 1.12.0
+	- license: MIT
+- tributejs
+	- version: 5.1.3
 	- license: MIT
 - trim-lines
 	- version: 3.0.1

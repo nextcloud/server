@@ -7,18 +7,28 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: uuid developers
 SPDX-FileCopyrightText: string_decoder developers
+SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: qs developers
+SPDX-FileCopyrightText: p-queue developers
+SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: jden <jason@denizac.org>
+SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: date-fns developers
+SPDX-FileCopyrightText: chenkai
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Shuhei Kagawa
+SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
@@ -26,15 +36,20 @@ SPDX-FileCopyrightText: Philipp Kewisch
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
+SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
 SPDX-FileCopyrightText: Nick Singleton
+SPDX-FileCopyrightText: Nick Frasser (https://nfrasser.com)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mathias Bynens
+SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Julian Gruber
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
+SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
@@ -45,26 +60,37 @@ SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
+SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Andrea Giammarchi
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
+- @ctrl/tinycolor
+	- version: 3.6.1
+	- license: MIT
 - @floating-ui/core
 	- version: 1.7.3
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
@@ -84,8 +110,44 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
+- @ckpack/vue-color
+	- version: 1.6.0
+	- license: MIT
+- @vueuse/core
+	- version: 14.1.0
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- @vueuse/shared
+	- version: 14.1.0
+	- license: MIT
+- debounce
+	- version: 3.0.0
+	- license: MIT
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 9.0.1
+	- license: MIT
+- rehype-react
+	- version: 8.0.0
+	- license: MIT
+- splitpanes
+	- version: 4.0.4
+	- license: MIT
+- vue-router
+	- version: 4.6.4
+	- license: MIT
+- vue-select
+	- version: 4.0.0-beta.6
+	- license: MIT
+- vue
+	- version: 3.5.25
+	- license: MIT
 - @nextcloud/dialogs
-	- version: 6.4.1
+	- version: 7.1.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.2
@@ -102,6 +164,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
+- @nextcloud/paths
+	- version: 2.3.0
+	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
@@ -117,6 +182,24 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.34.0
 	- license: AGPL-3.0-or-later
+- @ungap/structured-clone
+	- version: 1.3.0
+	- license: ISC
+- @vue/devtools-api
+	- version: 6.6.4
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.25
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.25
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.25
+	- license: MIT
+- @vue/shared
+	- version: 3.5.25
+	- license: MIT
 - @vueuse/components
 	- version: 11.3.0
 	- license: MIT
@@ -140,6 +223,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
+	- license: MIT
+- blurhash
+	- version: 2.0.5
 	- license: MIT
 - brace-expansion
 	- version: 2.0.2
@@ -165,24 +251,39 @@ This file is generated from multiple sources. Included packages:
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
+- comma-separated-tokens
+	- version: 2.0.3
+	- license: MIT
 - crypt
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
 	- version: 7.1.2
 	- license: MIT
+- date-fns
+	- version: 4.1.0
+	- license: MIT
 - debounce
 	- version: 2.2.0
+	- license: MIT
+- decode-named-character-reference
+	- version: 1.2.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
 	- license: MIT
+- devlop
+	- version: 1.1.0
+	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
 	- license: MIT
+- emoji-mart-vue-fast
+	- version: 15.0.5
+	- license: BSD-3-Clause
 - es-define-property
 	- version: 1.0.1
 	- license: MIT
@@ -195,8 +296,14 @@ This file is generated from multiple sources. Included packages:
 - escape-html
 	- version: 1.0.3
 	- license: MIT
+- estree-util-is-identifier-name
+	- version: 3.0.0
+	- license: MIT
 - events
 	- version: 3.3.0
+	- license: MIT
+- extend
+	- version: 3.0.2
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -231,6 +338,18 @@ This file is generated from multiple sources. Included packages:
 - hasown
 	- version: 2.0.2
 	- license: MIT
+- hast-util-is-element
+	- version: 3.0.0
+	- license: MIT
+- hast-util-whitespace
+	- version: 3.0.0
+	- license: MIT
+- property-information
+	- version: 7.1.0
+	- license: MIT
+- hast-util-to-jsx-runtime
+	- version: 2.3.6
+	- license: MIT
 - hot-patcher
 	- version: 2.0.1
 	- license: MIT
@@ -249,6 +368,9 @@ This file is generated from multiple sources. Included packages:
 - inherits
 	- version: 2.0.4
 	- license: ISC
+- is-absolute-url
+	- version: 4.0.1
+	- license: MIT
 - is-arguments
 	- version: 1.2.0
 	- license: MIT
@@ -267,18 +389,105 @@ This file is generated from multiple sources. Included packages:
 - is-typed-array
 	- version: 1.1.15
 	- license: MIT
+- jquery
+	- version: 3.7.1
+	- license: MIT
 - layerr
 	- version: 3.0.0
+	- license: MIT
+- linkifyjs
+	- version: 4.3.2
 	- license: MIT
 - lodash
 	- version: 4.17.21
 	- license: MIT
+- material-colors
+	- version: 1.2.6
+	- license: ISC
 - math-intrinsics
 	- version: 1.1.0
 	- license: MIT
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- mdast-squeeze-paragraphs
+	- version: 6.0.0
+	- license: MIT
+- escape-string-regexp
+	- version: 5.0.0
+	- license: MIT
+- mdast-util-find-and-replace
+	- version: 3.0.2
+	- license: MIT
+- mdast-util-from-markdown
+	- version: 2.0.2
+	- license: MIT
+- mdast-util-newline-to-break
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-to-hast
+	- version: 13.2.1
+	- license: MIT
+- mdast-util-to-string
+	- version: 4.0.0
+	- license: MIT
+- micromark-core-commonmark
+	- version: 2.0.3
+	- license: MIT
+- micromark-factory-destination
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-label
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-space
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-title
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-whitespace
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-character
+	- version: 2.1.1
+	- license: MIT
+- micromark-util-chunked
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-classify-character
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-combine-extensions
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-decode-numeric-character-reference
+	- version: 2.0.2
+	- license: MIT
+- micromark-util-decode-string
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-encode
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-html-tag-name
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-normalize-identifier
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-resolve-all
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-sanitize-uri
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-subtokenize
+	- version: 2.1.0
+	- license: MIT
+- micromark
+	- version: 4.0.2
+	- license: MIT
 - minimatch
 	- version: 9.0.5
 	- license: ISC
@@ -294,15 +503,6 @@ This file is generated from multiple sources. Included packages:
 - path-posix
 	- version: 1.0.0
 	- license: ISC
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - possible-typed-array-names
 	- version: 1.1.0
 	- license: MIT
@@ -317,6 +517,21 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
+	- license: MIT
+- rehype-external-links
+	- version: 3.0.0
+	- license: MIT
+- remark-breaks
+	- version: 4.0.0
+	- license: MIT
+- remark-parse
+	- version: 11.0.0
+	- license: MIT
+- remark-rehype
+	- version: 11.1.2
+	- license: MIT
+- remark-unlink-protocols
+	- version: 1.0.0
 	- license: MIT
 - requires-port
 	- version: 1.0.0
@@ -342,6 +557,9 @@ This file is generated from multiple sources. Included packages:
 - side-channel
 	- version: 1.1.0
 	- license: MIT
+- space-separated-tokens
+	- version: 2.0.2
+	- license: MIT
 - readable-stream
 	- version: 3.6.2
 	- license: MIT
@@ -363,17 +581,44 @@ This file is generated from multiple sources. Included packages:
 - style-loader
 	- version: 4.0.0
 	- license: MIT
+- inline-style-parser
+	- version: 0.2.7
+	- license: MIT
+- style-to-object
+	- version: 1.0.14
+	- license: MIT
+- style-to-js
+	- version: 1.1.21
+	- license: MIT
 - tabbable
 	- version: 6.3.0
 	- license: MIT
 - toastify-js
 	- version: 1.12.0
 	- license: MIT
+- tributejs
+	- version: 5.1.3
+	- license: MIT
+- trim-lines
+	- version: 3.0.1
+	- license: MIT
+- trough
+	- version: 2.2.0
+	- license: MIT
+- unified
+	- version: 11.0.5
+	- license: MIT
 - unist-builder
 	- version: 4.0.0
 	- license: MIT
 - unist-util-is
 	- version: 6.0.0
+	- license: MIT
+- unist-util-position
+	- version: 5.0.0
+	- license: MIT
+- unist-util-stringify-position
+	- version: 4.0.0
 	- license: MIT
 - unist-util-visit-parents
 	- version: 6.0.1
@@ -398,6 +643,12 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - uuid
 	- version: 11.1.0
+	- license: MIT
+- vfile-message
+	- version: 4.0.3
+	- license: MIT
+- vfile
+	- version: 6.0.3
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
