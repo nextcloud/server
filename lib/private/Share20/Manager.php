@@ -1884,4 +1884,13 @@ class Manager implements IManager {
 			$this->logger->error("Error while sending ' . $name . ' event", ['exception' => $e]);
 		}
 	}
+
+	public function getUsersForShare(IShare $share): iterable {
+		$provider = $this->factory->getProviderForType($share->getShareType());
+		if ($provider instanceof Share\IShareProviderGetUsers) {
+			return $provider->getUsersForShare($share);
+		} else {
+			return [];
+		}
+	}
 }
