@@ -248,6 +248,7 @@ OC.L10N.register(
     "Results" : "Resultados",
     "Load more results" : "Carregar mais resultados",
     "Search in" : "Pesquisar em",
+    "Partial matches" : " Correspondências parciais",
     "Log in" : "Entrar",
     "Logging in …" : "Fazendo login …",
     "Log in to {productName}" : "Faça login em {productName}",

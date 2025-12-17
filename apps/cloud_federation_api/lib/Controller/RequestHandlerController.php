@@ -500,7 +500,6 @@ class RequestHandlerController extends Controller {
 	 *
 	 * @param IIncomingSignedRequest|null $signedRequest
 	 * @param string $resourceType
-	 * @param string $sharedSecret
 	 *
 	 * @throws IncomingRequestException
 	 * @throws BadRequestException
@@ -524,7 +523,7 @@ class RequestHandlerController extends Controller {
 				return;
 			}
 		} catch (\Exception $e) {
-			throw new IncomingRequestException($e->getMessage());
+			throw new IncomingRequestException($e->getMessage(), previous: $e);
 		}
 
 		$this->confirmNotificationEntry($signedRequest, $identity);

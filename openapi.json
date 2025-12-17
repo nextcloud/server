@@ -2515,7 +2515,8 @@
                 ],
                 "properties": {
                     "accepted": {
-                        "type": "boolean"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "file_id": {
                         "type": "integer",
@@ -2523,8 +2524,7 @@
                         "nullable": true
                     },
                     "id": {
-                        "type": "integer",
-                        "format": "int64"
+                        "type": "string"
                     },
                     "mimetype": {
                         "type": "string",
@@ -2545,8 +2545,7 @@
                         "type": "string"
                     },
                     "parent": {
-                        "type": "integer",
-                        "format": "int64",
+                        "type": "string",
                         "nullable": true
                     },
                     "permissions": {
@@ -18049,8 +18048,7 @@
                                         "description": "ID of the user that receives the share"
                                     },
                                     "remoteId": {
-                                        "type": "integer",
-                                        "format": "int64",
+                                        "type": "string",
                                         "nullable": true,
                                         "default": null,
                                         "description": "ID of the remote"
@@ -18170,8 +18168,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -18262,7 +18259,7 @@
         "/ocs/v2.php/cloud/shares/{id}/permissions": {
             "post": {
                 "operationId": "federatedfilesharing-request_handler-update-permissions",
-                "summary": "update share information to keep federated re-shares in sync",
+                "summary": "Update share information to keep federated re-shares in sync.",
                 "tags": [
                     "federatedfilesharing/request_handler"
                 ],
@@ -18307,8 +18304,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -18423,8 +18419,7 @@
                         "description": "ID of the remote share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -18521,8 +18516,7 @@
                         "description": "ID of the remote share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -18609,8 +18603,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -18697,8 +18690,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -25527,7 +25519,7 @@
         "/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/{id}": {
             "post": {
                 "operationId": "files_sharing-remote-accept-share",
-                "summary": "Accept a remote share",
+                "summary": "Accept a remote share.",
                 "tags": [
                     "files_sharing/remote"
                 ],
@@ -25546,8 +25538,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -25650,7 +25641,7 @@
             },
             "delete": {
                 "operationId": "files_sharing-remote-decline-share",
-                "summary": "Decline a remote share",
+                "summary": "Decline a remote share.",
                 "tags": [
                     "files_sharing/remote"
                 ],
@@ -25669,8 +25660,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -25794,8 +25784,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -25919,8 +25908,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
