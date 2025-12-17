@@ -236,7 +236,6 @@ const config = {
 		alias: {
 			// make sure to use the handlebar runtime when importing
 			handlebars: 'handlebars/runtime',
-			vue$: path.resolve('./node_modules/vue'),
 		},
 		extensions: ['*', '.ts', '.js', '.vue'],
 		extensionAlias: {

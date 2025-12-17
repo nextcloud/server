@@ -50,13 +50,14 @@
 import type { TemplateFile } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { showError, spawnDialog } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { File, Node } from '@nextcloud/files'
 import { getClient, getRootPath, resultToNode, getDefaultPropfind } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { normalize, extname, join } from 'path'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import { extname, join, normalize } from 'path'
 import { defineComponent } from 'vue'
 import { createFromTemplate, getTemplates, getTemplateFields } from '../services/Templates.js'
 

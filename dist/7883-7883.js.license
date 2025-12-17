@@ -46,7 +46,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - baseline-browser-mapping
-	- version: 2.8.16
+	- version: 2.9.9
 	- license: Apache-2.0
 - browserslist-useragent-regexp
 	- version: 4.1.3

@@ -2,15 +2,16 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Entry, Folder, Node } from '@nextcloud/files'
 
+import type { NewMenuEntry, Folder, Node } from '@nextcloud/files'
+
+import { t } from '@nextcloud/l10n'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineAsyncComponent } from 'vue'
-import { spawnDialog } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 import FileUploadSvg from '@mdi/svg/svg/file-upload-outline.svg?raw'
 
 import Config from '../services/ConfigService'
-import { isPublicShare } from '@nextcloud/sharing/public'
 const sharingConfig = new Config()
 
 const NewFileRequestDialogVue = defineAsyncComponent(() => import('../components/NewFileRequestDialog.vue'))
@@ -39,4 +40,4 @@ export const entry = {
 			content,
 		})
 	},
-} as Entry
+} as NewMenuEntry

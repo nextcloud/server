@@ -2,13 +2,14 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, type Node } from '@nextcloud/files'
 
-import { defineAsyncComponent } from 'vue'
-import { FileAction } from '@nextcloud/files'
-import { isPublicShare } from '@nextcloud/sharing/public'
-import { spawnDialog } from '@nextcloud/dialogs'
+import type { Node } from '@nextcloud/files'
+
+import { FileAction, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import { defineAsyncComponent } from 'vue'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
 
