@@ -75,7 +75,7 @@ class BearerAuthAwareSabreClient extends Client
     }
 }
 
-/*
+/**
  * Class BearerAuthAwareSabreClient
  *
  * This is an extension of the Sabre HTTP Client
