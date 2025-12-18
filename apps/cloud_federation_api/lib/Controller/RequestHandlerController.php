@@ -118,14 +118,16 @@ class RequestHandlerController extends Controller {
 			];
 		}
 
-		try {
-			// if request is signed and well signed, no exception are thrown
-			// if request is not signed and host is known for not supporting signed request, no exception are thrown
-			$signedRequest = $this->getSignedRequest();
-			$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
-		} catch (IncomingRequestException $e) {
-			$this->logger->warning('incoming request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			try {
+				// if request is signed and well signed, no exceptions are thrown
+				// if request is not signed and host is known for not supporting signed request, no exceptions are thrown
+				$signedRequest = $this->getSignedRequest();
+				$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
+			} catch (IncomingRequestException $e) {
+				$this->logger->warning('incoming request exception', ['exception' => $e]);
+				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		// check if all required parameters are set
@@ -366,14 +368,16 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		try {
-			// if request is signed and well signed, no exception are thrown
-			// if request is not signed and host is known for not supporting signed request, no exception are thrown
-			$signedRequest = $this->getSignedRequest();
-			$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
-		} catch (IncomingRequestException $e) {
-			$this->logger->warning('incoming request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			try {
+				// if request is signed and well signed, no exception are thrown
+				// if request is not signed and host is known for not supporting signed request, no exception are thrown
+				$signedRequest = $this->getSignedRequest();
+				$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
+			} catch (IncomingRequestException $e) {
+				$this->logger->warning('incoming request exception', ['exception' => $e]);
+				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		try {
