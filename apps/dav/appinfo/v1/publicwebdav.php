@@ -46,12 +46,7 @@ $authBackend = new LegacyPublicAuth(
 	Server::get(ISession::class),
 	Server::get(IThrottler::class)
 );
-$bearerAuthBackend = new BearerAuth(
-	Server::get(IUserSession::class),
-	Server::get(ISession::class),
-	Server::get(IRequest::class),
-	Server::get(IConfig::class),
-);
+$bearerAuthBackend = Server::get(BearerAuth::class);
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $authPlugin->addBackend($bearerAuthBackend);
 
