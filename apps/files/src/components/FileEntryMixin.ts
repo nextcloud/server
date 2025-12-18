@@ -359,7 +359,7 @@ export default defineComponent({
 			const metaKeyPressed = event.ctrlKey || event.metaKey || event.button === 1
 			if (metaKeyPressed || !this.defaultFileAction) {
 				// If no download permission, then we can not allow to download (direct link) the files
-				if (isPublicShare() && !isDownloadable(this.source)) {
+				if (!isDownloadable(this.source)) {
 					return
 				}
 
