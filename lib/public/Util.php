@@ -315,38 +315,6 @@ class Util {
 	}
 
 	/**
-	 * Returns the email address for the given user
-	 * @param IUser|null $user
-	 * @param string $fallback_user_part the fallback address part
-	 * @return string the email address
-	 *
-	 * If mail providers are enabled, uses the specified user's email address.
-	 * If disabled or the user has no valid email, falls back to the system default.
-	 * @since 31.0.12
-	 */
-	public static function getEmailAddressForUser(?IUser $user, string $fallback_user_part): string {
-		if ($user === null) {
-			return self::getDefaultEmailAddress($fallback_user_part);
-		}
-
-		$config = \OCP\Server::get(serviceName: IConfig::class);
-
-		$mailProvidersEnabled = $config->getAppValue('core', 'mail_providers_enabled', '0') === '1';
-
-		if ($mailProvidersEnabled) {
-			$userEmail = $user->getEMailAddress();
-
-			if ($userEmail !== null) {
-				$emailValidator = \OCP\Server::get(IEmailValidator::class);
-				if ($emailValidator->isValid($userEmail)) {
-					return $userEmail;
-				}
-			}
-		}
-		return self::getDefaultEmailAddress($fallback_user_part);
-	}
-
-	/**
 	 * Converts string to int of float depending on if it fits an int
 	 * @param numeric-string|float|int $number numeric string
 	 * @return int|float int if it fits, float if it is too big
