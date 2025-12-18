@@ -34,6 +34,10 @@
             "description": "Controller about the endpoint /ocm-provider/"
         },
         {
+            "name": "core/open_metrics",
+            "description": "OpenMetrics controller Gather and display metrics"
+        },
+        {
             "name": "cloud_federation_api/request_handler",
             "description": "Open-Cloud-Mesh-API"
         },
@@ -16970,8 +16974,7 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "fileId",
-                                    "expirationTime"
+                                    "fileId"
                                 ],
                                 "properties": {
                                     "fileId": {
