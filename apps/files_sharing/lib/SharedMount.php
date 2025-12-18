@@ -38,6 +38,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 
 	/** @var IShare[] */
 	private $groupedShares;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		$storage,
@@ -52,6 +53,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	) {
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 
 		$absMountPoint = '/' . $user->getUID() . '/files/' . trim($this->superShare->getTarget(), '/') . '/';
 
@@ -102,6 +104,15 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		);
 
 		if ($newMountPoint !== $share->getTarget()) {
+			$absMountPoint = '/' . $this->user->getUID() . '/files/' . trim($this->superShare->getTarget(), '/') . '/';
+			$conflictingMount = $mountpoints[$absMountPoint];
+			$this->logger->debug('Conflicting mount found for share {id} with target {target}. Conflicting mountpoint {mountpoint} with share id {conflictid}', [
+				'app' => $this->user->getUID(),
+				'id' => $share->getId(),
+				'target' => $share->getTarget(),
+				'mountpoint' => $conflictingMount->getMountPoint(),
+				'conflictid' => $conflictingMount instanceof ISharedMountPoint ? $conflictingMount->getShare()->getId() : null,
+			]);
 			$this->updateFileTarget($newMountPoint, $share);
 		}
 
