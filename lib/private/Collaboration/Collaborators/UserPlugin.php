@@ -31,6 +31,8 @@ class UserPlugin implements ISearchPlugin {
 
 	protected bool $shareeEnumerationFullMatchUserId;
 
+	protected bool $shareeEnumerationfullMatchDisplayname;
+
 	protected bool $shareeEnumerationFullMatchEmail;
 
 	protected bool $shareeEnumerationFullMatchIgnoreSecondDisplayName;
@@ -50,6 +52,7 @@ class UserPlugin implements ISearchPlugin {
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchUserId = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
+		$this->shareeEnumerationfullMatchDisplayname = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 
@@ -112,7 +115,7 @@ class UserPlugin implements ISearchPlugin {
 				}
 
 				// additionally we need to add full matches
-				if ($this->shareeEnumerationFullMatch) {
+				if ($this->shareeEnumerationFullMatch && $this->shareeEnumerationfullMatchDisplayname) {
 					$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
 					foreach ($usersTmp as $user) {
 						if ($user->isEnabled() && mb_strtolower($user->getDisplayName()) === mb_strtolower($search)) {
@@ -160,7 +163,7 @@ class UserPlugin implements ISearchPlugin {
 				&& $lowerSearch !== ''
 				&& (
 					strtolower($uid) === $lowerSearch
-					|| strtolower($userDisplayName) === $lowerSearch
+					|| ($this->shareeEnumerationfullMatchDisplayname && strtolower($userDisplayName) === $lowerSearch)
 					|| ($this->shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(strtolower(preg_replace('/ \(.*\)$/', '', $userDisplayName))) === $lowerSearch)
 					|| ($this->shareeEnumerationFullMatchEmail && strtolower($userEmail ?? '') === $lowerSearch)
 				)
