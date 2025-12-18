@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\PublicShareController;
 use OCP\Constants;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
@@ -132,7 +133,7 @@ class PublicPreviewController extends PublicShareController {
 			return $response;
 		} catch (NotFoundException $e) {
 			// If we have no preview enabled, we can redirect to the mime icon if any
-			if ($mimeFallback) {
+			if ($mimeFallback && $file instanceof File) {
 				if ($url = $this->mimeIconProvider->getMimeIconUrl($file->getMimeType())) {
 					return new RedirectResponse($url);
 				}
