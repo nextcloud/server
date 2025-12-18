@@ -102,14 +102,12 @@ class HelperStorageTest extends \Test\TestCase {
 	private function getIncludeExternalStorage(): bool {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');
-		$prop->setAccessible(true);
 		return $prop->getValue(null) ?? false;
 	}
 
 	private function setIncludeExternalStorage(bool $include) {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');
-		$prop->setAccessible(true);
 		$prop->setValue(null, $include);
 	}
 
