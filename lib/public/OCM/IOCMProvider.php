@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OCP\OCM;
 
 use JsonSerializable;
+use NCU\Security\Signature\Model\Signatory;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 
@@ -16,8 +18,8 @@ use OCP\OCM\Exceptions\OCMProviderException;
  * Model based on the Open Cloud Mesh Discovery API
  * @link https://github.com/cs3org/OCM-API/
  * @since 28.0.0
- * @deprecated 32.0.0 Please use {@see \OCP\OCM\ICapabilityAwareOCMProvider}
  */
+#[Consumable(since: '28.0.0')]
 interface IOCMProvider extends JsonSerializable {
 	/**
 	 * enable OCM
@@ -109,6 +111,57 @@ interface IOCMProvider extends JsonSerializable {
 	public function getResourceTypes(): array;
 
 	/**
+	 * get the capabilities
+	 *
+	 * @return array
+	 * @since 33.0.0
+	 */
+	public function getCapabilities(): array;
+
+	/**
+	 * return if provider supports $capability
+	 *
+	 * @since 33.0.0
+	 */
+	public function hasCapability(string $capability): bool;
+
+	/**
+	 * get the provider name
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getProvider(): string;
+
+	/**
+	 * returns the invite accept dialog
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getInviteAcceptDialog(): string;
+
+	/**
+	 * set the capabilities
+	 *
+	 * @param array $capabilities
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setCapabilities(array $capabilities): static;
+
+	/**
+	 * set the invite accept dialog
+	 *
+	 * @param string $inviteAcceptDialog
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+
+	public function setInviteAcceptDialog(string $inviteAcceptDialog): static;
+	/**
 	 * extract a specific string value from the listing of protocols, based on resource-name and protocol-name
 	 *
 	 * @param string $resourceName
@@ -120,21 +173,21 @@ interface IOCMProvider extends JsonSerializable {
 	 */
 	public function extractProtocolEntry(string $resourceName, string $protocol): string;
 
-	//	/**
-	//	 * store signatory (public/private key pair) to sign outgoing/incoming request
-	//	 *
-	//	 * @param Signatory $signatory
-	//	 * @experimental 31.0.0
-	//	 */
-	//	public function setSignatory(Signatory $signatory): void;
+	/**
+	 * store signatory (public/private key pair) to sign outgoing/incoming request
+	 *
+	 * @param Signatory $signatory
+	 * @since 33.0.0
+	 */
+	public function setSignatory(Signatory $signatory): void;
 
-	//	/**
-	//	 * signatory (public/private key pair) used to sign outgoing/incoming request
-	//	 *
-	//	 * @return Signatory|null returns null if no Signatory available
-	//	 * @experimental 31.0.0
-	//	 */
-	//	public function getSignatory(): ?Signatory;
+	/**
+	 * signatory (public/private key pair) used to sign outgoing/incoming request
+	 *
+	 * @return Signatory|null returns null if no Signatory available
+	 * @since 31.0.0
+	 */
+	public function getSignatory(): ?Signatory;
 
 	/**
 	 * import data from an array
