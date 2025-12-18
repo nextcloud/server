@@ -14,7 +14,7 @@ use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
@@ -64,7 +64,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 
 			if (isset($storage['share_token'])) {
 				$externalShare = new ExternalShare();
-				$externalShare->setId(Server::get(IGenerator::class)->nextId());
+				$externalShare->setId(Server::get(ISnowflakeGenerator::class)->nextId());
 				$externalShare->setShareToken($storage['share_token']);
 				$externalShare->setRemote($storage['remote']);
 				$externalShare->setName('irrelevant');

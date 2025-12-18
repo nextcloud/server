@@ -16,7 +16,7 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -34,7 +34,7 @@ class JobList implements IJobList {
 		protected readonly IConfig $config,
 		protected readonly ITimeFactory $timeFactory,
 		protected readonly LoggerInterface $logger,
-		protected readonly IGenerator $generator,
+		protected readonly ISnowflakeGenerator $snowflakeGenerator,
 	) {
 	}
 
@@ -55,7 +55,7 @@ class JobList implements IJobList {
 		if (!$this->has($job, $argument)) {
 			$query->insert('jobs')
 				->values([
-					'id' => $query->createNamedParameter($this->generator->nextId()),
+					'id' => $query->createNamedParameter($this->snowflakeGenerator->nextId()),
 					'class' => $query->createNamedParameter($class),
 					'argument' => $query->createNamedParameter($argumentJson),
 					'argument_hash' => $query->createNamedParameter(hash('sha256', $argumentJson)),

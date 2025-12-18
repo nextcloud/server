@@ -22,7 +22,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 use Psr\Log\LoggerInterface;
 use RecursiveDirectoryIterator;
@@ -39,7 +39,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		private readonly IDBConnection $connection,
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly LoggerInterface $logger,
-		private readonly IGenerator $generator,
+		private readonly ISnowflakeGenerator $generator,
 	) {
 		$this->instanceId = $this->config->getSystemValueString('instanceid');
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');

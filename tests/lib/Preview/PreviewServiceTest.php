@@ -14,7 +14,7 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\PreviewService;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(PreviewService::class)]
@@ -22,13 +22,13 @@ use PHPUnit\Framework\TestCase;
 class PreviewServiceTest extends TestCase {
 	private PreviewService $previewService;
 	private PreviewMapper $previewMapper;
-	private IGenerator $snowflakeGenerator;
+	private ISnowflakeGenerator $snowflakeGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->previewService = Server::get(PreviewService::class);
 		$this->previewMapper = Server::get(PreviewMapper::class);
-		$this->snowflakeGenerator = Server::get(IGenerator::class);
+		$this->snowflakeGenerator = Server::get(ISnowflakeGenerator::class);
 		$this->previewService->deleteAll();
 	}
 

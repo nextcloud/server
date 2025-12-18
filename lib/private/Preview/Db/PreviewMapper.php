@@ -15,7 +15,7 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 
 /**
@@ -30,7 +30,7 @@ class PreviewMapper extends QBMapper {
 	public function __construct(
 		IDBConnection $db,
 		private readonly IMimeTypeLoader $mimeTypeLoader,
-		private readonly IGenerator $snowflake,
+		private readonly ISnowflakeGenerator $snowflake,
 	) {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
