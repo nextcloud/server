@@ -542,6 +542,7 @@ class UserMountCache implements IUserMountCache {
 				'root_id' => $query->createNamedParameter($rootCacheEntry->getId()),
 				'user_id' => $query->createNamedParameter($user->getUID()),
 				'mount_point' => $query->createNamedParameter($mountPoint),
+				'mount_point_hash' => $query->createNamedParameter(hash('xxh128', $mountPoint)),
 				'mount_id' => $query->createNamedParameter($mountId),
 				'mount_provider_class' => $query->createNamedParameter($mountProvider)
 			]);

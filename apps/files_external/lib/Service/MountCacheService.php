@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files_External\Service;
 
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Storage\FailedStorage;
 use OC\User\LazyUser;
 use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Event\StorageCreatedEvent;
@@ -17,7 +18,6 @@ use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\Event as T;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
@@ -133,16 +133,21 @@ class MountCacheService implements IEventListener {
 	}
 
 	private function getCacheEntryForRoot(IUser $user, StorageConfig $storage): ICacheEntry {
-		$storage = $this->configAdapter->constructStorageForUser($user, $storage);
+		try {
+			$userStorage = $this->configAdapter->constructStorageForUser($user, clone $storage);
+		} catch (\Exception $e) {
+			$userStorage = new FailedStorage(['exception' => $e]);
+		}
 
-		if ($cachedEntry = $this->storageRootCache->get($storage->getId())) {
+		$cachedEntry = $this->storageRootCache->get($userStorage->getId());
+		if ($cachedEntry !== null) {
 			return $cachedEntry;
 		}
 
-		$cache = $storage->getCache();
+		$cache = $userStorage->getCache();
 		$entry = $cache->get('');
-		if ($entry) {
-			$this->storageRootCache->set($storage->getId(), $entry);
+		if ($entry && $entry->getId() !== -1) {
+			$this->storageRootCache->set($userStorage->getId(), $entry);
 			return $entry;
 		}
 
@@ -164,10 +169,14 @@ class MountCacheService implements IEventListener {
 			'encrypted' => 0,
 			'checksum' => '',
 		];
-		$data['fileid'] = $cache->insert('', $data);
+		if ($cache->getNumericStorageId() !== -1) {
+			$data['fileid'] = $cache->insert('', $data);
+		} else {
+			$data['fileid'] = -1;
+		}
 
 		$entry = new CacheEntry($data);
-		$this->storageRootCache->set($storage->getId(), $entry);
+		$this->storageRootCache->set($userStorage->getId(), $entry);
 		return $entry;
 	}
 

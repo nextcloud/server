@@ -440,4 +440,9 @@ class StorageConfig implements \JsonSerializable {
 	public function getMountPointForUser(IUser $user): string {
 		return '/' . $user->getUID() . '/files/' . trim($this->mountPoint, '/') . '/';
 	}
+
+	public function __clone(): void {
+		$this->backend = clone $this->backend;
+		$this->authMechanism = clone $this->authMechanism;
+	}
 }
