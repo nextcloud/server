@@ -26,7 +26,7 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->loadConfig('files_external/tests/config.amazons3.php');
+		$this->loadConfig(__DIR__ . '/../config.amazons3.php');
 		$this->instance = new AmazonS3($this->config);
 	}
 

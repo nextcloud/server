@@ -27,7 +27,7 @@ class WebdavTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.webdav.php');
+		$this->loadConfig(__DIR__ . '/../config.webdav.php');
 		if (isset($this->config['wait'])) {
 			$this->waitDelay = $this->config['wait'];
 		}
