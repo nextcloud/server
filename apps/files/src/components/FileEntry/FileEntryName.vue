@@ -42,7 +42,7 @@
 import type { FileAction, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent, inject } from 'vue'
@@ -262,7 +262,6 @@ export default defineComponent({
 			try {
 				const status = await this.renamingStore.rename()
 				if (status) {
-					showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName: this.source.basename }))
 					this.$nextTick(() => {
 						const nameContainer = this.$refs.basename as HTMLElement | undefined
 						nameContainer?.focus()
