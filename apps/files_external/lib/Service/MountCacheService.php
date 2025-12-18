@@ -28,12 +28,13 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserCreatedEvent;
 
 /**
  * Listens to config events and update the mounts for the applicable users
  *
- * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|Event>
+ * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|PostLoginEvent|Event>
  */
 class MountCacheService implements IEventListener {
 	private CappedMemoryCache $storageRootCache;
@@ -69,6 +70,9 @@ class MountCacheService implements IEventListener {
 		}
 		if ($event instanceof UserCreatedEvent) {
 			$this->handleUserCreated($event->getUser());
+		}
+		if ($event instanceof PostLoginEvent) {
+			$this->onLogin($event->getUser());
 		}
 	}
 
@@ -218,6 +222,16 @@ class MountCacheService implements IEventListener {
 	}
 
 	private function handleUserCreated(IUser $user): void {
+		$storages = $this->storagesService->getAllGlobalStorages();
+		foreach ($storages as $storage) {
+			$this->registerForUser($user, $storage);
+		}
+	}
+
+	/**
+	 * Since storage config can rely on login credentials, we might need to update the config
+	 */
+	private function onLogin(IUser $user): void {
 		$storages = $this->storagesService->getAllGlobalStorages();
 		foreach ($storages as $storage) {
 			$this->registerForUser($user, $storage);
