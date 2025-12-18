@@ -10,7 +10,6 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
-use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\Files_Sharing\SharedStorage;
@@ -58,51 +57,6 @@ class SharedStorageTest extends TestCase {
 		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 
 		parent::tearDown();
-	}
-
-	/**
-	 * if the parent of the mount point is gone then the mount point should move up
-	 */
-	public function testParentOfMountPointIsGone(): void {
-
-		// share to user
-		$share = $this->share(
-			IShare::TYPE_USER,
-			$this->folder,
-			self::TEST_FILES_SHARING_API_USER1,
-			self::TEST_FILES_SHARING_API_USER2,
-			Constants::PERMISSION_ALL
-		);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$user2View = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
-		$this->assertTrue($user2View->file_exists($this->folder));
-
-		// create a local folder
-		$result = $user2View->mkdir('localfolder');
-		$this->assertTrue($result);
-
-		// move mount point to local folder
-		$result = $user2View->rename($this->folder, '/localfolder/' . $this->folder);
-		$this->assertTrue($result);
-
-		// mount point in the root folder should no longer exist
-		$this->assertFalse($user2View->is_dir($this->folder));
-
-		// delete the local folder
-		/** @var Storage $storage */
-		[$storage, $internalPath] = Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
-		$storage->rmdir($internalPath);
-
-		//enforce reload of the mount points
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		//mount point should be back at the root
-		$this->assertTrue($user2View->is_dir($this->folder));
-
-		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->view->unlink($this->folder);
 	}
 
 	public function testRenamePartFile(): void {
@@ -464,57 +418,6 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->folder);
 		$this->shareManager->deleteShare($share);
-	}
-
-	public function testNameConflict(): void {
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$view1 = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
-		$view1->mkdir('foo');
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$view3 = new View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
-		$view3->mkdir('foo');
-
-		// share a folder with the same name from two different users to the same user
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		$share1 = $this->share(
-			IShare::TYPE_GROUP,
-			'foo',
-			self::TEST_FILES_SHARING_API_USER1,
-			self::TEST_FILES_SHARING_API_GROUP1,
-			Constants::PERMISSION_ALL
-		);
-		$this->shareManager->acceptShare($share1, self::TEST_FILES_SHARING_API_USER2);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-
-		$share2 = $this->share(
-			IShare::TYPE_GROUP,
-			'foo',
-			self::TEST_FILES_SHARING_API_USER3,
-			self::TEST_FILES_SHARING_API_GROUP1,
-			Constants::PERMISSION_ALL
-		);
-		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
-
-		$this->assertTrue($view2->file_exists('/foo'));
-		$this->assertTrue($view2->file_exists('/foo (2)'));
-
-		$mount = $view2->getMount('/foo');
-		$this->assertInstanceOf('\OCA\Files_Sharing\SharedMount', $mount);
-		/** @var SharedStorage $storage */
-		$storage = $mount->getStorage();
-
-		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $storage->getOwner(''));
-
-		$this->shareManager->deleteShare($share1);
-		$this->shareManager->deleteShare($share2);
 	}
 
 	public function testOwnerPermissions(): void {

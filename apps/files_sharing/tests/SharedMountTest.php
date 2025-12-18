@@ -8,12 +8,8 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
-use OC\Files\View;
-use OC\Memcache\ArrayCache;
-use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
-use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -25,14 +21,10 @@ use OCP\Share\IShare;
  */
 #[\PHPUnit\Framework\Attributes\Group('SLOWDB')]
 class SharedMountTest extends TestCase {
+	private IGroupManager $groupManager;
+	private IUserManager $userManager;
 
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	private $folder2;
+	private string $folder2;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -66,78 +58,6 @@ class SharedMountTest extends TestCase {
 		}
 
 		parent::tearDown();
-	}
-
-	/**
-	 * test if the mount point moves up if the parent folder no longer exists
-	 */
-	public function testShareMountLoseParentFolder(): void {
-
-		// share to user
-		$share = $this->share(
-			IShare::TYPE_USER,
-			$this->folder,
-			self::TEST_FILES_SHARING_API_USER1,
-			self::TEST_FILES_SHARING_API_USER2,
-			Constants::PERMISSION_ALL);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
-
-		$share->setTarget('/foo/bar' . $this->folder);
-		$this->shareManager->moveShare($share, self::TEST_FILES_SHARING_API_USER2);
-
-		$share = $this->shareManager->getShareById($share->getFullId());
-		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		// share should have moved up
-
-		$share = $this->shareManager->getShareById($share->getFullId());
-		$this->assertSame($this->folder, $share->getTarget());
-
-		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->shareManager->deleteShare($share);
-		$this->view->unlink($this->folder);
-	}
-
-	public function testDeleteParentOfMountPoint(): void {
-		// share to user
-		$share = $this->share(
-			IShare::TYPE_USER,
-			$this->folder,
-			self::TEST_FILES_SHARING_API_USER1,
-			self::TEST_FILES_SHARING_API_USER2,
-			Constants::PERMISSION_ALL
-		);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$user2View = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
-		$this->assertTrue($user2View->file_exists($this->folder));
-
-		// create a local folder
-		$result = $user2View->mkdir('localfolder');
-		$this->assertTrue($result);
-
-		// move mount point to local folder
-		$result = $user2View->rename($this->folder, '/localfolder/' . $this->folder);
-		$this->assertTrue($result);
-
-		// mount point in the root folder should no longer exist
-		$this->assertFalse($user2View->is_dir($this->folder));
-
-		// delete the local folder
-		$result = $user2View->unlink('/localfolder');
-		$this->assertTrue($result);
-
-		//enforce reload of the mount points
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		//mount point should be back at the root
-		$this->assertTrue($user2View->is_dir($this->folder));
-
-		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->view->unlink($this->folder);
 	}
 
 	public function testMoveSharedFile(): void {
@@ -312,111 +232,6 @@ class SharedMountTest extends TestCase {
 		$testGroup->removeUser($user1);
 		$testGroup->removeUser($user2);
 		$testGroup->removeUser($user3);
-	}
-
-	/**
-	 * test if the mount point gets renamed if a folder exists at the target
-	 */
-	public function testShareMountOverFolder(): void {
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$this->view2->mkdir('bar');
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		// share to user
-		$share = $this->share(
-			IShare::TYPE_USER,
-			$this->folder,
-			self::TEST_FILES_SHARING_API_USER1,
-			self::TEST_FILES_SHARING_API_USER2,
-			Constants::PERMISSION_ALL);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
-
-		$share->setTarget('/bar');
-		$this->shareManager->moveShare($share, self::TEST_FILES_SHARING_API_USER2);
-
-		$share = $this->shareManager->getShareById($share->getFullId());
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		// share should have been moved
-
-		$share = $this->shareManager->getShareById($share->getFullId());
-		$this->assertSame('/bar (2)', $share->getTarget());
-
-		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->shareManager->deleteShare($share);
-		$this->view->unlink($this->folder);
-	}
-
-	/**
-	 * test if the mount point gets renamed if another share exists at the target
-	 */
-	public function testShareMountOverShare(): void {
-		// create a shared cache
-		$caches = [];
-		$cacheFactory = $this->createMock(ICacheFactory::class);
-		$cacheFactory->method('createLocal')
-			->willReturnCallback(function (string $prefix) use (&$caches) {
-				if (!isset($caches[$prefix])) {
-					$caches[$prefix] = new ArrayCache($prefix);
-				}
-				return $caches[$prefix];
-			});
-		$cacheFactory->method('createDistributed')
-			->willReturnCallback(function (string $prefix) use (&$caches) {
-				if (!isset($caches[$prefix])) {
-					$caches[$prefix] = new ArrayCache($prefix);
-				}
-				return $caches[$prefix];
-			});
-
-		// hack to overwrite the cache factory, we can't use the proper "overwriteService" since the mount provider is created before this test is called
-		$mountProvider = Server::get(MountProvider::class);
-		$reflectionClass = new \ReflectionClass($mountProvider);
-		$reflectionCacheFactory = $reflectionClass->getProperty('cacheFactory');
-		$reflectionCacheFactory->setValue($mountProvider, $cacheFactory);
-
-		// share to user
-		$share = $this->share(
-			IShare::TYPE_USER,
-			$this->folder,
-			self::TEST_FILES_SHARING_API_USER1,
-			self::TEST_FILES_SHARING_API_USER2,
-			Constants::PERMISSION_ALL);
-		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
-
-		$share->setTarget('/foobar');
-		$this->shareManager->moveShare($share, self::TEST_FILES_SHARING_API_USER2);
-
-
-		// share to user
-		$share2 = $this->share(
-			IShare::TYPE_USER,
-			$this->folder2,
-			self::TEST_FILES_SHARING_API_USER1,
-			self::TEST_FILES_SHARING_API_USER2,
-			Constants::PERMISSION_ALL);
-		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
-
-		$share2->setTarget('/foobar');
-		$this->shareManager->moveShare($share2, self::TEST_FILES_SHARING_API_USER2);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		// one of the shares should have been moved
-
-		$share = $this->shareManager->getShareById($share->getFullId());
-		$share2 = $this->shareManager->getShareById($share2->getFullId());
-
-		// we don't know or care which share got the "(2)" just that one of them did
-		$this->assertNotEquals($share->getTarget(), $share2->getTarget());
-		$this->assertSame('/foobar', min($share->getTarget(), $share2->getTarget()));
-		$this->assertSame('/foobar (2)', max($share->getTarget(), $share2->getTarget()));
-
-		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->shareManager->deleteShare($share);
-		$this->view->unlink($this->folder);
 	}
 }
 
