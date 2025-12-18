@@ -508,20 +508,30 @@ export default defineComponent({
 
 				// This block of filter checks should be dynamic somehow and should be handled in
 				// nextcloud/search lib
-				const activeFilters = this.filters.filter(filter => {
+				const contentFilterTypes = this.filters
+					.filter((f) => f.type !== 'provider')
+					.map((f) => f.type)
+				const supportsActiveFilters = contentFilterTypes.length === 0
+					|| contentFilterTypes.every((type) => this.providerIsCompatibleWithFilters(provider, [type]))
+
+				const baseProvider = provider.searchFrom
+					? this.providers.find((p) => p.id === provider.searchFrom) ?? provider
+					: provider
+
+				const activeFilters = this.filters.filter((filter) => {
 					return filter.type !== 'provider' && this.providerIsCompatibleWithFilters(provider, [filter.type])
 				})
 
-				activeFilters.forEach(filter => {
+				activeFilters.forEach((filter) => {
 					switch (filter.type) {
 					case 'date':
-						if (provider.filters?.since && provider.filters?.until) {
+						if (baseProvider.filters?.since && baseProvider.filters?.until) {
 							params.since = this.dateFilter.startFrom
 							params.until = this.dateFilter.endAt
 						}
 						break
 					case 'person':
-						if (provider.filters?.person) {
+						if (baseProvider.filters?.person) {
 							params.person = this.personFilter.user
 						}
 						break
@@ -820,8 +830,20 @@ export default defineComponent({
 
 			return flattenedArray
 		},
-		async providerIsCompatibleWithFilters(provider, filterIds) {
-			return filterIds.every(filterId => provider.filters?.[filterId] !== undefined)
+		providerIsCompatibleWithFilters(provider, filterIds) {
+			const baseProvider = provider.searchFrom
+				? this.providers.find((p) => p.id === provider.searchFrom) ?? provider
+				: provider
+			return filterIds.every((filterId) => {
+				switch (filterId) {
+				case 'date':
+					return baseProvider.filters?.since !== undefined && baseProvider.filters?.until !== undefined
+				case 'person':
+					return baseProvider.filters?.person !== undefined
+				default:
+					return baseProvider.filters?.[filterId] !== undefined
+				}
+			})
 		},
 		async enableAllProviders() {
 			this.providers.forEach(async (_, index) => {
