@@ -23,7 +23,6 @@ use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\Preview\IProviderV2;
-use OCP\Snowflake\ISnowflakeGenerator;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -142,7 +141,6 @@ class PreviewManager implements IPreview {
 				$this->container->get(LoggerInterface::class),
 				$this->container->get(PreviewMapper::class),
 				$this->container->get(StorageFactory::class),
-				$this->container->get(ISnowflakeGenerator::class),
 			);
 		}
 		return $this->generator;

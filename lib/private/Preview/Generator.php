@@ -23,7 +23,6 @@ use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IVersionedPreviewFile;
-use OCP\Snowflake\ISnowflakeGenerator;
 use Psr\Log\LoggerInterface;
 
 class Generator {
@@ -38,7 +37,6 @@ class Generator {
 		private LoggerInterface $logger,
 		private PreviewMapper $previewMapper,
 		private StorageFactory $storageFactory,
-		private ISnowflakeGenerator $snowflakeGenerator,
 	) {
 	}
 
@@ -350,7 +348,7 @@ class Generator {
 
 				try {
 					$previewEntry = new Preview();
-					$previewEntry->setId($this->snowflakeGenerator->nextId());
+					$previewEntry->setId();
 					$previewEntry->setFileId($file->getId());
 					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 					$previewEntry->setSourceMimeType($file->getMimeType());
@@ -504,7 +502,7 @@ class Generator {
 		}
 
 		$previewEntry = new Preview();
-		$previewEntry->setId($this->snowflakeGenerator->nextId());
+		$previewEntry->setId();
 		$previewEntry->setFileId($file->getId());
 		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
@@ -545,7 +543,7 @@ class Generator {
 			throw new \RuntimeException('Unable to write preview file');
 		}
 		$previewEntry->setSize($size);
-
+		$previewEntry->setId();
 		return $this->previewMapper->insert($previewEntry);
 	}
 }

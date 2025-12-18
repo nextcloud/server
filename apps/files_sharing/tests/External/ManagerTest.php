@@ -40,7 +40,6 @@ use OCP\IUserSession;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
 use OCP\Share\IShare;
-use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -170,7 +169,6 @@ class ManagerTest extends TestCase {
 					$this->setupManager,
 					$this->certificateManager,
 					$this->externalShareMapper,
-					Server::get(ISnowflakeGenerator::class),
 				]
 			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
@@ -190,7 +188,7 @@ class ManagerTest extends TestCase {
 
 	public function testAddUserShare(): void {
 		$userShare = new ExternalShare();
-		$userShare->setId(Server::get(ISnowflakeGenerator::class)->nextId());
+		$userShare->setId();
 		$userShare->setRemote('http://localhost');
 		$userShare->setShareToken('token1');
 		$userShare->setPassword('');
@@ -205,7 +203,7 @@ class ManagerTest extends TestCase {
 
 	public function testAddGroupShare(): void {
 		$groupShare = new ExternalShare();
-		$groupShare->setId(Server::get(ISnowflakeGenerator::class)->nextId());
+		$groupShare->setId();
 		$groupShare->setRemote('http://localhost');
 		$groupShare->setOwner('foobar');
 		$groupShare->setShareType(IShare::TYPE_GROUP);
@@ -237,10 +235,10 @@ class ManagerTest extends TestCase {
 
 		$shareData2 = $shareData1->clone();
 		$shareData2->setShareToken('token2');
-		$shareData2->setId(\OCP\Server::get(ISnowflakeGenerator::class)->nextId());
+		$shareData2->setId();
 		$shareData3 = $shareData1->clone();
 		$shareData3->setShareToken('token3');
-		$shareData3->setId(\OCP\Server::get(ISnowflakeGenerator::class)->nextId());
+		$shareData3->setId();
 
 		$this->setupMounts();
 		$this->assertNotMount('SharedFolder');
@@ -440,7 +438,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn($userId);
 		$share = new ExternalShare();
-		$share->setId(Server::get(ISnowflakeGenerator::class)->nextId());
+		$share->setId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -460,7 +458,7 @@ class ManagerTest extends TestCase {
 	 */
 	private function createTestGroupShare(string $groupId = 'group1'): array {
 		$share = new ExternalShare();
-		$share->setId(Server::get(ISnowflakeGenerator::class)->nextId());
+		$share->setId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -646,7 +644,7 @@ class ManagerTest extends TestCase {
 		// user 2 shares
 		$manager2 = $this->createManagerForUser($user2);
 		$share = new ExternalShare();
-		$share->setId(Server::get(ISnowflakeGenerator::class)->nextId());
+		$share->setId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -696,7 +694,7 @@ class ManagerTest extends TestCase {
 		$manager2 = $this->createManagerForUser($user);
 
 		$share = new ExternalShare();
-		$share->setId(Server::get(ISnowflakeGenerator::class)->nextId());
+		$share->setId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');

@@ -120,7 +120,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 					$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
 					continue;
 				}
-				$preview->setId($this->generator->nextId());
+				$preview->setId();
 				try {
 					$preview->setSize($file->getSize());
 					$preview->setMtime($file->getMtime());
@@ -154,7 +154,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 					$preview->setStorageId($result[0]['storage']);
 					$preview->setEtag($result[0]['etag']);
 					$preview->setSourceMimetype($result[0]['mimetype']);
-
+					$preview->setId();
 					// try to insert, if that fails the preview is already in the DB
 					$this->previewMapper->insert($preview);
 
