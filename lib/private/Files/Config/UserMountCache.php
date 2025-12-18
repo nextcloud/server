@@ -558,4 +558,13 @@ class UserMountCache implements IUserMountCache {
 			}
 		}
 	}
+
+	/**
+	 * Clear the internal in-memory caches
+	 */
+	public function flush(): void {
+		$this->cacheInfoCache = new CappedMemoryCache();
+		$this->internalPathCache = new CappedMemoryCache();
+		$this->mountsForUsers = new CappedMemoryCache();
+	}
 }
