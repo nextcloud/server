@@ -827,6 +827,9 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appEnabledStateWillBeRestoredOnceTheScenarioFinishes($app) {
+		$previousUser = $this->currentUser;
+		$this->currentUser = 'admin';
+
 		if (in_array($app, $this->getAppsWithFilter('enabled'))) {
 			$this->appsToEnableAfterScenario[] = $app;
 		} elseif (in_array($app, $this->getAppsWithFilter('disabled'))) {
@@ -835,6 +838,8 @@ trait Provisioning {
 
 		// Apps that were not installed before the scenario will not be
 		// disabled nor uninstalled after the scenario.
+
+		$this->currentUser = $previousUser;
 	}
 
 	private function getAppsWithFilter($filter) {

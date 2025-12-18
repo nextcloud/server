@@ -74,12 +74,17 @@ class CachingRouter extends Router {
 	 * @return array
 	 */
 	public function findMatchingRoute(string $url): array {
-		return parent::findMatchingRoute($url);
-
 		$this->eventLogger->start('cacheroute:match', 'Match route');
 		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . '#rootCollection';
 		$cachedRoutes = $this->cache->get($key);
 		if (!$cachedRoutes) {
+			// Ensure that all apps are loaded, as for users with an active
+			// session only the apps that are enabled for that user might have
+			// been loaded.
+			$enabledApps = $this->appManager->getEnabledApps();
+			foreach ($enabledApps as $app) {
+				$this->appManager->loadApp($app);
+			}
 			parent::loadRoutes();
 			$cachedRoutes = $this->serializeRouteCollection($this->root);
 			$this->cache->set($key, $cachedRoutes, ($this->config->getSystemValueBool('debug') ? 3 : 3600));
