@@ -373,7 +373,7 @@
     "\"{extension}\" is not an allowed filetype." : "\"{extension}\" не є дозволеним типом файлів.",
     "Filenames must not end with \"{extension}\"." : "Імена файлів не мають закінчуватися на \"{extension}\".",
     "List of favorite files and folders." : "Список файлів та каталогів із зірочкою.",
-    "No favorites yet" : "Поки немає нічого, позначеного зірочкою",
+    "No favorites yet" : "Відсутні файли чи каталоги, позначені зірочкою",
     "Files and folders you mark as favorite will show up here" : "Файли та каталоги із зірочкою з’являться тут",
     "List of your files and folders." : "Список ваших файлів та каталогів.",
     "Folder tree" : "Дерево каталогів",
