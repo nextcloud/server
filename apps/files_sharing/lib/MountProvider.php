@@ -53,6 +53,14 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+		return array_values($this->getMountsFromSuperShares($user, $this->getSuperSharesForUser($user), $loader));
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return list<array{IShare, array<IShare>}> Tuple of [superShare, groupedShares]
+	 */
+	public function getSuperSharesForUser(IUser $user): array {
 		$userId = $user->getUID();
 		$shares = $this->mergeIterables(
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_USER, null, -1),
@@ -63,16 +71,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		);
 
 		$shares = $this->filterShares($shares, $userId);
-		$superShares = $this->buildSuperShares($shares, $user);
-
-		return array_values(
-			$this->getMountsFromSuperShares(
-				$userId,
-				$superShares,
-				$loader,
-				$user,
-			),
-		);
+		return $this->buildSuperShares($shares, $user);
 	}
 
 	/**
@@ -254,18 +253,18 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	}
 	/**
 	 * @param string $userId
-	 * @param array $superShares
+	 * @param list<array{IShare, array<IShare>}> $superShares
 	 * @param IStorageFactory $loader
 	 * @param IUser $user
 	 * @return array IMountPoint indexed by mount point
 	 * @throws Exception
 	 */
-	private function getMountsFromSuperShares(
-		string $userId,
+	public function getMountsFromSuperShares(
+		IUser $user,
 		array $superShares,
 		IStorageFactory $loader,
-		IUser $user,
 	): array {
+		$userId = $user->getUID();
 		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
 		$view = new View('/' . $userId . '/files');
@@ -312,7 +311,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$loader,
-					$view,
 					$this->eventDispatcher,
 					$user,
 				);
@@ -399,7 +397,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$shares = $this->filterShares($shares, $userId);
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		return $this->getMountsFromSuperShares($userId, $superShares, $loader, $user);
+		return $this->getMountsFromSuperShares($user, $superShares, $loader);
 	}
 
 	/**

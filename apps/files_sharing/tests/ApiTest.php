@@ -826,6 +826,8 @@ class ApiTest extends TestCase {
 		$share3->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share3);
 
+		$this->logout();
+
 		// $request = $this->createRequest(['path' => $this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
 		$result1 = $ocs->getShares('false', 'false', 'false', $this->subfolder);
