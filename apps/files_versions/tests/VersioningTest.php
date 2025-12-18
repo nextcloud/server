@@ -104,6 +104,8 @@ class VersioningTest extends \Test\TestCase {
 		\OC::registerShareHooks(Server::get(SystemConfig::class));
 		\OC::$server->boot();
 
+		// ensure both users have an up-to-date state
+		self::loginHelper(self::TEST_VERSIONS_USER2);
 		self::loginHelper(self::TEST_VERSIONS_USER);
 		$this->rootView = new View();
 		if (!$this->rootView->file_exists(self::USERS_VERSIONS_ROOT)) {
