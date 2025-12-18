@@ -15,6 +15,7 @@ use OCA\Files_External\Event\StorageCreatedEvent;
 use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\Event as T;
 use OCP\EventDispatcher\IEventListener;
@@ -35,6 +36,8 @@ use OCP\User\Events\UserCreatedEvent;
  * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|Event>
  */
 class MountCacheService implements IEventListener {
+	private CappedMemoryCache $storageRootCache;
+
 	public function __construct(
 		private readonly IUserMountCache $userMountCache,
 		private readonly ConfigAdapter $configAdapter,
@@ -42,6 +45,7 @@ class MountCacheService implements IEventListener {
 		private readonly IGroupManager $groupManager,
 		private readonly GlobalStoragesService $storagesService,
 	) {
+		$this->storageRootCache = new CappedMemoryCache();
 	}
 
 	public function handle(Event $event): void {
@@ -129,11 +133,16 @@ class MountCacheService implements IEventListener {
 	}
 
 	private function getCacheEntryForRoot(IUser $user, StorageConfig $storage): ICacheEntry {
-		// todo: reuse these between users when possible
 		$storage = $this->configAdapter->constructStorageForUser($user, $storage);
+
+		if ($cachedEntry = $this->storageRootCache->get($storage->getId())) {
+			return $cachedEntry;
+		}
+
 		$cache = $storage->getCache();
 		$entry = $cache->get('');
 		if ($entry) {
+			$this->storageRootCache->set($storage->getId(), $entry);
 			return $entry;
 		}
 
@@ -157,7 +166,9 @@ class MountCacheService implements IEventListener {
 		];
 		$data['fileid'] = $cache->insert('', $data);
 
-		return new CacheEntry($data);
+		$entry = new CacheEntry($data);
+		$this->storageRootCache->set($storage->getId(), $entry);
+		return $entry;
 	}
 
 	private function registerForUser(IUser $user, StorageConfig $storage): void {
