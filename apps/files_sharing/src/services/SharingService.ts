@@ -30,7 +30,8 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 				// This won't catch files without an extension, but this is the best we can do
 				ocsEntry.mimetype = mime.getType(ocsEntry.name)
 			}
-			ocsEntry.item_type = ocsEntry.type || (ocsEntry.mimetype ? 'file' : 'folder')
+			const type = ocsEntry.type === 'dir' ? 'folder' : ocsEntry.type
+			ocsEntry.item_type = type || (ocsEntry.mimetype ? 'file' : 'folder')
 
 			// different naming for remote shares
 			ocsEntry.item_mtime = ocsEntry.mtime
