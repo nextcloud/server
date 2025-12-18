@@ -119,6 +119,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Db\\IMapperException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/IMapperException.php',
         'OCP\\AppFramework\\Db\\MultipleObjectsReturnedException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/MultipleObjectsReturnedException.php',
         'OCP\\AppFramework\\Db\\QBMapper' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/QBMapper.php',
+        'OCP\\AppFramework\\Db\\SnowflakeAwareEntity' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/SnowflakeAwareEntity.php',
         'OCP\\AppFramework\\Db\\TTransactional' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Db/TTransactional.php',
         'OCP\\AppFramework\\Http' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http.php',
         'OCP\\AppFramework\\Http\\Attribute\\ARateLimit' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/ARateLimit.php',

@@ -78,6 +78,7 @@ return array(
     'OCP\\AppFramework\\Db\\IMapperException' => $baseDir . '/lib/public/AppFramework/Db/IMapperException.php',
     'OCP\\AppFramework\\Db\\MultipleObjectsReturnedException' => $baseDir . '/lib/public/AppFramework/Db/MultipleObjectsReturnedException.php',
     'OCP\\AppFramework\\Db\\QBMapper' => $baseDir . '/lib/public/AppFramework/Db/QBMapper.php',
+    'OCP\\AppFramework\\Db\\SnowflakeAwareEntity' => $baseDir . '/lib/public/AppFramework/Db/SnowflakeAwareEntity.php',
     'OCP\\AppFramework\\Db\\TTransactional' => $baseDir . '/lib/public/AppFramework/Db/TTransactional.php',
     'OCP\\AppFramework\\Http' => $baseDir . '/lib/public/AppFramework/Http.php',
     'OCP\\AppFramework\\Http\\Attribute\\ARateLimit' => $baseDir . '/lib/public/AppFramework/Http/Attribute/ARateLimit.php',

@@ -13,18 +13,22 @@ use function lcfirst;
 use function substr;
 
 /**
- * @method int getId()
- * @method void setId(int $id)
  * @since 7.0.0
  * @psalm-consistent-constructor
  */
 abstract class Entity {
-	/** @var int $id */
-	public $id = null;
-
+	private ?int $id = null;
 	private array $_updatedFields = [];
-	/** @var array<string, \OCP\DB\Types::*> */
+	/** @psalm-param $_fieldTypes array<string, Types::*> */
 	private array $_fieldTypes = ['id' => 'integer'];
+
+	public function setId($id): void {
+		$this->id = $id;
+	}
+
+	public function getId(): ?int {
+		return $this->id;
+	}
 
 	/**
 	 * Simple alternative constructor for building entities from a request
@@ -64,7 +68,7 @@ abstract class Entity {
 
 
 	/**
-	 * @return array<string, \OCP\DB\Types::*> with attribute and type
+	 * @return array<string, Types::*> with attribute and type
 	 * @since 7.0.0
 	 */
 	public function getFieldTypes(): array {
@@ -266,8 +270,8 @@ abstract class Entity {
 	 * that value once its being returned from the database
 	 *
 	 * @param string $fieldName the name of the attribute
-	 * @param \OCP\DB\Types::* $type the type which will be used to match a cast
-	 * @since 31.0.0 Parameter $type is now restricted to {@see \OCP\DB\Types} constants. The formerly accidentally supported types 'int'|'bool'|'double' are mapped to Types::INTEGER|Types::BOOLEAN|Types::FLOAT accordingly.
+	 * @param Types::* $type the type which will be used to match a cast
+	 * @since 31.0.0 Parameter $type is now restricted to {@see Types} constants. The formerly accidentally supported types 'int'|'bool'|'double' are mapped to Types::INTEGER|Types::BOOLEAN|Types::FLOAT accordingly.
 	 * @since 7.0.0
 	 */
 	protected function addType(string $fieldName, string $type): void {
