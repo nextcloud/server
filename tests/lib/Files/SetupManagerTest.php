@@ -495,6 +495,143 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, true);
 	}
 
+	public function testSetupForUserResetsUserPaths(): void {
+		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
+
+		$this->userMountCache->expects($this->once())
+			->method('getMountForPath')
+			->with($this->user, $this->path)
+			->willReturn($cachedMount);
+		$this->userMountCache->expects($this->never())
+			->method('getMountsInPath');
+
+		$this->fileAccess->expects($this->once())
+			->method('getByFileId')
+			->with(42)
+			->willReturn($this->createMock(CacheEntry::class));
+
+		$partialMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getUserMountsFromProviderByPath')
+			->with(
+				SetupManagerTestPartialMountProvider::class,
+				$this->path,
+				false,
+				$this->callback(function (array $args) use ($cachedMount) {
+					$this->assertCount(1, $args);
+					$this->assertInstanceOf(IMountProviderArgs::class,
+						$args[0]);
+					$this->assertSame($cachedMount, $args[0]->mountInfo);
+					return true;
+				})
+			)
+			->willReturn([$partialMount]);
+
+		$homeMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getHomeMountForUser')
+			->willReturn($homeMount);
+		$this->mountProviderCollection->expects($this->never())
+			->method('getUserMountsForProviderClasses');
+
+		$invokedCount = $this->exactly(2);
+		$addMountExpectations = [
+			1 => $homeMount,
+			2 => $partialMount,
+		];
+		$this->mountManager->expects($invokedCount)
+			->method('addMount')
+			->willReturnCallback($this->getAddMountCheckCallback($invokedCount,
+				$addMountExpectations));
+
+
+		// setting up for $path but then for user should remove the setup path
+		$this->setupManager->setupForPath($this->path, false);
+
+		// note that only the mount known by SetupManrger is removed not the
+		// home mount, because MountManager is mocked
+		$this->mountManager->expects($this->once())
+			->method('removeMount')
+			->with($this->mountPoint);
+
+		$this->setupManager->setupForUser($this->user);
+	}
+
+	/**
+	 * Tests that after a path is setup by a
+	 */
+	public function testSetupForProviderResetsUserProviderPaths(): void {
+		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
+
+		$this->userMountCache->expects($this->once())
+			->method('getMountForPath')
+			->with($this->user, $this->path)
+			->willReturn($cachedMount);
+		$this->userMountCache->expects($this->never())
+			->method('getMountsInPath');
+
+		$this->fileAccess->expects($this->once())
+			->method('getByFileId')
+			->with(42)
+			->willReturn($this->createMock(CacheEntry::class));
+
+		$partialMount = $this->createMock(IMountPoint::class);
+		$partialMount->expects($this->once())->method('getMountProvider')
+			->willReturn(SetupManagerTestFullMountProvider::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getUserMountsFromProviderByPath')
+			->with(
+				SetupManagerTestPartialMountProvider::class,
+				$this->path,
+				false,
+				$this->callback(function (array $args) use ($cachedMount) {
+					$this->assertCount(1, $args);
+					$this->assertInstanceOf(IMountProviderArgs::class,
+						$args[0]);
+					$this->assertSame($cachedMount, $args[0]->mountInfo);
+					return true;
+				})
+			)
+			->willReturn([$partialMount]);
+
+		$homeMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getHomeMountForUser')
+			->willReturn($homeMount);
+
+		$invokedCount = $this->exactly(2);
+		$addMountExpectations = [
+			1 => $homeMount,
+			2 => $partialMount,
+		];
+		$this->mountManager->expects($invokedCount)
+			->method('addMount')
+			->willReturnCallback($this->getAddMountCheckCallback($invokedCount,
+				$addMountExpectations));
+		$this->mountManager->expects($this->once())->method('getAll')
+			->willReturn([$this->mountPoint => $partialMount]);
+
+		// setting up for $path but then for user should remove the setup path
+		$this->setupManager->setupForPath($this->path, false);
+
+		// note that only the mount known by SetupManrger is removed not the
+		// home mount, because MountManager is mocked
+		$this->mountManager->expects($this->once())
+			->method('removeMount')
+			->with($this->mountPoint);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getUserMountsForProviderClasses')
+			->with($this->user, [SetupManagerTestFullMountProvider::class]);
+
+		$this->setupManager->setupForProvider($this->path,
+			[SetupManagerTestFullMountProvider::class]);
+	}
+
 	private function getAddMountCheckCallback(InvokedCount $invokedCount, $expectations): \Closure {
 		return function (IMountPoint $actualMount) use ($invokedCount, $expectations) {
 			$expectedMount = $expectations[$invokedCount->numberOfInvocations()] ?? null;
