@@ -44,12 +44,12 @@ const state = {
 	disabledUsersLimit: 25,
 	userCount: usersSettings.userCount ?? 0,
 	showConfig: {
-		showStoragePath: usersSettings.showConfig.user_list_show_storage_path,
-		showUserBackend: usersSettings.showConfig.user_list_show_user_backend,
-		showFirstLogin: usersSettings.showConfig.user_list_show_first_login,
-		showLastLogin: usersSettings.showConfig.user_list_show_last_login,
-		showNewUserForm: usersSettings.showConfig.user_list_show_new_user_form,
-		showLanguages: usersSettings.showConfig.user_list_show_languages,
+		showStoragePath: usersSettings.showConfig?.user_list_show_storage_path,
+		showUserBackend: usersSettings.showConfig?.user_list_show_user_backend,
+		showFirstLogin: usersSettings.showConfig?.user_list_show_first_login,
+		showLastLogin: usersSettings.showConfig?.user_list_show_last_login,
+		showNewUserForm: usersSettings.showConfig?.user_list_show_new_user_form,
+		showLanguages: usersSettings.showConfig?.user_list_show_languages,
 	},
 }
 
