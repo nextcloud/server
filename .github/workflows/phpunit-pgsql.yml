@@ -68,6 +68,8 @@ jobs:
             coverage: ${{ github.event_name != 'pull_request' }}
           - php-versions: '8.4'
             postgres-versions: '18'
+          - php-versions: '8.5'
+            postgres-versions: '18'
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
