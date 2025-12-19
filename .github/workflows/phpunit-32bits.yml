@@ -4,12 +4,6 @@ name: PHPUnit 32bits
 
 on:
   pull_request:
-    paths:
-      - "version.php"
-      - ".github/workflows/phpunit-32bits.yml"
-      - "tests/phpunit-autotest.xml"
-      - "lib/private/Snowflake/*"
-  workflow_dispatch:
   schedule:
     - cron: "15 1 * * 1-6"
 
@@ -21,10 +15,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/phpunit-32bits.yml'
+              - '3rdparty/**'
+              - '**/lib/**'
+              - '**.php'
+
   phpunit-32bits:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
 
     strategy:
       fail-fast: false

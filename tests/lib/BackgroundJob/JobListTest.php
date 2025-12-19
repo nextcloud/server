@@ -151,7 +151,7 @@ class JobListTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('jobs')
 			->values([
-				'id' => $query->createNamedParameter($id, IQueryBuilder::PARAM_INT),
+				'id' => $query->createNamedParameter($id),
 				'class' => $query->createNamedParameter($class),
 				'argument' => $query->createNamedParameter($argument),
 				'last_run' => $query->createNamedParameter($lastRun, IQueryBuilder::PARAM_INT),
