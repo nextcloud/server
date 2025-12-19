@@ -46,6 +46,7 @@
 		<command>OCA\Files\Command\Object\Put</command>
 		<command>OCA\Files\Command\Object\Multi\Users</command>
 		<command>OCA\Files\Command\Object\Multi\Rename</command>
+		<command>OCA\Files\Command\Object\Multi\Move</command>
 	</commands>
 
 	<activity>
