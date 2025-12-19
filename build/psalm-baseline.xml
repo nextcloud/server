@@ -3281,6 +3281,7 @@
     </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[$object]]></code>
+      <code><![CDATA[Task]]></code>
       <code><![CDATA[private]]></code>
     </DeprecatedInterface>
   </file>
