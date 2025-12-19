@@ -10,13 +10,17 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
+use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
+use OCP\LDAP\MultipleUsersReturnedException;
+
 
 /**
  * @template-extends Proxy<User_LDAP>
@@ -30,6 +34,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		private UserPluginManager $userPluginManager,
 		private LoggerInterface $logger,
 		private DeletedUsersIndex $deletedUsersIndex,
+		private IUserManager $userManager,
 	) {
 		parent::__construct($helper, $ldap, $accessFactory);
 	}
@@ -41,6 +46,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 			$this->userPluginManager,
 			$this->logger,
 			$this->deletedUsersIndex,
+			$this->userManager,
 		);
 	}
 
@@ -430,5 +436,19 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 				$limit
 			)
 		);
+	}
+
+	public function getUserFromCustomAttribute(string $filter, string $attribute, string $searchTerm): ?IUser {
+		$this->setup();
+		$user = null;
+		foreach ($this->backends as $backend) {
+			$fetchUser = $backend->getUserFromCustomAttribute($filter, $attribute, $searchTerm);
+			// if we found a different user, no need to continue
+			if ($user !== null && $fetchUser !== null && $fetchUser->getUID() !== $user->getUID()) {
+				throw new MultipleUsersReturnedException('Multiple users found for custom attribute search');
+			}
+			$user = $fetchUser; // may be null
+		}
+		return $user;
 	}
 }
