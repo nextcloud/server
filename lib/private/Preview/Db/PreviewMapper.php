@@ -55,9 +55,9 @@ class PreviewMapper extends QBMapper {
 			$id = $this->snowflake->nextId();
 			$qb->insert(self::VERSION_TABLE_NAME)
 				->values([
-					'id' => $id,
-					'version' => $preview->getVersion(),
-					'file_id' => $preview->getFileId(),
+					'id' => $qb->createNamedParameter($id),
+					'version' => $qb->createNamedParameter($preview->getVersion(), IQueryBuilder::PARAM_STR),
+					'file_id' => $qb->createNamedParameter($preview->getFileId()),
 				])
 				->executeStatement();
 			$entity->setVersionId($id);

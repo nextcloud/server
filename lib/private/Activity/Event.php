@@ -48,8 +48,7 @@ class Event implements IEvent {
 	protected $messageRichParameters = [];
 	/** @var string */
 	protected $objectType = '';
-	/** @var int */
-	protected $objectId = 0;
+	protected string|int $objectId = 0;
 	/** @var string */
 	protected $objectName = '';
 	/** @var string */
@@ -319,12 +318,15 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setObject(string $objectType, int $objectId, string $objectName = ''): IEvent {
+	public function setObject(string $objectType, string|int $objectId, string $objectName = ''): IEvent {
 		if (isset($objectType[255])) {
 			throw new InvalidValueException('objectType');
 		}
 		if (isset($objectName[4000])) {
 			throw new InvalidValueException('objectName');
+		}
+		if (is_string($objectId) && isset($objectId[19])) {
+			throw new InvalidValueException('objectId');
 		}
 		$this->objectType = $objectType;
 		$this->objectId = $objectId;
@@ -340,9 +342,9 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @return int
+	 * @return int|string
 	 */
-	public function getObjectId(): int {
+	public function getObjectId(): string|int {
 		return $this->objectId;
 	}
 

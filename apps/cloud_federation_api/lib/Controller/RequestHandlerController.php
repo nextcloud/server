@@ -106,14 +106,16 @@ class RequestHandlerController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-		try {
-			// if request is signed and well signed, no exception are thrown
-			// if request is not signed and host is known for not supporting signed request, no exception are thrown
-			$signedRequest = $this->getSignedRequest();
-			$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
-		} catch (IncomingRequestException $e) {
-			$this->logger->warning('incoming request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			try {
+				// if request is signed and well signed, no exception are thrown
+				// if request is not signed and host is known for not supporting signed request, no exception are thrown
+				$signedRequest = $this->getSignedRequest();
+				$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
+			} catch (IncomingRequestException $e) {
+				$this->logger->warning('incoming request exception', ['exception' => $e]);
+				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		// check if all required parameters are set
@@ -354,14 +356,16 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		try {
-			// if request is signed and well signed, no exception are thrown
-			// if request is not signed and host is known for not supporting signed request, no exception are thrown
-			$signedRequest = $this->getSignedRequest();
-			$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
-		} catch (IncomingRequestException $e) {
-			$this->logger->warning('incoming request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			try {
+				// if request is signed and well signed, no exception are thrown
+				// if request is not signed and host is known for not supporting signed request, no exception are thrown
+				$signedRequest = $this->getSignedRequest();
+				$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
+			} catch (IncomingRequestException $e) {
+				$this->logger->warning('incoming request exception', ['exception' => $e]);
+				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		try {
@@ -500,7 +504,6 @@ class RequestHandlerController extends Controller {
 	 *
 	 * @param IIncomingSignedRequest|null $signedRequest
 	 * @param string $resourceType
-	 * @param string $sharedSecret
 	 *
 	 * @throws IncomingRequestException
 	 * @throws BadRequestException
@@ -524,7 +527,7 @@ class RequestHandlerController extends Controller {
 				return;
 			}
 		} catch (\Exception $e) {
-			throw new IncomingRequestException($e->getMessage());
+			throw new IncomingRequestException($e->getMessage(), previous: $e);
 		}
 
 		$this->confirmNotificationEntry($signedRequest, $identity);

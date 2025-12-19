@@ -822,7 +822,7 @@ OC.L10N.register(
     "Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}." : "Bitte die {linkStartInstallationGuides} Installationsanleitung {linkEnd} nochmals überprüfen und im {linkStartLog}Protokoll{linkEnd} nach Fehlern oder Warnungen sehen.",
     "Check the security of your {productName} over {linkStart}our security scan{linkEnd}." : "Die Sicherheit von {productName} mit {linkStart}unserem Sicherheitsscan{linkEnd} überprüfen",
     "Security & setup warnings" : "Sicherheits- & Einrichtungswarnungen",
-    "It is important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Für die Sicherheit und Leistung Ihrer Instanz ist es wichtig, dass alles richtig konfiguriert ist. Um hierbei zu helfen, werden einige automatische Kontrollen durchgeführt. Weitere Informationen hierzu in der verlinkten Dokumentation.",
+    "It is important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Für die Sicherheit und Leistung deiner Instanz ist es wichtig, dass alles richtig konfiguriert ist. Um hierbei zu helfen, werden einige automatische Kontrollen durchgeführt. Weitere Informationen hierzu in der verlinkten Dokumentation.",
     "Checking your server …" : "Prüfe deinen Server …",
     "Failed to run setup checks" : "Einrichtungsprüfung konnte nicht durchgeführt werden",
     "Try again" : "Nochmals versuchen",

@@ -165,6 +165,8 @@ OC.L10N.register(
     "Logging level configured correctly." : "Logimistase on korrektselt seadistatud",
     "Failed to write and read a value from local cache." : "Väärtuse lugemine kohalikust puhvrist ja kirjutamine sinna ei õnnestunud.",
     "Failed to write and read a value from distributed cache." : "Väärtuse lugemine hajutatud puhvrist ja kirjutamine sinna ei õnnestunud.",
+    "Mimetype migrations available" : "MIME-tüüpide (failitüüpide) uuendamine on võimalik",
+    "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "Sul on võimalik teha üks või enam MIME-tüüpide uuendust. Vahetevahel lisame uusi MIME-tüüpe, mis tagavad failide mugavama ja parema kasutamise. Vastava uuenduse tegemiseks võib mahukates serverites kuluda palju aega ja seega seda ei tehta üldise uuenduse ajal automaatselt. Palun kasuta uuendamiseks käsku „occ maintenance:repair --include-expensive“.",
     "MySQL row format" : "MySQL-i rea vorming",
     "You are not using MySQL" : "Sa ei kasuta MySQL-i",
     "None of your tables use ROW_FORMAT=Compressed" : "Mitte ükski sinu tabelitest ei kasuta „ROW_FORMAT=Compressed“ tingimust",

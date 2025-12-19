@@ -33,7 +33,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * The server is started also after the scenarios to ensure that it is
 	 * properly cleaned up if stopped.
 	 */
-	public function startFederatedServer() {
+	public function startFederatedServer(): void {
 		if (self::$phpFederatedServerPid !== '') {
 			return;
 		}
@@ -46,7 +46,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @BeforeScenario
 	 */
-	public function cleanupRemoteStorages() {
+	public function cleanupRemoteStorages(): void {
 		// Ensure that dangling remote storages from previous tests will not
 		// interfere with the current scenario.
 		// The storages must be cleaned before each scenario; they can not be
@@ -59,13 +59,10 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/
 	 *
-	 * @param string $sharerUser
-	 * @param string $sharerServer "LOCAL" or "REMOTE"
-	 * @param string $sharerPath
-	 * @param string $shareeUser
-	 * @param string $shareeServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $shareeServer
 	 */
-	public function federateSharing($sharerUser, $sharerServer, $sharerPath, $shareeUser, $shareeServer) {
+	public function federateSharing(string $sharerUser, string $sharerServer, string $sharerPath, string $shareeUser, string $shareeServer): void {
 		if ($shareeServer == 'REMOTE') {
 			$shareWith = "$shareeUser@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
@@ -80,13 +77,10 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with group "([^"]*)" from server "(LOCAL|REMOTE)"$/
 	 *
-	 * @param string $sharerUser
-	 * @param string $sharerServer "LOCAL" or "REMOTE"
-	 * @param string $sharerPath
-	 * @param string $shareeUser
-	 * @param string $shareeServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $sharerServer "LOCAL" or "REMOTE"
+	 * @param 'LOCAL'|'REMOTE' $shareeServer
 	 */
-	public function federateGroupSharing($sharerUser, $sharerServer, $sharerPath, $shareeGroup, $shareeServer) {
+	public function federateGroupSharing(string $sharerUser, string $sharerServer, string $sharerPath, string $shareeGroup, string $shareeServer): void {
 		if ($shareeServer == 'REMOTE') {
 			$shareWith = "$shareeGroup@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
@@ -99,11 +93,8 @@ class FederationContext implements Context, SnippetAcceptingContext {
 
 	/**
 	 * @Then remote share :count is returned with
-	 *
-	 * @param int $number
-	 * @param TableNode $body
 	 */
-	public function remoteShareXIsReturnedWith(int $number, TableNode $body) {
+	public function remoteShareXIsReturnedWith(int $number, TableNode $body): void {
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
 
@@ -130,16 +121,15 @@ class FederationContext implements Context, SnippetAcceptingContext {
 
 	/**
 	 * @When /^User "([^"]*)" from server "(LOCAL|REMOTE)" accepts last pending share$/
-	 * @param string $user
-	 * @param string $server
 	 */
-	public function acceptLastPendingShare($user, $server) {
+	public function acceptLastPendingShare(string $user, string $server): void {
 		$previous = $this->usingServer($server);
 		$this->asAn($user);
 		$this->sendingToWith('GET', '/apps/files_sharing/api/v1/remote_shares/pending', null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
-		$share_id = simplexml_load_string($this->response->getBody())->data[0]->element[0]->id;
+		$shares = simplexml_load_string($this->response->getBody())->data[0]->element;
+		$share_id = $shares[count($shares) - 1]->id;
 		$this->sendingToWith('POST', "/apps/files_sharing/api/v1/remote_shares/pending/{$share_id}", null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
@@ -150,9 +140,8 @@ class FederationContext implements Context, SnippetAcceptingContext {
 
 	/**
 	 * @When /^user "([^"]*)" deletes last accepted remote share$/
-	 * @param string $user
 	 */
-	public function deleteLastAcceptedRemoteShare($user) {
+	public function deleteLastAcceptedRemoteShare(string $user): void {
 		$this->asAn($user);
 		$this->sendingToWith('DELETE', '/apps/files_sharing/api/v1/remote_shares/' . $this->lastAcceptedRemoteShareId, null);
 	}
@@ -160,7 +149,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @When /^remote server is stopped$/
 	 */
-	public function remoteServerIsStopped() {
+	public function remoteServerIsStopped(): void {
 		if (self::$phpFederatedServerPid === '') {
 			return;
 		}
@@ -173,7 +162,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @BeforeScenario @TrustedFederation
 	 */
-	public function theServersAreTrustingEachOther() {
+	public function theServersAreTrustingEachOther(): void {
 		$this->asAn('admin');
 		// Trust the remote server on the local server
 		$this->usingServer('LOCAL');
@@ -190,7 +179,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @AfterScenario @TrustedFederation
 	 */
-	public function theServersAreNoLongerTrustingEachOther() {
+	public function theServersAreNoLongerTrustingEachOther(): void {
 		$this->asAn('admin');
 		// Untrust the remote servers on the local server
 		$this->usingServer('LOCAL');
@@ -213,7 +202,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		}
 	}
 
-	protected function resetAppConfigs() {
+	protected function resetAppConfigs(): void {
 		$this->deleteServerConfig('files_sharing', 'incoming_server2server_group_share_enabled');
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_group_share_enabled');
 		$this->deleteServerConfig('files_sharing', 'federated_trusted_share_auto_accept');
