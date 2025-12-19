@@ -52,7 +52,7 @@
 <script lang="ts">
 import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
-import type { UserConfig } from '../../types.ts'
+import type { UserConfig, PreviewMetadata } from '../../types.ts'
 
 import { FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -162,6 +162,14 @@ export default defineComponent({
 				})
 				const url = new URL(window.location.origin + previewUrl)
 				return url.href
+			}
+
+			if (this.source.attributes['preview-metadata']) {
+				let metadata: PreviewMetadata[] = JSON.parse(this.source.attributes['preview-metadata'])
+				metadata = metadata.filter((preview) => preview.height <= 256 && this.cropPreviews === preview.cropped && preview.preview_url)
+				if (metadata.length > 0) {
+					return metadata[0]?.preview_url;
+				}
 			}
 
 			try {
