@@ -8,11 +8,10 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object\Multi;
 
-use OCP\IConfig;
-use OCP\IUser;
-use OCP\IUserManager;
 use OC\Core\Command\Base;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
+use OCP\IConfig;
+use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
