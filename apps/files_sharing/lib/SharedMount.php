@@ -49,7 +49,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		CappedMemoryCache $folderExistCache,
 		private IEventDispatcher $eventDispatcher,
 		private IUser $user,
-		bool $alreadyVerified,
+		private bool $alreadyVerified,
 	) {
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
@@ -112,6 +112,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 				'target' => $share->getTarget(),
 				'mountpoint' => $conflictingMount->getMountPoint(),
 				'conflictid' => $conflictingMount instanceof ISharedMountPoint ? $conflictingMount->getShare()->getId() : null,
+				'verified' => $this->alreadyVerified,
 			]);
 			$this->updateFileTarget($newMountPoint, $share);
 		}
