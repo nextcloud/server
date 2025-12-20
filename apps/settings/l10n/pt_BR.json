@@ -410,6 +410,7 @@
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "Permitir que o preenchimento automático corresponda totalmente ao inserir o nome completo (ignorando restrições como pertencimento a grupos ou falta de correspondência no catálogo de endereços)",
     "Full match autocompletion restrictions" : "Restrições de preenchimento automático de correspondência completa",
     "Also allow autocompletion on full match of the user ID" : "Permitir também o preenchimento automático em caso de correspondência completa do ID do usuário",
+    "Also allow autocompletion on full match of the display name" : "Permitir também o preenchimento automático em caso de correspondência completa do nome de exibição",
     "Also allow autocompletion on full match of the user email" : "Permitir também o preenchimento automático em caso de correspondência completa do e-mail do usuário.",
     "Do not use second user displayname for full match" : "Não utilize o segundo nome de exibição do usuário para correspondência completa.",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Exibir o texto do aviso legal na página de upload do link público (somente mostrado quando a lista de arquivos está oculta).",

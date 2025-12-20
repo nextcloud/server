@@ -252,6 +252,7 @@
     "Log in to {productName}" : "Faça login em {productName}",
     "Wrong login or password." : "Login ou senha incorretos.",
     "This account is disabled" : "Esta conta está desativada",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Muitas tentativas de login incorretas. Por favor, tente novamente em 30 segundos.",
     "Account name or email" : "Nome da conta ou e-mail",
     "Account name" : "Nome da conta",
     "Server side authentication failed!" : "Autenticação do servidor falhou!",
