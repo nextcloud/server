@@ -91,7 +91,7 @@
     "is-svg": "^6.1.0",
     "jsdom": "^27.2.0",
     "jsdom-testing-mocks": "^1.16.0",
-    "sass": "^1.95.1",
+    "sass": "^1.97.1",
     "stylelint": "^16.26.1",
     "stylelint-use-logical": "^2.1.2",
     "vite": "^7.2.7",
