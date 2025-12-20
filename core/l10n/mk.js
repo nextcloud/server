@@ -254,6 +254,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Најави се на {productName}",
     "Wrong login or password." : "Погрешно корисничко име или лозинка.",
     "This account is disabled" : "Оваа сметка е оневозможена",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Премногу неточни обиди за најавување. Обиди се повторно за 30 секунди.",
     "Account name or email" : "Корисничко име или е-пошта",
     "Account name" : "Корисничко име",
     "Server side authentication failed!" : "Автентификацијата на серверската страна е неуспешна!",
