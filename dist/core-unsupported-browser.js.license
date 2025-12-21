@@ -60,10 +60,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.9.9
 	- license: Apache-2.0
 - browserslist
-	- version: 4.26.3
+	- version: 4.28.1
 	- license: MIT
 - caniuse-lite
-	- version: 1.0.30001749
+	- version: 1.0.30001761
 	- license: CC-BY-4.0
 - css-loader
 	- version: 7.1.2
@@ -72,7 +72,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - electron-to-chromium
-	- version: 1.5.234
+	- version: 1.5.267
 	- license: ISC
 - escape-html
 	- version: 1.0.3
@@ -84,7 +84,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - node-releases
-	- version: 2.0.23
+	- version: 2.0.27
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -105,7 +105,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.103.0
+	- version: 5.104.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
