@@ -1,0 +1,32 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: chenkai
+
+This file is generated from multiple sources. Included packages:
+- @ckpack/vue-color
+	- version: 1.6.0
+	- license: MIT
+- @ctrl/tinycolor
+	- version: 3.6.1
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- emoji-mart-vue-fast
+	- version: 15.0.5
+	- license: BSD-3-Clause
+- vue-select
+	- version: 4.0.0-beta.6
+	- license: MIT
