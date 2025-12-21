@@ -49,6 +49,7 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Kerberos سۈكۈتتىكى رايون ، «WORKGROUP» غا سۈكۈت قىلىدۇ",
     "Kerberos ticket Apache mode" : "Kerberos بېلەت Apache ھالىتى",
     "Kerberos ticket" : "Kerberos بېلەت",
+    "S3 Storage" : "S3 ساقلىغۇچ",
     "Bucket" : "چېلەك",
     "Hostname" : "ساھىبجامال",
     "Port" : "ئېغىز",

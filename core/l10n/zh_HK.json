@@ -252,6 +252,7 @@
     "Log in to {productName}" : "登入至 {productName}",
     "Wrong login or password." : "登入名稱或密碼錯誤。",
     "This account is disabled" : "此帳戶已停用",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "登入嘗試錯誤次數過多，請於 30 秒後再試。",
     "Account name or email" : "帳戶名稱或電郵地址",
     "Account name" : "帳戶名稱",
     "Server side authentication failed!" : "伺服器端認證失敗！",
