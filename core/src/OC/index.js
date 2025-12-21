@@ -19,7 +19,7 @@ import {
 	dirname,
 	encodePath,
 	isSamePath,
-	joinPaths,
+	join,
 } from '@nextcloud/paths'
 import {
 	build as buildQueryString,
@@ -187,7 +187,7 @@ export default {
 	/**
 	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
 	 */
-	joinPaths,
+	joinPaths: join,
 
 	/**
 	 * Host (url) helpers
