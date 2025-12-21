@@ -412,6 +412,7 @@ OC.L10N.register(
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)",
     "Full match autocompletion restrictions" : "Full match autocompletion restrictions",
     "Also allow autocompletion on full match of the user ID" : "Also allow autocompletion on full match of the user ID",
+    "Also allow autocompletion on full match of the display name" : "Also allow autocompletion on full match of the display name",
     "Also allow autocompletion on full match of the user email" : "Also allow autocompletion on full match of the user email",
     "Do not use second user displayname for full match" : "Do not use second user displayname for full match",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Show disclaimer text on the public link upload page (only shown when the file list is hidden)",

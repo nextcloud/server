@@ -412,6 +412,7 @@ OC.L10N.register(
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "允許在輸入全名時啟用完全相符的自動完成功能（忽略群組成員資格或通訊錄未相符等限制條件）",
     "Full match autocompletion restrictions" : "完全相符自動完成限制",
     "Also allow autocompletion on full match of the user ID" : "同時允許在使用者 ID 完全相符時啟用自動完成功能",
+    "Also allow autocompletion on full match of the display name" : "亦允許在顯示名稱完全相符時啟用自動完成",
     "Also allow autocompletion on full match of the user email" : "同時允許在使用者電子郵件完全相符時啟用自動完成功能",
     "Do not use second user displayname for full match" : "請勿使用第二使用者顯示名稱進行完全相符",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公開的檔案連結和上傳頁面顯示免責聲明（僅在檔案列表隱藏的時候才會顯示）",
