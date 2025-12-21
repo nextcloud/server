@@ -161,7 +161,6 @@
 <script lang="ts">
 import type { ContentsWithRoot, FileListAction, INode, Node } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
-import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
@@ -295,7 +294,8 @@ export default defineComponent({
 			loading: true,
 			loadingAction: null as string | null,
 			error: null as string | null,
-			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
+			controller: new AbortController(),
+			promise: null as Promise<ContentsWithRoot> | null,
 
 			dirContentsFiltered: [] as INode[],
 		}
@@ -640,13 +640,14 @@ export default defineComponent({
 			logger.debug('Fetching contents for directory', { dir, currentView })
 
 			// If we have a cancellable promise ongoing, cancel it
-			if (this.promise && 'cancel' in this.promise) {
-				this.promise.cancel()
+			if (this.promise) {
+				this.controller.abort()
 				logger.debug('Cancelled previous ongoing fetch')
 			}
 
 			// Fetch the current dir contents
-			this.promise = currentView.getContents(dir) as Promise<ContentsWithRoot>
+			this.controller = new AbortController()
+			this.promise = currentView.getContents(dir, { signal: this.controller.signal })
 			try {
 				const { folder, contents } = await this.promise
 				logger.debug('Fetched contents', { dir, folder, contents })
