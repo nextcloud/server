@@ -128,33 +128,12 @@ export default defineConfig({
 		specPattern: ['core/**/*.cy.ts', 'apps/**/*.cy.ts'],
 		devServer: {
 			framework: 'vue',
-			bundler: 'webpack',
-			webpackConfig: async () => {
-				process.env.npm_package_name = 'NcCypress'
-				process.env.npm_package_version = '1.0.0'
-				process.env.NODE_ENV = 'development'
-
-				/**
-				 * Needed for cypress stubbing
-				 *
-				 * @see https://github.com/sinonjs/sinon/issues/1121
-				 * @see https://github.com/cypress-io/cypress/issues/18662
-				 */
-				const babel = require('./babel.config.js')
-				babel.plugins.push([
-					'@babel/plugin-transform-modules-commonjs',
-					{
-						loose: true,
-					},
-				])
-
-				const config = webpackConfig
-				config.module.rules.push({
-					test: /\.svg$/,
-					type: 'asset/source',
-				})
-
-				return config
+			bundler: 'vite',
+			async viteConfig() {
+				const { default: vue } = await import('@vitejs/plugin-vue2')
+				return {
+					plugins: [vue()],
+				}
 			},
 		},
 	},
