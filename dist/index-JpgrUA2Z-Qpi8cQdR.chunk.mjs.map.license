@@ -1,0 +1,55 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Varun A P
+SPDX-FileCopyrightText: atomiks
+
+This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.1.1
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
+- @nextcloud/dialogs
+	- version: 7.2.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.4.1
+	- license: GPL-3.0-or-later
+- @nextcloud/paths
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- @vueuse/core
+	- version: 14.1.0
+	- license: MIT
+- @vueuse/shared
+	- version: 14.1.0
+	- license: MIT
+- floating-vue
+	- version: 5.2.2
+	- license: MIT
+- focus-trap
+	- version: 7.6.6
+	- license: MIT
+- tabbable
+	- version: 6.3.0
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
+	- license: MIT
+- vite
+	- version: 7.3.0
+	- license: MIT
