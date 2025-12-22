@@ -6,7 +6,6 @@ SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: string_decoder developers
-SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -17,7 +16,6 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
@@ -56,7 +54,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.4.1
+	- version: 6.4.2
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.3
@@ -150,15 +148,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - buffer
 	- version: 6.0.3
-	- license: MIT
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
 	- license: MIT
 - process
 	- version: 0.11.10

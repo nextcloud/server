@@ -73,7 +73,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.4.1
+	- version: 6.4.2
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.3
@@ -89,6 +89,9 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.3
+	- license: GPL-3.0-or-later
+- @nextcloud/paths
+	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
@@ -264,15 +267,6 @@ This file is generated from multiple sources. Included packages:
 - path-posix
 	- version: 1.0.0
 	- license: ISC
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - pinia
 	- version: 2.3.1
 	- license: MIT

@@ -13,7 +13,6 @@ SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: inline-style-parser developers
-SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
@@ -35,7 +34,6 @@ SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
@@ -95,7 +93,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.4.1
+	- version: 6.4.2
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.3
@@ -111,6 +109,9 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.3
+	- license: GPL-3.0-or-later
+- @nextcloud/paths
+	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
@@ -318,15 +319,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - buffer
 	- version: 6.0.3
-	- license: MIT
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
 	- license: MIT
 - process
 	- version: 0.11.10
