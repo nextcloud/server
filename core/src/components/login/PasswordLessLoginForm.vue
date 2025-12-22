@@ -111,7 +111,7 @@ export default defineComponent({
 			user: this.username,
 			loading: false,
 			validCredentials: true,
-			helperText: this.t('core', 'Leave empty to use a discoverable credential.'),
+			helperText: this.t('core', 'Leave empty for PIN-based authentication.'),
 		}
 	},
 
@@ -143,7 +143,7 @@ export default defineComponent({
 		changeUsername(username) {
 			this.user = username
 			this.validCredentials = true
-			this.helperText = this.t('core', 'Leave empty to use a discoverable credential.')
+			this.helperText = this.t('core', 'Leave empty for PIN-based authentication.')
 			this.$emit('update:username', this.user)
 		},
 

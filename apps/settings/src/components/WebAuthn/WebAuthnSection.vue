@@ -13,9 +13,9 @@
 			{{ t('settings', 'No devices configured.') }}
 		</NcNoteCard>
 
-		<h3 v-else id="security-webauthn__active-devices">
-			{{ t('settings', 'The following devices are configured for your account:') }}
-		</h3>
+		<p v-else id="security-webauthn__active-devices" class="settings-hint">
+			<strong>{{ t('settings', 'The following devices are configured for your account:') }}</strong>
+		</p>
 		<ul aria-labelledby="security-webauthn__active-devices" class="security-webauthn__device-list">
 			<WebAuthnDevice
 				v-for="device in sortedDevices"

@@ -222,6 +222,11 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">el escáner de seguridad ↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">el escáner de seguridad ↗</a>.",
+    "Disable to require your login or email during login." : "Desactive para exigir su usuario o correo electrónico al iniciar sesión.",
+    "Login or email not required for login, device PIN only." : "No se requiere usuario ni correo electrónico para iniciar sesión, solo el PIN del dispositivo.",
+    "Add device" : "Agregar dispositivo",
+    "Server error while trying to complete device registration" : "Error del servidor al intentar completar el registro del dispositivo",
+    "Please authorize your device." : "Autorice su dispositivo, por favor."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

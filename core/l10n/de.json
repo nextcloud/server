@@ -540,6 +540,8 @@
     "Configure the database" : "Datenbank einrichten",
     "Only %s is available." : "Es ist nur %s verfügbar.",
     "Database account" : "Datenbankkonto",
-    "Installing …" : "Installiere …"
+    "Installing …" : "Installiere …",
+    "Leave empty for PIN-based authentication." : "Leer lassen zur PIN-basierten Anmeldung",
+    "Login or email (optional)" : "Kontoname oder Email (optional)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

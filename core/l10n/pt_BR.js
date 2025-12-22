@@ -542,6 +542,7 @@ OC.L10N.register(
     "Configure the database" : "Configurar o banco de dados",
     "Only %s is available." : "Somente %s está disponível.",
     "Database account" : "Conta de banco de dados",
-    "Installing …" : "Instalando …"
+    "Installing …" : "Instalando …",
+    "Leave empty for PIN-based authentication." : "Deixe em branco para autenticação por PIN."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
