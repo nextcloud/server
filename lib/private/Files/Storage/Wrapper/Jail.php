@@ -17,7 +17,9 @@ use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IWatcher;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 
 /**
  * Jail to a subdirectory of the wrapped storage
@@ -245,7 +247,7 @@ class Jail extends Wrapper {
 		if (!$storage) {
 			$storage = $this;
 		}
-		$this->propagator = new JailPropagator($storage, \OC::$server->getDatabaseConnection());
+		$this->propagator = new JailPropagator($storage, Server::get(IDBConnection::class));
 		return $this->propagator;
 	}
 

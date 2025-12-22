@@ -12,6 +12,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\IBinaryFinder;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -245,7 +246,7 @@ class Detection implements IMimeTypeDetector {
 			}
 		}
 
-		$binaryFinder = \OCP\Server::get(IBinaryFinder::class);
+		$binaryFinder = Server::get(IBinaryFinder::class);
 		$program = $binaryFinder->findBinaryPath('file');
 		if ($program !== false) {
 			// it looks like we have a 'file' command,
@@ -298,7 +299,7 @@ class Detection implements IMimeTypeDetector {
 			}
 		}
 
-		$tmpFile = \OCP\Server::get(ITempManager::class)->getTemporaryFile();
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile();
 		$fh = fopen($tmpFile, 'wb');
 		fwrite($fh, $data, 8024);
 		fclose($fh);

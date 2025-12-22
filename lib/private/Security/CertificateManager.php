@@ -32,7 +32,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * Returns all certificates trusted by the user
 	 *
-	 * @return \OCP\ICertificate[]
+	 * @return ICertificate[]
 	 */
 	public function listCertificates(): array {
 		if (!$this->config->getSystemValueBool('installed', false)) {

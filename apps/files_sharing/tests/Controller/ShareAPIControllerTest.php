@@ -125,6 +125,8 @@ class ShareAPIControllerTest extends TestCase {
 				return $fileInfo->getMimeType() === 'mimeWithPreview';
 			});
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$this->dateTimeZone->method('getTimeZone')
+			->willReturn(new \DateTimeZone('UTC'));
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->factory = $this->createMock(IProviderFactory::class);
 		$this->mailer = $this->createMock(IMailer::class);
@@ -158,10 +160,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	}
 
-	/**
-	 * @return ShareAPIController&MockObject
-	 */
-	private function mockFormatShare() {
+	private function mockFormatShare(): ShareAPIController&MockObject {
 		return $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
 				$this->appName,

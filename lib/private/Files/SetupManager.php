@@ -20,6 +20,7 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
+use OC\ServerNotAvailableException;
 use OC\Share\Share;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
@@ -47,6 +48,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -239,7 +241,7 @@ class SetupManager {
 		$this->setupUserMountProviders[$user->getUID()] ??= [];
 		$previouslySetupProviders = $this->setupUserMountProviders[$user->getUID()];
 
-		$this->setupForUserWith($user, function () use ($user) {
+		$this->setupForUserWith($user, function () use ($user): void {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
 				string $providerClass,
 			) use ($user) {
@@ -344,13 +346,9 @@ class SetupManager {
 	 * Executes the one-time user setup and, if the user can access the
 	 * filesystem, executes $mountCallback.
 	 *
-	 * @param IUser $user
-	 * @param IMountPoint $mounts
-	 * @return void
-	 * @throws \OCP\HintException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws HintException
+	 * @throws ServerNotAvailableException
 	 * @see self::oneTimeUserSetup()
-	 *
 	 */
 	private function setupForUserWith(IUser $user, callable $mountCallback): void {
 		$this->oneTimeUserSetup($user);
@@ -663,7 +661,7 @@ class SetupManager {
 		}
 
 		$this->registerMounts($user, $mounts, $providers);
-		$this->setupForUserWith($user, function () use ($mounts) {
+		$this->setupForUserWith($user, function () use ($mounts): void {
 			array_walk($mounts, [$this->mountManager, 'addMount']);
 		});
 		$this->eventLogger->end('fs:setup:user:providers');
@@ -688,7 +686,7 @@ class SetupManager {
 			$this->listeningForProviders = true;
 			$this->mountProviderCollection->listen('\OC\Files\Config', 'registerMountProvider', function (
 				IMountProvider $provider,
-			) {
+			): void {
 				foreach ($this->setupUsers as $userId) {
 					$user = $this->userManager->get($userId);
 					if ($user) {
@@ -704,17 +702,17 @@ class SetupManager {
 		// note that this event handling is intentionally pessimistic
 		// clearing the cache to often is better than not enough
 
-		$this->eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event) {
+		$this->eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event): void {
 			$this->cache->remove($event->getUser()->getUID());
 		});
-		$this->eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) {
+		$this->eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event): void {
 			$this->cache->remove($event->getUser()->getUID());
 		});
-		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			$this->cache->remove($event->getShare()->getSharedWith());
 		});
 		$this->eventDispatcher->addListener(InvalidateMountCacheEvent::class, function (InvalidateMountCacheEvent $event,
-		) {
+		): void {
 			if ($user = $event->getUser()) {
 				$this->cache->remove($user->getUID());
 			} else {
@@ -730,7 +728,7 @@ class SetupManager {
 		];
 
 		foreach ($genericEvents as $genericEvent) {
-			$this->eventDispatcher->addListener($genericEvent, function ($event) {
+			$this->eventDispatcher->addListener($genericEvent, function ($event): void {
 				$this->cache->clear();
 			});
 		}

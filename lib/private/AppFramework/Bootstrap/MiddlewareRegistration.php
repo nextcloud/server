@@ -16,11 +16,12 @@ use OCP\AppFramework\Middleware;
  * @template-extends ServiceRegistration<Middleware>
  */
 class MiddlewareRegistration extends ServiceRegistration {
-	private bool $global;
-
-	public function __construct(string $appId, string $service, bool $global) {
+	public function __construct(
+		string $appId,
+		string $service,
+		private bool $global,
+	) {
 		parent::__construct($appId, $service);
-		$this->global = $global;
 	}
 
 	public function isGlobal(): bool {

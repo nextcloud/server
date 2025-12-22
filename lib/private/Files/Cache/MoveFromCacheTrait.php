@@ -30,7 +30,7 @@ trait MoveFromCacheTrait {
 	/**
 	 * Move a file or folder in the cache
 	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
+	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 */

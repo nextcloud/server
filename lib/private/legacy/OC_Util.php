@@ -7,15 +7,30 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
+use OC\Files\Cache\Scanner;
+use OC\Files\Filesystem;
 use OC\Files\SetupManager;
+use OC\Setup;
+use OC\SystemConfig;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Template\ITemplateManager;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IRequest;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IManager;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -37,13 +52,13 @@ class OC_Util {
 	public static function setupFS(?string $user = '') {
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user === '') {
-			$userObject = \OC::$server->get(\OCP\IUserSession::class)->getUser();
+			$userObject = Server::get(IUserSession::class)->getUser();
 		} else {
-			$userObject = \OC::$server->get(\OCP\IUserManager::class)->get($user);
+			$userObject = Server::get(IUserManager::class)->get($user);
 		}
 
 		/** @var SetupManager $setupManager */
-		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager = Server::get(SetupManager::class);
 
 		if ($userObject) {
 			$setupManager->setupForUser($userObject);
@@ -62,7 +77,7 @@ class OC_Util {
 	 */
 	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
 		/** @var IManager $shareManager */
-		$shareManager = \OC::$server->get(IManager::class);
+		$shareManager = Server::get(IManager::class);
 		return $shareManager->shareApiLinkEnforcePassword($checkGroupMembership);
 	}
 
@@ -76,7 +91,7 @@ class OC_Util {
 	 */
 	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
 		/** @var IManager $shareManager */
-		$shareManager = \OC::$server->get(IManager::class);
+		$shareManager = Server::get(IManager::class);
 		$userId = $user ? $user->getUID() : null;
 		return $shareManager->sharingDisabledForUser($userId);
 	}
@@ -89,7 +104,7 @@ class OC_Util {
 	 */
 	public static function isDefaultExpireDateEnforced() {
 		/** @var IManager $shareManager */
-		$shareManager = \OC::$server->get(IManager::class);
+		$shareManager = Server::get(IManager::class);
 		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
 	}
 
@@ -102,30 +117,30 @@ class OC_Util {
 	 */
 	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			return FileInfo::SPACE_UNLIMITED;
 		}
 		$userQuota = $user->getQuota();
 		if ($userQuota === 'none') {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			return FileInfo::SPACE_UNLIMITED;
 		}
-		return \OCP\Util::computerFileSize($userQuota);
+		return Util::computerFileSize($userQuota);
 	}
 
 	/**
 	 * copies the skeleton to the users /files
 	 *
 	 * @param string $userId
-	 * @param \OCP\Files\Folder $userDirectory
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
+	 * @param Folder $userDirectory
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
+	public static function copySkeleton($userId, Folder $userDirectory) {
 		/** @var LoggerInterface $logger */
-		$logger = \OC::$server->get(LoggerInterface::class);
+		$logger = Server::get(LoggerInterface::class);
 
-		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
-		$userLang = \OC::$server->get(IFactory::class)->findLanguage();
+		$plainSkeletonDirectory = Server::get(IConfig::class)->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$userLang = Server::get(IFactory::class)->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
 		if (!file_exists($skeletonDirectory)) {
@@ -141,7 +156,7 @@ class OC_Util {
 			}
 		}
 
-		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
+		$instanceId = Server::get(IConfig::class)->getSystemValue('instanceid', '');
 
 		if ($instanceId === null) {
 			throw new \RuntimeException('no instance id!');
@@ -155,10 +170,10 @@ class OC_Util {
 			$logger->debug('copying skeleton for ' . $userId . ' from ' . $skeletonDirectory . ' to ' . $userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
 			self::copyr($skeletonDirectory, $userDirectory);
 			// update the file cache
-			$userDirectory->getStorage()->getScanner()->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
+			$userDirectory->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
 
 			/** @var ITemplateManager $templateManager */
-			$templateManager = \OC::$server->get(ITemplateManager::class);
+			$templateManager = Server::get(ITemplateManager::class);
 			$templateManager->initializeTemplateDirectory(null, $userId);
 		}
 	}
@@ -167,11 +182,11 @@ class OC_Util {
 	 * copies a directory recursively by using streams
 	 *
 	 * @param string $source
-	 * @param \OCP\Files\Folder $target
+	 * @param Folder $target
 	 * @return void
 	 */
-	public static function copyr($source, \OCP\Files\Folder $target) {
-		$logger = \OCP\Server::get(LoggerInterface::class);
+	public static function copyr($source, Folder $target) {
+		$logger = Server::get(LoggerInterface::class);
 
 		// Verify if folder exists
 		$dir = opendir($source);
@@ -182,7 +197,7 @@ class OC_Util {
 
 		// Copy the files
 		while (false !== ($file = readdir($dir))) {
-			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+			if (!Filesystem::isIgnoredDir($file)) {
 				if (is_dir($source . '/' . $file)) {
 					$child = $target->newFolder($file);
 					self::copyr($source . '/' . $file, $child);
@@ -204,7 +219,7 @@ class OC_Util {
 	 * @deprecated 32.0.0 Call tearDown directly on SetupManager
 	 */
 	public static function tearDownFS(): void {
-		$setupManager = \OCP\Server::get(SetupManager::class);
+		$setupManager = Server::get(SetupManager::class);
 		$setupManager->tearDown();
 	}
 
@@ -301,7 +316,7 @@ class OC_Util {
 	 *
 	 * @return array arrays with error messages and hints
 	 */
-	public static function checkServer(\OC\SystemConfig $config) {
+	public static function checkServer(SystemConfig $config) {
 		$l = \OC::$server->getL10N('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
@@ -312,14 +327,14 @@ class OC_Util {
 		}
 
 		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if (\OC::$server->getSession()->exists('checkServer_succeeded') && \OC::$server->getSession()->get('checkServer_succeeded')) {
+		if (Server::get(ISession::class)->exists('checkServer_succeeded') && Server::get(ISession::class)->get('checkServer_succeeded')) {
 			return $errors;
 		}
 
 		$webServerRestart = false;
-		$setup = \OCP\Server::get(\OC\Setup::class);
+		$setup = Server::get(Setup::class);
 
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = Server::get(IURLGenerator::class);
 
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
@@ -421,7 +436,7 @@ class OC_Util {
 		$missingDependencies = [];
 		$invalidIniSettings = [];
 
-		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
+		$iniWrapper = Server::get(IniGetWrapper::class);
 		foreach ($dependencies['classes'] as $class => $module) {
 			if (!class_exists($class)) {
 				$missingDependencies[] = $module;
@@ -482,7 +497,7 @@ class OC_Util {
 		}
 
 		// Cache the result of this function
-		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
+		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) == 0);
 
 		return $errors;
 	}
@@ -495,7 +510,7 @@ class OC_Util {
 	 * @internal
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		if (!\OC::$server->getConfig()->getSystemValueBool('check_data_directory_permissions', true)) {
+		if (!Server::get(IConfig::class)->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
 
@@ -550,19 +565,19 @@ class OC_Util {
 	 */
 	public static function checkLoggedIn(): void {
 		// Check if we are a user
-		if (!\OC::$server->getUserSession()->isLoggedIn()) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
+		if (!Server::get(IUserSession::class)->isLoggedIn()) {
+			header('Location: ' . Server::get(IURLGenerator::class)->linkToRoute(
 				'core.login.showLoginForm',
 				[
-					'redirect_url' => \OC::$server->getRequest()->getRequestUri(),
+					'redirect_url' => Server::get(IRequest::class)->getRequestUri(),
 				]
 			)
 			);
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
+		if (Server::get(TwoFactorAuthManager::class)->needsSecondFactor(Server::get(IUserSession::class)->getUser())) {
+			header('Location: ' . Server::get(IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
 	}
@@ -575,7 +590,7 @@ class OC_Util {
 	public static function checkAdminUser(): void {
 		self::checkLoggedIn();
 		if (!OC_User::isAdminUser(OC_User::getUser())) {
-			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
+			header('Location: ' . Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
 	}
@@ -590,7 +605,7 @@ class OC_Util {
 	 */
 	public static function getDefaultPageUrl() {
 		/** @var IURLGenerator $urlGenerator */
-		$urlGenerator = \OC::$server->get(IURLGenerator::class);
+		$urlGenerator = Server::get(IURLGenerator::class);
 		return $urlGenerator->linkToDefaultPageUrl();
 	}
 
@@ -611,11 +626,11 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId(): string {
-		$id = \OC::$server->getSystemConfig()->getValue('instanceid', null);
+		$id = Server::get(SystemConfig::class)->getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . \OC::$server->get(ISecureRandom::class)->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_DIGITS);
-			\OC::$server->getSystemConfig()->setValue('instanceid', $id);
+			$id = 'oc' . Server::get(ISecureRandom::class)->generate(10, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+			Server::get(SystemConfig::class)->setValue('instanceid', $id);
 		}
 		return $id;
 	}
@@ -739,7 +754,7 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = \OC::$server->getSystemConfig()->getValue('theme', '');
+		$theme = Server::get(SystemConfig::class)->getValue('theme', '');
 
 		if ($theme === '') {
 			if (is_dir(OC::$SERVERROOT . '/themes/default')) {
@@ -763,7 +778,7 @@ class OC_Util {
 
 		$normalizedValue = Normalizer::normalize($value);
 		if ($normalizedValue === false) {
-			\OCP\Server::get(LoggerInterface::class)->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
+			Server::get(LoggerInterface::class)->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
 			return $value;
 		}
 
@@ -775,15 +790,15 @@ class OC_Util {
 	 * either when the core version is higher or any app requires
 	 * an upgrade.
 	 *
-	 * @param \OC\SystemConfig $config
+	 * @param SystemConfig $config
 	 * @return bool whether the core or any app needs an upgrade
-	 * @throws \OCP\HintException When the upgrade from the given version is not allowed
+	 * @throws HintException When the upgrade from the given version is not allowed
 	 * @deprecated 32.0.0 Use \OCP\Util::needUpgrade instead
 	 */
-	public static function needUpgrade(\OC\SystemConfig $config) {
+	public static function needUpgrade(SystemConfig $config) {
 		if ($config->getValue('installed', false)) {
 			$installedVersion = $config->getValue('version', '0.0.0');
-			$currentVersion = implode('.', \OCP\Util::getVersion());
+			$currentVersion = implode('.', Util::getVersion());
 			$versionDiff = version_compare($currentVersion, $installedVersion);
 			if ($versionDiff > 0) {
 				return true;
@@ -798,11 +813,11 @@ class OC_Util {
 					return true;
 				} else {
 					// downgrade attempt, throw exception
-					throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
+					throw new HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 				}
 			} elseif ($versionDiff < 0) {
 				// downgrade attempt, throw exception
-				throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
+				throw new HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 			}
 
 			// also check for upgrades for apps (independently from the user)

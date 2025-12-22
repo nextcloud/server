@@ -12,76 +12,39 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 
 class SearchQuery implements ISearchQuery {
-	/** @var ISearchOperator */
-	private $searchOperation;
-	/** @var integer */
-	private $limit;
-	/** @var integer */
-	private $offset;
-	/** @var ISearchOrder[] */
-	private $order;
-	/** @var ?IUser */
-	private $user;
-	private $limitToHome;
-
 	/**
-	 * SearchQuery constructor.
-	 *
-	 * @param ISearchOperator $searchOperation
-	 * @param int $limit
-	 * @param int $offset
-	 * @param array $order
-	 * @param ?IUser $user
-	 * @param bool $limitToHome
+	 * @param ISearchOrder[] $order
 	 */
 	public function __construct(
-		ISearchOperator $searchOperation,
-		int $limit,
-		int $offset,
-		array $order,
-		?IUser $user = null,
-		bool $limitToHome = false,
+		private ISearchOperator $searchOperation,
+		private int $limit,
+		private int $offset,
+		private array $order,
+		private ?IUser $user = null,
+		private bool $limitToHome = false,
 	) {
-		$this->searchOperation = $searchOperation;
-		$this->limit = $limit;
-		$this->offset = $offset;
-		$this->order = $order;
-		$this->user = $user;
-		$this->limitToHome = $limitToHome;
 	}
 
-	/**
-	 * @return ISearchOperator
-	 */
-	public function getSearchOperation() {
+	public function getSearchOperation(): ISearchOperator {
 		return $this->searchOperation;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getLimit() {
+	public function getLimit(): int {
 		return $this->limit;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getOffset() {
+	public function getOffset(): int {
 		return $this->offset;
 	}
 
 	/**
 	 * @return ISearchOrder[]
 	 */
-	public function getOrder() {
+	public function getOrder(): array {
 		return $this->order;
 	}
 
-	/**
-	 * @return ?IUser
-	 */
-	public function getUser() {
+	public function getUser(): ?IUser {
 		return $this->user;
 	}
 

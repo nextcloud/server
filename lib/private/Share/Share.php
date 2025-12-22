@@ -8,6 +8,10 @@
 namespace OC\Share;
 
 use OCA\Files_Sharing\ShareBackend\File;
+use OCP\IConfig;
+use OCP\Server;
+use OCP\Share_Backend;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,7 +48,7 @@ class Share extends Constants {
 	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
+		if (Server::get(IConfig::class)->getAppValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			if (!isset(self::$backendTypes[$itemType])) {
 				self::$backendTypes[$itemType] = [
 					'class' => $class,
@@ -53,7 +57,7 @@ class Share extends Constants {
 				];
 				return true;
 			}
-			\OC::$server->get(LoggerInterface::class)->warning(
+			Server::get(LoggerInterface::class)->warning(
 				'Sharing backend ' . $class . ' not registered, ' . self::$backendTypes[$itemType]['class']
 				. ' is already registered for ' . $itemType,
 				['app' => 'files_sharing']);
@@ -65,19 +69,19 @@ class Share extends Constants {
 	 * Get the backend class for the specified item type
 	 *
 	 * @param string $itemType
-	 * @return \OCP\Share_Backend
+	 * @return Share_Backend
 	 * @throws \Exception
 	 */
 	public static function getBackend($itemType) {
-		$l = \OCP\Util::getL10N('lib');
-		$logger = \OCP\Server::get(LoggerInterface::class);
+		$l = Util::getL10N('lib');
+		$logger = Server::get(LoggerInterface::class);
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} elseif (isset(self::$backendTypes[$itemType]['class'])) {
 			$class = self::$backendTypes[$itemType]['class'];
 			if (class_exists($class)) {
 				self::$backends[$itemType] = new $class;
-				if (!(self::$backends[$itemType] instanceof \OCP\Share_Backend)) {
+				if (!(self::$backends[$itemType] instanceof Share_Backend)) {
 					$message = 'Sharing backend %s must implement the interface OCP\Share_Backend';
 					$message_t = $l->t('Sharing backend %s must implement the interface OCP\Share_Backend', [$class]);
 					$logger->error(sprintf($message, $class), ['app' => 'OCP\Share']);
@@ -106,7 +110,7 @@ class Share extends Constants {
 	 */
 	public static function isResharingAllowed() {
 		if (!isset(self::$isResharingAllowed)) {
-			if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+			if (Server::get(IConfig::class)->getAppValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
 				self::$isResharingAllowed = true;
 			} else {
 				self::$isResharingAllowed = false;
@@ -175,6 +179,6 @@ class Share extends Constants {
 	 * @return int
 	 */
 	public static function getExpireInterval() {
-		return (int)\OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return (int)Server::get(IConfig::class)->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 }

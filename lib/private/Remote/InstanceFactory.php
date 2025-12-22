@@ -11,14 +11,10 @@ use OCP\ICache;
 use OCP\Remote\IInstanceFactory;
 
 class InstanceFactory implements IInstanceFactory {
-	/** @var ICache */
-	private $cache;
-	/** @var IClientService */
-	private $clientService;
-
-	public function __construct(ICache $cache, IClientService $clientService) {
-		$this->cache = $cache;
-		$this->clientService = $clientService;
+	public function __construct(
+		private ICache $cache,
+		private IClientService $clientService,
+	) {
 	}
 
 	public function getInstance($url) {

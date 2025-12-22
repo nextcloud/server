@@ -16,6 +16,7 @@ use Aws\S3\S3Client;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
+use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -157,10 +158,10 @@ trait S3ObjectTrait {
 					'Metadata' => $this->buildS3Metadata($metaData),
 					'StorageClass' => $this->storageClass,
 				] + $this->getSSECParameters(),
-				'before_upload' => function (Command $command) use (&$totalWritten) {
+				'before_upload' => function (Command $command) use (&$totalWritten): void {
 					$totalWritten += $command['ContentLength'];
 				},
-				'before_complete' => function ($_command) use (&$totalWritten, $size, &$uploader, &$attempts) {
+				'before_complete' => function ($_command) use (&$totalWritten, $size, &$uploader, &$attempts): void {
 					if ($size !== null && $totalWritten != $size) {
 						$e = new \Exception('Incomplete multi part upload, expected ' . $size . ' bytes, wrote ' . $totalWritten);
 						throw new MultipartUploadException($uploader->getState(), $e);
@@ -196,7 +197,7 @@ trait S3ObjectTrait {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
 
-			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway('Error while uploading to S3 bucket', 0, $exception);
+			throw new BadGateway('Error while uploading to S3 bucket', 0, $exception);
 		}
 	}
 

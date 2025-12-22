@@ -21,22 +21,15 @@ use RuntimeException;
 use Throwable;
 
 class Broker implements IBroker {
-	private Coordinator $coordinator;
-
-	private IServerContainer $container;
-
-	private LoggerInterface $logger;
-
 	private ?bool $hasBackend = null;
 
 	private ?ITalkBackend $backend = null;
 
-	public function __construct(Coordinator $coordinator,
-		IServerContainer $container,
-		LoggerInterface $logger) {
-		$this->coordinator = $coordinator;
-		$this->container = $container;
-		$this->logger = $logger;
+	public function __construct(
+		private Coordinator $coordinator,
+		private IServerContainer $container,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function hasBackend(): bool {

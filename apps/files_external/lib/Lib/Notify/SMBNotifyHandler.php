@@ -110,21 +110,16 @@ class SMBNotifyHandler implements INotifyHandler {
 		return $result;
 	}
 
-	private function mapNotifyType($smbType) {
-		switch ($smbType) {
-			case \Icewind\SMB\INotifyHandler::NOTIFY_ADDED:
-				return IChange::ADDED;
-			case \Icewind\SMB\INotifyHandler::NOTIFY_REMOVED:
-				return IChange::REMOVED;
-			case \Icewind\SMB\INotifyHandler::NOTIFY_MODIFIED:
-			case \Icewind\SMB\INotifyHandler::NOTIFY_ADDED_STREAM:
-			case \Icewind\SMB\INotifyHandler::NOTIFY_MODIFIED_STREAM:
-			case \Icewind\SMB\INotifyHandler::NOTIFY_REMOVED_STREAM:
-				return IChange::MODIFIED;
-			case \Icewind\SMB\INotifyHandler::NOTIFY_RENAMED_NEW:
-				return IChange::RENAMED;
-			default:
-				return null;
-		}
+	/**
+	 * @return IChange::ADDED|IChange::REMOVED|IChange::MODIFIED|IChange::RENAMED|null
+	 */
+	private function mapNotifyType($smbType): ?int {
+		return match ($smbType) {
+			\Icewind\SMB\INotifyHandler::NOTIFY_ADDED => IChange::ADDED,
+			\Icewind\SMB\INotifyHandler::NOTIFY_REMOVED => IChange::REMOVED,
+			\Icewind\SMB\INotifyHandler::NOTIFY_MODIFIED, \Icewind\SMB\INotifyHandler::NOTIFY_ADDED_STREAM, \Icewind\SMB\INotifyHandler::NOTIFY_MODIFIED_STREAM, \Icewind\SMB\INotifyHandler::NOTIFY_REMOVED_STREAM => IChange::MODIFIED,
+			\Icewind\SMB\INotifyHandler::NOTIFY_RENAMED_NEW => IChange::RENAMED,
+			default => null,
+		};
 	}
 }

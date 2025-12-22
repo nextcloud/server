@@ -12,10 +12,12 @@ use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\IParallelAwareJob;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Snowflake\IGenerator;
 use Override;
 use Psr\Container\ContainerExceptionInterface;
@@ -217,7 +219,7 @@ class JobList implements IJobList {
 				unset($this->alreadyVisitedParallelBlocked[get_class($job)]);
 			}
 
-			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof TimedJob) {
 				$now = $this->timeFactory->getTime();
 				$nextPossibleRun = $job->getLastRun() + $job->getInterval();
 				if ($now < $nextPossibleRun) {
@@ -312,7 +314,7 @@ class JobList implements IJobList {
 			try {
 				// Try to load the job as a service
 				/** @var IJob $job */
-				$job = \OCP\Server::get($row['class']);
+				$job = Server::get($row['class']);
 			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($row['class'])) {
 					$class = $row['class'];
@@ -363,7 +365,7 @@ class JobList implements IJobList {
 			->set('last_run', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
 
-		if ($job instanceof \OCP\BackgroundJob\TimedJob
+		if ($job instanceof TimedJob
 			&& !$job->isTimeSensitive()) {
 			$query->set('time_sensitive', $query->createNamedParameter(IJob::TIME_INSENSITIVE));
 		}

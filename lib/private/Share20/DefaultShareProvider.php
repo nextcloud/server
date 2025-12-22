@@ -9,6 +9,7 @@
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Filesystem;
 use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
@@ -17,9 +18,13 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeLoader;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -29,6 +34,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
@@ -36,6 +42,7 @@ use OCP\Share\IShare;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
@@ -73,12 +80,12 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	/**
 	 * Share a path
 	 *
-	 * @param \OCP\Share\IShare $share
-	 * @return \OCP\Share\IShare The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
-	public function create(\OCP\Share\IShare $share) {
+	public function create(IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share');
@@ -136,7 +143,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		// Set what is shares
 		$qb->setValue('item_type', $qb->createParameter('itemType'));
-		if ($share->getNode() instanceof \OCP\Files\File) {
+		if ($share->getNode() instanceof File) {
 			$qb->setParameter('itemType', 'file');
 		} else {
 			$qb->setParameter('itemType', 'folder');
@@ -191,13 +198,13 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	/**
 	 * Update a share
 	 *
-	 * @param \OCP\Share\IShare $share
-	 * @return \OCP\Share\IShare The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 * @throws ShareNotFound
-	 * @throws \OCP\Files\InvalidPathException
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
-	public function update(\OCP\Share\IShare $share) {
+	public function update(IShare $share) {
 		$originalShare = $this->getShareById($share->getId());
 
 		$shareAttributes = $this->formatShareAttributes($share->getAttributes());
@@ -388,9 +395,9 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	/**
 	 * Delete a share
 	 *
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 */
-	public function delete(\OCP\Share\IShare $share) {
+	public function delete(IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())));
@@ -483,7 +490,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		}
 
 		$target = $shareFolder . '/' . $share->getNode()->getName();
-		$target = \OC\Files\Filesystem::normalizePath($target);
+		$target = Filesystem::normalizePath($target);
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -542,7 +549,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	/**
 	 * @inheritdoc
 	 */
-	public function move(\OCP\Share\IShare $share, $recipient) {
+	public function move(IShare $share, $recipient) {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// Just update the target
 			$qb = $this->dbConn->getQueryBuilder();
@@ -775,8 +782,8 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	/**
 	 * Get shares for a given path
 	 *
-	 * @param \OCP\Files\Node $path
-	 * @return \OCP\Share\IShare[]
+	 * @param Node $path
+	 * @return IShare[]
 	 */
 	public function getSharesByPath(Node $path) {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -952,7 +959,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	 * Get a share by token
 	 *
 	 * @param string $token
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
@@ -984,7 +991,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	 * Create a share object from a database row
 	 *
 	 * @param mixed[] $data
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 * @throws InvalidShare
 	 */
 	private function createShare($data) {
@@ -1038,7 +1045,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			$entryData['permissions'] = $entryData['f_permissions'];
 			$entryData['parent'] = $entryData['f_parent'];
 			$share->setNodeCacheEntry(Cache::cacheEntryFromData($entryData,
-				\OC::$server->getMimeTypeLoader()));
+				Server::get(IMimeTypeLoader::class)));
 		}
 
 		$share->setProviderId($this->identifier());
@@ -1400,7 +1407,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	 * propagate notes to the recipients
 	 *
 	 * @param IShare $share
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	private function propagateNote(IShare $share) {
 		if ($share->getShareType() === IShare::TYPE_USER) {
@@ -1509,7 +1516,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$instanceName,
 			]
 		);
-		$message->setFrom([\OCP\Util::getDefaultEmailAddress('noreply') => $senderName]);
+		$message->setFrom([Util::getDefaultEmailAddress('noreply') => $senderName]);
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
@@ -1538,7 +1545,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	 *
 	 * @param array $recipients
 	 * @param IShare $share
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	private function sendNote(array $recipients, IShare $share) {
 		$toListByLanguage = [];
@@ -1596,7 +1603,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 					$instanceName
 				]
 			);
-			$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
+			$message->setFrom([Util::getDefaultEmailAddress($instanceName) => $senderName]);
 			if ($initiatorEmailAddress !== null) {
 				$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
 				$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());

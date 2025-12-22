@@ -25,10 +25,10 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		private IDBConnection $dbConn,
 		private IEventDispatcher $eventDispatcher,
 	) {
-		$this->userManager->listen('\OC\User', 'postDelete', function ($user) {
+		$this->userManager->listen('\OC\User', 'postDelete', function ($user): void {
 			$this->post_deleteUser($user);
 		});
-		$this->groupManager->listen('\OC\Group', 'postDelete', function ($group) {
+		$this->groupManager->listen('\OC\Group', 'postDelete', function ($group): void {
 			$this->post_deleteGroup($group);
 		});
 	}

@@ -28,9 +28,7 @@ use Psr\Log\LoggerInterface;
  * Shared mount points can be moved by the user
  */
 class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint {
-	/**
-	 * @var SharedStorage $storage
-	 */
+	/** @var ?SharedStorage $storage */
 	protected $storage = null;
 
 	/** @var IShare */

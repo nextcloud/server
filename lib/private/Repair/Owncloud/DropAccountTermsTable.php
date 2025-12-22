@@ -11,27 +11,16 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class DropAccountTermsTable implements IRepairStep {
-	/** @var IDBConnection */
-	protected $db;
-
-	/**
-	 * @param IDBConnection $db
-	 */
-	public function __construct(IDBConnection $db) {
-		$this->db = $db;
+	public function __construct(
+		protected IDBConnection $db,
+	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Drop account terms table when migrating from ownCloud';
 	}
 
-	/**
-	 * @param IOutput $output
-	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		if (!$this->db->tableExists('account_terms')) {
 			return;
 		}

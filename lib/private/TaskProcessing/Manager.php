@@ -14,6 +14,8 @@ use GuzzleHttp\Exception\ServerException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\TaskProcessing\Db\TaskMapper;
+use OCA\AppAPI\PublicFunctions;
+use OCA\Guests\UserBackend;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -41,13 +43,16 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\SpeechToText\ISpeechToTextProviderWithId;
+use OCP\SpeechToText\ISpeechToTextProviderWithUserId;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
 use OCP\TaskProcessing\Exception\NotFoundException;
+use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\UserFacingProcessingException;
@@ -62,12 +67,35 @@ use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
+use OCP\TaskProcessing\TaskTypes\AnalyzeImages;
+use OCP\TaskProcessing\TaskTypes\AudioToAudioChat;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
+use OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction;
+use OCP\TaskProcessing\TaskTypes\ContextAgentInteraction;
+use OCP\TaskProcessing\TaskTypes\ContextWrite;
+use OCP\TaskProcessing\TaskTypes\GenerateEmoji;
+use OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition;
 use OCP\TaskProcessing\TaskTypes\TextToImage;
+use OCP\TaskProcessing\TaskTypes\TextToSpeech;
 use OCP\TaskProcessing\TaskTypes\TextToText;
+use OCP\TaskProcessing\TaskTypes\TextToTextChangeTone;
+use OCP\TaskProcessing\TaskTypes\TextToTextChat;
+use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
+use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
+use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
+use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
+use OCP\TaskProcessing\TaskTypes\TextToTextSimplification;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
 use OCP\TaskProcessing\TaskTypes\TextToTextTopics;
+use OCP\TaskProcessing\TaskTypes\TextToTextTranslate;
+use OCP\TextProcessing\FreePromptTaskType;
+use OCP\TextProcessing\HeadlineTaskType;
+use OCP\TextProcessing\IProviderWithExpectedRuntime;
+use OCP\TextProcessing\IProviderWithId;
+use OCP\TextProcessing\IProviderWithUserId;
+use OCP\TextProcessing\SummaryTaskType;
+use OCP\TextProcessing\TopicsTaskType;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -164,14 +192,13 @@ class Manager implements IManager {
 		$newProviders = [];
 		foreach ($oldProviders as $oldProvider) {
 			$provider = new class($oldProvider) implements IProvider, ISynchronousProvider {
-				private \OCP\TextProcessing\IProvider $provider;
-
-				public function __construct(\OCP\TextProcessing\IProvider $provider) {
-					$this->provider = $provider;
+				public function __construct(
+					private \OCP\TextProcessing\IProvider $provider,
+				) {
 				}
 
 				public function getId(): string {
-					if ($this->provider instanceof \OCP\TextProcessing\IProviderWithId) {
+					if ($this->provider instanceof IProviderWithId) {
 						return $this->provider->getId();
 					}
 					return Manager::LEGACY_PREFIX_TEXTPROCESSING . $this->provider::class;
@@ -183,16 +210,16 @@ class Manager implements IManager {
 
 				public function getTaskTypeId(): string {
 					return match ($this->provider->getTaskType()) {
-						\OCP\TextProcessing\FreePromptTaskType::class => TextToText::ID,
-						\OCP\TextProcessing\HeadlineTaskType::class => TextToTextHeadline::ID,
-						\OCP\TextProcessing\TopicsTaskType::class => TextToTextTopics::ID,
-						\OCP\TextProcessing\SummaryTaskType::class => TextToTextSummary::ID,
+						FreePromptTaskType::class => TextToText::ID,
+						HeadlineTaskType::class => TextToTextHeadline::ID,
+						TopicsTaskType::class => TextToTextTopics::ID,
+						SummaryTaskType::class => TextToTextSummary::ID,
 						default => Manager::LEGACY_PREFIX_TEXTPROCESSING . $this->provider->getTaskType(),
 					};
 				}
 
 				public function getExpectedRuntime(): int {
-					if ($this->provider instanceof \OCP\TextProcessing\IProviderWithExpectedRuntime) {
+					if ($this->provider instanceof IProviderWithExpectedRuntime) {
 						return $this->provider->getExpectedRuntime();
 					}
 					return 60;
@@ -207,7 +234,7 @@ class Manager implements IManager {
 				}
 
 				public function process(?string $userId, array $input, callable $reportProgress): array {
-					if ($this->provider instanceof \OCP\TextProcessing\IProviderWithUserId) {
+					if ($this->provider instanceof IProviderWithUserId) {
 						$this->provider->setUserId($userId);
 					}
 					try {
@@ -256,22 +283,22 @@ class Manager implements IManager {
 		foreach ($oldProviders as $oldProvider) {
 			// These are already implemented in the TaskProcessing realm
 			if (in_array($oldProvider->getTaskType(), [
-				\OCP\TextProcessing\FreePromptTaskType::class,
-				\OCP\TextProcessing\HeadlineTaskType::class,
-				\OCP\TextProcessing\TopicsTaskType::class,
-				\OCP\TextProcessing\SummaryTaskType::class
+				FreePromptTaskType::class,
+				HeadlineTaskType::class,
+				TopicsTaskType::class,
+				SummaryTaskType::class
 			], true)) {
 				continue;
 			}
 			$taskType = new class($oldProvider->getTaskType()) implements ITaskType {
-				private string $oldTaskTypeClass;
 				private \OCP\TextProcessing\ITaskType $oldTaskType;
 				private IL10N $l;
 
-				public function __construct(string $oldTaskTypeClass) {
-					$this->oldTaskTypeClass = $oldTaskTypeClass;
-					$this->oldTaskType = \OCP\Server::get($oldTaskTypeClass);
-					$this->l = \OCP\Server::get(IFactory::class)->get('core');
+				public function __construct(
+					private string $oldTaskTypeClass,
+				) {
+					$this->oldTaskType = Server::get($this->oldTaskTypeClass);
+					$this->l = Server::get(IFactory::class)->get('core');
 				}
 
 				public function getId(): string {
@@ -308,12 +335,10 @@ class Manager implements IManager {
 		$newProviders = [];
 		foreach ($oldProviders as $oldProvider) {
 			$newProvider = new class($oldProvider, $this->appData) implements IProvider, ISynchronousProvider {
-				private \OCP\TextToImage\IProvider $provider;
-				private IAppData $appData;
-
-				public function __construct(\OCP\TextToImage\IProvider $provider, IAppData $appData) {
-					$this->provider = $provider;
-					$this->appData = $appData;
+				public function __construct(
+					private \OCP\TextToImage\IProvider $provider,
+					private IAppData $appData,
+				) {
 				}
 
 				public function getId(): string {
@@ -437,15 +462,11 @@ class Manager implements IManager {
 		$newProviders = [];
 		foreach ($oldProviders as $oldProvider) {
 			$newProvider = new class($oldProvider, $this->rootFolder, $this->appData) implements IProvider, ISynchronousProvider {
-				private ISpeechToTextProvider $provider;
-				private IAppData $appData;
-
-				private IRootFolder $rootFolder;
-
-				public function __construct(ISpeechToTextProvider $provider, IRootFolder $rootFolder, IAppData $appData) {
-					$this->provider = $provider;
-					$this->rootFolder = $rootFolder;
-					$this->appData = $appData;
+				public function __construct(
+					private ISpeechToTextProvider $provider,
+					private IRootFolder $rootFolder,
+					private IAppData $appData,
+				) {
 				}
 
 				public function getId(): string {
@@ -476,7 +497,7 @@ class Manager implements IManager {
 				}
 
 				public function process(?string $userId, array $input, callable $reportProgress): array {
-					if ($this->provider instanceof \OCP\SpeechToText\ISpeechToTextProviderWithUserId) {
+					if ($this->provider instanceof ISpeechToTextProviderWithUserId) {
 						$this->provider->setUserId($userId);
 					}
 					try {
@@ -590,28 +611,28 @@ class Manager implements IManager {
 
 		// Default task types
 		$taskTypes = [
-			\OCP\TaskProcessing\TaskTypes\TextToText::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToText::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextTopics::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextTopics::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextHeadline::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextHeadline::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextSummary::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextSummary::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextFormalization::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextFormalization::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextSimplification::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextSimplification::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextChat::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextChat::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextTranslate::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextTranslate::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextReformulation::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextReformulation::class),
-			\OCP\TaskProcessing\TaskTypes\TextToImage::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToImage::class),
-			\OCP\TaskProcessing\TaskTypes\AudioToText::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\AudioToText::class),
-			\OCP\TaskProcessing\TaskTypes\ContextWrite::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ContextWrite::class),
-			\OCP\TaskProcessing\TaskTypes\GenerateEmoji::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\GenerateEmoji::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextChangeTone::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextChangeTone::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools::class),
-			\OCP\TaskProcessing\TaskTypes\ContextAgentInteraction::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ContextAgentInteraction::class),
-			\OCP\TaskProcessing\TaskTypes\TextToTextProofread::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToTextProofread::class),
-			\OCP\TaskProcessing\TaskTypes\TextToSpeech::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\TextToSpeech::class),
-			\OCP\TaskProcessing\TaskTypes\AudioToAudioChat::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\AudioToAudioChat::class),
-			\OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction::class),
-			\OCP\TaskProcessing\TaskTypes\AnalyzeImages::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\AnalyzeImages::class),
-			\OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition::ID => \OCP\Server::get(\OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition::class),
+			TextToText::ID => Server::get(TextToText::class),
+			TextToTextTopics::ID => Server::get(TextToTextTopics::class),
+			TextToTextHeadline::ID => Server::get(TextToTextHeadline::class),
+			TextToTextSummary::ID => Server::get(TextToTextSummary::class),
+			TextToTextFormalization::ID => Server::get(TextToTextFormalization::class),
+			TextToTextSimplification::ID => Server::get(TextToTextSimplification::class),
+			TextToTextChat::ID => Server::get(TextToTextChat::class),
+			TextToTextTranslate::ID => Server::get(TextToTextTranslate::class),
+			TextToTextReformulation::ID => Server::get(TextToTextReformulation::class),
+			TextToImage::ID => Server::get(TextToImage::class),
+			AudioToText::ID => Server::get(AudioToText::class),
+			ContextWrite::ID => Server::get(ContextWrite::class),
+			GenerateEmoji::ID => Server::get(GenerateEmoji::class),
+			TextToTextChangeTone::ID => Server::get(TextToTextChangeTone::class),
+			TextToTextChatWithTools::ID => Server::get(TextToTextChatWithTools::class),
+			ContextAgentInteraction::ID => Server::get(ContextAgentInteraction::class),
+			TextToTextProofread::ID => Server::get(TextToTextProofread::class),
+			TextToSpeech::ID => Server::get(TextToSpeech::class),
+			AudioToAudioChat::ID => Server::get(AudioToAudioChat::class),
+			ContextAgentAudioInteraction::ID => Server::get(ContextAgentAudioInteraction::class),
+			AnalyzeImages::ID => Server::get(AnalyzeImages::class),
+			ImageToTextOpticalCharacterRecognition::ID => Server::get(ImageToTextOpticalCharacterRecognition::class),
 		];
 
 		foreach ($context->getTaskProcessingTaskTypes() as $providerServiceRegistration) {
@@ -959,7 +980,7 @@ class Manager implements IManager {
 		}
 
 		$guestsAllowed = $this->appConfig->getValueString('core', 'ai.taskprocessing_guests', 'false');
-		if ($guestsAllowed == 'true' || !class_exists(\OCA\Guests\UserBackend::class) || !($user->getBackend() instanceof \OCA\Guests\UserBackend)) {
+		if ($guestsAllowed == 'true' || !class_exists(UserBackend::class) || !($user->getBackend() instanceof UserBackend)) {
 			return true;
 		}
 		return false;
@@ -967,10 +988,10 @@ class Manager implements IManager {
 
 	public function scheduleTask(Task $task): void {
 		if (!$this->checkGuestAccess($task->getUserId())) {
-			throw new \OCP\TaskProcessing\Exception\PreConditionNotMetException('Access to this resource is forbidden for guests.');
+			throw new PreConditionNotMetException('Access to this resource is forbidden for guests.');
 		}
 		if (!$this->canHandleTask($task)) {
-			throw new \OCP\TaskProcessing\Exception\PreConditionNotMetException('No task processing provider is installed that can handle this task type: ' . $task->getTaskTypeId());
+			throw new PreConditionNotMetException('No task processing provider is installed that can handle this task type: ' . $task->getTaskTypeId());
 		}
 		$this->prepareTask($task);
 		$task->setStatus(Task::STATUS_SCHEDULED);
@@ -1006,10 +1027,10 @@ class Manager implements IManager {
 
 	public function runTask(Task $task): Task {
 		if (!$this->checkGuestAccess($task->getUserId())) {
-			throw new \OCP\TaskProcessing\Exception\PreConditionNotMetException('Access to this resource is forbidden for guests.');
+			throw new PreConditionNotMetException('Access to this resource is forbidden for guests.');
 		}
 		if (!$this->canHandleTask($task)) {
-			throw new \OCP\TaskProcessing\Exception\PreConditionNotMetException('No task processing provider is installed that can handle this task type: ' . $task->getTaskTypeId());
+			throw new PreConditionNotMetException('No task processing provider is installed that can handle this task type: ' . $task->getTaskTypeId());
 		}
 
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
@@ -1219,7 +1240,7 @@ class Manager implements IManager {
 			$taskEntity = $this->taskMapper->findOldestScheduledByType($taskTypeIds, $taskIdsToIgnore);
 			return $taskEntity->toPublicTask();
 		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
+			throw new NotFoundException('Could not find the task', previous: $e);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
@@ -1231,7 +1252,7 @@ class Manager implements IManager {
 		try {
 			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $this->taskMapper->findNOldestScheduledByType($taskTypeIds, $taskIdsToIgnore, $numberOfTasks));
 		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', previous: $e);
+			throw new NotFoundException('Could not find the task', previous: $e);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
@@ -1286,7 +1307,7 @@ class Manager implements IManager {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
 			return $taskEntity->toPublicTask();
 		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
+			throw new NotFoundException('Could not find the task', 0, $e);
 		} catch (MultipleObjectsReturnedException|\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
 		} catch (\JsonException $e) {
@@ -1683,7 +1704,7 @@ class Manager implements IManager {
 				return;
 			}
 			try {
-				$appApiFunctions = \OCP\Server::get(\OCA\AppAPI\PublicFunctions::class);
+				$appApiFunctions = Server::get(PublicFunctions::class);
 			} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
 				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Could not get AppAPI public functions.');
 				return;

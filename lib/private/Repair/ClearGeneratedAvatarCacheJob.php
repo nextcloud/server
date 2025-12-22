@@ -11,11 +11,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 
 class ClearGeneratedAvatarCacheJob extends QueuedJob {
-	protected AvatarManager $avatarManager;
-
-	public function __construct(ITimeFactory $timeFactory, AvatarManager $avatarManager) {
+	public function __construct(
+		ITimeFactory $timeFactory,
+		protected AvatarManager $avatarManager,
+	) {
 		parent::__construct($timeFactory);
-		$this->avatarManager = $avatarManager;
 	}
 
 	public function run($argument) {

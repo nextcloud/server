@@ -25,12 +25,13 @@ use OCP\IGroupManager;
 class DisplayNameCache implements IEventListener {
 	private CappedMemoryCache $cache;
 	private ICache $memCache;
-	private IGroupManager $groupManager;
 
-	public function __construct(ICacheFactory $cacheFactory, IGroupManager $groupManager) {
+	public function __construct(
+		ICacheFactory $cacheFactory,
+		private IGroupManager $groupManager,
+	) {
 		$this->cache = new CappedMemoryCache();
 		$this->memCache = $cacheFactory->createDistributed('groupDisplayNameMappingCache');
-		$this->groupManager = $groupManager;
 	}
 
 	public function getDisplayName(string $groupId): ?string {

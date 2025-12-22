@@ -2122,7 +2122,6 @@ return array(
     'OC\\Share20\\UserDeletedListener' => $baseDir . '/lib/private/Share20/UserDeletedListener.php',
     'OC\\Share20\\UserRemovedListener' => $baseDir . '/lib/private/Share20/UserRemovedListener.php',
     'OC\\Share\\Constants' => $baseDir . '/lib/private/Share/Constants.php',
-    'OC\\Share\\Helper' => $baseDir . '/lib/private/Share/Helper.php',
     'OC\\Share\\Share' => $baseDir . '/lib/private/Share/Share.php',
     'OC\\Snowflake\\APCuSequence' => $baseDir . '/lib/private/Snowflake/APCuSequence.php',
     'OC\\Snowflake\\Decoder' => $baseDir . '/lib/private/Snowflake/Decoder.php',

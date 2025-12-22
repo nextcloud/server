@@ -14,13 +14,16 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Storage\Common;
 use OC\Files\Storage\PolyFill\CopyDirectory;
+use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
@@ -28,11 +31,12 @@ use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\ITempManager;
 use OCP\Server;
 use Override;
 use Psr\Log\LoggerInterface;
 
-class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
+class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	use CopyDirectory;
 
 	protected IObjectStore $objectStore;
@@ -72,7 +76,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->totalSizeLimit = $parameters['totalSizeLimit'];
 		}
 
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	public function mkdir(string $path, bool $force = false, array $metadata = []): bool {
@@ -88,7 +92,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			'size' => $metadata['size'] ?? 0,
 			'mtime' => $mTime,
 			'storage_mtime' => $mTime,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		];
 		if ($path === '') {
 			//create root on the fly
@@ -144,7 +148,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (!isset($this->scanner)) {
 			$this->scanner = new ObjectStoreScanner($storage);
 		}
-		/** @var \OC\Files\ObjectStore\ObjectStoreScanner */
+		/** @var ObjectStoreScanner */
 		return $this->scanner;
 	}
 
@@ -352,9 +356,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					return false;
 				}
 
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 					unlink($tmpFile);
 				});
@@ -366,13 +370,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			case 'x+':
 			case 'c':
 			case 'c+':
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
 				}
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 					unlink($tmpFile);
 				});
@@ -467,7 +471,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (empty($stat)) {
 			// create new file
 			$stat = [
-				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
+				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			];
 		}
 		// update stat with new data
@@ -476,7 +480,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
 
-		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
+		$mimetypeDetector = Server::get(IMimeTypeDetector::class);
 		$mimetype = $mimetypeDetector->detectPath($path);
 		$metadata = [
 			'mimetype' => $mimetype,
@@ -509,7 +513,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			//upload to object storage
 
 			$totalWritten = 0;
-			$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, $size, $exists, &$totalWritten) {
+			$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, $size, $exists, &$totalWritten): void {
 				if (is_null($size) && !$exists) {
 					$this->getCache()->update($fileId, [
 						'size' => $writtenSize,
@@ -732,7 +736,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
 			if ($this->handleCopiesAsOwned) {
 				// Copied the file thus we gain all permissions as we are the owner now ! warning while this aligns with local storage it should not be used and instead fix local storage !
-				$cache->update($targetId, ['permissions' => \OCP\Constants::PERMISSION_ALL]);
+				$cache->update($targetId, ['permissions' => Constants::PERMISSION_ALL]);
 			}
 		} catch (\Exception $e) {
 			$cache->remove($to);

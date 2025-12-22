@@ -7,19 +7,14 @@
  */
 namespace OC\Files\Cache\Wrapper;
 
-class CachePermissionsMask extends CacheWrapper {
-	/**
-	 * @var int
-	 */
-	protected $mask;
+use OCP\Files\Cache\ICache;
 
-	/**
-	 * @param \OCP\Files\Cache\ICache $cache
-	 * @param int $mask
-	 */
-	public function __construct($cache, $mask) {
+class CachePermissionsMask extends CacheWrapper {
+	public function __construct(
+		ICache $cache,
+		protected readonly int $mask,
+	) {
 		parent::__construct($cache);
-		$this->mask = $mask;
 	}
 
 	protected function formatCacheEntry($entry) {

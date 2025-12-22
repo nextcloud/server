@@ -32,12 +32,6 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
-	/** @var IProvider */
-	private $tokenProvider;
-
-	/** @var RemoteWipe */
-	private $remoteWipe;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -53,18 +47,16 @@ class AuthSettingsController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IProvider $tokenProvider,
+		private IProvider $tokenProvider,
 		private ISession $session,
 		private ISecureRandom $random,
 		private ?string $userId,
 		private IUserSession $userSession,
 		private IManager $activityManager,
-		RemoteWipe $remoteWipe,
+		private RemoteWipe $remoteWipe,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-		$this->tokenProvider = $tokenProvider;
-		$this->remoteWipe = $remoteWipe;
 	}
 
 	/**

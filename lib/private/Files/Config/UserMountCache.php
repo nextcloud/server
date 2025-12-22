@@ -337,7 +337,7 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param $fileId
 	 * @return array{int, string, int}
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws NotFoundException
 	 */
 	private function getCacheInfoFromFileId($fileId): array {
 		if (!isset($this->cacheInfoCache[$fileId])) {

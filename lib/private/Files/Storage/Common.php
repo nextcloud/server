@@ -19,15 +19,18 @@ use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\Constants;
 use OCP\Files;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Cache\IWatcher;
+use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\ILockingStorage;
@@ -35,9 +38,11 @@ use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
+use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -135,19 +140,19 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	public function getPermissions(string $path): int {
 		$permissions = 0;
 		if ($this->isCreatable($path)) {
-			$permissions |= \OCP\Constants::PERMISSION_CREATE;
+			$permissions |= Constants::PERMISSION_CREATE;
 		}
 		if ($this->isReadable($path)) {
-			$permissions |= \OCP\Constants::PERMISSION_READ;
+			$permissions |= Constants::PERMISSION_READ;
 		}
 		if ($this->isUpdatable($path)) {
-			$permissions |= \OCP\Constants::PERMISSION_UPDATE;
+			$permissions |= Constants::PERMISSION_UPDATE;
 		}
 		if ($this->isDeletable($path)) {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE;
+			$permissions |= Constants::PERMISSION_DELETE;
 		}
 		if ($this->isSharable($path)) {
-			$permissions |= \OCP\Constants::PERMISSION_SHARE;
+			$permissions |= Constants::PERMISSION_SHARE;
 		}
 		return $permissions;
 	}
@@ -220,7 +225,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		} elseif ($this->file_exists($path)) {
-			return \OC::$server->getMimeTypeDetector()->detectPath($path);
+			return Server::get(IMimeTypeDetector::class)->detectPath($path);
 		} else {
 			return false;
 		}
@@ -345,7 +350,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		/** @var self $storage */
 		if (!isset($storage->propagator)) {
 			$config = Server::get(IConfig::class);
-			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getSystemValueString('instanceid')]);
+			$storage->propagator = new Propagator($storage, Server::get(IDBConnection::class), ['appdata_' . $config->getSystemValueString('instanceid')]);
 		}
 		return $storage->propagator;
 	}
@@ -426,7 +431,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	public function free_space(string $path): int|float|false {
-		return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+		return FileInfo::SPACE_UNKNOWN;
 	}
 
 	public function isLocal(): bool {
@@ -467,7 +472,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			} catch (InvalidPathException $e) {
 				// Ignore invalid file type exceptions on directories
 				if ($e->getCode() !== FilenameValidator::INVALID_FILE_TYPE) {
-					$l = \OCP\Util::getL10N('lib');
+					$l = Util::getL10N('lib');
 					throw new InvalidPathException($l->t('Invalid parent path'), previous: $e);
 				}
 			}
@@ -599,7 +604,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		}
 
 		$permissions = $this->getPermissions($path);
-		if (!$permissions & \OCP\Constants::PERMISSION_READ) {
+		if (!$permissions & Constants::PERMISSION_READ) {
 			//can't read, nothing we can do
 			return null;
 		}

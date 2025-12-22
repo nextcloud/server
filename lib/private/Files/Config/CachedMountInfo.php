@@ -13,50 +13,23 @@ use OCP\Files\Node;
 use OCP\IUser;
 
 class CachedMountInfo implements ICachedMountInfo {
-	protected IUser $user;
-	protected int $storageId;
-	protected int $rootId;
-	protected string $mountPoint;
-	protected ?int $mountId;
-	protected string $rootInternalPath;
-	protected string $mountProvider;
 	protected string $key;
 
-	/**
-	 * CachedMountInfo constructor.
-	 *
-	 * @param IUser $user
-	 * @param int $storageId
-	 * @param int $rootId
-	 * @param string $mountPoint
-	 * @param int|null $mountId
-	 * @param string $rootInternalPath
-	 */
 	public function __construct(
-		IUser $user,
-		int $storageId,
-		int $rootId,
-		string $mountPoint,
-		string $mountProvider,
-		?int $mountId = null,
-		string $rootInternalPath = '',
+		protected IUser $user,
+		protected int $storageId,
+		protected int $rootId,
+		protected string $mountPoint,
+		protected string $mountProvider,
+		protected ?int $mountId = null,
+		protected string $rootInternalPath = '',
 	) {
-		$this->user = $user;
-		$this->storageId = $storageId;
-		$this->rootId = $rootId;
-		$this->mountPoint = $mountPoint;
-		$this->mountId = $mountId;
-		$this->rootInternalPath = $rootInternalPath;
 		if (strlen($mountProvider) > 128) {
 			throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
 		}
-		$this->mountProvider = $mountProvider;
-		$this->key = $rootId . '::' . $mountPoint;
+		$this->key = $this->rootId . '::' . $this->mountPoint;
 	}
 
-	/**
-	 * @return IUser
-	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}

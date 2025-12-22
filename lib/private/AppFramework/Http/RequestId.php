@@ -11,13 +11,10 @@ use OCP\IRequestId;
 use OCP\Security\ISecureRandom;
 
 class RequestId implements IRequestId {
-	protected ISecureRandom $secureRandom;
-	protected string $requestId;
-
-	public function __construct(string $uniqueId,
-		ISecureRandom $secureRandom) {
-		$this->requestId = $uniqueId;
-		$this->secureRandom = $secureRandom;
+	public function __construct(
+		protected string $requestId,
+		protected ISecureRandom $secureRandom,
+	) {
 	}
 
 	/**

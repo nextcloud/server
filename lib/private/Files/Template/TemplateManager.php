@@ -11,14 +11,17 @@ namespace OC\Files\Template;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
+use OC\User\NoUserException;
 use OCA\Files\ResponseDefinitions;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
@@ -177,9 +180,9 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	/**
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OC\User\NoUserException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
 	private function getTemplateFolder(): Folder {
 		if ($this->getTemplatePath() !== '') {
@@ -275,7 +278,7 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @return FilesTemplateFile
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\InvalidPathException
+	 * @throws InvalidPathException
 	 */
 	private function formatFile(File $file): array {
 		return [

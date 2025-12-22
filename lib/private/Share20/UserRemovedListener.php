@@ -17,11 +17,9 @@ use OCP\Share\IManager;
  * @template-implements IEventListener<UserRemovedEvent>
  */
 class UserRemovedListener implements IEventListener {
-	/** @var IManager */
-	protected $shareManager;
-
-	public function __construct(IManager $shareManager) {
-		$this->shareManager = $shareManager;
+	public function __construct(
+		protected IManager $shareManager,
+	) {
 	}
 
 	public function handle(Event $event): void {

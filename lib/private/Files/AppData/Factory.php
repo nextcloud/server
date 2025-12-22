@@ -14,16 +14,13 @@ use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 
 class Factory implements IAppDataFactory {
-	private IRootFolder $rootFolder;
-	private SystemConfig $config;
-
 	/** @var array<string, IAppData> */
 	private array $folders = [];
 
-	public function __construct(IRootFolder $rootFolder,
-		SystemConfig $systemConfig) {
-		$this->rootFolder = $rootFolder;
-		$this->config = $systemConfig;
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private SystemConfig $config,
+	) {
 	}
 
 	public function get(string $appId): IAppData {

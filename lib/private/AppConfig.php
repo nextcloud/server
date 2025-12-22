@@ -29,6 +29,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -85,7 +86,7 @@ class AppConfig implements IAppConfig {
 		public readonly CacheFactory $cacheFactory,
 	) {
 		if ($config->getSystemValueBool('cache_app_config', true) && $cacheFactory->isLocalCacheAvailable()) {
-			$cacheFactory->withServerVersionPrefix(function (ICacheFactory $factory) {
+			$cacheFactory->withServerVersionPrefix(function (ICacheFactory $factory): void {
 				$this->localCache = $factory->createLocal();
 			});
 		}
@@ -1783,7 +1784,7 @@ class AppConfig implements IAppConfig {
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
 			$entries = $aliases = [];
-			$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+			$bootstrapCoordinator = Server::get(Coordinator::class);
 			$configLexicon = $bootstrapCoordinator->getRegistrationContext()?->getConfigLexicon($appId);
 			foreach ($configLexicon?->getAppConfigs() ?? [] as $configEntry) {
 				$entries[$configEntry->getKey()] = $configEntry;
