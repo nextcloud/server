@@ -537,6 +537,7 @@ OC.L10N.register(
     "Configure the database" : "Configureer de database",
     "Only %s is available." : "Alleen %s is beschikbaar.",
     "Database account" : "Database account",
-    "Installing …" : "Installeren …"
+    "Installing …" : "Installeren …",
+    "Leave empty for PIN-based authentication." : "Leeg laten voor aanmelden met pincode."
 },
 "nplurals=2; plural=(n != 1);");
