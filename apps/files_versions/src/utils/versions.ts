@@ -9,7 +9,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { joinPaths, encodePath } from '@nextcloud/paths'
+import { join, encodePath } from '@nextcloud/paths'
 import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
 
@@ -97,7 +97,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 		})
 	} else {
 		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}&mimeFallback=1', {
-			file: joinPaths(fileInfo.path, fileInfo.name),
+			file: join(fileInfo.path, fileInfo.name),
 			fileVersion: version.basename,
 		})
 	}
@@ -117,7 +117,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 		mtime,
 		permissions: 'R',
 		previewUrl,
-		url: joinPaths('/remote.php/dav', version.filename),
+		url: join('/remote.php/dav', version.filename),
 		source: generateRemoteUrl('dav') + encodePath(version.filename),
 		fileVersion: version.basename,
 	}

@@ -124,7 +124,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, formatFileSize } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { joinPaths } from '@nextcloud/paths'
+import { join } from '@nextcloud/paths'
 import { getRootUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
 
@@ -249,7 +249,7 @@ export default defineComponent({
 
 		downloadURL(): string {
 			if (this.isCurrent) {
-				return getRootUrl() + joinPaths('/remote.php/webdav', this.fileInfo.path, this.fileInfo.name)
+				return getRootUrl() + join('/remote.php/webdav', this.fileInfo.path, this.fileInfo.name)
 			} else {
 				return getRootUrl() + this.version.url
 			}

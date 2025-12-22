@@ -5,13 +5,11 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: string_decoder developers
-SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
@@ -40,22 +38,25 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.12.0
+	- version: 3.12.2
 	- license: AGPL-3.0-or-later
-- @nextcloud/initial-state
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/l10n
 	- version: 3.4.1
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
-	- version: 3.0.2
+	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 2.4.0
+	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
 	- license: GPL-3.0-or-later
 - base64-js
 	- version: 1.5.1
@@ -77,15 +78,6 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - buffer
 	- version: 6.0.3
-	- license: MIT
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
 	- license: MIT
 - process
 	- version: 0.11.10
