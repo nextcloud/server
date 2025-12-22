@@ -44,7 +44,7 @@
     "@nextcloud/axios": "^2.5.2",
     "@nextcloud/calendar-availability-vue": "^3.0.0",
     "@nextcloud/capabilities": "^1.2.1",
-    "@nextcloud/dialogs": "^7.1.0",
+    "@nextcloud/dialogs": "^7.2.0",
     "@nextcloud/event-bus": "^3.3.3",
     "@nextcloud/files": "^4.0.0-beta.4",
     "@nextcloud/initial-state": "^3.0.0",
