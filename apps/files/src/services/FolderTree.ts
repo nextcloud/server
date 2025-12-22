@@ -10,7 +10,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { getRemoteURL } from '@nextcloud/files/dav'
 import { getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
-import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
+import { dirname, encodePath, join } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getContents as getFiles } from './Files.ts'
 
@@ -55,7 +55,7 @@ const compareNodes = (a: TreeNodeData, b: TreeNodeData) => collator.compare(a.di
 function getTreeNodes(tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] {
 	const sortedTree = tree.toSorted(compareNodes)
 	for (const { id, basename, displayName, children } of sortedTree) {
-		const path = joinPaths(currentPath, basename)
+		const path = join(currentPath, basename)
 		const source = `${sourceRoot}${path}`
 		const node: TreeNode = {
 			source,

@@ -140,7 +140,7 @@ import { formatFileSize, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import { joinPaths } from '@nextcloud/paths'
+import { join } from '@nextcloud/paths'
 import { getRootUrl } from '@nextcloud/router'
 import { computed, nextTick, ref } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -240,7 +240,7 @@ const versionHumanExplicitDate = computed(() => {
 
 const downloadURL = computed(() => {
 	if (props.isCurrent) {
-		return getRootUrl() + joinPaths('/remote.php/webdav', props.fileInfo.path, props.fileInfo.name)
+		return getRootUrl() + join('/remote.php/webdav', props.fileInfo.path, props.fileInfo.name)
 	} else {
 		return getRootUrl() + props.version.url
 	}
