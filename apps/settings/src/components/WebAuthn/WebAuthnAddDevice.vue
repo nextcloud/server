@@ -8,30 +8,18 @@
 		{{ t('settings', 'Passwordless authentication requires a secure connection.') }}
 	</div>
 	<div v-else>
-		<div class="new-webauthn-device__option">
-			<NcCheckboxRadioSwitch
-				v-model="discoverable"
-				type="switch"
-				:disabled="step !== RegistrationSteps.READY">
-				{{ t('settings', 'Store passkey on this device (discoverable)') }}
-			</NcCheckboxRadioSwitch>
-			<p class="settings-hint">
-				{{ t('settings', 'Disable this option if you prefer the classic flow that requires your login name before using the security key.') }}
-			</p>
-		</div>
-
 		<NcButton
 			v-if="step === RegistrationSteps.READY"
 			variant="primary"
-			@click="start">
-			{{ t('settings', 'Add WebAuthn device') }}
+			@click="openOptionsDialog">
+			{{ t('settings', 'Add device') }}
 		</NcButton>
 
 		<div
 			v-else-if="step === RegistrationSteps.REGISTRATION"
 			class="new-webauthn-device">
 			<span class="icon-loading-small webauthn-loading" />
-			{{ t('settings', 'Please authorize your WebAuthn device.') }}
+			{{ t('settings', 'Please authorize your device.') }}
 		</div>
 
 		<div
@@ -61,6 +49,24 @@
 		<div v-else>
 			Invalid registration step. This should not have happened.
 		</div>
+
+		<NcDialog
+			:open.sync="showOptionsDialog"
+			:name="t('settings', 'Add device')"
+			:buttons="dialogButtons"
+			content-classes="device-options-dialog">
+			<div class="new-webauthn-device__option">
+				<NcCheckboxRadioSwitch
+					v-model="discoverable"
+					type="switch">
+					{{ t('settings', 'Use device PIN for login') }}
+				</NcCheckboxRadioSwitch>
+				<p class="device-options-hint">
+					{{ t('settings', 'If \"Use device PIN\" is selected, login or email are not required (passkey with discoverable credentials). If disabled, login or email are required along with your device.') }}
+				</p>
+			</div>
+		</NcDialog>
+
 	</div>
 </template>
 
@@ -69,6 +75,7 @@ import { showError } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import logger from '../../logger.ts'
 import {
@@ -99,6 +106,7 @@ export default {
 	components: {
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcDialog,
 		NcTextField,
 	},
 
@@ -128,7 +136,30 @@ export default {
 			credential: {},
 			step: RegistrationSteps.READY,
 			discoverable: true,
+			showOptionsDialog: false,
 		}
+	},
+
+	computed: {
+		dialogButtons() {
+			return [
+				{
+					label: t('settings', 'Cancel'),
+					// @ts-expect-error Button types are not fully typed
+					type: 'tertiary',
+					callback: () => {
+						this.showOptionsDialog = false
+					},
+				},
+				{
+					label: t('settings', 'Add device'),
+					type: 'primary',
+					callback: () => {
+						this.confirmOptionsDialog()
+					},
+				},
+			]
+		},
 	},
 
 	watch: {
@@ -143,6 +174,15 @@ export default {
 	},
 
 	methods: {
+		openOptionsDialog() {
+			this.showOptionsDialog = true
+		},
+
+		confirmOptionsDialog() {
+			this.showOptionsDialog = false
+			return this.start()
+		},
+
 		/**
 		 * Start the registration process by loading the authenticator parameters
 		 * The next step is the naming of the device
@@ -185,7 +225,7 @@ export default {
 				this.$emit('added', device)
 			} catch (err) {
 				logger.error('Error persisting webauthn registration', { error: err })
-				throw new Error(t('settings', 'Server error while trying to complete WebAuthn device registration'))
+				throw new Error(t('settings', 'Server error while trying to complete device registration'))
 			}
 		},
 
@@ -217,5 +257,9 @@ export default {
 
 .new-webauthn-device__option {
 	margin-bottom: 12px;
+}
+
+:deep(.device-options-dialog .device-options-hint) {
+	margin-top: 12px;
 }
 </style>

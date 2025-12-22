@@ -540,6 +540,7 @@
     "Configure the database" : "Configure the database",
     "Only %s is available." : "Only %s is available.",
     "Database account" : "Database account",
-    "Installing …" : "Installing …"
+    "Installing …" : "Installing …",
+    "Leave empty for PIN-based authentication." : "Leave empty for PIN-based authentication."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
