@@ -24,7 +24,7 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.php');
+		$this->loadConfig(__DIR__ . '/../config.php');
 		// Make sure we have an new empty folder to work in
 		$this->config['sftp_key']['root'] .= '/' . $id;
 		$this->instance = new SFTP_Key($this->config['sftp_key']);

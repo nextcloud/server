@@ -28,7 +28,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.sftp.php');
+		$this->loadConfig(__DIR__ . '/../config.sftp.php');
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new SFTP($this->config);
 		$this->instance->mkdir('/');
