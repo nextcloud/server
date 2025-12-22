@@ -8,7 +8,7 @@ import type { IHotkeyConfig } from '@nextcloud/files'
 
 import { getFileActions } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import NcAppSettingsShortcutsSection from '@nextcloud/vue/components/NcAppSettingsShortcutsSection'
+import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
 import NcHotkey from '@nextcloud/vue/components/NcHotkey'
 import NcHotkeyList from '@nextcloud/vue/components/NcHotkeyList'
 
@@ -43,7 +43,10 @@ function hotkeyToString(hotkey: IHotkeyConfig): string {
 </script>
 
 <template>
-	<NcAppSettingsShortcutsSection>
+	<NcAppSettingsSection
+		id="keyboard-shortcuts"
+		:name="t('files', 'Keyboard shortcuts')"
+	>
 		<NcHotkeyList :label="t('files', 'Actions')">
 			<NcHotkey :label="t('files', 'File actions')" hotkey="A" />
 
@@ -74,5 +77,5 @@ function hotkeyToString(hotkey: IHotkeyConfig): string {
 			<NcHotkey :label="t('files', 'Open file sidebar')" hotkey="D" />
 			<NcHotkey :label="t('files', 'Show those shortcuts')" hotkey="?" />
 		</NcHotkeyList>
-	</NcAppSettingsShortcutsSection>
+	</NcAppSettingsSection>
 </template>
