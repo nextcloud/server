@@ -100,6 +100,9 @@ This file is generated from multiple sources. Included packages:
 - @ckpack/vue-color
 	- version: 1.6.0
 	- license: MIT
+- @nextcloud/paths
+	- version: 2.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
@@ -147,9 +150,6 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.3
-	- license: GPL-3.0-or-later
-- @nextcloud/paths
-	- version: 2.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
