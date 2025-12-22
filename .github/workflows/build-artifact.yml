@@ -258,6 +258,11 @@ jobs:
           JF_USER: ${{ secrets.JF_ARTIFACTORY_USER }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
 
+      - name: Ping the JF server
+        run: |
+          # Ping the server
+          jf rt ping
+
       - name: Push ${{ matrix.app_info.name }} to JFrog
         run: |
           set -e
@@ -370,6 +375,11 @@ jobs:
           JF_URL: ${{ secrets.JF_ARTIFACTORY_URL }}
           JF_USER: ${{ secrets.JF_ARTIFACTORY_USER }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+      - name: Ping the JF server
+        run: |
+          # Ping the server
+          jf rt ping
 
       - name: Restore cached apps
         if: needs.prepare-matrix.outputs.has_apps_to_restore == 'true'
