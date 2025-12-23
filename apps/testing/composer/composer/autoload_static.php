@@ -41,6 +41,7 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Provider\\FakeTranslationProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTranslationProvider.php',
         'OCA\\Testing\\Settings\\DeclarativeSettingsForm' => __DIR__ . '/..' . '/../lib/Settings/DeclarativeSettingsForm.php',
         'OCA\\Testing\\TaskProcessing\\FakeContextWriteProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeContextWriteProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeOcrProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeOcrProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToImageProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToImageProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToTextChatProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextChatProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToTextProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextProvider.php',
