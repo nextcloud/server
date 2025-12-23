@@ -40,7 +40,6 @@ SPDX-FileCopyrightText: Mathias Buus (@mafintosh)
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Kirill Fomichev <fanatid@ya.ru> (https://github.com/fanatid)
 SPDX-FileCopyrightText: Julian Gruber
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
@@ -145,7 +144,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-beta.4
+	- version: 4.0.0-beta.7
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -180,6 +179,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/password-confirmation
 	- version: 6.0.2
 	- license: MIT
+- @nextcloud/paths
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
@@ -414,6 +416,9 @@ This file is generated from multiple sources. Included packages:
 - is-callable
 	- version: 1.2.7
 	- license: MIT
+- is-svg
+	- version: 6.1.0
+	- license: MIT
 - is-typed-array
 	- version: 1.1.15
 	- license: MIT
@@ -540,15 +545,6 @@ This file is generated from multiple sources. Included packages:
 - parse-asn1
 	- version: 5.1.9
 	- license: ISC
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - pbkdf2
 	- version: 3.1.5
 	- license: MIT
@@ -606,6 +602,9 @@ This file is generated from multiple sources. Included packages:
 - safe-buffer
 	- version: 5.2.1
 	- license: MIT
+- sax
+	- version: 1.4.1
+	- license: ISC
 - set-function-length
 	- version: 1.2.2
 	- license: MIT

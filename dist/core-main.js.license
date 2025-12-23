@@ -170,7 +170,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-beta.4
+	- version: 4.0.0-beta.7
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -205,6 +205,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/password-confirmation
 	- version: 6.0.2
 	- license: MIT
+- @nextcloud/paths
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
@@ -478,6 +481,9 @@ This file is generated from multiple sources. Included packages:
 - is-callable
 	- version: 1.2.7
 	- license: MIT
+- is-svg
+	- version: 6.1.0
+	- license: MIT
 - is-typed-array
 	- version: 1.1.15
 	- license: MIT
@@ -682,6 +688,9 @@ This file is generated from multiple sources. Included packages:
 - safe-buffer
 	- version: 5.2.1
 	- license: MIT
+- sax
+	- version: 1.4.1
+	- license: ISC
 - select2
 	- version: 3.5.1
 	- license: MIT

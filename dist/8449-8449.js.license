@@ -73,7 +73,6 @@ SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 SPDX-FileCopyrightText: 
 
@@ -149,7 +148,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-beta.4
+	- version: 4.0.0-beta.7
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -249,9 +248,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - call-bound
 	- version: 1.0.4
-	- license: MIT
-- cancelable-promise
-	- version: 4.3.1
 	- license: MIT
 - cipher-base
 	- version: 1.0.7
@@ -405,6 +401,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-callable
 	- version: 1.2.7
+	- license: MIT
+- is-svg
+	- version: 6.1.0
 	- license: MIT
 - is-typed-array
 	- version: 1.1.15
@@ -598,6 +597,9 @@ This file is generated from multiple sources. Included packages:
 - safe-buffer
 	- version: 5.2.1
 	- license: MIT
+- sax
+	- version: 1.4.1
+	- license: ISC
 - set-function-length
 	- version: 1.2.2
 	- license: MIT
