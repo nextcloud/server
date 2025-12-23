@@ -175,9 +175,12 @@ class IMipPluginCharsetTest extends TestCase {
 
 	public function testCharsetMailProvider(): void {
 		// Arrange
-		$this->appConfig->method('getValueBool')
-			->with('core', 'mail_providers_enabled', true)
-			->willReturn(true);
+		$this->appConfig->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, true],
+			]);
 		$mailMessage = new MailProviderMessage();
 		$mailService = $this->createStubForIntersectionOfInterfaces([IService::class, IMessageSend::class]);
 		$mailService->method('initiateMessage')
