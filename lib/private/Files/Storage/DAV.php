@@ -38,6 +38,43 @@ use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
 use Sabre\HTTP\RequestInterface;
 
+/*
+ * Class BearerAuthAwareSabreClient
+ *
+ * This is an extension of the Sabre HTTP Client
+ * to provide it with the ability to make bearer authn requests.
+ *
+ * @package OC\Files\Storage
+ */
+class BearerAuthAwareSabreClient extends Client
+{
+    /**
+     * Bearer authentication.
+     */
+    const AUTH_BEARER = 8;
+
+    /**
+     * Constructor.
+	 *
+	 * See Sabre\DAV\Client
+	 *
+     */
+    public function __construct(array $settings)
+    {
+        parent::__construct($settings);
+
+        if (isset($settings['userName']) && isset($settings['authType']) && ($settings['authType'] & self::AUTH_BEARER)) {
+            $userName = $settings['userName'];
+
+            $curlType = $this->curlSettings[CURLOPT_HTTPAUTH];
+            $curlType |= CURLAUTH_BEARER;
+
+            $this->addCurlSetting(CURLOPT_HTTPAUTH, $curlType);
+            $this->addCurlSetting(CURLOPT_XOAUTH2_BEARER, $userName);
+        }
+    }
+}
+
 /**
  * Class DAV
  *
