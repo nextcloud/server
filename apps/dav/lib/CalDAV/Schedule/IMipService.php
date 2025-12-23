@@ -876,6 +876,16 @@ class IMipService {
 	}
 
 	/**
+	 * Check if an email address belongs to a system user
+	 *
+	 * @param string $email
+	 * @return bool True if the email belongs to a system user, false otherwise
+	 */
+	public function isSystemUser(string $email): bool {
+		return !empty($this->userManager->getByEmail($email));
+	}
+
+	/**
 	 * @param Property $attendee
 	 */
 	public function setL10nFromAttendee(Property $attendee) {
