@@ -377,6 +377,8 @@
     "Generated emoji" : "Vytvořená emotikona",
     "The generated emoji based on the input text" : "Emotikona vytvořená na základě vstupního textu",
     "Optical character recognition" : "Optické rozpoznávání znaků",
+    "Input files" : "Vstupní soubory",
+    "Output texts" : "Výstupní texty",
     "Generate image" : "Vytvořit obrázek",
     "Generate an image from a text prompt" : "Vytvoření obrázku dle textového zadání",
     "Prompt" : "Výzva",
