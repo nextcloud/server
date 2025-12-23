@@ -276,6 +276,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Controller\\ExampleContentController' => __DIR__ . '/..' . '/../lib/Controller/ExampleContentController.php',
         'OCA\\DAV\\Controller\\InvitationResponseController' => __DIR__ . '/..' . '/../lib/Controller/InvitationResponseController.php',
         'OCA\\DAV\\Controller\\OutOfOfficeController' => __DIR__ . '/..' . '/../lib/Controller/OutOfOfficeController.php',
+        'OCA\\DAV\\Controller\\TokenController' => __DIR__ . '/..' . '/../lib/Controller/TokenController.php',
         'OCA\\DAV\\Controller\\UpcomingEventsController' => __DIR__ . '/..' . '/../lib/Controller/UpcomingEventsController.php',
         'OCA\\DAV\\DAV\\CustomPropertiesBackend' => __DIR__ . '/..' . '/../lib/DAV/CustomPropertiesBackend.php',
         'OCA\\DAV\\DAV\\GroupPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/GroupPrincipalBackend.php',
