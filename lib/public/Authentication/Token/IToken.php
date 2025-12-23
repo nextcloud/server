@@ -48,6 +48,15 @@ interface IToken extends JsonSerializable {
 	public const SCOPE_SKIP_PASSWORD_VALIDATION = 'password-unconfirmable';
 
 	/**
+	 * Token name used for OCM access tokens issued via the
+	 * federated token endpoint. Marks a TEMPORARY_TOKEN as legitimate
+	 * Bearer-header auth (vs. a browser session id leaked into a header).
+	 *
+	 * @since 33.0.0
+	 */
+	public const OCM_ACCESS_TOKEN_NAME = 'OCM Access Token';
+
+	/**
 	 * Get the token ID
 	 * @since 28.0.0
 	 */

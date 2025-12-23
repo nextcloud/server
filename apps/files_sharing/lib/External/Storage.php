@@ -50,8 +50,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	private bool $updateChecked = false;
 	private ExternalShareManager $manager;
 	private IConfig $config;
-	private IAppConfig $appConfig;
+	protected IAppConfig $appConfig;
 	private IShareManager $shareManager;
+	private bool $tokenRefreshed = false;
 
 	/**
 	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
@@ -72,10 +73,22 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$ocmProvider = $discoveryService->discover($this->cloudId->getRemote());
 			$webDavEndpoint = $ocmProvider->extractProtocolEntry('file', 'webdav');
 			$remote = $ocmProvider->getEndPoint();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
+			$capabilities = $ocmProvider->getCapabilities();
+			if (in_array('exchange-token', $capabilities)) {
+				$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
+			}
 		} catch (OCMProviderException|OCMArgumentException $e) {
 			$this->logger->notice('exception while retrieving webdav endpoint', ['exception' => $e]);
 			$webDavEndpoint = '/public.php/webdav';
 			$remote = $this->cloudId->getRemote();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
+		}
+
+		// If we have a stored access token (password), use Bearer auth regardless of discovery
+		// This handles the case where the share was created with must-exchange-token
+		if (!empty($options['password'])) {
+			$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
 		}
 
 		$host = parse_url($remote, PHP_URL_HOST);
@@ -98,10 +111,68 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				'host' => $host,
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],
-				'authType' => \Sabre\DAV\Client::AUTH_BASIC,
-				'password' => (string)$options['password']
+				'authType' => $authType,
+				'password' => (string)$options['password'],
+				'discoveryService' => $discoveryService,
 			]
 		);
+	}
+
+	/**
+	 * Refresh the access token by exchanging the refresh token.
+	 * Updates both the in-memory password and the database.
+	 *
+	 * @return bool True if token was refreshed successfully
+	 */
+	protected function refreshAccessToken(): bool {
+		if ($this->tokenRefreshed) {
+			// only try to refresh once per request
+			return false;
+		}
+		$this->tokenRefreshed = true;
+
+		try {
+			$newAccessToken = $this->exchangeRefreshToken();
+			$this->password = $newAccessToken;
+
+			$this->manager->updateAccessToken($this->token, $newAccessToken);
+
+			$this->ready = false;
+			$this->client = null;
+
+			$this->logger->debug('Successfully refreshed access token', ['app' => 'files_sharing']);
+			return true;
+		} catch (\Exception $e) {
+			$this->logger->warning('Failed to refresh access token', [
+				'app' => 'files_sharing',
+				'exception' => $e,
+			]);
+			return false;
+		}
+	}
+
+	/**
+	 * Execute an operation with automatic token refresh on 401 errors.
+	 *
+	 * @template T
+	 * @param callable(): T $operation The operation to execute
+	 * @return T
+	 * @throws \Exception
+	 */
+	protected function withTokenRefresh(callable $operation) {
+		try {
+			return $operation();
+		} catch (\Sabre\HTTP\ClientHttpException $e) {
+			if ($e->getHttpStatus() === 401 && $this->refreshAccessToken()) {
+				return $operation();
+			}
+			throw $e;
+		} catch (\Sabre\DAV\Exception\NotAuthenticated $e) {
+			if ($this->refreshAccessToken()) {
+				return $operation();
+			}
+			throw $e;
+		}
 	}
 
 	#[\Override]
@@ -170,7 +241,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		}
 		$this->updateChecked = true;
 		try {
-			return parent::hasUpdated('', $time);
+			return $this->withTokenRefresh(fn () => parent::hasUpdated('', $time));
 		} catch (StorageInvalidException $e) {
 			// check if it needs to be removed
 			$this->checkStorageAvailability();
@@ -185,7 +256,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	#[\Override]
 	public function test(): bool {
 		try {
-			return parent::test();
+			return $this->withTokenRefresh(fn () => parent::test());
 		} catch (StorageInvalidException $e) {
 			// check if it needs to be removed
 			$this->checkStorageAvailability();
