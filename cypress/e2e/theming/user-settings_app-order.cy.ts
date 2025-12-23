@@ -6,19 +6,14 @@
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import { NavigationHeader } from '../../pages/NavigationHeader.ts'
+import { SettingsAppOrderList } from '../../pages/SettingsAppOrderList.ts'
 import { installTestApp, uninstallTestApp } from '../../support/commonUtils.ts'
-
-/**
- * Intercept setting the app order as `updateAppOrder`
- */
-function interceptAppOrder() {
-	cy.intercept('POST', '/ocs/v2.php/apps/provisioning_api/api/v1/config/users/core/apporder').as('updateAppOrder')
-}
 
 before(() => uninstallTestApp())
 
 describe('User theming set app order', () => {
 	const navigationHeader = new NavigationHeader()
+	const appOrderList = new SettingsAppOrderList()
 	let user: User
 
 	before(() => {
@@ -33,49 +28,45 @@ describe('User theming set app order', () => {
 	after(() => cy.deleteUser(user))
 
 	it('See the app order settings', () => {
-		cy.visit('/settings/user/theming')
-
-		cy.get('.settings-section').contains('Navigation bar settings').should('exist')
-		cy.get('[data-cy-app-order]').scrollIntoView()
+		visitAppOrderSettings()
 	})
 
 	it('See that the dashboard app is the first one', () => {
 		const appOrder = ['Dashboard', 'Files']
-		// Check the app order settings UI
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
+		appOrderList.assertAppOrder(appOrder)
 
 		// Check the top app menu order
 		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]))
+			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
 	})
 
 	it('Change the app order', () => {
-		interceptAppOrder()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
-		cy.wait('@updateAppOrder')
+		appOrderList.interceptAppOrder()
+		appOrderList.getAppOrderList()
+			.scrollIntoView()
+		appOrderList.getUpButtonForApp('Files')
+			.should('be.visible')
+			.click()
+		appOrderList.waitForAppOrderUpdate()
 
-		const appOrder = ['Files', 'Dashboard']
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
+		appOrderList.assertAppOrder(['Files', 'Dashboard'])
 	})
 
 	it('See the app menu order is changed', () => {
 		cy.reload()
 		const appOrder = ['Files', 'Dashboard']
-		// Check the app order settings UI
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
+		appOrderList.getAppOrderList()
+			.scrollIntoView()
+		appOrderList.assertAppOrder(appOrder)
 
 		// Check the top app menu order
 		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]))
+			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
 	})
 })
 
 describe('User theming set app order with default app', () => {
+	const appOrderList = new SettingsAppOrderList()
 	const navigationHeader = new NavigationHeader()
 	let user: User
 
@@ -108,43 +99,41 @@ describe('User theming set app order with default app', () => {
 	})
 
 	it('See the app order settings: files is the first one', () => {
-		cy.visit('/settings/user/theming')
-		cy.get('[data-cy-app-order]').scrollIntoView()
+		visitAppOrderSettings()
 
 		const appOrder = ['Files', 'Dashboard', 'Test App 2', 'Test App']
-		// Check the app order settings UI
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
+		appOrderList.getAppOrderList()
+			.scrollIntoView()
+		appOrderList.assertAppOrder(appOrder)
 	})
 
 	it('Can not change the default app', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.be.visible')
+		appOrderList.getUpButtonForApp('Files').should('not.exist')
+		appOrderList.getDownButtonForApp('Files').should('not.exist')
+		appOrderList.getUpButtonForApp('Dashboard').should('not.exist')
+		// but can move down
+		appOrderList.getDownButtonForApp('Dashboard').should('be.visible')
+	})
 
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('not.be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('be.visible')
-
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').should('be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="down"]').should('not.be.visible')
+	it('Can see the correct buttons for other apps', () => {
+		appOrderList.getUpButtonForApp('Test App 2').should('be.visible')
+		appOrderList.getDownButtonForApp('Test App 2').should('be.visible')
+		appOrderList.getUpButtonForApp('Test App').should('be.visible')
+		appOrderList.getDownButtonForApp('Test App').should('not.exist')
 	})
 
 	it('Change the order of the other apps', () => {
-		interceptAppOrder()
-
-		// Move the testapp up twice, it should be the first one after files
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').click()
-		cy.wait('@updateAppOrder')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').click()
-		cy.wait('@updateAppOrder')
+		appOrderList.interceptAppOrder()
+		appOrderList.getUpButtonForApp('Test App').click()
+		appOrderList.waitForAppOrderUpdate()
+		appOrderList.getUpButtonForApp('Test App').click()
+		appOrderList.waitForAppOrderUpdate()
 
 		// Can't get up anymore, files is enforced as default app
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').should('not.be.visible')
+		appOrderList.getUpButtonForApp('Test App').should('not.exist')
 
-		// Check the final list order
-		const appOrder = ['Files', 'Test App', 'Dashboard', 'Test App 2']
 		// Check the app order settings UI
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
+		appOrderList.assertAppOrder(['Files', 'Test App', 'Dashboard', 'Test App 2'])
 	})
 
 	it('See the app menu order is changed', () => {
@@ -153,15 +142,17 @@ describe('User theming set app order with default app', () => {
 		const appOrder = ['Files', 'Test App', 'Dashboard', 'Test App 2']
 		// Check the top app menu order
 		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]))
+			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
 	})
 })
 
 describe('User theming app order list accessibility', () => {
+	const appOrderList = new SettingsAppOrderList()
 	let user: User
 
 	before(() => {
 		cy.resetAdminTheming()
+		installTestApp()
 		// Create random user for this test
 		cy.createRandomUser().then(($user) => {
 			user = $user
@@ -170,45 +161,44 @@ describe('User theming app order list accessibility', () => {
 	})
 
 	after(() => {
+		uninstallTestApp()
 		cy.deleteUser(user)
 	})
 
-	it('See the app order settings', () => {
-		cy.visit('/settings/user/theming')
-		cy.get('[data-cy-app-order]').scrollIntoView()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').should('have.length', 2)
-	})
-
 	it('click the first button', () => {
-		interceptAppOrder()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('be.visible').focus()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').click()
-		cy.wait('@updateAppOrder')
+		visitAppOrderSettings()
+		appOrderList.interceptAppOrder()
+		appOrderList.getDownButtonForApp('Dashboard')
+			.should('be.visible')
+			.scrollIntoView()
+		appOrderList.getDownButtonForApp('Dashboard')
+			.focus()
+		appOrderList.getDownButtonForApp('Dashboard')
+			.click()
+		appOrderList.waitForAppOrderUpdate()
 	})
 
 	it('see the same app kept the focus', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('not.have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('have.focus')
+		appOrderList.getDownButtonForApp('Dashboard').should('have.focus')
 	})
 
 	it('click the last button', () => {
-		interceptAppOrder()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('be.visible').focus()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').click()
-		cy.wait('@updateAppOrder')
+		appOrderList.interceptAppOrder()
+		appOrderList.getUpButtonForApp('Dashboard')
+			.should('be.visible')
+			.focus()
+		appOrderList.getUpButtonForApp('Dashboard').click()
+		appOrderList.waitForAppOrderUpdate()
 	})
 
 	it('see the same app kept the focus', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('not.have.focus')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('have.focus')
+		appOrderList.getUpButtonForApp('Dashboard').should('not.exist')
+		appOrderList.getDownButtonForApp('Dashboard').should('have.focus')
 	})
 })
 
 describe('User theming reset app order', () => {
+	const appOrderList = new SettingsAppOrderList()
 	const navigationHeader = new NavigationHeader()
 	let user: User
 
@@ -223,52 +213,46 @@ describe('User theming reset app order', () => {
 
 	after(() => cy.deleteUser(user))
 
-	it('See the app order settings', () => {
-		cy.visit('/settings/user/theming')
-
-		cy.get('.settings-section').contains('Navigation bar settings').should('exist')
-		cy.get('[data-cy-app-order]').scrollIntoView()
-	})
-
 	it('See that the dashboard app is the first one', () => {
+		visitAppOrderSettings()
+
 		const appOrder = ['Dashboard', 'Files']
-		// Check the app order settings UI
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
+		appOrderList.assertAppOrder(appOrder)
 
 		// Check the top app menu order
 		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]))
+			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
 	})
 
 	it('See the reset button is disabled', () => {
-		cy.get('[data-test-id="btn-apporder-reset"]').scrollIntoView()
-		cy.get('[data-test-id="btn-apporder-reset"]').should('be.visible').and('have.attr', 'disabled')
+		appOrderList.getResetButton()
+			.scrollIntoView()
+		appOrderList.getResetButton()
+			.should('be.disabled')
 	})
 
 	it('Change the app order', () => {
-		interceptAppOrder()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
-		cy.wait('@updateAppOrder')
+		appOrderList.interceptAppOrder()
+		appOrderList.getUpButtonForApp('Files')
+			.should('be.visible')
+			.click()
+		appOrderList.waitForAppOrderUpdate()
 
-		// Check the app order settings UI
-		const appOrder = ['Files', 'Dashboard']
-		// Check the app order settings UI
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
+		appOrderList.assertAppOrder(['Files', 'Dashboard'])
 	})
 
 	it('See the reset button is no longer disabled', () => {
-		cy.get('[data-test-id="btn-apporder-reset"]').scrollIntoView()
-		cy.get('[data-test-id="btn-apporder-reset"]').should('be.visible').and('not.have.attr', 'disabled')
+		appOrderList.getResetButton()
+			.scrollIntoView()
+		appOrderList.getResetButton()
+			.should('be.visible')
+			.and('be.enabled')
 	})
 
 	it('Reset the app order', () => {
 		cy.intercept('GET', '/ocs/v2.php/core/navigation/apps').as('loadApps')
-		interceptAppOrder()
-		cy.get('[data-test-id="btn-apporder-reset"]').click({ force: true })
+		appOrderList.interceptAppOrder()
+		appOrderList.getResetButton().click({ force: true })
 
 		cy.wait('@updateAppOrder')
 			.its('request.body')
@@ -278,16 +262,21 @@ describe('User theming reset app order', () => {
 
 	it('See the app order is restored', () => {
 		const appOrder = ['Dashboard', 'Files']
-		// Check the app order settings UI
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]')
-			.each((element, index) => expect(element).to.contain.text(appOrder[index]))
-
+		appOrderList.assertAppOrder(appOrder)
 		// Check the top app menu order
 		navigationHeader.getNavigationEntries()
-			.each((entry, index) => expect(entry).contain.text(appOrder[index]))
+			.each((entry, index) => expect(entry).contain.text(appOrder[index]!))
 	})
 
 	it('See the reset button is disabled again', () => {
-		cy.get('[data-test-id="btn-apporder-reset"]').should('be.visible').and('have.attr', 'disabled')
+		appOrderList.getResetButton()
+			.should('be.disabled')
 	})
 })
+
+function visitAppOrderSettings() {
+	cy.visit('/settings/user/theming')
+	cy.findByRole('heading', { name: /Navigation bar settings/ })
+		.should('exist')
+		.scrollIntoView()
+}

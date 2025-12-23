@@ -1,0 +1,16 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
+SPDX-FileCopyrightText: chenkai
+
+This file is generated from multiple sources. Included packages:
+- @ckpack/vue-color
+	- version: 1.6.0
+	- license: MIT
+- @ctrl/tinycolor
+	- version: 3.6.1
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later

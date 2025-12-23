@@ -39,6 +39,7 @@
     "extends @nextcloud/browserslist-config"
   ],
   "dependencies": {
+    "@mdi/js": "^7.4.47",
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.5.3",
     "@nextcloud/axios": "^2.5.2",
@@ -57,8 +58,10 @@
     "@nextcloud/sharing": "^0.3.0",
     "@nextcloud/vue": "^9.3.1",
     "@vueuse/core": "^14.1.0",
+    "@vueuse/integrations": "^14.1.0",
     "debounce": "^3.0.0",
     "pinia": "^3.0.4",
+    "sortablejs": "^1.15.6",
     "vue": "^3.5.26",
     "vuex": "^4.1.0",
     "webdav": "^5.8.0"

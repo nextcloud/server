@@ -6,6 +6,7 @@
  */
 namespace OCA\Theming\Settings;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
@@ -20,7 +21,6 @@ use OCP\Util;
 class Personal implements ISettings {
 
 	public function __construct(
-		protected string $appName,
 		private string $userId,
 		private IConfig $config,
 		private ThemesService $themesService,
@@ -82,9 +82,9 @@ class Personal implements ISettings {
 			'enforcedDefaultApp' => $forcedDefaultEntry
 		]);
 
-		Util::addScript($this->appName, 'personal-theming');
-
-		return new TemplateResponse($this->appName, 'settings-personal');
+		Util::addStyle(Application::APP_ID, 'settings-personal');
+		Util::addScript(Application::APP_ID, 'settings-personal');
+		return new TemplateResponse(Application::APP_ID, 'settings-personal');
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Personal implements ISettings {
 	 * @since 9.1
 	 */
 	public function getSection(): string {
-		return $this->appName;
+		return Application::APP_ID;
 	}
 
 	/**
