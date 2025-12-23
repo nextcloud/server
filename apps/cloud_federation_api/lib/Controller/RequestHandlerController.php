@@ -93,7 +93,7 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $ownerDisplayName Display name of the user who shared the item
 	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
 	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
-	 * @param array{name: list<string>, options: array<string, mixed>} $protocol e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]
+	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]]
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
@@ -128,13 +128,24 @@ class RequestHandlerController extends Controller {
 			|| $shareType === null
 			|| !is_array($protocol)
 			|| !isset($protocol['name'])
-			|| !isset($protocol['options'])
-			|| !is_array($protocol['options'])
-			|| !isset($protocol['options']['sharedSecret'])
 		) {
 			return new JSONResponse(
 				[
 					'message' => 'Missing arguments',
+					'validationErrors' => [],
+				],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
+		$protocolName = $protocol['name'];
+		$hasOldFormat = isset($protocol['options']) && is_array($protocol['options']) && isset($protocol['options']['sharedSecret']);
+		$hasNewFormat = isset($protocol[$protocolName]) && is_array($protocol[$protocolName]) && isset($protocol[$protocolName]['sharedSecret']);
+
+		if (!$hasOldFormat && !$hasNewFormat) {
+			return new JSONResponse(
+				[
+					'message' => 'Missing sharedSecret in protocol',
 					'validationErrors' => [],
 				],
 				Http::STATUS_BAD_REQUEST
