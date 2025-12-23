@@ -47,9 +47,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.3
 	- license: GPL-3.0-or-later
-- @nextcloud/paths
-	- version: 2.3.0
-	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
@@ -60,7 +57,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.7.1
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -93,7 +90,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.1
 	- license: MIT
 - webpack
-	- version: 5.103.0
+	- version: 5.104.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

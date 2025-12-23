@@ -8,8 +8,8 @@ import axios, { isAxiosError } from '@nextcloud/axios'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import { basename, dirname, extname } from '@nextcloud/paths'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import { basename, dirname, extname } from 'path'
 import { defineStore } from 'pinia'
 import Vue, { defineAsyncComponent, ref } from 'vue'
 import logger from '../logger.ts'
@@ -36,7 +36,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 	 * This will rename the node set as `renamingNode` to the configured new name `newName`.
 	 *
 	 * @return true if success, false if skipped (e.g. new and old name are the same)
-	 * @throws Error if renaming fails, details are set in the error message
+	 * @throws {Error} if renaming fails, details are set in the error message
 	 */
 	async function rename(): Promise<boolean> {
 		if (renamingNode.value === undefined) {

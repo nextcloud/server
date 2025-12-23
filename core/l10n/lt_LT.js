@@ -102,6 +102,7 @@ OC.L10N.register(
     "An internal error occurred." : "Įvyko vidinė klaida.",
     "Please try again or contact your administrator." : "Pabandykite dar kartą arba susisiekite su savo administratoriumi.",
     "Password" : "Slaptažodis",
+    "Remember me" : "Prisiminti mane",
     "Log in with a device" : "Prisijungti naudojant įrenginį",
     "Login or email" : "Prisijungimas ar el. paštas",
     "Your account is not setup for passwordless login." : "Jūsų paskyra nėra nustatyta prisijungimui be slaptažodžio.",
