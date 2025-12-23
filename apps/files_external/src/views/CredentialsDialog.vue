@@ -3,6 +3,28 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { ref } from 'vue'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+
+defineEmits<{
+	close: [payload?: { login: string, password: string }]
+}>()
+
+const login = ref('')
+const password = ref('')
+
+const dialogButtons: InstanceType<typeof NcDialog>['buttons'] = [{
+	label: t('files_external', 'Confirm'),
+	type: 'submit',
+	variant: 'primary',
+}]
+</script>
+
 <template>
 	<NcDialog
 		:buttons="dialogButtons"
@@ -44,46 +66,3 @@
 			required />
 	</NcDialog>
 </template>
-
-<script lang="ts">
-import { t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import NcDialog from '@nextcloud/vue/components/NcDialog'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-
-export default defineComponent({
-	name: 'CredentialsDialog',
-
-	components: {
-		NcDialog,
-		NcNoteCard,
-		NcTextField,
-		NcPasswordField,
-	},
-
-	setup() {
-		return {
-			t,
-		}
-	},
-
-	data() {
-		return {
-			login: '',
-			password: '',
-		}
-	},
-
-	computed: {
-		dialogButtons() {
-			return [{
-				label: t('files_external', 'Confirm'),
-				type: 'submit',
-				variant: 'primary',
-			}]
-		},
-	},
-})
-</script>

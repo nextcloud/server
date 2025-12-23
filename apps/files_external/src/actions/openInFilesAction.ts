@@ -6,7 +6,7 @@ import type { StorageConfig } from '../services/externalStorage.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { DefaultType, FileAction } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
 
