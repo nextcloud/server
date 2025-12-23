@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationApi\Tests;
 
-use NCU\Security\Signature\ISignatureManager;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Controller\RequestHandlerController;
@@ -29,6 +28,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\Signature\ISignatureManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
