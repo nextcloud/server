@@ -10,8 +10,10 @@ namespace OC\Files\Storage;
 use Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
+use NCU\Security\Signature\ISignatureManager;
 use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
+use OC\OCM\OCMSignatoryManager;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
@@ -24,10 +26,14 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\Lock\LockedException;
+use OCP\OCM\Exceptions\OCMArgumentException;
+use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\Server;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
@@ -38,7 +44,7 @@ use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
 use Sabre\HTTP\RequestInterface;
 
-/*
+/**
  * Class BearerAuthAwareSabreClient
  *
  * This is an extension of the Sabre HTTP Client
@@ -106,6 +112,10 @@ class DAV extends Common {
 	protected LoggerInterface $logger;
 	protected IEventLogger $eventLogger;
 	protected IMimeTypeDetector $mimeTypeDetector;
+	protected IOCMDiscoveryService $discoveryService;
+	protected ISignatureManager $signatureManager;
+	protected OCMSignatoryManager $signatoryManager;
+	protected IAppConfig $appConfig;
 
 	/** @var int */
 	private $timeout;
@@ -128,6 +138,11 @@ class DAV extends Common {
 	public function __construct(array $parameters) {
 		$this->statCache = new ArrayCache();
 		$this->httpClientService = Server::get(IClientService::class);
+		if (isset($parameters['discoveryService'])) {
+			$this->discoveryService = $parameters['discoveryService'];
+		} else {
+			$this->discoveryService = Server::get(IOCMDiscoveryService::class);
+		}
 		if (isset($parameters['host']) && isset($parameters['user']) && isset($parameters['password'])) {
 			$host = $parameters['host'];
 			//remove leading http[s], will be generated in createBaseUri()
@@ -166,6 +181,9 @@ class DAV extends Common {
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT);
 		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
+		$this->signatureManager = Server::get(ISignatureManager::class);
+		$this->signatoryManager = Server::get(OCMSignatoryManager::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 	}
 
 	protected function init(): void {
@@ -174,9 +192,82 @@ class DAV extends Common {
 		}
 		$this->ready = true;
 
+		// If using Bearer auth, exchange refresh token for access token
+		$userName = $this->user;
+		if ($this->authType !== null && ($this->authType & BearerAuthAwareSabreClient::AUTH_BEARER)) {
+			try {
+				$host = 'https://' . $this->host;
+				$ocmProvider = $this->discoveryService->discover($host);
+				$tokenEndpoint = $ocmProvider->getTokenEndPoint();
+
+				if ($tokenEndPoint === '') {
+					$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
+					throw new StorageNotAvailableException('Could not discover token endpoint');
+				}
+
+				$client = $this->httpClientService->newClient();
+				$payload = [
+					'grant_type' => 'authorization_code',
+					'client_id' => 'receiver.example.org',
+					'code' => $this->user,
+				];
+
+				$options = [
+					'body' => json_encode($payload),
+					'headers' => [
+						'Content-Type' => 'application/json',
+					],
+					'timeout' => 10,
+					'connect_timeout' => 10,
+				];
+
+				// Try signing the request
+				if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+					try {
+						$options = $this->signatureManager->signOutgoingRequestIClientPayload(
+							$this->signatoryManager,
+							$options,
+							'post',
+							$tokenEndpoint
+						);
+						$this->logger->debug('Token request signed successfully', ['app' => 'dav']);
+					} catch (\Exception $e) {
+						$this->logger->warning('Failed to sign token request, continuing without signature', [
+							'app' => 'dav',
+							'exception' => $e,
+							'endpoint' => $tokenEndpoint,
+						]);
+					}
+				}
+
+				$response = $client->post($tokenEndpoint, $options);
+
+				$body = $response->getBody();
+				$data = json_decode($body, true);
+
+				if (isset($data['access_token'])) {
+					$userName = $data['access_token'];
+					$this->user = $userName;
+					$this->logger->debug('Successfully exchanged refresh token for access token', ['app' => 'dav']);
+				} else {
+					$this->logger->error('Failed to get access token from response', ['app' => 'dav']);
+					throw new StorageNotAvailableException('Could not obtain access token');
+				}
+			} catch (OCMProviderException|OCMArgumentException $e) {
+				$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not discover token endpoint');
+			} catch (\Exception $e) {
+				$this->logger->error('Error exchanging refresh token for access token: ' . $e->getMessage(), [
+					'app' => 'dav',
+					'exception' => $e,
+				]);
+				throw new StorageNotAvailableException('Could not obtain access token: ' . $e->getMessage());
+			}
+		}
+
 		$settings = [
 			'baseUri' => $this->createBaseUri(),
-			'userName' => $this->user,
+			'userName' => $userName,
 			'password' => $this->password,
 		];
 		if ($this->authType !== null) {
@@ -188,7 +279,7 @@ class DAV extends Common {
 			$settings['proxy'] = $proxy;
 		}
 
-		$this->client = new Client($settings);
+		$this->client = new BearerAuthAwareSabreClient($settings);
 		$this->client->setThrowExceptions(true);
 
 		if ($this->secure === true) {
@@ -392,10 +483,14 @@ class DAV extends Common {
 			case 'r':
 			case 'rb':
 				try {
+					$auth = [$this->user, $this->password];
+					if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
+						$auth = [$this->user, '', 'bearer'];
+					}
 					$response = $this->httpClientService
 						->newClient()
 						->get($this->createBaseUri() . $this->encodePath($path), [
-							'auth' => [$this->user, $this->password],
+							'auth' => $auth,
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
 							'timeout' => $this->timeout
@@ -542,11 +637,15 @@ class DAV extends Common {
 		$this->statCache->remove($target);
 		$source = fopen($path, 'r');
 
+		$auth = [$this->user, $this->password];
+		if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
+			$auth = [$this->user, '', 'bearer'];
+		}
 		$this->httpClientService
 			->newClient()
 			->put($this->createBaseUri() . $this->encodePath($target), [
 				'body' => $source,
-				'auth' => [$this->user, $this->password],
+				'auth' => $auth,
 				// set upload timeout for users with slow connections or large files
 				'timeout' => $this->timeout
 			]);
