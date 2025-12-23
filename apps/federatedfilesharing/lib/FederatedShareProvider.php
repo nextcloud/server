@@ -752,6 +752,20 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$data = $cursor->fetchAssociative();
 
 		if ($data === false) {
+
+			$provider = Server::get(PublicKeyTokenProvider::class);
+			$accessTokenDb = $provider->getToken($token);
+			$refreshToken = $accessTokenDb->getUID();
+
+			$cursor = $qb->select('*')
+				->from('share')
+				->where($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
+				->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($refreshToken)))
+				->executeQuery();
+
+			$data = $cursor->fetch();
+		}
+		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
 

@@ -619,14 +619,35 @@ class Session implements IUserSession, Emitter {
 			// Ignore and use empty string instead
 		}
 
-		$this->manager->emit('\OC\User', 'preLogin', [$dbToken->getLoginName(), $password]);
-
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
+			// Maybe this is an access token. We keep the refresh tokens as UID of access tokens
+			try {
+				$token = $uid;
+				$dbToken = $this->tokenProvider->getToken($token);
+			} catch (InvalidTokenException $ex) {
+				return false;
+			}
+			$uid = $dbToken->getUID();
+
+			// When logging in with token, the password must be decrypted first before passing to login hook
+			$password = '';
+			try {
+				$password = $this->tokenProvider->getPassword($dbToken, $token);
+			} catch (PasswordlessTokenException $ex) {
+				// Ignore and use empty string instead
+			}
 			// user does not exist
-			return false;
+			$user = $this->manager->get($uid);
+			if (is_null($user)) {
+				return false;
+			}
 		}
 
+		$this->manager->emit('\OC\User', 'preLogin', [$dbToken->getLoginName(), $password]);
+
+		// See line 173 in this module, needed for completeLogin
+		OC_User::setIncognitoMode(false);
 		return $this->completeLogin(
 			$user,
 			[

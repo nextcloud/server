@@ -7,7 +7,14 @@
 
 namespace OCA\DAV\Controller;
 
+use NCU\Security\Signature\Exceptions\IncomingRequestException;
+use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
+use NCU\Security\Signature\Exceptions\SignatureException;
+use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
+use NCU\Security\Signature\ISignatureManager;
 use OC\Authentication\Token\IProvider;
+use OC\OCM\OCMSignatoryManager;
+use OC\Security\Signature\Model\IncomingSignedRequest;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -18,18 +25,10 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
-use OCP\IAppConfig;
-use OC\OCM\OCMSignatoryManager;
-use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
-use OC\Security\Signature\Model\IncomingSignedRequest;
 
 /**
  * Controller for the /token endpoint
