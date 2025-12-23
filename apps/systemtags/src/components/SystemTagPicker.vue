@@ -50,7 +50,7 @@
 						:indeterminate="isIndeterminate(tag)"
 						:label="tag.displayName"
 						class="systemtags-picker__tag-checkbox"
-						@update:modelValue="onCheckUpdate(tag, $event)">
+						@update:model-value="onCheckUpdate(tag, $event)">
 						{{ formatTagName(tag) }}
 					</NcCheckboxRadioSwitch>
 

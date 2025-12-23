@@ -8,7 +8,6 @@ import type { DAVResultResponseProps } from 'webdav'
 import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
 
 import camelCase from 'camelcase'
-import Vue from 'vue'
 
 export const defaultBaseTag: BaseTag = {
 	userVisible: true,
@@ -93,7 +92,7 @@ export function getNodeSystemTags(node: INode): string[] {
  * @param tags
  */
 export function setNodeSystemTags(node: INode, tags: string[]): void {
-	Vue.set(node.attributes, 'system-tags', {
+	node.attributes['system-tags'] = {
 		'system-tag': tags,
-	})
+	}
 }

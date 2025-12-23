@@ -16,7 +16,7 @@
 		<NcCheckboxRadioSwitch
 			v-model="systemTagsCreationRestrictedToAdmin"
 			type="switch"
-			@update:modelValue="updateSystemTagsDefault">
+			@update:model-value="updateSystemTagsDefault">
 			{{ t('systemtags', 'Restrict tag creation and editing to administrators') }}
 		</NcCheckboxRadioSwitch>
 	</div>
@@ -26,11 +26,12 @@
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import logger from '../logger.ts'
 import { updateSystemTagsAdminRestriction } from '../services/api.js'
 
-export default {
+export default defineComponent({
 	name: 'SystemTagsCreationControl',
 
 	components: {
@@ -82,5 +83,5 @@ export default {
 			}
 		},
 	},
-}
+})
 </script>

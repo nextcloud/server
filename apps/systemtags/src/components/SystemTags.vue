@@ -43,7 +43,7 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import { getSidebar } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
 import { fetchNode } from '../../../files/src/services/WebdavClient.js'
@@ -57,7 +57,7 @@ import {
 } from '../services/files.js'
 import { defaultBaseTag } from '../utils.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'SystemTags',
 
 	components: {

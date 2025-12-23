@@ -26,7 +26,7 @@ import type { TagWithId } from '../types.js'
 
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import SystemTagForm from '../components/SystemTagForm.vue'
@@ -34,7 +34,7 @@ import SystemTagsCreationControl from '../components/SystemTagsCreationControl.v
 import logger from '../logger.js'
 import { fetchTags } from '../services/api.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'SystemTagsSection',
 
 	components: {
