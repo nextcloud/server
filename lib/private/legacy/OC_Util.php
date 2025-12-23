@@ -297,222 +297,327 @@ class OC_Util {
 	}
 
 	/**
-	 * check if the current server configuration is suitable for ownCloud
+	 * Check if the current server environment is suitable for Nextcloud
 	 *
-	 * @return array arrays with error messages and hints
+	 * @return array<int,array{error:string,hint:string}> List of issues (empty array if no problems)
+	 * @throws \OCP\HintException When an unsupported downgrade is detected by needUpgrade()
 	 */
-	public static function checkServer(\OC\SystemConfig $config) {
-		$l = \OC::$server->getL10N('lib');
+	public static function checkServer(\OC\SystemConfig $config): array {
 		$errors = [];
-		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
+		$needUpgrade = self::needUpgrade($config);
+		$installed = $config->getValue('installed', false);
+		$dataDir = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
+		$recentlySucceeded = \OC::$server->getSession()->exists('checkServer_succeeded')
+			&& \OC::$server->getSession()->get('checkServer_succeeded');
 
-		if (!self::needUpgrade($config) && $config->getValue('installed', false)) {
-			// this check needs to be done every time
-			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
+		// Check that the data directory exists and is valid by checking for the the ".ncdata" file.
+		if ($installed && !$needUpgrade) {
+			$errors = self::checkDataDirectoryValidity($dataDir);
 		}
 
-		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if (\OC::$server->getSession()->exists('checkServer_succeeded') && \OC::$server->getSession()->get('checkServer_succeeded')) {
+		// Caching: If checkServer() succeeded before in this session, then assume all is fine.
+		if ($recentlySucceeded) {
 			return $errors;
 		}
 
 		$webServerRestart = false;
-		$setup = \OCP\Server::get(\OC\Setup::class);
+		$l = \OC::$server->getL10N('lib');
 
-		$urlGenerator = \OC::$server->getURLGenerator();
+		// Check config directory writability
+		$errors = array_merge($errors, self::checkConfigDirectoryWritable($config));
 
-		$availableDatabases = $setup->getSupportedDatabases();
-		if (empty($availableDatabases)) {
-			$errors[] = [
-				'error' => $l->t('No database drivers (sqlite, mysql, or postgresql) installed.'),
-				'hint' => '' //TODO: sane hint
-			];
+		if ($installed) {
+			// Check if data directory exists and is writable (attempting to create it if it doesn't exist)
+			$errors = array_merge($errors, self::checkDataDirectoryWritable($dataDir));
+		}
+
+		// Check system locales
+		$errors = array_merge($errors, self::checkLocales());
+
+		// Check for PHP database drivers (exception for oci)
+		$results = self::checkDatabaseDrivers();
+		if ($results) {
+			$errors = array_merge($errors, $results);
+			$webServerRestart = true; // Recommend a PHP/web server restart
+		}
+
+		// Check for required PHP classes and functions
+		$results = self::checkPhpClassesAndFunctions();
+		if ($results) {
+			$errors = array_merge($errors, $results);
 			$webServerRestart = true;
 		}
 
-		// Check if config folder is writable.
-		if (!(bool)$config->getValue('config_is_read_only', false)) {
-			if (!is_writable(OC::$configDir) || !is_readable(OC::$configDir)) {
-				$errors[] = [
-					'error' => $l->t('Cannot write into "config" directory.'),
-					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
-						[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
-						. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-							[ $urlGenerator->linkToDocs('admin-config') ])
-				];
-			}
-		}
-
-		// Create root dir.
-		if ($config->getValue('installed', false)) {
-			if (!is_dir($CONFIG_DATADIRECTORY)) {
-				$success = @mkdir($CONFIG_DATADIRECTORY);
-				if ($success) {
-					$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
-				} else {
-					$errors[] = [
-						'error' => $l->t('Cannot create "data" directory.'),
-						'hint' => $l->t('This can usually be fixed by giving the web server write access to the root directory. See %s',
-							[$urlGenerator->linkToDocs('admin-dir_permissions')])
-					];
-				}
-			} elseif (!is_writable($CONFIG_DATADIRECTORY) || !is_readable($CONFIG_DATADIRECTORY)) {
-				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
-				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
-				$handle = fopen($testFile, 'w');
-				if (!$handle || fwrite($handle, 'Test write operation') === false) {
-					$permissionsHint = $l->t('Permissions can usually be fixed by giving the web server write access to the root directory. See %s.',
-						[$urlGenerator->linkToDocs('admin-dir_permissions')]);
-					$errors[] = [
-						'error' => $l->t('Your data directory is not writable.'),
-						'hint' => $permissionsHint
-					];
-				} else {
-					fclose($handle);
-					unlink($testFile);
-				}
-			} else {
-				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
-			}
-		}
-
-		if (!OC_Util::isSetLocaleWorking()) {
-			$errors[] = [
-				'error' => $l->t('Setting locale to %s failed.',
-					['en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/'
-						. 'pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8']),
-				'hint' => $l->t('Please install one of these locales on your system and restart your web server.')
-			];
-		}
-
-		// Contains the dependencies that should be checked against
-		// classes = class_exists
-		// functions = function_exists
-		// defined = defined
-		// ini = ini_get
-		// If the dependency is not found the missing module name is shown to the EndUser
-		// When adding new checks always verify that they pass on CI as well
-		$dependencies = [
-			'classes' => [
-				'ZipArchive' => 'zip',
-				'DOMDocument' => 'dom',
-				'XMLWriter' => 'XMLWriter',
-				'XMLReader' => 'XMLReader',
-			],
-			'functions' => [
-				'xml_parser_create' => 'libxml',
-				'mb_strcut' => 'mbstring',
-				'ctype_digit' => 'ctype',
-				'json_encode' => 'JSON',
-				'gd_info' => 'GD',
-				'gzencode' => 'zlib',
-				'simplexml_load_string' => 'SimpleXML',
-				'hash' => 'HASH Message Digest Framework',
-				'curl_init' => 'cURL',
-				'openssl_verify' => 'OpenSSL',
-			],
-			'defined' => [
-				'PDO::ATTR_DRIVER_NAME' => 'PDO'
-			],
-			'ini' => [
-				'default_charset' => 'UTF-8',
-			],
-		];
-		$missingDependencies = [];
-		$invalidIniSettings = [];
-
-		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
-		foreach ($dependencies['classes'] as $class => $module) {
-			if (!class_exists($class)) {
-				$missingDependencies[] = $module;
-			}
-		}
-		foreach ($dependencies['functions'] as $function => $module) {
-			if (!function_exists($function)) {
-				$missingDependencies[] = $module;
-			}
-		}
-		foreach ($dependencies['defined'] as $defined => $module) {
-			if (!defined($defined)) {
-				$missingDependencies[] = $module;
-			}
-		}
-		foreach ($dependencies['ini'] as $setting => $expected) {
-			if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
-				$invalidIniSettings[] = [$setting, $expected];
-			}
-		}
-
-		foreach ($missingDependencies as $missingDependency) {
-			$errors[] = [
-				'error' => $l->t('PHP module %s not installed.', [$missingDependency]),
-				'hint' => $l->t('Please ask your server administrator to install the module.'),
-			];
-			$webServerRestart = true;
-		}
-		foreach ($invalidIniSettings as $setting) {
-			$errors[] = [
-				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
-				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
-			];
+		// Check for required PHP ini settings
+		$results = self::checkPhpIniSettings();
+		if ($results) {
+			$errors = array_merge($errors, $results);
 			$webServerRestart = true;
 		}
 
+		// Check for PHP's ability to retrieve annotations from methods using reflection
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = [
 				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
 				'hint' => $l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')
 			];
+			$webServerRestart = true;
 		}
 
-		if (!\OC::$CLI && $webServerRestart) {
-			$errors[] = [
-				'error' => $l->t('PHP modules have been installed, but they are still listed as missing?'),
-				'hint' => $l->t('Please ask your server administrator to restart the web server.')
-			];
-		}
-
-		foreach (['secret', 'instanceid', 'passwordsalt'] as $requiredConfig) {
-			if ($config->getValue($requiredConfig, '') === '' && !\OC::$CLI && $config->getValue('installed', false)) {
+		if (!\OC::$CLI) {
+			// Check for errors that justify providing a web server restart hint to resolve
+			if ($webServerRestart) {
 				$errors[] = [
-					'error' => $l->t('The required %s config variable is not configured in the config.php file.', [$requiredConfig]),
-					'hint' => $l->t('Please ask your server administrator to check the Nextcloud configuration.')
+					'error' => $l->t('PHP already setup correctly, but errors still being shown?'),
+					'hint' => $l->t('Please ask your server administrator to restart the web server to activate changes.')
 				];
+			}
+
+			// Check for required config.php parameters
+			// XXX Not sure why this is guarded to not run in CLI mode; $installed check should be sufficient presumably
+			if ($installed) {
+				// TODO: drop deprecated passwordsalt (once removed from files_external)
+				$requiredParameters = ['secret', 'instanceid', 'passwordsalt', 'version', 'dbtype' ];
+				foreach ($requiredParameters as $requiredParameter) {
+					if ($config->getValue($requiredParameter, '') === '') {
+						$errors[] = [
+							'error' => $l->t('The required %s configuration parameter is missing from "config/config.php".', [$requiredParameter]),
+							'hint' => $l->t('Please ask your server administrator to check the Nextcloud configuration.')
+						];
+					}
+				}
 			}
 		}
 
 		// Cache the result of this function
-		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
+		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) === 0);
+		return $errors;
+	}
 
+	/**
+	 * @internal
+	 */
+	public static function checkConfigDirectoryWritable(\OC\SystemConfig $config): array {
+		$l = \OC::$server->getL10N('lib');
+		$urlGenerator = \OC::$server->getURLGenerator();
+		$errors = [];
+
+		// Check if config is explicitly configured to be read-only (no need to do existence check since config value loads from config)
+		$readOnlyConfig = (bool)$config->getValue('config_is_read_only', false);
+		// Check readability and writability of configuration directory (bypassing if explicitly configured to be read-only)
+		$configWritable = $readOnlyConfig || (is_readable(OC::$configDir) && is_writable(OC::$configDir));
+
+		if (!$configWritable) {
+			// Failed; consider an error
+			$errors[] = [
+				'error' => $l->t('Cannot read/write "config/" directory.'),
+				'hint' => $l->t('This can usually be fixed by giving the web server read/write access to the "config/" directory. See %s',
+					[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
+					. $l->t('Or, if you prefer to keep "config/config.php" read only, set the option "config_is_read_only" to true in it. See %s',
+						[ $urlGenerator->linkToDocs('admin-config') ])
+			];
+		}
+		return $errors;
+	}
+	
+	/**
+	 * @internal
+	 */
+	public static function checkDataDirectoryWritable(string $dataDir): array {
+		$l = \OC::$server->getL10N('lib');
+		$urlGenerator = \OC::$server->getURLGenerator();
+		$errors = [];
+
+		// Check for existence of data directory
+		$dataDirExists = is_dir($dataDir);
+		// Check readability and writable of data directory
+		$dataDirWritable = $dataDirExists && (is_readable($dataDir) && is_writable($dataDir));
+			
+		// Attempt to create data directory if it doesn't exist	
+		if (!$dataDirExists) {
+			// Attempt to create if missing
+			$dataDirExists = @mkdir($dataDir);
+			// Failed; consider an error
+			if (!$dataDirExists) {
+				$errors[] = [
+					'error' => $l->t('Cannot create "data" directory.'),
+					'hint' => $l->t('This can usually be fixed by giving the web server write access to the root directory. See %s',
+						[$urlGenerator->linkToDocs('admin-dir_permissions')])
+				];
+			} else {
+				// re-evaluate readability/writability after creation for later checks
+				$dataDirWritable = is_readable($dataDir) && is_writable($dataDir);
+			}
+		// Utilize a secondary writability check to catch false positives
+		} elseif (!$dataDirWritable) {
+			// is_writable doesn't work on NFS; try to write an actual file.
+			$file = sprintf('%s/%s.tmp', $dataDir, uniqid('data_dir_writability_test_'));
+			$dataDirWritable = (@file_put_contents($file, 'Test write operation') !== false);
+			// Failed; consider an error
+			if (!$dataDirWritable) {
+				$errors[] = [
+					'error' => $l->t('Your data directory is not writable.'),
+					'hint' => $l->t('Permissions can usually be fixed by giving the web server write access to the root directory. See %s.',
+						[$urlGenerator->linkToDocs('admin-dir_permissions')])
+				];
+			} else { // Clean-up
+				unlink($file);
+			}
+		}
+
+		// Check for indications of unnecessary readability by other system users
+		if ($dataDirExists && $dataDirWritable) {
+			$errors = array_merge($errors, self::checkDataDirectoryPermissions($dataDir));
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * Check for required PHP ini settings
+	 *
+	 * @internal
+	 */
+	public static function checkPhpIniSettings(): array {
+		$l = \OC::$server->getL10N('lib');
+		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
+		$errors = [];
+		$invalidIniSettings = [];
+
+		$requiredSettings = [
+			'default_charset' => 'UTF-8',
+		];
+
+		foreach ($requiredSettings as $setting => $expected) {
+			if (strtolower($iniWrapper->getString($setting)) !== strtolower($expected)) {
+				$invalidIniSettings[] = [$setting, $expected];
+			}
+		}
+
+		// If a required setting is missing, the missing parameter is show to the end-user
+		foreach ($invalidIniSettings as $setting) {
+			$errors[] = [
+				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
+				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
+			];
+		}
+		return $errors;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function checkPhpClassesAndFunctions(): array {
+		$l = \OC::$server->getL10N('lib');
+		$errors = [];
+		$missingDependencies = [];
+
+		$requiredClasses = [
+			'ZipArchive' => 'zip',
+			'DOMDocument' => 'dom',
+			'XMLWriter' => 'XMLWriter',
+			'XMLReader' => 'XMLReader',
+		];
+
+		foreach ($requiredClasses as $class => $module) {
+			if (!class_exists($class)) {
+				$missingDependencies[] = $module;
+			}
+		}
+
+		// Check for required PHP functions
+		$requiredFunctions = [
+			'xml_parser_create' => 'libxml',
+			'mb_strcut' => 'mbstring',
+			'ctype_digit' => 'ctype',
+			'json_encode' => 'JSON',
+			'gd_info' => 'GD',
+			'gzencode' => 'zlib',
+			'simplexml_load_string' => 'SimpleXML',
+			'hash' => 'HASH Message Digest Framework',
+			'curl_init' => 'cURL',
+			'openssl_verify' => 'OpenSSL',
+		];
+
+		foreach ($requiredFunctions as $function => $module) {
+			if (!function_exists($function)) {
+				$missingDependencies[] = $module;
+			}
+		}
+
+		// If a dependency is not found, the missing module name is shown to the end-user
+		foreach ($missingDependencies as $missingDependency) {
+			$errors[] = [
+				'error' => $l->t('PHP module %s not installed.', [$missingDependency]),
+				'hint' => $l->t('Please ask your server administrator to install the module.'),
+			];
+		}
+		return $errors;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function checkDatabaseDrivers(): array {
+		$l = \OC::$server->getL10N('lib');
+		$setup = \OCP\Server::get(\OC\Setup::class);
+		$errors = [];
+
+		$availableDatabases = $setup->getSupportedDatabases();
+		if (empty($availableDatabases)) {
+			$errors[] = [
+				'error' => $l->t('PHP database driver modules (pdo_sqlite, pdo_mysql, or pdo_pgsql) not installed.'),
+				'hint' => $l->t('Please ask your server administrator to install an appropriate module.')
+			];
+		}
+		return $errors;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function checkLocales(): array {
+		$l = \OC::$server->getL10N('lib');
+		$errors = [];
+
+		if (!self::isSetLocaleWorking()) {
+			$errors[] = [
+				'error' => $l->t('Setting locale to %s failed.',
+					['en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8']),
+				'hint' => $l->t('Please install one of these locales on your system and restart your web server.')
+			];
+		}
 		return $errors;
 	}
 
 	/**
 	 * Check for correct file permissions of data directory
 	 *
-	 * @param string $dataDirectory
+	 * @param string $dataDir
 	 * @return array arrays with error messages and hints
 	 * @internal
 	 */
-	public static function checkDataDirectoryPermissions($dataDirectory) {
+	public static function checkDataDirectoryPermissions(string $dataDir): array {
 		if (!\OC::$server->getConfig()->getSystemValueBool('check_data_directory_permissions', true)) {
-			return  [];
+			return [];
 		}
 
-		$perms = substr(decoct(@fileperms($dataDirectory)), -3);
+		$l = \OC::$server->getL10N('lib');
+		$errors = [];
+
+		$perms = substr(decoct(@fileperms($dataDir)), -3);
 		if (substr($perms, -1) !== '0') {
-			chmod($dataDirectory, 0770);
+			chmod($dataDir, 0770);
 			clearstatcache();
-			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
+			$perms = substr(decoct(@fileperms($dataDir)), -3);
 			if ($perms[2] !== '0') {
-				$l = \OC::$server->getL10N('lib');
-				return [[
+				$errors[] = [
 					'error' => $l->t('Your data directory is readable by other people.'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
-				]];
+				];
 			}
 		}
-		return [];
+		return $errors;
 	}
 
 	/**
@@ -523,20 +628,22 @@ class OC_Util {
 	 * @return array errors found
 	 * @internal
 	 */
-	public static function checkDataDirectoryValidity($dataDirectory) {
+	public static function checkDataDirectoryValidity(string $dataDir): array {
 		$l = \OC::$server->getL10N('lib');
 		$errors = [];
-		if ($dataDirectory[0] !== '/') {
+
+		if ($dataDir[0] !== '/') {
 			$errors[] = [
 				'error' => $l->t('Your data directory must be an absolute path.'),
 				'hint' => $l->t('Check the value of "datadirectory" in your configuration.')
 			];
 		}
 
-		if (!file_exists($dataDirectory . '/.ncdata')) {
+		if (!file_exists($dataDir . '/.ncdata')) {
 			$errors[] = [
 				'error' => $l->t('Your data directory is invalid.'),
-				'hint' => $l->t('Ensure there is a file called "%1$s" in the root of the data directory. It should have the content: "%2$s"', ['.ncdata', '# Nextcloud data directory']),
+				'hint' => $l->t('Ensure there is a file called "%1$s" in the root of the data directory. It should have the content: "%2$s"',
+					['.ncdata', '# Nextcloud data directory']),
 			];
 		}
 		return $errors;
