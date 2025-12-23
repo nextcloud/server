@@ -10,7 +10,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.36.0</version>
+	<version>1.37.0</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
