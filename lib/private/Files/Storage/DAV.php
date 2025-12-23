@@ -484,12 +484,15 @@ class DAV extends Common {
 			case 'rb':
 				try {
 					$auth = [$this->user, $this->password];
+					$headers = [];
 					if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
-						$auth = [$this->user, '', 'bearer'];
+						$auth = [];
+						$headers = ['Authorization' => 'Bearer ' . $this->user];
 					}
 					$response = $this->httpClientService
 						->newClient()
 						->get($this->createBaseUri() . $this->encodePath($path), [
+							'headers' => $headers,
 							'auth' => $auth,
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
@@ -638,13 +641,16 @@ class DAV extends Common {
 		$source = fopen($path, 'r');
 
 		$auth = [$this->user, $this->password];
+		$headers = [];
 		if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
-			$auth = [$this->user, '', 'bearer'];
+			$auth = [];
+			$headers = ['Authorization' => 'Bearer ' . $this->user];
 		}
 		$this->httpClientService
 			->newClient()
 			->put($this->createBaseUri() . $this->encodePath($target), [
 				'body' => $source,
+				'headers' => $headers,
 				'auth' => $auth,
 				// set upload timeout for users with slow connections or large files
 				'timeout' => $this->timeout
