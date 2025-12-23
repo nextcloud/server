@@ -22,5 +22,7 @@ class ShareesContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');
 		$this->deleteServerConfig('core', 'shareapi_allow_share_dialog_user_enumeration');
 		$this->deleteServerConfig('core', 'shareapi_allow_group_sharing');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
 	}
 }
