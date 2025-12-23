@@ -130,6 +130,7 @@ OC.L10N.register(
     "Delete storage?" : "저장소를 삭제하시겠습니까?",
     "Click to recheck the configuration" : "설정을 다시 확인하려면 클릭",
     "Saved" : "저장됨",
+    "Saving …" : "저장 중 …",
     "Save" : "저장",
     "No external storage configured or you don't have the permission to configure them" : "외부 저장소가 구성되지 않았거나 외부 저장소를 구성할 권한이 없습니다.",
     "Open documentation" : "문서 열기",

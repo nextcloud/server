@@ -248,6 +248,7 @@ OC.L10N.register(
     "Results" : "Výsledky",
     "Load more results" : "Načíst další výsledky",
     "Search in" : "Hledat v",
+    "Partial matches" : "Částečné shody",
     "Log in" : "Přihlásit",
     "Logging in …" : "Přihlašování …",
     "Log in to {productName}" : "Přihlásit se do {productName}",
