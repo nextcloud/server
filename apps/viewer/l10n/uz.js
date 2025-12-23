@@ -12,6 +12,7 @@ OC.L10N.register(
     "Back" : "Orqaga",
     "Loading …" : "Yuklanmoqda…",
     "Reset" : "Qayta tiklash",
+    "Warning" : "Ogohlantirish",
     "Confirm" : "Confirm",
     "Undo" : "Bekor qilish",
     "Custom" : "Boshqa",
