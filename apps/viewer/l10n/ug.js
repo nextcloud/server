@@ -67,7 +67,7 @@ OC.L10N.register(
     "Classic TV" : "كىلاسسىك تېلېۋىزور",
     "CinemaScope" : "CinemaScope",
     "Arrow" : "يا ئوق",
-    "Blur" : "Blur",
+    "Blur" : "تۇتۇقلا",
     "Brightness" : "يۇرۇقلۇقى",
     "Contrast" : "سېلىشتۇرما",
     "Un-flip X" : "Un-flip X.",
