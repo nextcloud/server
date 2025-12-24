@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Tests;
 
 use OCA\Files_Versions\Storage;
+use Test\TestCase;
 
 class GetAutoExpireListTest extends TestCase {
 
@@ -31,9 +32,7 @@ class GetAutoExpireListTest extends TestCase {
 		return $method->invoke(null, $now, $versions);
 	}
 
-	/**
-	 * @dataProvider provideBucketKeepsLatest
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideBucketKeepsLatest')]
 	public function testBucketKeepsLatest(int $age1, int $age2, int $size1, int $size2): void {
 		$now = time();
 
@@ -108,9 +107,7 @@ class GetAutoExpireListTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider provideVersionRetentionRanges
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideVersionRetentionRanges')]
 	public function testRetentionOverTimeEveryTenMinutes(
 		int $days,
 		int $expectedMin,
@@ -170,13 +167,7 @@ class GetAutoExpireListTest extends TestCase {
 		];
 	}
 
-	/**
-	 * Exact deterministic retention count for evenly spaced versions.
-	 *
-	 * One version per hour, offset away from bucket edges.
-	 *
-	 * @dataProvider provideExactRetentionCounts
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideExactRetentionCounts')]
 	public function testExactRetentionCounts(
 		int $days,
 		int $expectedRetained,
