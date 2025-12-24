@@ -189,8 +189,6 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getRoomShareProvider();
 		} elseif ($shareType === IShare::TYPE_DECK) {
 			$provider = $this->getProvider('deck');
-		} elseif ($shareType === IShare::TYPE_SCIENCEMESH) {
-			$provider = $this->getProvider('sciencemesh');
 		}
 
 

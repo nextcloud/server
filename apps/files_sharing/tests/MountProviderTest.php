@@ -140,7 +140,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('user1');
-		$this->shareManager->expects($this->exactly(6))
+		$this->shareManager->expects($this->exactly(5))
 			->method('getSharedWith')
 			->willReturnMap([
 				['user1', IShare::TYPE_USER, null, -1, 0, $userShares],
@@ -148,7 +148,6 @@ class MountProviderTest extends \Test\TestCase {
 				['user1', IShare::TYPE_CIRCLE, null, -1, 0, $circleShares],
 				['user1', IShare::TYPE_ROOM, null, -1, 0, $roomShares],
 				['user1', IShare::TYPE_DECK, null, -1, 0, $deckShares],
-				['user1', IShare::TYPE_SCIENCEMESH, null, -1, 0, $scienceMeshShares],
 			]);
 
 		$this->shareManager->expects($this->any())
@@ -337,7 +336,7 @@ class MountProviderTest extends \Test\TestCase {
 	 * @param array $expectedShares array of expected supershare specs
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('mergeSharesDataProvider')]
-	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false): void {
+	public function testMergeShares(array $userShares, array $groupShares, array $expectedShares, bool $moveFails = false): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 
@@ -357,7 +356,7 @@ class MountProviderTest extends \Test\TestCase {
 		$roomShares = [];
 		$deckShares = [];
 		$scienceMeshShares = [];
-		$this->shareManager->expects($this->exactly(6))
+		$this->shareManager->expects($this->exactly(5))
 			->method('getSharedWith')
 			->willReturnMap([
 				['user1', IShare::TYPE_USER, null, -1, 0, $userShares],
@@ -365,7 +364,6 @@ class MountProviderTest extends \Test\TestCase {
 				['user1', IShare::TYPE_CIRCLE, null, -1, 0, $circleShares],
 				['user1', IShare::TYPE_ROOM, null, -1, 0, $roomShares],
 				['user1', IShare::TYPE_DECK, null, -1, 0, $deckShares],
-				['user1', IShare::TYPE_SCIENCEMESH, null, -1, 0, $scienceMeshShares],
 			]);
 
 		$this->shareManager->expects($this->any())
