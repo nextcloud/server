@@ -13,11 +13,11 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -41,21 +41,19 @@ class CssController extends Controller {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * @param string $fileName css filename with extension
 	 * @param string $appName css folder name
-	 * @return FileDisplayResponse|NotFoundResponse
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/css/{appName}/{fileName}')]
-	public function getCss(string $fileName, string $appName): Response {
+	#[NoSameSiteCookieRequired]
+	public function getCss(string $fileName, string $appName): FileDisplayResponse|NotFoundResponse {
 		try {
 			$folder = $this->appData->getFolder($appName);
 			$gzip = false;
 			$file = $this->getFile($folder, $fileName, $gzip);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new NotFoundResponse();
 		}
 
