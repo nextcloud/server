@@ -14,11 +14,11 @@ use OCP\AppFramework\Attribute\Consumable;
 /**
  * Nextcloud Snowflake ID decoder
  *
- * @see \OCP\Snowflake\IGenerator for format
+ * @see \OCP\Snowflake\ISnowflakeGenerator for format
  * @since 33.0.0
  */
 #[Consumable(since: '33.0.0')]
-interface IDecoder {
+interface ISnowflakeDecoder {
 	/**
 	 * Decode information contained into Snowflake ID
 	 *
@@ -28,8 +28,8 @@ interface IDecoder {
 	 *  - createdAt: timestamp at which ID was generated
 	 *  - isCli: if ID was generated using CLI or not
 	 *
-	 * @return array{createdAt: \DateTimeImmutable, serverId: int<0,1023>, sequenceId: int<0,4095>, isCli: bool, seconds: positive-int, milliseconds: int<0,999>}
+	 * @return Snowflake
 	 * @since 33.0
 	 */
-	public function decode(string $snowflakeId): array;
+	public function decode(string $snowflakeId): Snowflake;
 }
