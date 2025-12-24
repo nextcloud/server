@@ -19,7 +19,7 @@ class GetAutoExpireListTest extends TestCase {
 	/**
 	 * Helper to call the private retention logic
 	 *
-	 * @param int   $now
+	 * @param int $now
 	 * @param array $versions
 	 * @return array{array<int,array>, int}
 	 */
@@ -37,7 +37,7 @@ class GetAutoExpireListTest extends TestCase {
 	public function testBucketKeepsLatest(int $age1, int $age2, int $size1, int $size2): void {
 		$now = time();
 
-		$first  = $now - $age1;
+		$first = $now - $age1;
 		$second = $now - $age2;
 
 		// Ensure first is newer than second
@@ -47,7 +47,7 @@ class GetAutoExpireListTest extends TestCase {
 		}
 
 		$versions = [
-			$first  => ['version' => $first,  'size' => $size1, 'path' => 'f'],
+			$first => ['version' => $first,  'size' => $size1, 'path' => 'f'],
 			$second => ['version' => $second, 'size' => $size2, 'path' => 'f'],
 		];
 
@@ -114,7 +114,7 @@ class GetAutoExpireListTest extends TestCase {
 	public function testRetentionOverTimeEveryTenMinutes(
 		int $days,
 		int $expectedMin,
-		int $expectedMax
+		int $expectedMax,
 	): void {
 		$now = time();
 		$versions = [];
@@ -179,7 +179,7 @@ class GetAutoExpireListTest extends TestCase {
 	 */
 	public function testExactRetentionCounts(
 		int $days,
-		int $expectedRetained
+		int $expectedRetained,
 	): void {
 		$now = self::NOW;
 		$versions = [];
