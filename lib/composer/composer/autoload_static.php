@@ -457,6 +457,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Config\\Event\\UserMountAddedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Config/Event/UserMountAddedEvent.php',
         'OCP\\Files\\Config\\Event\\UserMountRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Config/Event/UserMountRemovedEvent.php',
         'OCP\\Files\\Config\\Event\\UserMountUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Config/Event/UserMountUpdatedEvent.php',
+        'OCP\\Files\\Config\\IAuthoritativeMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IAuthoritativeMountProvider.php',
         'OCP\\Files\\Config\\ICachedMountFileInfo' => __DIR__ . '/../../..' . '/lib/public/Files/Config/ICachedMountFileInfo.php',
         'OCP\\Files\\Config\\ICachedMountInfo' => __DIR__ . '/../../..' . '/lib/public/Files/Config/ICachedMountInfo.php',
         'OCP\\Files\\Config\\IHomeMountProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Config/IHomeMountProvider.php',

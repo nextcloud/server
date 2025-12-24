@@ -416,6 +416,7 @@ return array(
     'OCP\\Files\\Config\\Event\\UserMountAddedEvent' => $baseDir . '/lib/public/Files/Config/Event/UserMountAddedEvent.php',
     'OCP\\Files\\Config\\Event\\UserMountRemovedEvent' => $baseDir . '/lib/public/Files/Config/Event/UserMountRemovedEvent.php',
     'OCP\\Files\\Config\\Event\\UserMountUpdatedEvent' => $baseDir . '/lib/public/Files/Config/Event/UserMountUpdatedEvent.php',
+    'OCP\\Files\\Config\\IAuthoritativeMountProvider' => $baseDir . '/lib/public/Files/Config/IAuthoritativeMountProvider.php',
     'OCP\\Files\\Config\\ICachedMountFileInfo' => $baseDir . '/lib/public/Files/Config/ICachedMountFileInfo.php',
     'OCP\\Files\\Config\\ICachedMountInfo' => $baseDir . '/lib/public/Files/Config/ICachedMountInfo.php',
     'OCP\\Files\\Config\\IHomeMountProvider' => $baseDir . '/lib/public/Files/Config/IHomeMountProvider.php',

@@ -12,6 +12,7 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\ResponseDefinitions;
+use OCP\IUser;
 
 /**
  * External storage configuration
@@ -434,5 +435,24 @@ class StorageConfig implements \JsonSerializable {
 				}
 			}
 		}
+	}
+
+	public function getMountPointForUser(IUser $user): string {
+		return '/' . $user->getUID() . '/files/' . trim($this->mountPoint, '/') . '/';
+	}
+
+	public function __clone() {
+		$clone = new StorageConfig($this->getId());
+		$clone->setBackend(clone $this->getBackend());
+		$clone->setAuthMechanism(clone $this->getAuthMechanism());
+		$clone->setBackendOptions($this->getBackendOptions());
+		$clone->setMountPoint($this->getMountPoint());
+		$clone->setStatus($this->getStatus(), $this->getStatusMessage());
+		$clone->setPriority($this->getPriority());
+		$clone->setApplicableUsers($this->getApplicableUsers());
+		$clone->setApplicableGroups($this->getApplicableGroups());
+		$clone->setMountOptions($this->getMountOptions());
+		$clone->setType($this->getType());
+		return $clone;
 	}
 }
