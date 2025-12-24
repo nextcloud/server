@@ -305,8 +305,7 @@ class ContactsStore implements IContactsStore {
 				}
 			}
 			if ($shareType === 0 || $shareType === 6) {
-				$isLocal = $contact['isLocalSystemBook'] ?? false;
-				if ($contact['UID'] === $shareWith && $isLocal === true) {
+				if (($contact['isLocalSystemBook'] ?? false) === true && $contact['UID'] === $shareWith) {
 					$match = $contact;
 					break;
 				}
