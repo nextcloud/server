@@ -22,6 +22,7 @@ use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -85,6 +86,7 @@ class Application extends App implements IBootstrap {
 		// config lexicon
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
+		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
 		$context->registerCapability(Capabilities::class);
 	}
 
