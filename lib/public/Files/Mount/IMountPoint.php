@@ -13,7 +13,7 @@ namespace OCP\Files\Mount;
  */
 interface IMountPoint {
 	/**
-	 * get complete path to the mount point
+	 * Get complete path to the mount point.
 	 *
 	 * @return string
 	 * @since 8.0.0
@@ -21,7 +21,7 @@ interface IMountPoint {
 	public function getMountPoint();
 
 	/**
-	 * Set the mountpoint
+	 * Set the complete path the mountpoint.
 	 *
 	 * @param string $mountPoint new mount point
 	 * @since 8.0.0
@@ -34,88 +34,128 @@ interface IMountPoint {
 	 * @return \OCP\Files\Storage\IStorage|null
 	 * @since 8.0.0
 	 */
+	/**
+	 * Returns the storage backend mounted at this point.
+	 *
+	 * Result may be memoized for subsequent calls.
+	 *
+	 * @return \OCP\Files\Storage\IStorage|null The mounted storage backend, or null if initialization failed.
+	 * @since 8.0.0
+	 */
 	public function getStorage();
 
 	/**
-	 * Get the id of the storages
+	 * Get the storage's string identifier from the storage backend.
 	 *
-	 * @return string|null
+	 * If the identifier exceeds 64 characters, it will be MD5 hashed.
+	 *
+	 * @return string|null Storage id, or null if the storage cannot be initialized.
 	 * @since 8.0.0
 	 */
 	public function getStorageId();
 
 	/**
-	 * Get the id of the storages
+	 * Get the storage's numeric identifier from the cache.
 	 *
-	 * @return int|null
+	 * This integer ID is more efficient for database operations and lookups compared
+	 * to the string-based storage ID.
+	 *
+	 * @return int Numeric storage identifier, or -1 if storage cannot be initialized
 	 * @since 9.1.0
 	 */
 	public function getNumericStorageId();
 
 	/**
-	 * Get the path relative to the mountpoint
+	 * Returns the path relative to the mount point for a given absolute path.
 	 *
-	 * @param string $path absolute path to a file or folder
-	 * @return string
+	 * Converts an absolute path within the Nextcloud filesystem to its internal representation,
+	 * i.e., the path inside the mounted storage. If the path corresponds to the root of the
+	 * mount point, an empty string is returned.
+	 *
+	 * @param string $path Absolute path to a file or folder
+	 * @return string Path relative to this mount point ("" for root)
 	 * @since 8.0.0
 	 */
 	public function getInternalPath($path);
 
 	/**
-	 * Apply a storage wrapper to the mounted storage
+	 * Applies a callable wrapper to the underlying storage.
 	 *
-	 * @param callable $wrapper
+	 * The wrapper is typically used to modify or enhance the storage behavior (e.g., for encryption or logging).
+	 * The callable receives the mount point, the original storage, and the mount point instance as arguments.
+	 * If the storage cannot be initialized, this method has no effect.
+	 *
+	 * @param callable $wrapper Callable of the form function(string $mountPoint, \OCP\Files\Storage\IStorage $storage, IMountPoint $mount): \OCP\Files\Storage\IStorage
+	 * @return void
 	 * @since 8.0.0
 	 */
 	public function wrapStorage($wrapper);
 
 	/**
-	 * Get a mount option
+	 * Returns the value of a mount option by name from the mount configuration.
 	 *
-	 * @param string $name Name of the mount option to get
-	 * @param mixed $default Default value for the mount option
-	 * @return mixed
+	 * If the option is not present, returns the provided default value.
+	 *
+	 * @param string $name The name of the mount option to retrieve
+	 * @param mixed $default The value to return if the option is not set
+	 * @return mixed Option value if set, otherwise $default
 	 * @since 8.0.0
 	 */
 	public function getOption($name, $default);
 
 	/**
-	 * Get all options for the mount
+	 * Returns all mount options configured for this mount point.
 	 *
-	 * @return array
+	 * Provides an associative array of all options specific to this mount,
+	 * with string keys and mixed values.
+	 *
+	 * @return array Associative array of mount options (may be empty)
 	 * @since 8.1.0
 	 */
 	public function getOptions();
 
 	/**
-	 * Get the file id of the root of the storage
+	 * Returns the file id of the root folder for this storage.
 	 *
-	 * @return int
+	 * This is the unique id (from the file cache) of the root entry for the storage mounted at this point.
+	 * Returns -1 if the storage is not available or has not been scanned yet.
+	 *
+	 * @return int File id of the root folder, or -1 if unavailable.
 	 * @since 9.1.0
 	 */
 	public function getStorageRootId();
 
 	/**
-	 * Get the id of the configured mount
+	 * Returns the unique identifier for this mount, if configured.
 	 *
-	 * @return int|null mount id or null if not applicable
+	 * This id is typically assigned by the system or storage backend when a mount
+	 * point is created and persisted. Returns null if the mount does not have an id,
+	 * such as in the case of temporary or system mounts.
+	 *
+	 * @return int|null Mount point id, or null if not applicable.
 	 * @since 9.1.0
 	 */
 	public function getMountId();
 
 	/**
-	 * Get the type of mount point, used to distinguish things like shares and external storage
-	 * in the web interface
+	 * Returns the type of this mount point as a string.
 	 *
-	 * @return string
+	 * The mount type is used to distinguish between different sources or kinds
+	 * of mounts, such as 'home', 'shared', 'external', etc. Defaults to an
+	 * empty string if not set.
+	 *
+	 * @return string The mount point type identifier (e.g., 'home', 'shared', 'external').
 	 * @since 12.0.0
 	 */
 	public function getMountType();
 
 	/**
-	 * Get the class of the mount provider that this mount originates from
+	 * Returns the fully-qualified class name of the mount provider for this mount.
 	 *
-	 * @return string
+	 * The mount provider is the service or class that created and manages this mount
+	 * (for example, a class handling user homes, external storage, or shared mounts).
+	 *
+	 * @return string Fully-qualified class name of the provider, or empty string if the provider is not set.
 	 * @since 24.0.0
 	 */
 	public function getMountProvider(): string;
