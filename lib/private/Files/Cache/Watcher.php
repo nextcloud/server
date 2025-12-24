@@ -7,8 +7,11 @@
  */
 namespace OC\Files\Cache;
 
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IWatcher;
+use OCP\Files\Storage\IStorage;
 
 /**
  * check the storage backends for updates and change the cache accordingly
@@ -19,27 +22,26 @@ class Watcher implements IWatcher {
 	protected $checkedPaths = [];
 
 	/**
-	 * @var \OC\Files\Storage\Storage $storage
+	 * @var IStorage $storage
 	 */
 	protected $storage;
 
 	/**
-	 * @var Cache $cache
+	 * @var ICache $cache
 	 */
 	protected $cache;
 
 	/**
-	 * @var Scanner $scanner ;
+	 * @var IScanner $scanner ;
 	 */
 	protected $scanner;
 
 	/** @var callable[] */
 	protected $onUpdate = [];
 
-	/**
-	 * @param \OC\Files\Storage\Storage $storage
-	 */
-	public function __construct(\OC\Files\Storage\Storage $storage) {
+	protected ?string $checkFilter = null;
+
+	public function __construct(IStorage $storage) {
 		$this->storage = $storage;
 		$this->cache = $storage->getCache();
 		$this->scanner = $storage->getScanner();
@@ -50,6 +52,10 @@ class Watcher implements IWatcher {
 	 */
 	public function setPolicy($policy) {
 		$this->watchPolicy = $policy;
+	}
+
+	public function setCheckFilter(?string $filter): void {
+		$this->checkFilter = $filter;
 	}
 
 	/**
@@ -116,6 +122,12 @@ class Watcher implements IWatcher {
 	 * @return bool
 	 */
 	public function needsUpdate($path, $cachedData) {
+		if ($this->checkFilter !== null) {
+			if (!preg_match($this->checkFilter, $path)) {
+				return false;
+			}
+		}
+
 		if ($this->watchPolicy === self::CHECK_ALWAYS || ($this->watchPolicy === self::CHECK_ONCE && !in_array($path, $this->checkedPaths))) {
 			$this->checkedPaths[] = $path;
 			return $cachedData['storage_mtime'] === null || $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
