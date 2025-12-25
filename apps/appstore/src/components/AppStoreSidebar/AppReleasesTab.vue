@@ -13,7 +13,7 @@
 		</template>
 		<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
 			<h2>{{ release.version }}</h2>
-			<Markdown
+			<MarkdownPreview
 				class="app-sidebar-tabs__release-text"
 				:text="createChangelogFromRelease(release)" />
 		</div>
@@ -28,7 +28,7 @@ import { getLanguage, translate as t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import Markdown from '../Markdown.vue'
+import MarkdownPreview from '../MarkdownPreview.vue'
 
 const props = defineProps<{ app: IAppstoreApp }>()
 

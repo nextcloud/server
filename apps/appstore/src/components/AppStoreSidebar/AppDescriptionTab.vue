@@ -24,7 +24,7 @@ import { mdiTextShort } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import Markdown from '../Markdown.vue'
+import MarkdownPreview from '../MarkdownPreview.vue'
 
 defineProps<{
 	app: IAppstoreApp
