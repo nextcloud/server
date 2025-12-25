@@ -412,6 +412,7 @@ OC.L10N.register(
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "Ceadaigh uath-chríochnú le haghaidh meaitseáil iomlán agus an t-ainm iomlán á iontráil (ag neamhaird srianta cosúil le ballraíocht ghrúpa nó meaitseáil eolaire teileafóin atá ar iarraidh)",
     "Full match autocompletion restrictions" : "Srianta uathchríochnaithe iomlána ar mheaitseáil",
     "Also allow autocompletion on full match of the user ID" : "Ceadaigh uathchríochnú freisin nuair a bhíonn an t-aitheantas úsáideora ag teacht leis go hiomlán",
+    "Also allow autocompletion on full match of the display name" : "Ceadaigh uathchríochnú freisin nuair a bhíonn an t-ainm taispeána ag teacht leis go hiomlán",
     "Also allow autocompletion on full match of the user email" : "Ceadaigh uathchríochnú freisin nuair a mheaitseálann ríomhphost an úsáideora go hiomlán",
     "Do not use second user displayname for full match" : "Ná húsáid ainm taispeána an dara úsáideora le haghaidh meaitseáil iomlán",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Taispeáin téacs séanta ar leathanach uaslódála an naisc phoiblí (ní thaispeántar é ach amháin nuair atá liosta na gcomhad i bhfolach)",
