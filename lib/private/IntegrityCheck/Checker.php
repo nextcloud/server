@@ -143,7 +143,7 @@ class Checker {
  			// to the root .htaccess) and only hash the stable content above the marker.
 			if ($absoluteFilePath === $this->environmentHelper->getServerRoot() . '/.htaccess') {
 				$fileContent = $this->fileAccessHelper->file_get_contents($absoluteFilePath);
-				if ($fileContent === false) {
+				if (!is_string($fileContent)) {
 					throw new \RuntimeException('Failed to read .htaccess at ' . $absoluteFilePath);
 				}
 
@@ -175,7 +175,7 @@ class Checker {
 					$this->mimeTypeDetector->getAllNamings()
 				);
 				$onDiskContent = $this->fileAccessHelper->file_get_contents($absoluteFilePath);
-				if ($onDiskContent === false) {
+				if (!is_string($onDiskContent)) {
 					throw new \RuntimeException('Failed to read mimetypelist.js at ' . $absoluteFilePath);
 				}
 
