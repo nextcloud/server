@@ -29,6 +29,9 @@ const modules = {
 	oauth2: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/oauth2/src', 'settings-admin.ts'),
 	},
+	profile: {
+		main: resolve(import.meta.dirname, 'apps/profile/src', 'main.ts'),
+	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
 	},
