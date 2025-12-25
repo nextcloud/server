@@ -254,6 +254,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Увійдіть до {productName}",
     "Wrong login or password." : "Неправильне ім'я облікового запису або пароль.",
     "This account is disabled" : "Цей обліковий запис вимкнено.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Забагато спроб неправильного входу. Спробуйте ще раз за 30 секунд.",
     "Account name or email" : "Ім'я користувача або електронна пошта",
     "Account name" : "Назва облікового запису",
     "Server side authentication failed!" : "Невдала авторизація на стороні сервера!",
