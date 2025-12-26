@@ -300,9 +300,6 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getPath')
 			->willReturn('/admin/files/my/deep/folder/');
 		$pathNode->expects($this->once())
-			->method('isReadable')
-			->willReturn(true);
-		$pathNode->expects($this->once())
 			->method('getMimetype')
 			->willReturn(FileInfo::MIMETYPE_FOLDER);
 
@@ -353,9 +350,6 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getPath')
 			->willReturn('/admin/files/my/deep/folder/');
 		$pathNode->expects($this->once())
-			->method('isReadable')
-			->willReturn(true);
-		$pathNode->expects($this->once())
 			->method('getMimetype')
 			->willReturn(FileInfo::MIMETYPE_FOLDER);
 
@@ -393,9 +387,15 @@ class DirectoryTest extends \Test\TestCase {
 			->method('instanceOfStorage')
 			->willReturn(false);
 
-		$directoryNode->expects($this->once())
+		$invokedCount = $this->exactly(2);
+		$directoryNode->expects($invokedCount)
 			->method('isReadable')
-			->willReturn(true);
+			->willReturnCallback(function () use ($invokedCount) {
+				return match ($invokedCount->numberOfInvocations()) {
+					1 => true,
+					2 => false,
+				};
+			});
 		$directoryNode->expects($this->once())
 			->method('getPath')
 			->willReturn('/admin/files/');
@@ -403,11 +403,7 @@ class DirectoryTest extends \Test\TestCase {
 			->method('get')
 			->willReturn($pathNode);
 
-		$pathNode->expects($this->once())
-			->method('isReadable')
-			->willReturn(false);
-
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$dir = new Directory($this->view, $directoryNode);
 		$dir->getNodeForPath('/my/deep/folder/');
