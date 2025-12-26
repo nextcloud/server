@@ -30,9 +30,11 @@ use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\User\Events\UserIdAssignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use Psr\Log\LoggerInterface;
 
-/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent|UserUpdatedEvent> */
+/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent|UserUpdatedEvent|BeforeGroupDeletedEvent|GroupDeletedEvent> */
 class UserEventsListener implements IEventListener {
 
 	/** @var IUser[] */
@@ -77,6 +79,8 @@ class UserEventsListener implements IEventListener {
 			$this->firstLogin($event->getUser());
 		} elseif ($event instanceof UserUpdatedEvent) {
 			$this->updateUser($event->getUser());
+		} elseif ($event instanceof GroupDeletedEvent) {
+			$this->postDeleteGroup($event->getGroup()->getGID());
 		}
 	}
 
@@ -133,6 +137,11 @@ class UserEventsListener implements IEventListener {
 		unset($this->calendarsToDelete[$uid]);
 		unset($this->subscriptionsToDelete[$uid]);
 		unset($this->addressBooksToDelete[$uid]);
+	}
+
+	public function postDeleteGroup(string $gid): void {
+		$this->calDav->deleteAllSharesByUser('principals/groups/' . $gid);
+		$this->cardDav->deleteAllSharesByUser('principals/groups/' . $gid);
 	}
 
 	public function changeUser(IUser $user, string $feature): void {
