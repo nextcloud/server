@@ -65,12 +65,12 @@ class DeleteOrphanedFilesTest extends TestCase {
 		return $query->executeQuery()->fetchAllAssociative();
 	}
 
-	protected function getMounts(int $storageId): array {
+	protected function getMountsCount(int $storageId): int {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('*')
+		$query->select($query->func()->count())
 			->from('mounts')
 			->where($query->expr()->eq('storage_id', $query->createNamedParameter($storageId)));
-		return $query->executeQuery()->fetchAllAssociative();
+		return (int)$query->executeQuery()->fetchOne();
 	}
 
 	/**
@@ -96,12 +96,12 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$numericStorageId = $fileInfo->getStorage()->getStorageCache()->getNumericId();
 
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is available');
-		$this->assertCount(1, $this->getMounts($numericStorageId), 'Asserts that mount is available');
+		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is available');
 
 		$this->command->execute($input, $output);
 
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is still available');
-		$this->assertCount(1, $this->getMounts($numericStorageId), 'Asserts that mount is still available');
+		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is still available');
 
 
 		$deletedRows = $this->connection->executeUpdate('DELETE FROM `*PREFIX*storages` WHERE `id` = ?', [$storageId]);
@@ -125,7 +125,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$this->command->execute($input, $output);
 
 		$this->assertCount(0, $this->getFile($fileInfo->getId()), 'Asserts that file gets cleaned up');
-		$this->assertCount(0, $this->getMounts($numericStorageId), 'Asserts that mount gets cleaned up');
+		$this->assertEquals(0, $this->getMountsCount($numericStorageId), 'Asserts that mount gets cleaned up');
 
 		// Rescan folder to add back to cache before deleting
 		$rootFolder->getUserFolder($this->user1)->getStorage()->getScanner()->scan('');
