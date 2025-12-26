@@ -22,5 +22,6 @@ return array(
     'OCA\\Comments\\MaxAutoCompleteResultsInitialState' => $baseDir . '/../lib/MaxAutoCompleteResultsInitialState.php',
     'OCA\\Comments\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Comments\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
+    'OCA\\Comments\\OpenMetrics\\Comments' => $baseDir . '/../lib/OpenMetrics/Comments.php',
     'OCA\\Comments\\Search\\CommentsSearchProvider' => $baseDir . '/../lib/Search/CommentsSearchProvider.php',
 );
