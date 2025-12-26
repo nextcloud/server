@@ -161,6 +161,31 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testIsSystemUserWhenUserExists(): void {
+		$email = 'user@example.com';
+		$user = $this->createMock(\OCP\IUser::class);
+
+		$this->userManager->expects(self::once())
+			->method('getByEmail')
+			->with($email)
+			->willReturn([$user]);
+
+		$result = $this->service->isSystemUser($email);
+		$this->assertTrue($result);
+	}
+
+	public function testIsSystemUserWhenUserDoesNotExist(): void {
+		$email = 'external@example.com';
+
+		$this->userManager->expects(self::once())
+			->method('getByEmail')
+			->with($email)
+			->willReturn([]);
+
+		$result = $this->service->isSystemUser($email);
+		$this->assertFalse($result);
+	}
+
 	public function testBuildBodyDataCreated(): void {
 
 		// construct l10n return(s)

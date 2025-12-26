@@ -126,6 +126,17 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
 		}
+
+		// Check if external attendees are disabled
+		$externalAttendeesDisabled = $this->config->getValueBool('dav', 'caldav.external_attendees_disabled', false);
+		if ($externalAttendeesDisabled && !$this->imipService->isSystemUser($recipient)) {
+			$this->logger->debug('No invitation sent to external attendee (external attendees disabled)', [
+				'attendee' => $recipient,
+			]);
+			$iTipMessage->scheduleStatus = '5.0; External attendees are disabled';
+			return;
+		}
+
 		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
 		$newEvents = $iTipMessage->message;
