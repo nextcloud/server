@@ -699,6 +699,19 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	/**
+	 * Truncate a table data if it exists
+	 *
+	 * @param string $table table name without the prefix
+	 * @param bool $cascade whether to truncate cascading
+	 *
+	 * @throws Exception
+	 */
+	public function truncateTable(string $table, bool $cascade) {
+		$this->executeStatement($this->getDatabasePlatform()
+			->getTruncateTableSQL($this->tablePrefix . trim($table), $cascade));
+	}
+
+	/**
 	 * Check if a table exists
 	 *
 	 * @param string $table table name without the prefix

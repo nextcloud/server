@@ -218,12 +218,6 @@ class Application extends App {
 				'mounts_class_index',
 				['mount_provider_class']
 			);
-			$event->addMissingIndex(
-				'mounts',
-				'mounts_user_root_path_index',
-				['user_id', 'root_id', 'mount_point'],
-				['lengths' => [null, null, 128]]
-			);
 
 			$event->addMissingIndex(
 				'systemtag_object_mapping',
