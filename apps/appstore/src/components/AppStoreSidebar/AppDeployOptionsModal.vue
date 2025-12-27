@@ -7,17 +7,17 @@
 	<NcDialog
 		:open="show"
 		size="normal"
-		:name="t('settings', 'Advanced deploy options')"
+		:name="t('appstore', 'Advanced deploy options')"
 		@update:open="$emit('update:show', $event)">
 		<div class="modal__content">
 			<p class="deploy-option__hint">
-				{{ configuredDeployOptions === null ? t('settings', 'Edit ExApp deploy options before installation') : t('settings', 'Configured ExApp deploy options. Can be set only during installation') }}.
+				{{ configuredDeployOptions === null ? t('appstore', 'Edit ExApp deploy options before installation') : t('appstore', 'Configured ExApp deploy options. Can be set only during installation') }}.
 				<a v-if="deployOptionsDocsUrl" :href="deployOptionsDocsUrl">
-					{{ t('settings', 'Learn more') }}
+					{{ t('appstore', 'Learn more') }}
 				</a>
 			</p>
 			<h3 v-if="environmentVariables.length > 0 || (configuredDeployOptions !== null && configuredDeployOptions.environment_variables.length > 0)">
-				{{ t('settings', 'Environment variables') }}
+				{{ t('appstore', 'Environment variables') }}
 			</h3>
 			<template v-if="configuredDeployOptions === null">
 				<div
@@ -34,7 +34,7 @@
 				v-else-if="Object.keys(configuredDeployOptions).length > 0"
 				class="envs">
 				<legend class="deploy-option__hint">
-					{{ t('settings', 'ExApp container environment variables') }}
+					{{ t('appstore', 'ExApp container environment variables') }}
 				</legend>
 				<NcTextField
 					v-for="(value, key) in configuredDeployOptions.environment_variables"
@@ -46,28 +46,28 @@
 			</fieldset>
 			<template v-else>
 				<p class="deploy-option__hint">
-					{{ t('settings', 'No environment variables defined') }}
+					{{ t('appstore', 'No environment variables defined') }}
 				</p>
 			</template>
 
-			<h3>{{ t('settings', 'Mounts') }}</h3>
+			<h3>{{ t('appstore', 'Mounts') }}</h3>
 			<template v-if="configuredDeployOptions === null">
 				<p class="deploy-option__hint">
-					{{ t('settings', 'Define host folder mounts to bind to the ExApp container') }}
+					{{ t('appstore', 'Define host folder mounts to bind to the ExApp container') }}
 				</p>
-				<NcNoteCard type="info" :text="t('settings', 'Must exist on the Deploy daemon host prior to installing the ExApp')" />
+				<NcNoteCard type="info" :text="t('appstore', 'Must exist on the Deploy daemon host prior to installing the ExApp')" />
 				<div
 					v-for="mount in deployOptions.mounts"
 					:key="mount.hostPath"
 					class="deploy-option"
 					style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
-					<NcTextField v-model="mount.hostPath" :label="t('settings', 'Host path')" />
-					<NcTextField v-model="mount.containerPath" :label="t('settings', 'Container path')" />
+					<NcTextField v-model="mount.hostPath" :label="t('appstore', 'Host path')" />
+					<NcTextField v-model="mount.containerPath" :label="t('appstore', 'Container path')" />
 					<NcCheckboxRadioSwitch v-model="mount.readonly">
-						{{ t('settings', 'Read-only') }}
+						{{ t('appstore', 'Read-only') }}
 					</NcCheckboxRadioSwitch>
 					<NcButton
-						:aria-label="t('settings', 'Remove mount')"
+						:aria-label="t('appstore', 'Remove mount')"
 						style="margin-top: 6px;"
 						@click="removeMount(mount)">
 						<template #icon>
@@ -77,73 +77,73 @@
 				</div>
 				<div v-if="addingMount" class="deploy-option">
 					<h4>
-						{{ t('settings', 'New mount') }}
+						{{ t('appstore', 'New mount') }}
 					</h4>
 					<div style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
 						<NcTextField
 							ref="newMountHostPath"
 							v-model="newMountPoint.hostPath"
-							:label="t('settings', 'Host path')"
-							:aria-label="t('settings', 'Enter path to host folder')" />
+							:label="t('appstore', 'Host path')"
+							:aria-label="t('appstore', 'Enter path to host folder')" />
 						<NcTextField
 							v-model="newMountPoint.containerPath"
-							:label="t('settings', 'Container path')"
-							:aria-label="t('settings', 'Enter path to container folder')" />
+							:label="t('appstore', 'Container path')"
+							:aria-label="t('appstore', 'Enter path to container folder')" />
 						<NcCheckboxRadioSwitch
 							v-model="newMountPoint.readonly"
-							:aria-label="t('settings', 'Toggle read-only mode')">
-							{{ t('settings', 'Read-only') }}
+							:aria-label="t('appstore', 'Toggle read-only mode')">
+							{{ t('appstore', 'Read-only') }}
 						</NcCheckboxRadioSwitch>
 					</div>
 					<div style="display: flex; align-items: center; margin-top: 4px;">
 						<NcButton
-							:aria-label="t('settings', 'Confirm adding new mount')"
+							:aria-label="t('appstore', 'Confirm adding new mount')"
 							@click="addMountPoint">
 							<template #icon>
 								<NcIconSvgWrapper :path="mdiCheck" />
 							</template>
-							{{ t('settings', 'Confirm') }}
+							{{ t('appstore', 'Confirm') }}
 						</NcButton>
 						<NcButton
-							:aria-label="t('settings', 'Cancel adding mount')"
+							:aria-label="t('appstore', 'Cancel adding mount')"
 							style="margin-left: 4px;"
 							@click="cancelAddMountPoint">
 							<template #icon>
 								<NcIconSvgWrapper :path="mdiClose" />
 							</template>
-							{{ t('settings', 'Cancel') }}
+							{{ t('appstore', 'Cancel') }}
 						</NcButton>
 					</div>
 				</div>
 				<NcButton
 					v-if="!addingMount"
-					:aria-label="t('settings', 'Add mount')"
+					:aria-label="t('appstore', 'Add mount')"
 					style="margin-top: 5px;"
 					@click="startAddingMount">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiPlus" />
 					</template>
-					{{ t('settings', 'Add mount') }}
+					{{ t('appstore', 'Add mount') }}
 				</NcButton>
 			</template>
 			<template v-else-if="configuredDeployOptions.mounts.length > 0">
 				<p class="deploy-option__hint">
-					{{ t('settings', 'ExApp container mounts') }}
+					{{ t('appstore', 'ExApp container mounts') }}
 				</p>
 				<div
 					v-for="mount in configuredDeployOptions.mounts"
 					:key="mount.hostPath"
 					class="deploy-option"
 					style="display: flex; align-items: center; justify-content: space-between; flex-direction: row;">
-					<NcTextField v-model="mount.hostPath" :label="t('settings', 'Host path')" readonly />
-					<NcTextField v-model="mount.containerPath" :label="t('settings', 'Container path')" readonly />
+					<NcTextField v-model="mount.hostPath" :label="t('appstore', 'Host path')" readonly />
+					<NcTextField v-model="mount.containerPath" :label="t('appstore', 'Container path')" readonly />
 					<NcCheckboxRadioSwitch v-model="mount.readonly" disabled>
-						{{ t('settings', 'Read-only') }}
+						{{ t('appstore', 'Read-only') }}
 					</NcCheckboxRadioSwitch>
 				</div>
 			</template>
 			<p v-else class="deploy-option__hint">
-				{{ t('settings', 'No mounts defined') }}
+				{{ t('appstore', 'No mounts defined') }}
 			</p>
 		</div>
 
@@ -165,6 +165,7 @@ import { mdiCheck, mdiClose, mdiDeleteOutline, mdiPlus } from '@mdi/js'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { computed, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -222,6 +223,8 @@ export default {
 		})
 
 		return {
+			t,
+
 			environmentVariables,
 			deployOptions,
 			store,
@@ -244,7 +247,7 @@ export default {
 
 			addingPortBinding: false,
 			configuredDeployOptions: null,
-			deployOptionsDocsUrl: loadState('settings', 'deployOptionsDocsUrl', null),
+			deployOptionsDocsUrl: loadState('appstore', 'deployOptionsDocsUrl', null),
 		}
 	},
 
