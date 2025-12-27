@@ -412,6 +412,7 @@ OC.L10N.register(
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "Umožnit aby automatické doplňování hledalo úplnou shodu při zadávání úplného jména (jsou ignorována omezení jako členství ve skupinách nebo chybějící shoda s telefonním seznamem)",
     "Full match autocompletion restrictions" : "Omezení automatického dokončování úplné shody",
     "Also allow autocompletion on full match of the user ID" : "Také umožnit automatické dokončování při úplné shodě s identifikátorem uživatele",
+    "Also allow autocompletion on full match of the display name" : "Také umožnit automatické dokončování při úplné shodě se zobrazovaným jménem",
     "Also allow autocompletion on full match of the user email" : "Také umožnit automatické dokončování při úplné shodě s e-mailem uživatele",
     "Do not use second user displayname for full match" : "Pro plnou shodu nepoužívat druhé zobrazované jméno uživatele",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Zobrazit text zřeknutí se odpovědnosti na stránce pro nahrání veřejného odkazu. (zobrazit pouze pokud je seznam souborů skrytý)",
