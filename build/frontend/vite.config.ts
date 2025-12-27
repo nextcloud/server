@@ -98,12 +98,10 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
 					assetFileNames({ originalFileNames }) {
-						const [name] = originalFileNames
-						if (name) {
-							const [, appId] = name.match(/apps\/([^/]+)\//)!
-							return `${appId}-[name]-[hash][extname]`
-						}
-						return '[name]-[hash][extname]'
+						const apps = originalFileNames.map((name) => name.match(/apps\/([^/]+)\//)?.[1])
+							.filter(Boolean)
+						const appId = apps.length === 1 ? apps[0] : 'common'
+						return `${appId}-[name]-[hash][extname]`
 					},
 					experimentalMinChunkSize: 100 * 1024,
 					/* // with rolldown-vite:
