@@ -824,6 +824,7 @@ return array(
     'OCP\\Share\\IShare' => $baseDir . '/lib/public/Share/IShare.php',
     'OCP\\Share\\IShareHelper' => $baseDir . '/lib/public/Share/IShareHelper.php',
     'OCP\\Share\\IShareProvider' => $baseDir . '/lib/public/Share/IShareProvider.php',
+    'OCP\\Share\\IShareProviderGetUsers' => $baseDir . '/lib/public/Share/IShareProviderGetUsers.php',
     'OCP\\Share\\IShareProviderSupportsAccept' => $baseDir . '/lib/public/Share/IShareProviderSupportsAccept.php',
     'OCP\\Share\\IShareProviderSupportsAllSharesInFolder' => $baseDir . '/lib/public/Share/IShareProviderSupportsAllSharesInFolder.php',
     'OCP\\Share\\IShareProviderWithNotification' => $baseDir . '/lib/public/Share/IShareProviderWithNotification.php',
