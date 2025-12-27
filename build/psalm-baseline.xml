@@ -2306,12 +2306,6 @@
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
   </file>
-  <file src="apps/settings/lib/Controller/AppSettingsController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getSupportedApps]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/settings/lib/Controller/MailSettingsController.php">
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>

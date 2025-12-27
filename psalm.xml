@@ -24,6 +24,7 @@
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
+		<directory name="apps/appstore"/>
 		<directory name="apps/cloud_federation_api"/>
 		<directory name="apps/comments"/>
 		<directory name="apps/contactsinteraction"/>

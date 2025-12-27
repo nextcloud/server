@@ -23,10 +23,12 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerSearchProvider(AppSearch::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

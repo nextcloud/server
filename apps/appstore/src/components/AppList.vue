@@ -79,8 +79,8 @@
 						<span class="hidden-visually">{{ t('appstore', 'Actions') }}</span>
 					</th>
 				</tr>
-				<template v-for="bundle in bundles">
-					<tr :key="bundle.id">
+				<tbody v-for="bundle in bundles" :key="bundle.id">
+					<tr>
 						<th :id="`app-table-rowgroup-${bundle.id}`" colspan="5" scope="rowgroup">
 							<div class="apps-list__bundle-heading">
 								<span class="apps-list__bundle-header">
@@ -99,7 +99,7 @@
 						:headers="`app-table-rowgroup-${bundle.id}`"
 						:app="app"
 						:category="category" />
-				</template>
+				</tbody>
 			</table>
 			<ul v-if="useAppStoreView" class="apps-list__store-container">
 				<AppItem

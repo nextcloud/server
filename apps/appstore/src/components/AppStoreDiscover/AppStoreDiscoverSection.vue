@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { IAppDiscoverElements } from '../../constants/AppDiscoverTypes.ts'
 
 import { mdiEyeOffOutline } from '@mdi/js'
@@ -70,7 +71,8 @@ function shuffleArray<T>(array: T[]): T[] {
  */
 onBeforeMount(async () => {
 	try {
-		const { data } = await axios.get<Record<string, unknown>[]>(generateUrl('/settings/api/apps/discover'))
+		const response = await axios.get<OCSResponse<Record<string, unknown>[]>>(generateOcsUrl('/apps/appstore/api/v1/discover'))
+		const { data } = response.data.ocs
 		if (data.length === 0) {
 			logger.info('No app discover elements available (empty response)')
 			hasError.value = true
