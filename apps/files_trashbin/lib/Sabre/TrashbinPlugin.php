@@ -101,7 +101,7 @@ class TrashbinPlugin extends ServerPlugin {
 			fn () => $this->previewManager->isAvailable($node->getFileInfo()) ? 'true' : 'false'
 		);
 		$propFind->handle(
-			FilesPlugin::GETETAG_PROPERTYNAME, 
+			FilesPlugin::GETETAG_PROPERTYNAME,
 			fn () => $node->getLastModified() // Etag based on last modified time of deleted item
 		);
 		$propFind->handle(
@@ -117,7 +117,7 @@ class TrashbinPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * Suggest the original filename to the browser for the download. 
+	 * Suggest the original filename to the browser for the download.
 	 */
 	public function httpGet(RequestInterface $request, ResponseInterface $response): void {
 		$path = $request->getPath();
