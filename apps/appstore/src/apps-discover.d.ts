@@ -1,12 +1,7 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-/**
- * Currently known types of app discover section elements
- */
-export const APP_DISCOVER_KNOWN_TYPES = ['post', 'showcase', 'carousel'] as const
 
 /**
  * Helper for localized values

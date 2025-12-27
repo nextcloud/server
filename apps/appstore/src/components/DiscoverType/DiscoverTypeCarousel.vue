@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<section :aria-roledescription="t('settings', 'Carousel')" :aria-labelledby="headingId ? `${headingId}` : undefined">
+	<section :aria-roledescription="t('appstore', 'Carousel')" :aria-labelledby="headingId ? `${headingId}` : undefined">
 		<h3 v-if="headline" :id="headingId">
 			{{ translatedHeadline }}
 		</h3>
@@ -12,7 +12,7 @@
 				<NcButton
 					class="app-discover-carousel__button app-discover-carousel__button--previous"
 					variant="tertiary-no-background"
-					:aria-label="t('settings', 'Previous slide')"
+					:aria-label="t('appstore', 'Previous slide')"
 					:disabled="!hasPrevious"
 					@click="currentIndex -= 1">
 					<template #icon>
@@ -22,7 +22,7 @@
 			</div>
 
 			<Transition :name="transitionName" mode="out-in">
-				<PostType
+				<DiscoverTypePost
 					v-bind="shownElement"
 					:key="shownElement.id ?? currentIndex"
 					:aria-labelledby="`${internalId}-tab-${currentIndex}`"
@@ -35,7 +35,7 @@
 				<NcButton
 					class="app-discover-carousel__button app-discover-carousel__button--next"
 					variant="tertiary-no-background"
-					:aria-label="t('settings', 'Next slide')"
+					:aria-label="t('appstore', 'Next slide')"
 					:disabled="!hasNext"
 					@click="currentIndex += 1">
 					<template #icon>
@@ -44,12 +44,12 @@
 				</NcButton>
 			</div>
 		</div>
-		<div class="app-discover-carousel__tabs" role="tablist" :aria-label="t('settings', 'Choose slide to display')">
+		<div class="app-discover-carousel__tabs" role="tablist" :aria-label="t('appstore', 'Choose slide to display')">
 			<NcButton
 				v-for="index of content.length"
 				:id="`${internalId}-tab-${index}`"
 				:key="index"
-				:aria-label="t('settings', '{index} of {total}', { index, total: content.length })"
+				:aria-label="t('appstore', '{index} of {total}', { index, total: content.length })"
 				:aria-controls="`${internalId}-tabpanel-${index}`"
 				:aria-selected="`${currentIndex === (index - 1)}`"
 				role="tab"
@@ -63,85 +63,53 @@
 	</section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { PropType } from 'vue'
-import type { IAppDiscoverCarousel } from '../../constants/AppDiscoverTypes.ts'
+import type { IAppDiscoverCarousel } from '../../apps-discover.d.ts'
 
 import { mdiChevronLeft, mdiChevronRight, mdiCircleOutline, mdiCircleSlice8 } from '@mdi/js'
-import { translate as t } from '@nextcloud/l10n'
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+import { t } from '@nextcloud/l10n'
+import { computed, nextTick, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import PostType from './PostType.vue'
+import DiscoverTypePost from './DiscoverTypePost.vue'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
 import { commonAppDiscoverProps } from './common.ts'
 
-export default defineComponent({
-	name: 'CarouselType',
+const props = defineProps({
+	...commonAppDiscoverProps,
 
-	components: {
-		NcButton,
-		NcIconSvgWrapper,
-		PostType,
+	/**
+	 * The content of the carousel
+	 */
+	content: {
+		type: Array as PropType<IAppDiscoverCarousel['content']>,
+		required: true,
 	},
+})
 
-	props: {
-		...commonAppDiscoverProps,
+const translatedHeadline = useLocalizedValue(computed(() => props.headline))
 
-		/**
-		 * The content of the carousel
-		 */
-		content: {
-			type: Array as PropType<IAppDiscoverCarousel['content']>,
-			required: true,
-		},
-	},
+const currentIndex = ref(Math.min(1, props.content.length - 1))
+const shownElement = ref(props.content[currentIndex.value]!)
+const hasNext = computed(() => currentIndex.value < (props.content.length - 1))
+const hasPrevious = computed(() => currentIndex.value > 0)
 
-	setup(props) {
-		const translatedHeadline = useLocalizedValue(computed(() => props.headline))
+const internalId = computed(() => props.id ?? (Math.random() + 1).toString(36).substring(7))
+const headingId = computed(() => `${internalId.value}-h`)
 
-		const currentIndex = ref(Math.min(1, props.content.length - 1))
-		const shownElement = ref(props.content[currentIndex.value])
-		const hasNext = computed(() => currentIndex.value < (props.content.length - 1))
-		const hasPrevious = computed(() => currentIndex.value > 0)
+const transitionName = ref('slide-in')
+watch(() => currentIndex.value, (o, n) => {
+	if (o < n) {
+		transitionName.value = 'slide-in'
+	} else {
+		transitionName.value = 'slide-out'
+	}
 
-		const internalId = computed(() => props.id ?? (Math.random() + 1).toString(36).substring(7))
-		const headingId = computed(() => `${internalId.value}-h`)
-
-		const transitionName = ref('slide-in')
-		watch(() => currentIndex.value, (o, n) => {
-			if (o < n) {
-				transitionName.value = 'slide-in'
-			} else {
-				transitionName.value = 'slide-out'
-			}
-
-			// Wait next tick
-			nextTick(() => {
-				shownElement.value = props.content[currentIndex.value]
-			})
-		})
-
-		return {
-			t,
-			internalId,
-			headingId,
-
-			hasNext,
-			hasPrevious,
-			currentIndex,
-			shownElement,
-
-			transitionName,
-
-			translatedHeadline,
-
-			mdiChevronLeft,
-			mdiChevronRight,
-			mdiCircleOutline,
-			mdiCircleSlice8,
-		}
-	},
+	// Wait next tick
+	nextTick(() => {
+		shownElement.value = props.content[currentIndex.value]!
+	})
 })
 </script>
 
