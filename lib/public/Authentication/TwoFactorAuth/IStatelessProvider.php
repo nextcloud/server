@@ -9,13 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\Authentication\TwoFactorAuth;
 
-use OCP\IUser;
+use OCP\AppFramework\Attribute\Implementable;
 
 /**
  * Marks the 2FA provider stateless. That means the state of 2FA activation
  * for user will be checked dynamically and not stored in the database.
+ *
+ * @since 33.0.0
  */
+#[Implementable(since: '33.0.0')]
 interface IStatelessProvider extends IProvider {
-
-	public function isTwoFactorAuthEnabledForUser(IUser $user): bool;
 }
