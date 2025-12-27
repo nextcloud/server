@@ -162,8 +162,7 @@ class ServerFactory {
 					$this->userSession,
 					\OCP\Server::get(IFilenameValidator::class),
 					\OCP\Server::get(IAccountManager::class),
-					$isPublicShare,
-					!$debugEnabled
+					$isPublicShare
 				)
 			);
 			$server->addPlugin(new QuotaPlugin($view));
