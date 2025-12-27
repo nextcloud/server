@@ -430,13 +430,11 @@ class OC_App {
 				if ($appPath !== false) {
 					$appIcon = $appPath . '/img/' . $app . '.svg';
 					if (file_exists($appIcon)) {
-						$info['preview'] = $urlGenerator->imagePath($app, $app . '.svg');
-						$info['previewAsIcon'] = true;
+						$info['icon'] = $urlGenerator->imagePath($app, $app . '.svg');
 					} else {
 						$appIcon = $appPath . '/img/app.svg';
 						if (file_exists($appIcon)) {
-							$info['preview'] = $urlGenerator->imagePath($app, 'app.svg');
-							$info['previewAsIcon'] = true;
+							$info['icon'] = $urlGenerator->imagePath($app, 'app.svg');
 						}
 					}
 				}
