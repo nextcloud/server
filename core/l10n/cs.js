@@ -254,6 +254,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Přihlásit se do {productName}",
     "Wrong login or password." : "Nesprávné přihlašovací jméno nebo heslo",
     "This account is disabled" : "Účet je znepřístupněn",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Příliš mnoho nesprávných pokusů o přihlášení. Zkuste to znovu za 30 sekund.",
     "Account name or email" : "Název účtu nebo e-mail",
     "Account name" : "Název účtu",
     "Server side authentication failed!" : "Ověření se na straně serveru se nezdařilo!",
