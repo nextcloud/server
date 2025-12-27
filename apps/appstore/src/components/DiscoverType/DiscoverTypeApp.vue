@@ -3,15 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<AppItem
-		v-if="app"
-		:app="app"
-		category="discover"
-		class="app-discover-app"
-		inline
-		:list-view="false" />
 	<a
-		v-else
+		v-if="!app"
 		class="app-discover-app app-discover-app__skeleton"
 		:href="appStoreLink"
 		target="_blank"
@@ -24,14 +17,32 @@
 		<span class="skeleton-element" />
 		<span class="skeleton-element" />
 	</a>
+
+	<article v-else class="app-discover-app">
+		<AppImage class="app-discover-app__image" :app="app" />
+		<div class="app-discover-app__wrapper">
+			<h3 class="app-discover-app__name">
+				<AppLink :href="`app:${app.id}`">
+					{{ app.name }}
+				</AppLink>
+			</h3>
+			<p>{{ app.summary }}</p>
+			<AppScore
+				v-if="app.ratingNumThresholdReached"
+				class="app-discover-app__score"
+				:score="app.score" />
+		</div>
+	</article>
 </template>
 
 <script setup lang="ts">
-import type { IAppDiscoverApp } from '../../constants/AppDiscoverTypes.ts'
+import type { IAppDiscoverApp } from '../../apps-discover.d.ts'
 
 import { computed } from 'vue'
-import AppItem from '../AppList/AppItem.vue'
-import { useAppsStore } from '../../store/apps-store.ts'
+import AppImage from '../AppImage.vue'
+import AppLink from '../AppLink.vue'
+import AppScore from '../AppScore.vue'
+import { useAppsStore } from '../../store/apps.ts'
 
 const props = defineProps<{
 	modelValue: IAppDiscoverApp
@@ -40,16 +51,42 @@ const props = defineProps<{
 const store = useAppsStore()
 const app = computed(() => store.getAppById(props.modelValue.appId))
 
-const appStoreLink = computed(() => props.modelValue.appId ? `https://apps.nextcloud.com/apps/${props.modelValue.appId}` : '#')
+const appStoreLink = computed(() => props.modelValue.appId
+	? `https://apps.nextcloud.com/apps/${props.modelValue.appId}`
+	: '#')
 </script>
 
 <style scoped lang="scss">
 .app-discover-app {
-	width: 100% !important; // full with of the showcase item
+	border-radius: var(--border-radius-element);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	width: 100% !important;
 
 	&:hover {
 		background: var(--color-background-hover);
-		border-radius: var(--border-radius-rounded);
+	}
+
+	&__image {
+		height: 96px;
+		width: 100%;
+	}
+
+	&__name {
+		margin-block: 0.5rem;
+		font-size: 1.2rem;
+	}
+
+	&__score {
+		margin-top: auto;
+	}
+
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		padding: calc(2 * var(--default-grid-baseline));
+		padding-top: 0px;
 	}
 
 	&__skeleton {
