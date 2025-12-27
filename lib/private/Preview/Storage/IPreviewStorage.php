@@ -50,4 +50,9 @@ interface IPreviewStorage {
 	 * @throws NotFoundException
 	 */
 	public function scan(): int;
+
+	/**
+	 * See IStorage::getDirectDownload
+	 */
+	public function getDirectDownload(Preview $preview): array|false;
 }

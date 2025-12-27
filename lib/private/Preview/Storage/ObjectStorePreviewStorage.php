@@ -183,4 +183,20 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	public function scan(): int {
 		return 0;
 	}
+
+	#[Override]
+	public function getDirectDownload(Preview $preview): array|false {
+		[
+			'urn' => $urn,
+			'store' => $store,
+		] = $this->getObjectStoreInfoForExistingPreview($preview);
+
+		try {
+			$expiration = new \DateTimeImmutable('+60 minutes');
+			$url = $store->preSignedUrl($urn, $expiration);
+			return $url ? ['url' => $url, 'expiration' => $expiration->getTimestamp()] : false;
+		} catch (\Exception $exception) {
+			throw new NotPermittedException('Unable to read preview from object store with urn:' . $urn, previous: $exception);
+		}
+	}
 }

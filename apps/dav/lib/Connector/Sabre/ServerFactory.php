@@ -9,6 +9,8 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
 use OC\KnownUser\KnownUserService;
+use OC\Preview\PreviewService;
+use OC\Preview\Storage\StorageFactory;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
@@ -162,6 +164,8 @@ class ServerFactory {
 					$this->userSession,
 					\OCP\Server::get(IFilenameValidator::class),
 					\OCP\Server::get(IAccountManager::class),
+					\OCP\Server::get(PreviewService::class),
+					\OCP\Server::get(StorageFactory::class),
 					$isPublicShare,
 					!$debugEnabled
 				)

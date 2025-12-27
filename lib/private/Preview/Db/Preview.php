@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
+use OC\Preview\Storage\IPreviewStorage;
 use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 use OCP\Files\IMimeTypeDetector;
@@ -178,5 +179,16 @@ class Preview extends Entity {
 
 	public function setSourceMimeType(string $mimeType): void {
 		$this->sourceMimetype = $mimeType;
+	}
+
+	public static function getMetadata(Preview $preview, IPreviewStorage $storage): mixed {
+		$data = $storage->getDirectDownload($preview);
+		return [
+			'width' => $preview->width,
+			'height' => $preview->height,
+			'cropped' => $preview->cropped,
+			'preview_url' => $data === false ? null : $data['url'],
+			'preview_url_expiration' => $data === false ? null : $data['expiration'],
+		];
 	}
 }
