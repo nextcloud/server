@@ -403,7 +403,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			'nextcloud.log' => true,
 			'audit.log' => true,
 			'owncloud.db' => true,
-			'.ocdata' => true,
+			'.ncdata' => true,
 			'..' => true,
 			'.' => true,
 		];
