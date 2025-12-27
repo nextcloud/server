@@ -60,11 +60,11 @@ class TrashbinPluginTest extends TestCase {
 
 	public static function quotaProvider(): array {
 		return [
-			[ 1024, 512, true ],
-			[ 512, 513, false ],
-			[ FileInfo::SPACE_NOT_COMPUTED, 1024, true ],
-			[ FileInfo::SPACE_UNKNOWN, 1024, true ],
-			[ FileInfo::SPACE_UNLIMITED, 1024, true ]
+			[ 1024 * 1024, 512 * 1024, true ],
+			[ 512 * 1024, 513 * 1024, false ],
+			[ FileInfo::SPACE_NOT_COMPUTED, 1024 * 1024, true ],
+			[ FileInfo::SPACE_UNKNOWN, 1024 * 1024, true ],
+			[ FileInfo::SPACE_UNLIMITED, 1024 * 1024, true ]
 		];
 	}
 }
