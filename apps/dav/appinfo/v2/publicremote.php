@@ -17,6 +17,7 @@ use OCA\DAV\Storage\PublicShareWrapper;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -41,8 +42,12 @@ use Sabre\DAV\Exception\NotFound;
 
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
-OC_App::loadApps($RUNTIME_APPTYPES);
-OC_Util::obEnd();
+Server::get(IAppManager::class)->loadApps($RUNTIME_APPTYPES);
+
+// Turn off output buffering to prevent memory problems
+while (ob_get_level()) {
+	ob_end_clean();
+}
 
 $session = Server::get(ISession::class);
 $request = Server::get(IRequest::class);
