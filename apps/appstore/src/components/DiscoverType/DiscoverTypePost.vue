@@ -47,7 +47,7 @@
 					:type="source.mime">
 				<img
 					v-if="isImage"
-					:src="generatePrivacyUrl(mediaSources[0].src)"
+					:src="generatePrivacyUrl(mediaSources[0]!.src)"
 					:alt="mediaAlt">
 			</component>
 			<div class="app-discover-post__play-icon-wrapper">
@@ -61,137 +61,109 @@
 	</article>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { PropType } from 'vue'
-import type { IAppDiscoverPost } from '../../constants/AppDiscoverTypes.ts'
+import type { IAppDiscoverPost } from '../../apps-discover.d.ts'
 
 import { mdiPlayCircleOutline } from '@mdi/js'
 import { generateUrl } from '@nextcloud/router'
 import { useElementSize, useElementVisibility } from '@vueuse/core'
-import { computed, defineComponent, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import AppLink from './AppLink.vue'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
 import { commonAppDiscoverProps } from './common.ts'
 
-export default defineComponent({
-	components: {
-		AppLink,
-		NcIconSvgWrapper,
+const props = defineProps({
+	...commonAppDiscoverProps,
+
+	text: {
+		type: Object as PropType<IAppDiscoverPost['text']>,
+		required: false,
+		default: () => null,
 	},
 
-	props: {
-		...commonAppDiscoverProps,
-
-		text: {
-			type: Object as PropType<IAppDiscoverPost['text']>,
-			required: false,
-			default: () => null,
-		},
-
-		media: {
-			type: Object as PropType<IAppDiscoverPost['media']>,
-			required: false,
-			default: () => null,
-		},
-
-		inline: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-
-		domId: {
-			type: String,
-			required: false,
-			default: null,
-		},
+	media: {
+		type: Object as PropType<IAppDiscoverPost['media']>,
+		required: false,
+		default: () => null,
 	},
 
-	setup(props) {
-		const translatedHeadline = useLocalizedValue(computed(() => props.headline))
-		const translatedText = useLocalizedValue(computed(() => props.text))
-		const localizedMedia = useLocalizedValue(computed(() => props.media?.content))
+	inline: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
 
-		const mediaSources = computed(() => localizedMedia.value !== null ? [localizedMedia.value.src].flat() : undefined)
-		const mediaAlt = computed(() => localizedMedia.value?.alt ?? '')
+	domId: {
+		type: String,
+		required: false,
+		default: null,
+	},
+})
 
-		const isImage = computed(() => mediaSources?.value?.[0].mime.startsWith('image/') === true)
-		/**
-		 * Is the media is shown full width
-		 */
-		const isFullWidth = computed(() => !translatedHeadline.value && !translatedText.value)
+const translatedHeadline = useLocalizedValue(computed(() => props.headline))
+const translatedText = useLocalizedValue(computed(() => props.text))
+const localizedMedia = useLocalizedValue(computed(() => props.media?.content))
 
-		/**
-		 * Link on the media
-		 * Fallback to post link to prevent link inside link (which is invalid HTML)
-		 */
-		const mediaLink = computed(() => localizedMedia.value?.link ?? props.link)
+const mediaSources = computed(() => localizedMedia.value !== null ? [localizedMedia.value.src].flat() : undefined)
+const mediaAlt = computed(() => localizedMedia.value?.alt ?? '')
 
-		const hasPlaybackEnded = ref(false)
-		const showPlayVideo = computed(() => localizedMedia.value?.link && hasPlaybackEnded.value)
+const isImage = computed(() => mediaSources.value?.[0]?.mime.startsWith('image/') === true)
+/**
+ * Is the media is shown full width
+ */
+const isFullWidth = computed(() => !translatedHeadline.value && !translatedText.value)
 
-		/**
-		 * The content is sized / styles are applied based on the container width
-		 * To make it responsive even for inline usage and when opening / closing the sidebar / navigation
-		 */
-		const container = ref<HTMLElement>()
-		const { width: containerWidth } = useElementSize(container)
-		const isSmallWidth = computed(() => containerWidth.value < 600)
+/**
+ * Link on the media
+ * Fallback to post link to prevent link inside link (which is invalid HTML)
+ */
+const mediaLink = computed(() => localizedMedia.value?.link ?? props.link)
 
-		/**
-		 * Generate URL for cached media to prevent user can be tracked
-		 *
-		 * @param url The URL to resolve
-		 */
-		const generatePrivacyUrl = (url: string) => url.startsWith('/') ? url : generateUrl('/settings/api/apps/media?fileName={fileName}', { fileName: url })
+const hasPlaybackEnded = ref(false)
+const showPlayVideo = computed(() => localizedMedia.value?.link && hasPlaybackEnded.value)
 
-		const mediaElement = ref<HTMLVideoElement | HTMLPictureElement>()
-		const mediaIsVisible = useElementVisibility(mediaElement, { threshold: 0.3 })
-		watchEffect(() => {
-			// Only if media is video
-			if (!isImage.value && mediaElement.value) {
-				const video = mediaElement.value as HTMLVideoElement
+/**
+ * The content is sized / styles are applied based on the container width
+ * To make it responsive even for inline usage and when opening / closing the sidebar / navigation
+ */
+const container = ref<HTMLElement>()
+const { width: containerWidth } = useElementSize(container)
+const isSmallWidth = computed(() => containerWidth.value < 600)
 
-				if (mediaIsVisible.value) {
-					// Ensure video is muted - otherwise .play() will be blocked by browsers
-					video.muted = true
-					// If visible start playback
-					video.play()
-				} else {
-					// If not visible pause the playback
-					video.pause()
-					// If the animation has ended reset
-					if (video.ended) {
-						video.currentTime = 0
-						hasPlaybackEnded.value = false
-					}
-				}
+/**
+ * Generate URL for cached media to prevent user can be tracked
+ *
+ * @param url The URL to resolve
+ */
+function generatePrivacyUrl(url: string) {
+	return url.startsWith('/')
+		? url
+		: generateUrl('/apps/appstore/api/v1/discover/media?fileName={fileName}', { fileName: url })
+}
+
+const mediaElement = ref<HTMLVideoElement | HTMLPictureElement>()
+const mediaIsVisible = useElementVisibility(mediaElement, { threshold: 0.3 })
+watchEffect(() => {
+	// Only if media is video
+	if (!isImage.value && mediaElement.value) {
+		const video = mediaElement.value as HTMLVideoElement
+
+		if (mediaIsVisible.value) {
+			// Ensure video is muted - otherwise .play() will be blocked by browsers
+			video.muted = true
+			// If visible start playback
+			video.play()
+		} else {
+			// If not visible pause the playback
+			video.pause()
+			// If the animation has ended reset
+			if (video.ended) {
+				video.currentTime = 0
+				hasPlaybackEnded.value = false
 			}
-		})
-
-		return {
-			mdiPlayCircleOutline,
-
-			container,
-
-			translatedText,
-			translatedHeadline,
-			mediaElement,
-			mediaSources,
-			mediaAlt,
-			mediaLink,
-
-			hasPlaybackEnded,
-			showPlayVideo,
-
-			isFullWidth,
-			isSmallWidth,
-			isImage,
-
-			generatePrivacyUrl,
 		}
-	},
+	}
 })
 </script>
 

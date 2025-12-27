@@ -16,71 +16,50 @@
 		<ul class="app-discover-showcase__list">
 			<li
 				v-for="(item, index) of content"
-				:key="item.id ?? index"
+				:key="'id' in item ? item.id : index"
 				class="app-discover-showcase__item">
-				<PostType
+				<DiscoverTypePost
 					v-if="item.type === 'post'"
 					v-bind="item"
 					inline />
-				<AppType v-else-if="item.type === 'app'" :model-value="item" />
+				<DiscoverTypeApp v-else-if="item.type === 'app'" :model-value="item" />
 			</li>
 		</ul>
 	</section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { PropType } from 'vue'
-import type { IAppDiscoverShowcase } from '../../constants/AppDiscoverTypes.ts'
+import type { IAppDiscoverShowcase } from '../../apps-discover.d.ts'
 
-import { translate as t } from '@nextcloud/l10n'
 import { useElementSize } from '@vueuse/core'
-import { computed, defineComponent, ref } from 'vue'
-import AppType from './AppType.vue'
-import PostType from './PostType.vue'
+import { computed, ref } from 'vue'
+import DiscoverTypeApp from './DiscoverTypeApp.vue'
+import DiscoverTypePost from './DiscoverTypePost.vue'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
 import { commonAppDiscoverProps } from './common.ts'
 
-export default defineComponent({
-	name: 'ShowcaseType',
+const props = defineProps({
+	...commonAppDiscoverProps,
 
-	components: {
-		AppType,
-		PostType,
-	},
-
-	props: {
-		...commonAppDiscoverProps,
-
-		/**
-		 * The content of the carousel
-		 */
-		content: {
-			type: Array as PropType<IAppDiscoverShowcase['content']>,
-			required: true,
-		},
-	},
-
-	setup(props) {
-		const translatedHeadline = useLocalizedValue(computed(() => props.headline))
-
-		/**
-		 * Make the element responsive based on the container width to also handle open navigation or sidebar
-		 */
-		const container = ref<HTMLElement>()
-		const { width: containerWidth } = useElementSize(container)
-		const isSmallWidth = computed(() => containerWidth.value < 768)
-		const isExtraSmallWidth = computed(() => containerWidth.value < 512)
-
-		return {
-			t,
-
-			container,
-			isSmallWidth,
-			isExtraSmallWidth,
-			translatedHeadline,
-		}
+	/**
+	 * The content of the carousel
+	 */
+	content: {
+		type: Array as PropType<IAppDiscoverShowcase['content']>,
+		required: true,
 	},
 })
+
+const translatedHeadline = useLocalizedValue(computed(() => props.headline))
+
+/**
+ * Make the element responsive based on the container width to also handle open navigation or sidebar
+ */
+const container = ref<HTMLElement>()
+const { width: containerWidth } = useElementSize(container)
+const isSmallWidth = computed(() => containerWidth.value < 768)
+const isExtraSmallWidth = computed(() => containerWidth.value < 512)
 </script>
 
 <style scoped lang="scss">
