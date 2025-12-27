@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Appstore\Search;
 
+use OCA\Appstore\AppInfo\Application;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IUser;
@@ -24,7 +25,7 @@ class AppSearch implements IProvider {
 	}
 
 	public function getId(): string {
-		return 'settings_apps';
+		return Application::APP_ID;
 	}
 
 	public function getName(): string {
@@ -32,7 +33,7 @@ class AppSearch implements IProvider {
 	}
 
 	public function getOrder(string $route, array $routeParameters): int {
-		return $route === 'settings.AppSettings.viewApps' ? -50 : 100;
+		return $route === 'appstore.AppSettings.viewApps' ? -50 : 100;
 	}
 
 	public function search(IUser $user, ISearchQuery $query): SearchResult {

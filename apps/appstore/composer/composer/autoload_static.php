@@ -23,9 +23,10 @@ class ComposerStaticInitAppstore
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Appstore\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
-        'OCA\\Appstore\\Controller\\AppSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AppSettingsController.php',
+        'OCA\\Appstore\\Controller\\ApiController' => __DIR__ . '/..' . '/../lib/Controller/ApiController.php',
+        'OCA\\Appstore\\Controller\\DiscoverController' => __DIR__ . '/..' . '/../lib/Controller/DiscoverController.php',
+        'OCA\\Appstore\\Controller\\PageController' => __DIR__ . '/..' . '/../lib/Controller/PageController.php',
         'OCA\\Appstore\\Search\\AppSearch' => __DIR__ . '/..' . '/../lib/Search/AppSearch.php',
-        'OCA\\Settings\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

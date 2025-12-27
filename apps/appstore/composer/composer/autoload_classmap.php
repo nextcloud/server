@@ -8,7 +8,8 @@ $baseDir = $vendorDir;
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Appstore\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
-    'OCA\\Appstore\\Controller\\AppSettingsController' => $baseDir . '/../lib/Controller/AppSettingsController.php',
+    'OCA\\Appstore\\Controller\\ApiController' => $baseDir . '/../lib/Controller/ApiController.php',
+    'OCA\\Appstore\\Controller\\DiscoverController' => $baseDir . '/../lib/Controller/DiscoverController.php',
+    'OCA\\Appstore\\Controller\\PageController' => $baseDir . '/../lib/Controller/PageController.php',
     'OCA\\Appstore\\Search\\AppSearch' => $baseDir . '/../lib/Search/AppSearch.php',
-    'OCA\\Settings\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );
