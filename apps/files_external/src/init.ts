@@ -1,9 +1,10 @@
-import FolderNetworkSvg from '@mdi/svg/svg/folder-network-outline.svg?raw'
-import { Column, getNavigation, registerFileAction, View } from '@nextcloud/files'
-/**
+/*
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import FolderNetworkSvg from '@mdi/svg/svg/folder-network-outline.svg?raw'
+import { Column, getNavigation, registerFileAction, View } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { action as enterCredentialsAction } from './actions/enterCredentialsAction.ts'

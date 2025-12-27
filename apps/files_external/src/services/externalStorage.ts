@@ -48,8 +48,9 @@ export type MountEntry = {
 }
 
 /**
+ * Convert an OCS api result (mount entry) to a Folder instance
  *
- * @param ocsEntry
+ * @param ocsEntry - The OCS mount entry
  */
 function entryToFolder(ocsEntry: MountEntry): Folder {
 	const path = (ocsEntry.path + '/' + ocsEntry.name).replace(/^\//gm, '')
@@ -69,7 +70,7 @@ function entryToFolder(ocsEntry: MountEntry): Folder {
 }
 
 /**
- *
+ * Fetch the contents of external storage mounts
  */
 export async function getContents(): Promise<ContentsWithRoot> {
 	const response = await axios.get(generateOcsUrl('apps/files_external/api/v1/mounts')) as AxiosResponse<OCSResponse<MountEntry[]>>

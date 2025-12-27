@@ -3,15 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { MountEntry } from '../services/externalStorage.ts'
 
 import { FileType } from '@nextcloud/files'
 
 /**
- * @param node
+ * Check if the given node represents an external storage mount
+ *
+ * @param node - The node to check
  */
-export function isNodeExternalStorage(node: Node) {
+export function isNodeExternalStorage(node: INode) {
 	// Not a folder, not a storage
 	if (node.type === FileType.File) {
 		return false
