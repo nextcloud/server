@@ -83,14 +83,14 @@ class Plugin extends ServerPlugin {
 	/**
 	 * WebDAV PROPFIND event handler for versioned files.
 	 *
-	 * Provides read-only access to version-related information, upon request, if the 
+	 * Provides read-only access to version-related information if the
 	 * current node is a VersionFile.
 	 */
 	public function propFind(PropFind $propFind, INode $node): void {
 		if (!($node instanceof VersionFile)) {
 			return;
 		}
-		
+
 		$propFind->handle(
 			self::VERSION_LABEL,
 			fn () => $node->getMetadataValue(self::LABEL)
@@ -108,7 +108,7 @@ class Plugin extends ServerPlugin {
 	/**
 	 * WebDAV PROPPATCH event handler for versioned files.
 	 *
-	 * Updates version related properties (such as the label) on VersionFile nodes.
+	 * Updates version related properties on VersionFile nodes.
 	 */
 	public function propPatch(string $path, PropPatch $propPatch): void {
 		$node = $this->server->tree->getNodeForPath($path);
@@ -116,7 +116,7 @@ class Plugin extends ServerPlugin {
 		if (!($node instanceof VersionFile)) {
 			return;
 		}
-		
+
 		$propPatch->handle(
 			self::VERSION_LABEL,
 			fn (string $label) => $node->setMetadataValue(self::LABEL, $label)
@@ -129,11 +129,11 @@ class Plugin extends ServerPlugin {
 	 * Sends both 'filename' (legacy quoted) and 'filename*' (UTF-8 encoded) per RFC 6266,
 	 * except for known quirky agents known to mishandle the `filename*`, which only get `filename`.
 	 *
-	 * Note: The quoting/escaping should strictly follow RFC 6266 and RFC 5987. 
+	 * Note: The quoting/escaping should strictly follow RFC 6266 and RFC 5987.
 	 *
 	 * TODO: Currently uses rawurlencode($filename) for both parameters, which is wrong: filename= should be plain
 	 * quoted ASCII (with necessary escaping), while filename* should be UTF-8 percent-encoded.
-	 * TODO: This logic appears elsewhere (sometimes with different quoting/filename handling) and could benefit 
+	 * TODO: This logic appears elsewhere (sometimes with different quoting/filename handling) and could benefit
 	 * from a shared utility function. See Symfony example:
 	 * - https://github.com/symfony/symfony/blob/175775eb21508becf7e7a16d65959488e522c39a/src/Symfony/Component/HttpFoundation/BinaryFileResponse.php#L146-L155
 	 * - https://github.com/symfony/symfony/blob/175775eb21508becf7e7a16d65959488e522c39a/src/Symfony/Component/HttpFoundation/HeaderUtils.php#L152-L165
@@ -149,12 +149,12 @@ class Plugin extends ServerPlugin {
 			$response->addHeader(
 				'Content-Disposition',
 				'attachment; filename="' . rawurlencode($filename) . '"; filename*=UTF-8\'\'' . rawurlencode($filename)
-        	);
+			);
 		} else {
 			// Quirky clients that choke on `filename*`: only send `filename=`
 			$response->addHeader(
 				'Content-Disposition',
 				'attachment; filename="' . rawurlencode($filename) . '"');
-    	}
+		}
 	}
 }
