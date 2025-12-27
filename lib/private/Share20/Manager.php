@@ -7,6 +7,8 @@
  */
 namespace OC\Share20;
 
+use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
@@ -38,6 +40,7 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
+use OCP\Server;
 use OCP\Share;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareAcceptedEvent;
@@ -1342,6 +1345,20 @@ class Manager implements IManager {
 			} catch (ProviderException|ShareNotFound) {
 			}
 		}
+
+		// Try to fetch a federated share by access token
+		if ($share === null) {
+			try {
+				$provider = $this->factory->getProviderForType(IShare::TYPE_REMOTE);
+				$tokenProvider = Server::get(PublicKeyTokenProvider::class);
+				$accessTokenDb = $tokenProvider->getToken($token);
+				$refreshToken = $accessTokenDb->getUID();
+				$share = $provider->getShareByToken($refreshToken);
+			} catch (ProviderException $e) {
+			} catch (ShareNotFound $e) {
+			}
+		}
+
 
 		// If it is not a link share try to fetch a mail share by token
 		if ($share === null && $this->shareProviderExists(IShare::TYPE_EMAIL)) {

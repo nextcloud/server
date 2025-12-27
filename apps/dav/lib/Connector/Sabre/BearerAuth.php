@@ -12,6 +12,9 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Server;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Sabre\DAV\Auth\Backend\AbstractBearer;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -23,6 +26,7 @@ class BearerAuth extends AbstractBearer {
 		private IRequest $request,
 		private IConfig $config,
 		private string $principalPrefix = 'principals/users/',
+		private string $token = '',
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -40,15 +44,26 @@ class BearerAuth extends AbstractBearer {
 	 */
 	public function validateBearerToken($bearerToken) {
 		\OC_Util::setupFS();
+		$this->token = $bearerToken;
 
 		if (!$this->userSession->isLoggedIn()) {
 			$this->userSession->tryTokenLogin($this->request);
+		}
+		if (!$this->userSession->isLoggedIn()) {
+			$this->userSession->doTryTokenLogin($bearerToken);
 		}
 		if ($this->userSession->isLoggedIn()) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
 		}
 
 		return false;
+	}
+
+	public function getShare(): IShare {
+		$shareManager = Server::get(IManager::class);
+		$share = $shareManager->getShareByToken($this->token);
+		assert($share !== null);
+		return $share;
 	}
 
 	/**

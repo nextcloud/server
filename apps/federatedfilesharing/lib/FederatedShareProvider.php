@@ -7,6 +7,8 @@
  */
 namespace OCA\FederatedFileSharing;
 
+use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OCP\Constants;
@@ -22,6 +24,8 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
@@ -170,7 +174,15 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws \Exception
 	 */
 	protected function createFederatedShare(IShare $share): string {
-		$token = $this->tokenHandler->generateToken();
+
+		$provider = Server::get(PublicKeyTokenProvider::class);
+		$token = Server::get(ISecureRandom::class)->generate(32, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		$uid = $share->getSharedBy();
+		$user = $this->userManager->get($uid);
+		$name = $user->getDisplayName();
+		$pass = $share->getPassword();
+
+		$dbToken = $provider->generateToken($token, $uid, $uid, $pass, $name, type: IToken::PERMANENT_TOKEN);
 		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
@@ -739,6 +751,20 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$data = $cursor->fetchAssociative();
 
+		if ($data === false) {
+
+			$provider = Server::get(PublicKeyTokenProvider::class);
+			$accessTokenDb = $provider->getToken($token);
+			$refreshToken = $accessTokenDb->getUID();
+
+			$cursor = $qb->select('*')
+				->from('share')
+				->where($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
+				->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($refreshToken)))
+				->executeQuery();
+
+			$data = $cursor->fetch();
+		}
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}

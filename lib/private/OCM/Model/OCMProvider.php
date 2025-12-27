@@ -24,6 +24,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	private string $inviteAcceptDialog = '';
 	private array $capabilities = [];
 	private string $endPoint = '';
+	private string $tokenEndPoint = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 	private ?Signatory $signatory = null;
@@ -109,6 +110,27 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 */
 	public function getEndPoint(): string {
 		return $this->endPoint;
+	}
+
+	/**
+	 * @param string $tokenEndPoint
+	 *
+	 * @return $this
+	 */
+	public function setTokenEndPoint(string $endPoint): static {
+		$this->tokenEndPoint = $endPoint;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTokenEndPoint(): string {
+		if (in_array('exchange-token', $this->capabilities)) {
+			return $this->tokenEndPoint;
+		}
+		return '';
 	}
 
 	/**
@@ -238,6 +260,12 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 				$this->setSignatory($signatory);
 			}
 		}
+		if (isset($data['capabilities'])) {
+			$this->setCapabilities($data['capabilities']);
+		}
+		if (isset($data['tokenEndPoint'])) {
+			$this->setTokenEndPoint($data['tokenEndPoint']);
+		}
 
 		if (!$this->looksValid()) {
 			throw new OCMProviderException('remote provider does not look valid');
@@ -276,6 +304,10 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 		$capabilities = $this->getCapabilities();
 		if ($capabilities) {
 			$response['capabilities'] = $capabilities;
+		}
+		$tokenEndpoint = $this->getTokenEndPoint();
+		if ($tokenEndpoint) {
+			$response['tokenEndPoint'] = $tokenEndpoint;
 		}
 		$inviteAcceptDialog = $this->getInviteAcceptDialog();
 		if ($inviteAcceptDialog !== '') {

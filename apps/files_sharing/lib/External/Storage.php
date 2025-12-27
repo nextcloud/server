@@ -66,10 +66,16 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$ocmProvider = $discoveryService->discover($this->cloudId->getRemote());
 			$webDavEndpoint = $ocmProvider->extractProtocolEntry('file', 'webdav');
 			$remote = $ocmProvider->getEndPoint();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
+			$capabilities = $ocmProvider->getCapabilities();
+			if (in_array('exchange-token', $capabilities)) {
+				$authType = \OC\Files\Storage\BearerAuthAwareSabreClient::AUTH_BEARER;
+			}
 		} catch (OCMProviderException|OCMArgumentException $e) {
 			$this->logger->notice('exception while retrieving webdav endpoint', ['exception' => $e]);
 			$webDavEndpoint = '/public.php/webdav';
 			$remote = $this->cloudId->getRemote();
+			$authType = \Sabre\DAV\Client::AUTH_BASIC;
 		}
 
 		$host = parse_url($remote, PHP_URL_HOST);
@@ -92,8 +98,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				'host' => $host,
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],
-				'authType' => \Sabre\DAV\Client::AUTH_BASIC,
-				'password' => (string)$options['password']
+				'authType' => $authType,
+				'password' => (string)$options['password'],
+				'discoveryService' => $discoveryService,
 			]
 		);
 	}
