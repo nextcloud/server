@@ -112,7 +112,7 @@ class TrashbinPlugin extends ServerPlugin {
 		$propFind->handle(
 			// Storage mount type (e.g., personal, groupfolder, or external storage)
 			FilesPlugin::MOUNT_TYPE_PROPERTYNAME,
-			fn () => ''; // Trashbin items don't have a mount type currently
+			fn () => '' // Trashbin items don't have a mount type currently
 		);
 	}
 
