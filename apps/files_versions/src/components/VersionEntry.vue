@@ -8,6 +8,7 @@
 		:force-display-actions="true"
 		:actions-aria-label="t('files_versions', 'Actions for version from {versionHumanExplicitDate}', { versionHumanExplicitDate })"
 		:data-files-versions-version="version.fileVersion"
+		:href="downloadURL"
 		@click="click">
 		<!-- Icon -->
 		<template #icon>
@@ -131,8 +132,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { INode } from '@nextcloud/files'
 import type { PropType } from 'vue'
-import type { LegacyFileInfo } from '../../../files/src/services/FileInfo.ts'
 import type { Version } from '../utils/versions.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -140,7 +141,6 @@ import { formatFileSize, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import { join } from '@nextcloud/paths'
 import { getRootUrl } from '@nextcloud/router'
 import { computed, nextTick, ref } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -161,8 +161,8 @@ const props = defineProps({
 		required: true,
 	},
 
-	fileInfo: {
-		type: Object as PropType<LegacyFileInfo>,
+	node: {
+		type: Object as PropType<INode>,
 		required: true,
 	},
 
@@ -193,8 +193,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['click', 'compare', 'restore', 'delete', 'label-update-request'])
-
-const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
 
 const previewLoaded = ref(false)
 const previewErrored = ref(false)
@@ -240,7 +238,7 @@ const versionHumanExplicitDate = computed(() => {
 
 const downloadURL = computed(() => {
 	if (props.isCurrent) {
-		return getRootUrl() + join('/remote.php/webdav', props.fileInfo.path, props.fileInfo.name)
+		return props.node.source
 	} else {
 		return getRootUrl() + props.version.url
 	}
@@ -255,21 +253,21 @@ const enableDeletion = computed(() => {
 })
 
 const hasDeletePermissions = computed(() => {
-	return hasPermission(props.fileInfo.permissions, Permission.DELETE)
+	return hasPermission(props.node, Permission.DELETE)
 })
 
 const hasUpdatePermissions = computed(() => {
-	return hasPermission(props.fileInfo.permissions, Permission.UPDATE)
+	return hasPermission(props.node, Permission.UPDATE)
 })
 
 const isDownloadable = computed(() => {
-	if ((props.fileInfo.permissions & Permission.READ) === 0) {
+	if ((props.node.permissions & Permission.READ) === 0) {
 		return false
 	}
 
 	// If the mount type is a share, ensure it got download permissions.
-	if (props.fileInfo.mountType === 'shared') {
-		const downloadAttribute = props.fileInfo.shareAttributes
+	if (props.node.attributes['mount-type'] === 'shared' && props.node.attributes['share-attributes']) {
+		const downloadAttribute = JSON.parse(props.node.attributes['share-attributes'])
 			.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download') || {}
 		// If the download attribute is set to false, the file is not downloadable
 		if (downloadAttribute?.value === false) {
@@ -281,21 +279,21 @@ const isDownloadable = computed(() => {
 })
 
 /**
- *
+ * Label update request
  */
 function labelUpdate() {
 	emit('label-update-request')
 }
 
 /**
- *
+ * Restore version
  */
 function restoreVersion() {
 	emit('restore', props.version)
 }
 
 /**
- *
+ * Delete version
  */
 async function deleteVersion() {
 	// Let @nc-vue properly remove the popover before we delete the version.
@@ -306,24 +304,36 @@ async function deleteVersion() {
 }
 
 /**
+ * Handle click on the version entry
  *
+ * @param event - The click event
  */
-function click() {
-	if (!props.canView) {
-		window.location.href = downloadURL.value
-		return
+function click(event: MouseEvent) {
+	if (props.canView) {
+		event.preventDefault()
 	}
+
 	emit('click', { version: props.version })
 }
 
 /**
- *
+ * If the user can compare, emit the compare event
  */
 function compareVersion() {
 	if (!props.canView) {
 		throw new Error('Cannot compare version of this file')
 	}
 	emit('compare', { version: props.version })
+}
+
+/**
+ * Check if the current user has the given permission on the node
+ *
+ * @param node - The node to check
+ * @param permission - The permission to check
+ */
+function hasPermission(node: INode, permission: number): boolean {
+	return (node.permissions & permission) !== 0
 }
 </script>
 
