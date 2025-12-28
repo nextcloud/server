@@ -224,23 +224,18 @@ class S3EncryptionTest extends \Test\TestCase {
 		$actualSize = strlen($content);
 
 		// ASSERTIONS - Critical size relationships
-		// Note: Zero-byte files have known edge case - DB may store encrypted header size
+		// After fixing CacheEntry.php getUnencryptedSize() bug, all sizes should be correct
+		$this->assertEquals($originalSize, $dbSize,
+			"Database should store unencrypted size (original: $originalSize, db: $dbSize)");
+
+		$this->assertEquals($originalSize, $actualSize,
+			"Actual content should match original size after decryption (original: $originalSize, actual: $actualSize)");
+
 		if ($originalSize === 0) {
-			// For zero-byte files, actual content should still be zero
-			$this->assertEquals(0, $actualSize,
-				"Zero-byte file content should be empty after decryption");
-			// DB size may be header size (8192) - known limitation
-			// S3 size should have encryption header
+			// Zero-byte files still get encryption header in S3
 			$this->assertGreaterThan(0, $s3Size,
 				'S3 should have encryption header even for empty files');
 		} else {
-			// Non-zero files: Standard assertions
-			$this->assertEquals($originalSize, $dbSize,
-				"Database should store unencrypted size (original: $originalSize, db: $dbSize)");
-
-			$this->assertEquals($originalSize, $actualSize,
-				"Actual content should match original size after decryption (original: $originalSize, actual: $actualSize)");
-
 			$this->assertGreaterThan($originalSize, $s3Size,
 				"S3 size should be larger than original due to encryption overhead (original: $originalSize, s3: $s3Size)");
 		}
