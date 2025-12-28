@@ -17,27 +17,19 @@ require __DIR__ . '/autoload.php';
 trait Sharing {
 	use Provisioning;
 
-	/** @var int */
-	private $sharingApiVersion = 1;
-
-	/** @var SimpleXMLElement */
-	private $lastShareData = null;
+	private int $sharingApiVersion = 1;
+	private ?SimpleXMLElement $lastShareData = null;
 
 	/** @var SimpleXMLElement[] */
-	private $storedShareData = [];
-
-	/** @var int */
-	private $savedShareId = null;
-
+	private array $storedShareData = [];
+	private ?string $savedShareId = null;
 	/** @var ResponseInterface */
 	private $response;
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
-	 * @param string $user
-	 * @param TableNode|null $body
 	 */
-	public function asCreatingAShareWith($user, $body) {
+	public function asCreatingAShareWith(string $user, ?TableNode $body): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [
@@ -78,29 +70,28 @@ trait Sharing {
 	/**
 	 * @When /^save the last share data as "([^"]*)"$/
 	 */
-	public function saveLastShareData($name) {
+	public function saveLastShareData(string $name): void {
 		$this->storedShareData[$name] = $this->lastShareData;
 	}
 
 	/**
 	 * @When /^restore the last share data from "([^"]*)"$/
 	 */
-	public function restoreLastShareData($name) {
+	public function restoreLastShareData(string $name): void {
 		$this->lastShareData = $this->storedShareData[$name];
 	}
 
 	/**
 	 * @When /^creating a share with$/
-	 * @param TableNode|null $body
 	 */
-	public function creatingShare($body) {
+	public function creatingShare(?TableNode $body): void {
 		$this->asCreatingAShareWith($this->currentUser, $body);
 	}
 
 	/**
 	 * @When /^accepting last share$/
 	 */
-	public function acceptingLastShare() {
+	public function acceptingLastShare(): void {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
 		$this->sendingToWith('POST', $url, null);
@@ -110,10 +101,8 @@ trait Sharing {
 
 	/**
 	 * @When /^user "([^"]*)" accepts last share$/
-	 *
-	 * @param string $user
 	 */
-	public function userAcceptsLastShare(string $user) {
+	public function userAcceptsLastShare(string $user): void {
 		// "As userXXX" and "user userXXX accepts last share" steps are not
 		// expected to be used in the same scenario, but restore the user just
 		// in case.
@@ -133,7 +122,7 @@ trait Sharing {
 	/**
 	 * @Then /^last link share can be downloaded$/
 	 */
-	public function lastLinkShareCanBeDownloaded() {
+	public function lastLinkShareCanBeDownloaded(): void {
 		if (count($this->lastShareData->data->element) > 0) {
 			$url = $this->lastShareData->data[0]->url;
 		} else {
@@ -146,7 +135,7 @@ trait Sharing {
 	/**
 	 * @Then /^last share can be downloaded$/
 	 */
-	public function lastShareCanBeDownloaded() {
+	public function lastShareCanBeDownloaded(): void {
 		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
 		} else {
@@ -303,6 +292,18 @@ trait Sharing {
 			$this->response = $ex->getResponse();
 			throw new \Exception($this->response->getBody());
 		}
+	}
+
+	public function getFieldValueInResponse($field) {
+		$data = simplexml_load_string($this->response->getBody())->data[0];
+		if (count($data->element) > 0) {
+			foreach ($data as $element) {
+				return (string)$element->$field;
+			}
+
+			return false;
+		}
+		return $data->$field;
 	}
 
 	public function isFieldInResponse($field, $contentExpected) {
@@ -521,7 +522,7 @@ trait Sharing {
 	/**
 	 * @Then the list of returned shares has :count shares
 	 */
-	public function theListOfReturnedSharesHasShares(int $count) {
+	public function theListOfReturnedSharesHasShares(int $count): void {
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
 

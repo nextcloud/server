@@ -211,14 +211,14 @@ interface IEvent {
 	 * Set the object of the activity
 	 *
 	 * @param string $objectType
-	 * @param int $objectId
+	 * @param string|int $objectId
 	 * @param string $objectName
 	 * @return IEvent
 	 * @throws InvalidValueException if the object is invalid
 	 * @since 8.2.0
 	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
-	public function setObject(string $objectType, int $objectId, string $objectName = ''): self;
+	public function setObject(string $objectType, string|int $objectId, string $objectName = ''): self;
 
 	/**
 	 * Set the link of the activity
@@ -292,10 +292,10 @@ interface IEvent {
 	public function getObjectType(): string;
 
 	/**
-	 * @return int
+	 * @return string|int
 	 * @since 8.2.0
 	 */
-	public function getObjectId(): int;
+	public function getObjectId(): string|int;
 
 	/**
 	 * @return string

@@ -11,22 +11,20 @@ require __DIR__ . '/autoload.php';
 
 trait CommandLine {
 	/** @var int return code of last command */
-	private $lastCode;
+	private int $lastCode = 0;
 	/** @var string stdout of last command */
-	private $lastStdOut;
+	private string $lastStdOut = '';
 	/** @var string stderr of last command */
-	private $lastStdErr;
-
-	/** @var string */
-	protected $ocPath = '../..';
+	private string $lastStdErr = '';
+	protected string $ocPath = '../..';
 
 	/**
 	 * Invokes an OCC command
 	 *
-	 * @param []string $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
+	 * @param string[] $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
 	 * @return int exit code
 	 */
-	public function runOcc($args = [], string $inputString = '') {
+	public function runOcc(array $args = [], string $inputString = ''): int {
 		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);
@@ -57,7 +55,7 @@ trait CommandLine {
 	/**
 	 * @Given /^invoking occ with "([^"]*)"$/
 	 */
-	public function invokingTheCommand($cmd) {
+	public function invokingTheCommand(string $cmd): void {
 		$args = explode(' ', $cmd);
 		$this->runOcc($args);
 	}
@@ -65,7 +63,7 @@ trait CommandLine {
 	/**
 	 * @Given /^invoking occ with "([^"]*)" with input "([^"]+)"$/
 	 */
-	public function invokingTheCommandWith($cmd, $inputString) {
+	public function invokingTheCommandWith(string $cmd, string $inputString): void {
 		$args = explode(' ', $cmd);
 		$this->runOcc($args, $inputString);
 	}
@@ -73,7 +71,7 @@ trait CommandLine {
 	/**
 	 * Find exception texts in stderr
 	 */
-	public function findExceptions() {
+	public function findExceptions(): array {
 		$exceptions = [];
 		$captureNext = false;
 		// the exception text usually appears after an "[Exception"] row
@@ -94,7 +92,7 @@ trait CommandLine {
 	/**
 	 * @Then /^the command was successful$/
 	 */
-	public function theCommandWasSuccessful() {
+	public function theCommandWasSuccessful(): void {
 		$exceptions = $this->findExceptions();
 		if ($this->lastCode !== 0) {
 			$msg = 'The command was not successful, exit code was ' . $this->lastCode . '.';
@@ -111,7 +109,7 @@ trait CommandLine {
 	/**
 	 * @Then /^the command failed with exit code ([0-9]+)$/
 	 */
-	public function theCommandFailedWithExitCode($exitCode) {
+	public function theCommandFailedWithExitCode($exitCode): void {
 		if ($this->lastCode !== (int)$exitCode) {
 			throw new \Exception('The command was expected to fail with exit code ' . $exitCode . ' but got ' . $this->lastCode);
 		}
@@ -120,7 +118,7 @@ trait CommandLine {
 	/**
 	 * @Then /^the command failed with exception text "([^"]*)"$/
 	 */
-	public function theCommandFailedWithException($exceptionText) {
+	public function theCommandFailedWithException(string $exceptionText): void {
 		$exceptions = $this->findExceptions();
 		if (empty($exceptions)) {
 			throw new \Exception('The command did not throw any exceptions');
@@ -134,21 +132,21 @@ trait CommandLine {
 	/**
 	 * @Then /^the command output contains the text "([^"]*)"$/
 	 */
-	public function theCommandOutputContainsTheText($text) {
-		Assert::assertStringContainsString($text, $this->lastStdOut, 'The command did not output the expected text on stdout');
+	public function theCommandOutputContainsTheText(string $text): void {
+		Assert::assertStringContainsString($text, $this->lastStdOut, 'The command did not output the expected text on stdout.');
 	}
 
 	/**
 	 * @Then /^the command output does not contain the text "([^"]*)"$/
 	 */
-	public function theCommandOutputDoesNotContainTheText($text) {
-		Assert::assertStringNotContainsString($text, $this->lastStdOut, 'The command did output the not expected text on stdout');
+	public function theCommandOutputDoesNotContainTheText(string $text): void {
+		Assert::assertStringNotContainsString($text, $this->lastStdOut, 'The command did output the not expected text on stdout.');
 	}
 
 	/**
 	 * @Then /^the command error output contains the text "([^"]*)"$/
 	 */
-	public function theCommandErrorOutputContainsTheText($text) {
-		Assert::assertStringContainsString($text, $this->lastStdErr, 'The command did not output the expected text on stderr');
+	public function theCommandErrorOutputContainsTheText(string $text): void {
+		Assert::assertStringContainsString($text, $this->lastStdErr, 'The command did not output the expected text on stderr.');
 	}
 }

@@ -1,0 +1,7 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
+
+This file is generated from multiple sources. Included packages:
+- webdav
+	- version: 5.8.0
+	- license: MIT

@@ -28,6 +28,8 @@ const props = defineProps({
 // TOOD: Remove with Vue 3
 const sectionElement = ref()
 watchEffect(() => {
-	sectionElement.value.node = props.node
+	if (sectionElement.value) {
+		sectionElement.value.node = props.node
+	}
 })
 </script>

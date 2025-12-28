@@ -1,0 +1,23 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+SPDX-FileCopyrightText: Alkemics
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: string_decoder developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/dialogs
+	- version: 7.2.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.12.2
+	- license: AGPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- cancelable-promise
+	- version: 4.3.1
+	- license: MIT
+- string_decoder
+	- version: 1.1.1
+	- license: MIT

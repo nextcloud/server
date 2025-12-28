@@ -18,6 +18,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class Cache
@@ -27,26 +28,11 @@ use OCP\IUserManager;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class CacheTest extends TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/**
-	 * @var Storage
-	 **/
-	private $storage;
-
-	/**
-	 * @var Cache
-	 */
-	private $cache;
-
-	/**
-	 * @var string
-	 */
-	private $remoteUser;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
+	protected IManager&MockObject $contactsManager;
+	private Storage&MockObject $storage;
+	private Cache $cache;
+	private string $remoteUser;
+	private ICloudIdManager $cloudIdManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,7 +48,7 @@ class CacheTest extends TestCase {
 		);
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 
-		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
+		$this->storage = $this->getMockBuilder(\OCA\Files_Sharing\External\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->storage

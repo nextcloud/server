@@ -10,7 +10,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
-import { encodePath, joinPaths } from '@nextcloud/paths'
+import { encodePath, join } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import client from '../utils/davClient.ts'
 import davRequest from '../utils/davRequest.ts'
@@ -96,7 +96,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 		})
 	} else {
 		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}&mimeFallback=1', {
-			file: joinPaths(fileInfo.path, fileInfo.name),
+			file: join(fileInfo.path, fileInfo.name),
 			fileVersion: version.basename,
 		})
 	}
@@ -116,7 +116,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 		mtime,
 		permissions: 'R',
 		previewUrl,
-		url: joinPaths('/remote.php/dav', version.filename),
+		url: join('/remote.php/dav', version.filename),
 		source: generateRemoteUrl('dav') + encodePath(version.filename),
 		fileVersion: version.basename,
 	}

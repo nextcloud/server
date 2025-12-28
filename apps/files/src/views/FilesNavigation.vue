@@ -178,7 +178,7 @@ export default defineComponent({
 		showView(view: View) {
 			// Closing any opened sidebar
 			window.OCA?.Files?.Sidebar?.close?.()
-			getNavigation().setActive(view)
+			getNavigation().setActive(view.id)
 			emit('files:navigation:changed', view)
 		},
 

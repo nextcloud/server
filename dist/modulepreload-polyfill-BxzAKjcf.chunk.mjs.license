@@ -3,5 +3,5 @@ SPDX-FileCopyrightText: Evan You
 
 This file is generated from multiple sources. Included packages:
 - vite
-	- version: 7.2.7
+	- version: 7.3.0
 	- license: MIT

@@ -3,249 +3,170 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { AdminThemingParameters } from '../../types.d.ts'
+
+import { mdiImageOutline, mdiUndo } from '@mdi/js'
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { computed, ref, useTemplateRef } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+
+const props = defineProps<{
+	name: string
+	label: string
+	disabled?: boolean
+}>()
+
+const emit = defineEmits<{
+	updated: []
+}>()
+
+const isSaving = ref(false)
+const mime = ref(loadState<AdminThemingParameters>('theming', 'adminThemingParameters')[props.name + 'Mime'] as string)
+
+const inputElement = useTemplateRef('input')
+
+const background = computed(() => {
+	const baseUrl = generateUrl('/apps/theming/image/{key}', { key: props.name })
+	return `url(${baseUrl}?v=${Date.now()}&m=${encodeURIComponent(mime.value)})`
+})
+
+/**
+ * Open the file picker dialog
+ */
+function pickFile() {
+	if (isSaving.value) {
+		return
+	}
+	inputElement.value!.files = null
+	inputElement.value!.click()
+}
+
+/**
+ * Handle file input change event
+ */
+async function onChange() {
+	if (!inputElement.value!.files?.[0]) {
+		return
+	}
+
+	const file = inputElement.value!.files[0]!
+	if (file.type && !file.type.startsWith('image/')) {
+		showError(t('theming', 'Non image file selected'))
+		return
+	}
+
+	isSaving.value = true
+
+	const formData = new FormData()
+	formData.append('image', file)
+	formData.append('key', props.name)
+
+	try {
+		await axios.post(generateUrl('/apps/theming/ajax/uploadImage'), formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		})
+		mime.value = file.type
+		emit('updated')
+	} finally {
+		isSaving.value = false
+	}
+}
+
+/**
+ * Reset the image to default
+ */
+async function resetToDefault() {
+	if (isSaving.value) {
+		return
+	}
+
+	isSaving.value = true
+	try {
+		await axios.post(generateUrl('/apps/theming/ajax/undoChanges'), {
+			setting: props.name,
+		})
+		mime.value = ''
+		emit('updated')
+	} finally {
+		isSaving.value = false
+	}
+}
+</script>
+
 <template>
-	<div class="field">
-		<label :for="id">{{ displayName }}</label>
-		<div class="field__row">
-			<NcButton
-				:id="id"
-				variant="secondary"
-				:aria-label="ariaLabel"
-				data-admin-theming-setting-file-picker
-				@click="activateLocalFilePicker">
-				<template #icon>
-					<Upload :size="20" />
-				</template>
-				{{ t('theming', 'Upload') }}
-			</NcButton>
-			<NcButton
-				v-if="showReset"
-				variant="tertiary"
-				:aria-label="t('theming', 'Reset to default')"
-				data-admin-theming-setting-file-reset
-				@click="undo">
-				<template #icon>
-					<Undo :size="20" />
-				</template>
-			</NcButton>
-			<NcButton
-				v-if="showRemove"
-				variant="tertiary"
-				:aria-label="t('theming', 'Remove background image')"
-				data-admin-theming-setting-file-remove
-				@click="removeBackground">
-				<template #icon>
-					<Delete :size="20" />
-				</template>
-			</NcButton>
-			<NcLoadingIcon
-				v-if="showLoading"
-				class="field__loading-icon"
-				:size="20" />
-		</div>
+	<div :class="$style.fileInputField">
+		<NcButton
+			:class="$style.fileInputField__button"
+			alignment="start"
+			:disabled
+			size="large"
+			@click="pickFile">
+			<template #icon>
+				<NcLoadingIcon v-if="isSaving" />
+				<NcIconSvgWrapper v-else :path="mdiImageOutline" />
+			</template>
+			{{ label }}
+		</NcButton>
 
 		<div
-			v-if="(name === 'logoheader' || name === 'favicon') && mimeValue !== defaultMimeValue"
-			class="field__preview"
-			:class="{
-				'field__preview--logoheader': name === 'logoheader',
-				'field__preview--favicon': name === 'favicon',
-			}" />
+			v-if="mime.startsWith('image/')"
+			:class="$style.fileInputField__preview"
+			role="img"
+			:aria-label="t('theming', 'Preview of the selected image')" />
 
-		<NcNoteCard
-			v-if="errorMessage"
-			type="error"
-			:show-alert="true">
-			<p>{{ errorMessage }}</p>
-		</NcNoteCard>
-
+		<NcButton
+			v-if="mime && !disabled"
+			:aria-label="t('theming', 'Reset to default')"
+			:title="t('theming', 'Reset to default')"
+			size="large"
+			variant="tertiary"
+			@click="resetToDefault">
+			<template #icon>
+				<NcIconSvgWrapper :path="mdiUndo" />
+			</template>
+		</NcButton>
 		<input
 			ref="input"
-			:accept="acceptMime"
+			class="hidden-visually"
+			aria-hidden="true"
+			:disabled
 			type="file"
+			accept="image/*"
+			:name
 			@change="onChange">
 	</div>
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
-import { loadState } from '@nextcloud/initial-state'
-import { generateUrl } from '@nextcloud/router'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
-import Undo from 'vue-material-design-icons/UndoVariant.vue'
-import FieldMixin from '../../mixins/admin/FieldMixin.js'
-
-const {
-	allowedMimeTypes,
-} = loadState('theming', 'adminThemingParameters', {})
-
-export default {
-	name: 'FileInputField',
-
-	components: {
-		Delete,
-		NcButton,
-		NcLoadingIcon,
-		NcNoteCard,
-		Undo,
-		Upload,
-	},
-
-	mixins: [
-		FieldMixin,
-	],
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-
-		mimeName: {
-			type: String,
-			required: true,
-		},
-
-		mimeValue: {
-			type: String,
-			required: true,
-		},
-
-		defaultMimeValue: {
-			type: String,
-			default: '',
-		},
-
-		displayName: {
-			type: String,
-			required: true,
-		},
-
-		ariaLabel: {
-			type: String,
-			required: true,
-		},
-	},
-
-	data() {
-		return {
-			showLoading: false,
-			acceptMime: (allowedMimeTypes[this.name]
-				|| ['image/jpeg', 'image/png', 'image/gif', 'image/webp']).join(','),
-		}
-	},
-
-	computed: {
-		showReset() {
-			return this.mimeValue !== this.defaultMimeValue
-		},
-
-		showRemove() {
-			if (this.name === 'background') {
-				if (this.mimeValue.startsWith('image/')) {
-					return true
-				}
-				if (this.mimeValue === this.defaultMimeValue) {
-					return true
-				}
-			}
-			return false
-		},
-	},
-
-	methods: {
-		activateLocalFilePicker() {
-			this.reset()
-			// Set to null so that selecting the same file will trigger the change event
-			this.$refs.input.value = null
-			this.$refs.input.click()
-		},
-
-		async onChange(e) {
-			const file = e.target.files[0]
-
-			const formData = new FormData()
-			formData.append('key', this.name)
-			formData.append('image', file)
-
-			const url = generateUrl('/apps/theming/ajax/uploadImage')
-			try {
-				this.showLoading = true
-				const { data } = await axios.post(url, formData)
-				this.showLoading = false
-				this.$emit('update:mime-value', file.type)
-				this.$emit('uploaded', data.data.url)
-				this.handleSuccess()
-			} catch (e) {
-				this.showLoading = false
-				this.errorMessage = e.response.data.data?.message
-			}
-		},
-
-		async undo() {
-			this.reset()
-			const url = generateUrl('/apps/theming/ajax/undoChanges')
-			try {
-				await axios.post(url, {
-					setting: this.mimeName,
-				})
-				this.$emit('update:mime-value', this.defaultMimeValue)
-				this.handleSuccess()
-			} catch (e) {
-				this.errorMessage = e.response.data.data?.message
-			}
-		},
-
-		async removeBackground() {
-			this.reset()
-			const url = generateUrl('/apps/theming/ajax/updateStylesheet')
-			try {
-				await axios.post(url, {
-					setting: this.mimeName,
-					value: 'backgroundColor',
-				})
-				this.$emit('update:mime-value', 'backgroundColor')
-				this.handleSuccess()
-			} catch (e) {
-				this.errorMessage = e.response.data.data?.message
-			}
-		},
-	},
-}
-</script>
-
-<style lang="scss" scoped>
-@use './shared/field' as *;
-
-.field {
-	&__loading-icon {
-		width: 44px;
-		height: 44px;
-	}
-
-	&__preview {
-		width: 70px;
-		height: 70px;
-		background-size: contain;
-		background-position: center;
-		background-repeat: no-repeat;
-		margin: 10px 0;
-
-		&--logoheader {
-			background-image: var(--image-logoheader);
-		}
-
-		&--favicon {
-			background-image: var(--image-favicon);
-		}
-	}
+<style module>
+.fileInputField {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(1.5 * var(--default-grid-baseline));
 }
 
-input[type="file"] {
-	display: none;
+.fileInputField__button {
+	min-width: clamp(200px, 25vw, 300px) !important;
+}
+
+.fileInputField__preview {
+	height: var(--clickable-area-large);
+	width: calc(var(--clickable-area-large) / 9 * 16);
+	background: v-bind('background');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 2px solid var(--color-border-maxcontrast);
+	border-radius: var(--border-radius-element);
 }
 </style>

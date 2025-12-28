@@ -1,0 +1,7 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Rich Harris
+
+This file is generated from multiple sources. Included packages:
+- rollup
+	- version: 4.52.5
+	- license: MIT
