@@ -8,6 +8,7 @@
   "scripts": {
     "build": "webpack --node-env production --progress",
     "dev": "webpack --node-env development --progress",
+    "postinstall": "patch-package",
     "lint": "eslint --suppressions-location ../eslint-baseline-legacy.json --no-error-on-unmatched-pattern ./apps/*/ ./core/",
     "lint:fix": "eslint --suppressions-location ../eslint-baseline-legacy.json --fix --no-error-on-unmatched-pattern ./apps/*/ ./core/",
     "test": "vitest run",
@@ -124,6 +125,7 @@
     "handlebars-loader": "^1.7.3",
     "mime": "^4.1.0",
     "msw": "^2.12.6",
+    "patch-package": "^8.0.1",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.97.1",
