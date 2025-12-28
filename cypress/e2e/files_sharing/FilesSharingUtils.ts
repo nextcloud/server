@@ -35,8 +35,12 @@ export function createShare(fileName: string, username: string, shareSettings: P
 
 export function openSharingDetails(index: number) {
 	cy.get('#app-sidebar-vue').within(() => {
-		cy.get('[data-cy-files-sharing-share-actions]').eq(index).click({ force: true })
-		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]').click()
+		cy.findAllByRole('button', { name: /open sharing details/i })
+			.should('have.length.at.least', index + 1)
+			.eq(index)
+			.click({ force: true })
+		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]')
+			.click()
 	})
 }
 

@@ -1,11 +1,9 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable jsdoc/require-jsdoc */
-
-import type { Attribute, Node } from '@nextcloud/files'
+import type { Attribute, INode } from '@nextcloud/files'
 
 interface RawLegacyFileInfo {
 	id: number
@@ -30,11 +28,16 @@ export type LegacyFileInfo = RawLegacyFileInfo & {
 	get: (key: keyof RawLegacyFileInfo) => unknown
 	isDirectory: () => boolean
 	canEdit: () => boolean
-	node: Node
+	node: INode
 	canDownload: () => boolean
 }
 
-export default function(node: Node): LegacyFileInfo {
+/**
+ * Convert Node to legacy file info
+ *
+ * @param node - The Node to convert
+ */
+export default function(node: INode): LegacyFileInfo {
 	const rawFileInfo: RawLegacyFileInfo = {
 		id: node.fileid!,
 		path: node.dirname,

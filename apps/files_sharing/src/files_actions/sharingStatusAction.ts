@@ -3,28 +3,28 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { FileAction, Permission, registerFileAction } from '@nextcloud/files'
+import { FileAction, getSidebar, Permission, registerFileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
-import { action as sidebarAction } from '../../../files/src/actions/sidebarAction.ts'
 import { generateAvatarSvg } from '../utils/AccountIcon.ts'
 
 import './sharingStatusAction.scss'
 
 /**
+ * Check if the node is external (federated)
  *
- * @param node
+ * @param node - The node to check
  */
-function isExternal(node: Node) {
+function isExternal(node: INode) {
 	return node.attributes?.['is-federated'] ?? false
 }
 
@@ -136,12 +136,12 @@ export const action = new FileAction({
 			&& (node.permissions & Permission.READ) !== 0
 	},
 
-	async exec({ nodes, view, folder, contents }) {
+	async exec({ nodes }) {
 		// You need read permissions to see the sidebar
 		const node = nodes[0]
 		if ((node.permissions & Permission.READ) !== 0) {
-			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
-			sidebarAction.exec({ nodes, view, folder, contents })
+			const sidebar = getSidebar()
+			sidebar.open(node, 'sharing')
 			return null
 		}
 
