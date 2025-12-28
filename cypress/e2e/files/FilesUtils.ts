@@ -281,11 +281,12 @@ export function navigateToFolder(dirPath: string) {
 }
 
 /**
- *
+ * Close the sidebar
  */
 export function closeSidebar() {
 	// {force: true} as it might be hidden behind toasts
 	cy.get('[data-cy-sidebar] .app-sidebar__close').click({ force: true })
+	cy.get('[data-cy-sidebar]').should('not.be.visible')
 }
 
 /**

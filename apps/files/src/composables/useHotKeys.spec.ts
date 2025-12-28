@@ -104,7 +104,7 @@ describe('HotKeysService testing', () => {
 		activeStore.activeFolder = root
 
 		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: { async open() {}, setActiveTab: () => {} } } }
+		window.OCA = { Files: { _sidebar: () => ({ open() {} }) } }
 		initialState = document.createElement('input')
 		initialState.setAttribute('type', 'hidden')
 		initialState.setAttribute('id', 'initial-state-files_trashbin-config')
