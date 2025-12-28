@@ -40,6 +40,7 @@ use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
+use OCA\DAV\Connector\Sabre\UserIdHeaderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
@@ -208,6 +209,7 @@ class Server {
 
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
+		$this->server->addPlugin(new UserIdHeaderPlugin(\OCP\Server::get(IUserSession::class)));
 		$this->server->addPlugin(new ChunkingV2Plugin(\OCP\Server::get(ICacheFactory::class)));
 		$this->server->addPlugin(new ChunkingPlugin());
 
