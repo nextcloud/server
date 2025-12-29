@@ -1156,13 +1156,31 @@ class OC {
 	}
 
 	/**
-	 * Check login: apache auth, auth token, basic auth
+	 * Attempts to authenticate the current request using multiple authentication mechanisms.
+	 *
+	 * Tries authentication in the following order: Apache authentication, app API login, token-based login,
+	 * cookie-based login, and HTTP Basic authentication. Returns true if any method authenticates the user
+	 * successfully, otherwise false.
+	 *
+	 * If the request contains the 'X-Nextcloud-Federation' header, authentication will be skipped.
+	 *
+	 * @param OCP\IRequest $request The current HTTP request object.
+	 * @return bool True if authentication succeeds, false otherwise.
+	 * @throws \Exception Passes through any unexpected exceptions from underlying authentication methods.
+	 *
+	 * @security Every authentication method is invoked in priority order, and early return is used on first success.
+	 *           Headers from federation requests are explicitly rejected.
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
+		// Talk federated users have no user backend; auth handled via Talk
 		if ($request->getHeader('X-Nextcloud-Federation')) {
 			return false;
 		}
+
 		$userSession = Server::get(\OC\User\Session::class);
+		$throttler = Server::get(IThrottler::class);
+
+		// Try different authentication methods in order of preference
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}
@@ -1172,15 +1190,22 @@ class OC {
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
-		if (isset($_COOKIE['nc_username'])
-			&& isset($_COOKIE['nc_token'])
-			&& isset($_COOKIE['nc_session_id'])
-			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
+		if (
+			$request->getCookie('nc_username') !== null &&
+			$request->getCookie('nc_token') !== null &&
+			$request->getCookie('nc_session_id') !== null &&
+			$userSession->loginWithCookie(
+				$request->getCookie('nc_username'),
+				$request->getCookie('nc_token'),
+				$request->getCookie('nc_session_id')
+			)
+		) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request, Server::get(IThrottler::class))) {
+		if ($userSession->tryBasicAuthLogin($request, $throttler))) {
 			return true;
 		}
+
 		return false;
 	}
 
