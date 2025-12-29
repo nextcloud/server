@@ -36,6 +36,17 @@ class Stdlog extends LogDetails implements IWriter {
 		'app' => $app,
 		'level' => $level,
 	    ], $details);
+	    $traceparent = $_SERVER['HTTP_TRACEPARENT'];
+	    if (preg_match('/^00-([0-9a-f]{32})-([0-9a-f]{16})-([0-9a-f]{2})$/', $traceparent, $matches)) {
+		$gcp = getenv('GOOGLE_CLOUD_PROJECT');
+		if (!empty($gcp)) {
+		    $logEntry['logging.googleapis.com/trace'] = 'projects/' . $gcp . '/traces/' . $matches[1];
+		    $logEntry['logging.googleapis.com/spanId'] = $matches[2];
+		} else {
+		    $logEntry['traceId'] = $matches[1];
+		    $logEntry['spanId'] = $matches[2];
+		}
+	    }
 	    // Check if 'message' field exists and is a string
 	    if (isset($logEntry['message']) && is_string($logEntry['message'])) {
 		$msg = $logEntry['message'];
