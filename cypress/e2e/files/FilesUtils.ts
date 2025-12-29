@@ -33,9 +33,10 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function getActionEntryForFile(file: string, actionId: string) {
-	return getActionButtonForFile(file)
+	getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+	return cy.findByRole('menu')
+		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
 /**

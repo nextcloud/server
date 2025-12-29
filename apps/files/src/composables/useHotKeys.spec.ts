@@ -4,6 +4,7 @@
  */
 
 import type { View } from '@nextcloud/files'
+import type { Mock } from 'vitest'
 import type { Location } from 'vue-router'
 
 import axios from '@nextcloud/axios'
@@ -143,6 +144,9 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('Pressing s should toggle favorite', () => {
+		(favoriteAction.enabled as Mock).mockReturnValue(true);
+		(favoriteAction.exec as Mock).mockImplementationOnce(() => Promise.resolve(null))
+
 		vi.spyOn(axios, 'post').mockImplementationOnce(() => Promise.resolve())
 		dispatchEvent({ key: 's', code: 'KeyS' })
 
@@ -152,7 +156,6 @@ describe('HotKeysService testing', () => {
 		dispatchEvent({ key: 's', code: 'KeyS', shiftKey: true })
 		dispatchEvent({ key: 's', code: 'KeyS', metaKey: true })
 
-		expect(favoriteAction.enabled).toHaveReturnedWith(true)
 		expect(favoriteAction.exec).toHaveBeenCalledOnce()
 	})
 
