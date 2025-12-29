@@ -63,17 +63,17 @@ class FeedBackHandler {
 	private function onStart(RepairStartEvent $event): void {
 		$this->totalSteps = $event->getMaxStep();
 		$this->completedSteps = 0;
-		$this->currentStepName = (string)$event->getCurrentStepName();
+		$this->currentStepName = $event->getCurrentStepName();
 	}
 
 	private function onAdvance(RepairAdvanceEvent $event): void {
 		$this->completedSteps += $event->getIncrement();
-		$description = trim((string)$event->getDescription()) ?: $this->currentStepName;
+		$description = trim($event->getDescription()) ?: $this->currentStepName;
 		$message = $this->l10n->t(
 			'[%d / %d]: %s',
 			[$this->completedSteps, $this->totalSteps, $description]
 		);
-		$this->eventSource->send('success', (string)$message);
+		$this->eventSource->send('success', $message);
 	}
 
 	private function onFinish(RepairFinishEvent $event): void {
@@ -81,30 +81,30 @@ class FeedBackHandler {
 			'[%d / %d]: %s',
 			[$this->completedSteps, $this->totalSteps, $this->currentStepName]
 		);
-		$this->eventSource->send('success', (string)$message);
+		$this->eventSource->send('success', $message);
 	}
 
 	private function onStep(RepairStepEvent $event): void {
-		$stepName = trim((string)$event->getStepName());
+		$stepName = trim($event->getStepName());
 		$message = $this->l10n->t('Repair step:') . ' ' . $stepName;
-		$this->eventSource->send('success', (string)$message);
+		$this->eventSource->send('success', $message);
 	}
 
 	private function onInfo(RepairInfoEvent $event): void {
-		$info = trim((string)$event->getMessage());
+		$info = trim($event->getMessage());
 		$message = $this->l10n->t('Repair info:') . ' ' . $info;
-		$this->eventSource->send('success', (string)$message);
+		$this->eventSource->send('success', $message);
 	}
 
 	private function onWarning(RepairWarningEvent $event): void {
-		$warning = trim((string)$event->getMessage());
+		$warning = trim($event->getMessage());
 		$message = $this->l10n->t('Repair warning:') . ' ' . $warning;
-		$this->eventSource->send('notice', (string)$message);
+		$this->eventSource->send('notice', $message);
 	}
 
 	private function onError(RepairErrorEvent $event): void {
-		$error = trim((string)$event->getMessage());
+		$error = trim($event->getMessage());
 		$message = $this->l10n->t('Repair error:') . ' ' . $error;
-		$this->eventSource->send('error', (string)$message);
+		$this->eventSource->send('error', $message);
 	}
 }
