@@ -507,8 +507,7 @@ class SetupManager {
 		$mountProvider = $cachedMount->getMountProvider();
 		$mountPoint = $cachedMount->getMountPoint();
 		$isMountProviderSetup = in_array($mountProvider, $setupProviders);
-		$isPathSetupAsAuthoritative
-			= $this->isPathSetup($mountPoint);
+		$isPathSetupAsAuthoritative = $this->isPathSetup($mountPoint);
 		if (!$isMountProviderSetup && !$isPathSetupAsAuthoritative) {
 			if ($mountProvider === '') {
 				$this->logger->debug('mount at ' . $cachedMount->getMountPoint() . ' has no provider set, performing full setup');
@@ -535,8 +534,7 @@ class SetupManager {
 			} else {
 				$currentProviders[] = $mountProvider;
 				$setupProviders[] = $mountProvider;
-				$fullProviderMounts[]
-					= $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$mountProvider]);
+				$fullProviderMounts[] = $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$mountProvider]);
 			}
 		}
 
@@ -722,6 +720,7 @@ class SetupManager {
 		$this->fullSetupRequired = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
+		$this->userMountCache->clear();
 		$this->eventDispatcher->dispatchTyped(new FilesystemTornDownEvent());
 	}
 
