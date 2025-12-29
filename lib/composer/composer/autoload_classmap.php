@@ -817,6 +817,7 @@ return array(
     'OCP\\Share\\Exceptions\\ShareTokenException' => $baseDir . '/lib/public/Share/Exceptions/ShareTokenException.php',
     'OCP\\Share\\IAttributes' => $baseDir . '/lib/public/Share/IAttributes.php',
     'OCP\\Share\\IManager' => $baseDir . '/lib/public/Share/IManager.php',
+    'OCP\\Share\\IPartialShareProvider' => $baseDir . '/lib/public/Share/IPartialShareProvider.php',
     'OCP\\Share\\IProviderFactory' => $baseDir . '/lib/public/Share/IProviderFactory.php',
     'OCP\\Share\\IPublicShareTemplateFactory' => $baseDir . '/lib/public/Share/IPublicShareTemplateFactory.php',
     'OCP\\Share\\IPublicShareTemplateProvider' => $baseDir . '/lib/public/Share/IPublicShareTemplateProvider.php',
