@@ -1,0 +1,12 @@
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+
+This file is generated from multiple sources. Included packages:
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
+- vue-material-design-icons
+	- version: 5.3.1
+	- license: MIT

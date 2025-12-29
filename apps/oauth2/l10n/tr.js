@@ -13,6 +13,7 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 dış hizmetlerin {instanceName} için erişim isteğinde bulunmasını sağlar.",
     "Name" : "Ad",
     "Redirection URI" : "Yönlendirme adresi",
+    "Client identifier" : "İstemci belirteci",
     "Delete client" : "İstemciyi sil",
     "Make sure you store the secret key, it cannot be recovered." : "Yeniden öğrenilemeyeceği için gizli anahtarı kaydettiğinizden emin olun.",
     "Add client" : "İstemci ekle",

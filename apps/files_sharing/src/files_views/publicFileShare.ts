@@ -9,7 +9,6 @@ import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import { Folder, getNavigation, Permission, View } from '@nextcloud/files'
 import { getDefaultPropfind, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
-import { CancelablePromise } from 'cancelable-promise'
 import { client } from '../../../files/src/services/WebdavClient.ts'
 import logger from '../services/logger.ts'
 
@@ -25,41 +24,41 @@ export default () => {
 		icon: LinkSvg,
 		order: 1,
 
-		getContents: () => {
-			return new CancelablePromise(async (resolve, reject, onCancel) => {
-				const abort = new AbortController()
-				onCancel(() => abort.abort())
-				try {
-					const node = await client.stat(
-						getRootPath(),
-						{
-							data: getDefaultPropfind(),
-							details: true,
-							signal: abort.signal,
-						},
-					) as ResponseDataDetailed<FileStat>
+		getContents: async (path, { signal }) => {
+			try {
+				const node = await client.stat(
+					getRootPath(),
+					{
+						data: getDefaultPropfind(),
+						details: true,
+						signal,
+					},
+				) as ResponseDataDetailed<FileStat>
 
-					resolve({
-						// We only have one file as the content
-						contents: [resultToNode(node.data)],
-						// Fake a readonly folder as root
-						folder: new Folder({
-							id: 0,
-							source: `${getRemoteURL()}${getRootPath()}`,
-							root: getRootPath(),
-							owner: null,
-							permissions: Permission.READ,
-							attributes: {
-								// Ensure the share note is set on the root
-								note: node.data.props?.note,
-							},
-						}),
-					})
-				} catch (e) {
-					logger.error(e as Error)
-					reject(e as Error)
+				return {
+					// We only have one file as the content
+					contents: [resultToNode(node.data)],
+					// Fake a readonly folder as root
+					folder: new Folder({
+						id: 0,
+						source: `${getRemoteURL()}${getRootPath()}`,
+						root: getRootPath(),
+						owner: null,
+						permissions: Permission.READ,
+						attributes: {
+							// Ensure the share note is set on the root
+							note: node.data.props?.note,
+						},
+					}),
 				}
-			})
+			} catch (error) {
+				if (signal.aborted) {
+					logger.info('Fetching contents for public file share was aborted', { error })
+					throw new DOMException('Aborted', 'AbortError')
+				}
+				logger.error('Failed to get contents for public file share', { error })
+				throw error
+			}
 		},
 	})
 

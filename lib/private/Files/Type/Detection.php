@@ -97,7 +97,7 @@ class Detection implements IMimeTypeDetector {
 		if (file_exists($this->customConfigDir . '/' . $fileName)) {
 			$custom = json_decode(file_get_contents($this->customConfigDir . '/' . $fileName), true);
 			if (json_last_error() === JSON_ERROR_NONE) {
-				$definitions = array_merge($definitions, $custom);
+				$definitions = array_replace($definitions, $custom);
 			} else {
 				$this->logger->warning('Failed to parse ' . $fileName . ': ' . json_last_error_msg());
 			}

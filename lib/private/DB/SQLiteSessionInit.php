@@ -44,7 +44,11 @@ class SQLiteSessionInit implements EventSubscriber {
 		/** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
 		$connection = $args->getConnection()->getWrappedConnection();
 		$pdo = $connection->getWrappedConnection();
-		$pdo->sqliteCreateFunction('md5', 'md5', 1);
+		if (PHP_VERSION_ID >= 80500 && method_exists($pdo, 'createFunction')) {
+			$pdo->createFunction('md5', 'md5', 1);
+		} else {
+			$pdo->sqliteCreateFunction('md5', 'md5', 1);
+		}
 	}
 
 	public function getSubscribedEvents() {

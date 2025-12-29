@@ -11,7 +11,8 @@ namespace OCA\DAV\CalDAV\Schedule;
 use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventReader;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
@@ -41,12 +42,13 @@ class IMipService {
 
 	public function __construct(
 		private URLGenerator $urlGenerator,
-		private IConfig $config,
 		private IDBConnection $db,
 		private ISecureRandom $random,
 		private L10NFactory $l10nFactory,
 		private ITimeFactory $timeFactory,
 		private readonly IUserManager $userManager,
+		private readonly IUserConfig $userConfig,
+		private readonly IAppConfig $appConfig,
 	) {
 		$language = $this->l10nFactory->findGenericLanguage();
 		$locale = $this->l10nFactory->findLocale($language);
@@ -887,8 +889,8 @@ class IMipService {
 		$users = $this->userManager->getByEmail($userAddress);
 		if ($users !== []) {
 			$user = array_shift($users);
-			$language = $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
-			$locale = $this->config->getUserValue($user->getUID(), 'core', 'locale', null);
+			$language = $this->userConfig->getValueString($user->getUID(), 'core', 'lang', '') ?: null;
+			$locale = $this->userConfig->getValueString($user->getUID(), 'core', 'locale', '') ?: null;
 		}
 		// fallback to attendee LANGUAGE parameter if language not set
 		if ($language === null && isset($attendee['LANGUAGE']) && $attendee['LANGUAGE'] instanceof Parameter) {
@@ -996,7 +998,7 @@ class IMipService {
 	 * The default is 'no', which matches old behavior, and is privacy preserving.
 	 *
 	 * To enable including attendees in invitation emails:
-	 *   % php occ config:app:set dav invitation_list_attendees --value yes
+	 *   % php occ config:app:set dav invitation_list_attendees --value yes --type bool
 	 *
 	 * @param IEMailTemplate $template
 	 * @param IL10N $this->l10n
@@ -1004,12 +1006,12 @@ class IMipService {
 	 * @author brad2014 on github.com
 	 */
 	public function addAttendees(IEMailTemplate $template, VEvent $vevent) {
-		if ($this->config->getAppValue('dav', 'invitation_list_attendees', 'no') === 'no') {
+		if (!$this->appConfig->getValueBool('dav', 'invitation_list_attendees')) {
 			return;
 		}
 
 		if (isset($vevent->ORGANIZER)) {
-			/** @var Property | Property\ICalendar\CalAddress $organizer */
+			/** @var Property&Property\ICalendar\CalAddress $organizer */
 			$organizer = $vevent->ORGANIZER;
 			$organizerEmail = substr($organizer->getNormalizedValue(), 7);
 			/** @var string|null $organizerName */
@@ -1039,8 +1041,14 @@ class IMipService {
 		$attendeesHTML = [];
 		$attendeesText = [];
 		foreach ($attendees as $attendee) {
+			/** @var Property&Property\ICalendar\CalAddress $attendee */
 			$attendeeEmail = substr($attendee->getNormalizedValue(), 7);
-			$attendeeName = isset($attendee['CN']) ? $attendee['CN']->getValue() : null;
+			$attendeeName = null;
+			if (isset($attendee['CN'])) {
+				/** @var Parameter $cn */
+				$cn = $attendee['CN'];
+				$attendeeName = $cn->getValue();
+			}
 			$attendeeHTML = sprintf('<a href="%s">%s</a>',
 				htmlspecialchars($attendee->getNormalizedValue()),
 				htmlspecialchars($attendeeName ?: $attendeeEmail));

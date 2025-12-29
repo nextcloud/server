@@ -3,164 +3,111 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { AdminThemingParameters } from '../../types.d.ts'
+
+import { mdiPaletteOutline, mdiUndo } from '@mdi/js'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { computed, ref, toRef, useId, watch } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { useAdminThemingValue } from '../../composables/useAdminThemingValue.js'
+import { getTextColor } from '../../utils/color.ts'
+
+const props = defineProps<{
+	name: keyof AdminThemingParameters
+	label: string
+	defaultValue: string
+}>()
+
+const emit = defineEmits<{
+	updated: []
+}>()
+
+const id = useId()
+
+const modelValue = ref(loadState<AdminThemingParameters>('theming', 'adminThemingParameters')[props.name] as string)
+const previewColor = ref(modelValue.value)
+watch(modelValue, (v) => {
+	previewColor.value = v
+})
+
+const {
+	isSaving,
+	reset,
+} = useAdminThemingValue(() => props.name, modelValue, toRef(props, 'defaultValue'))
+watch(isSaving, (v) => !v && emit('updated'))
+
+const textColor = computed(() => getTextColor(previewColor.value))
+</script>
+
 <template>
-	<div class="field">
-		<label :for="id">{{ displayName }}</label>
-		<div class="field__row">
+	<div :class="$style.colorPickerField">
+		<div :class="$style.colorPickerField__row">
 			<NcColorPicker
-				v-model="localValue"
-				:advanced-fields="true"
-				@update:value="debounceSave">
+				:id
+				v-model="previewColor"
+				advanced-fields
+				@submit="modelValue = $event!">
 				<NcButton
-					:id="id"
-					class="field__button"
+					:class="$style.colorPickerField__button"
+					size="large"
 					variant="primary"
-					:aria-label="t('theming', 'Select a custom color')"
-					data-admin-theming-setting-color-picker>
+					:style="{
+						'--color-primary-element': previewColor,
+						'--color-primary-element-text': textColor,
+						'--color-primary-element-hover': 'color-mix(in srgb, var(--color-primary-element) 70%, var(--color-primary-element-text))',
+					}">
 					<template #icon>
-						<NcLoadingIcon
-							v-if="loading"
-							:appearance="calculatedTextColor === '#ffffff' ? 'light' : 'dark'"
-							:size="20" />
-						<Palette v-else :size="20" />
+						<NcLoadingIcon v-if="isSaving" :appearance="textColor === '#ffffff' ? 'light' : 'dark'" />
+						<NcIconSvgWrapper v-else :path="mdiPaletteOutline" />
 					</template>
-					{{ value }}
+					{{ label }}
 				</NcButton>
 			</NcColorPicker>
-			<div class="field__color-preview" data-admin-theming-setting-color />
 			<NcButton
-				v-if="value !== defaultValue"
+				v-if="modelValue !== defaultValue"
 				variant="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
-				data-admin-theming-setting-color-reset
-				@click="undo">
+				:title="t('theming', 'Reset to default')"
+				@click="reset">
 				<template #icon>
-					<Undo :size="20" />
+					<NcIconSvgWrapper :path="mdiUndo" />
 				</template>
 			</NcButton>
 		</div>
-		<div v-if="description" class="description">
-			{{ description }}
-		</div>
-
-		<NcNoteCard
-			v-if="errorMessage"
-			type="error"
-			:show-alert="true">
-			<p>{{ errorMessage }}</p>
-		</NcNoteCard>
+		<p :class="$style.colorPickerField__description">
+			<slot name="description" />
+		</p>
 	</div>
 </template>
 
-<script>
-import { colord } from 'colord'
-import debounce from 'debounce'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import Palette from 'vue-material-design-icons/Palette.vue'
-import Undo from 'vue-material-design-icons/UndoVariant.vue'
-import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
-
-export default {
-	name: 'ColorPickerField',
-
-	components: {
-		NcButton,
-		NcColorPicker,
-		NcLoadingIcon,
-		NcNoteCard,
-		Undo,
-		Palette,
-	},
-
-	mixins: [
-		TextValueMixin,
-	],
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-
-		description: {
-			type: String,
-			default: '',
-		},
-
-		value: {
-			type: String,
-			required: true,
-		},
-
-		textColor: {
-			type: String,
-			default: null,
-		},
-
-		defaultValue: {
-			type: String,
-			required: true,
-		},
-
-		displayName: {
-			type: String,
-			required: true,
-		},
-	},
-
-	emits: ['update:theming'],
-
-	data() {
-		return {
-			loading: false,
-		}
-	},
-
-	computed: {
-		calculatedTextColor() {
-			const color = colord(this.value)
-			return color.isLight() ? '#000000' : '#ffffff'
-		},
-
-		usedTextColor() {
-			if (this.textColor) {
-				return this.textColor
-			}
-			return this.calculatedTextColor
-		},
-	},
-
-	methods: {
-		debounceSave: debounce(async function() {
-			this.loading = true
-			await this.save()
-			this.$emit('update:theming')
-			this.loading = false
-		}, 200),
-	},
+<style module>
+.colorPickerField {
+	display: flex;
+	flex-direction: column;
 }
-</script>
 
-<style lang="scss" scoped>
-@use './shared/field' as *;
+.colorPickerField__row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: calc(1.5 * var(--default-grid-baseline));
+}
 
-.description {
+.colorPickerField__button {
+	min-width: clamp(200px, 25vw, 300px) !important;
+}
+
+.colorPickerField__description {
 	color: var(--color-text-maxcontrast);
+	margin-block: calc(0.5 * var(--default-grid-baseline)) var(--default-grid-baseline);
 }
 
-.field {
-	&__button {
-		background-color: v-bind('value') !important;
-		color: v-bind('usedTextColor') !important;
-	}
-
-	&__color-preview {
-		width: var(--default-clickable-area);
-		border-radius: var(--border-radius-large);
-		background-color: v-bind('value');
-	}
+.colorPickerField__description:empty {
+	display: none;
 }
 </style>

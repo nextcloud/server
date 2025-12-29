@@ -1,0 +1,34 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: string_decoder developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/capabilities
+	- version: 1.2.1
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.3
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- safe-buffer
+	- version: 5.1.2
+	- license: MIT
+- string_decoder
+	- version: 1.1.1
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT
+- vue-router
+	- version: 4.6.3
+	- license: MIT

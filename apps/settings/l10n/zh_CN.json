@@ -410,6 +410,7 @@
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "允许在输入全名时自动补全完整匹配项（忽略群组成员资格或通讯录匹配缺失等限制）",
     "Full match autocompletion restrictions" : "完整匹配自动补全限制",
     "Also allow autocompletion on full match of the user ID" : "同时允许基于用户 ID 完整匹配的自动补全",
+    "Also allow autocompletion on full match of the display name" : "同时允许在显示名称完全匹配时自动补全",
     "Also allow autocompletion on full match of the user email" : "同时允许基于用户电子邮件完整匹配的自动补全",
     "Do not use second user displayname for full match" : "不使用第二用户显示名进行完整匹配",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公开链接上传页中显示免责声明（仅当文件列表隐藏时显示）",

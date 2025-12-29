@@ -8,69 +8,23 @@
 namespace OC;
 
 use OC\Config\UserConfig;
-use OCP\Cache\CappedMemoryCache;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\IUserConfig;
 use OCP\Config\ValueType;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 
 /**
- * Class to combine all the configuration options ownCloud offers
+ * Class to combine all the configuration options Nextcloud offers
  */
 class AllConfig implements IConfig {
-	private ?IDBConnection $connection = null;
-
-	/**
-	 * 3 dimensional array with the following structure:
-	 * [ $userId =>
-	 *     [ $appId =>
-	 *         [ $key => $value ]
-	 *     ]
-	 * ]
-	 *
-	 * database table: preferences
-	 *
-	 * methods that use this:
-	 *   - setUserValue
-	 *   - getUserValue
-	 *   - getUserKeys
-	 *   - deleteUserValue
-	 *   - deleteAllUserValues
-	 *   - deleteAppFromAllUsers
-	 *
-	 * @var CappedMemoryCache $userCache
-	 */
-	private CappedMemoryCache $userCache;
-
 	public function __construct(
 		private SystemConfig $systemConfig,
 	) {
-		$this->userCache = new CappedMemoryCache();
 	}
 
 	/**
-	 * TODO - FIXME This fixes an issue with base.php that cause cyclic
-	 * dependencies, especially with autoconfig setup
-	 *
-	 * Replace this by properly injected database connection. Currently the
-	 * base.php triggers the getDatabaseConnection too early which causes in
-	 * autoconfig setup case a too early distributed database connection and
-	 * the autoconfig then needs to reinit all already initialized dependencies
-	 * that use the database connection.
-	 *
-	 * otherwise a SQLite database is created in the wrong directory
-	 * because the database connection was created with an uninitialized config
-	 */
-	private function fixDIInit() {
-		if ($this->connection === null) {
-			$this->connection = \OC::$server->get(IDBConnection::class);
-		}
-	}
-
-	/**
-	 * Sets and deletes system wide values
+	 * Sets and deletes system-wide values
 	 *
 	 * @param array $configs Associative array with `key => value` pairs
 	 *                       If value is null, the config key will be deleted
@@ -80,7 +34,7 @@ class AllConfig implements IConfig {
 	}
 
 	/**
-	 * Sets a new system wide value
+	 * Sets a new system-wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved
 	 * @param mixed $value the value that should be stored
@@ -391,26 +345,6 @@ class AllConfig implements IConfig {
 	public function getUsersForUserValue($appName, $key, $value) {
 		/** @var list<string> $result */
 		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value));
-		return $result;
-	}
-
-	/**
-	 * Determines the users that have the given value set for a specific app-key-pair
-	 *
-	 * @param string $appName the app to get the user for
-	 * @param string $key the key to get the user for
-	 * @param string $value the value to get the user for
-	 *
-	 * @return list<string> of user IDs
-	 * @deprecated 31.0.0 - use {@see IUserConfig::searchUsersByValueString} directly
-	 */
-	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
-		if ($appName === 'settings' && $key === 'email') {
-			return $this->getUsersForUserValue($appName, $key, strtolower($value));
-		}
-
-		/** @var list<string> $result */
-		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value, true));
 		return $result;
 	}
 
