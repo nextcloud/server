@@ -20,7 +20,7 @@ use OCP\Server;
 /**
  * Event listener that outputs log messages to STDOUT for debugging in CLI context.
  * Activated with debug CLI options and safe for use during command-line development.
- * 
+ *
  * After processing debug flags, cleans up CLI arguments to avoid interfering with other handlers.
  *
  * @template-implements IEventListener<BeforeMessageLoggedEvent>
@@ -48,15 +48,15 @@ class BeforeMessageLoggedEventListener implements IEventListener {
 	}
 
 	private function formatLogLine(BeforeMessageLoggedEvent $event): string {
-			$level = $event->getLevel();
-			$levelStr = match($level) {
-				ILogger::DEBUG => '[debug]',
-				ILogger::INFO => '[info]',
-				ILogger::WARN => '[warning]',
-				ILogger::ERROR => '[error]',
-				ILogger::FATAL => '[fatal]',
-				default => '[' . $level . ']',
-			};
+		$level = $event->getLevel();
+		$levelStr = match($level) {
+			ILogger::DEBUG => '[debug]',
+			ILogger::INFO => '[info]',
+			ILogger::WARN => '[warning]',
+			ILogger::ERROR => '[error]',
+			ILogger::FATAL => '[fatal]',
+			default => '[' . $level . ']',
+		};
 		$app = $event->getApp();
 		$msg = $event->getMessage()['message'] ?? '';
 		return sprintf("%s [%s] %s\n", $levelStr, $app, $msg);
@@ -67,7 +67,7 @@ class BeforeMessageLoggedEventListener implements IEventListener {
 	 *
 	 * The debug CLI options (e.g., --debug-log and --debug-log-level=)
 	 * are used solely by this listener for runtime log output control.
-	 * 
+	 *
 	 * After parsing and using them, they are removed from $_SERVER['argv']
 	 * so that other CLI components (such as Symfony Console) do not see
 	 * unrecognized options, preventing errors or accidental exposure of internal flags.
@@ -75,11 +75,12 @@ class BeforeMessageLoggedEventListener implements IEventListener {
 	public static function setup(): void {
 		$eventDispatcher = Server::get(IEventDispatcher::class);
 
+		/** @psalm-suppress TypeDoesNotContainType */
 		if (!isset($_SERVER['argv']) || !is_array($_SERVER['argv'])) {
 			// Likely reached here outside of CLI mode somehow
 			return;
 		}
-		
+
 		$argv = $_SERVER['argv'];
 		$level = ILogger::DEBUG;
 
