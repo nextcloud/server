@@ -390,4 +390,9 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 
 		$this->assertStringContainsString('only works with master key', $output);
 	}
+
+	protected function tearDown(): void {
+		$this->tearDownEncryptionTrait();
+		parent::tearDown();
+	}
 }
