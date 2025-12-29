@@ -584,6 +584,7 @@ OC.L10N.register(
     "Please confirm the group removal" : "Prosím potvrďte vymazanie skupiny.",
     "Submit" : "Odoslať",
     "Rename group" : "Premenovať skupinu",
+    "Delete group" : "Vymazať skupinu",
     "Current password" : "Aktuálne heslo",
     "New password" : "Nové heslo",
     "Change password" : "Zmeniť heslo",
