@@ -191,6 +191,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				call_user_func([$this, $methodName]);
 			}
 		}
+
+		// Clean up encryption state to prevent test pollution
+		// This ensures encryption_enabled is reset after each test, preventing
+		// MultiKeyEncryptException failures in subsequent tests when encryption
+		// is left enabled but user keys don't exist
+		try {
+			$config = Server::get(IConfig::class);
+			$currentValue = $config->getAppValue('core', 'encryption_enabled', 'no');
+			if ($currentValue === 'yes') {
+				$config->setAppValue('core', 'encryption_enabled', 'no');
+				$config->deleteAppValue('core', 'default_encryption_module');
+				$config->deleteAppValue('encryption', 'useMasterKey');
+			}
+		} catch (\Throwable $e) {
+			// Ignore - may be called before bootstrap completes
+		}
 	}
 
 	/**
