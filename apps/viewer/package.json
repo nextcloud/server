@@ -1,12 +1,8 @@
 {
   "name": "viewer",
-  "description": "Simple file viewer with slideshow for media",
   "version": "6.0.0-dev.0",
-  "author": "John Molakvoæ <skjnldsv@protonmail.com>",
-  "contributors": [
-    "John Molakvoæ <skjnldsv@protonmail.com>"
-  ],
-  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "description": "Simple file viewer with slideshow for media",
   "keywords": [
     "nextcloud",
     "files",
@@ -15,30 +11,37 @@
     "modal",
     "gallery"
   ],
+  "homepage": "https://github.com/nextcloud/viewer",
   "bugs": {
     "url": "https://github.com/nextcloud/viewer/issues"
   },
   "repository": {
-    "url": "git+https://github.com/nextcloud/viewer.git",
-    "type": "git"
+    "type": "git",
+    "url": "git+https://github.com/nextcloud/viewer.git"
   },
-  "homepage": "https://github.com/nextcloud/viewer",
-  "private": true,
+  "license": "AGPL-3.0-or-later",
+  "author": "John Molakvoæ <skjnldsv@protonmail.com>",
+  "contributors": [
+    "John Molakvoæ <skjnldsv@protonmail.com>"
+  ],
   "type": "module",
   "scripts": {
     "build": "vite --mode production build",
+    "cypress": "npm run cypress:e2e",
+    "cypress:e2e": "cypress run --e2e",
+    "cypress:gui": "cypress open --e2e",
+    "cypress:update-snapshots": "cypress run --env visualRegressionType=base --spec cypress/e2e/visual-regression.cy.ts --config screenshotsFolder=cypress/snapshots/base",
+    "cypress:visual-regression": "cypress run --spec cypress/e2e/visual-regression.cy.ts",
     "dev": "export NODE_ENV=development; vite --mode development build",
-    "watch": "export NODE_ENV=development; vite --mode development build --watch",
     "lint": "eslint cypress src",
     "lint:fix": "eslint cypress src --fix",
     "stylelint": "stylelint src",
     "stylelint:fix": "stylelint src --fix",
-    "cypress": "npm run cypress:e2e",
-    "cypress:e2e": "cypress run --e2e",
-    "cypress:gui": "cypress open --e2e",
-    "cypress:visual-regression": "cypress run --spec cypress/e2e/visual-regression.cy.ts",
-    "cypress:update-snapshots": "cypress run --env visualRegressionType=base --spec cypress/e2e/visual-regression.cy.ts --config screenshotsFolder=cypress/snapshots/base"
+    "watch": "export NODE_ENV=development; vite --mode development build --watch"
   },
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
+  ],
   "dependencies": {
     "@fontsource/roboto": "^5.2.6",
     "@mdi/svg": "^7.4.47",
@@ -46,7 +49,7 @@
     "@nextcloud/axios": "^2.5.1",
     "@nextcloud/dialogs": "^5.3.8",
     "@nextcloud/event-bus": "^3.3.2",
-    "@nextcloud/files": "^3.12.0",
+    "@nextcloud/files": "^4.0.0-beta.8",
     "@nextcloud/initial-state": "^2.2.0",
     "@nextcloud/l10n": "^3.4.0",
     "@nextcloud/logger": "^3.0.2",
@@ -69,13 +72,6 @@
     "vue-material-design-icons": "^5.3.1",
     "webdav": "^5.7.1"
   },
-  "browserslist": [
-    "extends @nextcloud/browserslist-config"
-  ],
-  "engines": {
-    "node": "^24.0.0",
-    "npm": "^11.3.0"
-  },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.0.1",
     "@nextcloud/cypress": "^1.0.0-beta.15",
@@ -96,5 +92,9 @@
     "typescript": "^5.9.2",
     "vite": "^5.4.19",
     "vite-plugin-static-copy": "^3.1.2"
+  },
+  "engines": {
+    "node": "^24.0.0",
+    "npm": "^11.3.0"
   }
 }

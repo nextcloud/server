@@ -174,12 +174,12 @@
 </template>
 
 <script>
-import '@nextcloud/dialogs/style.css'
 import Vue, { defineComponent } from 'vue'
 
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import { File as NcFile, Node, davRemoteURL, davRootPath, davGetRootPath, sortNodes } from '@nextcloud/files'
+import { File as NcFile, Node, sortNodes } from '@nextcloud/files'
+import { defaultRemoteURL, defaultRootPath, getRootPath } from '@nextcloud/files/dav'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 
@@ -204,6 +204,8 @@ import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+
+import '@nextcloud/dialogs/style.css'
 
 // Dynamic loading
 const NcModal = () => import('@nextcloud/vue/dist/Components/NcModal.js')
@@ -265,7 +267,7 @@ export default defineComponent({
 			isStandalone: false,
 			theme: null,
 			lightBackdrop: null,
-			root: davRemoteURL,
+			root: defaultRemoteURL,
 			handlerId: '',
 
 			trapElements: [],
@@ -342,7 +344,7 @@ export default defineComponent({
 		},
 		sidebarOpenFilePath() {
 			try {
-				const relativePath = this.currentFile?.davPath?.split(davRootPath)[1]
+				const relativePath = this.currentFile?.davPath?.split(defaultRootPath)[1]
 				return relativePath?.split('/')?.map(decodeURIComponent)?.join('/')
 			} catch (e) {
 				return false
@@ -779,13 +781,13 @@ export default defineComponent({
 				// https://github.com/nextcloud/server/blob/a83b79c5f8ab20ed9b4d751167417a65fa3c42b8/apps/files/lib/Controller/ApiController.php#L247
 				const nodes = filteredFiles.map(
 					file => new NcFile({
-						source: davRemoteURL + davGetRootPath() + file.filename,
+						source: defaultRemoteURL + getRootPath() + file.filename,
 						id: file.fileid,
 						displayname: file.displayname,
 						mime: file.mime,
 						mtime: new Date(file.lastmod),
 						owner: this.currentFile.ownerId,
-						root: davGetRootPath(),
+						root: getRootPath(),
 					}),
 				)
 				const sortedNodes = sortNodes(nodes, {
@@ -1105,13 +1107,13 @@ export default defineComponent({
 		/**
 		 * Show the sharing sidebar
 		 */
-
 		async showSidebar() {
-			// Open the sidebar sharing tab
-			// TODO: also hide figure, needs a proper method for it in server Sidebar
-
-			if (this.enableSidebar && OCA?.Files?.Sidebar) {
-				await OCA.Files.Sidebar.open(this.sidebarOpenFilePath)
+			if (this.enableSidebar) {
+				emit('viewer:sidebar:open')
+				if (OCA?.Files?.Sidebar) {
+					// TODO: also hide figure, needs a proper method for it in server Sidebar
+					await OCA.Files.Sidebar.open(this.sidebarOpenFilePath)
+				}
 			}
 		},
 
@@ -1164,7 +1166,7 @@ export default defineComponent({
 					id: fileid,
 					mime: this.currentFile.mime,
 					owner: this.currentFile.ownerId,
-					root: url.includes('remote.php/dav') ? davGetRootPath() : undefined,
+					root: url.includes('remote.php/dav') ? getRootPath() : undefined,
 				})
 
 				await axios.delete(url)

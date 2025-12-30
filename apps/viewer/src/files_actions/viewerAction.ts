@@ -1,8 +1,9 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View } from '@nextcloud/files'
+
+import type { INode, IView } from '@nextcloud/files'
 
 import { DefaultType, FileAction, Permission, registerFileAction } from '@nextcloud/files'
 import { emit } from '@nextcloud/event-bus'
@@ -16,7 +17,7 @@ import logger from '../services/logger.js'
  * @param view any The files view
  * @param dir the directory path
  */
-function pushToHistory(node: Node, view: View, dir: string) {
+function pushToHistory(node: INode, view: IView, dir: string) {
 	if (!window.OCP?.Files?.Router) {
 		// No router, we're in standalone mode
 		logger.debug('No router found, skipping history push')
@@ -56,11 +57,8 @@ const onPopState = () => {
 
 /**
  * Execute the viewer files action
- * @param node The active node
- * @param view The current view
- * @param dir The current path
  */
-async function execAction(node: Node, view: View, dir: string): Promise<boolean|null> {
+async function execAction({ nodes, view, folder }): Promise<boolean|null> {
 	const onClose = () => {
 		// If there is no router, we're in standalone mode
 		if (!window.OCP?.Files?.Router) {
@@ -78,14 +76,14 @@ async function execAction(node: Node, view: View, dir: string): Promise<boolean|
 		window.addEventListener('popstate', onPopState)
 	}
 
-	pushToHistory(node, view, dir)
+	pushToHistory(nodes[0], view, folder.path)
 	window.OCA.Viewer.open({
-		path: node.path,
+		path: nodes[0].path,
 		onPrev(fileInfo) {
-			pushToHistory(fileInfo, view, dir)
+			pushToHistory(fileInfo, view, folder.path)
 		},
 		onNext(fileInfo) {
-			pushToHistory(fileInfo, view, dir)
+			pushToHistory(fileInfo, view, folder.path)
 		},
 		onClose,
 	})
@@ -102,9 +100,9 @@ export function registerViewerAction() {
 		displayName: () => t('viewer', 'View'),
 		iconSvgInline: () => svgEye,
 		default: DefaultType.DEFAULT,
-		enabled: (nodes) => {
+		enabled: ({ nodes }) => {
 			// Disable if not located in user root
-			if (nodes.some(node => !(node.isDavRessource && node.root?.startsWith('/files')))) {
+			if (nodes.some(node => !(node.isDavResource && node.root?.startsWith('/files')))) {
 				return false
 			}
 

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { davGetClient, davRootPath, davGetRemoteURL } from '@nextcloud/files'
+import { getClient, defaultRootPath, getRemoteURL } from '@nextcloud/files/dav'
 
-const davRemote = davGetRemoteURL()
+const davRemote = getRemoteURL()
 
-export const client = davGetClient(`${davRemote}${davRootPath}`)
+export const client = getClient(`${davRemote}${defaultRootPath}`)
