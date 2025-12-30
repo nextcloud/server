@@ -18,7 +18,7 @@ class TagManagement extends Action {
 		$this->log('System tag "%s" (%s, %s) created',
 			[
 				'name' => $tag->getName(),
-				'visbility' => $tag->isUserVisible() ? 'visible' : 'invisible',
+				'visibility' => $tag->isUserVisible() ? 'visible' : 'invisible',
 				'assignable' => $tag->isUserAssignable() ? 'user assignable' : 'system only',
 			],
 			['name', 'visibility', 'assignable']
