@@ -174,7 +174,6 @@
 </template>
 
 <script>
-import '@nextcloud/dialogs/style.css'
 import Vue, { defineComponent } from 'vue'
 
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -205,6 +204,8 @@ import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+
+import '@nextcloud/dialogs/style.css'
 
 // Dynamic loading
 const NcModal = () => import('@nextcloud/vue/dist/Components/NcModal.js')
@@ -1106,13 +1107,13 @@ export default defineComponent({
 		/**
 		 * Show the sharing sidebar
 		 */
-
 		async showSidebar() {
-			// Open the sidebar sharing tab
-			// TODO: also hide figure, needs a proper method for it in server Sidebar
-
-			if (this.enableSidebar && OCA?.Files?.Sidebar) {
-				await OCA.Files.Sidebar.open(this.sidebarOpenFilePath)
+			if (this.enableSidebar) {
+				emit('viewer:sidebar:open')
+				if (OCA?.Files?.Sidebar) {
+					// TODO: also hide figure, needs a proper method for it in server Sidebar
+					await OCA.Files.Sidebar.open(this.sidebarOpenFilePath)
+				}
 			}
 		},
 

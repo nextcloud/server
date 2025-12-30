@@ -1,8 +1,9 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View } from '@nextcloud/files'
+
+import type { INode, IView } from '@nextcloud/files'
 
 import { DefaultType, FileAction, Permission, registerFileAction } from '@nextcloud/files'
 import { emit } from '@nextcloud/event-bus'
@@ -16,7 +17,7 @@ import logger from '../services/logger.js'
  * @param view any The files view
  * @param dir the directory path
  */
-function pushToHistory(node: Node, view: View, dir: string) {
+function pushToHistory(node: INode, view: IView, dir: string) {
 	if (!window.OCP?.Files?.Router) {
 		// No router, we're in standalone mode
 		logger.debug('No router found, skipping history push')

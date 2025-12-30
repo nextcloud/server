@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { FileStat } from 'webdav'
 
 import { defaultRemoteURL, defaultRootPath } from '@nextcloud/files/dav'
@@ -9,7 +10,6 @@ import { getLanguage } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { getCurrentUser } from '@nextcloud/auth'
 import camelcase from 'camelcase'
-
 import { isNumber } from './numberUtil'
 
 export interface FileInfo {
