@@ -33,6 +33,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
@@ -44,7 +45,11 @@ use function str_starts_with;
  *
  * @package OC\Share20
  */
-class DefaultShareProvider implements IShareProviderWithNotification, IShareProviderSupportsAccept, IShareProviderSupportsAllSharesInFolder {
+class DefaultShareProvider implements
+	IShareProviderWithNotification,
+	IShareProviderSupportsAccept,
+	IShareProviderSupportsAllSharesInFolder,
+	IShareProviderGetUsers {
 	public function __construct(
 		private IDBConnection $dbConn,
 		private IUserManager $userManager,
@@ -1677,5 +1682,16 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			];
 		}
 		return \json_encode($compressedAttributes);
+	}
+
+	public function getUsersForShare(IShare $share): iterable {
+		if ($share->getShareType() === IShare::TYPE_USER) {
+			return [new LazyUser($share->getSharedWith(), $this->userManager)];
+		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
+			$group = $this->groupManager->get($share->getSharedWith());
+			return $group->getUsers();
+		} else {
+			return [];
+		}
 	}
 }

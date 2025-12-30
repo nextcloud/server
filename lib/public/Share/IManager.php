@@ -518,4 +518,13 @@ interface IManager {
 	 * @since 31.0.0
 	 */
 	public function generateToken(): string;
+
+	/**
+	 * Get all users with access to a share
+	 *
+	 * @param IShare $share
+	 * @return iterable<IUser>
+	 * @since 33.0.0
+	 */
+	public function getUsersForShare(IShare $share): iterable;
 }
