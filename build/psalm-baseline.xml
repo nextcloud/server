@@ -1588,7 +1588,6 @@
     <DeprecatedClass>
       <code><![CDATA[new QueryException()]]></code>
       <code><![CDATA[new QueryException()]]></code>
-      <code><![CDATA[new QueryException()]]></code>
     </DeprecatedClass>
   </file>
   <file src="apps/files_sharing/lib/Controller/SettingsController.php">
