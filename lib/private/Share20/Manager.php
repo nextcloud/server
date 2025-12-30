@@ -7,6 +7,7 @@
  */
 namespace OC\Share20;
 
+use ArrayIterator;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
@@ -49,6 +50,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
+use OCP\Share\IPartialShareProvider;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
@@ -1281,6 +1283,43 @@ class Manager implements IManager {
 		}
 
 		return $shares;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable {
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return [];
+		}
+
+		if (!$provider instanceof IPartialShareProvider) {
+			throw new \RuntimeException(\get_class($provider) . ' must implement IPartialShareProvider');
+		}
+
+		$shares = $provider->getSharedWithByPath($userId,
+			$shareType,
+			$path,
+			$forChildren,
+			$limit,
+			$offset
+		);
+
+		if (\is_array($shares)) {
+			$shares = new ArrayIterator($shares);
+		}
+
+		return new \CallbackFilterIterator($shares, function (IShare $share) {
+			// remove all shares which are already expired
+			try {
+				$this->checkShare($share);
+				return true;
+			} catch (ShareNotFound $e) {
+				return false;
+			}
+		});
 	}
 
 	#[Override]
