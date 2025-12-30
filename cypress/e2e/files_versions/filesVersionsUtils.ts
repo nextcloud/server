@@ -28,6 +28,9 @@ export function openVersionsPanel(fileName: string) {
 
 	triggerActionForFile(basename(fileName), 'details')
 	cy.get('[data-cy-sidebar]')
+		.as('sidebar')
+		.should('be.visible')
+	cy.get('@sidebar')
 		.find('[aria-controls="tab-files_versions"]')
 		.click()
 
@@ -86,7 +89,6 @@ export function setupTestSharedFileFromUser(owner: User, randomFileName: string,
 			cy.login(owner)
 			cy.visit('/apps/files')
 			createShare(randomFileName, recipient.userId, shareOptions)
-			cy.logout()
 
 			cy.login(recipient)
 			cy.visit('/apps/files')

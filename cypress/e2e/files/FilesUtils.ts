@@ -24,7 +24,9 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
 export function getActionEntryForFileId(fileid: number, actionId: string) {
 	return getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId}`)
+			.should('exist')
+			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -33,10 +35,11 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function getActionEntryForFile(file: string, actionId: string) {
-	getActionButtonForFile(file)
+	return getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-	return cy.findByRole('menu')
-		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+		.then((menuId) => cy.get(`#${menuId}`)
+			.should('exist')
+			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -66,9 +69,8 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  */
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
-		.as('actionButton')
 		.scrollIntoView()
-	cy.get('@actionButton')
+	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFileId(fileid, actionId)
 		.find('button')
@@ -83,9 +85,8 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  */
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
-		.as('actionButton')
 		.scrollIntoView()
-	cy.get('@actionButton')
+	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFile(filename, actionId)
 		.find('button')
@@ -286,8 +287,19 @@ export function navigateToFolder(dirPath: string) {
  */
 export function closeSidebar() {
 	// {force: true} as it might be hidden behind toasts
-	cy.get('[data-cy-sidebar] .app-sidebar__close').click({ force: true })
-	cy.get('[data-cy-sidebar]').should('not.be.visible')
+	cy.get('[data-cy-sidebar] .app-sidebar__close')
+		.click({ force: true })
+	cy.get('[data-cy-sidebar]')
+		.should('not.be.visible')
+	// eslint-disable-next-line cypress/no-unnecessary-waiting -- wait for the animation to finish
+	cy.wait(500)
+	cy.url()
+		.should('not.contain', 'opendetails')
+	// close all toasts
+	cy.get('.toast-success')
+		.if()
+		.findAllByRole('button')
+		.click({ force: true, multiple: true })
 }
 
 /**

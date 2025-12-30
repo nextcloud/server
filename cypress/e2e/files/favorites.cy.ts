@@ -114,6 +114,10 @@ describe('files: Favorites', { testIsolation: true }, () => {
 		// open sidebar
 		triggerActionForFile('new folder', 'details')
 		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+
+		// open sidebar actions
+		cy.get('[data-cy-sidebar]')
 			.findByRole('button', { name: 'Actions' })
 			.click()
 		// trigger menu button
@@ -121,8 +125,9 @@ describe('files: Favorites', { testIsolation: true }, () => {
 			.findByRole('menuitem', { name: 'Favorite' })
 			.should('be.visible')
 			.click()
-
 		cy.wait('@addToFavorites')
+
+		// close sidebar
 		closeSidebar()
 
 		// See favorites star
@@ -131,9 +136,14 @@ describe('files: Favorites', { testIsolation: true }, () => {
 			.should('be.visible')
 
 		cy.reload()
+		getRowForFile('new folder')
+			.should('be.visible')
 
 		// can unfavorite
 		triggerActionForFile('new folder', 'details')
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+
 		cy.get('[data-cy-sidebar]')
 			.findByRole('button', { name: 'Actions' })
 			.click()

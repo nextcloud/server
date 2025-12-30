@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { triggerActionForFile } from '../files/FilesUtils.ts'
+import { closeSidebar, triggerActionForFile } from '../files/FilesUtils.ts'
 
 export interface ShareSetting {
 	read: boolean
@@ -18,6 +18,7 @@ export interface ShareSetting {
 
 export function createShare(fileName: string, username: string, shareSettings: Partial<ShareSetting> = {}) {
 	openSharingPanel(fileName)
+	cy.intercept('POST', '**/ocs/v2.php/apps/files_sharing/api/v1/shares').as('createShare')
 
 	cy.get('#app-sidebar-vue').within(() => {
 		cy.intercept({ times: 1, method: 'GET', url: '**/apps/files_sharing/api/v1/sharees?*' }).as('userSearch')
@@ -30,6 +31,9 @@ export function createShare(fileName: string, username: string, shareSettings: P
 
 	// HACK: Save the share and then update it, as permissions changes are currently not saved for new share.
 	cy.get('[data-cy-files-sharing-share-editor-action="save"]').click({ scrollBehavior: 'nearest' })
+	cy.wait('@createShare')
+	closeSidebar()
+
 	updateShare(fileName, 0, shareSettings)
 }
 
@@ -55,10 +59,16 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="download"]').find('input').as('downloadCheckbox')
 			if (shareSettings.download) {
 				// Force:true because the checkbox is hidden by the pretty UI.
-				cy.get('@downloadCheckbox').check({ force: true, scrollBehavior: 'nearest' })
+				cy.get('@downloadCheckbox')
+					.check({ force: true, scrollBehavior: 'nearest' })
+				cy.get('@downloadCheckbox')
+					.should('be.checked')
 			} else {
 				// Force:true because the checkbox is hidden by the pretty UI.
-				cy.get('@downloadCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
+				cy.get('@downloadCheckbox')
+					.uncheck({ force: true, scrollBehavior: 'nearest' })
+				cy.get('@downloadCheckbox')
+					.should('not.be.checked')
 			}
 		}
 
@@ -122,14 +132,16 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 
 		cy.wait('@updateShare')
 	})
-	// close all toasts
-	cy.get('.toast-success').findAllByRole('button').click({ force: true, multiple: true })
+	closeSidebar()
 }
 
 export function openSharingPanel(fileName: string) {
 	triggerActionForFile(fileName, 'details')
 
 	cy.get('[data-cy-sidebar]')
+		.as('sidebar')
+		.should('be.visible')
+	cy.get('@sidebar')
 		.find('[aria-controls="tab-sharing"]')
 		.click()
 }
