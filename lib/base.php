@@ -1202,7 +1202,7 @@ class OC {
 		) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request, $throttler))) {
+		if ($userSession->tryBasicAuthLogin($request, $throttler)) {
 			return true;
 		}
 
