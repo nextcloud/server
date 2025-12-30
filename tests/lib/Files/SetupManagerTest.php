@@ -118,6 +118,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->tearDown();
 	}
 
+	/**
+	 * Tests that a path is not set up twice for providers implementing
+	 * IPartialMountProvider in setupForPath.
+	 */
 	public function testSetupForPathWithPartialProviderSkipsAlreadySetupPath(): void {
 		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
 
@@ -140,6 +144,7 @@ class SetupManagerTest extends TestCase {
 			->with(
 				SetupManagerTestPartialMountProvider::class,
 				$this->path,
+				false,
 				$this->callback(function (array $args) use ($cachedMount) {
 					$this->assertCount(1, $args);
 					$this->assertInstanceOf(IMountProviderArgs::class, $args[0]);
@@ -172,6 +177,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, false);
 	}
 
+	/**
+	 * Tests that providers that are not implementing IPartialMountProvider are
+	 * not set up more than once by setupForPath.
+	 */
 	public function testSetupForPathWithNonPartialProviderSkipsAlreadySetupProvider(): void {
 		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42,
 			IMountProvider::class);
@@ -211,6 +220,11 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, false);
 	}
 
+	/**
+	 * Tests that setupForPath does not instantiate already set up providers
+	 * when called for the same path first with $withChildren set to true
+	 * and then set to false.
+	 */
 	public function testSetupForPathWithChildrenAndNonPartialProviderSkipsAlreadySetupProvider(): void {
 		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42, IMountProvider::class);
 		$additionalCachedMount = $this->getCachedMountInfo($this->mountPoint . 'additional/', 43, SetupManagerTestFullMountProvider::class);
@@ -269,6 +283,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, false);
 	}
 
+	/**
+	 * Tests that setupForPath does not set up child mounts again if a parent
+	 * was set up with $withChildren set to true.
+	 */
 	public function testSetupForPathWithChildrenAndPartialProviderSkipsIfParentAlreadySetup():	void {
 		$childPath = "{$this->path}/child";
 		$childMountPoint = "{$childPath}/";
@@ -322,6 +340,7 @@ class SetupManagerTest extends TestCase {
 			->willReturnCallback(function (
 				string $providerClass,
 				string $pathArg,
+				bool $forChildren,
 				array $mountProviderArgs,
 			) use (
 				$cachedChildMount,
@@ -335,14 +354,17 @@ class SetupManagerTest extends TestCase {
 					// call for the parent
 					$expectedCachedMount = $cachedMount;
 					$mountPoints = [$partialMount];
+					$expectedForChildren = false;
 				} else {
 					// call for the children
 					$expectedCachedMount = $cachedChildMount;
 					$mountPoints = [$partialChildMount];
+					$expectedForChildren = true;
 				}
 
 				$this->assertSame(SetupManagerTestPartialMountProvider::class, $providerClass);
 				$this->assertSame($expectedPath, $pathArg);
+				$this->assertSame($expectedForChildren, $forChildren);
 				$this->assertCount(1, $mountProviderArgs);
 				$this->assertInstanceOf(IMountProviderArgs::class, $mountProviderArgs[0]);
 				$this->assertSame($expectedCachedMount, $mountProviderArgs[0]->mountInfo);
@@ -376,6 +398,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($childPath, true);
 	}
 
+	/**
+	 * Tests that when called twice setupForPath does not set up mounts from
+	 * providers implementing IPartialMountProviders or IMountProvider.
+	 */
 	public function testSetupForPathHandlesPartialAndFullProvidersWithChildren(): void {
 		$parentPartialCachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
 		$childCachedPartialMount = $this->getCachedMountInfo("{$this->mountPoint}partial/", 43);
@@ -419,7 +445,7 @@ class SetupManagerTest extends TestCase {
 		$invokedCount = $this->exactly(2);
 		$this->mountProviderCollection->expects($invokedCount)
 			->method('getUserMountsFromProviderByPath')
-			->willReturnCallback(function (string $providerClass, string $pathArg, array $mountProviderArgs) use (
+			->willReturnCallback(function (string $providerClass, string $pathArg, bool $forChildren, array $mountProviderArgs) use (
 				$childCachedPartialMount,
 				$childPartialMount,
 				$parentPartialMount,
@@ -430,14 +456,17 @@ class SetupManagerTest extends TestCase {
 					// call for the parent
 					$expectedCachedMount = $parentPartialCachedMount;
 					$mountPoints = [$parentPartialMount];
+					$expectedForChildren = false;
 				} else {
 					// call for the children
 					$expectedCachedMount = $childCachedPartialMount;
 					$mountPoints = [$childPartialMount];
+					$expectedForChildren = true;
 				}
 
 				$this->assertSame(SetupManagerTestPartialMountProvider::class, $providerClass);
 				$this->assertSame($expectedPath, $pathArg);
+				$this->assertSame($expectedForChildren, $forChildren);
 				$this->assertCount(1, $mountProviderArgs);
 				$this->assertInstanceOf(IMountProviderArgs::class, $mountProviderArgs[0]);
 				$this->assertSame($expectedCachedMount, $mountProviderArgs[0]->mountInfo);
@@ -488,7 +517,7 @@ class SetupManagerTestPartialMountProvider implements IPartialMountProvider {
 		return [];
 	}
 
-	public function getMountsForPath(string $path, array $mountProviderArgs, IStorageFactory $loader): array {
+	public function getMountsForPath(string $path, bool $forChildren, array $mountProviderArgs, IStorageFactory $loader): array {
 		return [];
 	}
 }

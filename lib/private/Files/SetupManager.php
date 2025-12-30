@@ -486,6 +486,7 @@ class SetupManager {
 					$this->mountProviderCollection->getUserMountsFromProviderByPath(
 						$mountProvider,
 						$path,
+						false,
 						[$providerArgs]
 					)
 				);
@@ -573,6 +574,7 @@ class SetupManager {
 						= $this->mountProviderCollection->getUserMountsFromProviderByPath(
 							$providerClass,
 							$path,
+							true,
 							$providerArgs,
 						);
 				}

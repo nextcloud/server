@@ -30,6 +30,7 @@ interface IPartialMountProvider extends IMountProvider {
 	 * corresponding IMountPoint instances.
 	 *
 	 * @param string $path path for which the mounts are set up
+	 * @param bool $forChildren when true, only child mounts for path should be returned
 	 * @param IMountProviderArgs[] $mountProviderArgs
 	 * @param IStorageFactory $loader
 	 * @return array<string, IMountPoint> IMountPoint instances, indexed by
@@ -37,6 +38,7 @@ interface IPartialMountProvider extends IMountProvider {
 	 */
 	public function getMountsForPath(
 		string $path,
+		bool $forChildren,
 		array $mountProviderArgs,
 		IStorageFactory $loader,
 	): array;
