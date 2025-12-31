@@ -8,9 +8,13 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
+use OCP\Files\Cache\IWatcher;
+use OCP\Files\Storage\IStorage;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class WatcherTest
@@ -191,5 +195,44 @@ class WatcherTest extends \Test\TestCase {
 		}
 		$this->storages[] = $storage;
 		return $storage;
+	}
+
+	public static function checkFilterProvider(): array {
+		return [
+			[null, [
+				'' => true,
+				'foo' => true,
+				'foo.txt' => true,
+			]],
+			['/^.+$/', [
+				'' => false,
+				'foo' => true,
+				'foo.txt' => true,
+			]],
+			['/^.+\..+$/', [
+				'' => false,
+				'foo' => false,
+				'foo.txt' => true,
+			]]
+		];
+	}
+
+	#[DataProvider('checkFilterProvider')]
+	public function testCheckFilter($filter, $paths) {
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('hasUpdated')
+			->willReturn(true);
+		$watcher = new Watcher($storage);
+		$watcher->setPolicy(IWatcher::CHECK_ALWAYS);
+
+		$watcher->setCheckFilter($filter);
+
+		$entry = new CacheEntry([
+			'storage_mtime' => 0,
+		]);
+
+		foreach ($paths as $patch => $shouldUpdate) {
+			$this->assertEquals($shouldUpdate, $watcher->needsUpdate($patch, $entry));
+		}
 	}
 }
