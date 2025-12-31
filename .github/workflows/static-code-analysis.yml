@@ -29,13 +29,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
         with:
           php-version: '8.2'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -60,13 +60,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
         with:
           php-version: '8.2'
           extensions: ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -84,7 +84,7 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@fdbfb4d2750291e159f0156def62b853c2798ca2 # v3
+        uses: github/codeql-action/upload-sarif@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v3
         with:
           sarif_file: results.sarif
 
@@ -95,13 +95,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
         with:
           php-version: '8.2'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -126,13 +126,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
         with:
           php-version: '8.2'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
