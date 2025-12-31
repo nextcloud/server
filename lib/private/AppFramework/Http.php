@@ -14,8 +14,6 @@ use OCP\AppFramework\Http as BaseHttp;
  *
  * Provides protocol version handling and maps HTTP status codes to standard messages,
  * used for generating accurate response headers within Nextcloud's AppFramework.
- *
- * @internal
  */
 class Http extends BaseHttp {
     private const STATUS_MESSAGES = [
