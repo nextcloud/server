@@ -53,7 +53,7 @@ class TwoFactorMiddleware extends Middleware {
 	 * @throws TwoFactorAuthRequiredException if 2FA must be completed before proceeding.
 	 * @throws UserAlreadyLoggedInException if attempting to access a 2FA challenge after completing 2FA.
 	 */
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName) {
 		$isChallengeController = $controller instanceof TwoFactorChallengeController;
 		$isSetupController = $controller instanceof ALoginSetupController;
 
@@ -139,10 +139,10 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param Controller $controller The active controller instance.
 	 * @param string $methodName The invoked method name.
 	 * @param Exception $exception The exception that was thrown.
-	 * @return RedirectResponse|null
+	 * @return RedirectResponse
 	 * @throws Exception For anything not related to 2FA flow.
 	 */
-	public function afterException($controller, $methodName, Exception $exception) {
+	public function afterException(Controller $controller, string $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [
 				'redirect_url' => $this->request->getParam('redirect_url'),
