@@ -153,7 +153,7 @@ class DispatcherTest extends \Test\TestCase {
 		$httpHeaders = '',
 		$responseHeaders = [],
 		$ex = false,
-		$catchEx = true
+		$catchEx = true,
 	) {
 		if ($ex) {
 			$exception = new \Exception();
