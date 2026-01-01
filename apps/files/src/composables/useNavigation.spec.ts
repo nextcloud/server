@@ -41,7 +41,7 @@ describe('Composables: useNavigation', () => {
 		it('should return already active navigation', async () => {
 			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
 			navigation.register(view)
-			navigation.setActive(view)
+			navigation.setActive(view.id)
 			// Now the navigation is already set it should take the active navigation
 			const wrapper = mount(TestComponent)
 			expect((wrapper.vm as unknown as { currentView: View | null }).currentView).toBe(view)
@@ -55,7 +55,7 @@ describe('Composables: useNavigation', () => {
 			// no active navigation
 			expect((wrapper.vm as unknown as { currentView: View | null }).currentView).toBe(null)
 
-			navigation.setActive(view)
+			navigation.setActive(view.id)
 			// Now the navigation is set it should take the active navigation
 			expect((wrapper.vm as unknown as { currentView: View | null }).currentView).toBe(view)
 		})

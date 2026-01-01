@@ -1,0 +1,20 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+SPDX-FileCopyrightText: sortablejs developers
+
+This file is generated from multiple sources. Included packages:
+- @vueuse/integrations
+	- version: 14.1.0
+	- license: MIT
+- nextcloud-ui
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later
+- sortablejs
+	- version: 1.15.6
+	- license: MIT
+- vue-material-design-icons
+	- version: 5.3.1
+	- license: MIT

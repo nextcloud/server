@@ -3,82 +3,59 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<div class="field">
-		<NcTextField
-			v-model="localValue"
-			:label="displayName"
-			:placeholder="placeholder"
-			:type="type"
-			:maxlength="maxlength"
-			:spellcheck="false"
-			:success="showSuccess"
-			:error="Boolean(errorMessage)"
-			:helper-text="errorMessage"
-			:show-trailing-button="value !== defaultValue"
-			trailing-button-icon="undo"
-			@trailing-button-click="undo"
-			@keydown.enter="save"
-			@blur="save" />
-	</div>
-</template>
+<script setup lang="ts">
+import type { AdminThemingParameters } from '../../types.d.ts'
 
-<script>
+import { loadState } from '@nextcloud/initial-state'
+import { watchDebounced } from '@vueuse/core'
+import { ref, toRef } from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
+import { useAdminThemingValue } from '../../composables/useAdminThemingValue.ts'
 
-export default {
-	name: 'TextField',
+const props = withDefaults(defineProps<{
+	name: keyof AdminThemingParameters
+	label: string
+	defaultValue: string
+	type?: 'text' | 'url'
+}>(), {
+	type: 'text',
+})
 
-	components: {
-		NcTextField,
-	},
+const modelValue = ref(loadState<AdminThemingParameters>('theming', 'adminThemingParameters')[props.name].toString())
 
-	mixins: [
-		TextValueMixin,
-	],
+const {
+	isSaving,
+	isSaved,
+	reset,
+} = useAdminThemingValue(toRef(() => props.name), modelValue, toRef(() => props.defaultValue))
 
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-
-		value: {
-			type: String,
-			required: true,
-		},
-
-		defaultValue: {
-			type: String,
-			required: true,
-		},
-
-		type: {
-			type: String,
-			required: true,
-		},
-
-		displayName: {
-			type: String,
-			required: true,
-		},
-
-		placeholder: {
-			type: String,
-			required: true,
-		},
-
-		maxlength: {
-			type: Number,
-			required: true,
-		},
-	},
-}
+watchDebounced(modelValue, (value) => {
+	if (props.type === 'url' && value.includes('"')) {
+		try {
+			const url = new URL(value)
+			url.pathname = url.pathname.replaceAll(/"/g, '%22')
+			modelValue.value = url.href
+		} catch {
+			// invalid URL, do nothing
+			return
+		}
+	}
+}, { debounce: 600 })
 </script>
 
-<style lang="scss" scoped>
-.field {
-	max-width: 400px;
-}
-</style>
+<template>
+	<NcTextField
+		v-model="modelValue"
+		:label
+		:readonly="isSaving"
+		:success="isSaved"
+		:type
+		:show-trailing-button="modelValue !== defaultValue"
+		:trailing-button-icon="defaultValue ? 'undo' : 'close'"
+		@trailing-button-click="reset">
+		<template v-if="isSaving" #icon>
+			<NcLoadingIcon />
+		</template>
+	</NcTextField>
+</template>

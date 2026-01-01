@@ -254,6 +254,7 @@ OC.L10N.register(
     "Log in to {productName}" : "{productName} oturumu aç",
     "Wrong login or password." : "Hatalı kullanıcı adı ya da parolası.",
     "This account is disabled" : "Bu hesap kullanımdan kaldırılmış",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Çok sayıda başarısız oturum açma denemesi yapıldı. Lütfen 30 saniye sonra yeniden deneyin.",
     "Account name or email" : "Hesap adı ya da e-posta adresi",
     "Account name" : "Hesap adı",
     "Server side authentication failed!" : "Kimlik sunucu tarafında doğrulanamadı!",

@@ -1,0 +1,7 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/files
+	- version: 4.0.0-beta.7
+	- license: AGPL-3.0-or-later

@@ -35,6 +35,17 @@ interface IWatcher {
 	public function setPolicy($policy);
 
 	/**
+	 * Set a filter regex, only paths matching the regex will be checked for updates.
+	 *
+	 * When set to `null`, every path will be checked for updates
+	 *
+	 * @param ?string $filter
+	 * @return void
+	 * @since 33.0.0
+	 */
+	public function setCheckFilter(?string $filter): void;
+
+	/**
 	 * @return int either IWatcher::CHECK_NEVER, IWatcher::CHECK_ONCE, IWatcher::CHECK_ALWAYS
 	 * @since 9.0.0
 	 */

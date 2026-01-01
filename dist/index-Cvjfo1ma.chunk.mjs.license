@@ -1,0 +1,20 @@
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: debounce developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/axios
+	- version: 2.5.2
+	- license: GPL-3.0-or-later
+- axios
+	- version: 1.13.2
+	- license: MIT
+- debounce
+	- version: 3.0.0
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT

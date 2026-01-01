@@ -135,6 +135,18 @@ interface IManager {
 	public function getSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array;
 
 	/**
+	 * Get shares shared with a $user filtering by $path.
+	 *
+	 * @param IShare::TYPE_* $shareType
+	 * @param bool $forChildren if true, results should only include children of $path
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 *
+	 * @return iterable<IShare>
+	 * @since 33.0.0
+	 */
+	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable;
+
+	/**
 	 * Get deleted shares shared with $user.
 	 * Filter by $node if provided
 	 *
@@ -518,4 +530,13 @@ interface IManager {
 	 * @since 31.0.0
 	 */
 	public function generateToken(): string;
+
+	/**
+	 * Get all users with access to a share
+	 *
+	 * @param IShare $share
+	 * @return iterable<IUser>
+	 * @since 33.0.0
+	 */
+	public function getUsersForShare(IShare $share): iterable;
 }

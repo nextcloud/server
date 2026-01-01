@@ -254,6 +254,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Logáil isteach ar {productName}",
     "Wrong login or password." : "Logáil isteach mícheart nó pasfhocal.",
     "This account is disabled" : "Tá an cuntas seo díchumasaithe",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "An iomarca iarrachtaí logála isteach míchearta. Déan iarracht arís i gceann 30 soicind.",
     "Account name or email" : "Ainm cuntais nó ríomhphost",
     "Account name" : "Ainm chuntais",
     "Server side authentication failed!" : "Theip ar fhíordheimhniú taobh an fhreastalaí!",

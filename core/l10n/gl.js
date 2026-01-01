@@ -254,6 +254,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Acceda a {productName}",
     "Wrong login or password." : "Acceso ou contrasinal incorrectos.",
     "This account is disabled" : "Esta conta está desactivada",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Demasiados intentos de acceso incorrectos. Ténteo de novo en 30 segundos.",
     "Account name or email" : "Nome da conta ou correo-e",
     "Account name" : "Nome da conta",
     "Server side authentication failed!" : "A autenticación fracasou do lado do servidor!",
