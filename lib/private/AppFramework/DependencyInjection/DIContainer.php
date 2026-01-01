@@ -144,8 +144,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		/** @deprecated 32.0.0 */
 		$this->registerDeprecatedAlias('Protocol', Http::class);
-		$this->registerService(Http::class, fn (ContainerInterface $c) => 
-			new Http($c->get(IRequest::class)->getHttpProtocol())
+		$this->registerService(Http::class, fn (ContainerInterface $c)
+			=> new Http($c->get(IRequest::class)->getHttpProtocol())
 		);
 
 		/** @deprecated 32.0.0 */
