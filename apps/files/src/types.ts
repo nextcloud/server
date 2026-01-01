@@ -147,3 +147,11 @@ export type Capabilities = {
 		versioning: boolean
 	}
 }
+
+export type PreviewMetadata = {
+	width: int,
+	height: int,
+	cropped: boolean,
+	preview_url: string | null,
+	preview_url_expiration: int | null,
+}

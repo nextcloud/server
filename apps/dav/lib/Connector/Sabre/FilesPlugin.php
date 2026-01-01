@@ -9,6 +9,9 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
+use OC\Preview\Db\Preview;
+use OC\Preview\PreviewService;
+use OC\Preview\Storage\IPreviewStorage;
 use OC\User\NoUserException;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
@@ -30,6 +33,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\IFile;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -61,6 +65,7 @@ class FilesPlugin extends ServerPlugin {
 	public const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
 	public const DATA_FINGERPRINT_PROPERTYNAME = '{http://owncloud.org/ns}data-fingerprint';
 	public const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
+	public const PREVIEW_METADATA_PROPERTYNAME = '{http://nextcloud.org/ns}preview-metadata';
 	public const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
 	public const MOUNT_ROOT_PROPERTYNAME = '{http://nextcloud.org/ns}is-mount-root';
 	public const IS_FEDERATED_PROPERTYNAME = '{http://nextcloud.org/ns}is-federated';
@@ -76,6 +81,8 @@ class FilesPlugin extends ServerPlugin {
 
 	/** Reference to main server object */
 	private ?Server $server = null;
+
+	private array $previewMetadataCache = [];
 
 	/**
 	 * @param Tree $tree
@@ -95,6 +102,8 @@ class FilesPlugin extends ServerPlugin {
 		private IUserSession $userSession,
 		private IFilenameValidator $validator,
 		private IAccountManager $accountManager,
+		private PreviewService $previewService,
+		private IPreviewStorage $previewStorage,
 		private bool $isPublic = false,
 		private bool $downloadAttachment = true,
 	) {
@@ -127,6 +136,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::CHECKSUMS_PROPERTYNAME;
 		$server->protectedProperties[] = self::DATA_FINGERPRINT_PROPERTYNAME;
 		$server->protectedProperties[] = self::HAS_PREVIEW_PROPERTYNAME;
+		$server->protectedProperties[] = self::PREVIEW_METADATA_PROPERTYNAME;
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_FEDERATED_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_NOTE;
@@ -136,6 +146,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties = array_diff($server->protectedProperties, $allowedProperties);
 
 		$this->server = $server;
+		$this->server->on('preloadCollection', $this->preloadCollection(...));
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
 		$this->server->on('afterBind', [$this, 'sendFileIdHeader']);
@@ -150,6 +161,23 @@ class FilesPlugin extends ServerPlugin {
 		});
 		$this->server->on('beforeMove', [$this, 'checkMove']);
 		$this->server->on('beforeCopy', [$this, 'checkCopy']);
+	}
+
+	private function preloadCollection(PropFind $propFind, ICollection $collection): void {
+		if (!($collection instanceof Directory)) {
+			return;
+		}
+
+		$requestProperties = $propFind->getRequestedProperties();
+		if (in_array(self::PREVIEW_METADATA_PROPERTYNAME, $requestProperties, true)) {
+			$keys = array_map(static fn (Node $node) => $node->getInternalFileId(), $collection->getChildren());
+			$missingKeys = array_diff($keys, array_keys($this->previewMetadataCache));
+			if (count($missingKeys) > 0) {
+				foreach ($this->previewService->getAvailablePreviews($missingKeys) as $fileId => $previews) {
+					$this->previewMetadataCache[$fileId] = $previews;
+				}
+			}
+		}
 	}
 
 	/**
@@ -474,29 +502,34 @@ class FilesPlugin extends ServerPlugin {
 
 		if ($node instanceof File) {
 			$requestProperties = $propFind->getRequestedProperties();
-
 			if (in_array(self::DOWNLOADURL_PROPERTYNAME, $requestProperties, true)
 				|| in_array(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, $requestProperties, true)) {
 				try {
 					$directDownloadUrl = $node->getDirectDownload();
-				} catch (StorageNotAvailableException|ForbiddenException) {
-					$directDownloadUrl = null;
-				}
-
-				$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function () use ($node, $directDownloadUrl) {
 					if ($directDownloadUrl && isset($directDownloadUrl['url'])) {
-						return $directDownloadUrl['url'];
+						$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, $directDownloadUrl['url']);
+						$propFind->handle(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, $directDownloadUrl['expiration']);
 					}
-					return false;
-				});
-
-				$propFind->handle(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, function () use ($node, $directDownloadUrl) {
-					if ($directDownloadUrl && isset($directDownloadUrl['expiration'])) {
-						return $directDownloadUrl['expiration'];
-					}
-					return false;
-				});
+				} catch (StorageNotAvailableException|ForbiddenException) {
+					$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, false);
+					$propFind->handle(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, false);
+				}
 			}
+
+			$propFind->handle(self::PREVIEW_METADATA_PROPERTYNAME, function () use ($node) {
+				try {
+					if (isset($this->previewMetadataCache[$node->getInternalFileId()])) {
+						$previews = $this->previewMetadataCache[$node->getInternalFileId()];
+					} else {
+						[$node->getInternalFileId() => $previews] = $this->previewService->getAvailablePreviews([$node->getInternalFileId()]);
+					}
+
+					$data = array_map(fn (Preview $preview) => Preview::getMetadata($preview, $this->previewStorage), $previews);
+					return json_encode($data, JSON_THROW_ON_ERROR);
+				} catch (\Exception $e) {
+				}
+				return false;
+			});
 
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function () use ($node) {
 				$checksum = $node->getChecksum();

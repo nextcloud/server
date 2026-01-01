@@ -34,6 +34,8 @@ trait S3ConnectionTrait {
 	private ?ICache $existingBucketsCache = null;
 	private bool $usePresignedUrl = false;
 
+	private bool $usePresignedUrl = false;
+
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
 			throw new \Exception('Bucket has to be configured.');

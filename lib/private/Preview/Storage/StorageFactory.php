@@ -39,6 +39,21 @@ class StorageFactory implements IPreviewStorage {
 		$this->getBackend()->deletePreview($preview);
 	}
 
+	#[Override]
+	public function migratePreview(Preview $preview, SimpleFile $file): void {
+		$this->getBackend()->migratePreview($preview, $file);
+	}
+
+	#[Override]
+	public function scan(): int {
+		return $this->getBackend()->scan();
+	}
+
+	#[Override]
+	public function getDirectDownload(Preview $preview): array|false {
+		return $this->getBackend()->getDirectDownload($preview);
+	}
+
 	private function getBackend(): IPreviewStorage {
 		if ($this->backend) {
 			return $this->backend;
@@ -51,15 +66,5 @@ class StorageFactory implements IPreviewStorage {
 		}
 
 		return $this->backend;
-	}
-
-	#[Override]
-	public function migratePreview(Preview $preview, SimpleFile $file): void {
-		$this->getBackend()->migratePreview($preview, $file);
-	}
-
-	#[Override]
-	public function scan(): int {
-		return $this->getBackend()->scan();
 	}
 }

@@ -75,5 +75,8 @@ registerPreviewServiceWorker()
 registerDavProperty('nc:hidden', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:is-mount-root', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:metadata-blurhash', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('nc:preview-metadata', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('nc:download-url-expiration', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('oc:downloadURL', { oc: 'http://owncloud.org/ns' })
 
 initLivePhotos()
