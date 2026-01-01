@@ -422,7 +422,7 @@ class Installer {
 	 */
 	public function isDownloaded(string $appId): bool {
 		foreach (\OC::$APPSROOTS as $dir) {
-			$appPath = $dir['path'] . '/' .  $appId;
+			$appPath = $dir['path'] . '/' . $appId;
 
 			// An app is considered "downloaded" if the directory exists with info.xml
 			if (is_dir($appPath) && file_exists($appPath . '/appinfo/info.xml')) {
