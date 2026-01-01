@@ -485,7 +485,7 @@ class Installer {
 	/**
 	 * Installs shipped apps
 	 *
-	 * Scans all configured app directories and installs apps that meet the criteria: 
+	 * Scans all configured app directories and installs apps that meet the criteria:
 	 * - Not already installed
 	 * - Not explicitly disabled
 	 * - Marked as default-enabled or always-enabled in core/shipped.json
@@ -495,8 +495,8 @@ class Installer {
 	 *                         to continue.  When false (during fresh install), all errors halt
 	 *                         the installation process.
 	 * @param IOutput|null $output Optional output handler for logging installation progress
-	 * @return array<string, \Exception> Array of error messages mapping app ID to Exception. 
-	 *                                    Only populated when $softErrors is true.
+	 * @return array<string, \Exception> Array of error messages mapping app ID to Exception.
+	 *                                   Only populated when $softErrors is true.
 	 */
 	public function installShippedApps(bool $softErrors = false, ?IOutput $output = null): array {
 		if ($output instanceof IOutput) {
@@ -528,11 +528,11 @@ class Installer {
 						throw $e;
 					}
 				}
-				
+
 				$this->config->setAppValue($appId, 'enabled', 'yes');
 			}
 		}
-		
+
 		return $errors;
 	}
 
@@ -546,7 +546,7 @@ class Installer {
 		if (!is_dir($path)) {
 			return [];
 		}
-		
+
 		$apps = [];
 		foreach (scandir($path) as $entry) {
 			/* valid app? */
@@ -575,18 +575,18 @@ class Installer {
 		if ($isAlreadyInstalled || $isExplicitlyDisabled) {
 			return false;
 		}
-		
+
 		// Install if default-enabled or always-enabled
 		$isDefaultEnabled = $this->appManager->isDefaultEnabled($appId);
 		$isAlwaysEnabled = in_array($appId, $this->appManager->getAlwaysEnabledApps(), true);
-		
+
 		return $isDefaultEnabled || $isAlwaysEnabled;
 	}
 
 	/**
 	 * Execute the final installation steps for an app
 	 *
-	 * Performs all necessary setup after app files are in place: 
+	 * Performs all necessary setup after app files are in place:
 	 * - Registers autoloading
 	 * - Runs database migrations
 	 * - Executes repair steps (pre/post migration and install)
