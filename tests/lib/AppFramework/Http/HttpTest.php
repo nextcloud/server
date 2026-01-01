@@ -20,13 +20,12 @@ class HttpTest extends \Test\TestCase {
 	#[Test]
 	#[DataProvider('statusHeaderProvider')]
 	public function testGetStatusHeader(string $protocol, int $statusCode, string $expectedHeader): void {
-        $http = new Http($protocol);
-        $header = $http->getStatusHeader($statusCode);
-        $this->assertEquals($expectedHeader, $header);
-    }
+		$http = new Http($protocol);
+		$header = $http->getStatusHeader($statusCode);
+		$this->assertEquals($expectedHeader, $header);
+	}
 
-	public static function statusHeaderProvider(): array
-	{
+	public static function statusHeaderProvider(): array {
 		return [
 			// Standard OK
 			['HTTP/1.1', Http::STATUS_OK, 'HTTP/1.1 200 OK'],
