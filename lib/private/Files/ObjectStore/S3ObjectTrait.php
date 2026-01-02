@@ -298,14 +298,14 @@ trait S3ObjectTrait {
 	}
 
 	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+		if (!$this->isUsePresignedUrl()) {
+			return null;
+		}
+
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->getBucket(),
 			'Key' => $urn,
 		]);
-
-		if (!$this->isUsePresignedUrl()) {
-			return null;
-		}
 
 		try {
 			return (string)$this->getConnection()->createPresignedRequest($command, $expiration, [
