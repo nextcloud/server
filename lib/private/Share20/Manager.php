@@ -1309,6 +1309,8 @@ class Manager implements IManager {
 
 		if (\is_array($shares)) {
 			$shares = new ArrayIterator($shares);
+		} elseif (!$shares instanceof \Iterator) {
+			$shares = new \IteratorIterator($shares);
 		}
 
 		return new \CallbackFilterIterator($shares, function (IShare $share) {
