@@ -43,21 +43,18 @@ class Movie extends ProviderV2 {
 	}
 
 	private function connectDirect(File $file): string|false {
-		if (stream_get_meta_data($file->fopen('r'))['seekable'] !== true) {
+		if ($file->isEncrypted()) {
 			return false;
 		}
 
 		// Checks for availability to access the video file directly via HTTP/HTTPS.
 		// Returns a string containing URL if available. Only implemented and tested
-		// with Amazon S3 currently.  In all other cases, return false. ffmpeg
+		// with Amazon S3 currently. In all other cases, return false. ffmpeg
 		// supports other protocols so this function may expand in the future.
-		$gddValues = $file->getStorage()->getDirectDownload($file->getName());
+		$gddValues = $file->getStorage()->getDirectDownloadById((string)$file->getId());
 
-		if (is_array($gddValues)) {
-			if (array_key_exists('url', $gddValues) && array_key_exists('presigned', $gddValues)) {
-				$directUrl = (str_starts_with($gddValues['url'], 'http') && ($gddValues['presigned'] === true)) ? $gddValues['url'] : false;
-				return $directUrl;
-			}
+		if (is_array($gddValues) && array_key_exists('url', $gddValues)) {
+			return str_starts_with($gddValues['url'], 'http') ? $gddValues['url'] : false;
 		}
 		return false;
 	}
