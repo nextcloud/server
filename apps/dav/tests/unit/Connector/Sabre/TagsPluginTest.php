@@ -14,7 +14,6 @@ use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\TagList;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Upload\UploadFile;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUser;
@@ -31,7 +30,6 @@ class TagsPluginTest extends \Test\TestCase {
 	private Tree&MockObject $tree;
 	private ITagManager&MockObject $tagManager;
 	private ITags&MockObject $tagger;
-	private IEventDispatcher&MockObject $eventDispatcher;
 	private IUserSession&MockObject $userSession;
 	private TagsPlugin $plugin;
 
@@ -42,7 +40,6 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tree = $this->createMock(Tree::class);
 		$this->tagger = $this->createMock(ITags::class);
 		$this->tagManager = $this->createMock(ITagManager::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$user = $this->createMock(IUser::class);
 
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -54,7 +51,7 @@ class TagsPluginTest extends \Test\TestCase {
 			->method('load')
 			->with('files')
 			->willReturn($this->tagger);
-		$this->plugin = new TagsPlugin($this->tree, $this->tagManager, $this->eventDispatcher, $this->userSession);
+		$this->plugin = new TagsPlugin($this->tree, $this->tagManager, $this->userSession);
 		$this->plugin->initialize($this->server);
 	}
 

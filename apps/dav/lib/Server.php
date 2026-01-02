@@ -324,19 +324,23 @@ class Server {
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(
-						$this->server->tree, \OCP\Server::get(ITagManager::class), \OCP\Server::get(IEventDispatcher::class), \OCP\Server::get(IUserSession::class)
+						$this->server->tree,
+						\OCP\Server::get(ITagManager::class),
+						\OCP\Server::get(IUserSession::class),	
 					)
 				);
 
 				// TODO: switch to LazyUserFolder
 				$userFolder = \OC::$server->getUserFolder();
 				$shareManager = \OCP\Server::get(\OCP\Share\IManager::class);
-				$this->server->addPlugin(new SharesPlugin(
-					$this->server->tree,
-					$userSession,
-					$userFolder,
-					$shareManager,
-				));
+				$this->server->addPlugin(
+					new SharesPlugin(
+						$this->server->tree,
+						$userSession,
+						$userFolder,
+						$shareManager,
+					)
+				);
 				$this->server->addPlugin(new CommentPropertiesPlugin(
 					\OCP\Server::get(ICommentsManager::class),
 					$userSession
