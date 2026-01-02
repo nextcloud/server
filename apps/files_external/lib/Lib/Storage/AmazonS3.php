@@ -21,6 +21,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends Common {
@@ -756,34 +757,43 @@ class AmazonS3 extends Common {
 		return $size;
 	}
 
-	/**
-	 * Generates and returns a presigned URL that expires after set duration
-	 *
-	 */
+	#[Override]
 	public function getDirectDownload(string $path): array|false {
+		if (!$this->isUsePresignedUrl()) {
+			return false;
+		}
+
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
 			'Key' => $path,
 		]);
-		$duration = '+10 minutes';
-		$expiration = new \DateTime();
-		$expiration->modify($duration);
+		$expiration = new \DateTimeImmutable('+60 minutes');
 
-		// generate a presigned URL that expires after $duration time
-		$request = $this->getConnection()->createPresignedRequest($command, $duration, []);
 		try {
-			$presignedUrl = (string)$request->getUri();
+			// generate a presigned URL that expires after $expiration time
+			$presignedUrl = (string)$this->getConnection()->createPresignedRequest($command, $expiration, [
+				'signPayload' => true,
+			])->getUri();
 		} catch (S3Exception $exception) {
 			$this->logger->error($exception->getMessage(), [
 				'app' => 'files_external',
 				'exception' => $exception,
 			]);
+			return false;
 		}
-		$result = [
+		return [
 			'url' => $presignedUrl,
-			'presigned' => true,
-			'expiration' => $expiration,
+			'expiration' => $expiration->getTimestamp(),
 		];
-		return $result;
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		if (!$this->isUsePresignedUrl()) {
+			return false;
+		}
+
+		$entry = $this->getCache()->get((int)$fileId);
+		return $this->getDirectDownload($entry->getPath());
 	}
 }
