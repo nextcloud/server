@@ -9,6 +9,7 @@ namespace OC\Files;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
+use OC\Files\Utils\PathHelper;
 use OC\User\NoUserException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -585,66 +586,67 @@ class Filesystem {
 	}
 
 	/**
-	 * Fix common problems with a file path
+	 * Normalizes a file path for consistent use within the virtual filesystem.
 	 *
-	 * @param string $path
-	 * @param bool $stripTrailingSlash whether to strip the trailing slash
-	 * @param bool $isAbsolutePath whether the given path is absolute
-	 * @param bool $keepUnicode true to disable unicode normalization
+	 * Applies Unicode normalization (optional), removes dot-segments and duplicate slashes,
+	 * enforces leading slash, and optionally strips trailing slashes. Results are cached
+	 * per unique input to improve performance.
+	 *
+	 * TODO: Better unify with Pathhelper::normalizePath() (and possibly others)
+	 * TODO: Benchmark whether the cache is still beneficial today
+	 *
 	 * @psalm-taint-escape file
-	 * @return string
+	 *
+	 * @param string $path The file path to normalize.
+	 * @param bool $stripTrailingSlash Remove the trailing slash (except root). Default: true.
+	 * @param bool $isAbsolutePath Ignored; kept for legacy compatibility.
+	 * @param bool $keepUnicode If true, skips Unicode normalization. Default: false.
+	 * @return string Normalized path.
 	 */
-	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
-		/**
-		 * FIXME: This is a workaround for existing classes and files which call
-		 *        this function with another type than a valid string. This
-		 *        conversion should get removed as soon as all existing
-		 *        function calls have been fixed.
-		 */
-		$path = (string)$path;
-
-		if ($path === '') {
+	public static function normalizePath(
+		string $path,
+		bool $stripTrailingSlash = true,
+		bool $isAbsolutePath = false,
+		bool $keepUnicode = false
+	): string {
+		// Early return for root and empty string
+		if ($path === '' || $path === '/') {
 			return '/';
 		}
 
+		// Prepare cache
 		if (is_null(self::$normalizedPathCache)) {
 			self::$normalizedPathCache = new CappedMemoryCache(2048);
 		}
-
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
-
 		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
 		}
 
-		//normalize unicode if possible
+		// Unicode normalization
 		if (!$keepUnicode) {
 			$path = \OC_Util::normalizeUnicode($path);
 		}
 
-		//add leading slash, if it is already there we strip it anyway
-		$path = '/' . $path;
+		// Canonical normalization via PathHelper
+		$normalized = PathHelper::normalizePath($path);
 
-		$patterns = [
-			'#\\\\#s',       // no windows style '\\' slashes
-			'#/\.(/\.)*/#s', // remove '/./'
-			'#\//+#s',       // remove sequence of slashes
-			'#/\.$#s',       // remove trailing '/.'
-		];
-
-		do {
-			$count = 0;
-			$path = preg_replace($patterns, '/', $path, -1, $count);
-		} while ($count > 0);
-
-		//remove trailing slash
-		if ($stripTrailingSlash && strlen($path) > 1) {
-			$path = rtrim($path, '/');
+		// TEMPORARY: Remove dot-segments here until PathHelper::normalizePath() is assessed/updated to handle them natively
+		while (\str_contains($normalized, '/./')) {
+			$normalized = \str_replace('/./', '/', $normalized);
+		}
+		// Remove trailing '/.' (unless the whole thing is '/.')
+		if (\substr($normalized, -2) === '/.' && \strlen($normalized) > 2) {
+			$normalized = \substr($normalized, 0, -2);
 		}
 
-		self::$normalizedPathCache[$cacheKey] = $path;
+		// Optionally strip trailing slash unless root
+		if ($stripTrailingSlash && \strlen($normalized) > 1) {
+			$normalized = \rtrim($normalized, '/');
+		}
 
-		return $path;
+		self::$normalizedPathCache[$cacheKey] = $normalized;
+		return $normalized;
 	}
 
 	/**
