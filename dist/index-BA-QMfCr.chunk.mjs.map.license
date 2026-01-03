@@ -22,7 +22,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.4
 	- license: MIT
 - @nextcloud/files
-	- version: 4.0.0-beta.7
+	- version: 4.0.0-beta.8
 	- license: AGPL-3.0-or-later
 - available-typed-arrays
 	- version: 1.0.7
