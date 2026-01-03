@@ -202,8 +202,6 @@
     "Could not rename part file to final file, canceled by hook" : "Osalise faili nime muutmine lõplikuks nimeks ei õnnestunud, selle katkestas programmi haak",
     "Could not rename part file to final file" : "Osalise faili nime muutmine lõplikuks nimeks ei õnnestunud",
     "Failed to check file size: %1$s" : "Faili suuruse kontrollimine ei õnnestunud: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "„%1$s“ faili avamine ei õnnestunud - aga tundub, et ta on olemas",
-    "Could not open file: %1$s, file doesn't seem to exist" : "„%1$s“ faili avamine ei õnnestunud - tundub, et teda pole olemas",
     "Encryption not ready: %1$s" : "Krüptimine pole veel kasutatav: %1$s",
     "Failed to open file: %1$s" : "Faili avamine ei õnnestunud: %1$s",
     "Failed to unlink: %1$s" : "Lingi eemaldamine ei õnnestunud: %1$s",
@@ -335,6 +333,8 @@
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Nädala möödudes: %1$s ja siis %2$s ning %3$s","%n nädala möödudes: %1$s ja siis %2$s ning %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Kuu möödudes: %1$s ja siis %2$s ning %3$s","%n kuu möödudes: %1$s ja siis %2$s ning %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Aasta möödudes: %1$s ja siis %2$s ning %3$s","%n aasta möödudes: %1$s ja siis %2$s ning %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "„%1$s“ faili avamine ei õnnestunud - aga tundub, et ta on olemas",
+    "Could not open file: %1$s, file doesn't seem to exist" : "„%1$s“ faili avamine ei õnnestunud - tundub, et teda pole olemas",
     "No results." : "Vasteid ei leitud.",
     "Start typing." : "Alusta kirjutamist.",
     "Time zone:" : "Ajavöönd:"

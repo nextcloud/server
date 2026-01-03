@@ -1588,7 +1588,6 @@
     <DeprecatedClass>
       <code><![CDATA[new QueryException()]]></code>
       <code><![CDATA[new QueryException()]]></code>
-      <code><![CDATA[new QueryException()]]></code>
     </DeprecatedClass>
   </file>
   <file src="apps/files_sharing/lib/Controller/SettingsController.php">
@@ -2392,15 +2391,6 @@
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[validateMailAddress]]></code>
     </DeprecatedMethod>
   </file>

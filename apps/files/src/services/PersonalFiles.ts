@@ -4,7 +4,6 @@
  */
 
 import type { ContentsWithRoot, Node } from '@nextcloud/files'
-import type { CancelablePromise } from 'cancelable-promise'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { getContents as getFiles } from './Files.ts'
@@ -31,13 +30,17 @@ export function isPersonalFile(node: Node): boolean {
 }
 
 /**
+ * Get personal files from a given path
  *
- * @param path
+ * @param path - The path to get the personal files from
+ * @param options - Options
+ * @param options.signal - Abort signal to cancel the request
+ * @return A promise that resolves to the personal files
  */
-export function getContents(path: string = '/'): CancelablePromise<ContentsWithRoot> {
+export function getContents(path: string = '/', options: { signal: AbortSignal }): Promise<ContentsWithRoot> {
 	// get all the files from the current path as a cancellable promise
 	// then filter the files that the user does not own, or has shared / is a group folder
-	return getFiles(path)
+	return getFiles(path, options)
 		.then((content) => {
 			content.contents = content.contents.filter(isPersonalFile)
 			return content

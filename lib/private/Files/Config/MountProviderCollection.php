@@ -91,6 +91,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	public function getUserMountsFromProviderByPath(
 		string $providerClass,
 		string $path,
+		bool $forChildren,
 		array $mountProviderArgs,
 	): array {
 		$provider = $this->providers[$providerClass] ?? null;
@@ -107,6 +108,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		/** @var IPartialMountProvider $provider */
 		return $provider->getMountsForPath(
 			$path,
+			$forChildren,
 			$mountProviderArgs,
 			$this->loader,
 		);

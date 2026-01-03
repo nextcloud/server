@@ -297,7 +297,7 @@ export default {
 		},
 
 		setShowConfig(key, status) {
-			this.$store.commit('setShowConfig', { key, value: status })
+			this.$store.dispatch('setShowConfig', { key, value: status })
 		},
 
 		/**

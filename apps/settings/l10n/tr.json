@@ -410,6 +410,7 @@
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "Tam adı yazarken otomatik tamamlamanın tam eşleşmesine izin verilsin (grup üyeliği veya eksik telefon defteri eşleşmesi gibi kısıtlamaları yok sayarak)",
     "Full match autocompletion restrictions" : "Tam eşleşme otomatik tamamlama kısıtlamaları",
     "Also allow autocompletion on full match of the user ID" : "Ayrıca kullanıcı kimliğinin tam eşleşmesinde otomatik tamamlamaya izin verilsin",
+    "Also allow autocompletion on full match of the display name" : "Ayrıca görüntülenecek adın tam eşleşmesinde otomatik tamamlamaya izin verilsin",
     "Also allow autocompletion on full match of the user email" : "Ayrıca kullanıcı e-posta adresinin tam eşleşmesinde otomatik tamamlamaya izin verilsin",
     "Do not use second user displayname for full match" : "Tam eşleşme için ikinci kullanıcı görüntülenecek adı kullanılmasın",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Herkese açık bağlantı yükleme sayfasında sorumluluk reddi bildirimi görüntülensin (yalnızca dosya listesi gizli iken görüntülenir)",

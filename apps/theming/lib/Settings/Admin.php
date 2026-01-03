@@ -23,7 +23,6 @@ use OCP\Util;
 class Admin implements IDelegatedSettings {
 
 	public function __construct(
-		private string $appName,
 		private IConfig $config,
 		private IL10N $l,
 		private ThemingDefaults $themingDefaults,
@@ -38,11 +37,11 @@ class Admin implements IDelegatedSettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm(): TemplateResponse {
-		$themable = true;
+		$themeable = true;
 		$errorMessage = '';
 		$theme = $this->config->getSystemValue('theme', '');
 		if ($theme !== '') {
-			$themable = false;
+			$themeable = false;
 			$errorMessage = $this->l->t('You are already using a custom theme. Theming app settings might be overwritten by that.');
 		}
 
@@ -51,9 +50,17 @@ class Admin implements IDelegatedSettings {
 			return $carry;
 		}, []);
 
+		$this->initialState->provideInitialState('adminThemingInfo', [
+			'isThemeable' => $themeable,
+			'notThemeableErrorMessage' => $errorMessage,
+			'defaultBackgroundURL' => $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE),
+			'defaultBackgroundColor' => BackgroundService::DEFAULT_BACKGROUND_COLOR,
+			'docUrl' => $this->urlGenerator->linkToDocs('admin-theming'),
+			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
+			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
+		]);
+
 		$this->initialState->provideInitialState('adminThemingParameters', [
-			'isThemable' => $themable,
-			'notThemableErrorMessage' => $errorMessage,
 			'name' => $this->themingDefaults->getEntity(),
 			'url' => $this->themingDefaults->getBaseUrl(),
 			'slogan' => $this->themingDefaults->getSlogan(),
@@ -62,30 +69,25 @@ class Admin implements IDelegatedSettings {
 			'logoMime' => $this->config->getAppValue(Application::APP_ID, 'logoMime', ''),
 			'allowedMimeTypes' => $allowedMimeTypes,
 			'backgroundURL' => $this->imageManager->getImageUrl('background'),
-			'defaultBackgroundURL' => $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE),
-			'defaultBackgroundColor' => BackgroundService::DEFAULT_BACKGROUND_COLOR,
 			'backgroundMime' => $this->config->getAppValue(Application::APP_ID, 'backgroundMime', ''),
 			'logoheaderMime' => $this->config->getAppValue(Application::APP_ID, 'logoheaderMime', ''),
 			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
 			'legalNoticeUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyPolicyUrl' => $this->themingDefaults->getPrivacyUrl(),
-			'docUrl' => $this->urlGenerator->linkToDocs('admin-theming'),
-			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
-			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
-			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
+			'disableUserTheming' => $this->themingDefaults->isUserThemingDisabled(),
 			'defaultApps' => $this->navigationManager->getDefaultEntryIds(),
 		]);
 
-		Util::addScript($this->appName, 'admin-theming');
-
-		return new TemplateResponse($this->appName, 'settings-admin');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
+		return new TemplateResponse(Application::APP_ID, 'settings-admin');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection(): string {
-		return $this->appName;
+		return Application::APP_ID;
 	}
 
 	/**
@@ -105,7 +107,7 @@ class Admin implements IDelegatedSettings {
 
 	public function getAuthorizedAppConfig(): array {
 		return [
-			$this->appName => '/.*/',
+			Application::APP_ID => '/.*/',
 		];
 	}
 }
