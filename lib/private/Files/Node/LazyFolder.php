@@ -17,29 +17,22 @@ use OCP\Files\NotPermittedException;
 use Override;
 
 /**
- * Class LazyFolder
+ * Folder implementation that defers instantiation of the underlying folder object until needed.
  *
- * This is a lazy wrapper around a folder. So only
- * once it is needed this will get initialized.
+ * Useful for optimizing performance and resource usage by loading folder data only on demand.
+ * Supports transparent delegation of most Folder interface methods.
  *
  * @package OC\Files\Node
  */
 class LazyFolder implements Folder {
-	/** @var \Closure(): Folder */
-	private \Closure $folderClosure;
 	protected ?Folder $folder = null;
-	protected IRootFolder $rootFolder;
-	protected array $data;
 
-	/**
-	 * @param IRootFolder $rootFolder
-	 * @param \Closure(): Folder $folderClosure
-	 * @param array $data
-	 */
-	public function __construct(IRootFolder $rootFolder, \Closure $folderClosure, array $data = []) {
-		$this->rootFolder = $rootFolder;
-		$this->folderClosure = $folderClosure;
-		$this->data = $data;
+	public function __construct(
+		protected readonly IRootFolder $rootFolder,
+		/** @var \Closure(): Folder */
+		private \Closure $folderClosure,
+		protected array $data = []
+	) {
 	}
 
 	protected function getRootFolder(): IRootFolder {
@@ -399,7 +392,6 @@ class LazyFolder implements Folder {
 	 */
 	public function getFullPath($path) {
 		if (isset($this->data['path'])) {
-			$path = PathHelper::normalizePath($path);
 			if (!Filesystem::isValidPath($path)) {
 				throw new NotPermittedException('Invalid path "' . $path . '"');
 			}
