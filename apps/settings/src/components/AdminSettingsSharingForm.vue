@@ -115,7 +115,7 @@
 					value="yes"
 					type="radio"
 					@update:modelValue="onUpdateExcludeGroups">
-					{{ t('settings', 'Exclude some groups from sharing') }}
+					{{ t('settings', 'Exclude some groups') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch
 					v-model="settings.excludeGroups"
@@ -123,7 +123,7 @@
 					value="allow"
 					type="radio"
 					@update:modelValue="onUpdateExcludeGroups">
-					{{ t('settings', 'Limit sharing to some groups') }}
+					{{ t('settings', 'Allow some groups') }}
 				</NcCheckboxRadioSwitch>
 				<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
 					<NcSettingsSelectGroup
