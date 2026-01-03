@@ -53,6 +53,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "主机名",
     "Port" : "端口",
+    "Proxy" : "代理",
     "Region" : "区域",
     "Storage Class" : "存储类型",
     "Enable SSL" : "启用 SSL",

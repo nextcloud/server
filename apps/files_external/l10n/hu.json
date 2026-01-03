@@ -50,6 +50,7 @@
     "Bucket" : "Bucket",
     "Hostname" : "Gépnév",
     "Port" : "Port",
+    "Proxy" : "Proxy",
     "Region" : "Régió",
     "Storage Class" : "Tároló osztály",
     "Enable SSL" : "SSL engedélyezése",

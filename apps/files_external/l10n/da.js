@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Værtsnavn",
     "Port" : "Port",
+    "Proxy" : "Proxy",
     "Region" : "Region",
     "Storage Class" : "Lagringsklassificering",
     "Enable SSL" : "Aktiver SSL",

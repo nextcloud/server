@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "バケット名",
     "Hostname" : "ホスト名",
     "Port" : "ポート",
+    "Proxy" : "プロキシ",
     "Region" : "リージョン",
     "Storage Class" : "ストレージクラス",
     "Enable SSL" : "SSLを有効",

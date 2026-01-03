@@ -202,8 +202,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Nepodarilo sa premenovať dočasný súbor na finálny, zrušené háčikom (hook)",
     "Could not rename part file to final file" : "Nepodarilo sa premenovať dočasný súbor na finálny.",
     "Failed to check file size: %1$s" : "Kontrola veľkosti súboru zlyhala: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Nie je možné otvoriť súbor: %1$s, vyzerá to že súbor neexistuje",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Nie je možné otvoriť súbor: %1$s, vyzerá to že súbor neexistuje",
     "Encryption not ready: %1$s" : "Šifrovanie nie je dostupné: %1$s",
     "Failed to open file: %1$s" : "Otvorenie súboru zlyhalo: %1$s",
     "Failed to unlink: %1$s" : "Odpojenie zlyhalo: %1$s",
@@ -319,6 +317,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Za týždeň %1$s potom %2$s a %3$s","Za %n týždne %1$s potom %2$s a %3$s","Za %n týždňov %1$s potom %2$s a %3$s","Za %n týždňov %1$s potom %2$s a %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Za mesiac %1$s potom %2$s a %3$s","Za %n mesiace %1$s potom %2$s a %3$s","Za %n mesiacov %1$s potom %2$s a %3$s","Za %n mesiacov %1$s potom %2$s a %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Za rok %1$s potom %2$s a %3$s","Za %n roky %1$s potom %2$s a %3$s","Za %n rokov %1$s potom %2$s a %3$s","Za %n rokov %1$s potom %2$s a %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Nie je možné otvoriť súbor: %1$s, vyzerá to že súbor neexistuje",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Nie je možné otvoriť súbor: %1$s, vyzerá to že súbor neexistuje",
     "No results." : "Žiadne výsledky.",
     "Start typing." : "Začnite písať.",
     "Time zone:" : "Časová zóna:"
