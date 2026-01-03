@@ -234,8 +234,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "بۆلەك ھۆججىتىنى ئاخىرقى ھۆججەتكە ئۆزگەرتەلمىدى ، قارماق تەرىپىدىن ئەمەلدىن قالدۇرۇلدى",
     "Could not rename part file to final file" : "قىسمەن ھۆججەتنى ئاخىرقى ھۆججەتكە ئۆزگەرتەلمىدى",
     "Failed to check file size: %1$s" : "ھۆججەتنىڭ چوڭ-كىچىكلىكىنى تەكشۈرەلمىدى:%1$s",
-    "Could not open file: %1$s, file does seem to exist" : "ھۆججەتتنى ئاچقىلى بولمىدى: %1$s، ھۆججەت مەۋجۇت ئەمەستەك قىلىدۇ",
-    "Could not open file: %1$s, file doesn't seem to exist" : "ھۆججەتتنى ئاچقىلى بولمىدى: %1$s، ھۆججەت مەۋجۇت ئەمەستەك قىلىدۇ",
     "Encryption not ready: %1$s" : "شىفىرلاش تەييار ئەمەس: %1$s",
     "Failed to open file: %1$s" : "ھۆججەت ئېچىلمىدى: %1$s",
     "Failed to unlink: %1$s" : "ئۇلانمىنى بىكار قىلىش مەغلۇپ بولدى: %1$s",
@@ -367,6 +365,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["%1$s دا بىر ھەپتىدە ئاندىن كىيىن %2$s بىلەن %3$s دا","%1$s دا %n ھەپتىدە ئاندىن كىيىن %2$s بىلەن %3$s دا"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["%1$s دا بىر ئايدا ئاندىن كىيىن %2$s بىلەن %3$s دا","%1$s دا %n ئايدا ئاندىن كىيىن %2$s بىلەن %3$s دا"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["%1$s دا بىر يىلدا ئاندىن كىيىن %2$s بىلەن %3$s دا","%1$s دا %n يىلدا ئاندىن كىيىن %2$s بىلەن %3$s دا"],
+    "Could not open file: %1$s, file does seem to exist" : "ھۆججەتتنى ئاچقىلى بولمىدى: %1$s، ھۆججەت مەۋجۇت ئەمەستەك قىلىدۇ",
+    "Could not open file: %1$s, file doesn't seem to exist" : "ھۆججەتتنى ئاچقىلى بولمىدى: %1$s، ھۆججەت مەۋجۇت ئەمەستەك قىلىدۇ",
     "No results." : "ھېچقانداق نەتىجە يوق.",
     "Start typing." : "يېزىشنى باشلاڭ.",
     "Time zone:" : "ۋاقىت رايونى:"

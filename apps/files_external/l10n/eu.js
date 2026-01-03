@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "Ontzia",
     "Hostname" : "Ostalari-izena",
     "Port" : "Ataka",
+    "Proxy" : "Proxy",
     "Region" : "Eskualdea",
     "Storage Class" : "Storage Class",
     "Enable SSL" : "Gaitu SSL",

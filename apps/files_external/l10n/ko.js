@@ -50,6 +50,7 @@ OC.L10N.register(
     "Bucket" : "버킷",
     "Hostname" : "호스트 이름",
     "Port" : "포트",
+    "Proxy" : "프록시",
     "Region" : "지역",
     "Storage Class" : "저장소 클래스",
     "Enable SSL" : "SSL 사용",

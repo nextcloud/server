@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Gépnév",
     "Port" : "Port",
+    "Proxy" : "Proxy",
     "Region" : "Régió",
     "Storage Class" : "Tároló osztály",
     "Enable SSL" : "SSL engedélyezése",

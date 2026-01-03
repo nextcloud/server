@@ -53,6 +53,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Host-Name",
     "Port" : "Port",
+    "Proxy" : "Benötigt keine Übersetzung. Für Android wird nur die formelle Übersetzung verwendet (de_DE).",
     "Region" : "Region",
     "Storage Class" : "Speicherklasse",
     "Enable SSL" : "SSL aktivieren",
