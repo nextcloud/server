@@ -53,6 +53,7 @@ OC.L10N.register(
     "Bucket" : "Buket",
     "Hostname" : "Sunucu adı",
     "Port" : "Bağlantı noktası",
+    "Proxy" : "Vekil sunucu",
     "Region" : "Bölge",
     "Storage Class" : "Depolama sınıfı",
     "Enable SSL" : "SSL kullanılsın",

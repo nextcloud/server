@@ -53,6 +53,7 @@ OC.L10N.register(
     "Bucket" : "Cesta",
     "Hostname" : "Nome do Host",
     "Port" : "Porta",
+    "Proxy" : "Proxy",
     "Region" : "Região",
     "Storage Class" : "Classe de armazenamento",
     "Enable SSL" : "Ativar SSL",
