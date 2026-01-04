@@ -58,6 +58,7 @@
     "Enable Path Style" : "Ativar Estilo do Caminho",
     "Legacy (v2) authentication" : "Autenticação (v2) herdada",
     "Enable multipart copy" : "Habilitar cópia multiparte",
+    "Use presigned S3 url" : "Usar URL S3 pré-assinado",
     "SSE-C encryption key" : "Chave de criptografia SSE-C",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
