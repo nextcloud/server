@@ -195,7 +195,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		// Handle 32-bit PHP file size overflow for non-directories
-		if (PHP_INT_SIZE === 4 !$this->is_dir($path)) {
+		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
 			if ($filesize !== false) {
 				$statResult['size'] = $filesize;
