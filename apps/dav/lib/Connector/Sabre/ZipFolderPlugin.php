@@ -70,8 +70,30 @@ class ZipFolderPlugin extends ServerPlugin {
 	}
 
 	/**
+	 * @return iterable<NcNode>
+	 */
+	protected function createIterator(array $rootNodes): iterable {
+		foreach ($rootNodes as $rootNode) {
+			yield from $this->iterateNodes($rootNode);
+		}
+	}
+
+	/**
+	 * Recursively iterate over all nodes in a folder.
+	 * @return iterable<NcNode>
+	 */
+	protected function iterateNodes(NcNode $node): iterable {
+		yield $node;
+
+		if ($node instanceof NcFolder) {
+			foreach ($node->getDirectoryListing() as $childNode) {
+				yield from $this->iterateNodes($childNode);
+			}
+		}
+	}
+
+	/**
 	 * Adding a node to the archive streamer.
-	 * This will recursively add new nodes to the stream if the node is a directory.
 	 */
 	protected function streamNode(Streamer $streamer, NcNode $node, string $rootPath): void {
 		// Remove the root path from the filename to make it relative to the requested folder
@@ -87,10 +109,6 @@ class ZipFolderPlugin extends ServerPlugin {
 			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $mtime);
 		} elseif ($node instanceof NcFolder) {
 			$streamer->addEmptyDir($filename, $mtime);
-			$content = $node->getDirectoryListing();
-			foreach ($content as $subNode) {
-				$this->streamNode($streamer, $subNode, $rootPath);
-			}
 		}
 	}
 
@@ -146,7 +164,8 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		$folder = $node->getNode();
-		$event = new BeforeZipCreatedEvent($folder, $files);
+		$rootNodes = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
+		$event = new BeforeZipCreatedEvent($folder, $files, $this->createIterator($rootNodes));
 		$this->eventDispatcher->dispatchTyped($event);
 		if ((!$event->isSuccessful()) || $event->getErrorMessage() !== null) {
 			$errorMessage = $event->getErrorMessage();
@@ -178,8 +197,7 @@ class ZipFolderPlugin extends ServerPlugin {
 			$streamer->addEmptyDir($archiveName);
 		}
 
-		$content = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
-		foreach ($content as $node) {
+		foreach ($event->getNodes() as $node) {
 			assert($node instanceof NcNode);
 			$this->streamNode($streamer, $node, $rootPath);
 		}
