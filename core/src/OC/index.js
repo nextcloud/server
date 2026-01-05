@@ -69,6 +69,7 @@ import { getRequestToken } from './requesttoken.ts'
 import {
 	linkToRemoteBase,
 } from './routing.js'
+import Settings from './settings.js'
 import { theme } from './theme.js'
 import Util from './util.js'
 import webroot from './webroot.js'
@@ -198,6 +199,10 @@ export default {
 	 */
 	PasswordConfirmation,
 	Plugins,
+	/**
+	 * @deprecated 25.0.0 Use Vue based (`@nextcloud/vue`) settings components instead
+	 */
+	Settings,
 	theme,
 	Util,
 	debug,
