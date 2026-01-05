@@ -35,7 +35,7 @@
 				}
 
 				&:hover:not(:disabled):not(.button-vue--disabled) {
-					background-color: var(--ion-button-secondary-background-hover);
+					background-color: var(--ion-button-secondary-background-hover)!important;
 					border-color: var(--ion-button-secondary-background-hover);
 					color: var(--ion-button-secondary-text-hover);
 
@@ -67,7 +67,7 @@
 			&.button-vue--vue-primary:not(.unified-search-modal__header *), &.button-vue--vue-error:not(.unified-search-modal__header *),
 				/* ensure primary type styling of "new" button */
 			&.action-item__menutoggle:not(.unified-search-modal__header *), &.files-list__header-upload-button--disabled {
-				background-color: var(--ion-button-primary-background-default);
+				background-color: var(--ion-button-primary-background-default)!important;
 				border: none;
 
 				.button-vue__text, .button-vue__icon svg {
