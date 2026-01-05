@@ -13,7 +13,7 @@ use OCA\Files_Sharing\ViewOnly;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeZipCreatedEvent;
-use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IUserSession;
 
 /**
@@ -23,7 +23,7 @@ class BeforeZipCreatedListener implements IEventListener {
 
 	public function __construct(
 		private IUserSession $userSession,
-		private IRootFolder $rootFolder,
+		private ViewOnly $viewOnly,
 	) {
 	}
 
@@ -32,33 +32,19 @@ class BeforeZipCreatedListener implements IEventListener {
 			return;
 		}
 
-		/** @psalm-suppress DeprecatedMethod should be migrated to getFolder but for now it would just duplicate code */
-		$dir = $event->getDirectory();
-		$files = $event->getFiles();
-
-		if (empty($files)) {
-			$pathsToCheck = [$dir];
-		} else {
-			$pathsToCheck = [];
-			foreach ($files as $file) {
-				$pathsToCheck[] = $dir . '/' . $file;
-			}
-		}
-
-		// Check only for user/group shares. Don't restrict e.g. share links
 		$user = $this->userSession->getUser();
-		if ($user) {
-			$viewOnlyHandler = new ViewOnly(
-				$this->rootFolder->getUserFolder($user->getUID())
-			);
-			if (!$viewOnlyHandler->check($pathsToCheck)) {
-				$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
-				$event->setSuccessful(false);
-			} else {
-				$event->setSuccessful(true);
-			}
-		} else {
-			$event->setSuccessful(true);
+		if (!$user) {
+			return;
 		}
+
+		// Check whether the user can download the requested folder
+		if (!$this->viewOnly->isNodeCanBeDownloaded($event->getFolder())) {
+			$event->setSuccessful(false);
+			$event->setErrorMessage('Access to this resource has been denied.');
+			return;
+		}
+
+		// Check recursively whether the user can download nested nodes
+		$event->addNodeFilter(fn (Node $node) => $this->viewOnly->isNodeCanBeDownloaded($node));
 	}
 }

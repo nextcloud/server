@@ -11,6 +11,7 @@ namespace OCP\Files\Events;
 
 use OCP\EventDispatcher\Event;
 use OCP\Files\Folder;
+use OCP\Files\Node;
 
 /**
  * This event is triggered before a archive is created when a user requested
@@ -25,16 +26,19 @@ class BeforeZipCreatedEvent extends Event {
 	private bool $successful = true;
 	private ?string $errorMessage = null;
 	private ?Folder $folder = null;
+	private array $nodeFilters = [];
 
 	/**
 	 * @param string|Folder $directory Folder instance, or (deprecated) string path relative to user folder
-	 * @param list<string> $files
+	 * @param list<string> $files Selected files, empty for folder selection
+	 * @param iterable<Node> $nodes Recursively collected nodes
 	 * @since 25.0.0
 	 * @since 31.0.0 support `OCP\Files\Folder` as `$directory` parameter - passing a string is deprecated now
 	 */
 	public function __construct(
 		string|Folder $directory,
 		private array $files,
+		private iterable $nodes,
 	) {
 		parent::__construct();
 		if ($directory instanceof Folder) {
@@ -68,6 +72,30 @@ class BeforeZipCreatedEvent extends Event {
 	 */
 	public function getFiles(): array {
 		return $this->files;
+	}
+
+	/**
+	 * @return iterable<Node>
+	 */
+	public function getNodes(): iterable {
+		foreach ($this->nodes as $node) {
+			$pass = true;
+			foreach ($this->nodeFilters as $filter) {
+				$pass = $pass && $filter($node);
+			}
+
+			if ($pass) {
+				yield $node;
+			}
+		}
+	}
+
+	/**
+	 * @param callable $filter
+	 * @return void
+	 */
+	public function addNodeFilter(callable $filter): void {
+		$this->nodeFilters[] = $filter;
 	}
 
 	/**
