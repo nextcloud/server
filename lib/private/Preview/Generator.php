@@ -348,7 +348,7 @@ class Generator {
 
 				try {
 					$previewEntry = new Preview();
-					$previewEntry->setId();
+					$previewEntry->generateId();
 					$previewEntry->setFileId($file->getId());
 					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 					$previewEntry->setSourceMimeType($file->getMimeType());
@@ -502,7 +502,7 @@ class Generator {
 		}
 
 		$previewEntry = new Preview();
-		$previewEntry->setId();
+		$previewEntry->generateId();
 		$previewEntry->setFileId($file->getId());
 		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
@@ -543,7 +543,7 @@ class Generator {
 			throw new \RuntimeException('Unable to write preview file');
 		}
 		$previewEntry->setSize($size);
-		$previewEntry->setId();
+		$previewEntry->generateId();
 		return $this->previewMapper->insert($previewEntry);
 	}
 }

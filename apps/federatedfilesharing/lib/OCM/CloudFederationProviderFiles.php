@@ -143,7 +143,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			}
 
 			$externalShare = new ExternalShare();
-			$externalShare->setId();
+			$externalShare->generateId();
 			$externalShare->setRemote($remote);
 			$externalShare->setRemoteId($remoteId);
 			$externalShare->setShareToken($token);

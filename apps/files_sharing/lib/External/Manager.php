@@ -184,7 +184,7 @@ class Manager {
 				$subShare = $this->externalShareMapper->getUserShare($externalShare, $user);
 			} catch (DoesNotExistException) {
 				$subShare = new ExternalShare();
-				$subShare->setId();
+				$subShare->generateId();
 				$subShare->setRemote($externalShare->getRemote());
 				$subShare->setPassword($externalShare->getPassword());
 				$subShare->setName($externalShare->getName());

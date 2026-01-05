@@ -105,6 +105,13 @@ class ExternalShare extends SnowflakeAwareEntity implements \JsonSerializable {
 			'user' => $this->getUser(),
 			'mountpoint' => $this->getMountpoint(),
 			'accepted' => $this->getAccepted(),
+
+			// Added later on
+			'file_id' => null,
+			'mimetype' => null,
+			'permissions' => null,
+			'mtime' => null,
+			'type' => null,
 		];
 	}
 

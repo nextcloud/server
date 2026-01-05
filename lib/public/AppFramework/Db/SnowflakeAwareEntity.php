@@ -16,22 +16,24 @@ use OCP\Snowflake\Snowflake;
 
 /**
  * Entity with snowflake support
- *
+ * @method string getId()
  * @since 33.0.0
  */
 #[Consumable(since: '33.0.0')]
 abstract class SnowflakeAwareEntity extends Entity {
-	private ?string $id = null;
 	protected ?Snowflake $snowflake = null;
 
 	/** @psalm-param $_fieldTypes array<string, Types::*> */
 	private array $_fieldTypes = ['id' => Types::STRING];
 
+	public function setId($id): void {
+		throw new \LogicException('Use generated id to set a new id to the Snowflake aware entity.');
+	}
+
 	/**
 	 * Automatically creates a snowflake ID
 	 */
-	#[\Override]
-	public function setId($id = null): void {
+	public function generateId(): void {
 		if ($this->id === null) {
 			$this->id = Server::get(ISnowflakeGenerator::class)->nextId();
 			$this->markFieldUpdated('id');

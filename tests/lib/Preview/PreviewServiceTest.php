@@ -37,6 +37,7 @@ class PreviewServiceTest extends TestCase {
 	public function testGetAvailableFileIds(): void {
 		foreach (range(1, 20) as $i) {
 			$preview = new Preview();
+			$preview->generateId();
 			$preview->setFileId($i % 10);
 			$preview->setStorageId(1);
 			$preview->setWidth($i);

@@ -13,22 +13,16 @@ use function lcfirst;
 use function substr;
 
 /**
+ * @method int getId()
+ * @method void setId(int $id)
  * @since 7.0.0
  * @psalm-consistent-constructor
  */
 abstract class Entity {
-	private ?int $id = null;
+	public int|string|null $id = null;
 	private array $_updatedFields = [];
 	/** @psalm-param $_fieldTypes array<string, Types::*> */
 	private array $_fieldTypes = ['id' => 'integer'];
-
-	public function setId($id): void {
-		$this->id = $id;
-	}
-
-	public function getId(): ?int {
-		return $this->id;
-	}
 
 	/**
 	 * Simple alternative constructor for building entities from a request
@@ -46,7 +40,6 @@ abstract class Entity {
 
 		return $instance;
 	}
-
 
 	/**
 	 * Maps the keys of the row array to the attributes

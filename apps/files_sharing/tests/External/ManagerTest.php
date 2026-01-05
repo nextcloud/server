@@ -188,7 +188,7 @@ class ManagerTest extends TestCase {
 
 	public function testAddUserShare(): void {
 		$userShare = new ExternalShare();
-		$userShare->setId();
+		$userShare->generateId();
 		$userShare->setRemote('http://localhost');
 		$userShare->setShareToken('token1');
 		$userShare->setPassword('');
@@ -203,7 +203,7 @@ class ManagerTest extends TestCase {
 
 	public function testAddGroupShare(): void {
 		$groupShare = new ExternalShare();
-		$groupShare->setId();
+		$groupShare->generateId();
 		$groupShare->setRemote('http://localhost');
 		$groupShare->setOwner('foobar');
 		$groupShare->setShareType(IShare::TYPE_GROUP);
@@ -235,10 +235,10 @@ class ManagerTest extends TestCase {
 
 		$shareData2 = $shareData1->clone();
 		$shareData2->setShareToken('token2');
-		$shareData2->setId();
+		$shareData2->generateId();
 		$shareData3 = $shareData1->clone();
 		$shareData3->setShareToken('token3');
-		$shareData3->setId();
+		$shareData3->generateId();
 
 		$this->setupMounts();
 		$this->assertNotMount('SharedFolder');
@@ -438,7 +438,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn($userId);
 		$share = new ExternalShare();
-		$share->setId();
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -458,7 +458,7 @@ class ManagerTest extends TestCase {
 	 */
 	private function createTestGroupShare(string $groupId = 'group1'): array {
 		$share = new ExternalShare();
-		$share->setId();
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -644,7 +644,7 @@ class ManagerTest extends TestCase {
 		// user 2 shares
 		$manager2 = $this->createManagerForUser($user2);
 		$share = new ExternalShare();
-		$share->setId();
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -694,7 +694,7 @@ class ManagerTest extends TestCase {
 		$manager2 = $this->createManagerForUser($user);
 
 		$share = new ExternalShare();
-		$share->setId();
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');

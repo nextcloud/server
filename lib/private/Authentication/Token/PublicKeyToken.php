@@ -101,6 +101,10 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('passwordInvalid', Types::BOOLEAN);
 	}
 
+	public function getId(): int {
+		return (int)$this->id;
+	}
+
 	public function getUID(): string {
 		return $this->uid;
 	}
@@ -123,7 +127,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	public function jsonSerialize(): array {
 		return [
-			'id' => $this->getId(),
+			'id' => $this->id,
 			'name' => $this->name,
 			'lastActivity' => $this->lastActivity,
 			'type' => $this->type,

@@ -79,7 +79,7 @@ class PreviewMapperTest extends TestCase {
 			$qb->executeStatement();
 		}
 		$preview = new Preview();
-		$preview->setId();
+		$preview->generateId();
 		$preview->setFileId($fileId);
 		$preview->setStorageId(1);
 		$preview->setCropped(true);

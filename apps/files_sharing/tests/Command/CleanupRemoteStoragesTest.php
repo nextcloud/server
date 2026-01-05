@@ -63,7 +63,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 
 			if (isset($storage['share_token'])) {
 				$externalShare = new ExternalShare();
-				$externalShare->setId();
+				$externalShare->generateId();
 				$externalShare->setShareToken($storage['share_token']);
 				$externalShare->setRemote($storage['remote']);
 				$externalShare->setName('irrelevant');
