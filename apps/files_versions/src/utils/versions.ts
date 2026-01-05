@@ -1,18 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable jsdoc/require-param */
-/* eslint-disable jsdoc/require-jsdoc */
-/**
+/*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
+import { getClient } from '@nextcloud/files/dav'
 import moment from '@nextcloud/moment'
 import { encodePath, join } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
-import client from '../utils/davClient.ts'
 import davRequest from '../utils/davRequest.ts'
 import logger from '../utils/logger.ts'
 
@@ -25,7 +24,7 @@ export interface Version {
 	basename: string // A base name generated from the mtime
 	mime: string // Empty for the current version, else the actual mime type of the version
 	etag: string // Empty for the current version, else the actual mime type of the version
-	size: string // Human readable size
+	size: number // File size in bytes
 	type: string // 'file'
 	mtime: number // Version creation date as a timestamp
 	permissions: string // Only readable: 'R'
@@ -35,8 +34,15 @@ export interface Version {
 	fileVersion: string | null // The version id, null for the current version
 }
 
-export async function fetchVersions(fileInfo: any): Promise<Version[]> {
-	const path = `/versions/${getCurrentUser()?.uid}/versions/${fileInfo.id}`
+const client = getClient()
+
+/**
+ * Get file versions for a given node
+ *
+ * @param node - The node to fetch versions for
+ */
+export async function fetchVersions(node: INode): Promise<Version[]> {
+	const path = `/versions/${getCurrentUser()?.uid}/versions/${node.fileid}`
 
 	try {
 		const response = await client.getDirectoryContents(path, {
@@ -47,7 +53,7 @@ export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 		const versions = response.data
 			// Filter out root
 			.filter(({ mime }) => mime !== '')
-			.map((version) => formatVersion(version, fileInfo))
+			.map((version) => formatVersion(version as Required<FileStat>, node))
 
 		const authorIds = new Set(versions.map((version) => String(version.author)))
 		const authors = await axios.post(generateUrl('/displaynames'), { users: [...authorIds] })
@@ -68,6 +74,8 @@ export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 
 /**
  * Restore the given version
+ *
+ * @param version - The version to restore
  */
 export async function restoreVersion(version: Version) {
 	try {
@@ -84,25 +92,28 @@ export async function restoreVersion(version: Version) {
 
 /**
  * Format version
+ *
+ * @param version - The version data from WebDAV
+ * @param node - The original node
  */
-function formatVersion(version: any, fileInfo: any): Version {
+function formatVersion(version: Required<FileStat>, node: INode): Version {
 	const mtime = moment(version.lastmod).unix() * 1000
 	let previewUrl = ''
 
-	if (mtime === fileInfo.mtime) { // Version is the current one
+	if (mtime === node.mtime?.getTime()) { // Version is the current one
 		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0&forceIcon=1&mimeFallback=1', {
-			fileId: fileInfo.id,
-			fileEtag: fileInfo.etag,
+			fileId: node.fileid,
+			fileEtag: node.attributes.etag,
 		})
 	} else {
 		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}&mimeFallback=1', {
-			file: join(fileInfo.path, fileInfo.name),
+			file: node.path,
 			fileVersion: version.basename,
 		})
 	}
 
 	return {
-		fileId: fileInfo.id,
+		fileId: node.fileid!.toString(),
 		// If version-label is defined make sure it is a string (prevent issue if the label is a number an PHP returns a number then)
 		label: version.props['version-label'] ? String(version.props['version-label']) : '',
 		author: version.props['version-author'] ? String(version.props['version-author']) : null,
@@ -122,6 +133,12 @@ function formatVersion(version: any, fileInfo: any): Version {
 	}
 }
 
+/**
+ * Set version label
+ *
+ * @param version - The version to set the label for
+ * @param newLabel - The new label
+ */
 export async function setVersionLabel(version: Version, newLabel: string) {
 	return await client.customRequest(
 		version.filename,
@@ -142,6 +159,11 @@ export async function setVersionLabel(version: Version, newLabel: string) {
 	)
 }
 
+/**
+ * Delete version
+ *
+ * @param version - The version to delete
+ */
 export async function deleteVersion(version: Version) {
 	await client.deleteFile(version.filename)
 }

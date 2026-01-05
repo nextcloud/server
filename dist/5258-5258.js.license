@@ -16,6 +16,7 @@ SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Richie Bendall
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
@@ -126,6 +127,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - base64-js
 	- version: 1.5.1
+	- license: MIT
+- char-regex
+	- version: 2.0.2
 	- license: MIT
 - charenc
 	- version: 0.0.2
@@ -297,6 +301,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
+	- license: MIT
+- strip-ansi
+	- version: 7.1.2
 	- license: MIT
 - striptags
 	- version: 3.2.0

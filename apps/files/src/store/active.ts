@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction, Folder, Node, View } from '@nextcloud/files'
+import type { FileAction, IFolder, INode, IView } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
@@ -20,17 +20,17 @@ export const useActiveStore = defineStore('active', () => {
 	/**
 	 * The currently active folder
 	 */
-	const activeFolder = ref<Folder>()
+	const activeFolder = ref<IFolder>()
 
 	/**
 	 * The current active node within the folder
 	 */
-	const activeNode = ref<Node>()
+	const activeNode = ref<INode>()
 
 	/**
 	 * The current active view
 	 */
-	const activeView = ref<View>()
+	const activeView = ref<IView>()
 
 	initialize()
 
@@ -39,7 +39,7 @@ export const useActiveStore = defineStore('active', () => {
 	 *
 	 * @param node - The node thats deleted
 	 */
-	function onDeletedNode(node: Node) {
+	function onDeletedNode(node: INode) {
 		if (activeNode.value && activeNode.value.source === node.source) {
 			activeNode.value = undefined
 		}
@@ -50,7 +50,7 @@ export const useActiveStore = defineStore('active', () => {
 	 *
 	 * @param view - The new active view
 	 */
-	function onChangedView(view: View | null = null) {
+	function onChangedView(view: IView | null = null) {
 		logger.debug('Setting active view', { view })
 		activeView.value = view ?? undefined
 		activeNode.value = undefined
