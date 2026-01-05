@@ -58,8 +58,9 @@ import FilesNavigationItem from '../components/FilesNavigationItem.vue'
 import FilesNavigationSearch from '../components/FilesNavigationSearch.vue'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import FilesAppSettings from './FilesAppSettings.vue'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { useViews } from '../composables/useViews.ts'
 import logger from '../logger.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useFiltersStore } from '../store/filters.ts'
 import { useSidebarStore } from '../store/sidebar.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
@@ -89,18 +90,19 @@ export default defineComponent({
 
 	setup() {
 		const sidebar = useSidebarStore()
+		const activeStore = useActiveStore()
 		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
-		const { currentView, views } = useNavigation()
 
 		return {
-			currentView,
 			t,
-			views,
 
 			sidebar,
+			activeStore,
 			filtersStore,
 			viewConfigStore,
+
+			views: useViews(),
 		}
 	},
 
@@ -138,7 +140,7 @@ export default defineComponent({
 
 	watch: {
 		currentViewId(newView, oldView) {
-			if (this.currentViewId !== this.currentView?.id) {
+			if (this.currentViewId !== this.activeStore.activeView?.id) {
 				// This is guaranteed to be a view because `currentViewId` falls back to the default 'files' view
 				const view = this.views.find(({ id }) => id === this.currentViewId)!
 				// The new view as active

@@ -45,7 +45,7 @@ import { defineComponent } from 'vue'
 import { Fragment } from 'vue-frag'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import { useNavigation } from '../composables/useNavigation.js'
+import { useActiveStore } from '../store/active.js'
 import { useViewConfigStore } from '../store/viewConfig.js'
 
 const maxLevel = 7 // Limit nesting to not exceed max call stack size
@@ -77,10 +77,10 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
+		const activeStore = useActiveStore()
 		const viewConfigStore = useViewConfigStore()
 		return {
-			currentView,
+			activeStore,
 			viewConfigStore,
 		}
 	},
@@ -89,7 +89,7 @@ export default defineComponent({
 		currentViews(): View[] {
 			if (this.level >= maxLevel) { // Filter for all remaining decendants beyond the max level
 				return (Object.values(this.views).reduce((acc, views) => [...acc, ...views], []) as View[])
-					.filter((view) => view.params?.dir.startsWith(this.parent.params?.dir))
+					.filter((view) => this.parent.params && view.params?.dir.startsWith(this.parent.params.dir))
 			}
 			return this.filterVisible(this.views[this.parent.id] ?? [])
 		},
@@ -106,7 +106,7 @@ export default defineComponent({
 
 	methods: {
 		filterVisible(views: View[]) {
-			return views.filter(({ id, hidden }) => id === this.currentView?.id || hidden !== true)
+			return views.filter(({ id, hidden }) => id === this.activeStore.activeView?.id || hidden !== true)
 		},
 
 		hasChildViews(view: View): boolean {
