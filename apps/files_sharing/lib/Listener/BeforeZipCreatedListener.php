@@ -24,6 +24,7 @@ class BeforeZipCreatedListener implements IEventListener {
 	public function __construct(
 		private IUserSession $userSession,
 		private IRootFolder $rootFolder,
+		private ViewOnly $viewOnly,
 	) {
 	}
 
@@ -32,33 +33,22 @@ class BeforeZipCreatedListener implements IEventListener {
 			return;
 		}
 
-		/** @psalm-suppress DeprecatedMethod should be migrated to getFolder but for now it would just duplicate code */
-		$dir = $event->getDirectory();
-		$files = $event->getFiles();
-
-		if (empty($files)) {
-			$pathsToCheck = [$dir];
-		} else {
-			$pathsToCheck = [];
-			foreach ($files as $file) {
-				$pathsToCheck[] = $dir . '/' . $file;
-			}
-		}
-
-		// Check only for user/group shares. Don't restrict e.g. share links
 		$user = $this->userSession->getUser();
-		if ($user) {
-			$viewOnlyHandler = new ViewOnly(
-				$this->rootFolder->getUserFolder($user->getUID())
-			);
-			if (!$viewOnlyHandler->check($pathsToCheck)) {
-				$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
-				$event->setSuccessful(false);
-			} else {
-				$event->setSuccessful(true);
-			}
-		} else {
-			$event->setSuccessful(true);
+		if (!$user) {
+			return;
 		}
+
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		// Check whether the user can download the requested folder
+		$folder = $userFolder->get(substr($event->getDirectory(), strlen($userFolder->getPath())));
+		if (!$this->viewOnly->isNodeCanBeDownloaded($folder)) {
+			$event->setSuccessful(false);
+			$event->setErrorMessage('Access to this resource has been denied.');
+			return;
+		}
+
+		$nodes = array_filter($event->getNodes(), fn ($node) => $this->viewOnly->isNodeCanBeDownloaded($node));
+		$event->setNodes(array_values($nodes));
+		$event->setSuccessful(true);
 	}
 }
