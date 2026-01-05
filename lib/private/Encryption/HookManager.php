@@ -22,6 +22,21 @@ class HookManager {
 	public static function postUnshared($params): void {
 		// In case the unsharing happens in a background job, we don't have
 		// a session and we load instead the user from the UserManager
+		if (Filesystem::getView() === null) {
+			$uidOwner = $params['uidOwner'] ?? '';
+			if (is_string($uidOwner) && $uidOwner !== '') {
+				$user = \OC::$server->getUserManager()->get($uidOwner);
+				if ($user !== null) {
+					$setupManager = \OC::$server->get(SetupManager::class);
+					if (!$setupManager->isSetupComplete($user)) {
+						$setupManager->setupForUser($user);
+					}
+				}
+			}
+		}
+		if (Filesystem::getView() === null) {
+			return;
+		}
 		$path = Filesystem::getPath($params['fileSource']);
 		$owner = Filesystem::getOwner($path);
 		self::getUpdate($owner)->postUnshared($params);
