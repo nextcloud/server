@@ -60,6 +60,7 @@ OC.L10N.register(
     "Enable Path Style" : "Activar o estilo de ruta",
     "Legacy (v2) authentication" : "Autenticación (v2) estilo antigo",
     "Enable multipart copy" : "Activar a copia de múltiples partes",
+    "Use presigned S3 url" : "Empregar o URL S3 preasinado",
     "SSE-C encryption key" : "Chave de cifraxe SSE-C",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
