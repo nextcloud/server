@@ -412,6 +412,7 @@ OC.L10N.register(
     "Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)" : "Consenti il completamento automatico con corrispondenza esatta durante l'inserimento del nome completo (ignorando restrizioni quali appartenenza a gruppi o corrispondenze mancanti nella rubrica).",
     "Full match autocompletion restrictions" : "Restrizioni al completamento automatico delle corrispondenze esatte",
     "Also allow autocompletion on full match of the user ID" : "Consenti anche il completamento automatico in caso di corrispondenza esatta dell'ID utente",
+    "Also allow autocompletion on full match of the display name" : "Consenti anche il completamento automatico in caso di corrispondenza completa del nome visualizzato",
     "Also allow autocompletion on full match of the user email" : "Consenti anche il completamento automatico in caso di corrispondenza esatta dell'indirizzo e-mail dell'utente",
     "Do not use second user displayname for full match" : "Non utilizzare il nome utente secondario per la corrispondenza completa",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Mostra il testo della liberatoria sulla pagina di caricamento del collegamento pubblico (visualizzato solo quando l'elenco dei file è nascosto)",
