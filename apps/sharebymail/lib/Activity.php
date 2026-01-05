@@ -287,7 +287,7 @@ class Activity implements IProvider {
 		]);
 
 		foreach ($addressBookContacts as $contact) {
-			if (isset($contact['isLocalSystemBook'])) {
+			if (isset($contact['isLocalSystemBook']) || isset($contact['isVirtualAddressbook'])) {
 				continue;
 			}
 
