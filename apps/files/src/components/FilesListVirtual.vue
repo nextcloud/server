@@ -301,7 +301,11 @@ export default defineComponent({
 			}
 
 			if (this.fileId) {
-				this.scrollToFile(this.fileId, false)
+				const node = this.nodes.find((node) => node.fileid === this.fileId)
+				if (node) {
+					this.activeStore.activeNode = node
+					this.scrollToFile(this.fileId, false)
+				}
 			}
 		},
 
@@ -342,13 +346,7 @@ export default defineComponent({
 			delete query.openfile
 			delete query.opendetails
 
-			this.activeStore.activeNode = undefined
-			window.OCP.Files.Router.goToRoute(
-				null,
-				{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
-				query,
-				true,
-			)
+			this.activeStore.activeNode = this.currentFolder
 		},
 
 		/**
@@ -396,7 +394,7 @@ export default defineComponent({
 			logger.debug('Ignore `openfile` query and replacing with `opendetails` for ' + node.path, { node })
 			window.OCP.Files.Router.goToRoute(
 				null,
-				this.$route.params,
+				window.OCP.Files.Router.params,
 				{ ...this.$route.query, openfile: undefined, opendetails: '' },
 				true, // silent update of the URL
 			)
@@ -431,10 +429,29 @@ export default defineComponent({
 		},
 
 		onKeyDown(event: KeyboardEvent) {
+			if (this.isEmpty) {
+				return
+			}
+
+			if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown'
+				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))
+			) {
+				// not an arrow key we handle
+				return
+			}
+
+			if (!this.fileId || this.fileId === this.currentFolder.fileid) {
+				// no active node so use either first or last node
+				const index = event.key === 'ArrowUp' || event.key === 'ArrowLeft'
+					? this.nodes.length - 1
+					: 0
+				this.setActiveNode(this.nodes[index] as NcNode & { fileid: number })
+			}
+
+			const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 			// Up and down arrow keys
 			if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
 				const columnCount = this.$refs.table?.columnCount ?? 1
-				const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 				const nextIndex = event.key === 'ArrowUp' ? index - columnCount : index + columnCount
 				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
 					return
@@ -450,7 +467,6 @@ export default defineComponent({
 
 			// if grid mode, left and right arrow keys
 			if (this.userConfig.grid_view && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-				const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 				const nextIndex = event.key === 'ArrowLeft' ? index - 1 : index + 1
 				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
 					return
@@ -465,7 +481,7 @@ export default defineComponent({
 			}
 		},
 
-		setActiveNode(node: NcNode & { fileid: number }) {
+		async setActiveNode(node: NcNode & { fileid: number }) {
 			logger.debug('Navigating to file ' + node.path, { node, fileid: node.fileid })
 			this.scrollToFile(node.fileid)
 
@@ -473,16 +489,13 @@ export default defineComponent({
 			const query = { ...this.$route.query }
 			delete query.openfile
 			delete query.opendetails
-
-			this.activeStore.activeNode = node
-
-			// Silent update of the URL
-			window.OCP.Files.Router.goToRoute(
-				null,
-				{ ...this.$route.params, fileid: String(node.fileid) },
+			await this.$router.replace({
+				...this.$route,
 				query,
-				true,
-			)
+			})
+
+			// set the new file as active
+			this.activeStore.activeNode = node
 		},
 	},
 })

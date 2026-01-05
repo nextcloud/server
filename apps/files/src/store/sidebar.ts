@@ -8,17 +8,17 @@ import type { INode, ISidebarContext } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
 import { getSidebarActions, getSidebarTabs } from '@nextcloud/files'
 import { defineStore } from 'pinia'
-import { computed, ref, watch } from 'vue'
+import { computed, readonly, ref, watch } from 'vue'
 import logger from '../logger.ts'
 import { useActiveStore } from './active.ts'
 import { useFilesStore } from './files.ts'
 
 export const useSidebarStore = defineStore('sidebar', () => {
 	const activeTab = ref<string>()
-	const currentNode = ref<INode>()
-	const isOpen = computed(() => !!currentNode.value)
+	const isOpen = ref(false)
 
 	const activeStore = useActiveStore()
+	const currentNode = computed(() => isOpen.value ? activeStore.activeNode : undefined)
 	const hasContext = computed(() => !!(currentNode.value && activeStore.activeFolder && activeStore.activeView))
 	const currentContext = computed<ISidebarContext | undefined>(() => {
 		if (!hasContext.value) {
@@ -41,7 +41,6 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	 * @param tabId - Optional ID of the tab to activate.
 	 */
 	function open(node: INode, tabId?: string) {
-		const activeStore = useActiveStore()
 		if (!(node && activeStore.activeFolder && activeStore.activeView)) {
 			logger.debug('Cannot open sidebar because the active folder or view is not set.', {
 				node,
@@ -64,14 +63,16 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		} else {
 			activeTab.value = tabId ?? newTabs[0]?.id
 		}
-		currentNode.value = node
+		logger.debug(`Opening sidebar for ${node.displayname}`, { node })
+		activeStore.activeNode = node
+		isOpen.value = true
 	}
 
 	/**
 	 * Close the sidebar.
 	 */
 	function close() {
-		currentNode.value = undefined
+		isOpen.value = false
 	}
 
 	/**
@@ -117,7 +118,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	// update the current node if updated
 	subscribe('files:node:updated', (node: INode) => {
 		if (node.source === currentNode.value?.source) {
-			currentNode.value = node
+			activeStore.activeNode = node
 		}
 	})
 
@@ -144,8 +145,10 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	subscribe('files:list:updated', () => {
 		if (!initialized) {
 			initialized = true
-			window.OCP.Files.Router._router.afterEach((to) => {
-				if (to.query && !('opendetails' in to.query)) {
+			window.OCP.Files.Router._router.afterEach((to, from) => {
+				if ((from.query && ('opendetails' in from.query))
+					&& (to.query && !('opendetails' in to.query))) {
+					logger.debug('Closing sidebar because "opendetails" query parameter was removed from URL.')
 					close()
 				}
 			})
@@ -153,37 +156,31 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	})
 
 	// watch open state and update URL query parameters
-	watch(currentNode, (node) => {
+	watch(isOpen, (isOpen) => {
+		const params = { ...(window.OCP?.Files?.Router?.params ?? {}) }
 		const query = { ...(window.OCP?.Files?.Router?.query ?? {}) }
 
-		if (!node && 'opendetails' in query) {
+		logger.debug(`Sidebar current node changed: ${isOpen ? 'open' : 'closed'}`, { query, params, node: activeStore.activeNode })
+		if (!isOpen && ('opendetails' in query)) {
 			delete query.opendetails
 			window.OCP.Files.Router.goToRoute(
 				null,
-				{ ...window.OCP.Files.Router.params },
-				{
-					...query,
-				},
+				params,
+				query,
 				true,
 			)
 		}
 
-		if (node) {
-			const fileid = String(node.fileid)
-			if (!('opendetails' in query) || window.OCP.Files.Router.params.fileid !== fileid) {
-				window.OCP.Files.Router.goToRoute(
-					null,
-					{
-						...window.OCP.Files.Router.params,
-						fileid,
-					},
-					{
-						...query,
-						opendetails: 'true',
-					},
-					true,
-				)
-			}
+		if (isOpen && !('opendetails' in query)) {
+			window.OCP.Files.Router.goToRoute(
+				null,
+				params,
+				{
+					...query,
+					opendetails: 'true',
+				},
+				true,
+			)
 		}
 	})
 
@@ -194,7 +191,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		currentNode,
 		currentTabs,
 		hasContext,
-		isOpen,
+		isOpen: readonly(isOpen),
 
 		open,
 		close,
