@@ -11,6 +11,7 @@ use OC\Comments\Comment;
 use OCP\Comments\IComment;
 use OCP\Comments\IllegalIDChangeException;
 use OCP\Comments\MessageTooLongException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
@@ -96,7 +97,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('simpleSetterProvider')]
+	#[DataProvider(methodName: 'simpleSetterProvider')]
 	public function testSimpleSetterInvalidInput($field, $input): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -119,7 +120,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('roleSetterProvider')]
+	#[DataProvider(methodName: 'roleSetterProvider')]
 	public function testSetRoleInvalidInput($role, $type, $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -204,13 +205,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $message
-	 * @param array $expectedMentions
-	 * @param ?string $author
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('mentionsProvider')]
+	#[DataProvider(methodName: 'mentionsProvider')]
 	public function testMentions(string $message, array $expectedMentions, ?string $author = null): void {
 		$comment = new Comment();
 		$comment->setMessage($message);
