@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Pokud zapnuto, vytvářet a upravovat štítky budou moci pouze správci. Uživatelé je i tak mohou přiřazovat a odebírat je souborům.",
     "Restrict tag creation and editing to administrators" : "Omezit vytváření a upravování štítků pouze na správce",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Štítky pro spolupráci jsou k dispozici všem uživatelům. Uživatelsky nepřiřaditelné štítky jsou uživatelům viditelné, ale nemohou je přiřazovat.\nNeviditelné štítky jsou pro vnitřní potřebu, protože uživatelé je nemohou vidět ani je přiřazovat.",
+    "Add tags" : "Přidat štítky",
     "Assigned collaborative tags" : "Přiřazené štítky pro spolupráci",
     "Open in Files" : "Otevřít v Souborech",
     "List of tags and their associated files and folders." : "Seznam štítků a jejich souvisejících souborů a složek.",
