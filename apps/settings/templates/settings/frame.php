@@ -5,7 +5,7 @@
  */
 
 style('settings', 'settings');
-\OCP\Util::addScript('settings', 'settings', 'core');
+\OCP\Util::addScript('appstore', 'settings', 'core');
 \OCP\Util::addScript('settings', 'legacy-admin');
 
 ?>
