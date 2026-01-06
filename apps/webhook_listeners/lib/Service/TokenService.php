@@ -37,7 +37,30 @@ class TokenService {
 	 * creates an array which includes two arrays of tokens: 'user_ids' and 'user_roles'
 	 * The array ['user_ids' => ['jane', 'bob'], 'user_roles' => ['owner', 'trigger']]
 	 * as requested tokens in the registered webhook produces a result like
-	 * ['user_ids' => [['jane' => 'abcdtokenabcd1'], ['bob','=> 'abcdtokenabcd2']], 'owner' => ['admin' => 'abcdtokenabcd3'], 'trigger' => ['user1' => 'abcdtokenabcd4']]
+	 * [
+	 * 		['user_ids' => [
+	 * 			['jane' => [
+	 * 				'userId' => 'jane',
+	 * 				'token' => 'abcdtokenabcd1'
+	 * 				'baseUrl' => 'https://nextcloud.example'
+	 * 			],
+	 * 			['bob'=> [
+	 * 				'userId' => 'bob',
+	 * 				'token' => 'abcdtokenabcd2'
+	 * 				'baseUrl' => 'https://nextcloud.example'
+	 * 			],
+	 * 		],
+	 * 		'owner' => [
+	 * 			'userId' => 'admin',
+	 * 			'token' => 'abcdtokenabcd3'
+	 * 			'baseUrl' => 'https://nextcloud.example'
+	 * 		],
+	 * 		'trigger' => [
+	 * 			'userId' => 'user1',
+	 * 			'token' => 'abcdtokenabcd4'
+	 * 			'baseUrl' => 'https://nextcloud.example'
+	 * 		],
+	 * ]
 	 * Created auth tokens are valid for 1 hour.
 	 *
 	 * @param WebhookListener $webhookListener
