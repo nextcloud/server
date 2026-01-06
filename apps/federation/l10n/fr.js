@@ -11,11 +11,12 @@ OC.L10N.register(
     "Federation" : "Fédération",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "Une fédération vous permet de vous connecter avec d'autres serveurs de confiance pour échanger la liste des comptes.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Une fédération vous permet de vous connecter avec d'autres serveurs de confiance pour échanger la liste des comptes. Par exemple, ce sera utilisé pour auto-compléter les comptes externes lors du partage fédéré.",
-    "External documentation for Federated Cloud Sharing" : "Documentation externe sur le partage de Cloud Fédéré",
+    "Add" : "Ajouter",
+    "Delete" : "Supprimer",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Une fédération vous permet de vous connecter avec d'autres serveurs de confiance pour échanger la liste des comptes. Par exemple, ce sera utilisé pour auto-compléter les comptes externes lors du partage fédéré. Il n'est pas nécessaire d'ajouter un serveur comme serveur de confiance afin de créer un partage fédéré.",
     "Each server must validate the other. This process may require a few cron cycles." : "Chaque serveur doit valider l'autre. Ce processus peut prendre plusieurs cycles de tâches planifiées.",
+    "External documentation for Federated Cloud Sharing" : "Documentation externe sur le partage de Cloud Fédéré",
     "+ Add trusted server" : "+ Ajouter un serveur de confiance",
-    "Trusted server" : "Serveur de confiance",
-    "Add" : "Ajouter"
+    "Trusted server" : "Serveur de confiance"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

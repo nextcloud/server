@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Wenn diese Option aktiviert ist, kann nur die Administration Schlagworte erstellen und bearbeiten. Konten können sie weiterhin zuweisen und von Dateien entfernen.",
     "Restrict tag creation and editing to administrators" : "Die Erstellung und Bearbeitung von System-Schlagworten auf die Administration beschränken",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Gemeinschaftliche Schlagworte sind für alle Benutzer verfügbar. Eingeschränkte Schlagworte sind für alle Benutzer sichtbar, können jedoch nicht zugewiesen werden. Nicht sichtbare Schlagworte sind für interne Verwendung und können vom Benutzer nicht eingesehen und nicht zugewiesen werden.",
+    "Add tags" : "Schlagworte hinzufügen",
     "Assigned collaborative tags" : "Zugewiesene kollaborative Schlagworte",
     "Open in Files" : "In Dateien öffnen",
     "List of tags and their associated files and folders." : "Liste der Schlagworte und der zugehörigen Dateien und Ordner.",
