@@ -2,65 +2,98 @@
 
 declare(strict_types=1);
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\AdminAudit\Actions;
 
 use OCA\AdminAudit\IAuditLogger;
 
+/**
+ * Base class for audit logging actions
+ *
+ * Provides structured logging for admin audit events with type-safe parameter handling
+ */
 class Action {
-
 	public function __construct(
-		private IAuditLogger $logger,
+		private readonly IAuditLogger $logger,
 	) {
 	}
 
 	/**
-	 * Log a single action with a log level of info
+	 * Log a single action with a log level of info.
 	 *
-	 * @param string $text
-	 * @param array $params
-	 * @param array $elements
-	 * @param bool $obfuscateParameters
+	 * Example usage:
+	 *   $this->log(
+	 *       'User "%s" added to group "%s"',
+	 *       ['user' => 'alice', 'group' => 'admins'],
+	 *       ['user', 'group']
+	 *   );
+	 *
+	 * @param string $messageTemplate Format string for vsprintf (e.g., "User %s deleted file %s")
+	 * @param array $data Associative array of data values
+	 * @param array $requiredKeys Array of keys that must exist in $data; order must match format placeholders
+	 * @param bool $excludeSensitiveData If true, omit parameter details from error logs
 	 */
-	public function log(string $text,
-		array $params,
-		array $elements,
-		bool $obfuscateParameters = false): void {
-		foreach ($elements as $element) {
-			if (!isset($params[$element])) {
-				if ($obfuscateParameters) {
-					$this->logger->critical(
-						'$params["' . $element . '"] was missing.',
-						['app' => 'admin_audit']
-					);
-				} else {
-					$this->logger->critical(
-						'$params["' . $element . '"] was missing. Transferred value: {params}',
-						['app' => 'admin_audit', 'params' => $params]
-					);
-				}
-				return;
+	public function log(
+		string $messageTemplate,
+		array $data,
+		array $requiredKeys,
+		bool $excludeSensitiveData = false
+	): void {
+		$missingKeys = [];
+		foreach ($requiredKeys as $key) {
+			if (!isset($data[$key])) {
+				$missingKeys[] = $key;
 			}
 		}
 
-		$replaceArray = [];
-		foreach ($elements as $element) {
-			if ($params[$element] instanceof \DateTime) {
-				$params[$element] = $params[$element]->format('Y-m-d H:i:s');
+		if (!empty($missingKeys)) {
+			$context = ['app' => 'admin_audit', 'missing_keys' => $missingKeys];
+	
+			if (!$excludeSensitiveData) {
+				$context['provided_keys'] = array_keys($data);
 			}
-			$replaceArray[] = $params[$element];
+			
+			$this->logger->critical(
+				'Required audit parameters missing: {missing_keys}',
+				$context
+			);
+			return;
 		}
 
-		$this->logger->info(
-			vsprintf(
-				$text,
-				$replaceArray
-			),
-			[
-				'app' => 'admin_audit'
-			]
-		);
+		$replacementValues = [];
+		foreach ($requiredKeys as $key) {
+			$value = $data[$key];
+
+			// Handle different types safely
+			if ($value instanceof \DateTime) {
+				$replacementValues[] = $value->format('Y-m-d H:i:s');
+			} elseif (is_bool($value)) {
+				$replacementValues[] = $value ? 'true' : 'false';
+			} elseif (is_scalar($value)) {
+				$replacementValues[] = (string)$value;
+			} elseif ($value === null) {
+				$replacementValues[] = 'null';
+			} else {
+				$replacementValues[] = json_encode($value, JSON_UNESCAPED_SLASHES) ?: gettype($value);
+			}
+		}
+
+		try {
+			$message = vsprintf($messageTemplate, $replacementValues);
+			$this->logger->info($message, ['app' => 'admin_audit']);
+		} catch (\ValueError $e) {
+			// vsprintf throws ValueError in PHP 8+ when format/argument mismatch occurs
+			$this->logger->critical(
+				'Audit log format string mismatch: {error}',
+				[
+					'app' => 'admin_audit',
+					'error' => $e->getMessage(),
+					'format' => $messageTemplate,
+					'element_count' => count($requiredKeys)
+				]
+			);
+		}
 	}
 }
