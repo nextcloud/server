@@ -82,12 +82,16 @@ jobs:
           echo "### 🔧 Remote Trigger Configuration" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**DISABLE_REMOTE_TRIGGER value:** \`${{ vars.DISABLE_REMOTE_TRIGGER }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Event type:** \`${{ github.event_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "🔧 Remote Trigger Configuration"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "DISABLE_REMOTE_TRIGGER = '${{ vars.DISABLE_REMOTE_TRIGGER }}'"
+          echo "Event type             = '${{ github.event_name }}'"
+          echo "Branch                 = '${{ github.ref_name }}'"
           echo ""
 
           if [ "${{ vars.DISABLE_REMOTE_TRIGGER }}" == "true" ]; then
@@ -101,10 +105,45 @@ jobs:
             echo "https://github.com/${{ github.repository }}/settings/variables/actions" >> $GITHUB_STEP_SUMMARY
           else
             echo "✅ Remote trigger is ENABLED"
-            echo "   The 'trigger-remote-dev-workflow' job will proceed"
+            echo "   Checking if trigger conditions are met..."
             echo "**Status:** ✅ Remote trigger is **ENABLED**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "The \`trigger-remote-dev-workflow\` job will proceed to trigger the remote GitLab workflow." >> $GITHUB_STEP_SUMMARY
+
+            # Check if all conditions for trigger are met
+            WILL_TRIGGER=true
+            echo "**Trigger Conditions Check:**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            if [ "${{ github.event_name }}" != "push" ]; then
+              echo "- ❌ Event must be 'push' (current: \`${{ github.event_name }}\`)" >> $GITHUB_STEP_SUMMARY
+              echo "   ❌ Event type is '${{ github.event_name }}' (must be 'push')"
+              WILL_TRIGGER=false
+            else
+              echo "- ✅ Event is 'push'" >> $GITHUB_STEP_SUMMARY
+              echo "   ✅ Event type is 'push'"
+            fi
+
+            if [ "${{ github.ref_name }}" != "ionos-dev" ] && [ "${{ github.ref_name }}" != "ionos-stable" ]; then
+              echo "- ❌ Branch must be 'ionos-dev' or 'ionos-stable' (current: \`${{ github.ref_name }}\`)" >> $GITHUB_STEP_SUMMARY
+              echo "   ❌ Branch is '${{ github.ref_name }}' (must be 'ionos-dev' or 'ionos-stable')"
+              WILL_TRIGGER=false
+            else
+              echo "- ✅ Branch is '\`${{ github.ref_name }}\`'" >> $GITHUB_STEP_SUMMARY
+              echo "   ✅ Branch is '${{ github.ref_name }}'"
+            fi
+
+            echo "- ℹ️  All dependent jobs must succeed (checked at job runtime)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            if [ "$WILL_TRIGGER" = "true" ]; then
+              echo "**Expected:** The \`trigger-remote-dev-workflow\` job **WILL RUN** (if all dependent jobs succeed)." >> $GITHUB_STEP_SUMMARY
+              echo ""
+              echo "🎯 Expected: trigger-remote-dev-workflow job WILL RUN (if all dependent jobs succeed)"
+            else
+              echo "**Expected:** The \`trigger-remote-dev-workflow\` job **WILL BE SKIPPED** due to unmet conditions above." >> $GITHUB_STEP_SUMMARY
+              echo ""
+              echo "⏭️  Expected: trigger-remote-dev-workflow job WILL BE SKIPPED"
+            fi
           fi
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
