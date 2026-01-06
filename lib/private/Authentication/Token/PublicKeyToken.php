@@ -102,7 +102,8 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	}
 
 	public function getId(): int {
-		return (int)$this->id;
+		assert(!is_string($this->id) && $this->id !== null);
+		return $this->id;
 	}
 
 	public function getUID(): string {
