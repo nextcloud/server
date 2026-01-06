@@ -14,6 +14,7 @@ use OCA\WebhookListeners\Db\EphemeralTokenMapper;
 use OCA\WebhookListeners\Db\WebhookListener;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -22,6 +23,7 @@ use Psr\Log\LoggerInterface;
 class TokenService {
 	public function __construct(
 		private IProvider $tokenProvider,
+		private IURLGenerator $urlGenerator,
 		private ISecureRandom $random,
 		private EphemeralTokenMapper $tokenMapper,
 		private LoggerInterface $logger,
@@ -35,7 +37,7 @@ class TokenService {
 	 * creates an array which includes two arrays of tokens: 'user_ids' and 'user_roles'
 	 * The array ['user_ids' => ['jane', 'bob'], 'user_roles' => ['owner', 'trigger']]
 	 * as requested tokens in the registered webhook produces a result like
-	 * ['user_ids' => [['jane' => 'abcdtokenabcd1'], ['bob','=> 'abcdtokenabcd2']], 'user_roles' => ['owner' => ['admin' => 'abcdtokenabcd3'], 'trigger' => ['user1' => 'abcdtokenabcd4']]]
+	 * ['user_ids' => [['jane' => 'abcdtokenabcd1'], ['bob','=> 'abcdtokenabcd2']], 'owner' => ['admin' => 'abcdtokenabcd3'], 'trigger' => ['user1' => 'abcdtokenabcd4']]
 	 * Created auth tokens are valid for 1 hour.
 	 *
 	 * @param WebhookListener $webhookListener
@@ -43,15 +45,20 @@ class TokenService {
 	 * @return array{user_ids?:array<string,string>,user_roles?:array{owner?:array<string,string>,trigger?:array<string,string>}}
 	 */
 	public function getTokens(WebhookListener $webhookListener, ?string $triggerUserId): array {
-		$tokens = [
-			'user_ids' => [],
-			'user_roles' => [],
-		];
+		$tokens = [];
+
 		$tokenNeeded = $webhookListener->getTokenNeeded();
 		if (isset($tokenNeeded['user_ids'])) {
+			$tokens = [
+				'user_ids' => [],
+			];
 			foreach ($tokenNeeded['user_ids'] as $userId) {
 				try {
-					$tokens['user_ids'][$userId] = $this->createEphemeralToken($userId);
+					$tokens['user_ids'][$userId] = [
+						'userId' => $userId,
+						'token' => $this->createEphemeralToken($userId),
+						'baseUrl' => $this->urlGenerator->getBaseUrl()
+					];
 				} catch (\Exception $e) {
 					$this->logger->error('Webhook token creation for user ' . $userId . ' failed: ' . $e->getMessage(), ['exception' => $e]);
 				}
@@ -67,8 +74,10 @@ class TokenService {
 						if (is_null($ownerId)) { // no owner uid available
 							break;
 						}
-						$tokens['user_roles']['owner'] = [
-							$ownerId => $this->createEphemeralToken($ownerId)
+						$tokens['owner'] = [
+							'userId' => $ownerId,
+							'token' => $this->createEphemeralToken($ownerId),
+							'baseUrl' => $this->urlGenerator->getBaseUrl()
 						];
 						break;
 					case 'trigger':
@@ -76,8 +85,10 @@ class TokenService {
 						if (is_null($triggerUserId)) { // no trigger uid available
 							break;
 						}
-						$tokens['user_roles']['trigger'] = [
-							$triggerUserId => $this->createEphemeralToken($triggerUserId)
+						$tokens['trigger'] = [
+							'userId' => $triggerUserId,
+							'token' => $this->createEphemeralToken($triggerUserId),
+							'baseUrl' => $this->urlGenerator->getBaseUrl()
 						];
 						break;
 					default:
