@@ -1,0 +1,217 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: string_decoder developers
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: Varun A P
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
+SPDX-FileCopyrightText: Hiroki Osame
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
+SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Alkemics
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+
+
+This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/auth
+	- version: 2.5.3
+	- license: GPL-3.0-or-later
+- @nextcloud/axios
+	- version: 2.5.2
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.5.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.1
+	- license: GPL-3.0-or-later
+- semver
+	- version: 7.7.2
+	- license: ISC
+- @nextcloud/event-bus
+	- version: 3.3.3
+	- license: GPL-3.0-or-later
+- @nextcloud/paths
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.12.2
+	- license: AGPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.4.1
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.3
+	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 6.4.2
+	- license: AGPL-3.0-or-later
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- @nextcloud/router
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue-select
+	- version: 3.26.0
+	- license: MIT
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 8.35.0
+	- license: AGPL-3.0-or-later
+- @vueuse/components
+	- version: 11.3.0
+	- license: MIT
+- @vueuse/core
+	- version: 11.3.0
+	- license: MIT
+- @vueuse/shared
+	- version: 11.3.0
+	- license: MIT
+- axios
+	- version: 1.12.2
+	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- buffer
+	- version: 5.7.1
+	- license: MIT
+- cancelable-promise
+	- version: 4.3.1
+	- license: MIT
+- charenc
+	- version: 0.0.2
+	- license: BSD-3-Clause
+- crypt
+	- version: 0.0.2
+	- license: BSD-3-Clause
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- debounce
+	- version: 2.2.0
+	- license: MIT
+- dompurify
+	- version: 3.3.1
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- floating-vue
+	- version: 1.0.0-beta.19
+	- license: MIT
+- focus-trap
+	- version: 7.7.1
+	- license: MIT
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
+- is-buffer
+	- version: 1.1.6
+	- license: MIT
+- md5
+	- version: 2.3.0
+	- license: BSD-3-Clause
+- buffer
+	- version: 6.0.3
+	- license: MIT
+- inherits
+	- version: 2.0.3
+	- license: ISC
+- util
+	- version: 0.10.4
+	- license: MIT
+- path
+	- version: 0.12.7
+	- license: MIT
+- process
+	- version: 0.11.10
+	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
+- string_decoder
+	- version: 1.3.0
+	- license: MIT
+- striptags
+	- version: 3.2.0
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
+- tabbable
+	- version: 6.4.0
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
+	- license: MIT
+- typescript-event-target
+	- version: 1.1.1
+	- license: MIT
+- unist-builder
+	- version: 4.0.0
+	- license: MIT
+- unist-util-is
+	- version: 6.0.0
+	- license: MIT
+- unist-util-visit-parents
+	- version: 6.0.1
+	- license: MIT
+- unist-util-visit
+	- version: 5.0.0
+	- license: MIT
+- vue-frag
+	- version: 1.4.3
+	- license: MIT
+- vue
+	- version: 2.7.16
+	- license: MIT

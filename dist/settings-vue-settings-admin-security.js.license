@@ -4,7 +4,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
-SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
@@ -17,7 +16,6 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
@@ -95,8 +93,11 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.4.1
+	- version: 6.4.2
 	- license: AGPL-3.0-or-later
+- @nextcloud/paths
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
 	- version: 5.3.2
 	- license: MIT
@@ -180,15 +181,6 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - buffer
 	- version: 6.0.3
-	- license: MIT
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
 	- license: MIT
 - process
 	- version: 0.11.10
