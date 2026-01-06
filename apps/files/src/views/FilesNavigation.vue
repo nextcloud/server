@@ -61,6 +61,7 @@ import FilesAppSettings from './FilesAppSettings.vue'
 import { useNavigation } from '../composables/useNavigation.ts'
 import logger from '../logger.ts'
 import { useFiltersStore } from '../store/filters.ts'
+import { useSidebarStore } from '../store/sidebar.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 
 const collator = Intl.Collator(
@@ -87,6 +88,7 @@ export default defineComponent({
 	},
 
 	setup() {
+		const sidebar = useSidebarStore()
 		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView, views } = useNavigation()
@@ -96,6 +98,7 @@ export default defineComponent({
 			t,
 			views,
 
+			sidebar,
 			filtersStore,
 			viewConfigStore,
 		}
@@ -176,9 +179,8 @@ export default defineComponent({
 		 * @param view View to set active
 		 */
 		showView(view: View) {
-			// Closing any opened sidebar
-			window.OCA?.Files?.Sidebar?.close?.()
-			getNavigation().setActive(view)
+			this.sidebar.close()
+			getNavigation().setActive(view.id)
 			emit('files:navigation:changed', view)
 		},
 

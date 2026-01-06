@@ -119,7 +119,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			triggerActionForFile('other', 'delete')
 			cy.wait('@deleteFile')
 
-			cy.get('[data-cy-sidebar]').should('not.exist')
+			cy.get('[data-cy-sidebar]').should('not.be.visible')
 			// Ensure the URL is changed
 			cy.url().should('not.contain', `apps/files/files/${otherFileId}`)
 		})

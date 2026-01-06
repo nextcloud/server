@@ -5,7 +5,7 @@
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import { joinPaths as join } from '@nextcloud/paths'
+import { join } from '@nextcloud/paths'
 import { getRowForFileId } from './FilesUtils.ts'
 
 /**

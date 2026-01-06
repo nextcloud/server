@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
 import { FileAction, Permission } from '@nextcloud/files'
@@ -18,7 +18,7 @@ import { defineAsyncComponent } from 'vue'
  * @param nodes Nodes to modify tags for
  * @param nodes.nodes
  */
-async function execBatch({ nodes }: { nodes: Node[] }): Promise<(null | boolean)[]> {
+async function execBatch({ nodes }: { nodes: INode[] }): Promise<(null | boolean)[]> {
 	const response = await new Promise<null | boolean>((resolve) => {
 		spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
 			nodes,

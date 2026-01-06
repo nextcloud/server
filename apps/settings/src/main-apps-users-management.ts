@@ -30,6 +30,9 @@ sync(store, router)
 
 const pinia = createPinia()
 
+// Migrate legacy local storage settings to the database
+store.dispatch('migrateLocalStorage')
+
 export default new Vue({
 	router,
 	store,

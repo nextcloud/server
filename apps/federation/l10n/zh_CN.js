@@ -11,11 +11,12 @@ OC.L10N.register(
     "Federation" : "联合云",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "联合允许您与其他受信任的服务器连接以交换账号目录。",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "联合云允许您与其他受信任的服务器连接以交换帐户目录。例如，这将用于自动完成联合云共享的外部帐户。",
-    "External documentation for Federated Cloud Sharing" : "联合云共享的外部文档",
+    "Add" : "添加",
+    "Delete" : "删除",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "联合允许您与其他受信任的服务器连接以交换账号目录。例如，这将用于自动完成联合共享的外部账号。无需将服务器添加为受信任的服务器即可创建联合共享。",
     "Each server must validate the other. This process may require a few cron cycles." : "每个服务器都必须验证其他服务器，此过程可能需要几个 cron 周期。",
+    "External documentation for Federated Cloud Sharing" : "联合云共享的外部文档",
     "+ Add trusted server" : "+ 添加受信任服务器",
-    "Trusted server" : "受信任服务器",
-    "Add" : "添加"
+    "Trusted server" : "受信任服务器"
 },
 "nplurals=1; plural=0;");

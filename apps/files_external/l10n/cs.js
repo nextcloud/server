@@ -53,6 +53,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Název stroje",
     "Port" : "Port",
+    "Proxy" : "Proxy",
     "Region" : "Oblast",
     "Storage Class" : "Třída úložiště",
     "Enable SSL" : "Šifrovat přenos (SSL)",

@@ -394,12 +394,6 @@ export default {
 		},
 	},
 
-	watch: {
-		'app.id': function() {
-			this.removeData = false
-		},
-	},
-
 	beforeUnmount() {
 		this.deployOptions = null
 		unsubscribe('showDaemonSelectionModal')

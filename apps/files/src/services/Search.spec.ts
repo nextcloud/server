@@ -35,12 +35,12 @@ describe('Search service', () => {
 		searchNodes.mockImplementationOnce(() => {
 			throw new Error('expected error')
 		})
-		expect(getContents).rejects.toThrow('expected error')
+		expect(() => getContents('', { signal: new AbortController().signal })).rejects.toThrow('expected error')
 	})
 
 	it('returns the search results and a fake root', async () => {
 		searchNodes.mockImplementationOnce(() => [fakeFolder])
-		const { contents, folder } = await getContents()
+		const { contents, folder } = await getContents('', { signal: new AbortController().signal })
 
 		expect(searchNodes).toHaveBeenCalledOnce()
 		expect(contents).toHaveLength(1)
@@ -57,8 +57,9 @@ describe('Search service', () => {
 			return []
 		})
 
-		const content = getContents()
-		content.cancel()
+		const controller = new AbortController()
+		getContents('', { signal: controller.signal })
+		controller.abort()
 
 		// its cancelled thus the promise returns the event
 		const event = await promise

@@ -46,6 +46,7 @@ OC.L10N.register(
     "Bucket" : "Amazon Bucket",
     "Hostname" : "Ime gostitelja",
     "Port" : "Vrata",
+    "Proxy" : "Posredniški strežnik",
     "Region" : "Območje",
     "Storage Class" : "Vrsta shrambe",
     "Enable SSL" : "Omogoči SSL",

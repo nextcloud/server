@@ -23,6 +23,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ITempManager;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends Common {
@@ -759,5 +760,45 @@ class AmazonS3 extends Common {
 		$this->invalidateCache($path);
 
 		return $size;
+	}
+
+	#[Override]
+	public function getDirectDownload(string $path): array|false {
+		if (!$this->isUsePresignedUrl()) {
+			return false;
+		}
+
+		$command = $this->getConnection()->getCommand('GetObject', [
+			'Bucket' => $this->bucket,
+			'Key' => $path,
+		]);
+		$expiration = new \DateTimeImmutable('+60 minutes');
+
+		try {
+			// generate a presigned URL that expires after $expiration time
+			$presignedUrl = (string)$this->getConnection()->createPresignedRequest($command, $expiration, [
+				'signPayload' => true,
+			])->getUri();
+		} catch (S3Exception $exception) {
+			$this->logger->error($exception->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $exception,
+			]);
+			return false;
+		}
+		return [
+			'url' => $presignedUrl,
+			'expiration' => $expiration->getTimestamp(),
+		];
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		if (!$this->isUsePresignedUrl()) {
+			return false;
+		}
+
+		$entry = $this->getCache()->get((int)$fileId);
+		return $this->getDirectDownload($entry->getPath());
 	}
 }

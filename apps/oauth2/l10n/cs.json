@@ -11,6 +11,7 @@
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 umožňuje externím službám vyžádat si přístup k {instanceName}.",
     "Name" : "Název",
     "Redirection URI" : "URL pro přesměrování",
+    "Client identifier" : "Identifikátor klienta",
     "Delete client" : "Smazat klienta",
     "Make sure you store the secret key, it cannot be recovered." : "Nezapomeňte si uložit tajný klíč – není možné ho obnovit.",
     "Add client" : "Přidat klienta",

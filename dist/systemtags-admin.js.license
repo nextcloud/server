@@ -2,6 +2,7 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: BSD-2-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-License-Identifier: (MIT AND BSD-3-Clause)
@@ -65,6 +66,7 @@ SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
 SPDX-FileCopyrightText: Fedor Indutny
 SPDX-FileCopyrightText: Evan You
@@ -93,6 +95,9 @@ SPDX-FileCopyrightText:
 
 
 This file is generated from multiple sources. Included packages:
+- @buttercup/fetch
+	- version: 0.2.1
+	- license: MIT
 - @ctrl/tinycolor
 	- version: 3.6.1
 	- license: MIT
@@ -120,6 +125,9 @@ This file is generated from multiple sources. Included packages:
 - @ckpack/vue-color
 	- version: 1.6.0
 	- license: MIT
+- @nextcloud/paths
+	- version: 2.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
@@ -192,9 +200,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/password-confirmation
 	- version: 6.0.2
 	- license: MIT
-- @nextcloud/paths
-	- version: 2.3.0
-	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
@@ -306,9 +311,6 @@ This file is generated from multiple sources. Included packages:
 - call-bound
 	- version: 1.0.4
 	- license: MIT
-- camelcase
-	- version: 9.0.0
-	- license: MIT
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
@@ -367,7 +369,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.3
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -655,7 +657,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.0
+	- version: 6.14.1
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -834,6 +836,9 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
+- entities
+	- version: 6.0.1
+	- license: BSD-2-Clause
 - fast-xml-parser
 	- version: 4.5.3
 	- license: MIT
@@ -847,7 +852,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.8.0
 	- license: MIT
 - webpack
-	- version: 5.103.0
+	- version: 5.104.1
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19

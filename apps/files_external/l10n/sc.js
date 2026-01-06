@@ -43,6 +43,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Nùmene retzidore",
     "Port" : "Porta",
+    "Proxy" : "Proxy",
     "Region" : "Regione",
     "Enable SSL" : "Ativa SSL",
     "Enable Path Style" : "Ativa istile de percursu",

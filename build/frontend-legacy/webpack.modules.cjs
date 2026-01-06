@@ -7,7 +7,7 @@ const path = require('path')
 module.exports = {
 	comments: {
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
-		'comments-tab': path.join(__dirname, 'apps/comments/src', 'comments-tab.js'),
+		'comments-tab': path.join(__dirname, 'apps/comments/src', 'files-sidebar.ts'),
 		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),
 	},
 	core: {
@@ -54,9 +54,6 @@ module.exports = {
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
 	},
-	profile: {
-		main: path.join(__dirname, 'apps/profile/src', 'main.ts'),
-	},
 	settings: {
 		apps: path.join(__dirname, 'apps/settings/src', 'apps.js'),
 		'legacy-admin': path.join(__dirname, 'apps/settings/src', 'admin.js'),
@@ -78,10 +75,6 @@ module.exports = {
 	systemtags: {
 		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
 		admin: path.join(__dirname, 'apps/systemtags/src', 'admin.ts'),
-	},
-	theming: {
-		'personal-theming': path.join(__dirname, 'apps/theming/src', 'personal-settings.js'),
-		'admin-theming': path.join(__dirname, 'apps/theming/src', 'admin-settings.js'),
 	},
 	updatenotification: {
 		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),

@@ -217,10 +217,10 @@ class ShareAPIControllerTest extends TestCase {
 		$this->expectExceptionMessage('Wrong share ID, share does not exist');
 
 		$this->shareManager
-			->expects($this->exactly(7))
+			->expects($this->exactly(6))
 			->method('getShareById')
 			->willReturnCallback(function ($id): void {
-				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42' || $id === 'deck:42' || $id === 'sciencemesh:42') {
+				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42' || $id === 'deck:42') {
 					throw new ShareNotFound();
 				} else {
 					throw new \Exception();

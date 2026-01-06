@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+#
+# https://github.com/vuejs/vue-web-component-wrapper/pull/133
+# https://github.com/vuejs/vue-web-component-wrapper/pull/122
+#
+diff --git a/node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js b/node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js
+index 721bf1f..adba8e8 100644
+--- a/node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js
++++ b/node_modules/@vue/web-component-wrapper/dist/vue-wc-wrapper.js
+@@ -222,10 +222,17 @@ function wrap (Vue, Component) {
+       if (!wrapper._isMounted) {
+         // initialize attributes
+         const syncInitialAttributes = () => {
+-          wrapper.props = getInitialProps(camelizedPropsList);
++          wrapper.props = Object.assign(
++            getInitialProps(camelizedPropsList),
++            wrapper.props
++          )
+           hyphenatedPropsList.forEach(key => {
+-            syncAttribute(this, key);
+-          });
++            const camelized = camelize(key)
++            // Maybe setted by Element properties earler
++            if (typeof wrapper.props[camelized] === 'undefined' || this.hasAttribute(key)) {
++              syncAttribute(this, key)
++            }
++          })
+         };
+ 
+         if (isInitialized) {
+diff --git a/node_modules/@vue/web-component-wrapper/types/index.d.ts b/node_modules/@vue/web-component-wrapper/types/index.d.ts
+index 8b67b7b..612102c 100644
+--- a/node_modules/@vue/web-component-wrapper/types/index.d.ts
++++ b/node_modules/@vue/web-component-wrapper/types/index.d.ts
+@@ -3,6 +3,6 @@ import _Vue, { Component, AsyncComponent } from 'vue'
+ declare function wrap(
+   Vue: typeof _Vue,
+   Component: Component | AsyncComponent
+-): HTMLElement
++): CustomElementConstructor
+ 
+ export default wrap

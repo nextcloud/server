@@ -4,7 +4,6 @@
  */
 
 import axios from '@nextcloud/axios'
-import { getBuilder } from '@nextcloud/browser-storage'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError } from '@nextcloud/dialogs'
 import { parseFileSize } from '@nextcloud/files'
@@ -16,8 +15,6 @@ import { naturalCollator } from '../utils/sorting.ts'
 import api from './api.js'
 
 const usersSettings = loadState('settings', 'usersSettings', {})
-
-const localStorage = getBuilder('settings').persist(true).build()
 
 const defaults = {
 	/**
@@ -47,12 +44,12 @@ const state = {
 	disabledUsersLimit: 25,
 	userCount: usersSettings.userCount ?? 0,
 	showConfig: {
-		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
-		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
-		showFirstLogin: localStorage.getItem('account_settings__showFirstLogin') === 'true',
-		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
-		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
-		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
+		showStoragePath: usersSettings.showConfig?.user_list_show_storage_path,
+		showUserBackend: usersSettings.showConfig?.user_list_show_user_backend,
+		showFirstLogin: usersSettings.showConfig?.user_list_show_first_login,
+		showLastLogin: usersSettings.showConfig?.user_list_show_last_login,
+		showNewUserForm: usersSettings.showConfig?.user_list_show_new_user_form,
+		showLanguages: usersSettings.showConfig?.user_list_show_languages,
 	},
 }
 
@@ -241,7 +238,6 @@ const mutations = {
 	},
 
 	setShowConfig(state, { key, value }) {
-		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
 	},
 
@@ -801,6 +797,68 @@ const actions = {
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
+	/**
+	 * Migrate local storage keys to database
+	 *
+	 * @param {object} context store context
+	 * @param context.commit
+	 */
+	migrateLocalStorage({ commit }) {
+		const preferences = {
+			showStoragePath: 'user_list_show_storage_path',
+			showUserBackend: 'user_list_show_user_backend',
+			showFirstLogin: 'user_list_show_first_login',
+			showLastLogin: 'user_list_show_last_login',
+			showNewUserForm: 'user_list_show_new_user_form',
+			showLanguages: 'user_list_show_languages',
+		}
+
+		for (const [key, dbKey] of Object.entries(preferences)) {
+			const localKey = `account_settings__${key}`
+			const localValue = window.localStorage.getItem(localKey)
+			if (localValue === null) {
+				continue
+			}
+
+			const value = localValue === 'true'
+			commit('setShowConfig', { key, value })
+
+			axios.post(generateUrl(`/settings/users/preferences/${dbKey}`), {
+				value: value ? 'true' : 'false',
+			}).then(() => {
+				window.localStorage.removeItem(localKey)
+			}).catch((error) => {
+				logger.error(`Failed to migrate preference ${key}`, { error })
+			})
+		}
+	},
+
+	/**
+	 * Set show config
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {string} options.key Key to set
+	 * @param {boolean} options.value Value to set
+	 */
+	setShowConfig(context, { key, value }) {
+		context.commit('setShowConfig', { key, value })
+		const keyMap = {
+			showStoragePath: 'user_list_show_storage_path',
+			showUserBackend: 'user_list_show_user_backend',
+			showFirstLogin: 'user_list_show_first_login',
+			showLastLogin: 'user_list_show_last_login',
+			showNewUserForm: 'user_list_show_new_user_form',
+			showLanguages: 'user_list_show_languages',
+		}
+		axios.post(generateUrl(`settings/users/preferences/${keyMap[key]}`), { value: value ? 'true' : 'false' })
+			.catch((error) => logger.error(`Could not update ${key} preference`, { error }))
+	},
 }
 
-export default { state, mutations, getters, actions }
+export default {
+	state,
+	mutations,
+	getters,
+	actions,
+}

@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div v-if="fileInfo !== null" class="versions-tab__container">
+	<div v-if="node" class="versions-tab__container">
 		<VirtualScrolling
 			:sections="sections"
 			:header-height="0">
@@ -17,8 +17,8 @@
 							:can-compare="canCompare"
 							:load-preview="isActive"
 							:version="row.items[0].version"
-							:file-info="fileInfo"
-							:is-current="row.items[0].version.mtime === fileInfo.mtime"
+							:node="node"
+							:is-current="row.items[0].version.mtime === currentVersionMtime"
 							:is-first-version="row.items[0].version.mtime === initialVersionMtime"
 							@click="openVersion"
 							@compare="compareVersion"
@@ -41,16 +41,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { LegacyFileInfo } from '../../../files/src/services/FileInfo.ts'
+import type { IFolder, INode, IView } from '@nextcloud/files'
 import type { Version } from '../utils/versions.ts'
 
-import { getCurrentUser } from '@nextcloud/auth'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
-import path from 'path'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import VersionEntry from '../components/VersionEntry.vue'
 import VersionLabelDialog from '../components/VersionLabelDialog.vue'
@@ -58,14 +56,35 @@ import VirtualScrolling from '../components/VirtualScrolling.vue'
 import logger from '../utils/logger.ts'
 import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel } from '../utils/versions.ts'
 
-const isMobile = useIsMobile()
+const props = defineProps<{
+	node?: INode
+	folder?: IFolder
+	view?: IView
+}>()
 
-const fileInfo = ref<LegacyFileInfo | null>(null)
+defineExpose({ setActive })
+
+const isMobile = useIsMobile()
 const isActive = ref<boolean>(false)
 const versions = ref<Version[]>([])
 const loading = ref(false)
 const showVersionLabelForm = ref(false)
 const editedVersion = ref<Version | null>(null)
+
+watch(toRef(() => props.node), async () => {
+	if (!props.node) {
+		return
+	}
+
+	try {
+		loading.value = true
+		versions.value = await fetchVersions(props.node)
+	} finally {
+		loading.value = false
+	}
+}, { immediate: true })
+
+const currentVersionMtime = computed(() => props.node?.mtime?.getTime() ?? 0)
 
 /**
  * Order versions by mtime.
@@ -73,13 +92,13 @@ const editedVersion = ref<Version | null>(null)
  */
 const orderedVersions = computed(() => {
 	return [...versions.value].sort((a, b) => {
-		if (fileInfo.value === null) {
+		if (!props.node) {
 			return 0
 		}
 
-		if (a.mtime === fileInfo.value.mtime) {
+		if (a.mtime === props.node.mtime?.getTime()) {
 			return -1
-		} else if (b.mtime === fileInfo.value.mtime) {
+		} else if (b.mtime === props.node.mtime?.getTime()) {
 			return 1
 		} else {
 			return b.mtime - a.mtime
@@ -88,7 +107,12 @@ const orderedVersions = computed(() => {
 })
 
 const sections = computed(() => {
-	const rows = orderedVersions.value.map((version) => ({ key: version.mtime.toString(), height: 68, sectionKey: 'versions', items: [{ id: version.mtime.toString(), version }] }))
+	const rows = orderedVersions.value.map((version) => ({
+		key: version.mtime.toString(),
+		height: 68,
+		sectionKey: 'versions',
+		items: [{ id: version.mtime.toString(), version }],
+	}))
 	return [{ key: 'versions', rows, height: 68 * orderedVersions.value.length }]
 })
 
@@ -101,82 +125,26 @@ const initialVersionMtime = computed(() => {
 		.reduce((a, b) => Math.min(a, b))
 })
 
-const viewerFileInfo = computed(() => {
-	if (fileInfo.value === null) {
-		return null
-	}
-
-	// We need to remap bitmask to dav permissions as the file info we have is converted through client.js
-	let davPermissions = ''
-	if (fileInfo.value.permissions & 1) {
-		davPermissions += 'R'
-	}
-	if (fileInfo.value.permissions & 2) {
-		davPermissions += 'W'
-	}
-	if (fileInfo.value.permissions & 8) {
-		davPermissions += 'D'
-	}
-	return {
-		...fileInfo.value,
-		mime: fileInfo.value.mimetype,
-		basename: fileInfo.value.name,
-		filename: fileInfo.value.path + '/' + fileInfo.value.name,
-		permissions: davPermissions,
-		fileid: fileInfo.value.id,
-	}
-})
-
 const canView = computed(() => {
-	if (fileInfo.value === null) {
+	if (!props.node) {
 		return false
 	}
 
-	return window.OCA.Viewer?.mimetypesCompare?.includes(fileInfo.value.mimetype)
+	return window.OCA.Viewer?.mimetypes?.includes(props.node?.mime)
 })
 
 const canCompare = computed(() => {
 	return !isMobile.value
-})
-
-onMounted(() => {
-	subscribe('files_versions:restore:restored', fetchVersions)
-})
-
-onBeforeUnmount(() => {
-	unsubscribe('files_versions:restore:restored', fetchVersions)
-})
-
-defineExpose({
-	/**
-	 * Update current fileInfo and fetch new data
-	 *
-	 * @param _fileInfo the current file FileInfo
-	 */
-	async update(_fileInfo: LegacyFileInfo) {
-		fileInfo.value = _fileInfo
-		resetState()
-		internalFetchVersions()
-	},
-
-	/**
-	 * @param _isActive whether the tab is active
-	 */
-	async setIsActive(_isActive: boolean) {
-		isActive.value = _isActive
-	},
+		&& window.OCA.Viewer?.mimetypesCompare?.includes(props.node?.mime)
 })
 
 /**
- * Get the existing versions infos
+ * This method is called by the files app if the sidebar tab state changes.
+ *
+ * @param active - The new active state
  */
-async function internalFetchVersions() {
-	try {
-		loading.value = true
-		versions.value = await fetchVersions(fileInfo.value)
-	} finally {
-		loading.value = false
-	}
+function setActive(active: boolean) {
+	isActive.value = active
 }
 
 /**
@@ -185,17 +153,19 @@ async function internalFetchVersions() {
  * @param version The version to restore
  */
 async function handleRestore(version: Version) {
-	// Update local copy of fileInfo as rendering depends on it.
-	const oldFileInfo = fileInfo.value
-	fileInfo.value = {
-		...fileInfo.value,
-		size: version.size,
-		mtime: version.mtime,
+	if (!props.node) {
+		return
 	}
+
+	// Update local copy of fileInfo as rendering depends on it.
+	const restoredNode = props.node.clone()
+	restoredNode.attributes.etag = version.etag
+	restoredNode.size = version.size
+	restoredNode.mtime = new Date(version.mtime)
 
 	const restoreStartedEventState = {
 		preventDefault: false,
-		fileInfo: fileInfo.value,
+		node: restoredNode,
 		version,
 	}
 	emit('files_versions:restore:requested', restoreStartedEventState)
@@ -212,9 +182,9 @@ async function handleRestore(version: Version) {
 		} else {
 			showSuccess(t('files_versions', 'Version restored'))
 		}
-		emit('files_versions:restore:restored', version)
+		emit('files:node:updated', restoredNode)
+		emit('files_versions:restore:restored', { node: restoredNode, version })
 	} catch {
-		fileInfo.value = oldFileInfo
 		showError(t('files_versions', 'Could not restore version'))
 		emit('files_versions:restore:failed', version)
 	}
@@ -272,24 +242,17 @@ async function handleDelete(version: Version) {
 }
 
 /**
- * Reset the current view to its default state
- */
-function resetState() {
-	versions.value = []
-}
-
-/**
  * @param payload - The event payload
  * @param payload.version - The version to open
  */
 function openVersion({ version }: { version: Version }) {
-	if (fileInfo.value === null) {
+	if (props.node === null) {
 		return
 	}
 
 	// Open current file view instead of read only
-	if (version.mtime === fileInfo.value.mtime) {
-		window.OCA.Viewer.open({ fileInfo: viewerFileInfo.value })
+	if (version.mtime === props.node?.mtime?.getTime()) {
+		window.OCA.Viewer.open({ path: props.node.path })
 		return
 	}
 
@@ -298,7 +261,7 @@ function openVersion({ version }: { version: Version }) {
 			...version,
 			// Versions previews are too small for our use case, so we override previewUrl
 			// to either point to the original file or original version.
-			filename: version.mtime === fileInfo.value.mtime ? path.join('files', getCurrentUser()?.uid ?? '', fileInfo.value.path, fileInfo.value.name) : version.filename,
+			filename: version.filename,
 			previewUrl: undefined,
 		},
 		enableSidebar: false,
@@ -312,7 +275,10 @@ function openVersion({ version }: { version: Version }) {
 function compareVersion({ version }: { version: Version }) {
 	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
 
-	window.OCA.Viewer.compare(viewerFileInfo.value, _versions.find((v) => v.source === version.source))
+	window.OCA.Viewer.compare(
+		{ path: props.node!.path },
+		_versions.find((v) => v.source === version.source),
+	)
 }
 </script>
 

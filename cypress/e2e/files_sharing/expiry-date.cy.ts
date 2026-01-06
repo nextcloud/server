@@ -90,11 +90,13 @@ describe('files_sharing: Expiry date', () => {
 		prepareDirectory(dir)
 		updateShare(dir, 0, { expiryDate: fortnight })
 		validateExpiryDate(dir, fortnightString)
-
 		closeSidebar()
+
+		cy.log('Upadate share and validate expiry date is kept')
 		updateShare(dir, 0, { note: 'Only note changed' })
 		validateExpiryDate(dir, fortnightString)
 
+		cy.log('Reload page and validate expiry date is kept')
 		cy.visit('/apps/files')
 		validateExpiryDate(dir, fortnightString)
 	})

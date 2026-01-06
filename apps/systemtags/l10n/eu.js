@@ -89,6 +89,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Aktiboa badago, bakarrik administratzaileek sortu eta editatu ditzakete etiketak. Kontuek soilik esleitu edo kentzen ahal diete fitxategiei.",
     "Restrict tag creation and editing to administrators" : "Soilik administratzaileek sortu edo esleitu ditzakete etiketak",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Lankidetzazko etiketak erabilgarri daude erabiltzaile guztientzat. Erabiltzaileek  etiketa murriztuak ikusgai dituzte baina ezin dituzte haiek esleitu. Etiketa ikusezinak barne erabilerarako dira, erabiltzaileek ezin baitituzte ikusi edo esleitu.",
+    "Add tags" : "Gehitu etiketak",
     "Assigned collaborative tags" : "Elkarlaneko etiketak esleituta",
     "Open in Files" : "Ireki Fitxategiak aplikazioan",
     "List of tags and their associated files and folders." : "Etiketak eta atxikituta dituzten fitxategi eta karpetak.",

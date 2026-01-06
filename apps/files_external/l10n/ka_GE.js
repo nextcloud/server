@@ -40,6 +40,7 @@ OC.L10N.register(
     "Bucket" : "ხაპია",
     "Hostname" : "ჰოსტი",
     "Port" : "პორტი",
+    "Proxy" : "პროქსი",
     "Region" : "რეგიონი",
     "Enable SSL" : "SSL-ის ამოქმედება",
     "Enable Path Style" : "ბილიკის სტილის ამოქმედება",

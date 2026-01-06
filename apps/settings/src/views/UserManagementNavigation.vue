@@ -149,7 +149,7 @@ const isAdminOrDelegatedAdmin = computed(() => settings.value.isAdmin || setting
  * Open the new-user form dialog
  */
 function showNewUserMenu() {
-	store.commit('setShowConfig', {
+	store.dispatch('setShowConfig', {
 		key: 'showNewUserForm',
 		value: true,
 	})

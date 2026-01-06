@@ -50,6 +50,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Agospiador",
     "Port" : "Puertu",
+    "Proxy" : "Proxy",
     "Region" : "Rexón",
     "Storage Class" : "Clas d'almacenamientu",
     "Enable SSL" : "Activar el SSL",
