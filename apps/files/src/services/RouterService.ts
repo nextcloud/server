@@ -64,9 +64,7 @@ export default class RouterService {
 		query?: Record<string, string | (string | null)[] | null | undefined>,
 		replace?: boolean,
 	): Promise<Route> {
-		if (!name) {
-			name = this.router.currentRoute.name as string
-		}
+		name ??= this.router.currentRoute.name as string
 		const location: Location = { name, query, params }
 		if (replace) {
 			return this._router.replace(location)
