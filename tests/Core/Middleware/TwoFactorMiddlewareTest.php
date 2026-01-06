@@ -234,6 +234,77 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($twoFactorChallengeController, 'index');
 	}
 
+	public function testBeforeControllerWithNoTwoFactorRequiredAnnotation(): void {
+		// Simulate a logged-in user where 2FA might otherwise trigger
+		$this->userSession->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
+
+		$user = $this->createMock(\OCP\IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->twoFactorManager->expects($this->any())
+			->method('isTwoFactorAuthenticated')
+			->with($user)
+			->willReturn(false);
+
+		// Reflector returns true for annotation, so 2FA check should be skipped:
+		$this->reflector->expects($this->once())
+			->method('hasAnnotation')
+			->with('NoTwoFactorRequired')
+			->willReturn(true);
+
+		// No attributes used here - just a plain controller
+		$controller = new class('app', $this->request) extends \OCP\AppFramework\Controller {
+			public function testMethod() {}
+		};
+
+		// Should NOT throw, since the annotation triggers bypass
+		$this->middleware->beforeController($controller, 'testMethod');
+
+		// If we get here, the test passes
+		$this->assertTrue(true);
+	}
+
+	public function testBeforeControllerWithNoTwoFactorRequiredAttribute(): void {
+		// Simulate not logged in, or a case where normally 2FA might be triggered
+		$this->userSession->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
+
+		$user = $this->createMock(\OCP\IUser::class);
+		$this->userSession->expects($this->any())
+        	->method('getUser')
+        	->willReturn($user);
+
+		// By default, pretend 2FA is required for this user
+		$this->twoFactorManager->expects($this->any())
+			->method('isTwoFactorAuthenticated')
+			->with($user)
+			->willReturn(false);
+
+		// The reflector must indicate that there is NO annotation present,
+		// so the attribute is the only thing that could bypass 2FA
+		$this->reflector->expects($this->once())
+			->method('hasAnnotation')
+			->with('NoTwoFactorRequired')
+			->willReturn(false);
+
+		// Dynamically define a controller class with the attribute (PHP 8+ required)
+		$controller = new class('app', $this->request) extends \OCP\AppFramework\Controller {
+			#[\OCP\AppFramework\Http\Attribute\NoTwoFactorRequired]
+			public function testMethod() {}
+		};
+
+		// Should NOT throw, since the attribute is present and triggers bypass
+		$this->middleware->beforeController($controller, 'testMethod');
+
+		// If no exception is thrown, the test passes
+		$this->assertTrue(true);
+	}
+
 	public static function dataRequires2FASetupDone(): array {
 		return [
 			[false, false, false],
