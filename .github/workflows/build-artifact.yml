@@ -912,3 +912,248 @@ jobs:
           git status
           git --no-pager diff
           exit 1 # make it red to grab attention
+
+  debug-pipeline-status:
+    runs-on: ubuntu-latest
+    name: Debug Pipeline Status
+    needs: [prepare-matrix, build-external-apps, build-artifact, upload-to-artifactory, nextcloud-workspace-artifact-to-ghcr_io, trigger-remote-dev-workflow]
+    if: always()  # Always run this job regardless of previous job status
+
+    steps:
+      - name: Collect and display pipeline status
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🔍 Pipeline Run Status Analysis"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+
+          # Workflow metadata
+          echo "### 📋 Workflow Metadata"
+          echo "**Workflow:** ${{ github.workflow }}"
+          echo "**Run ID:** ${{ github.run_id }}"
+          echo "**Run Number:** ${{ github.run_number }}"
+          echo "**Run Attempt:** ${{ github.run_attempt }}"
+          echo "**Event:** ${{ github.event_name }}"
+          echo "**Branch/Ref:** ${{ github.ref_name }}"
+          echo "**Commit SHA:** ${{ github.sha }}"
+          echo "**Actor:** ${{ github.actor }}"
+          echo "**Triggered by:** ${{ github.triggering_actor }}"
+          echo ""
+
+          # Job status summary
+          echo "### 🎯 Job Status Summary"
+          echo ""
+          echo "| Job Name | Status | Conclusion |"
+          echo "|----------|--------|------------|"
+          echo "| prepare-matrix | ${{ needs.prepare-matrix.result }} | - |"
+          echo "| build-external-apps | ${{ needs.build-external-apps.result }} | - |"
+          echo "| build-artifact | ${{ needs.build-artifact.result }} | - |"
+          echo "| upload-to-artifactory | ${{ needs.upload-to-artifactory.result }} | - |"
+          echo "| nextcloud-workspace-artifact-to-ghcr_io | ${{ needs.nextcloud-workspace-artifact-to-ghcr_io.result }} | - |"
+          echo "| trigger-remote-dev-workflow | ${{ needs.trigger-remote-dev-workflow.result }} | - |"
+          echo ""
+
+          # Detailed job analysis
+          echo "### 📊 Detailed Job Analysis"
+          echo ""
+
+          # Function to analyze job result
+          analyze_job() {
+            local job_name=$1
+            local job_result=$2
+
+            case $job_result in
+              "success")
+                echo "✅ **$job_name**: Completed successfully"
+                ;;
+              "failure")
+                echo "❌ **$job_name**: Failed"
+                ;;
+              "cancelled")
+                echo "🚫 **$job_name**: Cancelled"
+                ;;
+              "skipped")
+                echo "⏭️  **$job_name**: Skipped"
+                ;;
+              *)
+                echo "❓ **$job_name**: Unknown status ($job_result)"
+                ;;
+            esac
+          }
+
+          analyze_job "prepare-matrix" "${{ needs.prepare-matrix.result }}"
+          analyze_job "build-external-apps" "${{ needs.build-external-apps.result }}"
+          analyze_job "build-artifact" "${{ needs.build-artifact.result }}"
+          analyze_job "upload-to-artifactory" "${{ needs.upload-to-artifactory.result }}"
+          analyze_job "nextcloud-workspace-artifact-to-ghcr_io" "${{ needs.nextcloud-workspace-artifact-to-ghcr_io.result }}"
+          analyze_job "trigger-remote-dev-workflow" "${{ needs.trigger-remote-dev-workflow.result }}"
+          echo ""
+
+          # Overall pipeline status
+          echo "### 🎭 Overall Pipeline Status"
+          echo ""
+
+          FAILED_JOBS=""
+          SKIPPED_JOBS=""
+          SUCCESS_JOBS=""
+
+          if [ "${{ needs.prepare-matrix.result }}" == "failure" ]; then FAILED_JOBS="$FAILED_JOBS prepare-matrix"; fi
+          if [ "${{ needs.build-external-apps.result }}" == "failure" ]; then FAILED_JOBS="$FAILED_JOBS build-external-apps"; fi
+          if [ "${{ needs.build-artifact.result }}" == "failure" ]; then FAILED_JOBS="$FAILED_JOBS build-artifact"; fi
+          if [ "${{ needs.upload-to-artifactory.result }}" == "failure" ]; then FAILED_JOBS="$FAILED_JOBS upload-to-artifactory"; fi
+          if [ "${{ needs.nextcloud-workspace-artifact-to-ghcr_io.result }}" == "failure" ]; then FAILED_JOBS="$FAILED_JOBS nextcloud-workspace-artifact-to-ghcr_io"; fi
+          if [ "${{ needs.trigger-remote-dev-workflow.result }}" == "failure" ]; then FAILED_JOBS="$FAILED_JOBS trigger-remote-dev-workflow"; fi
+
+          if [ "${{ needs.build-external-apps.result }}" == "skipped" ]; then SKIPPED_JOBS="$SKIPPED_JOBS build-external-apps"; fi
+          if [ "${{ needs.upload-to-artifactory.result }}" == "skipped" ]; then SKIPPED_JOBS="$SKIPPED_JOBS upload-to-artifactory"; fi
+          if [ "${{ needs.nextcloud-workspace-artifact-to-ghcr_io.result }}" == "skipped" ]; then SKIPPED_JOBS="$SKIPPED_JOBS nextcloud-workspace-artifact-to-ghcr_io"; fi
+          if [ "${{ needs.trigger-remote-dev-workflow.result }}" == "skipped" ]; then SKIPPED_JOBS="$SKIPPED_JOBS trigger-remote-dev-workflow"; fi
+
+          if [ "${{ needs.prepare-matrix.result }}" == "success" ]; then SUCCESS_JOBS="$SUCCESS_JOBS prepare-matrix"; fi
+          if [ "${{ needs.build-external-apps.result }}" == "success" ]; then SUCCESS_JOBS="$SUCCESS_JOBS build-external-apps"; fi
+          if [ "${{ needs.build-artifact.result }}" == "success" ]; then SUCCESS_JOBS="$SUCCESS_JOBS build-artifact"; fi
+          if [ "${{ needs.upload-to-artifactory.result }}" == "success" ]; then SUCCESS_JOBS="$SUCCESS_JOBS upload-to-artifactory"; fi
+          if [ "${{ needs.nextcloud-workspace-artifact-to-ghcr_io.result }}" == "success" ]; then SUCCESS_JOBS="$SUCCESS_JOBS nextcloud-workspace-artifact-to-ghcr_io"; fi
+          if [ "${{ needs.trigger-remote-dev-workflow.result }}" == "success" ]; then SUCCESS_JOBS="$SUCCESS_JOBS trigger-remote-dev-workflow"; fi
+
+          if [ -n "$FAILED_JOBS" ]; then
+            echo "❌ **Pipeline Status:** FAILED"
+            echo ""
+            echo "**Failed Jobs:**"
+            for job in $FAILED_JOBS; do
+              echo "  - $job"
+            done
+          elif [ "${{ needs.prepare-matrix.result }}" == "success" ] && [ "${{ needs.build-artifact.result }}" == "success" ]; then
+            echo "✅ **Pipeline Status:** SUCCESS (core jobs completed)"
+          else
+            echo "⚠️  **Pipeline Status:** PARTIAL (some jobs incomplete)"
+          fi
+
+          if [ -n "$SKIPPED_JOBS" ]; then
+            echo ""
+            echo "**Skipped Jobs:**"
+            for job in $SKIPPED_JOBS; do
+              echo "  - $job"
+            done
+          fi
+
+          if [ -n "$SUCCESS_JOBS" ]; then
+            echo ""
+            echo "**Successful Jobs:**"
+            for job in $SUCCESS_JOBS; do
+              echo "  - $job"
+            done
+          fi
+
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+
+          # Add to GitHub step summary
+          {
+            echo "# 🔍 Pipeline Run Status Analysis"
+            echo ""
+            echo "## 📋 Workflow Metadata"
+            echo ""
+            echo "- **Workflow:** ${{ github.workflow }}"
+            echo "- **Run ID:** [\`${{ github.run_id }}\`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+            echo "- **Run Number:** ${{ github.run_number }}"
+            echo "- **Run Attempt:** ${{ github.run_attempt }}"
+            echo "- **Event:** ${{ github.event_name }}"
+            echo "- **Branch/Ref:** ${{ github.ref_name }}"
+            echo "- **Commit:** [\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+            echo "- **Actor:** @${{ github.actor }}"
+            echo "- **Triggered by:** @${{ github.triggering_actor }}"
+            echo ""
+            echo "## 🎯 Job Status Summary"
+            echo ""
+            echo "| Job Name | Status |"
+            echo "|----------|--------|"
+            echo "| prepare-matrix | ${{ needs.prepare-matrix.result == 'success' && '✅' || needs.prepare-matrix.result == 'failure' && '❌' || needs.prepare-matrix.result == 'skipped' && '⏭️' || '❓' }} ${{ needs.prepare-matrix.result }} |"
+            echo "| build-external-apps | ${{ needs.build-external-apps.result == 'success' && '✅' || needs.build-external-apps.result == 'failure' && '❌' || needs.build-external-apps.result == 'skipped' && '⏭️' || '❓' }} ${{ needs.build-external-apps.result }} |"
+            echo "| build-artifact | ${{ needs.build-artifact.result == 'success' && '✅' || needs.build-artifact.result == 'failure' && '❌' || needs.build-artifact.result == 'skipped' && '⏭️' || '❓' }} ${{ needs.build-artifact.result }} |"
+            echo "| upload-to-artifactory | ${{ needs.upload-to-artifactory.result == 'success' && '✅' || needs.upload-to-artifactory.result == 'failure' && '❌' || needs.upload-to-artifactory.result == 'skipped' && '⏭️' || '❓' }} ${{ needs.upload-to-artifactory.result }} |"
+            echo "| nextcloud-workspace-artifact-to-ghcr_io | ${{ needs.nextcloud-workspace-artifact-to-ghcr_io.result == 'success' && '✅' || needs.nextcloud-workspace-artifact-to-ghcr_io.result == 'failure' && '❌' || needs.nextcloud-workspace-artifact-to-ghcr_io.result == 'skipped' && '⏭️' || '❓' }} ${{ needs.nextcloud-workspace-artifact-to-ghcr_io.result }} |"
+            echo "| trigger-remote-dev-workflow | ${{ needs.trigger-remote-dev-workflow.result == 'success' && '✅' || needs.trigger-remote-dev-workflow.result == 'failure' && '❌' || needs.trigger-remote-dev_workflow.result == 'skipped' && '⏭️' || '❓' }} ${{ needs.trigger-remote-dev-workflow.result }} |"
+            echo ""
+
+            if [ -n "$FAILED_JOBS" ]; then
+              echo "## ❌ Pipeline Status: FAILED"
+              echo ""
+              echo "### Failed Jobs"
+              for job in $FAILED_JOBS; do
+                echo "- **$job**"
+              done
+            elif [ "${{ needs.prepare-matrix.result }}" == "success" ] && [ "${{ needs.build-artifact.result }}" == "success" ]; then
+              echo "## ✅ Pipeline Status: SUCCESS"
+              echo ""
+              echo "Core build jobs completed successfully."
+            else
+              echo "## ⚠️ Pipeline Status: PARTIAL"
+              echo ""
+              echo "Some jobs did not complete as expected."
+            fi
+
+            if [ -n "$SKIPPED_JOBS" ]; then
+              echo ""
+              echo "### ⏭️ Skipped Jobs"
+              for job in $SKIPPED_JOBS; do
+                echo "- $job"
+              done
+            fi
+
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Environment and context information
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🌍 Environment & Context Information"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "### Workflow Inputs (if workflow_dispatch)"
+          echo "Force Rebuild: ${{ github.event.inputs.force_rebuild || 'N/A' }}"
+          echo ""
+          echo "### Environment Variables"
+          echo "CACHE_VERSION: ${{ env.CACHE_VERSION }}"
+          echo "TARGET_PACKAGE_NAME: ${{ env.TARGET_PACKAGE_NAME }}"
+          echo "ARTIFACTORY_REPOSITORY_SNAPSHOT: ${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}"
+          echo ""
+          echo "### Runner Information"
+          echo "OS: ${{ runner.os }}"
+          echo "Architecture: ${{ runner.arch }}"
+          echo ""
+          echo "### Repository Variables"
+          echo "DISABLE_REMOTE_TRIGGER: ${{ vars.DISABLE_REMOTE_TRIGGER || 'not set' }}"
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+      - name: Job outputs analysis
+        if: always()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📤 Job Outputs Analysis"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "### prepare-matrix outputs:"
+          echo "- has_apps_to_build: ${{ needs.prepare-matrix.outputs.has_apps_to_build || 'N/A' }}"
+          echo "- has_apps_to_restore: ${{ needs.prepare-matrix.outputs.has_apps_to_restore || 'N/A' }}"
+          echo ""
+          echo "### build-artifact outputs:"
+          echo "- NC_VERSION: ${{ needs.build-artifact.outputs.NC_VERSION || 'N/A' }}"
+          echo ""
+          echo "### upload-to-artifactory outputs:"
+          echo "- ARTIFACTORY_LAST_BUILD_PATH: ${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH || 'N/A' }}"
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+
+          # Add to step summary
+          {
+            echo ""
+            echo "## 📤 Key Job Outputs"
+            echo ""
+            echo "- **NC_VERSION:** ${{ needs.build-artifact.outputs.NC_VERSION || 'N/A' }}"
+            echo "- **Apps to Build:** ${{ needs.prepare-matrix.outputs.has_apps_to_build || 'N/A' }}"
+            echo "- **Apps to Restore:** ${{ needs.prepare-matrix.outputs.has_apps_to_restore || 'N/A' }}"
+            echo "- **Artifactory Path:** ${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH || 'N/A' }}"
+          } >> $GITHUB_STEP_SUMMARY
