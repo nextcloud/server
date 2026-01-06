@@ -118,6 +118,25 @@ class StorageTest extends \Test\TestCase {
 		$this->assertEquals('test.txt', substr($name, 0, strrpos($name, '.')));
 	}
 
+	public function testTrashEntryCreatedWhenSourceNotInCache(): void {
+		$this->userView->file_put_contents('uncached.txt', 'foo');
+
+		[$storage, $internalPath] = $this->userView->resolvePath('uncached.txt');
+		$cache = $storage->getCache();
+		$cache->remove($internalPath);
+		$this->assertFalse($cache->inCache($internalPath));
+
+		$this->userView->unlink('uncached.txt');
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$this->assertCount(1, $results);
+		$name = $results[0]->getName();
+		$this->assertEquals('uncached.txt', substr($name, 0, strrpos($name, '.')));
+
+		[$trashStorage, $trashInternalPath] = $this->rootView->resolvePath('/' . $this->user . '/files_trashbin/files/' . $name);
+		$this->assertTrue($trashStorage->getCache()->inCache($trashInternalPath));
+	}
+
 	/**
 	 * Test that deleting a folder puts it into the trashbin.
 	 */
