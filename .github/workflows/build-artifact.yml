@@ -90,7 +90,7 @@ jobs:
           echo "DISABLE_REMOTE_TRIGGER = '${{ vars.DISABLE_REMOTE_TRIGGER }}'"
           echo ""
 
-          if [ "${{ vars.DISABLE_REMOTE_TRIGGER }}" == true ]; then
+          if [ "${{ vars.DISABLE_REMOTE_TRIGGER }}" == "true" ]; then
             echo "⚠️  Remote trigger is DISABLED"
             echo "    The 'trigger-remote-dev-workflow' job will be SKIPPED"
             echo "**Status:** ⚠️ Remote trigger is **DISABLED**" >> $GITHUB_STEP_SUMMARY
@@ -788,7 +788,7 @@ jobs:
       needs.prepare-matrix.result == 'success' &&
       needs.build-artifact.result == 'success' &&
       needs.upload-to-artifactory.result == 'success' &&
-      vars.DISABLE_REMOTE_TRIGGER != true
+      vars.DISABLE_REMOTE_TRIGGER != 'true'
     steps:
       - name: Trigger remote workflow
         run: |
