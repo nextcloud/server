@@ -289,7 +289,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
@@ -361,7 +361,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('last_run', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 
 		if ($job instanceof \OCP\BackgroundJob\TimedJob
 			&& !$job->isTimeSensitive()) {
