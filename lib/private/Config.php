@@ -222,7 +222,7 @@ class Config {
 				throw new \Exception($errorMessage);
 			}
 			if (isset($CONFIG) && is_array($CONFIG)) {
-				$this->cache = array_merge($this->cache, $CONFIG);
+				$this->cache = array_replace_recursive($this->cache, $CONFIG);
 			}
 		}
 
