@@ -59,7 +59,6 @@ interface ISignatoryManager {
 	 * @return Signatory
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignatoryManager
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getLocalSignatory(): Signatory;
 
@@ -74,7 +73,6 @@ interface ISignatoryManager {
 	 * @return Signatory|null must be NULL if no signatory is found
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignatoryManager
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getRemoteSignatory(string $remote): ?Signatory;
 }

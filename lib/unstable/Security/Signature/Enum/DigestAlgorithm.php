@@ -30,7 +30,6 @@ enum DigestAlgorithm: string {
 	 * @return string
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\DigestAlgorithm
-	 * @psalm-suppress DeprecatedConstant
 	 */
 	public function getHashingAlgorithm(): string {
 		return match($this) {

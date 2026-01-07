@@ -97,7 +97,6 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @return self
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function setAlgorithm(SignatureAlgorithm $algorithm): self;
 
@@ -107,7 +106,6 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @return SignatureAlgorithm
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getAlgorithm(): SignatureAlgorithm;
 
