@@ -169,7 +169,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, getFileListActions, getSidebar, Permission, sortNodes } from '@nextcloud/files'
+import { Folder, getFileListActions, Permission, sortNodes } from '@nextcloud/files'
 import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
@@ -178,7 +178,7 @@ import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { useThrottleFn } from '@vueuse/core'
 import { normalize, relative } from 'path'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -196,7 +196,6 @@ import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
@@ -205,6 +204,7 @@ import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { useSidebarStore } from '../store/sidebar.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
@@ -249,12 +249,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const sidebar = getSidebar()
-
-		const { currentView } = useNavigation()
-		const { directory, fileId } = useRouteParameters()
-		const fileListWidth = useFileListWidth()
-
+		const sidebar = useSidebarStore()
 		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const filtersStore = useFiltersStore()
@@ -264,8 +259,13 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 
+		const fileListWidth = useFileListWidth()
+		const { directory, fileId } = useRouteParameters()
+
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
+
+		const currentView = computed(() => activeStore.activeView)
 
 		return {
 			currentView,
@@ -274,6 +274,7 @@ export default defineComponent({
 			fileListWidth,
 			t,
 
+			sidebar,
 			activeStore,
 			filesStore,
 			filtersStore,
@@ -284,7 +285,6 @@ export default defineComponent({
 			viewConfigStore,
 
 			// non reactive data
-			sidebar,
 			enableGridView,
 			forbiddenCharacters,
 			ShareType,
@@ -319,7 +319,8 @@ export default defineComponent({
 				}
 				// If not found in the files store (cache)
 				// use the current view to fetch the content for the requested path
-				return (await view.getContents(normalizedPath)).contents
+				const controller = new AbortController()
+				return (await view.getContents(normalizedPath, { signal: controller.signal })).contents
 			}
 		},
 

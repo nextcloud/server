@@ -38,9 +38,9 @@ import { UploadStatus } from '@nextcloud/upload'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-import { useNavigation } from '../composables/useNavigation.ts'
 import logger from '../logger.ts'
 import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -57,10 +57,10 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
+		const activeStore = useActiveStore()
 
 		return {
-			currentView,
+			activeStore,
 		}
 	},
 
@@ -177,7 +177,8 @@ export default defineComponent({
 			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(this.currentFolder.path)
+			const controller = new AbortController()
+			const contents = await this.activeStore.activeView?.getContents(this.currentFolder.path, { signal: controller.signal })
 			const folder = contents?.folder
 			if (!folder) {
 				showError(this.t('files', 'Target folder does not exist any more'))
@@ -211,13 +212,7 @@ export default defineComponent({
 						...this.$route.params,
 						fileid: String(lastUpload.response!.headers['oc-fileid']),
 					},
-
-					query: {
-						...this.$route.query,
-					},
 				}
-				// Remove open file from query
-				delete location.query?.openfile
 				this.$router.push(location)
 			}
 
