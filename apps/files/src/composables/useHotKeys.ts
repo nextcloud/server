@@ -1,14 +1,12 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import { getFileActions } from '@nextcloud/files'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { dirname } from 'path'
 import { useRoute, useRouter } from 'vue-router/composables'
-import { action as deleteAction } from '../actions/deleteAction.ts'
-import { action as favoriteAction } from '../actions/favoriteAction.ts'
-import { action as renameAction } from '../actions/renameAction.ts'
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import logger from '../logger.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { executeAction } from '../utils/actionUtils.ts'
@@ -25,29 +23,24 @@ export function useHotKeys(): void {
 	const router = useRouter()
 	const route = useRoute()
 
-	// d opens the sidebar
-	useHotKey('d', () => executeAction(sidebarAction), {
-		stop: true,
-		prevent: true,
-	})
+	const actions = getFileActions()
+	for (const action of actions) {
+		if (!action.hotkey) {
+			continue
+		}
+		const key = action.hotkey.key.match(/^[a-z]$/)
+			? action.hotkey.key.toUpperCase()
+			: action.hotkey.key
 
-	// F2 renames the file
-	useHotKey('F2', () => executeAction(renameAction), {
-		stop: true,
-		prevent: true,
-	})
-
-	// s toggle favorite
-	useHotKey('s', () => executeAction(favoriteAction), {
-		stop: true,
-		prevent: true,
-	})
-
-	// Delete deletes the file
-	useHotKey('Delete', () => executeAction(deleteAction), {
-		stop: true,
-		prevent: true,
-	})
+		logger.debug(`Register hotkey for action "${action.id}"`)
+		useHotKey(key, () => executeAction(action), {
+			stop: true,
+			prevent: true,
+			alt: action.hotkey.alt,
+			ctrl: action.hotkey.ctrl,
+			shift: action.hotkey.shift,
+		})
+	}
 
 	// alt+up go to parent directory
 	useHotKey('ArrowUp', goToParentDir, {

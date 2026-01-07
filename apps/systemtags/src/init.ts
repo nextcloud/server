@@ -10,7 +10,6 @@ import { registerFileSidebarAction } from './files_actions/filesSidebarAction.ts
 import { action as inlineSystemTagsAction } from './files_actions/inlineSystemTagsAction.ts'
 import { action as openInFilesAction } from './files_actions/openInFilesAction.ts'
 import { registerSystemTagsView } from './files_views/systemtagsView.ts'
-import { registerHotkeys } from './services/HotKeysService.ts'
 
 registerDavProperty('nc:system-tags')
 registerFileAction(bulkSystemTagsAction)
@@ -19,7 +18,3 @@ registerFileAction(openInFilesAction)
 
 registerSystemTagsView()
 registerFileSidebarAction()
-
-document.addEventListener('DOMContentLoaded', () => {
-	registerHotkeys()
-})

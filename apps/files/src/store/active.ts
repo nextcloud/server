@@ -8,7 +8,7 @@ import type { FileAction, IFolder, INode, IView } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import logger from '../logger.ts'
 
 export const useActiveStore = defineStore('active', () => {
@@ -31,6 +31,20 @@ export const useActiveStore = defineStore('active', () => {
 	 * The current active view
 	 */
 	const activeView = ref<IView>()
+
+	// Set the active node on the router params
+	watch(activeNode, () => {
+		if (!activeNode.value?.fileid || activeNode.value.fileid === activeFolder.value?.fileid) {
+			return
+		}
+
+		window.OCP.Files.Router.goToRoute(
+			null,
+			{ ...window.OCP.Files.Router.params, fileid: String(activeNode.value.fileid) },
+			{ ...window.OCP.Files.Router.query },
+			true,
+		)
+	})
 
 	initialize()
 
@@ -62,12 +76,10 @@ export const useActiveStore = defineStore('active', () => {
 	 */
 	function initialize() {
 		const navigation = getNavigation()
+		onChangedView(navigation.active)
 
 		// Make sure we only register the listeners once
 		subscribe('files:node:deleted', onDeletedNode)
-
-		onChangedView(navigation.active)
-
 		// Or you can react to changes of the current active view
 		navigation.addEventListener('updateActive', (event) => {
 			onChangedView(event.detail)

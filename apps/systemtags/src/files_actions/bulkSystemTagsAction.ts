@@ -1,9 +1,9 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INode } from '@nextcloud/files'
+import type { ActionContext, ActionContextSingle } from '@nextcloud/files'
 
 import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
 import { FileAction, Permission } from '@nextcloud/files'
@@ -15,10 +15,10 @@ import { defineAsyncComponent } from 'vue'
 /**
  * Spawn a dialog to add or remove tags from multiple nodes.
  *
- * @param nodes Nodes to modify tags for
- * @param nodes.nodes
+ * @param context - The action context
+ * @param context.nodes - Nodes to modify tags for
  */
-async function execBatch({ nodes }: { nodes: INode[] }): Promise<(null | boolean)[]> {
+async function execBatch({ nodes }: ActionContext | ActionContextSingle): Promise<(null | boolean)[]> {
 	const response = await new Promise<null | boolean>((resolve) => {
 		spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
 			nodes,
@@ -53,9 +53,15 @@ export const action = new FileAction({
 		return !nodes.some((node) => (node.permissions & Permission.UPDATE) === 0)
 	},
 
-	async exec({ nodes }) {
-		return execBatch({ nodes })[0]
+	async exec(context: ActionContextSingle) {
+		const [result] = await execBatch(context)
+		return result
 	},
 
 	execBatch,
+
+	hotkey: {
+		description: t('systemtags', 'Manage tags'),
+		key: 't',
+	},
 })
