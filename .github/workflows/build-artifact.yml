@@ -822,6 +822,7 @@ jobs:
     # Can be disabled via repository variable 'DISABLE_REMOTE_TRIGGER' (set to 'true' to disable)
     # Configure at: https://github.com/IONOS-Productivity/ncw-server/settings/variables/actions
     if: |
+      always() &&
       github.event_name == 'push' &&
       (github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
       needs.prepare-matrix.result == 'success' &&
