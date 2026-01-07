@@ -24,7 +24,7 @@ abstract class SnowflakeAwareEntity extends Entity {
 	protected ?Snowflake $snowflake = null;
 
 	/** @psalm-param $_fieldTypes array<string, Types::*> */
-	private array $_fieldTypes = ['id' => Types::STRING];
+	protected array $_fieldTypes = ['id' => Types::STRING];
 
 	public function setId($id): void {
 		throw new \LogicException('Use generated id to set a new id to the Snowflake aware entity.');
