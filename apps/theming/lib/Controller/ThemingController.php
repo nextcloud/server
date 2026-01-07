@@ -308,6 +308,8 @@ class ThemingController extends Controller {
 		$setting = match ($setting) {
 			'primaryColor' => 'primary_color',
 			'backgroundColor' => 'background_color',
+			'legalNoticeUrl' => 'imprintUrl',
+			'privacyPolicyUrl' => 'privacyUrl',
 			default => $setting,
 		};
 		$value = $this->themingDefaults->undo($setting);
