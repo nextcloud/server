@@ -72,7 +72,7 @@ class FilesByType extends Cached {
 		foreach ($metrics->iterateAssociative() as $count) {
 			yield new Metric(
 				$count['count'],
-				['mimetype' => $this->mimetypeLoader->getMimetypeById($count['mimetype'])],
+				['mimetype' => $this->mimetypeLoader->getMimetypeById($count['mimetype']) ?? ''],
 				$now,
 			);
 		}
