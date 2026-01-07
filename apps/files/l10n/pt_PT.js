@@ -1,6 +1,6 @@
 OC.L10N.register(
-    "files",
-    {
+	"files",
+	{
     "Added to favorites" : "Adicionado aos favoritos",
     "Removed from favorites" : "Removido dos favoritos",
     "You added {file} to your favorites" : "Adicionou {file} aos seus favoritos",
@@ -277,11 +277,11 @@ OC.L10N.register(
     "Manage tags for a file" : "Gerir etiquetas para um ficheiro",
     "Select or deselect a file" : "Selecionar ou desselecionar um ficheiro",
     "Select a range of files" : "Selecionar um intervalo de ficheiros",
-    "You" : "Vovê",
+    "You" : "Você",
     "Tags" : "Etiquetas",
     "Edit locally" : "Editar localmente",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta diretoria está indisponível, por favor, verifique os registos ou contacte o administrador",
     "Search everywhere …" : "Pesquisar em todo o lado...",
     "Search here …" : "Pesquisar aqui…"
-},
-"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+	},
+	"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

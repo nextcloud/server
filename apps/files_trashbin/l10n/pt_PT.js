@@ -1,6 +1,6 @@
 OC.L10N.register(
-    "files_trashbin",
-    {
+	"files_trashbin",
+	{
     "restored" : "Restaurado",
     "Deleted files" : "Ficheiros eliminados",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Ficheiros e pastas eliminados na reciclagem (podem expirar durante a exportação se tiver pouco espaço de armazenamento)",
@@ -12,11 +12,11 @@ OC.L10N.register(
     "Deleted" : "Eliminado",
     "Unknown" : "Desconhecido",
     "All files" : "Todos os ficheiros",
-    "You" : "Vovê",
+    "You" : "Você",
     "List of files that have been deleted." : "Lista de ficheiros que foram eliminados.",
     "No deleted files" : "Sem ficheiros eliminados",
     "Files and folders you have deleted will show up here" : "Ficheiros e pastas que você eliminou aparecerão aqui",
     "All files have been permanently deleted" : "Todos os ficheiros foram eliminados permanentemente",
     "Failed to empty deleted files" : "Falha ao esvaziar ficheiros eliminados"
-},
-"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+	},
+	"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
