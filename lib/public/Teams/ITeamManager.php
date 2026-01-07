@@ -41,7 +41,7 @@ interface ITeamManager {
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array;
 
 	/**
-	 * @param list<Team> $teams
+	 * @param string[] $teams
 	 * @return array<string, list<TeamResource>>
 	 *
 	 * @since 31.0.11
