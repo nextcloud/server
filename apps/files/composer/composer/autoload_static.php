@@ -49,6 +49,8 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Move' => __DIR__ . '/..' . '/../lib/Command/Move.php',
         'OCA\\Files\\Command\\Object\\Delete' => __DIR__ . '/..' . '/../lib/Command/Object/Delete.php',
         'OCA\\Files\\Command\\Object\\Get' => __DIR__ . '/..' . '/../lib/Command/Object/Get.php',
+        'OCA\\Files\\Command\\Object\\Multi\\Rename' => __DIR__ . '/..' . '/../lib/Command/Object/Multi/Rename.php',
+        'OCA\\Files\\Command\\Object\\Multi\\Users' => __DIR__ . '/..' . '/../lib/Command/Object/Multi/Users.php',
         'OCA\\Files\\Command\\Object\\ObjectUtil' => __DIR__ . '/..' . '/../lib/Command/Object/ObjectUtil.php',
         'OCA\\Files\\Command\\Object\\Put' => __DIR__ . '/..' . '/../lib/Command/Object/Put.php',
         'OCA\\Files\\Command\\Put' => __DIR__ . '/..' . '/../lib/Command/Put.php',
