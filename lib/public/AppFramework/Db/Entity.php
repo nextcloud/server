@@ -22,7 +22,7 @@ abstract class Entity {
 	public int|string|null $id = null;
 	private array $_updatedFields = [];
 	/** @psalm-param $_fieldTypes array<string, Types::*> */
-	private array $_fieldTypes = ['id' => 'integer'];
+	protected array $_fieldTypes = ['id' => 'integer'];
 
 	/**
 	 * Simple alternative constructor for building entities from a request
