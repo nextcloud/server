@@ -817,7 +817,7 @@ jobs:
     runs-on: self-hosted
 
     name: Trigger remote workflow
-    needs: [prepare-matrix, build-external-apps, build-artifact, upload-to-artifactory]
+    needs: [upload-to-artifactory]
     # Trigger remote build on "ionos-dev|ionos-stable" branch *push* defined in the on:push:branches
     # Can be disabled via repository variable 'DISABLE_REMOTE_TRIGGER' (set to 'true' to disable)
     # Configure at: https://github.com/IONOS-Productivity/ncw-server/settings/variables/actions
@@ -825,9 +825,6 @@ jobs:
       always() &&
       github.event_name == 'push' &&
       (github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
-      needs.prepare-matrix.result == 'success' &&
-      (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
-      needs.build-artifact.result == 'success' &&
       needs.upload-to-artifactory.result == 'success' &&
       vars.DISABLE_REMOTE_TRIGGER != 'true'
     steps:
