@@ -320,6 +320,7 @@ OC.L10N.register(
     "Open online" : "Online öffnen",
     "Rename" : "Umbenennen",
     "Details" : "Details",
+    "Unfavorite" : "Nicht favorisieren",
     "View in folder" : "In Ordner anzeigen",
     "Today" : "Heute",
     "Last 7 days" : "Die letzten 7 Tage",

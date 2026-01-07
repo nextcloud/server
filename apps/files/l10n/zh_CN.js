@@ -320,6 +320,7 @@ OC.L10N.register(
     "Open online" : "在线打开",
     "Rename" : "重命名",
     "Details" : "详细信息",
+    "Unfavorite" : "取消收藏",
     "View in folder" : "在文件夹中查看",
     "Today" : "今日",
     "Last 7 days" : "过去 7 天",
