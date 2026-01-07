@@ -65,7 +65,11 @@ class TokenService {
 	 *
 	 * @param WebhookListener $webhookListener
 	 * @param ?string $triggerUserId the user that triggered the webhook call
-	 * @return array{user_ids?:array<string,string>,user_roles?:array{owner?:array<string,string>,trigger?:array<string,string>}}
+	 * @return array{
+	 *     user_ids?: array<string, array{baseUrl: string, token: string, userId: mixed}>,
+	 *     trigger?: array{baseUrl: string, token: string, userId: string},
+	 *     owner?: array{baseUrl: string, token: string, userId: string},
+	 * }
 	 */
 	public function getTokens(WebhookListener $webhookListener, ?string $triggerUserId): array {
 		$tokens = [];
