@@ -162,8 +162,9 @@ interface IUserManager {
 	 *
 	 * @return array<string, int> an array of backend class name as key and count number as value
 	 * @since 8.0.0
+	 * @since 33.0.0 $onlyMappedUsers parameter
 	 */
-	public function countUsers();
+	public function countUsers(bool $onlyMappedUsers = false);
 
 	/**
 	 * Get how many users exists in total, whithin limit
