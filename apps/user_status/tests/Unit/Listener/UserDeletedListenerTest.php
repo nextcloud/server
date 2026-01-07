@@ -10,7 +10,6 @@ namespace OCA\UserStatus\Tests\Listener;
 
 use OCA\UserStatus\Listener\UserDeletedListener;
 use OCA\UserStatus\Service\StatusService;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\IUser;
 use OCP\User\Events\UserDeletedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,14 +37,6 @@ class UserDeletedListenerTest extends TestCase {
 			->with('john.doe');
 
 		$event = new UserDeletedEvent($user);
-		$this->listener->handle($event);
-	}
-
-	public function testHandleWithWrongEvent(): void {
-		$this->service->expects($this->never())
-			->method('removeUserStatus');
-
-		$event = new GenericEvent();
 		$this->listener->handle($event);
 	}
 }

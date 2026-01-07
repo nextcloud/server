@@ -26,7 +26,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  *
  * @package OCA\Files_Sharing\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ExpireSharesJobTest extends \Test\TestCase {
 
 	private ExpireSharesJob $job;
@@ -107,7 +107,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	 * @param bool $addInterval If true add to the current time if false subtract
 	 * @param bool $shouldExpire Should this share be expired
 	 */
-	#[DataProvider('dataExpireLinkShare')]
+	#[DataProvider(methodName: 'dataExpireLinkShare')]
 	public function testExpireLinkShare(bool $addExpiration, string $interval, bool $addInterval, bool $shouldExpire): void {
 		$this->loginAsUser($this->user1->getUID());
 

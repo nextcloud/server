@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_External\Tests\Storage;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 #[\PHPUnit\Framework\Attributes\Group('S3')]
 class VersionedAmazonS3Test extends Amazons3Test {
 	protected function setUp(): void {

@@ -73,7 +73,7 @@ class TestUserOp extends TestAdminOp {
  *
  * @package OCA\WorkflowEngine\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ManagerTest extends TestCase {
 	protected Manager $manager;
 	protected IDBConnection $db;
@@ -394,6 +394,7 @@ class ManagerTest extends TestCase {
 		$operationMock->expects($this->any())
 			->method('isAvailableForScope')
 			->willReturnCallback(function () use (&$expectedCalls, &$i): bool {
+				$this->assertLessThanOrEqual(1, $i);
 				$this->assertEquals($expectedCalls[$i], func_get_args());
 				$i++;
 				return true;
@@ -559,9 +560,11 @@ class ManagerTest extends TestCase {
 
 	public function testValidateOperationOK(): void {
 		$check = [
+			'id' => 1,
 			'class' => ICheck::class,
 			'operator' => 'is',
 			'value' => 'barfoo',
+			'hash' => 'abc',
 		];
 
 		$operationMock = $this->createMock(IOperation::class);
@@ -619,9 +622,11 @@ class ManagerTest extends TestCase {
 
 	public function testValidateOperationCheckInputLengthError(): void {
 		$check = [
+			'id' => 1,
 			'class' => ICheck::class,
 			'operator' => 'is',
 			'value' => str_pad('', IManager::MAX_CHECK_VALUE_BYTES + 1, 'FooBar'),
+			'hash' => 'abc',
 		];
 
 		$operationMock = $this->createMock(IOperation::class);
@@ -660,18 +665,13 @@ class ManagerTest extends TestCase {
 		$this->container->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
-				switch ($className) {
-					case IOperation::class:
-						return $operationMock;
-					case IEntity::class:
-						return $entityMock;
-					case IEntityEvent::class:
-						return $eventEntityMock;
-					case ICheck::class:
-						return $checkMock;
-					default:
-						return $this->createMock($className);
-				}
+				return match ($className) {
+					IOperation::class => $operationMock,
+					IEntity::class => $entityMock,
+					IEntityEvent::class => $eventEntityMock,
+					ICheck::class => $checkMock,
+					default => $this->createMock($className),
+				};
 			});
 
 		try {
@@ -683,9 +683,11 @@ class ManagerTest extends TestCase {
 
 	public function testValidateOperationDataLengthError(): void {
 		$check = [
+			'id' => 1,
 			'class' => ICheck::class,
 			'operator' => 'is',
 			'value' => 'barfoo',
+			'hash' => 'abc',
 		];
 		$operationData = str_pad('', IManager::MAX_OPERATION_VALUE_BYTES + 1, 'FooBar');
 
@@ -719,18 +721,13 @@ class ManagerTest extends TestCase {
 		$this->container->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
-				switch ($className) {
-					case IOperation::class:
-						return $operationMock;
-					case IEntity::class:
-						return $entityMock;
-					case IEntityEvent::class:
-						return $eventEntityMock;
-					case ICheck::class:
-						return $checkMock;
-					default:
-						return $this->createMock($className);
-				}
+				return match ($className) {
+					IOperation::class => $operationMock,
+					IEntity::class => $entityMock,
+					IEntityEvent::class => $eventEntityMock,
+					ICheck::class => $checkMock,
+					default => $this->createMock($className),
+				};
 			});
 
 		try {
@@ -742,6 +739,7 @@ class ManagerTest extends TestCase {
 
 	public function testValidateOperationScopeNotAvailable(): void {
 		$check = [
+			'id' => 1,
 			'class' => ICheck::class,
 			'operator' => 'is',
 			'value' => 'barfoo',
@@ -783,18 +781,13 @@ class ManagerTest extends TestCase {
 		$this->container->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
-				switch ($className) {
-					case IOperation::class:
-						return $operationMock;
-					case IEntity::class:
-						return $entityMock;
-					case IEntityEvent::class:
-						return $eventEntityMock;
-					case ICheck::class:
-						return $checkMock;
-					default:
-						return $this->createMock($className);
-				}
+				return match ($className) {
+					IOperation::class => $operationMock,
+					IEntity::class => $entityMock,
+					IEntityEvent::class => $eventEntityMock,
+					ICheck::class => $checkMock,
+					default => $this->createMock($className),
+				};
 			});
 
 		try {

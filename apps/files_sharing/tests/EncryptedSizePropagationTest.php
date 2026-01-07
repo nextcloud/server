@@ -12,7 +12,7 @@ use OCP\ITempManager;
 use OCP\Server;
 use Test\Traits\EncryptionTrait;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class EncryptedSizePropagationTest extends SizePropagationTest {
 	use EncryptionTrait;
 

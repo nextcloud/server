@@ -21,7 +21,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\User_LDAP\Tests\User
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeletedUsersIndexTest extends \Test\TestCase {
 	protected DeletedUsersIndex $dui;
 	protected IUserConfig $userConfig;

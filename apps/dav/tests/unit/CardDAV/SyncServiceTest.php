@@ -325,7 +325,7 @@ END:VCARD';
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataActivatedUsers')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataActivatedUsers')]
 	public function testUpdateAndDeleteUser(bool $activated, int $createCalls, int $updateCalls, int $deleteCalls): void {
 		/** @var CardDavBackend | MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
@@ -425,7 +425,7 @@ END:VCARD';
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerUseAbsoluteUriReport')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providerUseAbsoluteUriReport')]
 	public function testUseAbsoluteUriReport(string $host, string $expected): void {
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">

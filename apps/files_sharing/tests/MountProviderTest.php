@@ -25,7 +25,7 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class MountProviderTest extends \Test\TestCase {
 
 	protected MountProvider $provider;
@@ -41,7 +41,7 @@ class MountProviderTest extends \Test\TestCase {
 
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
-		$this->loader = $this->getMockBuilder('OCP\Files\Storage\IStorageFactory')->getMock();
+		$this->loader = $this->getMockBuilder(IStorageFactory::class)->getMock();
 		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -156,13 +156,13 @@ class MountProviderTest extends \Test\TestCase {
 				return new Share($rootFolder, $userManager);
 			});
 
+		/** @var SharedMount[] $mounts */
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 		$this->assertCount(4, $mounts);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[2]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[3]);
-		/** @var SharedMount[] $mounts */
 		$mountedShare1 = $mounts[0]->getShare();
 		$this->assertEquals('2', $mountedShare1->getId());
 		$this->assertEquals('user2', $mountedShare1->getShareOwner());
@@ -335,7 +335,7 @@ class MountProviderTest extends \Test\TestCase {
 	 * @param array $groupShares array of group share specs
 	 * @param array $expectedShares array of expected supershare specs
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('mergeSharesDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'mergeSharesDataProvider')]
 	public function testMergeShares(array $userShares, array $groupShares, array $expectedShares, bool $moveFails = false): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);

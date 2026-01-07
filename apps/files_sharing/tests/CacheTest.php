@@ -18,6 +18,7 @@ use OCA\Files_Sharing\SharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\IWatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
@@ -25,27 +26,14 @@ use OCP\Share\IShare;
 /**
  * Class CacheTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CacheTest extends TestCase {
-
-	/**
-	 * @var View
-	 */
-	public $user2View;
-
-	/** @var Cache */
-	protected $ownerCache;
-
-	/** @var Cache */
-	protected $sharedCache;
-
-	/** @var Storage */
-	protected $ownerStorage;
-
-	/** @var Storage */
-	protected $sharedStorage;
-
-	/** @var \OCP\Share\IManager */
+	public View $user2View;
+	protected Cache $ownerCache;
+	protected Cache $sharedCache;
+	protected Storage $ownerStorage;
+	protected Storage $sharedStorage;
+	/** @var \OCP\Share\IManager $shareManager */
 	protected $shareManager;
 
 	protected function setUp(): void {
@@ -321,9 +309,7 @@ class CacheTest extends TestCase {
 		self::assertEquals([
 			'welcome.txt',
 			'simplefile.txt'
-		], array_map(function ($node) {
-			return $node->getFileInfo()['name'];
-		}, $recents));
+		], array_map(static fn (Node $node): string => $node->getName(), $recents));
 	}
 
 	public function testGetFolderContentsWhenSubSubdirShared(): void {

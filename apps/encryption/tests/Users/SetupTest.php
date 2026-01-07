@@ -50,7 +50,7 @@ class SetupTest extends TestCase {
 	 * @param bool $hasKeys
 	 * @param bool $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetupUser')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetupUser')]
 	public function testSetupUser($hasKeys, $expected): void {
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);

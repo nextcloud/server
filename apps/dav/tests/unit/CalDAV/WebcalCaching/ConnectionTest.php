@@ -32,7 +32,7 @@ class ConnectionTest extends TestCase {
 		$this->connection = new Connection($this->clientService, $this->config, $this->logger);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('runLocalURLDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runLocalURLDataProvider')]
 	public function testLocalUrl($source): void {
 		$subscription = [
 			'id' => 42,
@@ -89,7 +89,7 @@ class ConnectionTest extends TestCase {
 
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('urlDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'urlDataProvider')]
 	public function testConnection(string $url, string $contentType, string $expectedFormat): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);

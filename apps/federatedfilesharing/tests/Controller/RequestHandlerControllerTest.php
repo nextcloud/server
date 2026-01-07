@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\FederatedFileSharing\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class RequestHandlerControllerTest extends \Test\TestCase {
 	private string $owner = 'owner';
 	private string $user1 = 'user1';

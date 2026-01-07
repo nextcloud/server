@@ -98,7 +98,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetSuccess')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateStylesheetSuccess')]
 	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message, ?string $realSetting = null): void {
 		$this->themingDefaults
 			->expects($this->once())
@@ -156,7 +156,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetError')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateStylesheetError')]
 	public function testUpdateStylesheetError(string $setting, string $value, string $message): void {
 		$this->themingDefaults
 			->expects($this->never())
@@ -345,7 +345,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImages')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateImages')]
 	public function testUpdateLogoNormalLogoUpload(string $mimeType, bool $folderExists = true): void {
 		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . '/logo.svg';
 		$destination = Server::get(ITempManager::class)->getTemporaryFolder();
@@ -501,7 +501,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPhpUploadErrors')]
 	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload(int $error, string $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -538,7 +538,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPhpUploadErrors')]
 	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -607,7 +607,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUndoDelete')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUndoDelete')]
 	public function testUndoDelete(string $value, string $filename): void {
 		$this->l10n
 			->expects($this->once())
@@ -707,7 +707,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetManifest')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetManifest')]
 	public function testGetManifest(bool $standalone): void {
 		$this->config
 			->expects($this->once())

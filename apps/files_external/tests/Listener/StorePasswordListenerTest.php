@@ -18,7 +18,7 @@ use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StorePasswordListenerTest extends TestCase {
 	protected IUser&MockObject $mockedUser;
 

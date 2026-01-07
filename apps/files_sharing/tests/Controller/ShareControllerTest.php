@@ -52,7 +52,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @package OCA\Files_Sharing\Controllers
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareControllerTest extends \Test\TestCase {
 
 	private string $user;
@@ -245,7 +245,7 @@ class ShareControllerTest extends \Test\TestCase {
 		/** @var Manager */
 		$manager = Server::get(Manager::class);
 		$share = $manager->newShare();
-		$share->setId(42)
+		$share->setId('42')
 			->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE)
 			->setPassword('password')
 			->setShareOwner('ownerUID')
@@ -401,7 +401,7 @@ class ShareControllerTest extends \Test\TestCase {
 		/** @var Manager */
 		$manager = Server::get(Manager::class);
 		$share = $manager->newShare();
-		$share->setId(42)
+		$share->setId('42')
 			->setPermissions(Constants::PERMISSION_CREATE)
 			->setPassword('password')
 			->setShareOwner('ownerUID')
@@ -549,7 +549,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		/** @var IShare */
 		$share = Server::get(Manager::class)->newShare();
-		$share->setId(42);
+		$share->setId('42');
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')
@@ -656,7 +656,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
 
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$file = $this->getMockBuilder(File::class)->getMock();
 		$file->method('getName')->willReturn($filename);
 		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getSize')->willReturn(33);
@@ -664,7 +664,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('isReadable')->willReturn(true);
 
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
-		$share->setId(42);
+		$share->setId('42');
 		$share->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setNode($file)
@@ -757,7 +757,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$folder = $this->createMock(Folder::class);
 
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
-		$share->setId(42);
+		$share->setId('42');
 		$share->setPermissions(Constants::PERMISSION_CREATE)
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')
@@ -798,7 +798,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$folder = $this->createMock(Folder::class);
 
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
-		$share->setId(42);
+		$share->setId('42');
 		$share->setPermissions(Constants::PERMISSION_CREATE)
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')

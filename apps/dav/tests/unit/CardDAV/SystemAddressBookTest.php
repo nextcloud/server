@@ -34,7 +34,7 @@ class SystemAddressBookTest extends TestCase {
 	private array $addressBookInfo;
 	private IL10N&MockObject $l10n;
 	private IConfig&MockObject $config;
-	private IUserSession $userSession;
+	private IUserSession&MockObject $userSession;
 	private IRequest&MockObject $request;
 	private array $server;
 	private TrustedServers&MockObject $trustedServers;

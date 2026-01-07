@@ -41,7 +41,7 @@ class BackendTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
 	public function testValidateStorage(bool $expectedSuccess, bool $definitionSuccess): void {
 		$backend = $this->getMockBuilder(Backend::class)
 			->onlyMethods(['validateStorageDefinition'])

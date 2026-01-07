@@ -161,7 +161,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetGroups')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetGroups')]
 	public function testGetGroups(?string $search, int $limit, int $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
@@ -183,7 +183,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetGroups')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetGroups')]
 	public function testGetGroupsDetails($search, $limit, $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 

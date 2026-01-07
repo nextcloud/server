@@ -251,7 +251,7 @@ class PluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('propFindDefaultCalendarUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'propFindDefaultCalendarUrlProvider')]
 	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $deleted = false, bool $hasExistingCalendars = false, bool $propertiesForPath = true): void {
 		$propFind = new PropFind(
 			$principalUri,

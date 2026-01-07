@@ -22,7 +22,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\Unit\DAV\Migration
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CalDAVRemoveEmptyValueTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private CalDavBackend&MockObject $backend;

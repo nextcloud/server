@@ -50,7 +50,7 @@ class EventReminderJobTest extends TestCase {
 	 * @param bool $sendEventRemindersMode
 	 * @param bool $expectCall
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('data')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'data')]
 	public function testRun(bool $sendEventReminders, bool $sendEventRemindersMode, bool $expectCall): void {
 		$this->config->expects($this->exactly($sendEventReminders ? 2 : 1))
 			->method('getAppValue')

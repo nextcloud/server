@@ -58,7 +58,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tagsGetPropertiesDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagsGetPropertiesDataProvider')]
 	public function testGetProperties(array $tags, array $requestedProperties, array $expectedProperties): void {
 		$node = $this->createMock(Node::class);
 		$node->expects($this->any())
@@ -93,7 +93,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tagsGetPropertiesDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagsGetPropertiesDataProvider')]
 	public function testPreloadThenGetProperties(array $tags, array $requestedProperties, array $expectedProperties): void {
 		$node1 = $this->createMock(File::class);
 		$node1->expects($this->any())

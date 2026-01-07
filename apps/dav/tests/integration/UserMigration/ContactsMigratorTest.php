@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use function scandir;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ContactsMigratorTest extends TestCase {
 
 	private IUserManager $userManager;
@@ -93,7 +93,7 @@ class ContactsMigratorTest extends TestCase {
 	 * @param array{displayName: string, description?: string} $importMetadata
 	 * @param VCard[] $importCards
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAssets')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAssets')]
 	public function testImportExportAsset(string $userId, string $filename, string $initialAddressBookUri, array $importMetadata, array $importCards): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 

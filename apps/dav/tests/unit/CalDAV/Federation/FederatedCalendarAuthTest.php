@@ -109,7 +109,7 @@ class FederatedCalendarAuthTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideCheckData')]
+	#[DataProvider(methodName: 'provideCheckData')]
 	public function testCheck(
 		string $requestPath,
 		?string $authHeader,
