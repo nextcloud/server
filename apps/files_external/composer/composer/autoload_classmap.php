@@ -40,6 +40,7 @@ return array(
     'OCA\\Files_External\\Event\\StorageCreatedEvent' => $baseDir . '/../lib/Event/StorageCreatedEvent.php',
     'OCA\\Files_External\\Event\\StorageDeletedEvent' => $baseDir . '/../lib/Event/StorageDeletedEvent.php',
     'OCA\\Files_External\\Event\\StorageUpdatedEvent' => $baseDir . '/../lib/Event/StorageUpdatedEvent.php',
+    'OCA\\Files_External\\Lib\\ApplicableHelper' => $baseDir . '/../lib/Lib/ApplicableHelper.php',
     'OCA\\Files_External\\Lib\\Auth\\AmazonS3\\AccessKey' => $baseDir . '/../lib/Lib/Auth/AmazonS3/AccessKey.php',
     'OCA\\Files_External\\Lib\\Auth\\AuthMechanism' => $baseDir . '/../lib/Lib/Auth/AuthMechanism.php',
     'OCA\\Files_External\\Lib\\Auth\\Builtin' => $baseDir . '/../lib/Lib/Auth/Builtin.php',

@@ -16,7 +16,8 @@ use OCP\Security\ICrypto;
 /**
  * Stores the mount config in the database
  *
- * @psalm-type StorageConfigData = array{type: int, priority: int, applicable: list<array{type: mixed, value: mixed}>, config: array, options: array}
+ * @psalm-type ApplicableConfig = array{type: int, value: string}
+ * @psalm-type StorageConfigData = array{type: int, priority: int, applicable: list<ApplicableConfig>, config: array, options: array, ...<string, mixed>}
  */
 class DBConfigService {
 	public const MOUNT_TYPE_ADMIN = 1;
@@ -451,9 +452,9 @@ class DBConfigService {
 	 * @param string $table
 	 * @param string[] $fields
 	 * @param int[] $mountIds
-	 * @return array [$mountId => [['field1' => $value1, ...], ...], ...]
+	 * @return array<int, list<array>> [$mountId => [['field1' => $value1, ...], ...], ...]
 	 */
-	private function selectForMounts($table, array $fields, array $mountIds) {
+	private function selectForMounts(string $table, array $fields, array $mountIds): array {
 		if (count($mountIds) === 0) {
 			return [];
 		}
@@ -485,9 +486,9 @@ class DBConfigService {
 
 	/**
 	 * @param int[] $mountIds
-	 * @return array [$id => [['type' => $type, 'value' => $value], ...], ...]
+	 * @return array<int, list<ApplicableConfig>> [$id => [['type' => $type, 'value' => $value], ...], ...]
 	 */
-	public function getApplicableForMounts($mountIds) {
+	public function getApplicableForMounts(array $mountIds): array {
 		return $this->selectForMounts('external_applicable', ['type', 'value'], $mountIds);
 	}
 

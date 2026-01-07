@@ -55,6 +55,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Event\\StorageCreatedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageCreatedEvent.php',
         'OCA\\Files_External\\Event\\StorageDeletedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageDeletedEvent.php',
         'OCA\\Files_External\\Event\\StorageUpdatedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageUpdatedEvent.php',
+        'OCA\\Files_External\\Lib\\ApplicableHelper' => __DIR__ . '/..' . '/../lib/Lib/ApplicableHelper.php',
         'OCA\\Files_External\\Lib\\Auth\\AmazonS3\\AccessKey' => __DIR__ . '/..' . '/../lib/Lib/Auth/AmazonS3/AccessKey.php',
         'OCA\\Files_External\\Lib\\Auth\\AuthMechanism' => __DIR__ . '/..' . '/../lib/Lib/Auth/AuthMechanism.php',
         'OCA\\Files_External\\Lib\\Auth\\Builtin' => __DIR__ . '/..' . '/../lib/Lib/Auth/Builtin.php',

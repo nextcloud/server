@@ -441,7 +441,7 @@ class StorageConfig implements \JsonSerializable {
 		return '/' . $user->getUID() . '/files/' . trim($this->mountPoint, '/') . '/';
 	}
 
-	public function __clone(): void {
+	public function __clone() {
 		$this->backend = clone $this->backend;
 		$this->authMechanism = clone $this->authMechanism;
 	}
