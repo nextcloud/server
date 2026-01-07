@@ -13,7 +13,7 @@ use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\Job;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 
 /**
  * Class DummyJobList
@@ -46,7 +46,7 @@ class DummyJobList extends JobList {
 			$job = Server::get($job);
 		}
 		$job->setArgument($argument);
-		$job->setId(Server::get(IGenerator::class)->nextId());
+		$job->setId(Server::get(ISnowflakeGenerator::class)->nextId());
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}

@@ -108,17 +108,24 @@ abstract class QBMapper {
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
 
+			if ($property === 'id' && $entity->id === null) {
+				continue;
+			}
 			$type = $this->getParameterTypeForProperty($entity, $property);
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->executeStatement();
-
-		if ($entity->id === null) {
+		if ($entity instanceof SnowflakeAwareEntity) {
+			/** @psalm-suppress DocblockTypeContradiction */
+			$entity->generateId();
+			$qb->executeStatement();
+		} elseif ($entity->id === null) {
+			$qb->executeStatement();
 			// When autoincrement is used id is always an int
 			$entity->setId($qb->getLastInsertId());
+		} else {
+			$qb->executeStatement();
 		}
-
 		return $entity;
 	}
 

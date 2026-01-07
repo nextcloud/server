@@ -26,7 +26,6 @@ use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -45,7 +44,6 @@ class MovePreviewJob extends TimedJob {
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly IMimeTypeLoader $mimeTypeLoader,
 		private readonly LoggerInterface $logger,
-		private readonly IGenerator $generator,
 		IAppDataFactory $appDataFactory,
 	) {
 		parent::__construct($time);
@@ -138,7 +136,7 @@ class MovePreviewJob extends TimedJob {
 			$path = $fileId . '/' . $previewFile->getName();
 			/** @var SimpleFile $previewFile */
 			$preview = Preview::fromPath($path, $this->mimeTypeDetector);
-			$preview->setId($this->generator->nextId());
+			$preview->generateId();
 			if (!$preview) {
 				$this->logger->error('Unable to import old preview at path.');
 				continue;
@@ -172,6 +170,7 @@ class MovePreviewJob extends TimedJob {
 				$preview->setStorageId($result[0]['storage']);
 				$preview->setEtag($result[0]['etag']);
 				$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result[0]['mimetype']));
+				$preview->generateId();
 				try {
 					$preview = $this->previewMapper->insert($preview);
 				} catch (Exception) {

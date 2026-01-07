@@ -26,11 +26,7 @@ class APCuSequence implements ISequence {
 		}
 
 		$key = 'seq:' . $seconds . ':' . $milliseconds;
-		$sequenceId = apcu_inc($key, success: $success, ttl: 1);
-		if ($success === true) {
-			return $sequenceId;
-		}
-
-		throw new \Exception('Failed to generate SnowflakeId with APCu');
+		$sequenceId = apcu_inc($key, ttl: 1);
+		return $sequenceId === false ? throw new \Exception('Failed to generate SnowflakeId with APCu') : $sequenceId;
 	}
 }
