@@ -236,6 +236,7 @@ OC.L10N.register(
     "Can edit" : "Editatu dezake",
     "Custom permissions" : "Baimen pertsonalizatuak",
     "Resharing is not allowed" : "Birpartekatzea ez da onartzen",
+    "Searching …" : "Bilatzen …",
     "No elements found." : "Ez da elementurik aurkitu.",
     "Search everywhere" : "Bilatu nonahi",
     "Guest" : "Gonbidatua",
