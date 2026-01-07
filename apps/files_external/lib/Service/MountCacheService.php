@@ -194,10 +194,26 @@ class MountCacheService implements IEventListener {
 		);
 	}
 
+	private function isApplicableForUser(StorageConfig $storage, IUser $user): bool {
+		if (count($storage->getApplicableUsers()) + count($storage->getApplicableGroups()) === 0) {
+			return true;
+		}
+		if (in_array($user->getUID(), $storage->getApplicableUsers())) {
+			return true;
+		}
+		$groupIds = $this->groupManager->getUserGroupIds($user);
+		foreach ($groupIds as $groupId) {
+			if (in_array($groupId, $storage->getApplicableGroups())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private function handleUserRemoved(IGroup $group, IUser $user): void {
 		$storages = $this->storagesService->getAllStoragesForGroup($group);
 		foreach ($storages as $storage) {
-			if (!in_array($user->getUID(), $storage->getApplicableUsers())) {
+			if (!$this->isApplicableForUser($storage, $user)) {
 				$this->userMountCache->removeMount($storage->getMountPointForUser($user));
 			}
 		}
@@ -214,7 +230,7 @@ class MountCacheService implements IEventListener {
 		$storages = $this->storagesService->getAllStoragesForGroup($group);
 		foreach ($storages as $storage) {
 			foreach ($group->searchUsers('') as $user) {
-				if (!in_array($user->getUID(), $storage->getApplicableUsers())) {
+				if (!$this->isApplicableForUser($storage, $user)) {
 					$this->userMountCache->removeMount($storage->getMountPointForUser($user));
 				}
 			}
