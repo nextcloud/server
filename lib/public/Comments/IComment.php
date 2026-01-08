@@ -121,13 +121,19 @@ interface IComment {
 	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH);
 
 	/**
-	 * returns an array containing mentions that are included in the comment
+	 * Returns all mentions from the comment message.
 	 *
-	 * @return array each mention provides a 'type' and an 'id', see example below
+	 * Parses the message, returning an array of mentions.
+	 * Mentions are sorted by descending length of their id before being returned.
+	 *
+	 * Supported mention types: 'user', 'group', 'team', 'guest', 'email', 'federated_group', 'federated_team', 'federated_user'.
+	 *
+	 * @return array Each mention is an associative array with 'type' and 'id' keys, sorted by descending length.
 	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'user', id: non-empty-lowercase-string}>
 	 * @since 30.0.2 Type 'email' is supported
 	 * @since 29.0.0 Types 'federated_group', 'federated_team', 'team' and 'federated_user' are supported
 	 * @since 23.0.0 Type 'group' is supported
+	 * @since 21.0.1 Sort returned results by 
 	 * @since 17.0.0 Type 'guest' is supported
 	 * @since 11.0.0
 	 */
