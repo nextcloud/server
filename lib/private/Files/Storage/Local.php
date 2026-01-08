@@ -325,34 +325,33 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function rename(string $source, string $target): bool {
-		$srcParent = dirname($source);
-		$dstParent = dirname($target);
-
-		if (!$this->isUpdatable($srcParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
-			return false;
-		}
-
-		if (!$this->isUpdatable($dstParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
-			return false;
-		}
-
 		if (!$this->file_exists($source)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
+			$this->logRenameError('file does not exist', $source);
+			return false;
+		}
+		
+		$srcParent = dirname($source);
+		if (!$this->isUpdatable($srcParent)) {
+			$this->logRenameError('source directory is not writable', $srcParent);
 			return false;
 		}
 
-		if ($this->file_exists($target)) {
-			if ($this->is_dir($target)) {
-				$this->rmdir($target);
-			} elseif ($this->is_file($target)) {
-				$this->unlink($target);
-			}
+		$dstParent = dirname($target);
+		if (!$this->isUpdatable($dstParent)) {
+			$this->logRenameError('destination directory is not writable', $dstParent);
+			return false;
 		}
 
 		if ($this->is_dir($source)) {
 			$this->checkTreeForForbiddenItems($this->getSourcePath($source));
+			// throws
+		}
+
+		if ($this->file_exists($target)) {
+			if (!$this->remove($target)) {
+				$this->logRenameError('pre-existing target is not removable', $target);
+				return false;
+			}
 		}
 
 		if (@rename($this->getSourcePath($source), $this->getSourcePath($target))) {
@@ -365,6 +364,12 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		return $this->copy($source, $target) && $this->unlink($source);
+	}
+
+	private function logRenameError(string $reason, string $path): void {
+		Server::get(LoggerInterface::class)->error(
+			"unable to rename, {$reason}: {$path}", ['app' => 'core']
+		);
 	}
 
 	public function copy(string $source, string $target): bool {
