@@ -29,6 +29,8 @@ use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Server;
 use OCP\Settings\ISettings;
+use OCP\Teams\ITeamManager;
+use OCP\Teams\Team;
 use OCP\Util;
 
 class PersonalInfo implements ISettings {
@@ -40,6 +42,7 @@ class PersonalInfo implements ISettings {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
+		private ITeamManager $teamManager,
 		private IAccountManager $accountManager,
 		ProfileManager $profileManager,
 		private IAppManager $appManager,
@@ -87,6 +90,7 @@ class PersonalInfo implements ISettings {
 			'userId' => $uid,
 			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
 			'groups' => $this->getGroups($user),
+			'teams' => $this->getTeamMemberships($user),
 			'quota' => $storageInfo['quota'],
 			'totalSpace' => $totalSpace,
 			'usage' => Util::humanFileSize($storageInfo['used']),
@@ -190,6 +194,26 @@ class PersonalInfo implements ISettings {
 		sort($groups);
 
 		return $groups;
+	}
+
+	/**
+	 * returns a sorted list of the user's team memberships
+	 */
+	private function getTeamMemberships(IUser $user): array {
+		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
+		if (!$circlesEnabled) {
+			return [];
+		}
+
+		$teams = array_map(
+			static function (Team $team) {
+				return $team->getDisplayName();
+			},
+			$this->teamManager->getMemberships($user->getUID())
+		);
+		sort($teams);
+		
+		return $teams;
 	}
 
 	/**
