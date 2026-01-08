@@ -7,7 +7,7 @@
 namespace OCA\Comments\OpenMetrics;
 
 use Generator;
-use OC\DB\Connection;
+use OCP\IDBConnection;
 use OCP\OpenMetrics\IMetricFamily;
 use OCP\OpenMetrics\Metric;
 use OCP\OpenMetrics\MetricType;
@@ -15,7 +15,7 @@ use Override;
 
 class CommentsCountMetric implements IMetricFamily {
 	public function __construct(
-		private Connection $connection,
+		private IDBConnection $connection,
 	) {
 	}
 
