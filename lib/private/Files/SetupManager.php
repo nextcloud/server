@@ -40,6 +40,7 @@ use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -235,6 +236,8 @@ class SetupManager {
 		$this->setupUsersComplete[] = $user->getUID();
 
 		$this->eventLogger->start('fs:setup:user:full', 'Setup full filesystem for user');
+
+		$this->dropPartialMountsForUser($user);
 
 		$this->setupUserMountProviders[$user->getUID()] ??= [];
 		$previouslySetupProviders = $this->setupUserMountProviders[$user->getUID()];
@@ -658,6 +661,7 @@ class SetupManager {
 			$this->eventLogger->end('fs:setup:user:providers');
 			return;
 		} else {
+			$this->dropPartialMountsForUser($user, $providers);
 			$this->setupUserMountProviders[$user->getUID()] = array_merge($setupProviders, $providers);
 			$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providers);
 		}
@@ -713,6 +717,16 @@ class SetupManager {
 		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
 			$this->cache->remove($event->getShare()->getSharedWith());
 		});
+		$this->eventDispatcher->addListener(BeforeNodeRenamedEvent::class, function (BeforeNodeRenamedEvent $event) {
+			// update cache information that is cached by mount point
+			$from = rtrim($event->getSource()->getPath(), '/') . '/';
+			$to = rtrim($event->getTarget()->getPath(), '/') . '/';
+			$existingMount = $this->setupMountProviderPaths[$from] ?? null;
+			if ($existingMount !== null) {
+				$this->setupMountProviderPaths[$to] = $this->setupMountProviderPaths[$from];
+				unset($this->setupMountProviderPaths[$from]);
+			}
+		});
 		$this->eventDispatcher->addListener(InvalidateMountCacheEvent::class, function (InvalidateMountCacheEvent $event,
 		) {
 			if ($user = $event->getUser()) {
@@ -739,6 +753,41 @@ class SetupManager {
 	private function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null): void {
 		if ($this->lockdownManager->canAccessFilesystem()) {
 			$this->userMountCache->registerMounts($user, $mounts, $mountProviderClasses);
+		}
+	}
+
+	/**
+	 * Drops partially set-up mounts for the given user
+	 * @param class-string<IMountProvider>[] $providers
+	 */
+	public function dropPartialMountsForUser(IUser $user, array $providers = []): void {
+		// mounts are cached by mount-point
+		$mounts = $this->mountManager->getAll();
+		$partialMounts = array_filter($this->setupMountProviderPaths,
+			static function (string $mountPoint) use (
+				$providers,
+				$user,
+				$mounts
+			) {
+				$isUserMount = str_starts_with($mountPoint, '/' . $user->getUID() . '/files');
+
+				if (!$isUserMount) {
+					return false;
+				}
+
+				$mountProvider = ($mounts[$mountPoint] ?? null)?->getMountProvider();
+
+				return empty($providers)
+					|| \in_array($mountProvider, $providers, true);
+			},
+			ARRAY_FILTER_USE_KEY);
+
+		if (!empty($partialMounts)) {
+			// remove partially set up mounts
+			foreach ($partialMounts as $mountPoint => $_mount) {
+				$this->mountManager->removeMount($mountPoint);
+				unset($this->setupMountProviderPaths[$mountPoint]);
+			}
 		}
 	}
 }
