@@ -1299,12 +1299,13 @@ class Manager implements IManager {
 			throw new \RuntimeException(\get_class($provider) . ' must implement IPartialShareProvider');
 		}
 
-		$shares = $provider->getSharedWithByPath($userId,
+		$shares = $provider->getSharedWithByPath(
+			$userId,
 			$shareType,
 			$path,
 			$forChildren,
 			$limit,
-			$offset
+			$offset,
 		);
 
 		if (\is_array($shares)) {

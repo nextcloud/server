@@ -64,9 +64,14 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$shares = $this->filterShares($shares, $userId);
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		return array_values($this->getMountsFromSuperShares($userId,
-			$superShares,
-			$loader, $user));
+		return array_values(
+			$this->getMountsFromSuperShares(
+				$userId,
+				$superShares,
+				$loader,
+				$user
+			),
+		);
 	}
 
 	/**
@@ -241,8 +246,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 			// null groups which usually appear with group backend
 			// caching inconsistencies
 			$this->logger->debug(
-				'Could not adjust share target for share ' . $share->getId(
-				) . ' to make it consistent: ' . $e->getMessage(),
+				'Could not adjust share target for share ' . $share->getId() . ' to make it consistent: ' . $e->getMessage(),
 				['app' => 'files_sharing']
 			);
 		}
@@ -265,13 +269,11 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$mounts = [];
 		$view = new View('/' . $userId . '/files');
 		$ownerViews = [];
-		$sharingDisabledForUser
-			= $this->shareManager->sharingDisabledForUser($userId);
+		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($userId);
 		/** @var CappedMemoryCache<bool> $folderExistCache */
 		$foldersExistCache = new CappedMemoryCache();
 
-		$validShareCache
-			= $this->cacheFactory->createLocal('share-valid-mountpoint-max');
+		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
 		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
 		$newMaxValidatedShare = $maxValidatedShare;
 
@@ -316,12 +318,10 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
 
-				$mounts[$mount->getMountPoint()]
-				= $allMounts[$mount->getMountPoint()] = $mount;
+				$mounts[$mount->getMountPoint()] = $allMounts[$mount->getMountPoint()] = $mount;
 				foreach ($event->getAdditionalMounts() as $additionalMount) {
-					$allMounts[$additionalMount->getMountPoint()]
-					= $mounts[$additionalMount->getMountPoint()]
-						= $additionalMount;
+					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
+					$allMounts[$additionalMount->getMountPoint()] = $additionalMount;
 				}
 			} catch (Exception $e) {
 				$this->logger->error(
@@ -349,8 +349,10 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 */
 	private function filterShares(iterable $shares, string $userId): iterable {
 		foreach ($shares as $share) {
-			if ($share->getPermissions() > 0 && $share->getShareOwner()
-				!== $userId && $share->getSharedBy() !== $userId) {
+			if (
+				$share->getPermissions() > 0
+				&& $share->getShareOwner() !== $userId && $share->getSharedBy() !== $userId
+			) {
 				yield $share;
 			}
 		}
