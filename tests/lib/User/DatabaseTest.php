@@ -93,14 +93,14 @@ class DatabaseTest extends Backend {
 	}
 
 	public function testCreateUserInvalidatesCache(): void {
-		$user1 = $this->getUniqueID('test_');
+		$user1 = $this->getUser();
 		$this->assertFalse($this->backend->userExists($user1));
 		$this->backend->createUser($user1, 'pw');
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
 	public function testDeleteUserInvalidatesCache(): void {
-		$user1 = $this->getUniqueID('test_');
+		$user1 = $this->getUser();
 		$this->backend->createUser($user1, 'pw');
 		$this->assertTrue($this->backend->userExists($user1));
 		$this->backend->deleteUser($user1);
