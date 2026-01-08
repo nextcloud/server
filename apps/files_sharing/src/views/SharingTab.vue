@@ -72,7 +72,7 @@
 				<SharingEntryInternal :file-info="fileInfo" />
 			</section>
 
-			<section>
+			<section v-if="config.showExternalSharing">
 				<div class="section-header">
 					<h4>{{ t('files_sharing', 'External shares') }}</h4>
 					<NcPopover popup-role="dialog">
