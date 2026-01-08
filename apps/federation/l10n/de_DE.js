@@ -18,7 +18,7 @@ OC.L10N.register(
     "Server ok" : "Server OK",
     "User list was exchanged at least once successfully with the remote server." : "Die Benutzerliste wurde mindestens einmal erfolgreich mit dem Remote-Server ausgetauscht.",
     "Server pending" : "Server ausstehend",
-    "Waiting for shared secret or initial user list exchange." : "Warten auf den Austausch gemeinsamer Geheimnisse oder erster Benutzerlisten.",
+    "Waiting for shared secret or initial user list exchange." : "Warten auf den Austausch gemeinsamer Geheimnisse oder erster Benutzerliste.",
     "Server access revoked" : "Serverzugriff widerrufen",
     "Server failure" : "Serverfehler",
     "Connection to the remote server failed or the remote server is misconfigured." : "Die Verbindung zum Remote-Server ist fehlgeschlagen oder der Remote-Server ist falsch konfiguriert.",
