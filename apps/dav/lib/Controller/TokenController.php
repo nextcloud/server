@@ -103,14 +103,7 @@ class TokenController extends ApiController {
 		}
 
 		$body = file_get_contents('php://input');
-		$data = json_decode($body, true);
-
-		if (!is_array($data)) {
-			return new DataResponse(
-				['error' => 'invalid_request'],
-				Http::STATUS_BAD_REQUEST
-			);
-		}
+		parse_str($body, $data);
 
 		$refreshToken = $data['code'] ?? '';
 		$grantType = $data['grant_type'] ?? '';

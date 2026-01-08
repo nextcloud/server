@@ -30,6 +30,7 @@ use OCP\IAppConfig;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\IURLGenerator;
 use OCP\Lock\LockedException;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
@@ -116,6 +117,7 @@ class DAV extends Common {
 	protected ISignatureManager $signatureManager;
 	protected OCMSignatoryManager $signatoryManager;
 	protected IAppConfig $appConfig;
+	protected IURLGenerator $urlGenerator;
 
 	/** @var int */
 	private $timeout;
@@ -184,6 +186,7 @@ class DAV extends Common {
 		$this->signatureManager = Server::get(ISignatureManager::class);
 		$this->signatoryManager = Server::get(OCMSignatoryManager::class);
 		$this->appConfig = Server::get(IAppConfig::class);
+		$this->urlGenerator = Server::get(IURLGenerator::class);
 	}
 
 	protected function init(): void {
@@ -206,16 +209,17 @@ class DAV extends Common {
 				}
 
 				$client = $this->httpClientService->newClient();
+				$clientId = parse_url($this->urlGenerator->getAbsoluteURL('/'), PHP_URL_HOST);
 				$payload = [
 					'grant_type' => 'authorization_code',
-					'client_id' => 'receiver.example.org',
+					'client_id' => $clientId,
 					'code' => $this->user,
 				];
 
 				$options = [
-					'body' => json_encode($payload),
+					'body' => http_build_query($payload),
 					'headers' => [
-						'Content-Type' => 'application/json',
+						'Content-Type' => 'application/x-www-form-urlencoded',
 					],
 					'timeout' => 10,
 					'connect_timeout' => 10,
