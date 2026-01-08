@@ -864,10 +864,11 @@ class Session implements IUserSession, Emitter {
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
-			$this->logger->info('Tried to log in but could not verify token', [
+			$this->logger->info('Tried to log in with remember-me token but could not verify token. Clearing remember-me cookies', [
 				'app' => 'core',
 				'user' => $uid,
 			]);
+			$this->unsetMagicInCookie();
 			return false;
 		}
 		// replace successfully used token with a new one
