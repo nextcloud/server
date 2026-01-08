@@ -197,18 +197,16 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * returns a sorted list of the user's team memberships
+	 * returns a list of the user's team memberships, sorted alphabetically
+	 * @return list<string> team names
 	 */
 	private function getTeamMemberships(IUser $user): array {
-		$circlesEnabled = $this->appManager->isEnabledForUser('circles');
-		if (!$circlesEnabled) {
+		if (!$this->appManager->isEnabledForUser('circles')) {
 			return [];
 		}
 
 		$teams = array_map(
-			static function (Team $team) {
-				return $team->getDisplayName();
-			},
+			static fn (Team $team): string => $team->getDisplayName(),
 			$this->teamManager->getMemberships($user->getUID())
 		);
 		sort($teams);
