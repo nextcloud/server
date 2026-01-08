@@ -221,9 +221,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * @param string $loginName
 	 * @return string|false
 	 */
-	public function loginName2UserName($loginName) {
+	public function loginName2UserName($loginName, bool $forceLdapRefetch = false) {
 		$id = 'LOGINNAME,' . $loginName;
-		return $this->handleRequest($id, 'loginName2UserName', [$loginName]);
+		return $this->handleRequest($id, 'loginName2UserName', [$loginName, $forceLdapRefetch]);
 	}
 
 	/**
