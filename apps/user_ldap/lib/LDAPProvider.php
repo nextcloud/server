@@ -9,6 +9,7 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IServerContainer;
+use OCP\IUser;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
 use Psr\Log\LoggerInterface;
@@ -326,5 +327,9 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 		$connection->writeToCache($key, $values);
 		return $values;
+	}
+
+	public function findOneUser(string $filter, string $attribute, string $searchTerm): ?IUser {
+		return $this->userBackend->getUserFromCustomAttribute($filter, $attribute, $searchTerm);
 	}
 }
