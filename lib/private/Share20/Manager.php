@@ -8,6 +8,7 @@
 namespace OC\Share20;
 
 use ArrayIterator;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Filesystem;
@@ -1400,8 +1401,7 @@ class Manager implements IManager {
 				$accessTokenDb = $tokenProvider->getToken($token);
 				$refreshToken = $accessTokenDb->getUID();
 				$share = $provider->getShareByToken($refreshToken);
-			} catch (ProviderException $e) {
-			} catch (ShareNotFound $e) {
+			} catch (ProviderException|ShareNotFound|InvalidTokenException $e) {
 			}
 		}
 
