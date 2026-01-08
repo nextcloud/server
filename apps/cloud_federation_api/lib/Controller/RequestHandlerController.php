@@ -93,7 +93,7 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $ownerDisplayName Display name of the user who shared the item
 	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
 	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
-	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]]
+	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]] or Multi format: ['name' => 'multi', 'webdav' => [...]]
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
@@ -142,7 +142,20 @@ class RequestHandlerController extends Controller {
 		$hasOldFormat = isset($protocol['options']) && is_array($protocol['options']) && isset($protocol['options']['sharedSecret']);
 		$hasNewFormat = isset($protocol[$protocolName]) && is_array($protocol[$protocolName]) && isset($protocol[$protocolName]['sharedSecret']);
 
-		if (!$hasOldFormat && !$hasNewFormat) {
+		// For multi-protocol, we only consider webdav
+		$hasMultiFormat = false;
+		if ($protocolName === 'multi') {
+			if (isset($protocol['webdav']) && is_array($protocol['webdav']) && isset($protocol['webdav']['sharedSecret'])) {
+				$hasMultiFormat = true;
+				$protocol = [
+					'name' => 'webdav',
+					'webdav' => $protocol['webdav']
+				];
+				$protocolName = 'webdav';
+			}
+		}
+
+		if (!$hasOldFormat && !$hasNewFormat && !$hasMultiFormat) {
 			return new JSONResponse(
 				[
 					'message' => 'Missing sharedSecret in protocol',
