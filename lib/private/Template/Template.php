@@ -73,7 +73,7 @@ class Template extends Base implements ITemplate {
 	 */
 	protected function findTemplate(string $theme, string $app, string $name): array {
 		// Check if it is a app template or not.
-		if ($app !== '') {
+		if ($app !== 'core' && $app !== '') {
 			try {
 				$appDir = Server::get(IAppManager::class)->getAppPath($app);
 			} catch (AppPathNotFoundException) {
