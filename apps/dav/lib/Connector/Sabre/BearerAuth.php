@@ -46,13 +46,16 @@ class BearerAuth extends AbstractBearer {
 		\OC_Util::setupFS();
 		$this->token = $bearerToken;
 
-		if (!$this->userSession->isLoggedIn()) {
+		$loggedIn = $this->userSession->isLoggedIn();
+		if (!$loggedIn) {
 			$this->userSession->tryTokenLogin($this->request);
+			$loggedIn = $this->userSession->isLoggedIn();
 		}
-		if (!$this->userSession->isLoggedIn()) {
+		if (!$loggedIn) {
 			$this->userSession->doTryTokenLogin($bearerToken);
+			$loggedIn = $this->userSession->isLoggedIn();
 		}
-		if ($this->userSession->isLoggedIn()) {
+		if ($loggedIn) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
 		}
 

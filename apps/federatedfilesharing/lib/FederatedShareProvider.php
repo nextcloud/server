@@ -180,7 +180,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$token = Server::get(ISecureRandom::class)->generate(32, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		$uid = $share->getSharedBy();
 		$user = $this->userManager->get($uid);
-		$name = $user->getDisplayName();
+		$name = $user?->getDisplayName() ?? $uid;
 		$pass = $share->getPassword();
 
 		$dbToken = $provider->generateToken($token, $uid, $uid, $pass, $name, type: IToken::PERMANENT_TOKEN);

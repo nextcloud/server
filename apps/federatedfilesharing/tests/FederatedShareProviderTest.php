@@ -227,7 +227,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->matchesRegularExpression('/^[A-Za-z0-9]{32}$/'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -280,7 +280,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->matchesRegularExpression('/^[A-Za-z0-9]{32}$/'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
