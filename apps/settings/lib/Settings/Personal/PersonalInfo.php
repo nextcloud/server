@@ -212,7 +212,7 @@ class PersonalInfo implements ISettings {
 			$this->teamManager->getMemberships($user->getUID())
 		);
 		sort($teams);
-		
+
 		return $teams;
 	}
 
