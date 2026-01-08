@@ -8,15 +8,20 @@ declare(strict_types=1);
  */
 namespace OC\Http\Client;
 
+use OC\Diagnostics\TLogSlowOperation;
 use OC\Net\IpAddressClassifier;
 use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
 class DnsPinMiddleware {
+
+	use TLogSlowOperation;
 
 	public function __construct(
 		private NegativeDnsCache $negativeDnsCache,
 		private IpAddressClassifier $ipAddressClassifier,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -88,7 +93,11 @@ class DnsPinMiddleware {
 	 * Wrapper for dns_get_record
 	 */
 	protected function dnsGetRecord(string $hostname, int $type): array|false {
-		return \dns_get_record($hostname, $type);
+		return $this->monitorAndLog(
+			$this->logger,
+			'dns_get_record',
+			fn () => \dns_get_record($hostname, $type),
+		);
 	}
 
 	public function addDnsPinning(): callable {
