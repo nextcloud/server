@@ -18,6 +18,7 @@ use OC\Core\Controller\TwoFactorChallengeController;
 use OC\User\Session;
 use OCA\TwoFactorNextcloudNotification\Controller\APIController;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
@@ -26,6 +27,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use ReflectionMethod;
 
 class TwoFactorMiddleware extends Middleware {
 	public function __construct(
@@ -43,7 +45,9 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($this->reflector->hasAnnotation('NoTwoFactorRequired')) {
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+		if ($this->reflector->hasAnnotation('NoTwoFactorRequired')
+			|| !empty($reflectionMethod->getAttributes(NoTwoFactorRequired::class))) {
 			// Route handler explicitly marked to work without finished 2FA are
 			// not blocked
 			return;
