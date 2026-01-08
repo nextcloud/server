@@ -9,6 +9,7 @@ namespace OC\Files\Config;
 
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -160,14 +161,25 @@ class UserMountCache implements IUserMountCache {
 
 	private function addToCache(ICachedMountInfo $mount) {
 		if ($mount->getStorageId() !== -1) {
-			$this->connection->insertIfNotExist('*PREFIX*mounts', [
-				'storage_id' => $mount->getStorageId(),
-				'root_id' => $mount->getRootId(),
-				'user_id' => $mount->getUser()->getUID(),
-				'mount_point' => $mount->getMountPoint(),
-				'mount_id' => $mount->getMountId(),
-				'mount_provider_class' => $mount->getMountProvider(),
-			], ['root_id', 'user_id', 'mount_point']);
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('mounts')
+				->values([
+					'storage_id' => $qb->createNamedParameter($mount->getStorageId(), IQueryBuilder::PARAM_INT),
+					'root_id' => $qb->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT),
+					'user_id' => $qb->createNamedParameter($mount->getUser()->getUID()),
+					'mount_point' => $qb->createNamedParameter($mount->getMountPoint()),
+					'mount_point_hash' => $qb->createNamedParameter(hash('xxh128', $mount->getMountPoint())),
+					'mount_id' => $qb->createNamedParameter($mount->getMountId(), IQueryBuilder::PARAM_INT),
+					'mount_provider_class' => $qb->createNamedParameter($mount->getMountProvider()),
+				]);
+			try {
+				$qb->executeStatement();
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+			}
 		} else {
 			// in some cases this is legitimate, like orphaned shares
 			$this->logger->debug('Could not get storage info for mount at ' . $mount->getMountPoint());
@@ -180,6 +192,7 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->update('mounts')
 			->set('storage_id', $builder->createNamedParameter($mount->getStorageId()))
 			->set('mount_point', $builder->createNamedParameter($mount->getMountPoint()))
+			->set('mount_point_hash', $builder->createNamedParameter(hash('xxh128', $mount->getMountPoint())))
 			->set('mount_id', $builder->createNamedParameter($mount->getMountId(), IQueryBuilder::PARAM_INT))
 			->set('mount_provider_class', $builder->createNamedParameter($mount->getMountProvider()))
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
@@ -194,7 +207,7 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
 			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)))
-			->andWhere($builder->expr()->eq('mount_point', $builder->createNamedParameter($mount->getMountPoint())));
+			->andWhere($builder->expr()->eq('mount_point_hash', $builder->createNamedParameter(hash('xxh128', $mount->getMountPoint()))));
 		$query->executeStatement();
 	}
 
@@ -426,16 +439,8 @@ class UserMountCache implements IUserMountCache {
 	public function getUsedSpaceForUsers(array $users) {
 		$builder = $this->connection->getQueryBuilder();
 
-		$slash = $builder->createNamedParameter('/');
-
-		$mountPoint = $builder->func()->concat(
-			$builder->func()->concat($slash, 'user_id'),
-			$slash
-		);
-
-		$userIds = array_map(function (IUser $user) {
-			return $user->getUID();
-		}, $users);
+		$mountPointHashes = array_map(static fn (IUser $user) => hash('xxh128', '/' . $user->getUID() . '/'), $users);
+		$userIds = array_map(static fn (IUser $user) => $user->getUID(), $users);
 
 		$query = $builder->select('m.user_id', 'f.size')
 			->from('mounts', 'm')
@@ -444,7 +449,7 @@ class UserMountCache implements IUserMountCache {
 					$builder->expr()->eq('m.storage_id', 'f.storage'),
 					$builder->expr()->eq('f.path_hash', $builder->createNamedParameter(md5('files')))
 				))
-			->where($builder->expr()->eq('m.mount_point', $mountPoint))
+			->where($builder->expr()->in('m.mount_point_hash', $builder->createNamedParameter($mountPointHashes, IQueryBuilder::PARAM_STR_ARRAY)))
 			->andWhere($builder->expr()->in('m.user_id', $builder->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		$result = $query->executeQuery();
