@@ -383,7 +383,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $copySuccess && $unlinkSuccess;
 	}
 
-	private function logRenameError(string $reason, string $path, string $level = "error"): void {
+	private function logRenameError(string $reason, string $path, string $level = 'error'): void {
 		Server::get(LoggerInterface::class)->$level(
 			"unable to rename, {$reason}: {$path}", ['app' => 'core']
 		);
