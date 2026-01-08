@@ -5,7 +5,6 @@
 
 import { getCSPNonce } from '@nextcloud/auth'
 import Vue from 'vue'
-
 import SystemTagsSection from './views/SystemTagsSection.vue'
 
 __webpack_nonce__ = getCSPNonce()

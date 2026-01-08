@@ -6,7 +6,6 @@ import { getRowForFile } from '../../files/FilesUtils.ts'
 import { openSharingPanel } from '../FilesSharingUtils.ts'
 
 describe('files_sharing: Public share - File drop', { testIsolation: true }, () => {
-
 	let shareUrl: string
 	let user: string
 	const shareName = 'shared'
@@ -117,7 +116,9 @@ describe('files_sharing: Public share - File drop', { testIsolation: true }, () 
 				request.continue()
 			} else {
 				// We delay the second one until we checked that the progress bar is visible
-				request.on('response', async () => { await promise })
+				request.on('response', async () => {
+					await promise
+				})
 			}
 		}).as('uploadFile')
 

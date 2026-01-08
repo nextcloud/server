@@ -5,9 +5,9 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import store from './store.js'
 import Settings from './components/Workflow.vue'
 import ShippedChecks from './components/Checks/index.js'
+import store from './store.js'
 
 /**
  * A plugin for displaying a custom value field for checks
@@ -61,12 +61,11 @@ import ShippedChecks from './components/Checks/index.js'
 /**
  * Public javascript api for apps to register custom plugins
  */
-window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
-
-	/**
-	 *
-	 * @param {CheckPlugin} Plugin the plugin to register
-	 */
+window.OCA.WorkflowEngine = {
+	...OCA.WorkflowEngine, /**
+                         *
+                         * @param {CheckPlugin} Plugin the plugin to register
+                         */
 	registerCheck(Plugin) {
 		store.commit('addPluginCheck', Plugin)
 	},
@@ -77,7 +76,7 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 	registerOperator(Plugin) {
 		store.commit('addPluginOperator', Plugin)
 	},
-})
+}
 
 // Register shipped checks
 ShippedChecks.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))

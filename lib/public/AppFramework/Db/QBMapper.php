@@ -84,7 +84,6 @@ abstract class QBMapper {
 		return $entity;
 	}
 
-
 	/**
 	 * Creates a new entry in the db from an entity
 	 *
@@ -96,6 +95,11 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	public function insert(Entity $entity): Entity {
+		if ($entity instanceof SnowflakeAwareEntity) {
+			/** @psalm-suppress DocblockTypeContradiction */
+			$entity->generateId();
+		}
+
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
 		$properties = $entity->getUpdatedFields();
@@ -109,17 +113,20 @@ abstract class QBMapper {
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
 
+			if ($property === 'id' && $entity->id === null) {
+				continue;
+			}
 			$type = $this->getParameterTypeForProperty($entity, $property);
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->executeStatement();
-
 		if ($entity->id === null) {
+			$qb->executeStatement();
 			// When autoincrement is used id is always an int
 			$entity->setId($qb->getLastInsertId());
+		} else {
+			$qb->executeStatement();
 		}
-
 		return $entity;
 	}
 

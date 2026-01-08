@@ -2,31 +2,32 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { Node } from '@nextcloud/files'
-
+import { DefaultType, FileAction, FileType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import { FileType, FileAction, DefaultType } from '@nextcloud/files'
-import { VIEW_ID as SEARCH_VIEW_ID } from '../views/search'
+import { VIEW_ID as SEARCH_VIEW_ID } from '../views/search.ts'
 
 export const action = new FileAction({
 	id: 'open-in-files',
 	displayName: () => t('files', 'Open in Files'),
 	iconSvgInline: () => '',
 
-	enabled(nodes, view) {
+	enabled({ view }) {
 		return view.id === 'recent' || view.id === SEARCH_VIEW_ID
 	},
 
-	async exec(node: Node) {
-		let dir = node.dirname
-		if (node.type === FileType.Folder) {
-			dir = dir + '/' + node.basename
+	async exec({ nodes }) {
+		if (!nodes[0]) {
+			return false
+		}
+
+		let dir = nodes[0].dirname
+		if (nodes[0].type === FileType.Folder) {
+			dir = dir + '/' + nodes[0].basename
 		}
 
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
-			{ view: 'files', fileid: String(node.fileid) },
+			{ view: 'files', fileid: String(nodes[0].fileid) },
 			{ dir, openfile: 'true' },
 		)
 		return null

@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction, View, Node, Folder } from '@nextcloud/files'
+import type { FileAction, IFolder, INode, IView } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-
 import logger from '../logger.ts'
 
 export const useActiveStore = defineStore('active', () => {
@@ -21,17 +20,17 @@ export const useActiveStore = defineStore('active', () => {
 	/**
 	 * The currently active folder
 	 */
-	const activeFolder = ref<Folder>()
+	const activeFolder = ref<IFolder>()
 
 	/**
 	 * The current active node within the folder
 	 */
-	const activeNode = ref<Node>()
+	const activeNode = ref<INode>()
 
 	/**
 	 * The current active view
 	 */
-	const activeView = ref<View>()
+	const activeView = ref<IView>()
 
 	initialize()
 
@@ -39,9 +38,8 @@ export const useActiveStore = defineStore('active', () => {
 	 * Unset the active node if deleted
 	 *
 	 * @param node - The node thats deleted
-	 * @private
 	 */
-	function onDeletedNode(node: Node) {
+	function onDeletedNode(node: INode) {
 		if (activeNode.value && activeNode.value.source === node.source) {
 			activeNode.value = undefined
 		}
@@ -51,9 +49,8 @@ export const useActiveStore = defineStore('active', () => {
 	 * Callback to update the current active view
 	 *
 	 * @param view - The new active view
-	 * @private
 	 */
-	function onChangedView(view: View|null = null) {
+	function onChangedView(view: IView | null = null) {
 		logger.debug('Setting active view', { view })
 		activeView.value = view ?? undefined
 		activeNode.value = undefined
@@ -61,7 +58,7 @@ export const useActiveStore = defineStore('active', () => {
 
 	/**
 	 * Initalize the store - connect all event listeners.
-	 * @private
+	 *
 	 */
 	function initialize() {
 		const navigation = getNavigation()

@@ -80,7 +80,7 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 			->willReturn(count($subscriptions));
 
 		$result
-			->method('fetch')
+			->method('fetchAssociative')
 			->willReturnOnConsecutiveCalls(...$subscriptions);
 
 		$qb->method('delete')

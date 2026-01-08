@@ -16,9 +16,8 @@ use OCP\Http\Client\IResponse;
 
 /**
  * Tests for the external Storage class for remote shares.
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExternalStorageTest extends \Test\TestCase {
 	public static function optionsProvider() {
 		return [

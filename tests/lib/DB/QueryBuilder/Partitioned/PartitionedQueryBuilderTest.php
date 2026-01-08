@@ -18,9 +18,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PartitionedQueryBuilderTest extends TestCase {
 	private IDBConnection $connection;
 	private ShardConnectionManager $shardConnectionManager;
@@ -29,6 +27,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 	protected function setUp(): void {
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
+			return;
 		}
 		$this->connection = Server::get(IDBConnection::class);
 		$this->shardConnectionManager = Server::get(ShardConnectionManager::class);
@@ -38,7 +37,11 @@ class PartitionedQueryBuilderTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->cleanupDb();
+		// PHP unit also runs tearDown when the test is skipped, but we only initialized when using 64bit
+		// see https://github.com/sebastianbergmann/phpunit/issues/6394
+		if (PHP_INT_SIZE >= 8) {
+			$this->cleanupDb();
+		}
 		parent::tearDown();
 	}
 
@@ -87,6 +90,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 				'storage_id' => $query->createNamedParameter(1001001, IQueryBuilder::PARAM_INT),
 				'user_id' => $query->createNamedParameter('partitioned_test'),
 				'mount_point' => $query->createNamedParameter('/mount/point'),
+				'mount_point_hash' => $query->createNamedParameter(hash('xxh128', '/mount/point')),
 				'mount_provider_class' => $query->createNamedParameter('test'),
 				'root_id' => $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT),
 			]);
@@ -135,7 +139,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache']));
 
 		// query borrowed from UserMountCache
-		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_point_hash', 'mount_id', 'f.path', 'mount_provider_class')
 			->from('mounts', 'm')
 			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter(1001001, IQueryBuilder::PARAM_INT)));
@@ -148,6 +152,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertCount(1, $results);
 		$this->assertEquals($results[0]['user_id'], 'partitioned_test');
 		$this->assertEquals($results[0]['mount_point'], '/mount/point');
+		$this->assertEquals($results[0]['mount_point_hash'], hash('xxh128', '/mount/point'));
 		$this->assertEquals($results[0]['mount_provider_class'], 'test');
 		$this->assertEquals($results[0]['path'], 'file1');
 	}
@@ -156,7 +161,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$builder = $this->getQueryBuilder();
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache', 'filecache_extended']));
 
-		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class', 'fe.upload_time')
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_point_hash', 'mount_id', 'f.path', 'mount_provider_class', 'fe.upload_time')
 			->from('mounts', 'm')
 			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
 			->innerJoin('f', 'filecache_extended', 'fe', $builder->expr()->eq('f.fileid', 'fe.fileid'))
@@ -170,6 +175,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertCount(1, $results);
 		$this->assertEquals($results[0]['user_id'], 'partitioned_test');
 		$this->assertEquals($results[0]['mount_point'], '/mount/point');
+		$this->assertEquals($results[0]['mount_point_hash'], hash('xxh128', '/mount/point'));
 		$this->assertEquals($results[0]['mount_provider_class'], 'test');
 		$this->assertEquals($results[0]['path'], 'file1');
 		$this->assertEquals($results[0]['upload_time'], 1234);
@@ -179,7 +185,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$builder = $this->getQueryBuilder();
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache']));
 
-		$query = $builder->select('storage', 'm.root_id', 'm.user_id', 'm.mount_point', 'm.mount_id', 'path', 'm.mount_provider_class')
+		$query = $builder->select('storage', 'm.root_id', 'm.user_id', 'm.mount_point', 'm.mount_point_hash', 'm.mount_id', 'path', 'm.mount_provider_class')
 			->from('filecache', 'f')
 			->innerJoin('f', 'mounts', 'm', $builder->expr()->eq('m.root_id', 'f.fileid'));
 		$query->where($builder->expr()->eq('storage', $builder->createNamedParameter(1001001, IQueryBuilder::PARAM_INT)));
@@ -192,6 +198,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertCount(1, $results);
 		$this->assertEquals($results[0]['user_id'], 'partitioned_test');
 		$this->assertEquals($results[0]['mount_point'], '/mount/point');
+		$this->assertEquals($results[0]['mount_point_hash'], hash('xxh128', '/mount/point'));
 		$this->assertEquals($results[0]['mount_provider_class'], 'test');
 		$this->assertEquals($results[0]['path'], 'file1');
 	}
@@ -201,7 +208,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache']));
 
 		// query borrowed from UserMountCache
-		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_point_hash', 'mount_id', 'f.path', 'mount_provider_class')
 			->selectAlias('s.id', 'storage_string_id')
 			->from('mounts', 'm')
 			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
@@ -216,6 +223,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertCount(1, $results);
 		$this->assertEquals($results[0]['user_id'], 'partitioned_test');
 		$this->assertEquals($results[0]['mount_point'], '/mount/point');
+		$this->assertEquals($results[0]['mount_point_hash'], hash('xxh128', '/mount/point'));
 		$this->assertEquals($results[0]['mount_provider_class'], 'test');
 		$this->assertEquals($results[0]['path'], 'file1');
 		$this->assertEquals($results[0]['storage_string_id'], 'test1');

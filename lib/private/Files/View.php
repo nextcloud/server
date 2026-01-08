@@ -11,6 +11,7 @@ use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
+use OC\Files\Utils\PathHelper;
 use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
@@ -55,6 +56,8 @@ use Psr\Log\LoggerInterface;
  *
  * Filesystem functions are not called directly; they are passed to the correct
  * \OC\Files\Storage\Storage object
+ *
+ * @internal Since 33.0.0. use IRootFolder and the Folder/File/Node API instead in new code.
  */
 class View {
 	private string $fakeRoot = '';
@@ -90,13 +93,7 @@ class View {
 			return null;
 		}
 		$this->assertPathLength($path);
-		if ($path === '') {
-			$path = '/';
-		}
-		if ($path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		return $this->fakeRoot . $path;
+		return PathHelper::normalizePath($this->fakeRoot . '/' . $path);
 	}
 
 	/**
@@ -1877,7 +1874,6 @@ class View {
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK,
-			IShare::TYPE_SCIENCEMESH
 		];
 		$shareManager = Server::get(IManager::class);
 		/** @var IShare[] $shares */
@@ -1886,7 +1882,15 @@ class View {
 		}, $providers));
 
 		foreach ($shares as $share) {
-			$sharedPath = $share->getNode()->getPath();
+			try {
+				$sharedPath = $share->getNode()->getPath();
+			} catch (NotFoundException $e) {
+				// node is not found, ignoring
+				$this->logger->debug(
+					'Could not find the node linked to a share',
+					['app' => 'files', 'exception' => $e]);
+				continue;
+			}
 			if ($targetPath === $sharedPath || str_starts_with($targetPath, $sharedPath . '/')) {
 				$this->logger->debug(
 					'It is not allowed to move one mount point into a shared folder',

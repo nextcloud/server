@@ -27,8 +27,8 @@ use Test\Traits\UserTrait;
  * Class ScanFilesTest
  *
  * @package OCA\Files\Tests\BackgroundJob
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ScanFilesTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;

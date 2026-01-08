@@ -5,7 +5,8 @@
 
 <template>
 	<Fragment>
-		<NcAppNavigationCaption :name="t('settings', 'Groups')"
+		<NcAppNavigationCaption
+			:name="t('settings', 'Groups')"
 			:disabled="loadingAddGroup"
 			:aria-label="loadingAddGroup ? t('settings', 'Creating group…') : t('settings', 'Create group')"
 			force-menu
@@ -22,27 +23,31 @@
 					</template>
 					{{ t('settings', 'Create group') }}
 				</NcActionText>
-				<NcActionInput :label="t('settings', 'Group name')"
+				<NcActionInput
+					v-model="newGroupName"
+					:label="t('settings', 'Group name')"
 					data-cy-users-settings-new-group-name
 					:label-outside="false"
 					:disabled="loadingAddGroup"
-					:value.sync="newGroupName"
 					:error="hasAddGroupError"
 					:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
 					@submit="createGroup" />
 			</template>
 		</NcAppNavigationCaption>
 
-		<NcAppNavigationSearch v-model="groupsSearchQuery"
+		<NcAppNavigationSearch
+			v-model="groupsSearchQuery"
 			:label="t('settings', 'Search groups…')" />
 
 		<p id="group-list-desc" class="hidden-visually">
 			{{ t('settings', 'List of groups. This list is not fully populated for performance reasons. The groups will be loaded as you navigate or search through the list.') }}
 		</p>
-		<NcAppNavigationList class="account-management__group-list"
+		<NcAppNavigationList
+			class="account-management__group-list"
 			aria-describedby="group-list-desc"
 			data-cy-users-settings-navigation-groups="custom">
-			<GroupListItem v-for="group in filteredGroups"
+			<GroupListItem
+				v-for="group in filteredGroups"
 				:id="group.id"
 				ref="groupListItems"
 				:key="group.id"
@@ -64,10 +69,9 @@ import { mdiAccountGroupOutline, mdiPlus } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { useElementVisibility } from '@vueuse/core'
-import { computed, ref, watch, onBeforeMount } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { Fragment } from 'vue-frag'
 import { useRoute, useRouter } from 'vue-router/composables'
-
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
@@ -75,13 +79,11 @@ import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
 import GroupListItem from './GroupListItem.vue'
-
 import { useFormatGroups } from '../composables/useGroupsNavigation.ts'
-import { useStore } from '../store'
-import { searchGroups } from '../service/groups.ts'
 import logger from '../logger.ts'
+import { searchGroups } from '../service/groups.ts'
+import { useStore } from '../store/index.js'
 
 const store = useStore()
 const route = useRoute()
@@ -95,6 +97,10 @@ onBeforeMount(async () => {
 const selectedGroup = computed(() => route.params?.selectedGroup)
 /** Current active group - URL decoded  */
 const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURIComponent(selectedGroup.value) : null)
+/** Server settings for current user */
+const settings = computed(() => store.getters.getServerData)
+/** True if the current user is a (delegated) admin */
+const isAdminOrDelegatedAdmin = computed(() => settings.value.isAdmin || settings.value.isDelegatedAdmin)
 /** All available groups */
 const groups = computed(() => {
 	return isAdminOrDelegatedAdmin.value
@@ -103,10 +109,6 @@ const groups = computed(() => {
 })
 /** User groups */
 const { userGroups } = useFormatGroups(groups)
-/** Server settings for current user */
-const settings = computed(() => store.getters.getServerData)
-/** True if the current user is a (delegated) admin */
-const isAdminOrDelegatedAdmin = computed(() => settings.value.isAdmin || settings.value.isDelegatedAdmin)
 
 /** True if the 'add-group' dialog is open - needed to be able to close it when the group is created */
 const isAddGroupOpen = ref(false)
@@ -129,13 +131,13 @@ const filteredGroups = computed(() => {
 	}
 
 	const substring = groupsSearchQuery.value.toLowerCase()
-	return userGroups.value.filter(group => group.id.toLowerCase().search(substring) !== -1 || group.title.toLowerCase().search(substring) !== -1)
+	return userGroups.value.filter((group) => group.id.toLowerCase().search(substring) !== -1 || group.title.toLowerCase().search(substring) !== -1)
 })
 
 const groupListItems = ref([])
 const lastGroupListItem = computed(() => {
 	return groupListItems.value
-		.findLast(component => component?.$vnode?.key === userGroups.value?.at(-1)?.id) // Order of refs is not guaranteed to match source array order
+		.findLast((component) => component?.$vnode?.key === userGroups.value?.at(-1)?.id) // Order of refs is not guaranteed to match source array order
 		?.$refs?.listItem?.$el
 })
 const isLastGroupVisible = useElementVisibility(lastGroupListItem)
@@ -209,7 +211,7 @@ async function createGroup() {
 				selectedGroup: encodeURIComponent(groupId),
 			},
 		})
-		const newGroupListItem = groupListItems.value.findLast(component => component?.$vnode?.key === groupId)
+		const newGroupListItem = groupListItems.value.findLast((component) => component?.$vnode?.key === groupId)
 		newGroupListItem?.$refs?.listItem?.$el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 		newGroupName.value = ''
 	} catch {

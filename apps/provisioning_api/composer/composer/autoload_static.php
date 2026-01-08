@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitProvisioning_API
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Provisioning_API\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Provisioning_API\\' => 
+        'OCA\\Provisioning_API\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

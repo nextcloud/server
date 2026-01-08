@@ -17,7 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Kommentar löschen",
     "Cancel edit" : "Bearbeiten abbrechen",
     "New comment" : "Neuer Kommentar",
-    "Write a comment …" : "Einen Kommentar schreiben …",
+    "Write a comment …" : "Einen Kommentar schreiben …",
     "Post comment" : "Kommentar veröffentlichen",
     "@ for mentions, : for emoji, / for smart picker" : "@ für Erwähnungen, : für Emoji, / für Smart Picker",
     "Could not reload comments" : "Kommentare konnten nicht erneut geladen werden",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Es ist ein Fehler beim Bearbeiten des Kommentars aufgetreten",
     "Comment deleted" : "Kommentar gelöscht",
     "An error occurred while trying to delete the comment" : "Es ist ein Fehler beim Löschen des Kommentars aufgetreten",
-    "An error occurred while trying to create the comment" : "Es ist ein Fehler beim Erstellen des Kommentars aufgetreten"
+    "An error occurred while trying to create the comment" : "Es ist ein Fehler beim Erstellen des Kommentars aufgetreten",
+    "Write a comment …" : "Einen Kommentar schreiben …"
 },
 "nplurals=2; plural=(n != 1);");

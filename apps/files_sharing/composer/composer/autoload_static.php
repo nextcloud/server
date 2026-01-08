@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFiles_Sharing
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Files_Sharing\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Files_Sharing\\' => 
+        'OCA\\Files_Sharing\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -65,6 +65,8 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => __DIR__ . '/..' . '/../lib/Exceptions/SharingRightsException.php',
         'OCA\\Files_Sharing\\ExpireSharesJob' => __DIR__ . '/..' . '/../lib/ExpireSharesJob.php',
         'OCA\\Files_Sharing\\External\\Cache' => __DIR__ . '/..' . '/../lib/External/Cache.php',
+        'OCA\\Files_Sharing\\External\\ExternalShare' => __DIR__ . '/..' . '/../lib/External/ExternalShare.php',
+        'OCA\\Files_Sharing\\External\\ExternalShareMapper' => __DIR__ . '/..' . '/../lib/External/ExternalShareMapper.php',
         'OCA\\Files_Sharing\\External\\Manager' => __DIR__ . '/..' . '/../lib/External/Manager.php',
         'OCA\\Files_Sharing\\External\\Mount' => __DIR__ . '/..' . '/../lib/External/Mount.php',
         'OCA\\Files_Sharing\\External\\MountProvider' => __DIR__ . '/..' . '/../lib/External/MountProvider.php',
@@ -96,9 +98,12 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Migration\\Version24000Date20220208195521' => __DIR__ . '/..' . '/../lib/Migration/Version24000Date20220208195521.php',
         'OCA\\Files_Sharing\\Migration\\Version24000Date20220404142216' => __DIR__ . '/..' . '/../lib/Migration/Version24000Date20220404142216.php',
         'OCA\\Files_Sharing\\Migration\\Version31000Date20240821142813' => __DIR__ . '/..' . '/../lib/Migration/Version31000Date20240821142813.php',
+        'OCA\\Files_Sharing\\Migration\\Version32000Date20251017081948' => __DIR__ . '/..' . '/../lib/Migration/Version32000Date20251017081948.php',
+        'OCA\\Files_Sharing\\Migration\\Version33000Date20251030081948' => __DIR__ . '/..' . '/../lib/Migration/Version33000Date20251030081948.php',
         'OCA\\Files_Sharing\\MountProvider' => __DIR__ . '/..' . '/../lib/MountProvider.php',
         'OCA\\Files_Sharing\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
         'OCA\\Files_Sharing\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
+        'OCA\\Files_Sharing\\OpenMetrics\\SharesCountMetric' => __DIR__ . '/..' . '/../lib/OpenMetrics/SharesCountMetric.php',
         'OCA\\Files_Sharing\\OrphanHelper' => __DIR__ . '/..' . '/../lib/OrphanHelper.php',
         'OCA\\Files_Sharing\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files_Sharing\\Scanner' => __DIR__ . '/..' . '/../lib/Scanner.php',

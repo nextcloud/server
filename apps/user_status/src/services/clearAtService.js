@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {
-	dateFactory,
-} from './dateService.js'
+import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
+import { dateFactory } from './dateService.js'
 
 /**
  * Calculates the actual clearAt timestamp
@@ -14,7 +13,7 @@ import moment from '@nextcloud/moment'
  * @param {object | null} clearAt The clear-at config
  * @return {number | null}
  */
-const getTimestampForClearAt = (clearAt) => {
+function getTimestampForClearAt(clearAt) {
 	if (clearAt === null) {
 		return null
 	}
@@ -27,9 +26,9 @@ const getTimestampForClearAt = (clearAt) => {
 	}
 	if (clearAt.type === 'end-of') {
 		switch (clearAt.time) {
-		case 'day':
-		case 'week':
-			return Number(moment(date).endOf(clearAt.time).format('X'))
+			case 'day':
+			case 'week':
+				return Number(moment(date).endOf(clearAt.time).format('X'))
 		}
 	}
 	// This is not an officially supported type
@@ -42,6 +41,47 @@ const getTimestampForClearAt = (clearAt) => {
 	return null
 }
 
+/**
+ * Formats a clearAt object to be human readable
+ *
+ * @param {object} clearAt The clearAt object
+ * @return {string|null}
+ */
+function clearAtFormat(clearAt) {
+	if (clearAt === null) {
+		return t('user_status', 'Don\'t clear')
+	}
+
+	if (clearAt.type === 'end-of') {
+		switch (clearAt.time) {
+			case 'day':
+				return t('user_status', 'Today')
+			case 'week':
+				return t('user_status', 'This week')
+
+			default:
+				return null
+		}
+	}
+
+	if (clearAt.type === 'period') {
+		return moment.duration(clearAt.time * 1000).humanize()
+	}
+
+	// This is not an officially supported type
+	// but only used internally to show the remaining time
+	// in the Set Status Modal
+	if (clearAt.type === '_time') {
+		const momentNow = moment(dateFactory())
+		const momentClearAt = moment(clearAt.time, 'X')
+
+		return moment.duration(momentNow.diff(momentClearAt)).humanize()
+	}
+
+	return null
+}
+
 export {
+	clearAtFormat,
 	getTimestampForClearAt,
 }

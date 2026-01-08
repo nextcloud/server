@@ -33,7 +33,6 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "ข้อมูลประจำตัวสำหรับเข้าสู่ระบบ, บันทึกในเซสชัน",
     "RSA public key" : "คีย์สาธารณะ RSA",
     "Public key" : "คีย์สาธารณะ",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "ชื่อโฮสต์",
     "Port" : "พอร์ต",
@@ -73,7 +72,6 @@ OC.L10N.register(
     "Once every direct access" : "ทุก ๆ การเข้าถึงโดยตรง",
     "Admin defined" : "กำหนดโดยผู้ดูแลระบบ",
     "Saved" : "บันทึกแล้ว",
-    "Saving …" : "กำลังบันทึก …",
     "Save" : "บันทึก",
     "Open documentation" : "เปิดเอกสารประกอบ",
     "Folder name" : "ชื่อโฟลเดอร์",
@@ -86,6 +84,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "โปรดระบุคีย์และรหัสลับของแอปให้ถูกต้อง",
     "OAuth1" : "OAuth1",
     "App key" : "คีย์แอป",
-    "App secret" : "ข้อมูลลับแอป"
+    "App secret" : "ข้อมูลลับแอป",
+    "Saving …" : "กำลังบันทึก …"
 },
 "nplurals=1; plural=0;");

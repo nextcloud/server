@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[]).push([[2391],{72391(l,u,a){a.r(u),a.d(u,{default:()=>e.N});var e=a(21829)}}]);

@@ -158,7 +158,6 @@
     "Oracle connection could not be established" : "Соединение с Oracle не может быть установлено",
     "Oracle Login and/or password not valid" : "Неверный логин и/или пароль Oracle",
     "PostgreSQL Login and/or password not valid" : "Неверный логин и/или пароль для PostgreSQL",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X не поддерживается, и %s может работать некорректно на этой платформе. Используйте на свой страх и риск!",
     "For the best results, please consider using a GNU/Linux server instead." : "Для достижения наилучших результатов, рассмотрите вариант использования сервера на GNU/Linux.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Кажется что экземпляр этого %s работает в 32-битной среде PHP и в php.ini был настроен open_basedir. Это приведёт к проблемам с файлами более 4 ГБ и настоятельно не рекомендуется.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Удалите директиву open_basedir из файла php.ini или смените PHP на 64-разрядную сборку.",
@@ -377,6 +376,7 @@
     "The text to generate an emoji for" : "Текст для создания эмодзи",
     "Generated emoji" : "Созданный эмодзи",
     "The generated emoji based on the input text" : "Эмодзи, созданный на основе введённого текста",
+    "Optical character recognition" : "Оптическое распознавание символов",
     "Generate image" : "Генерировать изображение",
     "Generate an image from a text prompt" : "Создайте изображение из текстовой подсказки",
     "Prompt" : "Подсказка",
@@ -467,12 +467,11 @@
     "Summarizes text by reducing its length without losing key information." : "Обобщает текст, сокращая его длину без потери ключевой информации.",
     "Extracts topics from a text and outputs them separated by commas." : "Извлекает темы из текста и выводит их через запятую.",
     "Organisation" : "Организация",
-    "File is currently busy, please try again later" : "Файл в данный момент используется, повторите попытку позже.",
-    "Cannot download file" : "Не удалось скачать файл",
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X не поддерживается, и %s может работать некорректно на этой платформе. Используйте на свой страх и риск!",
+    "Login is too long" : "Имя пользователя слишком длинное",
     "Cannot write into \"apps\" directory." : "Не удалось выполнить запись в каталог «apps».",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Обычно это можно исправить, предоставлением веб-серверу права для записи в каталог приложений или отключением магазина приложений в файле конфигурации.",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "Параметр <code>mbstring.func_overload</code> установлен в <code>%s</code>, но ожидается значение <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Чтобы исправить эту проблему установите параметр <code>mbstring.func_overload</code> в значение <code>0</code> в php.ini.",
-    "Login is too long" : "Имя пользователя слишком длинное"
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Чтобы исправить эту проблему установите параметр <code>mbstring.func_overload</code> в значение <code>0</code> в php.ini."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

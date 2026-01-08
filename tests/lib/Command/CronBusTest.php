@@ -11,9 +11,7 @@ use OC\Command\CronBus;
 use OCP\BackgroundJob\IJobList;
 use Test\BackgroundJob\DummyJobList;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CronBusTest extends AsyncBusTestCase {
 	/**
 	 * @var IJobList

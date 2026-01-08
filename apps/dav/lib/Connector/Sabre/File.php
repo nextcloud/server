@@ -18,6 +18,7 @@ use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files;
 use OCP\Files\EntityTooLargeException;
@@ -467,9 +468,9 @@ class File extends Node implements IFile {
 
 			if ($res === false) {
 				if ($this->fileView->file_exists($path)) {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file does seem to exist', [$path]));
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s (%2$d), file does seem to exist', [$path, $this->info->getId()]));
 				} else {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file doesn\'t seem to exist', [$path]));
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s (%2$d), file doesn\'t seem to exist', [$path, $this->info->getId()]));
 				}
 			}
 
@@ -539,18 +540,24 @@ class File extends Node implements IFile {
 	}
 
 	/**
-	 * @return array|bool
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
-	public function getDirectDownload() {
+	public function getDirectDownload(): array|false {
 		if (Server::get(IAppManager::class)->isEnabledForUser('encryption')) {
-			return [];
+			return false;
 		}
-		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
-		if (is_null($storage)) {
-			return [];
+		$node = $this->getNode();
+		$storage = $node->getStorage();
+		if (!$storage) {
+			return false;
 		}
 
-		return $storage->getDirectDownload($internalPath);
+		if (!($node->getPermissions() & Constants::PERMISSION_READ)) {
+			return false;
+		}
+
+		return $storage->getDirectDownloadById((string)$node->getId());
 	}
 
 	/**

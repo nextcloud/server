@@ -1,11 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Private" : "Private",
-    "Local" : "Lokale",
-    "Federated" : "Federated",
-    "Verify" : "Verifiko",
-    "Verifying …" : "Duke verifikuar ...",
     "Unable to change password" : "S’arrin të ndryshojë fjalëkalimin",
     "Very weak password" : "Fjalëkalim shumë i dobët",
     "Weak password" : "Fjalëkalim i dobët",
@@ -72,6 +67,8 @@ OC.L10N.register(
     "Background jobs" : "Punët në background",
     "Unlimited" : "E pakufizuar",
     "Verifying" : "Duke verifikuar",
+    "Verifying …" : "Duke verifikuar ...",
+    "Verify" : "Verifiko",
     "Disabled" : "I/E çaktivizuar",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP-ja nuk duket të jetë ngritur si duhet për të kërkuar ndryshore mjedisi sistemi. Testi me getenv(\"PATH\") kthen vetëm një përgjigje të zbrazët.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Baza juaj e të dhënave nuk ekzekutohet me nivelin \"READ COMMITED\" e izolimit për ndërveprimet. Kjo mund të shkaktojë probleme, kur kryhen paralelisht disa veprime njëherësh.",
@@ -175,7 +172,6 @@ OC.L10N.register(
     "Show last login" : "Shfaq hyrjen e fundit",
     "Send email" : "Dërgo email",
     "Default quota" : "Kuota Parazgjedhje",
-    "Adding your device …" : "Shtoni pajisjen tuaj ...",
     "Unnamed device" : "Paisje pa emër",
     "Security & setup warnings" : "Sinjalizime sigurie & rregullimi",
     "Try again" : "Provo përsëri",
@@ -191,6 +187,9 @@ OC.L10N.register(
     "Full name" : "Emër i plotë",
     "Phone number" : "Numri i telefonit",
     "Website" : "Faqe web-i",
+    "Private" : "Private",
+    "Local" : "Lokale",
+    "Federated" : "Federated",
     "Your apps" : "Aplikacionet tuaja ",
     "Active apps" : "Aplikacionet aktive",
     "Disabled apps" : "Aplikacionet pa aftësi ",
@@ -222,6 +221,6 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Abonohu në gazeten tonë",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një minimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një maksimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
-    "You are using <strong>{usage}</strong>" : "Ju po përdorni <strong>{usage}</strong>"
+    "Adding your device …" : "Shtoni pajisjen tuaj ..."
 },
 "nplurals=2; plural=(n != 1);");

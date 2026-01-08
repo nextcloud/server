@@ -8,9 +8,11 @@ declare(strict_types=1);
  */
 namespace OCA\Files\Command;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RepairTree extends Command {
@@ -25,12 +27,17 @@ class RepairTree extends Command {
 	protected function configure(): void {
 		$this
 			->setName('files:repair-tree')
-			->setDescription('Try and repair malformed filesystem tree structures')
-			->addOption('dry-run');
+			->setDescription('Try and repair malformed filesystem tree structures (may be necessary to run multiple times for nested malformations)')
+			->addOption('dry-run')
+			->addOption('storage-id', 's', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given storage numeric ID', null)
+			->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given path', null);
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		$rows = $this->findBrokenTreeBits();
+		$rows = $this->findBrokenTreeBits(
+			$input->getOption('storage-id'),
+			$input->getOption('path'),
+		);
 		$fix = !$input->getOption('dry-run');
 
 		$output->writeln('Found ' . count($rows) . ' file entries with an invalid path');
@@ -78,7 +85,7 @@ class RepairTree extends Command {
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($storage)))
 			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($path))));
-		return $query->executeQuery()->fetch(\PDO::FETCH_COLUMN);
+		return $query->executeQuery()->fetchOne();
 	}
 
 	private function deleteById(int $fileId): void {
@@ -88,7 +95,7 @@ class RepairTree extends Command {
 		$query->executeStatement();
 	}
 
-	private function findBrokenTreeBits(): array {
+	private function findBrokenTreeBits(?string $storageId, ?string $path): array {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select('f.fileid', 'f.path', 'f.parent', 'f.name')
@@ -108,6 +115,14 @@ class RepairTree extends Command {
 				$query->expr()->neq('f.storage', 'p.storage')
 			));
 
-		return $query->executeQuery()->fetchAll();
+		if ($storageId !== null) {
+			$query->andWhere($query->expr()->eq('f.storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
+		}
+
+		if ($path !== null) {
+			$query->andWhere($query->expr()->like('f.path', $query->createNamedParameter($path . '%')));
+		}
+
+		return $query->executeQuery()->fetchAllAssociative();
 	}
 }

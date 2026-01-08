@@ -70,6 +70,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		});
 
 		Util::addScript('user_status', 'menu');
-		Util::addStyle('user_status', 'user-status-menu');
+		Util::addStyle('user_status', 'menu');
 	}
 }

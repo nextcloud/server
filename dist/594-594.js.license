@@ -1,0 +1,62 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+
+
+This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/dom
+	- version: 1.7.4
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- vue-select
+	- version: 4.0.0-beta.6
+	- license: MIT
+- vue
+	- version: 3.5.22
+	- license: MIT
+- @nextcloud/l10n
+	- version: 3.4.1
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @vue/reactivity
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.22
+	- license: MIT
+- @vue/shared
+	- version: 3.5.22
+	- license: MIT
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- dompurify
+	- version: 3.3.1
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT

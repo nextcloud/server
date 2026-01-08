@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Desaniciar el comentariu",
     "Cancel edit" : "Anular la edición",
     "New comment" : "Comentariu nuevu",
-    "Write a comment …" : "Escribi un comentariu…",
     "Post comment" : "Espublizar el comentariu",
     "@ for mentions, : for emoji, / for smart picker" : "@ pa les menciones, : pa los fustaxes, / pal selector intelixente",
     "Could not reload comments" : "Nun se pudieron recargar los comentarios",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Prodúxose un error mentanto se tentaba d'editar el comentariu",
     "Comment deleted" : "Desanicióse'l comentariu",
     "An error occurred while trying to delete the comment" : "Prodúxose un error mentanto se tentaba de desaniciar el comentariu",
-    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu"
+    "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu",
+    "Write a comment …" : "Escribi un comentariu…"
 },
 "nplurals=2; plural=(n != 1);");

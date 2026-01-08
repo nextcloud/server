@@ -24,10 +24,10 @@ use Test\TestCase;
 /**
  * Class CleanUpTest
  *
- * @group DB
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CleanUpTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected IRootFolder&MockObject $rootFolder;
@@ -65,7 +65,7 @@ class CleanUpTest extends TestCase {
 		$result = $getAllQuery->select('id')
 			->from($this->trashTable)
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 		$this->assertCount(10, $result);
 	}
 
@@ -97,7 +97,7 @@ class CleanUpTest extends TestCase {
 				->from($this->trashTable);
 
 			$qResult = $query->executeQuery();
-			$result = $qResult->fetchAll();
+			$result = $qResult->fetchAllAssociative();
 			$qResult->closeCursor();
 
 			$this->assertCount(5, $result);
@@ -111,7 +111,7 @@ class CleanUpTest extends TestCase {
 			$result = $getAllQuery->select('id')
 				->from($this->trashTable)
 				->executeQuery()
-				->fetchAll();
+				->fetchAllAssociative();
 			$this->assertCount(10, $result);
 		}
 	}

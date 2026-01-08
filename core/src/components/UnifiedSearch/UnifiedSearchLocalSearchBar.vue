@@ -4,17 +4,19 @@
 -->
 <template>
 	<Transition>
-		<div v-if="open"
+		<div
+			v-if="open"
 			class="local-unified-search animated-width"
 			:class="{ 'local-unified-search--open': open }">
 			<!-- We can not use labels as it breaks the header layout so only aria-label and placeholder -->
-			<NcInputField ref="searchInput"
+			<NcInputField
+				ref="searchInput"
 				class="local-unified-search__input animated-width"
 				:aria-label="t('core', 'Search in current app')"
 				:placeholder="t('core', 'Search in current app')"
 				show-trailing-button
 				:trailing-button-label="t('core', 'Clear search')"
-				:value="query"
+				:model-value="query"
 				@update:value="$emit('update:query', $event)"
 				@trailing-button-click="clearAndCloseSearch">
 				<template #trailing-button-icon>
@@ -22,11 +24,12 @@
 				</template>
 			</NcInputField>
 
-			<NcButton ref="searchGlobalButton"
+			<NcButton
+				ref="searchGlobalButton"
 				class="local-unified-search__global-search"
 				:aria-label="t('core', 'Search everywhere')"
 				:title="t('core', 'Search everywhere')"
-				type="tertiary-no-background"
+				variant="tertiary-no-background"
 				@click="$emit('global-search')">
 				<template v-if="!isMobile" #default>
 					{{ t('core', 'Search everywhere') }}
@@ -41,18 +44,18 @@
 
 <script lang="ts" setup>
 import type { ComponentPublicInstance } from 'vue'
-import { mdiCloudSearchOutline, mdiClose } from '@mdi/js'
+
+import { mdiClose, mdiCloudSearchOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { useElementSize } from '@vueuse/core'
 import { computed, ref, watchEffect } from 'vue'
-
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 
 const props = defineProps<{
-	query: string,
+	query: string
 	open: boolean
 }>()
 

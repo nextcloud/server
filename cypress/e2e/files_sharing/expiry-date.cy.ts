@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
 import { closeSidebar } from '../files/FilesUtils.ts'
 import { createShare, openSharingDetails, openSharingPanel, updateShare } from './FilesSharingUtils.ts'
 
@@ -89,11 +90,13 @@ describe('files_sharing: Expiry date', () => {
 		prepareDirectory(dir)
 		updateShare(dir, 0, { expiryDate: fortnight })
 		validateExpiryDate(dir, fortnightString)
-
 		closeSidebar()
+
+		cy.log('Upadate share and validate expiry date is kept')
 		updateShare(dir, 0, { note: 'Only note changed' })
 		validateExpiryDate(dir, fortnightString)
 
+		cy.log('Reload page and validate expiry date is kept')
 		cy.visit('/apps/files')
 		validateExpiryDate(dir, fortnightString)
 	})
@@ -124,5 +127,4 @@ describe('files_sharing: Expiry date', () => {
 			.should('exist')
 			.and('have.value', expectedDate)
 	}
-
 })

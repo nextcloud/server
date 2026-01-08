@@ -6,7 +6,11 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLoggerBuilder } from '@nextcloud/logger'
 
-const getLogger = user => {
+/**
+ *
+ * @param user
+ */
+function getLogger(user) {
 	if (user === null) {
 		return getLoggerBuilder()
 			.setApp('core')

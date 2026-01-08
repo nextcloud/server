@@ -5,22 +5,19 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { ShareType } from '@nextcloud/sharing'
 import { emit } from '@nextcloud/event-bus'
-
-import PQueue from 'p-queue'
+import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
-
-import GeneratePassword from '../utils/GeneratePassword.ts'
-import Share from '../models/Share.ts'
-import SharesRequests from './ShareRequests.js'
-import Config from '../services/ConfigService.ts'
-import logger from '../services/logger.ts'
-
+import PQueue from 'p-queue'
+import { fetchNode } from '../../../files/src/services/WebdavClient.ts'
 import {
 	BUNDLED_PERMISSIONS,
 } from '../lib/SharePermissionsToolBox.js'
-import { fetchNode } from '../../../files/src/services/WebdavClient.ts'
+import Share from '../models/Share.ts'
+import Config from '../services/ConfigService.ts'
+import logger from '../services/logger.ts'
+import GeneratePassword from '../utils/GeneratePassword.ts'
+import SharesRequests from './ShareRequests.js'
 
 export default {
 	mixins: [SharesRequests],
@@ -173,9 +170,8 @@ export default {
 				if (this.passwordProtectedState !== undefined) {
 					return this.passwordProtectedState
 				}
-				return this.share.newPassword !== undefined
-					|| this.share.password !== undefined
-
+				return typeof this.share.newPassword === 'string'
+					|| typeof this.share.password === 'string'
 			},
 			async set(enabled) {
 				if (enabled) {
@@ -183,7 +179,7 @@ export default {
 					this.$set(this.share, 'newPassword', await GeneratePassword(true))
 				} else {
 					this.passwordProtectedState = false
-					this.$delete(this.share, 'newPassword')
+					this.$set(this.share, 'newPassword', '')
 				}
 			},
 		},
@@ -295,7 +291,7 @@ export default {
 				this.$emit('remove:share', this.share)
 				await this.getNode()
 				emit('files:node:updated', this.node)
-			} catch (error) {
+			} catch {
 				// re-open menu if error
 				this.open = true
 			} finally {
@@ -320,7 +316,9 @@ export default {
 				// share api controller accepts
 				for (const name of propertyNames) {
 					if (name === 'password') {
-						properties[name] = this.share.newPassword ?? this.share.password
+						if (this.share.newPassword !== undefined) {
+							properties[name] = this.share.newPassword
+						}
 						continue
 					}
 
@@ -341,7 +339,7 @@ export default {
 
 						if (propertyNames.includes('password')) {
 							// reset password state after sync
-							this.share.password = this.share.newPassword ?? ''
+							this.share.password = this.share.newPassword || undefined
 							this.$delete(this.share, 'newPassword')
 
 							// updates password expiration time after sync
@@ -373,7 +371,7 @@ export default {
 			}
 
 			// This share does not exists on the server yet
-			console.debug('Updated local share', this.share)
+			logger.debug('Updated local share', { share: this.share })
 		},
 
 		/**
@@ -385,20 +383,20 @@ export default {
 			}
 
 			switch (names[0]) {
-			case 'expireDate':
-				return t('files_sharing', 'Share expiry date saved')
-			case 'hideDownload':
-				return t('files_sharing', 'Share hide-download state saved')
-			case 'label':
-				return t('files_sharing', 'Share label saved')
-			case 'note':
-				return t('files_sharing', 'Share note for recipient saved')
-			case 'password':
-				return t('files_sharing', 'Share password saved')
-			case 'permissions':
-				return t('files_sharing', 'Share permissions saved')
-			default:
-				return t('files_sharing', 'Share saved')
+				case 'expireDate':
+					return t('files_sharing', 'Share expiry date saved')
+				case 'hideDownload':
+					return t('files_sharing', 'Share hide-download state saved')
+				case 'label':
+					return t('files_sharing', 'Share label saved')
+				case 'note':
+					return t('files_sharing', 'Share note for recipient saved')
+				case 'password':
+					return t('files_sharing', 'Share password saved')
+				case 'permissions':
+					return t('files_sharing', 'Share permissions saved')
+				default:
+					return t('files_sharing', 'Share saved')
 			}
 		},
 
@@ -419,35 +417,35 @@ export default {
 			// re-open menu if closed
 			this.open = true
 			switch (property) {
-			case 'password':
-			case 'pending':
-			case 'expireDate':
-			case 'label':
-			case 'note': {
+				case 'password':
+				case 'pending':
+				case 'expireDate':
+				case 'label':
+				case 'note': {
 				// show error
-				this.$set(this.errors, property, message)
+					this.$set(this.errors, property, message)
 
-				let propertyEl = this.$refs[property]
-				if (propertyEl) {
-					if (propertyEl.$el) {
-						propertyEl = propertyEl.$el
+					let propertyEl = this.$refs[property]
+					if (propertyEl) {
+						if (propertyEl.$el) {
+							propertyEl = propertyEl.$el
+						}
+						// focus if there is a focusable action element
+						const focusable = propertyEl.querySelector('.focusable')
+						if (focusable) {
+							focusable.focus()
+						}
 					}
-					// focus if there is a focusable action element
-					const focusable = propertyEl.querySelector('.focusable')
-					if (focusable) {
-						focusable.focus()
-					}
+					break
 				}
-				break
-			}
-			case 'sendPasswordByTalk': {
+				case 'sendPasswordByTalk': {
 				// show error
-				this.$set(this.errors, property, message)
+					this.$set(this.errors, property, message)
 
-				// Restore previous state
-				this.share.sendPasswordByTalk = !this.share.sendPasswordByTalk
-				break
-			}
+					// Restore previous state
+					this.share.sendPasswordByTalk = !this.share.sendPasswordByTalk
+					break
+				}
 			}
 		},
 		/**

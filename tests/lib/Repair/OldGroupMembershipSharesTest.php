@@ -19,10 +19,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class OldGroupMembershipSharesTest
  *
- * @group DB
  *
  * @package Test\Repair
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OldGroupMembershipSharesTest extends \Test\TestCase {
 
 	private IDBConnection $connection;
@@ -76,7 +76,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 			->from('share')
 			->orderBy('id', 'ASC')
 			->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
 		$result->closeCursor();
 
@@ -92,7 +92,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 			->from('share')
 			->orderBy('id', 'ASC')
 			->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member]], $rows);
 		$result->closeCursor();
 	}

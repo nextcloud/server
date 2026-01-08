@@ -4,7 +4,8 @@
  -->
 
 <template>
-	<span class="app-menu-icon"
+	<span
+		class="app-menu-icon"
 		role="img"
 		:aria-hidden="ariaHidden"
 		:aria-label="ariaLabel">

@@ -30,6 +30,32 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	public function eq($x, $y, $type = null): string {
+		if ($type === IQueryBuilder::PARAM_JSON) {
+			$x = $this->prepareColumn($x, $type);
+			$y = $this->prepareColumn($y, $type);
+			return (string)(new QueryFunction('JSON_EQUAL(' . $x . ',' . $y . ')'));
+		}
+
+		return parent::eq($x, $y, $type);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function neq($x, $y, $type = null): string {
+		if ($type === IQueryBuilder::PARAM_JSON) {
+			$x = $this->prepareColumn($x, $type);
+			$y = $this->prepareColumn($y, $type);
+			return (string)(new QueryFunction('NOT JSON_EQUAL(' . $x . ',' . $y . ')'));
+		}
+
+		return parent::neq($x, $y, $type);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function in($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);

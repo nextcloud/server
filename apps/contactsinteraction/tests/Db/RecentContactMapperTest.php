@@ -17,9 +17,7 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\UUIDUtil;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RecentContactMapperTest extends TestCase {
 	private RecentContactMapper $recentContactMapper;
 	private ITimeFactory $time;

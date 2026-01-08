@@ -2,9 +2,11 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Folder, Node, Permission, View, FileAction } from '@nextcloud/files'
+import type { View } from '@nextcloud/files'
+
+import { File, FileAction, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
-import { action } from './viewInFolderAction'
+import { action } from './viewInFolderAction.ts'
 
 const view = {
 	id: 'trashbin',
@@ -20,8 +22,18 @@ describe('View in folder action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('view-in-folder')
-		expect(action.displayName([], view)).toBe('View in folder')
-		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('View in folder')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(80)
 		expect(action.enabled).toBeDefined()
@@ -36,10 +48,16 @@ describe('View in folder action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled for files', () => {
@@ -49,10 +67,16 @@ describe('View in folder action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], viewFiles)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view: viewFiles,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled without permissions', () => {
@@ -62,10 +86,16 @@ describe('View in folder action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.NONE,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled for non-dav ressources', () => {
@@ -74,10 +104,16 @@ describe('View in folder action enabled tests', () => {
 			source: 'https://domain.com/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled if more than one node', () => {
@@ -86,16 +122,23 @@ describe('View in folder action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file1, file2], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled for folders', () => {
@@ -104,10 +147,16 @@ describe('View in folder action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/FooBar/',
 			owner: 'admin',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([folder], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [folder],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled for files outside the user root folder', () => {
@@ -116,17 +165,22 @@ describe('View in folder action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/trashbin/admin/trash/image.jpg.d1731053878',
 			owner: 'admin',
 			permissions: Permission.READ,
+			root: '/trashbin/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
 describe('View in folder action execute tests', () => {
 	test('View in folder', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -135,9 +189,15 @@ describe('View in folder action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
@@ -146,7 +206,6 @@ describe('View in folder action execute tests', () => {
 
 	test('View in (sub) folder', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -158,7 +217,12 @@ describe('View in folder action execute tests', () => {
 			permissions: Permission.READ,
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
@@ -167,26 +231,36 @@ describe('View in folder action execute tests', () => {
 
 	test('View in folder fails without node', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
-		const exec = await action.exec(null as unknown as Node, view, '/')
+		const exec = await action.exec({
+			// @ts-expect-error We want to test without node
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toBe(false)
 		expect(goToRouteMock).toBeCalledTimes(0)
 	})
 
 	test('View in folder fails without File', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const folder = new Folder({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/',
 			owner: 'admin',
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(folder, view, '/')
+		const exec = await action.exec({
+			nodes: [folder],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toBe(false)
 		expect(goToRouteMock).toBeCalledTimes(0)
 	})

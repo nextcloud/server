@@ -41,8 +41,8 @@ use Psr\Log\LoggerInterface;
  * Class DefaultShareProviderTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $dbConn;
@@ -494,7 +494,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share');
 
 		$cursor = $qb->executeQuery();
-		$result = $cursor->fetchAll();
+		$result = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertEmpty($result);
@@ -527,7 +527,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share');
 
 		$cursor = $qb->executeQuery();
-		$result = $cursor->fetchAll();
+		$result = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertEmpty($result);
@@ -592,7 +592,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share');
 
 		$cursor = $qb->executeQuery();
-		$result = $cursor->fetchAll();
+		$result = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertEmpty($result);
@@ -1553,7 +1553,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		$this->assertCount(1, $shares);
@@ -1625,7 +1625,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		$this->assertCount(1, $shares);
@@ -1763,7 +1763,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		$this->assertCount(0, $shares);
@@ -2188,7 +2188,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->orderBy('id')
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 
 		$this->assertSame('user0', $shares[0]['share_with']);
 		$this->assertSame('user4', $shares[0]['uid_initiator']);
@@ -2329,7 +2329,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$qb->expr()->eq('id', $qb->createNamedParameter($id))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertCount($rowDeleted ? 0 : 1, $data);
@@ -2388,7 +2388,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$qb->expr()->eq('id', $qb->createNamedParameter($userGroupId))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 		$this->assertCount($userGroupShareDeleted ? 0 : 1, $data);
 
@@ -2399,7 +2399,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$qb->expr()->eq('id', $qb->createNamedParameter($groupId))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 		$this->assertCount($groupShareDeleted ? 0 : 1, $data);
 	}
@@ -2492,7 +2492,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share')
 			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
 			->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertCount($shouldBeDeleted ? 0 : count($ids), $data);
@@ -2550,7 +2550,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id2)));
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertCount($toDelete ? 0 : 1, $data);

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -16,12 +16,14 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\Federation\ICloudFederationProviderManager;
 
 class Application extends App implements IBootstrap {
+
+	public const APP_ID = 'federatedfilesharing';
+
 	public function __construct() {
-		parent::__construct('federatedfilesharing');
+		parent::__construct(self::APP_ID);
 	}
 
 	public function register(IRegistrationContext $context): void {
@@ -33,12 +35,14 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCloudFederationProvider']));
 	}
 
-	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
-		IAppContainer $appContainer): void {
-		$manager->addCloudFederationProvider('file',
-			'Federated Files Sharing',
-			function () use ($appContainer): CloudFederationProviderFiles {
-				return $appContainer->get(CloudFederationProviderFiles::class);
-			});
+	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager): void {
+		$fileResourceTypes = ['file', 'folder'];
+		foreach ($fileResourceTypes as $type) {
+			$manager->addCloudFederationProvider($type,
+				'Federated Files Sharing',
+				function (): CloudFederationProviderFiles {
+					return \OCP\Server::get(CloudFederationProviderFiles::class);
+				});
+		}
 	}
 }

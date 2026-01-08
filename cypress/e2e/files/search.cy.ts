@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { FilesNavigationPage } from '../../pages/FilesNavigation'
-import { getRowForFile, navigateToFolder } from './FilesUtils'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { FilesNavigationPage } from '../../pages/FilesNavigation.ts'
+import { getRowForFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('files: search', () => {
-
 	let user: User
 
 	const navigation = new FilesNavigationPage()

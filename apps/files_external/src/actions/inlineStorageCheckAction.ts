@@ -2,28 +2,28 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// eslint-disable-next-line n/no-extraneous-import
-import type { AxiosError } from '@nextcloud/axios'
-import type { Node } from '@nextcloud/files'
 
-import { FileAction } from '@nextcloud/files'
-import { showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import type { AxiosError } from '@nextcloud/axios'
+import type { StorageConfig } from '../services/externalStorage.ts'
+
 import AlertSvg from '@mdi/svg/svg/alert-circle.svg?raw'
+import { showWarning } from '@nextcloud/dialogs'
+import { FileAction } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
+import { getStatus } from '../services/externalStorage.ts'
+import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils.ts'
+import { isNodeExternalStorage } from '../utils/externalStorageUtils.ts'
 
 import '../css/fileEntryStatus.scss'
-import { getStatus, type StorageConfig } from '../services/externalStorage'
-import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils'
-import { isNodeExternalStorage } from '../utils/externalStorageUtils'
 
 export const action = new FileAction({
 	id: 'check-external-storage',
 	displayName: () => '',
 	iconSvgInline: () => '',
 
-	enabled: (nodes: Node[]) => {
-		return nodes.every(node => isNodeExternalStorage(node) === true)
+	enabled: ({ nodes }) => {
+		return nodes.every((node) => isNodeExternalStorage(node) === true)
 	},
 	exec: async () => null,
 
@@ -33,15 +33,19 @@ export const action = new FileAction({
 	 *
 	 * @param node The node to render inline
 	 */
-	async renderInline(node: Node) {
+	async renderInline({ nodes }) {
+		if (nodes.length !== 1 || !nodes[0]) {
+			return null
+		}
+
+		const node = nodes[0]
 		const span = document.createElement('span')
 		span.className = 'files-list__row-status'
-		span.innerHTML = t('files_external', 'Checking storage …')
+		span.innerHTML = t('files_external', 'Checking storage …')
 
 		let config = null as unknown as StorageConfig
 		getStatus(node.attributes.id, node.attributes.scope === 'system')
-			.then(response => {
-
+			.then((response) => {
 				config = response.data
 				Vue.set(node.attributes, 'config', config)
 
@@ -51,7 +55,7 @@ export const action = new FileAction({
 
 				span.remove()
 			})
-			.catch(error => {
+			.catch((error) => {
 				// If axios failed or if something else prevented
 				// us from getting the config
 				if ((error as AxiosError).response && !config) {

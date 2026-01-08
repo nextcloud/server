@@ -1,11 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Private" : "Privado",
-    "Local" : "Local",
-    "Federated" : "Federado",
-    "Verify" : "Verificar",
-    "Verifying …" : "Verificando ...",
     "Unable to change password" : "No fue posible cambiar la contraseña",
     "Very weak password" : "Contraseña muy débil",
     "Weak password" : "Contraseña débil",
@@ -77,6 +72,8 @@ OC.L10N.register(
     "Background jobs" : "Trabajos en segundo plano",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificando",
+    "Verifying …" : "Verificando ...",
+    "Verify" : "Verificar",
     "Disabled" : "Deshabilitado",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "La función de PHP \"set_time_limit\" no está disponible. Esto podría generar que la ejecución de scripts se detenga, rompiendo su instalación. Se recomienda ámpliamente habilitar esta función. ",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Tu PHP no cuenta con soporte FreeType, lo que resulta en fallas en la imagen de perfil y la interface de configuraciones. ",
@@ -197,6 +194,9 @@ OC.L10N.register(
     "Full name" : "Nombre completo",
     "Phone number" : "Número de teléfono",
     "Website" : "Sitio web",
+    "Private" : "Privado",
+    "Local" : "Local",
+    "Federated" : "Federado",
     "Your apps" : "Tus aplicaciones",
     "Disabled apps" : "Aplicaciones deshabilitadas",
     "Updates" : "Actualizaciones",
@@ -227,7 +227,6 @@ OC.L10N.register(
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
-    "You are using <strong>{usage}</strong>" : "Estás usando<strong>{usage}</strong>"
+    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

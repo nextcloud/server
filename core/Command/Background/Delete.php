@@ -35,7 +35,7 @@ class Delete extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobId = (int)$input->getArgument('job-id');
+		$jobId = (string)$input->getArgument('job-id');
 
 		$job = $this->jobList->getById($jobId);
 		if ($job === null) {

@@ -2,12 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import moment from '@nextcloud/moment'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue, { type ComponentPublicInstance } from 'vue'
 import logger from './logger.js'
 import { getComments } from './services/GetComments.js'
-
-import { PiniaVuePlugin, createPinia } from 'pinia'
 
 Vue.use(PiniaVuePlugin)
 

@@ -4,12 +4,14 @@
 -->
 
 <template>
-	<NcBreadcrumbs data-cy-files-content-breadcrumbs
+	<NcBreadcrumbs
+		data-cy-files-content-breadcrumbs
 		:aria-label="t('files', 'Current directory path')"
 		class="files-list__breadcrumbs"
 		:class="{ 'files-list__breadcrumbs--with-progress': wrapUploadProgressBar }">
 		<!-- Current path sections -->
-		<NcBreadcrumb v-for="(section, index) in sections"
+		<NcBreadcrumb
+			v-for="(section, index) in sections"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
@@ -21,7 +23,8 @@
 			@dragover.native="onDragOver($event, section.dir)"
 			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
-				<NcIconSvgWrapper :size="20"
+				<NcIconSvgWrapper
+					:size="20"
 					:svg="viewIcon" />
 			</template>
 		</NcBreadcrumb>
@@ -37,25 +40,25 @@
 import type { Node } from '@nextcloud/files'
 import type { FileSource } from '../types.ts'
 
-import { basename } from 'path'
-import { defineComponent } from 'vue'
+import HomeSvg from '@mdi/svg/svg/home.svg?raw'
+import { showError } from '@nextcloud/dialogs'
 import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import HomeSvg from '@mdi/svg/svg/home.svg?raw'
+import { basename } from 'path'
+import { defineComponent } from 'vue'
 import NcBreadcrumb from '@nextcloud/vue/components/NcBreadcrumb'
 import NcBreadcrumbs from '@nextcloud/vue/components/NcBreadcrumbs'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-
-import { useNavigation } from '../composables/useNavigation.ts'
-import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { showError } from '@nextcloud/dialogs'
+import { useViews } from '../composables/useViews.ts'
+import logger from '../logger.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
-import logger from '../logger'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
@@ -74,22 +77,24 @@ export default defineComponent({
 	},
 
 	setup() {
-		const draggingStore = useDragAndDropStore()
+		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
+		const draggingStore = useDragAndDropStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
+
 		const fileListWidth = useFileListWidth()
-		const { currentView, views } = useNavigation()
+		const views = useViews()
 
 		return {
+			activeStore,
 			draggingStore,
 			filesStore,
 			pathsStore,
 			selectionStore,
 			uploaderStore,
 
-			currentView,
 			fileListWidth,
 			views,
 		}
@@ -132,7 +137,7 @@ export default defineComponent({
 
 		// used to show the views icon for the first breadcrumb
 		viewIcon(): string {
-			return this.currentView?.icon ?? HomeSvg
+			return this.activeStore.activeView?.icon ?? HomeSvg
 		},
 
 		selectedFiles() {
@@ -148,12 +153,14 @@ export default defineComponent({
 		getNodeFromSource(source: FileSource): Node | undefined {
 			return this.filesStore.getNode(source)
 		},
+
 		getFileSourceFromPath(path: string): FileSource | null {
-			return (this.currentView && this.pathsStore.getPath(this.currentView.id, path)) ?? null
+			return (this.activeStore.activeView && this.pathsStore.getPath(this.activeStore.activeView.id, path)) ?? null
 		},
+
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
-				return this.currentView?.name || t('files', 'Home')
+				return this.activeStore.activeView?.name || t('files', 'Home')
 			}
 
 			const source = this.getFileSourceFromPath(path)
@@ -165,12 +172,12 @@ export default defineComponent({
 			if (dir === '/') {
 				return {
 					...this.$route,
-					params: { view: this.currentView?.id },
+					params: { view: this.activeStore.activeView?.id },
 					query: {},
 				}
 			}
 			if (node === undefined) {
-				const view = this.views.find(view => view.params?.dir === dir)
+				const view = this.views.find((view) => view.params?.dir === dir)
 				return {
 					...this.$route,
 					params: { fileid: view?.params?.fileid ?? '' },
@@ -229,7 +236,8 @@ export default defineComponent({
 			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(path)
+			const controller = new AbortController()
+			const contents = await this.activeStore.activeView?.getContents(path, { signal: controller.signal })
 			const folder = contents?.folder
 			if (!folder) {
 				showError(this.t('files', 'Target folder does not exist any more'))
@@ -254,12 +262,12 @@ export default defineComponent({
 			}
 
 			// Else we're moving/copying files
-			const nodes = selection.map(source => this.filesStore.getNode(source)) as Node[]
+			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
 			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
-			if (selection.some(source => this.selectedFiles.includes(source))) {
+			if (selection.some((source) => this.selectedFiles.includes(source))) {
 				logger.debug('Dropped selection, resetting select store...')
 				this.selectionStore.reset()
 			}
@@ -271,14 +279,12 @@ export default defineComponent({
 			} else if (index === 0) {
 				return t('files', 'Go to the "{dir}" directory', section)
 			}
-			return null
 		},
 
 		ariaForSection(section) {
 			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
 			}
-			return null
 		},
 
 		t,

@@ -3,23 +3,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* globals Snap */
-import _ from 'underscore'
+import { isRTL } from '@nextcloud/l10n'
 import $ from 'jquery'
 import moment from 'moment'
-
-import OC from './OC/index.js'
-import { initSessionHeartBeat } from './session-heartbeat.ts'
+/* globals Snap */
+import _ from 'underscore'
 import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
 import { setUp as setUpMainMenu } from './components/MainMenu.js'
 import { setUp as setUpUserMenu } from './components/UserMenu.js'
-import { interceptRequests } from './utils/xhr-request.js'
+import OC from './OC/index.js'
+import { initSessionHeartBeat } from './session-heartbeat.ts'
 import { initFallbackClipboardAPI } from './utils/ClipboardFallback.ts'
+import { interceptRequests } from './utils/xhr-request.js'
 
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
 
-const initLiveTimestamps = () => {
+/**
+ *
+ */
+function initLiveTimestamps() {
 	// Update live timestamps every 30 seconds
 	setInterval(() => {
 		$('.live-relative-timestamp').each(function() {
@@ -45,7 +48,7 @@ const localeAliases = {
 	zh_Hant_TW: 'zh-tw',
 }
 let locale = OC.getLocale()
-if (Object.prototype.hasOwnProperty.call(localeAliases, locale)) {
+if (Object.hasOwn(localeAliases, locale)) {
 	locale = localeAliases[locale]
 }
 
@@ -57,11 +60,16 @@ moment.locale(locale)
 /**
  * Initializes core
  */
-export const initCore = () => {
+export function initCore() {
+	const SNAPPER_OPEN = isRTL() ? 'right' : 'left'
+	const SNAPPER_CLOSE = isRTL() ? 'left' : 'right'
+
 	interceptRequests()
 	initFallbackClipboardAPI()
 
-	$(window).on('unload.main', () => { OC._unloadCalled = true })
+	$(window).on('unload.main', () => {
+		OC._unloadCalled = true
+	})
 	$(window).on('beforeunload.main', () => {
 		// super-trick thanks to http://stackoverflow.com/a/4651049
 		// in case another handler displays a confirmation dialog (ex: navigating away
@@ -94,7 +102,7 @@ export const initCore = () => {
 	OC.registerMenu($('#expand'), $('#expanddiv'), false, true)
 
 	// toggle for menus
-	$(document).on('mouseup.closemenus', event => {
+	$(document).on('mouseup.closemenus', (event) => {
 		const $el = $(event.target)
 		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
 			// don't close when clicking on the menu directly or a menu toggle
@@ -112,12 +120,12 @@ export const initCore = () => {
 	// and if the app doesn't handle the nav slider itself
 	if ($('#app-navigation').length && !$('html').hasClass('lte9')
 		&& !$('#app-content').hasClass('no-snapper')) {
-
 		// App sidebar on mobile
 		const snapper = new Snap({
 			element: document.getElementById('app-content'),
-			disable: 'right',
+			disable: SNAPPER_CLOSE,
 			maxPosition: 300, // $navigation-width
+			minPosition: -300, // $navigation-width for RTL
 			minDragDistance: 100,
 		})
 
@@ -144,9 +152,11 @@ export const initCore = () => {
 			animating = false
 		})
 		snapper.on('open', () => {
+			// eslint-disable-next-line no-use-before-define
 			$appNavigation.attr('aria-hidden', 'false')
 		})
 		snapper.on('close', () => {
+			// eslint-disable-next-line no-use-before-define
 			$appNavigation.attr('aria-hidden', 'true')
 		})
 
@@ -162,7 +172,7 @@ export const initCore = () => {
 			if (animating || snapper.state().state !== 'closed') {
 				return
 			}
-			oldSnapperOpen('left')
+			oldSnapperOpen(SNAPPER_OPEN)
 		}
 
 		const _snapperClose = () => {
@@ -186,24 +196,24 @@ export const initCore = () => {
 			}
 		}
 
-		$('#app-navigation-toggle').click((e) => {
+		$('#app-navigation-toggle').click(() => {
 			// close is implicit in the button by snap.js
-			if (snapper.state().state !== 'left') {
-				snapper.open()
+			if (snapper.state().state !== SNAPPER_OPEN) {
+				snapper.open(SNAPPER_OPEN)
 			}
 		})
-		$('#app-navigation-toggle').keypress(e => {
-			if (snapper.state().state === 'left') {
+		$('#app-navigation-toggle').keypress(() => {
+			if (snapper.state().state === SNAPPER_OPEN) {
 				snapper.close()
 			} else {
-				snapper.open()
+				snapper.open(SNAPPER_OPEN)
 			}
 		})
 
 		// close sidebar when switching navigation entry
 		const $appNavigation = $('#app-navigation')
 		$appNavigation.attr('aria-hidden', 'true')
-		$appNavigation.delegate('a, :button', 'click', event => {
+		$appNavigation.delegate('a, :button', 'click', (event) => {
 			const $target = $(event.target)
 			// don't hide navigation when changing settings or adding things
 			if ($target.is('.app-navigation-noclose')
@@ -274,7 +284,6 @@ export const initCore = () => {
 
 		// initial call
 		toggleSnapperOnSize()
-
 	}
 
 	initLiveTimestamps()

@@ -23,6 +23,10 @@ OC.L10N.register(
     "Sharing" : "Deling",
     "Federated file sharing" : "Sammenknyttet fildeling",
     "Provide federated file sharing across servers" : "Gi sammenknyttet fildeling på tvers av servere",
+    "Confirm data upload to lookup server" : "Bekreft dataopplasting til oppslagsserver",
+    "Enable data upload" : "Aktiver dataopplasting",
+    "Disable upload" : "Deaktiver opplasting",
+    "Confirm querying lookup server" : "Bekreft forespørsel om oppslagsserver",
     "Unable to update federated files sharing config" : "Kan ikke oppdatere sammenknyttet fildelingskonfigurasjon",
     "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Juster hvordan personer kan dele mellom servere. Dette inkluderer også delinger mellom personer på denne serveren hvis de bruker sammenknyttet deling.",
     "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Tillat personer på denne serveren å sende delinger til andre servere (dette alternativet gir også WebDAV-tilgang til delte fellesressurser)",
@@ -38,10 +42,11 @@ OC.L10N.register(
     "Copied!" : "Kopiert!",
     "Federated Cloud" : "Sammenknyttet sky",
     "Share it so your friends can share files with you:" : "Del den slik at venner kan dele filer med deg:",
+    "Bluesky" : "Bluesky",
     "Facebook" : "Facebook",
-    "X (formerly Twitter)" : "X (tidligere Twitter)",
     "Mastodon" : "Mastodont",
     "Add to your website" : "Legg på nettsiden din",
+    "Share with me via {productName}" : "Del med meg via {productName}",
     "HTML Code:" : "HTML-kode:",
     "Cancel" : "Avbryt",
     "Add remote share" : "Legg til ekstern ressurs",
@@ -50,6 +55,8 @@ OC.L10N.register(
     "Remote share password" : "Passord for ekstern ressurs",
     "Cloud ID copied to the clipboard" : "Sky-ID kopiert til utklippstavlen",
     "Copy to clipboard" : "Kopiert til utklippstavlen",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle som bruker en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Bare legg inn deres ID for sammenknyttet sky i delingsdialogen. Det ser ut som person@cloud.example.com."
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle som bruker en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Bare legg inn deres ID for sammenknyttet sky i delingsdialogen. Det ser ut som person@cloud.example.com.",
+    "X (formerly Twitter)" : "X (tidligere Twitter)",
+    "formerly Twitter" : "tidligere Twitter"
 },
 "nplurals=2; plural=(n != 1);");

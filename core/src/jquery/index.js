@@ -15,7 +15,6 @@ import './requesttoken.js'
 import './selectrange.js'
 import './showpassword.js'
 import './ui-fixes.js'
-
 import './css/jquery-ui-fixes.scss'
 import './css/jquery.ocdialog.scss'
 

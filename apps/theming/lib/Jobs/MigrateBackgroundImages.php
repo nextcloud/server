@@ -68,7 +68,7 @@ class MigrateBackgroundImages extends QueuedJob {
 				->andWhere($selector->expr()->eq('configvalue', $selector->createNamedParameter('custom', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
 				->executeQuery();
 
-			$userIds = $result->fetchAll(\PDO::FETCH_COLUMN);
+			$userIds = $result->fetchFirstColumn();
 			$this->storeUserIdsToProcess($userIds);
 		} catch (\Throwable $t) {
 			$this->jobList->add(self::class, ['stage' => self::STAGE_PREPARE]);

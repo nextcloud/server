@@ -21,14 +21,12 @@ import $ from 'jquery'
  */
 $.fn.extend({
 	showPassword(c) {
-
 		// Setup callback object
 		const callback = { fn: null, args: {} }
 		callback.fn = c
 
 		// Clones passwords and turn the clones into text inputs
 		const cloneElement = function(element) {
-
 			const $element = $(element)
 
 			const $clone = $('<input />')
@@ -50,7 +48,6 @@ $.fn.extend({
 			}
 
 			return $clone
-
 		}
 
 		// Transfers values between two elements
@@ -60,7 +57,6 @@ $.fn.extend({
 
 		// Shows a or b depending on checkbox
 		const setState = function(checkbox, a, b) {
-
 			if (checkbox.is(':checked')) {
 				update(a, b)
 				b.show()
@@ -70,11 +66,9 @@ $.fn.extend({
 				b.hide()
 				a.show()
 			}
-
 		}
 
 		return this.each(function() {
-
 			const $input = $(this)
 			const $checkbox = $($input.data('typetoggle'))
 
@@ -103,7 +97,6 @@ $.fn.extend({
 				// Added for JQuery Validation compatibility
 				// This will trigger validation if it's ON for keyup event
 				$input.trigger('keyup')
-
 			})
 
 			// Added for JQuery Validation compatibility
@@ -116,7 +109,7 @@ $.fn.extend({
 
 			// set type of password field clone (type=text) to password right on submit
 			// to prevent browser save the value of this field
-			$clone.closest('form').submit(function(e) {
+			$clone.closest('form').submit(function() {
 				// .prop has to be used, because .attr throws
 				// an error while changing a type of an input
 				// element
@@ -126,7 +119,6 @@ $.fn.extend({
 			if (callback.fn) {
 				callback.fn(callback.args)
 			}
-
 		})
 	},
 })

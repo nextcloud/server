@@ -52,7 +52,6 @@ OC.L10N.register(
     "Failed to delete tag" : "Brisanje oznake je spodletelo",
     "Create or edit tags" : "Ustvarjanje ali urejanje oznak",
     "Search for a tag to edit" : "Iskanje oznak za urejanje",
-    "Collaborative tags …" : "Sodelovalne oznake ...",
     "No tags to select" : "Ni izbranih oznak",
     "Tag name" : "Ime oznake",
     "Tag level" : "Raven oznake",
@@ -60,13 +59,15 @@ OC.L10N.register(
     "Update" : "Posodobi",
     "Delete" : "Izbriši",
     "Reset" : "Ponastavi",
-    "Loading …" : "Poteka nalaganje …",
     "Manage tags" : "Upravljanje oznak",
     "Cancel" : "Prekliči",
     "Apply" : "Uveljavi",
     "Failed to load tags" : "Nalaganje oznak je spodletelo",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sodelovalne oznake so na voljo vsem uporabnikom, omejitvene so uporabnikom vidne, a jih ni mogoče dodeliti, nevidne pa so namenjene sistemski rabi, uporabniki jih niti ne vidijo niti jih ne morejo dodeliti.",
+    "Add tags" : "Dodaj oznake",
     "Open in Files" : "Odpri v mapi",
-    "No tags found" : "Ni najdenih oznak"
+    "No tags found" : "Ni najdenih oznak",
+    "Collaborative tags …" : "Sodelovalne oznake ...",
+    "Loading …" : "Poteka nalaganje …"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -10,6 +10,7 @@ namespace Test\Traits;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount;
 
 trait ClientServiceTrait {
 	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
@@ -31,11 +32,10 @@ trait ClientServiceTrait {
 	 * Returns a matcher that matches when the method is executed
 	 * zero or more times.
 	 *
-	 * @return \PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount
-	 *
-	 * @since  Method available since Release 3.0.0
+	 * @since Method available since Release 3.0.0
+	 * @since 33.0.0 - non static and hard typed return type due to phpunit upgrade to v11
 	 */
-	abstract public static function any();
+	abstract public function any(): AnyInvokedCount;
 
 	protected function setUpClientServiceTrait() {
 		$this->clientService = $this->createMock(IClientService::class);

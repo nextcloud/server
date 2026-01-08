@@ -3,24 +3,24 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { View } from '@nextcloud/files'
+import type { Mock } from 'vitest'
 import type { Location } from 'vue-router'
 
-import { File, Folder, Permission, View } from '@nextcloud/files'
-import { enableAutoDestroy, mount } from '@vue/test-utils'
-import { describe, it, vi, expect, beforeEach, afterEach } from 'vitest'
-import { defineComponent, nextTick } from 'vue'
 import axios from '@nextcloud/axios'
-
-import { getPinia } from '../store/index.ts'
-import { useActiveStore } from '../store/active.ts'
-import { useFilesStore } from '../store/files'
-
+import { File, Folder, Permission } from '@nextcloud/files'
+import { enableAutoDestroy, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { defineComponent, nextTick } from 'vue'
 import { action as deleteAction } from '../actions/deleteAction.ts'
 import { action as favoriteAction } from '../actions/favoriteAction.ts'
 import { action as renameAction } from '../actions/renameAction.ts'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useHotKeys } from './useHotKeys.ts'
+import { useActiveStore } from '../store/active.ts'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { useHotKeys } from './useHotKeys.ts'
 
 // this is the mocked current route
 const route = vi.hoisted(() => ({
@@ -82,20 +82,30 @@ describe('HotKeysService testing', () => {
 		file = new File({
 			id: 2,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			root: '/files/admin',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
 		})
 
-		const root = new Folder({ owner: 'test', source: 'https://cloud.domain.com/remote.php/dav/files/admin/', id: 1, permissions: Permission.CREATE })
+		const root = new Folder({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/',
+			root: '/files/admin',
+			owner: 'admin',
+			permissions: Permission.CREATE,
+		})
+
 		const files = useFilesStore(getPinia())
 		files.setRoot({ service: 'files', root })
 
 		// Setting the view first as it reset the active node
 		activeStore.activeView = view
 		activeStore.activeNode = file
+		activeStore.activeFolder = root
 
-		window.OCA = { Files: { Sidebar: { open: () => {}, setActiveTab: () => {} } } }
+		// @ts-expect-error mocking for tests
+		window.OCA = { Files: { _sidebar: () => ({ open() {} }) } }
 		initialState = document.createElement('input')
 		initialState.setAttribute('type', 'hidden')
 		initialState.setAttribute('id', 'initial-state-files_trashbin-config')
@@ -134,6 +144,9 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('Pressing s should toggle favorite', () => {
+		(favoriteAction.enabled as Mock).mockReturnValue(true);
+		(favoriteAction.exec as Mock).mockImplementationOnce(() => Promise.resolve(null))
+
 		vi.spyOn(axios, 'post').mockImplementationOnce(() => Promise.resolve())
 		dispatchEvent({ key: 's', code: 'KeyS' })
 
@@ -143,12 +156,11 @@ describe('HotKeysService testing', () => {
 		dispatchEvent({ key: 's', code: 'KeyS', shiftKey: true })
 		dispatchEvent({ key: 's', code: 'KeyS', metaKey: true })
 
-		expect(favoriteAction.enabled).toHaveReturnedWith(true)
 		expect(favoriteAction.exec).toHaveBeenCalledOnce()
 	})
 
 	it('Pressing Delete should delete the file', async () => {
-		// @ts-expect-error unit testing
+		// @ts-expect-error unit testing - private method access
 		vi.spyOn(deleteAction._action, 'exec').mockResolvedValue(() => true)
 
 		dispatchEvent({ key: 'Delete', code: 'Delete' })

@@ -143,7 +143,7 @@ interface IManager {
 	/**
 	 * Handles a iMip message
 	 *
-	 * @param array{absent?: "create"} $options
+	 * @param array{absent?: "create", recipient?: string} $options
 	 *
 	 * @throws \OCP\DB\Exception
 	 *

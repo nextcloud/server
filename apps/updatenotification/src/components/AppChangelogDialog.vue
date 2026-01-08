@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcDialog content-classes="app-changelog-dialog"
+	<NcDialog
+		content-classes="app-changelog-dialog"
 		:buttons="dialogButtons"
 		:name="t('updatenotification', 'What\'s new in {app} {version}', { app: appName, version: appVersion })"
 		:open="open && markdown !== undefined"
@@ -14,13 +15,13 @@
 </template>
 
 <script setup lang="ts">
+import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ref, watchEffect } from 'vue'
-
-import axios from '@nextcloud/axios'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import Markdown from './Markdown.vue'
+import { logger } from '../logger.ts'
 
 const props = withDefaults(
 	defineProps<{
@@ -54,7 +55,7 @@ const dialogButtons = [
 	},
 	{
 		label: t('updatenotification', 'Get started'),
-		type: 'primary',
+		variant: 'primary',
 		callback: () => {
 			emit('dismiss')
 			emit('update:open', false)
@@ -81,11 +82,10 @@ watchEffect(() => {
 				appName.value = props.appId
 				markdown.value = t('updatenotification', 'No changelog available')
 			} else {
-				console.error('Failed to load changelog entry', error)
+				logger.error('Failed to load changelog entry', error)
 				emit('update:open', false)
 			}
 		})
-
 })
 </script>
 

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils'
-import { clearState } from '../../support/commonUtils'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { clearState } from '../../support/commonUtils.ts'
+import { getUserListRow, handlePasswordConfirmation, toggleEditButton, waitLoading } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -14,7 +14,9 @@ describe('Settings: Change user properties', function() {
 
 	beforeEach(function() {
 		clearState()
-		cy.createRandomUser().then(($user) => { user = $user })
+		cy.createRandomUser().then(($user) => {
+			user = $user
+		})
 		cy.login(admin)
 	})
 
@@ -138,7 +140,7 @@ describe('Settings: Change user properties', function() {
 
 		// I see that the quota was set on the backend
 		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
-			expect($result.code).to.equal(0)
+			expect($result.exitCode).to.equal(0)
 			const info = JSON.parse($result.stdout)
 			expect(info?.quota).to.equal('5 GB')
 		})
@@ -174,7 +176,7 @@ describe('Settings: Change user properties', function() {
 
 		// I see that the quota was set on the backend
 		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
-			expect($result.code).to.equal(0)
+			expect($result.exitCode).to.equal(0)
 			// TODO: Enable this after the file size handling is fixed!!!!!!
 			// const info = JSON.parse($result.stdout)
 			// expect(info?.quota).to.equal('4 MB')

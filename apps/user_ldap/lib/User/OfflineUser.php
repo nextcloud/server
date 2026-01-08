@@ -7,75 +7,45 @@
  */
 namespace OCA\User_LDAP\User;
 
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCP\IConfig;
-use OCP\IDBConnection;
+use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCP\Config\IUserConfig;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 class OfflineUser {
-	/**
-	 * @var string $dn
-	 */
-	protected $dn;
-	/**
-	 * @var string $uid the UID as provided by LDAP
-	 */
-	protected $uid;
-	/**
-	 * @var string $displayName
-	 */
-	protected $displayName;
-	/**
-	 * @var string $homePath
-	 */
-	protected $homePath;
-	/**
-	 * @var string $lastLogin the timestamp of the last login
-	 */
-	protected $lastLogin;
-	/**
-	 * @var string $foundDeleted the timestamp when the user was detected as unavailable
-	 */
-	protected $foundDeleted;
+	protected ?string $dn = null;
+	/** @var ?string $uid the UID as provided by LDAP */
+	protected ?string $uid = null;
+	protected ?string $displayName = null;
+	protected ?string $homePath = null;
+	/** @var ?int $lastLogin the timestamp of the last login */
+	protected ?int $lastLogin = null;
+	/** @var ?int $foundDeleted the timestamp when the user was detected as unavailable */
+	protected ?int $foundDeleted = null;
 	protected ?string $extStorageHome = null;
-	/**
-	 * @var string $email
-	 */
-	protected $email;
-	/**
-	 * @var bool $hasActiveShares
-	 */
-	protected $hasActiveShares;
-	/**
-	 * @var IDBConnection $db
-	 */
-	protected $db;
+	protected ?string $email = null;
+	protected ?bool $hasActiveShares = null;
 
-	/**
-	 * @param string $ocName
-	 */
 	public function __construct(
-		protected $ocName,
-		protected IConfig $config,
-		protected UserMapping $mapping,
+		protected string $ocName,
+		protected IUserConfig $userConfig,
+		protected AbstractMapping $mapping,
 		private IManager $shareManager,
 	) {
 	}
 
 	/**
-	 * remove the Delete-flag from the user.
+	 * Remove the Delete-flag from the user.
 	 */
-	public function unmark() {
-		$this->config->deleteUserValue($this->ocName, 'user_ldap', 'isDeleted');
-		$this->config->deleteUserValue($this->ocName, 'user_ldap', 'foundDeleted');
+	public function unmark(): void {
+		$this->userConfig->deleteUserConfig($this->ocName, 'user_ldap', 'isDeleted');
+		$this->userConfig->deleteUserConfig($this->ocName, 'user_ldap', 'foundDeleted');
 	}
 
 	/**
-	 * exports the user details in an assoc array
-	 * @return array
+	 * Exports the user details in an assoc array.
 	 */
-	public function export() {
+	public function export(): array {
 		$data = [];
 		$data['ocName'] = $this->getOCName();
 		$data['dn'] = $this->getDN();
@@ -90,29 +60,26 @@ class OfflineUser {
 	}
 
 	/**
-	 * getter for Nextcloud internal name
-	 * @return string
+	 * Getter for Nextcloud internal name.
 	 */
-	public function getOCName() {
+	public function getOCName(): string {
 		return $this->ocName;
 	}
 
 	/**
-	 * getter for LDAP uid
-	 * @return string
+	 * Getter for LDAP uid.
 	 */
-	public function getUID() {
+	public function getUID(): string {
 		if ($this->uid === null) {
 			$this->fetchDetails();
 		}
-		return $this->uid;
+		return $this->uid ?? '';
 	}
 
 	/**
-	 * getter for LDAP DN
-	 * @return string
+	 * Getter for LDAP DN.
 	 */
-	public function getDN() {
+	public function getDN(): string {
 		if ($this->dn === null) {
 			$dn = $this->mapping->getDNByName($this->ocName);
 			$this->dn = ($dn !== false) ? $dn : '';
@@ -121,101 +88,90 @@ class OfflineUser {
 	}
 
 	/**
-	 * getter for display name
-	 * @return string
+	 * Getter for display name.
 	 */
-	public function getDisplayName() {
+	public function getDisplayName(): string {
 		if ($this->displayName === null) {
 			$this->fetchDetails();
 		}
-		return $this->displayName;
+		return $this->displayName ?? '';
 	}
 
 	/**
-	 * getter for email
-	 * @return string
+	 * Getter for email.
 	 */
-	public function getEmail() {
+	public function getEmail(): string {
 		if ($this->email === null) {
 			$this->fetchDetails();
 		}
-		return $this->email;
+		return $this->email ?? '';
 	}
 
 	/**
-	 * getter for home directory path
-	 * @return string
+	 * Getter for home directory path.
 	 */
-	public function getHomePath() {
+	public function getHomePath(): string {
 		if ($this->homePath === null) {
 			$this->fetchDetails();
 		}
-		return $this->homePath;
+		return $this->homePath ?? '';
 	}
 
 	/**
-	 * getter for the last login timestamp
-	 * @return int
+	 * Getter for the last login timestamp.
 	 */
-	public function getLastLogin() {
+	public function getLastLogin(): int {
 		if ($this->lastLogin === null) {
 			$this->fetchDetails();
 		}
-		return (int)$this->lastLogin;
+		return $this->lastLogin ?? -1;
 	}
 
 	/**
-	 * getter for the detection timestamp
-	 * @return int
+	 * Getter for the detection timestamp.
 	 */
-	public function getDetectedOn() {
+	public function getDetectedOn(): int {
 		if ($this->foundDeleted === null) {
 			$this->fetchDetails();
 		}
-		return (int)$this->foundDeleted;
+		return $this->foundDeleted ?? -1;
 	}
 
 	public function getExtStorageHome(): string {
 		if ($this->extStorageHome === null) {
 			$this->fetchDetails();
 		}
-		return (string)$this->extStorageHome;
+		return $this->extStorageHome ?? '';
 	}
 
 	/**
-	 * getter for having active shares
-	 * @return bool
+	 * Getter for having active shares.
 	 */
-	public function getHasActiveShares() {
+	public function getHasActiveShares(): bool {
 		if ($this->hasActiveShares === null) {
 			$this->determineShares();
 		}
-		return $this->hasActiveShares;
+		return $this->hasActiveShares ?? false;
 	}
 
 	/**
-	 * reads the user details
+	 * Reads the user details.
 	 */
-	protected function fetchDetails() {
-		$properties = [
-			'displayName' => 'user_ldap',
-			'uid' => 'user_ldap',
-			'homePath' => 'user_ldap',
-			'foundDeleted' => 'user_ldap',
-			'extStorageHome' => 'user_ldap',
-			'email' => 'settings',
-			'lastLogin' => 'login',
-		];
-		foreach ($properties as $property => $app) {
-			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');
-		}
+	protected function fetchDetails(): void {
+		$this->displayName = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'displayName');
+		$this->uid = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'uid');
+		$this->homePath = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'homePath');
+		$this->foundDeleted = $this->userConfig->getValueInt($this->ocName, 'user_ldap', 'foundDeleted');
+		$this->extStorageHome = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'extStorageHome');
+		$this->email = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'email');
+		$this->lastLogin = $this->userConfig->getValueInt($this->ocName, 'user_ldap', 'email');
 	}
 
 	/**
-	 * finds out whether the user has active shares. The result is stored in
-	 * $this->hasActiveShares
+	 * Finds out whether the user has active shares. The result is stored in
+	 * $this->hasActiveShares.
 	 */
-	protected function determineShares() {
+	protected function determineShares(): void {
 		$shareInterface = new \ReflectionClass(IShare::class);
 		$shareConstants = $shareInterface->getConstants();
 

@@ -81,23 +81,29 @@ class ThemingController extends Controller {
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given web address is too long');
 				}
-				if (!$this->isValidUrl($value)) {
+				if ($value !== '' && !$this->isValidUrl($value)) {
 					$error = $this->l10n->t('The given web address is not a valid URL');
 				}
 				break;
+			case 'legalNoticeUrl':
+				$setting = 'imprintUrl';
+				// no break
 			case 'imprintUrl':
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given legal notice address is too long');
 				}
-				if (!$this->isValidUrl($value)) {
+				if ($value !== '' && !$this->isValidUrl($value)) {
 					$error = $this->l10n->t('The given legal notice address is not a valid URL');
 				}
 				break;
+			case 'privacyPolicyUrl':
+				$setting = 'privacyUrl';
+				// no break
 			case 'privacyUrl':
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given privacy policy address is too long');
 				}
-				if (!$this->isValidUrl($value)) {
+				if ($value !== '' && !$this->isValidUrl($value)) {
 					$error = $this->l10n->t('The given privacy policy address is not a valid URL');
 				}
 				break;
@@ -106,30 +112,38 @@ class ThemingController extends Controller {
 					$error = $this->l10n->t('The given slogan is too long');
 				}
 				break;
+			case 'primaryColor':
+				$setting = 'primary_color';
+				// no break
 			case 'primary_color':
 				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
 					$error = $this->l10n->t('The given color is invalid');
-				} else {
-					$this->appConfig->setAppValueString('primary_color', $value);
-					$saved = true;
 				}
 				break;
+			case 'backgroundColor':
+				$setting = 'background_color';
+				// no break
 			case 'background_color':
 				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
 					$error = $this->l10n->t('The given color is invalid');
-				} else {
-					$this->appConfig->setAppValueString('background_color', $value);
-					$saved = true;
 				}
 				break;
+			case 'disableUserTheming':
 			case 'disable-user-theming':
 				if (!in_array($value, ['yes', 'true', 'no', 'false'])) {
-					$error = $this->l10n->t('Disable-user-theming should be true or false');
+					$error = $this->l10n->t('%1$s should be true or false', ['disable-user-theming']);
 				} else {
 					$this->appConfig->setAppValueBool('disable-user-theming', $value === 'yes' || $value === 'true');
 					$saved = true;
 				}
 				break;
+			case 'backgroundMime':
+				if ($value !== 'backgroundColor') {
+					$error = $this->l10n->t('%1$s can only be set to %2$s through the API', ['backgroundMime', 'backgroundColor']);
+				}
+				break;
+			default:
+				$error = $this->l10n->t('Invalid setting key');
 		}
 		if ($error !== null) {
 			return new DataResponse([
@@ -291,6 +305,13 @@ class ThemingController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function undo(string $setting): DataResponse {
+		$setting = match ($setting) {
+			'primaryColor' => 'primary_color',
+			'backgroundColor' => 'background_color',
+			'legalNoticeUrl' => 'imprintUrl',
+			'privacyPolicyUrl' => 'privacyUrl',
+			default => $setting,
+		};
 		$value = $this->themingDefaults->undo($setting);
 
 		return new DataResponse(

@@ -4,11 +4,13 @@
 -->
 
 <template>
-	<div v-element-visibility="onVisibilityChange"
+	<div
+		v-element-visibility="onVisibilityChange"
 		class="comments"
 		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
-		<Comment v-bind="editorData"
+		<Comment
+			v-bind="editorData"
 			:auto-complete="autoComplete"
 			:resource-type="resourceType"
 			:editor="true"
@@ -18,7 +20,8 @@
 			@new="onNewComment" />
 
 		<template v-if="!isFirstLoading">
-			<NcEmptyContent v-if="!hasComments && done"
+			<NcEmptyContent
+				v-if="!hasComments && done"
 				class="comments__empty"
 				:name="t('comments', 'No comments yet, start the conversation!')">
 				<template #icon>
@@ -27,7 +30,8 @@
 			</NcEmptyContent>
 			<ul v-else>
 				<!-- Comments -->
-				<Comment v-for="comment in comments"
+				<Comment
+					v-for="comment in comments"
 					:key="comment.props.id"
 					tag="li"
 					v-bind="comment.props"
@@ -69,20 +73,20 @@
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { vElementVisibility as elementVisibility } from '@vueuse/components'
-
-import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import IconRefresh from 'vue-material-design-icons/Refresh.vue'
-import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
-
+import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
+import IconRefresh from 'vue-material-design-icons/Refresh.vue'
 import Comment from '../components/Comment.vue'
-import CommentView from '../mixins/CommentView'
-import cancelableRequest from '../utils/cancelableRequest.js'
-import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
+import logger from '../logger.js'
+import CommentView from '../mixins/CommentView.ts'
+import { DEFAULT_LIMIT, getComments } from '../services/GetComments.ts'
 import { markCommentsAsRead } from '../services/ReadComments.ts'
+import cancelableRequest from '../utils/cancelableRequest.js'
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Comments',
 
 	components: {
@@ -106,7 +110,6 @@ export default {
 			loading: false,
 			done: false,
 
-			currentResourceId: this.resourceId,
 			offset: 0,
 			comments: [],
 
@@ -121,6 +124,7 @@ export default {
 		hasComments() {
 			return this.comments.length > 0
 		},
+
 		isFirstLoading() {
 			return this.loading && this.offset === 0
 		},
@@ -153,7 +157,7 @@ export default {
 		async update(resourceId) {
 			this.currentResourceId = resourceId
 			this.resetState()
-			this.getComments()
+			await this.getComments()
 		},
 
 		/**
@@ -201,8 +205,13 @@ export default {
 					this.done = true
 				}
 
+				// Ensure actor id is a string
+				for (const comment of comments) {
+					comment.props.actorId = comment.props.actorId.toString()
+				}
+
 				// Insert results
-				this.comments.push(...comments)
+				this.comments = [...this.comments, ...comments]
 
 				// Increase offset for next fetch
 				this.offset += DEFAULT_LIMIT
@@ -211,7 +220,7 @@ export default {
 					return
 				}
 				this.error = t('comments', 'Unable to load the comments list')
-				console.error('Error loading the comments list', error)
+				logger.error('Error loading the comments list', { error })
 			} finally {
 				this.loading = false
 			}
@@ -232,11 +241,11 @@ export default {
 		 * @param {number} id the deleted comment
 		 */
 		onDelete(id) {
-			const index = this.comments.findIndex(comment => comment.props.id === id)
+			const index = this.comments.findIndex((comment) => comment.props.id === id)
 			if (index > -1) {
 				this.comments.splice(index, 1)
 			} else {
-				console.error('Could not find the deleted comment in the list', id)
+				logger.error('Could not find the deleted comment in the list', { id })
 			}
 		},
 

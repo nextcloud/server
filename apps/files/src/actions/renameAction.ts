@@ -2,13 +2,13 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { emit } from '@nextcloud/event-bus'
-import { Permission, type Node, FileAction, View } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
 import PencilSvg from '@mdi/svg/svg/pencil-outline.svg?raw'
-import { getPinia } from '../store'
-import { useFilesStore } from '../store/files'
+import { emit } from '@nextcloud/event-bus'
+import { FileAction, Permission } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
 import { dirname } from 'path'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
 
 export const ACTION_RENAME = 'rename'
 
@@ -17,8 +17,8 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Rename'),
 	iconSvgInline: () => PencilSvg,
 
-	enabled: (nodes: Node[], view: View) => {
-		if (nodes.length === 0) {
+	enabled: ({ nodes, view }) => {
+		if (nodes.length === 0 || !nodes[0]) {
 			return false
 		}
 
@@ -40,11 +40,16 @@ export const action = new FileAction({
 			&& Boolean(parentPermissions & Permission.CREATE)
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
 		// Renaming is a built-in feature of the files app
-		emit('files:node:rename', node)
+		emit('files:node:rename', nodes[0])
 		return null
 	},
 
 	order: 10,
+
+	hotkey: {
+		description: t('files', 'Rename'),
+		key: 'F2',
+	},
 })

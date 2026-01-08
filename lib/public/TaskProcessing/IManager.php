@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
@@ -25,6 +26,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
  * without known which providers are installed
  * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 interface IManager {
 
 	/**
@@ -49,10 +51,11 @@ interface IManager {
 	/**
 	 * @param bool $showDisabled if false, disabled task types will be filtered out
 	 * @param ?string $userId to check if the user is a guest. Will be obtained from session if left to default
-	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
+	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, isInternal: bool, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 * @since 30.0.0
 	 * @since 31.0.0 Added the `showDisabled` argument.
 	 * @since 31.0.7 Added the `userId` argument
+	 * @since 33.0.0 Added `isInternal` to return value
 	 */
 	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array;
 
@@ -132,11 +135,13 @@ interface IManager {
 	 * @param string|null $error
 	 * @param array|null $result
 	 * @param bool $isUsingFileIds
+	 * @param string|null $userFacingError
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 * @since 30.0.0
+	 * @since 33.0.0 Added `userFacingError` parameter
 	 */
-	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false): void;
+	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void;
 
 	/**
 	 * @param int $id
@@ -158,6 +163,16 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function getNextScheduledTask(array $taskTypeIds = [], array $taskIdsToIgnore = []): Task;
+
+	/**
+	 * @param list<string> $taskTypeIds
+	 * @param list<int> $taskIdsToIgnore
+	 * @param int $numberOfTasks
+	 * @return list<Task>
+	 * @throws Exception If the query failed
+	 * @since 33.0.0
+	 */
+	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array;
 
 	/**
 	 * @param int $id The id of the task

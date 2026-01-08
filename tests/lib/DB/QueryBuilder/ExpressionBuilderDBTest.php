@@ -16,9 +16,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExpressionBuilderDBTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;
@@ -137,10 +135,49 @@ class ExpressionBuilderDBTest extends TestCase {
 			->andWhere($query->expr()->eq('configvalue', $query->createNamedParameter('myvalue', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 
 		$result = $query->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 		self::assertEquals('myvalue', $entries[0]['configvalue']);
+	}
+
+	public function testJson(): void {
+		$appId = $this->getUniqueID('testing');
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('share')
+			->values([
+				'uid_owner' => $query->createNamedParameter('uid_owner'),
+				'item_type' => $query->createNamedParameter('item_type'),
+				'permissions' => $query->createNamedParameter(0),
+				'stime' => $query->createNamedParameter(0),
+				'accepted' => $query->createNamedParameter(0),
+				'mail_send' => $query->createNamedParameter(0),
+				'share_type' => $query->createNamedParameter(0),
+				'share_with' => $query->createNamedParameter($appId),
+				'attributes' => $query->createNamedParameter('[["permissions","before"]]'),
+			])
+			->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->update('share')
+			->set('attributes', $query->createNamedParameter('[["permissions","after"]]'));
+		if ($this->connection->getDatabaseProvider(true) === IDBConnection::PLATFORM_MYSQL) {
+			$query->where($query->expr()->eq('attributes', $query->createFunction("JSON_ARRAY(JSON_ARRAY('permissions','before'))"), IQueryBuilder::PARAM_JSON));
+		} else {
+			$query->where($query->expr()->eq('attributes', $query->createNamedParameter('[["permissions","before"]]'), IQueryBuilder::PARAM_JSON));
+		}
+		$query->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('attributes')
+			->from('share')
+			->where($query->expr()->eq('share_with', $query->createNamedParameter($appId)));
+
+		$result = $query->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+		self::assertCount(1, $entries);
+		self::assertEquals([['permissions','after']], json_decode($entries[0]['attributes'], true));
 	}
 
 	public function testDateTimeEquals(): void {
@@ -155,7 +192,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('testing')
 			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}
@@ -173,7 +210,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('testing')
 			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}
@@ -191,7 +228,7 @@ class ExpressionBuilderDBTest extends TestCase {
 			->from('testing')
 			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
-		$entries = $result->fetchAll();
+		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}

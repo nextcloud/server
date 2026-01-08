@@ -50,10 +50,9 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @group DB
- *
  * @package OCA\Files_Sharing\Controllers
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareControllerTest extends \Test\TestCase {
 
 	private string $user;
@@ -384,6 +383,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('isReadable')->willReturn(true);
 		$file->method('isShareable')->willReturn(true);
 		$file->method('getId')->willReturn(1234);
+		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getName')->willReturn($filename);
 
 		$accountName = $this->createMock(IAccountProperty::class);

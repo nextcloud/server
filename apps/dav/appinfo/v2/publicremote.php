@@ -17,6 +17,7 @@ use OCA\DAV\Storage\PublicShareWrapper;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -41,8 +42,12 @@ use Sabre\DAV\Exception\NotFound;
 
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
-OC_App::loadApps($RUNTIME_APPTYPES);
-OC_Util::obEnd();
+Server::get(IAppManager::class)->loadApps($RUNTIME_APPTYPES);
+
+// Turn off output buffering to prevent memory problems
+while (ob_get_level()) {
+	ob_end_clean();
+}
 
 $session = Server::get(ISession::class);
 $request = Server::get(IRequest::class);
@@ -81,7 +86,7 @@ $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
 /** @var string $baseuri defined in public.php */
-$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
 		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
@@ -103,8 +108,16 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-		return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
+	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($requestUri, $baseuri, $share) {
+		$mask = $share->getPermissions() | Constants::PERMISSION_SHARE;
+
+		// For chunked uploads it is necessary to have read and delete permission,
+		// so the temporary directory, chunks and destination file can be read and delete after the assembly.
+		if (str_starts_with(substr($requestUri, strlen($baseuri) - 1), '/uploads/')) {
+			$mask |= Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
+		}
+
+		return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
 	});
 
 	/** @psalm-suppress MissingClosureParamType */

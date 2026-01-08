@@ -16,9 +16,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DbHandlerTest extends TestCase {
 	private DbHandler $dbHandler;
 	private IL10N&MockObject $il10n;
@@ -39,7 +37,7 @@ class DbHandlerTest extends TestCase {
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertEmpty($result, 'we need to start with a empty trusted_servers table');
 	}
@@ -63,8 +61,8 @@ class DbHandlerTest extends TestCase {
 
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame($expectedUrl, $result[0]['url']);
@@ -87,8 +85,8 @@ class DbHandlerTest extends TestCase {
 
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(2, $result);
 		$this->assertSame('server1', $result[0]['url']);
@@ -99,8 +97,8 @@ class DbHandlerTest extends TestCase {
 		$this->dbHandler->removeServer($id2);
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame('server1', $result[0]['url']);
@@ -149,7 +147,7 @@ class DbHandlerTest extends TestCase {
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame(null, $result[0]['token']);
@@ -157,7 +155,7 @@ class DbHandlerTest extends TestCase {
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame('token', $result[0]['token']);
@@ -175,16 +173,16 @@ class DbHandlerTest extends TestCase {
 		$this->dbHandler->addServer('server1');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame(null, $result[0]['shared_secret']);
 		$this->dbHandler->addSharedSecret('http://server1', 'secret');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
-		$result = $qResult->fetchAll();
+		$qResult = $query->executeQuery();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame('secret', $result[0]['shared_secret']);
@@ -203,7 +201,7 @@ class DbHandlerTest extends TestCase {
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
@@ -211,7 +209,7 @@ class DbHandlerTest extends TestCase {
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
 		$qResult = $query->executeQuery();
-		$result = $qResult->fetchAll();
+		$result = $qResult->fetchAllAssociative();
 		$qResult->closeCursor();
 		$this->assertCount(1, $result);
 		$this->assertSame(TrustedServers::STATUS_OK, (int)$result[0]['status']);

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitOAuth2
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\OAuth2\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\OAuth2\\' => 
+        'OCA\\OAuth2\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

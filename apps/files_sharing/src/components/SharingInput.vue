@@ -6,10 +6,12 @@
 <template>
 	<div class="sharing-search">
 		<label class="hidden-visually" :for="shareInputId">
-			{{ isExternal ? t('files_sharing', 'Enter external recipients')
+			{{ isExternal
+				? t('files_sharing', 'Enter external recipients')
 				: t('files_sharing', 'Search for internal recipients') }}
 		</label>
-		<NcSelect ref="select"
+		<NcSelect
+			ref="select"
 			v-model="value"
 			:input-id="shareInputId"
 			class="sharing-search__input"
@@ -31,18 +33,18 @@
 </template>
 
 <script>
-import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getCapabilities } from '@nextcloud/capabilities'
 import axios from '@nextcloud/axios'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { generateOcsUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-
-import Config from '../services/ConfigService.ts'
-import Share from '../models/Share.ts'
-import ShareRequests from '../mixins/ShareRequests.js'
 import ShareDetails from '../mixins/ShareDetails.js'
-import { ShareType } from '@nextcloud/sharing'
+import ShareRequests from '../mixins/ShareRequests.js'
+import Share from '../models/Share.ts'
+import Config from '../services/ConfigService.ts'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'SharingInput',
@@ -56,31 +58,34 @@ export default {
 	props: {
 		shares: {
 			type: Array,
-			default: () => [],
 			required: true,
 		},
+
 		linkShares: {
 			type: Array,
-			default: () => [],
 			required: true,
 		},
+
 		fileInfo: {
 			type: Object,
-			default: () => {},
 			required: true,
 		},
+
 		reshare: {
 			type: Share,
 			default: null,
 		},
+
 		canReshare: {
 			type: Boolean,
 			required: true,
 		},
+
 		isExternal: {
 			type: Boolean,
 			default: false,
 		},
+
 		placeholder: {
 			type: String,
 			default: '',
@@ -117,6 +122,7 @@ export default {
 		externalResults() {
 			return this.ShareSearch.results
 		},
+
 		inputPlaceholder() {
 			const allowRemoteSharing = this.config.isRemoteShareAllowed
 
@@ -129,10 +135,10 @@ export default {
 
 			// We can always search with email addresses for users too
 			if (!allowRemoteSharing) {
-				return t('files_sharing', 'Name or email …')
+				return t('files_sharing', 'Name or email …')
 			}
 
-			return t('files_sharing', 'Name, email, or Federated Cloud ID …')
+			return t('files_sharing', 'Name, email, or Federated Cloud ID …')
 		},
 
 		isValidQuery() {
@@ -148,7 +154,7 @@ export default {
 
 		noResultText() {
 			if (this.loading) {
-				return t('files_sharing', 'Searching …')
+				return t('files_sharing', 'Searching …')
 			}
 			return t('files_sharing', 'No elements found.')
 		},
@@ -238,7 +244,7 @@ export default {
 					},
 				})
 			} catch (error) {
-				console.error('Error fetching suggestions', error)
+				logger.error('Error fetching suggestions', { error })
 				return
 			}
 
@@ -249,11 +255,13 @@ export default {
 
 			// remove invalid data and format to user-select layout
 			const exactSuggestions = this.filterOutExistingShares(rawExactSuggestions)
-				.map(share => this.formatForMultiselect(share))
+				.filter((result) => this.filterByTrustedServer(result))
+				.map((share) => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
 			const suggestions = this.filterOutExistingShares(rawSuggestions)
-				.map(share => this.formatForMultiselect(share))
+				.filter((result) => this.filterByTrustedServer(result))
+				.map((share) => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
 
@@ -270,7 +278,7 @@ export default {
 			}
 
 			// if there is a condition specified, filter it
-			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
+			const externalResults = this.externalResults.filter((result) => !result.condition || result.condition(this))
 
 			const allSuggestions = exactSuggestions.concat(suggestions).concat(externalResults).concat(lookupEntry)
 
@@ -286,7 +294,7 @@ export default {
 				return nameCounts
 			}, {})
 
-			this.suggestions = allSuggestions.map(item => {
+			this.suggestions = allSuggestions.map((item) => {
 				// Make sure that items with duplicate displayName get the shareWith applied as a description
 				if (nameCounts[item.displayName] > 1 && !item.desc) {
 					return { ...item, desc: item.shareWithDisplayNameUnique }
@@ -295,7 +303,7 @@ export default {
 			})
 
 			this.loading = false
-			console.info('suggestions', this.suggestions)
+			logger.debug('sharing suggestions', { suggestions: this.suggestions })
 		},
 
 		/**
@@ -322,12 +330,12 @@ export default {
 					},
 				})
 			} catch (error) {
-				console.error('Error fetching recommendations', error)
+				logger.error('Error fetching recommendations', { error })
 				return
 			}
 
 			// Add external results from the OCA.Sharing.ShareSearch api
-			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
+			const externalResults = this.externalResults.filter((result) => !result.condition || result.condition(this))
 
 			// flatten array of arrays
 			const rawRecommendations = Object.values(request.data.ocs.data.exact)
@@ -335,11 +343,12 @@ export default {
 
 			// remove invalid data and format to user-select layout
 			this.recommendations = this.filterOutExistingShares(rawRecommendations)
-				.map(share => this.formatForMultiselect(share))
+				.filter((result) => this.filterByTrustedServer(result))
+				.map((share) => this.formatForMultiselect(share))
 				.concat(externalResults)
 
 			this.loading = false
-			console.info('recommendations', this.recommendations)
+			logger.debug('sharing recommendations', { recommendations: this.recommendations })
 		},
 
 		/**
@@ -375,7 +384,7 @@ export default {
 						if (!this.isExternal) {
 							return arr
 						}
-						const emails = this.linkShares.map(elem => elem.shareWith)
+						const emails = this.linkShares.map((elem) => elem.shareWith)
 						if (emails.indexOf(share.value.shareWith.trim()) !== -1) {
 							return arr
 						}
@@ -412,49 +421,63 @@ export default {
 		 */
 		shareTypeToIcon(type) {
 			switch (type) {
-			case ShareType.Guest:
+				case ShareType.Guest:
 				// default is a user, other icons are here to differentiate
 				// themselves from it, so let's not display the user icon
 				// case ShareType.Remote:
 				// case ShareType.User:
-				return {
-					icon: 'icon-user',
-					iconTitle: t('files_sharing', 'Guest'),
-				}
-			case ShareType.RemoteGroup:
-			case ShareType.Group:
-				return {
-					icon: 'icon-group',
-					iconTitle: t('files_sharing', 'Group'),
-				}
-			case ShareType.Email:
-				return {
-					icon: 'icon-mail',
-					iconTitle: t('files_sharing', 'Email'),
-				}
-			case ShareType.Team:
-				return {
-					icon: 'icon-teams',
-					iconTitle: t('files_sharing', 'Team'),
-				}
-			case ShareType.Room:
-				return {
-					icon: 'icon-room',
-					iconTitle: t('files_sharing', 'Talk conversation'),
-				}
-			case ShareType.Deck:
-				return {
-					icon: 'icon-deck',
-					iconTitle: t('files_sharing', 'Deck board'),
-				}
-			case ShareType.Sciencemesh:
-				return {
-					icon: 'icon-sciencemesh',
-					iconTitle: t('files_sharing', 'ScienceMesh'),
-				}
-			default:
-				return {}
+					return {
+						icon: 'icon-user',
+						iconTitle: t('files_sharing', 'Guest'),
+					}
+				case ShareType.RemoteGroup:
+				case ShareType.Group:
+					return {
+						icon: 'icon-group',
+						iconTitle: t('files_sharing', 'Group'),
+					}
+				case ShareType.Email:
+					return {
+						icon: 'icon-mail',
+						iconTitle: t('files_sharing', 'Email'),
+					}
+				case ShareType.Team:
+					return {
+						icon: 'icon-teams',
+						iconTitle: t('files_sharing', 'Team'),
+					}
+				case ShareType.Room:
+					return {
+						icon: 'icon-room',
+						iconTitle: t('files_sharing', 'Talk conversation'),
+					}
+				case ShareType.Deck:
+					return {
+						icon: 'icon-deck',
+						iconTitle: t('files_sharing', 'Deck board'),
+					}
+				case ShareType.Sciencemesh:
+					return {
+						icon: 'icon-sciencemesh',
+						iconTitle: t('files_sharing', 'ScienceMesh'),
+					}
+				default:
+					return {}
 			}
+		},
+
+		/**
+		 * Filter suggestion results based on trusted server configuration
+		 *
+		 * @param {object} result The raw suggestion result from API
+		 * @return {boolean} Whether to include this result in suggestions
+		 */
+		filterByTrustedServer(result) {
+			const isRemoteEntity = result.value.shareType === ShareType.Remote || result.value.shareType === ShareType.RemoteGroup
+			if (isRemoteEntity && this.config.showFederatedSharesToTrustedServersAsInternal && !this.isExternal) {
+				return result.value.isTrustedServer === true
+			}
+			return true
 		},
 
 		/**

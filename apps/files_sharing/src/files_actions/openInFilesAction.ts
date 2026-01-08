@@ -2,19 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import type { Node } from '@nextcloud/files'
-
-import { registerFileAction, FileAction, DefaultType, FileType } from '@nextcloud/files'
+import { DefaultType, FileAction, FileType, registerFileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { sharesViewId, sharedWithYouViewId, sharedWithOthersViewId, sharingByLinksViewId } from '../files_views/shares'
+import { sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares.ts'
 
 export const action = new FileAction({
 	id: 'files_sharing:open-in-files',
 	displayName: () => t('files_sharing', 'Open in Files'),
 	iconSvgInline: () => '',
 
-	enabled: (nodes, view) => [
+	enabled: ({ view }) => [
 		sharesViewId,
 		sharedWithYouViewId,
 		sharedWithOthersViewId,
@@ -23,18 +20,18 @@ export const action = new FileAction({
 		// accessible in the files app.
 	].includes(view.id),
 
-	async exec(node: Node) {
-		const isFolder = node.type === FileType.Folder
+	async exec({ nodes }) {
+		const isFolder = nodes[0].type === FileType.Folder
 
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
 			{
 				view: 'files',
-				fileid: String(node.fileid),
+				fileid: String(nodes[0].fileid),
 			},
 			{
 				// If this node is a folder open the folder in files
-				dir: isFolder ? node.path : node.dirname,
+				dir: isFolder ? nodes[0].path : nodes[0].dirname,
 				// otherwise if this is a file, we should open it
 				openfile: isFolder ? undefined : 'true',
 			},

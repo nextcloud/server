@@ -78,7 +78,10 @@ class Quota extends Wrapper {
 			$data = substr($data, 0, $this->limit);
 			$size = $this->limit;
 		}
-		$this->limit -= $size;
-		return fwrite($this->source, $data);
+		$written = fwrite($this->source, $data);
+		// Decrement quota by the actual number of bytes written ($written),
+		// not the intended size
+		$this->limit -= $written;
+		return $written;
 	}
 }

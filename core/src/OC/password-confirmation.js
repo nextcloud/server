@@ -4,13 +4,15 @@
  */
 
 import { confirmPassword, isPasswordConfirmationRequired } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
 
 /**
  * @namespace OC.PasswordConfirmation
  */
 export default {
 
+	/**
+	 * @deprecated 28.0.0 use methods from '@nextcloud/password-confirmation'
+	 */
 	requiresPasswordConfirmation() {
 		return isPasswordConfirmationRequired()
 	},
@@ -19,6 +21,8 @@ export default {
 	 * @param {Function} callback success callback function
 	 * @param {object} options options currently not used by confirmPassword
 	 * @param {Function} rejectCallback error callback function
+	 *
+	 * @deprecated 28.0.0 use methods from '@nextcloud/password-confirmation'
 	 */
 	requirePasswordConfirmation(callback, options, rejectCallback) {
 		confirmPassword().then(callback, rejectCallback)

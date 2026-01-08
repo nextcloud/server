@@ -4,14 +4,16 @@
 -->
 
 <template>
-	<NcPopover :shown="opened"
+	<NcPopover
+		:shown="opened"
 		@show="opened = true"
 		@hide="opened = false">
 		<template #trigger>
 			<slot ref="popoverTrigger" name="trigger" />
 		</template>
 		<div class="searchable-list__wrapper">
-			<NcTextField :value.sync="searchTerm"
+			<NcTextField
+				v-model="searchTerm"
 				:label="labelText"
 				trailing-button-icon="close"
 				:show-trailing-button="searchTerm !== ''"
@@ -20,20 +22,23 @@
 				<IconMagnify :size="20" />
 			</NcTextField>
 			<ul v-if="filteredList.length > 0" class="searchable-list__list">
-				<li v-for="element in filteredList"
+				<li
+					v-for="element in filteredList"
 					:key="element.id"
 					:title="element.displayName"
 					role="button">
-					<NcButton alignment="start"
-						type="tertiary"
+					<NcButton
+						alignment="start"
+						variant="tertiary"
 						:wide="true"
 						@click="itemSelected(element)">
 						<template #icon>
-							<NcAvatar v-if="element.isUser" :user="element.user" :show-user-status="false" />
-							<NcAvatar v-else
+							<NcAvatar v-if="element.isUser" :user="element.user" hide-user-status />
+							<NcAvatar
+								v-else
 								:is-no-user="true"
 								:display-name="element.displayName"
-								:show-user-status="false" />
+								hide-user-status />
 						</template>
 						{{ element.displayName }}
 					</NcButton>
@@ -56,7 +61,6 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 
@@ -104,7 +108,7 @@ export default {
 				if (!this.searchTerm.toLowerCase().length) {
 					return true
 				}
-				return ['displayName'].some(prop => element[prop].toLowerCase().includes(this.searchTerm.toLowerCase()))
+				return ['displayName'].some((prop) => element[prop].toLowerCase().includes(this.searchTerm.toLowerCase()))
 			})
 		},
 	},
@@ -113,11 +117,13 @@ export default {
 		clearSearch() {
 			this.searchTerm = ''
 		},
+
 		itemSelected(element) {
 			this.$emit('item-selected', element)
 			this.clearSearch()
 			this.opened = false
 		},
+
 		searchTermChanged(term) {
 			this.$emit('search-term-change', term)
 		},

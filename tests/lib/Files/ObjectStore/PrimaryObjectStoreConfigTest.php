@@ -212,6 +212,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->assertEquals([
 			'default' => 'server1',
 			'root' => 'server1',
+			'preview' => 'server1',
 			'server1' => [
 				'class' => StorageObjectStore::class,
 				'arguments' => [
@@ -235,6 +236,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->assertEquals([
 			'default' => 'server1',
 			'root' => 'server1',
+			'preview' => 'server1',
 			'server1' => [
 				'class' => StorageObjectStore::class,
 				'arguments' => [
@@ -270,6 +272,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$this->setConfig('objectstore', [
 			'default' => 'server1',
 			'root' => 'server2',
+			'preview' => 'server1',
 			'server1' => [
 				'class' => StorageObjectStore::class,
 				'arguments' => [

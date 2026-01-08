@@ -8,13 +8,15 @@
 </template>
 
 <script setup lang="ts">
+/* eslint vue/multi-word-component-names: "warn" */
+
 import { toRef } from 'vue'
-import { useMarkdown } from '../composables/useMarkdown'
+import { useMarkdown } from '../composables/useMarkdown.ts'
 
 const props = withDefaults(
 	defineProps<{
 		markdown: string
-		minHeadingLevel?: 1|2|3|4|5|6
+		minHeadingLevel?: 1 | 2 | 3 | 4 | 5 | 6
 	}>(),
 	{
 		minHeadingLevel: 2,

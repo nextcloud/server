@@ -45,6 +45,8 @@ class Admin implements ISettings {
 		$this->initialState->provideInitialState('clients', $result);
 		$this->initialState->provideInitialState('oauth2-doc-link', $this->urlGenerator->linkToDocs('admin-oauth2'));
 
+		\OCP\Util::addStyle('oauth2', 'settings-admin');
+		\OCP\Util::addScript('oauth2', 'settings-admin', 'core');
 		return new TemplateResponse(
 			'oauth2',
 			'admin',

@@ -14,10 +14,10 @@ use Test\TestCase;
 /**
  * Class ExpireTest
  *
- * @group DB
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ExpireTest extends TestCase {
 	public function testExpireNonExistingUser(): void {
 		$command = new Expire('test');

@@ -15,6 +15,7 @@ use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
+use OC\AppFramework\Services\AppConfig;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
@@ -24,9 +25,10 @@ use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
 use OC\Blurhash\Listener\GenerateBlurhashMetadata;
 use OC\Collaboration\Collaborators\GroupPlugin;
-use OC\Collaboration\Collaborators\MailPlugin;
+use OC\Collaboration\Collaborators\MailByMailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
 use OC\Collaboration\Collaborators\RemotePlugin;
+use OC\Collaboration\Collaborators\UserByMailPlugin;
 use OC\Collaboration\Collaborators\UserPlugin;
 use OC\Collaboration\Reference\ReferenceManager;
 use OC\Command\CronBus;
@@ -49,7 +51,6 @@ use OC\Files\Lock\LockManager;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\ObjectHomeMountProvider;
-use OC\Files\Mount\ObjectStorePreviewCacheMountProvider;
 use OC\Files\Mount\RootMountProvider;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
@@ -83,9 +84,11 @@ use OC\Notification\Manager;
 use OC\OCM\Model\OCMProvider;
 use OC\OCM\OCMDiscoveryService;
 use OC\OCS\DiscoveryService;
+use OC\Preview\Db\PreviewMapper;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
 use OC\Preview\MimeIconProvider;
+use OC\Preview\Watcher;
 use OC\Profile\ProfileManager;
 use OC\Profiler\Profiler;
 use OC\Remote\Api\ApiFactory;
@@ -113,6 +116,11 @@ use OC\Settings\DeclarativeManager;
 use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
+use OC\Snowflake\APCuSequence;
+use OC\Snowflake\FileSequence;
+use OC\Snowflake\ISequence;
+use OC\Snowflake\SnowflakeDecoder;
+use OC\Snowflake\SnowflakeGenerator;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
@@ -149,6 +157,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
@@ -170,6 +179,7 @@ use OCP\IBinaryFinder;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
@@ -196,9 +206,7 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
-use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
-use OCP\OCM\IOCMProvider;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
 use OCP\Profiler\IProfiler;
@@ -221,6 +229,8 @@ use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShareHelper;
+use OCP\Snowflake\ISnowflakeDecoder;
+use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -292,10 +302,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new PreviewManager(
 				$c->get(\OCP\IConfig::class),
 				$c->get(IRootFolder::class),
-				new \OC\Preview\Storage\Root(
-					$c->get(IRootFolder::class),
-					$c->get(SystemConfig::class)
-				),
 				$c->get(IEventDispatcher::class),
 				$c->get(GeneratorHelper::class),
 				$c->get(ISession::class)->get('user_id'),
@@ -307,12 +313,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IMimeIconProvider::class, MimeIconProvider::class);
 
-		$this->registerService(\OC\Preview\Watcher::class, function (ContainerInterface $c) {
-			return new \OC\Preview\Watcher(
-				new \OC\Preview\Storage\Root(
-					$c->get(IRootFolder::class),
-					$c->get(SystemConfig::class)
-				)
+		$this->registerService(Watcher::class, function (ContainerInterface $c): Watcher {
+			return new Watcher(
+				$c->get(\OC\Preview\Storage\StorageFactory::class),
+				$c->get(PreviewMapper::class),
+				$c->get(IDBConnection::class),
 			);
 		});
 
@@ -402,6 +407,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->get(IUserManager::class),
 				$this->get(IEventDispatcher::class),
 				$this->get(ICacheFactory::class),
+				$this->get(IAppConfig::class),
 			);
 
 			$previewConnector = new \OC\Preview\WatcherConnector(
@@ -788,7 +794,6 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager->registerHomeProvider(new LocalHomeMountProvider());
 			$manager->registerHomeProvider(new ObjectHomeMountProvider($objectStoreConfig));
 			$manager->registerRootProvider(new RootMountProvider($objectStoreConfig, $config));
-			$manager->registerRootProvider(new ObjectStorePreviewCacheMountProvider($logger, $config));
 
 			return $manager;
 		});
@@ -1013,14 +1018,14 @@ class Server extends ServerContainer implements IServerContainer {
 			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isEnabledForAnyone('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
-					$c->getAppDataDir('theming'),
+					$c->get(IAppDataFactory::class)->get('theming'),
 					$c->get(IAppConfig::class),
 					$c->get(\OCP\IConfig::class),
 					$c->get(ISession::class)->get('user_id'),
 				);
 				$imageManager = new ImageManager(
 					$c->get(\OCP\IConfig::class),
-					$c->getAppDataDir('theming'),
+					$c->get(IAppDataFactory::class)->get('theming'),
 					$c->get(IURLGenerator::class),
 					$c->get(ICacheFactory::class),
 					$c->get(LoggerInterface::class),
@@ -1028,13 +1033,23 @@ class Server extends ServerContainer implements IServerContainer {
 					$backgroundService,
 				);
 				return new ThemingDefaults(
-					$c->get(\OCP\IConfig::class),
-					$c->get(\OCP\IAppConfig::class),
-					$c->getL10N('theming'),
+					new AppConfig(
+						$c->get(\OCP\IConfig::class),
+						$c->get(\OCP\IAppConfig::class),
+						'theming',
+					),
+					$c->get(IUserConfig::class),
+					$c->get(IFactory::class)->get('theming'),
 					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),
 					$c->get(ICacheFactory::class),
-					new Util($c->get(ServerVersion::class), $c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
+					new Util(
+						$c->get(ServerVersion::class),
+						$c->get(\OCP\IConfig::class),
+						$this->get(IAppManager::class),
+						$c->get(IAppDataFactory::class)->get('theming'),
+						$imageManager,
+					),
 					$imageManager,
 					$c->get(IAppManager::class),
 					$c->get(INavigationManager::class),
@@ -1048,7 +1063,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getAppDataDir('js'),
 				$c->get(IURLGenerator::class),
 				$this->get(ICacheFactory::class),
-				$c->get(SystemConfig::class),
+				$c->get(\OCP\IConfig::class),
 				$c->get(LoggerInterface::class)
 			);
 		});
@@ -1097,8 +1112,9 @@ class Server extends ServerContainer implements IServerContainer {
 
 			// register default plugins
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserPlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserByMailPlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => GroupPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailPlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailByMailPlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => RemotePlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE_GROUP', 'class' => RemoteGroupPlugin::class]);
 
@@ -1227,9 +1243,9 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
-		// there is no reason for having OCMProvider as a Service
-		$this->registerDeprecatedAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
-		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
+		// there is no reason for having OCMProvider as a Service (marked as deprecated since 32.0.0)
+		$this->registerDeprecatedAlias(\OCP\OCM\ICapabilityAwareOCMProvider::class, OCMProvider::class);
+		$this->registerDeprecatedAlias(\OCP\OCM\IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 
@@ -1248,6 +1264,19 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IRichTextFormatter::class, \OC\RichObjectStrings\RichTextFormatter::class);
 
 		$this->registerAlias(ISignatureManager::class, SignatureManager::class);
+
+		$this->registerAlias(ISnowflakeGenerator::class, SnowflakeGenerator::class);
+		$this->registerService(ISequence::class, function (ContainerInterface $c): ISequence {
+			if (PHP_SAPI !== 'cli') {
+				$sequence = $c->get(APCuSequence::class);
+				if ($sequence->isAvailable()) {
+					return $sequence;
+				}
+			}
+
+			return $c->get(FileSequence::class);
+		}, false);
+		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
 
 		$this->connectDispatcher();
 	}

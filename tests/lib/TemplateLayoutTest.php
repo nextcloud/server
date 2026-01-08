@@ -44,7 +44,13 @@ class TemplateLayoutTest extends \Test\TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
-	public function testVersionHash($path, $file, $installed, $debug, $expected): void {
+	public function testVersionHash(
+		string|false $path,
+		string|false $file,
+		bool $installed,
+		bool $debug,
+		string $expected,
+	): void {
 		$this->appManager->expects(self::any())
 			->method('getAppVersion')
 			->willReturnCallback(fn ($appId) => match ($appId) {
@@ -59,8 +65,8 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->config->expects(self::atLeastOnce())
 			->method('getSystemValueBool')
 			->willReturnMap([
-				['installed', false, $installed],
-				['debug', false, $debug],
+				['installed', $installed],
+				['debug', $debug],
 			]);
 		$this->config->expects(self::any())
 			->method('getAppValue')

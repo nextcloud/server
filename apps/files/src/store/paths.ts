@@ -2,17 +2,23 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FileSource, PathsStore, PathOptions, ServicesState, Service } from '../types'
-import { defineStore } from 'pinia'
-import { dirname } from '@nextcloud/paths'
-import { File, FileType, Folder, Node, getNavigation } from '@nextcloud/files'
+
+import type { Folder, Node } from '@nextcloud/files'
+import type { FileSource, PathOptions, PathsStore, Service, ServicesState } from '../types.ts'
+
 import { subscribe } from '@nextcloud/event-bus'
+import { File, FileType, getNavigation } from '@nextcloud/files'
+import { dirname } from '@nextcloud/paths'
+import { defineStore } from 'pinia'
 import Vue from 'vue'
-import logger from '../logger'
+import logger from '../logger.ts'
+import { useFilesStore } from './files.ts'
 
-import { useFilesStore } from './files'
-
-export const usePathsStore = function(...args) {
+/**
+ *
+ * @param args
+ */
+export function usePathsStore(...args) {
 	const files = useFilesStore(...args)
 
 	const store = defineStore('paths', {
@@ -22,7 +28,7 @@ export const usePathsStore = function(...args) {
 
 		getters: {
 			getPath: (state) => {
-				return (service: string, path: string): FileSource|undefined => {
+				return (service: string, path: string): FileSource | undefined => {
 					if (!state.paths[service]) {
 						return undefined
 					}
@@ -106,7 +112,12 @@ export const usePathsStore = function(...args) {
 				}
 
 				// Dummy simple clone of the renamed node from a previous state
-				const oldNode = new File({ source: oldSource, owner: node.owner, mime: node.mime })
+				const oldNode = new File({
+					source: oldSource,
+					owner: node.owner,
+					mime: node.mime,
+					root: node.root,
+				})
 
 				this.deleteNodeFromParentChildren(oldNode)
 				this.addNodeToParentChildren(node)

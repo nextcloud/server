@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import * as ncAuth from '@nextcloud/auth'
 import { File } from '@nextcloud/files'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { deleted, deletedBy, originalLocation } from './columns.ts'
 import { trashbinView } from './trashbinView.ts'
-import * as ncAuth from '@nextcloud/auth'
 
 vi.mock('@nextcloud/l10n', async (originalModule) => ({
 	...(await originalModule()),
@@ -16,7 +16,6 @@ vi.mock('@nextcloud/l10n', async (originalModule) => ({
 }))
 
 describe('files_trashbin: file list columns', () => {
-
 	describe('column: original location', () => {
 		it('has id set', () => {
 			expect(originalLocation.id).toBe('files_trashbin--original-location')
@@ -27,8 +26,20 @@ describe('files_trashbin: file list columns', () => {
 		})
 
 		it('correctly sorts nodes by original location', () => {
-			const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-original-location': 'z-folder/a.txt' } })
-			const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain', attributes: { 'trashbin-original-location': 'folder/b.txt' } })
+			const nodeA = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/a.txt',
+				mime: 'text/plain',
+				attributes: { 'trashbin-original-location': 'z-folder/a.txt' },
+				root: '/files/test',
+			})
+			const nodeB = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/b.txt',
+				mime: 'text/plain',
+				attributes: { 'trashbin-original-location': 'folder/b.txt' },
+				root: '/files/test',
+			})
 
 			expect(originalLocation.sort).toBeTypeOf('function')
 			expect(originalLocation.sort!(nodeA, nodeB)).toBeGreaterThan(0)
@@ -36,7 +47,13 @@ describe('files_trashbin: file list columns', () => {
 		})
 
 		it('renders a node with original location', () => {
-			const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-original-location': 'folder/a.txt' } })
+			const node = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/a.txt',
+				mime: 'text/plain',
+				attributes: { 'trashbin-original-location': 'folder/a.txt' },
+				root: '/files/test',
+			})
 			const el: HTMLElement = originalLocation.render(node, trashbinView)
 			expect(el).toBeInstanceOf(HTMLElement)
 			expect(el.textContent).toBe('folder')
@@ -44,7 +61,12 @@ describe('files_trashbin: file list columns', () => {
 		})
 
 		it('renders a node when original location is missing', () => {
-			const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain' })
+			const node = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/a.txt',
+				mime: 'text/plain',
+				root: '/files/test',
+			})
 			const el: HTMLElement = originalLocation.render(node, trashbinView)
 			expect(el).toBeInstanceOf(HTMLElement)
 			expect(el.textContent).toBe('Unknown')
@@ -52,7 +74,13 @@ describe('files_trashbin: file list columns', () => {
 		})
 
 		it('renders a node when original location is the root', () => {
-			const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-original-location': 'a.txt' } })
+			const node = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/a.txt',
+				mime: 'text/plain',
+				attributes: { 'trashbin-original-location': 'a.txt' },
+				root: '/files/test',
+			})
 			const el: HTMLElement = originalLocation.render(node, trashbinView)
 			expect(el).toBeInstanceOf(HTMLElement)
 			expect(el.textContent).toBe('All files')
@@ -70,8 +98,20 @@ describe('files_trashbin: file list columns', () => {
 		})
 
 		it('correctly sorts nodes by deleted time', () => {
-			const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deletion-time': 1741684522 } })
-			const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain', attributes: { 'trashbin-deletion-time': 1741684422 } })
+			const nodeA = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/a.txt',
+				mime: 'text/plain',
+				attributes: { 'trashbin-deletion-time': 1741684522 },
+				root: '/files/test',
+			})
+			const nodeB = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/b.txt',
+				mime: 'text/plain',
+				attributes: { 'trashbin-deletion-time': 1741684422 },
+				root: '/files/test',
+			})
 
 			expect(deleted.sort).toBeTypeOf('function')
 			expect(deleted.sort!(nodeA, nodeB)).toBeLessThan(0)
@@ -79,8 +119,20 @@ describe('files_trashbin: file list columns', () => {
 		})
 
 		it('correctly sorts nodes by deleted time and falls back to mtime', () => {
-			const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deletion-time': 1741684522 } })
-			const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain', mtime: new Date(1741684422000) })
+			const nodeA = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/a.txt',
+				mime: 'text/plain',
+				attributes: { 'trashbin-deletion-time': 1741684522 },
+				root: '/files/test',
+			})
+			const nodeB = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/b.txt',
+				mime: 'text/plain',
+				mtime: new Date(1741684422000),
+				root: '/files/test',
+			})
 
 			expect(deleted.sort).toBeTypeOf('function')
 			expect(deleted.sort!(nodeA, nodeB)).toBeLessThan(0)
@@ -88,8 +140,19 @@ describe('files_trashbin: file list columns', () => {
 		})
 
 		it('correctly sorts nodes even if no deletion date is provided', () => {
-			const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain' })
-			const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain', mtime: new Date(1741684422000) })
+			const nodeA = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/a.txt',
+				mime: 'text/plain',
+				root: '/files/test',
+			})
+			const nodeB = new File({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/b.txt',
+				mime: 'text/plain',
+				mtime: new Date(1741684422000),
+				root: '/files/test',
+			})
 
 			expect(deleted.sort).toBeTypeOf('function')
 			expect(deleted.sort!(nodeA, nodeB)).toBeGreaterThan(0)
@@ -106,7 +169,15 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('renders a node with deletion date', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deletion-time': (Date.now() / 1000) - 120 } })
+				const node = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: {
+						'trashbin-deletion-time': Date.now() / 1000 - 120,
+					},
+					root: '/files/test',
+				})
 				const el: HTMLElement = deleted.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
 				expect(el.textContent).toBe('2 minutes ago')
@@ -114,7 +185,13 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('renders a node when deletion date is missing and falls back to mtime', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', mtime: new Date(Date.now() - 60000) })
+				const node = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					mtime: new Date(Date.now() - 60000),
+					root: '/files/test',
+				})
 				const el: HTMLElement = deleted.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
 				expect(el.textContent).toBe('1 minute ago')
@@ -122,7 +199,12 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('renders a node when deletion date is missing', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain' })
+				const node = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					root: '/files/test',
+				})
 				const el: HTMLElement = deleted.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
 				expect(el.textContent).toBe('A long time ago')
@@ -139,8 +221,20 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('correctly sorts nodes by user-id of deleting user', () => {
-				const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'zzz' } })
-				const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'aaa' } })
+				const nodeA = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-id': 'zzz' },
+					root: '/files/test',
+				})
+				const nodeB = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/b.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-id': 'aaa' },
+					root: '/files/test',
+				})
 
 				expect(deletedBy.sort).toBeTypeOf('function')
 				expect(deletedBy.sort!(nodeA, nodeB)).toBeGreaterThan(0)
@@ -148,8 +242,20 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('correctly sorts nodes by display name of deleting user', () => {
-				const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-display-name': 'zzz' } })
-				const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-display-name': 'aaa' } })
+				const nodeA = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-display-name': 'zzz' },
+					root: '/files/test',
+				})
+				const nodeB = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/b.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-display-name': 'aaa' },
+					root: '/files/test',
+				})
 
 				expect(deletedBy.sort).toBeTypeOf('function')
 				expect(deletedBy.sort!(nodeA, nodeB)).toBeGreaterThan(0)
@@ -157,8 +263,26 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('correctly sorts nodes by display name of deleting user before user id', () => {
-				const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-display-name': '000', 'trashbin-deleted-by-id': 'zzz' } })
-				const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-display-name': 'aaa', 'trashbin-deleted-by-id': '999' } })
+				const nodeA = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: {
+						'trashbin-deleted-by-display-name': '000',
+						'trashbin-deleted-by-id': 'zzz',
+					},
+					root: '/files/test',
+				})
+				const nodeB = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/b.txt',
+					mime: 'text/plain',
+					attributes: {
+						'trashbin-deleted-by-display-name': 'aaa',
+						'trashbin-deleted-by-id': '999',
+					},
+					root: '/files/test',
+				})
 
 				expect(deletedBy.sort).toBeTypeOf('function')
 				expect(deletedBy.sort!(nodeA, nodeB)).toBeLessThan(0)
@@ -166,9 +290,26 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('correctly sorts nodes even when one is missing', () => {
-				const nodeA = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'aaa' } })
-				const nodeB = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'zzz' } })
-				const nodeC = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/b.txt', mime: 'text/plain' })
+				const nodeA = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-id': 'aaa' },
+					root: '/files/test',
+				})
+				const nodeB = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-id': 'zzz' },
+					root: '/files/test',
+				})
+				const nodeC = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/b.txt',
+					mime: 'text/plain',
+					root: '/files/test',
+				})
 
 				expect(deletedBy.sort).toBeTypeOf('function')
 				// aaa is less then "Unknown"
@@ -178,21 +319,41 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('renders a node with deleting user', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'user-id' } })
+				const node = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-id': 'user-id' },
+					root: '/files/test',
+				})
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toMatch(/\suser-id\s/)
+				expect(el.textContent.trim()).toBe('user-id')
 			})
 
 			it('renders a node with deleting user display name', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-display-name': 'user-name', 'trashbin-deleted-by-id': 'user-id' } })
+				const node = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: {
+						'trashbin-deleted-by-display-name': 'user-name',
+						'trashbin-deleted-by-id': 'user-id',
+					},
+					root: '/files/test',
+				})
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toMatch(/\suser-name\s/)
+				expect(el.textContent.trim()).toBe('user-name')
 			})
 
 			it('renders a node even when information is missing', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain' })
+				const node = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					root: '/files/test',
+				})
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
 				expect(el.textContent).toBe('Unknown')
@@ -205,13 +366,17 @@ describe('files_trashbin: file list columns', () => {
 					isAdmin: false,
 				}))
 
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deleted-by-id': 'user-id' } })
+				const node = new File({
+					owner: 'test',
+					source: 'https://example.com/remote.php/dav/files/test/a.txt',
+					mime: 'text/plain',
+					attributes: { 'trashbin-deleted-by-id': 'user-id' },
+					root: '/files/test',
+				})
 				const el: HTMLElement = deletedBy.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
 				expect(el.textContent).toBe('You')
 			})
 		})
-
 	})
-
 })

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import client from './DavClient.js'
-
 import type { Response } from 'webdav'
+
+import client from './DavClient.js'
 
 /**
  * Mark comments older than the date timestamp as read
@@ -14,11 +14,11 @@ import type { Response } from 'webdav'
  * @param resourceId the resource ID
  * @param date the date object
  */
-export const markCommentsAsRead = (
+export function markCommentsAsRead(
 	resourceType: string,
 	resourceId: number,
 	date: Date,
-): Promise<Response> => {
+): Promise<Response> {
 	const resourcePath = ['', resourceType, resourceId].join('/')
 	const readMarker = date.toUTCString()
 

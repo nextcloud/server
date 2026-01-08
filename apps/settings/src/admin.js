@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import $ from 'jquery'
-import axios from '@nextcloud/axios'
 
 window.addEventListener('DOMContentLoaded', () => {
 	$('#loglevel').change(function() {
@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			.then(() => {
 				OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'))
 			}).catch((error) => {
-				OC.msg.finishedError('#sendtestmail_msg', error)
+				OC.msg.finishedError('#sendtestmail_msg', error.response.data)
 			})
 	})
 })

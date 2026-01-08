@@ -3,14 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCurrentUser } from '@nextcloud/auth'
+import { emit } from '@nextcloud/event-bus'
 import {
 	fetchBackupStatus,
 	revertToBackupStatus,
 } from '../services/statusService.js'
-import { getCurrentUser } from '@nextcloud/auth'
-import { emit } from '@nextcloud/event-bus'
 
-const state = {
+// eslint-disable-next-line antfu/top-level-function
+const state = () => ({
 	// Status (online / away / dnd / invisible / offline)
 	status: null,
 	// Whether the status is user-defined
@@ -26,7 +27,7 @@ const state = {
 	messageIsPredefined: null,
 	// The id of the message in case it's predefined
 	messageId: null,
-}
+})
 
 const mutations = {
 	/**
@@ -78,7 +79,7 @@ const actions = {
 		try {
 			const status = await fetchBackupStatus(getCurrentUser()?.uid)
 			commit('loadBackupStatusFromServer', status)
-		} catch (e) {
+		} catch {
 			// Ignore missing user backup status
 		}
 	},

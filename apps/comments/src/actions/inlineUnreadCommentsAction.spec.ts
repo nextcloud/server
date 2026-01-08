@@ -2,11 +2,13 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { describe, expect, test, vi } from 'vitest'
 
-import { action } from './inlineUnreadCommentsAction'
-import logger from '../logger'
+import type { Folder, View } from '@nextcloud/files'
+
+import { File, FileAction, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import logger from '../logger.js'
+import { action } from './inlineUnreadCommentsAction.ts'
 
 const view = {
 	id: 'files',
@@ -24,15 +26,41 @@ describe('Inline unread comments action display name tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('comments-unread')
-		expect(action.displayName([file], view)).toBe('')
-		expect(action.title!([file], view)).toBe('1 new comment')
-		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
-		expect(action.enabled!([file], view)).toBe(true)
-		expect(action.inline!(file, view)).toBe(true)
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('')
+		expect(action.title!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('1 new comment')
+		expect(action.iconSvgInline({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
+		expect(action.inline!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-140)
 	})
@@ -47,10 +75,21 @@ describe('Inline unread comments action display name tests', () => {
 			attributes: {
 				'comments-unread': 2,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file], view)).toBe('')
-		expect(action.title!([file], view)).toBe('2 new comments')
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('')
+		expect(action.title!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('2 new comments')
 	})
 })
 
@@ -62,10 +101,16 @@ describe('Inline unread comments action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
-			attributes: { },
+			attributes: {},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Action is disabled when file does not have unread comments', () => {
@@ -78,9 +123,15 @@ describe('Inline unread comments action enabled tests', () => {
 			attributes: {
 				'comments-unread': 0,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Action is enabled when file has a single unread comment', () => {
@@ -93,9 +144,15 @@ describe('Inline unread comments action enabled tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Action is enabled when file has a two unread comments', () => {
@@ -108,22 +165,27 @@ describe('Inline unread comments action enabled tests', () => {
 			attributes: {
 				'comments-unread': 2,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 })
 
 describe('Inline unread comments action execute tests', () => {
 	test('Action opens sidebar', async () => {
 		const openMock = vi.fn()
-		const setActiveTabMock = vi.fn()
 		window.OCA = {
 			Files: {
-				Sidebar: {
+				// @ts-expect-error Mocking for testing
+				_sidebar: () => ({
 					open: openMock,
-					setActiveTab: setActiveTabMock,
-				},
+				}),
 			},
 		}
 
@@ -136,24 +198,30 @@ describe('Inline unread comments action execute tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
-		const result = await action.exec!(file, view, '/')
+		const result = await action.exec!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(result).toBe(null)
-		expect(setActiveTabMock).toBeCalledWith('comments')
-		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(openMock).toBeCalledWith(file, 'comments')
 	})
 
 	test('Action handles sidebar open failure', async () => {
-		const openMock = vi.fn(() => { throw new Error('Mock error') })
-		const setActiveTabMock = vi.fn()
+		const openMock = vi.fn(() => {
+			throw new Error('Mock error')
+		})
 		window.OCA = {
 			Files: {
-				Sidebar: {
+				// @ts-expect-error Mocking for testing
+				_sidebar: () => ({
 					open: openMock,
-					setActiveTab: setActiveTabMock,
-				},
+				}),
 			},
 		}
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
@@ -167,13 +235,18 @@ describe('Inline unread comments action execute tests', () => {
 			attributes: {
 				'comments-unread': 1,
 			},
+			root: '/files/admin',
 		})
 
-		const result = await action.exec!(file, view, '/')
+		const result = await action.exec!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(result).toBe(false)
-		expect(setActiveTabMock).toBeCalledWith('comments')
-		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(openMock).toBeCalledWith(file, 'comments')
 		expect(logger.error).toBeCalledTimes(1)
 	})
 })

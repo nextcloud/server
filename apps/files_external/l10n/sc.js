@@ -40,10 +40,10 @@ OC.L10N.register(
     "RSA private key" : "Crae privada RSA",
     "Private key" : "Crae privada",
     "Kerberos ticket" : "Billete de Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nùmene retzidore",
     "Port" : "Porta",
+    "Proxy" : "Proxy",
     "Region" : "Regione",
     "Enable SSL" : "Ativa SSL",
     "Enable Path Style" : "Ativa istile de percursu",
@@ -98,7 +98,7 @@ OC.L10N.register(
     "Delete storage?" : "Nche cheres cantzellare sa memòria?",
     "Click to recheck the configuration" : "Incarca pro controllare torra sa cunfiguratzione",
     "Saved" : "Sarvadu",
-    "Saving …" : "Sarvende ...",
+    "Saving …" : "Sarvende ...",
     "Save" : "Sarva",
     "No external storage configured or you don't have the permission to configure them" : "Peruna archiviatzione de foras cunfigurada o non tenes is permissos pro ddas cunfigurare",
     "Open documentation" : "Aberi sa documentatzione",
@@ -113,6 +113,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Fruni una crae bàlida e segreta.",
     "OAuth1" : "OAuth1",
     "App key" : "Crae de s'aplicatzione",
-    "App secret" : "Segretu de s'aplicatzione"
+    "App secret" : "Segretu de s'aplicatzione",
+    "Saving …" : "Sarvende ..."
 },
 "nplurals=2; plural=(n != 1);");

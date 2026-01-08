@@ -408,7 +408,8 @@
                 ],
                 "properties": {
                     "accepted": {
-                        "type": "boolean"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "file_id": {
                         "type": "integer",
@@ -416,8 +417,7 @@
                         "nullable": true
                     },
                     "id": {
-                        "type": "integer",
-                        "format": "int64"
+                        "type": "string"
                     },
                     "mimetype": {
                         "type": "string",
@@ -438,8 +438,7 @@
                         "type": "string"
                     },
                     "parent": {
-                        "type": "integer",
-                        "format": "int64",
+                        "type": "string",
                         "nullable": true
                     },
                     "permissions": {
@@ -3932,7 +3931,7 @@
         "/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/{id}": {
             "post": {
                 "operationId": "remote-accept-share",
-                "summary": "Accept a remote share",
+                "summary": "Accept a remote share.",
                 "tags": [
                     "remote"
                 ],
@@ -3951,8 +3950,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -4055,7 +4053,7 @@
             },
             "delete": {
                 "operationId": "remote-decline-share",
-                "summary": "Decline a remote share",
+                "summary": "Decline a remote share.",
                 "tags": [
                     "remote"
                 ],
@@ -4074,8 +4072,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -4199,8 +4196,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -4324,8 +4320,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {

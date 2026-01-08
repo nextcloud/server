@@ -39,8 +39,13 @@ class OrphanHelper {
 	public function deleteShares(array $ids): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('share')
-			->where($query->expr()->in('id', $query->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->executeStatement();
+			->where($query->expr()->in('id', $query->createParameter('ids')));
+
+		$idsChunks = array_chunk($ids, 500);
+		foreach ($idsChunks as $idsChunk) {
+			$query->setParameter('ids', $idsChunk, IQueryBuilder::PARAM_INT_ARRAY)
+				->executeStatement();
+		}
 	}
 
 	public function fileExists(int $fileId): bool {
@@ -68,7 +73,7 @@ class OrphanHelper {
 		}
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			yield [
 				'id' => (int)$row['id'],
 				'owner' => (string)$row['uid_owner'],

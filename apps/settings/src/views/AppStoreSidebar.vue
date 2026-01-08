@@ -4,7 +4,8 @@
 -->
 <template>
 	<!-- Selected app details -->
-	<NcAppSidebar v-if="showSidebar"
+	<NcAppSidebar
+		v-if="showSidebar"
 		class="app-sidebar"
 		:class="{ 'app-sidebar--with-screenshot': hasScreenshot }"
 		:active.sync="activeTab"
@@ -17,7 +18,8 @@
 		@close="hideAppDetails">
 		<!-- Fallback icon incase no app icon is available -->
 		<template v-if="!hasScreenshot" #header>
-			<NcIconSvgWrapper class="app-sidebar__fallback-icon"
+			<NcIconSvgWrapper
+				class="app-sidebar__fallback-icon"
 				:svg="appIcon ?? ''"
 				:size="64" />
 		</template>
@@ -33,30 +35,29 @@
 
 		<!-- Tab content -->
 		<AppDescriptionTab :app="app" />
-		<AppDetailsTab :app="app" />
+		<AppDetailsTab :app="app" :key="app.id" />
 		<AppReleasesTab :app="app" />
 		<AppDeployDaemonTab :app="app" />
 	</NcAppSidebar>
 </template>
 
 <script setup lang="ts">
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router/composables'
-import { useAppsStore } from '../store/apps-store'
-
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import AppDaemonBadge from '../components/AppList/AppDaemonBadge.vue'
+import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
 import AppScore from '../components/AppList/AppScore.vue'
+import AppDeployDaemonTab from '../components/AppStoreSidebar/AppDeployDaemonTab.vue'
 import AppDescriptionTab from '../components/AppStoreSidebar/AppDescriptionTab.vue'
 import AppDetailsTab from '../components/AppStoreSidebar/AppDetailsTab.vue'
 import AppReleasesTab from '../components/AppStoreSidebar/AppReleasesTab.vue'
-import AppDeployDaemonTab from '../components/AppStoreSidebar/AppDeployDaemonTab.vue'
-import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
-import AppDaemonBadge from '../components/AppList/AppDaemonBadge.vue'
 import { useAppIcon } from '../composables/useAppIcon.ts'
-import { useStore } from '../store'
 import { useAppApiStore } from '../store/app-api-store.ts'
+import { useAppsStore } from '../store/apps-store.ts'
+import { useStore } from '../store/index.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -97,12 +98,14 @@ const licenseText = computed(() => {
 })
 
 const activeTab = ref('details')
-watch([app], () => { activeTab.value = 'details' })
+watch([app], () => {
+	activeTab.value = 'details'
+})
 
 /**
  * Hide the details sidebar by pushing a new route
  */
-const hideAppDetails = () => {
+function hideAppDetails() {
 	router.push({
 		name: 'apps-category',
 		params: { category: route.params.category },
@@ -117,7 +120,7 @@ const hasScreenshot = computed(() => app.value?.screenshot && screenshotLoaded.v
 /**
  * Preload the app screenshot
  */
-const loadScreenshot = () => {
+function loadScreenshot() {
 	if (app.value?.releases && app.value?.screenshot) {
 		const image = new Image()
 		image.onload = () => {

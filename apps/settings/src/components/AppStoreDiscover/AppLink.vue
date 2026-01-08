@@ -13,12 +13,12 @@
 
 <script lang="ts">
 import type { RouterLinkProps } from 'vue-router/types/router.js'
+import type { INavigationEntry } from '../../../../../core/src/types/navigation.d.ts'
 
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
-import type { INavigationEntry } from '../../../../../core/src/types/navigation'
 
 const apps = loadState<INavigationEntry[]>('core', 'apps')
 const knownRoutes = Object.fromEntries(apps.map((app) => [app.app ?? app.id, app.href]))
@@ -40,8 +40,8 @@ export default defineComponent({
 
 	data() {
 		return {
-			routerProps: undefined as RouterLinkProps|undefined,
-			linkProps: undefined as Record<string, string>|undefined,
+			routerProps: undefined as RouterLinkProps | undefined,
+			linkProps: undefined as Record<string, string> | undefined,
 		}
 	},
 

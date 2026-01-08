@@ -53,7 +53,7 @@ class FixVcardCategory implements IRepairStep {
 			->set('card', $query->createParameter('card'))
 			->where($query->expr()->eq('id', $query->createParameter('id')));
 
-		while ($card = $cardsWithTranslatedCategory->fetch()) {
+		while ($card = $cardsWithTranslatedCategory->fetchAssociative()) {
 			$output->advance(1);
 
 			try {

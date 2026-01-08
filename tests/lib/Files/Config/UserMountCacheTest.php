@@ -32,9 +32,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserMountCacheTest extends TestCase {
 	private IDBConnection $connection;
 	private IUserManager $userManager;
@@ -415,7 +413,7 @@ class UserMountCacheTest extends TestCase {
 					->from('filecache')
 					->where($query->expr()->eq('storage', $query->createNamedParameter($storageId)))
 					->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($internalPath))));
-				$id = (int)$query->executeQuery()->fetchColumn();
+				$id = (int)$query->executeQuery()->fetchOne();
 			} else {
 				throw $e;
 			}

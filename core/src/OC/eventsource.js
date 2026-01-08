@@ -4,22 +4,21 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable */
 import $ from 'jquery'
-
 import { getRequestToken } from './requesttoken.ts'
 
 /**
  * Create a new event source
+ *
  * @param {string} src
  * @param {object} [data] to be send as GET
  *
  * @constructs OCEventSource
  */
-const OCEventSource = function(src, data) {
-	var dataStr = ''
-	var name
-	var joinChar
+function OCEventSource(src, data) {
+	let dataStr = ''
+	let name
+	let joinChar
 	this.typelessListeners = []
 	this.closed = false
 	this.listeners = {}
@@ -36,12 +35,12 @@ const OCEventSource = function(src, data) {
 		}
 		this.source = new EventSource(src + joinChar + dataStr)
 		this.source.onmessage = function(e) {
-			for (var i = 0; i < this.typelessListeners.length; i++) {
+			for (let i = 0; i < this.typelessListeners.length; i++) {
 				this.typelessListeners[i](JSON.parse(e.data))
 			}
 		}.bind(this)
 	} else {
-		var iframeId = 'oc_eventsource_iframe_' + OCEventSource.iframeCount
+		const iframeId = 'oc_eventsource_iframe_' + OCEventSource.iframeCount
 		OCEventSource.fallBackSources[OCEventSource.iframeCount] = this
 		this.iframe = $('<iframe></iframe>')
 		this.iframe.attr('id', iframeId)
@@ -80,11 +79,11 @@ OCEventSource.prototype = {
 	 * Calls the registered listeners.
 	 *
 	 * @private
-	 * @param {String} type event type
-	 * @param {Object} data received data
+	 * @param {string} type event type
+	 * @param {object} data received data
 	 */
 	fallBackCallBack: function(type, data) {
-		var i
+		let i
 		// ignore messages that might appear after closing
 		if (this.closed) {
 			return
@@ -105,12 +104,11 @@ OCEventSource.prototype = {
 	/**
 	 * Listen to a given type of events.
 	 *
-	 * @param {String} type event type
+	 * @param {string} type event type
 	 * @param {Function} callback event callback
 	 */
 	listen: function(type, callback) {
 		if (callback && callback.call) {
-
 			if (type) {
 				if (this.useFallBack) {
 					if (!this.listeners[type]) {
@@ -139,7 +137,7 @@ OCEventSource.prototype = {
 		if (typeof this.source !== 'undefined') {
 			this.source.close()
 		}
-	}
+	},
 }
 
 export default OCEventSource

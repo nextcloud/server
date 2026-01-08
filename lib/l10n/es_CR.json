@@ -144,10 +144,10 @@
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
     "Images" : "Imágenes",
+    "Optical character recognition" : "Reconocimiento óptico de caracteres",
     "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",
-    "Result" : "Resultado",
-    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. "
+    "Result" : "Resultado"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

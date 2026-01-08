@@ -5,46 +5,50 @@
 
 <template>
 	<div id="weather-status-menu-item">
-		<NcActions class="weather-status-menu-item__subheader"
-			:aria-hidden="true"
+		<NcActions
+			class="weather-status-menu-item__subheader"
 			:aria-label="currentWeatherMessage"
 			:menu-name="currentWeatherMessage">
 			<template #icon>
 				<NcLoadingIcon v-if="loading" />
-				<img v-else
+				<img
+					v-else
 					:src="weatherIconUrl"
 					alt=""
 					class="weather-image">
 			</template>
-			<NcActionText v-if="gotWeather"
-				:aria-hidden="true">
+			<NcActionText
+				v-if="gotWeather">
 				<template #icon>
 					<NcLoadingIcon v-if="loading" />
 					<div v-else class="weather-action-image-container">
-						<img :src="futureWeatherIconUrl"
+						<img
+							:src="futureWeatherIconUrl"
 							alt=""
 							class="weather-image">
 					</div>
 				</template>
 				{{ forecastMessage }}
 			</NcActionText>
-			<NcActionLink v-if="gotWeather"
+			<NcActionLink
+				v-if="gotWeather"
 				target="_blank"
-				:aria-hidden="true"
 				:href="weatherLinkTarget"
 				:close-after-click="true">
 				<template #icon>
-					<NcIconSvgWrapper name="MapMarker"
+					<NcIconSvgWrapper
+						name="MapMarker"
 						:svg="mapMarkerSvg"
 						:size="20" />
 				</template>
 				{{ locationText }}
 			</NcActionLink>
-			<NcActionButton v-if="gotWeather"
-				:aria-hidden="true"
+			<NcActionButton
+				v-if="gotWeather"
 				@click="onAddRemoveFavoriteClick">
 				<template #icon>
-					<NcIconSvgWrapper name="Star"
+					<NcIconSvgWrapper
+						name="Star"
 						:svg="addRemoveFavoriteSvg"
 						:size="20"
 						class="favorite-color" />
@@ -52,35 +56,37 @@
 				{{ addRemoveFavoriteText }}
 			</NcActionButton>
 			<NcActionSeparator v-if="address && !errorMessage" />
-			<NcActionButton :close-after-click="true"
-				:aria-hidden="true"
+			<NcActionButton
+				:close-after-click="true"
 				@click="onBrowserLocationClick">
 				<template #icon>
-					<NcIconSvgWrapper name="Crosshairs"
+					<NcIconSvgWrapper
+						name="Crosshairs"
 						:svg="crosshairsSvg"
 						:size="20" />
 				</template>
 				{{ t('weather_status', 'Detect location') }}
 			</NcActionButton>
-			<NcActionInput ref="addressInput"
+			<NcActionInput
+				ref="addressInput"
 				:label="t('weather_status', 'Set custom address')"
 				:disabled="false"
 				icon="icon-rename"
-				:aria-hidden="true"
 				type="text"
-				value=""
+				model-value=""
 				@submit="onAddressSubmit" />
 			<template v-if="favorites.length > 0">
 				<NcActionCaption :name="t('weather_status', 'Favorites')" />
-				<NcActionButton v-for="favorite in favorites"
+				<NcActionButton
+					v-for="favorite in favorites"
 					:key="favorite"
-					:aria-hidden="true"
 					@click="onFavoriteClick($event, favorite)">
 					<template #icon>
-						<NcIconSvgWrapper name="Star"
+						<NcIconSvgWrapper
+							name="Star"
 							:svg="starSvg"
 							:size="20"
-							:class="{'favorite-color': address === favorite}" />
+							:class="{ 'favorite-color': address === favorite }" />
 					</template>
 					{{ favorite }}
 				</NcActionButton>
@@ -90,24 +96,25 @@
 </template>
 
 <script>
+import crosshairsSvg from '@mdi/svg/svg/crosshairs.svg?raw'
+import mapMarkerSvg from '@mdi/svg/svg/map-marker.svg?raw'
+import starOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
+import starSvg from '@mdi/svg/svg/star.svg?raw'
 import { showError } from '@nextcloud/dialogs'
-import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
+import moment from '@nextcloud/moment'
 import { imagePath } from '@nextcloud/router'
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCaption from '@nextcloud/vue/components/NcActionCaption'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import { logger } from './logger.ts'
 import * as network from './services/weatherStatusService.js'
-import crosshairsSvg from '@mdi/svg/svg/crosshairs.svg?raw'
-import mapMarkerSvg from '@mdi/svg/svg/map-marker.svg?raw'
-import starSvg from '@mdi/svg/svg/star.svg?raw'
-import starOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 
 const MODE_BROWSER_LOCATION = 1
 const MODE_MANUAL_LOCATION = 2
@@ -252,6 +259,7 @@ export default {
 		NcLoadingIcon,
 		NcIconSvgWrapper,
 	},
+
 	data() {
 		return {
 			crosshairsSvg,
@@ -272,34 +280,44 @@ export default {
 			favorites: [],
 		}
 	},
+
 	computed: {
 		useFahrenheitLocale() {
 			return ['en_US', 'en_MH', 'en_FM', 'en_PW', 'en_KY', 'en_LR'].includes(this.locale)
 		},
+
 		temperatureUnit() {
 			return this.useFahrenheitLocale ? '°F' : '°C'
 		},
+
 		locationText() {
 			return t('weather_status', 'More weather for {adr}', { adr: this.address })
 		},
+
 		temperature() {
 			return this.getTemperature(this.forecasts, 0)
 		},
+
 		futureTemperature() {
 			return this.getTemperature(this.forecasts, this.offset)
 		},
+
 		weatherCode() {
 			return this.getWeatherCode(this.forecasts, 0)
 		},
+
 		futureWeatherCode() {
 			return this.getWeatherCode(this.forecasts, this.offset)
 		},
+
 		weatherIconUrl() {
 			return this.getWeatherIconUrl(this.weatherCode)
 		},
+
 		futureWeatherIconUrl() {
 			return this.getWeatherIconUrl(this.futureWeatherCode)
 		},
+
 		/**
 		 * The message displayed in the top right corner
 		 *
@@ -316,6 +334,7 @@ export default {
 				return t('weather_status', 'Set location for weather')
 			}
 		},
+
 		forecastMessage() {
 			if (this.loading) {
 				return t('weather_status', 'Loading weather')
@@ -325,31 +344,38 @@ export default {
 				return t('weather_status', 'Set location for weather')
 			}
 		},
+
 		weatherLinkTarget() {
 			return 'https://www.windy.com/-Rain-thunder-rain?rain,' + this.lat + ',' + this.lon + ',11'
 		},
+
 		gotWeather() {
 			return this.address && !this.errorMessage
 		},
+
 		addRemoveFavoriteSvg() {
 			return this.currentAddressIsFavorite
 				? starSvg
 				: starOutlineSvg
 		},
+
 		addRemoveFavoriteText() {
 			return this.currentAddressIsFavorite
 				? t('weather_status', 'Remove from favorites')
 				: t('weather_status', 'Add as favorite')
 		},
+
 		currentAddressIsFavorite() {
 			return this.favorites.find((f) => {
 				return f === this.address
 			})
 		},
 	},
+
 	mounted() {
 		this.initWeatherStatus()
 	},
+
 	methods: {
 		async initWeatherStatus() {
 			try {
@@ -368,7 +394,7 @@ export default {
 				this.favorites = favs
 			} catch (err) {
 				if (err?.code === 'ECONNABORTED') {
-					console.info('The weather status request was cancelled because the user navigates.')
+					logger.info('The weather status request was cancelled because the user navigates.')
 					return
 				}
 				if (err.response && err.response.status === 401) {
@@ -376,9 +402,10 @@ export default {
 				} else {
 					showError(t('weather_status', 'There was an error getting the weather status information.'))
 				}
-				console.error(err)
+				logger.error(err)
 			}
 		},
+
 		startLoop() {
 			clearInterval(this.loop)
 			if (this.lat && this.lon) {
@@ -388,46 +415,51 @@ export default {
 				this.loading = false
 			}
 		},
+
 		askBrowserLocation() {
 			this.loading = true
 			this.errorMessage = ''
 			if (navigator.geolocation && window.isSecureContext) {
-				navigator.geolocation.getCurrentPosition((position) => {
-					console.debug('browser location success')
-					this.lat = position.coords.latitude
-					this.lon = position.coords.longitude
-					this.saveMode(MODE_BROWSER_LOCATION)
-					this.mode = MODE_BROWSER_LOCATION
-					this.saveLocation(this.lat, this.lon)
-				},
-				(error) => {
-					console.debug('location permission refused')
-					console.debug(error)
-					this.saveMode(MODE_MANUAL_LOCATION)
-					this.mode = MODE_MANUAL_LOCATION
-					// fallback on what we have if possible
-					if (this.lat && this.lon) {
-						this.startLoop()
-					} else {
-						this.usePersonalAddress()
-					}
-				})
+				navigator.geolocation.getCurrentPosition(
+					(position) => {
+						logger.debug('browser location success')
+						this.lat = position.coords.latitude
+						this.lon = position.coords.longitude
+						this.saveMode(MODE_BROWSER_LOCATION)
+						this.mode = MODE_BROWSER_LOCATION
+						this.saveLocation(this.lat, this.lon)
+					},
+					(error) => {
+						logger.debug('location permission refused')
+						logger.debug(error)
+						this.saveMode(MODE_MANUAL_LOCATION)
+						this.mode = MODE_MANUAL_LOCATION
+						// fallback on what we have if possible
+						if (this.lat && this.lon) {
+							this.startLoop()
+						} else {
+							this.usePersonalAddress()
+						}
+					},
+				)
 			} else {
-				console.debug('no secure context!')
+				logger.debug('no secure context!')
 				this.saveMode(MODE_MANUAL_LOCATION)
 				this.mode = MODE_MANUAL_LOCATION
 				this.startLoop()
 			}
 		},
+
 		async getForecast() {
 			try {
 				this.forecasts = await network.fetchForecast()
 			} catch (err) {
 				this.errorMessage = t('weather_status', 'No weather information found')
-				console.debug(err)
+				logger.debug(err)
 			}
 			this.loading = false
 		},
+
 		async setAddress(address) {
 			this.loading = true
 			this.errorMessage = ''
@@ -452,6 +484,7 @@ export default {
 				this.loading = false
 			}
 		},
+
 		async saveLocation(lat, lon) {
 			try {
 				const loc = await network.setLocation(lat, lon)
@@ -463,9 +496,10 @@ export default {
 				} else {
 					showError(t('weather_status', 'There was an error setting the location.'))
 				}
-				console.debug(err)
+				logger.debug(err)
 			}
 		},
+
 		async saveMode(mode) {
 			try {
 				await network.setMode(mode)
@@ -475,12 +509,14 @@ export default {
 				} else {
 					showError(t('weather_status', 'There was an error saving the mode.'))
 				}
-				console.debug(err)
+				logger.debug(err)
 			}
 		},
+
 		onBrowserLocationClick() {
 			this.askBrowserLocation()
 		},
+
 		async usePersonalAddress() {
 			this.loading = true
 			try {
@@ -496,19 +532,22 @@ export default {
 				} else {
 					showError(t('weather_status', 'There was an error using personal address.'))
 				}
-				console.debug(err)
+				logger.debug(err)
 				this.loading = false
 			}
 		},
+
 		onAddressSubmit() {
 			const newAddress = this.$refs.addressInput.$el.querySelector('input[type="text"]').value
 			this.setAddress(newAddress)
 		},
+
 		getLocalizedTemperature(celcius) {
 			return this.useFahrenheitLocale
 				? (celcius * (9 / 5)) + 32
 				: celcius
 		},
+
 		onAddRemoveFavoriteClick() {
 			const currentIsFavorite = this.currentAddressIsFavorite
 			if (currentIsFavorite) {
@@ -521,6 +560,7 @@ export default {
 			}
 			network.saveFavorites(this.favorites)
 		},
+
 		onFavoriteClick(e, favAddress) {
 			// clicked on the icon
 			if (e.target.classList.contains('action-button__icon')) {
@@ -534,28 +574,33 @@ export default {
 				this.setAddress(favAddress)
 			}
 		},
+
 		formatTime(time) {
 			return moment(time).format('LT')
 		},
+
 		getTemperature(forecasts, offset = 0) {
 			return forecasts.length > offset ? forecasts[offset].data.instant.details.air_temperature : ''
 		},
+
 		getWeatherCode(forecasts, offset = 0) {
 			return forecasts.length > offset ? forecasts[offset].data.next_1_hours.summary.symbol_code : ''
 		},
+
 		getWeatherIconUrl(weatherCode) {
 			// those icons were obtained there: https://github.com/metno/weathericons/tree/main/weather/svg
 			return (weatherCode && weatherCode in weatherOptions)
 				? imagePath('weather_status', 'met.no.icons/' + weatherCode + '.svg')
 				: imagePath('weather_status', 'met.no.icons/fair_day.svg')
 		},
+
 		getWeatherMessage(weatherCode, temperature, later = false) {
 			return weatherCode && weatherCode in weatherOptions
 				? weatherOptions[weatherCode].text(
-					Math.round(this.getLocalizedTemperature(temperature)),
-					this.temperatureUnit,
-					later,
-				)
+						Math.round(this.getLocalizedTemperature(temperature)),
+						this.temperatureUnit,
+						later,
+					)
 				: t('weather_status', 'Unknown weather code')
 		},
 	},

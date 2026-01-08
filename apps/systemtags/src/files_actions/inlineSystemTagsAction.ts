@@ -2,22 +2,122 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Node } from '@nextcloud/files'
-import type { TagWithId } from '../types'
-import { FileAction } from '@nextcloud/files'
+import type { TagWithId } from '../types.ts'
+
 import { subscribe } from '@nextcloud/event-bus'
+import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import logger from '../logger.ts'
+import { fetchTags } from '../services/api.ts'
+import { getNodeSystemTags } from '../utils.ts'
+import { elementColor, isDarkModeEnabled } from '../utils/colorUtils.ts'
 
 import '../css/fileEntryInlineSystemTags.scss'
-import { elementColor, isDarkModeEnabled } from '../utils/colorUtils'
-import { fetchTags } from '../services/api'
-import { getNodeSystemTags } from '../utils'
-import logger from '../logger.ts'
 
 // Init tag cache
 const cache: TagWithId[] = []
 
-const renderTag = function(tag: string, isMore = false): HTMLElement {
+export const action = new FileAction({
+	id: 'system-tags',
+	displayName: () => '',
+	iconSvgInline: () => '',
+
+	enabled({ nodes }) {
+		// Only show the action on single nodes
+		if (nodes.length !== 1) {
+			return false
+		}
+
+		// Always show the action, even if there are no tags
+		// This will render an empty tag list and allow events to update it
+		return true
+	},
+
+	exec: async () => null,
+	renderInline: ({ nodes }) => {
+		if (nodes.length !== 1 || !nodes[0]) {
+			return Promise.resolve(null)
+		}
+		return renderInline(nodes[0])
+	},
+
+	order: 0,
+
+	hotkey: {
+		description: t('files', 'Manage tags'),
+		key: 'T',
+	},
+})
+
+// Subscribe to the events
+subscribe('systemtags:node:updated', updateSystemTagsHtml)
+subscribe('systemtags:tag:created', addTag)
+subscribe('systemtags:tag:deleted', removeTag)
+subscribe('systemtags:tag:updated', updateTag)
+
+/**
+ * Update the system tags html when the node is updated
+ *
+ * @param node - The updated node
+ */
+function updateSystemTagsHtml(node: Node) {
+	renderInline(node).then((systemTagsHtml) => {
+		document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach((element) => {
+			element.replaceWith(systemTagsHtml)
+		})
+	})
+}
+
+/**
+ * Add and remove tags from the cache
+ *
+ * @param tag - The tag to add
+ */
+function addTag(tag: TagWithId) {
+	cache.push(tag)
+}
+
+/**
+ * Remove a tag from the cache
+ *
+ * @param tag - The tag to remove
+ */
+function removeTag(tag: TagWithId) {
+	cache.splice(cache.findIndex((t) => t.id === tag.id), 1)
+}
+
+/**
+ * Update a tag in the cache
+ *
+ * @param tag - The tag to update
+ */
+function updateTag(tag: TagWithId) {
+	const index = cache.findIndex((t) => t.id === tag.id)
+	if (index !== -1) {
+		cache[index] = tag
+	}
+	updateSystemTagsColorAttribute(tag)
+}
+
+/**
+ * Update the color attribute of the system tags
+ *
+ * @param tag - The tag to update
+ */
+function updateSystemTagsColorAttribute(tag: TagWithId) {
+	document.querySelectorAll(`[data-systemtag-name="${tag.displayName}"]`).forEach((element) => {
+		(element as HTMLElement).style.setProperty('--systemtag-color', `#${tag.color}`)
+	})
+}
+
+/**
+ *
+ * @param tag
+ * @param isMore
+ */
+function renderTag(tag: string, isMore = false): HTMLElement {
 	const tagElement = document.createElement('li')
 	tagElement.classList.add('files-list__system-tag')
 	tagElement.setAttribute('data-systemtag-name', tag)
@@ -42,7 +142,11 @@ const renderTag = function(tag: string, isMore = false): HTMLElement {
 	return tagElement
 }
 
-const renderInline = async function(node: Node): Promise<HTMLElement> {
+/**
+ *
+ * @param node
+ */
+async function renderInline(node: Node): Promise<HTMLElement> {
 	// Ensure we have the system tags as an array
 	const tags = getNodeSystemTags(node)
 
@@ -92,61 +196,3 @@ const renderInline = async function(node: Node): Promise<HTMLElement> {
 
 	return systemTagsElement
 }
-
-export const action = new FileAction({
-	id: 'system-tags',
-	displayName: () => '',
-	iconSvgInline: () => '',
-
-	enabled(nodes: Node[]) {
-		// Only show the action on single nodes
-		if (nodes.length !== 1) {
-			return false
-		}
-
-		// Always show the action, even if there are no tags
-		// This will render an empty tag list and allow events to update it
-		return true
-	},
-
-	exec: async () => null,
-	renderInline,
-
-	order: 0,
-})
-
-// Update the system tags html when the node is updated
-const updateSystemTagsHtml = function(node: Node) {
-	renderInline(node).then((systemTagsHtml) => {
-		document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach((element) => {
-			element.replaceWith(systemTagsHtml)
-		})
-	})
-}
-
-// Add and remove tags from the cache
-const addTag = function(tag: TagWithId) {
-	cache.push(tag)
-}
-const removeTag = function(tag: TagWithId) {
-	cache.splice(cache.findIndex((t) => t.id === tag.id), 1)
-}
-const updateTag = function(tag: TagWithId) {
-	const index = cache.findIndex((t) => t.id === tag.id)
-	if (index !== -1) {
-		cache[index] = tag
-	}
-	updateSystemTagsColorAttribute(tag)
-}
-// Update the color attribute of the system tags
-const updateSystemTagsColorAttribute = function(tag: TagWithId) {
-	document.querySelectorAll(`[data-systemtag-name="${tag.displayName}"]`).forEach((element) => {
-		(element as HTMLElement).style.setProperty('--systemtag-color', `#${tag.color}`)
-	})
-}
-
-// Subscribe to the events
-subscribe('systemtags:node:updated', updateSystemTagsHtml)
-subscribe('systemtags:tag:created', addTag)
-subscribe('systemtags:tag:deleted', removeTag)
-subscribe('systemtags:tag:updated', updateTag)

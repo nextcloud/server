@@ -22,9 +22,8 @@ use OCP\Share\IShare;
 
 /**
  * Class SharedMountTest
- *
- * @group SLOWDB
  */
+#[\PHPUnit\Framework\Attributes\Group('SLOWDB')]
 class SharedMountTest extends TestCase {
 
 	/** @var IGroupManager */
@@ -101,9 +100,6 @@ class SharedMountTest extends TestCase {
 		$this->view->unlink($this->folder);
 	}
 
-	/**
-	 * @medium
-	 */
 	public function testDeleteParentOfMountPoint(): void {
 		// share to user
 		$share = $this->share(
@@ -379,7 +375,6 @@ class SharedMountTest extends TestCase {
 		$mountProvider = Server::get(MountProvider::class);
 		$reflectionClass = new \ReflectionClass($mountProvider);
 		$reflectionCacheFactory = $reflectionClass->getProperty('cacheFactory');
-		$reflectionCacheFactory->setAccessible(true);
 		$reflectionCacheFactory->setValue($mountProvider, $cacheFactory);
 
 		// share to user

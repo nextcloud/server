@@ -9,9 +9,10 @@
 </template>
 
 <script>
-import { marked } from 'marked'
 import dompurify from 'dompurify'
+import { marked } from 'marked'
 
+/* eslint vue/multi-word-component-names: "warn" */
 export default {
 	name: 'Markdown',
 	props: {
@@ -19,11 +20,13 @@ export default {
 			type: String,
 			default: '',
 		},
+
 		minHeading: {
 			type: Number,
 			default: 1,
 		},
 	},
+
 	computed: {
 		renderMarkdown() {
 			const renderer = new marked.Renderer()
@@ -33,7 +36,7 @@ export default {
 					prot = decodeURIComponent(unescape(href))
 						.replace(/[^\w:]/g, '')
 						.toLowerCase()
-				} catch (e) {
+				} catch {
 					return ''
 				}
 

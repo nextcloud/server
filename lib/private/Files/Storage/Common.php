@@ -38,6 +38,7 @@ use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -330,6 +331,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			$this->watcher = new Watcher($storage);
 			$globalPolicy = Server::get(IConfig::class)->getSystemValueInt('filesystem_check_changes', Watcher::CHECK_NEVER);
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
+			$this->watcher->setCheckFilter($this->getMountOption('filesystem_check_filter'));
 		}
 		return $this->watcher;
 	}
@@ -445,13 +447,14 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		return is_a($this, $class);
 	}
 
-	/**
-	 * A custom storage implementation can return an url for direct download of a give file.
-	 *
-	 * For now the returned array can hold the parameter url - in future more attributes might follow.
-	 */
+	#[Override]
 	public function getDirectDownload(string $path): array|false {
-		return [];
+		return false;
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		return false;
 	}
 
 	public function verifyPath(string $path, string $fileName): void {
@@ -711,7 +714,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	/**
-	 * @return array [ available, last_checked ]
+	 * @return array{available: bool, last_checked: int}
 	 */
 	public function getAvailability(): array {
 		return $this->getStorageCache()->getAvailability();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,6 +11,8 @@ namespace OCA\Settings;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\Defaults;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -17,8 +21,13 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 
-class Hooks {
+/**
+ * @template-implements IEventListener<PasswordUpdatedEvent|UserChangedEvent>
+ */
+class Hooks implements IEventListener {
 
 	public function __construct(
 		protected IActivityManager $activityManager,
@@ -33,16 +42,19 @@ class Hooks {
 	) {
 	}
 
-	/**
-	 * @param string $uid
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 * @throws \Exception
-	 */
-	public function onChangePassword($uid) {
-		$user = $this->userManager->get($uid);
+	public function handle(Event $event): void {
+		if ($event instanceof PasswordUpdatedEvent) {
+			$this->onChangePassword($event);
+		}
+		if ($event instanceof UserChangedEvent) {
+			$this->onChangeEmail($event);
+		}
+	}
 
-		if (!$user instanceof IUser || $user->getLastLogin() === 0) {
+	public function onChangePassword(PasswordUpdatedEvent $handle): void {
+		$user = $handle->getUser();
+
+		if ($user->getLastLogin() === 0) {
 			// User didn't login, so don't create activities and emails.
 			return;
 		}
@@ -89,6 +101,7 @@ class Hooks {
 				'displayname' => $user->getDisplayName(),
 				'emailAddress' => $user->getEMailAddress(),
 				'instanceUrl' => $instanceUrl,
+				'event' => $handle,
 			]);
 
 			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
@@ -105,13 +118,14 @@ class Hooks {
 		}
 	}
 
-	/**
-	 * @param IUser $user
-	 * @param string|null $oldMailAddress
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 */
-	public function onChangeEmail(IUser $user, $oldMailAddress) {
+	public function onChangeEmail(UserChangedEvent $handle): void {
+		if ($handle->getFeature() !== 'eMailAddress') {
+			return;
+		}
+
+		$oldMailAddress = $handle->getOldValue();
+		$user = $handle->getUser();
+
 		if ($oldMailAddress === $user->getEMailAddress()
 			|| $user->getLastLogin() === 0) {
 			// Email didn't really change or user didn't login,

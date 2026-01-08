@@ -13,9 +13,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ClientMapperTest extends TestCase {
 	/** @var ClientMapper */
 	private $clientMapper;
@@ -27,7 +25,7 @@ class ClientMapperTest extends TestCase {
 
 	protected function tearDown(): void {
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
-		$query->delete('oauth2_clients')->execute();
+		$query->delete('oauth2_clients')->executeStatement();
 
 		parent::tearDown();
 	}

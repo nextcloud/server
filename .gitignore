@@ -11,7 +11,7 @@
 /apps/inc.php
 /assets
 /.htaccess
-/node_modules
+node_modules/
 /translationfiles
 /translationtool.phar
 
@@ -54,10 +54,6 @@
 /apps/files_external/3rdparty/irodsphp/prods/tutorials
 /apps/files_external/3rdparty/irodsphp/prods/test*
 /apps/files_external/tests/config.*.php
-
-# apps modules
-/apps/*/node_modules
-
 
 # ignore themes except the example and the README
 /themes/*
@@ -130,9 +126,6 @@ nbproject
 
 # Tests
 /tests/phpunit.xml
-
-# Node Modules
-/build/node_modules/
 
 # nodejs
 /build/bin

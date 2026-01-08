@@ -4,16 +4,15 @@
  */
 import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
+import calendarSvg from '@mdi/svg/svg/calendar.svg?raw'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
 import FileListFilterModified from '../components/FileListFilter/FileListFilterModified.vue'
 
-import calendarSvg from '@mdi/svg/svg/calendar.svg?raw'
-
 export interface ITimePreset {
-	id: string,
-	label: string,
+	id: string
+	label: string
 	filter: (time: number) => boolean
 }
 
@@ -51,7 +50,6 @@ const timePresets: ITimePreset[] = [
 ] as const
 
 class ModifiedFilter extends FileListFilter {
-
 	private currentInstance?: Vue
 	private currentPreset?: ITimePreset
 
@@ -103,7 +101,6 @@ class ModifiedFilter extends FileListFilter {
 		}
 		this.updateChips(chips)
 	}
-
 }
 
 /**

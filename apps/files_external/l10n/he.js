@@ -40,10 +40,10 @@ OC.L10N.register(
     "RSA private key" : "מפתח RSA פרט",
     "Private key" : "מפתח פרט",
     "Kerberos ticket" : "כרטיס Kerberos",
-    "Amazon S3" : "אמזון S3",
     "Bucket" : "סל",
     "Hostname" : "שם מארח",
     "Port" : "שער",
+    "Proxy" : "מתווך",
     "Region" : "אזור",
     "Enable SSL" : "הפעלת SSL",
     "Enable Path Style" : "אהפעלת סגנון נתיב",
@@ -95,7 +95,7 @@ OC.L10N.register(
     "Delete storage?" : "למחוק אחסון?",
     "Click to recheck the configuration" : "יש ללחוץ כאן כדי לבדוק את ההגדרות מחדש",
     "Saved" : "נשמר",
-    "Saving …" : "מתבצעת שמירה…",
+    "Saving …" : "מתבצע שמירה…",
     "Save" : "שמירה",
     "No external storage configured or you don't have the permission to configure them" : "לא הוגדר התקן חיצוני או שאין לך הרשאות להגדיר כאלה",
     "Open documentation" : "פתיחת תיעוד",
@@ -110,6 +110,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "יש לספק מפתח יישום וסוד תקניים.",
     "OAuth1" : "OAuth1",
     "App key" : "מפתח יישום",
-    "App secret" : "סוד יישום"
+    "App secret" : "סוד יישום",
+    "Saving …" : "מתבצעת שמירה…"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

@@ -8,41 +8,27 @@ namespace OCA\User_LDAP\Migration;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class UUIDFixInsert implements IRepairStep {
 
 	public function __construct(
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected UserMapping $userMapper,
 		protected GroupMapping $groupMapper,
 		protected IJobList $jobList,
 	) {
 	}
 
-	/**
-	 * Returns the step's name
-	 *
-	 * @return string
-	 * @since 9.1.0
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Insert UUIDFix background job for user and group in batches';
 	}
 
-	/**
-	 * Run repair step.
-	 * Must throw exception on error.
-	 *
-	 * @param IOutput $output
-	 * @throws \Exception in case of failure
-	 * @since 9.1.0
-	 */
-	public function run(IOutput $output) {
-		$installedVersion = $this->config->getAppValue('user_ldap', 'installed_version', '1.2.1');
+	public function run(IOutput $output): void {
+		$installedVersion = $this->appConfig->getAppValueString('installed_version', '1.2.1');
 		if (version_compare($installedVersion, '1.2.1') !== -1) {
 			return;
 		}

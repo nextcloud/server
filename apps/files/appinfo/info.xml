@@ -47,6 +47,8 @@
 		<command>OCA\Files\Command\Copy</command>
 		<command>OCA\Files\Command\Move</command>
 		<command>OCA\Files\Command\SanitizeFilenames</command>
+		<command>OCA\Files\Command\Mount\Refresh</command>
+		<command>OCA\Files\Command\Mount\ListMounts</command>
 		<command>OCA\Files\Command\Object\Delete</command>
 		<command>OCA\Files\Command\Object\Get</command>
 		<command>OCA\Files\Command\Object\Put</command>

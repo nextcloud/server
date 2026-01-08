@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Service;
 
 use OCP\DB\Exception;
@@ -64,16 +65,16 @@ class DBConfigService {
 			->where($builder->expr()->orX(
 				$builder->expr()->andX( // global mounts
 					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GLOBAL, IQueryBuilder::PARAM_INT)),
-					$builder->expr()->isNull('a.value')
+					$builder->expr()->isNull('a.value'),
 				),
 				$builder->expr()->andX( // mounts for user
 					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_USER, IQueryBuilder::PARAM_INT)),
-					$builder->expr()->eq('a.value', $builder->createNamedParameter($userId))
+					$builder->expr()->eq('a.value', $builder->createNamedParameter($userId)),
 				),
 				$builder->expr()->andX( // mounts for group
 					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
-					$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY))
-				)
+					$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
+				),
 			));
 
 		return $this->getMountsFromQuery($query);
@@ -94,12 +95,12 @@ class DBConfigService {
 			->leftJoin('a', 'external_applicable', 'b', $builder->expr()->eq('a.mount_id', 'b.mount_id'))
 			->where($builder->expr()->andX(
 				$builder->expr()->eq('b.type', $builder->createNamedParameter($applicableType, IQueryBuilder::PARAM_INT)),
-				$builder->expr()->eq('b.value', $builder->createNamedParameter($applicableId))
-			)
+				$builder->expr()->eq('b.value', $builder->createNamedParameter($applicableId)),
+			),
 			)
 			->groupBy(['a.mount_id']);
 		$stmt = $query->executeQuery();
-		$result = $stmt->fetchAll();
+		$result = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		foreach ($result as $row) {
@@ -227,7 +228,7 @@ class DBConfigService {
 				'storage_backend' => $builder->createNamedParameter($storageBackend, IQueryBuilder::PARAM_STR),
 				'auth_backend' => $builder->createNamedParameter($authBackend, IQueryBuilder::PARAM_STR),
 				'priority' => $builder->createNamedParameter($priority, IQueryBuilder::PARAM_INT),
-				'type' => $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)
+				'type' => $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT),
 			]);
 		$query->executeStatement();
 		return $query->getLastInsertId();
@@ -377,7 +378,7 @@ class DBConfigService {
 
 	private function getMountsFromQuery(IQueryBuilder $query) {
 		$result = $query->executeQuery();
-		$mounts = $result->fetchAll();
+		$mounts = $result->fetchAllAssociative();
 		$uniqueMounts = [];
 		foreach ($mounts as $mount) {
 			$id = $mount['mount_id'];
@@ -428,7 +429,7 @@ class DBConfigService {
 			->where($builder->expr()->in('mount_id', $placeHolders));
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$result = [];
@@ -506,5 +507,18 @@ class DBConfigService {
 		} catch (\Exception $e) {
 			return $value;
 		}
+	}
+
+	/**
+	 * Check if any mountpoint is configured that overwrite the home folder
+	 */
+	public function hasHomeFolderOverwriteMount(): bool {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('mount_id')
+			->from('external_mounts')
+			->where($builder->expr()->eq('mount_point', $builder->createNamedParameter('/')))
+			->setMaxResults(1);
+		$result = $query->executeQuery();
+		return count($result->fetchAllAssociative()) > 0;
 	}
 }

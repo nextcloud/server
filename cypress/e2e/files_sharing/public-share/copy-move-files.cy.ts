@@ -6,7 +6,6 @@ import { copyFile, getRowForFile, moveFile, navigateToFolder } from '../../files
 import { getShareUrl, setupPublicShare } from './PublicShareUtils.ts'
 
 describe('files_sharing: Public share - copy and move files', { testIsolation: true }, () => {
-
 	beforeEach(() => {
 		setupPublicShare()
 			.then(() => cy.logout())

@@ -3,11 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils'
-
-// eslint-disable-next-line n/no-extraneous-import
-import randomString from 'crypto-random-string'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { randomString } from '../../support/utils/randomString.ts'
+import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -18,6 +16,8 @@ describe('Settings: Create groups', () => {
 	})
 
 	it('Can create a group', () => {
+		cy.intercept('POST', '**/ocs/v2.php/cloud/groups').as('createGroups')
+
 		const groupName = randomString(7)
 		// open the Create group menu
 		cy.get('button[aria-label="Create group"]').click()
@@ -35,6 +35,7 @@ describe('Settings: Create groups', () => {
 
 		// Make sure no confirmation modal is shown
 		handlePasswordConfirmation(admin.password)
+		cy.wait('@createGroups').its('response.statusCode').should('eq', 200)
 
 		// see that the created group is in the list
 		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
@@ -110,7 +111,7 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 
 	it('validate the user was added on backend', () => {
 		cy.runOccCommand(`user:info --output=json '${testUser.userId}'`).then((output) => {
-			cy.wrap(output.code).should('eq', 0)
+			cy.wrap(output.exitCode).should('eq', 0)
 			cy.wrap(JSON.parse(output.stdout)?.groups).should('include', groupName)
 		})
 	})
@@ -243,7 +244,7 @@ describe('Settings: Sort groups in the UI', () => {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 	})
 
 	it('See that the groups are sorted by the member count', () => {
@@ -271,7 +272,7 @@ describe('Settings: Sort groups in the UI', () => {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.get('.modal-container').should((el) => assertNotExistOrNotVisible(el)))
 	})
 
 	it('See that the groups are sorted by the user count', () => {

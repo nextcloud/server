@@ -2,10 +2,10 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// eslint-disable-next-line n/no-extraneous-import
+
+import { addCommands, User } from '@nextcloud/e2e-test-server/cypress'
+import { basename } from '@nextcloud/paths'
 import axios from 'axios'
-import { addCommands, User } from '@nextcloud/cypress'
-import { basename } from 'path'
 
 // Add custom commands
 import '@testing-library/cypress/add-commands'
@@ -18,7 +18,7 @@ Cypress.env('baseUrl', url)
 
 /**
  * Enable or disable a user
- * TODO: standardize in @nextcloud/cypress
+ * TODO: standardize in @nextcloud/e2e-test-server
  *
  * @param {User} user the user to dis- / enable
  * @param {boolean} enable True if the user should be enable, false to disable
@@ -45,7 +45,7 @@ Cypress.Commands.add('enableUser', (user: User, enable = true) => {
 
 /**
  * cy.uploadedFile - uploads a file from the fixtures folder
- * TODO: standardize in @nextcloud/cypress
+ * TODO: standardize in @nextcloud/e2e-test-server
  *
  * @param {User} user the owner of the file, e.g. admin
  * @param {string} fixture the fixture file name, e.g. image1.jpg
@@ -63,7 +63,6 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 })
 
 Cypress.Commands.add('setFileAsFavorite', (user: User, target: string, favorite = true) => {
-	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	cy.clearAllCookies()
 		.then(async () => {
 			try {
@@ -97,7 +96,6 @@ Cypress.Commands.add('setFileAsFavorite', (user: User, target: string, favorite 
 })
 
 Cypress.Commands.add('mkdir', (user: User, target: string) => {
-	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	return cy.clearCookies()
 		.then(async () => {
 			try {
@@ -121,7 +119,6 @@ Cypress.Commands.add('mkdir', (user: User, target: string) => {
 })
 
 Cypress.Commands.add('rm', (user: User, target: string) => {
-	// eslint-disable-next-line cypress/unsafe-to-chain-command
 	cy.clearCookies()
 		.then(async () => {
 			try {
@@ -145,7 +142,7 @@ Cypress.Commands.add('rm', (user: User, target: string) => {
 
 /**
  * cy.uploadedContent - uploads a raw content
- * TODO: standardize in @nextcloud/cypress
+ * TODO: standardize in @nextcloud/e2e-test-server
  *
  * @param {User} user the owner of the file, e.g. admin
  * @param {Blob} blob the content to upload
@@ -249,13 +246,10 @@ Cypress.Commands.add('userFileExists', (user: string, path: string) => {
 
 Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
 	return cy.runCommand(`php ./occ ${command}`, options)
-		.then((context) =>
+		.then((context) => {
 			// OCC cannot clear the APCu cache
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
-			cy.wait(
-				command.startsWith('app:') || command.startsWith('config:')
-					? 3000 // clear APCu cache
-					: 0,
-			).then(() => context),
-		)
+			return cy.wait(command.startsWith('app:') || command.startsWith('config:')
+				? 3000 // clear APCu cache
+				: 0).then(() => context)
+		})
 })

@@ -43,43 +43,42 @@ interface IJob {
 
 	/**
 	 * @since 7.0.0
+	 * @since 33.0.0 Parameter $id changed from int to string
 	 */
-	public function setId(int $id);
+	public function setId(string $id): void;
 
 	/**
 	 * @since 7.0.0
 	 */
-	public function setLastRun(int $lastRun);
+	public function setLastRun(int $lastRun): void;
 
 	/**
 	 * @param mixed $argument
 	 * @since 7.0.0
 	 */
-	public function setArgument($argument);
+	public function setArgument(mixed $argument): void;
 
 	/**
 	 * Get the id of the background job
 	 * This id is determined by the job list when a job is added to the list
 	 *
-	 * @return int
 	 * @since 7.0.0
+	 * @since 33.0.0 The return type changed from int to string
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Get the last time this job was run as unix timestamp
 	 *
-	 * @return int
 	 * @since 7.0.0
 	 */
-	public function getLastRun();
+	public function getLastRun(): int;
 
 	/**
 	 * Get the argument associated with the background job
 	 * This is the argument that will be passed to the background job
 	 *
-	 * @return mixed
 	 * @since 7.0.0
 	 */
-	public function getArgument();
+	public function getArgument(): mixed;
 }

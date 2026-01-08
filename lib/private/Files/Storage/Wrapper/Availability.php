@@ -22,6 +22,7 @@ class Availability extends Wrapper {
 
 	/** @var IConfig */
 	protected $config;
+	protected ?bool $available = null;
 
 	public function __construct(array $parameters) {
 		$this->config = $parameters['config'] ?? \OCP\Server::get(IConfig::class);
@@ -54,11 +55,14 @@ class Availability extends Wrapper {
 	}
 
 	private function isAvailable(): bool {
-		$availability = $this->getAvailability();
-		if (self::shouldRecheck($availability)) {
-			return $this->updateAvailability();
+		if (is_null($this->available)) {
+			$availability = $this->getAvailability();
+			if (self::shouldRecheck($availability)) {
+				return $this->updateAvailability();
+			}
+			$this->available = $availability['available'];
 		}
-		return $availability['available'];
+		return $this->available;
 	}
 
 	/**
@@ -224,6 +228,10 @@ class Availability extends Wrapper {
 		return $this->handleAvailability('getDirectDownload', $path);
 	}
 
+	public function getDirectDownloadById(string $fileId): array|false {
+		return $this->handleAvailability('getDirectDownloadById', $fileId);
+	}
+
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		return $this->handleAvailability('copyFromStorage', $sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
@@ -257,6 +265,7 @@ class Availability extends Wrapper {
 				self::RECHECK_TTL_SEC
 			);
 		}
+		$this->available = false;
 		$this->getStorageCache()->setAvailability(false, $delay);
 		if ($e !== null) {
 			throw $e;

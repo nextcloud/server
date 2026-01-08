@@ -46,10 +46,10 @@ OC.L10N.register(
     "Private key" : "Einkalykill",
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Sjálfgefið Kerberos svæði, er sjálfgefið \"WORKGROUP\"",
     "Kerberos ticket" : "Kerberos aðgöngumerki",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Vélarheiti",
     "Port" : "Gátt",
+    "Proxy" : "Milliþjónn",
     "Region" : "Svæði",
     "Storage Class" : "Flokkur geymslurýmis",
     "Enable SSL" : "Virkja SSL",
@@ -123,7 +123,7 @@ OC.L10N.register(
     "Delete storage?" : "Eyða geymslu?",
     "Click to recheck the configuration" : "Smelltu til að yfirfara aftur uppsetninguna",
     "Saved" : "Vistað",
-    "Saving …" : "Vista …",
+    "Saving …" : "Vista …",
     "Save" : "Vista",
     "No external storage configured or you don't have the permission to configure them" : "Engin utanaðkomandi gagnageymsla er uppsett eða að þú hefur ekki heimild til að stilla slíkt",
     "Open documentation" : "Opna hjálparskjöl",
@@ -139,6 +139,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Settu inn gildan forritslykil og leynilykil (secret).",
     "OAuth1" : "OAuth1",
     "App key" : "Lykill forrits",
-    "App secret" : "Leynilykill forrits"
+    "App secret" : "Leynilykill forrits",
+    "Saving …" : "Vista …"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

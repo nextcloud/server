@@ -236,12 +236,16 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
-		$this->checkJoin($join);
+		if (is_string($join)) {
+			$this->checkJoin($join);
+		}
 		return parent::innerJoin($fromAlias, $join, $alias, $condition);
 	}
 
 	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
-		$this->checkJoin($join);
+		if (is_string($join)) {
+			$this->checkJoin($join);
+		}
 		return parent::leftJoin($fromAlias, $join, $alias, $condition);
 	}
 
@@ -276,13 +280,21 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	public function addOrderBy($sort, $order = null) {
-		$this->registerOrder((string)$sort, (string)$order ?? 'ASC');
+		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
+			$order = null;
+		}
+
+		$this->registerOrder((string)$sort, (string)($order ?? 'ASC'));
 		return parent::addOrderBy($sort, $order);
 	}
 
 	public function orderBy($sort, $order = null) {
+		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
+			$order = null;
+		}
+
 		$this->sortList = [];
-		$this->registerOrder((string)$sort, (string)$order ?? 'ASC');
+		$this->registerOrder((string)$sort, (string)($order ?? 'ASC'));
 		return parent::orderBy($sort, $order);
 	}
 

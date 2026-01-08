@@ -2,30 +2,30 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// eslint-disable-next-line n/no-extraneous-import
+
 import type { AxiosResponse } from '@nextcloud/axios'
 import type { Node } from '@nextcloud/files'
-import type { StorageConfig } from '../services/externalStorage'
+import type { StorageConfig } from '../services/externalStorage.ts'
 
+import LoginSvg from '@mdi/svg/svg/login.svg?raw'
+import axios from '@nextcloud/axios'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { DefaultType, FileAction } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
-import { showError, showSuccess, spawnDialog } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-import LoginSvg from '@mdi/svg/svg/login.svg?raw'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import Vue, { defineAsyncComponent } from 'vue'
-
-import { FileAction, DefaultType } from '@nextcloud/files'
-import { STORAGE_STATUS, isMissingAuthConfig } from '../utils/credentialsUtils'
-import { isNodeExternalStorage } from '../utils/externalStorageUtils'
+import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils.ts'
+import { isNodeExternalStorage } from '../utils/externalStorageUtils.ts'
 
 // Add password confirmation interceptors as
 // the backend requires the user to confirm their password
 addPasswordConfirmationInterceptors(axios)
 
 type CredentialResponse = {
-	login?: string,
-	password?: string,
+	login?: string
+	password?: string
 }
 
 /**
@@ -35,7 +35,7 @@ type CredentialResponse = {
  * @param login The username
  * @param password The password
  */
-async function setCredentials(node: Node, login: string, password: string): Promise<null|true> {
+async function setCredentials(node: Node, login: string, password: string): Promise<null | true> {
 	const configResponse = await axios.request({
 		method: 'PUT',
 		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.attributes.id }),
@@ -66,9 +66,9 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Enter missing credentials'),
 	iconSvgInline: () => LoginSvg,
 
-	enabled: (nodes: Node[]) => {
+	enabled: ({ nodes }) => {
 		// Only works on single node
-		if (nodes.length !== 1) {
+		if (nodes.length !== 1 || !nodes[0]) {
 			return false
 		}
 
@@ -85,8 +85,8 @@ export const action = new FileAction({
 		return false
 	},
 
-	async exec(node: Node) {
-		const { login, password } = await new Promise<CredentialResponse>(resolve => spawnDialog(
+	async exec({ nodes }) {
+		const { login, password } = await new Promise<CredentialResponse>((resolve) => spawnDialog(
 			defineAsyncComponent(() => import('../views/CredentialsDialog.vue')),
 			{},
 			(args) => {
@@ -96,7 +96,7 @@ export const action = new FileAction({
 
 		if (login && password) {
 			try {
-				await setCredentials(node, login, password)
+				await setCredentials(nodes[0], login, password)
 				showSuccess(t('files_external', 'Credentials successfully set'))
 			} catch (error) {
 				showError(t('files_external', 'Error while setting credentials: {error}', {

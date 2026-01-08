@@ -1,5 +1,5 @@
 /* eslint-disable jsdoc/require-jsdoc */
-/* eslint-disable no-extend-native */
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
@@ -8,6 +8,7 @@
 
 import { createHash } from 'crypto-browserify'
 import $ from 'jquery'
+import logger from '../logger.js'
 
 /*
  * Adds a background color to the element called on and adds the first character
@@ -47,7 +48,7 @@ import $ from 'jquery'
 *
 */
 
-const toRgb = (s) => {
+function toRgb(s) {
 	// Normalize hash
 	let hash = s.toLowerCase()
 
@@ -123,7 +124,7 @@ const toRgb = (s) => {
 }
 
 String.prototype.toRgb = function() {
-	OC.debug && console.warn('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
+	logger.warn('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
 
 	return toRgb(this)
 }

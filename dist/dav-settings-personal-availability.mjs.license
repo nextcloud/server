@@ -1,0 +1,29 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: MPL-2.0
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Nick Singleton
+SPDX-FileCopyrightText: Philipp Kewisch
+SPDX-FileCopyrightText: uuid developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/calendar-availability-vue
+	- version: 3.0.0
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- ical.js
+	- version: 2.2.1
+	- license: MPL-2.0
+- icalzone
+	- version: 0.0.1
+	- license: ISC
+- nextcloud-ui
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later
+- uuid
+	- version: 12.0.0
+	- license: MIT

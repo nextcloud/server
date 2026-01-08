@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable */
-(function(OC) {
+import _ from 'underscore'
 
+(function(OC) {
 	/**
 	 * @class OC.Files.FileInfo
 	 * @classdesc File information
 	 *
-	 * @param {Object} data file data, see attributes for details
+	 * @param {object} data file data, see attributes for details
 	 *
 	 * @since 8.2
 	 */

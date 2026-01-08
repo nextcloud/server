@@ -520,20 +520,6 @@ class Connection extends LDAPUtility {
 			);
 		}
 
-		if (!empty($baseUsers) && !$this->checkBasesAreValid($baseUsers, $base)) {
-			throw new ConfigurationIssueException(
-				'User base is not in root base',
-				$this->l10n->t('User base DN is not a subnode of global base DN'),
-			);
-		}
-
-		if (!empty($baseGroups) && !$this->checkBasesAreValid($baseGroups, $base)) {
-			throw new ConfigurationIssueException(
-				'Group base is not in root base',
-				$this->l10n->t('Group base DN is not a subnode of global base DN'),
-			);
-		}
-
 		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8') === false) {
 			throw new ConfigurationIssueException(
 				'Login filter does not contain %uid placeholder.',
@@ -684,6 +670,22 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 
+		if ($this->configuration->turnOffCertCheck) {
+			if ($this->ldap->setOption(null, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_NEVER)) {
+				$this->logger->debug(
+					'Turned off SSL certificate validation successfully.',
+					['app' => 'user_ldap']
+				);
+			} else {
+				$this->logger->warning(
+					'Could not turn off SSL certificate validation.',
+					['app' => 'user_ldap']
+				);
+			}
+		} else {
+			$this->ldap->setOption(null, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_DEMAND);
+		}
+
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port) ?: null;
 
 		if ($this->ldapConnectionRes === null) {
@@ -703,20 +705,6 @@ class Connection extends LDAPUtility {
 		}
 
 		if ($this->configuration->ldapTLS) {
-			if ($this->configuration->turnOffCertCheck) {
-				if ($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_NEVER)) {
-					$this->logger->debug(
-						'Turned off SSL certificate validation successfully.',
-						['app' => 'user_ldap']
-					);
-				} else {
-					$this->logger->warning(
-						'Could not turn off SSL certificate validation.',
-						['app' => 'user_ldap']
-					);
-				}
-			}
-
 			if (!$this->ldap->startTls($this->ldapConnectionRes)) {
 				throw new ServerNotAvailableException('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 			}

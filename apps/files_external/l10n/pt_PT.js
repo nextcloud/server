@@ -35,10 +35,10 @@ OC.L10N.register(
     "Log-in credentials, save in session" : "Credenciais de início de sessão, guardar na sessão",
     "RSA public key" : "Chave pública RSA",
     "Public key" : "Chave pública",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
     "Hostname" : "Nome do Anfitrião",
     "Port" : "Porta",
+    "Proxy" : "Proxy",
     "Region" : "Região",
     "Enable SSL" : "Ativar SSL",
     "Enable Path Style" : "Ativar Estilo do Caminho",
@@ -85,7 +85,7 @@ OC.L10N.register(
     "Admin defined" : "Administrador definido",
     "Delete storage?" : "Apagar armazenamento?",
     "Saved" : "Guardado",
-    "Saving …" : "A guardar...",
+    "Saving …" : "A guardar ...",
     "Save" : "Guardar",
     "Open documentation" : "Abrir documentação",
     "Folder name" : "Nome da pasta",
@@ -98,6 +98,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Por favor, indique um código e segredo de app válidos.",
     "OAuth1" : "OAuth1",
     "App key" : "Chave da App",
-    "App secret" : "Segredo da app"
+    "App secret" : "Segredo da app",
+    "Saving …" : "A guardar..."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

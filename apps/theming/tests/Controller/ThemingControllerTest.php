@@ -89,20 +89,21 @@ class ThemingControllerTest extends TestCase {
 			['name', str_repeat('a', 250), 'Saved'],
 			['url', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['slogan', str_repeat('a', 500), 'Saved'],
-			['color', '#0082c9', 'Saved'],
-			['color', '#0082C9', 'Saved'],
-			['color', '#0082C9', 'Saved'],
+			['primaryColor', '#0082c9', 'Saved', 'primary_color'],
+			['primary_color', '#0082C9', 'Saved'],
+			['backgroundColor', '#0082C9', 'Saved', 'background_color'],
+			['background_color', '#0082C9', 'Saved'],
 			['imprintUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['privacyUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetSuccess')]
-	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message): void {
+	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message, ?string $realSetting = null): void {
 		$this->themingDefaults
 			->expects($this->once())
 			->method('set')
-			->with($setting, $value);
+			->with($realSetting ?? $setting, $value);
 		$this->l10n
 			->expects($this->once())
 			->method('t')
@@ -148,6 +149,8 @@ class ThemingControllerTest extends TestCase {
 			['background_color', '0082C9', 'The given color is invalid'],
 			['background_color', '#0082Z9', 'The given color is invalid'],
 			['background_color', 'Nextcloud', 'The given color is invalid'],
+
+			['doesnotexist', 'value', 'Invalid setting key'],
 
 			...$urlTests,
 		];

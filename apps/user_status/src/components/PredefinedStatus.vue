@@ -4,7 +4,8 @@
 -->
 <template>
 	<li class="predefined-status">
-		<input :id="id"
+		<input
+			:id="id"
 			class="hidden-visually predefined-status__input"
 			type="radio"
 			name="predefined-status"
@@ -18,49 +19,59 @@
 				{{ message }}
 			</span>
 			<span class="predefined-status__label--clear-at">
-				{{ clearAt | clearAtFilter }}
+				{{ formattedClearAt }}
 			</span>
 		</label>
 	</li>
 </template>
 
 <script>
-import { clearAtFilter } from '../filters/clearAtFilter.js'
+import { clearAtFormat } from '../services/clearAtService.js'
 
 export default {
 	name: 'PredefinedStatus',
-	filters: {
-		clearAtFilter,
-	},
+
 	props: {
 		messageId: {
 			type: String,
 			required: true,
 		},
+
 		icon: {
 			type: String,
 			required: true,
 		},
+
 		message: {
 			type: String,
 			required: true,
 		},
+
 		clearAt: {
 			type: Object,
 			required: false,
 			default: null,
 		},
+
 		selected: {
 			type: Boolean,
 			required: false,
 			default: false,
 		},
 	},
+
+	emits: ['select'],
+
 	computed: {
 		id() {
 			return `user-status-predefined-status-${this.messageId}`
 		},
+
+		formattedClearAt() {
+			return clearAtFormat(this.clearAt)
+		},
 	},
+
 	methods: {
 		/**
 		 * Emits an event when the user clicks the row

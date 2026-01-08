@@ -10,7 +10,7 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 trait Auth {
 	/** @var string */
@@ -220,7 +220,7 @@ trait Auth {
 				'form_params' => [
 					'user' => 'user0',
 					'password' => '123456',
-					'remember_login' => $remember ? '1' : '0',
+					'rememberme' => $remember ? '1' : '0',
 					'requesttoken' => $this->requestToken,
 				],
 				'cookies' => $this->cookieJar,

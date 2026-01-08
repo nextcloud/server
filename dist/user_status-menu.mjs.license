@@ -1,0 +1,16 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Guillaume Chau
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+This file is generated from multiple sources. Included packages:
+- @vue/devtools-api
+	- version: 6.6.4
+	- license: MIT
+- nextcloud-ui
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later
+- vuex
+	- version: 4.1.0
+	- license: MIT

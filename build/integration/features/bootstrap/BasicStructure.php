@@ -13,7 +13,7 @@ use GuzzleHttp\Exception\ServerException;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 trait BasicStructure {
 	use Auth;
@@ -74,26 +74,23 @@ trait BasicStructure {
 
 	/**
 	 * @Given /^using api version "(\d+)"$/
-	 * @param string $version
 	 */
-	public function usingApiVersion($version) {
+	public function usingApiVersion(int $version): void {
 		$this->apiVersion = (int)$version;
 	}
 
 	/**
 	 * @Given /^As an "([^"]*)"$/
-	 * @param string $user
 	 */
-	public function asAn($user) {
+	public function asAn(string $user): void {
 		$this->currentUser = $user;
 	}
 
 	/**
 	 * @Given /^Using server "(LOCAL|REMOTE)"$/
-	 * @param string $server
 	 * @return string Previous used server
 	 */
-	public function usingServer($server) {
+	public function usingServer(string $server): string {
 		$previousServer = $this->currentServer;
 		if ($server === 'LOCAL') {
 			$this->baseUrl = $this->localBaseUrl;
@@ -108,35 +105,36 @@ trait BasicStructure {
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)"$/
-	 * @param string $verb
-	 * @param string $url
 	 */
-	public function sendingTo($verb, $url) {
+	public function sendingTo(string $verb, string $url): void {
 		$this->sendingToWith($verb, $url, null);
 	}
 
 	/**
-	 * Parses the xml answer to get ocs response which doesn't match with
+	 * Parses the xml or json answer to get ocs response which doesn't match with
 	 * http one in v1 of the api.
-	 *
-	 * @param ResponseInterface $response
-	 * @return string
 	 */
-	public function getOCSResponse($response) {
-		$body = simplexml_load_string((string)$response->getBody());
-		if ($body === false) {
-			throw new \RuntimeException('Could not parse OCS response, body is not valid XML');
+	public function getOCSResponseCode(ResponseInterface $response): int {
+		if ($response === null) {
+			throw new \RuntimeException('No response available');
 		}
-		return $body->meta[0]->statuscode;
+
+		$body = (string)$response->getBody();
+		if (str_starts_with($body, '<')) {
+			$body = simplexml_load_string($body);
+			if ($body === false) {
+				throw new \RuntimeException('Could not parse OCS response, body is not valid XML');
+			}
+			return (int)$body->meta[0]->statuscode;
+		}
+
+		return json_decode($body, true)['ocs']['meta']['statuscode'];
 	}
 
 	/**
 	 * This function is needed to use a vertical fashion in the gherkin tables.
-	 *
-	 * @param array $arrayOfArrays
-	 * @return array
 	 */
-	public function simplifyArray($arrayOfArrays) {
+	public function simplifyArray(array $arrayOfArrays): array {
 		$a = array_map(function ($subArray) {
 			return $subArray[0];
 		}, $arrayOfArrays);
@@ -145,11 +143,8 @@ trait BasicStructure {
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
-	 * @param string $verb
-	 * @param string $url
-	 * @param TableNode $body
 	 */
-	public function sendingToWith($verb, $url, $body) {
+	public function sendingToWith(string $verb, string $url, ?TableNode $body): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
 		$client = new Client();
 		$options = [];
@@ -182,13 +177,7 @@ trait BasicStructure {
 		}
 	}
 
-	/**
-	 * @param string $verb
-	 * @param string $url
-	 * @param TableNode|array|null $body
-	 * @param array $headers
-	 */
-	protected function sendRequestForJSON(string $verb, string $url, $body = null, array $headers = []): void {
+	protected function sendRequestForJSON(string $verb, string $url, TableNode|array|null $body = null, array $headers = []): void {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
 		$client = new Client();
 		$options = [];
@@ -257,7 +246,7 @@ trait BasicStructure {
 	 * @param int $statusCode
 	 */
 	public function theOCSStatusCodeShouldBe($statusCode) {
-		Assert::assertEquals($statusCode, $this->getOCSResponse($this->response));
+		Assert::assertEquals($statusCode, $this->getOCSResponseCode($this->response));
 	}
 
 	/**
@@ -464,6 +453,13 @@ trait BasicStructure {
 	 */
 	public function sleepForSeconds($seconds) {
 		sleep((int)$seconds);
+	}
+
+	/**
+	 * @BeforeSuite
+	 */
+	public static function createPHPUnitConfiguration(): void {
+		(new \PHPUnit\TextUI\Configuration\Builder())->build([]);
 	}
 
 	/**

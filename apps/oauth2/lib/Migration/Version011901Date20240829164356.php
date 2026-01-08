@@ -35,7 +35,7 @@ class Version011901Date20240829164356 extends SimpleMigrationStep {
 		$qbSelect->select('id', 'secret')
 			->from('oauth2_clients');
 		$req = $qbSelect->executeQuery();
-		while ($row = $req->fetch()) {
+		while ($row = $req->fetchAssociative()) {
 			$id = $row['id'];
 			$storedEncryptedSecret = $row['secret'];
 			$secret = $this->crypto->decrypt($storedEncryptedSecret);

@@ -1,0 +1,159 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: string_decoder developers
+SPDX-FileCopyrightText: p-queue developers
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
+SPDX-FileCopyrightText: Guillaume Chau
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Alkemics
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+
+
+This file is generated from multiple sources. Included packages:
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/auth
+	- version: 2.5.3
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.5.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.1
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.12.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/paths
+	- version: 2.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- vue-router
+	- version: 4.6.3
+	- license: MIT
+- vue
+	- version: 3.5.22
+	- license: MIT
+- @nextcloud/dialogs
+	- version: 7.1.0
+	- license: AGPL-3.0-or-later
+- semver
+	- version: 7.7.2
+	- license: ISC
+- @nextcloud/event-bus
+	- version: 3.3.3
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.4.1
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.3
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @vue/devtools-api
+	- version: 6.6.4
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.22
+	- license: MIT
+- @vue/shared
+	- version: 3.5.22
+	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- buffer
+	- version: 5.7.1
+	- license: MIT
+- cancelable-promise
+	- version: 4.3.1
+	- license: MIT
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- dompurify
+	- version: 3.3.1
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
+- buffer
+	- version: 6.0.3
+	- license: MIT
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 9.0.1
+	- license: MIT
+- p-timeout
+	- version: 7.0.1
+	- license: MIT
+- inherits
+	- version: 2.0.3
+	- license: ISC
+- util
+	- version: 0.10.4
+	- license: MIT
+- path
+	- version: 0.12.7
+	- license: MIT
+- process
+	- version: 0.11.10
+	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
+- string_decoder
+	- version: 1.3.0
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
+- typescript-event-target
+	- version: 1.1.1
+	- license: MIT
+- webdav
+	- version: 5.8.0
+	- license: MIT

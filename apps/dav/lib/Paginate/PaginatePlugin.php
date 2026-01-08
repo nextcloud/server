@@ -11,6 +11,7 @@ namespace OCA\DAV\Paginate;
 
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
+use Sabre\DAV\Xml\Element\Response;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -54,14 +55,57 @@ class PaginatePlugin extends ServerPlugin {
 		) {
 			$pageSize = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
+
 			$copyIterator = new LimitedCopyIterator($fileProperties, $pageSize, $offset);
-			['token' => $token, 'count' => $count] = $this->cache->store($url, $copyIterator);
+			// wrap the iterator with another that renders XML, this way we
+			// cache XML, but we keep the first $pageSize elements as objects
+			// to use for the response of the first page.
+			$rendererGenerator = $this->getXmlRendererGenerator($copyIterator);
+			['token' => $token, 'count' => $count] = $this->cache->store($url, $rendererGenerator);
 
 			$fileProperties = $copyIterator->getRequestedItems();
 			$this->server->httpResponse->addHeader(self::PAGINATE_HEADER, 'true');
 			$this->server->httpResponse->addHeader(self::PAGINATE_TOKEN_HEADER, $token);
 			$this->server->httpResponse->addHeader(self::PAGINATE_TOTAL_HEADER, (string)$count);
 			$request->setHeader(self::PAGINATE_TOKEN_HEADER, $token);
+		}
+	}
+
+	/**
+	 * Returns a generator that yields rendered XML entries for the provided
+	 * $fileProperties, as they would appear in the MultiStatus response.
+	 */
+	private function getXmlRendererGenerator(iterable $fileProperties): \Generator {
+		$writer = $this->server->xml->getWriter();
+		$prefer = $this->server->getHTTPPrefer();
+		$minimal = $prefer['return'] === 'minimal';
+		$writer->contextUri = $this->server->getBaseUri();
+
+		$writer->openMemory();
+		$writer->startDocument();
+		$writer->startElement('{DAV:}multistatus');
+
+		// throw away the beginning of the document
+		$writer->flush();
+
+		foreach ($fileProperties as $entry) {
+			$href = $entry['href'];
+			unset($entry['href']);
+			if ($minimal) {
+				unset($entry[404]);
+			}
+			$response = new Response(
+				ltrim($href, '/'),
+				$entry
+			);
+			$writer->write([
+				'name' => '{DAV:}response',
+				'value' => $response,
+			]);
+
+			// flushing does not remove the > for the previous element
+			// (multistatus)
+			yield ltrim($writer->flush(), '>');
 		}
 	}
 
@@ -83,11 +127,20 @@ class PaginatePlugin extends ServerPlugin {
 			$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
 			$response->setHeader('Vary', 'Brief,Prefer');
 
-			$prefer = $this->server->getHTTPPrefer();
-			$minimal = $prefer['return'] === 'minimal';
+			// as we cached strings of XML, rebuild the multistatus response
+			// and output the RAW entries, as stored in the cache
+			$writer = $this->server->xml->getWriter();
+			$writer->contextUri = $this->server->getBaseUri();
+			$writer->openMemory();
+			$writer->startDocument();
+			$writer->startElement('{DAV:}multistatus');
+			foreach ($items as $item) {
+				$writer->writeRaw($item);
+			}
+			$writer->endElement();
+			$writer->endDocument();
 
-			$data = $this->server->generateMultiStatus($items, $minimal);
-			$response->setBody($data);
+			$response->setBody($writer->flush());
 
 			return false;
 		}

@@ -1,10 +1,11 @@
+import type { Folder } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { ComponentPublicInstance, VueConstructor } from 'vue'
 
-import { Folder, Header, registerFileListHeaders } from '@nextcloud/files'
+import { Header, registerFileListHeaders } from '@nextcloud/files'
 import Vue from 'vue'
 
 type IFilesHeaderNoteToRecipient = ComponentPublicInstance & { updateFolder: (folder: Folder) => void }

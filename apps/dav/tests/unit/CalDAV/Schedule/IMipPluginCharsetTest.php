@@ -14,12 +14,13 @@ use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Config\IUserConfig;
 use OCP\Defaults;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
@@ -38,12 +39,14 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Property\ICalendar\CalAddress;
 use Symfony\Component\Mime\Email;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 class IMipPluginCharsetTest extends TestCase {
+	use EmailValidatorTrait;
 	// Dependencies
 	private Defaults&MockObject $defaults;
 	private IAppConfig&MockObject $appConfig;
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
 	private IDBConnection&MockObject $db;
 	private IFactory $l10nFactory;
 	private IManager&MockObject $mailManager;
@@ -53,6 +56,7 @@ class IMipPluginCharsetTest extends TestCase {
 	private IUrlGenerator&MockObject $urlGenerator;
 	private IUserSession&MockObject $userSession;
 	private LoggerInterface $logger;
+	private IUserManager&MockObject $userManager;
 
 	// Services
 	private EventComparisonService $eventComparisonService;
@@ -73,7 +77,8 @@ class IMipPluginCharsetTest extends TestCase {
 
 		// IMipService
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->db = $this->createMock(IDBConnection::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$l10n = $this->createMock(L10N::class);
@@ -84,26 +89,27 @@ class IMipPluginCharsetTest extends TestCase {
 			->willReturn('en_US');
 		$this->l10nFactory->method('get')
 			->willReturn($l10n);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager->method('getByEmail')->willReturn([]);
 		$this->imipService = new IMipService(
 			$this->urlGenerator,
-			$this->config,
 			$this->db,
 			$this->random,
 			$this->l10nFactory,
 			$this->timeFactory,
+			$this->userManager,
+			$this->userConfig,
+			$this->appConfig,
 		);
 
 		// EventComparisonService
 		$this->eventComparisonService = new EventComparisonService();
 
 		// IMipPlugin
-		$this->appConfig = $this->createMock(IAppConfig::class);
 		$message = new \OC\Mail\Message(new Email(), false);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->mailer->method('createMessage')
 			->willReturn($message);
-		$this->mailer->method('validateMailAddress')
-			->willReturn(true);
 		$this->logger = new NullLogger();
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->defaults->method('getName')
@@ -125,6 +131,7 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->imipService,
 			$this->eventComparisonService,
 			$this->mailManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 
 		// ITipMessage
@@ -171,10 +178,15 @@ class IMipPluginCharsetTest extends TestCase {
 	public function testCharsetMailProvider(): void {
 		// Arrange
 		$this->appConfig->method('getValueBool')
-			->with('core', 'mail_providers_enabled', true)
-			->willReturn(true);
+			->willReturnCallback(function ($app, $key, $default) {
+				if ($app === 'core') {
+					$this->assertEquals($key, 'mail_providers_enabled');
+					return true;
+				}
+				return $default;
+			});
 		$mailMessage = new MailProviderMessage();
-		$mailService = $this->createStubForIntersectionOfInterfaces([IService::class, IMessageSend::class]);
+		$mailService = $this->createMockForIntersectionOfInterfaces([IService::class, IMessageSend::class]);
 		$mailService->method('initiateMessage')
 			->willReturn($mailMessage);
 		$mailService->expects(self::once())

@@ -21,6 +21,7 @@
     "Sharing" : "Deiling",
     "Federated file sharing" : "Deiling skráa milli þjóna (skýjasambandssameign)",
     "Provide federated file sharing across servers" : "Sér um deilingu skráa milli skýjaþjóna (skýjasambandssameign)",
+    "Disable upload" : "Gera innsendingar óvirkar",
     "Unable to update federated files sharing config" : "Get ekki uppfært stillingar á deilingu með skýjasambandi",
     "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Stilltu hvernig fólk getur deilt á milli þjóna. Það þýðir sameignir á milli fólks á þessum þjóni, en einnig ef stuðst er við deilingu skýjasambandssameigna.",
     "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Leyfa fólki á þessum þjóni að senda sameignir til hópa á öðrum þjónum (þessi kostur leyfir einnig WebDAV-aðgang að opinberum sameignum)",
@@ -40,11 +41,11 @@
     "Federated Cloud" : "Skýjasamband (federated)",
     "Your Federated Cloud ID" : "Skýjasambandsauðkennið þitt (Federated Cloud ID)",
     "Share it so your friends can share files with you:" : "Deildu þessu svo að vinir þínir geti deilt skrám með þér:",
+    "Bluesky" : "Bluesky",
     "Facebook" : "Facebook",
-    "X (formerly Twitter)" : "X (fyrrum Twitter)",
-    "formerly Twitter" : "fyrrum Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Bæta við vefsvæðið þitt",
+    "Share with me via {productName}" : "Deila með mér í gegnum {productName}",
     "HTML Code:" : "HTML-kóði:",
     "Cancel" : "Hætta við",
     "Add remote share" : "Bæta við fjartengdri sameign",
@@ -54,6 +55,8 @@
     "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign",
     "Cloud ID copied to the clipboard" : "Skýjasambandsauðkenni afritað á klippispjald",
     "Copy to clipboard" : "Afrita á klippispjald",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is"
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is",
+    "X (formerly Twitter)" : "X (fyrrum Twitter)",
+    "formerly Twitter" : "fyrrum Twitter"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

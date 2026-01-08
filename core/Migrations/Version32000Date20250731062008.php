@@ -61,7 +61,7 @@ class Version32000Date20250731062008 extends SimpleMigrationStep {
 		$seen = [];
 		$duplicateCount = 0;
 
-		while ($category = $result->fetch()) {
+		while ($category = $result->fetchAssociative()) {
 			$key = $category['uid'] . '|' . $category['type'] . '|' . $category['category'];
 			$categoryId = (int)$category['id'];
 
@@ -135,7 +135,7 @@ class Version32000Date20250731062008 extends SimpleMigrationStep {
 
 		$duplicatedAssignments = $selectQb->executeQuery();
 		$count = 0;
-		while ($row = $duplicatedAssignments->fetch()) {
+		while ($row = $duplicatedAssignments->fetchAssociative()) {
 			$deleteQb
 				->setParameters($row)
 				->executeStatement();

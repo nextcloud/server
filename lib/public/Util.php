@@ -15,7 +15,7 @@ use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 
@@ -305,8 +305,8 @@ class Util {
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part . '@' . $host_name;
 
-		$mailer = \OCP\Server::get(IMailer::class);
-		if ($mailer->validateMailAddress($defaultEmailAddress)) {
+		$emailValidator = \OCP\Server::get(IEmailValidator::class);
+		if ($emailValidator->isValid($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 

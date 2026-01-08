@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils'
-import { assertNotExistOrNotVisible } from '../settings/usersUtils'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { assertNotExistOrNotVisible } from '../settings/usersUtils.ts'
+import { getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils.ts'
 
 describe('Files: Sidebar', { testIsolation: true }, () => {
 	let user: User
@@ -118,7 +119,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			triggerActionForFile('other', 'delete')
 			cy.wait('@deleteFile')
 
-			cy.get('[data-cy-sidebar]').should('not.exist')
+			cy.get('[data-cy-sidebar]').should('not.be.visible')
 			// Ensure the URL is changed
 			cy.url().should('not.contain', `apps/files/files/${otherFileId}`)
 		})

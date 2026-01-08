@@ -4,7 +4,8 @@
 -->
 <template>
 	<ul>
-		<SharingEntrySimple ref="shareEntrySimple"
+		<SharingEntrySimple
+			ref="shareEntrySimple"
 			class="sharing-entry__internal"
 			:title="t('files_sharing', 'Internal link')"
 			:subtitle="internalLinkSubtitle">
@@ -12,11 +13,13 @@
 				<div class="avatar-external icon-external-white" />
 			</template>
 
-			<NcActionButton :title="copyLinkTooltip"
+			<NcActionButton
+				:title="copyLinkTooltip"
 				:aria-label="copyLinkTooltip"
 				@click="copyLink">
 				<template #icon>
-					<CheckIcon v-if="copied && copySuccess"
+					<CheckIcon
+						v-if="copied && copySuccess"
 						:size="20"
 						class="icon-checkmark-color" />
 					<ClipboardIcon v-else :size="20" />
@@ -27,14 +30,13 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
 import { showSuccess } from '@nextcloud/dialogs'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ClipboardIcon from 'vue-material-design-icons/ContentCopy.vue'
-
 import SharingEntrySimple from './SharingEntrySimple.vue'
+import logger from '../services/logger.ts'
+import { generateFileUrl } from '../utils/generateUrl.ts'
 
 export default {
 	name: 'SharingEntryInternal',
@@ -49,7 +51,6 @@ export default {
 	props: {
 		fileInfo: {
 			type: Object,
-			default: () => {},
 			required: true,
 		},
 	},
@@ -68,7 +69,7 @@ export default {
 		 * @return {string}
 		 */
 		internalLink() {
-			return window.location.protocol + '//' + window.location.host + generateUrl('/f/') + this.fileInfo.id
+			return generateFileUrl(this.fileInfo.id)
 		},
 
 		/**
@@ -102,7 +103,7 @@ export default {
 			} catch (error) {
 				this.copySuccess = false
 				this.copied = true
-				console.error(error)
+				logger.error(error)
 			} finally {
 				setTimeout(() => {
 					this.copySuccess = false

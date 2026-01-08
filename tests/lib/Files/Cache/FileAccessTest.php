@@ -19,9 +19,7 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileAccessTest extends TestCase {
 	private IDBConnection $dbConnection;
 	private FileAccess $fileAccess;
@@ -64,6 +62,7 @@ class FileAccessTest extends TestCase {
 				'root_id' => $queryBuilder->createNamedParameter(10, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass1'),
 				'mount_point' => $queryBuilder->createNamedParameter('/files'),
+				'mount_point_hash' => $queryBuilder->createNamedParameter(hash('xxh128', '/files')),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
@@ -74,6 +73,7 @@ class FileAccessTest extends TestCase {
 				'root_id' => $queryBuilder->createNamedParameter(30, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass1'),
 				'mount_point' => $queryBuilder->createNamedParameter('/documents'),
+				'mount_point_hash' => $queryBuilder->createNamedParameter(hash('xxh128', '/documents')),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
@@ -84,6 +84,7 @@ class FileAccessTest extends TestCase {
 				'root_id' => $queryBuilder->createNamedParameter(31, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass2'),
 				'mount_point' => $queryBuilder->createNamedParameter('/foobar'),
+				'mount_point_hash' => $queryBuilder->createNamedParameter(hash('xxh128', '/foobar')),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
@@ -149,6 +150,7 @@ class FileAccessTest extends TestCase {
 				'root_id' => $queryBuilder->createNamedParameter(40, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter(LocalHomeMountProvider::class),
 				'mount_point' => $queryBuilder->createNamedParameter('/home/user'),
+				'mount_point_hash' => $queryBuilder->createNamedParameter(hash('xxh128', '/home/user')),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
@@ -161,6 +163,7 @@ class FileAccessTest extends TestCase {
 				'root_id' => $queryBuilder->createNamedParameter(41, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter('TestMountProvider3'),
 				'mount_point' => $queryBuilder->createNamedParameter('/test/files/foobar'),
+				'mount_point_hash' => $queryBuilder->createNamedParameter(hash('xxh128', '/test/files/foobar')),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
@@ -211,6 +214,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('files'),
 				'mimetype' => 1,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -224,6 +228,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('documents'),
 				'mimetype' => 2,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -237,6 +242,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('photos'),
 				'mimetype' => 3,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -250,6 +256,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('endtoendencrypted'),
 				'mimetype' => 4,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -263,6 +270,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('serversideencrypted'),
 				'mimetype' => 4,
 				'encrypted' => 1,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -276,6 +284,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('storage2'),
 				'mimetype' => 5,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 
@@ -289,6 +298,7 @@ class FileAccessTest extends TestCase {
 				'name' => $queryBuilder->createNamedParameter('file'),
 				'mimetype' => 6,
 				'encrypted' => 0,
+				'size' => 1,
 			])
 			->executeStatement();
 	}

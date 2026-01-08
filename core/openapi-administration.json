@@ -645,6 +645,10 @@
     },
     "tags": [
         {
+            "name": "ocs",
+            "description": "If you are here because you can't extend the OCSController class, you got the wrong one. Please use {@see \\OCP\\AppFramework\\OCSController}!"
+        },
+        {
             "name": "avatar",
             "description": "Class AvatarController"
         },
@@ -655,6 +659,10 @@
         {
             "name": "ocm",
             "description": "Controller about the endpoint /ocm-provider/"
+        },
+        {
+            "name": "open_metrics",
+            "description": "OpenMetrics controller Gather and display metrics"
         }
     ]
 }

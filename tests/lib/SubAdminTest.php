@@ -19,9 +19,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SubAdminTest extends \Test\TestCase {
 	/** @var IUserManager */
 	private $userManager;
@@ -113,7 +111,7 @@ class SubAdminTest extends \Test\TestCase {
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($this->groups[0]->getGID())))
 			->andWHere($qb->expr()->eq('uid', $qb->createNamedParameter($this->users[0]->getUID())))
 			->executeQuery()
-			->fetch();
+			->fetchAssociative();
 		$this->assertEquals(
 			[
 				'gid' => $this->groups[0]->getGID(),
@@ -139,7 +137,7 @@ class SubAdminTest extends \Test\TestCase {
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($this->groups[0]->getGID())))
 			->andWHere($qb->expr()->eq('uid', $qb->createNamedParameter($this->users[0]->getUID())))
 			->executeQuery()
-			->fetch();
+			->fetchAssociative();
 		$this->assertEmpty($result);
 	}
 

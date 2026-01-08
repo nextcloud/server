@@ -9,7 +9,7 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Share\IManager;
@@ -18,13 +18,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class DeletedUsersIndexTest
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\User
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DeletedUsersIndexTest extends \Test\TestCase {
 	protected DeletedUsersIndex $dui;
-	protected IConfig $config;
+	protected IUserConfig $userConfig;
 	protected IDBConnection $db;
 	protected UserMapping&MockObject $mapping;
 	protected IManager&MockObject $shareManager;
@@ -33,20 +33,20 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		parent::setUp();
 
 		// no mocks for those as tests go against DB
-		$this->config = Server::get(IConfig::class);
+		$this->userConfig = Server::get(IUserConfig::class);
 		$this->db = Server::get(IDBConnection::class);
 
 		// ensure a clean database
-		$this->config->deleteAppFromAllUsers('user_ldap');
+		$this->userConfig->deleteApp('user_ldap');
 
 		$this->mapping = $this->createMock(UserMapping::class);
 		$this->shareManager = $this->createMock(IManager::class);
 
-		$this->dui = new DeletedUsersIndex($this->config, $this->mapping, $this->shareManager);
+		$this->dui = new DeletedUsersIndex($this->userConfig, $this->mapping, $this->shareManager);
 	}
 
 	protected function tearDown(): void {
-		$this->config->deleteAppFromAllUsers('user_ldap');
+		$this->userConfig->deleteApp('user_ldap');
 		parent::tearDown();
 	}
 

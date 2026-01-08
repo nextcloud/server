@@ -9,13 +9,15 @@
 			<defs>
 				<linearGradient id="unified-search__result-placeholder-gradient">
 					<stop offset="0%" :stop-color="light">
-						<animate attributeName="stop-color"
+						<animate
+							attributeName="stop-color"
 							:values="`${light}; ${light}; ${dark}; ${dark}; ${light}`"
 							dur="2s"
 							repeatCount="indefinite" />
 					</stop>
 					<stop offset="100%" :stop-color="dark">
-						<animate attributeName="stop-color"
+						<animate
+							attributeName="stop-color"
 							:values="`${dark}; ${light}; ${light}; ${dark}; ${dark}`"
 							dur="2s"
 							repeatCount="indefinite" />
@@ -26,12 +28,13 @@
 
 		<!-- Placeholders -->
 		<li v-for="placeholder in [1, 2, 3]" :key="placeholder">
-			<svg class="unified-search__result-placeholder"
+			<svg
+				class="unified-search__result-placeholder"
 				xmlns="http://www.w3.org/2000/svg"
 				fill="url(#unified-search__result-placeholder-gradient)">
 				<rect class="unified-search__result-placeholder-icon" />
 				<rect class="unified-search__result-placeholder-line-one" />
-				<rect class="unified-search__result-placeholder-line-two" :style="{width: `calc(${randWidth()}%)`}" />
+				<rect class="unified-search__result-placeholder-line-two" :style="{ width: `calc(${randWidth()}%)` }" />
 			</svg>
 		</li>
 	</ul>
@@ -47,6 +50,7 @@ export default {
 			dark: null,
 		}
 	},
+
 	mounted() {
 		const styles = getComputedStyle(document.documentElement)
 		this.dark = styles.getPropertyValue('--color-placeholder-dark')

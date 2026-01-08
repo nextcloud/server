@@ -2,32 +2,37 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getCurrentUser } from '@nextcloud/auth'
-import { Node, View, registerFileAction, FileAction, Permission } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import { ShareType } from '@nextcloud/sharing'
-import { isPublicShare } from '@nextcloud/sharing/public'
+
+import type { INode } from '@nextcloud/files'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { FileAction, getSidebar, Permission, registerFileAction } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
-
-import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
-import { generateAvatarSvg } from '../utils/AccountIcon'
+import { generateAvatarSvg } from '../utils/AccountIcon.ts'
 
 import './sharingStatusAction.scss'
-import { showError } from '@nextcloud/dialogs'
 
-const isExternal = (node: Node) => {
+/**
+ * Check if the node is external (federated)
+ *
+ * @param node - The node to check
+ */
+function isExternal(node: INode) {
 	return node.attributes?.['is-federated'] ?? false
 }
 
 export const ACTION_SHARING_STATUS = 'sharing-status'
 export const action = new FileAction({
 	id: ACTION_SHARING_STATUS,
-	displayName(nodes: Node[]) {
-		const node = nodes[0]
+	displayName({ nodes }) {
+		const node = nodes[0]!
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
 
 		if (shareTypes.length > 0
@@ -38,9 +43,8 @@ export const action = new FileAction({
 		return ''
 	},
 
-	title(nodes: Node[]) {
-		const node = nodes[0]
-
+	title({ nodes }) {
+		const node = nodes[0]!
 		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
 			const ownerDisplayName = node?.attributes?.['owner-display-name']
 			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
@@ -58,18 +62,18 @@ export const action = new FileAction({
 		}
 
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
-		switch (sharee.type) {
-		case ShareType.User:
-			return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
-		case ShareType.Group:
-			return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
-		default:
-			return t('files_sharing', 'Shared with others')
+		switch (sharee?.type) {
+			case ShareType.User:
+				return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
+			case ShareType.Group:
+				return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
+			default:
+				return t('files_sharing', 'Shared with others')
 		}
 	},
 
-	iconSvgInline(nodes: Node[]) {
-		const node = nodes[0]
+	iconSvgInline({ nodes }) {
+		const node = nodes[0]!
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
 
 		// Mixed share types
@@ -101,7 +105,7 @@ export const action = new FileAction({
 		return AccountPlusSvg
 	},
 
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		if (nodes.length !== 1) {
 			return false
 		}
@@ -111,7 +115,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		const node = nodes[0]
+		const node = nodes[0]!
 		const shareTypes = node.attributes?.['share-types']
 		const isMixed = Array.isArray(shareTypes) && shareTypes.length > 0
 
@@ -132,11 +136,12 @@ export const action = new FileAction({
 			&& (node.permissions & Permission.READ) !== 0
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec({ nodes }) {
 		// You need read permissions to see the sidebar
+		const node = nodes[0]
 		if ((node.permissions & Permission.READ) !== 0) {
-			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
-			sidebarAction.exec(node, view, dir)
+			const sidebar = getSidebar()
+			sidebar.open(node, 'sharing')
 			return null
 		}
 

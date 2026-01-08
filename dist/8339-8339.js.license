@@ -1,0 +1,104 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: chenkai
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Shuhei Kagawa
+SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Guillaume Chau
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Christoph Wurst
+
+
+This file is generated from multiple sources. Included packages:
+- @ctrl/tinycolor
+	- version: 3.6.1
+	- license: MIT
+- @floating-ui/core
+	- version: 1.7.3
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.10
+	- license: MIT
+- @nextcloud/auth
+	- version: 2.5.3
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.5.0
+	- license: GPL-3.0-or-later
+- @ckpack/vue-color
+	- version: 1.6.0
+	- license: MIT
+- @nextcloud/vue
+	- version: 9.0.1
+	- license: AGPL-3.0-or-later
+- vue-router
+	- version: 4.6.3
+	- license: MIT
+- vue
+	- version: 3.5.22
+	- license: MIT
+- semver
+	- version: 7.7.2
+	- license: ISC
+- @nextcloud/event-bus
+	- version: 3.3.3
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.4.1
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.3
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @vue/devtools-api
+	- version: 6.6.4
+	- license: MIT
+- @vue/reactivity
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.22
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.22
+	- license: MIT
+- @vue/shared
+	- version: 3.5.22
+	- license: MIT
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- dompurify
+	- version: 3.3.1
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- focus-trap
+	- version: 7.6.6
+	- license: MIT
+- material-colors
+	- version: 1.2.6
+	- license: ISC
+- process
+	- version: 0.11.10
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
+- tabbable
+	- version: 6.3.0
+	- license: MIT

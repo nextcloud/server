@@ -1,13 +1,13 @@
+import type { View } from '@nextcloud/files'
+
+import { File, Folder, Permission } from '@nextcloud/files'
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { describe, it, vi, expect, beforeEach, beforeAll } from 'vitest'
-import { File, Permission, View } from '@nextcloud/files'
-
-import { getPinia } from '../../../files/src/store/index.ts'
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useActiveStore } from '../../../files/src/store/active.ts'
-
+import { getPinia } from '../../../files/src/store/index.ts'
 import { action as bulkSystemTagsAction } from '../files_actions/bulkSystemTagsAction.ts'
 import { registerHotkeys } from './HotKeysService.ts'
 
@@ -29,16 +29,26 @@ describe('HotKeysService testing', () => {
 	beforeEach(() => {
 		// Make sure the file is reset before each test
 		file = new File({
-			id: 1,
+			id: 2,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			root: '/files/admin',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
 		})
 
+		const root = new Folder({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/',
+			root: '/files/admin',
+			owner: 'admin',
+			permissions: Permission.CREATE,
+		})
+
 		// Setting the view first as it reset the active node
 		activeStore.activeView = view
 		activeStore.activeNode = file
+		activeStore.activeFolder = root
 	})
 
 	it('Pressing t should open the tag management dialog', () => {

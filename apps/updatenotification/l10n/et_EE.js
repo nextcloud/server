@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Kanal värskendatud",
     "Web updater is disabled" : "Veebiuuendaja on keelatud",
+    "Configuration is read-only" : "Seadistused on ainult loetavas olekus",
     "App updated" : "Rakendus on uuendatud",
     "See what's new" : "Kae, mida uut leidub",
     "{app} updated to version {version}" : "{app} uuendati versioonile {version}",
@@ -35,7 +36,7 @@ OC.L10N.register(
     "A pre-release version only for testing new features, not for production environments." : "Eelversioon uute funktsionaalsuste testimiseks ning ei sobi kasutamiseks  igapäevases tarvekeskkonnas.",
     "Update" : "Uuenda",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Versiooni, mida kasutad, ei uuendata enam. Palun uuenda toetatud versioonile võimalikult kiiresti.",
-    "Apps missing compatible version" : "Rakendustel puuduvad toetatud versioonid",
+    "Apps missing compatible version" : "Nendel hetkel paigaldatud rakendustel puuduvad toetatud versioonid",
     "View in store" : "Vaata poes",
     "Apps with compatible version" : "Rakendused toetatud versiooniga",
     "Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!" : "Palun arvesta, et veebipõhine uuendaja pole soovitatav, kui serveris on üle 100 kasutajakonto! Sel puhul kasuta käsureapõhist uuendajat!",
@@ -60,7 +61,7 @@ OC.L10N.register(
     "What's new in {app} version {version}" : "Mida uut {app} {version} sisaldab",
     "{version} is available. Get more information on how to update." : "{version} on saadaval. Vaata lisainfot uuendamise kohta.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kõikidel</strong> rakendustel on selle Nextcloudi versiooniga ühilduv versioon.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 rakenduse versioon ei ühildus selle Nextcloudi versiooniga.","<strong>%n</strong> rakenduse versioon ei ühildus selle Nextcloudi versiooniga."],
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 rakenduse versioon ei ühildu selle uue Nextcloudi versiooniga.","<strong>%n</strong> rakenduse versioon ei ühildu selle uue Nextcloudi versiooniga."],
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Mõeldud suurorganisatsioonidele. Tagab alati, et viimased pisiparandused on lisatud, kuid järgmine suurem uuendus mitte. See on võimalik alles siis, kui Nextcloud GmbH on lisanud tugevdusmeetmeid ja läbinud suurte ning missioonikriitiliste paigalduste kontekstis vajaliku testimise. See uuenduskanal on saadaval vaid lepingulistele klientidele ning on osa Nextcloudi paketist suurorganisatsioonidele (Nextcloud Enterprise)."
 },
 "nplurals=2; plural=(n != 1);");

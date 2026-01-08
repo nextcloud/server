@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+const ACTION_COPY_MOVE = 'move-copy'
 
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
@@ -15,33 +16,61 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
-export const getActionEntryForFileId = (fileid: number, actionId: string) => {
+/**
+ *
+ * @param fileid
+ * @param actionId
+ */
+export function getActionEntryForFileId(fileid: number, actionId: string) {
 	return getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId}`)
+			.should('exist')
+			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
-export const getActionEntryForFile = (file: string, actionId: string) => {
+/**
+ *
+ * @param file
+ * @param actionId
+ */
+export function getActionEntryForFile(file: string, actionId: string) {
 	return getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId}`)
+			.should('exist')
+			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
-export const getInlineActionEntryForFileId = (fileid: number, actionId: string) => {
+/**
+ *
+ * @param fileid
+ * @param actionId
+ */
+export function getInlineActionEntryForFileId(fileid: number, actionId: string) {
 	return getActionsForFileId(fileid)
 		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
-export const getInlineActionEntryForFile = (file: string, actionId: string) => {
+/**
+ *
+ * @param file
+ * @param actionId
+ */
+export function getInlineActionEntryForFile(file: string, actionId: string) {
 	return getActionsForFile(file)
 		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
-export const triggerActionForFileId = (fileid: number, actionId: string) => {
+/**
+ *
+ * @param fileid
+ * @param actionId
+ */
+export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
-		.as('actionButton')
 		.scrollIntoView()
-	cy.get('@actionButton')
+	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFileId(fileid, actionId)
 		.find('button')
@@ -49,11 +78,15 @@ export const triggerActionForFileId = (fileid: number, actionId: string) => {
 		.click()
 }
 
-export const triggerActionForFile = (filename: string, actionId: string) => {
+/**
+ *
+ * @param filename
+ * @param actionId
+ */
+export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
-		.as('actionButton')
 		.scrollIntoView()
-	cy.get('@actionButton')
+	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFile(filename, actionId)
 		.find('button')
@@ -61,31 +94,52 @@ export const triggerActionForFile = (filename: string, actionId: string) => {
 		.click()
 }
 
-export const triggerInlineActionForFileId = (fileid: number, actionId: string) => {
+/**
+ *
+ * @param fileid
+ * @param actionId
+ */
+export function triggerInlineActionForFileId(fileid: number, actionId: string) {
 	getActionsForFileId(fileid)
 		.find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 		.should('exist')
 		.click()
 }
-export const triggerInlineActionForFile = (filename: string, actionId: string) => {
+/**
+ *
+ * @param filename
+ * @param actionId
+ */
+export function triggerInlineActionForFile(filename: string, actionId: string) {
 	getActionsForFile(filename)
 		.find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 		.should('exist')
 		.click()
 }
 
-export const selectAllFiles = () => {
+/**
+ *
+ */
+export function selectAllFiles() {
 	cy.get('[data-cy-files-list-selection-checkbox]')
 		.findByRole('checkbox', { checked: false })
 		.click({ force: true })
 }
-export const deselectAllFiles = () => {
+/**
+ *
+ */
+export function deselectAllFiles() {
 	cy.get('[data-cy-files-list-selection-checkbox]')
 		.findByRole('checkbox', { checked: true })
 		.click({ force: true })
 }
 
-export const selectRowForFile = (filename: string, options: Partial<Cypress.ClickOptions> = {}) => {
+/**
+ *
+ * @param filename
+ * @param options
+ */
+export function selectRowForFile(filename: string, options: Partial<Cypress.ClickOptions> = {}) {
 	getRowForFile(filename)
 		.find('[data-cy-files-list-row-checkbox]')
 		.findByRole('checkbox')
@@ -95,22 +149,30 @@ export const selectRowForFile = (filename: string, options: Partial<Cypress.Clic
 	cy.get('[data-cy-files-list-selection-checkbox]').findByRole('checkbox').should('satisfy', (elements) => {
 		return elements.length === 1 && (elements[0].checked === true || elements[0].indeterminate === true)
 	})
-
 }
 
 export const getSelectionActionButton = () => cy.get('[data-cy-files-list-selection-actions]').findByRole('button', { name: 'Actions' })
 export const getSelectionActionEntry = (actionId: string) => cy.get(`[data-cy-files-list-selection-action="${CSS.escape(actionId)}"]`)
-export const triggerSelectionAction = (actionId: string) => {
+/**
+ *
+ * @param actionId
+ */
+export function triggerSelectionAction(actionId: string) {
 	// Even if it's inline, we open the action menu to get all actions visible
 	getSelectionActionButton().click({ force: true })
 	// the entry might already be a button or a button might its child
 	getSelectionActionEntry(actionId)
-		.then($el => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('button').last())
+		.then(($el) => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('button').last())
 		.should('exist')
 		.click()
 }
 
-export const moveFile = (fileName: string, dirPath: string) => {
+/**
+ *
+ * @param fileName
+ * @param dirPath
+ */
+export function moveFile(fileName: string, dirPath: string) {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
@@ -120,7 +182,10 @@ export const moveFile = (fileName: string, dirPath: string) => {
 
 		if (dirPath === '/') {
 			// select home folder
-			cy.get('button[title="Home"]').should('be.visible').click()
+			cy.get('.breadcrumb')
+				.findByRole('button', { name: 'All files' })
+				.should('be.visible')
+				.click()
 			// click move
 			cy.contains('button', 'Move').should('be.visible').click()
 		} else if (dirPath === '.') {
@@ -141,7 +206,12 @@ export const moveFile = (fileName: string, dirPath: string) => {
 	})
 }
 
-export const copyFile = (fileName: string, dirPath: string) => {
+/**
+ *
+ * @param fileName
+ * @param dirPath
+ */
+export function copyFile(fileName: string, dirPath: string) {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, ACTION_COPY_MOVE)
 
@@ -151,7 +221,10 @@ export const copyFile = (fileName: string, dirPath: string) => {
 
 		if (dirPath === '/') {
 			// select home folder
-			cy.get('button[title="Home"]').should('be.visible').click()
+			cy.get('.breadcrumb')
+				.findByRole('button', { name: 'All files' })
+				.should('be.visible')
+				.click()
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
 		} else if (dirPath === '.') {
@@ -172,7 +245,12 @@ export const copyFile = (fileName: string, dirPath: string) => {
 	})
 }
 
-export const renameFile = (fileName: string, newFileName: string) => {
+/**
+ *
+ * @param fileName
+ * @param newFileName
+ */
+export function renameFile(fileName: string, newFileName: string) {
 	getRowForFile(fileName)
 		.should('exist')
 		.scrollIntoView()
@@ -189,7 +267,11 @@ export const renameFile = (fileName: string, newFileName: string) => {
 	cy.wait('@moveFile')
 }
 
-export const navigateToFolder = (dirPath: string) => {
+/**
+ *
+ * @param dirPath
+ */
+export function navigateToFolder(dirPath: string) {
 	const directories = dirPath.split('/')
 	for (const directory of directories) {
 		if (directory === '') {
@@ -198,21 +280,43 @@ export const navigateToFolder = (dirPath: string) => {
 
 		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
 	}
-
 }
 
-export const closeSidebar = () => {
+/**
+ * Close the sidebar
+ */
+export function closeSidebar() {
 	// {force: true} as it might be hidden behind toasts
-	cy.get('[data-cy-sidebar] .app-sidebar__close').click({ force: true })
+	cy.get('[data-cy-sidebar] .app-sidebar__close')
+		.click({ force: true })
+	cy.get('[data-cy-sidebar]')
+		.should('not.be.visible')
+	// eslint-disable-next-line cypress/no-unnecessary-waiting -- wait for the animation to finish
+	cy.wait(500)
+	cy.url()
+		.should('not.contain', 'opendetails')
+	// close all toasts
+	cy.get('.toast-success')
+		.if()
+		.findAllByRole('button')
+		.click({ force: true, multiple: true })
 }
 
-export const clickOnBreadcrumbs = (label: string) => {
+/**
+ *
+ * @param label
+ */
+export function clickOnBreadcrumbs(label: string) {
 	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
 	cy.get('[data-cy-files-content-breadcrumbs]').contains(label).click()
 	cy.wait('@propfind')
 }
 
-export const createFolder = (folderName: string) => {
+/**
+ *
+ * @param folderName
+ */
+export function createFolder(folderName: string) {
 	cy.intercept('MKCOL', /\/remote.php\/dav\/files\//).as('createFolder')
 
 	// TODO: replace by proper data-cy selectors
@@ -229,6 +333,7 @@ export const createFolder = (folderName: string) => {
 
 /**
  * Check validity of an input element
+ *
  * @param validity The expected validity message (empty string means it is valid)
  * @example
  * ```js
@@ -236,14 +341,19 @@ export const createFolder = (folderName: string) => {
  *     .should(haveValidity(/must not be empty/i))
  * ```
  */
-export const haveValidity = (validity: string | RegExp) => {
+export function haveValidity(validity: string | RegExp) {
 	if (typeof validity === 'string') {
 		return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.equal(validity)
 	}
 	return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.match(validity)
 }
 
-export const deleteFileWithRequest = (user: User, path: string) => {
+/**
+ *
+ * @param user
+ * @param path
+ */
+export function deleteFileWithRequest(user: User, path: string) {
 	// Ensure path starts with a slash and has no double slashes
 	path = `/${path}`.replace(/\/+/g, '/')
 
@@ -264,12 +374,19 @@ export const deleteFileWithRequest = (user: User, path: string) => {
 	})
 }
 
-export const triggerFileListAction = (actionId: string) => {
+/**
+ *
+ * @param actionId
+ */
+export function triggerFileListAction(actionId: string) {
 	cy.get(`button[data-cy-files-list-action="${CSS.escape(actionId)}"]`).last()
 		.should('exist').click({ force: true })
 }
 
-export const reloadCurrentFolder = () => {
+/**
+ *
+ */
+export function reloadCurrentFolder() {
 	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
 	cy.get('[data-cy-files-content-breadcrumbs]').findByRole('button', { description: 'Reload current directory' }).click()
 	cy.wait('@propfind')

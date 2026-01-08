@@ -8,6 +8,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
@@ -38,8 +39,14 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
+use Sabre\DAV\INodeByPath;
 
-class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
+class Directory extends Node implements
+	\Sabre\DAV\ICollection,
+	\Sabre\DAV\IQuota,
+	\Sabre\DAV\IMoveTarget,
+	\Sabre\DAV\ICopyTarget,
+	INodeByPath {
 	/**
 	 * Cached directory content
 	 * @var FileInfo[]
@@ -181,7 +188,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		// If we are, then only PUT and MKCOL are allowed (see plugin)
 		// so we are safe to return the directory without a risk of
 		// leaking files and folders structure.
-		if ($storage instanceof PublicShareWrapper) {
+		if ($storage->instanceOfStorage(PublicShareWrapper::class)) {
 			$share = $storage->getShare();
 			$allowDirectory = ($share->getPermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ;
 		}
@@ -211,7 +218,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		}
 
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
+			$node = new Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
 			// In case reading a directory was allowed but it turns out the node was a not a directory, reject it now.
 			if (!$this->info->isReadable()) {
@@ -489,5 +496,71 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 
 	public function getNode(): Folder {
 		return $this->node;
+	}
+
+	public function getNodeForPath($path): INode {
+		$storage = $this->info->getStorage();
+		$allowDirectory = false;
+
+		// Checking if we're in a file drop
+		// If we are, then only PUT and MKCOL are allowed (see plugin)
+		// so we are safe to return the directory without a risk of
+		// leaking files and folders structure.
+		if ($storage->instanceOfStorage(PublicShareWrapper::class)) {
+			$share = $storage->getShare();
+			$allowDirectory = ($share->getPermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ;
+		}
+
+		// For file drop we need to be allowed to read the directory with the nickname
+		if (!$allowDirectory && !$this->info->isReadable()) {
+			// avoid detecting files through this way
+			throw new NotFound();
+		}
+
+		$destinationPath = PathHelper::normalizePath($this->getPath() . '/' . $path);
+		$destinationDir = dirname($destinationPath);
+
+		try {
+			$info = $this->getNode()->get($path);
+		} catch (NotFoundException $e) {
+			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $destinationPath
+				. ' could not be located');
+		} catch (StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
+		} catch (NotPermittedException $ex) {
+			throw new InvalidPath($ex->getMessage(), false, $ex);
+		}
+
+		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
+		} else {
+			// In case reading a directory was allowed but it turns out the node was a not a directory, reject it now.
+			if (!$this->info->isReadable()) {
+				throw new NotFound();
+			}
+
+			$node = new File($this->fileView, $info, $this->shareManager);
+		}
+		$this->tree?->cacheNode($node);
+
+		// recurse upwards until the root and check for read permissions to keep
+		// ACL checks working in files_accesscontrol
+		if (!$allowDirectory && $destinationDir !== '') {
+			$scanPath = $destinationPath;
+			while (($scanPath = dirname($scanPath)) !== '/') {
+				// fileView can get the parent info in a cheaper way compared
+				// to the node API
+				/** @psalm-suppress InternalMethod */
+				$info = $this->fileView->getFileInfo($scanPath, false);
+				$directory = new Directory($this->fileView, $info, $this->tree, $this->shareManager);
+				$readable = $directory->getNode()->isReadable();
+				if (!$readable) {
+					throw new \Sabre\DAV\Exception\NotFound('File with name ' . $destinationPath
+						. ' could not be located');
+				}
+			}
+		}
+
+		return $node;
 	}
 }

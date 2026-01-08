@@ -1,11 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Private" : "Privado",
-    "Local" : "Local",
-    "Federated" : "Federado",
-    "Verify" : "Verificar",
-    "Verifying …" : "Verificando ...",
     "Unable to change password" : "No fue posible cambiar la contraseña",
     "Very weak password" : "Contraseña muy débil",
     "Weak password" : "Contraseña débil",
@@ -75,6 +70,8 @@ OC.L10N.register(
     "Background jobs" : "Trabajos en segundo plano",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificando",
+    "Verifying …" : "Verificando ...",
+    "Verify" : "Verificar",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "La función de PHP \"set_time_limit\" no está disponible. Esto podría generar que la ejecución de scripts se detenga, rompiendo su instalación. Se recomienda ámpliamente habilitar esta función. ",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP no parece estar configurado correctamente para consultar las variables de ambiente. La prueba con getenv(\"PATH\") sólo regresa una respuesta vacía.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Tu base de datos no puede correr con el nivel de aislamiento de transacción de \"READ COMMITTED\".  Puede causar problemas cuando mútiples acciones sean ejecutadas en paralelo.",
@@ -193,6 +190,9 @@ OC.L10N.register(
     "Phone number" : "Número de teléfono",
     "Website" : "Sitio web",
     "Locale" : "Región",
+    "Private" : "Privado",
+    "Local" : "Local",
+    "Federated" : "Federado",
     "Your apps" : "Tus aplicaciones",
     "Disabled apps" : "Aplicaciones deshabilitadas",
     "Updates" : "Actualizaciones",
@@ -222,7 +222,6 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
-    "You are using <strong>{usage}</strong>" : "Estas usando <strong>{usage}</strong>",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">el escáner de seguridad ↗</a>."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

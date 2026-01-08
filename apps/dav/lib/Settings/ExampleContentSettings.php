@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class ExampleContentSettings implements ISettings {
 	public function __construct(
@@ -53,7 +54,9 @@ class ExampleContentSettings implements ISettings {
 			);
 		}
 
-		return new TemplateResponse(Application::APP_ID, 'settings-example-content');
+		Util::addStyle(Application::APP_ID, 'settings-admin-example-content');
+		Util::addScript(Application::APP_ID, 'settings-admin-example-content');
+		return new TemplateResponse(Application::APP_ID, 'settings-admin-example-content');
 	}
 
 	public function getSection(): ?string {

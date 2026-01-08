@@ -30,7 +30,6 @@ OC.L10N.register(
     "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Serveri peakasutaja lülitas sisse serveripoolse krüptimise. Sinu failid on krüptitud salasõnaga <strong>%s</strong>.",
     "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Serveri peakasutaja lülitas sisse serveripoolse krüptimise. Sinu failid on krüptitud salasõnaga „%s“.",
     "Default encryption module" : "Vaikimisi krüptimismoodul",
-    "Default encryption module for server-side encryption" : "Vaikimisi krüptimismoodul serveripoolse krüptimise jaoks",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Krüptimisrakendus on kasutusel, kuid krüptovõtmed pole valmendatud. Palun logi välja ning uuesti sisse.",
     "Encrypt the home storage" : "Krüpti ka sisemine andmeruum",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Selle valiku kasutamisel krüptitakse failid sisemises ja välises andmeruumis. Vastasel juhul vaid välises andmeruumis.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Luba salasõna taastamine:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Valiku lubamine võimaldab salasõna kaotamise korral taastada ligipääsu krüptitud failidele",
     "Enabled" : "Sisse lülitatud",
-    "Disabled" : "Välja lülitatud"
+    "Disabled" : "Välja lülitatud",
+    "Default encryption module for server-side encryption" : "Vaikimisi krüptimismoodul serveripoolse krüptimise jaoks"
 },
 "nplurals=2; plural=(n != 1);");

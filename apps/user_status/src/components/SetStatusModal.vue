@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcModal size="normal"
+	<NcModal
+		size="normal"
 		label-id="user_status-set-dialog"
 		dark
 		:set-return-focus="setReturnFocus"
@@ -12,12 +13,14 @@
 		<div class="set-status-modal">
 			<!-- Status selector -->
 			<h2 id="user_status-set-dialog" class="set-status-modal__header">
-				{{ $t('user_status', 'Online status') }}
+				{{ t('user_status', 'Online status') }}
 			</h2>
-			<div class="set-status-modal__online-status"
+			<div
+				class="set-status-modal__online-status"
 				role="radiogroup"
-				:aria-label="$t('user_status', 'Online status')">
-				<OnlineStatusSelect v-for="status in statuses"
+				:aria-label="t('user_status', 'Online status')">
+				<OnlineStatusSelect
+					v-for="status in statuses"
 					:key="status.type"
 					v-bind="status"
 					:checked="status.type === statusType"
@@ -27,47 +30,54 @@
 			<!-- Status message form -->
 			<form @submit.prevent="saveStatus" @reset="clearStatus">
 				<h3 class="set-status-modal__header">
-					{{ $t('user_status', 'Status message') }}
+					{{ t('user_status', 'Status message') }}
 				</h3>
 				<div class="set-status-modal__custom-input">
-					<CustomMessageInput ref="customMessageInput"
+					<CustomMessageInput
+						ref="customMessageInput"
 						:icon="icon"
 						:message="editedMessage"
 						@change="setMessage"
 						@select-icon="setIcon" />
-					<NcButton v-if="messageId === 'vacationing'"
+					<NcButton
+						v-if="messageId === 'vacationing'"
 						:href="absencePageUrl"
 						target="_blank"
-						type="secondary"
-						:aria-label="$t('user_status', 'Set absence period')">
-						{{ $t('user_status', 'Set absence period and replacement') + ' ↗' }}
+						variant="secondary"
+						:aria-label="t('user_status', 'Set absence period')">
+						{{ t('user_status', 'Set absence period and replacement') + ' ↗' }}
 					</NcButton>
 				</div>
-				<div v-if="hasBackupStatus"
+				<div
+					v-if="hasBackupStatus"
 					class="set-status-modal__automation-hint">
-					{{ $t('user_status', 'Your status was set automatically') }}
+					{{ t('user_status', 'Your status was set automatically') }}
 				</div>
-				<PreviousStatus v-if="hasBackupStatus"
+				<PreviousStatus
+					v-if="hasBackupStatus"
 					:icon="backupIcon"
 					:message="backupMessage"
 					@select="revertBackupFromServer" />
 				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
-				<ClearAtSelect :clear-at="clearAt"
+				<ClearAtSelect
+					:clear-at="clearAt"
 					@select-clear-at="setClearAt" />
 				<div class="status-buttons">
-					<NcButton :wide="true"
-						type="tertiary"
-						native-type="reset"
-						:aria-label="$t('user_status', 'Clear status message')"
+					<NcButton
+						:wide="true"
+						variant="tertiary"
+						type="reset"
+						:aria-label="t('user_status', 'Clear status message')"
 						:disabled="isSavingStatus">
-						{{ $t('user_status', 'Clear status message') }}
+						{{ t('user_status', 'Clear status message') }}
 					</NcButton>
-					<NcButton :wide="true"
-						type="primary"
-						native-type="submit"
-						:aria-label="$t('user_status', 'Set status message')"
+					<NcButton
+						:wide="true"
+						variant="primary"
+						type="submit"
+						:aria-label="t('user_status', 'Set status message')"
 						:disabled="isSavingStatus">
-						{{ $t('user_status', 'Set status message') }}
+						{{ t('user_status', 'Set status message') }}
 					</NcButton>
 				</div>
 			</form>
@@ -77,16 +87,18 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import NcModal from '@nextcloud/vue/components/NcModal'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import { getAllStatusOptions } from '../services/statusOptionsService.js'
-import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import ClearAtSelect from './ClearAtSelect.vue'
+import CustomMessageInput from './CustomMessageInput.vue'
+import OnlineStatusSelect from './OnlineStatusSelect.vue'
 import PredefinedStatusesList from './PredefinedStatusesList.vue'
 import PreviousStatus from './PreviousStatus.vue'
-import CustomMessageInput from './CustomMessageInput.vue'
-import ClearAtSelect from './ClearAtSelect.vue'
-import OnlineStatusSelect from './OnlineStatusSelect.vue'
+import { logger } from '../logger.ts'
+import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
+import { getAllStatusOptions } from '../services/statusOptionsService.js'
 
 export default {
 	name: 'SetStatusModal',
@@ -100,6 +112,7 @@ export default {
 		PreviousStatus,
 		NcButton,
 	},
+
 	mixins: [OnlineStatusMixin],
 
 	props: {
@@ -113,6 +126,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['close'],
 
 	data() {
 		return {
@@ -128,18 +143,23 @@ export default {
 		messageId() {
 			return this.$store.state.userStatus.messageId
 		},
+
 		icon() {
 			return this.$store.state.userStatus.icon
 		},
+
 		message() {
 			return this.$store.state.userStatus.message || ''
 		},
+
 		hasBackupStatus() {
 			return this.messageId && (this.backupIcon || this.backupMessage)
 		},
+
 		backupIcon() {
 			return this.$store.state.userBackupStatus.icon || ''
 		},
+
 		backupMessage() {
 			return this.$store.state.userBackupStatus.message || ''
 		},
@@ -150,21 +170,21 @@ export default {
 
 		resetButtonText() {
 			if (this.backupIcon && this.backupMessage) {
-				return this.$t('user_status', 'Reset status to "{icon} {message}"', {
+				return t('user_status', 'Reset status to "{icon} {message}"', {
 					icon: this.backupIcon,
 					message: this.backupMessage,
 				})
 			} else if (this.backupMessage) {
-				return this.$t('user_status', 'Reset status to "{message}"', {
+				return t('user_status', 'Reset status to "{message}"', {
 					message: this.backupMessage,
 				})
 			} else if (this.backupIcon) {
-				return this.$t('user_status', 'Reset status to "{icon}"', {
+				return t('user_status', 'Reset status to "{icon}"', {
 					icon: this.backupIcon,
 				})
 			}
 
-			return this.$t('user_status', 'Reset status')
+			return t('user_status', 'Reset status')
 		},
 
 		setReturnFocus() {
@@ -198,13 +218,17 @@ export default {
 			}
 		}
 	},
+
 	methods: {
+		t,
+
 		/**
 		 * Closes the Set Status modal
 		 */
 		closeModal() {
 			this.$emit('close')
 		},
+
 		/**
 		 * Sets a new icon
 		 *
@@ -221,6 +245,7 @@ export default {
 				this.$refs.customMessageInput.focus()
 			})
 		},
+
 		/**
 		 * Sets a new message
 		 *
@@ -230,6 +255,7 @@ export default {
 			this.predefinedMessageId = null
 			this.editedMessage = message
 		},
+
 		/**
 		 * Sets a new clearAt value
 		 *
@@ -238,6 +264,7 @@ export default {
 		setClearAt(clearAt) {
 			this.clearAt = clearAt
 		},
+
 		/**
 		 * Sets new icon/message/clearAt based on a predefined message
 		 *
@@ -251,6 +278,7 @@ export default {
 				clearAt: status.clearAt,
 			})
 		},
+
 		/**
 		 * Saves the status and closes the
 		 *
@@ -277,8 +305,8 @@ export default {
 					})
 				}
 			} catch (err) {
-				showError(this.$t('user_status', 'There was an error saving the status'))
-				console.debug(err)
+				showError(t('user_status', 'There was an error saving the status'))
+				logger.debug(err)
 				this.isSavingStatus = false
 				return
 			}
@@ -286,6 +314,7 @@ export default {
 			this.isSavingStatus = false
 			this.closeModal()
 		},
+
 		/**
 		 *
 		 * @return {Promise<void>}
@@ -296,8 +325,8 @@ export default {
 
 				await this.$store.dispatch('clearMessage')
 			} catch (err) {
-				showError(this.$t('user_status', 'There was an error clearing the status'))
-				console.debug(err)
+				showError(t('user_status', 'There was an error clearing the status'))
+				logger.debug(err)
 				this.isSavingStatus = false
 				return
 			}
@@ -306,6 +335,7 @@ export default {
 			this.predefinedMessageId = null
 			this.closeModal()
 		},
+
 		/**
 		 *
 		 * @return {Promise<void>}
@@ -318,8 +348,8 @@ export default {
 					messageId: this.messageId,
 				})
 			} catch (err) {
-				showError(this.$t('user_status', 'There was an error reverting the status'))
-				console.debug(err)
+				showError(t('user_status', 'There was an error reverting the status'))
+				logger.debug(err)
 				this.isSavingStatus = false
 				return
 			}

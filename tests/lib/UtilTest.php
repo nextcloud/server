@@ -20,8 +20,8 @@ use OCP\Util;
  * Class UtilTest
  *
  * @package Test
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UtilTest extends \Test\TestCase {
 	public function testGetVersion(): void {
 		$version = Util::getVersion();

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitSettings
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Settings\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Settings\\' => 
+        'OCA\\Settings\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -82,6 +82,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Personal\\Security' => __DIR__ . '/..' . '/../lib/Sections/Personal/Security.php',
         'OCA\\Settings\\Sections\\Personal\\SyncClients' => __DIR__ . '/..' . '/../lib/Sections/Personal/SyncClients.php',
         'OCA\\Settings\\Service\\AuthorizedGroupService' => __DIR__ . '/..' . '/../lib/Service/AuthorizedGroupService.php',
+        'OCA\\Settings\\Service\\ConflictException' => __DIR__ . '/..' . '/../lib/Service/ConflictException.php',
         'OCA\\Settings\\Service\\NotFoundException' => __DIR__ . '/..' . '/../lib/Service/NotFoundException.php',
         'OCA\\Settings\\Service\\ServiceException' => __DIR__ . '/..' . '/../lib/Service/ServiceException.php',
         'OCA\\Settings\\Settings\\Admin\\ArtificialIntelligence' => __DIR__ . '/..' . '/../lib/Settings/Admin/ArtificialIntelligence.php',
@@ -147,9 +148,11 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ReadOnlyConfig.php',
         'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => __DIR__ . '/..' . '/../lib/SetupChecks/SchedulingTableSize.php',
         'OCA\\Settings\\SetupChecks\\SecurityHeaders' => __DIR__ . '/..' . '/../lib/SetupChecks/SecurityHeaders.php',
+        'OCA\\Settings\\SetupChecks\\ServerIdConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ServerIdConfig.php',
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
         'OCA\\Settings\\SetupChecks\\SystemIs64bit' => __DIR__ . '/..' . '/../lib/SetupChecks/SystemIs64bit.php',
         'OCA\\Settings\\SetupChecks\\TaskProcessingPickupSpeed' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingPickupSpeed.php',
+        'OCA\\Settings\\SetupChecks\\TaskProcessingSuccessRate' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingSuccessRate.php',
         'OCA\\Settings\\SetupChecks\\TempSpaceAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/TempSpaceAvailable.php',
         'OCA\\Settings\\SetupChecks\\TransactionIsolation' => __DIR__ . '/..' . '/../lib/SetupChecks/TransactionIsolation.php',
         'OCA\\Settings\\SetupChecks\\WellKnownUrls' => __DIR__ . '/..' . '/../lib/SetupChecks/WellKnownUrls.php',

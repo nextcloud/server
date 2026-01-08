@@ -52,4 +52,11 @@ interface ICertificateManager {
 	 * @since 9.0.0
 	 */
 	public function getAbsoluteBundlePath(): string;
+
+	/**
+	 * Get the path of the default certificates bundle.
+	 *
+	 * @since 33.0.0
+	 */
+	public function getDefaultCertificatesBundlePath(): string;
 }

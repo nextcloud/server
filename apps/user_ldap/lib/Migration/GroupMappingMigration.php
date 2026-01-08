@@ -35,7 +35,7 @@ abstract class GroupMappingMigration extends SimpleMigrationStep {
 
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$insert
 				->setParameter('ldap_dn', $row['ldap_dn'])
 				->setParameter('owncloud_name', $row['owncloud_name'])

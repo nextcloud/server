@@ -14,6 +14,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
 use OCP\IUserSession;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\Attachment;
@@ -63,6 +64,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		private IMipService $imipService,
 		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
+		private IEmailValidator $emailValidator,
 	) {
 		parent::__construct('');
 	}
@@ -119,7 +121,7 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		// Strip off mailto:
 		$recipient = substr($iTipMessage->recipient, 7);
-		if (!$this->mailer->validateMailAddress($recipient)) {
+		if (!$this->emailValidator->isValid($recipient)) {
 			// Nothing to send if the recipient doesn't have a valid email address
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
@@ -165,7 +167,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
-		$this->imipService->setL10n($attendee);
+		$this->imipService->setL10nFromAttendee($attendee);
 
 		// Build the sender name.
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property

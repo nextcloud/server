@@ -21,6 +21,7 @@ namespace OCA\WebhookListeners;
  *     headers?: array<string,string>,
  *     authMethod: string,
  *     authData?: array<string,mixed>,
+ *     tokenNeeded?: ?array{user_ids?:array<string,string>,user_roles?:array<string,string>},
  * }
  */
 class ResponseDefinitions {

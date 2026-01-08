@@ -5,7 +5,8 @@
 <template>
 	<div class="custom-input" role="group">
 		<NcEmojiPicker container=".custom-input" @select="setIcon">
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:aria-label="t('user_status', 'Emoji for your status message')">
 				<template #icon>
 					{{ visibleIcon }}
@@ -13,19 +14,21 @@
 			</NcButton>
 		</NcEmojiPicker>
 		<div class="custom-input__container">
-			<NcTextField ref="input"
+			<NcTextField
+				ref="input"
 				maxlength="80"
 				:disabled="disabled"
 				:placeholder="t('user_status', 'What is your status?')"
-				:value="message"
+				:model-value="message"
 				type="text"
 				:label="t('user_status', 'What is your status?')"
-				@input="onChange" />
+				@update:model-value="onChange" />
 		</div>
 	</div>
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmojiPicker from '@nextcloud/vue/components/NcEmojiPicker'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -44,11 +47,12 @@ export default {
 			type: String,
 			default: '😀',
 		},
+
 		message: {
 			type: String,
-			required: true,
-			default: () => '',
+			default: '',
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
@@ -57,7 +61,7 @@ export default {
 
 	emits: [
 		'change',
-		'select-icon',
+		'selectIcon',
 	],
 
 	computed: {
@@ -72,6 +76,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		focus() {
 			this.$refs.input.focus()
 		},
@@ -79,14 +85,14 @@ export default {
 		/**
 		 * Notifies the parent component about a changed input
 		 *
-		 * @param {Event} event The Change Event
+		 * @param {string} value The new input value
 		 */
-		onChange(event) {
-			this.$emit('change', event.target.value)
+		onChange(value) {
+			this.$emit('change', value)
 		},
 
 		setIcon(icon) {
-			this.$emit('select-icon', icon)
+			this.$emit('selectIcon', icon)
 		},
 	},
 }

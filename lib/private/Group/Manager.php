@@ -264,12 +264,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 	}
 
-	/**
-	 * @param string $search
-	 * @param ?int $limit
-	 * @param ?int $offset
-	 * @return \OC\Group\Group[]
-	 */
 	public function search(string $search, ?int $limit = null, ?int $offset = 0) {
 		$groups = [];
 		foreach ($this->backends as $backend) {
@@ -357,12 +351,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
-	/**
-	 * get a list of group ids for a user
-	 *
-	 * @param IUser $user
-	 * @return list<string> with group ids
-	 */
 	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
 	}

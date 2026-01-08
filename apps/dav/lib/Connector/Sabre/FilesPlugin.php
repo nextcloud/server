@@ -50,6 +50,7 @@ class FilesPlugin extends ServerPlugin {
 	public const OCM_SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-cloud-mesh.org/ns}share-permissions';
 	public const SHARE_ATTRIBUTES_PROPERTYNAME = '{http://nextcloud.org/ns}share-attributes';
 	public const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
+	public const DOWNLOADURL_EXPIRATION_PROPERTYNAME = '{http://nextcloud.org/ns}download-url-expiration';
 	public const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	public const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	public const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
@@ -120,6 +121,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::SHARE_ATTRIBUTES_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
+		$server->protectedProperties[] = self::DOWNLOADURL_EXPIRATION_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_DISPLAY_NAME_PROPERTYNAME;
 		$server->protectedProperties[] = self::CHECKSUMS_PROPERTYNAME;
@@ -471,19 +473,30 @@ class FilesPlugin extends ServerPlugin {
 		}
 
 		if ($node instanceof File) {
-			$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function () use ($node) {
+			$requestProperties = $propFind->getRequestedProperties();
+
+			if (in_array(self::DOWNLOADURL_PROPERTYNAME, $requestProperties, true)
+				|| in_array(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, $requestProperties, true)) {
 				try {
 					$directDownloadUrl = $node->getDirectDownload();
-					if (isset($directDownloadUrl['url'])) {
+				} catch (StorageNotAvailableException|ForbiddenException) {
+					$directDownloadUrl = null;
+				}
+
+				$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function () use ($node, $directDownloadUrl) {
+					if ($directDownloadUrl && isset($directDownloadUrl['url'])) {
 						return $directDownloadUrl['url'];
 					}
-				} catch (StorageNotAvailableException $e) {
 					return false;
-				} catch (ForbiddenException $e) {
+				});
+
+				$propFind->handle(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, function () use ($node, $directDownloadUrl) {
+					if ($directDownloadUrl && isset($directDownloadUrl['expiration'])) {
+						return $directDownloadUrl['expiration'];
+					}
 					return false;
-				}
-				return false;
-			});
+				});
+			}
 
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function () use ($node) {
 				$checksum = $node->getChecksum();
@@ -693,7 +706,7 @@ class FilesPlugin extends ServerPlugin {
 	private function initFilesMetadataManager(): IFilesMetadataManager {
 		/** @var IFilesMetadataManager $manager */
 		$manager = \OCP\Server::get(IFilesMetadataManager::class);
-		$manager->initMetadata('files-live-photo', IMetadataValueWrapper::TYPE_STRING, false, IMetadataValueWrapper::EDIT_REQ_OWNERSHIP);
+		$manager->initMetadata('files-live-photo', IMetadataValueWrapper::TYPE_STRING, false, IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION);
 
 		return $manager;
 	}

@@ -13,9 +13,7 @@ use OCA\DAV\Db\PropertyMapper;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PropertyMapperTest extends TestCase {
 
 	/** @var PropertyMapper */

@@ -58,8 +58,7 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 			->willReturn($statement);
 
 		$statement->expects($this->exactly(4))
-			->method('fetch')
-			->with(\PDO::FETCH_ASSOC)
+			->method('fetchAssociative')
 			->willReturnOnConsecutiveCalls(
 				[
 					'principaluri' => 'foo1',
@@ -73,7 +72,7 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 					'principaluri' => 'foo3',
 					'uri' => 'bar3',
 				],
-				null
+				false,
 			);
 
 		$this->jobList->expects($this->exactly(3))

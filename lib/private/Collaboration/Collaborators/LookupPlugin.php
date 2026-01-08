@@ -6,6 +6,7 @@
  */
 namespace OC\Collaboration\Collaborators;
 
+use OCA\Federation\TrustedServers;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
@@ -26,6 +27,7 @@ class LookupPlugin implements ISearchPlugin {
 		IUserSession $userSession,
 		private ICloudIdManager $cloudIdManager,
 		private LoggerInterface $logger,
+		private ?TrustedServers $trustedServers,
 	) {
 		$currentUserCloudId = $userSession->getUser()->getCloudId();
 		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
@@ -82,6 +84,8 @@ class LookupPlugin implements ISearchPlugin {
 						'shareType' => IShare::TYPE_REMOTE,
 						'globalScale' => $isGlobalScaleEnabled,
 						'shareWith' => $lookup['federationId'],
+						'server' => $remote,
+						'isTrustedServer' => $this->trustedServers?->isTrustedServer($remote) ?? false,
 					],
 					'extra' => $lookup,
 				];

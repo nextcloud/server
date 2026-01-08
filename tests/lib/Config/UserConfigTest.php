@@ -25,10 +25,10 @@ use Test\TestCase;
 /**
  * Class UserPreferencesTest
  *
- * @group DB
  *
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UserConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private IConfig $config;
@@ -190,7 +190,7 @@ class UserConfigTest extends TestCase {
 		$sql->select('*')
 			->from('preferences');
 		$result = $sql->executeQuery();
-		$this->originalPreferences = $result->fetchAll();
+		$this->originalPreferences = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		$sql = $this->connection->getQueryBuilder();

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import L10n from '../OC/l10n.js'
 import OC from '../OC/index.js'
+import L10n from '../OC/l10n.js'
 
 export default {
 	data() {

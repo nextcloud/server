@@ -15,9 +15,7 @@ use OCP\IUser;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class BackupCodeMapperTest extends TestCase {
 	private IDBConnection $db;
 	private BackupCodeMapper $mapper;
@@ -27,7 +25,7 @@ class BackupCodeMapperTest extends TestCase {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->mapper->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($this->testUID)));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	protected function setUp(): void {

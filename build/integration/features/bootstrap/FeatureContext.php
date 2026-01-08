@@ -8,7 +8,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 /**
  * Features context.
@@ -25,5 +25,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('bruteForce', 'whitelist_0');
 		$this->deleteServerConfig('bruteForce', 'whitelist_1');
 		$this->deleteServerConfig('bruteforcesettings', 'apply_allowlist_to_ratelimit');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
+		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
 	}
 }

@@ -19,7 +19,9 @@ use OCA\Testing\Provider\FakeTextProcessingProviderSync;
 use OCA\Testing\Provider\FakeTranslationProvider;
 use OCA\Testing\Settings\DeclarativeSettingsForm;
 use OCA\Testing\TaskProcessing\FakeContextWriteProvider;
+use OCA\Testing\TaskProcessing\FakeOcrProvider;
 use OCA\Testing\TaskProcessing\FakeTextToImageProvider;
+use OCA\Testing\TaskProcessing\FakeTextToTextChatProvider;
 use OCA\Testing\TaskProcessing\FakeTextToTextProvider;
 use OCA\Testing\TaskProcessing\FakeTextToTextSummaryProvider;
 use OCA\Testing\TaskProcessing\FakeTranscribeProvider;
@@ -47,11 +49,13 @@ class Application extends App implements IBootstrap {
 		$context->registerTextToImageProvider(FakeText2ImageProvider::class);
 
 		$context->registerTaskProcessingProvider(FakeTextToTextProvider::class);
+		$context->registerTaskProcessingProvider(FakeTextToTextChatProvider::class);
 		$context->registerTaskProcessingProvider(FakeTextToTextSummaryProvider::class);
 		$context->registerTaskProcessingProvider(FakeTextToImageProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranslateProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranscribeProvider::class);
 		$context->registerTaskProcessingProvider(FakeContextWriteProvider::class);
+		$context->registerTaskProcessingProvider(FakeOcrProvider::class);
 
 		$context->registerFileConversionProvider(ConversionProvider::class);
 

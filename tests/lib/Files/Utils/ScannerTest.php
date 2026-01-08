@@ -43,10 +43,10 @@ class TestScanner extends Scanner {
 /**
  * Class ScannerTest
  *
- * @group DB
  *
  * @package Test\Files\Utils
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ScannerTest extends \Test\TestCase {
 	/**
 	 * @var \Test\Util\User\Dummy

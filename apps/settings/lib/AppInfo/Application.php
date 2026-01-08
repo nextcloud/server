@@ -69,6 +69,7 @@ use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
 use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
+use OCA\Settings\SetupChecks\ServerIdConfig;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
 use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
@@ -84,7 +85,6 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\QueryException;
 use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
@@ -93,6 +93,8 @@ use OCP\IServerContainer;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
 
 class Application extends App implements IBootstrap {
@@ -120,6 +122,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupActivityListener::class);
 		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
+		$context->registerEventListener(PasswordUpdatedEvent::class, Hooks::class);
+		$context->registerEventListener(UserChangedEvent::class, Hooks::class);
 
 		// Register Mail Provider listeners
 		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, MailProviderListener::class);
@@ -207,6 +211,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
 		$context->registerSetupCheck(SecurityHeaders::class);
+		$context->registerSetupCheck(ServerIdConfig::class);
 		$context->registerSetupCheck(SchedulingTableSize::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
@@ -221,37 +226,5 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
-		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
-	}
-
-	/**
-	 * @param array $parameters
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 * @throws \Exception
-	 * @throws QueryException
-	 */
-	public function onChangePassword(array $parameters) {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->onChangePassword($parameters['uid']);
-	}
-
-	/**
-	 * @param array $parameters
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 * @throws \Exception
-	 * @throws QueryException
-	 */
-	public function onChangeInfo(array $parameters) {
-		if ($parameters['feature'] !== 'eMailAddress') {
-			return;
-		}
-
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
 	}
 }

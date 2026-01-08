@@ -8,9 +8,9 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\DB\Connection;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
@@ -34,7 +34,8 @@ class MysqlRowFormat implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		if (!$this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+		$provider = $this->connection->getDatabaseProvider();
+		if (!in_array($provider, [IDBConnection::PLATFORM_MYSQL, IDBConnection::PLATFORM_MARIADB], true)) {
 			return SetupResult::success($this->l10n->t('You are not using MySQL'));
 		}
 

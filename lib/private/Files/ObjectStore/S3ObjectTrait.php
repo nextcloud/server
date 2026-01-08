@@ -7,6 +7,7 @@
 namespace OC\Files\ObjectStore;
 
 use Aws\Command;
+use Aws\Exception\AwsException;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
@@ -82,7 +83,11 @@ trait S3ObjectTrait {
 	private function buildS3Metadata(array $metadata): array {
 		$result = [];
 		foreach ($metadata as $key => $value) {
-			$result['x-amz-meta-' . $key] = $value;
+			if (mb_check_encoding($value, 'ASCII')) {
+				$result['x-amz-meta-' . $key] = $value;
+			} else {
+				$result['x-amz-meta-' . $key] = 'base64:' . base64_encode($value);
+			}
 		}
 		return $result;
 	}
@@ -222,7 +227,19 @@ trait S3ObjectTrait {
 				// buffer is fully seekable, so use it directly for the small upload
 				$this->writeSingle($urn, $buffer, $metaData);
 			} else {
-				$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				if ($psrStream->isSeekable()) {
+					// If the body is seekable, just rewind the body.
+					$psrStream->rewind();
+					$loadStream = $psrStream;
+				} else {
+					// If the body is non-seekable, stitch the rewind the buffer and
+					// the partially read body together into one stream. This avoids
+					// unnecessary disk usage and does not require seeking on the
+					// original stream.
+					$buffer->rewind();
+					$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				}
+
 				$this->writeMultiPart($urn, $loadStream, $metaData);
 			}
 		} else {
@@ -277,6 +294,25 @@ trait S3ObjectTrait {
 				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
 				'mup_threshold' => PHP_INT_MAX,
 			], $options));
+		}
+	}
+
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+		if (!$this->isUsePresignedUrl()) {
+			return null;
+		}
+
+		$command = $this->getConnection()->getCommand('GetObject', [
+			'Bucket' => $this->getBucket(),
+			'Key' => $urn,
+		]);
+
+		try {
+			return (string)$this->getConnection()->createPresignedRequest($command, $expiration, [
+				'signPayload' => true,
+			])->getUri();
+		} catch (AwsException) {
+			return null;
 		}
 	}
 }

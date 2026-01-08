@@ -70,7 +70,7 @@ class Server implements IDelegatedSettings {
 			->setMaxResults(1);
 
 		$result = $query->executeQuery();
-		if ($row = $result->fetch()) {
+		if ($row = $result->fetchAssociative()) {
 			$maxAge = (int)$row['last_checked'];
 		} else {
 			$maxAge = $this->timeFactory->getTime();

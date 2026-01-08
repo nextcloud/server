@@ -7,7 +7,7 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Files\View;
+use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
@@ -16,25 +16,25 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
+ * @api
  */
 class RemoteController extends OCSController {
 	/**
-	 * Remote constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param Manager $externalManager
+	 * Remote controller constructor.
 	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
-		private Manager $externalManager,
-		private LoggerInterface $logger,
+		private readonly Manager $externalManager,
+		private readonly LoggerInterface $logger,
+		private readonly ?string $userId,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -47,71 +47,85 @@ class RemoteController extends OCSController {
 	 * 200: Pending remote shares returned
 	 */
 	#[NoAdminRequired]
-	public function getOpenShares() {
-		return new DataResponse($this->externalManager->getOpenShares());
+	public function getOpenShares(): DataResponse {
+		$shares = $this->externalManager->getOpenShares();
+		$shares = array_map($this->extendShareInfo(...), $shares);
+		return new DataResponse($shares);
 	}
 
 	/**
-	 * Accept a remote share
+	 * Accept a remote share.
 	 *
-	 * @param int $id ID of the share
+	 * @param string $id ID of the share
 	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share accepted successfully
 	 */
 	#[NoAdminRequired]
-	public function acceptShare($id) {
-		if ($this->externalManager->acceptShare($id)) {
-			return new DataResponse();
+	public function acceptShare(string $id): DataResponse {
+		$externalShare = $this->externalManager->getShare($id);
+		if ($externalShare === false) {
+			$this->logger->error('Could not accept federated share with id: ' . $id . ' Share not found.', ['app' => 'files_sharing']);
+			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
 		}
 
-		$this->logger->error('Could not accept federated share with id: ' . $id,
-			['app' => 'files_sharing']);
+		if (!$this->externalManager->acceptShare($externalShare)) {
+			$this->logger->error('Could not accept federated share with id: ' . $id, ['app' => 'files_sharing']);
+			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
+		}
 
-		throw new OCSNotFoundException('wrong share ID, share does not exist.');
+		return new DataResponse();
 	}
 
 	/**
-	 * Decline a remote share
+	 * Decline a remote share.
 	 *
-	 * @param int $id ID of the share
+	 * @param string $id ID of the share
 	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share declined successfully
 	 */
 	#[NoAdminRequired]
-	public function declineShare($id) {
-		if ($this->externalManager->declineShare($id)) {
-			return new DataResponse();
+	public function declineShare(string $id): DataResponse {
+		$externalShare = $this->externalManager->getShare($id);
+		if ($externalShare === false) {
+			$this->logger->error('Could not decline federated share with id: ' . $id . ' Share not found.', ['app' => 'files_sharing']);
+			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
 		}
 
-		// Make sure the user has no notification for something that does not exist anymore.
-		$this->externalManager->processNotification($id);
+		if (!$this->externalManager->declineShare($externalShare)) {
+			$this->logger->error('Could not decline federated share with id: ' . $id, ['app' => 'files_sharing']);
+			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
+		}
 
-		throw new OCSNotFoundException('wrong share ID, share does not exist.');
+		return new DataResponse();
 	}
 
 	/**
-	 * @param array $share Share with info from the share_external table
-	 * @return array enriched share info with data from the filecache
+	 * @param ExternalShare $share Share with info from the share_external table
+	 * @return Files_SharingRemoteShare Enriched share info with data from the filecache
 	 */
-	private static function extendShareInfo($share) {
-		$view = new View('/' . \OC_User::getUser() . '/files/');
-		$info = $view->getFileInfo($share['mountpoint']);
+	private function extendShareInfo(ExternalShare $share): array {
+		$shareData = $share->jsonSerialize();
 
-		if ($info === false) {
-			return $share;
+		$shareData['parent'] = $shareData['parent'] !== '-1' ? $shareData['parent'] : null;
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+
+		try {
+			$mountPointNode = $userFolder->get($share->getMountpoint());
+		} catch (\Exception) {
+			return $shareData;
 		}
 
-		$share['mimetype'] = $info->getMimetype();
-		$share['mtime'] = $info->getMTime();
-		$share['permissions'] = $info->getPermissions();
-		$share['type'] = $info->getType();
-		$share['file_id'] = $info->getId();
+		$shareData['mimetype'] = $mountPointNode->getMimetype();
+		$shareData['mtime'] = $mountPointNode->getMTime();
+		$shareData['permissions'] = $mountPointNode->getPermissions();
+		$shareData['type'] = $mountPointNode->getType();
+		$shareData['file_id'] = $mountPointNode->getId();
 
-		return $share;
+		return $shareData;
 	}
 
 	/**
@@ -122,30 +136,29 @@ class RemoteController extends OCSController {
 	 * 200: Accepted remote shares returned
 	 */
 	#[NoAdminRequired]
-	public function getShares() {
+	public function getShares(): DataResponse {
 		$shares = $this->externalManager->getAcceptedShares();
-		$shares = array_map(self::extendShareInfo(...), $shares);
-
+		$shares = array_map(fn (ExternalShare $share) => $this->extendShareInfo($share), $shares);
 		return new DataResponse($shares);
 	}
 
 	/**
 	 * Get info of a remote share
 	 *
-	 * @param int $id ID of the share
+	 * @param string $id ID of the share
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share returned
 	 */
 	#[NoAdminRequired]
-	public function getShare($id) {
+	public function getShare(string $id): DataResponse {
 		$shareInfo = $this->externalManager->getShare($id);
 
 		if ($shareInfo === false) {
 			throw new OCSNotFoundException('share does not exist');
 		} else {
-			$shareInfo = self::extendShareInfo($shareInfo);
+			$shareInfo = $this->extendShareInfo($shareInfo);
 			return new DataResponse($shareInfo);
 		}
 	}
@@ -153,7 +166,7 @@ class RemoteController extends OCSController {
 	/**
 	 * Unshare a remote share
 	 *
-	 * @param int $id ID of the share
+	 * @param string $id ID of the share
 	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 * @throws OCSForbiddenException Unsharing is not possible
@@ -161,14 +174,14 @@ class RemoteController extends OCSController {
 	 * 200: Share unshared successfully
 	 */
 	#[NoAdminRequired]
-	public function unshare($id) {
+	public function unshare(string $id): DataResponse {
 		$shareInfo = $this->externalManager->getShare($id);
 
 		if ($shareInfo === false) {
 			throw new OCSNotFoundException('Share does not exist');
 		}
 
-		$mountPoint = '/' . \OC_User::getUser() . '/files' . $shareInfo['mountpoint'];
+		$mountPoint = '/' . $this->userId . '/files' . $shareInfo->getMountpoint();
 
 		if ($this->externalManager->removeShare($mountPoint) === true) {
 			return new DataResponse();

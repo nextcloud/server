@@ -6,6 +6,7 @@ OC.L10N.register(
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Eyddar skrár og möppur í ruslinu (gæru runnið út við útflutning ef þú átt lítið geymslupláss eftir)",
     "This application enables people to restore files that were deleted from the system." : "Þetta forrit gerir notendum kleift að endurheimta skrár sem eytt hefur verið af kerfinu.",
     "Restore" : "Endurheimta",
+    "Not enough free space to restore the file/folder" : "Ekki nægt laust pláss til að endurheimta skrá/möppu",
     "Empty deleted files" : "Tæma eyddar skrár",
     "Confirm permanent deletion" : "Staðfesta endanlega eyðingu",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Ertu viss um að þú viljir eyða öllum skrám og möppum úr ruslinu? Þessi aðgerð er óafturkræf.",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Original location" : "Upprunaleg staðsetning",
     "Deleted by" : "Eytt af",
     "Deleted" : "Eytt",
+    "few seconds ago" : "fyrir nokkrum sekúndum síðan",
     "A long time ago" : "Fyrir löngu síðan",
     "Unknown" : "Óþekkt",
     "All files" : "Allar skrár",
@@ -20,6 +22,8 @@ OC.L10N.register(
     "List of files that have been deleted." : "Listi yfir skrár sem hefur verið eytt.",
     "No deleted files" : "Engar eyddar skrár",
     "Files and folders you have deleted will show up here" : "Skrár og möppur sem þú hefur eytt birtast hér",
+    "All files have been permanently deleted" : "Öllum skrám var eytt endanlega",
+    "Failed to empty deleted files" : "Mistókst að tæma eyddar skrár",
     "Deletion cancelled" : "Hætt við eyðingu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

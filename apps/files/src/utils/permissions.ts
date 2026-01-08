@@ -9,6 +9,7 @@ import { Permission } from '@nextcloud/files'
 
 /**
  * Check permissions on the node if it can be downloaded
+ *
  * @param node The node to check
  * @return True if downloadable, false otherwise
  */
@@ -34,4 +35,23 @@ export function isDownloadable(node: Node): boolean {
 	}
 
 	return true
+}
+
+/**
+ * Check permissions on the node if it can be synced/open locally
+ *
+ * @param node The node to check
+ * @return True if syncable, false otherwise
+ */
+export function isSyncable(node: Node): boolean {
+	if (!node.isDavResource) {
+		return false
+	}
+
+	if ((node.permissions & Permission.UPDATE) === 0) {
+		return false
+	}
+
+	// Syncable has the same permissions as downloadable for now
+	return isDownloadable(node)
 }

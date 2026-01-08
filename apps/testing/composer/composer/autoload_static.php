@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitTesting
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Testing\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Testing\\' => 
+        'OCA\\Testing\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -27,6 +27,7 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Controller\\ConfigController' => __DIR__ . '/..' . '/../lib/Controller/ConfigController.php',
         'OCA\\Testing\\Controller\\LockingController' => __DIR__ . '/..' . '/../lib/Controller/LockingController.php',
         'OCA\\Testing\\Controller\\RateLimitTestController' => __DIR__ . '/..' . '/../lib/Controller/RateLimitTestController.php',
+        'OCA\\Testing\\Controller\\RoutesController' => __DIR__ . '/..' . '/../lib/Controller/RoutesController.php',
         'OCA\\Testing\\Conversion\\ConversionProvider' => __DIR__ . '/..' . '/../lib/Conversion/ConversionProvider.php',
         'OCA\\Testing\\HiddenGroupBackend' => __DIR__ . '/..' . '/../lib/HiddenGroupBackend.php',
         'OCA\\Testing\\Listener\\GetDeclarativeSettingsValueListener' => __DIR__ . '/..' . '/../lib/Listener/GetDeclarativeSettingsValueListener.php',
@@ -40,7 +41,9 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Provider\\FakeTranslationProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTranslationProvider.php',
         'OCA\\Testing\\Settings\\DeclarativeSettingsForm' => __DIR__ . '/..' . '/../lib/Settings/DeclarativeSettingsForm.php',
         'OCA\\Testing\\TaskProcessing\\FakeContextWriteProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeContextWriteProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeOcrProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeOcrProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToImageProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToImageProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeTextToTextChatProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextChatProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToTextProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTextToTextSummaryProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextSummaryProvider.php',
         'OCA\\Testing\\TaskProcessing\\FakeTranscribeProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTranscribeProvider.php',

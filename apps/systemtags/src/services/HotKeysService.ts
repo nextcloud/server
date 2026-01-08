@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-
-import { action as manageTagAction } from '../files_actions/bulkSystemTagsAction.ts'
 import { executeAction } from '../../../files/src/utils/actionUtils.ts'
+import { action as manageTagAction } from '../files_actions/bulkSystemTagsAction.ts'
 import logger from '../logger.ts'
 
 /**
@@ -13,7 +12,7 @@ import logger from '../logger.ts'
  * As much as possible, we try to have all the hotkeys in one place.
  * Please make sure to add tests for the hotkeys after adding a new one.
  */
-export const registerHotkeys = function() {
+export function registerHotkeys() {
 	// t opens the tag management dialog
 	useHotKey('t', () => executeAction(manageTagAction), {
 		stop: true,

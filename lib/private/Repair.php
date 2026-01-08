@@ -8,17 +8,18 @@
 namespace OC;
 
 use OC\DB\ConnectionAdapter;
-use OC\Repair\AddAppConfigLazyMigration;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
+use OC\Repair\AddMovePreviewJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanTags;
 use OC\Repair\CleanUpAbandonedApps;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
+use OC\Repair\ConfigKeyMigration;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -194,11 +195,12 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddMissingSecretJob::class),
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
 			\OCP\Server::get(AddMetadataGenerationJob::class),
-			\OCP\Server::get(AddAppConfigLazyMigration::class),
 			\OCP\Server::get(RepairLogoDimension::class),
 			\OCP\Server::get(RemoveLegacyDatadirFile::class),
 			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),
 			\OCP\Server::get(SanitizeAccountProperties::class),
+			\OCP\Server::get(AddMovePreviewJob::class),
+			\OCP\Server::get(ConfigKeyMigration::class),
 		];
 	}
 

@@ -10,6 +10,7 @@
 
 namespace OCP\Files;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Lock\LockedException;
 
 /**
@@ -17,6 +18,7 @@ use OCP\Lock\LockedException;
  *
  * @since 6.0.0
  */
+#[Consumable(since: '6.0.0')]
 interface File extends Node {
 	/**
 	 * Get the content of the file as string
@@ -43,10 +45,9 @@ interface File extends Node {
 	/**
 	 * Get the mimetype of the file
 	 *
-	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getMimeType();
+	public function getMimeType(): string;
 
 	/**
 	 * Open the file as stream, resulting resource can be operated as stream like the result from php's own fopen

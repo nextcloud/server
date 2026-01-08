@@ -47,10 +47,10 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "\"Kerberos default realm\", forvalgt til \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Kerberos-billett Apache-modus",
     "Kerberos ticket" : "Kerberos-billett",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Bøtte",
     "Hostname" : "Servernavn",
     "Port" : "Port",
+    "Proxy" : "Mellomserver",
     "Region" : "Området",
     "Storage Class" : "Lagringsklasse",
     "Enable SSL" : "Aktiver SSL",
@@ -125,7 +125,7 @@ OC.L10N.register(
     "Delete storage?" : "Slett lagringsplass",
     "Click to recheck the configuration" : "Klikk for å sjekke oppsettet igjen",
     "Saved" : "Lagret",
-    "Saving …" : "Lagrer...",
+    "Saving …" : "Lagrer ...",
     "Save" : "Lagre",
     "No external storage configured or you don't have the permission to configure them" : "Ingen ekstern lagring konfigurert eller at du mangler tillatelse for å konfigurere dem",
     "Open documentation" : "Åpne dokumentasjon",
@@ -144,6 +144,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App-nøkkel",
     "App secret" : "App-hemmelighet",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på at du vil koble fra denne eksterne lagringen? Det vil gjøre lagringen utilgjengelig i Nextcloud og vil føre til sletting av disse filene og mappene på enhver synkroniseringsklient som for øyeblikket er tilkoblet, men vil ikke slette noen filer og mapper på selve den eksterne lagringen."
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på at du vil koble fra denne eksterne lagringen? Det vil gjøre lagringen utilgjengelig i Nextcloud og vil føre til sletting av disse filene og mappene på enhver synkroniseringsklient som for øyeblikket er tilkoblet, men vil ikke slette noen filer og mapper på selve den eksterne lagringen.",
+    "Saving …" : "Lagrer..."
 },
 "nplurals=2; plural=(n != 1);");

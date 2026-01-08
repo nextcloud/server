@@ -34,11 +34,11 @@ class ClassB {
 }
 
 class DIIntergrationTests extends TestCase {
-	/** @var DIContainer */
-	private $container;
-
-	/** @var ServerContainer */
-	private $server;
+	public function __construct() {
+		parent::__construct(static::class);
+	}
+	private DIContainer $container;
+	private ServerContainer $server;
 
 	protected function setUp(): void {
 		parent::setUp();

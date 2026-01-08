@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<tr :class="{
+	<tr
+		:class="{
 			'files-list__row--dragover': dragover,
 			'files-list__row--loading': isLoading,
 			'files-list__row--active': isActive,
@@ -19,7 +20,8 @@
 		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
-		<FileEntryCheckbox :fileid="fileid"
+		<FileEntryCheckbox
+			:fileid="fileid"
 			:is-loading="isLoading"
 			:nodes="nodes"
 			:source="source" />
@@ -27,13 +29,15 @@
 		<!-- Link to file -->
 		<td class="files-list__row-name" data-cy-files-list-row-name>
 			<!-- Icon or preview -->
-			<FileEntryPreview ref="preview"
+			<FileEntryPreview
+				ref="preview"
 				:source="source"
 				:dragover="dragover"
 				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
-			<FileEntryName ref="name"
+			<FileEntryName
+				ref="name"
 				:basename="basename"
 				:extension="extension"
 				:nodes="nodes"
@@ -43,14 +47,16 @@
 		</td>
 
 		<!-- Actions -->
-		<FileEntryActions v-show="!isRenamingSmallScreen"
+		<FileEntryActions
+			v-show="!isRenamingSmallScreen"
 			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
 			:opened.sync="openedMenu"
 			:source="source" />
 
 		<!-- Mime -->
-		<td v-if="isMimeAvailable"
+		<td
+			v-if="isMimeAvailable"
 			:title="mime"
 			class="files-list__row-mime"
 			data-cy-files-list-row-mime
@@ -59,7 +65,8 @@
 		</td>
 
 		<!-- Size -->
-		<td v-if="!compact && isSizeAvailable"
+		<td
+			v-if="!compact && isSizeAvailable"
 			:style="sizeOpacity"
 			class="files-list__row-size"
 			data-cy-files-list-row-size
@@ -68,25 +75,30 @@
 		</td>
 
 		<!-- Mtime -->
-		<td v-if="!compact && isMtimeAvailable"
+		<td
+			v-if="!compact && isMtimeAvailable"
 			:style="mtimeOpacity"
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="mtime"
+			<NcDateTime
+				v-if="mtime"
 				ignore-seconds
 				:timestamp="mtime" />
 			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
 		<!-- View columns -->
-		<td v-for="column in columns"
+		<td
+			v-for="column in columns"
 			:key="column.id"
-			:class="`files-list__row-${currentView.id}-${column.id}`"
+			:class="`files-list__row-${activeView.id}-${column.id}`"
 			class="files-list__row-column-custom"
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
-			<CustomElementRender :current-view="currentView"
+			<CustomElementRender
+				:active-folder="activeFolder"
+				:active-view="activeView"
 				:render="column.render"
 				:source="source" />
 		</td>
@@ -95,26 +107,24 @@
 
 <script lang="ts">
 import { FileType, formatFileSize } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
-import { t } from '@nextcloud/l10n'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
-
-import { useNavigation } from '../composables/useNavigation.ts'
+import CustomElementRender from './CustomElementRender.vue'
+import FileEntryActions from './FileEntry/FileEntryActions.vue'
+import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
+import FileEntryName from './FileEntry/FileEntryName.vue'
+import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
-
-import CustomElementRender from './CustomElementRender.vue'
-import FileEntryActions from './FileEntry/FileEntryActions.vue'
-import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryMixin from './FileEntryMixin.ts'
-import FileEntryName from './FileEntry/FileEntryName.vue'
-import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 
 export default defineComponent({
 	name: 'FileEntry',
@@ -137,6 +147,7 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+
 		isSizeAvailable: {
 			type: Boolean,
 			default: false,
@@ -150,24 +161,27 @@ export default defineComponent({
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		const filesListWidth = useFileListWidth()
-		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const { currentView } = useNavigation(true)
 		const {
-			directory: currentDir,
-			fileId: currentFileId,
+			fileId: currentRouteFileId,
 		} = useRouteParameters()
+
+		const {
+			activeFolder,
+			activeNode,
+			activeView,
+		} = useActiveStore()
 
 		return {
 			actionsMenuStore,
+			activeFolder,
+			activeNode,
+			activeView,
+			currentRouteFileId,
 			draggingStore,
+			filesListWidth,
 			filesStore,
 			renamingStore,
 			selectionStore,
-
-			currentDir,
-			currentFileId,
-			currentView,
-			filesListWidth,
 		}
 	},
 
@@ -180,9 +194,9 @@ export default defineComponent({
 			const conditionals = this.isRenaming
 				? {}
 				: {
-					dragstart: this.onDragStart,
-					dragover: this.onDragOver,
-				}
+						dragstart: this.onDragStart,
+						dragover: this.onDragOver,
+					}
 
 			return {
 				...conditionals,
@@ -192,12 +206,13 @@ export default defineComponent({
 				drop: this.onDrop,
 			}
 		},
+
 		columns() {
 			// Hide columns if the list is too small
 			if (this.filesListWidth < 512 || this.compact) {
 				return []
 			}
-			return this.currentView.columns || []
+			return this.activeView.columns || []
 		},
 
 		mime() {
@@ -230,6 +245,7 @@ export default defineComponent({
 
 			return this.source.mime
 		},
+
 		size() {
 			const size = this.source.size
 			if (size === undefined || isNaN(size) || size < 0) {
@@ -269,7 +285,12 @@ export default defineComponent({
 				return
 			}
 
-			this.defaultFileAction?.exec(this.source, this.currentView, this.currentDir)
+			this.defaultFileAction?.exec({
+				nodes: [this.source],
+				folder: this.activeFolder!,
+				contents: this.nodes,
+				view: this.activeView!,
+			})
 		},
 	},
 })

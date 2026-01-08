@@ -18,9 +18,7 @@ use OCP\App\IAppManager;
 use OCP\IConfig;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RootMountProviderTest extends TestCase {
 	private StorageFactory $loader;
 
@@ -119,7 +117,6 @@ class RootMountProviderTest extends TestCase {
 
 		$class = new \ReflectionClass($storage);
 		$prop = $class->getProperty('objectStore');
-		$prop->setAccessible(true);
 		/** @var S3 $objectStore */
 		$objectStore = $prop->getValue($storage);
 		$this->assertEquals('nextcloud0', $objectStore->getBucket());

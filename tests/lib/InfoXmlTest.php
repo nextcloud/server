@@ -9,14 +9,15 @@ namespace Test;
 
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
+use OCP\OpenMetrics\IMetricFamily;
 use OCP\Server;
 
 /**
  * Class InfoXmlTest
  *
- * @group DB
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class InfoXmlTest extends TestCase {
 	private IAppManager $appManager;
 
@@ -128,6 +129,15 @@ class InfoXmlTest extends TestCase {
 			foreach ($appInfo['commands'] as $command) {
 				$this->assertTrue(class_exists($command), 'Asserting command "' . $command . '"exists');
 				$this->assertInstanceOf($command, Server::get($command));
+			}
+		}
+
+		if (isset($appInfo['openmetrics'])) {
+			foreach ($appInfo['openmetrics'] as $class) {
+				$this->assertTrue(class_exists($class), 'Asserting exporter "' . $class . '"exists');
+				$exporter = Server::get($class);
+				$this->assertInstanceOf($class, $exporter);
+				$this->assertInstanceOf(IMetricFamily::class, $exporter);
 			}
 		}
 	}

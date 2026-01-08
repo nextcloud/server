@@ -158,7 +158,7 @@
     "Oracle connection could not be established" : "Oracle connection could not be established",
     "Oracle Login and/or password not valid" : "Oracle Login and/or password not valid",
     "PostgreSQL Login and/or password not valid" : "PostgreSQL Login and/or password not valid",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!",
+    "macOS is not supported and %s will not work properly on this platform." : "macOS is not supported and %s will not work properly on this platform.",
     "For the best results, please consider using a GNU/Linux server instead." : "For the best results, please consider using a GNU/Linux server instead.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir setting has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.",
@@ -377,6 +377,12 @@
     "The text to generate an emoji for" : "The text to generate an emoji for",
     "Generated emoji" : "Generated emoji",
     "The generated emoji based on the input text" : "The generated emoji based on the input text",
+    "Optical character recognition" : "Optical character recognition",
+    "Extract text from files like images or PDFs" : "Extract text from files like images or PDFs",
+    "Input files" : "Input files",
+    "The files to extract text from" : "The files to extract text from",
+    "Output texts" : "Output texts",
+    "The texts that were extracted from the files" : "The texts that were extracted from the files",
     "Generate image" : "Generate image",
     "Generate an image from a text prompt" : "Generate an image from a text prompt",
     "Prompt" : "Prompt",
@@ -467,12 +473,11 @@
     "Summarizes text by reducing its length without losing key information." : "Summarizes text by reducing its length without losing key information.",
     "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas.",
     "Organisation" : "Organisation",
-    "File is currently busy, please try again later" : "File is currently busy, please try again later",
-    "Cannot download file" : "Cannot download file",
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!",
+    "Login is too long" : "Login is too long",
     "Cannot write into \"apps\" directory." : "Cannot write into \"apps\" directory.",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file.",
     "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini.",
-    "Login is too long" : "Login is too long"
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

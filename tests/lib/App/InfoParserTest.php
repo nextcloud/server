@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -13,8 +15,7 @@ use OCP\Cache\CappedMemoryCache;
 use Test\TestCase;
 
 class InfoParserTest extends TestCase {
-	/** @var CappedMemoryCache */
-	private static $cache;
+	private static CappedMemoryCache $cache;
 
 	public static function setUpBeforeClass(): void {
 		self::$cache = new CappedMemoryCache();

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFiles_External
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Files_External\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Files_External\\' => 
+        'OCA\\Files_External\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -122,6 +122,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Migration\\Version1011Date20200630192246' => __DIR__ . '/..' . '/../lib/Migration/Version1011Date20200630192246.php',
         'OCA\\Files_External\\Migration\\Version1015Date20211104103506' => __DIR__ . '/..' . '/../lib/Migration/Version1015Date20211104103506.php',
         'OCA\\Files_External\\Migration\\Version1016Date20220324154536' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date20220324154536.php',
+        'OCA\\Files_External\\Migration\\Version1025Date20250228162604' => __DIR__ . '/..' . '/../lib/Migration/Version1025Date20250228162604.php',
         'OCA\\Files_External\\Migration\\Version22000Date20210216084416' => __DIR__ . '/..' . '/../lib/Migration/Version22000Date20210216084416.php',
         'OCA\\Files_External\\MountConfig' => __DIR__ . '/..' . '/../lib/MountConfig.php',
         'OCA\\Files_External\\NotFoundException' => __DIR__ . '/..' . '/../lib/NotFoundException.php',

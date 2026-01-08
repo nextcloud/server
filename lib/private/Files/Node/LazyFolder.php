@@ -14,6 +14,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotPermittedException;
+use Override;
 
 /**
  * Class LazyFolder
@@ -136,6 +137,11 @@ class LazyFolder implements Folder {
 
 	public function get($path) {
 		return $this->getRootFolder()->get($this->getFullPath($path));
+	}
+
+	#[Override]
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): Folder {
+		return $this->getRootFolder()->getOrCreateFolder($this->getFullPath($path), $maxRetries);
 	}
 
 	/**
@@ -314,10 +320,7 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getMimetype() {
+	public function getMimetype(): string {
 		if (isset($this->data['mimetype'])) {
 			return $this->data['mimetype'];
 		}
@@ -490,7 +493,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getNonExistingName($name) {
+	public function getNonExistingName($filename) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 

@@ -1031,7 +1031,13 @@ class AppManager implements IAppManager {
 	 */
 	public function cleanAppId(string $app): string {
 		/* Only lowercase alphanumeric is allowed */
-		return preg_replace('/(^[0-9_-]+|[^a-z0-9_-]+|[_-]+$)/', '', $app);
+		$cleanAppId = preg_replace('/(^[0-9_-]+|[^a-z0-9_-]+|[_-]+$)/', '', $app, -1, $count);
+		if ($count > 0) {
+			$this->logger->debug('Only lowercase alphanumeric characters are allowed in appIds; check paths of installed app [' . $count . ' characters replaced]', [
+				'app' => $cleanAppId, // safer to log $cleanAppId even if it makes more challenging to troubleshooting (part of why character count is at least logged)
+			]);
+		}
+		return $cleanAppId;
 	}
 
 	/**
@@ -1115,6 +1121,13 @@ class AppManager implements IAppManager {
 		if ($currentVersion && isset($versions[$appId])) {
 			$installedVersion = $versions[$appId];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
+				$this->logger->info('{appId} needs and upgrade from {from} to {to}',
+					[
+						'appId' => $appId,
+						'from' => $installedVersion,
+						'to' => $currentVersion,
+					]
+				);
 				return true;
 			}
 		}

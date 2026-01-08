@@ -8,7 +8,6 @@
  * the user gets redirected to the login on the next request.
  */
 describe('Logout redirect ', { testIsolation: true }, () => {
-
 	let user
 
 	before(() => {
@@ -58,5 +57,4 @@ describe('Logout redirect ', { testIsolation: true }, () => {
 		cy.findByRole('checkbox', { name: /Enable profile/i })
 			.should('exist')
 	})
-
 })

@@ -32,6 +32,7 @@ use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Node;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\Server;
@@ -44,10 +45,10 @@ use Test\Traits\UserTrait;
 /**
  * Class HookConnectorTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HookConnectorTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
@@ -88,6 +89,7 @@ class HookConnectorTest extends TestCase {
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
 			$cacheFactory,
+			$this->createMock(IAppConfig::class),
 		);
 		$this->eventDispatcher = Server::get(IEventDispatcher::class);
 		$this->logger = Server::get(LoggerInterface::class);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +10,7 @@
 
 namespace Test\Activity;
 
+use OC\Activity\Manager;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
@@ -23,8 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var \OC\Activity\Manager */
-	private $activityManager;
+	private Manager $activityManager;
 
 	protected IRequest&MockObject $request;
 	protected IUserSession&MockObject $session;
@@ -43,7 +45,7 @@ class ManagerTest extends TestCase {
 		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
 		$this->time = $this->createMock(ITimeFactory::class);
 
-		$this->activityManager = new \OC\Activity\Manager(
+		$this->activityManager = new Manager(
 			$this->request,
 			$this->session,
 			$this->config,

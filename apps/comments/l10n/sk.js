@@ -17,7 +17,6 @@ OC.L10N.register(
     "Delete comment" : "Zmazať komentár",
     "Cancel edit" : "Zrušiť upravovanie",
     "New comment" : "Nový komentár",
-    "Write a comment …" : "Napísať komentár ...",
     "Post comment" : "Odoslať komentár",
     "@ for mentions, : for emoji, / for smart picker" : "@ pre spomienky, : pre emotikony, / pre inteligentný výber",
     "Could not reload comments" : "Nepodarilo sa obnoviť komentáre",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Vyskytla sa chyba pri editovaní komentára",
     "Comment deleted" : "Komentár bol odstránený",
     "An error occurred while trying to delete the comment" : "Vyskytla sa chyba pri mazaní komentára",
-    "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára"
+    "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára",
+    "Write a comment …" : "Napísať komentár ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

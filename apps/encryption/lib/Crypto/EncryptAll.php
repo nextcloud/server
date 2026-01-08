@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
@@ -34,31 +35,26 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EncryptAll {
 
-	/** @var array */
-	protected $userPasswords;
-
-	/** @var OutputInterface */
-	protected $output;
-
-	/** @var InputInterface */
-	protected $input;
+	/** @var array<string, array{password: string, user: IUser}> $userCache store one time passwords for the users */
+	protected array $userCache = [];
+	protected OutputInterface $output;
+	protected InputInterface $input;
 
 	public function __construct(
-		protected Setup $userSetup,
-		protected IUserManager $userManager,
-		protected View $rootView,
-		protected KeyManager $keyManager,
-		protected Util $util,
-		protected IConfig $config,
-		protected IMailer $mailer,
-		protected IL10N $l,
-		protected IFactory $l10nFactory,
-		protected QuestionHelper $questionHelper,
-		protected ISecureRandom $secureRandom,
-		protected LoggerInterface $logger,
+		protected readonly Setup $userSetup,
+		protected readonly IUserManager $userManager,
+		protected readonly View $rootView,
+		protected readonly KeyManager $keyManager,
+		protected readonly Util $util,
+		protected readonly IConfig $config,
+		protected readonly IMailer $mailer,
+		protected readonly IL10N $l,
+		protected readonly IFactory $l10nFactory,
+		protected readonly QuestionHelper $questionHelper,
+		protected readonly ISecureRandom $secureRandom,
+		protected readonly LoggerInterface $logger,
+		protected readonly SetupManager $setupManager,
 	) {
-		// store one time passwords for the users
-		$this->userPasswords = [];
 	}
 
 	/**
@@ -117,26 +113,18 @@ class EncryptAll {
 		$progress->setFormat(" %message% \n [%bar%]");
 		$progress->start();
 
-		foreach ($this->userManager->getBackends() as $backend) {
-			$limit = 500;
-			$offset = 0;
-			do {
-				$users = $backend->getUsers('', $limit, $offset);
-				foreach ($users as $user) {
-					if ($this->keyManager->userHasKeys($user) === false) {
-						$progress->setMessage('Create key-pair for ' . $user);
-						$progress->advance();
-						$this->setupUserFS($user);
-						$password = $this->generateOneTimePassword($user);
-						$this->userSetup->setupUser($user, $password);
-					} else {
-						// users which already have a key-pair will be stored with a
-						// empty password and filtered out later
-						$this->userPasswords[$user] = '';
-					}
-				}
-				$offset += $limit;
-			} while (count($users) >= $limit);
+		foreach ($this->userManager->getSeenUsers() as $user) {
+			if ($this->keyManager->userHasKeys($user->getUID()) === false) {
+				$progress->setMessage('Create key-pair for ' . $user->getUID());
+				$progress->advance();
+				$this->setupUserFileSystem($user);
+				$password = $this->generateOneTimePassword($user);
+				$this->userSetup->setupUser($user->getUID(), $password);
+			} else {
+				// users which already have a key-pair will be stored with a
+				// empty password and filtered out later
+				$this->userCache[$user->getUID()] = ['password' => '', 'user' => $user];
+			}
 		}
 
 		$progress->setMessage('Key-pair created for all users');
@@ -151,14 +139,15 @@ class EncryptAll {
 		$progress = new ProgressBar($this->output);
 		$progress->setFormat(" %message% \n [%bar%]");
 		$progress->start();
-		$numberOfUsers = count($this->userPasswords);
+		$numberOfUsers = count($this->userCache);
 		$userNo = 1;
 		if ($this->util->isMasterKeyEnabled()) {
 			$this->encryptAllUserFilesWithMasterKey($progress);
 		} else {
-			foreach ($this->userPasswords as $uid => $password) {
+			foreach ($this->userCache as $uid => $cache) {
+				['user' => $user, 'password' => $password] = $cache;
 				$userCount = "$uid ($userNo of $numberOfUsers)";
-				$this->encryptUsersFiles($uid, $progress, $userCount);
+				$this->encryptUsersFiles($user, $progress, $userCount);
 				$userNo++;
 			}
 		}
@@ -171,26 +160,19 @@ class EncryptAll {
 	 */
 	protected function encryptAllUserFilesWithMasterKey(ProgressBar $progress): void {
 		$userNo = 1;
-		foreach ($this->userManager->getBackends() as $backend) {
-			$limit = 500;
-			$offset = 0;
-			do {
-				$users = $backend->getUsers('', $limit, $offset);
-				foreach ($users as $user) {
-					$userCount = "$user ($userNo)";
-					$this->encryptUsersFiles($user, $progress, $userCount);
-					$userNo++;
-				}
-				$offset += $limit;
-			} while (count($users) >= $limit);
+		foreach ($this->userManager->getSeenUsers() as $user) {
+			$userCount = $user->getUID() . " ($userNo)";
+			$this->encryptUsersFiles($user, $progress, $userCount);
+			$userNo++;
 		}
 	}
 
 	/**
 	 * encrypt files from the given user
 	 */
-	protected function encryptUsersFiles(string $uid, ProgressBar $progress, string $userCount): void {
-		$this->setupUserFS($uid);
+	protected function encryptUsersFiles(IUser $user, ProgressBar $progress, string $userCount): void {
+		$this->setupUserFileSystem($user);
+		$uid = $user->getUID();
 		$directories = [];
 		$directories[] = '/' . $uid . '/files';
 
@@ -269,7 +251,8 @@ class EncryptAll {
 		//create rows
 		$newPasswords = [];
 		$unchangedPasswords = [];
-		foreach ($this->userPasswords as $uid => $password) {
+		foreach ($this->userCache as $uid => $cache) {
+			['user' => $user, 'password' => $password] = $cache;
 			if (empty($password)) {
 				$unchangedPasswords[] = $uid;
 			} else {
@@ -295,7 +278,7 @@ class EncryptAll {
 		$this->writePasswordsToFile($newPasswords);
 
 		$this->output->writeln('');
-		$question = new ConfirmationQuestion('Do you want to send the passwords directly to the users by mail? (y/n) ', false);
+		$question = new ConfirmationQuestion('Do you want to send the passwords directly to the users by mail? (y/n) ', true);
 		if ($this->questionHelper->ask($this->input, $this->output, $question)) {
 			$this->sendPasswordsByMail();
 		}
@@ -323,9 +306,9 @@ class EncryptAll {
 	/**
 	 * setup user file system
 	 */
-	protected function setupUserFS(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+	protected function setupUserFileSystem(IUser $user): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 	}
 
 	/**
@@ -333,9 +316,9 @@ class EncryptAll {
 	 *
 	 * @return string password
 	 */
-	protected function generateOneTimePassword(string $uid): string {
+	protected function generateOneTimePassword(IUser $user): string {
 		$password = $this->secureRandom->generate(16, ISecureRandom::CHAR_HUMAN_READABLE);
-		$this->userPasswords[$uid] = $password;
+		$this->userCache[$user->getUID()] = ['password' => $password, 'user' => $user];
 		return $password;
 	}
 
@@ -346,10 +329,11 @@ class EncryptAll {
 		$noMail = [];
 
 		$this->output->writeln('');
-		$progress = new ProgressBar($this->output, count($this->userPasswords));
+		$progress = new ProgressBar($this->output, count($this->userCache));
 		$progress->start();
 
-		foreach ($this->userPasswords as $uid => $password) {
+		foreach ($this->userCache as $uid => $cache) {
+			['user' => $user, 'password' => $password] = $cache;
 			$progress->advance();
 			if (!empty($password)) {
 				$recipient = $this->userManager->get($uid);
@@ -409,7 +393,7 @@ class EncryptAll {
 			$this->output->writeln("\n\nCould not send password to following users:\n");
 			$rows = [];
 			foreach ($noMail as $uid) {
-				$rows[] = [$uid, $this->userPasswords[$uid]];
+				$rows[] = [$uid, $this->userCache[$uid]['password']];
 			}
 			$table->setRows($rows);
 			$table->render();

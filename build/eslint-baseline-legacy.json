@@ -1,0 +1,81 @@
+{
+  "apps/files/src/components/FilesNavigationItem.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 1
+    }
+  },
+  "apps/files/src/components/TransferOwnershipDialogue.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/components/SharingEntryQuickShareSelect.vue": {
+    "vue/no-mutating-props": {
+      "count": 2
+    }
+  },
+  "apps/files_sharing/src/components/SharingInput.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 1
+    }
+  },
+  "apps/files_sharing/src/views/SharingDetailsTab.vue": {
+    "vue/no-mutating-props": {
+      "count": 23
+    }
+  },
+  "apps/files_sharing/src/views/SharingLinkList.vue": {
+    "vue/no-mutating-props": {
+      "count": 1
+    }
+  },
+  "apps/settings/src/components/GroupListItem.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 1
+    }
+  },
+  "apps/settings/src/components/Users/NewUserDialog.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 1
+    },
+    "vue/no-mutating-props": {
+      "count": 17
+    }
+  },
+  "apps/settings/src/views/UserManagementNavigation.vue": {
+    "@nextcloud/vue/no-deprecated-props": {
+      "count": 4
+    }
+  },
+  "apps/workflowengine/src/components/Check.vue": {
+    "vue/no-mutating-props": {
+      "count": 3
+    }
+  },
+  "apps/workflowengine/src/components/Rule.vue": {
+    "vue/multi-word-component-names": {
+      "count": 1
+    },
+    "vue/no-mutating-props": {
+      "count": 1
+    }
+  },
+  "core/src/OC/dialogs.js": {
+    "camelcase": {
+      "count": 33
+    },
+    "no-undef": {
+      "count": 1
+    }
+  },
+  "core/src/views/Login.vue": {
+    "vue/multi-word-component-names": {
+      "count": 1
+    }
+  },
+  "core/src/views/Setup.vue": {
+    "vue/multi-word-component-names": {
+      "count": 1
+    }
+  }
+}

@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { describe, beforeEach, test, expect } from 'vitest'
-import { setActivePinia, createPinia } from 'pinia'
-import { usePathsStore } from './paths.ts'
 import { emit } from '@nextcloud/event-bus'
 import { File, Folder } from '@nextcloud/files'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, test } from 'vitest'
 import { useFilesStore } from './files.ts'
+import { usePathsStore } from './paths.ts'
 
 describe('Path store', () => {
-
 	let store: ReturnType<typeof usePathsStore>
 	let files: ReturnType<typeof useFilesStore>
 	let root: Folder & { _children?: string[] }
@@ -19,7 +18,12 @@ describe('Path store', () => {
 	beforeEach(() => {
 		setActivePinia(createPinia())
 
-		root = new Folder({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/', id: 1 })
+		root = new Folder({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/',
+			id: 1,
+			root: '/files/test',
+		})
 		files = useFilesStore()
 		files.setRoot({ service: 'files', root })
 
@@ -31,7 +35,12 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({})
 
 		// create the folder
-		const node = new Folder({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/folder', id: 2 })
+		const node = new Folder({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/folder',
+			id: 2,
+			root: '/files/test',
+		})
 		emit('files:node:created', node)
 
 		// see that the path is added
@@ -46,7 +55,13 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({})
 
 		// create the file
-		const node = new File({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/file.txt', id: 2, mime: 'text/plain' })
+		const node = new File({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/file.txt',
+			id: 2,
+			mime: 'text/plain',
+			root: '/files/test',
+		})
 		emit('files:node:created', node)
 
 		// see that there are still no paths
@@ -61,7 +76,13 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({})
 
 		// create the file
-		const node1 = new File({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/file.txt', id: 2, mime: 'text/plain' })
+		const node1 = new File({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/file.txt',
+			id: 2,
+			mime: 'text/plain',
+			root: '/files/test',
+		})
 		emit('files:node:created', node1)
 
 		// see that there are still no paths
@@ -71,13 +92,18 @@ describe('Path store', () => {
 		expect(root._children).toEqual([node1.source])
 
 		// create the same named file again
-		const node2 = new File({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/file.txt', id: 2, mime: 'text/plain' })
+		const node2 = new File({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/file.txt',
+			id: 2,
+			mime: 'text/plain',
+			root: '/files/test',
+		})
 		emit('files:node:created', node2)
 
 		// see that there are still no paths and the children are not duplicated
 		expect(store.paths).toEqual({})
 		expect(root._children).toEqual([node1.source])
-
 	})
 
 	test('Existing folder is created', () => {
@@ -85,7 +111,12 @@ describe('Path store', () => {
 		expect(store.paths).toEqual({})
 
 		// create the file
-		const node1 = new Folder({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/folder', id: 2 })
+		const node1 = new Folder({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/folder',
+			id: 2,
+			root: '/files/test',
+		})
 		emit('files:node:created', node1)
 
 		// see the path is added
@@ -95,7 +126,12 @@ describe('Path store', () => {
 		expect(root._children).toEqual([node1.source])
 
 		// create the same named file again
-		const node2 = new Folder({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/folder', id: 2 })
+		const node2 = new Folder({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/folder',
+			id: 2,
+			root: '/files/test',
+		})
 		emit('files:node:created', node2)
 
 		// see that there is still only one paths and the children are not duplicated
@@ -104,7 +140,12 @@ describe('Path store', () => {
 	})
 
 	test('Folder is deleted', () => {
-		const node = new Folder({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/folder', id: 2 })
+		const node = new Folder({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/folder',
+			id: 2,
+			root: '/files/test',
+		})
 		emit('files:node:created', node)
 		// see that the path is added and the children are set-up
 		expect(store.paths).toEqual({ files: { [node.path]: node.source } })
@@ -118,7 +159,13 @@ describe('Path store', () => {
 	})
 
 	test('File is deleted', () => {
-		const node = new File({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/file.txt', id: 2, mime: 'text/plain' })
+		const node = new File({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/file.txt',
+			id: 2,
+			mime: 'text/plain',
+			root: '/files/test',
+		})
 		emit('files:node:created', node)
 		// see that the children are set-up
 		expect(root._children).toEqual([node.source])
@@ -129,7 +176,12 @@ describe('Path store', () => {
 	})
 
 	test('Folder is moved', () => {
-		const node = new Folder({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/folder', id: 2 })
+		const node = new Folder({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/folder',
+			id: 2,
+			root: '/files/test',
+		})
 		emit('files:node:created', node)
 		// see that the path is added and the children are set-up
 		expect(store.paths).toEqual({ files: { [node.path]: node.source } })
@@ -143,13 +195,21 @@ describe('Path store', () => {
 
 		emit('files:node:moved', { node: renamedNode, oldSource: node.source })
 		// See the path is updated
-		expect(store.paths).toEqual({ files: { [renamedNode.path]: renamedNode.source } })
+		expect(store.paths).toEqual({
+			files: { [renamedNode.path]: renamedNode.source },
+		})
 		// See the child is updated
 		expect(root._children).toEqual([renamedNode.source])
 	})
 
 	test('File is moved', () => {
-		const node = new File({ owner: 'test', source: 'http://example.com/remote.php/dav/files/test/file.txt', id: 2, mime: 'text/plain' })
+		const node = new File({
+			owner: 'test',
+			source: 'http://example.com/remote.php/dav/files/test/file.txt',
+			id: 2,
+			mime: 'text/plain',
+			root: '/files/test',
+		})
 		emit('files:node:created', node)
 		// see that the children are set-up
 		expect(root._children).toEqual([node.source])

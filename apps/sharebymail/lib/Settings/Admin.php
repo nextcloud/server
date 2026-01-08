@@ -10,6 +10,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	public function __construct(
@@ -26,6 +27,8 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('sendPasswordMail', $this->settingsManager->sendPasswordByMail());
 		$this->initialState->provideInitialState('replyToInitiator', $this->settingsManager->replyToInitiator());
 
+		Util::addStyle('sharebymail', 'admin-settings');
+		Util::addScript('sharebymail', 'admin-settings');
 		return new TemplateResponse('sharebymail', 'settings-admin', [], '');
 	}
 

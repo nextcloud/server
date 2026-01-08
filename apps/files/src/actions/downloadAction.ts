@@ -2,19 +2,20 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Node, View } from '@nextcloud/files'
-import { FileAction, FileType, DefaultType } from '@nextcloud/files'
-import { showError } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
-
-import { isDownloadable } from '../utils/permissions'
-import { usePathsStore } from '../store/paths'
-import { getPinia } from '../store'
-import { useFilesStore } from '../store/files'
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import { DefaultType, FileAction, FileType } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import logger from '../logger.ts'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { isDownloadable } from '../utils/permissions.ts'
 
 /**
  * Trigger downloading a file.
@@ -34,6 +35,7 @@ async function triggerDownload(url: string, name?: string) {
 
 /**
  * Find the longest common path prefix of both input paths
+ *
  * @param first The first path
  * @param second The second path
  */
@@ -64,6 +66,10 @@ function longestCommonPath(first: string, second: string): string {
  */
 async function downloadNodes(nodes: Node[]) {
 	let url: URL
+
+	if (!nodes[0]) {
+		throw new Error('No nodes to download')
+	}
 
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
@@ -123,13 +129,13 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
-	enabled(nodes: Node[], view: View) {
+	enabled({ nodes, view }): boolean {
 		if (nodes.length === 0) {
 			return false
 		}
 
 		// We can only download dav files and folders.
-		if (nodes.some(node => !node.isDavResource)) {
+		if (nodes.some((node) => !node.isDavResource)) {
 			return false
 		}
 
@@ -141,23 +147,25 @@ export const action = new FileAction({
 		return nodes.every(isDownloadable)
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
 		try {
-			await downloadNodes([node])
-		} catch (e) {
+			await downloadNodes(nodes)
+		} catch (error) {
 			showError(t('files', 'The requested file is not available.'))
-			emit('files:node:deleted', node)
+			logger.error('The requested file is not available.', { error })
+			emit('files:node:deleted', nodes[0])
 		}
 		return null
 	},
 
-	async execBatch(nodes: Node[], view: View, dir: string) {
+	async execBatch({ nodes, view, folder }) {
 		try {
 			await downloadNodes(nodes)
-		} catch (e) {
+		} catch (error) {
 			showError(t('files', 'The requested files are not available.'))
+			logger.error('The requested files are not available.', { error })
 			// Try to reload the current directory to update the view
-			const directory = getCurrentDirectory(view, dir)!
+			const directory = getCurrentDirectory(view, folder.path)!
 			emit('files:node:updated', directory)
 		}
 		return new Array(nodes.length).fill(null)

@@ -16,11 +16,13 @@ use OCP\OCM\IOCMProvider;
  * them in the OCM provider list and capability
  *
  * @since 28.0.0
+ * @depecated 33.0.0 (use {@see LocalOCMDiscoveryEvent})
  */
 class ResourceTypeRegisterEvent extends Event {
 	/**
 	 * @param IOCMProvider $provider
 	 * @since 28.0.0
+	 * @depecated 33.0.0 (use {@see LocalOCMDiscoveryEvent})
 	 */
 	public function __construct(
 		protected IOCMProvider $provider,
@@ -34,6 +36,7 @@ class ResourceTypeRegisterEvent extends Event {
 	 * @param array<string, string> $protocols List of supported protocols and their location,
 	 *                                         e.g. ['webdav' => '/remote.php/webdav/']
 	 * @since 28.0.0
+	 * @depecated 33.0.0 (use {@see LocalOCMDiscoveryEvent})
 	 */
 	public function registerResourceType(string $name, array $shareTypes, array $protocols): void {
 		$resourceType = $this->provider->createNewResourceType();

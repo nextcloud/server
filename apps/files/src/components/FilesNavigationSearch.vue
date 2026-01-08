@@ -7,16 +7,16 @@
 import { mdiMagnify, mdiSearchWeb } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
-import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { onBeforeNavigation } from '../composables/useBeforeNavigation.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useSearchStore } from '../store/search.ts'
 import { VIEW_ID } from '../views/search.ts'
 
-const { currentView } = useNavigation(true)
+const activeStore = useActiveStore()
 const searchStore = useSearchStore()
 
 /**
@@ -24,8 +24,9 @@ const searchStore = useSearchStore()
  * we need to clear the search box.
  */
 onBeforeNavigation((to, from, next) => {
-	if (to.params.view !== VIEW_ID && from.params.view === VIEW_ID) {
-		// we are leaving the search view so unset the query
+	if (to.params.view !== VIEW_ID
+		&& (from.params.view === VIEW_ID || from.query.dir !== to.query.dir)) {
+		// we are leaving the search view or navigate to another directory -> unset the query
 		searchStore.query = ''
 		searchStore.scope = 'filter'
 	} else if (to.params.view === VIEW_ID && from.params.view === VIEW_ID) {
@@ -48,16 +49,16 @@ onBeforeNavigation((to, from, next) => {
  * Are we currently on the search view.
  * Needed to disable the action menu (we cannot change the search mode there)
  */
-const isSearchView = computed(() => currentView.value.id === VIEW_ID)
+const isSearchView = computed(() => activeStore.activeView?.id === VIEW_ID)
 
 /**
  * Different searchbox label depending if filtering or searching
  */
 const searchLabel = computed(() => {
 	if (searchStore.scope === 'globally') {
-		return t('files', 'Search everywhere …')
+		return t('files', 'Search everywhere …')
 	}
-	return t('files', 'Search here …')
+	return t('files', 'Search here …')
 })
 </script>
 

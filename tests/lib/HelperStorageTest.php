@@ -19,9 +19,8 @@ use Test\Traits\UserTrait;
 
 /**
  * Test the storage functions of OC_Helper
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HelperStorageTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -103,14 +102,12 @@ class HelperStorageTest extends \Test\TestCase {
 	private function getIncludeExternalStorage(): bool {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');
-		$prop->setAccessible(true);
 		return $prop->getValue(null) ?? false;
 	}
 
 	private function setIncludeExternalStorage(bool $include) {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');
-		$prop->setAccessible(true);
 		$prop->setValue(null, $include);
 	}
 

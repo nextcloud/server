@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /// <reference types="cypress-if" />
-import { User } from '@nextcloud/cypress'
-import { getUserListRow, handlePasswordConfirmation } from './usersUtils'
+
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { getUserListRow, handlePasswordConfirmation } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 const john = new User('john', '123456')

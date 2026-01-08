@@ -7,6 +7,7 @@
  */
 namespace OCP\Comments;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -15,6 +16,7 @@ use OCP\EventDispatcher\Event;
  * @since 9.1.0
  * @since 28.0.0 Dispatched as a typed event
  */
+#[Consumable(since: '9.1.0')]
 class CommentsEntityEvent extends Event {
 	/**
 	 * @since 9.1.0
@@ -22,8 +24,8 @@ class CommentsEntityEvent extends Event {
 	 */
 	public const EVENT_ENTITY = 'OCP\Comments\ICommentsManager::registerEntity';
 
-	/** @var \Closure[] */
-	protected $collections;
+	/** @var (\Closure(string $id): bool)[] */
+	protected array $collections = [];
 
 	/**
 	 * DispatcherEvent constructor.
@@ -32,19 +34,18 @@ class CommentsEntityEvent extends Event {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->collections = [];
 	}
 
 	/**
 	 * @param string $name
-	 * @param \Closure $entityExistsFunction The closure should take one
-	 *                                       argument, which is the id of the entity, that comments
-	 *                                       should be handled for. The return should then be bool,
-	 *                                       depending on whether comments are allowed (true) or not.
+	 * @param \Closure(string $id):bool $entityExistsFunction The closure should take one
+	 *                                                        argument, which is the id of the entity, that comments
+	 *                                                        should be handled for. The return should then be bool,
+	 *                                                        depending on whether comments are allowed (true) or not.
 	 * @throws \OutOfBoundsException when the entity name is already taken
 	 * @since 9.1.0
 	 */
-	public function addEntityCollection($name, \Closure $entityExistsFunction) {
+	public function addEntityCollection(string $name, \Closure $entityExistsFunction): void {
 		if (isset($this->collections[$name])) {
 			throw new \OutOfBoundsException('Duplicate entity name "' . $name . '"');
 		}
@@ -53,10 +54,10 @@ class CommentsEntityEvent extends Event {
 	}
 
 	/**
-	 * @return \Closure[]
+	 * @return (\Closure(string $id): bool)[]
 	 * @since 9.1.0
 	 */
-	public function getEntityCollections() {
+	public function getEntityCollections(): array {
 		return $this->collections;
 	}
 }

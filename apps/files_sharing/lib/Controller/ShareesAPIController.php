@@ -39,14 +39,11 @@ use function usort;
  */
 class ShareesAPIController extends OCSController {
 
-	/** @var int */
-	protected $offset = 0;
-
-	/** @var int */
-	protected $limit = 10;
+	protected int $offset = 0;
+	protected int $limit = 10;
 
 	/** @var Files_SharingShareesSearchResult */
-	protected $result = [
+	protected array $result = [
 		'exact' => [
 			'users' => [],
 			'groups' => [],
@@ -66,8 +63,6 @@ class ShareesAPIController extends OCSController {
 		'rooms' => [],
 		'lookupEnabled' => false,
 	];
-
-	protected $reachedEndFor = [];
 
 	public function __construct(
 		string $appName,
@@ -146,10 +141,6 @@ class ShareesAPIController extends OCSController {
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
-
-			if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
-				$shareTypes[] = IShare::TYPE_SCIENCEMESH;
-			}
 		} else {
 			if ($this->shareManager->allowGroupSharing()) {
 				$shareTypes[] = IShare::TYPE_GROUP;
@@ -160,10 +151,6 @@ class ShareesAPIController extends OCSController {
 		// FIXME: DI
 		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
-		}
-
-		if ($this->shareManager->shareProviderExists(IShare::TYPE_SCIENCEMESH)) {
-			$shareTypes[] = IShare::TYPE_SCIENCEMESH;
 		}
 
 		if ($itemType === 'calendar') {

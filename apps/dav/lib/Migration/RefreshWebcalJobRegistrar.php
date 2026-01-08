@@ -45,7 +45,7 @@ class RefreshWebcalJobRegistrar implements IRepairStep {
 		$stmt = $query->executeQuery();
 
 		$count = 0;
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetchAssociative()) {
 			$args = [
 				'principaluri' => $row['principaluri'],
 				'uri' => $row['uri'],

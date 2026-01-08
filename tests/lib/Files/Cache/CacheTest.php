@@ -33,10 +33,10 @@ class LongId extends Temporary {
 /**
  * Class CacheTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CacheTest extends \Test\TestCase {
 	/**
 	 * @var Temporary $storage ;

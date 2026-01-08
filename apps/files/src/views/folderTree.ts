@@ -3,18 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { Folder, Node } from '@nextcloud/files'
 import type { TreeNode } from '../services/FolderTree.ts'
 
-import PQueue from 'p-queue'
-import { FileType, Folder, Node, View, getNavigation } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import { emit, subscribe } from '@nextcloud/event-bus'
-import { isSamePath } from '@nextcloud/paths'
-import { loadState } from '@nextcloud/initial-state'
-
-import FolderSvg from '@mdi/svg/svg/folder-outline.svg?raw'
 import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
-
+import FolderSvg from '@mdi/svg/svg/folder-outline.svg?raw'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { FileType, getNavigation, View } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { isSamePath } from '@nextcloud/paths'
+import PQueue from 'p-queue'
 import {
 	folderTreeId,
 	getContents,
@@ -33,15 +32,24 @@ const queue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
 
 const registerQueue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
 
-const registerTreeChildren = async (path: string = '/') => {
+/**
+ *
+ * @param path
+ */
+async function registerTreeChildren(path: string = '/') {
 	await queue.add(async () => {
-		const nodes = await getFolderTreeNodes(path)
-		const promises = nodes.map(node => registerQueue.add(() => registerNodeView(node)))
+		// preload up to 2 depth levels for faster navigation
+		const nodes = await getFolderTreeNodes(path, 2)
+		const promises = nodes.map((node) => registerQueue.add(() => registerNodeView(node)))
 		await Promise.allSettled(promises)
 	})
 }
 
-const getLoadChildViews = (node: TreeNode | Folder) => {
+/**
+ *
+ * @param node
+ */
+function getLoadChildViews(node: TreeNode | Folder) {
 	return async (view: View): Promise<void> => {
 		// @ts-expect-error Custom property on View instance
 		if (view.loading || view.loaded) {
@@ -61,8 +69,12 @@ const getLoadChildViews = (node: TreeNode | Folder) => {
 	}
 }
 
-const registerNodeView = (node: TreeNode | Folder) => {
-	const registeredView = Navigation.views.find(view => view.id === node.encodedSource)
+/**
+ *
+ * @param node
+ */
+function registerNodeView(node: TreeNode | Folder) {
+	const registeredView = Navigation.views.find((view) => view.id === node.encodedSource)
 	if (registeredView) {
 		Navigation.remove(registeredView.id)
 	}
@@ -89,30 +101,52 @@ const registerNodeView = (node: TreeNode | Folder) => {
 	}))
 }
 
-const removeFolderView = (folder: Folder) => {
+/**
+ *
+ * @param folder
+ */
+function removeFolderView(folder: Folder) {
 	const viewId = folder.encodedSource
 	Navigation.remove(viewId)
 }
 
-const removeFolderViewSource = (source: string) => {
+/**
+ *
+ * @param source
+ */
+function removeFolderViewSource(source: string) {
 	Navigation.remove(source)
 }
 
-const onCreateNode = (node: Node) => {
+/**
+ *
+ * @param node
+ */
+function onCreateNode(node: Node) {
 	if (node.type !== FileType.Folder) {
 		return
 	}
 	registerNodeView(node)
 }
 
-const onDeleteNode = (node: Node) => {
+/**
+ *
+ * @param node
+ */
+function onDeleteNode(node: Node) {
 	if (node.type !== FileType.Folder) {
 		return
 	}
 	removeFolderView(node)
 }
 
-const onMoveNode = ({ node, oldSource }) => {
+/**
+ *
+ * @param root0
+ * @param root0.node
+ * @param root0.oldSource
+ */
+function onMoveNode({ node, oldSource }) {
 	if (node.type !== FileType.Folder) {
 		return
 	}
@@ -121,7 +155,7 @@ const onMoveNode = ({ node, oldSource }) => {
 
 	const newPath = node.source.replace(sourceRoot, '')
 	const oldPath = oldSource.replace(sourceRoot, '')
-	const childViews = Navigation.views.filter(view => {
+	const childViews = Navigation.views.filter((view) => {
 		if (!view.params?.dir) {
 			return false
 		}
@@ -138,7 +172,13 @@ const onMoveNode = ({ node, oldSource }) => {
 	}
 }
 
-const onUserConfigUpdated = async ({ key, value }) => {
+/**
+ *
+ * @param root0
+ * @param root0.key
+ * @param root0.value
+ */
+async function onUserConfigUpdated({ key, value }) {
 	if (key === 'show_hidden') {
 		showHiddenFiles = value
 		await registerTreeChildren()
@@ -147,7 +187,10 @@ const onUserConfigUpdated = async ({ key, value }) => {
 	}
 }
 
-const registerTreeRoot = () => {
+/**
+ *
+ */
+function registerTreeRoot() {
 	Navigation.register(new View({
 		id: folderTreeId,
 
@@ -161,7 +204,10 @@ const registerTreeRoot = () => {
 	}))
 }
 
-export const registerFolderTreeView = async () => {
+/**
+ *
+ */
+export async function registerFolderTreeView() {
 	if (!isFolderTreeEnabled) {
 		return
 	}

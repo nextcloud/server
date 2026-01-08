@@ -24,9 +24,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class TagsTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TagsTest extends \Test\TestCase {
 	protected $objectType;
 	/** @var IUser */
@@ -269,9 +268,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertEquals(9, count($tagger->getIdsForTag('Family')));
 	}
 
-	/**
-	 * @depends testTagAs
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testTagAs')]
 	public function testUnTag(): void {
 		$objIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 

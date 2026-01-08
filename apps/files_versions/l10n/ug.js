@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "نەشرى ئەسلىگە كەلتۈرۈلدى",
     "Could not restore version" : "نەشرىنى ئەسلىگە كەلتۈرەلمىدى",
     "Could not set version label" : "نەشىر بەلگىسىنى تەڭشىيەلمىدى",
-    "Could not delete version" : "نەشرىنى ئۆچۈرەلمىدى"
+    "Could not delete version" : "نەشرىنى ئۆچۈرەلمىدى",
+    "File versions" : "ھۆججەت نەشىرلىرى"
 },
 "nplurals=2; plural=(n != 1);");

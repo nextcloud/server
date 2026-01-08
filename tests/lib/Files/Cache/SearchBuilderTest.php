@@ -21,9 +21,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SearchBuilderTest extends TestCase {
 	/** @var IQueryBuilder */
 	private $builder;
@@ -131,7 +129,7 @@ class SearchBuilderTest extends TestCase {
 		$this->builder->andWhere($dbOperator);
 
 		$result = $this->builder->executeQuery();
-		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$rows = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		return $rows;

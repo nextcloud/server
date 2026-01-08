@@ -62,7 +62,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 			->where($query->expr()->like('carddata', $query->createNamedParameter('%SOCIALPROFILE%')))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter((int)$offset, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(100);
-		$social_cards = $query->executeQuery()->fetchAll();
+		$social_cards = $query->executeQuery()->fetchAllAssociative();
 
 		if (empty($social_cards)) {
 			return $stopAt;

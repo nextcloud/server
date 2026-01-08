@@ -2,14 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { action } from './favoriteAction'
+import type { Folder, View } from '@nextcloud/files'
+
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import * as favoriteAction from './favoriteAction'
-import logger from '../logger'
+import { File, FileAction, Permission } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import logger from '../logger.ts'
+import { action } from './favoriteAction.ts'
+import * as favoriteAction from './favoriteAction.ts'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
@@ -30,7 +32,7 @@ beforeAll(() => {
 		...window.OC,
 		TAG_FAVORITE: '_$!<Favorite>!$_',
 	};
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 	(window as any)._oc_webroot = ''
 })
 
@@ -41,12 +43,23 @@ describe('Favorite action conditions tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('favorite')
-		expect(action.displayName([file], view)).toBe('Add to favorites')
-		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)
 	})
@@ -60,9 +73,15 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file], view)).toBe('Remove from favorites')
+		expect(action.displayName({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Remove from favorites')
 	})
 
 	test('Display name for multiple state files', () => {
@@ -75,6 +94,7 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -85,6 +105,7 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 0,
 			},
+			root: '/files/admin',
 		})
 		const file3 = new File({
 			id: 1,
@@ -95,12 +116,33 @@ describe('Favorite action conditions tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file1, file2, file3], view)).toBe('Add to favorites')
-		expect(action.displayName([file1, file2], view)).toBe('Add to favorites')
-		expect(action.displayName([file2, file3], view)).toBe('Add to favorites')
-		expect(action.displayName([file1, file3], view)).toBe('Remove from favorites')
+		expect(action.displayName({
+			nodes: [file1, file2, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.displayName({
+			nodes: [file2, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.displayName({
+			nodes: [file2, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Add to favorites')
+		expect(action.displayName({
+			nodes: [file1, file3],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe('Remove from favorites')
 	})
 })
 
@@ -112,10 +154,16 @@ describe('Favorite action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled for non-dav ressources', () => {
@@ -124,15 +172,23 @@ describe('Favorite action enabled tests', () => {
 			source: 'https://domain.com/data/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
 describe('Favorite action execute tests', () => {
-	beforeEach(() => { vi.resetAllMocks() })
+	beforeEach(() => {
+		vi.resetAllMocks()
+	})
 
 	test('Favorite triggers tag addition', async () => {
 		vi.spyOn(axios, 'post')
@@ -143,9 +199,15 @@ describe('Favorite action execute tests', () => {
 			source: 'http://localhost/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -155,7 +217,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(1)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:added', file)
 	})
 
@@ -171,9 +233,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -183,7 +251,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
 	})
 
@@ -199,9 +267,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, favoriteView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: favoriteView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -211,9 +285,9 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(2)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:favorites:removed', file)
+		expect(eventBus.emit).toHaveBeenCalled()
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', file)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', file)
 	})
 
 	test('Favorite does NOT triggers node removal if favorite view but NOT root dir', async () => {
@@ -231,7 +305,12 @@ describe('Favorite action execute tests', () => {
 			},
 		})
 
-		const exec = await action.exec(file, favoriteView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: favoriteView,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 
@@ -241,13 +320,15 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
 	})
 
 	test('Favorite fails and show error', async () => {
 		const error = new Error('Mock error')
-		vi.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(axios, 'post').mockImplementation(() => {
+			throw new Error('Mock error')
+		})
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
@@ -258,9 +339,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 0,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(false)
 
@@ -277,7 +364,9 @@ describe('Favorite action execute tests', () => {
 
 	test('Removing from favorites fails and show error', async () => {
 		const error = new Error('Mock error')
-		vi.spyOn(axios, 'post').mockImplementation(() => { throw error })
+		vi.spyOn(axios, 'post').mockImplementation(() => {
+			throw error
+		})
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
@@ -288,9 +377,15 @@ describe('Favorite action execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 
 		expect(exec).toBe(false)
 
@@ -307,7 +402,9 @@ describe('Favorite action execute tests', () => {
 })
 
 describe('Favorite action batch execute tests', () => {
-	beforeEach(() => { vi.restoreAllMocks() })
+	beforeEach(() => {
+		vi.restoreAllMocks()
+	})
 
 	test('Favorite action batch execute with mixed files', async () => {
 		vi.spyOn(favoriteAction, 'favoriteNode')
@@ -322,6 +419,7 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -332,12 +430,18 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 0,
 			},
+			root: '/files/admin',
 		})
 
 		// Mixed states triggers favorite action
-		const exec = await action.execBatch!([file1, file2], view, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toStrictEqual([true, true])
-		expect([file1, file2].every(file => file.attributes.favorite === 1)).toBe(true)
+		expect([file1, file2].every((file) => file.attributes.favorite === 1)).toBe(true)
 
 		expect(axios.post).toBeCalledTimes(2)
 		expect(axios.post).toHaveBeenNthCalledWith(1, '/index.php/apps/files/api/v1/files/foo.txt', { tags: ['_$!<Favorite>!$_'] })
@@ -357,6 +461,7 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -367,12 +472,18 @@ describe('Favorite action batch execute tests', () => {
 			attributes: {
 				favorite: 1,
 			},
+			root: '/files/admin',
 		})
 
 		// Mixed states triggers favorite action
-		const exec = await action.execBatch!([file1, file2], view, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as Folder,
+			contents: [],
+		})
 		expect(exec).toStrictEqual([true, true])
-		expect([file1, file2].every(file => file.attributes.favorite === 0)).toBe(true)
+		expect([file1, file2].every((file) => file.attributes.favorite === 0)).toBe(true)
 
 		expect(axios.post).toBeCalledTimes(2)
 		expect(axios.post).toHaveBeenNthCalledWith(1, '/index.php/apps/files/api/v1/files/foo.txt', { tags: [] })

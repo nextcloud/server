@@ -3,20 +3,19 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCSPNonce } from '@nextcloud/auth'
+import { n, t } from '@nextcloud/l10n'
+import { createPinia, PiniaVuePlugin } from 'pinia'
+import VTooltipPlugin from 'v-tooltip'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VTooltipPlugin from 'v-tooltip'
 import { sync } from 'vuex-router-sync'
-import { t, n } from '@nextcloud/l10n'
-
 import SettingsApp from './views/SettingsApp.vue'
 import router from './router/index.ts'
 import { useStore } from './store/index.js'
-import { getCSPNonce } from '@nextcloud/auth'
-import { PiniaVuePlugin, createPinia } from 'pinia'
 
 // CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line camelcase
+
 __webpack_nonce__ = getCSPNonce()
 
 // bind to window
@@ -31,10 +30,13 @@ sync(store, router)
 
 const pinia = createPinia()
 
+// Migrate legacy local storage settings to the database
+store.dispatch('migrateLocalStorage')
+
 export default new Vue({
 	router,
 	store,
 	pinia,
-	render: h => h(SettingsApp),
+	render: (h) => h(SettingsApp),
 	el: '#content',
 })

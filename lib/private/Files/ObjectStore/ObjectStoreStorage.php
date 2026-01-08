@@ -29,6 +29,7 @@ use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Server;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
@@ -831,7 +832,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$result = $qb->select($qb->func()->sum('f.size'))
 			->from('storages', 's')
 			->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('f.storage', 's.numeric_id'))
-			->where($qb->expr()->like('s.id', 'object::%', IQueryBuilder::PARAM_STR))
+			->where($qb->expr()->like('s.id', $qb->createNamedParameter('object::%'), IQueryBuilder::PARAM_STR))
 			->andWhere($qb->expr()->eq('f.path', $qb->createNamedParameter('')))
 			->executeQuery();
 		$used = $result->fetchOne();
@@ -843,5 +844,23 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 
 		return $available;
+	}
+
+	#[Override]
+	public function getDirectDownloadById(string $fileId): array|false {
+		$expiration = new \DateTimeImmutable('+60 minutes');
+		$url = $this->objectStore->preSignedUrl($this->getURN((int)$fileId), $expiration);
+		return $url ? ['url' => $url, 'expiration' => $expiration->getTimestamp()] : false;
+	}
+
+	#[Override]
+	public function getDirectDownload(string $path): array|false {
+		$path = $this->normalizePath($path);
+		$cacheEntry = $this->getCache()->get($path);
+
+		if (!$cacheEntry || $cacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			return false;
+		}
+		return $this->getDirectDownloadById((string)$cacheEntry->getId());
 	}
 }

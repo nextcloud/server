@@ -49,7 +49,6 @@ OC.L10N.register(
     "Kerberos default realm, defaults to \"WORKGROUP\"" : "Сфера за замовчуванням Kerberos, за замовчуванням \"WORKGROUP\"",
     "Kerberos ticket Apache mode" : "Квиток Kerberos Режим ApacheКвиток Kerberos Режим Apache",
     "Kerberos ticket" : "Квиток Kerberos",
-    "Amazon S3" : "Amazon S3",
     "Bucket" : "Кошик",
     "Hostname" : "Ім'я хоста",
     "Port" : "Порт",
@@ -103,7 +102,6 @@ OC.L10N.register(
     "Enter missing credentials" : "Зазначте відсутні дані авторизації",
     "Credentials successfully set" : "Облікові дані успішно встановлено",
     "Error while setting credentials: {error}" : "Помилка під час встановлення облікових даних: {error}",
-    "Checking storage …" : "Перевірка сховища ...",
     "There was an error with this external storage." : "З цим зовнішнім сховищем виникла помилка.",
     "We were unable to check the external storage {basename}" : "Нам не вдалося перевірити зовнішнє сховище {basename}",
     "Examine this faulty external storage configuration" : "Перевірте цю несправну конфігурацію зовнішнього сховища",
@@ -136,7 +134,7 @@ OC.L10N.register(
     "Delete storage?" : "Вилучити сховище?",
     "Click to recheck the configuration" : "Клацніть для повторної перевірки налаштувань",
     "Saved" : "Збережено",
-    "Saving …" : "Збереження …",
+    "Saving …" : "Збереження ...",
     "Save" : "Зберегти",
     "Failed to save global credentials" : "Не вдалося зберегти глобальні облікові дані",
     "Failed to save global credentials: {message}" : "Не вдалося зберегти глобальні облікові дані: {повідомлення}",
@@ -157,6 +155,8 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "Ключ застосунку",
     "App secret" : "Секретний ключ застосунку",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати це зовнішнє сховище? Це призведе до того, що сховище стане недоступним у хмарі Nextcloud, а також вилучить файли та каталоги на клієнтських пристроях, які наразі синхронізуються з хмарою. Файли та каталоги у зовнішньому сховищі не буде вилучено."
+    "Checking storage …" : "Перевірка сховища ...",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати це зовнішнє сховище? Це призведе до того, що сховище стане недоступним у хмарі Nextcloud, а також вилучить файли та каталоги на клієнтських пристроях, які наразі синхронізуються з хмарою. Файли та каталоги у зовнішньому сховищі не буде вилучено.",
+    "Saving …" : "Збереження …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

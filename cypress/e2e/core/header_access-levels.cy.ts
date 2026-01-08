@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/cypress'
-import { clearState, getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils'
+import { User } from '@nextcloud/e2e-test-server/cypress'
+import { clearState, getNextcloudUserMenu, getNextcloudUserMenuToggle } from '../../support/commonUtils.ts'
 
 const admin = new User('admin', 'admin')
 

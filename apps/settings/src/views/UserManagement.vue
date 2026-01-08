@@ -5,16 +5,16 @@
 
 <template>
 	<NcAppContent :page-heading="pageHeading">
-		<UserList :selected-group="selectedGroupDecoded"
+		<UserList
+			:selected-group="selectedGroupDecoded"
 			:external-actions="externalActions" />
 	</NcAppContent>
 </template>
 
 <script>
-import { translate as t } from '@nextcloud/l10n'
 import { emit } from '@nextcloud/event-bus'
+import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
-
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import UserList from '../components/UserList.vue'
 

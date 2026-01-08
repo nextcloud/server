@@ -16,6 +16,7 @@ use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\Server;
@@ -25,10 +26,10 @@ use Test\Traits\UserTrait;
 /**
  * Class IntegrationTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class IntegrationTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -72,6 +73,7 @@ class IntegrationTest extends \Test\TestCase {
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
 			$cacheFactory,
+			$this->createMock(IAppConfig::class),
 		);
 		$storage = new Temporary([]);
 		$subStorage = new Temporary([]);
