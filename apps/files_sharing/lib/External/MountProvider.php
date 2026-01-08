@@ -95,7 +95,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 
 		if (!$forChildren) {
 			// override path with mount point when fetching without children
-			$path = $mountProviderArgs[0]->mountInfo->getMountPoint();
+			$path = $mountProviderArgs[0]->mountInfo->getMountPoint(); // TODO: not sure what this is doing, is this getting the parent path?
 		}
 
 		// remove /uid/files as the target is stored without
@@ -132,7 +132,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				return $arg->mountInfo->getMountPoint() === $mount->getMountPoint();
 			});
 			if (!$isRequestedMount) {
-				continue;
+				continue; // TODO: does it means something is off? because we have it in oc_share_external but not in oc_mounts
 			}
 
 			$mounts[$mount->getMountPoint()] = $mount;
