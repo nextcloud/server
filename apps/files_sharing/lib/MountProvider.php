@@ -356,9 +356,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getMountsForPath(
 		string $path,
 		bool $forChildren,
@@ -397,16 +394,11 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		}
 
 		$shares = $this->mergeIterables(
-			$this->shareManager->getSharedWithByPath($userId,
-				IShare::TYPE_USER, $path, $forChildren, $limit),
-			$this->shareManager->getSharedWithByPath($userId,
-				IShare::TYPE_GROUP, $path, $forChildren, $limit),
-			$this->shareManager->getSharedWithByPath($userId,
-				IShare::TYPE_CIRCLE, $path, $forChildren, $limit),
-			$this->shareManager->getSharedWithByPath($userId,
-				IShare::TYPE_ROOM, $path, $forChildren, $limit),
-			$this->shareManager->getSharedWithByPath($userId,
-				IShare::TYPE_DECK, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_USER, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_GROUP, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_CIRCLE, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_ROOM, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_DECK, $path, $forChildren, $limit),
 		);
 
 		$shares = $this->filterShares($shares, $userId);

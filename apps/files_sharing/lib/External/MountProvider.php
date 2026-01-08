@@ -72,9 +72,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		return $mounts;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getMountsForPath(
 		string $path,
 		bool $forChildren,
