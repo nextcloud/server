@@ -35,7 +35,7 @@ trait S3ConnectionTrait {
 			throw new \Exception('Bucket has to be configured.');
 		}
 
-		if (isset($params['multibucket']) && $params['multibucket'] === true && isset($params['perBucket'][$params['bucket']])) {
+		if (isset($params['perBucket'][$params['bucket']])) {
 			$params = array_merge($params, $params['perBucket'][$params['bucket']]);
 		}
 
