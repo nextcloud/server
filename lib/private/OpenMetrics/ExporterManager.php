@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace OC\OpenMetrics;
 
 use Generator;
-use OC\Log\PsrLoggerAdapter;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\OpenMetrics\IMetricFamily;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class ExporterManager {
 	private array $skippedClasses;
@@ -22,7 +22,7 @@ class ExporterManager {
 
 	public function __construct(
 		private IAppManager $appManager,
-		private PsrLoggerAdapter $logger,
+		private LoggerInterface $logger,
 		IConfig $config,
 	) {
 		// Use values as keys for faster lookups
