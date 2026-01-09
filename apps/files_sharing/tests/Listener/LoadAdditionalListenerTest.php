@@ -117,4 +117,36 @@ class LoadAdditionalListenerTest extends TestCase {
 		// assert array $scripts contains the expected scripts
 		$this->assertContains('files_sharing/js/init', $scriptsAfter);
 	}
+
+	public function testProvideInitialStates(): void {
+		$listener = new LoadAdditionalListener();
+
+		// Expect config to be queried for 'sharing.enable_share_accept'
+		$this->config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('sharing.enable_share_accept')
+			->willReturn(true);
+
+		// Expect initial state to be provided with correct values
+		$this->initialStateService->expects($this->once())
+			->method('provideInitialState')
+			->with(
+				'files_sharing',
+				'accept_default',
+				true
+			);
+
+		// Other dependencies required by the listener
+		$this->shareManager->method('shareApiEnabled')->willReturn(true);
+
+		// Mock the server container to return the correct dependencies
+		$this->overwriteService(IManager::class, $this->shareManager);
+		$this->overwriteService(InitialStateService::class, $this->initialStateService);
+		$this->overwriteService(IConfig::class, $this->config);
+		$this->overwriteService(IFactory::class, $this->factory);
+
+		$listener->handle($this->event);
+
+		$this->assertTrue(true);
+	}
 }
