@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -32,6 +33,7 @@ class IconControllerTest extends TestCase {
 	private IAppManager&MockObject $appManager;
 	private ImageManager&MockObject $imageManager;
 	private IconController $iconController;
+	private IConfig&MockObject $config;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
@@ -40,6 +42,7 @@ class IconControllerTest extends TestCase {
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
@@ -51,6 +54,7 @@ class IconControllerTest extends TestCase {
 		$this->iconController = new IconController(
 			'theming',
 			$this->request,
+			$this->config,
 			$this->themingDefaults,
 			$this->iconBuilder,
 			$this->imageManager,
@@ -97,7 +101,8 @@ class IconControllerTest extends TestCase {
 			->with('favicon')
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('PNG')
 			->willReturn(true);
 		$this->imageManager->expects($this->once())
 			->method('getCachedImage')
@@ -110,7 +115,7 @@ class IconControllerTest extends TestCase {
 			->method('setCachedImage')
 			->willReturn($file);
 
-		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
@@ -121,14 +126,18 @@ class IconControllerTest extends TestCase {
 			->with('favicon', false)
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
-			->willReturn(false);
+			->method('canConvert')
+			->willReturnMap([
+				['SVG', false],
+				['PNG', false],
+				['ICO', false],
+			]);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
 		$this->fileAccessHelper->expects($this->once())
 			->method('file_get_contents')
 			->with($fallbackLogo)
 			->willReturn(file_get_contents($fallbackLogo));
-		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+		$expected = new DataDisplayResponse(file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
 		$expected->cacheFor(86400);
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
@@ -146,7 +155,8 @@ class IconControllerTest extends TestCase {
 			->method('getImage')
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('PNG')
 			->willReturn(true);
 		$this->iconBuilder->expects($this->once())
 			->method('getTouchIcon')
@@ -171,7 +181,8 @@ class IconControllerTest extends TestCase {
 			->with('favicon')
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('PNG')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
 		$this->fileAccessHelper->expects($this->once())
