@@ -27,6 +27,7 @@ class CacheWrapper extends Cache {
 			$this->mimetypeLoader = $cache->mimetypeLoader;
 			$this->connection = $cache->connection;
 			$this->querySearchHelper = $cache->querySearchHelper;
+			$this->logger = $cache->logger;
 		} else {
 			if (!$dependencies) {
 				$dependencies = Server::get(CacheDependencies::class);
@@ -34,6 +35,7 @@ class CacheWrapper extends Cache {
 			$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
 			$this->connection = $dependencies->getConnection();
 			$this->querySearchHelper = $dependencies->getQuerySearchHelper();
+			$this->logger = $dependencies->getLogger();
 		}
 	}
 
