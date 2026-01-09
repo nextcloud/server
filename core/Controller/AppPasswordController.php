@@ -25,6 +25,7 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\Authentication\Token\IToken as OCPIToken;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -233,8 +234,7 @@ class AppPasswordController extends OCSController {
 			$credentials->getLoginName(),
 			$password,
 			$userAgent,
-			IToken::PERMANENT_TOKEN,
-			IToken::DO_NOT_REMEMBER
+			OCPIToken::PERMANENT_TOKEN,
 		);
 
 		$this->eventDispatcher->dispatchTyped(

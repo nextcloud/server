@@ -27,7 +27,7 @@ class Capabilities implements ICapability {
 	/**
 	 * Return the core capabilities
 	 *
-	 * @return array{core: array{'user'?: array{language: string, locale: string, timezone: string} } }
+	 * @return array{core: array{'user'?: array{language: string, locale: string, timezone: string}, 'can-create-app-token'?: bool } }
 	 */
 	public function getCapabilities(): array {
 		$capabilities = [];

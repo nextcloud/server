@@ -26,7 +26,7 @@ interface IToken extends JsonSerializable {
 	 */
 	public const WIPE_TOKEN = 2;
 	/**
-	 * @since 32.0.0
+	 * @since 33.0.0
 	 */
 	public const ONETIME_TOKEN = 3;
 	/**
