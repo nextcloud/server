@@ -55,6 +55,7 @@ OC.L10N.register(
     "Update" : "Atnaujinti",
     "Delete" : "Ištrinti",
     "Reset" : "Atstatyti",
+    "Loading …" : "Įkeliama …",
     "Failed to apply tags changes" : "Nepavyko pritaikyti žymų pakeitimų",
     "Manage tags" : "Tvarkyti žymas",
     "Applying tags changes…" : "Taikomi pakeitimai žymoms…",

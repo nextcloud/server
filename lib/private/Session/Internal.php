@@ -15,6 +15,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use function call_user_func_array;
+use function OCP\Log\logger;
 
 /**
  * Class Internal
@@ -194,7 +195,7 @@ class Internal extends Session {
 	private function invoke(string $functionName, array $parameters = [], bool $silence = false) {
 		try {
 			return $this->monitorAndLog(
-				$this->logger,
+				$this->logger ?? logger('core'),
 				$functionName,
 				function () use ($silence, $functionName, $parameters) {
 					if ($silence) {

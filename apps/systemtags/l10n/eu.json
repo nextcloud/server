@@ -61,6 +61,7 @@
     "Update" : "Eguneratu",
     "Delete" : "Ezabatu",
     "Reset" : "Berrezarri",
+    "Loading …" : "Kargatzen …",
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} ezarriko zaio fitxategi bati.","{tag} ezarriko zaie {count} fitxategiri."],
     "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} kenduko zaio fitxategi bati.","{tag} kenduko zaie {count} fitxategiri."],
     "{displayName} (hidden)" : "{displayName} (ezkutua)",
