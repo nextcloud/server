@@ -293,10 +293,10 @@ class ClientTest extends \Test\TestCase {
 			],
 			'headers' => [
 
-        'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
 				'Accept-Encoding' => $acceptEnc,
 
-      ],
+			],
 			'timeout' => 30,
 			'nextcloud' => [
 				'allow_local_address' => true,
@@ -544,7 +544,7 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
-    $acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
@@ -604,7 +604,7 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
-    $acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
