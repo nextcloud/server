@@ -40,11 +40,10 @@ class AccessToken extends Entity {
 	protected $tokenCount;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('tokenId', Types::INTEGER);
 		$this->addType('clientId', Types::INTEGER);
-		$this->addType('hashedCode', 'string');
-		$this->addType('encryptedToken', 'string');
+		$this->addType('hashedCode', Types::STRING);
+		$this->addType('encryptedToken', Types::STRING);
 		$this->addType('codeCreatedAt', Types::INTEGER);
 		$this->addType('tokenCount', Types::INTEGER);
 	}
