@@ -17,10 +17,10 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -33,9 +33,9 @@ class DashboardController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IInitialState $initialState,
-		private IEventDispatcher $eventDispatcher,
 		private IManager $dashboardManager,
 		private IConfig $config,
+		private IUserConfig $userConfig,
 		private IL10N $l10n,
 		private ?string $userId,
 		private DashboardService $service,
@@ -67,9 +67,9 @@ class DashboardController extends Controller {
 		$this->initialState->provideInitialState('statuses', $this->service->getStatuses());
 		$this->initialState->provideInitialState('layout', $this->service->getLayout());
 		$this->initialState->provideInitialState('appStoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
-		$this->initialState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
+		$this->initialState->provideInitialState('firstRun', $this->userConfig->getValueBool($this->userId, 'dashboard', 'firstRun', true));
 		$this->initialState->provideInitialState('birthdate', $this->service->getBirthdate());
-		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
+		$this->userConfig->setValueBool($this->userId, 'dashboard', 'firstRun', false);
 
 		$response = new TemplateResponse('dashboard', 'index', [
 			'id-app-content' => '#app-dashboard',
