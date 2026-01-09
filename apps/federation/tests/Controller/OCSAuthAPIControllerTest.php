@@ -10,11 +10,13 @@ namespace OCA\Federation\Tests\Controller;
 
 use OC\BackgroundJob\JobList;
 use OCA\Federation\BackgroundJob\GetSharedSecret;
+use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCA\Federation\Controller\OCSAuthAPIController;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
@@ -65,7 +67,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRequestSharedSecret')]
-	public function testRequestSharedSecret(string $token, string $localToken, bool $isTrustedServer, bool $ok): void {
+	public function testRequestSharedSecret(string $token, string $localToken, bool $isTrustedServer, ?bool $hasRequestSharedSecretJob, bool $ok): void {
 		$url = 'url';
 
 		$this->trustedServers
@@ -74,9 +76,37 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$this->dbHandler->expects($this->any())
 			->method('getToken')->with($url)->willReturn($localToken);
 
+		if (strcmp($token, $localToken) < 0 && $isTrustedServer) {
+			$this->jobList->expects($this->once())->method('getJobsIterator')
+				->with(RequestSharedSecret::class, null, 0)
+				->willReturnCallback(function() use ($hasRequestSharedSecretJob) {
+					$jobWithoutArguments = $this->createMock(IJob::class);
+					$jobWithoutArguments->method('getArgument')->willReturn(null);
+					$jobForAnotherServer = $this->createMock(IJob::class);
+					$jobForAnotherServer->method('getArgument')->willReturn(['url' => 'other url']);
+					$data = [
+						$jobWithoutArguments,
+						$jobForAnotherServer,
+					];
+
+					if ($hasRequestSharedSecretJob) {
+						$jobForSameServer = $this->createMock(IJob::class);
+						$jobForSameServer->method('getArgument')->willReturn(['url' => 'url']);
+						array_push($data, $jobForSameServer);
+					}
+
+					foreach ($data as $element) {
+						yield $element;
+					}
+				});
+		}
+
 		if ($ok) {
 			$this->jobList->expects($this->once())->method('add')
 				->with(GetSharedSecret::class, ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
+		} elseif (strcmp($token, $localToken) < 0 && $isTrustedServer && !$hasRequestSharedSecretJob) {
+			$this->jobList->expects($this->once())->method('add')
+				->with(RequestSharedSecret::class, ['url' => $url, 'token' => $localToken, 'created' => $this->currentTime]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 			$this->jobList->expects($this->never())->method('remove');
@@ -98,9 +128,10 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 	public static function dataTestRequestSharedSecret(): array {
 		return [
-			['token2', 'token1', true, true],
-			['token1', 'token2', false, false],
-			['token1', 'token2', true, false],
+			['token2', 'token1', true, null, true],
+			['token1', 'token2', true, true, false],
+			['token1', 'token2', true, false, false],
+			['token1', 'token2', false, null, false],
 		];
 	}
 
