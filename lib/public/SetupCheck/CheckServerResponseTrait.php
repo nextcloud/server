@@ -17,7 +17,17 @@ use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 /**
- * Common trait for setup checks that need to use requests to the same server and check the response
+ * Provides common functionality for setup checks that require sending HTTP requests
+ * to the same server and analyzing the responses.
+ *
+ * This trait assists with:
+ * - Determining all possible server URLs to test, including trusted domains and CLI overrides.
+ * - Running HTTP requests with configurable options for SSL, error handling, and custom client options.
+ * - Generating helpful error messages when server connectivity is unavailable.
+ * - Normalizing URLs and building request options for consistent server checks.
+ *
+ * Intended only for use in Nextcloud setup checks.
+ *
  * @since 31.0.0
  */
 trait CheckServerResponseTrait {
@@ -27,21 +37,32 @@ trait CheckServerResponseTrait {
 	protected LoggerInterface $logger;
 
 	/**
-	 * Common helper string in case a check could not fetch any results
+	 * Generates a help string explaining what needs to be configured
+	 * for local server connectivity checks to succeed.
+	 *
+	 * Used primarily in the event a check is unable to fetch any results.
+	 *
+	 * @return string Local server configuration help text
 	 * @since 31.0.0
 	 */
 	protected function serverConfigHelp(): string {
 		$l10n = \OCP\Server::get(IFactory::class)->get('lib');
-		return $l10n->t('To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule.');
+		// TODO: Technically it's necessary the web server, but the PHP SAPI.
+		return $l10n->t(
+			'This check failed because your web server was unable to connect to itself.' . "\n\n"
+			. 'To fix this, please ensure:' . "\n"
+			. '- The server can resolve and connect to at least one of its configured `trusted_domains`, or the value set in `overwrite.cli.url`.' . "\n"
+			. '- There are no DNS mismatches, or outbound firewall rules blocking connections.' 
+		);
 	}
 
 	/**
-	 * Get all possible URLs that need to be checked for a local request test.
-	 * This takes all `trusted_domains` and the CLI overwrite URL into account.
+	 * Builds a list of possible absolute URLs for local server request tests.
+	 * Considers trusted domains, CLI overwrite URL, and the configured webroot.
 	 *
-	 * @param string $url The absolute path (absolute URL without host but with web-root) to test starting with a /
-	 * @param bool $isRootRequest Set to remove the web-root from URL and host (e.g. when requesting a path in the domain root like '/.well-known')
-	 * @return list<string> List of possible absolute URLs
+	 * @param string $url The absolute path to test (starts with /, does not include host)
+	 * @param bool $isRootRequest If true, removes webroot from URL and host (for root path requests like '/.well-known')
+	 * @return list<string> List of possible absolute URLs for testing
 	 * @since 31.0.0
 	 */
 	protected function getTestUrls(string $url, bool $isRootRequest = false): array {
@@ -89,21 +110,18 @@ trait CheckServerResponseTrait {
 	}
 
 	/**
-	 * Run a HTTP request to check header
-	 * @param string $method The HTTP method to use
-	 * @param string $url The absolute path (URL with webroot but without host) to check, can be the output of `IURLGenerator`
-	 * @param bool $isRootRequest If set the webroot is removed from URLs to make the request target the host's root. Example usage are the /.well-known URLs in the root path.
-	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options HTTP client related options, like
-	 *                                                                             [
-	 *                                                                             // Ignore invalid SSL certificates (e.g. self signed)
-	 *                                                                             'ignoreSSL' => true,
-	 *                                                                             // Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
-	 *                                                                             'httpErrors' => true,
-	 *                                                                             // Additional options for the HTTP client (see `IClient`)
-	 *                                                                             'options' => [],
-	 *                                                                             ]
+	 * Executes HTTP requests against all possible local server URLs for a given path.
 	 *
-	 * @return Generator<int, IResponse>
+	 * Yields responses for each successful request; logs and skips on failure (can be overridden).
+	 *
+	 * @param string $method HTTP method to use (e.g., 'GET', 'POST')
+	 * @param string $url Absolute path to check (with webroot, without host); can be the output of `IURLGenerator`
+	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options HTTP client options, such as:
+	 * - 'ignoreSSL': Ignore invalid SSL certificates (e.g., self-signed).
+	 * - 'httpErrors': Whether to ignore requests with HTTP error (4xx/5xx) responses.
+	 *   True by default (i.e., moves on to the next URL); set to false to not ignore erroneous responses.
+	 * - 'options': Additional options for the HTTP client (see {@see OCP\Http\Client\IClient}).
+	 * @param bool $isRootRequest If true, targets the host's root path.
 	 * @since 31.0.0
 	 */
 	protected function runRequest(string $method, string $url, array $options = [], bool $isRootRequest = false): Generator {
@@ -123,8 +141,10 @@ trait CheckServerResponseTrait {
 	}
 
 	/**
-	 * Get HTTP client options
-	 * @param bool $ignoreSSL If set SSL errors are ignored (e.g. self-signed certificates)
+	 * Builds HTTP client options for request execution.
+	 *
+	 * @param bool $ignoreSSL If true, disables SSL verification.
+	 * @param bool $httpErrors If true, sets whether HTTP error responses should trigger exceptions.
 	 * @since 31.0.0
 	 */
 	private function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
@@ -142,9 +162,11 @@ trait CheckServerResponseTrait {
 	}
 
 	/**
-	 * Strip a trailing slash and remove the webroot if requested.
-	 * @param string $url The URL to normalize. Should be an absolute URL containing scheme, host and optionally web-root.
-	 * @param bool $removeWebroot If set the web-root is removed from the URL and an absolute URL with only the scheme and host (optional port) is returned
+	 * Normalizes a URL by removing trailing slashes and, optionally, the webroot.
+	 *
+	 * @param string $url Absolute URL containing scheme, host, and optionally the webroot.
+	 * @param bool $removeWebroot If true, removes the webroot from the URL, returning only the scheme, host, and optional port.
+	 * @throws \InvalidArgumentException If the URL is missing a scheme or host.
 	 * @since 31.0.0
 	 */
 	private function normalizeUrl(string $url, bool $removeWebroot): string {
