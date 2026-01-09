@@ -18,6 +18,7 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
 use OCP\ServerVersion;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use function parse_url;
@@ -459,11 +460,12 @@ class ClientTest extends \Test\TestCase {
 
 	public function testSetDefaultOptionsWithNotInstalled(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, false],
 				['allow_local_remote_servers', false, false],
+				['add_url_in_user_agent', false, false],
 			]);
 		$this->config
 			->expects($this->once())
@@ -504,11 +506,12 @@ class ClientTest extends \Test\TestCase {
 
 	public function testSetDefaultOptionsWithProxy(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
 				['allow_local_remote_servers', false, false],
+				['add_url_in_user_agent', false, false],
 			]);
 		$this->config
 			->expects($this->once())
@@ -558,11 +561,12 @@ class ClientTest extends \Test\TestCase {
 
 	public function testSetDefaultOptionsWithProxyAndExclude(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
 				['allow_local_remote_servers', false, false],
+				['add_url_in_user_agent', false, false],
 			]);
 		$this->config
 			->expects($this->once())
@@ -594,6 +598,61 @@ class ClientTest extends \Test\TestCase {
 			],
 			'headers' => [
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'Accept-Encoding' => 'gzip',
+			],
+			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => false,
+			],
+			'allow_redirects' => [
+				'on_redirect' => function (
+					\Psr\Http\Message\RequestInterface $request,
+					\Psr\Http\Message\ResponseInterface $response,
+					\Psr\Http\Message\UriInterface $uri,
+				): void {
+				},
+			],
+		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+	}
+
+	public static function dataForTestSetServerUrlInUserAgent(): array {
+		return [
+			['https://example.com/', 'Nextcloud-Server-Crawler/123.45.6; +https://example.com'],
+			['', 'Nextcloud-Server-Crawler/123.45.6'],
+		];
+	}
+
+	#[DataProvider('dataForTestSetServerUrlInUserAgent')]
+	public function testSetServerUrlInUserAgent(string $url, string $userAgent): void {
+		$this->config
+			->expects($this->exactly(3))
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['installed', false, true],
+				['allow_local_remote_servers', false, false],
+				['add_url_in_user_agent', false, true],
+			]);
+		$this->config
+			->expects($this->exactly(3))
+			->method('getSystemValueString')
+			->willReturnMap([
+				['proxy', '', ''],
+				['proxyuserpwd', '', ''],
+				['overwrite.cli.url', null, $url],
+			]);
+		$this->certificateManager
+			->expects($this->once())
+			->method('getAbsoluteBundlePath')
+			->with()
+			->willReturn('/my/path.crt');
+
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$this->assertEquals([
+			'verify' => '/my/path.crt',
+			'headers' => [
+				'User-Agent' => $userAgent,
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,

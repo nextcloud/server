@@ -84,6 +84,10 @@ class Client implements IClient {
 
 		if (!isset($options[RequestOptions::HEADERS]['User-Agent'])) {
 			$userAgent = 'Nextcloud-Server-Crawler/' . $this->serverVersion->getVersionString();
+			$overwriteCliUrl = $this->config->getSystemValueString('overwrite.cli.url');
+			if ($this->config->getSystemValueBool('add_url_in_user_agent') && !empty($overwriteCliUrl)) {
+				$userAgent .= '; +' . rtrim($overwriteCliUrl, '/');
+			}
 			$options[RequestOptions::HEADERS]['User-Agent'] = $userAgent;
 		}
 
