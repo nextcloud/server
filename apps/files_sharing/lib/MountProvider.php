@@ -50,6 +50,14 @@ class MountProvider implements IMountProvider {
 	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+		return $this->getMountsFromSuperShares($user, $this->getSuperSharesForUser($user), $loader);
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return list<array{IShare, array<IShare>}> Tuple of [superShare, groupedShares]
+	 */
+	public function getSuperSharesForUser(IUser $user): array {
 		$userId = $user->getUID();
 		$shares = array_merge(
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_USER, null, -1),
@@ -60,9 +68,7 @@ class MountProvider implements IMountProvider {
 		);
 
 		$shares = $this->filterShares($shares, $userId);
-		$superShares = $this->buildSuperShares($shares, $user);
-
-		return $this->getMountsFromSuperShares($userId, $superShares, $loader, $user);
+		return $this->buildSuperShares($shares, $user);
 	}
 
 	/**
@@ -245,18 +251,18 @@ class MountProvider implements IMountProvider {
 	}
 	/**
 	 * @param string $userId
-	 * @param array $superShares
+	 * @param list<array{IShare, array<IShare>}> $superShares
 	 * @param IStorageFactory $loader
 	 * @param IUser $user
 	 * @return array
 	 * @throws Exception
 	 */
-	private function getMountsFromSuperShares(
-		string $userId,
+	public function getMountsFromSuperShares(
+		IUser $user,
 		array $superShares,
 		IStorageFactory $loader,
-		IUser $user,
 	): array {
+		$userId = $user->getUID();
 		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
 		$view = new View('/' . $userId . '/files');
@@ -289,7 +295,6 @@ class MountProvider implements IMountProvider {
 				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
-					$allMounts,
 					[
 						'user' => $userId,
 						// parent share
@@ -300,11 +305,8 @@ class MountProvider implements IMountProvider {
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
 					$loader,
-					$view,
-					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
-					$shareId <= $maxValidatedShare,
 				);
 
 				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);

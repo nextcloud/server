@@ -524,4 +524,13 @@ class UserMountCache implements IUserMountCache {
 			return $mount->getMountPoint() !== $path && str_starts_with($mount->getMountPoint(), $path);
 		});
 	}
+
+	/**
+	 * Clear the internal in-memory caches
+	 */
+	public function flush(): void {
+		$this->cacheInfoCache = new CappedMemoryCache();
+		$this->internalPathCache = new CappedMemoryCache();
+		$this->mountsForUsers = new CappedMemoryCache();
+	}
 }
