@@ -10,6 +10,7 @@ namespace OCA\FederatedFileSharing;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Share20\Exception\InvalidShare;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OC\Share20\Share;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -752,18 +753,23 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$data = $cursor->fetchAssociative();
 
 		if ($data === false) {
+			// Token not found as refresh token, try looking it up as access token
+			try {
+				$provider = Server::get(PublicKeyTokenProvider::class);
+				$accessTokenDb = $provider->getToken($token);
+				$refreshToken = $accessTokenDb->getUID();
 
-			$provider = Server::get(PublicKeyTokenProvider::class);
-			$accessTokenDb = $provider->getToken($token);
-			$refreshToken = $accessTokenDb->getUID();
+				$qb2 = $this->dbConnection->getQueryBuilder();
+				$cursor = $qb2->select('*')
+					->from('share')
+					->where($qb2->expr()->in('share_type', $qb2->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
+					->andWhere($qb2->expr()->eq('token', $qb2->createNamedParameter($refreshToken)))
+					->executeQuery();
 
-			$cursor = $qb->select('*')
-				->from('share')
-				->where($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
-				->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($refreshToken)))
-				->executeQuery();
-
-			$data = $cursor->fetch();
+				$data = $cursor->fetch();
+			} catch (InvalidTokenException) {
+				// Token is not a valid access token, share not found
+			}
 		}
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
