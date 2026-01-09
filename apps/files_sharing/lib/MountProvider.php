@@ -14,6 +14,8 @@ use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IMountProviderArgs;
+use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -26,7 +28,7 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use function count;
 
-class MountProvider implements IMountProvider {
+class MountProvider implements IMountProvider, IPartialMountProvider {
 	/**
 	 * @param IConfig $config
 	 * @param IManager $shareManager
@@ -51,7 +53,7 @@ class MountProvider implements IMountProvider {
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$userId = $user->getUID();
-		$shares = array_merge(
+		$shares = $this->mergeIterables(
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_USER, null, -1),
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_GROUP, null, -1),
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_CIRCLE, null, -1),
@@ -62,17 +64,24 @@ class MountProvider implements IMountProvider {
 		$shares = $this->filterShares($shares, $userId);
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		return $this->getMountsFromSuperShares($userId, $superShares, $loader, $user);
+		return array_values(
+			$this->getMountsFromSuperShares(
+				$userId,
+				$superShares,
+				$loader,
+				$user
+			),
+		);
 	}
 
 	/**
 	 * Groups shares by path (nodeId) and target path
 	 *
-	 * @param IShare[] $shares
+	 * @param iterable<IShare> $shares
 	 * @return IShare[][] array of grouped shares, each element in the
 	 *                    array is a group which itself is an array of shares
 	 */
-	private function groupShares(array $shares) {
+	private function groupShares(iterable $shares): array {
 		$tmp = [];
 
 		foreach ($shares as $share) {
@@ -108,11 +117,11 @@ class MountProvider implements IMountProvider {
 	 * the shares in the group, forming the most permissive combination
 	 * possible.
 	 *
-	 * @param IShare[] $allShares
+	 * @param iterable<IShare> $allShares
 	 * @param IUser $user user
 	 * @return list<array{IShare, array<IShare>}> Tuple of [superShare, groupedShares]
 	 */
-	private function buildSuperShares(array $allShares, IUser $user) {
+	private function buildSuperShares(iterable $allShares, IUser $user): array {
 		$result = [];
 
 		$groupedShares = $this->groupShares($allShares);
@@ -237,8 +246,7 @@ class MountProvider implements IMountProvider {
 			// null groups which usually appear with group backend
 			// caching inconsistencies
 			$this->logger->debug(
-				'Could not adjust share target for share ' . $share->getId(
-				) . ' to make it consistent: ' . $e->getMessage(),
+				'Could not adjust share target for share ' . $share->getId() . ' to make it consistent: ' . $e->getMessage(),
 				['app' => 'files_sharing']
 			);
 		}
@@ -248,7 +256,7 @@ class MountProvider implements IMountProvider {
 	 * @param array $superShares
 	 * @param IStorageFactory $loader
 	 * @param IUser $user
-	 * @return array
+	 * @return array IMountPoint indexed by mount point
 	 * @throws Exception
 	 */
 	private function getMountsFromSuperShares(
@@ -261,13 +269,11 @@ class MountProvider implements IMountProvider {
 		$mounts = [];
 		$view = new View('/' . $userId . '/files');
 		$ownerViews = [];
-		$sharingDisabledForUser
-			= $this->shareManager->sharingDisabledForUser($userId);
+		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($userId);
 		/** @var CappedMemoryCache<bool> $folderExistCache */
 		$foldersExistCache = new CappedMemoryCache();
 
-		$validShareCache
-			= $this->cacheFactory->createLocal('share-valid-mountpoint-max');
+		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
 		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
 		$newMaxValidatedShare = $maxValidatedShare;
 
@@ -312,12 +318,10 @@ class MountProvider implements IMountProvider {
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
 
-				$mounts[$mount->getMountPoint()]
-				= $allMounts[$mount->getMountPoint()] = $mount;
+				$mounts[$mount->getMountPoint()] = $allMounts[$mount->getMountPoint()] = $mount;
 				foreach ($event->getAdditionalMounts() as $additionalMount) {
-					$allMounts[$additionalMount->getMountPoint()]
-					= $mounts[$additionalMount->getMountPoint()]
-						= $additionalMount;
+					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
+					$allMounts[$additionalMount->getMountPoint()] = $additionalMount;
 				}
 			} catch (Exception $e) {
 				$this->logger->error(
@@ -333,24 +337,100 @@ class MountProvider implements IMountProvider {
 		$validShareCache->set($userId, $newMaxValidatedShare, 24 * 60 * 60);
 
 		// array_filter removes the null values from the array
-		return array_values(array_filter($mounts));
+		return array_filter($mounts);
 	}
 
 	/**
 	 * Filters out shares owned or shared by the user and ones for which the
 	 * user has no permissions.
 	 *
-	 * @param IShare[] $shares
-	 * @return IShare[]
+	 * @param iterable<IShare> $shares
+	 * @return iterable<IShare>
 	 */
-	private function filterShares(array $shares, string $userId): array {
-		return array_filter(
-			$shares,
-			static function (IShare $share) use ($userId) {
-				return $share->getPermissions() > 0
-					&& $share->getShareOwner() !== $userId
-					&& $share->getSharedBy() !== $userId;
+	private function filterShares(iterable $shares, string $userId): iterable {
+		foreach ($shares as $share) {
+			if (
+				$share->getPermissions() > 0
+				&& $share->getShareOwner() !== $userId && $share->getSharedBy() !== $userId
+			) {
+				yield $share;
 			}
+		}
+	}
+
+	public function getMountsForPath(
+		string $path,
+		bool $forChildren,
+		array $mountProviderArgs,
+		IStorageFactory $loader,
+	): array {
+		if (empty($mountProviderArgs)) {
+			return [];
+		}
+
+		$limit = -1;
+		$userId = null;
+		$user = null;
+		foreach ($mountProviderArgs as $mountProviderArg) {
+			if ($userId === null) {
+				$user = $mountProviderArg->mountInfo->getUser();
+				$userId = $user->getUID();
+			} elseif ($userId !== $mountProviderArg->mountInfo->getUser()->getUID()) {
+				throw new \LogicException('Mounts must belong to the same user!');
+			}
+		}
+
+		if (!$forChildren) {
+			// override path with mount point when fetching without children
+			$path = $mountProviderArgs[0]->mountInfo->getMountPoint();
+		}
+
+		// remove /uid/files as the target is stored without
+		$path = \substr($path, \strlen('/' . $userId . '/files'));
+		// remove trailing slash
+		$path = \rtrim($path, '/');
+
+		// make sure trailing slash is present when loading children
+		if ($forChildren || $path === '') {
+			$path .= '/';
+		}
+
+		$shares = $this->mergeIterables(
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_USER, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_GROUP, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_CIRCLE, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_ROOM, $path, $forChildren, $limit),
+			$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_DECK, $path, $forChildren, $limit),
 		);
+
+		$shares = $this->filterShares($shares, $userId);
+		$superShares = $this->buildSuperShares($shares, $user);
+
+		// remove unrequested shares
+		$superShares = \array_filter($superShares, function (array $shares) use ($mountProviderArgs) {
+			$superShare = $shares[0];
+
+			return array_any($mountProviderArgs,
+				function (IMountProviderArgs $mountProviderArg) use ($superShare) {
+					return $superShare->getNodeId() === $mountProviderArg->mountInfo->getRootId();
+				});
+		});
+
+		return $this->getMountsFromSuperShares($userId,
+			$superShares,
+			$loader,
+			$user);
+	}
+
+	/**
+	 * @param iterable ...$iterables
+	 * @return iterable
+	 */
+	private function mergeIterables(...$iterables): iterable {
+		foreach ($iterables as $iterable) {
+			foreach ($iterable as $value) {
+				yield $value;
+			}
+		}
 	}
 }

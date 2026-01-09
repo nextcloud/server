@@ -468,8 +468,7 @@ class SetupManager {
 		$mountProvider = $cachedMount->getMountProvider();
 		$mountPoint = $cachedMount->getMountPoint();
 		$isMountProviderSetup = in_array($mountProvider, $setupProviders);
-		$isPathSetupAsAuthoritative
-			= $this->isPathSetup($mountPoint);
+		$isPathSetupAsAuthoritative = $this->isPathSetup($mountPoint);
 		if (!$isMountProviderSetup && !$isPathSetupAsAuthoritative) {
 			if ($mountProvider === '') {
 				$this->logger->debug('mount at ' . $cachedMount->getMountPoint() . ' has no provider set, performing full setup');

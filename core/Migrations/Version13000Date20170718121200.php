@@ -453,7 +453,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['item_type', 'share_type'], 'item_share_type_index');
 			$table->addIndex(['file_source'], 'file_source_index');
 			$table->addIndex(['token'], 'token_index');
-			$table->addIndex(['share_with'], 'share_with_index');
+			$table->addIndex(['share_with', 'file_target'], 'share_with_file_target_index', [], ['lengths' => [null, 128]]);
 			$table->addIndex(['parent'], 'parent_index');
 			$table->addIndex(['uid_owner'], 'owner_index');
 			$table->addIndex(['uid_initiator'], 'initiator_index');

@@ -210,5 +210,21 @@ class AddMissingIndicesListener implements IEventListener {
 			'unique_category_per_user',
 			['uid', 'type', 'category']
 		);
+
+		$event->replaceIndex(
+			'share',
+			['share_with_index'],
+			'share_with_file_target_index',
+			['share_with', 'file_target'],
+			false,
+			['lengths' => [null, 128]]
+		);
+
+		$event->addMissingIndex(
+			'share_external',
+			'user_mountpoint_index',
+			['user', 'mountpoint'],
+			['lengths' => [null, 128]]
+		);
 	}
 }
