@@ -21,6 +21,7 @@ use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
 use OCP\IPreview;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Generate a Blurhash string as metadata when image file is uploaded/edited.
@@ -33,6 +34,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 
 	public function __construct(
 		private IPreview $preview,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -82,6 +84,8 @@ class GenerateBlurhashMetadata implements IEventListener {
 
 		$metadata->setString('blurhash', $this->generateBlurHash($image))
 			->setEtag('blurhash', $currentEtag);
+
+		@imagedestroy($image);
 	}
 
 	/**
@@ -92,6 +96,10 @@ class GenerateBlurhashMetadata implements IEventListener {
 	public function generateBlurHash(GdImage $image): string {
 		$width = imagesx($image);
 		$height = imagesy($image);
+
+		if (max($width, $height) > 64) {
+			$this->logger->notice('blurhash should be generated using 64x64 preview');
+		}
 
 		$pixels = [];
 		for ($y = 0; $y < $height; ++$y) {
