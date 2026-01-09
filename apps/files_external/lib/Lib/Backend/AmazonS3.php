@@ -28,6 +28,8 @@ class AmazonS3 extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('port', $l->t('Port')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				(new DefinitionParameter('proxy', $l->t('Proxy')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('region', $l->t('Region')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('storageClass', $l->t('Storage Class')))
@@ -42,6 +44,9 @@ class AmazonS3 extends Backend {
 				(new DefinitionParameter('useMultipartCopy', $l->t('Enable multipart copy')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
+				(new DefinitionParameter('use_presigned_url', $l->t('Use presigned S3 url')))
+					->setType(DefinitionParameter::VALUE_BOOLEAN)
+					->setDefaultValue(false),
 				(new DefinitionParameter('sse_c_key', $l->t('SSE-C encryption key')))
 					->setType(DefinitionParameter::VALUE_PASSWORD)
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
