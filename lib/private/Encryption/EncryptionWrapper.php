@@ -8,6 +8,7 @@
 namespace OC\Encryption;
 
 use OC\Files\Filesystem;
+use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
@@ -62,32 +63,48 @@ class EncryptionWrapper {
 			'mount' => $mount
 		];
 
-		if ($force || (!$storage->instanceOfStorage(IDisableEncryptionStorage::class) && $mountPoint !== '/')) {
-			$user = \OC::$server->getUserSession()->getUser();
-			$mountManager = Filesystem::getMountManager();
-			$uid = $user ? $user->getUID() : null;
-			$fileHelper = \OC::$server->get(IFile::class);
-			$keyStorage = \OC::$server->get(EncryptionKeysStorage::class);
+		// Only evaluate other conditions if not forced
+		if (!$force) {
+			// If a disabled storage medium, return basic storage
+			if ($storage->instanceOfStorage(IDisableEncryptionStorage::class)) {
+				return $storage;
+			}
 
-			$util = new Util(
-				new View(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getConfig()
-			);
-			return new Encryption(
-				$parameters,
-				$this->manager,
-				$util,
-				$this->logger,
-				$fileHelper,
-				$uid,
-				$keyStorage,
-				$mountManager,
-				$this->arrayCache
-			);
-		} else {
-			return $storage;
+			// Root mount point handling: skip encryption wrapper
+			if ($mountPoint === '/') {
+				return $storage;
+			}
+
+			// Skip encryption for home mounts if encryptHomeStorage is disabled
+			if ($mount instanceof HomeMountPoint
+				&& \OC::$server->getConfig()->getAppValue('encryption', 'encryptHomeStorage', '1') !== '1') {
+				return $storage;
+			}
 		}
+
+		// Apply encryption wrapper
+		$user = \OC::$server->getUserSession()->getUser();
+		$mountManager = Filesystem::getMountManager();
+		$uid = $user ? $user->getUID() : null;
+		$fileHelper = \OC::$server->get(IFile::class);
+		$keyStorage = \OC::$server->get(EncryptionKeysStorage::class);
+
+		$util = new Util(
+			new View(),
+			\OC::$server->getUserManager(),
+			\OC::$server->getGroupManager(),
+			\OC::$server->getConfig()
+		);
+		return new Encryption(
+			$parameters,
+			$this->manager,
+			$util,
+			$this->logger,
+			$fileHelper,
+			$uid,
+			$keyStorage,
+			$mountManager,
+			$this->arrayCache
+		);
 	}
 }
