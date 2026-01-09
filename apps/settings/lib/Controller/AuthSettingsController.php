@@ -59,7 +59,7 @@ class AuthSettingsController extends Controller {
 	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();

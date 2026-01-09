@@ -36,7 +36,7 @@ import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import { confirmPassword } from '@nextcloud/password-confirmation'
+import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineComponent } from 'vue'
@@ -45,6 +45,8 @@ import NcListItem from '@nextcloud/vue/components/NcListItem'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import IconQrcodeScan from 'vue-material-design-icons/QrcodeScan.vue'
 import AccountQrLoginDialog from './AccountQRLoginDialog.vue'
+
+addPasswordConfirmationInterceptors(axios)
 
 const { profileEnabled } = loadState('user_status', 'profileEnabled', { profileEnabled: false })
 
@@ -115,9 +117,11 @@ export default defineComponent({
 		},
 
 		async handleQrCodeClick() {
-			await confirmPassword()
-
-			const { data } = await axios.post<ITokenResponse>(generateUrl('/settings/personal/authtokens'), { qrcodeLogin: true })
+			const { data } = await axios.post<ITokenResponse>(
+				generateUrl('/settings/personal/authtokens'),
+				{ qrcodeLogin: true },
+				{ confirmPassword: PwdConfirmationMode.Strict },
+			)
 
 			await spawnDialog(AccountQrLoginDialog, { data })
 		},

@@ -6,12 +6,13 @@ import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import { confirmPassword } from '@nextcloud/password-confirmation'
+import { addPasswordConfirmationInterceptors, confirmPassword, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import logger from '../logger.ts'
 
 const BASE_URL = generateUrl('/settings/personal/authtokens')
+addPasswordConfirmationInterceptors(axios)
 
 /**
  *
@@ -89,9 +90,8 @@ export const useAuthTokenStore = defineStore('auth-token', {
 			logger.debug('Creating a new app token')
 
 			try {
-				await confirmPassword()
+				const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true }, { confirmPassword: PwdConfirmationMode.Strict })
 
-				const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true })
 				this.tokens.push(data.deviceToken)
 				logger.debug('App token created')
 				return data
