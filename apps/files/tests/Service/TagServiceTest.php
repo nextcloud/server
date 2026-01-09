@@ -27,7 +27,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\Files
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class TagServiceTest extends \Test\TestCase {
 	private string $user;
 	private IUserSession&MockObject $userSession;
@@ -44,9 +44,6 @@ class TagServiceTest extends \Test\TestCase {
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
 		$user = $this->createMock(IUser::class);
-		/**
-		 * @var IUserSession
-		 */
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')

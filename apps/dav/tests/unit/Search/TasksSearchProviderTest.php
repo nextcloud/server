@@ -289,7 +289,7 @@ class TasksSearchProviderTest extends TestCase {
 		$this->assertEquals('absolute-url-link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics', $actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('generateSublineDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateSublineDataProvider')]
 	public function testGenerateSubline(string $ics, string $expectedSubline): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$taskComponent = $vCalendar->VTODO;

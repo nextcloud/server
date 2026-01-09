@@ -35,7 +35,7 @@ use Test\TestCase;
  *
  * @package Tests\Settings\Controller
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AppSettingsControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 	private IL10N&MockObject $l10n;

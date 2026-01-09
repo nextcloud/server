@@ -92,7 +92,7 @@ class UserThemeControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestThemes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestThemes')]
 	public function testEnableTheme(string $themeId, ?string $exception = null): void {
 		$this->themesService
 			->expects($this->any())
@@ -107,7 +107,7 @@ class UserThemeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->userThemeController->enableTheme($themeId));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestThemes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestThemes')]
 	public function testDisableTheme(string $themeId, ?string $exception = null): void {
 		$this->themesService
 			->expects($this->any())

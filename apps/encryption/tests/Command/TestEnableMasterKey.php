@@ -46,7 +46,7 @@ class TestEnableMasterKey extends TestCase {
 		$this->enableMasterKey = new EnableMasterKey($this->util, $this->config, $this->questionHelper);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestExecute')]
 	public function testExecute(bool $isAlreadyEnabled, string $answer): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($isAlreadyEnabled);

@@ -30,17 +30,16 @@ use Psr\Log\LoggerInterface;
 /**
  * Class CapabilitiesTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends \Test\TestCase {
 
 	/**
 	 * Test for the general part in each return statement and assert.
 	 * Strip of the general part on the way.
 	 *
-	 * @param string[] $data Capabilities
-	 * @return string[]
+	 * @param array $data Capabilities
 	 */
-	private function getFilesSharingPart(array $data) {
+	private function getFilesSharingPart(array $data): array {
 		$this->assertArrayHasKey('files_sharing', $data);
 		return $data['files_sharing'];
 	}
@@ -51,9 +50,8 @@ class CapabilitiesTest extends \Test\TestCase {
 	 * levels in the array
 	 *
 	 * @param (string[])[] $map Map of arguments to return types for the getAppValue function in the mock
-	 * @return string[]
 	 */
-	private function getResults(array $map, array $typedMap = [], bool $federationEnabled = true) {
+	private function getResults(array $map, array $typedMap = [], bool $federationEnabled = true): array {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
 		$appManager = $this->getMockBuilder(IAppManager::class)->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->willReturnMap($map);
@@ -97,8 +95,7 @@ class CapabilitiesTest extends \Test\TestCase {
 		);
 
 		$cap = new Capabilities($config, $appConfig, $shareManager, $appManager);
-		$result = $this->getFilesSharingPart($cap->getCapabilities());
-		return $result;
+		return $this->getFilesSharingPart($cap->getCapabilities());
 	}
 
 	public function testEnabledSharingAPI(): void {

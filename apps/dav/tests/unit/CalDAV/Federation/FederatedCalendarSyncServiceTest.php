@@ -126,7 +126,7 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideUnexpectedSyncTokenData')]
+	#[DataProvider(methodName: 'provideUnexpectedSyncTokenData')]
 	public function testSyncOneWithUnexpectedSyncTokenFormat(string $syncToken): void {
 		$calendar = new FederatedCalendarEntity();
 		$calendar->setId(1);

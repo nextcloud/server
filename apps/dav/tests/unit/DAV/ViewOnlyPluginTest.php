@@ -94,7 +94,7 @@ class ViewOnlyPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesDataForCanGet')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesDataForCanGet')]
 	public function testCanGet(bool $isVersion, ?bool $attrEnabled, bool $expectCanDownloadFile, bool $allowViewWithoutDownload): void {
 		$nodeInfo = $this->createMock(File::class);
 		if ($isVersion) {

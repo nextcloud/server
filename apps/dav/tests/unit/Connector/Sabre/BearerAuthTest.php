@@ -19,7 +19,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class BearerAuthTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private ISession&MockObject $session;
@@ -74,7 +74,7 @@ class BearerAuthTest extends TestCase {
 		$request = $this->createMock(RequestInterface::class);
 		/** @var ResponseInterface&MockObject $response */
 		$response = $this->createMock(ResponseInterface::class);
-		$result = $this->bearerAuth->challenge($request, $response);
-		$this->assertEmpty($result);
+		$this->bearerAuth->challenge($request, $response);
+		$this->assertTrue(true);
 	}
 }

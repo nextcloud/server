@@ -87,7 +87,7 @@ class UserStatusControllerTest extends TestCase {
 		$this->controller->getStatus();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('setStatusDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setStatusDataProvider')]
 	public function testSetStatus(
 		string $statusType,
 		?string $statusIcon,
@@ -147,7 +147,7 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('setPredefinedMessageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setPredefinedMessageDataProvider')]
 	public function testSetPredefinedMessage(
 		string $messageId,
 		?int $clearAt,
@@ -207,7 +207,7 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('setCustomMessageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setCustomMessageDataProvider')]
 	public function testSetCustomMessage(
 		?string $statusIcon,
 		string $message,

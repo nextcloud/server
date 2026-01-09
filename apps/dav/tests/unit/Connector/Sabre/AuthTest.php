@@ -19,7 +19,9 @@ use OCP\IUser;
 use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
+use Sabre\HTTP\Request;
 use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
@@ -28,7 +30,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AuthTest extends TestCase {
 	private ISession&MockObject $session;
 	private Session&MockObject $userSession;
@@ -454,8 +456,8 @@ class AuthTest extends TestCase {
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvided(): void {
 		$server = $this->createMock(Server::class);
-		$server->httpRequest = $this->createMock(RequestInterface::class);
-		$server->httpResponse = $this->createMock(ResponseInterface::class);
+		$server->httpRequest = $this->createMock(Request::class);
+		$server->httpResponse = $this->createMock(Response::class);
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
 		$this->assertEquals([false, 'No \'Authorization: Basic\' header found. Either the client didn\'t send one, or the server is misconfigured'], $response);
 	}
@@ -525,9 +527,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjaxButUserIsStillLoggedIn(): void {
-		/** @var \Sabre\HTTP\RequestInterface $httpRequest */
 		$httpRequest = $this->createMock(RequestInterface::class);
-		/** @var \Sabre\HTTP\ResponseInterface $httpResponse */
 		$httpResponse = $this->createMock(ResponseInterface::class);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('MyTestUser');
@@ -561,14 +561,14 @@ class AuthTest extends TestCase {
 
 	public function testAuthenticateValidCredentials(): void {
 		$server = $this->createMock(Server::class);
-		$server->httpRequest = $this->createMock(RequestInterface::class);
+		$server->httpRequest = $this->createMock(Request::class);
 		$server->httpRequest
 			->expects($this->once())
 			->method('getHeader')
 			->with('Authorization')
 			->willReturn('basic dXNlcm5hbWU6cGFzc3dvcmQ=');
 
-		$server->httpResponse = $this->createMock(ResponseInterface::class);
+		$server->httpResponse = $this->createMock(Response::class);
 		$this->userSession
 			->expects($this->once())
 			->method('logClientIn')
@@ -588,7 +588,7 @@ class AuthTest extends TestCase {
 
 	public function testAuthenticateInvalidCredentials(): void {
 		$server = $this->createMock(Server::class);
-		$server->httpRequest = $this->createMock(RequestInterface::class);
+		$server->httpRequest = $this->createMock(Request::class);
 		$server->httpRequest
 			->expects($this->exactly(2))
 			->method('getHeader')
@@ -596,7 +596,7 @@ class AuthTest extends TestCase {
 				['Authorization', 'basic dXNlcm5hbWU6cGFzc3dvcmQ='],
 				['X-Requested-With', null],
 			]);
-		$server->httpResponse = $this->createMock(ResponseInterface::class);
+		$server->httpResponse = $this->createMock(Response::class);
 		$this->userSession
 			->expects($this->once())
 			->method('logClientIn')

@@ -85,7 +85,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCreateFederatedShare')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCreateFederatedShare')]
 	public function testCreateFederatedShare(
 		string $shareWith,
 		bool $outgoingSharesAllowed,

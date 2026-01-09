@@ -11,7 +11,7 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Migration;
 use OCA\TwoFactorBackupCodes\Migration\CheckBackupCodes;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
-use PHPunit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CheckBackupCodeTest extends TestCase {

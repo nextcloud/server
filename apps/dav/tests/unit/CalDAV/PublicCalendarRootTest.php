@@ -32,7 +32,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicCalendarRootTest extends TestCase {
 	public const UNIT_TEST_USER = '';
 	private CalDavBackend $backend;

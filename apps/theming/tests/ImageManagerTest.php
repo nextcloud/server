@@ -313,7 +313,7 @@ class ImageManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImage')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateImage')]
 	public function testUpdateImage(string $key, string $tmpFile, bool $folderExists, bool $shouldConvert): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);

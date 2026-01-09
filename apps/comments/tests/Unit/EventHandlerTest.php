@@ -61,7 +61,7 @@ class EventHandlerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('handledProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'handledProvider')]
 	public function testHandled(string $eventType): void {
 		/** @var IComment|MockObject $comment */
 		$comment = $this->createMock(IComment::class);

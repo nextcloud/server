@@ -29,7 +29,7 @@ use Test\Traits\MountProviderTrait;
 /**
  * Base class for sharing tests.
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 abstract class TestCase extends \Test\TestCase {
 	use MountProviderTrait;
 

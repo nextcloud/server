@@ -236,7 +236,7 @@ class OauthApiControllerTest extends TestCase {
 	 * @param string $clientId
 	 * @param string $clientSecret
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidClientProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'invalidClientProvider')]
 	public function testRefreshTokenInvalidClient($clientId, $clientSecret): void {
 		$expected = new JSONResponse([
 			'error' => 'invalid_client',

@@ -482,9 +482,6 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testAddUserSuccessfulWithDisplayName(): void {
-		/**
-		 * @var UserController
-		 */
 		$api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
 				'provisioning_api',
@@ -1590,7 +1587,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchByPhoneNumbers')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSearchByPhoneNumbers')]
 	public function testSearchByPhoneNumbers(string $location, array $search, int $status, ?array $searchUsers, ?array $userMatches, array $expected): void {
 		$knownTo = 'knownTo';
 		$user = $this->createMock(IUser::class);
@@ -1917,7 +1914,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('selfEditChangePropertyProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'selfEditChangePropertyProvider')]
 	public function testEditUserRegularUserSelfEditChangeProperty($propertyName, $oldValue, $newValue): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -1994,7 +1991,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('selfEditChangePropertyProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'selfEditChangePropertyProvider')]
 	public function testEditUserRegularUserSelfEditChangePropertyScope($propertyName, $oldScope, $newScope): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -2329,7 +2326,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserSelfEditChangeLanguageButForced')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataEditUserSelfEditChangeLanguageButForced')]
 	public function testEditUserSelfEditChangeLanguageButForced($forced): void {
 		$this->expectException(OCSException::class);
 
@@ -2423,7 +2420,7 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserSelfEditChangeLanguageButForced')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataEditUserSelfEditChangeLanguageButForced')]
 	public function testEditUserAdminEditChangeLanguageInvalidLanguage(): void {
 		$this->expectException(OCSException::class);
 
@@ -4422,7 +4419,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetEditableFields')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetEditableFields')]
 	public function testGetEditableFields(bool $allowedToChangeDisplayName, bool $allowedToChangeEmail, string $userBackend, array $expected): void {
 		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => match ($key) {
 			'allow_user_to_change_display_name' => $allowedToChangeDisplayName,

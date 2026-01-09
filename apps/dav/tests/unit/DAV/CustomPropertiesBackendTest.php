@@ -25,7 +25,7 @@ use Sabre\DAVACL\IACL;
 use Sabre\DAVACL\IPrincipal;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CustomPropertiesBackendTest extends TestCase {
 	private const BASE_URI = '/remote.php/dav/';
 
@@ -274,7 +274,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('propFindPrincipalScheduleDefaultCalendarProviderUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'propFindPrincipalScheduleDefaultCalendarProviderUrlProvider')]
 	public function testPropFindPrincipalScheduleDefaultCalendarUrl(
 		string $user,
 		array $nodes,
@@ -336,7 +336,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals($returnedProps, $setProps);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('propPatchProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'propPatchProvider')]
 	public function testPropPatch(string $path, array $existing, array $props, array $result): void {
 		$this->server->method('calculateUri')
 			->willReturnCallback(function ($uri) {
@@ -417,7 +417,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals([], $storedProps);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('deleteProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteProvider')]
 	public function testDelete(string $path): void {
 		$this->insertProps('dummy_user_42', $path, ['foo' => 'bar']);
 		$this->backend->delete($path);
@@ -431,7 +431,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('moveProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveProvider')]
 	public function testMove(string $source, string $target): void {
 		$this->insertProps('dummy_user_42', $source, ['foo' => 'bar']);
 		$this->backend->move($source, $target);

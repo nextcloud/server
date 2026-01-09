@@ -170,7 +170,7 @@ class NotifierTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPrepare')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPrepare')]
 	public function testPrepare(string $subjectType, array $subjectParams, string $subject, array $messageParams, string $message): void {
 		/** @var INotification&MockObject $notification */
 		$notification = $this->createMock(INotification::class);

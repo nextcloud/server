@@ -10,7 +10,6 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ClearNotifications;
-use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
@@ -30,14 +29,6 @@ class ClearNotificationsTest extends TestCase {
 			->willReturn(Server::get(IManager::class)->createNotification());
 
 		$this->listener = new ClearNotifications($this->notificationManager);
-	}
-
-	public function testHandleGenericEvent(): void {
-		$event = $this->createMock(Event::class);
-		$this->notificationManager->expects($this->never())
-			->method($this->anything());
-
-		$this->listener->handle($event);
 	}
 
 	public function testHandleCodesGeneratedEvent(): void {

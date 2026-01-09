@@ -22,7 +22,7 @@ use OCP\Share\IShare;
 /**
  * Class UpdaterTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UpdaterTest extends TestCase {
 	public const TEST_FOLDER_NAME = '/folder_share_updater_test';
 
@@ -136,7 +136,7 @@ class UpdaterTest extends TestCase {
 	 *
 	 * @param string $shareFolder share folder to use
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('shareFolderProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'shareFolderProvider')]
 	public function testShareFile($shareFolder): void {
 		$config = Server::get(IConfig::class);
 		$oldShareFolder = $config->getSystemValue('share_folder');

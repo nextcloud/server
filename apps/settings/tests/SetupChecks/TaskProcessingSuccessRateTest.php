@@ -14,12 +14,13 @@ use OCP\IL10N;
 use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\Task;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class TaskProcessingSuccessRateTest extends TestCase {
-	private IL10N $l10n;
-	private ITimeFactory $timeFactory;
-	private IManager $taskProcessingManager;
+	private IL10N&MockObject $l10n;
+	private ITimeFactory&MockObject $timeFactory;
+	private IManager&MockObject $taskProcessingManager;
 
 	private TaskProcessingSuccessRate $check;
 

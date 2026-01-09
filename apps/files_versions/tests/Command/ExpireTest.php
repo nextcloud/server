@@ -17,7 +17,7 @@ use Test\TestCase;
  *
  * @package OCA\Files_Versions\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ExpireTest extends TestCase {
 	public function testExpireNonExistingUser(): void {
 		$command = new Expire($this->getUniqueID('test'), '');

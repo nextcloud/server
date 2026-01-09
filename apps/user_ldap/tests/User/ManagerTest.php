@@ -31,7 +31,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\User_LDAP\Tests\User
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ManagerTest extends \Test\TestCase {
 	protected Access&MockObject $access;
 	protected IConfig&MockObject $config;
@@ -93,7 +93,7 @@ class ManagerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dnProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnProvider')]
 	public function testGetByDNExisting(string $inputDN): void {
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
@@ -190,7 +190,7 @@ class ManagerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('attributeRequestProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attributeRequestProvider')]
 	public function testGetAttributes($minimal): void {
 		$this->connection->setConfiguration([
 			'ldapEmailAttribute' => 'MAIL',

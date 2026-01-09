@@ -48,7 +48,7 @@ use Test\Traits\EmailValidatorTrait;
  *
  * @package OCA\ShareByMail\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareByMailProviderTest extends TestCase {
 	use EmailValidatorTrait;
 
@@ -827,7 +827,7 @@ class ShareByMailProviderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateSendPassword')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateSendPassword')]
 	public function testUpdateSendPassword(?string $plainTextPassword, string $originalPassword, string $newPassword, bool $originalSendPasswordByTalk, bool $newSendPasswordByTalk, bool $sendMail): void {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');

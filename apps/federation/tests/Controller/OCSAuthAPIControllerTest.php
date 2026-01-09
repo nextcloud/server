@@ -64,7 +64,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 			->willReturn($this->currentTime);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRequestSharedSecret')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRequestSharedSecret')]
 	public function testRequestSharedSecret(string $token, string $localToken, bool $isTrustedServer, bool $ok): void {
 		$url = 'url';
 
@@ -104,7 +104,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetSharedSecret')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetSharedSecret')]
 	public function testGetSharedSecret(bool $isTrustedServer, bool $isValidToken, bool $ok): void {
 		$url = 'url';
 		$token = 'token';

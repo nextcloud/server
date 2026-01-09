@@ -42,7 +42,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @package Tests\Settings\Controller
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UsersControllerTest extends \Test\TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private UserManager&MockObject $userManager;
@@ -250,7 +250,7 @@ class UsersControllerTest extends \Test\TestCase {
 		return $account;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetUserSettings')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetUserSettings')]
 	public function testSetUserSettings(string $email, bool $validEmail, int $expectedStatus): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
@@ -516,7 +516,7 @@ class UsersControllerTest extends \Test\TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetUserSettingsSubset')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetUserSettingsSubset')]
 	public function testSetUserSettingsSubset(string $property, string $propertyValue): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
@@ -668,7 +668,7 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSaveUserSettings')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSaveUserSettings')]
 	public function testSaveUserSettings(array $data, ?string $oldEmailAddress, ?string $oldDisplayName): void {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
@@ -783,7 +783,7 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSaveUserSettingsException')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSaveUserSettingsException')]
 	public function testSaveUserSettingsException(
 		array $data,
 		string $oldEmailAddress,
@@ -866,7 +866,7 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetVerificationCode')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetVerificationCode')]
 	public function testGetVerificationCode(string $account, string $type, array $dataBefore, array $expectedData, bool $onlyVerificationCode): void {
 		$message = 'Use my Federated Cloud ID to share with me: user@nextcloud.com';
 		$signature = 'theSignature';
@@ -961,7 +961,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCanAdminChangeUserPasswords')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCanAdminChangeUserPasswords')]
 	public function testCanAdminChangeUserPasswords(
 		bool $encryptionEnabled,
 		bool $encryptionModuleLoaded,
@@ -1003,7 +1003,7 @@ class UsersControllerTest extends \Test\TestCase {
 			[false, false, false, true],
 		];
 	}
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetPreference')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSetPreference')]
 	public function testSetPreference(string $key, string $value, bool $isUserValue, bool $isAppValue, int $expectedStatus): void {
 		$controller = $this->getController(false, []);
 		$user = $this->createMock(IUser::class);

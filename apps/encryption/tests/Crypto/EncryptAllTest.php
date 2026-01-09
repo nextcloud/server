@@ -383,7 +383,7 @@ class EncryptAllTest extends TestCase {
 	/**
 	 * @param $isEncrypted
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEncryptFile')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestEncryptFile')]
 	public function testEncryptFile($isEncrypted): void {
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->expects($this->any())->method('isEncrypted')

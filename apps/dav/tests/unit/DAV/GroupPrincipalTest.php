@@ -192,7 +192,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			['{DAV:}displayname' => 'Foo']));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('searchPrincipalsDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalsDataProvider')]
 	public function testSearchPrincipals(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
@@ -263,7 +263,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('findByUriDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'findByUriDataProvider')]
 	public function testFindByUri(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $findUri, ?string $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')

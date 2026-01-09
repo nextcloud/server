@@ -97,7 +97,7 @@ class WellKnownUrlsTest extends TestCase {
 	/**
 	 * Test responses
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestResponses')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestResponses')]
 	public function testResponses($responses, string $expectedSeverity): void {
 		$createResponse = function (int $statuscode, array $header = []): IResponse&MockObject {
 			$response = $this->createMock(IResponse::class);

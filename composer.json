@@ -66,6 +66,7 @@
 		"psalm:ocp": "psalm --no-cache --threads=$(nproc) -c psalm-ocp.xml",
 		"psalm:ncu": "psalm --no-cache --threads=$(nproc) -c psalm-ncu.xml",
 		"psalm:security": "psalm --no-cache --threads=$(nproc) --taint-analysis --use-baseline=build/psalm-baseline-security.xml",
+		"psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
 		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
 		"serve": [
 			"Composer\\Config::disableProcessTimeout",

@@ -72,7 +72,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	#[DataProvider('dataBeforeController')]
+	#[DataProvider(methodName: 'dataBeforeController')]
 	public function testBeforeController(string $controllerClass, bool $enabled, bool $exception): void {
 		$controller = $this->createMock($controllerClass);
 		$this->shareManager->method('shareApiEnabled')->willReturn($enabled);
@@ -99,7 +99,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	#[DataProvider('dataAfterController')]
+	#[DataProvider(methodName: 'dataAfterController')]
 	public function testAfterController(string $controllerClass): void {
 		$controller = $this->createMock($controllerClass);
 		if ($controller instanceof ShareAPIController) {

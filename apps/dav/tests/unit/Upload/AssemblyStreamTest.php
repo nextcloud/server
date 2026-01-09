@@ -12,7 +12,7 @@ use Sabre\DAV\File;
 
 class AssemblyStreamTest extends \Test\TestCase {
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesNodes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNodes')]
 	public function testGetContents(string $expected, array $nodeData): void {
 		$nodes = [];
 		foreach ($nodeData as $data) {
@@ -24,7 +24,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$this->assertEquals($expected, $content);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesNodes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNodes')]
 	public function testGetContentsFread(string $expected, array $nodeData, int $chunkLength = 3): void {
 		$nodes = [];
 		foreach ($nodeData as $data) {
@@ -44,7 +44,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$this->assertEquals($expected, $content);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesNodes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNodes')]
 	public function testSeek(string $expected, array $nodeData): void {
 		$nodes = [];
 		foreach ($nodeData as $data) {

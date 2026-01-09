@@ -67,14 +67,14 @@ abstract class StoragesController extends Controller {
 	 * @return StorageConfig|DataResponse
 	 */
 	protected function createStorage(
-		$mountPoint,
-		$backend,
-		$authMechanism,
-		$backendOptions,
-		$mountOptions = null,
-		$applicableUsers = null,
-		$applicableGroups = null,
-		$priority = null,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
+		array $backendOptions,
+		?array $mountOptions = null,
+		?array $applicableUsers = null,
+		?array $applicableGroups = null,
+		?int $priority = null,
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
 		if (!$canCreateNewLocalStorage && $backend === 'local') {

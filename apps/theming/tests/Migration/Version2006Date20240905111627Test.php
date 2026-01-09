@@ -12,6 +12,7 @@ namespace OCA\Theming\Tests\Migration;
 use OCA\Theming\Migration\Version2006Date20240905111627;
 use OCP\BackgroundJob\IJobList;
 use OCP\Config\IUserConfig;
+use OCP\DB\ISchemaWrapper;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -20,7 +21,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class Version2006Date20240905111627Test extends TestCase {
 
 	private IAppConfig&MockObject $appConfig;
@@ -65,7 +66,7 @@ class Version2006Date20240905111627Test extends TestCase {
 			});
 
 		$output = $this->createMock(IOutput::class);
-		$this->migration->changeSchema($output, fn () => null, []);
+		$this->migration->changeSchema($output, fn () => $this->createMock(ISchemaWrapper::class), []);
 
 		$this->assertEquals([
 			['theming', 'background_color', 'ffab00', false, false],
@@ -73,7 +74,7 @@ class Version2006Date20240905111627Test extends TestCase {
 		], $setValueCalls);
 	}
 
-	#[\PHPUnit\Framework\Attributes\Group('DB')]
+	#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 	public function testRestoreUserColors(): void {
 		$this->appConfig->expects(self::once())
 			->method('getValueString')
@@ -109,7 +110,7 @@ class Version2006Date20240905111627Test extends TestCase {
 			Server::get(IDBConnection::class),
 		);
 		// Run the migration
-		$migration->changeSchema($output, fn () => null, []);
+		$migration->changeSchema($output, fn () => $this->createMock(ISchemaWrapper::class), []);
 
 		// See new value
 		$config->clearCache('theming_legacy');
@@ -123,7 +124,7 @@ class Version2006Date20240905111627Test extends TestCase {
 	/**
 	 * Ensure only users with background color but no primary color are migrated
 	 */
-	#[\PHPUnit\Framework\Attributes\Group('DB')]
+	#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 	public function testRestoreUserColorsWithConflicts(): void {
 		$this->appConfig->expects(self::once())
 			->method('getValueString')
@@ -163,7 +164,7 @@ class Version2006Date20240905111627Test extends TestCase {
 			Server::get(IDBConnection::class),
 		);
 		// Run the migration
-		$migration->changeSchema($output, fn () => null, []);
+		$migration->changeSchema($output, fn () => $this->createMock(ISchemaWrapper::class), []);
 
 		// See new value of only the legacy user
 		$config->clearCacheAll();

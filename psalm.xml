@@ -64,8 +64,8 @@
 		<file name="version.php"/>
 		<file name="tests/lib/TestCase.php"/>
 		<ignoreFiles>
-			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
+			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
@@ -170,37 +170,54 @@
 		<DeprecatedClass>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedClass>
 		<DeprecatedConstant>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedConstant>
 		<DeprecatedFunction>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedFunction>
 		<DeprecatedInterface>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedInterface>
 		<DeprecatedMethod>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedMethod>
 		<DeprecatedProperty>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedProperty>
 		<DeprecatedTrait>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
+		<InternalMethod>
+			<errorLevel type="suppress">
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</InternalMethod>
+		<InternalClass>
+			<errorLevel type="suppress">
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</InternalClass>
 	</issueHandlers>
 </psalm>

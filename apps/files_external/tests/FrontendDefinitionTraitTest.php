@@ -18,6 +18,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->getMock();
 		$param->method('getName')->willReturn('foo');
 
+		/** @var FrontendDefinitionTrait $trait */
 		$trait = $this->getMockForTrait(FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameters([$param]);
@@ -41,7 +42,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
 	public function testValidateStorage(bool $expectedSuccess, array $params): void {
 		$backendParams = [];
 		foreach ($params as $name => $valid) {
@@ -67,6 +68,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$storageConfig->expects($this->any())
 			->method('setBackendOption');
 
+		/** @var FrontendDefinitionTrait $trait */
 		$trait = $this->getMockForTrait(FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameters($backendParams);
@@ -98,6 +100,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->method('setBackendOption')
 			->with('param', 'foobar');
 
+		/** @var FrontendDefinitionTrait $trait */
 		$trait = $this->getMockForTrait(FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameter($param);

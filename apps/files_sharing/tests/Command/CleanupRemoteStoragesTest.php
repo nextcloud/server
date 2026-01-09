@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
-#[Group('DB')]
+#[Group(name: 'DB')]
 class CleanupRemoteStoragesTest extends TestCase {
 
 	protected IDBConnection $connection;

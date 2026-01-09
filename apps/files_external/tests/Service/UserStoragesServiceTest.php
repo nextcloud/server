@@ -22,7 +22,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserStoragesServiceTest extends StoragesServiceTestCase {
 	use UserTrait;
 
@@ -126,7 +126,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEmpty(self::$hookCalls);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		parent::testDeleteStorage($backendOptions, $rustyStorageId);
 
