@@ -18,6 +18,16 @@ use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Class SecurityHeaders
+ *
+ * Performs setup checks to verify that essential HTTP security headers are correctly configured
+ * on the Nextcloud instance. The check issues warnings or informational messages if recommended
+ * security headers are missing, malformed, or set to unsafe values.
+ *
+ * This class is used by the Nextcloud setup process to ensure that the web server delivers
+ * responses with proper security headers, helping to protect against common web vulnerabilities.
+ */
 class SecurityHeaders implements ISetupCheck {
 
 	use CheckServerResponseTrait;
@@ -39,6 +49,20 @@ class SecurityHeaders implements ISetupCheck {
 		return $this->l10n->t('HTTP headers');
 	}
 
+	/**
+	 * Executes the security header setup check.
+	 *
+	 * This method sends HTTP requests to the server and analyzes the response headers
+	 * to verify that essential security-related HTTP headers (such as X-Content-Type-Options,
+	 * X-Robots-Tag, X-Frame-Options, X-Permitted-Cross-Domain-Policies, Referrer-Policy,
+	 * and Strict-Transport-Security) are set correctly and meet recommended values.
+	 *
+	 * Returns a SetupResult indicating whether the server is properly configured,
+	 * provides warnings for misconfiguration, or informational messages if the check
+	 * cannot be performed.
+	 *
+	 * @return SetupResult Result of the security headers setup check.
+	 */
 	public function run(): SetupResult {
 		$urls = [
 			['get', $this->urlGenerator->linkToRoute('heartbeat'), [200]],
@@ -50,7 +74,7 @@ class SecurityHeaders implements ISetupCheck {
 			'X-Permitted-Cross-Domain-Policies' => ['none', null],
 		];
 
-		foreach ($urls as [$verb,$url,$validStatuses]) {
+		foreach ($urls as [$verb, $url, $validStatuses]) {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, ['httpErrors' => false]) as $response) {
 				// Check that the response status matches
@@ -61,13 +85,23 @@ class SecurityHeaders implements ISetupCheck {
 				$msg = '';
 				$msgParameters = [];
 				foreach ($securityHeaders as $header => [$expected, $accepted]) {
-					/* Convert to lowercase and remove spaces after comas */
+					/* Convert to lowercase and remove spaces after commas */
 					$value = preg_replace('/,\s+/', ',', strtolower($response->getHeader($header)));
 					if ($value !== $expected) {
 						if ($accepted !== null && $value === $accepted) {
-							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly.', [$header, $expected]) . "\n";
+							$msg .= $this->l10n->t(
+								'- The `%1$s` HTTP header is not set to `%2$s`. Some features '
+								. 'might not work correctly, as it is recommended to adjust this '
+								. 'setting accordingly.',
+								[$header, $expected]
+							) . "\n";
 						} else {
-							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', [$header, $expected]) . "\n";
+							$msg .= $this->l10n->t(
+								'- The `%1$s` HTTP header is not set to `%2$s`. This is a '
+								. 'potential security or privacy risk, as it is recommended to adjust '
+								. 'this setting accordingly.',
+								[$header, $expected]
+							) . "\n";
 						}
 					}
 				}
@@ -75,7 +109,8 @@ class SecurityHeaders implements ISetupCheck {
 				$referrerPolicy = $response->getHeader('Referrer-Policy');
 				if (!preg_match('/(no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin)(,|$)/', $referrerPolicy)) {
 					$msg .= $this->l10n->t(
-						'- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}.',
+						'- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. '
+						. 'This can leak referer information. See the {w3c-recommendation}.',
 						[
 							'Referrer-Policy',
 							'no-referrer',
@@ -98,17 +133,35 @@ class SecurityHeaders implements ISetupCheck {
 				if (preg_match('/^max-age=(\d+)(;.*)?$/', $transportSecurityValidity, $m)) {
 					$transportSecurityValidity = (int)$m[1];
 					if ($transportSecurityValidity < $minimumSeconds) {
-						$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy.', [$minimumSeconds, $transportSecurityValidity]) . "\n";
+						$msg .= $this->l10n->t(
+    						'- The `Strict-Transport-Security` HTTP header is set below the recommended minimum of `%d` seconds '
+							. '(current value: `%d`). '
+    						. 'For better security, enable a long HSTS policy. ',
+    						[$minimumSeconds, $transportSecurityValidity]
+						) . "\n";
 					}
 				} elseif (!empty($transportSecurityValidity)) {
-					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS.', [$transportSecurityValidity]) . "\n";
+					$msg .= $this->l10n->t(
+						'- The `Strict-Transport-Security` HTTP header is malformed: `%s`. '
+						. 'For better security, configure a valid HSTS policy. ',
+						[$transportSecurityValidity]
+					) . "\n";
 				} else {
-					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set (should be at least `%d` seconds). For enhanced security, it is recommended to enable HSTS.', [$minimumSeconds]) . "\n";
+					$msg .= $this->l10n->t(
+						'- The `Strict-Transport-Security` HTTP header is not set to the recommended minimum of `%d` seconds. '
+						. 'For better security, enable HSTS. ',
+						[$minimumSeconds]
+					) . "\n";
 				}
 
 				if (!empty($msg)) {
 					return SetupResult::warning(
-						$this->l10n->t('Some headers are not set correctly on your instance') . "\n" . $msg,
+						$this->l10n->t('Some headers are not set correctly on your instance.') . "\n"
+						. $msg . "\n"
+						. 'If you believe this is incorrect, review your `overwrite.cli.url` and `trusted_domains` settings. '
+    					. 'These settings may include URLs that do not use HTTPS or bypass your reverse proxy, '
+						. 'which can affect header checks. '
+						. 'Additionally, ensure your DNS records and server configuration are consistent with your HTTPS setup.',
 						$this->urlGenerator->linkToDocs('admin-security'),
 						$msgParameters,
 					);
