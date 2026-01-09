@@ -54,7 +54,14 @@ class ManagerTest extends TestCase {
 		$this->connection->prepare($sql)->execute();
 	}
 
-	protected function addDatabaseEntry(?string $parentId, ?string $topmostParentId, ?\DateTimeInterface $creationDT = null, ?\DateTimeInterface $latestChildDT = null, $objectId = null, ?\DateTimeInterface $expireDate = null): string {
+	protected function addDatabaseEntry(
+		?string $parentId,
+		?string $topmostParentId,
+		?\DateTimeInterface $creationDT = null,
+		?\DateTimeInterface $latestChildDT = null,
+		?string $objectId = null,
+		?\DateTimeInterface $expireDate = null
+	): string {
 		$creationDT ??= new \DateTime();
 		$latestChildDT ??= new \DateTime('yesterday');
 		$objectId ??= 'file64';
