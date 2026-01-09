@@ -102,6 +102,8 @@ class DAV extends Common {
 	protected $certPath;
 	/** @var bool */
 	protected $ready;
+	/** @var string The resolved bearer token for AUTH_BEARER (access token or exchanged token) */
+	protected $bearerToken;
 	/** @var Client */
 	protected $client;
 	/** @var ArrayCache */
@@ -195,78 +197,16 @@ class DAV extends Common {
 		}
 		$this->ready = true;
 
-		// If using Bearer auth, exchange refresh token for access token
+		// If using Bearer auth, use stored access token or exchange refresh token for access token
 		$userName = $this->user;
 		if ($this->authType !== null && ($this->authType & BearerAuthAwareSabreClient::AUTH_BEARER)) {
-			try {
-				$host = 'https://' . $this->host;
-				$ocmProvider = $this->discoveryService->discover($host);
-				$tokenEndpoint = $ocmProvider->getTokenEndPoint();
-
-				if ($tokenEndPoint === '') {
-					$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
-					throw new StorageNotAvailableException('Could not discover token endpoint');
-				}
-
-				$client = $this->httpClientService->newClient();
-				$clientId = parse_url($this->urlGenerator->getAbsoluteURL('/'), PHP_URL_HOST);
-				$payload = [
-					'grant_type' => 'authorization_code',
-					'client_id' => $clientId,
-					'code' => $this->user,
-				];
-
-				$options = [
-					'body' => http_build_query($payload),
-					'headers' => [
-						'Content-Type' => 'application/x-www-form-urlencoded',
-					],
-					'timeout' => 10,
-					'connect_timeout' => 10,
-				];
-
-				// Try signing the request
-				if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
-					try {
-						$options = $this->signatureManager->signOutgoingRequestIClientPayload(
-							$this->signatoryManager,
-							$options,
-							'post',
-							$tokenEndpoint
-						);
-						$this->logger->debug('Token request signed successfully', ['app' => 'dav']);
-					} catch (\Exception $e) {
-						$this->logger->warning('Failed to sign token request, continuing without signature', [
-							'app' => 'dav',
-							'exception' => $e,
-							'endpoint' => $tokenEndpoint,
-						]);
-					}
-				}
-
-				$response = $client->post($tokenEndpoint, $options);
-
-				$body = $response->getBody();
-				$data = json_decode($body, true);
-
-				if (isset($data['access_token'])) {
-					$userName = $data['access_token'];
-					$this->user = $userName;
-					$this->logger->debug('Successfully exchanged refresh token for access token', ['app' => 'dav']);
-				} else {
-					$this->logger->error('Failed to get access token from response', ['app' => 'dav']);
-					throw new StorageNotAvailableException('Could not obtain access token');
-				}
-			} catch (OCMProviderException|OCMArgumentException $e) {
-				$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
-				throw new StorageNotAvailableException('Could not discover token endpoint');
-			} catch (\Exception $e) {
-				$this->logger->error('Error exchanging refresh token for access token: ' . $e->getMessage(), [
-					'app' => 'dav',
-					'exception' => $e,
-				]);
-				throw new StorageNotAvailableException('Could not obtain access token: ' . $e->getMessage());
+			// Check if we already have an access token stored (password field)
+			if (!empty($this->password)) {
+				$userName = $this->password;
+			} else {
+				$userName = $this->exchangeRefreshToken();
 			}
+			$this->bearerToken = $userName;
 		}
 
 		$settings = [
@@ -307,6 +247,85 @@ class DAV extends Common {
 			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
 		});
+	}
+
+	/**
+	 * Exchange refresh token for access token via the remote server's token endpoint
+	 *
+	 * @return string The access token
+	 * @throws StorageNotAvailableException If token exchange fails
+	 */
+	protected function exchangeRefreshToken(): string {
+		try {
+			$host = 'https://' . $this->host;
+			$ocmProvider = $this->discoveryService->discover($host);
+			$tokenEndpoint = $ocmProvider->getTokenEndPoint();
+
+			if ($tokenEndpoint === '') {
+				$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not discover token endpoint');
+			}
+
+			$client = $this->httpClientService->newClient();
+			$clientId = parse_url($this->urlGenerator->getAbsoluteURL('/'), PHP_URL_HOST);
+			$payload = [
+				'grant_type' => 'authorization_code',
+				'client_id' => $clientId,
+				'code' => $this->user,  // refresh token is stored in user field
+			];
+
+			$options = [
+				'body' => http_build_query($payload),
+				'headers' => [
+					'Content-Type' => 'application/x-www-form-urlencoded',
+				],
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			];
+
+			// Try signing the request
+			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				try {
+					$options = $this->signatureManager->signOutgoingRequestIClientPayload(
+						$this->signatoryManager,
+						$options,
+						'post',
+						$tokenEndpoint
+					);
+					$this->logger->debug('Token request signed successfully', ['app' => 'dav']);
+				} catch (\Exception $e) {
+					$this->logger->warning('Failed to sign token request, continuing without signature', [
+						'app' => 'dav',
+						'exception' => $e,
+						'endpoint' => $tokenEndpoint,
+					]);
+				}
+			}
+
+			$response = $client->post($tokenEndpoint, $options);
+
+			$body = $response->getBody();
+			$data = json_decode($body, true);
+
+			if (isset($data['access_token'])) {
+				$this->logger->debug('Successfully exchanged refresh token for access token', ['app' => 'dav']);
+				return $data['access_token'];
+			} else {
+				$this->logger->error('Failed to get access token from response', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not obtain access token');
+			}
+		} catch (OCMProviderException|OCMArgumentException $e) {
+			$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
+			throw new StorageNotAvailableException('Could not discover token endpoint');
+		} catch (StorageNotAvailableException $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->error('Error exchanging refresh token for access token: ' . $e->getMessage(), [
+				'app' => 'dav',
+				'exception' => $e,
+			]);
+			throw new StorageNotAvailableException('Could not obtain access token: ' . $e->getMessage());
+		}
 	}
 
 	/**
@@ -491,7 +510,7 @@ class DAV extends Common {
 					$headers = [];
 					if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
 						$auth = [];
-						$headers = ['Authorization' => 'Bearer ' . $this->user];
+						$headers = ['Authorization' => 'Bearer ' . $this->bearerToken];
 					}
 					$response = $this->httpClientService
 						->newClient()
@@ -648,7 +667,7 @@ class DAV extends Common {
 		$headers = [];
 		if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
 			$auth = [];
-			$headers = ['Authorization' => 'Bearer ' . $this->user];
+			$headers = ['Authorization' => 'Bearer ' . $this->bearerToken];
 		}
 		$this->httpClientService
 			->newClient()

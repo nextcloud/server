@@ -136,7 +136,7 @@ class TokenController extends ApiController {
 			}
 
 			$accessTokenString = $this->random->generate(
-				72,
+				64,
 				ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
 			);
 
