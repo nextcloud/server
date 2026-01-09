@@ -741,16 +741,18 @@ class User {
 			//retrieve relevant user attributes
 			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
 
-			if (array_key_exists('pwdpolicysubentry', $result[0])) {
-				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
-				if ($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)) {
-					$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
+			if (!empty($result)) {
+				if (array_key_exists('pwdpolicysubentry', $result[0])) {
+					$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
+					if ($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)) {
+						$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
+					}
 				}
-			}
 
-			$pwdGraceUseTime = array_key_exists('pwdgraceusetime', $result[0]) ? $result[0]['pwdgraceusetime'] : [];
-			$pwdReset = array_key_exists('pwdreset', $result[0]) ? $result[0]['pwdreset'] : [];
-			$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : [];
+				$pwdGraceUseTime = array_key_exists('pwdgraceusetime', $result[0]) ? $result[0]['pwdgraceusetime'] : [];
+				$pwdReset = array_key_exists('pwdreset', $result[0]) ? $result[0]['pwdreset'] : [];
+				$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : [];
+			}
 
 			//retrieve relevant password policy attributes
 			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
