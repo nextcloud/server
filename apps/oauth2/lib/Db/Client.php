@@ -32,10 +32,9 @@ class Client extends Entity {
 	protected $secret;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
-		$this->addType('name', 'string');
-		$this->addType('redirectUri', 'string');
-		$this->addType('clientIdentifier', 'string');
-		$this->addType('secret', 'string');
+		$this->addType('name', Types::STRING);
+		$this->addType('redirectUri', Types::STRING);
+		$this->addType('clientIdentifier', Types::STRING);
+		$this->addType('secret', Types::STRING);
 	}
 }
