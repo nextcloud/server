@@ -139,10 +139,11 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('set')
 			->with('client.flow.state.token', 'StateToken');
 		$this->session
-			->expects($this->once())
 			->method('get')
-			->with('oauth.state')
-			->willReturn('OauthStateToken');
+			->willReturnMap([
+				['client.flow.state.token', 'StateToken'],
+				['oauth.state', 'OauthStateToken'],
+			]);
 		$this->defaults
 			->expects($this->once())
 			->method('getName')
@@ -210,10 +211,11 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('set')
 			->with('client.flow.state.token', 'StateToken');
 		$this->session
-			->expects($this->once())
 			->method('get')
-			->with('oauth.state')
-			->willReturn('OauthStateToken');
+			->willReturnMap([
+				['client.flow.state.token', 'StateToken'],
+				['oauth.state', 'OauthStateToken'],
+			]);
 		$this->defaults
 			->expects($this->once())
 			->method('getName')
