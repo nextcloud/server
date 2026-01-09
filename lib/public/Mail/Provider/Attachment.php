@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Mail\Provider;
 
+use JsonSerializable;
+use OCP\Json\JsonDeserializable;
+
 /**
  * Mail Attachment Object
  *
@@ -16,7 +19,7 @@ namespace OCP\Mail\Provider;
  * @since 30.0.0
  *
  */
-class Attachment implements \OCP\Mail\Provider\IAttachment {
+class Attachment implements IAttachment, JsonSerializable, JsonDeserializable {
 
 	/**
 	 * initialize the mail attachment object
@@ -34,6 +37,41 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 		protected ?string $type,
 		protected bool $embedded = false,
 	) {
+	}
+
+	/**
+	 * export this objects data as an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @return array representation of this object as an array
+	 */
+	public function jsonSerialize(): array {
+		return [
+			'contents' => base64_encode($this->contents ?? ''),
+			'name' => $this->name,
+			'type' => $this->type,
+			'embedded' => $this->embedded,
+		];
+	}
+
+	/**
+	 * import this objects data from an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @param array array representation of this object
+	 */
+	public static function jsonDeserialize(array|string $data): static {
+		if (is_string($data)) {
+			$data = json_decode($data, true);
+		}
+		$contents = base64_decode($data['contents'] ?? '');
+		$name = $data['name'] ?? null;
+		$type = $data['type'] ?? null;
+		$embedded = $data['embedded'] ?? false;
+
+		return new static($contents, $name, $type, $embedded);
 	}
 
 	/**
