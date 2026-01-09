@@ -6,14 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature;
+namespace OCP\Security\Signature;
 
-use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureException;
-use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
-use NCU\Security\Signature\Model\Signatory;
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureException;
+use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * ISignatureManager is a service integrated to core that provide tools
@@ -51,9 +52,9 @@ use NCU\Security\Signature\Model\Signatory;
  *
  *   instead obtained from {@see ISignatureManager::getIncomingSignedRequest}.
  *
- * @experimental 31.0.0
- * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
+ * @since 33.0.0
  */
+#[Consumable(since: '33.0.0')]
 interface ISignatureManager {
 	/**
 	 * Extracting data from headers and body from the incoming request.
@@ -69,9 +70,7 @@ interface ISignatureManager {
 	 * @throws IncomingRequestException if anything looks wrong with the incoming request
 	 * @throws SignatureNotFoundException if incoming request is not signed
 	 * @throws SignatureException if signature could not be confirmed
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
-	 * @psalm-suppress DeprecatedInterface
+	 * @since 33.0.0
 	 */
 	public function getIncomingSignedRequest(ISignatoryManager $signatoryManager, ?string $body = null): IIncomingSignedRequest;
 
@@ -85,9 +84,7 @@ interface ISignatureManager {
 	 * @param string $uri needed in the signature
 	 *
 	 * @return IOutgoingSignedRequest
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
-	 * @psalm-suppress DeprecatedInterface
+	 * @since 33.0.0
 	 */
 	public function getOutgoingSignedRequest(ISignatoryManager $signatoryManager, string $content, string $method, string $uri): IOutgoingSignedRequest;
 
@@ -101,9 +98,7 @@ interface ISignatureManager {
 	 * @param string $uri needed in the signature
 	 *
 	 * @return array new payload to be sent, including original payload and signature elements in headers
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
-	 * @psalm-suppress DeprecatedInterface
+	 * @since 33.0.0
 	 */
 	public function signOutgoingRequestIClientPayload(ISignatoryManager $signatoryManager, array $payload, string $method, string $uri): array;
 
@@ -115,9 +110,7 @@ interface ISignatureManager {
 	 *
 	 * @return Signatory
 	 * @throws SignatoryNotFoundException if entry does not exist in local database
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function getSignatory(string $host, string $account = ''): Signatory;
 
@@ -128,8 +121,7 @@ interface ISignatureManager {
 	 *
 	 * @return string
 	 * @throws IdentityNotFoundException if hostname is not set
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
+	 * @since 33.0.0
 	 */
 	public function generateKeyIdFromConfig(string $path): string;
 
@@ -140,8 +132,7 @@ interface ISignatureManager {
 	 *
 	 * @return string
 	 * @throws IdentityNotFoundException if identity cannot be extracted
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
+	 * @since 33.0.0
 	 */
 	public function extractIdentityFromUri(string $uri): string;
 }

@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace OC\OCM\Model;
 
-use NCU\Security\Signature\Model\Signatory;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * @since 28.0.0

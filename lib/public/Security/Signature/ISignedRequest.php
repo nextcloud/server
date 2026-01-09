@@ -6,12 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature;
+namespace OCP\Security\Signature;
 
-use NCU\Security\Signature\Enum\DigestAlgorithm;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
-use NCU\Security\Signature\Model\Signatory;
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\Security\Signature\Enum\DigestAlgorithm;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * model that store data related to a possible signature.
@@ -23,16 +24,15 @@ use NCU\Security\Signature\Model\Signatory;
  * @see IIncomingSignedRequest
  * @see IOutgoingSignedRequest
  *
- * @experimental 31.0.0
- * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+ * @since 33.0.0
  */
+#[Consumable(since: '33.0.0')]
 interface ISignedRequest {
 	/**
 	 * payload of the request
 	 *
 	 * @return string
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function getBody(): string;
 
@@ -40,9 +40,7 @@ interface ISignedRequest {
 	 * get algorithm used to generate digest
 	 *
 	 * @return DigestAlgorithm
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function getDigestAlgorithm(): DigestAlgorithm;
 
@@ -50,8 +48,7 @@ interface ISignedRequest {
 	 * checksum of the payload of the request
 	 *
 	 * @return string
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function getDigest(): string;
 
@@ -61,8 +58,7 @@ interface ISignedRequest {
 	 * @param array $elements
 	 *
 	 * @return self
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function setSigningElements(array $elements): self;
 
@@ -70,8 +66,7 @@ interface ISignedRequest {
 	 * get the list of elements in the Signature header of the request
 	 *
 	 * @return array
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function getSigningElements(): array;
 
@@ -80,8 +75,7 @@ interface ISignedRequest {
 	 *
 	 * @return string
 	 * @throws SignatureElementNotFoundException
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function getSigningElement(string $key): string;
 
@@ -89,8 +83,7 @@ interface ISignedRequest {
 	 * returns data used to generate signature
 	 *
 	 * @return array
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function getSignatureData(): array;
 
@@ -98,8 +91,7 @@ interface ISignedRequest {
 	 * get the signed version of the signature
 	 *
 	 * @return string
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function getSignature(): string;
 
@@ -108,9 +100,7 @@ interface ISignedRequest {
 	 *
 	 * @param Signatory $signatory
 	 * @return self
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function setSignatory(Signatory $signatory): self;
 
@@ -119,9 +109,7 @@ interface ISignedRequest {
 	 *
 	 * @return Signatory
 	 * @throws SignatoryNotFoundException
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function getSignatory(): Signatory;
 
@@ -129,8 +117,7 @@ interface ISignedRequest {
 	 * returns if a signatory related to this request have been found and defined
 	 *
 	 * @return bool
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @since 33.0.0
 	 */
 	public function hasSignatory(): bool;
 }

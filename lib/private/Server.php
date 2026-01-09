@@ -8,7 +8,6 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -223,6 +222,7 @@ use OCP\Security\Ip\IRemoteAddress;
 use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
+use OCP\Security\Signature\ISignatureManager;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\ServerVersion;
 use OCP\Settings\IDeclarativeManager;
