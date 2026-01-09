@@ -28,6 +28,25 @@ class QuotaTest extends \Test\TestCase {
 		$this->assertEquals('foobar', fread($stream, 100));
 	}
 
+	public function testQuotaNotReducedByReadBeforeWrite() {
+		$stream = $this->getStream('w+', 6); // Initial quota: 6
+		// Read 3 bytes before writing, quota should remain 6
+		$this->assertEquals('', fread($stream, 3));
+		// Should allow writing 6 bytes, as reads do NOT affect write quota
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+	}
+
+	public function testQuotaWriteFollowedByReadDoesNotAffectWriteQuota() {
+		$stream = $this->getStream('w+', 6); // Initial quota: 6
+		// Write exactly up to quota
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+		// Read from stream - should NOT affect quota or prevent further (failing) writes
+		rewind($stream);
+		$this->assertEquals('foobar', fread($stream, 6));
+		// Try another write - should fail (quota exhausted)
+		$this->assertEquals(0, fwrite($stream, 'abc'));
+	}
+
 	public function testWriteNotEnoughSpace(): void {
 		$stream = $this->getStream('w+', 3);
 		$this->assertEquals(3, fwrite($stream, 'foobar'));
