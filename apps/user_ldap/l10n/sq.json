@@ -77,7 +77,6 @@
     "No object found in the given Base DN. Please revise." : "Në DN Bazë të dhën s’u gjet objekt. Ju lutemi, rishikojeni.",
     "More than 1,000 directory entries available." : "Më shumë se 1000 zëra të gatshëm.",
     "When unchecked, this configuration will be skipped." : "Po u la pa shenjë, ky formësim do të anashkalohet.",
-    "Configuration Active" : "Formësimi Aktiv",
     "Copy current configuration into new directory binding" : "Kopjojeni formësimin e tanishëm te një lidhmë e re drejtorie",
     "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Ju mund të hiqni protokollin, nëse nuk keni nevojë për SSL. Nëse po, filloni me ldaps: //",
     "Host" : "Strehë",
@@ -163,6 +162,7 @@
     "Back" : "Mbrapsht",
     "Continue" : "Vazhdo",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Kujdes:</b> Moduli PHP LDAP s’është i instaluar, pjesa përkatëse në shërbyes nuk do të funksionojë. Ju lutemi, kërkojini përgjegjësit të sistemit tuaj ta instalojë.",
+    "Configuration Active" : "Formësimi Aktiv",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "E pakëshillueshme, përdoreni vetëm për testim! Nëse lidhja funksionon vetëm me këtë mundësi, importoni te shërbyesi juaj %s dëshminë SSL të shërbyesit LDAP.",
     "UUID Attribute for Users:" : "Atribut UUID për Përdorues:",
     "UUID Attribute for Groups:" : "Atribut UUID për Grupe:"
