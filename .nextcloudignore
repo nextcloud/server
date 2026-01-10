@@ -1,0 +1,27 @@
+#.nextcloudignore
+
+# Global exclude
+.editorconfig
+.git
+.git-blame-ignore-revs
+.gitattributes
+.github
+.gitignore
+.gitmodules
+.idea
+.l10nignore
+.nextcloudignore
+.noopenapi
+.tx
+cypress
+tests
+
+# Server specific
+/.devcontainer
+/__mocks__
+/__tests__
+/autotest*.sh
+/build
+/config/config.php
+/contribute
+/data
