@@ -56,7 +56,10 @@ class Client implements IClient {
 		$defaults = [
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => IClient::DEFAULT_REQUEST_TIMEOUT,
+			// Prefer HTTP/2 globally (PSR-7 request version)
+			RequestOptions::VERSION => '2.0',
 		];
+		$defaults['curl'][\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
 
 		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
 		if ($options['nextcloud']['allow_local_address'] === false) {
@@ -87,8 +90,15 @@ class Client implements IClient {
 			$options[RequestOptions::HEADERS]['User-Agent'] = $userAgent;
 		}
 
-		if (!isset($options[RequestOptions::HEADERS]['Accept-Encoding'])) {
-			$options[RequestOptions::HEADERS]['Accept-Encoding'] = 'gzip';
+		// Ensure headers array exists and set Accept-Encoding only if not present
+		$headers = $options[RequestOptions::HEADERS] ?? [];
+		if (!isset($headers['Accept-Encoding'])) {
+			$acceptEnc = 'gzip';
+			if (function_exists('brotli_uncompress')) {
+				$acceptEnc = 'br, ' . $acceptEnc;
+			}
+			$options[RequestOptions::HEADERS] = $headers; // ensure headers are present
+			$options[RequestOptions::HEADERS]['Accept-Encoding'] = $acceptEnc;
 		}
 
 		// Fallback for save_to
