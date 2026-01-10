@@ -213,7 +213,8 @@ class ConnectionFactory {
 			$pgsqlSsl = $this->config->getValue('pgsql_ssl', false);
 			if (is_array($pgsqlSsl)) {
 				$connectionParams['sslmode'] = $pgsqlSsl['mode'] ?? '';
-				$connectionParams['sslrootcert'] = $pgsqlSsl['rootcert'] ?? '';
+				$rootCertPath = $pgsqlSsl['rootcert'] ?? $this->config->getValue('default_certificates_bundle_path', null) ?? '';
+				$connectionParams['sslrootcert'] = $rootCertPath;
 				$connectionParams['sslcert'] = $pgsqlSsl['cert'] ?? '';
 				$connectionParams['sslkey'] = $pgsqlSsl['key'] ?? '';
 				$connectionParams['sslcrl'] = $pgsqlSsl['crl'] ?? '';
