@@ -11,6 +11,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import logger from '../logger.ts'
 import { useActiveStore } from './active.ts'
+import { useFilesStore } from './files.ts'
 
 export const useSidebarStore = defineStore('sidebar', () => {
 	const activeTab = ref<string>()
@@ -124,6 +125,17 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	subscribe('files:node:deleted', (node) => {
 		if (node.fileid === currentNode.value?.fileid) {
 			close()
+		}
+	})
+
+	subscribe('viewer:sidebar:open', ({ source }) => {
+		const filesStore = useFilesStore()
+		const node = filesStore.getNode(source)
+		if (node) {
+			logger.debug('Opening sidebar for node from Viewer.', { node })
+			open(node)
+		} else {
+			logger.error(`Cannot open sidebar for node '${source}' because it was not found in the current view.`)
 		}
 	})
 
