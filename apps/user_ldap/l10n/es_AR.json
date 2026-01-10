@@ -71,7 +71,6 @@
     "No object found in the given Base DN. Please revise." : "No fue posible encontrar ningún objeto en el DN Base dado. Favor de verificar. ",
     "More than 1,000 directory entries available." : "Se encuentran disponibles más de 1,000 elementos de directoiros. ",
     "When unchecked, this configuration will be skipped." : "Cuando no esté seleccionada, esta configuración será omitida.",
-    "Configuration Active" : "Configuracion Activa",
     "Copy current configuration into new directory binding" : "Copiar la configuración actual a un nuevo directorio de vinculación",
     "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Puede omitir el protocolo, a menos que requiera SSL. Si es el caso, empiece con ldaps://",
     "Host" : "Servidor",
@@ -155,6 +154,7 @@
     "Back" : "Atrás",
     "Continue" : "Continuar",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Advertencia:</b> El módulo LDAP de PHP no está instalado, el backend no funcionará. Favor de solicitar su instalación a su administrador del sistema.",
+    "Configuration Active" : "Configuracion Activa",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "¡No se recomienda, úselo únicamente para pruebas! Si la conexión sólo funciona con esta opción, importe el certificado SSL del servidor LDAP a su servidor %s.",
     "UUID Attribute for Users:" : "Atributo UUID para Usuarios:",
     "UUID Attribute for Groups:" : "Atributo UUID para Grupos:"
