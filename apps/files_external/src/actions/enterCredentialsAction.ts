@@ -10,23 +10,19 @@ import type { StorageConfig } from '../services/externalStorage.ts'
 import LoginSvg from '@mdi/svg/svg/login.svg?raw'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 import { DefaultType, FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import Vue, { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue'
 import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils.ts'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils.ts'
 
 // Add password confirmation interceptors as
 // the backend requires the user to confirm their password
 addPasswordConfirmationInterceptors(axios)
-
-type CredentialResponse = {
-	login?: string
-	password?: string
-}
 
 /**
  * Set credentials for external storage
@@ -55,7 +51,9 @@ async function setCredentials(node: Node, login: string, password: string): Prom
 
 	// Success update config attribute
 	showSuccess(t('files_external', 'New configuration successfully saved'))
-	Vue.set(node.attributes, 'config', config)
+	node.attributes.config = config
+	emit('files:node:updated', node)
+
 	return true
 }
 
@@ -86,14 +84,7 @@ export const action = new FileAction({
 	},
 
 	async exec({ nodes }) {
-		const { login, password } = await new Promise<CredentialResponse>((resolve) => spawnDialog(
-			defineAsyncComponent(() => import('../views/CredentialsDialog.vue')),
-			{},
-			(args) => {
-				resolve(args as CredentialResponse)
-			},
-		))
-
+		const { login, password } = await spawnDialog(defineAsyncComponent(() => import('../views/CredentialsDialog.vue'))) ?? {}
 		if (login && password) {
 			try {
 				await setCredentials(nodes[0], login, password)

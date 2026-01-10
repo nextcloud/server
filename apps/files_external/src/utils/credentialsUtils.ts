@@ -17,7 +17,9 @@ export enum STORAGE_STATUS {
 }
 
 /**
- * @param config
+ * Check if the given storage configuration is missing authentication configuration
+ *
+ * @param config - The storage configuration to check
  */
 export function isMissingAuthConfig(config: StorageConfig) {
 	// If we don't know the status, assume it is ok

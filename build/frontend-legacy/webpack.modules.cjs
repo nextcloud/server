@@ -40,10 +40,6 @@ module.exports = {
 		'settings-personal': path.join(__dirname, 'apps/files/src', 'main-settings-personal.ts'),
 		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.ts'),
 	},
-	files_external: {
-		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
-		settings: path.join(__dirname, 'apps/files_external/src', 'settings.js'),
-	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
