@@ -257,6 +257,8 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => $baseDir . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\ZipFolderPlugin' => $baseDir . '/../lib/Connector/Sabre/ZipFolderPlugin.php',
     'OCA\\DAV\\Controller\\BirthdayCalendarController' => $baseDir . '/../lib/Controller/BirthdayCalendarController.php',
+    'OCA\\DAV\\Controller\\CalendarExportController' => $baseDir . '/../lib/Controller/CalendarExportController.php',
+    'OCA\\DAV\\Controller\\CalendarImportController' => $baseDir . '/../lib/Controller/CalendarImportController.php',
     'OCA\\DAV\\Controller\\DirectController' => $baseDir . '/../lib/Controller/DirectController.php',
     'OCA\\DAV\\Controller\\ExampleContentController' => $baseDir . '/../lib/Controller/ExampleContentController.php',
     'OCA\\DAV\\Controller\\InvitationResponseController' => $baseDir . '/../lib/Controller/InvitationResponseController.php',
