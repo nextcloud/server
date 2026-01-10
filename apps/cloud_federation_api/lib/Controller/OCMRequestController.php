@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\CloudFederationAPI\Controller;
 
 use JsonException;
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -24,6 +23,7 @@ use OCP\IRequest;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use Psr\Log\LoggerInterface;
 
 class OCMRequestController extends Controller {

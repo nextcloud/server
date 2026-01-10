@@ -6,13 +6,14 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Security\Signature\Exceptions;
+namespace OCP\Security\Signature\Exceptions;
 
 use Exception;
+use OCP\AppFramework\Attribute\Throwable;
 
 /**
- * @experimental 31.0.0
- * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\SignatureException}
+ * @since 33.0.0
  */
+#[Throwable(since: '33.0.0')]
 class SignatureException extends Exception {
 }

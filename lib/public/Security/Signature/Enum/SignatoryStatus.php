@@ -6,7 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature\Enum;
+namespace OCP\Security\Signature\Enum;
+
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * current status of signatory. is it trustable or not ?
@@ -14,18 +16,12 @@ namespace NCU\Security\Signature\Enum;
  * - SYNCED = the remote instance is trustable.
  * - BROKEN = the remote instance does not use the same key pairs than previously
  *
- * @experimental 31.0.0
- * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Enum\SignatoryStatus}
+ * @since 33.0.0
  */
+#[Consumable(since: '33.0.0')]
 enum SignatoryStatus: int {
-	/**
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0
-	 */
+	/** @since 33.0.0 */
 	case SYNCED = 1;
-	/**
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0
-	 */
+	/** @since 33.0.0 */
 	case BROKEN = 9;
 }

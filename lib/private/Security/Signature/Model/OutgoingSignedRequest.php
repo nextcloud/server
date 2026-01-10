@@ -9,14 +9,14 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
-use NCU\Security\Signature\Enum\DigestAlgorithm;
-use NCU\Security\Signature\Enum\SignatureAlgorithm;
-use NCU\Security\Signature\Exceptions\SignatoryException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\IOutgoingSignedRequest;
-use NCU\Security\Signature\ISignatoryManager;
-use NCU\Security\Signature\ISignatureManager;
 use OC\Security\Signature\SignatureManager;
+use OCP\Security\Signature\Enum\DigestAlgorithm;
+use OCP\Security\Signature\Enum\SignatureAlgorithm;
+use OCP\Security\Signature\Exceptions\SignatoryException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\IOutgoingSignedRequest;
+use OCP\Security\Signature\ISignatoryManager;
+use OCP\Security\Signature\ISignatureManager;
 
 /**
  * extends ISignedRequest to add info requested at the generation of the signature

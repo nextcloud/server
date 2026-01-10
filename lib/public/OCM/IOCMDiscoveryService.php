@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\OCM;
 
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
-use NCU\Security\Signature\IIncomingSignedRequest;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IResponse;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Exceptions\OCMCapabilityException;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\IIncomingSignedRequest;
 
 /**
  * Discover remote OCM services

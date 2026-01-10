@@ -6,13 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature\Model;
+namespace OCP\Security\Signature\Model;
 
 use JsonSerializable;
-use NCU\Security\Signature\Enum\SignatoryStatus;
-use NCU\Security\Signature\Enum\SignatoryType;
-use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Db\Entity;
+use OCP\Security\Signature\Enum\SignatoryStatus;
+use OCP\Security\Signature\Enum\SignatoryType;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
 
 /**
  * model that store keys and details related to host and in use protocol
@@ -22,8 +23,7 @@ use OCP\AppFramework\Db\Entity;
  * the pair providerId+host is unique, meaning only one signatory can exist for each host
  * and protocol
  *
- * @experimental 31.0.0
- * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
+ * @since 33.0.0
  *
  * @method void setProviderId(string $providerId)
  * @method string getProviderId()
@@ -49,6 +49,7 @@ use OCP\AppFramework\Db\Entity;
  * @method int getLastUpdated()
  * @psalm-suppress PropertyNotSetInConstructor
  */
+#[Consumable(since: '33.0.0')]
 class Signatory extends Entity implements JsonSerializable {
 	protected string $keyId = '';
 	protected string $keyIdSum = '';
@@ -66,8 +67,7 @@ class Signatory extends Entity implements JsonSerializable {
 	/**
 	 * @param bool $local only set to TRUE when managing local signatory
 	 *
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
+	 * @since 33.0.0
 	 */
 	public function __construct(
 		private readonly bool $local = false,
@@ -88,10 +88,8 @@ class Signatory extends Entity implements JsonSerializable {
 	/**
 	 * @param string $keyId
 	 *
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
+	 * @since 33.0.0
 	 * @throws IdentityNotFoundException if identity cannot be extracted from keyId
-	 * @psalm-suppress DeprecatedMethod
 	 */
 	public function setKeyId(string $keyId): void {
 		// if set as local (for current instance), we apply some filters.
@@ -118,9 +116,7 @@ class Signatory extends Entity implements JsonSerializable {
 
 	/**
 	 * @param SignatoryType $type
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function setSignatoryType(SignatoryType $type): void {
 		$this->setType($type->value);
@@ -128,9 +124,7 @@ class Signatory extends Entity implements JsonSerializable {
 
 	/**
 	 * @return SignatoryType
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function getSignatoryType(): SignatoryType {
 		return SignatoryType::from($this->getType());
@@ -138,9 +132,7 @@ class Signatory extends Entity implements JsonSerializable {
 
 	/**
 	 * @param SignatoryStatus $status
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function setSignatoryStatus(SignatoryStatus $status): void {
 		$this->setStatus($status->value);
@@ -148,17 +140,14 @@ class Signatory extends Entity implements JsonSerializable {
 
 	/**
 	 * @return SignatoryStatus
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public function getSignatoryStatus(): SignatoryStatus {
 		return SignatoryStatus::from($this->getStatus());
 	}
 
 	/**
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
+	 * @since 33.0.0
 	 */
 	public function getAccount(): string {
 		return $this->account ?? '';
@@ -169,8 +158,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 *
 	 * @param string $key
 	 * @param string|int|float|bool|array $value
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
+	 * @since 33.0.0
 	 */
 	public function setMetaValue(string $key, string|int|float|bool|array $value): void {
 		$this->metadata[$key] = $value;
@@ -179,8 +167,7 @@ class Signatory extends Entity implements JsonSerializable {
 
 	/**
 	 * @return array
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
+	 * @since 33.0.0
 	 */
 	public function jsonSerialize(): array {
 		return [
@@ -196,9 +183,7 @@ class Signatory extends Entity implements JsonSerializable {
 	 *
 	 * @return string
 	 * @throws IdentityNotFoundException if identity cannot be extracted
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Model\Signatory}
-	 * @psalm-suppress DeprecatedClass
+	 * @since 33.0.0
 	 */
 	public static function extractIdentityFromUri(string $uri): string {
 		$identity = parse_url($uri, PHP_URL_HOST);
