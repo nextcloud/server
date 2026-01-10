@@ -50,6 +50,7 @@ OC.L10N.register(
     "Update" : "Update",
     "Delete" : "Verwijder",
     "Reset" : "Herstellen",
+    "Loading …" : "Aan het laden...",
     "Manage tags" : "Berichttags",
     "Search or create tag" : "Zoek of maak een tag",
     "Search tag" : "Zoek tag",
