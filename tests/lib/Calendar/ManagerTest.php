@@ -582,6 +582,262 @@ class ManagerTest extends TestCase {
 		$result = $manager->handleIMip($userId, $calendar->serialize());
 	}
 
+	public function testHandleImipWithAbsentCreateOption(): void {
+		// construct mock user calendar (no matching event found)
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::exactly(2))
+			->method('isWritable')
+			->willReturn(true);
+		$userCalendar->expects(self::once())
+			->method('search')
+			->willReturn([]);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+				$this->propertyMapper,
+			])
+			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		$manager->expects(self::once())
+			->method('getPrimaryCalendar')
+			->willReturn(null);
+		// construct parameters
+		$userId = 'attendee1';
+		$calendar = $this->vCalendar1a;
+		$calendar->add('METHOD', 'REQUEST');
+		// construct user calendar returns - should create new event
+		$userCalendar->expects(self::once())
+			->method('handleIMipMessage')
+			->with($userId, self::callback(function ($data) {
+				return str_contains($data, 'STATUS:TENTATIVE');
+			}));
+		// test method with absent=create option
+		$result = $manager->handleIMip($userId, $calendar->serialize(), [
+			'absent' => 'create',
+			'absentCreateStatus' => 'tentative',
+		]);
+		// Assert
+		$this->assertTrue($result);
+	}
+
+	public function testHandleImipWithAbsentIgnoreOption(): void {
+		// construct mock user calendar (no matching event found)
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::once())
+			->method('isWritable')
+			->willReturn(true);
+		$userCalendar->expects(self::once())
+			->method('search')
+			->willReturn([]);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+				$this->propertyMapper,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns - should log warning since event not found and absent=ignore
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message could not be processed because no corresponding event was found in any calendar');
+		// construct parameters
+		$userId = 'attendee1';
+		$calendar = $this->vCalendar1a;
+		$calendar->add('METHOD', 'REQUEST');
+		// test method with absent=ignore option
+		$result = $manager->handleIMip($userId, $calendar->serialize(), [
+			'absent' => 'ignore',
+		]);
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipWithAbsentCreateNoWritableCalendar(): void {
+		// construct mock user calendar (not writable)
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::exactly(2))
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::exactly(2))
+			->method('isWritable')
+			->willReturn(false);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+				$this->propertyMapper,
+			])
+			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		$manager->expects(self::once())
+			->method('getPrimaryCalendar')
+			->willReturn(null);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message could not be processed because no writable calendar was found');
+		// construct parameters
+		$userId = 'attendee1';
+		$calendar = $this->vCalendar1a;
+		$calendar->add('METHOD', 'REQUEST');
+		// test method with absent=create option but no writable calendar
+		$result = $manager->handleIMip($userId, $calendar->serialize(), [
+			'absent' => 'create',
+			'absentCreateStatus' => 'tentative',
+		]);
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipWithAbsentCreateUsesPrimaryCalendar(): void {
+		// construct mock user calendar (no matching event found)
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::once())
+			->method('isWritable')
+			->willReturn(true);
+		$userCalendar->expects(self::once())
+			->method('search')
+			->willReturn([]);
+		// construct mock primary calendar
+		$primaryCalendar = $this->createMock(ITestCalendar::class);
+		$primaryCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$primaryCalendar->expects(self::once())
+			->method('isWritable')
+			->willReturn(true);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+				$this->propertyMapper,
+			])
+			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		$manager->expects(self::once())
+			->method('getPrimaryCalendar')
+			->willReturn($primaryCalendar);
+		// construct parameters
+		$userId = 'attendee1';
+		$calendar = $this->vCalendar1a;
+		$calendar->add('METHOD', 'REQUEST');
+		// primary calendar should receive the event
+		$primaryCalendar->expects(self::once())
+			->method('handleIMipMessage')
+			->with($userId, self::callback(function ($data) {
+				return str_contains($data, 'STATUS:TENTATIVE');
+			}));
+		// test method with absent=create option
+		$result = $manager->handleIMip($userId, $calendar->serialize(), [
+			'absent' => 'create',
+			'absentCreateStatus' => 'tentative',
+		]);
+		// Assert
+		$this->assertTrue($result);
+	}
+
+	public function testHandleImipWithAbsentCreateOverwritesExistingStatus(): void {
+		// construct mock user calendar (no matching event found)
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::exactly(2))
+			->method('isWritable')
+			->willReturn(true);
+		$userCalendar->expects(self::once())
+			->method('search')
+			->willReturn([]);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+				$this->propertyMapper,
+			])
+			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		$manager->expects(self::once())
+			->method('getPrimaryCalendar')
+			->willReturn(null);
+		// construct parameters - calendar already has CONFIRMED status
+		$userId = 'attendee1';
+		$calendar = $this->vCalendar1a;
+		$calendar->add('METHOD', 'REQUEST');
+		// The original event has STATUS:CONFIRMED, but it should be overwritten to TENTATIVE
+		$userCalendar->expects(self::once())
+			->method('handleIMipMessage')
+			->with($userId, self::callback(function ($data) {
+				// Should contain TENTATIVE and not CONFIRMED
+				return str_contains($data, 'STATUS:TENTATIVE') && !str_contains($data, 'STATUS:CONFIRMED');
+			}));
+		// test method with absent=create option
+		$result = $manager->handleIMip($userId, $calendar->serialize(), [
+			'absent' => 'create',
+			'absentCreateStatus' => 'tentative',
+		]);
+		// Assert
+		$this->assertTrue($result);
+	}
+
 	public function testhandleIMipRequestWithInvalidPrincipal() {
 		$invalidPrincipal = 'invalid-principal-uri';
 		$sender = 'sender@example.com';
@@ -927,4 +1183,5 @@ EOF;
 		];
 		$this->assertEquals($expected, $actual);
 	}
+
 }
