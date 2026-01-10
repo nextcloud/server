@@ -645,6 +645,13 @@ class Filesystem {
 			$normalized = \rtrim($normalized, '/');
 		}
 
+		// Add a trailing slash only if requested (and not root), and ONLY if not already present
+		if ($normalized === '') {
+			$normalized = '/';
+		} elseif (!$stripTrailingSlash && substr($normalized, -1) !== '/') {
+			$normalized .= '/';
+		}
+
 		self::$normalizedPathCache[$cacheKey] = $normalized;
 		return $normalized;
 	}
