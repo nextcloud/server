@@ -8,8 +8,12 @@
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
+use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
+use OCP\IGroup;
 
 /**
  * Service class to manage global external storage
@@ -62,9 +66,13 @@ class GlobalStoragesService extends StoragesService {
 	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
+			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
+			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
 			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 			return;
+		} else {
+			$this->eventDispatcher->dispatchTyped(new StorageUpdatedEvent($oldStorage, $newStorage));
 		}
 
 		$userAdditions = array_diff($newStorage->getApplicableUsers(), $oldStorage->getApplicableUsers());
@@ -161,5 +169,32 @@ class GlobalStoragesService extends StoragesService {
 		}, $configs);
 
 		return array_combine($keys, $configs);
+	}
+
+	/**
+	 * Gets all storages for the group, not including any global storages
+	 * @return StorageConfig[]
+	 */
+	public function getAllStoragesForGroup(IGroup $group): array {
+		$mounts = $this->dbConfig->getMountsForGroups([$group->getGID()]);
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+
+	/**
+	 * @return StorageConfig[]
+	 */
+	public function getAllGlobalStorages(): array {
+		$mounts = $this->dbConfig->getGlobalMounts();
+
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
 	}
 }
