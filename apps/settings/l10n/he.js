@@ -271,6 +271,7 @@ OC.L10N.register(
     "There are some errors regarding your setup." : "ישנן מגוון שגיאות על ההגדרות שלך.",
     "There are some warnings regarding your setup." : "ישנן מגוון אזהרות על ההגדרות שלך.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "כמנהל יש לך אפשרות לכוונן את התנהגות השיתוף. נא לעיין בתיעוד לפרטים נוספים.",
+    "Version {version}" : "גרסה {version}",
     "Apply" : "החלה",
     "Admins" : "מנהלים",
     "Sending…" : "בשליחה…",
