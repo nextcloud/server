@@ -1190,15 +1190,14 @@ class OC {
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
+		$username = $request->getCookie('nc_username');
+		$token = $request->getCookie('nc_token');
+		$sessionId = $request->getCookie('nc_session_id');
 		if (
-			$request->getCookie('nc_username') !== null
-			&& $request->getCookie('nc_token') !== null
-			&& $request->getCookie('nc_session_id') !== null
-			&& $userSession->loginWithCookie(
-				$request->getCookie('nc_username'),
-				$request->getCookie('nc_token'),
-				$request->getCookie('nc_session_id')
-			)
+			$username !== null
+			&& $token !== null
+			&& $sessionId !== null
+			&& $userSession->loginWithCookie($username, $token, $sessionId)
 		) {
 			return true;
 		}
