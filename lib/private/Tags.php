@@ -290,7 +290,7 @@ class Tags implements ITags {
 			return false;
 		}
 		$this->logger->debug(__METHOD__ . ' Added an tag with ' . $tag->getId(), ['app' => 'core']);
-		return $tag->getId();
+		return $tag->getId() ?? false;
 	}
 
 	/**

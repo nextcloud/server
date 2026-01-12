@@ -26,18 +26,19 @@ use OCP\IInitialStateService;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
  * Class ManagerTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group(name: 'DB')]
 class ManagerTest extends TestCase {
-	/** @var IDBConnection */
-	private $connection;
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IRootFolder */
-	private $rootFolder;
+	private IDBConnection $connection;
+	private IRootFolder&MockObject $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,13 +46,15 @@ class ManagerTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
+		/** @psalm-suppress DeprecatedMethod */
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
 		$this->connection->prepare($sql)->execute();
+		/** @psalm-suppress DeprecatedMethod */
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*reactions`');
 		$this->connection->prepare($sql)->execute();
 	}
 
-	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null, $expireDate = null) {
+	protected function addDatabaseEntry(?string $parentId, ?string $topmostParentId, ?\DateTimeInterface $creationDT = null, ?\DateTimeInterface $latestChildDT = null, $objectId = null, ?\DateTimeInterface $expireDate = null): string {
 		$creationDT ??= new \DateTime();
 		$latestChildDT ??= new \DateTime('yesterday');
 		$objectId ??= 'file64';
@@ -77,10 +80,11 @@ class ManagerTest extends TestCase {
 			])
 			->executeStatement();
 
-		return $qb->getLastInsertId();
+		return (string)$qb->getLastInsertId();
 	}
 
-	protected function getManager() {
+	protected function getManager(): Manager {
+		/** @psalm-suppress DeprecatedInterface No way around at the moment */
 		return new Manager(
 			$this->connection,
 			$this->createMock(LoggerInterface::class),
@@ -115,7 +119,7 @@ class ManagerTest extends TestCase {
 		$creationDT = new \DateTime('yesterday');
 		$latestChildDT = new \DateTime();
 
-		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->insert('comments')
 			->values([
@@ -155,14 +159,12 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(['last_edit_actor_id' => 'admin'], $comment->getMetaData());
 	}
 
-
 	public function testGetTreeNotFound(): void {
 		$this->expectException(NotFoundException::class);
 
 		$manager = $this->getManager();
 		$manager->getTree('22');
 	}
-
 
 	public function testGetTreeNotFoundInvalidIpnut(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -172,7 +174,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetTree(): void {
-		$headId = $this->addDatabaseEntry(0, 0);
+		$headId = $this->addDatabaseEntry('0', '0');
 
 		$this->addDatabaseEntry($headId, $headId, new \DateTime('-3 hours'));
 		$this->addDatabaseEntry($headId, $headId, new \DateTime('-2 hours'));
@@ -184,7 +186,7 @@ class ManagerTest extends TestCase {
 		// Verifying the root comment
 		$this->assertArrayHasKey('comment', $tree);
 		$this->assertInstanceOf(IComment::class, $tree['comment']);
-		$this->assertSame((string)$headId, $tree['comment']->getId());
+		$this->assertSame($headId, $tree['comment']->getId());
 		$this->assertArrayHasKey('replies', $tree);
 		$this->assertCount(3, $tree['replies']);
 
@@ -198,7 +200,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetTreeNoReplies(): void {
-		$id = $this->addDatabaseEntry(0, 0);
+		$id = $this->addDatabaseEntry('0', '0');
 
 		$manager = $this->getManager();
 		$tree = $manager->getTree($id);
@@ -206,13 +208,13 @@ class ManagerTest extends TestCase {
 		// Verifying the root comment
 		$this->assertArrayHasKey('comment', $tree);
 		$this->assertInstanceOf(IComment::class, $tree['comment']);
-		$this->assertSame((string)$id, $tree['comment']->getId());
+		$this->assertSame($id, $tree['comment']->getId());
 		$this->assertArrayHasKey('replies', $tree);
 		$this->assertCount(0, $tree['replies']);
 	}
 
 	public function testGetTreeWithLimitAndOffset(): void {
-		$headId = $this->addDatabaseEntry(0, 0);
+		$headId = $this->addDatabaseEntry('0', '0');
 
 		$this->addDatabaseEntry($headId, $headId, new \DateTime('-3 hours'));
 		$this->addDatabaseEntry($headId, $headId, new \DateTime('-2 hours'));
@@ -222,19 +224,19 @@ class ManagerTest extends TestCase {
 		$manager = $this->getManager();
 
 		for ($offset = 0; $offset < 3; $offset += 2) {
-			$tree = $manager->getTree((string)$headId, 2, $offset);
+			$tree = $manager->getTree($headId, 2, $offset);
 
 			// Verifying the root comment
 			$this->assertArrayHasKey('comment', $tree);
 			$this->assertInstanceOf(IComment::class, $tree['comment']);
-			$this->assertSame((string)$headId, $tree['comment']->getId());
+			$this->assertSame($headId, $tree['comment']->getId());
 			$this->assertArrayHasKey('replies', $tree);
 			$this->assertCount(2, $tree['replies']);
 
 			// one level deep
 			foreach ($tree['replies'] as $reply) {
 				$this->assertInstanceOf(IComment::class, $reply['comment']);
-				$this->assertSame((string)$idToVerify, $reply['comment']->getId());
+				$this->assertSame((string)$idToVerify, (string)$reply['comment']->getId());
 				$this->assertCount(0, $reply['replies']);
 				$idToVerify--;
 			}
@@ -242,7 +244,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetForObject(): void {
-		$this->addDatabaseEntry(0, 0);
+		$this->addDatabaseEntry('0', '0');
 
 		$manager = $this->getManager();
 		$comments = $manager->getForObject('files', 'file64');
@@ -254,13 +256,13 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetForObjectWithLimitAndOffset(): void {
-		$this->addDatabaseEntry(0, 0, new \DateTime('-6 hours'));
-		$this->addDatabaseEntry(0, 0, new \DateTime('-5 hours'));
-		$this->addDatabaseEntry(1, 1, new \DateTime('-4 hours'));
-		$this->addDatabaseEntry(0, 0, new \DateTime('-3 hours'));
-		$this->addDatabaseEntry(2, 2, new \DateTime('-2 hours'));
-		$this->addDatabaseEntry(2, 2, new \DateTime('-1 hours'));
-		$idToVerify = $this->addDatabaseEntry(3, 1, new \DateTime());
+		$this->addDatabaseEntry('0', '0', new \DateTime('-6 hours'));
+		$this->addDatabaseEntry('0', '0', new \DateTime('-5 hours'));
+		$this->addDatabaseEntry('1', '1', new \DateTime('-4 hours'));
+		$this->addDatabaseEntry('0', '0', new \DateTime('-3 hours'));
+		$this->addDatabaseEntry('2', '2', new \DateTime('-2 hours'));
+		$this->addDatabaseEntry('2', '2', new \DateTime('-1 hours'));
+		$idToVerify = $this->addDatabaseEntry('3', '1', new \DateTime());
 
 		$manager = $this->getManager();
 		$offset = 0;
@@ -279,27 +281,27 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetForObjectWithDateTimeConstraint(): void {
-		$this->addDatabaseEntry(0, 0, new \DateTime('-6 hours'));
-		$this->addDatabaseEntry(0, 0, new \DateTime('-5 hours'));
-		$id1 = $this->addDatabaseEntry(0, 0, new \DateTime('-3 hours'));
-		$id2 = $this->addDatabaseEntry(2, 2, new \DateTime('-2 hours'));
+		$this->addDatabaseEntry('0', '0', new \DateTime('-6 hours'));
+		$this->addDatabaseEntry('0', '0', new \DateTime('-5 hours'));
+		$id1 = $this->addDatabaseEntry('0', '0', new \DateTime('-3 hours'));
+		$id2 = $this->addDatabaseEntry('2', '2', new \DateTime('-2 hours'));
 
 		$manager = $this->getManager();
 		$comments = $manager->getForObject('files', 'file64', 0, 0, new \DateTime('-4 hours'));
 
 		$this->assertCount(2, $comments);
-		$this->assertSame((string)$id2, $comments[0]->getId());
-		$this->assertSame((string)$id1, $comments[1]->getId());
+		$this->assertSame($id2, $comments[0]->getId());
+		$this->assertSame($id1, $comments[1]->getId());
 	}
 
 	public function testGetForObjectWithLimitAndOffsetAndDateTimeConstraint(): void {
-		$this->addDatabaseEntry(0, 0, new \DateTime('-7 hours'));
-		$this->addDatabaseEntry(0, 0, new \DateTime('-6 hours'));
-		$this->addDatabaseEntry(1, 1, new \DateTime('-5 hours'));
-		$this->addDatabaseEntry(0, 0, new \DateTime('-3 hours'));
-		$this->addDatabaseEntry(2, 2, new \DateTime('-2 hours'));
-		$this->addDatabaseEntry(2, 2, new \DateTime('-1 hours'));
-		$idToVerify = $this->addDatabaseEntry(3, 1, new \DateTime());
+		$this->addDatabaseEntry('0', '0', new \DateTime('-7 hours'));
+		$this->addDatabaseEntry('0', '0', new \DateTime('-6 hours'));
+		$this->addDatabaseEntry('1', '1', new \DateTime('-5 hours'));
+		$this->addDatabaseEntry('0', '0', new \DateTime('-3 hours'));
+		$this->addDatabaseEntry('2', '2', new \DateTime('-2 hours'));
+		$this->addDatabaseEntry('2', '2', new \DateTime('-1 hours'));
+		$idToVerify = $this->addDatabaseEntry('3', '1', new \DateTime());
 
 		$manager = $this->getManager();
 		$offset = 0;
@@ -320,7 +322,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetNumberOfCommentsForObject(): void {
 		for ($i = 1; $i < 5; $i++) {
-			$this->addDatabaseEntry(0, 0);
+			$this->addDatabaseEntry('0', '0');
 		}
 
 		$manager = $this->getManager();
@@ -351,11 +353,11 @@ class ManagerTest extends TestCase {
 		// 2 comments for 1112 with no read marker
 		// 1 comment for 1113 before read marker
 		// 1 comment for 1114 with no read marker
-		$this->addDatabaseEntry(0, 0, null, null, $fileIds[1]);
+		$this->addDatabaseEntry('0', '0', null, null, $fileIds[1]);
 		for ($i = 0; $i < 4; $i++) {
-			$this->addDatabaseEntry(0, 0, null, null, $fileIds[$i]);
+			$this->addDatabaseEntry('0', '0', null, null, $fileIds[$i]);
 		}
-		$this->addDatabaseEntry(0, 0, (new \DateTime())->modify('-2 days'), null, $fileIds[0]);
+		$this->addDatabaseEntry('0', '0', (new \DateTime())->modify('-2 days'), null, $fileIds[0]);
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -375,24 +377,24 @@ class ManagerTest extends TestCase {
 		], $amount);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetForObjectSince')]
+	#[DataProvider(methodName: 'dataGetForObjectSince')]
 	public function testGetForObjectSince(?int $lastKnown, string $order, int $limit, int $resultFrom, int $resultTo): void {
 		$ids = [];
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
 
 		$manager = $this->getManager();
-		$comments = $manager->getForObjectSince('files', 'file64', ($lastKnown === null ? 0 : $ids[$lastKnown]), $order, $limit);
+		$comments = $manager->getForObjectSince('files', 'file64', ($lastKnown === null ? 0 : (int)$ids[$lastKnown]), $order, $limit);
 
 		$expected = array_slice($ids, $resultFrom, $resultTo - $resultFrom + 1);
 		if ($order === 'desc') {
 			$expected = array_reverse($expected);
 		}
 
-		$this->assertSame($expected, array_map(static fn (IComment $c): int => (int)$c->getId(), $comments));
+		$this->assertSame($expected, array_map(static fn (IComment $c): string => $c->getId(), $comments));
 	}
 
 	public static function dataGetForObjectSince(): array {
@@ -421,7 +423,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidCreateArgsProvider')]
+	#[DataProvider(methodName: 'invalidCreateArgsProvider')]
 	public function testCreateCommentInvalidArguments(string|int $aType, string|int $aId, string|int $oType, string|int $oId): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -458,7 +460,7 @@ class ManagerTest extends TestCase {
 		$done = $manager->delete('');
 		$this->assertFalse($done);
 
-		$id = (string)$this->addDatabaseEntry(0, 0);
+		$id = $this->addDatabaseEntry('0', '0');
 		$comment = $manager->get($id);
 		$this->assertInstanceOf(IComment::class, $comment);
 		$done = $manager->delete($id);
@@ -466,7 +468,7 @@ class ManagerTest extends TestCase {
 		$manager->get($id);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestSave')]
+	#[DataProvider(methodName: 'providerTestSave')]
 	public function testSave(string $message, string $actorId, string $verb, ?string $parentId, ?string $id = ''): IComment {
 		$manager = $this->getManager();
 		$comment = new Comment();
@@ -573,7 +575,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSaveAsChild(): void {
-		$id = (string)$this->addDatabaseEntry(0, 0);
+		$id = $this->addDatabaseEntry('0', '0');
 
 		$manager = $this->getManager();
 
@@ -606,7 +608,7 @@ class ManagerTest extends TestCase {
 			];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidActorArgsProvider')]
+	#[DataProvider(methodName: 'invalidActorArgsProvider')]
 	public function testDeleteReferencesOfActorInvalidInput(string|int $type, string|int $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -616,14 +618,14 @@ class ManagerTest extends TestCase {
 
 	public function testDeleteReferencesOfActor(): void {
 		$ids = [];
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
 
 		$manager = $this->getManager();
 
 		// just to make sure they are really set, with correct actor data
-		$comment = $manager->get((string)$ids[1]);
+		$comment = $manager->get($ids[1]);
 		$this->assertSame('users', $comment->getActorType());
 		$this->assertSame('alice', $comment->getActorId());
 
@@ -631,7 +633,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($wasSuccessful);
 
 		foreach ($ids as $id) {
-			$comment = $manager->get((string)$id);
+			$comment = $manager->get($id);
 			$this->assertSame(ICommentsManager::DELETED_USER, $comment->getActorType());
 			$this->assertSame(ICommentsManager::DELETED_USER, $comment->getActorId());
 		}
@@ -671,7 +673,7 @@ class ManagerTest extends TestCase {
 			];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidObjectArgsProvider')]
+	#[DataProvider(methodName: 'invalidObjectArgsProvider')]
 	public function testDeleteCommentsAtObjectInvalidInput(string|int $type, string|int $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -681,14 +683,14 @@ class ManagerTest extends TestCase {
 
 	public function testDeleteCommentsAtObject(): void {
 		$ids = [];
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
-		$ids[] = $this->addDatabaseEntry(0, 0);
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
+		$ids[] = $this->addDatabaseEntry('0', '0');
 
 		$manager = $this->getManager();
 
 		// just to make sure they are really set, with correct actor data
-		$comment = $manager->get((string)$ids[1]);
+		$comment = $manager->get($ids[1]);
 		$this->assertSame('files', $comment->getObjectType());
 		$this->assertSame('file64', $comment->getObjectId());
 
@@ -698,7 +700,7 @@ class ManagerTest extends TestCase {
 		$verified = 0;
 		foreach ($ids as $id) {
 			try {
-				$manager->get((string)$id);
+				$manager->get($id);
 			} catch (NotFoundException) {
 				$verified++;
 			}
@@ -713,13 +715,14 @@ class ManagerTest extends TestCase {
 
 	public function testDeleteCommentsExpiredAtObjectTypeAndId(): void {
 		$ids = [];
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, null, new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, null, new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, null, new \DateTime('-2 hours'));
 
+		/** @psalm-suppress DeprecatedInterface No way around at the moment */
 		$manager = new Manager(
 			$this->connection,
 			$this->createMock(LoggerInterface::class),
@@ -732,7 +735,7 @@ class ManagerTest extends TestCase {
 		);
 
 		// just to make sure they are really set, with correct actor data
-		$comment = $manager->get((string)$ids[1]);
+		$comment = $manager->get($ids[1]);
 		$this->assertSame('files', $comment->getObjectType());
 		$this->assertSame('file64', $comment->getObjectId());
 
@@ -743,7 +746,7 @@ class ManagerTest extends TestCase {
 		$exists = 0;
 		foreach ($ids as $id) {
 			try {
-				$manager->get((string)$id);
+				$manager->get($id);
 				$exists++;
 			} catch (NotFoundException) {
 				$deleted++;
@@ -760,13 +763,14 @@ class ManagerTest extends TestCase {
 
 	public function testDeleteCommentsExpiredAtObjectType(): void {
 		$ids = [];
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file1', new \DateTime('-2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file2', new \DateTime('-2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime('-2 hours'));
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
-		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, 'file1', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, 'file2', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, 'file3', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, 'file3', new \DateTime());
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, 'file3', new \DateTime());
+		$ids[] = $this->addDatabaseEntry('0', '0', null, null, 'file3', new \DateTime());
 
+		/** @psalm-suppress DeprecatedInterface No way around at the moment */
 		$manager = new Manager(
 			$this->connection,
 			$this->createMock(LoggerInterface::class),
@@ -785,7 +789,7 @@ class ManagerTest extends TestCase {
 		$exists = 0;
 		foreach ($ids as $id) {
 			try {
-				$manager->get((string)$id);
+				$manager->get($id);
 				$exists++;
 			} catch (NotFoundException) {
 				$deleted++;
@@ -838,7 +842,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testReadMarkDeleteUser(): void {
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -856,7 +859,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testReadMarkDeleteObject(): void {
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -874,10 +876,12 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSendEvent(): void {
+		/** @psalm-suppress DeprecatedInterface Test for deprecated interface */
 		$handler1 = $this->createMock(ICommentsEventHandler::class);
 		$handler1->expects($this->exactly(4))
 			->method('handle');
 
+		/** @psalm-suppress DeprecatedInterface Test for deprecated interface */
 		$handler2 = $this->createMock(ICommentsEventHandler::class);
 		$handler1->expects($this->exactly(4))
 			->method('handle');
@@ -932,23 +936,9 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getManager();
 
-		$planetClosure = function ($name) {
-			return ucfirst($name);
-		};
+		$planetClosure = static fn (string $name): string => ucfirst($name);
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
-	}
-
-
-	public function testRegisterResolverInvalidType(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$manager = $this->getManager();
-
-		$planetClosure = function ($name) {
-			return ucfirst($name);
-		};
-		$manager->registerDisplayNameResolver(1337, $planetClosure);
 	}
 
 
@@ -957,10 +947,7 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getManager();
 
-		$planetClosure = function ($name) {
-			return ucfirst($name);
-		};
-
+		$planetClosure = static fn (string $name): string => ucfirst($name);
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$manager->resolveDisplayName('galaxy', 'sombrero');
 	}
@@ -968,25 +955,9 @@ class ManagerTest extends TestCase {
 	public function testResolveDisplayNameDirtyResolver(): void {
 		$manager = $this->getManager();
 
-		$planetClosure = function () {
-			return null;
-		};
-
+		$planetClosure = static fn (): null => null;
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$this->assertIsString($manager->resolveDisplayName('planet', 'neptune'));
-	}
-
-	public function testResolveDisplayNameInvalidType(): void {
-
-		$manager = $this->getManager();
-
-		$planetClosure = function () {
-			return null;
-		};
-
-		$manager->registerDisplayNameResolver('planet', $planetClosure);
-		$this->expectException(\InvalidArgumentException::class);
-		$this->assertIsString($manager->resolveDisplayName(1337, 'neptune'));
 	}
 
 	private function skipIfNotSupport4ByteUTF(): void {
@@ -995,7 +966,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestReactionAddAndDelete')]
+	#[DataProvider(methodName: 'providerTestReactionAddAndDelete')]
 	public function testReactionAddAndDelete(array $comments, array $reactionsExpected): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -1067,7 +1038,7 @@ class ManagerTest extends TestCase {
 			[$message, $actorId, $verb, $parentText] = $comment;
 			$parentId = null;
 			if ($parentText) {
-				$parentId = (string)$comments[$parentText]->getId();
+				$parentId = $comments[$parentText]->getId();
 			}
 			$id = '';
 			if ($verb === 'reaction_deleted') {
@@ -1080,7 +1051,7 @@ class ManagerTest extends TestCase {
 		return $comments;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestRetrieveAllReactions')]
+	#[DataProvider(methodName: 'providerTestRetrieveAllReactions')]
 	public function testRetrieveAllReactions(array $comments, array $expected): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -2342,7 +2313,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestRetrieveAllReactionsWithSpecificReaction')]
+	#[DataProvider(methodName: 'providerTestRetrieveAllReactionsWithSpecificReaction')]
 	public function testRetrieveAllReactionsWithSpecificReaction(array $comments, string $reaction, array $expected): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -2395,7 +2366,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestGetReactionComment')]
+	#[DataProvider(methodName: 'providerTestGetReactionComment')]
 	public function testGetReactionComment(array $comments, array $expected, bool $notFound): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -2462,7 +2433,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestReactionMessageSize')]
+	#[DataProvider(methodName: 'providerTestReactionMessageSize')]
 	public function testReactionMessageSize(string $reactionString, bool $valid): void {
 		$this->skipIfNotSupport4ByteUTF();
 		if (!$valid) {
@@ -2491,7 +2462,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestReactionsSummarizeOrdered')]
+	#[DataProvider(methodName: 'providerTestReactionsSummarizeOrdered')]
 	public function testReactionsSummarizeOrdered(array $comments, array $expected, bool $isFullMatch): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();

@@ -1,14 +1,15 @@
-import type { Folder, Node } from '@nextcloud/files'
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFolder, INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { showInfo, showWarning } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { openConflictPicker } from '@nextcloud/upload'
 import logger from '../logger.ts'
 
@@ -131,8 +132,9 @@ function readDirectory(directory: FileSystemDirectoryEntry): Promise<FileSystemE
 }
 
 /**
+ * Create a directory if it does not exist
  *
- * @param absolutePath
+ * @param absolutePath - the absolute path of the directory to create
  */
 export async function createDirectoryIfNotExists(absolutePath: string) {
 	const davClient = getClient()
@@ -146,20 +148,21 @@ export async function createDirectoryIfNotExists(absolutePath: string) {
 }
 
 /**
+ * Resolve conflicts between existing files and incoming files
  *
- * @param files
- * @param destination
- * @param contents
+ * @param files - incoming files
+ * @param destination - destination folder
+ * @param contents - existing contents of the destination folder
  */
-export async function resolveConflict<T extends ((Directory | File) | Node)>(files: Array<T>, destination: Folder, contents: Node[]): Promise<T[]> {
+export async function resolveConflict<T extends ((Directory | File) | INode)>(files: Array<T>, destination: IFolder, contents: INode[]): Promise<T[]> {
 	try {
 		// List all conflicting files
-		const conflicts = files.filter((file: File | Node) => {
-			return contents.find((node: Node) => node.basename === (file instanceof File ? file.name : file.basename))
-		}).filter(Boolean) as (File | Node)[]
+		const conflicts = files.filter((file: File | INode) => {
+			return contents.find((node: INode) => node.basename === (file instanceof File ? file.name : file.basename))
+		}).filter(Boolean) as (File | INode)[]
 
 		// List of incoming files that are NOT in conflict
-		const uploads = files.filter((file: File | Node) => {
+		const uploads = files.filter((file: File | INode) => {
 			return !conflicts.includes(file)
 		})
 

@@ -72,7 +72,7 @@
 				<SharingEntryInternal :file-info="fileInfo" />
 			</section>
 
-			<section>
+			<section v-if="config.showExternalSharing">
 				<div class="section-header">
 					<h4>{{ t('files_sharing', 'External shares') }}</h4>
 					<NcPopover popup-role="dialog">
@@ -230,6 +230,13 @@ export default {
 
 	mixins: [ShareDetails],
 
+	props: {
+		fileInfo: {
+			type: Object,
+			required: true,
+		},
+	},
+
 	data() {
 		return {
 			config: new Config(),
@@ -237,8 +244,6 @@ export default {
 			error: '',
 			expirationInterval: null,
 			loading: true,
-
-			fileInfo: null,
 
 			// reshare Share object
 			reshare: null,
@@ -328,18 +333,19 @@ export default {
 		},
 	},
 
-	methods: {
-		/**
-		 * Update current fileInfo and fetch new data
-		 *
-		 * @param {object} fileInfo the current file FileInfo
-		 */
-		async update(fileInfo) {
-			this.fileInfo = fileInfo
-			this.resetState()
-			this.getShares()
+	watch: {
+		fileInfo: {
+			immediate: true,
+			handler(newValue, oldValue) {
+				if (oldValue?.id === undefined || oldValue?.id !== newValue?.id) {
+					this.resetState()
+					this.getShares()
+				}
+			},
 		},
+	},
 
+	methods: {
 		/**
 		 * Get the existing shares infos
 		 */

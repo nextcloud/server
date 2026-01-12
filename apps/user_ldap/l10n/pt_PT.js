@@ -60,7 +60,6 @@ OC.L10N.register(
     "No object found in the given Base DN. Please revise." : "Nenhum objeto encontrado na Base DN fornecida. Por favor verifique.",
     "More than 1,000 directory entries available." : "Mais de 1,000 entradas de diretório disponíveis.",
     "When unchecked, this configuration will be skipped." : "Se não estiver marcada, esta definição não será tida em conta.",
-    "Configuration Active" : "Configuração Ativa",
     "Copy current configuration into new directory binding" : "Copiar a configuração atual para um novo registo de diretoria",
     "Host" : "Anfitrião",
     "Port" : "Porta",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Back" : "Anterior",
     "Continue" : "Continuar",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Aviso:</b> o módulo PHP LDAP não está instalado, \"backend\" não irá funcionar. Por favor, peça ao seu administrador para o instalar.",
+    "Configuration Active" : "Configuração Ativa",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Não recomendado, utilize-o apenas para testes! Se a ligação só funciona com esta opção, importe o certificado SSL do servidor LDAP para o seu servidor %s.",
     "UUID Attribute for Users:" : "Atributo UUID para utilizadores:",
     "UUID Attribute for Groups:" : "Atributo UUID para grupos:"

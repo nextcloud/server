@@ -41,6 +41,7 @@ OC.L10N.register(
     "Bucket" : "Amazon S3 saugykla",
     "Hostname" : "Domeno vardas",
     "Port" : "Prievadas",
+    "Proxy" : "Įgaliotasis serveris",
     "Region" : "Regionas",
     "Enable SSL" : "Įjungti SSL",
     "Enable Path Style" : "Amazon S3 kelias",

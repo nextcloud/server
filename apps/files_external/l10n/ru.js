@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "Корзина",
     "Hostname" : "Имя хоста",
     "Port" : "Порт",
+    "Proxy" : "Прокси-сервер",
     "Region" : "Регион",
     "Storage Class" : "Класс хранилища",
     "Enable SSL" : "Использовать SSL",

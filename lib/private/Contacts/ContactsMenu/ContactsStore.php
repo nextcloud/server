@@ -149,7 +149,7 @@ class ContactsStore implements IContactsStore {
 	 *  1. if the `shareapi_allow_share_dialog_user_enumeration` config option is
 	 * enabled it will filter all local users
 	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
-	 * current user is in an excluded group it will filter all local users.
+	 * current user is only in excluded groups it will filter all local users.
 	 *  3. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doesn't have a common group
 	 * with the current user.
@@ -184,8 +184,8 @@ class ContactsStore implements IContactsStore {
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 
 			if ($excludeGroups != 'allow') {
-				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
-					// a group of the current user is excluded -> filter all local users
+				if (count($selfGroups) > 0 && count(array_diff($selfGroups, $excludeGroupsList)) === 0) {
+					// all the groups of the current user are excluded -> filter all local users
 					$skipLocal = true;
 				}
 			} else {
@@ -305,8 +305,7 @@ class ContactsStore implements IContactsStore {
 				}
 			}
 			if ($shareType === 0 || $shareType === 6) {
-				$isLocal = $contact['isLocalSystemBook'] ?? false;
-				if ($contact['UID'] === $shareWith && $isLocal === true) {
+				if (($contact['isLocalSystemBook'] ?? false) === true && $contact['UID'] === $shareWith) {
 					$match = $contact;
 					break;
 				}

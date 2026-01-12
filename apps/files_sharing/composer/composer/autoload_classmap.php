@@ -88,6 +88,7 @@ return array(
     'OCA\\Files_Sharing\\MountProvider' => $baseDir . '/../lib/MountProvider.php',
     'OCA\\Files_Sharing\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
+    'OCA\\Files_Sharing\\OpenMetrics\\SharesCountMetric' => $baseDir . '/../lib/OpenMetrics/SharesCountMetric.php',
     'OCA\\Files_Sharing\\OrphanHelper' => $baseDir . '/../lib/OrphanHelper.php',
     'OCA\\Files_Sharing\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files_Sharing\\Scanner' => $baseDir . '/../lib/Scanner.php',

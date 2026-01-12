@@ -38,6 +38,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Nome do Anfitrião",
     "Port" : "Porta",
+    "Proxy" : "Proxy",
     "Region" : "Região",
     "Enable SSL" : "Ativar SSL",
     "Enable Path Style" : "Ativar Estilo do Caminho",

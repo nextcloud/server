@@ -178,7 +178,7 @@ import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { useThrottleFn } from '@vueuse/core'
 import { normalize, relative } from 'path'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -195,9 +195,7 @@ import ViewGridIcon from 'vue-material-design-icons/ViewGridOutline.vue'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
@@ -206,6 +204,7 @@ import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { useSidebarStore } from '../store/sidebar.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
@@ -250,10 +249,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
-		const { directory, fileId } = useRouteParameters()
-		const fileListWidth = useFileListWidth()
-
+		const sidebar = useSidebarStore()
 		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const filtersStore = useFiltersStore()
@@ -263,8 +259,13 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 
+		const fileListWidth = useFileListWidth()
+		const { directory, fileId } = useRouteParameters()
+
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
+
+		const currentView = computed(() => activeStore.activeView)
 
 		return {
 			currentView,
@@ -273,6 +274,7 @@ export default defineComponent({
 			fileListWidth,
 			t,
 
+			sidebar,
 			activeStore,
 			filesStore,
 			filtersStore,
@@ -317,7 +319,8 @@ export default defineComponent({
 				}
 				// If not found in the files store (cache)
 				// use the current view to fetch the content for the requested path
-				return (await view.getContents(normalizedPath)).contents
+				const controller = new AbortController()
+				return (await view.getContents(normalizedPath, { signal: controller.signal })).contents
 			}
 		},
 
@@ -557,9 +560,7 @@ export default defineComponent({
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
-			if (window.OCA.Files.Sidebar?.close) {
-				window.OCA.Files.Sidebar.close()
-			}
+			this.sidebar.close()
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
@@ -578,7 +579,6 @@ export default defineComponent({
 	},
 
 	async mounted() {
-		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
@@ -603,7 +603,6 @@ export default defineComponent({
 	},
 
 	unmounted() {
-		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('files:config:updated', this.fetchContent)
 		unsubscribe('files:filters:changed', this.filterDirContent)
@@ -687,32 +686,6 @@ export default defineComponent({
 		},
 
 		/**
-		 * Handle the node deleted event to reset open file
-		 *
-		 * @param node The deleted node
-		 */
-		onNodeDeleted(node: Node) {
-			if (node.fileid && node.fileid === this.fileId) {
-				if (node.fileid === this.currentFolder?.fileid) {
-					// Handle the edge case that the current directory is deleted
-					// in this case we need to keep the current view but move to the parent directory
-					window.OCP.Files.Router.goToRoute(
-						null,
-						{ view: this.currentView!.id },
-						{ dir: this.currentFolder?.dirname ?? '/' },
-					)
-				} else {
-					// If the currently active file is deleted we need to remove the fileid and possible the `openfile` query
-					window.OCP.Files.Router.goToRoute(
-						null,
-						{ ...this.$route.params, fileid: undefined },
-						{ ...this.$route.query, openfile: undefined },
-					)
-				}
-			}
-		},
-
-		/**
 		 * The upload manager have finished handling the queue
 		 *
 		 * @param upload the uploaded data
@@ -792,15 +765,7 @@ export default defineComponent({
 				return
 			}
 
-			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
-				window.OCA.Files.Sidebar.setActiveTab('sharing')
-			}
-			sidebarAction.exec({
-				nodes: [this.source],
-				view: this.currentView,
-				folder: this.currentFolder,
-				contents: this.dirContents,
-			})
+			this.sidebar.open(this.currentFolder, 'sharing')
 		},
 
 		toggleGridView() {

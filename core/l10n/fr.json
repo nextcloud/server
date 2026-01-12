@@ -251,6 +251,7 @@
     "Log in to {productName}" : "Se connecter à {productName}",
     "Wrong login or password." : "Mauvais identifiant ou mot de passe.",
     "This account is disabled" : "Ce compte est désactivé",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Trop de tentatives de connexion infructueuses. Merci de réessayer dans 30 secondes.",
     "Account name or email" : "Nom d’utilisateur ou adresse e-mail",
     "Account name" : "Nom du compte",
     "Server side authentication failed!" : "L’authentification sur le serveur a échoué !",

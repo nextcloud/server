@@ -204,8 +204,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "最終ファイルの名前の変更が出来なかったため、フックによりキャンセルされました",
     "Could not rename part file to final file" : "最終ファイルの名前の変更が出来ませんでした",
     "Failed to check file size: %1$s" : "ファイルサイズの確認に失敗: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "ファイルを開けませんでした： %1$s、ファイルは存在するようです",
-    "Could not open file: %1$s, file doesn't seem to exist" : "ファイルを開けませんでした： %1$s ファイルが存在しないようです。",
     "Encryption not ready: %1$s" : "暗号化の準備が出来ていません: %1$s",
     "Failed to open file: %1$s" : "ファイルを開くのに失敗: %1$s",
     "Failed to unlink: %1$s" : "リンクの解除に失敗: %1$s",
@@ -337,6 +335,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["%1$sの%n週間、その後%2$sと%3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["%1$sの%nヶ月、その後%2$sと%3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["%1$sの%n年間、その後%2$sと%3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "ファイルを開けませんでした： %1$s、ファイルは存在するようです",
+    "Could not open file: %1$s, file doesn't seem to exist" : "ファイルを開けませんでした： %1$s ファイルが存在しないようです。",
     "No results." : "結果はありません。",
     "Start typing." : "入力を開始する。",
     "Time zone:" : "タイムゾーン："

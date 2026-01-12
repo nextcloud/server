@@ -16,6 +16,7 @@ import { action as openInFilesAction } from './actions/openInFilesAction.ts'
 import { action as editLocallyAction } from './actions/openLocallyAction.ts'
 import { action as renameAction } from './actions/renameAction.ts'
 import { action as sidebarAction } from './actions/sidebarAction.ts'
+import { registerSidebarFavoriteAction } from './actions/sidebarFavoriteAction.ts'
 import { action as viewInFolderAction } from './actions/viewInFolderAction.ts'
 import { registerFilenameFilter } from './filters/FilenameFilter.ts'
 import { registerHiddenFilesFilter } from './filters/HiddenFilesFilter.ts'
@@ -68,6 +69,9 @@ registerTypeFilter()
 registerModifiedFilter()
 registerFilenameFilter()
 registerFilterToSearchToggle()
+
+// Register sidebar action
+registerSidebarFavoriteAction()
 
 // Register preview service worker
 registerPreviewServiceWorker()

@@ -43,6 +43,7 @@ OC.L10N.register(
     "Bucket" : "סל",
     "Hostname" : "שם מארח",
     "Port" : "שער",
+    "Proxy" : "מתווך",
     "Region" : "אזור",
     "Enable SSL" : "הפעלת SSL",
     "Enable Path Style" : "אהפעלת סגנון נתיב",

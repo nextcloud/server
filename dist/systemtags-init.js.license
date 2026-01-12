@@ -2,6 +2,7 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: BSD-2-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-License-Identifier: (MIT AND BSD-3-Clause)
@@ -64,6 +65,7 @@ SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolk
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Fedor Indutny <fedor@indutny.com>
 SPDX-FileCopyrightText: Fedor Indutny
 SPDX-FileCopyrightText: Evan You
@@ -92,6 +94,9 @@ SPDX-FileCopyrightText:
 
 
 This file is generated from multiple sources. Included packages:
+- @buttercup/fetch
+	- version: 0.2.1
+	- license: MIT
 - @ctrl/tinycolor
 	- version: 3.6.1
 	- license: MIT
@@ -162,7 +167,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-beta.7
+	- version: 4.0.0-beta.8
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -654,7 +659,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.0
+	- version: 6.14.1
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -839,6 +844,9 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
+- entities
+	- version: 6.0.1
+	- license: BSD-2-Clause
 - fast-xml-parser
 	- version: 4.5.3
 	- license: MIT

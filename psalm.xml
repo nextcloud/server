@@ -54,6 +54,7 @@
 		<directory name="core"/>
 		<directory name="lib"/>
 		<directory name="ocs"/>
+		<directory name="tests/lib/Comments"/>
 		<directory name="ocs-provider"/>
 		<file name="cron.php"/>
 		<file name="index.php"/>
@@ -61,6 +62,7 @@
 		<file name="remote.php"/>
 		<file name="status.php"/>
 		<file name="version.php"/>
+		<file name="tests/lib/TestCase.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
@@ -71,6 +73,7 @@
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
+		<directory name="vendor-bin/phpunit/vendor/phpunit"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>

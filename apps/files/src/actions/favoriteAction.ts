@@ -1,8 +1,9 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View } from '@nextcloud/files'
+
+import type { INode, IView } from '@nextcloud/files'
 
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
@@ -26,17 +27,18 @@ const queue = new PQueue({ concurrency: 5 })
  *
  * @param nodes - The nodes to check
  */
-function shouldFavorite(nodes: Node[]): boolean {
+function shouldFavorite(nodes: INode[]): boolean {
 	return nodes.some((node) => node.attributes.favorite !== 1)
 }
 
 /**
+ * Favorite or unfavorite a node
  *
- * @param node
- * @param view
- * @param willFavorite
+ * @param node - The node to favorite/unfavorite
+ * @param view - The current view
+ * @param willFavorite - Whether to favorite or unfavorite the node
  */
-export async function favoriteNode(node: Node, view: View, willFavorite: boolean): Promise<boolean> {
+export async function favoriteNode(node: INode, view: IView, willFavorite: boolean): Promise<boolean> {
 	try {
 		// TODO: migrate to webdav tags plugin
 		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
@@ -55,6 +57,7 @@ export async function favoriteNode(node: Node, view: View, willFavorite: boolean
 
 		// Update the node webdav attribute
 		Vue.set(node.attributes, 'favorite', willFavorite ? 1 : 0)
+		emit('files:node:updated', node)
 
 		// Dispatch event to whoever is interested
 		if (willFavorite) {

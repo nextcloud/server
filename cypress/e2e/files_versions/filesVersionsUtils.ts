@@ -6,6 +6,8 @@
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 import type { ShareSetting } from '../files_sharing/FilesSharingUtils.ts'
 
+import { basename } from '@nextcloud/paths'
+import { triggerActionForFile } from '../files/FilesUtils.ts'
 import { createShare } from '../files_sharing/FilesSharingUtils.ts'
 
 export function uploadThreeVersions(user: User, fileName: string) {
@@ -24,11 +26,13 @@ export function openVersionsPanel(fileName: string) {
 	// Detect the versions list fetch
 	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('getVersions')
 
-	// Open the versions tab
-	cy.window().then((win) => {
-		win.OCA.Files.Sidebar.setActiveTab('files_versions')
-		win.OCA.Files.Sidebar.open(`/${fileName}`)
-	})
+	triggerActionForFile(basename(fileName), 'details')
+	cy.get('[data-cy-sidebar]')
+		.as('sidebar')
+		.should('be.visible')
+	cy.get('@sidebar')
+		.find('[aria-controls="tab-files_versions"]')
+		.click()
 
 	// Wait for the versions list to be fetched
 	cy.wait('@getVersions')
@@ -85,6 +89,7 @@ export function setupTestSharedFileFromUser(owner: User, randomFileName: string,
 			cy.login(owner)
 			cy.visit('/apps/files')
 			createShare(randomFileName, recipient.userId, shareOptions)
+
 			cy.login(recipient)
 			cy.visit('/apps/files')
 			return cy.wrap(recipient)

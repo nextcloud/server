@@ -5,7 +5,7 @@
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
-import { getActionButtonForFile, getRowForFile, triggerActionForFile } from './FilesUtils.ts'
+import { closeSidebar, getActionButtonForFile, getRowForFile, triggerActionForFile } from './FilesUtils.ts'
 
 describe('files: Favorites', { testIsolation: true }, () => {
 	let user: User
@@ -110,29 +110,54 @@ describe('files: Favorites', { testIsolation: true }, () => {
 			.contains('new folder')
 			.should('not.exist')
 
-		cy.intercept('PROPPATCH', '**/remote.php/dav/files/*/new%20folder').as('addToFavorites')
+		cy.intercept('POST', '**/apps/files/api/v1/files/new%20folder').as('addToFavorites')
 		// open sidebar
 		triggerActionForFile('new folder', 'details')
-		// open actions
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+
+		// open sidebar actions
 		cy.get('[data-cy-sidebar]')
 			.findByRole('button', { name: 'Actions' })
 			.click()
 		// trigger menu button
 		cy.findAllByRole('menu')
-			.findByRole('menuitem', { name: 'Add to favorites' })
+			.findByRole('menuitem', { name: 'Favorite' })
 			.should('be.visible')
 			.click()
 		cy.wait('@addToFavorites')
+
+		// close sidebar
+		closeSidebar()
 
 		// See favorites star
 		getRowForFile('new folder')
 			.findByRole('img', { name: 'Favorite' })
 			.should('be.visible')
 
-		// See folder in navigation
-		cy.get('[data-cy-files-navigation-item="favorites"]')
+		cy.reload()
+		getRowForFile('new folder')
 			.should('be.visible')
-			.contains('new folder')
-			.should('exist')
+
+		// can unfavorite
+		triggerActionForFile('new folder', 'details')
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+
+		cy.get('[data-cy-sidebar]')
+			.findByRole('button', { name: 'Actions' })
+			.click()
+		// trigger menu button
+		cy.findAllByRole('menu')
+			.findByRole('menuitem', { name: 'Unfavorite' })
+			.should('be.visible')
+			.click()
+
+		cy.wait('@addToFavorites')
+		closeSidebar()
+
+		getRowForFile('new folder')
+			.findByRole('img', { name: 'Favorite' })
+			.should('not.exist')
 	})
 })

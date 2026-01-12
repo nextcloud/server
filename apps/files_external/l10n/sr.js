@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "Канта",
     "Hostname" : "Име домаћина",
     "Port" : "Порт",
+    "Proxy" : "Посредник",
     "Region" : "Регија",
     "Storage Class" : "Класа складишта",
     "Enable SSL" : "Омогући SSL",

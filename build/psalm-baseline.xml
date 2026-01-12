@@ -82,86 +82,22 @@
       <code><![CDATA[getUserValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/appinfo/v1/caldav.php">
-    <DeprecatedMethod>
-      <code><![CDATA[exec]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getL10NFactory]]></code>
-    </DeprecatedMethod>
-    <UndefinedGlobalVariable>
-      <code><![CDATA[$baseuri]]></code>
-    </UndefinedGlobalVariable>
-  </file>
-  <file src="apps/dav/appinfo/v1/carddav.php">
-    <DeprecatedMethod>
-      <code><![CDATA[exec]]></code>
-      <code><![CDATA[getL10N]]></code>
-      <code><![CDATA[getL10NFactory]]></code>
-    </DeprecatedMethod>
-    <UndefinedGlobalVariable>
-      <code><![CDATA[$baseuri]]></code>
-    </UndefinedGlobalVariable>
-  </file>
   <file src="apps/dav/appinfo/v1/publicwebdav.php">
-    <DeprecatedClass>
-      <code><![CDATA[OC_Util::obEnd()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[OC_App::loadApps($RUNTIME_APPTYPES)]]></code>
-      <code><![CDATA[exec]]></code>
-      <code><![CDATA[getL10N]]></code>
-    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[Filesystem::logWarningWhenAddingStorageWrapper($previousLog)]]></code>
       <code><![CDATA[Filesystem::logWarningWhenAddingStorageWrapper(false)]]></code>
       <code><![CDATA[new View($node->getPath())]]></code>
     </InternalMethod>
-    <UndefinedGlobalVariable>
-      <code><![CDATA[$baseuri]]></code>
-    </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v1/webdav.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::obEnd()]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
-      <code><![CDATA[exec]]></code>
-      <code><![CDATA[getL10N]]></code>
     </DeprecatedMethod>
-    <UndefinedGlobalVariable>
-      <code><![CDATA[$baseuri]]></code>
-    </UndefinedGlobalVariable>
-  </file>
-  <file src="apps/dav/appinfo/v2/direct.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::obEnd()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[exec]]></code>
-    </DeprecatedMethod>
-    <UndefinedGlobalVariable>
-      <code><![CDATA[$baseuri]]></code>
-    </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v2/publicremote.php">
-    <DeprecatedClass>
-      <code><![CDATA[OC_Util::obEnd()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[OC_App::loadApps($RUNTIME_APPTYPES)]]></code>
-    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[new View($node->getPath())]]></code>
     </InternalMethod>
-  </file>
-  <file src="apps/dav/appinfo/v2/remote.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::obEnd()]]></code>
-    </DeprecatedClass>
-    <UndefinedGlobalVariable>
-      <code><![CDATA[$baseuri]]></code>
-    </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
     <DeprecatedMethod>
@@ -660,7 +596,6 @@
       <code><![CDATA[isUpdatable]]></code>
       <code><![CDATA[putFileInfo]]></code>
       <code><![CDATA[putFileInfo]]></code>
-      <code><![CDATA[resolvePath]]></code>
       <code><![CDATA[resolvePath]]></code>
       <code><![CDATA[resolvePath]]></code>
       <code><![CDATA[resolvePath]]></code>
@@ -3073,15 +3008,6 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Command/Encryption/DecryptAll.php">
-    <DeprecatedMethod>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Encryption/Disable.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -4370,5 +4296,14 @@
       <code><![CDATA[exec]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="tests/lib/TestCase.php">
+    <DeprecatedMethod>
+      <code><![CDATA[$container]]></code>
+    </DeprecatedMethod>
+    <InternalMethod>
+      <code><![CDATA[lockFile]]></code>
+      <code><![CDATA[unlockFile]]></code>
+    </InternalMethod>
   </file>
 </files>

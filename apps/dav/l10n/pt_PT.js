@@ -202,8 +202,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Não foi possível renomear o ficheiro parcial para ficheiro final, cancelado por hook",
     "Could not rename part file to final file" : "Não foi possível renomear o ficheiro parcial para ficheiro final",
     "Failed to check file size: %1$s" : "Falha ao verificar o tamanho do ficheiro: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Não foi possível abrir o ficheiro: %1$s, o ficheiro parece existir",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Não foi possível abrir o ficheiro: %1$s, o ficheiro não parece existir",
     "Encryption not ready: %1$s" : "Encriptação não pronta: %1$s",
     "Failed to open file: %1$s" : "Falha ao abrir o ficheiro: %1$s",
     "Failed to unlink: %1$s" : "Falha ao eliminar: %1$s",
@@ -329,6 +327,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Daqui a um semana em %1$s e depois em %2$s e %3$s","Daqui a %n semanas em %1$s e depois em %2$s e %3$s","Daqui a %n semanas em %1$s e depois em %2$s e %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Daqui a um mês em %1$s e depois em %2$s e %3$s","Daqui a %n meses em %1$s e depois em %2$s e %3$s","Daqui a %n meses em %1$s e depois em %2$s e %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Daqui a um ano em %1$s e depois em %2$s e %3$s","Daqui a %n anos em %1$s e depois em %2$s e %3$s","Daqui a %n anos em %1$s e depois em %2$s e %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Não foi possível abrir o ficheiro: %1$s, o ficheiro parece existir",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Não foi possível abrir o ficheiro: %1$s, o ficheiro não parece existir",
     "No results." : "Sem resultados.",
     "Start typing." : "Comece a escrever.",
     "Time zone:" : "Fuso horário:"

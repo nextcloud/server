@@ -12,6 +12,9 @@ const modules = {
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
 		'settings-personal-availability': resolve(import.meta.dirname, 'apps/dav/src', 'settings-personal-availability.ts'),
 	},
+	federation: {
+		'settings-admin': resolve(import.meta.dirname, 'apps/federation/src', 'settings-admin.ts'),
+	},
 	federatedfilesharing: {
 		'init-files': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'init-files.js'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-admin.ts'),
@@ -28,6 +31,9 @@ const modules = {
 	},
 	oauth2: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/oauth2/src', 'settings-admin.ts'),
+	},
+	profile: {
+		main: resolve(import.meta.dirname, 'apps/profile/src', 'main.ts'),
 	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),

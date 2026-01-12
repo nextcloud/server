@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "باکت",
     "Hostname" : "نام میزبان",
     "Port" : "درگاه",
+    "Proxy" : "پروکسی",
     "Region" : "ناحیه",
     "Storage Class" : "Storage Class",
     "Enable SSL" : "فعال‌سازی SSL",

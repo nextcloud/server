@@ -117,6 +117,81 @@ Feature: sharees
     And "exact remotes" sharees returned is empty
     And "remotes" sharees returned is empty
 
+  Scenario: Search when belonging to a group excluded from sharing
+    Given As an "test"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ShareeGroup"
+    When getting sharees for
+      | search | sharee |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned is empty
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
+  Scenario: Search when belonging to both a group excluded from sharing and another group
+    Given As an "test"
+    And group "AnotherGroup" exists
+    And user "test" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "yes"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "ShareeGroup"
+    When getting sharees for
+      | search | sharee |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned are
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
+      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned are
+      | ShareeGroup | 1 | ShareeGroup |
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
+  Scenario: Search when not belonging to a group allowed to share
+    Given As an "test"
+    And group "AnotherGroup" exists
+    And parameter "shareapi_exclude_groups" of app "core" is set to "allow"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "AnotherGroup"
+    When getting sharees for
+      | search | sharee |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned is empty
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
+  Scenario: Search when belonging to both a group allowed to share and another group
+    Given As an "test"
+    And group "AnotherGroup" exists
+    And user "test" belongs to group "AnotherGroup"
+    And parameter "shareapi_exclude_groups" of app "core" is set to "allow"
+    And parameter "shareapi_exclude_groups_list" of app "core" is set to "AnotherGroup"
+    When getting sharees for
+      | search | sharee |
+     | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned are
+      | Sharee1 | 0 | Sharee1 | Sharee1 |
+      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned are
+      | ShareeGroup | 1 | ShareeGroup |
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+
   Scenario: Search without exact match no iteration allowed
     Given As an "test"
     And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"

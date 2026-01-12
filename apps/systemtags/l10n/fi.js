@@ -63,6 +63,7 @@ OC.L10N.register(
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
     "Failed to select tag" : "Tunnisteen valitseminen epäonnistui",
     "Search or create collaborative tags" : "Etsi tai luo yhteistyötunnisteita",
+    "Add tags" : "Lisää tunnisteita",
     "Open in Files" : "Avaa tiedostosovelluksessa",
     "No tags found" : "Tunnisteita ei löytynyt",
     "Tags you have created will show up here." : "Luomasi tunnisteet näkyvät täällä.",

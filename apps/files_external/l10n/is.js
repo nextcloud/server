@@ -49,6 +49,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Vélarheiti",
     "Port" : "Gátt",
+    "Proxy" : "Milliþjónn",
     "Region" : "Svæði",
     "Storage Class" : "Flokkur geymslurýmis",
     "Enable SSL" : "Virkja SSL",

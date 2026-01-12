@@ -531,15 +531,6 @@ class Directory extends Node implements
 			throw new InvalidPath($ex->getMessage(), false, $ex);
 		}
 
-		// if not in a public share with no read permissions, throw Forbidden
-		if (!$allowDirectory && !$info->isReadable()) {
-			if (Server::get(IAppManager::class)->isEnabledForAnyone('files_accesscontrol')) {
-				throw new Forbidden('No read permissions. This might be caused by files_accesscontrol, check your configured rules');
-			}
-
-			throw new Forbidden('No read permissions');
-		}
-
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {

@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files.",
     "Restrict tag creation and editing to administrators" : "Restrict tag creation and editing to administrators",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.",
+    "Add tags" : "ເພີ່ມແທັກ",
     "Assigned collaborative tags" : "Assigned collaborative tags",
     "Open in Files" : "ເປີດໃນ Files",
     "List of tags and their associated files and folders." : "List of tags and their associated files and folders.",

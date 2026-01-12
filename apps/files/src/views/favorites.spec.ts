@@ -130,9 +130,9 @@ describe('Favorites view definition', () => {
 
 describe('Dynamic update of favorite folders', () => {
 	let Navigation
+
 	beforeEach(() => {
 		vi.restoreAllMocks()
-
 		delete window._nc_navigation
 		Navigation = getNavigation()
 	})
@@ -167,8 +167,9 @@ describe('Dynamic update of favorite folders', () => {
 			contents: [],
 		})
 
-		expect(eventBus.emit).toHaveBeenCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:added', folder)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:updated', folder)
 	})
 
 	test('Remove a favorite folder remove the entry from the navigation column', async () => {
@@ -213,8 +214,9 @@ describe('Dynamic update of favorite folders', () => {
 			contents: [],
 		})
 
-		expect(eventBus.emit).toHaveBeenCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', folder)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:updated', folder)
 		expect(fo).toHaveBeenCalled()
 
 		favoritesView = Navigation.views.find((view) => view.id === 'favorites')
@@ -257,7 +259,8 @@ describe('Dynamic update of favorite folders', () => {
 			folder: {} as NcFolder,
 			contents: [],
 		})
-		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:favorites:added', folder)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:added', folder)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:updated', folder)
 
 		// Create a folder with the same id but renamed
 		const renamedFolder = new Folder({
@@ -269,6 +272,6 @@ describe('Dynamic update of favorite folders', () => {
 
 		// Exec the rename action
 		eventBus.emit('files:node:renamed', renamedFolder)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:renamed', renamedFolder)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:renamed', renamedFolder)
 	})
 })

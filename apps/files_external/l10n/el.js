@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "Κάδος",
     "Hostname" : "Όνομα Υπολογιστή",
     "Port" : "Θύρα",
+    "Proxy" : "Διαμεσολαβητής",
     "Region" : "Περιοχή",
     "Storage Class" : "Κλάση αποθήκευσης",
     "Enable SSL" : "Ενεργοποίηση SSL",

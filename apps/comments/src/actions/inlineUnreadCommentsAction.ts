@@ -1,9 +1,10 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
-import { FileAction } from '@nextcloud/files'
+import { FileAction, getSidebar } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import logger from '../logger.js'
 
@@ -34,8 +35,8 @@ export const action = new FileAction({
 		}
 
 		try {
-			window.OCA.Files.Sidebar.setActiveTab('comments')
-			await window.OCA.Files.Sidebar.open(nodes[0].path)
+			const sidebar = getSidebar()
+			sidebar.open(nodes[0], 'comments')
 			return null
 		} catch (error) {
 			logger.error('Error while opening sidebar', { error })

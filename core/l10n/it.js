@@ -254,6 +254,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Accedi a {productName}",
     "Wrong login or password." : "Nome utente o password errati.",
     "This account is disabled" : "Questo account è disabilitato",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Troppi tentativi di accesso errati. Riprova tra 30 secondi.",
     "Account name or email" : "Nome utente o email",
     "Account name" : "Nome account",
     "Server side authentication failed!" : "Autenticazione lato server non riuscita!",

@@ -46,6 +46,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Isäntänimi",
     "Port" : "Portti",
+    "Proxy" : "Välityspalvelin",
     "Region" : "Alue",
     "Enable SSL" : "Käytä SSL:ää",
     "Enable Path Style" : "Aktivoi polun tyyli",

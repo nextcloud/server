@@ -43,6 +43,7 @@ OC.L10N.register(
     "Bucket" : "Bucket",
     "Hostname" : "Naziv poslužitelja",
     "Port" : "Port",
+    "Proxy" : "Proxy",
     "Region" : "Regija",
     "Enable SSL" : "Omogući SSL",
     "Enable Path Style" : "Omogući Path Style",

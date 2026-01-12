@@ -52,6 +52,7 @@ OC.L10N.register(
     "Bucket" : "الحزمة",
     "Hostname" : "اسم الإستضافة",
     "Port" : "المنفذ",
+    "Proxy" : "وكيل البروكسي",
     "Region" : "المنطقة",
     "Storage Class" : "فئة وحدة التخزين",
     "Enable SSL" : "تمكين SSL",
