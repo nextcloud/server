@@ -19,7 +19,8 @@ use function substr;
  * @psalm-consistent-constructor
  */
 abstract class Entity {
-	public int|string|null $id = null;
+	/** @var int $id */
+	public $id;
 	private array $_updatedFields = [];
 	/** @psalm-param $_fieldTypes array<string, Types::*> */
 	protected array $_fieldTypes = ['id' => 'integer'];

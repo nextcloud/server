@@ -35,6 +35,7 @@ abstract class SnowflakeAwareEntity extends Entity {
 	 */
 	public function generateId(): void {
 		if ($this->id === null) {
+			/** @psalm-suppress InvalidPropertyAssignmentValue */
 			$this->id = Server::get(ISnowflakeGenerator::class)->nextId();
 			$this->markFieldUpdated('id');
 		}
@@ -50,7 +51,7 @@ abstract class SnowflakeAwareEntity extends Entity {
 		}
 
 		if ($this->snowflake === null) {
-			$this->snowflake = Server::get(ISnowflakeDecoder::class)->decode($this->id);
+			$this->snowflake = Server::get(ISnowflakeDecoder::class)->decode($this->getId());
 		}
 
 		return $this->snowflake;
