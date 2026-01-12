@@ -16,9 +16,9 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
-use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\Storage\IConstructableStorage;
@@ -27,13 +27,15 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
 use OCP\Server;
+use Override;
 use Psr\Clock\ClockInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
  */
-class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
+class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPartialMountProvider {
 	public function __construct(
 		private UserStoragesService $userStoragesService,
 		private UserGlobalStoragesService $userGlobalStoragesService,
@@ -57,7 +59,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 	/**
 	 * Process storage ready for mounting
 	 *
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user): void {
 		foreach ($storage->getBackendOptions() as $option => $value) {
@@ -81,8 +83,6 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 
 	/**
 	 * Construct the storage implementation
-	 *
-	 * @param StorageConfig $storageConfig
 	 */
 	private function constructStorage(StorageConfig $storageConfig): IStorage {
 		$class = $storageConfig->getBackend()->getStorageClass();
@@ -99,17 +99,12 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 	}
 
 	/**
-	 * Get all mountpoints applicable for the user
-	 *
-	 * @return IMountPoint[]
+	 * @param list<StorageConfig> $storageConfigs
+	 * @return array
+	 * @throws ContainerExceptionInterface
 	 */
-	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$this->userStoragesService->setUser($user);
-		$this->userGlobalStoragesService->setUser($user);
-
-		$storageConfigs = $this->userGlobalStoragesService->getAllStoragesForUser();
-
-		$storages = array_map(function (StorageConfig $storageConfig) use ($user) {
+	private function getAvailableStorages(array $storageConfigs, IUser $user): array {
+		$storages = array_map(function (StorageConfig $storageConfig) use ($user): IStorage {
 			try {
 				return $this->constructStorageForUser($user, $storageConfig);
 			} catch (\Exception $e) {
@@ -123,7 +118,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 			return $storage->getId();
 		}, $storages));
 
-		$availableStorages = array_map(function (IStorage $storage, StorageConfig $storageConfig): IStorage {
+		return array_map(function (IStorage $storage, StorageConfig $storageConfig): IStorage {
 			try {
 				$availability = $storage->getAvailability();
 				if (!$availability['available'] && !Availability::shouldRecheck($availability)) {
@@ -137,6 +132,19 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 			}
 			return $storage;
 		}, $storages, $storageConfigs);
+	}
+
+	/**
+	 * Get all mountpoints applicable for the user
+	 *
+	 * @return IMountPoint[]
+	 */
+	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
+		$this->userStoragesService->setUser($user);
+		$this->userGlobalStoragesService->setUser($user);
+
+		$storageConfigs = $this->userGlobalStoragesService->getAllStoragesForUser();
+		$availableStorages = $this->getAvailableStorages($storageConfigs, $user);
 
 		$mounts = array_map(function (StorageConfig $storageConfig, IStorage $storage) use ($user, $loader) {
 			$storage->setOwner($user->getUID());
@@ -167,6 +175,76 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 				);
 			}
 		}, $storageConfigs, $availableStorages);
+
+		$this->userStoragesService->resetUser();
+		$this->userGlobalStoragesService->resetUser();
+
+		return $mounts;
+	}
+
+	#[Override]
+	public function getMountsForPath(string $path, bool $forChildren, array $mountProviderArgs, IStorageFactory $loader): array {
+		if (empty($mountProviderArgs)) {
+			return [];
+		}
+
+		$userId = null;
+		$user = null;
+		foreach ($mountProviderArgs as $mountProviderArg) {
+			if ($userId === null) {
+				$user = $mountProviderArg->mountInfo->getUser();
+				$userId = $user->getUID();
+			} elseif ($userId !== $mountProviderArg->mountInfo->getUser()->getUID()) {
+				throw new \LogicException('Mounts must belong to the same user!');
+			}
+		}
+
+		if (!$forChildren) {
+			// override path with mount point when fetching without children
+			$path = $mountProviderArgs[0]->mountInfo->getMountPoint(); // TODO: not sure what this is doing, is this getting the parent path?
+		}
+
+		$this->userStoragesService->setUser($user);
+		$this->userGlobalStoragesService->setUser($user);
+
+		$storageConfigs = $this->userGlobalStoragesService->getAllStoragesForUserWithPath($path, $forChildren);
+		$availableStorages = $this->getAvailableStorages($storageConfigs, $user);
+
+		$mounts = [];
+
+		$i = 0;
+		foreach ($storageConfigs as $storageConfig) {
+			$storage = $availableStorages[$i];
+			$i++;
+			$storage->setOwner($user->getUID());
+			$mountPoint = '/' . $user->getUID() . '/files' . $storageConfig->getMountPoint();
+			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
+				$mounts[$mountPoint] = new PersonalMount(
+					$this->userStoragesService,
+					$storageConfig,
+					$storageConfig->getId(),
+					new KnownMtime([
+						'storage' => $storage,
+						'clock' => $this->clock,
+					]),
+					$mountPoint,
+					null,
+					$loader,
+					$storageConfig->getMountOptions(),
+					$storageConfig->getId()
+				);
+			} else {
+				$mounts[$mountPoint] = new SystemMountPoint(
+					$storageConfig,
+					$storage,
+					$mountPoint,
+					null,
+					$loader,
+					$storageConfig->getMountOptions(),
+					$storageConfig->getId()
+				);
+			}
+		}
 
 		$this->userStoragesService->resetUser();
 		$this->userGlobalStoragesService->resetUser();

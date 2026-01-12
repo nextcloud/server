@@ -120,10 +120,9 @@ abstract class StoragesService {
 	 *
 	 * @param int $id storage id
 	 *
-	 * @return StorageConfig
 	 * @throws NotFoundException if the storage with the given id was not found
 	 */
-	public function getStorage(int $id) {
+	public function getStorage(int $id): StorageConfig {
 		$mount = $this->dbConfig->getMountById($id);
 
 		if (!is_array($mount)) {
