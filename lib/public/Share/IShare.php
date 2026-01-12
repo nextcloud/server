@@ -200,7 +200,7 @@ interface IShare {
 	 *
 	 * @since 9.0.0
 	 */
-	public function setNodeType(string $type): static;
+	public function setShareType(int $shareType): static;
 
 	/**
 	 * Get the shareType
