@@ -55,5 +55,5 @@ interface ITeamManager {
 	 * @return list<Team>
 	 * @since 33.0.0
 	 */
-	public function getMemberships(string $userId): array;
+	public function getTeamsForUser(string $userId): array;
 }
