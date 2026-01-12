@@ -3,6 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
   -->
 <script setup lang="ts">
+import type { IBackend } from '../types.ts'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
@@ -12,14 +14,9 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 const userMounting = loadState<{
 	allowUserMounting: boolean
 	allowedBackends: string[]
-	backends: {
-		id: string
-		displayName: string
-		deprecated?: string
-	}[]
 }>('files_external', 'user-mounting')
 
-const availableBackends = userMounting.backends
+const availableBackends = loadState<IBackend[]>('files_external', 'backends')
 const allowUserMounting = ref(userMounting.allowUserMounting)
 const allowedBackends = ref<string[]>(userMounting.allowedBackends)
 
@@ -79,23 +76,14 @@ watch(allowedBackends, (newValue, oldValue) => {
 			<legend>
 				{{ t('files_external', 'External storage backends people are allowed to mount') }}
 			</legend>
-			<template v-for="backend of availableBackends">
-				<NcCheckboxRadioSwitch
-					v-if="!backend.deprecated"
-					:key="backend.id"
-					v-model="allowedBackends"
-					:value="backend.id"
-					name="allowUserMountingBackends[]">
-					{{ backend.displayName }}
-				</NcCheckboxRadioSwitch>
-				<input
-					v-else-if="backend.id in allowedBackends"
-					:key="`${backend.id}-deprecated`"
-					:data-deprecate-to="backend.deprecated"
-					:value="backend.id"
-					name="allowUserMountingBackends[]"
-					type="hidden">
-			</template>
+			<NcCheckboxRadioSwitch
+				v-for="backend of availableBackends"
+				:key="backend.identifier"
+				v-model="allowedBackends"
+				:value="backend.identifier"
+				name="allowUserMountingBackends[]">
+				{{ backend.name }}
+			</NcCheckboxRadioSwitch>
 		</fieldset>
 	</form>
 </template>

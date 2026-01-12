@@ -27,14 +27,14 @@ class Admin implements ISettings {
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
 	) {
+		$this->visibility = BackendService::VISIBILITY_ADMIN;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		// Shared settings (user & admin)
-		$this->setInitialState(BackendService::VISIBILITY_ADMIN);
+		$this->setInitialState();
 
 		// Admin specific
 		$backends = $this->backendService->getAvailableBackends();
@@ -42,16 +42,6 @@ class Admin implements ISettings {
 		$this->initialState->provideInitialState('user-mounting', [
 			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
 			'allowedBackends' => array_values(array_map(fn (Backend $backend) => $backend->getIdentifier(), $allowedBackends)),
-			'backends' => array_values(
-				array_map(
-					fn (Backend $backend) => [
-						'id' => $backend->getIdentifier(),
-						'displayName' => $backend->getText(),
-						'deprecated' => $backend->getDeprecateTo()?->getIdentifier(),
-					],
-					$backends,
-				),
-			),
 		]);
 
 		$this->loadScriptsAndStyles();

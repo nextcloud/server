@@ -236,7 +236,7 @@ abstract class StoragesController extends Controller {
 		} catch (StorageNotAvailableException $e) {
 			$storage->setStatus(
 				(int)$e->getCode(),
-				$this->l10n->t('%s', [$e->getMessage()])
+				$e->getMessage(),
 			);
 		} catch (\Exception $e) {
 			// FIXME: convert storage exceptions to StorageNotAvailableException

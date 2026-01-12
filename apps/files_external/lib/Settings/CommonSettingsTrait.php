@@ -12,28 +12,28 @@ use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Encryption\IManager;
 use OCP\IURLGenerator;
 use OCP\Util;
 
 trait CommonSettingsTrait {
 	private BackendService $backendService;
-
+	private IManager $encryptionManager;
 	private IInitialState $initialState;
-
 	private IURLGenerator $urlGenerator;
-
 	private GlobalAuth $globalAuth;
 
+	private int $visibility;
 	private ?string $userId = null;
+	/** @var Backend[]|null */
+	private ?array $backends = null;
 
 	/**
 	 * Set the initial state for the user / admin settings
-	 *
-	 * @param int $visibilityType The visibility type used to determine which options to show (admin vs user settings)
 	 */
-	protected function setInitialState(int $visibilityType) {
+	protected function setInitialState() {
 		$allowUserMounting = $this->backendService->isUserMountingAllowed();
-		$isAdmin = $visibilityType === BackendService::VISIBILITY_ADMIN;
+		$isAdmin = $this->visibility === BackendService::VISIBILITY_ADMIN;
 		$canCreateMounts = $isAdmin || $allowUserMounting;
 
 		$this->initialState->provideInitialState('settings', [
@@ -43,6 +43,7 @@ trait CommonSettingsTrait {
 			'dependencyIssues' => $canCreateMounts ? $this->dependencyMessage() : null,
 			/** Is this the admin settings or just user settings */
 			'isAdmin' => $isAdmin,
+			'hasEncryption' => $this->encryptionManager->isEnabled(),
 		]);
 
 		$this->initialState->provideInitialState(
@@ -54,24 +55,42 @@ trait CommonSettingsTrait {
 				$this->globalAuth->getAuth($this->userId ?? ''),
 			),
 		);
+
+		$this->initialState->provideInitialState(
+			'allowedBackends',
+			array_map(fn (Backend $backend) => $backend->getIdentifier(), $this->getAvailableBackends()),
+		);
+		$this->initialState->provideInitialState(
+			'backends',
+			array_values($this->backendService->getAvailableBackends()),
+		);
+		$this->initialState->provideInitialState(
+			'authMechanisms',
+			array_values($this->backendService->getAuthMechanisms()),
+		);
 	}
 
 	/**
 	 * Load the frontend script including the custom backend dependencies
 	 */
 	protected function loadScriptsAndStyles() {
+		Util::addStyle('files_external', 'init_settings');
+		Util::addInitScript('files_external', 'init_settings');
+
 		Util::addScript('files_external', 'settings');
 		Util::addStyle('files_external', 'settings');
 
 		// load custom JS
 		foreach ($this->backendService->getAvailableBackends() as $backend) {
 			foreach ($backend->getCustomJs() as $script) {
+				Util::addStyle('files_external', $script);
 				Util::addScript('files_external', $script);
 			}
 		}
-	
+
 		foreach ($this->backendService->getAuthMechanisms() as $authMechanism) {
 			foreach ($authMechanism->getCustomJs() as $script) {
+				Util::addStyle('files_external', $script);
 				Util::addScript('files_external', $script);
 			}
 		}
@@ -86,7 +105,7 @@ trait CommonSettingsTrait {
 		$dependencyGroups = [];
 
 		// Try all backends and check their dependencies
-		foreach ($this->backendService->getAvailableBackends() as $backend) {
+		foreach ($this->getAvailableBackends() as $backend) {
 			foreach ($backend->checkDependencies() as $dependency) {
 				$dependencyMessage = $dependency->getMessage();
 				if ($dependencyMessage !== null) {
@@ -107,5 +126,16 @@ trait CommonSettingsTrait {
 			'messages' => $messages,
 			'modules' => $missingModules,
 		];
+	}
+
+	private function getAvailableBackends(): array {
+		if ($this->backends === null) {
+			$backends = $this->backendService->getAvailableBackends();
+			if ($this->visibility === BackendService::VISIBILITY_PERSONAL) {
+				$backends = array_filter($backends, $this->backendService->isAllowedUserBackend(...));
+			}
+			$this->backends = array_values($backends);
+		}
+		return $this->backends;
 	}
 }

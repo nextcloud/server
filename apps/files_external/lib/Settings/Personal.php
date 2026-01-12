@@ -10,6 +10,7 @@ use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Encryption\IManager;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 
@@ -22,23 +23,26 @@ class Personal implements ISettings {
 		private GlobalAuth $globalAuth,
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
+		private IManager $encryptionManager,
 	) {
 		$this->userId = $userId;
+		$this->visibility = BackendService::VISIBILITY_PERSONAL;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$this->setInitialState(BackendService::VISIBILITY_PERSONAL);
+		$this->setInitialState();
 		$this->loadScriptsAndStyles();
 		return new TemplateResponse('files_external', 'settings', renderAs: '');
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
 	public function getSection() {
+		if (!$this->backendService->isUserMountingAllowed()) {
+			return null;
+		}
+
 		return 'externalstorages';
 	}
 
