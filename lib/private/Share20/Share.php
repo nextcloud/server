@@ -315,7 +315,7 @@ class Share implements IShare {
 		return $this->sendPasswordByTalk;
 	}
 
-	public function setToken(string $token): static {
+	public function setToken(?string $token): static {
 		$this->token = $token;
 		return $this;
 	}

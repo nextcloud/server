@@ -509,11 +509,11 @@ interface IShare {
 	/**
 	 * Set the public link token.
 	 *
-	 * @param string $token
+	 * @param string|null $token
 	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setToken(string $token): IShare;
+	public function setToken(?string $token): IShare;
 
 	/**
 	 * Get the public link token.

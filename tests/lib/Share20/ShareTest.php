@@ -305,6 +305,11 @@ class ShareTest extends \Test\TestCase {
 	public function testGetSendPasswordByTalkDefault(): void {
 		$this->assertFalse($this->share->getSendPasswordByTalk());
 	}
+	
+	public function testSetTokenNull(): void {
+		$this->share->setToken(null);
+		$this->assertNull($this->share->getToken());
+	}
 
 	public function testSetAndGetToken(): void {
 		$this->share->setToken('abc123');

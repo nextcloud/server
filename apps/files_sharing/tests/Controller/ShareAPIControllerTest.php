@@ -611,7 +611,7 @@ class ShareAPIControllerTest extends TestCase {
 		?IShareAttributes $attributes = null,
 	): MockObject {
 		$share = $this->createMock(IShare::class);
-		$share->method('getId')->willReturn($id);
+		$share->method('getId')->willReturn((string)$id);
 		$share->method('getShareType')->willReturn($shareType);
 		$share->method('getSharedWith')->willReturn($sharedWith);
 		$share->method('getSharedBy')->willReturn($sharedBy);
@@ -1014,11 +1014,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'currentUser',
 			'node' => $file1,
-			'id' => 4,
+			'id' => '4',
 		];
 
 		$file1UserShareOwnerExpected = [
-			'id' => 4,
+			'id' => '4',
 			'share_type' => IShare::TYPE_USER,
 		];
 
@@ -1028,11 +1028,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'currentUser',
 			'owner' => 'owner',
 			'node' => $file1,
-			'id' => 8,
+			'id' => '8',
 		];
 
 		$file1UserShareInitiatorExpected = [
-			'id' => 8,
+			'id' => '8',
 			'share_type' => IShare::TYPE_USER,
 		];
 
@@ -1042,11 +1042,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'owner',
 			'node' => $file1,
-			'id' => 15,
+			'id' => '15',
 		];
 
 		$file1UserShareRecipientExpected = [
-			'id' => 15,
+			'id' => '15',
 			'share_type' => IShare::TYPE_USER,
 		];
 
@@ -1056,11 +1056,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'owner',
 			'node' => $file1,
-			'id' => 16,
+			'id' => '16',
 		];
 
 		$file1UserShareOtherExpected = [
-			'id' => 16,
+			'id' => '16',
 			'share_type' => IShare::TYPE_USER,
 		];
 
@@ -1070,11 +1070,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'currentUser',
 			'node' => $file1,
-			'id' => 23,
+			'id' => '23',
 		];
 
 		$file1GroupShareOwnerExpected = [
-			'id' => 23,
+			'id' => '23',
 			'share_type' => IShare::TYPE_GROUP,
 		];
 
@@ -1084,11 +1084,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'owner',
 			'node' => $file1,
-			'id' => 42,
+			'id' => '42',
 		];
 
 		$file1GroupShareRecipientExpected = [
-			'id' => 42,
+			'id' => '42',
 			'share_type' => IShare::TYPE_GROUP,
 		];
 
@@ -1098,7 +1098,7 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'owner',
 			'node' => $file1,
-			'id' => 108,
+			'id' => '108',
 		];
 
 		$file1LinkShareOwner = [
@@ -1107,11 +1107,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'currentUser',
 			'node' => $file1,
-			'id' => 415,
+			'id' => '415',
 		];
 
 		$file1LinkShareOwnerExpected = [
-			'id' => 415,
+			'id' => '415',
 			'share_type' => IShare::TYPE_LINK,
 		];
 
@@ -1121,11 +1121,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'currentUser',
 			'node' => $file1,
-			'id' => 416,
+			'id' => '416',
 		];
 
 		$file1EmailShareOwnerExpected = [
-			'id' => 416,
+			'id' => '416',
 			'share_type' => IShare::TYPE_EMAIL,
 		];
 
@@ -1135,11 +1135,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'currentUser',
 			'node' => $file1,
-			'id' => 423,
+			'id' => '423',
 		];
 
 		$file1CircleShareOwnerExpected = [
-			'id' => 423,
+			'id' => '423',
 			'share_type' => IShare::TYPE_CIRCLE,
 		];
 
@@ -1149,11 +1149,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'currentUser',
 			'node' => $file1,
-			'id' => 442,
+			'id' => '442',
 		];
 
 		$file1RoomShareOwnerExpected = [
-			'id' => 442,
+			'id' => '442',
 			'share_type' => IShare::TYPE_ROOM,
 		];
 
@@ -1164,11 +1164,11 @@ class ShareAPIControllerTest extends TestCase {
 			'owner' => 'currentUser',
 			'expirationDate' => new \DateTime('2000-01-01T01:02:03'),
 			'node' => $file1,
-			'id' => 815,
+			'id' => '815',
 		];
 
 		$file1RemoteShareOwnerExpected = [
-			'id' => 815,
+			'id' => '815',
 			'share_type' => IShare::TYPE_REMOTE,
 		];
 
@@ -1179,11 +1179,11 @@ class ShareAPIControllerTest extends TestCase {
 			'owner' => 'currentUser',
 			'expirationDate' => new \DateTime('2000-01-01T01:02:03'),
 			'node' => $file1,
-			'id' => 816,
+			'id' => '816',
 		];
 
 		$file1RemoteGroupShareOwnerExpected = [
-			'id' => 816,
+			'id' => '816',
 			'share_type' => IShare::TYPE_REMOTE_GROUP,
 		];
 
@@ -1193,11 +1193,11 @@ class ShareAPIControllerTest extends TestCase {
 			'sharedBy' => 'initiator',
 			'owner' => 'currentUser',
 			'node' => $file2,
-			'id' => 823,
+			'id' => '823',
 		];
 
 		$file2UserShareOwnerExpected = [
-			'id' => 823,
+			'id' => '823',
 			'share_type' => IShare::TYPE_USER,
 		];
 
@@ -1540,7 +1540,7 @@ class ShareAPIControllerTest extends TestCase {
 							->setSharedBy($shareParams['sharedBy'])
 							->setShareOwner($shareParams['owner'])
 							->setPermissions(Constants::PERMISSION_READ)
-							->setId($shareParams['id']);
+							->setId((string)$shareParams['id']);
 						if (isset($shareParams['sharedWith'])) {
 							$share->setSharedWith($shareParams['sharedWith']);
 						}
@@ -5338,8 +5338,8 @@ class ShareAPIControllerTest extends TestCase {
 			1,
 			IShare::TYPE_REMOTE,
 			'recipient@remoteserver.com', // shared with
-			'sender@testserver.com',      // shared by
-			'shareOwner',                 // share owner
+			'sender@testserver.com',	  // shared by
+			'shareOwner',				  // share owner
 			$node,
 			Constants::PERMISSION_READ,
 			time(),
