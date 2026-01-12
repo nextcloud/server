@@ -218,6 +218,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\SharesPlugin' => $baseDir . '/../lib/Connector/Sabre/SharesPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\TagList' => $baseDir . '/../lib/Connector/Sabre/TagList.php',
     'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => $baseDir . '/../lib/Connector/Sabre/TagsPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => $baseDir . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
     'OCA\\DAV\\Controller\\BirthdayCalendarController' => $baseDir . '/../lib/Controller/BirthdayCalendarController.php',
     'OCA\\DAV\\Controller\\DirectController' => $baseDir . '/../lib/Controller/DirectController.php',
     'OCA\\DAV\\Controller\\InvitationResponseController' => $baseDir . '/../lib/Controller/InvitationResponseController.php',
