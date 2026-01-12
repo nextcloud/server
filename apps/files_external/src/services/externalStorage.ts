@@ -6,6 +6,7 @@
 import type { AxiosResponse } from '@nextcloud/axios'
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
+import type { IStorage } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
@@ -14,23 +15,6 @@ import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/route
 import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
-
-export type StorageConfig = {
-	applicableUsers?: string[]
-	applicableGroups?: string[]
-	authMechanism: string
-	backend: string
-	backendOptions: Record<string, string>
-	can_edit: boolean
-	id: number
-	mountOptions?: Record<string, string>
-	mountPoint: string
-	priority: number
-	status: number
-	statusMessage: string
-	type: 'system' | 'user'
-	userProvided: boolean
-}
 
 /**
  * https://github.com/nextcloud/server/blob/ac2bc2384efe3c15ff987b87a7432bc60d545c67/apps/files_external/lib/Controller/ApiController.php#L71-L97
@@ -44,7 +28,7 @@ export type MountEntry = {
 	permissions: number
 	id: number
 	class: string
-	config: StorageConfig
+	config: IStorage
 }
 
 /**
@@ -89,11 +73,12 @@ export async function getContents(): Promise<ContentsWithRoot> {
 }
 
 /**
+ * Get the status of an external storage mount
  *
- * @param id
- * @param global
+ * @param id - The storage ID
+ * @param global - Whether the storage is global or user specific
  */
 export function getStatus(id: number, global = true) {
 	const type = global ? 'userglobalstorages' : 'userstorages'
-	return axios.get(generateUrl(`apps/files_external/${type}/${id}?testOnly=false`)) as Promise<AxiosResponse<StorageConfig>>
+	return axios.get(generateUrl(`apps/files_external/${type}/${id}?testOnly=false`)) as Promise<AxiosResponse<IStorage>>
 }

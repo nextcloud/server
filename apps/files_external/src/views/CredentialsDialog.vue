@@ -44,8 +44,8 @@ const dialogButtons: InstanceType<typeof NcDialog>['buttons'] = [{
 
 		<!-- Login -->
 		<NcTextField
-			ref="login"
 			v-model="login"
+			autofocus
 			class="external-storage-auth__login"
 			data-cy-external-storage-auth-dialog-login
 			:label="t('files_external', 'Login')"
@@ -56,7 +56,6 @@ const dialogButtons: InstanceType<typeof NcDialog>['buttons'] = [{
 
 		<!-- Password -->
 		<NcPasswordField
-			ref="password"
 			v-model="password"
 			class="external-storage-auth__password"
 			data-cy-external-storage-auth-dialog-password
