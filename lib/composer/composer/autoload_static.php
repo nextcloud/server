@@ -1144,6 +1144,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Middleware\\CompressionMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/CompressionMiddleware.php',
         'OC\\AppFramework\\Middleware\\FlowV2EphemeralSessionsMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/FlowV2EphemeralSessionsMiddleware.php',
         'OC\\AppFramework\\Middleware\\MiddlewareDispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/MiddlewareDispatcher.php',
+        'OC\\AppFramework\\Middleware\\MiddlewareUtils' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/MiddlewareUtils.php',
         'OC\\AppFramework\\Middleware\\NotModifiedMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/NotModifiedMiddleware.php',
         'OC\\AppFramework\\Middleware\\OCSMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/OCSMiddleware.php',
         'OC\\AppFramework\\Middleware\\PublicShare\\Exceptions\\NeedAuthenticationException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/PublicShare/Exceptions/NeedAuthenticationException.php',

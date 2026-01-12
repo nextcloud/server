@@ -1103,6 +1103,7 @@ return array(
     'OC\\AppFramework\\Middleware\\CompressionMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/CompressionMiddleware.php',
     'OC\\AppFramework\\Middleware\\FlowV2EphemeralSessionsMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/FlowV2EphemeralSessionsMiddleware.php',
     'OC\\AppFramework\\Middleware\\MiddlewareDispatcher' => $baseDir . '/lib/private/AppFramework/Middleware/MiddlewareDispatcher.php',
+    'OC\\AppFramework\\Middleware\\MiddlewareUtils' => $baseDir . '/lib/private/AppFramework/Middleware/MiddlewareUtils.php',
     'OC\\AppFramework\\Middleware\\NotModifiedMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/NotModifiedMiddleware.php',
     'OC\\AppFramework\\Middleware\\OCSMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/OCSMiddleware.php',
     'OC\\AppFramework\\Middleware\\PublicShare\\Exceptions\\NeedAuthenticationException' => $baseDir . '/lib/private/AppFramework/Middleware/PublicShare/Exceptions/NeedAuthenticationException.php',

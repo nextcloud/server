@@ -10,6 +10,7 @@ namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\ExAppRequiredException;
@@ -37,38 +38,26 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\NormalController;
 use Test\AppFramework\Middleware\Security\Mock\OCSController;
 use Test\AppFramework\Middleware\Security\Mock\SecurityMiddlewareController;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
-	/** @var SecurityMiddleware|\PHPUnit\Framework\MockObject\MockObject */
-	private $middleware;
-	/** @var SecurityMiddlewareController */
-	private $controller;
-	/** @var SecurityException */
-	private $secException;
-	/** @var SecurityException */
-	private $secAjaxException;
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ControllerMethodReflector */
-	private $reader;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $navigationManager;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var AuthorizedGroupMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $authorizedGroupMapper;
+	private SecurityMiddleware $middleware;
+	private ControllerMethodReflector $reader;
+	private SecurityMiddlewareController $controller;
+	private SecurityException $secAjaxException;
+	private IRequest|MockObject $request;
+	private MiddlewareUtils $middlewareUtils;
+	private LoggerInterface&MockObject $logger;
+	private INavigationManager&MockObject $navigationManager;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IAppManager&MockObject $appManager;
+	private IL10N&MockObject $l10n;
+	private IUserSession&MockObject $userSession;
+	private AuthorizedGroupMapper&MockObject $authorizedGroupMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -88,8 +77,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->middlewareUtils = new MiddlewareUtils($this->reader, $this->logger);
 		$this->middleware = $this->getMiddleware(true, true, false);
-		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
 	}
 
@@ -110,7 +99,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		return new SecurityMiddleware(
 			$this->request,
-			$this->reader,
+			$this->middlewareUtils,
 			$this->navigationManager,
 			$this->urlGenerator,
 			$this->logger,

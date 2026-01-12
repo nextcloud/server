@@ -26,64 +26,22 @@ use Psr\Log\LoggerInterface;
  * Class to dispatch the request to the middleware dispatcher
  */
 class Dispatcher {
-	/** @var MiddlewareDispatcher */
-	private $middlewareDispatcher;
-
-	/** @var Http */
-	private $protocol;
-
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var ConnectionAdapter */
-	private $connection;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IEventLogger */
-	private $eventLogger;
-
-	private ContainerInterface $appContainer;
-
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
 	 *                                                   runs the middleware
-	 * @param ControllerMethodReflector $reflector the reflector that is used to inject
-	 *                                             the arguments for the controller
-	 * @param IRequest $request the incoming request
-	 * @param IConfig $config
-	 * @param ConnectionAdapter $connection
-	 * @param LoggerInterface $logger
-	 * @param IEventLogger $eventLogger
 	 */
 	public function __construct(
-		Http $protocol,
-		MiddlewareDispatcher $middlewareDispatcher,
-		ControllerMethodReflector $reflector,
-		IRequest $request,
-		IConfig $config,
-		ConnectionAdapter $connection,
-		LoggerInterface $logger,
-		IEventLogger $eventLogger,
-		ContainerInterface $appContainer,
+		private readonly Http $protocol,
+		private readonly MiddlewareDispatcher $middlewareDispatcher,
+		private readonly ControllerMethodReflector $reflector,
+		private readonly IRequest $request,
+		private readonly IConfig $config,
+		private readonly ConnectionAdapter $connection,
+		private readonly LoggerInterface $logger,
+		private readonly IEventLogger $eventLogger,
+		private readonly ContainerInterface $appContainer,
 	) {
-		$this->protocol = $protocol;
-		$this->middlewareDispatcher = $middlewareDispatcher;
-		$this->reflector = $reflector;
-		$this->request = $request;
-		$this->config = $config;
-		$this->connection = $connection;
-		$this->logger = $logger;
-		$this->eventLogger = $eventLogger;
-		$this->appContainer = $appContainer;
 	}
 
 
@@ -92,16 +50,15 @@ class Dispatcher {
 	 * @param Controller $controller the controller which will be called
 	 * @param string $methodName the method name which will be called on
 	 *                           the controller
-	 * @return array $array[0] contains the http status header as a string,
-	 *               $array[1] contains response headers as an array,
-	 *               $array[2] contains response cookies as an array,
-	 *               $array[3] contains the response output as a string,
-	 *               $array[4] contains the response object
+	 * @return array{0: string, 1: array, 2: array, 3: string, 4: Response}
+	 *                                                                      $array[0] contains the http status header as a string,
+	 *                                                                      $array[1] contains response headers as an array,
+	 *                                                                      $array[2] contains response cookies as an array,
+	 *                                                                      $array[3] contains the response output as a string,
+	 *                                                                      $array[4] contains the response object
 	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, string $methodName): array {
-		$out = [null, [], null];
-
 		try {
 			// prefill reflector with everything that's needed for the
 			// middlewares
@@ -156,15 +113,15 @@ class Dispatcher {
 			$controller, $methodName, $response);
 
 		// depending on the cache object the headers need to be changed
-		$out[0] = $this->protocol->getStatusHeader($response->getStatus());
-		$out[1] = array_merge($response->getHeaders());
-		$out[2] = $response->getCookies();
-		$out[3] = $this->middlewareDispatcher->beforeOutput(
-			$controller, $methodName, $response->render()
-		);
-		$out[4] = $response;
-
-		return $out;
+		return [
+			$this->protocol->getStatusHeader($response->getStatus()),
+			array_merge($response->getHeaders()),
+			$response->getCookies(),
+			$this->middlewareDispatcher->beforeOutput(
+				$controller, $methodName, $response->render()
+			),
+			$response,
+		];
 	}
 
 
