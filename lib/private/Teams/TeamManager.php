@@ -153,7 +153,7 @@ class TeamManager implements ITeamManager {
 		$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
 		$this->circlesManager->startSession($federatedUser);
 		$teams = [];
-		foreach ($this->circlesManager->getCircles() as $team) {
+		foreach ($this->circlesManager->probeCircles() as $team) {
 			$teams[] = new Team(
 				$team->getSingleId(),
 				$team->getDisplayName(),
