@@ -87,8 +87,6 @@
 </template>
 
 <script lang="ts" setup>
-/* eslint vue/multi-word-component-names: "warn" */
-
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcNoteCard, NcSelect } from '@nextcloud/vue'
@@ -132,8 +130,9 @@ const selectedConfigHasServerInfo = computed(() => {
 })
 
 /**
+ * Request to clear the mapping.
  *
- * @param subject
+ * @param subject - The subject to clear
  */
 async function requestClearMapping(subject: 'user' | 'group') {
 	try {
