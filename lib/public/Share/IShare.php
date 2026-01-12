@@ -122,13 +122,12 @@ interface IShare {
 	 * It is only allowed to set the internal id of a share once.
 	 * Attempts to override the internal id will result in an IllegalIDChangeException
 	 *
-	 * @param string $id
 	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
 	 * @throws \InvalidArgumentException
 	 * @since 9.1.0
 	 */
-	public function setId($id);
+	public function setId(string $id);
 
 	/**
 	 * Get the internal id of the share.

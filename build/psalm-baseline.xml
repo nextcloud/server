@@ -4151,9 +4151,6 @@
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[getNode]]></code>
-    </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Streamer.php">
     <UndefinedInterfaceMethod>
