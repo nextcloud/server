@@ -9,7 +9,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { getClient } from '@nextcloud/files/dav'
-import moment from '@nextcloud/moment'
+import { getCanonicalLocale } from '@nextcloud/l10n'
 import { encodePath, join } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import davRequest from '../utils/davRequest.ts'
@@ -97,7 +97,7 @@ export async function restoreVersion(version: Version) {
  * @param node - The original node
  */
 function formatVersion(version: Required<FileStat>, node: INode): Version {
-	const mtime = moment(version.lastmod).unix() * 1000
+	const mtime = Date.parse(version.lastmod)
 	let previewUrl = ''
 
 	if (mtime === node.mtime?.getTime()) { // Version is the current one
@@ -119,7 +119,13 @@ function formatVersion(version: Required<FileStat>, node: INode): Version {
 		author: version.props['version-author'] ? String(version.props['version-author']) : null,
 		authorName: null,
 		filename: version.filename,
-		basename: moment(mtime).format('LLL'),
+		basename: new Date(mtime).toLocaleString(
+			[getCanonicalLocale(), getCanonicalLocale().split('-')[0]!],
+			{
+				timeStyle: 'long',
+				dateStyle: 'medium',
+			},
+		),
 		mime: version.mime,
 		etag: `${version.props.getetag}`,
 		size: version.size,
