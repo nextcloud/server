@@ -175,9 +175,15 @@ class SMB extends Common implements INotifyStorage {
 			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
 		} catch (ForbiddenException $e) {
 			// with php-smbclient, this exception is thrown when the provided password is invalid.
-			// Possible is also ForbiddenException with a different error code, so we check it.
-			if ($e->getCode() === 1) {
+			// we check if we can stat the root, which should only fail in authentication failures
+			if ($path === '') {
 				$this->throwUnavailable($e);
+			} else {
+				try {
+					$this->share->stat('');
+				} catch (\Exception $e) {
+					$this->throwUnavailable($e);
+				}
 			}
 			throw new \OCP\Files\ForbiddenException($e->getMessage(), false, $e);
 		}
