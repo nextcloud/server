@@ -33,11 +33,14 @@ class Users extends Base {
 			->setDescription('Get the mapping between users and object store buckets')
 			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, 'Only list users using the specified bucket')
 			->addOption('object-store', 'o', InputOption::VALUE_REQUIRED, 'Only list users using the specified object store configuration')
-			->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'Only show the mapping for the specified user, ignores all other options');
+			->addOption('user', 'u', InputOption::VALUE_REQUIRED, 'Only show the mapping for the specified user, ignores all other options')
+			->addOption('all', 'a', InputOption::VALUE_NONE, 'Show the mapping for all users');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
-		if ($userId = $input->getOption('user')) {
+		if ($input->getOption('all')) {
+			$users = $this->userManager->getSeenUsers();
+		} elseif ($userId = $input->getOption('user')) {
 			$user = $this->userManager->get($userId);
 			if (!$user) {
 				$output->writeln("<error>User $userId not found</error>");
@@ -57,7 +60,8 @@ class Users extends Base {
 					$this->config->getUsersForUserValue('homeobjectstore', 'objectstore', $objectStore)
 				));
 			} else {
-				$users = $this->userManager->getSeenUsers();
+				$output->writeln("<comment>No option given. Please specify a user id with --user to show the mapping for the user or --all for all users</comment>");
+				return 0;
 			}
 		}
 
