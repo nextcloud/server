@@ -6,6 +6,7 @@
  */
 namespace OC\Preview;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\PreviewFile;
@@ -111,7 +112,7 @@ class Generator {
 
 		[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 
-		if (empty($previews)) {
+		if (empty($previews) && $this->appConfig->getValueBool('core', ConfigLexicon::ON_DEMAND_PREVIEW_MIGRATION)) {
 			$previews = $this->migrateOldPreviews($file->getId());
 		}
 
@@ -201,7 +202,7 @@ class Generator {
 	}
 
 	/**
-	 * @return array<string|int, string[]>
+	 * @return Preview[]
 	 */
 	private function migrateOldPreviews(int $fileId): array {
 		if ($this->appConfig->getValueBool('core', 'previewMovedDone')) {
