@@ -755,23 +755,21 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 				'connect_timeout' => 10,
 			];
 
-			// Try signing the request
-			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
-				try {
-					$options = $this->signatureManager->signOutgoingRequestIClientPayload(
-						$this->signatoryManager,
-						$options,
-						'post',
-						$tokenEndpoint
-					);
-					$this->logger->debug('Token request signed successfully', ['remote' => $remote]);
-				} catch (\Exception $e) {
-					$this->logger->warning('Failed to sign token request, continuing without signature', [
-						'remote' => $remote,
-						'exception' => $e,
-						'endpoint' => $tokenEndpoint,
-					]);
-				}
+			try {
+				$options = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$options,
+					'post',
+					$tokenEndpoint
+				);
+				$this->logger->debug('Token request signed successfully', ['remote' => $remote]);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to sign token request', [
+					'remote' => $remote,
+					'exception' => $e,
+					'endpoint' => $tokenEndpoint,
+				]);
+				return null;
 			}
 
 			$response = $client->post($tokenEndpoint, $options);

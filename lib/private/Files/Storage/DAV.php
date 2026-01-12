@@ -283,23 +283,21 @@ class DAV extends Common {
 				'connect_timeout' => 10,
 			];
 
-			// Try signing the request
-			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
-				try {
-					$options = $this->signatureManager->signOutgoingRequestIClientPayload(
-						$this->signatoryManager,
-						$options,
-						'post',
-						$tokenEndpoint
-					);
-					$this->logger->debug('Token request signed successfully', ['app' => 'dav']);
-				} catch (\Exception $e) {
-					$this->logger->warning('Failed to sign token request, continuing without signature', [
-						'app' => 'dav',
-						'exception' => $e,
-						'endpoint' => $tokenEndpoint,
-					]);
-				}
+			try {
+				$options = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$options,
+					'post',
+					$tokenEndpoint
+				);
+				$this->logger->debug('Token request signed successfully', ['app' => 'dav']);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to sign token request', [
+					'app' => 'dav',
+					'exception' => $e,
+					'endpoint' => $tokenEndpoint,
+				]);
+				throw new StorageNotAvailableException('Could not sign token request: ' . $e->getMessage());
 			}
 
 			$response = $client->post($tokenEndpoint, $options);
