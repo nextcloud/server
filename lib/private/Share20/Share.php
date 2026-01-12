@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,80 +23,43 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 class Share implements IShare {
-	/** @var string */
-	private $id;
-	/** @var string */
-	private $providerId;
-	/** @var Node */
-	private $node;
-	/** @var int */
-	private $fileId;
-	/** @var string */
-	private $nodeType;
-	/** @var int */
-	private $shareType;
-	/** @var string */
-	private $sharedWith;
-	/** @var string */
-	private $sharedWithDisplayName;
-	/** @var string */
-	private $sharedWithAvatar;
-	/** @var string */
-	private $sharedBy;
-	/** @var string */
-	private $shareOwner;
-	/** @var int */
-	private $permissions;
-	/** @var IAttributes */
-	private $attributes;
-	/** @var int */
-	private $status;
-	/** @var string */
-	private $note = '';
-	/** @var \DateTime */
-	private $expireDate;
-	/** @var string */
-	private $password;
+	private ?string $id = null;
+	private ?string $providerId = null;
+	private ?Node $node = null;
+	private ?int $fileId = null;
+	private ?string $nodeType = null;
+	private ?int $shareType = null;
+	private ?string $sharedWith = null;
+	private ?string $sharedWithDisplayName = null;
+	private ?string $sharedWithAvatar = null;
+	private ?string $sharedBy = null;
+	private ?string $shareOwner = null;
+	private ?int $permissions = null;
+	private ?IAttributes $attributes = null;
+	private ?int $status = null;
+	private string $note = '';
+	private ?\DateTimeInterface $expireDate = null;
+	private ?string $password = null;
 	private ?\DateTimeInterface $passwordExpirationTime = null;
-	/** @var bool */
-	private $sendPasswordByTalk = false;
-	/** @var string */
-	private $token;
+	private bool $sendPasswordByTalk = false;
+	private ?string $token = null;
 	private ?int $parent = null;
-	/** @var string */
-	private $target;
-	/** @var \DateTime */
-	private $shareTime;
-	/** @var bool */
-	private $mailSend;
-	/** @var ICacheEntry|null */
-	private $nodeCacheEntry;
-	/** @var bool */
-	private $hideDownload = false;
+	private ?string $target = null;
+	private ?\DateTimeInterface $shareTime = null;
+	private ?bool $mailSend = null;
+	private ?ICacheEntry $nodeCacheEntry = null;
+	private bool $hideDownload = false;
 	private bool $reminderSent = false;
-
 	private string $label = '';
 	private bool $noExpirationDate = false;
 
 	public function __construct(
-		private IRootFolder $rootFolder,
-		private IUserManager $userManager,
+		private readonly IRootFolder $rootFolder,
+		private readonly IUserManager $userManager,
 	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setId($id) {
-		/** @var mixed $id Let's be safe until strong typing */
-		if (is_int($id)) {
-			$id = (string)$id;
-		}
-
-		if (!is_string($id)) {
-			throw new \InvalidArgumentException('String expected.');
-		}
-
+	public function setId(string $id): static {
 		if ($this->id !== null) {
 			throw new IllegalIDChangeException('Not allowed to assign a new internal id to a share');
 		}
@@ -103,31 +68,18 @@ class Share implements IShare {
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getId() {
+	public function getId(): ?string {
 		return $this->id;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getFullId() {
+	public function getFullId(): string {
 		if ($this->providerId === null || $this->id === null) {
-			throw new \UnexpectedValueException;
+			throw new \UnexpectedValueException('Provider ID and ID must be set before getting full ID');
 		}
 		return $this->providerId . ':' . $this->id;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setProviderId($id) {
-		if (!is_string($id)) {
-			throw new \InvalidArgumentException('String expected.');
-		}
-
+	public function setProviderId(string $id): static {
 		if ($this->providerId !== null) {
 			throw new IllegalIDChangeException('Not allowed to assign a new provider id to a share');
 		}
@@ -136,10 +88,7 @@ class Share implements IShare {
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNode(Node $node) {
+	public function setNode(Node $node): static {
 		$this->fileId = null;
 		$this->nodeType = null;
 		$this->node = $node;
@@ -147,44 +96,41 @@ class Share implements IShare {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @throws NotFoundException
 	 */
-	public function getNode() {
-		if ($this->node === null) {
-			if ($this->shareOwner === null || $this->fileId === null) {
-				throw new NotFoundException();
-			}
-
-			// for federated shares the owner can be a remote user, in this
-			// case we use the initiator
-			if ($this->userManager->userExists($this->shareOwner)) {
-				$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
-			} else {
-				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
-			}
-
-			$node = $userFolder->getFirstNodeById($this->fileId);
-			if (!$node) {
-				throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
-			}
-
-			$this->node = $node;
+	public function getNode(): Node {
+		if ($this->node !== null) {
+			return $this->node;
 		}
 
+		if ($this->shareOwner === null || $this->fileId === null) {
+			throw new NotFoundException('Share owner and file ID must be set');
+		}
+
+		// For federated shares the owner can be a remote user, in this case we use the initiator
+		$owner = $this->userManager->userExists($this->shareOwner)
+			? $this->shareOwner
+			: $this->sharedBy;
+
+		$userFolder = $this->rootFolder->getUserFolder($owner);
+		$node = $userFolder->getFirstNodeById($this->fileId);
+
+		if (!$node) {
+			throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
+		}
+
+		$this->node = $node;
 		return $this->node;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNodeId($fileId) {
+	public function setNodeId(int $fileId): static {
 		$this->node = null;
 		$this->fileId = $fileId;
 		return $this;
 	}
 
 	/**
-	 * @inheritdoc
+	 * @throws NotFoundException
 	 */
 	public function getNodeId(): int {
 		if ($this->fileId === null) {
@@ -193,339 +139,204 @@ class Share implements IShare {
 
 		if ($this->fileId === null) {
 			throw new NotFoundException('Share source not found');
-		} else {
-			return $this->fileId;
 		}
+
+		return $this->fileId;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNodeType($type) {
+	public function setNodeType(string $type): static {
 		if ($type !== 'file' && $type !== 'folder') {
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('Node type must be "file" or "folder"');
 		}
 
 		$this->nodeType = $type;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getNodeType() {
-		if ($this->nodeType === null) {
-			if ($this->getNodeCacheEntry()) {
-				$info = $this->getNodeCacheEntry();
-				$this->nodeType = $info->getMimeType() === FileInfo::MIMETYPE_FOLDER ? 'folder' : 'file';
-			} else {
-				$node = $this->getNode();
-				$this->nodeType = $node instanceof File ? 'file' : 'folder';
-			}
+	public function getNodeType(): string {
+		if ($this->nodeType !== null) {
+			return $this->nodeType;
+		}
+
+		if ($cacheEntry = $this->getNodeCacheEntry()) {
+			$this->nodeType = $cacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER ? 'folder' : 'file';
+		} else {
+			$node = $this->getNode();
+			$this->nodeType = $node instanceof File ? 'file' : 'folder';
 		}
 
 		return $this->nodeType;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setShareType($shareType) {
+	public function setShareType(int $shareType): static {
 		$this->shareType = $shareType;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getShareType() {
+	public function getShareType(): ?int {
 		return $this->shareType;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setSharedWith($sharedWith) {
-		if (!is_string($sharedWith)) {
-			throw new \InvalidArgumentException();
-		}
+	public function setSharedWith(string $sharedWith): static {
 		$this->sharedWith = $sharedWith;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSharedWith() {
+	public function getSharedWith(): ?string {
 		return $this->sharedWith;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setSharedWithDisplayName($displayName) {
-		if (!is_string($displayName)) {
-			throw new \InvalidArgumentException();
-		}
+	public function setSharedWithDisplayName(string $displayName): static {
 		$this->sharedWithDisplayName = $displayName;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSharedWithDisplayName() {
+	public function getSharedWithDisplayName(): ?string {
 		return $this->sharedWithDisplayName;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setSharedWithAvatar($src) {
-		if (!is_string($src)) {
-			throw new \InvalidArgumentException();
-		}
+	public function setSharedWithAvatar(string $src): static {
 		$this->sharedWithAvatar = $src;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSharedWithAvatar() {
+	public function getSharedWithAvatar(): ?string {
 		return $this->sharedWithAvatar;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setPermissions($permissions) {
-		//TODO checks
-
+	public function setPermissions(int $permissions): static {
+		// TODO: Validate permissions against Constants::PERMISSION_* bitmask
 		$this->permissions = $permissions;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getPermissions() {
+	public function getPermissions(): ?int {
 		return $this->permissions;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function newAttributes(): IAttributes {
 		return new ShareAttributes();
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setAttributes(?IAttributes $attributes) {
+	public function setAttributes(?IAttributes $attributes): static {
 		$this->attributes = $attributes;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getAttributes(): ?IAttributes {
 		return $this->attributes;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setStatus(int $status): IShare {
+	public function setStatus(int $status): static {
 		$this->status = $status;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getStatus(): int {
+	public function getStatus(): ?int {
 		return $this->status;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNote($note) {
+	public function setNote(string $note): static {
 		$this->note = $note;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getNote() {
-		if (is_string($this->note)) {
-			return $this->note;
-		}
-		return '';
+	public function getNote(): string {
+		return $this->note;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setLabel($label) {
+	public function setLabel(string $label): static {
 		$this->label = $label;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getLabel() {
+	public function getLabel(): string {
 		return $this->label;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setExpirationDate($expireDate) {
-		//TODO checks
-
+	public function setExpirationDate(?\DateTimeInterface $expireDate): static {
+		// TODO: Validate expiration date is in the future
 		$this->expireDate = $expireDate;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getExpirationDate() {
+	public function getExpirationDate(): ?\DateTimeInterface {
 		return $this->expireDate;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNoExpirationDate(bool $noExpirationDate) {
+	public function setNoExpirationDate(bool $noExpirationDate): static {
 		$this->noExpirationDate = $noExpirationDate;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getNoExpirationDate(): bool {
 		return $this->noExpirationDate;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isExpired() {
-		return $this->getExpirationDate() !== null
-			&& $this->getExpirationDate() <= new \DateTime();
+	public function isExpired(): bool {
+		$expirationDate = $this->getExpirationDate();
+		return $expirationDate !== null && $expirationDate <= new \DateTime();
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setSharedBy($sharedBy) {
-		if (!is_string($sharedBy)) {
-			throw new \InvalidArgumentException();
-		}
-		//TODO checks
+	public function setSharedBy(string $sharedBy): static {
+		// TODO: Validate user exists via IUserManager
 		$this->sharedBy = $sharedBy;
-
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSharedBy() {
-		//TODO check if set
+	public function getSharedBy(): ?string {
+		// TODO: Consider throwing exception if not set for required shares
 		return $this->sharedBy;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setShareOwner($shareOwner) {
-		if (!is_string($shareOwner)) {
-			throw new \InvalidArgumentException();
-		}
-		//TODO checks
-
+	public function setShareOwner(string $shareOwner): static {
+		// TODO: Validate user exists via IUserManager
 		$this->shareOwner = $shareOwner;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getShareOwner() {
-		//TODO check if set
+	public function getShareOwner(): ?string {
+		// TODO: Consider throwing exception if not set for required shares
 		return $this->shareOwner;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setPassword($password) {
+	public function setPassword(?string $password): static {
 		$this->password = $password;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getPassword() {
+	public function getPassword(): ?string {
 		return $this->password;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setPasswordExpirationTime(?\DateTimeInterface $passwordExpirationTime = null): IShare {
+	public function setPasswordExpirationTime(?\DateTimeInterface $passwordExpirationTime = null): static {
 		$this->passwordExpirationTime = $passwordExpirationTime;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getPasswordExpirationTime(): ?\DateTimeInterface {
 		return $this->passwordExpirationTime;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setSendPasswordByTalk(bool $sendPasswordByTalk) {
+	public function setSendPasswordByTalk(bool $sendPasswordByTalk): static {
 		$this->sendPasswordByTalk = $sendPasswordByTalk;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getSendPasswordByTalk(): bool {
 		return $this->sendPasswordByTalk;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setToken($token) {
+	public function setToken(string $token): static {
 		$this->token = $token;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getToken() {
+	public function getToken(): ?string {
 		return $this->token;
 	}
 
-	public function setParent(int $parent): self {
+	public function setParent(int $parent): static {
 		$this->parent = $parent;
 		return $this;
 	}
@@ -534,66 +345,43 @@ class Share implements IShare {
 		return $this->parent;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setTarget($target) {
+	public function setTarget(string $target): static {
 		$this->target = $target;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getTarget() {
+	public function getTarget(): ?string {
 		return $this->target;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setShareTime(\DateTime $shareTime) {
+	public function setShareTime(\DateTimeInterface $shareTime): static {
 		$this->shareTime = $shareTime;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getShareTime() {
+	public function getShareTime(): ?\DateTimeInterface {
 		return $this->shareTime;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setMailSend($mailSend) {
+	public function setMailSend(bool $mailSend): static {
 		$this->mailSend = $mailSend;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getMailSend() {
+	public function getMailSend(): ?bool {
 		return $this->mailSend;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNodeCacheEntry(ICacheEntry $entry) {
+	public function setNodeCacheEntry(ICacheEntry $entry): static {
 		$this->nodeCacheEntry = $entry;
+		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getNodeCacheEntry() {
+	public function getNodeCacheEntry(): ?ICacheEntry {
 		return $this->nodeCacheEntry;
 	}
 
-	public function setHideDownload(bool $hide): IShare {
+	public function setHideDownload(bool $hide): static {
 		$this->hideDownload = $hide;
 		return $this;
 	}
@@ -602,7 +390,7 @@ class Share implements IShare {
 		return $this->hideDownload;
 	}
 
-	public function setReminderSent(bool $reminderSent): IShare {
+	public function setReminderSent(bool $reminderSent): static {
 		$this->reminderSent = $reminderSent;
 		return $this;
 	}
