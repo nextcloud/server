@@ -20,6 +20,7 @@ use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
@@ -55,6 +56,7 @@ class AppPasswordControllerTest extends TestCase {
 
 	/** @var IThrottler|MockObject */
 	private $throttler;
+	private IConfig&MockObject $serverConfig;
 
 	/** @var AppPasswordController */
 	private $controller;
@@ -71,6 +73,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->userSession = $this->createMock(Session::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->throttler = $this->createMock(IThrottler::class);
+		$this->serverConfig = $this->createMock(IConfig::class);
 
 		$this->controller = new AppPasswordController(
 			'core',
@@ -82,14 +85,24 @@ class AppPasswordControllerTest extends TestCase {
 			$this->eventDispatcher,
 			$this->userSession,
 			$this->userManager,
-			$this->throttler
+			$this->throttler,
+			$this->serverConfig,
 		);
 	}
 
 	public function testGetAppPasswordWithAppPassword(): void {
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(true);
+
+		$this->tokenProvider->expects($this->never())
+			->method('generateToken');
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 
 		$this->expectException(OCSForbiddenException::class);
 
@@ -97,11 +110,20 @@ class AppPasswordControllerTest extends TestCase {
 	}
 
 	public function testGetAppPasswordNoLoginCreds(): void {
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(false);
 		$this->credentialStore->method('getLoginCredentials')
 			->willThrowException(new CredentialsUnavailableException());
+
+		$this->tokenProvider->expects($this->never())
+			->method('generateToken');
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
 
 		$this->expectException(OCSForbiddenException::class);
 
@@ -109,6 +131,10 @@ class AppPasswordControllerTest extends TestCase {
 	}
 
 	public function testGetAppPassword(): void {
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
+
 		$credentials = $this->createMock(ICredentials::class);
 
 		$this->session->method('exists')
@@ -150,6 +176,10 @@ class AppPasswordControllerTest extends TestCase {
 	}
 
 	public function testGetAppPasswordNoPassword(): void {
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
+
 		$credentials = $this->createMock(ICredentials::class);
 
 		$this->session->method('exists')
@@ -186,6 +216,22 @@ class AppPasswordControllerTest extends TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped');
+
+		$this->controller->getAppPassword();
+	}
+
+	public function testGetAppPasswordDisabledBySystemConfig(): void {
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(false);
+
+		$this->tokenProvider->expects($this->never())
+			->method('generateToken');
+
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
+
+		$this->expectException(OCSForbiddenException::class);
 
 		$this->controller->getAppPassword();
 	}
