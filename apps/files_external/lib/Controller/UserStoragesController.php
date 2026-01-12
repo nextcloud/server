@@ -137,6 +137,7 @@ class UserStoragesController extends StoragesController {
 		$newStorage = $this->service->addStorage($newStorage);
 		$this->updateStorageStatus($newStorage);
 
+		$newStorage->setType(StorageConfig::MOUNT_TYPE_PERSONAL);
 		return new DataResponse(
 			$newStorage->jsonSerialize(true),
 			Http::STATUS_CREATED
