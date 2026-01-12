@@ -9,7 +9,6 @@ import type { RootDirectory } from './DropServiceUtils.ts'
 
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { NodeStatus } from '@nextcloud/files'
-import { getRootPath } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
 import { getUploader, hasConflict } from '@nextcloud/upload'
@@ -125,14 +124,13 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 			// If the file is a directory, we need to create it first
 			// then browse its tree and upload its contents.
 			if (file instanceof Directory) {
-				const absolutePath = join(getRootPath(), destination.path, relativePath)
 				try {
 					logger.debug('Processing directory', { relativePath })
-					await createDirectoryIfNotExists(absolutePath)
+					await createDirectoryIfNotExists(relativePath)
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))
-					logger.error('', { error, absolutePath, directory: file })
+					logger.error('Unable to create the directory', { error, relativePath, directory: file })
 				}
 				continue
 			}
