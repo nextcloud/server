@@ -330,6 +330,16 @@ class Manager implements IManager {
 					} catch (\OCP\Files\NotFoundException) {
 						$folder = $this->appData->newFolder('text2image');
 					}
+					if ($input['numberOfImages'] > 12) {
+						throw new ProcessingException(
+							'numberOfImages cannot be greater than 12'
+						);
+					}
+					if ($input['numberOfImages'] < 1) {
+						throw new ProcessingException(
+							'numberOfImages must be greater than 0'
+						);
+					}
 					$resources = [];
 					$files = [];
 					for ($i = 0; $i < $input['numberOfImages']; $i++) {
