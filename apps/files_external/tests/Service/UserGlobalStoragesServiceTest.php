@@ -108,6 +108,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$storage->setBackendOptions(['password' => 'testPassword']);
 		$storage->setApplicableUsers($applicableUsers);
 		$storage->setApplicableGroups($applicableGroups);
+		$storage->setPriority(0);
 
 		$newStorage = $this->globalStoragesService->addStorage($storage);
 

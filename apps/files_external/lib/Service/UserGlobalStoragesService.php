@@ -58,18 +58,18 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		return array_merge($userMounts, $groupMounts, $globalMounts);
 	}
 
-	public function addStorage(StorageConfig $newStorage) {
+	public function addStorage(StorageConfig $newStorage): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
-	public function updateStorage(StorageConfig $updatedStorage) {
+	public function updateStorage(StorageConfig $updatedStorage): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
 	/**
 	 * @param integer $id
 	 */
-	public function removeStorage($id) {
+	public function removeStorage($id): never {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
@@ -164,16 +164,33 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		}
 		$groupIds = $this->groupManager->getUserGroupIds($user);
 		$mounts = $this->dbConfig->getMountsForUser($user->getUID(), $groupIds);
-		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
-		$configs = array_filter($configs, function ($config) {
-			return $config instanceof StorageConfig;
-		});
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn ($config) => $config instanceof StorageConfig);
 
-		$keys = array_map(function (StorageConfig $config) {
-			return $config->getId();
-		}, $configs);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
 
 		$storages = array_combine($keys, $configs);
-		return array_filter($storages, [$this, 'validateStorage']);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+
+
+	/**
+	 * @return StorageConfig[]
+	 */
+	public function getAllStoragesForUserWithPath(string $path, bool $forChildren): array {
+		$user = $this->getUser();
+
+		if (is_null($user)) {
+			return [];
+		}
+
+		$groupIds = $this->groupManager->getUserGroupIds($user);
+		$mounts = $this->dbConfig->getMountsForUserAndPath($user->getUID(), $groupIds, $path, $forChildren);
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn ($config) => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
 	}
 }
