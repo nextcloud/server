@@ -14,6 +14,7 @@ use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\Token\IToken;
+use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -24,6 +25,7 @@ class AuthtokensTest extends TestCase {
 	private ISession&MockObject $session;
 	private IUserSession&MockObject $userSession;
 	private IInitialState&MockObject $initialState;
+	private IConfig&MockObject $serverConfig;
 	private string $uid;
 	private Authtokens $section;
 
@@ -34,6 +36,7 @@ class AuthtokensTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->initialState = $this->createMock(IInitialState::class);
+		$this->serverConfig = $this->createMock(IConfig::class);
 		$this->uid = 'test123';
 
 		$this->section = new Authtokens(
@@ -41,7 +44,8 @@ class AuthtokensTest extends TestCase {
 			$this->session,
 			$this->userSession,
 			$this->initialState,
-			$this->uid
+			$this->serverConfig,
+			$this->uid,
 		);
 	}
 
@@ -57,6 +61,9 @@ class AuthtokensTest extends TestCase {
 		$sessionToken = new PublicKeyToken();
 		$sessionToken->setId(100);
 
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(true);
 		$this->authTokenProvider->expects($this->once())
 			->method('getTokenByUser')
 			->with($this->uid)

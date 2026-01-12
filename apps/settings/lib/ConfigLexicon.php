@@ -20,6 +20,7 @@ use OCP\Config\ValueType;
  * Please Add & Manage your Config Keys in that file and keep the Lexicon up to date!
  */
 class ConfigLexicon implements ILexicon {
+	public const LOGIN_QRCODE_ONETIME = 'qrcode_onetime';
 	public const USER_SETTINGS_EMAIL = 'email';
 	public const USER_LIST_SHOW_STORAGE_PATH = 'user_list_show_storage_path';
 	public const USER_LIST_SHOW_USER_BACKEND = 'user_list_show_user_backend';
@@ -33,7 +34,9 @@ class ConfigLexicon implements ILexicon {
 	}
 
 	public function getAppConfigs(): array {
-		return [];
+		return [
+			new Entry(key: self::LOGIN_QRCODE_ONETIME, type: ValueType::BOOL, defaultRaw: false, definition: 'Use onetime QR codes for app passwords', note: 'Limits compatibility for mobile apps to versions released in 2026 or later'),
+		];
 	}
 
 	public function getUserConfigs(): array {

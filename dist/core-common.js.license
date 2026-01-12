@@ -92,6 +92,7 @@ SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Daniel Cousens
 SPDX-FileCopyrightText: Christopher Jeffrey
 SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Chen Fengyuan
 SPDX-FileCopyrightText: Calvin Metcalf <calvin.metcalf@gmail.com>
 SPDX-FileCopyrightText: Calvin Metcalf
 SPDX-FileCopyrightText: Borys Serebrov
@@ -112,6 +113,9 @@ SPDX-FileCopyrightText:
 This file is generated from multiple sources. Included packages:
 - @buttercup/fetch
 	- version: 0.2.1
+	- license: MIT
+- @chenfengyuan/vue-qrcode
+	- version: 1.0.2
 	- license: MIT
 - @ctrl/tinycolor
 	- version: 3.6.1
