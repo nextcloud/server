@@ -103,9 +103,9 @@ class UserStoragesController extends StoragesController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
-		$mountPoint,
-		$backend,
-		$authMechanism,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
 		$backendOptions,
 		$mountOptions,
 	) {
@@ -158,10 +158,10 @@ class UserStoragesController extends StoragesController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
-		$id,
-		$mountPoint,
-		$backend,
-		$authMechanism,
+		int $id,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
 		$backendOptions,
 		$mountOptions,
 	) {

@@ -67,9 +67,9 @@ abstract class StoragesController extends Controller {
 	 * @return StorageConfig|DataResponse
 	 */
 	protected function createStorage(
-		$mountPoint,
-		$backend,
-		$authMechanism,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
 		$backendOptions,
 		$mountOptions = null,
 		$applicableUsers = null,
