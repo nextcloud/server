@@ -6,17 +6,14 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Federation;
-
-use OCP\Federation\ICloudFederationProvider;
+namespace OCP\Federation;
 
 /**
  * Interface ICloudFederationProvider
  *
  * Enable apps to create their own cloud federation provider
  *
- * @experimental 31.0.0
- * @deprecated 33.0.0 use {@see \OCP\Federation\ISignedCloudFederationProvider}
+ * @since 33.0.0
  */
 interface ISignedCloudFederationProvider extends ICloudFederationProvider {
 
@@ -27,8 +24,7 @@ interface ISignedCloudFederationProvider extends ICloudFederationProvider {
 	 * @param string $sharedSecret
 	 * @param array $payload
 	 *
-	 * @experimental 31.0.0
-	 * @deprecated 33.0.0 use {@see \OCP\Federation\ISignedCloudFederationProvider}
+	 * @since 31.0.0
 	 * @return string
 	 */
 	public function getFederationIdFromSharedSecret(string $sharedSecret, array $payload): string;

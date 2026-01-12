@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OC\Federation;
 
-use NCU\Security\Signature\ISignatureManager;
 use OC\AppFramework\Http;
 use OC\OCM\OCMSignatoryManager;
 use OCP\App\IAppManager;
@@ -26,6 +25,7 @@ use OCP\IConfig;
 use OCP\OCM\Exceptions\OCMCapabilityException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\ISignatureManager;
 use Psr\Log\LoggerInterface;
 
 /**

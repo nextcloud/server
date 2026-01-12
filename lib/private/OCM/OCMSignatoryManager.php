@@ -9,17 +9,17 @@ declare(strict_types=1);
 
 namespace OC\OCM;
 
-use NCU\Security\Signature\Enum\DigestAlgorithm;
-use NCU\Security\Signature\Enum\SignatoryType;
-use NCU\Security\Signature\Enum\SignatureAlgorithm;
-use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
-use NCU\Security\Signature\ISignatoryManager;
-use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\Signatory;
 use OC\Security\IdentityProof\Manager;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\Security\Signature\Enum\DigestAlgorithm;
+use OCP\Security\Signature\Enum\SignatoryType;
+use OCP\Security\Signature\Enum\SignatureAlgorithm;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\Security\Signature\ISignatoryManager;
+use OCP\Security\Signature\ISignatureManager;
+use OCP\Security\Signature\Model\Signatory;
 use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
