@@ -493,11 +493,9 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * Check if the given 'password' is actually a device token
 	 *
-	 * @param string $password
-	 * @return ?IToken
 	 * @throws ExpiredTokenException
 	 */
-	private function getTokenFromPassword(string $password): ?IToken {
+	private function getTokenFromPassword(string $password): ?\OCP\Authentication\Token\IToken {
 		try {
 			return $this->tokenProvider->getToken($password);
 		} catch (ExpiredTokenException $e) {

@@ -27,6 +27,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -49,6 +50,7 @@ class AuthSettingsController extends Controller {
 		private RemoteWipe $remoteWipe,
 		private LoggerInterface $logger,
 		private IConfig $serverConfig,
+		private IL10N $l,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -92,11 +94,13 @@ class AuthSettingsController extends Controller {
 
 		if ($qrcodeLogin) {
 			if ($this->appConfig->getAppValueBool(ConfigLexicon::LOGIN_QRCODE_ONETIME)) {
-				$name = 'One time login';
+				// TRANSLATORS Fallback name for the temporary app password when using the QR code login
+				$name = $this->l->t('One time login');
 				$type = IToken::ONETIME_TOKEN;
 				$scope = [];
 			} else {
-				$name = 'QR Code login';
+				// TRANSLATORS Fallback name for the app password when using the QR code login
+				$name = $this->l->t('QR Code login');
 				$type = IToken::PERMANENT_TOKEN;
 				$scope = null;
 			}

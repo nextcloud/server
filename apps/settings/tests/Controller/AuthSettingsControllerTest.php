@@ -21,6 +21,7 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -40,6 +41,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private RemoteWipe&MockObject $remoteWipe;
 	private IConfig&MockObject $serverConfig;
+	private IL10N&MockObject $l;
 	private string $uid = 'jane';
 	private AuthSettingsController $controller;
 
@@ -57,6 +59,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->serverConfig = $this->createMock(IConfig::class);
 		/** @var LoggerInterface&MockObject $logger */
 		$logger = $this->createMock(LoggerInterface::class);
+		$this->l = $this->createMock(IL10N::class);
 
 		$this->controller = new AuthSettingsController(
 			'core',
@@ -71,6 +74,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$this->remoteWipe,
 			$logger,
 			$this->serverConfig,
+			$this->l,
 		);
 	}
 

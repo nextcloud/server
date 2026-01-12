@@ -4237,12 +4237,6 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[boolean|null]]></code>
     </ImplementedReturnTypeMismatch>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->tokenProvider->getToken($password)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[?IToken]]></code>
-    </MoreSpecificReturnType>
     <NoInterfaceProperties>
       <code><![CDATA[$request->server]]></code>
       <code><![CDATA[$request->server]]></code>
