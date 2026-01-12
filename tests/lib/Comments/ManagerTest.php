@@ -360,11 +360,11 @@ class ManagerTest extends TestCase {
 		// 2 comments for 1112 with no read marker
 		// 1 comment for 1113 before read marker
 		// 1 comment for 1114 with no read marker
-		$this->addDatabaseEntry('0', '0', null, null, $fileIds[1]);
+		$this->addDatabaseEntry('0', '0', null, null, (string)$fileIds[1]);
 		for ($i = 0; $i < 4; $i++) {
-			$this->addDatabaseEntry('0', '0', null, null, $fileIds[$i]);
+			$this->addDatabaseEntry('0', '0', null, null, (string)$fileIds[$i]);
 		}
-		$this->addDatabaseEntry('0', '0', (new \DateTime())->modify('-2 days'), null, $fileIds[0]);
+		$this->addDatabaseEntry('0', '0', (new \DateTime())->modify('-2 days'), null, (string)$fileIds[0]);
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
