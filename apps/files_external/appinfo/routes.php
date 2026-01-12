@@ -19,11 +19,6 @@ return [
 			'verb' => 'GET',
 		],
 		[
-			'name' => 'Ajax#oauth2Callback',
-			'url' => '/ajax/oauth2.php',
-			'verb' => 'GET',
-		],
-		[
 			'name' => 'Ajax#getSshKeys',
 			'url' => '/ajax/public_key.php',
 			'verb' => 'POST',
