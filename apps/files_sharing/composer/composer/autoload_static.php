@@ -60,6 +60,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Event\\BeforeTemplateRenderedEvent' => __DIR__ . '/..' . '/../lib/Event/BeforeTemplateRenderedEvent.php',
         'OCA\\Files_Sharing\\Event\\ShareLinkAccessedEvent' => __DIR__ . '/..' . '/../lib/Event/ShareLinkAccessedEvent.php',
         'OCA\\Files_Sharing\\Event\\ShareMountedEvent' => __DIR__ . '/..' . '/../lib/Event/ShareMountedEvent.php',
+        'OCA\\Files_Sharing\\Event\\UserShareAccessUpdatedEvent' => __DIR__ . '/..' . '/../lib/Event/UserShareAccessUpdatedEvent.php',
         'OCA\\Files_Sharing\\Exceptions\\BrokenPath' => __DIR__ . '/..' . '/../lib/Exceptions/BrokenPath.php',
         'OCA\\Files_Sharing\\Exceptions\\S2SException' => __DIR__ . '/..' . '/../lib/Exceptions/S2SException.php',
         'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => __DIR__ . '/..' . '/../lib/Exceptions/SharingRightsException.php',
