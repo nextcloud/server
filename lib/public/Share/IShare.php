@@ -49,12 +49,6 @@ interface IShare {
 	public const TYPE_EMAIL = 4;
 
 	/**
-	 * ToDo Check if it is still in use otherwise remove it
-	 * @since 17.0.0
-	 */
-	// public const TYPE_CONTACT = 5;
-
-	/**
 	 * @since 17.0.0
 	 */
 	public const TYPE_REMOTE = 6;
@@ -81,6 +75,7 @@ interface IShare {
 
 	/**
 	 * Internal type used by RoomShareProvider
+	 *
 	 * @since 17.0.0
 	 */
 	// const TYPE_USERROOM = 11;
@@ -122,73 +117,64 @@ interface IShare {
 	 * It is only allowed to set the internal id of a share once.
 	 * Attempts to override the internal id will result in an IllegalIDChangeException
 	 *
-	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
 	 * @throws \InvalidArgumentException
 	 * @since 9.1.0
 	 */
-	public function setId(string $id);
+	public function setId(string $id): static;
 
 	/**
 	 * Get the internal id of the share.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getId();
+	public function getId(): ?string;
 
 	/**
 	 * Get the full share id. This is the <providerid>:<internalid>.
 	 * The full id is unique in the system.
 	 *
-	 * @return string
-	 * @since 9.0.0
 	 * @throws \UnexpectedValueException If the fullId could not be constructed
+	 *
+	 * @since 9.0.0
 	 */
-	public function getFullId();
+	public function getFullId(): string;
 
 	/**
 	 * Set the provider id of the share
 	 * It is only allowed to set the provider id of a share once.
 	 * Attempts to override the provider id will result in an IllegalIDChangeException
 	 *
-	 * @param string $id
-	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
 	 * @throws \InvalidArgumentException
+	 *
 	 * @since 9.1.0
 	 */
-	public function setProviderId($id);
+	public function setProviderId(string $id): static;
 
 	/**
 	 * Set the node of the file/folder that is shared
 	 *
-	 * @param Node $node
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setNode(Node $node);
+	public function setNode(Node $node): static;
 
 	/**
 	 * Get the node of the file/folder that is shared
 	 *
-	 * @return File|Folder
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
-	public function getNode();
+	public function getNode(): Node; 
 
 	/**
 	 * Set file id for lazy evaluation of the node
-	 * @param int $fileId
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setNodeId($fileId);
+	public function setNodeId(int $fileId): static;
 
 	/**
 	 * Get the fileid of the node of this share
-	 * @return int
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
@@ -197,80 +183,66 @@ interface IShare {
 	/**
 	 * Set the type of node (file/folder)
 	 *
-	 * @param string $type
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setNodeType($type);
+	public function setNodeType(string $type): static;
 
 	/**
 	 * Get the type of node (file/folder)
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
-	public function getNodeType();
+	public function getNodeType(): string;
 
 	/**
 	 * Set the shareType
 	 *
-	 * @param int $shareType
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setShareType($shareType);
+	public function setNodeType(string $type): static;
 
 	/**
 	 * Get the shareType
 	 *
-	 * @return int
 	 * @since 9.0.0
 	 */
-	public function getShareType();
+	public function getShareType(): ?int;
 
 	/**
 	 * Set the receiver of this share.
 	 *
-	 * @param string $sharedWith
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setSharedWith($sharedWith);
+	public function setSharedWith(string $sharedWith): static;
 
 	/**
 	 * Get the receiver of this share.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getSharedWith();
+	public function getSharedWith(): ?string;
 
 	/**
 	 * Set the display name of the receiver of this share.
 	 *
-	 * @param string $displayName
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 14.0.0
 	 */
-	public function setSharedWithDisplayName($displayName);
+	public function setSharedWithDisplayName(string $displayName): static;
 
 	/**
 	 * Get the display name of the receiver of this share.
 	 *
-	 * @return string
 	 * @since 14.0.0
 	 */
-	public function getSharedWithDisplayName();
+	public function getSharedWithDisplayName(): ?string;
 
 	/**
 	 * Set the avatar of the receiver of this share.
 	 *
-	 * @param string $src
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 14.0.0
 	 */
-	public function setSharedWithAvatar($src);
+	public function setSharedWithAvatar(string $src): static;
 
 	/**
 	 * Get the avatar of the receiver of this share.
@@ -278,49 +250,42 @@ interface IShare {
 	 * @return string
 	 * @since 14.0.0
 	 */
-	public function getSharedWithAvatar();
+	public function getSharedWithAvatar(): ?string;
 
 	/**
 	 * Set the permissions.
 	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @param int $permissions
-	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setPermissions($permissions);
+	public function setPermissions(int $permissions): static;
 
 	/**
 	 * Get the share permissions
 	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @return int
 	 * @since 9.0.0
 	 */
-	public function getPermissions();
+	public function getPermissions(): ?int;
 
 	/**
 	 * Create share attributes object
 	 *
 	 * @since 25.0.0
-	 * @return IAttributes
 	 */
 	public function newAttributes(): IAttributes;
 
 	/**
 	 * Set share attributes
 	 *
-	 * @param ?IAttributes $attributes
 	 * @since 25.0.0
-	 * @return IShare The modified object
 	 */
-	public function setAttributes(?IAttributes $attributes);
+	public function setAttributes(?IAttributes $attributes): static;
 
 	/**
 	 * Get share attributes
 	 *
 	 * @since 25.0.0
-	 * @return ?IAttributes
 	 */
 	public function getAttributes(): ?IAttributes;
 
@@ -328,164 +293,139 @@ interface IShare {
 	 * Set the accepted status
 	 * See self::STATUS_*
 	 *
-	 * @param int $status
-	 * @return IShare The modified object
 	 * @since 18.0.0
 	 */
-	public function setStatus(int $status): IShare;
+	public function setStatus(int $status): static;
 
 	/**
 	 * Get the accepted status
 	 * See self::STATUS_*
 	 *
-	 * @return int
 	 * @since 18.0.0
 	 */
-	public function getStatus(): int;
+	public function getStatus(): ?int;
 
 	/**
 	 * Attach a note to a share
 	 *
-	 * @param string $note
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 14.0.0
 	 */
-	public function setNote($note);
+	public function setNote(string $note): static;
 
 	/**
 	 * Get note attached to a share
 	 *
-	 * @return string
 	 * @since 14.0.0
 	 */
-	public function getNote();
+	public function getNote(): string;
 
 
 	/**
 	 * Set the expiration date
 	 *
-	 * @param \DateTime|null $expireDate
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setExpirationDate(?\DateTime $expireDate);
+	public function setExpirationDate(?\DateTimeInterface $expireDate): static;
 
 	/**
 	 * Get the expiration date
 	 *
-	 * @return \DateTime|null
 	 * @since 9.0.0
 	 */
-	public function getExpirationDate();
+	public function getExpirationDate(): ?\DateTimeInterface;
 
 	/**
 	 * Set overwrite flag for falsy expiry date values
 	 *
-	 * @param bool $noExpirationDate
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 30.0.0
 	 */
-	public function setNoExpirationDate(bool $noExpirationDate);
+	public function setNoExpirationDate(bool $noExpirationDate): static;
 
 
 	/**
 	 * Get value of overwrite falsy expiry date flag
 	 *
-	 * @return bool
 	 * @since 30.0.0
 	 */
-	public function getNoExpirationDate();
+	public function getNoExpirationDate(): bool;
 
 	/**
 	 * Is the share expired ?
 	 *
-	 * @return boolean
 	 * @since 18.0.0
 	 */
-	public function isExpired();
+	public function isExpired(): bool;
 
 	/**
 	 * set a label for a share, some shares, e.g. public links can have a label
 	 *
-	 * @param string $label
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 15.0.0
 	 */
-	public function setLabel($label);
+	public function setLabel(string $label): static;
 
 	/**
 	 * get label for the share, some shares, e.g. public links can have a label
 	 *
-	 * @return string
 	 * @since 15.0.0
 	 */
-	public function getLabel();
+	public function getLabel(): string;
 
 	/**
 	 * Set the sharer of the path.
 	 *
-	 * @param string $sharedBy
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setSharedBy($sharedBy);
+	public function setSharedBy(string $sharedBy): static;
 
 	/**
 	 * Get share sharer
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getSharedBy();
+	public function getSharedBy(): ?string;
 
 	/**
 	 * Set the original share owner (who owns the path that is shared)
 	 *
-	 * @param string $shareOwner
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setShareOwner($shareOwner);
+	public function setShareOwner(string $shareOwner): static;
 
 	/**
 	 * Get the original share owner (who owns the path that is shared)
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getShareOwner();
+	public function getShareOwner(): ?string;
 
 	/**
 	 * Set the password for this share.
 	 * When the share is passed to the share manager to be created
 	 * or updated the password will be hashed.
 	 *
-	 * @param string|null $password
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setPassword($password);
+	public function setPassword(?string $password): static;
 
 	/**
 	 * Get the password of this share.
 	 * If this share is obtained via a shareprovider the password is
 	 * hashed.
 	 *
-	 * @return string|null
 	 * @since 9.0.0
 	 */
-	public function getPassword();
+	public function getPassword(): ?string;
 
 	/**
 	 * Set the password's expiration time of this share.
 	 *
-	 * @return self The modified object
 	 * @since 24.0.0
 	 */
-	public function setPasswordExpirationTime(?\DateTimeInterface $passwordExpirationTime = null): IShare;
+	public function setPasswordExpirationTime(?\DateTimeInterface $passwordExpirationTime = null): static;
 
 	/**
 	 * Get the password's expiration time of this share.
+	 *
 	 * @since 24.0.0
 	 */
 	public function getPasswordExpirationTime(): ?\DateTimeInterface;
@@ -494,11 +434,9 @@ interface IShare {
 	 * Set if the recipient can start a conversation with the owner to get the
 	 * password using Nextcloud Talk.
 	 *
-	 * @param bool $sendPasswordByTalk
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 14.0.0
 	 */
-	public function setSendPasswordByTalk(bool $sendPasswordByTalk);
+	public function setSendPasswordByTalk(bool $sendPasswordByTalk): static;
 
 	/**
 	 * Get if the recipient can start a conversation with the owner to get the
@@ -507,7 +445,6 @@ interface IShare {
 	 * being enabled for the owner of the share or not; it just cover whether
 	 * the option is enabled for the share itself or not.
 	 *
-	 * @return bool
 	 * @since 14.0.0
 	 */
 	public function getSendPasswordByTalk(): bool;
@@ -515,26 +452,23 @@ interface IShare {
 	/**
 	 * Set the public link token.
 	 *
-	 * @param string $token
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setToken($token);
+	public function setToken(string $token): static;
 
 	/**
 	 * Get the public link token.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getToken();
+	public function getToken(): ?string;
 
 	/**
 	 * Set the parent of this share
 	 *
 	 * @since 9.0.0
 	 */
-	public function setParent(int $parent): self;
+	public function setParent(int $parent): static;
 
 	/**
 	 * Get the parent of this share.
@@ -546,88 +480,73 @@ interface IShare {
 	/**
 	 * Set the target path of this share relative to the recipients user folder.
 	 *
-	 * @param string $target
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setTarget($target);
+	public function setTarget(string $target): static;
 
 	/**
 	 * Get the target path of this share relative to the recipients user folder.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getTarget();
+	public function getTarget(): ?string;
 
 	/**
 	 * Set the time this share was created
 	 *
-	 * @param \DateTime $shareTime
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setShareTime(\DateTime $shareTime);
+	public function setShareTime(\DateTimeInterface $shareTime): static;
 
 	/**
 	 * Get the timestamp this share was created
 	 *
-	 * @return \DateTime
 	 * @since 9.0.0
 	 */
-	public function getShareTime();
+	public function getShareTime(): ?\DateTimeInterface;
 
 	/**
 	 * Set if the recipient should be informed by mail about the share.
 	 *
-	 * @param bool $mailSend
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setMailSend($mailSend);
+	public function setMailSend(bool $mailSend): static;
 
 	/**
 	 * Get if the recipient should be informed by mail about the share.
 	 *
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function getMailSend();
+	public function getMailSend(): ?bool;
 
 	/**
 	 * Set the cache entry for the shared node
 	 *
-	 * @param ICacheEntry $entry
-	 * @return void
 	 * @since 11.0.0
 	 */
-	public function setNodeCacheEntry(ICacheEntry $entry);
+	public function setNodeCacheEntry(ICacheEntry $entry): static;
 
 	/**
 	 * Get the cache entry for the shared node
 	 *
-	 * @return null|ICacheEntry
 	 * @since 11.0.0
 	 */
-	public function getNodeCacheEntry();
+	public function getNodeCacheEntry(): ?ICacheEntry;
 
 	/**
 	 * Sets a shares hide download state
 	 * This is mainly for public shares. It will signal that the share page should
 	 * hide download buttons etc.
 	 *
-	 * @param bool $hide
-	 * @return IShare
 	 * @since 15.0.0
 	 */
-	public function setHideDownload(bool $hide): IShare;
+	public function setHideDownload(bool $hide): static;
 
 	/**
 	 * Gets a shares hide download state
 	 * This is mainly for public shares. It will signal that the share page should
 	 * hide download buttons etc.
 	 *
-	 * @return bool
 	 * @since 15.0.0
 	 */
 	public function getHideDownload(): bool;
@@ -635,15 +554,13 @@ interface IShare {
 	/**
 	 * Sets a flag that stores whether a reminder via email has been sent
 	 *
-	 * @return self The modified object
 	 * @since 31.0.0
 	 */
-	public function setReminderSent(bool $reminderSent): IShare;
+	public function setReminderSent(bool $reminderSent): static;
 
 	/**
 	 * Gets a flag that stores whether a reminder via email has been sent
 	 *
-	 * @return bool
 	 * @since 31.0.0
 	 */
 	public function getReminderSent(): bool;
