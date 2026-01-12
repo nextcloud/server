@@ -46,6 +46,7 @@ const modules = {
 		'settings-personal': resolve(import.meta.dirname, 'apps/twofactor_backupcodes/src', 'settings-personal.ts'),
 	},
 	user_ldap: {
+		renewPassword: resolve(import.meta.dirname, 'apps/user_ldap/src', 'renewPassword.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
 	},
 	user_status: {
