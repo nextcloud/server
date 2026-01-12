@@ -152,12 +152,15 @@ class TeamManager implements ITeamManager {
 
 		$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
 		$this->circlesManager->startSession($federatedUser);
-		return array_map(function (Circle $team) {
-			return new Team(
+		$teams = [];
+		foreach ($this->circlesManager->getCircles() as $team) {
+			$teams[] = new Team(
 				$team->getSingleId(),
 				$team->getDisplayName(),
 				$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $team->getSingleId()]),
 			);
-		}, $this->circlesManager->getCircles());
+		}
+
+		return $teams;
 	}
 }
