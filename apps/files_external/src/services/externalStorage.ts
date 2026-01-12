@@ -12,7 +12,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { Folder, Permission } from '@nextcloud/files'
 import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
-import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
+import { StorageStatus } from '../types.ts'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
 
@@ -43,7 +43,7 @@ function entryToFolder(ocsEntry: MountEntry): Folder {
 		source: generateRemoteUrl('dav' + rootPath + '/' + path),
 		root: rootPath,
 		owner: getCurrentUser()?.uid || null,
-		permissions: ocsEntry.config.status !== STORAGE_STATUS.SUCCESS
+		permissions: ocsEntry.config.status !== StorageStatus.Success
 			? Permission.NONE
 			: ocsEntry?.permissions || Permission.READ,
 		attributes: {

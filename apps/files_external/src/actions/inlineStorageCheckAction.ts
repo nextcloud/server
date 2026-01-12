@@ -4,7 +4,7 @@
  */
 
 import type { AxiosError } from '@nextcloud/axios'
-import type { StorageConfig } from '../services/externalStorage.ts'
+import type { IStorage } from '../types.ts'
 
 import AlertSvg from '@mdi/svg/svg/alert-circle.svg?raw'
 import { showWarning } from '@nextcloud/dialogs'
@@ -12,7 +12,8 @@ import { emit } from '@nextcloud/event-bus'
 import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { getStatus } from '../services/externalStorage.ts'
-import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils.ts'
+import { StorageStatus } from '../types.ts'
+import { isMissingAuthConfig } from '../utils/credentialsUtils.ts'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils.ts'
 
 import '../css/fileEntryStatus.scss'
@@ -44,14 +45,14 @@ export const action = new FileAction({
 		span.className = 'files-list__row-status'
 		span.innerHTML = t('files_external', 'Checking storage …')
 
-		let config = null as unknown as StorageConfig
+		let config: IStorage | undefined
 		try {
 			const { data } = await getStatus(node.attributes.id, node.attributes.scope === 'system')
 			config = data
 			node.attributes.config = config
 			emit('files:node:updated', node)
 
-			if (config.status !== STORAGE_STATUS.SUCCESS) {
+			if (config.status !== StorageStatus.Success) {
 				throw new Error(config?.statusMessage || t('files_external', 'There was an error with this external storage.'))
 			}
 
