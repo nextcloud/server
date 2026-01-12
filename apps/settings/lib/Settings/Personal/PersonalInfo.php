@@ -203,7 +203,7 @@ class PersonalInfo implements ISettings {
 	private function getTeamMemberships(IUser $user): array {
 		$teams = array_map(
 			static fn (Team $team): string => $team->getDisplayName(),
-			$this->teamManager->getMemberships($user->getUID())
+			$this->teamManager->getTeamsForUser($user->getUID())
 		);
 		sort($teams);
 

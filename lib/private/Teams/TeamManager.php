@@ -145,7 +145,7 @@ class TeamManager implements ITeamManager {
 		return $this->circlesManager->getCirclesByIds($teams);
 	}
 
-	public function getMemberships(string $userId): array {
+	public function getTeamsForUser(string $userId): array {
 		if (!$this->hasTeamSupport()) {
 			return [];
 		}
