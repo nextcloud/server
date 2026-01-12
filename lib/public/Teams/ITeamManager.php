@@ -52,7 +52,7 @@ interface ITeamManager {
 	/**
 	 * Returns all teams that a given user is a member of
 	 *
-	 * @return Team[]
+	 * @return list<Team>
 	 * @since 33.0.0
 	 */
 	public function getMemberships(string $userId): array;
