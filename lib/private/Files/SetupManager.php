@@ -34,10 +34,10 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Config\IMountProviderArgs;
 use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
@@ -482,7 +482,7 @@ class SetupManager {
 			if (is_a($mountProvider, IPartialMountProvider::class, true)) {
 				$rootId = $cachedMount->getRootId();
 				$rootMetadata = $this->fileAccess->getByFileId($rootId);
-				$providerArgs = new IMountProviderArgs($cachedMount, $rootMetadata);
+				$providerArgs = new MountProviderArgs($cachedMount, $rootMetadata);
 				// mark the path as cached (without children for now...)
 				$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITHOUT_CHILDREN;
 				$authoritativeMounts[] = array_values(
@@ -568,7 +568,7 @@ class SetupManager {
 							$rootMetadata = $rootsMetadata[$info->getRootId()] ?? null;
 
 							return $rootMetadata
-								? new IMountProviderArgs($info, $rootMetadata)
+								? new MountProviderArgs($info, $rootMetadata)
 								: null;
 						},
 						$cachedMounts

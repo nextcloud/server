@@ -17,9 +17,9 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Config\IMountProviderArgs;
 use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -147,7 +147,7 @@ class SetupManagerTest extends TestCase {
 				false,
 				$this->callback(function (array $args) use ($cachedMount) {
 					$this->assertCount(1, $args);
-					$this->assertInstanceOf(IMountProviderArgs::class, $args[0]);
+					$this->assertInstanceOf(MountProviderArgs::class, $args[0]);
 					$this->assertSame($cachedMount, $args[0]->mountInfo);
 					return true;
 				})
@@ -366,7 +366,7 @@ class SetupManagerTest extends TestCase {
 				$this->assertSame($expectedPath, $pathArg);
 				$this->assertSame($expectedForChildren, $forChildren);
 				$this->assertCount(1, $mountProviderArgs);
-				$this->assertInstanceOf(IMountProviderArgs::class, $mountProviderArgs[0]);
+				$this->assertInstanceOf(MountProviderArgs::class, $mountProviderArgs[0]);
 				$this->assertSame($expectedCachedMount, $mountProviderArgs[0]->mountInfo);
 
 				return $mountPoints;
@@ -468,7 +468,7 @@ class SetupManagerTest extends TestCase {
 				$this->assertSame($expectedPath, $pathArg);
 				$this->assertSame($expectedForChildren, $forChildren);
 				$this->assertCount(1, $mountProviderArgs);
-				$this->assertInstanceOf(IMountProviderArgs::class, $mountProviderArgs[0]);
+				$this->assertInstanceOf(MountProviderArgs::class, $mountProviderArgs[0]);
 				$this->assertSame($expectedCachedMount, $mountProviderArgs[0]->mountInfo);
 
 				return $mountPoints;
@@ -520,7 +520,7 @@ class SetupManagerTest extends TestCase {
 				false,
 				$this->callback(function (array $args) use ($cachedMount) {
 					$this->assertCount(1, $args);
-					$this->assertInstanceOf(IMountProviderArgs::class,
+					$this->assertInstanceOf(MountProviderArgs::class,
 						$args[0]);
 					$this->assertSame($cachedMount, $args[0]->mountInfo);
 					return true;
@@ -589,7 +589,7 @@ class SetupManagerTest extends TestCase {
 				false,
 				$this->callback(function (array $args) use ($cachedMount) {
 					$this->assertCount(1, $args);
-					$this->assertInstanceOf(IMountProviderArgs::class,
+					$this->assertInstanceOf(MountProviderArgs::class,
 						$args[0]);
 					$this->assertSame($cachedMount, $args[0]->mountInfo);
 					return true;

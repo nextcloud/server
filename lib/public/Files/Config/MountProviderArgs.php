@@ -15,10 +15,10 @@ use OCP\Files\Cache\ICacheEntry;
  *
  * @since 33.0.0
  */
-class IMountProviderArgs {
+class MountProviderArgs {
 	public function __construct(
-		public ICachedMountInfo $mountInfo,
-		public ICacheEntry $cacheEntry,
+		public readonly ICachedMountInfo $mountInfo,
+		public readonly ICacheEntry $cacheEntry,
 	) {
 	}
 }
