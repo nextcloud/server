@@ -49,7 +49,7 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 			return;
 		}
 
-		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '3.0.82');
+		$minimumSupportedDesktopVersion = $this->config->getSystemValueString('minimum.supported.desktop.version', '3.1.50');
 		$maximumSupportedDesktopVersion = $this->config->getSystemValueString('maximum.supported.desktop.version', '99.99.99');
 
 		// Check if the client is a desktop client
