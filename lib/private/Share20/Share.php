@@ -95,9 +95,6 @@ class Share implements IShare {
 		return $this;
 	}
 
-	/**
-	 * @throws NotFoundException
-	 */
 	public function getNode(): Node {
 		if ($this->node !== null) {
 			return $this->node;
@@ -129,9 +126,6 @@ class Share implements IShare {
 		return $this;
 	}
 
-	/**
-	 * @throws NotFoundException
-	 */
 	public function getNodeId(): int {
 		if ($this->fileId === null) {
 			$this->fileId = $this->getNode()->getId();
@@ -205,7 +199,6 @@ class Share implements IShare {
 	}
 
 	public function setPermissions(int $permissions): static {
-		// TODO: Validate permissions against Constants::PERMISSION_* bitmask
 		$this->permissions = $permissions;
 		return $this;
 	}
@@ -255,7 +248,6 @@ class Share implements IShare {
 	}
 
 	public function setExpirationDate(?\DateTimeInterface $expireDate): static {
-		// TODO: Validate expiration date is in the future
 		$this->expireDate = $expireDate;
 		return $this;
 	}
@@ -279,24 +271,20 @@ class Share implements IShare {
 	}
 
 	public function setSharedBy(string $sharedBy): static {
-		// TODO: Validate user exists via IUserManager
 		$this->sharedBy = $sharedBy;
 		return $this;
 	}
 
 	public function getSharedBy(): ?string {
-		// TODO: Consider throwing exception if not set for required shares
 		return $this->sharedBy;
 	}
 
 	public function setShareOwner(string $shareOwner): static {
-		// TODO: Validate user exists via IUserManager
 		$this->shareOwner = $shareOwner;
 		return $this;
 	}
 
 	public function getShareOwner(): ?string {
-		// TODO: Consider throwing exception if not set for required shares
 		return $this->shareOwner;
 	}
 
@@ -403,13 +391,10 @@ class Share implements IShare {
 		$shareManager = Server::get(IManager::class);
 
 		$allowViewWithoutDownload = $shareManager->allowViewWithoutDownload();
-		// If the share manager allows viewing without download, we can always see the content.
 		if ($allowViewWithoutDownload) {
 			return true;
 		}
 
-		// No "allow preview" header set, so we must check if
-		// the share has not explicitly disabled download permissions
 		$attributes = $this->getAttributes();
 		if ($attributes?->getAttribute('permissions', 'download') === false) {
 			return false;
