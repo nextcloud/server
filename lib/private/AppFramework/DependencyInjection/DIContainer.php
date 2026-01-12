@@ -17,6 +17,7 @@ use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OC\AppFramework\Middleware\CompressionMiddleware;
 use OC\AppFramework\Middleware\FlowV2EphemeralSessionsMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
@@ -31,6 +32,7 @@ use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\ScopedPsrLogger;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
@@ -44,7 +46,6 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
@@ -155,7 +156,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new Dispatcher(
 				$c->get(Http::class),
 				$c->get(MiddlewareDispatcher::class),
-				$c->get(IControllerMethodReflector::class),
+				$c->get(ControllerMethodReflector::class),
 				$c->get(IRequest::class),
 				$c->get(IConfig::class),
 				$c->get(IDBConnection::class),
@@ -193,7 +194,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
-				$c->get(IControllerMethodReflector::class),
+				$c->get(MiddlewareUtils::class),
 				$c->get(INavigationManager::class),
 				$c->get(IURLGenerator::class),
 				$c->get(LoggerInterface::class),

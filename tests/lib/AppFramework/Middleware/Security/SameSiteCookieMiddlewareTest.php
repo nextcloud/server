@@ -8,6 +8,7 @@
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\LaxSameSiteCookieFailedException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
@@ -43,9 +44,9 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(Request::class);
-		$this->reflector = $this->createMock(ControllerMethodReflector::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->middleware = new SameSiteCookieMiddleware($this->request, $this->reflector, $this->logger);
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
+		$this->middleware = new SameSiteCookieMiddleware($this->request, new MiddlewareUtils($this->reflector, $this->logger));
 	}
 
 	public function testBeforeControllerNoIndex(): void {
@@ -117,7 +118,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn('/myrequri');
 
 		$middleware = $this->getMockBuilder(SameSiteCookieMiddleware::class)
-			->setConstructorArgs([$this->request, $this->reflector, $this->logger])
+			->setConstructorArgs([$this->request, new MiddlewareUtils($this->reflector, $this->logger)])
 			->onlyMethods(['setSameSiteCookie'])
 			->getMock();
 

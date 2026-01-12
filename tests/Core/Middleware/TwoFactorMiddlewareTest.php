@@ -10,6 +10,8 @@ namespace Test\Core\Middleware;
 
 use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Middleware\MiddlewareUtils;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -21,7 +23,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
@@ -73,7 +74,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private ISession&MockObject $session;
 	private IURLGenerator&MockObject $urlGenerator;
-	private IControllerMethodReflector&MockObject $reflector;
+	private ControllerMethodReflector&MockObject $reflector;
 	private IRequest $request;
 	private TwoFactorMiddleware $middleware;
 	private LoggerInterface&MockObject $logger;
@@ -89,7 +90,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->getMock();
 		$this->session = $this->createMock(ISession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->reflector = $this->createMock(IControllerMethodReflector::class);
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->request = new Request(
 			[
@@ -101,7 +102,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			$this->createMock(IConfig::class)
 		);
 
-		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, $this->reflector, $this->request, $this->logger);
+		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, new MiddlewareUtils($this->reflector, $this->logger), $this->request);
 	}
 
 	public function testBeforeControllerNotLoggedIn(): void {
