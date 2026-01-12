@@ -663,7 +663,8 @@
                     "startedAt",
                     "endedAt",
                     "allowCleanup",
-                    "includeWatermark"
+                    "includeWatermark",
+                    "userFacingErrorMessage"
                 ],
                 "properties": {
                     "id": {
@@ -740,6 +741,10 @@
                     },
                     "includeWatermark": {
                         "type": "boolean"
+                    },
+                    "userFacingErrorMessage": {
+                        "type": "string",
+                        "nullable": true
                     }
                 }
             },
