@@ -7,6 +7,7 @@
 namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
+use OC\OCM\OCMSignatoryManager;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -33,6 +34,7 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -46,6 +48,7 @@ use OCP\OCM\IOCMDiscoveryService;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
+use OCP\Security\Signature\ISignatureManager;
 use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
@@ -74,6 +77,9 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		private readonly ExternalShareMapper $externalShareMapper,
 		private readonly IOCMDiscoveryService $discoveryService,
 		private readonly IClientService $clientService,
+		private readonly ISignatureManager $signatureManager,
+		private readonly OCMSignatoryManager $signatoryManager,
+		private readonly IAppConfig $appConfig,
 	) {
 	}
 
@@ -740,14 +746,35 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 				'code' => $sharedSecret,
 			];
 
-			$response = $client->post($tokenEndpoint, [
+			$options = [
 				'body' => http_build_query($payload),
 				'headers' => [
 					'Content-Type' => 'application/x-www-form-urlencoded',
 				],
 				'timeout' => 10,
 				'connect_timeout' => 10,
-			]);
+			];
+
+			// Try signing the request
+			if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				try {
+					$options = $this->signatureManager->signOutgoingRequestIClientPayload(
+						$this->signatoryManager,
+						$options,
+						'post',
+						$tokenEndpoint
+					);
+					$this->logger->debug('Token request signed successfully', ['remote' => $remote]);
+				} catch (\Exception $e) {
+					$this->logger->warning('Failed to sign token request, continuing without signature', [
+						'remote' => $remote,
+						'exception' => $e,
+						'endpoint' => $tokenEndpoint,
+					]);
+				}
+			}
+
+			$response = $client->post($tokenEndpoint, $options);
 
 			$data = json_decode($response->getBody(), true);
 
