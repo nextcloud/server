@@ -336,7 +336,6 @@ class Server {
 				$this->server->addPlugin(new SharesPlugin(
 					$this->server->tree,
 					$userSession,
-					$userFolder,
 					$shareManager,
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(

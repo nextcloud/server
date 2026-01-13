@@ -180,7 +180,6 @@ class ServerFactory {
 				$server->addPlugin(new SharesPlugin(
 					$tree,
 					$this->userSession,
-					$userFolder,
 					\OCP\Server::get(\OCP\Share\IManager::class)
 				));
 				$server->addPlugin(new CommentPropertiesPlugin(\OCP\Server::get(ICommentsManager::class), $this->userSession));
