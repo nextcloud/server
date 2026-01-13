@@ -491,11 +491,10 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
-		$mounts = $this->getMountsForUser($user);
-		$mountPoints = array_map(function (ICachedMountInfo $mount) {
-			return $mount->getMountPoint();
-		}, $mounts);
-		$mounts = array_combine($mountPoints, $mounts);
+		$mounts = [];
+		foreach ($this->getMountsForUser($user) as $mount) {
+			$mounts[$mount->getMountPoint()] = $mount;
+		}
 
 		$current = rtrim($path, '/');
 		// walk up the directory tree until we find a path that has a mountpoint set
@@ -519,9 +518,13 @@ class UserMountCache implements IUserMountCache {
 
 	public function getMountsInPath(IUser $user, string $path): array {
 		$path = rtrim($path, '/') . '/';
-		$mounts = $this->getMountsForUser($user);
-		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {
-			return $mount->getMountPoint() !== $path && str_starts_with($mount->getMountPoint(), $path);
-		});
+		$result = [];
+		foreach ($this->getMountsForUser($user) as $key => $mount) {
+			$mountPoint = $mount->getMountPoint();
+			if ($mountPoint !== $path && str_starts_with($mountPoint, $path)) {
+				$result[$key] = $mount;
+			}
+		}
+		return $result;
 	}
 }
