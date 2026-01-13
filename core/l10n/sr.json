@@ -203,6 +203,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Ажурирање није успело. Пријавите овај проблем <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Некстклауд заједници</a>.",
     "Continue to {productName}" : "Наставите на {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Ажурирање је било успешно. Преусмеравате се на {productName} за %n секунду.","Ажурирање је било успешно. Преусмеравате се на {productName} за %n секунде.","Ажурирање је било успешно. Преусмеравате се на {productName} за  %n секунди."],
+    "Done" : "Завршено",
     "Applications menu" : "Мени апликација",
     "Apps" : "Апликације",
     "More apps" : "Још апликација",

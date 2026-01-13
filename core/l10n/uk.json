@@ -204,6 +204,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Оновлення не вдалося. Будь ласка, повідомте про це питання в <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">спільноту Nextcloud</a>.",
     "Continue to {productName}" : "Перейти до {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Оновлення пройшло успішно. Переспрямування на {productName} за %n секунду.","Оновлення пройшло успішно. Переспрямування до {productName} за лічені %n секунди.","Оновлення пройшло успішно. Переспрямування до {productName} за лічені %n секунди.","Оновлення пройшло успішно. Переспрямування до {productName} за лічені %n секунди."],
+    "Done" : "Готово",
     "Applications menu" : "Меню застосунків",
     "Apps" : "Застосунки",
     "More apps" : "Більше застосунків",

@@ -205,6 +205,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Uppfærslan tókst ekki. Skoðaðu annálana á kerfisstjórnunarsíðunni og sendu inn tilkynningu um vandamálið til <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud samfélagsins</a>.",
     "Continue to {productName}" : "Halda áfram í {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Uppfærslan heppnaðist. Beini þér til {productName} eftir %n sekúndu.","Uppfærslan heppnaðist. Beini þér til {productName} eftir %n sekúndur."],
+    "Done" : "Lokið",
     "Applications menu" : "Forritavalmynd",
     "Apps" : "Forrit",
     "More apps" : "Fleiri forrit",

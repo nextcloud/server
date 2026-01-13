@@ -83,6 +83,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Actualizarea nu a reușit. Te rugăm să raportezi această problemă <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunității Nextcloud</a>.",
     "Continue to {productName}" : "Continuă la {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Actualizare efectuată. Redirectare la {productName} în %n secundă.","Actualizare efectuată. Redirectare la {productName} în %n seconde.","Actualizare efectuată. Redirectare la {productName} în %n secunde."],
+    "Done" : "Realizat",
     "Applications menu" : "Meniul aplicațiilor",
     "Apps" : "Aplicații",
     "More apps" : "Mai multe aplicatii",

@@ -206,6 +206,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Uygulama güncellenemedi. Lütfen bu sorunu <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud topluluğuna</a> bildirin.",
     "Continue to {productName}" : "{productName} ile ilerle",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Uygulama güncellendi. %n saniye içinde {productName} üzerine yönlendirileceksiniz.","Uygulama güncellendi. %n saniye içinde {productName} üzerine yönlendirileceksiniz."],
+    "Done" : "Tamam",
     "Applications menu" : "Uygulamalar menüsü",
     "Apps" : "Uygulamalar",
     "More apps" : "Diğer uygulamalar",

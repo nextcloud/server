@@ -206,6 +206,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Eguneraketak huts egin du. Mesedez, jakinarazi arazoa <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud komunitateari</a>.",
     "Continue to {productName}" : "Jarraitu hona: {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Eguneraketa behar bezala egin da. {productName} ra birbideratuko zaitugu %nsegundotan.","Eguneraketa behar bezala egin da. {productName} (e)ra birbideratuko zaitugu %n segundotan."],
+    "Done" : "Egina",
     "Applications menu" : "Aplikazio-menua",
     "Apps" : "Aplikazioak",
     "More apps" : "Aplikazio gehiago",

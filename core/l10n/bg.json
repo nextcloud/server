@@ -81,6 +81,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Актуализирането беше неуспешно. Моля отнесете този проблем към <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\"> Nextcloud общността</a>.",
     "Continue to {productName}" : "Продължаване към {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Актуализацията беше успешна. Пренасочване към {productName} след %n секунди.","Актуализацията беше успешна. Пренасочване към {productName} след %n секунди."],
+    "Done" : "Завършено",
     "Apps" : "Приложения",
     "More apps" : "Още приложения",
     "_{count} notification_::_{count} notifications_" : ["{count} известие","{count} известия"],

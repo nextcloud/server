@@ -320,6 +320,7 @@ OC.L10N.register(
     "Open online" : "Megnyitás online",
     "Rename" : "Átnevezés",
     "Details" : "Részletek",
+    "Unfavorite" : "Nem kedvenc",
     "View in folder" : "Megtekintés mappában",
     "Today" : "Ma",
     "Last 7 days" : "Előző 7 nap",

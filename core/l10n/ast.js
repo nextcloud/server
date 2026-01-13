@@ -84,6 +84,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "L'anovamientu nun foi correutu. Informa d'esti problema na <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunidá de Nextcloud</a>.",
     "Continue to {productName}" : "Siguir con «{productName}»",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["L'anovamientu foi correutu. Va redirixísete a {productName} en %n segundu.","L'anovamientu foi correutu. Va redirixísete a {productName} en %n segundos."],
+    "Done" : "Fecho",
     "Applications menu" : "Menú d'aplicaciones",
     "Apps" : "Aplicaciones",
     "More apps" : "Más aplicaciones",

@@ -136,6 +136,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Oppdateringen mislyktes. Rapporter dette problemet til <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud-gemenskapen</a>.",
     "Continue to {productName}" : "Fortsett til {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Oppdatering er vellykket. Går videre til {productName} om %n sekunder.","Oppdatering er vellykket. Går videre til {productName} om %n sekunder."],
+    "Done" : "Ferdig",
     "Applications menu" : "Applikasjonsmeny",
     "Apps" : "Apper",
     "More apps" : "Flere apper",

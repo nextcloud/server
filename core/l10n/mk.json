@@ -204,6 +204,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Надградбата не беше успешна. Ве молиме овој проблем да го пријавите во <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">заедницата</a>.",
     "Continue to {productName}" : "Продолжи кон {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Ажурирањето беше успешно. Пренасочување кон {productName} за %n секунда.","Ажурирањето беше успешно. Пренасочување кон {productName} за %n секунди."],
+    "Done" : "Готово",
     "Applications menu" : "Мени со апликации",
     "Apps" : "Аппликации",
     "More apps" : "Повеќе апликации",
