@@ -16,6 +16,7 @@ use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,6 +46,9 @@ class IMipServiceTest extends TestCase {
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
 	/** @var IMipService */
 	private $service;
 
@@ -67,6 +71,7 @@ class IMipServiceTest extends TestCase {
 		$this->l10nFactory = $this->createMock(L10NFactory::class);
 		$this->l10n = $this->createMock(LazyL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
@@ -80,7 +85,8 @@ class IMipServiceTest extends TestCase {
 			$this->db,
 			$this->random,
 			$this->l10nFactory,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->userManager,
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -167,6 +173,31 @@ class IMipServiceTest extends TestCase {
 
 		$actual = $this->service->getFrom($senderName, $default);
 		$this->assertEquals($expected, $actual);
+	}
+
+	public function testIsSystemUserWhenUserExists(): void {
+		$email = 'user@example.com';
+		$user = $this->createMock(\OCP\IUser::class);
+
+		$this->userManager->expects(self::once())
+			->method('getByEmail')
+			->with($email)
+			->willReturn([$user]);
+
+		$result = $this->service->isSystemUser($email);
+		$this->assertTrue($result);
+	}
+
+	public function testIsSystemUserWhenUserDoesNotExist(): void {
+		$email = 'external@example.com';
+
+		$this->userManager->expects(self::once())
+			->method('getByEmail')
+			->with($email)
+			->willReturn([]);
+
+		$result = $this->service->isSystemUser($email);
+		$this->assertFalse($result);
 	}
 
 	public function testBuildBodyDataCreated(): void {

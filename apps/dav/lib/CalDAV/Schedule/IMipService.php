@@ -14,6 +14,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
@@ -35,7 +36,8 @@ class IMipService {
 	private L10NFactory $l10nFactory;
 	private IL10N $l10n;
 	private ITimeFactory $timeFactory;
-
+	private IUserManager $userManager;
+	
 	/** @var string[] */
 	private const STRING_DIFF = [
 		'meeting_title' => 'SUMMARY',
@@ -49,13 +51,16 @@ class IMipService {
 		IDBConnection $db,
 		ISecureRandom $random,
 		L10NFactory $l10nFactory,
-		ITimeFactory $timeFactory) {
+		ITimeFactory $timeFactory,
+		IUserManager $userManager,
+	) {
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->db = $db;
 		$this->random = $random;
 		$this->l10nFactory = $l10nFactory;
 		$this->timeFactory = $timeFactory;
+		$this->userManager = $userManager;
 		$language = $this->l10nFactory->findGenericLanguage();
 		$locale = $this->l10nFactory->findLocale($language);
 		$this->l10n = $this->l10nFactory->get('dav', $language, $locale);
@@ -1180,6 +1185,16 @@ class IMipService {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Check if an email address belongs to a system user
+	 *
+	 * @param string $email
+	 * @return bool True if the email belongs to a system user, false otherwise
+	 */
+	public function isSystemUser(string $email): bool {
+		return !empty($this->userManager->getByEmail($email));
 	}
 
 	public function isRoomOrResource(Property $attendee): bool {
