@@ -48,7 +48,7 @@ class TwoFactorMiddleware extends Middleware {
 		// Route handler explicitly marked to work without finished 2FA are not blocked
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		$hasNoTwoFactorAttribute = !empty($reflectionMethod->getAttributes(NoTwoFactorRequired::class));
-		$hasNoTwoFactorAnnotation = $this->reflector->hasAnnotation('NoTwoFactorRequired');
+		$hasNoTwoFactorAnnotation = $hasNoTwoFactorAttribute || $this->reflector->hasAnnotation('NoTwoFactorRequired');
 		if ($hasNoTwoFactorAnnotation || $hasNoTwoFactorAttribute) {
 			return;
 		}
