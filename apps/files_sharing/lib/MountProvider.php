@@ -13,6 +13,7 @@ use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -26,7 +27,7 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use function count;
 
-class MountProvider implements IMountProvider {
+class MountProvider implements IMountProvider, IAuthoritativeMountProvider {
 	/**
 	 * @param IConfig $config
 	 * @param IManager $shareManager
