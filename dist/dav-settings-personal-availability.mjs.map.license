@@ -12,9 +12,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/calendar-availability-vue
 	- version: 3.0.0
 	- license: MIT
-- @nextcloud/vue
-	- version: 9.3.1
-	- license: AGPL-3.0-or-later
 - ical.js
 	- version: 2.2.1
 	- license: MPL-2.0
