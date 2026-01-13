@@ -3,9 +3,18 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-OC.Settings = OC.Settings || {}
-OC.Settings = _.extend(OC.Settings, {
 
+import axios from '@nextcloud/axios'
+import { emit } from '@nextcloud/event-bus'
+import { generateOcsUrl } from '@nextcloud/router'
+import $ from 'jquery'
+import _ from 'underscore'
+import logger from '../logger.js'
+
+/**
+ * @deprecated 25.0.0 Use Vue based (`@nextcloud/vue`) settings components instead
+ */
+export default {
 	_cachedGroups: null,
 
 	escapeHTML: function(text) {
@@ -15,6 +24,16 @@ OC.Settings = _.extend(OC.Settings, {
 			.split('>').join('&gt;')
 			.split('"').join('&quot;')
 			.split('\'').join('&#039;')
+	},
+
+	async rebuildNavigation() {
+		const { data } = await axios.get(generateOcsUrl('core/navigation', 2) + '/apps?format=json')
+		if (data.ocs.meta.statuscode !== 200) {
+			return
+		}
+
+		emit('nextcloud:app-menu.refresh', { apps: data.ocs.data })
+		window.dispatchEvent(new Event('resize'))
 	},
 
 	/**
@@ -35,7 +54,7 @@ OC.Settings = _.extend(OC.Settings, {
 		if ($elements.length > 0) {
 			// Let's load the data and THEN init our select
 			$.ajax({
-				url: OC.linkToOCS('cloud/groups', 2) + 'details',
+				url: generateOcsUrl('cloud/groups/details'),
 				dataType: 'json',
 				success: function(data) {
 					const results = []
@@ -50,7 +69,7 @@ OC.Settings = _.extend(OC.Settings, {
 						// note: settings are saved through a "change" event registered
 						// on all input fields
 						$elements.select2(_.extend({
-							placeholder: t('settings', 'Groups'),
+							placeholder: t('core', 'Groups'),
 							allowClear: true,
 							multiple: true,
 							toggleSelect: true,
@@ -94,15 +113,15 @@ OC.Settings = _.extend(OC.Settings, {
 							},
 						}, extraOptions || {}))
 					} else {
-						OC.Notification.show(t('settings', 'Group list is empty'), { type: 'error' })
-						console.log(data)
+						OC.Notification.show(t('core', 'Group list is empty'), { type: 'error' })
+						logger.debug(data)
 					}
 				},
 				error: function(data) {
-					OC.Notification.show(t('settings', 'Unable to retrieve the group list'), { type: 'error' })
-					console.log(data)
+					OC.Notification.show(t('core', 'Unable to retrieve the group list'), { type: 'error' })
+					logger.debug(data)
 				},
 			})
 		}
 	},
-})
+}
