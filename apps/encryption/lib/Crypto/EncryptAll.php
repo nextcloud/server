@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace OCA\Encryption\Crypto;
 
-use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Encryption\Exceptions\EncryptionFailedException;
 use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
@@ -33,6 +33,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
+/**
+ * Handles bulk encryption of files for users.
+ */
 class EncryptAll {
 
 	/** @var array<string, array{password: string, user: IUser}> $userCache store one time passwords for the users */
@@ -168,7 +171,10 @@ class EncryptAll {
 	}
 
 	/**
-	 * encrypt files from the given user
+	 * Encrypt all files from the given user.
+	 *
+	 * Recursively traverses the user's files directory, skipping files and folders not owned by the user,
+	 * and attempts to encrypt each file.
 	 */
 	protected function encryptUsersFiles(IUser $user, ProgressBar $progress, string $userCount): void {
 		$this->setupUserFileSystem($user);
@@ -178,64 +184,63 @@ class EncryptAll {
 
 		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);
+			/** @var FileInfo $file */
 			foreach ($content as $file) {
 				$path = $root . '/' . $file->getName();
-				if ($file->isShared()) {
-					$progress->setMessage("Skip shared file/folder $path");
+
+				if ($file->getOwner() !== $uid) {
+					$progress->setMessage("Skipping shared/unowned file/folder $path");
 					$progress->advance();
 					continue;
-				} elseif ($file->getType() === FileInfo::TYPE_FOLDER) {
+				}
+				
+				if ($file->getType() === FileInfo::TYPE_FOLDER) {
 					$directories[] = $path;
 					continue;
-				} else {
-					$progress->setMessage("encrypt files for user $userCount: $path");
-					$progress->advance();
-					try {
-						if ($this->encryptFile($file, $path) === false) {
-							$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
-							$progress->advance();
-						}
-					} catch (\Exception $e) {
-						$progress->setMessage("Failed to encrypt path $path: " . $e->getMessage());
+				}
+				
+				$progress->setMessage("Encrypting file for user $userCount: $path");
+				$progress->advance();
+
+				try {
+					if ($this->encryptFile($file, $path) === false) {
+						$progress->setMessage("Skipping already encrypted file $path for user $userCount");
 						$progress->advance();
-						$this->logger->error(
-							'Failed to encrypt path {path}',
-							[
-								'user' => $uid,
-								'path' => $path,
-								'exception' => $e,
-							]
-						);
 					}
+				} catch (\Exception $e) {
+					$progress->setMessage("Failed to encrypt path $path: " . $e->getMessage());
+					$progress->advance();
+					$this->logger->error('Failed to encrypt path {path}', [ 'user' => $uid, 'path' => $path, 'exception' => $e, ]);
 				}
 			}
 		}
 	}
 
 	protected function encryptFile(FileInfo $fileInfo, string $path): bool {
-		// skip already encrypted files
 		if ($fileInfo->isEncrypted()) {
-			return true;
+			return false;
 		}
 
 		$source = $path;
 		$target = $path . '.encrypted.' . time();
 
 		try {
-			$copySuccess = $this->rootView->copy($source, $target);
-			if ($copySuccess === false) {
-				/* Copy failed, abort */
-				if ($this->rootView->file_exists($target)) {
-					$this->rootView->unlink($target);
-				}
-				throw new \Exception('Copy failed for ' . $source);
+			if ($this->rootView->copy($source, $target) === false) {
+				throw new EncryptionFailedException("Failed to copy $source -> $target");
 			}
-			$this->rootView->rename($target, $source);
-		} catch (DecryptionFailedException $e) {
+
+			if ($this->rootView->rename($target, $source) === false) {
+				throw new EncryptionFailedException("Failed to rename $target -> $source");
+			}
+		} catch (\Exception $e) {
 			if ($this->rootView->file_exists($target)) {
+				$this->logger->debug(
+					"Cleaning up failed temp file $target after encryption exception",
+					[ 'user' => $fileInfo->getOwner(), 'path' => $path, ]
+				);
 				$this->rootView->unlink($target);
 			}
-			return false;
+			throw $e;
 		}
 
 		return true;
