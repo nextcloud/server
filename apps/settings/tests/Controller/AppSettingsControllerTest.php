@@ -20,6 +20,8 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
@@ -54,6 +56,8 @@ class AppSettingsControllerTest extends TestCase {
 	private $appFetcher;
 	/** @var IFactory|MockObject */
 	private $l10nFactory;
+	/** IGroupManager|MockObject */
+	private $groupManager;
 	/** @var BundleFetcher|MockObject */
 	private $bundleFetcher;
 	/** @var Installer|MockObject */
@@ -71,6 +75,7 @@ class AppSettingsControllerTest extends TestCase {
 	/** @var IClientService|MockObject */
 	private $clientService;
 
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -86,6 +91,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->categoryFetcher = $this->createMock(CategoryFetcher::class);
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -105,6 +111,7 @@ class AppSettingsControllerTest extends TestCase {
 			$this->categoryFetcher,
 			$this->appFetcher,
 			$this->l10nFactory,
+			$this->groupManager,
 			$this->bundleFetcher,
 			$this->installer,
 			$this->urlGenerator,
@@ -184,9 +191,16 @@ class AppSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setActiveEntry')
 			->with('core_apps');
+		$this->groupManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(5))
+			->willReturn([
+				$this->createMock(IGroup::class),
+				$this->createMock(IGroup::class),
+			]);
 
 		$this->initialState
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('provideInitialState');
 
 		$policy = new ContentSecurityPolicy();
@@ -217,9 +231,16 @@ class AppSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setActiveEntry')
 			->with('core_apps');
+		$this->groupManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(5))
+			->willReturn([
+				$this->createMock(IGroup::class),
+				$this->createMock(IGroup::class),
+			]);
 
 		$this->initialState
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('provideInitialState');
 
 		$policy = new ContentSecurityPolicy();
