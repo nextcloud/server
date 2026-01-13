@@ -12,6 +12,11 @@ const modules = {
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
 		'settings-personal-availability': resolve(import.meta.dirname, 'apps/dav/src', 'settings-personal-availability.ts'),
 	},
+	encryption: {
+		encryption: resolve(import.meta.dirname, 'apps/encryption/src', 'encryption.ts'),
+		settings_admin: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-admin.ts'),
+		settings_personal: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-personal.ts'),
+	},
 	federation: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/federation/src', 'settings-admin.ts'),
 	},

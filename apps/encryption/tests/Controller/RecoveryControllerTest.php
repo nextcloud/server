@@ -16,6 +16,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RecoveryControllerTest extends TestCase {
@@ -28,11 +29,11 @@ class RecoveryControllerTest extends TestCase {
 
 	public static function adminRecoveryProvider(): array {
 		return [
-			['test', 'test', '1', 'Recovery key successfully enabled', Http::STATUS_OK],
-			['', 'test', '1', 'Missing recovery key password', Http::STATUS_BAD_REQUEST],
-			['test', '', '1', 'Please repeat the recovery key password', Http::STATUS_BAD_REQUEST],
-			['test', 'something that doesn\'t match', '1', 'Repeated recovery key password does not match the provided recovery key password', Http::STATUS_BAD_REQUEST],
-			['test', 'test', '0', 'Recovery key successfully disabled', Http::STATUS_OK],
+			['test', 'test', true, 'Recovery key successfully enabled', Http::STATUS_OK],
+			['', 'test', true, 'Missing recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', '', true, 'Please repeat the recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', 'something that doesn\'t match', true, 'Repeated recovery key password does not match the provided recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', 'test', false, 'Recovery key successfully disabled', Http::STATUS_OK],
 		];
 	}
 
@@ -150,10 +151,12 @@ class RecoveryControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new RecoveryController('encryption',
+		$this->controller = new RecoveryController(
+			'encryption',
 			$this->requestMock,
-			$this->configMock,
 			$this->l10nMock,
-			$this->recoveryMock);
+			$this->recoveryMock,
+			$this->createMock(LoggerInterface::class),
+		);
 	}
 }

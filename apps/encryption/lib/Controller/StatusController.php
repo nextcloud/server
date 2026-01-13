@@ -68,8 +68,10 @@ class StatusController extends Controller {
 		return new DataResponse(
 			[
 				'status' => $status,
+				'initStatus' => $this->session->getStatus(),
 				'data' => [
-					'message' => $message]
+					'message' => $message,
+				],
 			]
 		);
 	}
