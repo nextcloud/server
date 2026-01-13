@@ -206,6 +206,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "A frissítés sikertelen. Jelezze a problémát a <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud közösségnek</a>.",
     "Continue to {productName}" : "Tovább erre: {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["A frissítés sikeres volt. %n másodperc múlva át lesz irányítva a következőhöz: {productName}.","A frissítés sikeres volt. %n másodperc múlva át lesz irányítva a következőhöz: {productName}."],
+    "Done" : "Kész",
     "Applications menu" : "Alkalmazások menü",
     "Apps" : "Alkalmazások",
     "More apps" : "További alkalmazások",

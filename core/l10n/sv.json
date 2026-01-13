@@ -94,6 +94,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Uppdateringen misslyckades. Rapportera felet till <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud-gemenskapen</a>.",
     "Continue to {productName}" : "Fortsätt till {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Uppdateringen lyckades. Omdirigerar dig till {productName} om %n sekund.","Uppdateringen lyckades. Omdirigerar dig till {productName} om %n sekunder."],
+    "Done" : "Klar",
     "Applications menu" : "Appmeny",
     "Apps" : "Appar",
     "More apps" : "Fler appar",

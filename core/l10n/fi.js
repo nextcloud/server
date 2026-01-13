@@ -169,6 +169,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Päivitys ei onnistunut. Raportoisitko tämän ongelman <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud-yhteisölle</a>.",
     "Continue to {productName}" : "Jatka {productName}iin",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Päivitys onnistui. Ohjataan {productName}iin %n sekunnin kuluttua.","Päivitys onnistui. Ohjataan {productName}iin %n sekunnin kuluttua."],
+    "Done" : "Valmis",
     "Applications menu" : "Sovellusten valikko",
     "Apps" : "Sovellukset",
     "More apps" : "Lisää sovelluksia",

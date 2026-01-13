@@ -77,6 +77,7 @@ OC.L10N.register(
     "Please reload the page." : "Bonvolu reŝargi la paĝon.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La ĝisdatigo malsukcesis. Por pli da informoj, <a href=\"{url}\">vidu la forumafisôn</a> pri tio.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "La ĝisdatigo malsukcesis. Bonvolu raporti tiun problemon al la <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud-komunumo</a>.",
+    "Done" : "Farita",
     "Applications menu" : "Aplikaĵa menuo",
     "Apps" : "Aplikaĵoj",
     "More apps" : "Pli da aplikaĵoj",

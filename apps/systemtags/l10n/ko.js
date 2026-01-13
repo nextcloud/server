@@ -61,6 +61,7 @@ OC.L10N.register(
     "Update" : "업데이트",
     "Delete" : "삭제",
     "Reset" : "재설정",
+    "Loading …" : "로딩 중 …",
     "Manage tags" : "태그 관리하기",
     "Cancel" : "취소",
     "Apply" : "적용",

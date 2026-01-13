@@ -206,6 +206,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "更新失敗。請前往 <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud 社群</a>回報此問題。",
     "Continue to {productName}" : "繼續使用 {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["更新成功。將在 %n 秒後重新導向至 {productName}。"],
+    "Done" : "完成",
     "Applications menu" : "應用程式選單",
     "Apps" : "應用程式",
     "More apps" : "更多應用程式",

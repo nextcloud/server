@@ -82,6 +82,7 @@ OC.L10N.register(
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Atjaunināšana bija nesekmīga. Vairāk informācijas par šo sarežģījumu ir skatāma <a href=\"{url}\">mūsu foruma ierakstā</a> .",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Atjaunināšana bija nesekmība. Lūgums ziņot par šo nepilnību <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud kopienai</a>.",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Atjaunināšana bija veiksmīga. Notiks pārvirzīšana uz {productName} pēc %n sekundēm.","Atjaunināšana bija veiksmīga. Notiks pārvirzīšana uz {productName} pēc %n sekundes.","Atjaunināšana bija sekmīga. Pēc %nsekundēm notiks pārvirzīšana uz {productName}."],
+    "Done" : "Pabeigts",
     "Applications menu" : "Lietotņu izvēlne",
     "Apps" : "Lietotnes",
     "More apps" : "Vairāk lietotņu",
