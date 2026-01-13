@@ -103,9 +103,7 @@ class AppSettingsController extends Controller {
 			];
 		}, $this->groupManager->search('', 5));
 
-		$serverData['systemGroups'] = $groups;
-
-		$this->initialState->provideInitialState('usersSettings', $serverData);
+		$this->initialState->provideInitialState('usersSettings', $groups);
 
 		if ($this->appManager->isEnabledForAnyone('app_api')) {
 			try {
