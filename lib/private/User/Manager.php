@@ -833,4 +833,8 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		} while (count($userIds) === $batchSize && $limit !== 0);
 	}
+
+	public function getExistingUser(string $userId, ?string $displayName = null): IUser {
+		return new LazyUser($userId, $this, $displayName);
+	}
 }
