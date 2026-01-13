@@ -16,6 +16,7 @@ use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,7 +32,7 @@ class DecryptAll {
 
 	public function __construct(
 		protected readonly IManager $encryptionManager,
-		protected readoly IUserManager $userManager,
+		protected readonly IUserManager $userManager,
 		protected readonly View $rootView,
 	) {
 		// TODO: Inject LoggerInterface
@@ -212,7 +213,7 @@ class DecryptAll {
 	 * @param string $path  The full filesystem path to the file.
 	 *
 	 * @throws DecryptionFailedException If file copy or rename fails during decryption.
-	 * @throws RuntimeException If file info cannot be retrieved or touch fails.
+	 * @throws \RuntimeException If file info cannot be retrieved or touch fails.
 	 *
 	 * @return bool True if decryption succeeded, false if file is already decrypted.
 	 */
@@ -244,7 +245,7 @@ class DecryptAll {
 			}
 		} catch (\Exception $e) {
 			if ($this->rootView->file_exists($target)) {
-				$this->logger->debug("Cleaning up failed temp file $target after decryption exception", [ 'user' => $uid, 'path' => $path, ]);
+				$this->logger->debug("Cleaning up failed temp file $target after decryption exception", [ 'path' => $path, ]);
 				$this->rootView->unlink($target);
 			}
 			throw $e;
