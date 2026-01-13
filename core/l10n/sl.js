@@ -199,6 +199,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Posodobitev je spodletela. Pošljite poročilo o napaki <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">skupnosti Nextcloud</a>.",
     "Continue to {productName}" : "Nadaljuj v {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Posodobitev je bila uspešna. Stran bo preusmerjena na {productName} čez %n sekundo.","Posodobitev je bila uspešna. Stran bo preusmerjena na {productName} čez %n sekundi.","Posodobitev je bila uspešna. Stran bo preusmerjena na {productName} čez %n sekunde.","Posodobitev je bila uspešna. Stran bo preusmerjena na {productName} čez %n sekund."],
+    "Done" : "Končano",
     "Applications menu" : "Meni programov",
     "Apps" : "Programi",
     "More apps" : "Več programov",

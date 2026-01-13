@@ -206,6 +206,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Обновление не удалось. Сообщите об этой проблеме <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">сообществу Nextcloud</a>.",
     "Continue to {productName}" : "Перейти к {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Обновление выполнено успешно. Перенаправление в {productName} через %n секунду.","Обновление выполнено успешно. Перенаправление в {productName} через %n секунды.","Обновление выполнено успешно. Перенаправление в {productName} через %n секунд.","Обновление выполнено успешно. Перенаправление в {productName} через %n секунд."],
+    "Done" : "Выполненные",
     "Applications menu" : "Меню приложений",
     "Apps" : "Приложения",
     "More apps" : "Ещё приложения",

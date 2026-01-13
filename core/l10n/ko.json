@@ -204,6 +204,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "업데이트가 실패했습니다. 이 문제를 <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud 커뮤니티</a>에 보고하여 주십시오.",
     "Continue to {productName}" : "{productName}으로 계속하기",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["업데이트가 성공했습니다. %n초 후 {productName}(으)로 이동합니다."],
+    "Done" : "완료",
     "Applications menu" : "애플리케이션 메뉴",
     "Apps" : "앱",
     "More apps" : "더 많은 앱",

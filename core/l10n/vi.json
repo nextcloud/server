@@ -82,6 +82,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Quá trình cập nhật không thành công. Xin vui lòng báo lại vấn đề gặp phải trong tới  <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Cộng đồng Nextcloud</a>.",
     "Continue to {productName}" : "Tiếp tục đến {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Cập nhật đã thành công. Chuyển hướng bạn đến {productName} trong %n seconds."],
+    "Done" : "Hoàn tất",
     "Applications menu" : "Menu ứng dụng",
     "Apps" : "Ứng dụng",
     "More apps" : "Thêm ứng dụng",

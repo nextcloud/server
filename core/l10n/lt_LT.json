@@ -71,6 +71,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Atnaujinimas buvo nesėkmingas. Prašome pranešti apie šią problemą <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud bendruomenei</a>.",
     "Continue to {productName}" : "Tęsti {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Atnaujinimas sėkmingas. Nukreipiama į  {productName} per %n sek.","Atnaujinimas sėkmingas. Nukreipiama į {productName} per %n sek.","Atnaujinimas sėkmingas. Nukreipiama į  {productName} per %n seconds.","Atnaujinimas sėkmingas. Nukreipiama į {productName} per %n sekundes."],
+    "Done" : "Atlikta",
     "Applications menu" : "Programų meniu",
     "Apps" : "Programėlės",
     "More apps" : "Daugiau programėlių",

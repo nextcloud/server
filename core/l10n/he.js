@@ -62,6 +62,7 @@ OC.L10N.register(
     "Please reload the page." : "יש להעלות מחדש דף זה.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "העדכון לא בוצע בהצלחה. למידע נוסף <a href=\"{url}\">ניתן לבדוק בהודעת הפורום שלנו</a> המכסה נושא זו.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "העדכון לא הצליח. נא לדווח על התקלה הזאת ל<a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">קהילת Nextcloud</a>.",
+    "Done" : "הסתיים",
     "Apps" : "יישומים",
     "More apps" : "יישומים נוספים",
     "No" : "לא",

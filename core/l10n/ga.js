@@ -206,6 +206,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Níor éirigh leis an nuashonrú.  Tuairiscigh an tsaincheist seo do <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">phobal Nextcloud </a> le do thoil.",
     "Continue to {productName}" : "Lean ar aghaidh chuig {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["D'éirigh leis an nuashonrú. Tú á atreorú chuig {productName} i gceann %n soicind.","The update was successful. Redirecting you to {productName} in %n seconds.","D'éirigh leis an nuashonrú. Tú á atreorú chuig {productName} i gceann %n soicind.","D'éirigh leis an nuashonrú. Tú á atreorú chuig {productName} i gceann %n soicind.","D'éirigh leis an nuashonrú. Tú á atreorú chuig {productName} i gceann %n soicind."],
+    "Done" : "Déanta",
     "Applications menu" : "Roghchlár feidhmchlár",
     "Apps" : "Feidhmchláir",
     "More apps" : "Tuilleadh apps",

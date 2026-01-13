@@ -204,6 +204,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "S'ha produït un error durant l'actualització. Informeu d'aquest error a la <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunitat del Nextcloud</a>.",
     "Continue to {productName}" : "Continua al {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["L'actualització ha finalitzat correctament. Se us redirigirà al {productName} d'aquí a %n segon.","L'actualització ha finalitzat correctament. Se us redirigirà al {productName} d'aquí a %n segons."],
+    "Done" : "Fet",
     "Applications menu" : "Menú d'aplicacions",
     "Apps" : "Aplicacions",
     "More apps" : "Més aplicacions",

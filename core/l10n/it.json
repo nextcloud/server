@@ -204,6 +204,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "L'aggiornamento non è riuscito. Segnala il problema alla <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunità di Nextcloud </a>.",
     "Continue to {productName}" : "Continua in {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["L'aggiornamento è stato effettuato correttamente. Reindirizzamento a {productName} in %n secondo.","L'aggiornamento è stato effettuato correttamente. Reindirizzamento a {productName} %n secondi.","L'aggiornamento è stato effettuato correttamente. Reindirizzamento a {productName} %n secondi."],
+    "Done" : "Completato",
     "Applications menu" : "Menu applicazioni",
     "Apps" : "Applicazioni",
     "More apps" : "Altre applicazioni",

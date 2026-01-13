@@ -203,6 +203,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "به روزرسانی ناموفق بود. لطفا این مسئله را در <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">جامعه Nextcloud</a> گزارش دهید",
     "Continue to {productName}" : "به {productName} ادامه دهید.",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["به روزرسانی موفقیت آمیز بود. شما در %n ثانیه به {productName} هدایت می‌شوید.","به روزرسانی موفقیت آمیز بود. شما در %n ثانیه به {productName} هدایت می‌شوید."],
+    "Done" : "Done",
     "Applications menu" : "منو برنامه‌ها.",
     "Apps" : "  برنامه ها",
     "More apps" : "برنامه های بیشتر",

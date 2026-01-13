@@ -188,6 +188,7 @@
     "Please reload the page." : "Перазагрузіце старонку.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Абнаўленне было няўдалым. Дадатковая інфармацыя – у прысвечаным гэтаму пытанню паведамленні на <a href=\"{url}\">нашым форуме</a>.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Абнаўленне было няўдалым. Паведаміце пра гэту праблему <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">супольнасці Nextcloud</a>.",
+    "Done" : "Гатова",
     "Applications menu" : "Меню праграм",
     "Apps" : "Праграмы",
     "More apps" : "Болей праграм",

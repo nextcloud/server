@@ -203,6 +203,7 @@
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud fællesskabet</a>.",
     "Continue to {productName}" : "Fortsæt til {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Opdateringen lykkedes. Omdirigerer dig til {productName} om %n sekund.","Opdateringen lykkedes. Omdirigerer dig til {productName} om %n sekunder."],
+    "Done" : "Færdig",
     "Applications menu" : "App menu",
     "Apps" : "Apps",
     "More apps" : "Flere apps",
