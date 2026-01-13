@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
