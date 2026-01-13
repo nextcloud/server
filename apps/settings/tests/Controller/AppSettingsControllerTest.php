@@ -170,7 +170,7 @@ class AppSettingsControllerTest extends TestCase {
 			->with('core_apps');
 
 		$this->initialState
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('provideInitialState');
 
 		$policy = new ContentSecurityPolicy();
