@@ -325,12 +325,14 @@ export default defineComponent({
 	},
 	created() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
+		subscribe('files:node:updated', this.onNodeUpdated)
 
 		window.addEventListener('resize', this.handleWindowResize)
 		this.handleWindowResize()
 	},
 	beforeDestroy() {
 		unsubscribe('file:node:deleted', this.onNodeDeleted)
+		unsubscribe('file:node:deleted', this.onNodeUpdated)
 		window.removeEventListener('resize', this.handleWindowResize)
 	},
 
@@ -546,6 +548,35 @@ export default defineComponent({
 		onNodeDeleted(node) {
 			if (this.fileInfo && node && this.fileInfo.id === node.fileid) {
 				this.close()
+			}
+		},
+
+		/**
+		 * Handle if the current node was updated
+		 * @param {import('@nextcloud/files').Node} node The deleted node
+		 */
+		async onNodeUpdated(node) {
+			if (this.fileInfo && node && this.fileInfo.id === node.fileid && node.path !== this.file) {
+				this.loading = true
+				this.fileInfo = null
+				this.Sidebar.file = node.path
+				this.node = await fetchNode(this.file)
+				this.fileInfo = FileInfo(this.node)
+				// adding this as fallback because other apps expect it
+				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
+
+				// DEPRECATED legacy views
+				// TODO: remove
+				this.views.forEach(view => {
+					view.setFileInfo(this.fileInfo)
+				})
+
+				this.$nextTick(() => {
+					if (this.$refs.tabs) {
+						this.$refs.tabs.updateTabs()
+					}
+					this.loading = false
+				})
 			}
 		},
 
