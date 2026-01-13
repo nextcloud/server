@@ -21,6 +21,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -172,6 +173,13 @@ class AppSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setActiveEntry')
 			->with('core_apps');
+		$this->groupManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(5))
+			->willReturn([
+				$this->createMock(IGroup::class),
+				$this->createMock(IGroup::class),
+			]);
 
 		$this->initialState
 			->expects($this->exactly(5))
@@ -205,9 +213,16 @@ class AppSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('setActiveEntry')
 			->with('core_apps');
+		$this->groupManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(5))
+			->willReturn([
+				$this->createMock(IGroup::class),
+				$this->createMock(IGroup::class),
+			]);
 
 		$this->initialState
-			->expects($this->exactly(4))
+			->expects($this->exactly(5))
 			->method('provideInitialState');
 
 		$policy = new ContentSecurityPolicy();
