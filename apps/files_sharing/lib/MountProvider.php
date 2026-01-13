@@ -13,6 +13,7 @@ use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -26,7 +27,7 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use function count;
 
-class MountProvider implements IMountProvider {
+class MountProvider implements IMountProvider, IAuthoritativeMountProvider {
 	/**
 	 * @param IConfig $config
 	 * @param IManager $shareManager
@@ -55,9 +56,10 @@ class MountProvider implements IMountProvider {
 
 	/**
 	 * @param IUser $user
+	 * @param list<IShare> $excludeShares
 	 * @return list<array{IShare, array<IShare>}> Tuple of [superShare, groupedShares]
 	 */
-	public function getSuperSharesForUser(IUser $user): array {
+	public function getSuperSharesForUser(IUser $user, array $excludeShares = []): array {
 		$userId = $user->getUID();
 		$shares = array_merge(
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_USER, null, -1),
@@ -67,7 +69,8 @@ class MountProvider implements IMountProvider {
 			$this->shareManager->getSharedWith($userId, IShare::TYPE_DECK, null, -1),
 		);
 
-		$shares = $this->filterShares($shares, $userId);
+		$excludeShareIds = array_map(fn (IShare $share) => $share->getFullId(), $excludeShares);
+		$shares = $this->filterShares($shares, $userId, $excludeShareIds);
 		return $this->buildSuperShares($shares, $user);
 	}
 
@@ -343,15 +346,17 @@ class MountProvider implements IMountProvider {
 	 * user has no permissions.
 	 *
 	 * @param IShare[] $shares
+	 * @param list<string> $excludeShareIds
 	 * @return IShare[]
 	 */
-	private function filterShares(array $shares, string $userId): array {
+	private function filterShares(array $shares, string $userId, array $excludeShareIds): array {
 		return array_filter(
 			$shares,
-			static function (IShare $share) use ($userId) {
+			static function (IShare $share) use ($userId, $excludeShareIds) {
 				return $share->getPermissions() > 0
 					&& $share->getShareOwner() !== $userId
-					&& $share->getSharedBy() !== $userId;
+					&& $share->getSharedBy() !== $userId
+					&& !in_array($share->getFullId(), $excludeShareIds);
 			}
 		);
 	}
