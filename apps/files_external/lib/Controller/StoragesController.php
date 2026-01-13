@@ -67,9 +67,9 @@ abstract class StoragesController extends Controller {
 	 * @return StorageConfig|DataResponse
 	 */
 	protected function createStorage(
-		$mountPoint,
-		$backend,
-		$authMechanism,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
 		$backendOptions,
 		$mountOptions = null,
 		$applicableUsers = null,
@@ -236,7 +236,7 @@ abstract class StoragesController extends Controller {
 		} catch (StorageNotAvailableException $e) {
 			$storage->setStatus(
 				(int)$e->getCode(),
-				$this->l10n->t('%s', [$e->getMessage()])
+				$e->getMessage(),
 			);
 		} catch (\Exception $e) {
 			// FIXME: convert storage exceptions to StorageNotAvailableException

@@ -20,6 +20,13 @@ const modules = {
 		'settings-admin': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-admin.ts'),
 		'settings-personal': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-personal.ts'),
 	},
+	files_external: {
+		auth_rsa: resolve(import.meta.dirname, 'apps/files_external/src', 'auth-rsa.ts'),
+
+		init: resolve(import.meta.dirname, 'apps/files_external/src', 'init-files.ts'),
+		init_settings: resolve(import.meta.dirname, 'apps/files_external/src', 'init-settings.ts'),
+		settings: resolve(import.meta.dirname, 'apps/files_external/src', 'settings-main.ts'),
+	},
 	files_reminders: {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
 	},

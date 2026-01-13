@@ -138,7 +138,7 @@ class UserGlobalStoragesController extends StoragesController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
-		$id,
+		int $id,
 		$backendOptions,
 	) {
 		try {

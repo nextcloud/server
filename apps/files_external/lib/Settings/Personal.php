@@ -7,50 +7,42 @@
 namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\BackendService;
-use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
-use OCP\IUserSession;
+use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
+	use CommonSettingsTrait;
 
 	public function __construct(
-		private IManager $encryptionManager,
-		private UserGlobalStoragesService $userGlobalStoragesService,
+		?string $userId,
 		private BackendService $backendService,
 		private GlobalAuth $globalAuth,
-		private IUserSession $userSession,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+		private IManager $encryptionManager,
 	) {
+		$this->userId = $userId;
+		$this->visibility = BackendService::VISIBILITY_PERSONAL;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$uid = $this->userSession->getUser()->getUID();
-
-		$parameters = [
-			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
-			'visibilityType' => BackendService::VISIBILITY_PERSONAL,
-			'storages' => $this->userGlobalStoragesService->getStorages(),
-			'backends' => $this->backendService->getAvailableBackends(),
-			'authMechanisms' => $this->backendService->getAuthMechanisms(),
-			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
-			'globalCredentials' => $this->globalAuth->getAuth($uid),
-			'globalCredentialsUid' => $uid,
-		];
-
-		return new TemplateResponse('files_external', 'settings', $parameters, '');
+		$this->setInitialState();
+		$this->loadScriptsAndStyles();
+		return new TemplateResponse('files_external', 'settings', renderAs: '');
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
 	public function getSection() {
+		if (!$this->backendService->isUserMountingAllowed()) {
+			return null;
+		}
+
 		return 'externalstorages';
 	}
 
