@@ -15,6 +15,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IUser;
@@ -33,34 +34,50 @@ class SharesUpdatedListener implements IEventListener {
 		private readonly IUserMountCache $userMountCache,
 		private readonly MountProvider $shareMountProvider,
 		private readonly ShareTargetValidator $shareTargetValidator,
+		private readonly IStorageFactory $storageFactory,
 	) {
 	}
 
 	public function handle(Event $event): void {
 		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent || $event instanceof UserShareAccessUpdatedEvent) {
-			$this->updateForUser($event->getUser());
+			$this->updateForUser($event->getUser(), true);
 		}
-		if ($event instanceof ShareCreatedEvent || $event instanceof BeforeShareDeletedEvent) {
+		if ($event instanceof ShareCreatedEvent) {
 			foreach ($this->shareManager->getUsersForShare($event->getShare()) as $user) {
-				$this->updateForUser($user);
+				$this->updateForUser($user, true);
+			}
+		}
+		if ($event instanceof BeforeShareDeletedEvent) {
+			foreach ($this->shareManager->getUsersForShare($event->getShare()) as $user) {
+				$this->updateForUser($user, false, [$event->getShare()]);
 			}
 		}
 	}
 
-	private function updateForUser(IUser $user): void {
+	private function updateForUser(IUser $user, bool $verifyMountPoints, array $ignoreShares = []): void {
 		$cachedMounts = $this->userMountCache->getMountsForUser($user);
+		$shareMounts = array_filter($cachedMounts, fn (ICachedMountInfo $mount) => $mount->getMountProvider() === MountProvider::class);
 		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
 		$mountsByPath = array_combine($mountPoints, $cachedMounts);
 
-		$shares = $this->shareMountProvider->getSuperSharesForUser($user);
+		$shares = $this->shareMountProvider->getSuperSharesForUser($user, $ignoreShares);
 
+		$mountsChanged = count($shares) !== count($shareMounts);
 		foreach ($shares as &$share) {
 			[$parentShare, $groupedShares] = $share;
 			$mountPoint = '/' . $user->getUID() . '/files/' . trim($parentShare->getTarget(), '/') . '/';
 			$mountKey = $parentShare->getNodeId() . '::' . $mountPoint;
 			if (!isset($cachedMounts[$mountKey])) {
-				$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $mountsByPath, $groupedShares);
+				$mountsChanged = true;
+				if ($verifyMountPoints) {
+					$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $mountsByPath, $groupedShares);
+				}
 			}
+		}
+
+		if ($mountsChanged) {
+			$newMounts = $this->shareMountProvider->getMountsFromSuperShares($user, $shares, $this->storageFactory);
+			$this->userMountCache->registerMounts($user, $newMounts, [MountProvider::class]);
 		}
 	}
 }
