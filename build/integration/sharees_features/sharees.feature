@@ -291,8 +291,7 @@ Feature: sharees
       | itemType | file |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    Then "exact users" sharees returned are
-      | Sharee1 | 0 | Sharee1 | Sharee1 |
+    Then "exact users" sharees returned is empty
     Then "users" sharees returned is empty
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
@@ -354,11 +353,8 @@ Feature: sharees
       | shareType | 0 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    # UserPlugin provides two identical results (except for the field order, but
-    # that is hidden by the check).
     # MailPlugin does not add a result if there is already one for that user.
     And "exact users" sharees returned are
-      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
       | Sharee2 | 0 | Sharee2 | sharee2@system.com |
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
@@ -546,10 +542,7 @@ Feature: sharees
       | shareTypes | 0 4 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    # UserPlugin provides two identical results (except for the field order, but
-    # that is hidden by the check)
     And "exact users" sharees returned are
-      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
       | Sharee2 | 0 | Sharee2 | sharee2@system.com |
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
@@ -570,10 +563,7 @@ Feature: sharees
       | shareTypes | 0 4 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    # UserPlugin provides two identical results (except for the field order, but
-    # that is hidden by the check)
     And "exact users" sharees returned are
-      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
       | Sharee2 | 0 | Sharee2 | sharee2@system.com |
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
