@@ -11,6 +11,9 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCA\Files_External\ConfigLexicon;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
+use OCA\Files_External\Event\StorageUpdatedEvent;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\Builtin;
 use OCA\Files_External\Lib\Auth\NullMechanism;
@@ -41,19 +44,22 @@ use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Listener\GroupDeletedListener;
 use OCA\Files_External\Listener\LoadAdditionalListener;
-use OCA\Files_External\Listener\StorePasswordListener;
 use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\MountCacheService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
-use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
-use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * @package OCA\Files_External\AppInfo
@@ -74,8 +80,15 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
-		$context->registerEventListener(UserLoggedInEvent::class, StorePasswordListener::class);
-		$context->registerEventListener(PasswordUpdatedEvent::class, StorePasswordListener::class);
+		$context->registerEventListener(StorageCreatedEvent::class, MountCacheService::class);
+		$context->registerEventListener(StorageDeletedEvent::class, MountCacheService::class);
+		$context->registerEventListener(StorageUpdatedEvent::class, MountCacheService::class);
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserCreatedEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserAddedEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserRemovedEvent::class, MountCacheService::class);
+		$context->registerEventListener(PostLoginEvent::class, MountCacheService::class);
+
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
