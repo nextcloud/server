@@ -15,7 +15,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -83,6 +82,6 @@ class OCMRequestController extends Controller {
 		);
 		$this->eventDispatcher->dispatchTyped($event);
 
-		return $event->getResponse() ?? new DataResponse('', Http::STATUS_NOT_FOUND);
+		return $event->getResponse() ?? new Response(Http::STATUS_NOT_FOUND);
 	}
 }
