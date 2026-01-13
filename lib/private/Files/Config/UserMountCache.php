@@ -218,7 +218,6 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param array $row
 	 * @param (callable(CachedMountInfo): string)|null $pathCallback
-	 * @return CachedMountInfo
 	 */
 	private function dbRowToMountInfo(array $row, ?callable $pathCallback = null): ICachedMountInfo {
 		$user = new LazyUser($row['user_id'], $this->userManager);
@@ -250,10 +249,9 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	/**
-	 * @param IUser $user
 	 * @return ICachedMountInfo[]
 	 */
-	public function getMountsForUser(IUser $user) {
+	public function getMountsForUser(IUser $user): array {
 		$userUID = $user->getUID();
 		if (!$this->userManager->userExists($userUID)) {
 			return [];
@@ -265,18 +263,14 @@ class UserMountCache implements IUserMountCache {
 				->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userUID)));
 
 			$result = $query->executeQuery();
-			$rows = $result->fetchAll();
-			$result->closeCursor();
-
 			/** @var array<string, ICachedMountInfo> $mounts */
 			$mounts = [];
-			foreach ($rows as $row) {
-				$mount = $this->dbRowToMountInfo($row, [$this, 'getInternalPathForMountInfo']);
-				if ($mount !== null) {
-					$mounts[$mount->getKey()] = $mount;
-				}
+			foreach ($result->iterateAssociative() as $row) {
+				$mount = $this->dbRowToMountInfo($row, $this->getInternalPathForMountInfo(...));
+				$mounts[$mount->getKey()] = $mount;
 			}
 			$this->mountsForUsers[$userUID] = $mounts;
+			$result->closeCursor();
 		}
 		return $this->mountsForUsers[$userUID];
 	}
@@ -296,9 +290,9 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param int $numericStorageId
 	 * @param string|null $user limit the results to a single user
-	 * @return CachedMountInfo[]
+	 * @return list<ICachedMountInfo>
 	 */
-	public function getMountsForStorageId($numericStorageId, $user = null) {
+	public function getMountsForStorageId($numericStorageId, $user = null): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
 			->from('mounts', 'm')
@@ -310,17 +304,19 @@ class UserMountCache implements IUserMountCache {
 		}
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$mounts = [];
+		foreach ($result->iterateAssociative() as $row) {
+			$mounts[] = $this->dbRowToMountInfo($row);
+		}
 		$result->closeCursor();
-
-		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
+		return $mounts;
 	}
 
 	/**
 	 * @param int $rootFileId
-	 * @return CachedMountInfo[]
+	 * @return list<ICachedMountInfo>
 	 */
-	public function getMountsForRootId($rootFileId) {
+	public function getMountsForRootId($rootFileId): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
 			->from('mounts', 'm')
@@ -328,10 +324,12 @@ class UserMountCache implements IUserMountCache {
 			->where($builder->expr()->eq('root_id', $builder->createNamedParameter($rootFileId, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$mounts = [];
+		foreach ($result->iterateAssociative() as $row) {
+			$mounts[] = $this->dbRowToMountInfo($row);
+		}
 		$result->closeCursor();
-
-		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
+		return $mounts;
 	}
 
 	/**
