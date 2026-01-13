@@ -587,9 +587,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				$sourceEntry = $sourceStorage->getCache()->get($sourceInternalPath);
 				$sourceEntryData = $sourceEntry->getData();
 				// $sourceEntry['permissions'] here is the permissions from the jailed storage for the current
-				// user. Instead we use $sourceEntryData['scan_permissions'] that are the permissions from the
+				// user. Instead, we use $sourceEntryData['scan_permissions'] that are the permissions from the
 				// unjailed storage.
-				if (is_array($sourceEntryData) && array_key_exists('scan_permissions', $sourceEntryData)) {
+				if (is_array($sourceEntryData) && $sourceEntryData['scan_permissions'] !== null) {
 					$sourceEntry['permissions'] = $sourceEntryData['scan_permissions'];
 				}
 				$this->copyInner($sourceStorage->getCache(), $sourceEntry, $targetInternalPath);
