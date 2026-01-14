@@ -27,7 +27,6 @@ class SharesPluginTest extends \Test\TestCase {
 	private \Sabre\DAV\Server $server;
 	private \Sabre\DAV\Tree&MockObject $tree;
 	private \OCP\Share\IManager&MockObject $shareManager;
-	private Folder&MockObject $userFolder;
 	private SharesPlugin $plugin;
 
 	protected function setUp(): void {
@@ -43,12 +42,10 @@ class SharesPluginTest extends \Test\TestCase {
 		$userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->userFolder = $this->createMock(Folder::class);
 
 		$this->plugin = new SharesPlugin(
 			$this->tree,
 			$userSession,
-			$this->userFolder,
 			$this->shareManager
 		);
 		$this->plugin->initialize($this->server);
