@@ -37,7 +37,7 @@ class GetAutoExpireListTest extends TestCase {
 		int $newerAge,
 		int $olderAge,
 		int $newerSize,
-		int $olderSize
+		int $olderSize,
 	): void {
 		// Assert provider contract: newer must be younger than older
 		$this->assertLessThan(
@@ -54,13 +54,13 @@ class GetAutoExpireListTest extends TestCase {
 		$versions = [
 			$newer => [
 				'version' => $newer,
-				'size'    => $newerSize,
-				'path'    => 'f',
+				'size' => $newerSize,
+				'path' => 'f',
 			],
 			$older => [
 				'version' => $older,
-				'size'    => $olderSize,
-				'path'    => 'f',
+				'size' => $olderSize,
+				'path' => 'f',
 			],
 		];
 
