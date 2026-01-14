@@ -13,7 +13,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Interface IEncryptionModule
+ * Defines the contract for a pluggable storage encryption module.
+ *
+ * Implementations provide algorithms and key management to transparently
+ * encrypt and decrypt user file content, supporting block operations,
+ * file sharing, and migration.
  *
  * @since 8.1.0
  */
