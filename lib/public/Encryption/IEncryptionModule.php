@@ -64,33 +64,33 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function end(string $path, string $position): ?string;
+	public function end(string $path, string $position = '0'): ?string;
 
 	/**
 	 * encrypt data
 	 *
 	 * @param string $data you want to encrypt
-	 * @param string|int $position position of the block we want to encrypt (starts with '0')
+	 * @param string $position position of the block we want to encrypt (starts with '0')
 	 *
 	 * @return string encrypted data
 	 *
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function encrypt(string $data, string|int $position): string;
+	public function encrypt(string $data, string $position = '0'): string;
 
 	/**
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
-	 * @param string|int $position position of the block we want to decrypt
+	 * @param string $position position of the block we want to decrypt
 	 *
 	 * @return string decrypted data
 	 *
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function decrypt(string $data, string|int $position): string;
+	public function decrypt(string $data, string $position = '0'): string;
 
 	/**
 	 * update encrypted file, e.g. give additional users access to the file
