@@ -366,6 +366,8 @@
     "({count} selected)" : "(выбрана {count})",
     "Error loading file exists template" : "Памылка загрузкі шаблона",
     "Saving …" : "Захаванне …",
+    "Groups" : "Групы",
+    "Group list is empty" : "Спіс груп пусты",
     "seconds ago" : "с таму",
     "Connection to server lost" : "Злучэнне з серверам страчана",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Праблема з загрузкай старонкі, перазагрузка праз %n секунду","Праблема з загрузкай старонкі, перазагрузка праз %n секунды","Праблема з загрузкай старонкі, перазагрузка праз %n секунд","Праблема з загрузкай старонкі, перазагрузка праз %n секунд"],

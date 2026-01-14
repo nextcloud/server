@@ -394,6 +394,7 @@
     "({count} selected)" : "({count} imechaguliwa)",
     "Error loading file exists template" : "Hitilafu kupakia faili kiolezo kilichopo",
     "Saving …" : "Inahifadhi …",
+    "Groups" : "Makundi",
     "seconds ago" : "sukunde zilizopita",
     "Connection to server lost" : "Muunganiko kwenye seva umepotea",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problem loading page, reloading in %n second","Tatizo kupakia ukurasa, pakia upya %n sekunde"],

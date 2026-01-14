@@ -249,6 +249,7 @@
     "(all selected)" : "(barchasi tanlangan)",
     "({count} selected)" : "({count} tanlangan)",
     "Error loading file exists template" : "Fayl shablonini yuklashda xatolik yuz berdi",
+    "Groups" : "Groups",
     "seconds ago" : "soniya avval",
     "Connection to server lost" : "Serverga ulanish uzildi",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Sahifani yuklashda muammo yuz berdi, %n sekundda qayta yuklanmoqda"],
