@@ -66,6 +66,9 @@ const modules = {
 		renewPassword: resolve(import.meta.dirname, 'apps/user_ldap/src', 'renewPassword.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
 	},
+	user_picker: {
+		reference: resolve(import.meta.dirname, 'apps/user_picker/src', 'reference.js'),
+	},
 	user_status: {
 		menu: resolve(import.meta.dirname, 'apps/user_status/src', 'menu.js'),
 	},
