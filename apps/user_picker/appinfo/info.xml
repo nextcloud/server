@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_picker</id>
+	<name>Profile picker</name>
+	<summary>Profile smart picker and link preview</summary>
+	<description><![CDATA[This app adds the ability to search for user profiles via the smart picker and display link previews for them.]]></description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author mail="julien-nc@posteo.net" homepage="https://github.com/julien-nc">Julien Veyssier</author>
+	<namespace>UserPicker</namespace>
+	<category>integration</category>
+	<dependencies>
+		<nextcloud min-version="33" max-version="33"/>
+	</dependencies>
+</info>
