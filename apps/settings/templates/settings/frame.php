@@ -5,7 +5,6 @@
  */
 
 style('settings', 'settings');
-\OCP\Util::addScript('settings', 'legacy-admin');
 ?>
 
 <div id="app-navigation">
