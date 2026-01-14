@@ -38,7 +38,8 @@
 						<HandshakeOutline :size="20" />
 						{{ richObject.role }}
 					</span>
-					<span v-if="richObject.bio"
+					<span
+						v-if="richObject.bio"
 						class="bio"
 						:title="richObject.full_bio">
 						<TextAccount :size="20" />
@@ -52,13 +53,12 @@
 
 <script>
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-
 import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
-import MapMarkerOutline from 'vue-material-design-icons/MapMarkerOutline.vue'
-import Web from 'vue-material-design-icons/Web.vue'
 import Domain from 'vue-material-design-icons/Domain.vue'
 import HandshakeOutline from 'vue-material-design-icons/HandshakeOutline.vue'
+import MapMarkerOutline from 'vue-material-design-icons/MapMarkerOutline.vue'
 import TextAccount from 'vue-material-design-icons/TextAccount.vue'
+import Web from 'vue-material-design-icons/Web.vue'
 
 export default {
 	name: 'ProfilePickerReferenceWidget',
@@ -71,20 +71,24 @@ export default {
 		HandshakeOutline,
 		TextAccount,
 	},
+
 	props: {
 		richObjectType: {
 			type: String,
 			default: '',
 		},
+
 		richObject: {
 			type: Object,
 			default: null,
 		},
+
 		accessible: {
 			type: Boolean,
 			default: true,
 		},
 	},
+
 	beforeMount() {
 		console.debug('ProfilePickerReferenceWidget', this.richObject)
 	},

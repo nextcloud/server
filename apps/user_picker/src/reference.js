@@ -1,4 +1,4 @@
-import { registerWidget, registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/components/NcRichText'
+import { NcCustomPickerRenderResult, registerCustomPickerElement, registerWidget } from '@nextcloud/vue/components/NcRichText'
 
 registerWidget('user_picker_profile', async (el, { richObjectType, richObject, accessible }) => {
 	const { createApp } = await import('vue')
