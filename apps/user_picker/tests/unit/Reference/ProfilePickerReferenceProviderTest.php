@@ -334,7 +334,7 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->referenceProvider->getOpenStreetLocationUrl($location));
 	}
 
-	public function referenceDataProvider(): array {
+	public static function referenceDataProvider(): array {
 		return [
 			'not a link' => [false, 'profile_picker'],
 			'valid link to test user' => [true, 'https://nextcloud.local/index.php/u/user1'],
@@ -343,21 +343,21 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 		];
 	}
 
-	public function objectIdDataProvider(): array {
+	public static function objectIdDataProvider(): array {
 		return [
 			'valid link to test user' => ['user1', 'https://nextcloud.local/index.php/u/user1'],
 			'not valid link' => [null, 'https://nextcloud.local'],
 		];
 	}
 
-	public function cacheKeyDataProvider(): array {
+	public static function cacheKeyDataProvider(): array {
 		return [
 			'valid link to test user' => ['user1', 'https://nextcloud.local/index.php/u/user1'],
 			'not valid link' => ['https://nextcloud.local', 'https://nextcloud.local'],
 		];
 	}
 
-	public function locationDataProvider(): array {
+	public static function locationDataProvider(): array {
 		return [
 			'link to location' => ['https://www.openstreetmap.org/search?query=location', 'location'],
 			'link to Odessa' => ['https://www.openstreetmap.org/search?query=Odessa', 'Odessa'],
@@ -365,7 +365,7 @@ class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 		];
 	}
 
-	public function resolveReferenceDataProvider(): array {
+	public static function resolveReferenceDataProvider(): array {
 		return [
 			'test reference for user1' => [true, 'https://nextcloud.local/index.php/u/user1', 'user1'],
 			'test reference for user2' => [true, 'https://nextcloud.local/index.php/u/user2', 'user2'],
