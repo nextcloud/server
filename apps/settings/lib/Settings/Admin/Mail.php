@@ -17,7 +17,7 @@ use OCP\Settings\IDelegatedSettings;
 use OCP\Util;
 
 class Mail implements IDelegatedSettings {
-	
+
 	public function __construct(
 		private IConfig $config,
 		private IL10N $l,
@@ -67,6 +67,7 @@ class Mail implements IDelegatedSettings {
 			$smtpMode = 'smtp';
 		}
 
+		$smtpOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
 		$this->initialState->provideInitialState('settingsAdminMailConfig', [
 			'mail_domain' => $this->config->getSystemValue('mail_domain', ''),
 			'mail_from_address' => $this->config->getSystemValue('mail_from_address', ''),
@@ -78,6 +79,8 @@ class Mail implements IDelegatedSettings {
 			'mail_smtpname' => $this->config->getSystemValue('mail_smtpname', ''),
 			'mail_smtppassword' => $smtpPassword,
 			'mail_sendmailmode' => $this->config->getSystemValue('mail_sendmailmode', 'smtp'),
+
+			'mail_noverify' => $smtpOptions['ssl']['allow_self_signed'] ?? false,
 		]);
 
 		Util::addScript('settings', 'vue-settings-admin-mail');

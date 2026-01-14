@@ -39,6 +39,8 @@ const initialConfig = loadState<{
 	mail_smtpname: string
 	mail_smtppassword: string
 	mail_sendmailmode: string
+
+	mail_noverify: boolean
 }>('settings', 'settingsAdminMailConfig')
 const mailConfig = ref({ ...initialConfig })
 
@@ -159,6 +161,10 @@ async function onSubmit() {
 					:input-label="t('settings', 'Sendmail mode')"
 					:options="settingsAdminMail.smtpSendmailModeOptions"
 					required />
+
+				<NcCheckboxRadioSwitch v-model="mailConfig.mail_noverify" type="switch">
+					{{ t('settings', 'Disable certificate verification (insecure)') }}
+				</NcCheckboxRadioSwitch>
 			</NcFormBox>
 
 			<NcFormGroup :label="t('settings', 'From address')">

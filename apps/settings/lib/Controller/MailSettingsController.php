@@ -59,6 +59,7 @@ class MailSettingsController extends Controller {
 		?bool $mail_smtpauth,
 		string $mail_smtpport,
 		string $mail_sendmailmode,
+		?bool $mail_noverify = null,
 	): DataResponse {
 		$mail_smtpauth = $mail_smtpauth == '1';
 
@@ -74,6 +75,15 @@ class MailSettingsController extends Controller {
 		];
 		foreach ($configs as $key => $value) {
 			$configs[$key] = empty($value) ? null : $value;
+		}
+
+		if ($mail_noverify !== null) {
+			$options = $this->config->getSystemValue('mail_smtpstreamoptions', []);
+			$options['ssl'] ??= [];
+			$options['ssl']['allow_self_signed'] = $mail_noverify;
+			$options['ssl']['verify_peer'] = !$mail_noverify;
+			$options['ssl']['verify_peer_name'] = !$mail_noverify;
+			$configs['mail_smtpstreamoptions'] = $options;
 		}
 
 		// Delete passwords from config in case no auth is specified
