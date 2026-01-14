@@ -85,7 +85,8 @@ class SetupManager {
 	private bool $listeningForProviders;
 	private array $fullSetupRequired = [];
 	private bool $setupBuiltinWrappersDone = false;
-	private bool $forceFullSetup = false;
+	private bool $forceFullSetup;
+	private bool $optimizeAuthoritativeProviders;
 	private const SETUP_WITH_CHILDREN = 1;
 	private const SETUP_WITHOUT_CHILDREN = 0;
 
@@ -108,6 +109,7 @@ class SetupManager {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
 		$this->forceFullSetup = $this->config->getSystemValueBool('debug.force-full-fs-setup');
+		$this->optimizeAuthoritativeProviders = $this->config->getSystemValueBool('debug.optimize-authoritative-providers', true);
 
 		$this->setupListeners();
 	}
@@ -466,8 +468,13 @@ class SetupManager {
 		}
 
 		if ($this->fullSetupRequired($user)) {
-			$this->updateNonAuthoritativeProviders($user);
-			$this->markUserMountsCached($user);
+			if ($this->optimizeAuthoritativeProviders) {
+				$this->updateNonAuthoritativeProviders($user);
+				$this->markUserMountsCached($user);
+			} else {
+				$this->setupForUser($user);
+				return;
+			}
 		}
 
 		// for the user's home folder, and includes children we need everything always
