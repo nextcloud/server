@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { formatRelativeTime, t } from '@nextcloud/l10n'
 import { dateFactory } from './dateService.js'
 
 /**
@@ -13,7 +12,7 @@ import { dateFactory } from './dateService.js'
  * @param {object | null} clearAt The clear-at config
  * @return {number | null}
  */
-function getTimestampForClearAt(clearAt) {
+export function getTimestampForClearAt(clearAt) {
 	if (clearAt === null) {
 		return null
 	}
@@ -27,8 +26,9 @@ function getTimestampForClearAt(clearAt) {
 	if (clearAt.type === 'end-of') {
 		switch (clearAt.time) {
 			case 'day':
+				return Math.floor(getEndOfDay(date).getTime() / 1000)
 			case 'week':
-				return Number(moment(date).endOf(clearAt.time).format('X'))
+				return Math.floor(getEndOfWeek(date).getTime() / 1000)
 		}
 	}
 	// This is not an officially supported type
@@ -47,7 +47,7 @@ function getTimestampForClearAt(clearAt) {
  * @param {object} clearAt The clearAt object
  * @return {string|null}
  */
-function clearAtFormat(clearAt) {
+export function clearAtFormat(clearAt) {
 	if (clearAt === null) {
 		return t('user_status', 'Don\'t clear')
 	}
@@ -65,23 +65,35 @@ function clearAtFormat(clearAt) {
 	}
 
 	if (clearAt.type === 'period') {
-		return moment.duration(clearAt.time * 1000).humanize()
+		return formatRelativeTime(Date.now() + clearAt.time * 1000)
 	}
 
 	// This is not an officially supported type
 	// but only used internally to show the remaining time
 	// in the Set Status Modal
 	if (clearAt.type === '_time') {
-		const momentNow = moment(dateFactory())
-		const momentClearAt = moment(clearAt.time, 'X')
-
-		return moment.duration(momentNow.diff(momentClearAt)).humanize()
+		return formatRelativeTime(clearAt.time * 1000)
 	}
 
 	return null
 }
 
-export {
-	clearAtFormat,
-	getTimestampForClearAt,
+/**
+ * @param {Date} date - The date to calculate the end of the day for
+ */
+function getEndOfDay(date) {
+	const endOfDay = new Date(date)
+	endOfDay.setHours(23, 59, 59, 999)
+	return endOfDay
+}
+
+/**
+ * Calculates the end of the week for a given date
+ *
+ * @param {Date} date - The date to calculate the end of the week for
+ */
+function getEndOfWeek(date) {
+	const endOfWeek = getEndOfDay(date)
+	endOfWeek.setDate(date.getDate() + ((endOfWeek.getFirstDay() - 1 - endOfWeek.getDay() + 7) % 7))
+	return endOfWeek
 }

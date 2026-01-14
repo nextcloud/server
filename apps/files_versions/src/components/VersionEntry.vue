@@ -139,8 +139,7 @@ import type { Version } from '../utils/versions.ts'
 import { getCurrentUser } from '@nextcloud/auth'
 import { formatFileSize, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { getCanonicalLocale, t } from '@nextcloud/l10n'
 import { getRootUrl } from '@nextcloud/router'
 import { computed, nextTick, ref } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -233,7 +232,13 @@ const versionAuthor = computed(() => {
 })
 
 const versionHumanExplicitDate = computed(() => {
-	return moment(props.version.mtime).format('LLLL')
+	return new Date(props.version.mtime).toLocaleString(
+		[getCanonicalLocale(), getCanonicalLocale().split('-')[0]!],
+		{
+			timeStyle: 'long',
+			dateStyle: 'long',
+		},
+	)
 })
 
 const downloadURL = computed(() => {
