@@ -145,6 +145,10 @@ class Encryption implements IEncryptionModule {
 		return $result;
 	}
 
+	/**
+	 * @throws PublicKeyMissingException
+	 * @throws MultiKeyEncryptException
+	 */
 	public function end(string $path, string $position = '0'): string {
 		$result = '';
 		if ($this->isWriteOperation) {
