@@ -37,6 +37,5 @@ registerCustomPickerElement('profile_picker', async (el, { providerId, accessibl
 
 	return new NcCustomPickerRenderResult(el, app)
 }, (el, renderResult) => {
-	console.debug('Users picker custom picker destroy callback. el', el, 'renderResult:', renderResult)
 	renderResult.object.unmount()
 }, 'normal')

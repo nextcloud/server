@@ -64,6 +64,7 @@ import HandshakeOutline from 'vue-material-design-icons/HandshakeOutline.vue'
 import MapMarkerOutline from 'vue-material-design-icons/MapMarkerOutline.vue'
 import TextAccount from 'vue-material-design-icons/TextAccount.vue'
 import Web from 'vue-material-design-icons/Web.vue'
+import { logger } from '../utils/logger.ts'
 
 export default {
 	name: 'ProfilePickerReferenceWidget',
@@ -95,7 +96,7 @@ export default {
 	},
 
 	beforeMount() {
-		console.debug('ProfilePickerReferenceWidget', this.richObject)
+		logger.debug('ProfilePickerReferenceWidget', this.richObject)
 	},
 }
 </script>
