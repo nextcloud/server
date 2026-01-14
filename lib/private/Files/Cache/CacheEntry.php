@@ -90,7 +90,7 @@ class CacheEntry implements ICacheEntry {
 		return $this->data['etag'];
 	}
 
-	public function getPermissions() {
+	public function getPermissions(): int {
 		return $this->data['permissions'];
 	}
 
