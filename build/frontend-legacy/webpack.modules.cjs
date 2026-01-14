@@ -29,6 +29,7 @@ module.exports = {
 		public: path.join(__dirname, 'core/src', 'public.ts'),
 		public_share_auth: path.join(__dirname, 'core/src', 'public-share-auth.ts'),
 		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
+		update: path.join(__dirname, 'core/src', 'update.ts'),
 	},
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
