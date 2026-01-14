@@ -33,72 +33,95 @@ class GetAutoExpireListTest extends TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideBucketKeepsLatest')]
-	public function testBucketKeepsLatest(int $age1, int $age2, int $size1, int $size2): void {
+	public function testBucketKeepsLatest(
+		int $newerAge,
+		int $olderAge,
+		int $newerSize,
+		int $olderSize
+	): void {
+		// Assert provider contract: newer must be younger than older
+		$this->assertLessThan(
+			$olderAge,
+			$newerAge,
+			'Invalid test data: newerAge must be smaller than olderAge'
+		);
+
 		$now = time();
 
-		$first = $now - $age1;
-		$second = $now - $age2;
-
-		// Ensure first is newer than second
-		if ($first < $second) {
-			[$first, $second] = [$second, $first];
-			[$size1, $size2] = [$size2, $size1];
-		}
+		$newer = $now - $newerAge;
+		$older = $now - $olderAge;
 
 		$versions = [
-			$first => ['version' => $first,  'size' => $size1, 'path' => 'f'],
-			$second => ['version' => $second, 'size' => $size2, 'path' => 'f'],
+			$newer => [
+				'version' => $newer,
+				'size'    => $newerSize,
+				'path'    => 'f',
+			],
+			$older => [
+				'version' => $older,
+				'size'    => $olderSize,
+				'path'    => 'f',
+			],
 		];
 
-		[$toDelete, $size] = self::callGetAutoExpireList($now, $versions);
+		[$toDelete, $deletedSize] = self::callGetAutoExpireList($now, $versions);
 
 		$deletedKeys = array_map('intval', array_keys($toDelete));
 
-		$this->assertEquals([$second], $deletedKeys, 'Older version was not deleted');
-		$this->assertEquals($versions[$second]['size'], $size, 'Deleted size mismatch');
+		$this->assertSame(
+			[$older],
+			$deletedKeys,
+			'Older version was not deleted'
+		);
+
+		$this->assertSame(
+			$olderSize,
+			$deletedSize,
+			'Deleted size mismatch'
+		);
 	}
 
 	public static function provideBucketKeepsLatest(): array {
 		$DAY = 24 * 60 * 60;
 
 		return [
-			'minute' => [
-				8,   // 8s old
-				9,   // 9s old
+			'seconds-range' => [
+				8,    // newer (8s old)
+				9,    // older (9s old)
 				5,
 				6,
 			],
-			'hour' => [
-				120, // 2 minutes old
-				150, // 2m30s old
+			'minutes-range' => [
+				120,  // 2 minutes old
+				150,  // 2.5 minutes old
 				10,
 				11,
 			],
-			'day' => [
+			'hours-range' => [
 				5 * 3600,          // 5 hours old
-				5 * 3600 + 1800,   // 5.5h old
+				5 * 3600 + 1800,   // 5.5 hours old
 				20,
 				21,
 			],
-			'week' => [
+			'days-range' => [
 				2 * $DAY,               // 2 days old
 				2 * $DAY + 6 * 3600,    // 2.25 days old
 				40,
 				41,
 			],
-			'month' => [
+			'weeks-range' => [
 				5 * $DAY,               // 5 days old
 				5 * $DAY + 12 * 3600,   // 5.5 days old
 				30,
 				31,
 			],
-			'year' => [
+			'months-range' => [
 				35 * $DAY,   // 35 days old
 				37 * $DAY,   // 37 days old
 				42,
 				43,
 			],
-			'beyond-year' => [
+			'beyond-year-range' => [
 				400 * $DAY,  // ~13.3 months old
 				405 * $DAY,  // ~13.5 months old
 				50,
@@ -106,6 +129,7 @@ class GetAutoExpireListTest extends TestCase {
 			],
 		];
 	}
+
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideVersionRetentionRanges')]
 	public function testRetentionOverTimeEveryTenMinutes(
