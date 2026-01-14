@@ -7,7 +7,7 @@
 					<a :href="richObject.url" target="_blank">
 						<AccountOutline :size="20" />
 						<strong>
-							{{ richObject.email !== null ? richObject.title + ' - ' + richObject.email : richObject.title }}
+							AAA {{ richObject.email !== null ? richObject.title + ' - ' + richObject.email : richObject.title }}
 						</strong>
 					</a>
 				</div>
@@ -106,7 +106,7 @@ export default {
 		&__header {
 			width: 100%;
 			min-height: 70px;
-			padding-left: 12px;
+			padding: 0 12px;
 			background-color: var(--color-primary);
 			background-image: var(--gradient-primary-background);
 			position: relative;
