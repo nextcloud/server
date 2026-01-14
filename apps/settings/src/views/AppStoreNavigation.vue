@@ -99,7 +99,6 @@
 					</template>
 				</NcAppNavigationItem>
 			</template>
-
 		</template>
 	</NcAppNavigation>
 </template>
