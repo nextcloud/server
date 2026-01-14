@@ -1,13 +1,12 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Contacts\Reference;
+namespace OCA\UserPicker\Reference;
 
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -21,7 +20,7 @@ use OCP\IUserManager;
 use OCP\Profile\IProfileManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ProfilePickerReferenceProviderTest extends TestCase {
+class ProfilePickerReferenceProviderTest extends \Test\TestCase {
 	private string $userId = 'admin';
 	private IUser|MockObject $adminUser;
 	private IL10N|MockObject $l10n;
