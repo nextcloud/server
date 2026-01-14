@@ -150,7 +150,7 @@ class Cache implements ICache {
 	 * Create a CacheEntry from database row
 	 */
 	public static function cacheEntryFromData(array $data, IMimeTypeLoader $mimetypeLoader): CacheEntry {
-		return new CacheEntry([
+		$normalized = [
 			'name' => (string)$data['name'],
 			'etag' => (string)$data['etag'],
 			'path' => (string)$data['path'],
@@ -177,7 +177,21 @@ class Cache implements ICache {
 			'metadata' => $data['metadata'] ?? null,
 			'meta_json' => $data['meta_json'] ?? null,
 			'meta_sync_token' => $data['meta_sync_token'] ?? null,
-		]);
+		];
+
+		if (isset($data['folder_id'])) {
+			// groupfolders specific fields
+			$normalized['folder_id'] = (int)$data['folder_id'];
+			$normalized['mount_point'] = (string)$data['mount_point'];
+			$normalized['quota'] = $data['quota'];
+			$normalized['acl'] = (int)$data['acl'];
+			$normalized['acl_default_no_permission'] = (int)$data['acl_default_no_permission'];
+			$normalized['storage_id'] = (int)$data['storage_id'];
+			$normalized['root_id'] = (int)$data['root_id'];
+			$normalized['options'] = (string)$data['options'];
+		}
+
+		return new CacheEntry($normalized);
 	}
 
 	/**
