@@ -59,6 +59,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
+import { logger } from '../utils/logger.ts'
 
 export default {
 	name: 'ProfilesCustomPicker',
@@ -145,8 +146,8 @@ export default {
 						isNoUser: userAutocomplete.source.startsWith('users'),
 					}
 				})
-			} catch (err) {
-				console.error(err)
+			} catch (error) {
+				logger.error('user_picker: error while searching for users', { error })
 			} finally {
 				this.loading = false
 			}
@@ -168,8 +169,8 @@ export default {
 					signal: this.abortController.signal,
 				})
 				this.reference = res.data.ocs.data.references[this.resultUrl]
-			} catch (err) {
-				console.error(err)
+			} catch (error) {
+				logger.error('user_picker: error resolving the user profile link', { error })
 			} finally {
 				this.loading = false
 			}
