@@ -48,7 +48,7 @@ export function isSyncable(node: Node): boolean {
 		return false
 	}
 
-	if ((node.permissions & Permission.UPDATE) === 0) {
+	if ((node.permissions & Permission.WRITE) === 0) {
 		return false
 	}
 
