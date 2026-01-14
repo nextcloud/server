@@ -521,6 +521,10 @@ class SetupManager {
 			if (is_a($mountProvider, IPartialMountProvider::class, true)) {
 				$rootId = $cachedMount->getRootId();
 				$rootMetadata = $this->fileAccess->getByFileId($rootId);
+				if (!$rootMetadata) {
+					$this->setupForUser($user);
+					return;
+				}
 				$providerArgs = new MountProviderArgs($cachedMount, $rootMetadata);
 				// mark the path as cached (without children for now...)
 				$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITHOUT_CHILDREN;
