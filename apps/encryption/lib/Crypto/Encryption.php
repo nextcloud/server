@@ -394,13 +394,16 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
-	 * @param string $path
-	 * @return string
+	 * Converts a versions file path to its canonical user file path.
+	 *
+	 * @param string $path File path (may be a versions path)
+	 * @return string Canonical file path
 	 */
 	protected function getPathToRealFile(string $path): string {
 		$realPath = $path;
 		$parts = explode('/', $path);
 		if ($parts[2] === 'files_versions') {
+			// e.g., "/user/files_versions/document.txt.v1234567890" --> "/user/files/document.txt"
 			$realPath = '/' . $parts[1] . '/files/' . implode('/', array_slice($parts, 3));
 			$length = strrpos($realPath, '.');
 			$realPath = substr($realPath, 0, $length);
@@ -410,11 +413,11 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
-	 * remove .part file extension and the ocTransferId from the file to get the
-	 * original file name
+	 * Removes the .part extension and ocTransferId from a part file path,
+	 * returning the original file name.
 	 *
-	 * @param string $path
-	 * @return string
+	 * @param string $path File path, possibly with .part extension and ocTransferId
+	 * @return string Original file path without temporary upload markers
 	 */
 	protected function stripPartFileExtension(string $path): string {
 		if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
@@ -426,10 +429,10 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
-	 * get owner of a file
+	 * Returns and caches the storage owner for a given file path.
 	 *
-	 * @param string $path
-	 * @return string
+	 * @param string $path File path
+	 * @return string User id of file owner
 	 */
 	protected function getOwner(string $path): string {
 		if (!isset($this->owner[$path])) {
