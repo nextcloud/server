@@ -231,6 +231,13 @@ class SetupManager {
 	 * Update the cached mounts for all non-authoritative mount providers for a user.
 	 */
 	private function updateNonAuthoritativeProviders(IUser $user): void {
+		// prevent recursion loop from when getting mounts from providers ends up setting up the filesystem
+		static $updatingProviders = false;
+		if ($updatingProviders) {
+			return;
+		}
+		$updatingProviders = true;
+
 		$providers = $this->mountProviderCollection->getProviders();
 		$nonAuthoritativeProviders = array_filter(
 			$providers,
@@ -243,6 +250,8 @@ class SetupManager {
 		$providerNames = array_map(fn (IMountProvider $provider) => get_class($provider), $nonAuthoritativeProviders);
 		$mount = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providerNames);
 		$this->userMountCache->registerMounts($user, $mount, $providerNames);
+
+		$updatingProviders = false;
 	}
 
 	/**
