@@ -117,6 +117,9 @@ This file is generated from multiple sources. Included packages:
 - axios
 	- version: 1.12.2
 	- license: MIT
+- bail
+	- version: 2.0.2
+	- license: MIT
 - base64-js
 	- version: 1.5.1
 	- license: MIT
@@ -173,6 +176,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-buffer
 	- version: 1.1.6
+	- license: MIT
+- is-plain-obj
+	- version: 4.1.0
 	- license: MIT
 - md5
 	- version: 2.3.0
