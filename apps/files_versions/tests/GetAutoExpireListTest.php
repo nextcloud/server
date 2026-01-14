@@ -70,14 +70,12 @@ class GetAutoExpireListTest extends TestCase {
 
 		$this->assertSame(
 			[$older],
-			$deletedKeys,
-			'Older version was not deleted'
+			$deletedKeys
 		);
 
 		$this->assertSame(
 			$olderSize,
-			$deletedSize,
-			'Deleted size mismatch'
+			$deletedSize
 		);
 	}
 
