@@ -9,12 +9,19 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s dikomentari pada %2$s",
     "{author} commented on {file}" : "{author} berkomentar pada {file}",
     "<strong>Comments</strong> for files" : "<strong>komentar</strong> pada file",
+    "Files" : "File",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Anda disebutkan pada \"{file}\", dalam sebuah komentar oleh akun yang sejak itu telah dihapus",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} menyebut Anda dalam sebuah komentar pada \"{file}\" ",
     "Files app plugin to add comments to files" : "Plugin aplikasi file untuk menambah komentar pada file",
     "Edit comment" : "Sunting komentar",
     "Delete comment" : "Hapus komentar",
     "Cancel edit" : "Batal sunting",
+    "New comment" : "Komentar baru",
+    "Write a comment …" : "Tulis komentar …",
     "Post comment" : "Posting komentar",
+    "@ for mentions, : for emoji, / for smart picker" : "@ untuk penyebutan, : untuk emoji, / untuk pemilih cerdas",
+    "Could not reload comments" : "Tidak dapat memuat ulang komentar",
+    "Failed to mark comments as read" : "Gagal menandai komentar sebagai sudah dibaca",
     "Unable to load the comments list" : "Tidak dapat memuat daftar komentar",
     "No comments yet, start the conversation!" : "Belum ada yang berkomentar, mulailah perbincangan!",
     "No more messages" : "Tidak ada pesan lagi",
@@ -23,6 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Terjadi kesalahan ketika mencoba menyunting komentar",
     "Comment deleted" : "Komentar dihapus",
     "An error occurred while trying to delete the comment" : "Terjadi kesalahan ketika mencoba untuk menghapus komentar",
-    "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar"
+    "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar",
+    "Write a comment …" : "Tulis komentar …"
 },
 "nplurals=1; plural=0;");

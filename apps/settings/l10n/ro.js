@@ -7,9 +7,6 @@ OC.L10N.register(
     "So-so password" : "Parolă medie",
     "Good password" : "Parolă bună",
     "Strong password" : "Parolă puternică",
-    "Groups" : "Grupuri",
-    "Group list is empty" : "Lista de grupuri este goală",
-    "Unable to retrieve the group list" : "Nu s-a putut obține lista de grupuri",
     "{actor} added you to group {group}" : "{actor} te-a adăugat în grupul {group}",
     "You added {user} to group {group}" : "Ai adăugat {user} în grupul {group}",
     "{actor} added {user} to group {group}" : "{actor} a adăugat pe {user} în grupul {group}",
@@ -139,6 +136,7 @@ OC.L10N.register(
     "Level" : "Nivel",
     "Actions" : "Acțiuni",
     "No apps found for your version" : "Nu au fost găsite aplicații pentru versiunea ta",
+    "Groups" : "Grupuri",
     "Group name" : "Numele grupului",
     "Type" : "Tip",
     "Learn more" : "Află mai mult",
@@ -268,6 +266,8 @@ OC.L10N.register(
     "SMTP Password" : "Parolă SMTP",
     "Save" : "Salvează",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile.",
+    "Group list is empty" : "Lista de grupuri este goală",
+    "Unable to retrieve the group list" : "Nu s-a putut obține lista de grupuri",
     "Adding your device …" : "Adăugarea dispozitivului dvs ..."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
