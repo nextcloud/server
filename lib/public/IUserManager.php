@@ -62,6 +62,9 @@ interface IUserManager {
 	/**
 	 * get a user by user id
 	 *
+	 * If you're already 100% sure that the user exists,
+	 * consider IUserManager::getExistingUser which has less overhead.
+	 *
 	 * @param string $uid
 	 * @return \OCP\IUser|null Either the user or null if the specified user does not exist
 	 * @since 8.0.0
@@ -248,4 +251,19 @@ interface IUserManager {
 	 * @since 32.0.0
 	 */
 	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator;
+
+	/**
+	 * Get a user by user id without validating that the user exists.
+	 *
+	 * This should only be used if you're certain that the provided user id exists in the system.
+	 * Using this to get a user object for a non-existing user will lead to unexpected behavior down the line.
+	 *
+	 * If you're not 100% sure that the user exists, use IUserManager::get instead.
+	 *
+	 * @param string $userId
+	 * @param ?string $displayName If the display name is known in advance you can provide it so it doesn't have to be fetched again
+	 * @return IUser
+	 * @since 33.0.0
+	 */
+	public function getExistingUser(string $userId, ?string $displayName = null): IUser;
 }
