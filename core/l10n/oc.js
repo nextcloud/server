@@ -160,6 +160,8 @@ OC.L10N.register(
     "Continue" : "Contunhar",
     "(all selected)" : "(totes seleccionats)",
     "({count} selected)" : "({count} seleccionats)",
+    "Group list is empty" : "La lista de grop es voida",
+    "Unable to retrieve the group list" : "Recuperacion de la lista de grops impossibla",
     "seconds ago" : "fa qualques segondas",
     "Connection to server lost" : "Connexion al servidor perduda",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["Problèma de cargar de la pagina, actualizacion d’aquí %n seconda","Problèma de cargar de la pagina, actualizacion d’aquí %n secondas"],
