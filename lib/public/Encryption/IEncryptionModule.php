@@ -58,13 +58,17 @@ interface IEncryptionModule {
 	 * @param string $path to the file
 	 * @param string $position id of the last block (looks like "<Number>end")
 	 *
-	 * @return string|null remained data which should be written to the file in case
-	 *                of a write operation, or null
+	 * @return string remained data which should be written to the file in case
+	 *                of a write operation
+	 *
+	 * @throws PublicKeyMissingException
+	 * @throws \Exception
+	 * @throws MultiKeyEncryptException
 	 *
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function end(string $path, string $position = '0'): ?string;
+	public function end(string $path, string $position = '0'): string;
 
 	/**
 	 * encrypt data
@@ -86,6 +90,8 @@ interface IEncryptionModule {
 	 * @param string $position position of the block we want to decrypt
 	 *
 	 * @return string decrypted data
+	 *
+	 * @throws DecryptionFailedException
 	 *
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
