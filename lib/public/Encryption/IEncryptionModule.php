@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 namespace OCP\Encryption;
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -65,9 +66,7 @@ interface IEncryptionModule {
 	 * @return string remained data which should be written to the file in case
 	 *                of a write operation
 	 *
-	 * @throws PublicKeyMissingException
 	 * @throws \Exception
-	 * @throws MultiKeyEncryptException
 	 *
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
