@@ -5,14 +5,14 @@
 				{{ t('user_picker', 'Profile picker') }}
 			</h2>
 			<div class="input-wrapper">
-				<NcSelect ref="profiles-search-input"
+				<NcSelect
+					ref="profiles-search-input"
 					v-model="selectedProfile"
 					input-id="profiles-search"
 					:loading="loading"
 					:filterable="false"
 					:placeholder="t('user_picker', 'Search for a user profile')"
 					:clear-search-on-blur="() => false"
-					:user-select="true"
 					:multiple="false"
 					:options="options"
 					label="displayName"
@@ -30,7 +30,8 @@
 			</NcEmptyContent>
 		</div>
 		<div class="profile-picker__footer">
-			<NcButton v-if="selectedProfile !== null"
+			<NcButton
+				v-if="selectedProfile !== null"
 				variant="primary"
 				:aria-label="t('user_picker', 'Insert selected user profile link')"
 				:disabled="loading || selectedProfile === null"
@@ -48,11 +49,9 @@
 import axios from '@nextcloud/axios'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import debounce from 'debounce'
-
-import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 
@@ -72,6 +71,7 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		accessible: {
 			type: Boolean,
 			default: false,
@@ -97,8 +97,9 @@ export default {
 			}
 			return []
 		},
+
 		noResultText() {
-			return this.loading ? t('user_picker', 'Searching …') : t('user_picker', 'Not found')
+			return this.loading ? t('user_picker', 'Searching …') : t('user_picker', 'Not found')
 		},
 	},
 
@@ -130,7 +131,7 @@ export default {
 			const url = generateOcsUrl('core/autocomplete/get?search={searchQuery}&itemType=%20&itemId=%20&shareTypes[]=0&limit=20', { searchQuery: query })
 			try {
 				const res = await axios.get(url)
-				this.profiles = res.data.ocs.data.map(userAutocomplete => {
+				this.profiles = res.data.ocs.data.map((userAutocomplete) => {
 					return {
 						user: userAutocomplete.id,
 						displayName: userAutocomplete.label,
