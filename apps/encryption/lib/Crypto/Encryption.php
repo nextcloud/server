@@ -266,7 +266,7 @@ class Encryption implements IEncryptionModule {
 		);
 	}
 
-	public function update(string $path, string $uid, array $accessList): bool {
+	public function update(string $path, ?string $uid, array $accessList): bool {
 		if (empty($accessList)) {
 			if (isset(self::$rememberVersion[$path])) {
 				$this->keyManager->setVersion($path, self::$rememberVersion[$path], new View());
@@ -357,7 +357,7 @@ class Encryption implements IEncryptionModule {
 		}
 	}
 
-	public function isReadable(string $path, string $uid): bool {
+	public function isReadable(string $path, ?string $uid): bool {
 		$fileKey = $this->keyManager->getFileKey($path, null);
 		if (empty($fileKey)) {
 			$owner = $this->util->getOwner($path);
