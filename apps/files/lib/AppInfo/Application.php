@@ -125,6 +125,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerDashboardWidget(FavoriteWidget::class);
+
 	}
 
 	public function boot(IBootContext $context): void {

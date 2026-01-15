@@ -14,9 +14,12 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,20 +28,14 @@ use Psr\Log\LoggerInterface;
  * @package Test\Files\Node
  */
 class RootTest extends \Test\TestCase {
-	/** @var \OC\User\User */
-	private $user;
-	/** @var \OC\Files\Mount\Manager */
-	private $manager;
-	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
-	private $userMountCache;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $cacheFactory;
+	private IUser&MockObject $user;
+	private Manager&MockObject $manager;
+	private IUserMountCache&MockObject $userMountCache;
+	private LoggerInterface&MockObject $logger;
+	private IUserManager&MockObject $userManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	protected ICacheFactory&MockObject $cacheFactory;
+	protected IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,10 +55,11 @@ class RootTest extends \Test\TestCase {
 			->willReturnCallback(function () {
 				return new ArrayCache();
 			});
+		$this->appConfig = $this->createMock(IAppConfig::class);
 	}
 
 	/**
-	 * @return \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+	 * @return \OC\Files\View &MockObject $view
 	 */
 	protected function getRootViewMock() {
 		$view = $this->createMock(View::class);
@@ -92,6 +90,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$view->expects($this->once())
@@ -125,6 +124,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$view->expects($this->once())
@@ -150,6 +150,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$root->get('/../foo');
@@ -169,6 +170,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$root->get('/bar/foo');
@@ -184,6 +186,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 		$user = $this->createMock(IUser::class);
 		$user
@@ -195,7 +198,7 @@ class RootTest extends \Test\TestCase {
 			->method('get')
 			->with('MyUserId')
 			->willReturn($user);
-		/** @var CappedMemoryCache|\PHPUnit\Framework\MockObject\MockObject $cappedMemoryCache */
+		/** @var CappedMemoryCache&MockObject $cappedMemoryCache */
 		$cappedMemoryCache = $this->createMock(CappedMemoryCache::class);
 		$cappedMemoryCache
 			->expects($this->once())
@@ -226,6 +229,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 		$this->userManager
 			->expects($this->once())

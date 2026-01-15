@@ -9,6 +9,7 @@ namespace OCA\Files_External\Service;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -20,14 +21,6 @@ use OCP\IUserSession;
 class UserGlobalStoragesService extends GlobalStoragesService {
 	use UserTrait;
 
-	/**
-	 * @param BackendService $backendService
-	 * @param DBConfigService $dbConfig
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param IUserMountCache $userMountCache
-	 * @param IEventDispatcher $eventDispatcher
-	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
@@ -35,8 +28,9 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		protected IGroupManager $groupManager,
 		IUserMountCache $userMountCache,
 		IEventDispatcher $eventDispatcher,
+		IAppConfig $appConfig,
 	) {
-		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
+		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher, $appConfig);
 		$this->userSession = $userSession;
 	}
 
