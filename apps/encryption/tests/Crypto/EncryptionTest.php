@@ -95,8 +95,44 @@ class EncryptionTest extends TestCase {
 			->method('decryptAllModeActivated')
 			->willReturn(false);
 
+		// Mocks for methods needed before begin()
+		$this->keyManagerMock->expects($this->any())
+			->method('getFileKey')
+			->willReturn('fileKey');
+		$this->cryptMock->expects($this->any())
+			->method('getCipher')
+			->willReturn('AES-256-CTR');
+		$this->cryptMock->expects($this->any())
+			->method('getLegacyCipher')
+			->willReturn('AES-128-CFB');
+		$this->cryptMock->expects($this->any())
+			->method('useLegacyBase64Encoding')
+			->willReturn(false);
+		$this->cryptMock->expects($this->any())
+			->method('generateFileKey')
+			->willReturn('fileKey');
+
+		// Prepare the post-begin mocks for end() phase
+		$this->keyManagerMock->expects($this->any())
+			->method('getPublicKey')
+			->willReturnCallback([$this, 'getPublicKeyCallback']);
+		$this->keyManagerMock->expects($this->any())
+			->method('addSystemKeys')
+			->willReturnCallback([$this, 'addSystemKeysCallback']);
+		$this->cryptMock->expects($this->any())
+			->method('multiKeyEncrypt')
+			->willReturn([
+				'user1' => 'encForUser1',
+				'user3' => 'encForUser3',
+			]);
+
+		// Begin the encryption process as user1, with user2 missing their public key
 		$this->instance->begin('/foo/bar', 'user1', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
-		$this->endTest();
+
+		// Set internal state to simulate write and call end()
+		self::invokePrivate($this->instance, 'isWriteOperation', [true]);
+		self::invokePrivate($this->instance, 'writeCache', ['']);
+		$this->instance->end('/foo/bar');
 	}
 
 	/**
@@ -108,35 +144,42 @@ class EncryptionTest extends TestCase {
 			->method('decryptAllModeActivated')
 			->willReturn(false);
 
-		$this->expectException(PublicKeyMissingException::class);
+		// Mocks for methods needed before begin()
+		$this->keyManagerMock->expects($this->any())
+			->method('getFileKey')
+			->willReturn('fileKey');
+		$this->cryptMock->expects($this->any())
+			->method('getCipher')
+			->willReturn('AES-256-CTR');
+		$this->cryptMock->expects($this->any())
+			->method('getLegacyCipher')
+			->willReturn('AES-128-CFB');
+		$this->cryptMock->expects($this->any())
+			->method('useLegacyBase64Encoding')
+			->willReturn(false);
+		$this->cryptMock->expects($this->any())
+			->method('generateFileKey')
+			->willReturn('fileKey');
 
-		$this->instance->begin('/foo/bar', 'user2', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
-		$this->endTest();
-	}
-
-	/**
-	 * common part of testEndUser1 and testEndUser2
-	 *
-	 * @throws PublicKeyMissingException
-	 */
-	public function endTest() {
-		// prepare internal variables
-		self::invokePrivate($this->instance, 'isWriteOperation', [true]);
-		self::invokePrivate($this->instance, 'writeCache', ['']);
-
+		// Prepare the post-begin mocks for end() phase
 		$this->keyManagerMock->expects($this->any())
 			->method('getPublicKey')
 			->willReturnCallback([$this, 'getPublicKeyCallback']);
 		$this->keyManagerMock->expects($this->any())
 			->method('addSystemKeys')
 			->willReturnCallback([$this, 'addSystemKeysCallback']);
-		$this->cryptMock->expects($this->any())
-			->method('multiKeyEncrypt')
-			->willReturn([]);
+		$this->cryptMock->expects($this->never())
+			->method('multiKeyEncrypt');
 
+		$this->expectException(PublicKeyMissingException::class);
+
+		$this->instance->begin('/foo/bar', 'user2', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
+
+		// Set internal state to simulate write and call end()
+		self::invokePrivate($this->instance, 'isWriteOperation', [true]);
+		self::invokePrivate($this->instance, 'writeCache', ['']);
 		$this->instance->end('/foo/bar');
 	}
-
 
 	public function getPublicKeyCallback($uid) {
 		if ($uid === 'user2') {
