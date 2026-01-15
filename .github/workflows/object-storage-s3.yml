@@ -29,16 +29,14 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
+              - 'apps/files_external/**'
               - 'vendor/**'
               - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
-              - '**.php'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
 
   s3-primary-tests-minio:
     runs-on: ubuntu-latest
