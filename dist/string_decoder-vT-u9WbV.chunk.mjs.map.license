@@ -1,0 +1,29 @@
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: string_decoder developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/l10n
+	- version: 3.4.1
+	- license: GPL-3.0-or-later
+- dompurify
+	- version: 3.3.1
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- safe-buffer
+	- version: 5.1.2
+	- license: MIT
+- string_decoder
+	- version: 1.1.1
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT
