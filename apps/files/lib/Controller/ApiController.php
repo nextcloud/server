@@ -201,9 +201,7 @@ class ApiController extends Controller {
 		];
 		$shareTypes = [];
 
-		$nodeIds = array_map(function (Node $node) {
-			return $node->getId();
-		}, $nodes);
+		$nodeIds = array_filter(array_map(fn (Node $node): ?int => $node->getId(), $nodes));
 
 		foreach ($requestedShareTypes as $shareType) {
 			$nodesLeft = array_combine($nodeIds, array_fill(0, count($nodeIds), true));

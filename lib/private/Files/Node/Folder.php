@@ -14,6 +14,7 @@ use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Utils\PathHelper;
 use OC\User\LazyUser;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder as IFolder;
@@ -26,31 +27,23 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
+use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
 use Override;
 
 class Folder extends Node implements IFolder {
 
 	private ?IUserManager $userManager = null;
-
 	private bool $wasDeleted = false;
 
-	/**
-	 * Creates a Folder that represents a non-existing path
-	 *
-	 * @param string $path path
-	 * @return NonExistingFolder non-existing node
-	 */
-	protected function createNonExistingNode($path) {
+	#[Override]
+	protected function createNonExistingNode(string $path): NonExistingFolder {
 		return new NonExistingFolder($this->root, $this->view, $path);
 	}
 
-	/**
-	 * @param string $path path relative to the folder
-	 * @return string
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function getFullPath($path) {
+	#[Override]
+	public function getFullPath(string $path): string {
 		$path = $this->normalizePath($path);
 		if (!$this->isValidPath($path)) {
 			throw new NotPermittedException('Invalid path "' . $path . '"');
@@ -58,31 +51,18 @@ class Folder extends Node implements IFolder {
 		return $this->path . $path;
 	}
 
-	/**
-	 * @param string $path
-	 * @return string|null
-	 */
-	public function getRelativePath($path) {
+	#[Override]
+	public function getRelativePath(string $path): ?string {
 		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
 
-	/**
-	 * check if a node is a (grand-)child of the folder
-	 *
-	 * @param \OC\Files\Node\Node $node
-	 * @return bool
-	 */
-	public function isSubNode($node) {
+	#[Override]
+	public function isSubNode(INode $node): bool {
 		return str_starts_with($node->getPath(), $this->path . '/');
 	}
 
-	/**
-	 * get the content of this directory
-	 *
-	 * @return Node[]
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function getDirectoryListing() {
+	#[Override]
+	public function getDirectoryListing(): array {
 		$folderContent = $this->view->getDirectoryContent($this->path, '', $this->getFileInfo(false));
 
 		return array_map(function (FileInfo $info) {
@@ -108,11 +88,11 @@ class Folder extends Node implements IFolder {
 		}
 	}
 
-	public function get($path) {
+	public function get(string $path): INode {
 		return $this->root->get($this->getFullPath($path));
 	}
 
-	public function nodeExists($path) {
+	public function nodeExists(string $path): bool {
 		try {
 			$this->get($path);
 			return true;
@@ -121,13 +101,9 @@ class Folder extends Node implements IFolder {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @return \OC\Files\Node\Folder
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function newFolder($path) {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
+	#[Override]
+	public function newFolder(string $path): self {
+		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
@@ -156,18 +132,13 @@ class Folder extends Node implements IFolder {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param string | resource | null $content
-	 * @return \OC\Files\Node\File
-	 * @throws \OCP\Files\NotPermittedException
-	 */
-	public function newFile($path, $content = null) {
+	#[Override]
+	public function newFile(string $path, $content = null): File {
 		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
 		$this->recreateIfNeeded();
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
@@ -190,20 +161,16 @@ class Folder extends Node implements IFolder {
 		if ($uid === null) {
 			$user = null;
 		} else {
-			/** @var IUserManager $userManager */
-			$userManager = \OCP\Server::get(IUserManager::class);
-			$user = $userManager->get($uid);
+			if ($this->userManager === null) {
+				$this->userManager = Server::get(IUserManager::class);
+			}
+			$user = $this->userManager->get($uid);
 		}
 		return new SearchQuery($operator, $limit, $offset, [], $user);
 	}
 
-	/**
-	 * search for files with the name matching $query
-	 *
-	 * @param string|ISearchQuery $query
-	 * @return \OC\Files\Node\Node[]
-	 */
-	public function search($query) {
+	#[Override]
+	public function search(string|ISearchQuery $query): array {
 		if (is_string($query)) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
 		}
@@ -217,7 +184,7 @@ class Folder extends Node implements IFolder {
 		}
 
 		/** @var QuerySearchHelper $searchHelper */
-		$searchHelper = \OC::$server->get(QuerySearchHelper::class);
+		$searchHelper = Server::get(QuerySearchHelper::class);
 		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch($this->root, $this->path, $limitToHome);
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
@@ -264,7 +231,7 @@ class Folder extends Node implements IFolder {
 		if ($ownerId !== false) {
 			// Cache the user manager (for performance)
 			if ($this->userManager === null) {
-				$this->userManager = \OCP\Server::get(IUserManager::class);
+				$this->userManager = Server::get(IUserManager::class);
 			}
 			$owner = new LazyUser($ownerId, $this->userManager);
 		}
@@ -279,13 +246,8 @@ class Folder extends Node implements IFolder {
 		);
 	}
 
-	/**
-	 * search for files by mimetype
-	 *
-	 * @param string $mimetype
-	 * @return Node[]
-	 */
-	public function searchByMime($mimetype) {
+	#[Override]
+	public function searchByMime(string $mimetype): array {
 		if (!str_contains($mimetype, '/')) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%'));
 		} else {
@@ -294,37 +256,30 @@ class Folder extends Node implements IFolder {
 		return $this->search($query);
 	}
 
-	/**
-	 * search for files by tag
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return Node[]
-	 */
-	public function searchByTag($tag, $userId) {
+	#[Override]
+	public function searchByTag(string|int $tag, string $userId): array {
 		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'tagname', $tag), $userId);
 		return $this->search($query);
 	}
 
+	#[Override]
 	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0): array {
 		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'systemtag', $tagName), $userId, $limit, $offset);
 		return $this->search($query);
 	}
 
-	/**
-	 * @param int $id
-	 * @return \OCP\Files\Node[]
-	 */
-	public function getById($id) {
-		return $this->root->getByIdInPath((int)$id, $this->getPath());
+	#[Override]
+	public function getById(int $id): array {
+		return $this->root->getByIdInPath($id, $this->getPath());
 	}
 
-	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+	#[Override]
+	public function getFirstNodeById(int $id): ?INode {
 		return $this->root->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	public function getAppDataDirectoryName(): string {
-		$instanceId = \OC::$server->getConfig()->getSystemValueString('instanceid');
+		$instanceId = Server::get(IConfig::class)->getSystemValueString('instanceid');
 		return 'appdata_' . $instanceId;
 	}
 
@@ -336,9 +291,6 @@ class Folder extends Node implements IFolder {
 	 * So in that case we directly check the mount of the root if it contains
 	 * the id. If it does we check if the path is inside the path we are working
 	 * in.
-	 *
-	 * @param int $id
-	 * @return array
 	 */
 	protected function getByIdInRootMount(int $id): array {
 		if (!method_exists($this->root, 'createNode')) {
@@ -371,12 +323,14 @@ class Folder extends Node implements IFolder {
 			))];
 	}
 
-	public function getFreeSpace() {
+	#[Override]
+	public function getFreeSpace(): float|int|false {
 		return $this->view->free_space($this->path);
 	}
 
-	public function delete() {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
+	#[Override]
+	public function delete(): void {
+		if ($this->checkPermissions(Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(['preDelete']);
 			$fileInfo = $this->getFileInfo();
 			$this->view->rmdir($this->path);
@@ -388,27 +342,21 @@ class Folder extends Node implements IFolder {
 		}
 	}
 
-	/**
-	 * Add a suffix to the name in case the file exists
-	 *
-	 * @param string $filename
-	 * @return string
-	 * @throws NotPermittedException
-	 */
-	public function getNonExistingName($filename) {
+	#[Override]
+	public function getNonExistingName(string $name): string {
 		$path = $this->getPath();
 		if ($path === '/') {
 			$path = '';
 		}
-		if ($pos = strrpos($filename, '.')) {
-			$name = substr($filename, 0, $pos);
-			$ext = substr($filename, $pos);
+		if ($pos = strrpos($name, '.')) {
+			$name = substr($name, 0, $pos);
+			$ext = substr($name, $pos);
 		} else {
-			$name = $filename;
+			$name = $name;
 			$ext = '';
 		}
 
-		$newpath = $path . '/' . $filename;
+		$newpath = $path . '/' . $name;
 		if ($this->view->file_exists($newpath)) {
 			if (preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
 				/** @var array<int<0, max>, array> $matches */
@@ -437,12 +385,8 @@ class Folder extends Node implements IFolder {
 		return trim($this->getRelativePath($newpath), '/');
 	}
 
-	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return INode[]
-	 */
-	public function getRecent($limit, $offset = 0) {
+	#[Override]
+	public function getRecent(int $limit, int $offset = 0): array {
 		$filterOutNonEmptyFolder = new SearchBinaryOperator(
 			// filter out non empty folders
 			ISearchBinaryOperator::OPERATOR_OR,
@@ -505,7 +449,8 @@ class Folder extends Node implements IFolder {
 		return $this->search($query);
 	}
 
-	public function verifyPath($fileName, $readonly = false): void {
+	#[Override]
+	public function verifyPath(string $fileName, bool $readonly = false): void {
 		$this->view->verifyPath(
 			$this->getPath(),
 			$fileName,

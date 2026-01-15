@@ -885,16 +885,16 @@ class Storage {
 			if ($quota >= 0) {
 				if ($softQuota) {
 					$root = Server::get(IRootFolder::class);
-					$userFolder = $root->getUserFolder($uid);
-					if (is_null($userFolder)) {
-						$availableSpace = 0;
-					} else {
+					try {
+						$userFolder = $root->getUserFolder($uid);
 						$free = $quota - $userFolder->getSize(false); // remaining free space for user
 						if ($free > 0) {
 							$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
 						} else {
 							$availableSpace = $free - $versionsSize;
 						}
+					} catch (NoUserException $e) {
+						$availableSpace = 0;
 					}
 				} else {
 					$availableSpace = $quota;

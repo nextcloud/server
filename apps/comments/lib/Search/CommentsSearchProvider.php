@@ -53,10 +53,6 @@ class CommentsSearchProvider implements IProvider {
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 
-		if ($userFolder === null) {
-			return SearchResult::complete($this->l10n->t('Comments'), []);
-		}
-
 		$result = [];
 		$numComments = 50;
 		$offset = 0;

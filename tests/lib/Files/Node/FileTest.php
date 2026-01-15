@@ -15,6 +15,7 @@ use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorage;
 use PHPUnit\Framework\MockObject\MockObject;
 

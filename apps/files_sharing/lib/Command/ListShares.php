@@ -90,7 +90,7 @@ class ListShares extends Base {
 		if (is_numeric($file)) {
 			return (int)$file;
 		}
-		return $this->getFile($file)->getId();
+		return $this->getFile($file)->getId() ?? -1;
 	}
 
 	private function getFile(string $file): Node {

@@ -14,6 +14,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
@@ -53,6 +54,7 @@ class LazyUserFolder extends LazyFolder {
 						]);
 						throw $e;
 					}
+					/** @var Folder $node */
 					return $node;
 				} catch (NotFoundException $e) {
 					if (!$this->getRootFolder()->nodeExists('/' . $user->getUID())) {
@@ -65,7 +67,7 @@ class LazyUserFolder extends LazyFolder {
 		);
 	}
 
-	public function getMountPoint() {
+	public function getMountPoint(): IMountPoint {
 		if ($this->folder !== null) {
 			return $this->folder->getMountPoint();
 		}

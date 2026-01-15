@@ -134,14 +134,18 @@ class SyncLivePhotosListener implements IEventListener {
 			return;
 		}
 
-		$this->pendingRenames[] = $sourceFile->getId();
+		$sourceFileId = $sourceFile->getId();
+		if ($sourceFileId === null) {
+			throw new \LogicException('Invalid source file given with a null id');
+		}
+		$this->pendingRenames[] = $sourceFileId;
 		try {
 			$peerFile->move($targetParent->getPath() . '/' . $peerTargetName);
 		} catch (\Throwable $ex) {
 			throw new AbortedEventException($ex->getMessage());
 		}
 
-		$this->pendingRenames = array_diff($this->pendingRenames, [$sourceFile->getId()]);
+		$this->pendingRenames = array_diff($this->pendingRenames, [$sourceFileId]);
 	}
 
 
@@ -163,15 +167,26 @@ class SyncLivePhotosListener implements IEventListener {
 			$targetPeerFile = $peerFile->copy($targetParent->getPath() . '/' . $peerTargetName);
 		}
 
+		$targetFileId = $targetFile->getId();
+		if ($targetFileId === null) {
+			throw new \LogicException('Invalid target file given with a null id');
+		}
+
+		$targetPeerFileId = $targetPeerFile->getId();
+		if ($targetPeerFileId === null) {
+			throw new \LogicException('Invalid target peer file given with a null id');
+		}
+
 		/** @var FilesMetadata $targetMetadata */
-		$targetMetadata = $this->filesMetadataManager->getMetadata($targetFile->getId(), true);
+		$targetMetadata = $this->filesMetadataManager->getMetadata($targetFileId, true);
 		$targetMetadata->setStorageId($targetFile->getStorage()->getCache()->getNumericStorageId());
-		$targetMetadata->setString('files-live-photo', (string)$targetPeerFile->getId());
+		$targetMetadata->setString('files-live-photo', (string)$targetPeerFileId);
 		$this->filesMetadataManager->saveMetadata($targetMetadata);
+
 		/** @var FilesMetadata $peerMetadata */
-		$peerMetadata = $this->filesMetadataManager->getMetadata($targetPeerFile->getId(), true);
+		$peerMetadata = $this->filesMetadataManager->getMetadata($targetPeerFileId, true);
 		$peerMetadata->setStorageId($targetPeerFile->getStorage()->getCache()->getNumericStorageId());
-		$peerMetadata->setString('files-live-photo', (string)$targetFile->getId());
+		$peerMetadata->setString('files-live-photo', (string)$targetFileId);
 		$this->filesMetadataManager->saveMetadata($peerMetadata);
 	}
 
@@ -185,14 +200,22 @@ class SyncLivePhotosListener implements IEventListener {
 	private function handleDeletion(BeforeNodeDeletedEvent $event, Node $peerFile): void {
 		$deletedFile = $event->getNode();
 		if ($deletedFile->getMimetype() === 'video/quicktime') {
-			if (isset($this->pendingDeletion[$peerFile->getId()])) {
-				unset($this->pendingDeletion[$peerFile->getId()]);
+			$peerFileId = $peerFile->getId();
+			if ($peerFileId === null) {
+				throw new \LogicException('Invalid peer file given with a null id');
+			}
+			if (isset($this->pendingDeletion[$peerFileId])) {
+				unset($this->pendingDeletion[$peerFileId]);
 				return;
 			} else {
 				throw new AbortedEventException('Cannot delete the video part of a live photo');
 			}
 		} else {
-			$this->pendingDeletion[$deletedFile->getId()] = true;
+			$deletedFileId = $peerFile->getId();
+			if ($deletedFileId === null) {
+				throw new \LogicException('Invalid deleted file given with a null id');
+			}
+			$this->pendingDeletion[$deletedFileId] = true;
 			try {
 				$peerFile->delete();
 			} catch (\Throwable $ex) {
@@ -243,7 +266,7 @@ class SyncLivePhotosListener implements IEventListener {
 			$this->pendingCopies[] = $peerFileId;
 			if ($event instanceof BeforeNodeCopiedEvent) {
 				$this->runMoveOrCopyChecks($sourceNode, $targetNode, $peerFile);
-			} elseif ($event instanceof NodeCopiedEvent) {
+			} elseif ($event instanceof NodeCopiedEvent && $peerFile instanceof File) {
 				$this->handleCopy($sourceNode, $targetNode, $peerFile);
 			}
 			$this->pendingCopies = array_diff($this->pendingCopies, [$peerFileId]);

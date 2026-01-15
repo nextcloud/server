@@ -19,6 +19,7 @@ use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\ObjectTree;
 use OCP\Files\Mount\IMountManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ObjectTreeTest
@@ -41,7 +42,7 @@ class ObjectTreeTest extends \Test\TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('copyDataProvider')]
 	public function testCopy(string $sourcePath, string $targetPath, string $targetParent): void {
-		$view = $this->createMock(View::class);
+		$view = $this->createView();
 		$view->expects($this->once())
 			->method('verifyPath')
 			->with($targetParent);
@@ -85,7 +86,7 @@ class ObjectTreeTest extends \Test\TestCase {
 	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
-		$view = $this->createMock(View::class);
+		$view = $this->createView();
 		$view->expects($this->never())
 			->method('verifyPath');
 		$view->expects($this->once())
@@ -129,7 +130,7 @@ class ObjectTreeTest extends \Test\TestCase {
 	): void {
 		$rootNode = $this->createMock(Directory::class);
 		$mountManager = $this->createMock(Manager::class);
-		$view = $this->createMock(View::class);
+		$view = $this->createView();
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->method('getType')
 			->willReturn($type);
@@ -239,5 +240,12 @@ class ObjectTreeTest extends \Test\TestCase {
 		$tree->init($rootNode, $view, $mountManager);
 
 		$this->assertInstanceOf('\Sabre\DAV\INode', $tree->getNodeForPath($path));
+	}
+
+	private function createView(): View&MockObject {
+		$view = $this->createMock(View::class);
+		$view->method('getAbsolutePath')->willReturnArgument(0);
+		$view->method('getRelativePath')->willReturnArgument(0);
+		return $view;
 	}
 }

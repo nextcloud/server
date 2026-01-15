@@ -19,8 +19,10 @@ use OC\User\NoUserException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUser;
@@ -75,8 +77,8 @@ class RootTest extends \Test\TestCase {
 		return $view;
 	}
 
-	protected function getFileInfo($data) {
-		return new FileInfo('', null, '', $data, null);
+	protected function getFileInfo($data): FileInfo {
+		return new FileInfo('', $this->createMock(IStorage::class), '', $data, $this->createMock(IMountPoint::class));
 	}
 
 	public function testGet(): void {

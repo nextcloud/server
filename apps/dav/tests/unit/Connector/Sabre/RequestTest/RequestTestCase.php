@@ -118,7 +118,7 @@ abstract class RequestTestCase extends TestCase {
 		$sapi = new Sapi($request);
 		$server->sapi = $sapi;
 		$server->httpRequest = $request;
-		$server->exec();
+		$server->start();
 		return $sapi->getResponse();
 	}
 
