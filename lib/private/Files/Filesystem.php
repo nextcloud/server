@@ -599,7 +599,7 @@ class Filesystem {
 		 */
 		$path = (string)$path;
 
-		if ($path === '' || $path === '/') {
+		if ($path === '') {
 			return '/';
 		}
 
@@ -608,52 +608,25 @@ class Filesystem {
 			$path = \OC_Util::normalizeUnicode($path);
 		}
 
-		$len = strlen($path);
-		$out = [];
-		$outLen = 0;
+		//add leading slash, if it is already there we strip it anyway
+		$path = '/' . $path;
 
-		// Force leading slash
-		$out[$outLen++] = '/';
+		$patterns = [
+			'#\\\\#s',       // no windows style '\\' slashes
+			'#/\.(/\.)*/#s', // remove '/./'
+			'#\//+#s',       // remove sequence of slashes
+			'#/\.$#s',       // remove trailing '/.'
+		];
 
-		$prev = '/';
-		$i = 0;
+		do {
+			$count = 0;
+			$path = preg_replace($patterns, '/', $path, -1, $count);
+		} while ($count > 0);
 
-		while ($i < $len) {
-			$c = $path[$i++];
-
-			// Normalize Windows slashes
-			if ($c === '\\') {
-				$c = '/';
-			}
-
-			// Collapse multiple slashes
-			if ($c === '/' && $prev === '/') {
-				continue;
-			}
-
-			// Handle "/./" and trailing "/."
-			if ($c === '.' && $prev === '/') {
-				$next = $i < $len ? $path[$i] : null;
-
-				if ($next === '/' || $next === null) {
-					// Skip "./"
-					if ($next === '/') {
-						$i++;
-					}
-					continue;
-				}
-			}
-
-			$out[$outLen++] = $c;
-			$prev = $c;
+		//remove trailing slash
+		if ($stripTrailingSlash && strlen($path) > 1) {
+			$path = rtrim($path, '/');
 		}
-
-		// Remove trailing slash
-		if ($stripTrailingSlash && $outLen > 1 && $out[$outLen - 1] === '/') {
-			array_pop($out);
-		}
-
-		$path = implode('', $out);
 
 		return $path;
 	}
