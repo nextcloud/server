@@ -461,9 +461,9 @@ class Encryption extends Wrapper {
 			$blockIndex = (int)floor($this->position / $this->unencryptedBlockSize);
 			$numberOfChunks = (int)($this->unencryptedSize / $this->unencryptedBlockSize);
 			if ($numberOfChunks === $blockIndex) {
-				$blockId = $blockIndex . 'end';
+				$blockId = (string)$blockIndex . 'end';
 			} else {
-				$blockId = $blockIndex;
+				$blockId = (string)$blockIndex;
 			}
 			$this->cache = $this->encryptionModule->decrypt($data, $blockId);
 		}
