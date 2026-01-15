@@ -7,6 +7,7 @@
  */
 namespace OCP\Share;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -21,6 +22,7 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
  *
  * @since 9.0.0
  */
+#[Consumable(since: '9.0.0')]
 interface IShare {
 	/**
 	 * @since 17.0.0
@@ -122,62 +124,52 @@ interface IShare {
 	 * It is only allowed to set the internal id of a share once.
 	 * Attempts to override the internal id will result in an IllegalIDChangeException
 	 *
-	 * @param string $id
-	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
-	 * @throws \InvalidArgumentException
 	 * @since 9.1.0
 	 */
-	public function setId($id);
+	public function setId(string $id): self;
 
 	/**
 	 * Get the internal id of the share.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getId();
+	public function getId(): string;
 
 	/**
 	 * Get the full share id. This is the <providerid>:<internalid>.
 	 * The full id is unique in the system.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 * @throws \UnexpectedValueException If the fullId could not be constructed
 	 */
-	public function getFullId();
+	public function getFullId(): string;
 
 	/**
 	 * Set the provider id of the share
 	 * It is only allowed to set the provider id of a share once.
 	 * Attempts to override the provider id will result in an IllegalIDChangeException
 	 *
-	 * @param string $id
-	 * @return \OCP\Share\IShare
 	 * @throws IllegalIDChangeException
-	 * @throws \InvalidArgumentException
 	 * @since 9.1.0
 	 */
-	public function setProviderId($id);
+	public function setProviderId(string $id): self;
 
 	/**
 	 * Set the node of the file/folder that is shared
 	 *
 	 * @param Node $node
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setNode(Node $node);
+	public function setNode(Node $node): self;
 
 	/**
 	 * Get the node of the file/folder that is shared
 	 *
-	 * @return File|Folder
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
-	public function getNode();
+	public function getNode(): Node;
 
 	/**
 	 * Set file id for lazy evaluation of the node

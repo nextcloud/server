@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\FederatedFileSharing\Tests;
 
+use LogicException;
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -250,16 +251,12 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable or uses a self-signed certificate.', $e->getMessage());
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$stmt = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-			->executeQuery();
-
-		$data = $stmt->fetchAssociative();
-		$stmt->closeCursor();
-
-		$this->assertFalse($data);
+		try {
+			$share->getId();
+			$this->fail();
+		} catch (LogicException $e) {
+			// object is expected to not have been created
+		}
 	}
 
 	public function testCreateException(): void {
@@ -311,16 +308,12 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable or uses a self-signed certificate.', $e->getMessage());
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$stmt = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-			->executeQuery();
-
-		$data = $stmt->fetchAssociative();
-		$stmt->closeCursor();
-
-		$this->assertFalse($data);
+		try {
+			$share->getId();
+			$this->fail();
+		} catch (LogicException $e) {
+			// object is expected to not have been created
+		}
 	}
 
 	public function testCreateShareWithSelf(): void {
@@ -354,16 +347,12 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->assertEquals('Not allowed to create a federated share to the same account', $e->getMessage());
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$stmt = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-			->executeQuery();
-
-		$data = $stmt->fetchAssociative();
-		$stmt->closeCursor();
-
-		$this->assertFalse($data);
+		try {
+			$share->getId();
+			$this->fail();
+		} catch (LogicException $e) {
+			// object is expected to not have been created
+		}
 	}
 
 	public function testCreateAlreadyShared(): void {
