@@ -302,6 +302,16 @@ jobs:
           # Ping the server
           jf rt ping
 
+      - name: Get Job data
+        id: get_job_data
+        continue-on-error: true
+        uses: ./.github/actions/get-job-data
+        with:
+          job-name: 'build-external-apps (${{ matrix.app_info.name }})'
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
+
       - name: Push ${{ matrix.app_info.name }} to JFrog
         run: |
           set -e
@@ -353,6 +363,12 @@ jobs:
           JFROG_PROPS_LIST+=("app.sha=${APP_SHA}")
           JFROG_PROPS_LIST+=("vcs.branch=${{ github.ref_name }}")
           JFROG_PROPS_LIST+=("vcs.revision=${{ github.sha }}")
+
+          # Add job URL if available
+          JOB_URL="${{ steps.get_job_data.outputs.job_html_url }}"
+          if [ -n "$JOB_URL" ]; then
+            JFROG_PROPS_LIST+=("job.html_url=${JOB_URL}")
+          fi
 
           # Join properties into a single semicolon-separated string using IFS and array expansion
           # This bash technique temporarily sets IFS (Internal Field Separator) to ';' and expands
@@ -648,6 +664,12 @@ jobs:
       BUILD_NAME: "nextcloud-workspace-snapshot"
 
     steps:
+      # Checkout is required to access the local composite action at ./.github/actions/get-job-data
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
       - name: Check prerequisites
         run: |
           # count the number of secrets that are set
@@ -693,6 +715,16 @@ jobs:
           # Ping the server
           jf rt ping
 
+      - name: Get Job data
+        id: get_job_data
+        continue-on-error: true
+        uses: ./.github/actions/get-job-data
+        with:
+          job-name: 'Push to artifactory'
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.run_id }}
+
       - name: Upload build to artifactory
         id: artifactory_upload
         run: |
@@ -720,6 +752,12 @@ jobs:
           JFROG_PROPS_LIST+=("build.nc_version=${{ needs.build-artifact.outputs.NC_VERSION }}")
           JFROG_PROPS_LIST+=("vcs.branch=${{ github.ref_name }}")
           JFROG_PROPS_LIST+=("vcs.revision=${{ github.sha }}")
+
+          # Add job URL if available
+          JOB_URL="${{ steps.get_job_data.outputs.job_html_url }}"
+          if [ -n "$JOB_URL" ]; then
+            JFROG_PROPS_LIST+=("job.html_url=${JOB_URL}")
+          fi
 
           # Join properties into a single semicolon-separated string using IFS and array expansion
           # This bash technique temporarily sets IFS (Internal Field Separator) to ';' and expands

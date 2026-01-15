@@ -1,0 +1,93 @@
+name: 'Get Job Data from GitHub Actions'
+description: 'Fetches the GitHub Actions job data from the GitHub API'
+inputs:
+  job-name:
+    description: 'The name of the job to find'
+    required: true
+  github-token:
+    description: 'GitHub token for API authentication'
+    required: true
+  repository:
+    description: 'Repository in owner/repo format'
+    required: true
+  run-id:
+    description: 'GitHub Actions run ID'
+    required: true
+outputs:
+  job_html_url:
+    description: 'The HTML URL of the job'
+    value: ${{ steps.get_url.outputs.job_html_url }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Fetch job URL from GitHub API
+      id: get_url
+      shell: bash
+      run: |
+        # Fetch the numeric job ID from GitHub API
+        CURL_ERROR_FILE=$(mktemp)
+        NETRC_FILE=$(mktemp)
+
+        # Write GitHub API credentials to a temporary netrc file to avoid
+        # passing the token directly on the curl command line.
+        printf '%s\n' \
+          'machine api.github.com' \
+          '  login x-access-token' \
+          "  password ${{ inputs.github-token }}" \
+          > "$NETRC_FILE"
+        chmod 600 "$NETRC_FILE"
+
+        # Ensure temporary file cleanup on exit
+        cleanup() {
+          if [ -n "$CURL_ERROR_FILE" ] && [ -f "$CURL_ERROR_FILE" ]; then
+            rm -f "$CURL_ERROR_FILE"
+          fi
+          if [ -n "$NETRC_FILE" ] && [ -f "$NETRC_FILE" ]; then
+            rm -f "$NETRC_FILE"
+          fi
+        }
+        trap cleanup EXIT
+
+        API_RESPONSE=$(curl -sS -w "\n%{http_code}" \
+          --netrc-file "$NETRC_FILE" \
+          -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${{ inputs.repository }}/actions/runs/${{ inputs.run-id }}/jobs" 2>"$CURL_ERROR_FILE")
+
+        CURL_EXIT_CODE=$?
+        if [ $CURL_EXIT_CODE -ne 0 ]; then
+          echo "❌ ERROR: curl request to GitHub API failed with exit code $CURL_EXIT_CODE"
+          if [ -s "$CURL_ERROR_FILE" ]; then
+            echo "curl error output:"
+            cat "$CURL_ERROR_FILE"
+          fi
+          echo "job_html_url=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        HTTP_CODE=$(echo "$API_RESPONSE" | tail -n1)
+        RESPONSE_BODY=$(echo "$API_RESPONSE" | sed '$d')
+
+        if [ "$HTTP_CODE" != "200" ]; then
+          echo "⚠️  WARNING: GitHub API request failed with $HTTP_CODE"
+          echo "job_html_url=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        EXPECTED_JOB_NAME="${{ inputs.job-name }}"
+        JOB_URL=$(echo "$RESPONSE_BODY" | jq -r \
+          --arg job_name "$EXPECTED_JOB_NAME" \
+          '.jobs[] | select(.name == $job_name) | .html_url')
+
+        if [ -z "$JOB_URL" ] || [ "$JOB_URL" = "null" ]; then
+          echo "⚠️  WARNING: Failed to extract job URL from response for job name '$EXPECTED_JOB_NAME'."
+          echo "Possible causes:"
+          echo "  - The job name does not match exactly (including spaces and case)."
+          echo "  - The job has not started yet at the time this action ran."
+          echo "  - The GitHub API response format was unexpected."
+          echo "Please verify that the job has started before this action runs and double-check the exact job name in the GitHub Actions UI."
+          echo "job_html_url=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        echo "job_html_url=$JOB_URL" >> "$GITHUB_OUTPUT"
+        echo "Job URL: $JOB_URL"
