@@ -19,14 +19,12 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Override;
 
 class Share implements IShare {
-	/** @var string */
-	private $id;
-	/** @var string */
-	private $providerId;
-	/** @var Node */
-	private $node;
+	private ?string $id = null;
+	private ?string $providerId = null;
+	private ?Node $node = null;
 	/** @var int */
 	private $fileId;
 	/** @var string */
@@ -82,74 +80,51 @@ class Share implements IShare {
 	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setId($id) {
-		/** @var mixed $id Let's be safe until strong typing */
-		if (is_int($id)) {
-			$id = (string)$id;
-		}
-
-		if (!is_string($id)) {
-			throw new \InvalidArgumentException('String expected.');
-		}
-
+	#[Override]
+	public function setId(string $id): self {
 		if ($this->id !== null) {
 			throw new IllegalIDChangeException('Not allowed to assign a new internal id to a share');
 		}
-
-		$this->id = trim($id);
+		$this->id = $id;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getId() {
+	#[Override]
+	public function getId(): string {
+		if ($this->id === null) {
+			throw new \LogicException('Share id is null');
+		}
 		return $this->id;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getFullId() {
+	#[Override]
+	public function getFullId(): string {
 		if ($this->providerId === null || $this->id === null) {
 			throw new \UnexpectedValueException;
 		}
 		return $this->providerId . ':' . $this->id;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setProviderId($id) {
-		if (!is_string($id)) {
-			throw new \InvalidArgumentException('String expected.');
-		}
-
+	#[Override]
+	public function setProviderId(string $id): self {
 		if ($this->providerId !== null) {
 			throw new IllegalIDChangeException('Not allowed to assign a new provider id to a share');
 		}
 
-		$this->providerId = trim($id);
+		$this->providerId = $id;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setNode(Node $node) {
+	#[Override]
+	public function setNode(Node $node): self {
 		$this->fileId = null;
 		$this->nodeType = null;
 		$this->node = $node;
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getNode() {
+	#[Override]
+	public function getNode(): Node {
 		if ($this->node === null) {
 			if ($this->shareOwner === null || $this->fileId === null) {
 				throw new NotFoundException();

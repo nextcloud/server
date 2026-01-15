@@ -463,7 +463,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			]);
 		$this->assertEquals(1, $qb->executeStatement());
 
-		$id = $qb->getLastInsertId();
+		$id = (string)$qb->getLastInsertId();
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getId')->willReturn($id);
@@ -546,7 +546,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(13),
 			]);
 		$this->assertEquals(1, $qb->executeStatement());
-		$id = $qb->getLastInsertId();
+		$id = (string)$qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -614,7 +614,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->executeStatement();
 
 		// Get the id
-		$id = $qb->getLastInsertId();
+		$id = (string)$qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
