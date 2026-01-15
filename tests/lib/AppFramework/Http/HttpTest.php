@@ -9,40 +9,39 @@
 namespace Test\AppFramework\Http;
 
 use OC\AppFramework\Http;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 
+/**
+ * Unit tests for OC\AppFramework\Http.
+ */
 class HttpTest extends \Test\TestCase {
-	private $server;
 
-	/**
-	 * @var Http
-	 */
-	private $http;
-
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->server = [];
-		$this->http = new Http($this->server);
+	#[Test]
+	#[DataProvider('statusHeaderProvider')]
+	public function testGetStatusHeader(string $protocol, int $statusCode, string $expectedHeader): void {
+		$http = new Http($protocol);
+		$header = $http->getStatusHeader($statusCode);
+		$this->assertEquals($expectedHeader, $header);
 	}
 
-
-	public function testProtocol(): void {
-		$header = $this->http->getStatusHeader(Http::STATUS_TEMPORARY_REDIRECT);
-		$this->assertEquals('HTTP/1.1 307 Temporary Redirect', $header);
+	public static function statusHeaderProvider(): array {
+		return [
+			// Standard OK
+			['HTTP/1.1', Http::STATUS_OK, 'HTTP/1.1 200 OK'],
+			// 307 is unchanged for HTTP/1.1
+			['HTTP/1.1', Http::STATUS_TEMPORARY_REDIRECT, 'HTTP/1.1 307 Temporary Redirect'],
+			// 307 maps to 302 for HTTP/1.0
+			['HTTP/1.0', Http::STATUS_TEMPORARY_REDIRECT, 'HTTP/1.0 302 Found'],
+			// Not Found
+			['HTTP/1.1', Http::STATUS_NOT_FOUND, 'HTTP/1.1 404 Not Found'],
+			// Forbidden
+			['HTTP/1.1', Http::STATUS_FORBIDDEN, 'HTTP/1.1 403 Forbidden'],
+			// Bad Request
+			['HTTP/1.1', Http::STATUS_BAD_REQUEST, 'HTTP/1.1 400 Bad request'],
+			// Unknown/Fallback
+			['HTTP/1.1', 999, 'HTTP/1.1 999 Unknown Status'],
+			['HTTP/2.0', 123, 'HTTP/2.0 123 Unknown Status'],
+		];
 	}
-
-
-	public function testProtocol10(): void {
-		$this->http = new Http($this->server, 'HTTP/1.0');
-		$header = $this->http->getStatusHeader(Http::STATUS_OK);
-		$this->assertEquals('HTTP/1.0 200 OK', $header);
-	}
-
-	public function testTempRedirectBecomesFoundInHttp10(): void {
-		$http = new Http([], 'HTTP/1.0');
-
-		$header = $http->getStatusHeader(Http::STATUS_TEMPORARY_REDIRECT);
-		$this->assertEquals('HTTP/1.0 302 Found', $header);
-	}
-	// TODO: write unittests for http codes
 }
