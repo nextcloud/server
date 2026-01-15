@@ -22,53 +22,80 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
- * for local filestore, we only have to map the paths
+ * Local filesystem storage backend.
+ *
+ * Maps virtual storage paths to absolute local filesystem paths and supports standard file operations.
+ * Enforces security policies (blacklisting, path restrictions) on path resolution.
+ * Note: Some methods may throw \OCP\Files\ForbiddenException violating interface.
+ *
+ * @see \OCP\Files\Storage\IStorage for interface contract
+ * @see \OC\Files\Storage\Common for shared logics and defaults
  */
 class Local extends \OC\Files\Storage\Common {
-	protected $datadir;
+	protected readonly IConfig $config;
+	protected readonly IMimeTypeDetector $mimeTypeDetector;
 
-	protected $dataDirLength;
+	// Absolute path to the data directory.
+	protected string $datadir;
 
-	protected $realDataDir;
+	// Canonical, realpath-resolved data directory.
+	protected string $realDataDir;
 
-	private IConfig $config;
+	// Real length of data directory string (for path security checks).
+	protected int $realDataDirLength;
 
-	private IMimeTypeDetector $mimeTypeDetector;
+	// Default Unix file umask for new files/folders.
+	private int $defaultUmask;
 
-	private $defUMask;
-
+	// WORM filesystem support
 	protected bool $unlinkOnTruncate;
 
+	// Is storage case-insensitive? 
 	protected bool $caseInsensitive = false;
 
+	/**
+	 * @throws \InvalidArgumentException If datadir parameter is missing/invalid.
+	 * @throws \OCP\Files\StorageNotAvailableException If datadir cannot be resolved or does not exist.
+	 */
 	public function __construct(array $parameters) {
-		if (!isset($parameters['datadir']) || !is_string($parameters['datadir'])) {
-			throw new \InvalidArgumentException('No data directory set for local storage');
-		}
-		$this->datadir = str_replace('//', '/', $parameters['datadir']);
-		// some crazy code uses a local storage on root...
-		if ($this->datadir === '/') {
-			$this->realDataDir = $this->datadir;
-		} else {
-			$realPath = realpath($this->datadir) ?: $this->datadir;
-			$this->realDataDir = rtrim($realPath, '/') . '/';
-		}
-		if (!str_ends_with($this->datadir, '/')) {
-			$this->datadir .= '/';
-		}
-		$this->dataDirLength = strlen($this->realDataDir);
-		$this->config = Server::get(IConfig::class);
 		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
-		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
-		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
+		$this->config = Server::get(IConfig::class);
 
-		// support Write-Once-Read-Many file systems
+		$datadir = $parameters['datadir'] ?? null;
+		if (!is_string($datadir) || $datadir === '') {
+			throw new \InvalidArgumentException('Local storage requires a non-empty "datadir" string parameter.');
+		}
+		$datadir = str_replace('//', '/', $datadir);
+
+		$realPath = realpath($datadir);
+
+		if ($realPath !== false) {
+			$realDataDir = rtrim($realPath, '/') . '/';
+		} elseif ($datadir === '/' && !empty(ini_get('open_basedir'))) {
+			// See https://github.com/owncloud/core/pull/26058 for discussion.
+			$realDataDir = '/';
+		} else { // fallback
+			$realDataDir = rtrim($datadir, '/') . '/';
+		}
+
+		if (!str_ends_with($datadir, '/')) {
+			$datadir .= '/';
+		}
+
+		$this->datadir = $datadir;
+		$this->realDataDir = $realDataDir;
+		$this->realDataDirLength = strlen($this->realDataDir);
+
+		$this->defaultUmask = $this->config->getSystemValue('localstorage.umask', 0022);
+		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
 
-		if (isset($parameters['isExternal']) && $parameters['isExternal'] && !$this->stat('')) {
-			// data dir not accessible or available, can happen when using an external storage of type Local
-			// on an unmounted system mount point
-			throw new StorageNotAvailableException('Local storage path does not exist "' . $this->getSourcePath('') . '"');
+		// Permit temporary unavailability of unmounted system mount points without clients mistaking for deletion
+		if (isset($parameters['isExternal']) && $parameters['isExternal'] && !is_dir($this->realDataDir)) {
+			// i.e. unmounted system mount point
+			throw new StorageNotAvailableException(
+				'Local storage path does not exist or is not accessible: "' . $this->getSourcePath('') . '"'
+			);
 		}
 	}
 
@@ -81,7 +108,7 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function mkdir(string $path): bool {
 		$sourcePath = $this->getSourcePath($path);
-		$oldMask = umask($this->defUMask);
+		$oldMask = umask($this->defaultUmask);
 		$result = @mkdir($sourcePath, 0777, true);
 		umask($oldMask);
 		return $result;
@@ -147,21 +174,36 @@ class Local extends \OC\Files\Storage\Common {
 		return is_file($this->getSourcePath($path));
 	}
 
+	/**
+	 * @throws \OCP\Files\ForbiddenException If access to the path is forbidden (e.g., path is blacklisted or symlinks are disallowed).
+	 *
+	 * Note: Although the IStorage interface documents only an array|false return type,
+	 * this implementation may throw exceptions for forbidden or invalid paths due to getSourcePath().
+	 */
 	public function stat(string $path): array|false {
 		$fullPath = $this->getSourcePath($path);
+
 		clearstatcache(true, $fullPath);
+
 		if (!file_exists($fullPath)) {
 			return false;
 		}
+
 		$statResult = @stat($fullPath);
-		if (PHP_INT_SIZE === 4 && $statResult && !$this->is_dir($path)) {
+		if ($statResult === false) {
+			return false;
+		}
+
+		// Handle 32-bit PHP file size overflow for non-directories
+		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
-			$statResult['size'] = $filesize;
-			$statResult[7] = $filesize;
+			if ($filesize !== false) {
+				$statResult['size'] = $filesize;
+				$statResult[7] = $filesize;
+			}
 		}
-		if (is_array($statResult)) {
-			$statResult['full_path'] = $fullPath;
-		}
+
+		$statResult['full_path'] = $fullPath;
 		return $statResult;
 	}
 
@@ -276,7 +318,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path) && !$this->isUpdatable($path)) {
 			return false;
 		}
-		$oldMask = umask($this->defUMask);
+		$oldMask = umask($this->defaultUmask);
 		if (!is_null($mtime)) {
 			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
@@ -295,7 +337,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents(string $path, mixed $data): int|float|false {
-		$oldMask = umask($this->defUMask);
+		$oldMask = umask($this->defaultUmask);
 		if ($this->unlinkOnTruncate) {
 			$this->unlink($path);
 		}
@@ -371,7 +413,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->is_dir($source)) {
 			return parent::copy($source, $target);
 		} else {
-			$oldMask = umask($this->defUMask);
+			$oldMask = umask($this->defaultUmask);
 			if ($this->unlinkOnTruncate) {
 				$this->unlink($target);
 			}
@@ -391,7 +433,7 @@ class Local extends \OC\Files\Storage\Common {
 		if (!file_exists($sourcePath) && $mode === 'r') {
 			return false;
 		}
-		$oldMask = umask($this->defUMask);
+		$oldMask = umask($this->defaultUmask);
 		if (($mode === 'w' || $mode === 'w+') && $this->unlinkOnTruncate) {
 			$this->unlink($path);
 		}
@@ -484,7 +526,7 @@ class Local extends \OC\Files\Storage\Common {
 		if ($realPath) {
 			$realPath = $realPath . '/';
 		}
-		if (substr($realPath, 0, $this->dataDirLength) === $this->realDataDir) {
+		if (substr($realPath, 0, $this->realDataDirLength) === $this->realDataDir) {
 			return $fullPath;
 		}
 
