@@ -50,7 +50,7 @@ jobs:
         php-versions: ['8.2']
         include:
           - php-versions: '8.3'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-swift
 
