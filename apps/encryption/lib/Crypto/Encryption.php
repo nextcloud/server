@@ -149,7 +149,7 @@ class Encryption implements IEncryptionModule {
 	 * @throws PublicKeyMissingException
 	 * @throws MultiKeyEncryptException
 	 */
-	public function end(string $path, string $position = '0'): string {
+	public function end(string $path, string $blockId = '0'): string {
 		$result = '';
 		if ($this->isWriteOperation) {
 			// in case of a part file we remember the new signature versions
@@ -160,7 +160,7 @@ class Encryption implements IEncryptionModule {
 				self::$rememberVersion[$this->stripPartFileExtension($path)] = $this->version + 1;
 			}
 			if (!empty($this->writeCache)) {
-				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version + 1, $position);
+				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version + 1, $blockId);
 				$this->writeCache = '';
 			}
 			$publicKeys = [];
@@ -198,7 +198,7 @@ class Encryption implements IEncryptionModule {
 		return $result ?: '';
 	}
 
-	public function encrypt(string $data, string $position = '0'): string {
+	public function encrypt(string $data, string $blockId = '0'): string {
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next block
 		if ($this->writeCache) {
@@ -235,7 +235,12 @@ class Encryption implements IEncryptionModule {
 				// Read the chunk from the start of $data
 				$chunk = substr($data, 0, $this->getUnencryptedBlockSize(true));
 
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, $position);
+				$encrypted .= $this->crypt->symmetricEncryptFileContent(
+					$chunk,
+					$this->fileKey,
+					$this->version + 1,
+					$blockId
+				);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
@@ -247,7 +252,7 @@ class Encryption implements IEncryptionModule {
 		return $encrypted;
 	}
 
-	public function decrypt(string $data, string $position = '0'): string {
+	public function decrypt(string $data, string $blockId = '0'): string {
 		if (empty($this->fileKey)) {
 			$msg = 'Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
 			$hint = $this->l->t('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
@@ -261,7 +266,7 @@ class Encryption implements IEncryptionModule {
 			$this->fileKey,
 			$this->cipher,
 			$this->version,
-			$position,
+			$blockId,
 			!$this->useLegacyBase64Encoding
 		);
 	}
