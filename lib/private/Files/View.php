@@ -490,57 +490,86 @@ class View {
 	}
 
 	/**
+	 * Checks if a file or directory exists at the given path.
+	 *
 	 * @param string $path
-	 * @return bool|mixed
+	 * @return bool
 	 */
-	public function file_exists($path) {
-		if ($path == '/') {
+	public function file_exists(string $path): bool {
+		if ($path === '/') {
 			return true;
 		}
-		return $this->basicOperation('file_exists', $path);
+		$result = $this->basicOperation('file_exists', $path);
+		return ($result === true);
 	}
 
 	/**
+	 * Gets the last modification time of a file or directory at the given path.
+	 *
 	 * @param string $path
-	 * @return mixed
+	 * @return int|false Returns the file modification time as an integer, or false on failure.
 	 */
-	public function filemtime($path) {
+	public function filemtime(string $path): int|false {
 		return $this->basicOperation('filemtime', $path);
 	}
 
 	/**
+	 * Updates the modification time of a file or creates it if it does not exist.
+	 *
 	 * @param string $path
-	 * @param int|string $mtime
+	 * @param int|string|null $mtime The modification time as an integer timestamp, string parseable by strtotime, or null for current time.
+	 * @return bool True on success, false on failure.
 	 */
-	public function touch($path, $mtime = null): bool {
-		if (!is_null($mtime) && !is_numeric($mtime)) {
+	public function touch(string $path, int|string|null $mtime = null): bool {
+		// If mtime is a string, attempt to parse it to a timestamp.
+		// Return early and log a warning if it's not parseable.
+		if ($mtime !== null && !is_numeric($mtime)) {
+			$originalMtime = $mtime;
 			$mtime = strtotime($mtime);
+			if ($mtime === false) {
+				$this->logger->warning('Invalid mtime value passed to touch()', [
+					'app' => 'core',
+					'value' => $originalMtime,
+					'path' => $path,
+				]);
+				return false;
+			}
 		}
 
 		$hooks = ['touch'];
 
+		// If the file does not exist, add hooks for creation and writing.
 		if (!$this->file_exists($path)) {
 			$hooks[] = 'create';
 			$hooks[] = 'write';
 		}
+
 		try {
 			$result = $this->basicOperation('touch', $path, $hooks, $mtime);
 		} catch (\Exception $e) {
-			$this->logger->info('Error while setting modified time', ['app' => 'core', 'exception' => $e]);
+			$this->logger->info('Error while setting modified time', [
+				'app' => 'core',
+				'exception' => $e,
+			]);
 			$result = false;
 		}
+
 		if (!$result) {
-			// If create file fails because of permissions on external storage like SMB folders,
-			// check file exists and return false if not.
+			/*
+			 * If native touch fails, check if the file exists.
+			 * If the file does not exist (likely due to permission or storage errors), return false.
+			 * If the file does exist, emulate touch by updating mtime in the cache.
+			 */
 			if (!$this->file_exists($path)) {
 				return false;
 			}
-			if (is_null($mtime)) {
+			if ($mtime === null) {
+				// Should we perhaps log this too, at least at debug level?
 				$mtime = time();
 			}
-			//if native touch fails, we emulate it by changing the mtime in the cache
 			$this->putFileInfo($path, ['mtime' => floor($mtime)]);
 		}
+
 		return true;
 	}
 
@@ -1000,48 +1029,57 @@ class View {
 	}
 
 	/**
+	 * Open a file stream for reading or writing.
+	 *
 	 * @param string $path
-	 * @param string $mode 'r' or 'w'
+	 * @param string $mode 'r', 'w', 'r+', 'w+', 'x', 'x+', 'a', 'a+'
 	 * @return resource|false
 	 * @throws LockedException
 	 */
-	public function fopen($path, $mode) {
-		$mode = str_replace('b', '', $mode); // the binary flag is a windows only feature which we do not support
+	public function fopen(string $path, string $mode) {
+		// Remove unsupported binary flag (Windows only)
+		$mode = str_replace('b', '', $mode);
+
+		// Supported modes
+		$validModes = ['r', 'w', 'r+', 'w+', 'x', 'x+', 'a', 'a+'];
+		if (!in_array($mode, $validModes, true)) {
+			$this->logger->error("Invalid mode ($mode) for $path", ['app' => 'core']);
+			return false;
+		}
+
+		// Assign hooks based on mode
 		$hooks = [];
-		switch ($mode) {
-			case 'r':
-				$hooks[] = 'read';
-				break;
-			case 'r+':
-			case 'w+':
-			case 'x+':
-			case 'a+':
-				$hooks[] = 'read';
-				$hooks[] = 'write';
-				break;
-			case 'w':
-			case 'x':
-			case 'a':
-				$hooks[] = 'write';
-				break;
-			default:
-				$this->logger->error('invalid mode (' . $mode . ') for ' . $path, ['app' => 'core']);
+		if (strpos($mode, 'r') === 0 || strpos($mode, '+') !== false) {
+			$hooks[] = 'read';
+		}
+		if (strpos($mode, 'w') === 0 || strpos($mode, 'a') === 0 || strpos($mode, 'x') === 0 || strpos($mode, '+') !== false) {
+			$hooks[] = 'write';
 		}
 
-		if ($mode !== 'r' && $mode !== 'w') {
-			$this->logger->info('Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends', ['app' => 'core']);
+		// Warn about less-performant modes
+		if (!in_array($mode, ['r', 'w'], true)) {
+			$this->logger->info(
+				// Should we log the actual mode and path here maybe?
+				'Trying to open a file with a mode other than "r" or "w" can cause severe performance issues with some backends',
+				['app' => 'core']
+			);
 		}
 
+		// Open file handle
 		$handle = $this->basicOperation('fopen', $path, $hooks, $mode);
-		if (!is_resource($handle) && $mode === 'r') {
-			// trying to read a file that isn't on disk, check if the cache is out of sync and rescan if needed
+
+		// Handle edge cases for missing files
+		if ($handle === false && $mode === 'r') {
 			$mount = $this->getMount($path);
 			$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
 			$storage = $mount->getStorage();
+
+			// Check for cache inconsistency and rescan if necessary
 			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($path)) {
 				$this->writeUpdate($storage, $internalPath);
 			}
 		}
+
 		return $handle;
 	}
 
