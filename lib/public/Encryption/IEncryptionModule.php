@@ -61,7 +61,7 @@ interface IEncryptionModule {
 	 * buffer.
 	 *
 	 * @param string $path to the file
-	 * @param string $position id of the last block (looks like "<Number>end")
+	 * @param string $blockId Block identifier of the last block (looks like "<Number>end")
 	 *
 	 * @return string remained data which should be written to the file in case
 	 *                of a write operation
@@ -71,26 +71,28 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function end(string $path, string $position = '0'): string;
+	public function end(string $path, string $blockId = '0'): string;
 
 	/**
 	 * encrypt data
 	 *
 	 * @param string $data you want to encrypt
-	 * @param string $position position of the block we want to encrypt (starts with '0')
+	 * @param string $blockId Block identifier representing the block index we want to encrypt
+	 *							(starts with '0'). Usually a numeric string (e.g. "0", "5"), but
+	 *							may have a special marker, such as "5end" to denote the final block.
 	 *
 	 * @return string encrypted data
 	 *
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function encrypt(string $data, string $position = '0'): string;
+	public function encrypt(string $data, string $blockId = '0'): string;
 
 	/**
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
-	 * @param string $position position of the block we want to decrypt
+	 * @param string $blockId Block identifier representing the block index we want to decrypt
 	 *
 	 * @return string decrypted data
 	 *
@@ -99,13 +101,13 @@ interface IEncryptionModule {
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
 	 */
-	public function decrypt(string $data, string $position = '0'): string;
+	public function decrypt(string $data, string $blockId = '0'): string;
 
 	/**
 	 * update encrypted file, e.g. give additional users access to the file
 	 *
 	 * @param string $path path to the file which should be updated
-	 * @param null|string $uid of the user who performs the operation
+	 * @param null|string $uid of the user who performs the operation (null for public access).
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return bool
 	 * @since 8.1.0
