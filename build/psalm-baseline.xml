@@ -3268,6 +3268,12 @@
       <code><![CDATA[listen]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/templates/publicshareauth.php">
+    <DeprecatedMethod>
+      <code><![CDATA[provideInitialState]]></code>
+      <code><![CDATA[provideInitialState]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="lib/base.php">
     <InvalidArgument>
       <code><![CDATA[$restrictions]]></code>
