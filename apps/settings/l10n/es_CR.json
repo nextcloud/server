@@ -5,9 +5,6 @@
     "So-so password" : "Contraseña aceptable",
     "Good password" : "Buena contraseña",
     "Strong password" : "Contraseña fuerte",
-    "Groups" : "Grupos",
-    "Group list is empty" : "La lista de grupos esta vacía",
-    "Unable to retrieve the group list" : "No fue posible recuperar la lista del gurpo",
     "{actor} changed your password" : "{actor} ha cambiado tu contraseña",
     "You changed your password" : "Cambiaste tu contraseña",
     "Your password was reset by an administrator" : "Tu contraseña ha sido restablecida por un adminsitrador",
@@ -99,6 +96,7 @@
     "Level" : "Nivel",
     "Actions" : "Acciones",
     "No apps found for your version" : "No se encontraron aplicaciones para tu versión",
+    "Groups" : "Grupos",
     "Group name" : "Nombre del grupo",
     "Loading" : "Cargando",
     "Daemon" : "Demonio",
@@ -221,6 +219,8 @@
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
+    "Group list is empty" : "La lista de grupos esta vacía",
+    "Unable to retrieve the group list" : "No fue posible recuperar la lista del gurpo",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

@@ -94,24 +94,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Get the quota of a user
-	 *
-	 * @param IUser|null $user
-	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false|float Quota bytes
-	 * @deprecated 9.0.0 - Use \OCP\IUser::getQuota or \OCP\IUser::getQuotaBytes
-	 */
-	public static function getUserQuota(?IUser $user) {
-		if (is_null($user)) {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
-		}
-		$userQuota = $user->getQuota();
-		if ($userQuota === 'none') {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
-		}
-		return \OCP\Util::computerFileSize($userQuota);
-	}
-
-	/**
 	 * copies the skeleton to the users /files
 	 *
 	 * @param string $userId
@@ -297,7 +279,7 @@ class OC_Util {
 	}
 
 	/**
-	 * check if the current server configuration is suitable for ownCloud
+	 * Check if the current server environment configuration is suitable for Nextcloud
 	 *
 	 * @return array arrays with error messages and hints
 	 */
@@ -771,52 +753,85 @@ class OC_Util {
 	}
 
 	/**
-	 * Check whether the instance needs to perform an upgrade,
-	 * either when the core version is higher or any app requires
-	 * an upgrade.
+	 * Determine whether this Nextcloud Server instance requires an upgrade.
 	 *
-	 * @param \OC\SystemConfig $config
-	 * @return bool whether the core or any app needs an upgrade
-	 * @throws \OCP\HintException When the upgrade from the given version is not allowed
-	 * @deprecated 32.0.0 Use \OCP\Util::needUpgrade instead
+	 * Compares the version stored in config.php ("installed" version) with the
+	 * version reported by the running codebase ("code" version). Returns true
+	 * when the codebase is newer, or when any enabled app requires an upgrade.
+	 *
+	 * Notes:
+	 * - "installed" refers to the version recorded in config.php.
+	 * - "code" refers to the version of the running Nextcloud Server code (version.php).
+	 * - Blocks unsupported downgrades (code older than installed), but does NOT validate
+	 *	 whether an upgrade path is supported (e.g., skipping major versions like 28->30).
+	 *   Callers are expected to check that on their own.
+	 *
+	 * @param \OC\SystemConfig $config System configuration (reads 'installed', 'version', 'debug').
+	 * @return bool True if a core or app upgrade is required, false otherwise.
+	 * @throws \OCP\HintException If a downgrade is detected and not allowed.
+	 * @deprecated 32.0.0 Use \OCP\Util::needUpgrade() instead.
+	 * @see \OCP\Util::needUpgrade
 	 */
-	public static function needUpgrade(\OC\SystemConfig $config) {
-		if ($config->getValue('installed', false)) {
-			$installedVersion = $config->getValue('version', '0.0.0');
-			$currentVersion = implode('.', \OCP\Util::getVersion());
-			$versionDiff = version_compare($currentVersion, $installedVersion);
-			if ($versionDiff > 0) {
-				return true;
-			} elseif ($config->getValue('debug', false) && $versionDiff < 0) {
-				// downgrade with debug
-				$installedMajor = explode('.', $installedVersion);
-				$installedMajor = $installedMajor[0] . '.' . $installedMajor[1];
-				$currentMajor = explode('.', $currentVersion);
-				$currentMajor = $currentMajor[0] . '.' . $currentMajor[1];
-				if ($installedMajor === $currentMajor) {
-					// Same major, allow downgrade for developers
-					return true;
-				} else {
-					// downgrade attempt, throw exception
-					throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
-				}
-			} elseif ($versionDiff < 0) {
-				// downgrade attempt, throw exception
-				throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
-			}
-
-			// also check for upgrades for apps (independently from the user)
-			$apps = \OC_App::getEnabledApps(false, true);
-			$shouldUpgrade = false;
-			foreach ($apps as $app) {
-				if (\OC_App::shouldUpgrade($app)) {
-					$shouldUpgrade = true;
-					break;
-				}
-			}
-			return $shouldUpgrade;
-		} else {
+	public static function needUpgrade(\OC\SystemConfig $config): bool {
+		if (!$config->getValue('installed', false)) {
+			// not installed (nothing to do)
 			return false;
 		}
+
+		$installedVersion = (string)$config->getValue('version', '0.0.0');
+		$codeVersion = implode('.', \OCP\Util::getVersion());
+
+		// codebase newer: upgrade needed
+		if (version_compare($codeVersion, $installedVersion, '>')) {
+			// upgrade needed
+			return true;
+		}
+
+		// codebase older: downgrade attempt
+		if (version_compare($codeVersion, $installedVersion, '<')) {
+			// allow downgrade only in debug and when major.minor match
+			if ($config->getValue('debug', false)) {
+				$installedMajorMinor = self::getMajorMinor($installedVersion);
+				$codeMajorMinor = self::getMajorMinor($codeVersion);
+				if ($installedMajorMinor === $codeMajorMinor) {
+					return true;
+				}
+			}
+
+			// disallow downgrade (not in debug mode or major.minor mismatch)
+			/** @var \Psr\Log\LoggerInterface $logger */
+			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger->error(
+				'Detected downgrade attempt from installed {installed} to code {code}',
+				[ 'installed' => $installedVersion, 'code' => $codeVersion, 'app' => 'core', ]
+			);
+			throw new \OCP\HintException(sprintf(
+				'Downgrading Nextcloud from %s to %s is not supported and may corrupt your instance (database and data directory). '
+				. 'Restore a full backup (code, database, and data directory) taken before the change, '
+				. 'or restore the previous codebase so that it matches the installed version (version %s).',
+				$installedVersion, $codeVersion, $installedVersion
+			));
+		}
+
+		// versions are equal: check whether any enabled apps need upgrading
+		$appManager = \OCP\Server::get(\OCP\App\IAppManager::class);
+		$apps = $appManager->getEnabledApps();
+		foreach ($apps as $app) {
+			if ($appManager->isUpgradeRequired($app)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Helper to return "major.minor" for a version string
+	 */
+	private static function getMajorMinor(string $version): string {
+		$parts = explode('.', $version, 3);
+		// we could sanity check/guard/fallback this more but there's only so much we can do...
+		$major = $parts[0];
+		$minor = $parts[1];
+		return $major . '.' . $minor;
 	}
 }

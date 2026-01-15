@@ -29,8 +29,8 @@ describe('Limit to sharing to people in the same group', () => {
 		cy.createRandomUser()
 			.then((user) => {
 				alice = user
-				cy.createRandomUser()
 			})
+		cy.createRandomUser()
 			.then((user) => {
 				bob = user
 
@@ -49,9 +49,12 @@ describe('Limit to sharing to people in the same group', () => {
 				cy.login(alice)
 				cy.visit('/apps/files')
 				createShare(randomFileName1, bob.userId)
+				cy.logout()
+
 				cy.login(bob)
 				cy.visit('/apps/files')
 				createShare(randomFileName2, alice.userId)
+				cy.logout()
 			})
 	})
 

@@ -13,11 +13,11 @@ use OCA\Files_Sharing\MountProvider;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Config\IMountProviderArgs;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -84,13 +84,14 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
-	 * @param IMountProviderArgs[] $mountProviderArgs
+	 * @param MountProviderArgs[] $mountProviderArgs
 	 * @return array<string, IMountPoint> IMountPoint array indexed by mount
 	 *                                    point.
 	 */
 	public function getUserMountsFromProviderByPath(
 		string $providerClass,
 		string $path,
+		bool $forChildren,
 		array $mountProviderArgs,
 	): array {
 		$provider = $this->providers[$providerClass] ?? null;
@@ -107,6 +108,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		/** @var IPartialMountProvider $provider */
 		return $provider->getMountsForPath(
 			$path,
+			$forChildren,
 			$mountProviderArgs,
 			$this->loader,
 		);

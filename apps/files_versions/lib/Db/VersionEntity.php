@@ -44,7 +44,7 @@ class VersionEntity extends Entity implements JsonSerializable {
 
 	public function jsonSerialize(): array {
 		return [
-			'id' => $this->id,
+			'id' => $this->getId(),
 			'file_id' => $this->fileId,
 			'timestamp' => $this->timestamp,
 			'size' => $this->size,

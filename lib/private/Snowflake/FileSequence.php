@@ -15,6 +15,8 @@ use Override;
 class FileSequence implements ISequence {
 	/** Number of files to use */
 	private const NB_FILES = 20;
+	/** Lock file directory **/
+	public const LOCK_FILE_DIRECTORY = 'sfi_file_sequence';
 	/** Lock filename format **/
 	private const LOCK_FILE_FORMAT = 'seq-%03d.lock';
 	/** Delete sequences after SEQUENCE_TTL seconds **/
@@ -25,7 +27,25 @@ class FileSequence implements ISequence {
 	public function __construct(
 		ITempManager $tempManager,
 	) {
-		$this->workDir = $tempManager->getTemporaryFolder('.snowflakes');
+		$this->workDir = $tempManager->getTempBaseDir() . '/' . self::LOCK_FILE_DIRECTORY;
+		$this->ensureWorkdirExists();
+	}
+
+	private function ensureWorkdirExists(): void {
+		if (is_dir($this->workDir)) {
+			return;
+		}
+
+		if (@mkdir($this->workDir, 0700)) {
+			return;
+		}
+
+		// Maybe the directory was created in the meantime
+		if (is_dir($this->workDir)) {
+			return;
+		}
+
+		throw new \Exception('Fail to create file sequence directory');
 	}
 
 	#[Override]

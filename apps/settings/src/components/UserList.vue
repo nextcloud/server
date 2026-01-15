@@ -313,7 +313,7 @@ export default {
 		},
 
 		closeDialog() {
-			this.$store.commit('setShowConfig', {
+			this.$store.dispatch('setShowConfig', {
 				key: 'showNewUserForm',
 				value: false,
 			})

@@ -7,7 +7,6 @@ declare(strict_types=1);
  */
 namespace OCA\Theming\Tests\Settings;
 
-use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
@@ -60,7 +59,6 @@ class PersonalTest extends TestCase {
 			->willReturn($this->themes);
 
 		$this->admin = new Personal(
-			Application::APP_ID,
 			'admin',
 			$this->config,
 			$this->themesService,

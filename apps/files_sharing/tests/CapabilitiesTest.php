@@ -19,11 +19,9 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IProviderFactory;
@@ -90,9 +88,6 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IProviderFactory::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IRootFolder::class),
-			$this->createMock(IMailer::class),
-			$this->createMock(IURLGenerator::class),
-			$this->createMock(\OC_Defaults::class),
 			$this->createMock(IEventDispatcher::class),
 			$this->createMock(IUserSession::class),
 			$this->createMock(KnownUserService::class),

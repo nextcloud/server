@@ -1,50 +1,46 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { App, ComponentPublicInstance } from 'vue'
-
 import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
+import { FileType, registerSidebarTab } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import { createApp } from 'vue'
-import FilesVersionsSidebarTab from './views/FilesVersionsSidebarTab.vue'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { defineAsyncComponent, defineCustomElement } from 'vue'
 
-// Init FilesVersions tab component
-let filesVersionsTabApp: App<Element> | null = null
-let filesVersionsTabInstance: ComponentPublicInstance<typeof FilesVersionsSidebarTab> | null = null
+const tagName = 'files-versions_sidebar-tab'
+const FilesVersionsSidebarTab = defineAsyncComponent(() => import('./views/FilesVersionsSidebarTab.vue'))
 
-window.addEventListener('DOMContentLoaded', function() {
-	if (window.OCA.Files?.Sidebar === undefined) {
+registerSidebarTab({
+	id: 'files_versions',
+	order: 90,
+	displayName: t('files_versions', 'Versions'),
+	iconSvgInline: BackupRestore,
+	enabled({ node }) {
+		if (isPublicShare()) {
+			return false
+		}
+		if (node.type !== FileType.File) {
+			return false
+		}
+		// setup tab
+		setupTab()
+		return true
+	},
+	tagName,
+})
+
+/**
+ * Setup the custom element for the Files Versions sidebar tab.
+ */
+function setupTab() {
+	if (window.customElements.get(tagName)) {
+		// already defined
 		return
 	}
 
-	window.OCA.Files.Sidebar.registerTab(new window.OCA.Files.Sidebar.Tab({
-		id: 'files_versions',
-		name: t('files_versions', 'Versions'),
-		iconSvg: BackupRestore,
-
-		async mount(el, fileInfo) {
-			// destroy previous instance if available
-			if (filesVersionsTabApp) {
-				filesVersionsTabApp.unmount()
-			}
-			filesVersionsTabApp = createApp(FilesVersionsSidebarTab)
-			filesVersionsTabInstance = filesVersionsTabApp.mount(el)
-			filesVersionsTabInstance.update(fileInfo)
-		},
-		update(fileInfo) {
-			filesVersionsTabInstance!.update(fileInfo)
-		},
-		setIsActive(isActive) {
-			filesVersionsTabInstance?.setIsActive(isActive)
-		},
-		destroy() {
-			filesVersionsTabApp?.unmount()
-			filesVersionsTabApp = null
-		},
-		enabled(fileInfo) {
-			return !(fileInfo?.isDirectory() ?? true)
-		},
+	window.customElements.define(tagName, defineCustomElement(FilesVersionsSidebarTab, {
+		shadowRoot: false,
 	}))
-})
+}

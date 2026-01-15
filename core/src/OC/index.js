@@ -14,7 +14,7 @@ import {
 	dirname,
 	encodePath,
 	isSamePath,
-	joinPaths,
+	join,
 } from '@nextcloud/paths'
 import {
 	generateFilePath,
@@ -69,6 +69,7 @@ import { getRequestToken } from './requesttoken.ts'
 import {
 	linkToRemoteBase,
 } from './routing.js'
+import Settings from './settings.js'
 import { theme } from './theme.js'
 import Util from './util.js'
 import webroot from './webroot.js'
@@ -170,7 +171,7 @@ export default {
 	/**
 	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
 	 */
-	joinPaths,
+	joinPaths: join,
 
 	/**
 	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
@@ -198,6 +199,10 @@ export default {
 	 */
 	PasswordConfirmation,
 	Plugins,
+	/**
+	 * @deprecated 25.0.0 Use Vue based (`@nextcloud/vue`) settings components instead
+	 */
+	Settings,
 	theme,
 	Util,
 	debug,

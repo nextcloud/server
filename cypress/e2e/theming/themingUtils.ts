@@ -63,13 +63,8 @@ export function expectBackgroundColor(element: JQuery<HTMLElement>, color: strin
  * @param expectedBackground the expected background
  */
 export function validateUserThemingDefaultCss(expectedColor = defaultPrimary, expectedBackground: string | null = defaultBackground) {
-	const defaultSelectButton = Cypress.$('[data-user-theming-background-default]')
-	if (defaultSelectButton.length === 0) {
-		return false
-	}
-
-	const backgroundImage = defaultSelectButton.css('background-image')
-	const backgroundColor = defaultSelectButton.css('background-color')
+	const backgroundImage = Cypress.$('body').css('background-image')
+	const backgroundColor = Cypress.$('body').css('background-color')
 
 	const isValidBackgroundImage = !expectedBackground
 		? (backgroundImage === 'none' || Cypress.$('body').css('background-image') === 'none')
@@ -86,31 +81,30 @@ export function validateUserThemingDefaultCss(expectedColor = defaultPrimary, ex
 }
 
 /**
- *
- * @param context
- * @param index
+ * @param trigger - The color picker trigger
+ * @param index - The color index to pick, if not provided a random one will be picked
  */
-export function pickRandomColor(context: string, index?: number): Cypress.Chainable<string> {
+export function pickColor(trigger: Cypress.Chainable<JQuery>, index?: number): Cypress.Chainable<string> {
 	// Pick one of the first 8 options
 	const randColour = index ?? Math.floor(Math.random() * 8)
 
-	const colorPreviewSelector = `${context} [data-admin-theming-setting-color]`
-
 	let oldColor = ''
-	cy.get(colorPreviewSelector).then(($el) => {
+	trigger.as('trigger').then(($el) => {
 		oldColor = $el.css('background-color')
 	})
 
-	// Open picker
-	cy.get(`${context} [data-admin-theming-setting-color-picker]`).scrollIntoView()
-	cy.get(`${context} [data-admin-theming-setting-color-picker]`).click({ force: true })
+	cy.get('@trigger').scrollIntoView()
+	cy.get('@trigger').click({ force: true })
 
 	// Click on random color
 	cy.get('.color-picker__simple-color-circle').eq(randColour).click()
 
 	// Wait for color change
-	cy.waitUntil(() => Cypress.$(colorPreviewSelector).css('background-color') !== oldColor)
+	cy.get('@trigger')
+		.should(($el) => $el.css('background-color') !== oldColor)
+
+	cy.findByRole('button', { name: /Choose/i }).click()
 
 	// Get the selected color from the color preview block
-	return cy.get(colorPreviewSelector).then(($el) => $el.css('background-color'))
+	return cy.get('@trigger').then(($el) => $el.css('background-color'))
 }

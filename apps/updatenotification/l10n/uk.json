@@ -25,6 +25,7 @@
     "<strong>All</strong> apps have a compatible version for this {productName} version available." : "<strong>Всі</strong> застосунки мають сумісну версію для {productName}, який має доступну версію.",
     "_<strong>%n</strong> app has no compatible version for this {productName} version available._::_<strong>%n</strong> apps have no compatible version for this {productName} version available._" : ["Відсутній <strong>%n</strong> сумісниий застосунок для {productName} версії.","Відсутні <strong>%n</strong> сумісні застосунки для для {productName} версії.","Відсутні <strong>%n</strong> сумісних застосунків для {productName} версії.","Відсутні <strong>%n</strong> сумісних застосунків для {productName} версії."],
     "Enterprise" : "Для бізнесу",
+    "This channel is only available to customers and provides the {enterprise} package." : "Цей канал доступний тільки для клієнтів та постачальників пакунку {enterprise}.",
     "Stable" : "Стабільний",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Остання стабільна версія. Він підходить для регулярного використання та завжди оновлюється до останньої основної версії.",
     "Beta" : "Бета",

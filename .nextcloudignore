@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-only
+# Files removed at build time
+
+# Global exclude
+.editorconfig
+.git
+.git-blame-ignore-revs
+.gitattributes
+.github
+.gitignore
+.gitmodules
+.idea
+.l10nignore
+.nextcloudignore
+.noopenapi
+.tx
+cypress
+tests
+
+# Server specific
+/.devcontainer
+/__mocks__
+/__tests__
+/autotest*.sh
+/build
+/config/config.php
+/contribute
+/data

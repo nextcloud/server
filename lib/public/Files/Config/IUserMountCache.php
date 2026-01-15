@@ -7,6 +7,7 @@
  */
 namespace OCP\Files\Config;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
@@ -132,4 +133,18 @@ interface IUserMountCache {
 	 * @since 24.0.0
 	 */
 	public function getMountsInPath(IUser $user, string $path): array;
+
+	/**
+	 * Remove a mount by it's mountpoint
+	 *
+	 * @since 33.0.0
+	 */
+	public function removeMount(string $mountPoint): void;
+
+	/**
+	 * Register a new mountpoint for a user
+	 *
+	 * @since 33.0.0
+	 */
+	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void;
 }

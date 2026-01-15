@@ -1874,7 +1874,6 @@ class View {
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK,
-			IShare::TYPE_SCIENCEMESH
 		];
 		$shareManager = Server::get(IManager::class);
 		/** @var IShare[] $shares */

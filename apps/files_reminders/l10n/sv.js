@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Clear reminder" : "Rensa påminnelse",
     "Set reminder" : "Ställ in påminnelse",
+    "Set reminder for " : "Ställ in påminnelse för",
     "Reminder set" : "Påminnelse inställd",
     "Custom reminder" : "Anpassad påminnelse",
     "Later today" : "Senare idag",

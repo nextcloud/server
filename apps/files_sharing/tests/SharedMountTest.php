@@ -375,7 +375,6 @@ class SharedMountTest extends TestCase {
 		$mountProvider = Server::get(MountProvider::class);
 		$reflectionClass = new \ReflectionClass($mountProvider);
 		$reflectionCacheFactory = $reflectionClass->getProperty('cacheFactory');
-		$reflectionCacheFactory->setAccessible(true);
 		$reflectionCacheFactory->setValue($mountProvider, $cacheFactory);
 
 		// share to user

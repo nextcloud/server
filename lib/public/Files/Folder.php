@@ -194,12 +194,12 @@ interface Folder extends Node {
 	/**
 	 * Add a suffix to the name in case the file exists
 	 *
-	 * @param string $name
+	 * @param string $filename
 	 * @return string
 	 * @throws NotPermittedException
 	 * @since 8.1.0
 	 */
-	public function getNonExistingName($name);
+	public function getNonExistingName($filename);
 
 	/**
 	 * @param int $limit

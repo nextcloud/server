@@ -24,7 +24,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.ftp.php');
+		$this->loadConfig(__DIR__ . '/../config.ftp.php');
 
 		$rootInstance = new FTP($this->config);
 		$rootInstance->mkdir($id);

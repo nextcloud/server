@@ -17,6 +17,7 @@ use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -29,22 +30,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ClientFlowLoginV2ControllerTest extends TestCase {
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var LoginFlowV2Service|MockObject */
-	private $loginFlowV2Service;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var ISession|MockObject */
-	private $session;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var ISecureRandom|MockObject */
-	private $random;
-	/** @var Defaults|MockObject */
-	private $defaults;
-	/** @var IL10N|MockObject */
-	private $l;
+	private IRequest&MockObject $request;
+	private LoginFlowV2Service&MockObject $loginFlowV2Service;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ISession&MockObject $session;
+	private IUserSession&MockObject $userSession;
+	private ISecureRandom&MockObject $random;
+	private Defaults&MockObject $defaults;
+	private IInitialState&MockObject $initialState;
+	private IL10N&MockObject $l;
 	/** @var ClientFlowLoginV2Controller */
 	private $controller;
 
@@ -58,6 +52,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l
 			->expects($this->any())
@@ -75,7 +70,8 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 			$this->random,
 			$this->defaults,
 			'user',
-			$this->l
+			$this->l,
+			$this->initialState,
 		);
 	}
 

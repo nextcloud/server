@@ -20,16 +20,16 @@ class FileSequenceTest extends ISequenceBase {
 
 	public function setUp():void {
 		$tempManager = $this->createMock(ITempManager::class);
-		$this->path = uniqid(sys_get_temp_dir() . '/php_test_seq_', true);
-		mkdir($this->path);
-		$tempManager->method('getTemporaryFolder')->willReturn($this->path);
+		$this->path = sys_get_temp_dir();
+		$tempManager->method('getTempBaseDir')->willReturn($this->path);
 		$this->sequence = new FileSequence($tempManager);
 	}
 
 	public function tearDown():void {
-		foreach (glob($this->path . '/*') as $file) {
+		$lockDirectory = $this->path . '/' . FileSequence::LOCK_FILE_DIRECTORY;
+		foreach (glob($lockDirectory . '/*') as $file) {
 			unlink($file);
 		}
-		rmdir($this->path);
+		rmdir($lockDirectory);
 	}
 }

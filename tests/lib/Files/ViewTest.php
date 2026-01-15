@@ -1539,7 +1539,6 @@ class ViewTest extends \Test\TestCase {
 	public function testHookPaths($root, $path, $shouldEmit): void {
 		$filesystemReflection = new \ReflectionClass(Filesystem::class);
 		$defaultRootValue = $filesystemReflection->getProperty('defaultInstance');
-		$defaultRootValue->setAccessible(true);
 		$oldRoot = $defaultRootValue->getValue();
 		$defaultView = new View('/foo/files');
 		$defaultRootValue->setValue(null, $defaultView);
@@ -1811,13 +1810,13 @@ class ViewTest extends \Test\TestCase {
 			['touch', ['test.txt'], 'test.txt', 'touch', null, null, null],
 
 			// ---- no hooks, no locks ---
-			['is_dir', ['dir'], 'dir', null],
-			['is_file', ['dir'], 'dir', null],
+			['is_dir', ['dir'], 'dir', ''],
+			['is_file', ['dir'], 'dir', ''],
 			[
 				'stat',
 				['dir'],
 				'dir',
-				null,
+				'',
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
@@ -1828,7 +1827,7 @@ class ViewTest extends \Test\TestCase {
 				'filetype',
 				['dir'],
 				'dir',
-				null,
+				'',
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
@@ -1839,7 +1838,7 @@ class ViewTest extends \Test\TestCase {
 				'filesize',
 				['dir'],
 				'dir',
-				null,
+				'',
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
@@ -1847,17 +1846,17 @@ class ViewTest extends \Test\TestCase {
 				/* Return an int */
 				100
 			],
-			['isCreatable', ['dir'], 'dir', null],
-			['isReadable', ['dir'], 'dir', null],
-			['isUpdatable', ['dir'], 'dir', null],
-			['isDeletable', ['dir'], 'dir', null],
-			['isSharable', ['dir'], 'dir', null],
-			['file_exists', ['dir'], 'dir', null],
+			['isCreatable', ['dir'], 'dir', ''],
+			['isReadable', ['dir'], 'dir', ''],
+			['isUpdatable', ['dir'], 'dir', ''],
+			['isDeletable', ['dir'], 'dir', ''],
+			['isSharable', ['dir'], 'dir', ''],
+			['file_exists', ['dir'], 'dir', ''],
 			[
 				'filemtime',
 				['dir'],
 				'dir',
-				null,
+				'',
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_SHARED,
@@ -1875,23 +1874,23 @@ class ViewTest extends \Test\TestCase {
 	 * @param array $operationArgs arguments for the operation
 	 * @param string $lockedPath path of the locked item to check
 	 * @param string $hookType hook type
-	 * @param int $expectedLockBefore expected lock during pre hooks
-	 * @param int $expectedLockDuring expected lock during operation
-	 * @param int $expectedLockAfter expected lock during post hooks
-	 * @param int $expectedStrayLock expected lock after returning, should
-	 *                               be null (unlock) for most operations
+	 * @param ?int $expectedLockBefore expected lock during pre hooks
+	 * @param ?int $expectedLockDuring expected lock during operation
+	 * @param ?int $expectedLockAfter expected lock during post hooks
+	 * @param ?int $expectedStrayLock expected lock after returning, should
+	 *                                be null (unlock) for most operations
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('basicOperationProviderForLocks')]
 	public function testLockBasicOperation(
-		$operation,
-		$operationArgs,
-		$lockedPath,
-		$hookType,
-		$expectedLockBefore = ILockingProvider::LOCK_SHARED,
-		$expectedLockDuring = ILockingProvider::LOCK_SHARED,
-		$expectedLockAfter = ILockingProvider::LOCK_SHARED,
-		$expectedStrayLock = null,
-		$returnValue = true,
+		string $operation,
+		array $operationArgs,
+		string $lockedPath,
+		string $hookType,
+		?int $expectedLockBefore = ILockingProvider::LOCK_SHARED,
+		?int $expectedLockDuring = ILockingProvider::LOCK_SHARED,
+		?int $expectedLockAfter = ILockingProvider::LOCK_SHARED,
+		?int $expectedStrayLock = null,
+		mixed $returnValue = true,
 	): void {
 		$view = new View('/' . $this->user . '/files/');
 
@@ -1931,7 +1930,7 @@ class ViewTest extends \Test\TestCase {
 		// do operation
 		call_user_func_array([$view, $operation], $operationArgs);
 
-		if ($hookType !== null) {
+		if ($hookType !== '') {
 			$this->assertEquals($expectedLockBefore, $lockTypePre, 'File locked properly during pre-hook');
 			$this->assertEquals($expectedLockAfter, $lockTypePost, 'File locked properly during post-hook');
 			$this->assertEquals($expectedLockDuring, $lockTypeDuring, 'File locked properly during operation');
@@ -2530,7 +2529,7 @@ class ViewTest extends \Test\TestCase {
 				}
 			);
 
-		if ($hookType !== null) {
+		if ($hookType !== '') {
 			Util::connectHook(
 				Filesystem::CLASSNAME,
 				$hookType,

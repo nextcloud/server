@@ -12,11 +12,11 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { onBeforeNavigation } from '../composables/useBeforeNavigation.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useSearchStore } from '../store/search.ts'
 import { VIEW_ID } from '../views/search.ts'
 
-const { currentView } = useNavigation(true)
+const activeStore = useActiveStore()
 const searchStore = useSearchStore()
 
 /**
@@ -49,7 +49,7 @@ onBeforeNavigation((to, from, next) => {
  * Are we currently on the search view.
  * Needed to disable the action menu (we cannot change the search mode there)
  */
-const isSearchView = computed(() => currentView.value.id === VIEW_ID)
+const isSearchView = computed(() => activeStore.activeView?.id === VIEW_ID)
 
 /**
  * Different searchbox label depending if filtering or searching

@@ -7,6 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-License-Identifier: (MIT AND BSD-3-Clause)
+SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: ripemd160 developers
@@ -34,6 +35,7 @@ SPDX-FileCopyrightText: Shuhei Kagawa
 SPDX-FileCopyrightText: Scott Cooper <scttcper@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+SPDX-FileCopyrightText: Richie Bendall
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
@@ -48,7 +50,6 @@ SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
 SPDX-FileCopyrightText: Kirill Fomichev <fanatid@ya.ru> (https://github.com/fanatid)
 SPDX-FileCopyrightText: Julian Gruber
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
@@ -137,6 +138,9 @@ This file is generated from multiple sources. Included packages:
 - @ckpack/vue-color
 	- version: 1.6.0
 	- license: MIT
+- @nextcloud/paths
+	- version: 2.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
@@ -177,7 +181,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-beta.4
+	- version: 4.0.0-beta.9
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -213,7 +217,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.2
 	- license: MIT
 - @nextcloud/paths
-	- version: 2.3.0
+	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
@@ -232,6 +236,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - eventemitter3
 	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 8.1.1
 	- license: MIT
 - @nextcloud/vue
 	- version: 8.35.0
@@ -320,6 +327,9 @@ This file is generated from multiple sources. Included packages:
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
+- char-regex
+	- version: 2.0.2
+	- license: MIT
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
@@ -356,6 +366,9 @@ This file is generated from multiple sources. Included packages:
 - date-fns
 	- version: 4.1.0
 	- license: MIT
+- date-format-parse
+	- version: 0.2.7
+	- license: MIT
 - debounce
 	- version: 3.0.0
 	- license: MIT
@@ -378,7 +391,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.3
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -493,6 +506,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-callable
 	- version: 1.2.7
+	- license: MIT
+- is-svg
+	- version: 6.1.0
 	- license: MIT
 - is-typed-array
 	- version: 1.1.15
@@ -623,15 +639,6 @@ This file is generated from multiple sources. Included packages:
 - parse-asn1
 	- version: 5.1.9
 	- license: ISC
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - pbkdf2
 	- version: 3.1.5
 	- license: MIT
@@ -716,6 +723,9 @@ This file is generated from multiple sources. Included packages:
 - stream-browserify
 	- version: 3.0.0
 	- license: MIT
+- strip-ansi
+	- version: 7.1.2
+	- license: MIT
 - string_decoder
 	- version: 1.3.0
 	- license: MIT
@@ -762,7 +772,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - typescript-event-target
-	- version: 1.1.1
+	- version: 1.1.2
 	- license: MIT
 - unified
 	- version: 11.0.5

@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: read
+  security-events: write
 
 concurrency:
   group: static-code-analysis-${{ github.head_ref || github.run_id }}

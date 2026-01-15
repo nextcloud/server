@@ -991,7 +991,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 */
 	protected function createShareObject(array $data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
-		$share->setId((int)$data['id'])
+		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])

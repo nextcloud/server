@@ -13,10 +13,6 @@ __webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t
 
-// Not used here but required for legacy templates
-window.OC = window.OC || {}
-window.OC.Settings = window.OC.Settings || {}
-
 store.replaceState(loadState('settings', 'mandatory2FAState'))
 
 const View = Vue.extend(AdminTwoFactor)

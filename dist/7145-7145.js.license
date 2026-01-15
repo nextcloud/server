@@ -41,7 +41,6 @@ SPDX-FileCopyrightText: Mathias Buus (@mafintosh)
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Kirill Fomichev <fanatid@ya.ru> (https://github.com/fanatid)
 SPDX-FileCopyrightText: Julian Gruber
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
@@ -104,12 +103,12 @@ This file is generated from multiple sources. Included packages:
 - @ckpack/vue-color
 	- version: 1.6.0
 	- license: MIT
-- @nextcloud/initial-state
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.12.0
+	- version: 3.12.2
 	- license: AGPL-3.0-or-later
+- @nextcloud/paths
+	- version: 2.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
@@ -157,9 +156,6 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.3
-	- license: GPL-3.0-or-later
-- @nextcloud/paths
-	- version: 2.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
@@ -291,7 +287,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.3
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -518,15 +514,6 @@ This file is generated from multiple sources. Included packages:
 - parse-asn1
 	- version: 5.1.9
 	- license: ISC
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - pbkdf2
 	- version: 3.1.5
 	- license: MIT
@@ -642,7 +629,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - typescript-event-target
-	- version: 1.1.1
+	- version: 1.1.2
 	- license: MIT
 - unified
 	- version: 11.0.5

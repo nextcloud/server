@@ -55,6 +55,7 @@ class Sharing implements IDelegatedSettings {
 			'restrictUserEnumerationToPhone' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_phone'),
 			'restrictUserEnumerationFullMatch' => $this->shareManager->allowEnumerationFullMatch(),
 			'restrictUserEnumerationFullMatchUserId' => $this->shareManager->matchUserId(),
+			'restrictUserEnumerationFullMatchDisplayname' => $this->shareManager->matchDisplayName(),
 			'restrictUserEnumerationFullMatchEmail' => $this->shareManager->matchEmail(),
 			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->shareManager->ignoreSecondDisplayName(),
 			'enforceLinksPassword' => Util::isPublicLinkPasswordRequired(false),

@@ -79,6 +79,7 @@ OC.L10N.register(
     "Search or create collaborative tags" : "Søk etter eller opprett samarbeidende merkelapper",
     "No tags to select, type to create a new tag" : "Ingen merkelapper å velge, skriv for å opprette en ny merkelapp",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samarbeidsmerkelapper er tilgjengelige for alle brukere. Begrensede merkelapper er synlige for brukere, men kan ikke tildeles av dem. Usynlige merkelapper er for intern bruk, siden brukere ikke kan se eller tildele dem.",
+    "Add tags" : "Legg til merker",
     "Assigned collaborative tags" : "Tildelt samarbeidstagger",
     "Open in Files" : "Åpne i Filer",
     "List of tags and their associated files and folders." : "Liste over merkelapper og deres assosierte filer og mapper.",

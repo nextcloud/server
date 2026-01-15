@@ -9,37 +9,35 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
+use OC\User\NoUserException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
-use OCA\Files_Sharing\ResponseDefinitions;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
-use OCP\Files;
 use OCP\Files\Events\InvalidateMountCacheEvent;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
+use OCP\ICertificateManager;
 use OCP\IDBConnection;
+use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IUserManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
-use OCP\Share;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
-/**
- * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
- */
 class Manager {
-	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
-
-	/** @var string|null */
-	private $uid;
+	private ?IUser $user;
 
 	public function __construct(
 		private IDBConnection $connection,
@@ -51,212 +49,113 @@ class Manager {
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private ICloudFederationFactory $cloudFederationFactory,
 		private IGroupManager $groupManager,
-		private IUserManager $userManager,
 		IUserSession $userSession,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
+		private IRootFolder $rootFolder,
+		private SetupManager $setupManager,
+		private ICertificateManager $certificateManager,
+		private ExternalShareMapper $externalShareMapper,
 	) {
-		$user = $userSession->getUser();
-		$this->uid = $user ? $user->getUID() : null;
+		$this->user = $userSession->getUser();
 	}
 
 	/**
-	 * add new server-to-server share
+	 * Add new server-to-server share.
 	 *
-	 * @param string $remote
-	 * @param string $token
-	 * @param string $password
-	 * @param string $name
-	 * @param string $owner
-	 * @param int $shareType
-	 * @param boolean $accepted
-	 * @param string $user
-	 * @param string $remoteId
-	 * @param int $parent
-	 * @return Mount|null
-	 * @throws \Doctrine\DBAL\Exception
+	 * @throws Exception
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
-	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted = false, $user = null, $remoteId = '', $parent = -1) {
-		$user = $user ?? $this->uid;
-		$accepted = $accepted ? IShare::STATUS_ACCEPTED : IShare::STATUS_PENDING;
-		$name = Filesystem::normalizePath('/' . $name);
+	public function addShare(ExternalShare $externalShare, IUser|IGroup|null $shareWith = null): ?Mount {
+		$shareWith = $shareWith ?? $this->user;
 
-		if ($accepted !== IShare::STATUS_ACCEPTED) {
+		if ($externalShare->getAccepted() !== IShare::STATUS_ACCEPTED) {
 			// To avoid conflicts with the mount point generation later,
 			// we only use a temporary mount point name here. The real
 			// mount point name will be generated when accepting the share,
 			// using the original share item name.
-			$tmpMountPointName = '{{TemporaryMountPointName#' . $name . '}}';
-			$mountPoint = $tmpMountPointName;
-			$hash = md5($tmpMountPointName);
-			$data = [
-				'remote' => $remote,
-				'share_token' => $token,
-				'password' => $password,
-				'name' => $name,
-				'owner' => $owner,
-				'user' => $user,
-				'mountpoint' => $mountPoint,
-				'mountpoint_hash' => $hash,
-				'accepted' => $accepted,
-				'remote_id' => $remoteId,
-				'share_type' => $shareType,
-			];
+			$tmpMountPointName = '{{TemporaryMountPointName#' . $externalShare->getName() . '}}';
+			$externalShare->setMountpoint($tmpMountPointName);
+			$externalShare->setShareWith($shareWith);
 
 			$i = 1;
-			while (!$this->connection->insertIfNotExist('*PREFIX*share_external', $data, ['user', 'mountpoint_hash'])) {
-				// The external share already exists for the user
-				$data['mountpoint'] = $tmpMountPointName . '-' . $i;
-				$data['mountpoint_hash'] = md5($data['mountpoint']);
-				$i++;
+			while (true) {
+				try {
+					$this->externalShareMapper->insert($externalShare);
+					break;
+				} catch (Exception $e) {
+					if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+						$externalShare->setMountpoint($tmpMountPointName . '-' . $i);
+						$i++;
+					} else {
+						throw $e;
+					}
+				}
 			}
+
 			return null;
 		}
 
-		$mountPoint = Files::buildNotExistingFileName('/', $name);
-		$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
-		$hash = md5($mountPoint);
+		$user = $shareWith instanceof IUser ? $shareWith : $this->user;
 
-		$this->writeShareToDb($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType);
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$mountPoint = $userFolder->getNonExistingName($externalShare->getName());
+
+		$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
+		$externalShare->setMountpoint($mountPoint);
+		$externalShare->setShareWith($user);
+		$this->externalShareMapper->insert($externalShare);
 
 		$options = [
-			'remote' => $remote,
-			'token' => $token,
-			'password' => $password,
-			'mountpoint' => $mountPoint,
-			'owner' => $owner
+			'remote' => $externalShare->getRemote(),
+			'token' => $externalShare->getShareToken(),
+			'password' => $externalShare->getPassword(),
+			'mountpoint' => $externalShare->getMountpoint(),
+			'owner' => $externalShare->getOwner(),
 		];
 		return $this->mountShare($options, $user);
 	}
 
-	/**
-	 * Write remote share to the database.
-	 *
-	 * @throws Exception
-	 */
-	private function writeShareToDb(string $remote, string $token, ?string $password, string $name, string $owner, string $user, string $mountPoint, string $hash, int $accepted, string $remoteId, int $parent, int $shareType): void {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->insert('share_external')
-			->values([
-				'remote' => $qb->createNamedParameter($remote, IQueryBuilder::PARAM_STR),
-				'share_token' => $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
-				'password' => $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR),
-				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
-				'owner' => $qb->createNamedParameter($owner, IQueryBuilder::PARAM_STR),
-				'user' => $qb->createNamedParameter($user, IQueryBuilder::PARAM_STR),
-				'mountpoint' => $qb->createNamedParameter($mountPoint, IQueryBuilder::PARAM_STR),
-				'mountpoint_hash' => $qb->createNamedParameter($hash, IQueryBuilder::PARAM_STR),
-				'accepted' => $qb->createNamedParameter($accepted, IQueryBuilder::PARAM_INT),
-				'remote_id' => $qb->createNamedParameter($remoteId, IQueryBuilder::PARAM_STR),
-				'parent' => $qb->createNamedParameter($parent, IQueryBuilder::PARAM_INT),
-				'share_type' => $qb->createNamedParameter($shareType, IQueryBuilder::PARAM_INT),
-			])
-			->executeStatement();
-	}
-
-	private function fetchShare(int $id): array|false {
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select('id', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted', 'parent', 'share_type', 'password', 'mountpoint_hash')
-			->from('share_external')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
-			->executeQuery();
-		$share = $result->fetchAssociative();
-		$result->closeCursor();
-		return $share;
-	}
-
-	/**
-	 * get share by token
-	 *
-	 * @param string $token
-	 * @return mixed share of false
-	 */
-	private function fetchShareByToken(string $token): array|false {
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select('id', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted', 'parent', 'share_type', 'password', 'mountpoint_hash')
-			->from('share_external')
-			->where($qb->expr()->eq('share_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
-			->executeQuery();
-		$share = $result->fetchAssociative();
-		$result->closeCursor();
-		return $share;
-	}
-
-	private function fetchUserShare(int $parentId, string $uid): ?array {
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select('id', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted', 'parent', 'share_type', 'password', 'mountpoint_hash')
-			->from('share_external')
-			->where($qb->expr()->andX(
-				$qb->expr()->eq('parent', $qb->createNamedParameter($parentId, IQueryBuilder::PARAM_INT)),
-				$qb->expr()->eq('user', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR)),
-			))
-			->executeQuery();
-		$share = $result->fetchAssociative();
-		$result->closeCursor();
-		if ($share !== false) {
-			return $share;
-		}
-		return null;
-	}
-
-	public function getShare(int $id, ?string $user = null): array|false {
-		$user = $user ?? $this->uid;
-		$share = $this->fetchShare($id);
-		if ($share === false) {
+	public function getShare(string $id, ?IUser $user = null): ExternalShare|false {
+		$user = $user ?? $this->user;
+		try {
+			$externalShare = $this->externalShareMapper->getById($id);
+		} catch (DoesNotExistException $e) {
 			return false;
 		}
 
 		// check if the user is allowed to access it
-		if ($this->canAccessShare($share, $user)) {
-			return $share;
+		if ($this->canAccessShare($externalShare, $user)) {
+			return $externalShare;
 		}
 
 		return false;
 	}
 
-	/**
-	 * Get share by token
-	 *
-	 * @param string $token
-	 * @return array|false
-	 */
-	public function getShareByToken(string $token): array|false {
-		$share = $this->fetchShareByToken($token);
-
-		// We do not check if the user is allowed to access it here,
-		// as this is not used from a user context.
-		if ($share === false) {
-			return false;
-		}
-
-		return $share;
-	}
-
-	private function canAccessShare(array $share, string $user): bool {
-		$validShare = isset($share['share_type']) && isset($share['user']);
-
-		if (!$validShare) {
+	private function canAccessShare(ExternalShare $share, IUser $user): bool {
+		$isValid = $share->getShareType() === null;
+		if ($isValid) {
+			// Invalid share type
 			return false;
 		}
 
 		// If the share is a user share, check if the user is the recipient
-		if ((int)$share['share_type'] === IShare::TYPE_USER
-			&& $share['user'] === $user) {
+		if ($share->getShareType() === IShare::TYPE_USER && $share->getUser() === $user->getUID()) {
 			return true;
 		}
 
 		// If the share is a group share, check if the user is in the group
-		if ((int)$share['share_type'] === IShare::TYPE_GROUP) {
-			$parentId = (int)$share['parent'];
-			if ($parentId !== -1) {
+		if ($share->getShareType() === IShare::TYPE_GROUP) {
+			$parentId = $share->getParent();
+			if ($parentId !== '-1') {
 				// we just retrieved a sub-share, switch to the parent entry for verification
-				$groupShare = $this->fetchShare($parentId);
+				$groupShare = $this->externalShareMapper->getById($parentId);
 			} else {
 				$groupShare = $share;
 			}
 
-			$user = $this->userManager->get($user);
-			if ($this->groupManager->get($groupShare['user'])->inGroup($user)) {
+			if ($this->groupManager->get($groupShare->getUser())->inGroup($user)) {
 				return true;
 			}
 		}
@@ -264,227 +163,178 @@ class Manager {
 		return false;
 	}
 
-	/**
-	 * Updates accepted flag in the database
-	 */
-	private function updateAccepted(int $shareId, bool $accepted): void {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->update('share_external')
-			->set('accepted', $qb->createNamedParameter($accepted ? 1 : 0, IQueryBuilder::PARAM_INT))
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId, IQueryBuilder::PARAM_INT)))
-			->executeStatement();
+	public function getShareByToken(string $token): ExternalShare|false {
+		try {
+			return $this->externalShareMapper->getShareByToken($token);
+		} catch (DoesNotExistException) {
+			return false;
+		}
 	}
 
 	/**
-	 * accept server-to-server share
+	 * @throws Exception
+	 */
+	private function updateSubShare(ExternalShare $externalShare, IUser $user, ?string $mountPoint, int $accepted): ExternalShare {
+		$parentId = $externalShare->getParent();
+		if ($parentId !== '-1') {
+			// this is the sub-share
+			$subShare = $externalShare;
+		} else {
+			try {
+				$subShare = $this->externalShareMapper->getUserShare($externalShare, $user);
+			} catch (DoesNotExistException) {
+				$subShare = new ExternalShare();
+				$subShare->generateId();
+				$subShare->setRemote($externalShare->getRemote());
+				$subShare->setPassword($externalShare->getPassword());
+				$subShare->setName($externalShare->getName());
+				$subShare->setOwner($externalShare->getOwner());
+				$subShare->setUser($user->getUID());
+				$subShare->setMountpoint($mountPoint ?? $externalShare->getMountpoint());
+				$subShare->setAccepted($accepted);
+				$subShare->setRemoteId($externalShare->getRemoteId());
+				$subShare->setParent((string)$externalShare->getId());
+				$subShare->setShareType($externalShare->getShareType());
+				$subShare->setShareToken($externalShare->getShareToken());
+				$this->externalShareMapper->insert($subShare);
+			}
+		}
+
+		if ($subShare->getAccepted() !== $accepted) {
+			$subShare->setAccepted($accepted);
+			if ($mountPoint !== null) {
+				$subShare->setMountpoint($mountPoint);
+			}
+			$this->externalShareMapper->update($subShare);
+		}
+
+		return $subShare;
+	}
+
+	/**
+	 * Accept server-to-server share.
 	 *
 	 * @return bool True if the share could be accepted, false otherwise
 	 */
-	public function acceptShare(int $id, ?string $user = null): bool {
+	public function acceptShare(ExternalShare $externalShare, ?IUser $user = null): bool {
 		// If we're auto-accepting a share, we need to know the user id
 		// as there is no session available while processing the share
 		// from the remote server request.
-		$user = $user ?? $this->uid;
+		$user = $user ?? $this->user;
 		if ($user === null) {
 			$this->logger->error('No user specified for accepting share');
 			return false;
 		}
 
-		$share = $this->getShare($id, $user);
 		$result = false;
+		$this->setupManager->setupForUser($user);
+		$folder = $this->rootFolder->getUserFolder($user->getUID());
 
-		if ($share) {
-			\OC_Util::setupFS($user);
-			$shareFolder = Helper::getShareFolder(null, $user);
-			$mountPoint = Files::buildNotExistingFileName($shareFolder, $share['name']);
-			$mountPoint = Filesystem::normalizePath($mountPoint);
-			$hash = md5($mountPoint);
-			$userShareAccepted = false;
+		$shareFolder = Helper::getShareFolder(null, $user->getUID());
+		$shareFolder = $folder->get($shareFolder);
+		/** @var Folder $shareFolder */
+		$mountPoint = $shareFolder->getNonExistingName($externalShare->getName());
+		$mountPoint = Filesystem::normalizePath($mountPoint);
+		$userShareAccepted = false;
 
-			if ((int)$share['share_type'] === IShare::TYPE_USER) {
-				$qb = $this->connection->getQueryBuilder();
-				$qb->update('share_external')
-					->set('accepted', $qb->createNamedParameter(1))
-					->set('mountpoint', $qb->createNamedParameter($mountPoint))
-					->set('mountpoint_hash', $qb->createNamedParameter($hash))
-					->where($qb->expr()->andX(
-						$qb->expr()->eq('id', $qb->createNamedParameter($id)),
-						$qb->expr()->eq('user', $qb->createNamedParameter($user))
-					));
-				$userShareAccepted = $qb->executeStatement();
-			} else {
-				$parentId = (int)$share['parent'];
-				if ($parentId !== -1) {
-					// this is the sub-share
-					$subshare = $share;
-				} else {
-					$subshare = $this->fetchUserShare($id, $user);
-				}
-
-				if ($subshare !== null) {
-					try {
-						$qb = $this->connection->getQueryBuilder();
-						$qb->update('share_external')
-							->set('accepted', $qb->createNamedParameter(1))
-							->set('mountpoint', $qb->createNamedParameter($mountPoint))
-							->set('mountpoint_hash', $qb->createNamedParameter($hash))
-							->where($qb->expr()->andX(
-								$qb->expr()->eq('id', $qb->createNamedParameter($subshare['id'])),
-								$qb->expr()->eq('user', $qb->createNamedParameter($user))
-							))
-							->executeStatement();
-						$result = true;
-					} catch (Exception $e) {
-						$this->logger->emergency('Could not update share', ['exception' => $e]);
-						$result = false;
-					}
-				} else {
-					try {
-						$this->writeShareToDb(
-							$share['remote'],
-							$share['share_token'],
-							$share['password'],
-							$share['name'],
-							$share['owner'],
-							$user,
-							$mountPoint, $hash, 1,
-							$share['remote_id'],
-							$id,
-							$share['share_type']);
-						$result = true;
-					} catch (Exception $e) {
-						$this->logger->emergency('Could not create share', ['exception' => $e]);
-						$result = false;
-					}
-				}
+		if ($externalShare->getShareType() === IShare::TYPE_USER) {
+			if ($externalShare->getUser() === $user->getUID()) {
+				$externalShare->setAccepted(IShare::STATUS_ACCEPTED);
+				$externalShare->setMountpoint($mountPoint);
+				$this->externalShareMapper->update($externalShare);
+				$userShareAccepted = true;
 			}
-
-			if ($userShareAccepted !== false) {
-				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
-				$event = new FederatedShareAddedEvent($share['remote']);
-				$this->eventDispatcher->dispatchTyped($event);
-				$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->userManager->get($user)));
+		} else {
+			try {
+				$this->updateSubShare($externalShare, $user, $mountPoint, IShare::STATUS_ACCEPTED);
 				$result = true;
+			} catch (Exception $e) {
+				$this->logger->emergency('Could not create sub-share', ['exception' => $e]);
+				$this->processNotification($externalShare, $user);
+				return false;
 			}
 		}
 
-		// Make sure the user has no notification for something that does not exist anymore.
-		$this->processNotification($id, $user);
+		if ($userShareAccepted !== false) {
+			$this->sendFeedbackToRemote($externalShare, 'accept');
+			$event = new FederatedShareAddedEvent($externalShare->getRemote());
+			$this->eventDispatcher->dispatchTyped($event);
+			$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($user));
+			$result = true;
+		}
 
+		// Make sure the user has no notification for something that does not exist anymore.
+		$this->processNotification($externalShare, $user);
 		return $result;
 	}
 
 	/**
-	 * decline server-to-server share
+	 * Decline server-to-server share
 	 *
 	 * @return bool True if the share could be declined, false otherwise
 	 */
-	public function declineShare(int $id, ?string $user = null): bool {
-		$user = $user ?? $this->uid;
+	public function declineShare(ExternalShare $externalShare, ?Iuser $user = null): bool {
+		$user = $user ?? $this->user;
 		if ($user === null) {
 			$this->logger->error('No user specified for declining share');
 			return false;
 		}
 
-		$share = $this->getShare($id, $user);
 		$result = false;
 
-		if ($share && (int)$share['share_type'] === IShare::TYPE_USER) {
-			$qb = $this->connection->getQueryBuilder();
-			$qb->delete('share_external')
-				->where($qb->expr()->andX(
-					$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)),
-					$qb->expr()->eq('user', $qb->createNamedParameter($user, IQueryBuilder::PARAM_STR))
-				))
-				->executeStatement();
-			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
-
-			$this->processNotification($id, $user);
-			$result = true;
-		} elseif ($share && (int)$share['share_type'] === IShare::TYPE_GROUP) {
-			$parentId = (int)$share['parent'];
-			if ($parentId !== -1) {
-				// this is the sub-share
-				$subshare = $share;
-			} else {
-				$subshare = $this->fetchUserShare($id, $user);
+		if ($externalShare->getShareType() === IShare::TYPE_USER) {
+			if ($externalShare->getUser() === $user->getUID()) {
+				$this->externalShareMapper->delete($externalShare);
+				$this->sendFeedbackToRemote($externalShare, 'decline');
+				$this->processNotification($externalShare, $user);
+				$result = true;
 			}
-
-			if ($subshare !== null) {
-				try {
-					$this->updateAccepted((int)$subshare['id'], false);
-					$result = true;
-				} catch (Exception $e) {
-					$this->logger->emergency('Could not update share', ['exception' => $e]);
-					$result = false;
-				}
-			} else {
-				try {
-					$this->writeShareToDb(
-						$share['remote'],
-						$share['share_token'],
-						$share['password'],
-						$share['name'],
-						$share['owner'],
-						$user,
-						$share['mountpoint'],
-						$share['mountpoint_hash'],
-						0,
-						$share['remote_id'],
-						$id,
-						$share['share_type']);
-					$result = true;
-				} catch (Exception $e) {
-					$this->logger->emergency('Could not create share', ['exception' => $e]);
-					$result = false;
-				}
+		} elseif ($externalShare->getShareType() === IShare::TYPE_GROUP) {
+			try {
+				$this->updateSubShare($externalShare, $user, null, IShare::STATUS_PENDING);
+				$result = true;
+			} catch (Exception $e) {
+				$this->logger->emergency('Could not create sub-share', ['exception' => $e]);
+				$this->processNotification($externalShare, $user);
+				return false;
 			}
-			$this->processNotification($id, $user);
 		}
 
+		// Make sure the user has no notification for something that does not exist anymore.
+		$this->processNotification($externalShare, $user);
 		return $result;
 	}
 
-	public function processNotification(int $remoteShare, ?string $user = null): void {
-		$user = $user ?? $this->uid;
+	public function processNotification(ExternalShare $remoteShare, ?IUser $user = null): void {
+		$user = $user ?? $this->user;
 		if ($user === null) {
 			$this->logger->error('No user specified for processing notification');
 			return;
 		}
 
-		$share = $this->fetchShare($remoteShare);
-		if ($share === false) {
-			return;
-		}
-
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
-			->setUser($user)
-			->setObject('remote_share', (string)$remoteShare);
+			->setUser($user->getUID())
+			->setObject('remote_share', (string)$remoteShare->getId());
 		$this->notificationManager->markProcessed($filter);
 	}
 
 	/**
-	 * inform remote server whether server-to-server share was accepted/declined
+	 * Inform remote server whether server-to-server share was accepted/declined
 	 *
-	 * @param string $remote
-	 * @param string $token
-	 * @param string $remoteId Share id on the remote host
-	 * @param string $feedback
-	 * @return boolean
+	 * @param 'accept'|'decline' $feedback
 	 */
-	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
-		$result = $this->tryOCMEndPoint($remote, $token, $remoteId, $feedback);
-
+	private function sendFeedbackToRemote(ExternalShare $externalShare, string $feedback): bool {
+		$result = $this->tryOCMEndPoint($externalShare, $feedback);
 		if (is_array($result)) {
 			return true;
 		}
 
-		$federationEndpoints = $this->discoveryService->discover($remote, 'FEDERATED_SHARING');
+		$federationEndpoints = $this->discoveryService->discover($externalShare->getRemote(), 'FEDERATED_SHARING');
 		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 
-		$url = rtrim($remote, '/') . $endpoint . '/' . $remoteId . '/' . $feedback . '?format=' . Share::RESPONSE_FORMAT;
-		$fields = ['token' => $token];
+		$url = rtrim($externalShare->getRemote(), '/') . $endpoint . '/' . $externalShare->getRemoteId() . '/' . $feedback . '?format=json';
+		$fields = ['token' => $externalShare->getShareToken()];
 
 		$client = $this->clientService->newClient();
 
@@ -506,44 +356,39 @@ class Manager {
 	}
 
 	/**
-	 * try send accept message to ocm end-point
+	 * Try to send accept message to ocm end-point
 	 *
-	 * @param string $remoteDomain
-	 * @param string $token
-	 * @param string $remoteId id of the share
-	 * @param string $feedback
+	 * @param 'accept'|'decline' $feedback
 	 * @return array|false
 	 */
-	protected function tryOCMEndPoint($remoteDomain, $token, $remoteId, $feedback) {
+	protected function tryOCMEndPoint(ExternalShare $externalShare, string $feedback) {
 		switch ($feedback) {
 			case 'accept':
 				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 				$notification->setMessage(
 					'SHARE_ACCEPTED',
 					'file',
-					$remoteId,
+					$externalShare->getRemoteId(),
 					[
-						'sharedSecret' => $token,
+						'sharedSecret' => $externalShare->getShareToken(),
 						'message' => 'Recipient accept the share'
 					]
 
 				);
-				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
+				return $this->cloudFederationProviderManager->sendNotification($externalShare->getRemote(), $notification);
 			case 'decline':
 				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 				$notification->setMessage(
 					'SHARE_DECLINED',
 					'file',
-					$remoteId,
+					$externalShare->getRemoteId(),
 					[
-						'sharedSecret' => $token,
+						'sharedSecret' => $externalShare->getShareToken(),
 						'message' => 'Recipient declined the share'
 					]
-
 				);
-				return $this->cloudFederationProviderManager->sendNotification($remoteDomain, $notification);
+				return $this->cloudFederationProviderManager->sendNotification($externalShare->getRemote(), $notification);
 		}
-
 		return false;
 	}
 
@@ -551,24 +396,20 @@ class Manager {
 	 * remove '/user/files' from the path and trailing slashes
 	 */
 	protected function stripPath(string $path): string {
-		$prefix = '/' . $this->uid . '/files';
+		$prefix = '/' . $this->user->getUID() . '/files';
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
-	public function getMount(array $data, ?string $user = null) {
-		$user = $user ?? $this->uid;
+	public function getMount(array $data, ?IUser $user = null): Mount {
+		$user = $user ?? $this->user;
 		$data['manager'] = $this;
-		$mountPoint = '/' . $user . '/files' . $data['mountpoint'];
+		$mountPoint = '/' . $user->getUID() . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
-		$data['certificateManager'] = \OC::$server->getCertificateManager();
-		return new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
+		$data['certificateManager'] = $this->certificateManager;
+		return new Mount(Storage::class, $mountPoint, $data, $this, $this->storageLoader);
 	}
 
-	/**
-	 * @param array $data
-	 * @return Mount
-	 */
-	protected function mountShare(array $data, ?string $user = null): Mount {
+	protected function mountShare(array $data, ?IUser $user = null): Mount {
 		$mount = $this->getMount($data, $user);
 		$this->mountManager->addMount($mount);
 		return $mount;
@@ -589,16 +430,16 @@ class Manager {
 			->set('mountpoint', $qb->createNamedParameter($target))
 			->set('mountpoint_hash', $qb->createNamedParameter($targetHash))
 			->where($qb->expr()->eq('mountpoint_hash', $qb->createNamedParameter($sourceHash)))
-			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($this->uid)));
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($this->user->getUID())));
 
 		$result = (bool)$qb->executeStatement();
 
-		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->userManager->get($this->uid)));
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->user));
 
 		return $result;
 	}
 
-	public function removeShare($mountPoint): bool {
+	public function removeShare(string $mountPoint): bool {
 		try {
 			$mountPointObj = $this->mountManager->find($mountPoint);
 		} catch (NotFoundException $e) {
@@ -612,31 +453,28 @@ class Manager {
 		$id = $mountPointObj->getStorage()->getCache()->getId('');
 
 		$mountPoint = $this->stripPath($mountPoint);
-		$hash = md5($mountPoint);
 
 		try {
-			$qb = $this->connection->getQueryBuilder();
-			$qb->select('remote', 'share_token', 'remote_id', 'share_type', 'id')
-				->from('share_external')
-				->where($qb->expr()->eq('mountpoint_hash', $qb->createNamedParameter($hash)))
-				->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($this->uid)));
-			$result = $qb->executeQuery();
-			$share = $result->fetchAssociative();
-			$result->closeCursor();
-			if ($share !== false && (int)$share['share_type'] === IShare::TYPE_USER) {
+			try {
+				$externalShare = $this->externalShareMapper->getByMountPointAndUser($mountPoint, $this->user);
+			} catch (DoesNotExistException $e) {
+				// ignore
+				$this->removeReShares((string)$id);
+				return true;
+			}
+
+			if ($externalShare->getShareType() === IShare::TYPE_USER) {
 				try {
-					$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+					$this->sendFeedbackToRemote($externalShare, 'decline');
 				} catch (\Throwable $e) {
 					// if we fail to notify the remote (probably cause the remote is down)
 					// we still want the share to be gone to prevent undeletable remotes
 				}
 
-				$qb = $this->connection->getQueryBuilder();
-				$qb->delete('share_external')
-					->where('id', $qb->createNamedParameter((int)$share['id']))
-					->executeStatement();
-			} elseif ($share !== false && (int)$share['share_type'] === IShare::TYPE_GROUP) {
-				$this->updateAccepted((int)$share['id'], false);
+				$this->externalShareMapper->delete($externalShare);
+			} elseif ($externalShare->getShareType() === IShare::TYPE_GROUP) {
+				$externalShare->setAccepted(IShare::STATUS_PENDING);
+				$this->externalShareMapper->update($externalShare);
 			}
 
 			$this->removeReShares((string)$id);
@@ -669,42 +507,17 @@ class Manager {
 	}
 
 	/**
-	 * remove all shares for user $uid if the user was deleted
-	 *
-	 * @param string $uid
+	 * Remove all shares for user $uid if the user was deleted.
 	 */
-	public function removeUserShares($uid): bool {
+	public function removeUserShares(IUser $user): bool {
 		try {
-			$qb = $this->connection->getQueryBuilder();
-			$qb->select('id', 'remote', 'share_type', 'share_token', 'remote_id')
-				->from('share_external')
-				->where($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
-				->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)));
-			$result = $qb->executeQuery();
-			$shares = $result->fetchAllAssociative();
-			$result->closeCursor();
-
+			$shares = $this->externalShareMapper->getUserShares($user);
 			foreach ($shares as $share) {
-				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+				$this->sendFeedbackToRemote($share, 'decline');
 			}
 
-			$qb = $this->connection->getQueryBuilder();
-			$qb->delete('share_external')
-				// user field can specify a user or a group
-				->where($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
-				->andWhere(
-					$qb->expr()->orX(
-						// delete direct shares
-						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_USER)),
-						// delete sub-shares of group shares for that user
-						$qb->expr()->andX(
-							$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_GROUP)),
-							$qb->expr()->neq('parent', $qb->expr()->literal(-1)),
-						)
-					)
-				);
-			$qb->executeStatement();
-		} catch (\Doctrine\DBAL\Exception $ex) {
+			$this->externalShareMapper->deleteUserShares($user);
+		} catch (Exception $ex) {
 			$this->logger->emergency('Could not delete user shares', ['exception' => $ex]);
 			return false;
 		}
@@ -712,34 +525,10 @@ class Manager {
 		return true;
 	}
 
-	public function removeGroupShares($gid): bool {
+	public function removeGroupShares(IGroup $group): bool {
 		try {
-			$qb = $this->connection->getQueryBuilder();
-			$qb->select('id', 'remote', 'share_type', 'share_token', 'remote_id')
-				->from('share_external')
-				->where($qb->expr()->eq('user', $qb->createNamedParameter($gid)))
-				->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)));
-			$result = $qb->executeQuery();
-			$shares = $result->fetchAllAssociative();
-			$result->closeCursor();
-
-			$deletedGroupShares = [];
-			$qb = $this->connection->getQueryBuilder();
-			// delete group share entry and matching sub-entries
-			$qb->delete('share_external')
-				->where(
-					$qb->expr()->orX(
-						$qb->expr()->eq('id', $qb->createParameter('share_id')),
-						$qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
-					)
-				);
-
-			foreach ($shares as $share) {
-				$qb->setParameter('share_id', $share['id']);
-				$qb->setParameter('share_parent_id', $share['id']);
-				$qb->executeStatement();
-			}
-		} catch (\Doctrine\DBAL\Exception $ex) {
+			$this->externalShareMapper->deleteGroupShares($group);
+		} catch (Exception $ex) {
 			$this->logger->emergency('Could not delete user shares', ['exception' => $ex]);
 			return false;
 		}
@@ -748,79 +537,28 @@ class Manager {
 	}
 
 	/**
-	 * return a list of shares which are not yet accepted by the user
+	 * Return a list of shares which are not yet accepted by the user.
 	 *
-	 * @return list<Files_SharingRemoteShare> list of open server-to-server shares
+	 * @return list<ExternalShare> list of open server-to-server shares
 	 */
-	public function getOpenShares() {
-		return $this->getShares(false);
-	}
-
-	/**
-	 * return a list of shares which are accepted by the user
-	 *
-	 * @return list<Files_SharingRemoteShare> list of accepted server-to-server shares
-	 */
-	public function getAcceptedShares() {
-		return $this->getShares(true);
-	}
-
-	/**
-	 * return a list of shares for the user
-	 *
-	 * @param bool|null $accepted True for accepted only,
-	 *                            false for not accepted,
-	 *                            null for all shares of the user
-	 * @return list<Files_SharingRemoteShare> list of open server-to-server shares
-	 */
-	private function getShares($accepted) {
-		// Not allowing providing a user here,
-		// as we only want to retrieve shares for the current user.
-		$user = $this->userManager->get($this->uid);
-		$groups = $this->groupManager->getUserGroups($user);
-		$userGroups = [];
-		foreach ($groups as $group) {
-			$userGroups[] = $group->getGID();
-		}
-
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('id', 'share_type', 'parent', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted')
-			->from('share_external')
-			->where(
-				$qb->expr()->orX(
-					$qb->expr()->eq('user', $qb->createNamedParameter($this->uid)),
-					$qb->expr()->in(
-						'user',
-						$qb->createNamedParameter($userGroups, IQueryBuilder::PARAM_STR_ARRAY)
-					)
-				)
-			)
-			->orderBy('id', 'ASC');
-
+	public function getOpenShares(): array {
 		try {
-			$result = $qb->executeQuery();
-			/** @var list<Files_SharingRemoteShare> $shares */
-			$shares = $result->fetchAllAssociative();
-			$result->closeCursor();
+			return $this->externalShareMapper->getShares($this->user, IShare::STATUS_PENDING);
+		} catch (Exception $e) {
+			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
+			return [];
+		}
+	}
 
-			// remove parent group share entry if we have a specific user share entry for the user
-			$toRemove = [];
-			foreach ($shares as $share) {
-				if ((int)$share['share_type'] === IShare::TYPE_GROUP && (int)$share['parent'] > 0) {
-					$toRemove[] = $share['parent'];
-				}
-			}
-			$shares = array_filter($shares, function ($share) use ($toRemove) {
-				return !in_array($share['id'], $toRemove, true);
-			});
-
-			if (!is_null($accepted)) {
-				$shares = array_filter($shares, function ($share) use ($accepted) {
-					return (bool)$share['accepted'] === $accepted;
-				});
-			}
-			return array_values($shares);
-		} catch (\Doctrine\DBAL\Exception $e) {
+	/**
+	 * Return a list of shares which are accepted by the user.
+	 *
+	 * @return list<ExternalShare> list of accepted server-to-server shares
+	 */
+	public function getAcceptedShares(): array {
+		try {
+			return $this->externalShareMapper->getShares($this->user, IShare::STATUS_ACCEPTED);
+		} catch (Exception $e) {
 			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
 		}

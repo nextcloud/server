@@ -14,7 +14,7 @@ class Route extends SymfonyRoute implements IRoute {
 	/**
 	 * Specify the method when this route is to be used
 	 *
-	 * @param string $method HTTP method (uppercase)
+	 * @param string|array $method HTTP method
 	 * @return \OC\Route\Route
 	 */
 	public function method($method) {

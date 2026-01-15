@@ -11,11 +11,12 @@ OC.L10N.register(
     "Federation" : "Federation",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "Federation allows you to connect with other trusted servers to exchange the account directory.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing.",
-    "External documentation for Federated Cloud Sharing" : "External documentation for Federated Cloud Sharing",
+    "Add" : "ເພີ່ມ",
+    "Delete" : "ລຶບ",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share.",
     "Each server must validate the other. This process may require a few cron cycles." : "Each server must validate the other. This process may require a few cron cycles.",
+    "External documentation for Federated Cloud Sharing" : "External documentation for Federated Cloud Sharing",
     "+ Add trusted server" : "+ Add trusted server",
-    "Trusted server" : "Trusted server",
-    "Add" : "ເພີ່ມ"
+    "Trusted server" : "Trusted server"
 },
 "nplurals=1; plural=0;");

@@ -16,6 +16,7 @@ use OCP\Federation\ICloudFederationProvider;
  * Enable apps to create their own cloud federation provider
  *
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Federation\ISignedCloudFederationProvider}
  */
 interface ISignedCloudFederationProvider extends ICloudFederationProvider {
 
@@ -27,6 +28,7 @@ interface ISignedCloudFederationProvider extends ICloudFederationProvider {
 	 * @param array $payload
 	 *
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Federation\ISignedCloudFederationProvider}
 	 * @return string
 	 */
 	public function getFederationIdFromSharedSecret(string $sharedSecret, array $payload): string;

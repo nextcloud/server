@@ -6,6 +6,7 @@
  */
 namespace OCA\Theming\Settings;
 
+use OCA\Theming\AppInfo\Application;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
@@ -20,7 +21,6 @@ class PersonalSection implements IIconSection {
 	 * @param IL10N $l
 	 */
 	public function __construct(
-		protected string $appName,
 		private IURLGenerator $urlGenerator,
 		private IL10N $l,
 	) {
@@ -34,7 +34,7 @@ class PersonalSection implements IIconSection {
 	 * @since 13.0.0
 	 */
 	public function getIcon() {
-		return $this->urlGenerator->imagePath($this->appName, 'accessibility-dark.svg');
+		return $this->urlGenerator->imagePath(Application::APP_ID, 'accessibility-dark.svg');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class PersonalSection implements IIconSection {
 	 * @since 9.1
 	 */
 	public function getID() {
-		return $this->appName;
+		return Application::APP_ID;
 	}
 
 	/**

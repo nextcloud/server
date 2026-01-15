@@ -59,6 +59,11 @@ describe('Settings: Show and hide columns', function() {
 		getUserList().find('tbody tr').each(($row) => {
 			cy.wrap($row).get('[data-cy-user-list-cell-language]').should('exist')
 		})
+
+		// Clear local storage and reload to verify user settings DB persistence
+		cy.clearLocalStorage()
+		cy.reload()
+		cy.get('[data-cy-user-list-header-languages]').should('exist')
 	})
 
 	it('Can hide a column', function() {

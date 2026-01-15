@@ -87,4 +87,8 @@ Turning the feature off removes shared files and folders on the server for all s
 	<public>
 		<files>public.php</files>
 	</public>
+
+	<openmetrics>
+		<exporter>OCA\Files_Sharing\OpenMetrics\SharesCountMetric</exporter>
+	</openmetrics>
 </info>

@@ -37,6 +37,7 @@ class ComposerStaticInitComments
         'OCA\\Comments\\MaxAutoCompleteResultsInitialState' => __DIR__ . '/..' . '/../lib/MaxAutoCompleteResultsInitialState.php',
         'OCA\\Comments\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
         'OCA\\Comments\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
+        'OCA\\Comments\\OpenMetrics\\CommentsCountMetric' => __DIR__ . '/..' . '/../lib/OpenMetrics/CommentsCountMetric.php',
         'OCA\\Comments\\Search\\CommentsSearchProvider' => __DIR__ . '/..' . '/../lib/Search/CommentsSearchProvider.php',
     );
 

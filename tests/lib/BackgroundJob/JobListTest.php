@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
@@ -16,7 +16,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -46,7 +46,7 @@ class JobListTest extends TestCase {
 			$this->config,
 			$this->timeFactory,
 			Server::get(LoggerInterface::class),
-			Server::get(IGenerator::class),
+			Server::get(ISnowflakeGenerator::class),
 		);
 	}
 
@@ -146,12 +146,12 @@ class JobListTest extends TestCase {
 		if ($lastChecked === 0) {
 			$lastChecked = time();
 		}
-		$id = Server::get(IGenerator::class)->nextId();
+		$id = Server::get(ISnowflakeGenerator::class)->nextId();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('jobs')
 			->values([
-				'id' => $query->createNamedParameter($id, IQueryBuilder::PARAM_INT),
+				'id' => $query->createNamedParameter($id),
 				'class' => $query->createNamedParameter($class),
 				'argument' => $query->createNamedParameter($argument),
 				'last_run' => $query->createNamedParameter($lastRun, IQueryBuilder::PARAM_INT),

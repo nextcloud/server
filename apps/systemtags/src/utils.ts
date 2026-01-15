@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { DAVResultResponseProps } from 'webdav'
 import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
 
@@ -68,7 +68,7 @@ export function formatTag(initialTag: Tag | ServerTag): ServerTag {
  *
  * @param node
  */
-export function getNodeSystemTags(node: Node): string[] {
+export function getNodeSystemTags(node: INode): string[] {
 	const attribute = node.attributes?.['system-tags']?.['system-tag']
 	if (attribute === undefined) {
 		return []
@@ -92,7 +92,7 @@ export function getNodeSystemTags(node: Node): string[] {
  * @param node
  * @param tags
  */
-export function setNodeSystemTags(node: Node, tags: string[]): void {
+export function setNodeSystemTags(node: INode, tags: string[]): void {
 	Vue.set(node.attributes, 'system-tags', {
 		'system-tag': tags,
 	})

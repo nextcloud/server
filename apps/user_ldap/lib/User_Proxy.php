@@ -13,6 +13,7 @@ use OCA\User_LDAP\User\User;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
+use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
@@ -21,7 +22,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @template-extends Proxy<User_LDAP>
  */
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IGetDisplayNameBackend {
 	public function __construct(
 		private Helper $helper,
 		ILDAPWrapper $ldap,
@@ -253,7 +254,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
-	public function getDisplayName($uid) {
+	public function getDisplayName($uid): string {
 		return $this->handleRequest($uid, 'getDisplayName', [$uid]);
 	}
 

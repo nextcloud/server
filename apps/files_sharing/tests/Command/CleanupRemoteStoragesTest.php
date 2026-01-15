@@ -8,25 +8,23 @@
 namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;
+use OCA\Files_Sharing\External\ExternalShare;
+use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
-/**
- * Class CleanupRemoteStoragesTest
- *
- *
- * @package OCA\Files_Sharing\Tests\Command
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group('DB')]
 class CleanupRemoteStoragesTest extends TestCase {
 
 	protected IDBConnection $connection;
+	protected ExternalShareMapper $mapper;
 	protected CleanupRemoteStorages $command;
 	private ICloudIdManager&MockObject $cloudIdManager;
 
@@ -44,20 +42,11 @@ class CleanupRemoteStoragesTest extends TestCase {
 		parent::setUp();
 
 		$this->connection = Server::get(IDBConnection::class);
+		$this->mapper = Server::get(ExternalShareMapper::class);
 
 		$storageQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$storageQuery->insert('storages')
 			->setValue('id', $storageQuery->createParameter('id'));
-
-		$shareExternalQuery = Server::get(IDBConnection::class)->getQueryBuilder();
-		$shareExternalQuery->insert('share_external')
-			->setValue('share_token', $shareExternalQuery->createParameter('share_token'))
-			->setValue('remote', $shareExternalQuery->createParameter('remote'))
-			->setValue('name', $shareExternalQuery->createParameter('name'))
-			->setValue('owner', $shareExternalQuery->createParameter('owner'))
-			->setValue('user', $shareExternalQuery->createParameter('user'))
-			->setValue('mountpoint', $shareExternalQuery->createParameter('mountpoint'))
-			->setValue('mountpoint_hash', $shareExternalQuery->createParameter('mountpoint_hash'));
 
 		$filesQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$filesQuery->insert('filecache')
@@ -73,15 +62,15 @@ class CleanupRemoteStoragesTest extends TestCase {
 			}
 
 			if (isset($storage['share_token'])) {
-				$shareExternalQuery
-					->setParameter('share_token', $storage['share_token'])
-					->setParameter('remote', $storage['remote'])
-					->setParameter('name', 'irrelevant')
-					->setParameter('owner', 'irrelevant')
-					->setParameter('user', $storage['user'])
-					->setParameter('mountpoint', 'irrelevant')
-					->setParameter('mountpoint_hash', 'irrelevant');
-				$shareExternalQuery->executeStatement();
+				$externalShare = new ExternalShare();
+				$externalShare->generateId();
+				$externalShare->setShareToken($storage['share_token']);
+				$externalShare->setRemote($storage['remote']);
+				$externalShare->setName('irrelevant');
+				$externalShare->setOwner('irrelevant');
+				$externalShare->setUser($storage['user']);
+				$externalShare->setMountpoint('irrelevant');
+				$this->mapper->insert($externalShare);
 			}
 
 			if (isset($storage['files_count'])) {

@@ -15,10 +15,17 @@ namespace NCU\Security\Signature\Enum;
  * - BROKEN = the remote instance does not use the same key pairs than previously
  *
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Enum\SignatoryStatus}
  */
 enum SignatoryStatus: int {
-	/** @experimental 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @deprecated 33.0.0
+	 */
 	case SYNCED = 1;
-	/** @experimental 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @deprecated 33.0.0
+	 */
 	case BROKEN = 9;
 }

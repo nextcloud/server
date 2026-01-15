@@ -26,17 +26,19 @@ interface IPartialMountProvider extends IMountProvider {
 	 * as well as information about mount points known to be provided by the
 	 * mount provider and contained in the path or in its sub-paths.
 	 *
-	 * Implementations should verify the IMountProviderArgs and return the
+	 * Implementations should verify the MountProviderArgs and return the
 	 * corresponding IMountPoint instances.
 	 *
 	 * @param string $path path for which the mounts are set up
-	 * @param IMountProviderArgs[] $mountProviderArgs
+	 * @param bool $forChildren when true, only child mounts for path should be returned
+	 * @param MountProviderArgs[] $mountProviderArgs
 	 * @param IStorageFactory $loader
 	 * @return array<string, IMountPoint> IMountPoint instances, indexed by
 	 *                                    mount-point
 	 */
 	public function getMountsForPath(
 		string $path,
+		bool $forChildren,
 		array $mountProviderArgs,
 		IStorageFactory $loader,
 	): array;

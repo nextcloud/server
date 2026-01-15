@@ -103,9 +103,9 @@ class UserStoragesController extends StoragesController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
-		$mountPoint,
-		$backend,
-		$authMechanism,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
 		$backendOptions,
 		$mountOptions,
 	) {
@@ -137,6 +137,7 @@ class UserStoragesController extends StoragesController {
 		$newStorage = $this->service->addStorage($newStorage);
 		$this->updateStorageStatus($newStorage);
 
+		$newStorage->setType(StorageConfig::MOUNT_TYPE_PERSONAL);
 		return new DataResponse(
 			$newStorage->jsonSerialize(true),
 			Http::STATUS_CREATED
@@ -158,10 +159,10 @@ class UserStoragesController extends StoragesController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
-		$id,
-		$mountPoint,
-		$backend,
-		$authMechanism,
+		int $id,
+		string $mountPoint,
+		string $backend,
+		string $authMechanism,
 		$backendOptions,
 		$mountOptions,
 	) {

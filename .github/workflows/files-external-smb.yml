@@ -53,7 +53,13 @@ jobs:
 
     services:
       samba:
-        image: ghcr.io/nextcloud/continuous-integration-samba:latest # zizmor: ignore[unpinned-images]
+        image: ghcr.io/servercontainers/samba:smbd-only-a3.18.0-s4.18.2-r0
+        env:
+          ACCOUNT_test: test
+          UID_test: 1000
+          SAMBA_VOLUME_CONFIG_test: "[public]; path=/tmp; valid users = test; guest ok = no; read only = no; browseable = yes"
+        options: >-
+          --health-cmd=true
         ports:
           - 445:445
 

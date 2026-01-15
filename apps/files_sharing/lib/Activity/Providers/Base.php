@@ -160,7 +160,7 @@ abstract class Base implements IProvider {
 			'strict_search' => true,
 		]);
 		foreach ($addressBookContacts as $contact) {
-			if (isset($contact['isLocalSystemBook'])) {
+			if (isset($contact['isLocalSystemBook']) || isset($contact['isVirtualAddressbook'])) {
 				continue;
 			}
 

@@ -180,14 +180,12 @@ describe('Inline unread comments action enabled tests', () => {
 describe('Inline unread comments action execute tests', () => {
 	test('Action opens sidebar', async () => {
 		const openMock = vi.fn()
-		const setActiveTabMock = vi.fn()
 		window.OCA = {
 			Files: {
 				// @ts-expect-error Mocking for testing
-				Sidebar: {
+				_sidebar: () => ({
 					open: openMock,
-					setActiveTab: setActiveTabMock,
-				},
+				}),
 			},
 		}
 
@@ -211,22 +209,19 @@ describe('Inline unread comments action execute tests', () => {
 		})
 
 		expect(result).toBe(null)
-		expect(setActiveTabMock).toBeCalledWith('comments')
-		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(openMock).toBeCalledWith(file, 'comments')
 	})
 
 	test('Action handles sidebar open failure', async () => {
 		const openMock = vi.fn(() => {
 			throw new Error('Mock error')
 		})
-		const setActiveTabMock = vi.fn()
 		window.OCA = {
 			Files: {
 				// @ts-expect-error Mocking for testing
-				Sidebar: {
+				_sidebar: () => ({
 					open: openMock,
-					setActiveTab: setActiveTabMock,
-				},
+				}),
 			},
 		}
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
@@ -251,8 +246,7 @@ describe('Inline unread comments action execute tests', () => {
 		})
 
 		expect(result).toBe(false)
-		expect(setActiveTabMock).toBeCalledWith('comments')
-		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(openMock).toBeCalledWith(file, 'comments')
 		expect(logger.error).toBeCalledTimes(1)
 	})
 })

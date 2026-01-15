@@ -317,7 +317,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -348,7 +348,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -357,7 +357,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -394,7 +394,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -403,7 +403,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -412,7 +412,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/baz.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -421,7 +421,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/qux.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -430,7 +430,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/quux.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -482,7 +482,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -491,7 +491,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -529,7 +529,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 
@@ -569,7 +569,7 @@ describe('Delete action execute tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
 			owner: 'test',
 			mime: 'text/plain',
-			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
 			root: '/files/test',
 		})
 

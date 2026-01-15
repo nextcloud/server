@@ -474,7 +474,6 @@ class NavigationManager implements INavigationManager {
 		foreach ($storedIds as $id) {
 			if (in_array($id, $entryIds, true)) {
 				$ids[] = $id;
-				break;
 			}
 		}
 		return array_filter($ids);

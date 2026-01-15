@@ -15,6 +15,9 @@ use OCP\Security\ICrypto;
 
 /**
  * Stores the mount config in the database
+ *
+ * @psalm-type ApplicableConfig = array{type: int, value: string}
+ * @psalm-type StorageConfigData = array{type: int, priority: int, applicable: list<ApplicableConfig>, config: array, options: array, ...<string, mixed>}
  */
 class DBConfigService {
 	public const MOUNT_TYPE_ADMIN = 1;
@@ -76,6 +79,39 @@ class DBConfigService {
 					$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
 				),
 			));
+
+		return $this->getMountsFromQuery($query);
+	}
+
+	/**
+	 * @param list<string> $groupIds
+	 * @return list<StorageConfigData>
+	 */
+	public function getMountsForGroups(array $groupIds): array {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
+			->from('external_mounts', 'm')
+			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
+			->where($builder->expr()->andX( // mounts for group
+				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
+			));
+
+		return $this->getMountsFromQuery($query);
+	}
+
+	/**
+	 * @return list<StorageConfigData>
+	 */
+	public function getGlobalMounts(): array {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
+			->from('external_mounts', 'm')
+			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
+			->where($builder->expr()->andX( // global mounts
+				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GLOBAL, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->isNull('a.value'),
+			), );
 
 		return $this->getMountsFromQuery($query);
 	}
@@ -376,7 +412,10 @@ class DBConfigService {
 		$query->executeStatement();
 	}
 
-	private function getMountsFromQuery(IQueryBuilder $query) {
+	/**
+	 * @return list<StorageConfigData>
+	 */
+	private function getMountsFromQuery(IQueryBuilder $query): array {
 		$result = $query->executeQuery();
 		$mounts = $result->fetchAllAssociative();
 		$uniqueMounts = [];
@@ -413,9 +452,9 @@ class DBConfigService {
 	 * @param string $table
 	 * @param string[] $fields
 	 * @param int[] $mountIds
-	 * @return array [$mountId => [['field1' => $value1, ...], ...], ...]
+	 * @return array<int, list<array>> [$mountId => [['field1' => $value1, ...], ...], ...]
 	 */
-	private function selectForMounts($table, array $fields, array $mountIds) {
+	private function selectForMounts(string $table, array $fields, array $mountIds): array {
 		if (count($mountIds) === 0) {
 			return [];
 		}
@@ -447,9 +486,9 @@ class DBConfigService {
 
 	/**
 	 * @param int[] $mountIds
-	 * @return array [$id => [['type' => $type, 'value' => $value], ...], ...]
+	 * @return array<int, list<ApplicableConfig>> [$id => [['type' => $type, 'value' => $value], ...], ...]
 	 */
-	public function getApplicableForMounts($mountIds) {
+	public function getApplicableForMounts(array $mountIds): array {
 		return $this->selectForMounts('external_applicable', ['type', 'value'], $mountIds);
 	}
 

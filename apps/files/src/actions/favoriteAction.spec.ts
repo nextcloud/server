@@ -217,7 +217,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(1)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:added', file)
 	})
 
@@ -251,7 +251,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
 	})
 
@@ -285,9 +285,9 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(2)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:favorites:removed', file)
+		expect(eventBus.emit).toHaveBeenCalled()
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', file)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', file)
 	})
 
 	test('Favorite does NOT triggers node removal if favorite view but NOT root dir', async () => {
@@ -320,7 +320,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
 	})
 

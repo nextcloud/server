@@ -83,24 +83,21 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.3
 	- license: GPL-3.0-or-later
-- @nextcloud/paths
-	- version: 2.3.0
-	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
 	- version: 6.4.1
 	- license: AGPL-3.0-or-later
-- @nextcloud/files
-	- version: 3.12.0
-	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
-	- version: 2.2.0
+	- version: 3.0.0
 	- license: GPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.2.5
+- @nextcloud/paths
+	- version: 3.0.0
 	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.12.2
+	- license: AGPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
@@ -147,7 +144,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -204,7 +201,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.12.0
 	- license: MIT
 - typescript-event-target
-	- version: 1.1.1
+	- version: 1.1.2
 	- license: MIT
 - unist-builder
 	- version: 4.0.0

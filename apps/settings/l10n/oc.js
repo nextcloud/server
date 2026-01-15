@@ -7,9 +7,6 @@ OC.L10N.register(
     "So-so password" : "Senhal mejan",
     "Good password" : "Bon senhal",
     "Strong password" : "Senhal fòrt",
-    "Groups" : "Gropes",
-    "Group list is empty" : "La lista de grop es voida",
-    "Unable to retrieve the group list" : "Recuperacion de la lista de grops impossibla",
     "{actor} added you to group {group}" : "{actor} vos a apondut al grop {group}",
     "You added {user} to group {group}" : "Avètz apondut {user} al grop {group}",
     "{actor} added {user} to group {group}" : "{actor} apondèt {user} al grop {group}",
@@ -86,6 +83,7 @@ OC.L10N.register(
     "Version" : "Version",
     "Actions" : "Accions",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicacion an una mesa a jorn de disponibla","%n aplicacions an una mesa a jorn de disponibla"],
+    "Groups" : "Gropes",
     "Group name" : "Nom del grop",
     "Loading" : "Cargament",
     "Type" : "Tipe",
@@ -220,6 +218,8 @@ OC.L10N.register(
     "Follow us on Mastodon" : "Nos seguir sus Mastodon",
     "Check out our blog" : "Donar un còp d’uèlh a nòstre blòg",
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
+    "Group list is empty" : "La lista de grop es voida",
+    "Unable to retrieve the group list" : "Recuperacion de la lista de grops impossibla",
     "Adding your device …" : "Apondon del periferic…"
 },
 "nplurals=2; plural=(n > 1);");

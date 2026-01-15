@@ -88,12 +88,23 @@ class ConnectionFactory {
 			throw new \InvalidArgumentException("Unsupported type: $type");
 		}
 		$result = $this->defaultConnectionParams[$normalizedType];
-		// \PDO::MYSQL_ATTR_FOUND_ROWS may not be defined, e.g. when the MySQL
-		// driver is missing. In this case, we won't be able to connect anyway.
-		if ($normalizedType === 'mysql' && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
-			$result['driverOptions'] = [
-				\PDO::MYSQL_ATTR_FOUND_ROWS => true,
-			];
+		/**
+		 * {@see \PDO::MYSQL_ATTR_FOUND_ROWS} may not be defined, e.g. when the MySQL
+		 * driver is missing. In this case, we won't be able to connect anyway.
+		 * In PHP 8.5 it's deprecated and {@see \Pdo\Mysql::ATTR_FOUND_ROWS} should be used,
+		 * but that is only available since PHP 8.4
+		 */
+		if ($normalizedType === 'mysql') {
+			if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
+				/** @psalm-suppress UndefinedClass */
+				$result['driverOptions'] = [
+					\Pdo\Mysql::ATTR_FOUND_ROWS => true,
+				];
+			} elseif (PHP_VERSION_ID < 80500 && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
+				$result['driverOptions'] = [
+					\PDO::MYSQL_ATTR_FOUND_ROWS => true,
+				];
+			}
 		}
 		return $result;
 	}

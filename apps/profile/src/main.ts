@@ -1,26 +1,16 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import ProfileApp from './views/ProfileApp.vue'
 import ProfileSections from './services/ProfileSections.js'
 
-__webpack_nonce__ = getCSPNonce()
+import 'vite/modulepreload-polyfill'
 
-if (!window.OCA) {
-	window.OCA = {}
-}
+window.OCA.Profile ??= {}
+window.OCA.Profile.ProfileSections = new ProfileSections()
 
-if (!window.OCA.Core) {
-	window.OCA.Core = {}
-}
-Object.assign(window.OCA.Core, { ProfileSections: new ProfileSections() })
-
-const View = Vue.extend(ProfileApp)
-
-window.addEventListener('DOMContentLoaded', () => {
-	new View().$mount('#content')
-})
+const app = createApp(ProfileApp)
+app.mount('#content')

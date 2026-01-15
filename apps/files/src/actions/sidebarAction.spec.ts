@@ -3,17 +3,32 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 
 import { File, FileAction, Folder, Permission } from '@nextcloud/files'
-import { describe, expect, test, vi } from 'vitest'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import logger from '../logger.ts'
 import { action } from './sidebarAction.ts'
+
+const sidebar = vi.hoisted(() => ({
+	available: true,
+	open: vi.fn(),
+}))
+
+vi.mock('@nextcloud/files', async (original) => ({
+	...(await original()),
+	getSidebar: () => sidebar,
+}))
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
+
+beforeEach(() => {
+	sidebar.available = true
+	vi.clearAllMocks()
+})
 
 describe('Open sidebar action conditions tests', () => {
 	test('Default values', () => {
@@ -38,9 +53,6 @@ describe('Open sidebar action conditions tests', () => {
 
 describe('Open sidebar action enabled tests', () => {
 	test('Enabled for ressources within user root folder', () => {
-		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: {} } }
-
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
@@ -60,9 +72,6 @@ describe('Open sidebar action enabled tests', () => {
 	})
 
 	test('Disabled without permissions', () => {
-		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: {} } }
-
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
@@ -82,9 +91,6 @@ describe('Open sidebar action enabled tests', () => {
 	})
 
 	test('Disabled if more than one node', () => {
-		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: {} } }
-
 		const file1 = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
@@ -110,8 +116,7 @@ describe('Open sidebar action enabled tests', () => {
 	})
 
 	test('Disabled if no Sidebar', () => {
-		// @ts-expect-error mocking for tests
-		window.OCA = {}
+		sidebar.available = false
 
 		const file = new File({
 			id: 1,
@@ -131,9 +136,6 @@ describe('Open sidebar action enabled tests', () => {
 	})
 
 	test('Disabled for non-dav ressources', () => {
-		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: {} } }
-
 		const file = new File({
 			id: 1,
 			source: 'https://domain.com/documents/admin/foobar.txt',
@@ -154,14 +156,7 @@ describe('Open sidebar action enabled tests', () => {
 
 describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
-		const openMock = vi.fn()
-		const defaultTabMock = vi.fn()
-		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
-
-		const goToRouteMock = vi.fn()
-		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
-
+		sidebar.available = true
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
@@ -177,33 +172,17 @@ describe('Open sidebar action exec tests', () => {
 			root: '/files/admin',
 		})
 
-		const exec = await action.exec({
+		// Silent action
+		expect(await action.exec({
 			nodes: [file],
 			view,
 			folder,
 			contents: [],
-		})
-		// Silent action
-		expect(exec).toBe(null)
-		expect(openMock).toBeCalledWith('/foobar.txt')
-		expect(defaultTabMock).toBeCalledWith('sharing')
-		expect(goToRouteMock).toBeCalledWith(
-			null,
-			{ view: view.id, fileid: '1' },
-			{ dir: '/', opendetails: 'true' },
-			true,
-		)
+		})).toBeNull()
+		expect(sidebar.open).toBeCalledWith(file, 'sharing')
 	})
 
 	test('Open sidebar for folder', async () => {
-		const openMock = vi.fn()
-		const defaultTabMock = vi.fn()
-		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
-
-		const goToRouteMock = vi.fn()
-		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
-
 		const file = new Folder({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar',
@@ -227,23 +206,13 @@ describe('Open sidebar action exec tests', () => {
 		})
 		// Silent action
 		expect(exec).toBe(null)
-		expect(openMock).toBeCalledWith('/foobar')
-		expect(defaultTabMock).toBeCalledWith('sharing')
-		expect(goToRouteMock).toBeCalledWith(
-			null,
-			{ view: view.id, fileid: '1' },
-			{ dir: '/', opendetails: 'true' },
-			true,
-		)
+		expect(sidebar.open).toBeCalledWith(file, 'sharing')
 	})
 
 	test('Open sidebar fails', async () => {
-		const openMock = vi.fn(() => {
-			throw new Error('Mock error')
+		sidebar.open.mockImplementationOnce(() => {
+			throw new Error('Sidebar error')
 		})
-		const defaultTabMock = vi.fn()
-		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
 		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
@@ -261,7 +230,7 @@ describe('Open sidebar action exec tests', () => {
 			contents: [],
 		})
 		expect(exec).toBe(false)
-		expect(openMock).toBeCalledTimes(1)
-		expect(logger.error).toBeCalledTimes(1)
+		expect(sidebar.open).toHaveBeenCalledOnce()
+		expect(logger.error).toHaveBeenCalledOnce()
 	})
 })

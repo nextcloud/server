@@ -141,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { Tag, TagWithId } from '../types.ts'
 
@@ -216,10 +216,12 @@ export default defineComponent({
 
 	props: {
 		nodes: {
-			type: Array as PropType<Node[]>,
+			type: Array as PropType<INode[]>,
 			required: true,
 		},
 	},
+
+	emits: ['close'],
 
 	setup() {
 		return {
@@ -381,7 +383,7 @@ export default defineComponent({
 		})
 
 		// Efficient way of counting tags and their occurrences
-		this.tagList = this.nodes.reduce((acc: TagListCount, node: Node) => {
+		this.tagList = this.nodes.reduce((acc: TagListCount, node: INode) => {
 			const tags = getNodeSystemTags(node) || []
 			tags.forEach((tag) => {
 				acc[tag] = (acc[tag] || 0) + 1
@@ -531,7 +533,7 @@ export default defineComponent({
 				return
 			}
 
-			const nodes = [] as Node[]
+			const nodes = [] as INode[]
 
 			// Update nodes
 			this.toAdd.forEach((tag) => {

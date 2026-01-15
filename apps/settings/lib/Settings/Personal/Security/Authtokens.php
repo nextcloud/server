@@ -14,6 +14,7 @@ use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -27,6 +28,7 @@ class Authtokens implements ISettings {
 		private ISession $session,
 		private IUserSession $userSession,
 		private IInitialState $initialState,
+		private IConfig $serverConfig,
 		private ?string $userId,
 	) {
 	}
@@ -40,6 +42,7 @@ class Authtokens implements ISettings {
 		$this->initialState->provideInitialState(
 			'can_create_app_token',
 			$this->userSession->getImpersonatingUserID() === null
+			&& $this->serverConfig->getSystemValueBool('auth_can_create_app_token', true)
 		);
 
 		return new TemplateResponse('settings', 'settings/personal/security/authtokens');

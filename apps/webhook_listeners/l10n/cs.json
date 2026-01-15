@@ -1,4 +1,5 @@
 { "translations": {
+    "Ephemeral webhook authentication" : "Ověření se dočasným webhook",
     "Webhooks" : "Webové háčky",
     "Nextcloud Webhook Support" : "Podpora pro webové háčky v Nextcloud",
     "Send notifications to external services whenever something important happens, like when files are changed or updated." : "Odeslat upozornění na externí služby kdykoli se stane něco důležitého, jako např. když jsou soubory změněny nebo zaktualizovány.",

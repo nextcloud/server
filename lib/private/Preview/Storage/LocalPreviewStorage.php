@@ -22,7 +22,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 use Psr\Log\LoggerInterface;
 use RecursiveDirectoryIterator;
@@ -39,7 +39,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		private readonly IDBConnection $connection,
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly LoggerInterface $logger,
-		private readonly IGenerator $generator,
+		private readonly ISnowflakeGenerator $generator,
 	) {
 		$this->instanceId = $this->config->getSystemValueString('instanceid');
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
@@ -120,7 +120,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 					$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
 					continue;
 				}
-				$preview->setId($this->generator->nextId());
+				$preview->generateId();
 				try {
 					$preview->setSize($file->getSize());
 					$preview->setMtime($file->getMtime());
@@ -154,7 +154,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 					$preview->setStorageId($result[0]['storage']);
 					$preview->setEtag($result[0]['etag']);
 					$preview->setSourceMimetype($result[0]['mimetype']);
-
+					$preview->generateId();
 					// try to insert, if that fails the preview is already in the DB
 					$this->previewMapper->insert($preview);
 

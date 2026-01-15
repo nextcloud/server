@@ -30,32 +30,38 @@ class IpAddress {
 	 * Rely on security.ipv6_normalized_subnet_size, defaults to 56
 	 */
 	private function getIPv6Subnet(string $ip): string {
-		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
-			$ip = substr($ip, 1, strlen($ip) - 2);
+		if (str_starts_with($ip, '[') && str_ends_with($ip, ']')) {
+			$ip = substr($ip, 1, -1);
 		}
-		$pos = strpos($ip, '%'); // if there is an explicit interface added to the IP, e.g. fe80::ae2d:d1e7:fe1e:9a8d%enp2s0
+
+		// Remove explicit interface if present (e.g., %enp2s0)
+		$pos = strpos($ip, '%');
 		if ($pos !== false) {
-			$ip = substr($ip, 0, $pos - 1);
+			$ip = substr($ip, 0, $pos);
 		}
 
 		$config = \OCP\Server::get(IConfig::class);
-		$maskSize = min(64, $config->getSystemValueInt('security.ipv6_normalized_subnet_size', 56));
-		$maskSize = max(32, $maskSize);
+		$maskSize = min(64, max(32, $config->getSystemValueInt('security.ipv6_normalized_subnet_size', 56)));
+
+		$binary = inet_pton($ip);
+		if ($binary === false) {
+			return $ip . '/' . $maskSize;
+		}
+
 		if (PHP_INT_SIZE === 4) {
-			if ($maskSize === 64) {
-				$value = -1;
-			} elseif ($maskSize === 63) {
-				$value = PHP_INT_MAX;
-			} else {
-				$value = (1 << $maskSize - 32) - 1;
-			}
+			// 32-bit PHP
+			$value = match($maskSize) {
+				64 => -1,
+				63 => PHP_INT_MAX,
+				default => (1 << ($maskSize - 32)) - 1,
+			};
 			// as long as we support 32bit PHP we cannot use the `P` pack formatter (and not overflow 32bit integer)
 			$mask = pack('VVVV', -1, $value, 0, 0);
 		} else {
-			$mask = pack('VVP', (1 << 32) - 1, (1 << $maskSize - 32) - 1, 0);
+			// 64-bit PHP
+			$mask = pack('VVP', (1 << 32) - 1, (1 << ($maskSize - 32)) - 1, 0);
 		}
 
-		$binary = \inet_pton($ip);
 		return inet_ntop($binary & $mask) . '/' . $maskSize;
 	}
 
@@ -67,7 +73,7 @@ class IpAddress {
 	 */
 	private function getEmbeddedIpv4(string $ipv6): ?string {
 		$binary = inet_pton($ipv6);
-		if (!$binary) {
+		if ($binary === false) {
 			return null;
 		}
 
@@ -78,7 +84,6 @@ class IpAddress {
 
 		return inet_ntop(substr($binary, -4));
 	}
-
 
 	/**
 	 * Gets either the /32 (IPv4) or the /56 (default for IPv6) subnet of an IP address

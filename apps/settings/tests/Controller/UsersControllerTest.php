@@ -14,6 +14,7 @@ use OC\ForbiddenException;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager as UserManager;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Controller\UsersController;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -23,9 +24,11 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
+use OCP\Config\IUserConfig;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -45,6 +48,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private UserManager&MockObject $userManager;
 	private IUserSession&MockObject $userSession;
 	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
+	private IUserConfig&MockObject $userConfig;
 	private IMailer&MockObject $mailer;
 	private IFactory&MockObject $l10nFactory;
 	private IAppManager&MockObject $appManager;
@@ -65,6 +70,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
@@ -106,6 +113,8 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->config,
+				$this->appConfig,
+				$this->userConfig,
 				$this->l,
 				$this->mailer,
 				$this->l10nFactory,
@@ -128,6 +137,8 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->groupManager,
 						$this->userSession,
 						$this->config,
+						$this->appConfig,
+						$this->userConfig,
 						$this->l,
 						$this->mailer,
 						$this->l10nFactory,
@@ -990,6 +1001,58 @@ class UsersControllerTest extends \Test\TestCase {
 			[false, true, false, false],
 			[true, false, false, false],
 			[false, false, false, true],
+		];
+	}
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetPreference')]
+	public function testSetPreference(string $key, string $value, bool $isUserValue, bool $isAppValue, int $expectedStatus): void {
+		$controller = $this->getController(false, []);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('testUser');
+		$this->userSession->method('getUser')->willReturn($user);
+
+		if ($isAppValue) {
+			if ($value === 'true' || $value === 'false' || $value === 'yes' || $value === 'no') {
+				$this->appConfig->expects($this->once())
+					->method('setValueBool')
+					->with('core', $key, $value === 'yes' || $value === 'true');
+			} else {
+				$this->appConfig->expects($this->once())
+					->method('setValueString')
+					->with('core', $key, $value);
+			}
+			$this->userConfig->expects($this->never())
+				->method('setValueBool');
+		} elseif ($isUserValue) {
+			$this->userConfig->expects($this->once())
+				->method('setValueBool')
+				->with('testUser', 'settings', $key, $value === 'true');
+			$this->appConfig->expects($this->never())
+				->method('setValueString');
+			$this->appConfig->expects($this->never())
+				->method('setValueBool');
+		} else {
+			$this->appConfig->expects($this->never())->method('setValueString');
+			$this->appConfig->expects($this->never())->method('setValueBool');
+			$this->userConfig->expects($this->never())->method('setValueString');
+			$this->userConfig->expects($this->never())->method('setValueBool');
+		}
+
+		$response = $controller->setPreference($key, $value);
+		$this->assertEquals($expectedStatus, $response->getStatus());
+	}
+
+	public static function dataSetPreference(): array {
+		return [
+			['newUser.sendEmail', 'yes', false, true, Http::STATUS_OK],
+			['newUser.sendEmail', 'no', false, true, Http::STATUS_OK],
+			['group.sortBy', '1', false, true, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_STORAGE_PATH, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_USER_BACKEND, 'false', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_FIRST_LOGIN, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_LAST_LOGIN, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_NEW_USER_FORM, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_LANGUAGES, 'true', true, false, Http::STATUS_OK],
+			['invalidKey', 'value', false, false, Http::STATUS_FORBIDDEN],
 		];
 	}
 }

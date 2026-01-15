@@ -32,12 +32,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	public const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
 	public const SHAREES_PROPERTYNAME = '{http://nextcloud.org/ns}sharees';
 
-	/**
-	 * Reference to main server object
-	 *
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
+	private \Sabre\DAV\Server $server;
 	private string $userId;
 
 	/** @var IShare[][] */
@@ -54,8 +49,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 	public function __construct(
 		private Tree $tree,
-		private IUserSession $userSession,
-		private Folder $userFolder,
+		IUserSession $userSession,
 		private IManager $shareManager,
 	) {
 		$this->userId = $userSession->getUser()->getUID();
@@ -99,7 +93,6 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			IShare::TYPE_ROOM,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_DECK,
-			IShare::TYPE_SCIENCEMESH,
 		];
 
 		foreach ($requestedShareTypes as $requestedShareType) {
@@ -207,10 +200,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode): ShareTypeList {
 			$shares = $this->getShares($sabreNode);
-
-			$shareTypes = array_unique(array_map(function (IShare $share) {
-				return $share->getShareType();
-			}, $shares));
+			$shareTypes = array_unique(array_map(static fn (IShare $share): int => $share->getShareType(), $shares));
 
 			return new ShareTypeList($shareTypes);
 		});
@@ -261,6 +251,14 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				if ($targetShare->getId() === $sourceShare->getId()) {
 					return true;
 				}
+			}
+
+			// if the share recipient is allow to delete from the share, they are allowed to move the file out of the share
+			// the user moving the file out of the share to their home storage would give them share permissions and allow moving into the share
+			//
+			// since the 2-step move is allowed, we also allow both steps at once
+			if ($sourceNode->isDeletable()) {
+				return true;
 			}
 		}
 

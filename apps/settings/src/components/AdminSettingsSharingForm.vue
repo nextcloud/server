@@ -230,6 +230,9 @@
 				<NcCheckboxRadioSwitch v-model="settings.restrictUserEnumerationFullMatchUserId">
 					{{ t('settings', 'Also allow autocompletion on full match of the user ID') }}
 				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch v-model="settings.restrictUserEnumerationFullMatchDisplayname">
+					{{ t('settings', 'Also allow autocompletion on full match of the display name') }}
+				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch v-model="settings.restrictUserEnumerationFullMatchEmail">
 					{{ t('settings', 'Also allow autocompletion on full match of the user email') }}
 				</NcCheckboxRadioSwitch>
@@ -291,6 +294,7 @@ interface IShareSettings {
 	restrictUserEnumerationToPhone: boolean
 	restrictUserEnumerationFullMatch: boolean
 	restrictUserEnumerationFullMatchUserId: boolean
+	restrictUserEnumerationFullMatchDisplayname: boolean
 	restrictUserEnumerationFullMatchEmail: boolean
 	restrictUserEnumerationFullMatchIgnoreSecondDN: boolean
 	enforceLinksPassword: boolean

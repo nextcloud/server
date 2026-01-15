@@ -1,0 +1,2 @@
+import{l as s}from"./logger-CrDakPzW.chunk.mjs";import"./index-6_gsQFyp.chunk.mjs";class t{#e=new Map;registerHandler(e){this.#e.has(e.id)&&s.warn(`Auth mechanism handler with id '${e.id}' is already registered`),this.#e.set(e.id,e)}getHandler(e){return this.#e.values().find(i=>i.enabled(e))}}window.OCA.FilesExternal??={},window.OCA.FilesExternal.AuthMechanism=new t;
+//# sourceMappingURL=files_external-init_settings.mjs.map

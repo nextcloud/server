@@ -14,9 +14,11 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
-class UserPlaceholderHandlerTest extends \Test\TestCase {
+class UserPlaceholderHandlerTest extends TestCase {
 	protected IUser&MockObject $user;
 	protected IUserSession&MockObject $session;
 	protected IManager&MockObject $shareManager;
@@ -34,6 +36,9 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 		$this->session = $this->createMock(IUserSession::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->request->method('getParam')
+			->with('token')
+			->willReturn('foo');
 		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->handler = new UserPlaceholderHandler($this->session, $this->shareManager, $this->request, $this->userManager);
@@ -53,16 +58,17 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('optionProvider')]
+	#[DataProvider('optionProvider')]
 	public function testHandle(string|array $option, string|array $expected): void {
 		$this->setUser();
 		$this->assertSame($expected, $this->handler->handle($option));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('optionProvider')]
+	#[DataProvider('optionProvider')]
 	public function testHandleNoUser(string|array $option): void {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
+			->with('foo')
 			->willThrowException(new ShareNotFound());
 		$this->assertSame($option, $this->handler->handle($option));
 	}
