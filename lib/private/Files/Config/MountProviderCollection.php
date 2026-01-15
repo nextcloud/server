@@ -84,9 +84,12 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
-	 * @param MountProviderArgs[] $mountProviderArgs
-	 * @return array<string, IMountPoint> IMountPoint array indexed by mount
-	 *                                    point.
+	 * The caller is responsible to ensure that all provided MountProviderArgs
+	 * are for the same user.
+	 * And that the `$providerClass` implements IPartialMountProvider.
+	 *
+	 * @param list<MountProviderArgs> $mountProviderArgs
+	 * @return array<string, IMountPoint> IMountPoint array indexed by mount point.
 	 */
 	public function getUserMountsFromProviderByPath(
 		string $providerClass,
@@ -98,14 +101,16 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		if ($provider === null) {
 			return [];
 		}
+		if (count($mountProviderArgs) === 0) {
+			return [];
+		}
 
-		if (!is_a($providerClass, IPartialMountProvider::class, true)) {
+		if (!$provider instanceof IPartialMountProvider) {
 			throw new \LogicException(
 				'Mount provider does not support partial mounts'
 			);
 		}
 
-		/** @var IPartialMountProvider $provider */
 		return $provider->getMountsForPath(
 			$path,
 			$forChildren,
