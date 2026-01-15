@@ -347,7 +347,7 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 	 * @param list<string> $excludeShareIds
 	 * @return iterable<IShare>
 	 */
-	private function filterShares(iterable $shares, string $userId, array $excludeShareIds): iterable {
+	private function filterShares(iterable $shares, string $userId, array $excludeShareIds = []): iterable {
 		foreach ($shares as $share) {
 			if (
 				$share->getPermissions() > 0
