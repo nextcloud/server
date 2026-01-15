@@ -105,12 +105,12 @@ interface IEncryptionModule {
 	 * update encrypted file, e.g. give additional users access to the file
 	 *
 	 * @param string $path path to the file which should be updated
-	 * @param string $uid of the user who performs the operation
+	 * @param null|string $uid of the user who performs the operation
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function update(string $path, string $uid, array $accessList): bool;
+	public function update(string $path, ?string $uid, array $accessList): bool;
 
 	/**
 	 * should the file be encrypted or not
@@ -136,11 +136,11 @@ interface IEncryptionModule {
 	 * e.g. if all encryption keys exists
 	 *
 	 * @param string $path
-	 * @param string $uid user for whom we want to check if they can read the file
+	 * @param null|string $uid user for whom we want to check if they can read the file
 	 * @return bool
 	 * @since 8.1.0
 	 */
-	public function isReadable(string $path, string $uid): bool;
+	public function isReadable(string $path, ?string $uid): bool;
 
 	/**
 	 * Initial encryption of all files
