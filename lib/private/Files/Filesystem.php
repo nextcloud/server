@@ -7,10 +7,8 @@
  */
 namespace OC\Files;
 
-use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
 use OC\User\NoUserException;
-use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
@@ -27,8 +25,6 @@ class Filesystem {
 	public static bool $loaded = false;
 
 	private static ?View $defaultInstance = null;
-
-	private static ?CappedMemoryCache $normalizedPathCache = null;
 
 	private static ?FilenameValidator $validator = null;
 
@@ -603,18 +599,8 @@ class Filesystem {
 		 */
 		$path = (string)$path;
 
-		if ($path === '') {
+		if ($path === '' || $path === '/') {
 			return '/';
-		}
-
-		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache(2048);
-		}
-
-		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
-
-		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
-			return self::$normalizedPathCache[$cacheKey];
 		}
 
 		//normalize unicode if possible
@@ -622,27 +608,52 @@ class Filesystem {
 			$path = \OC_Util::normalizeUnicode($path);
 		}
 
-		//add leading slash, if it is already there we strip it anyway
-		$path = '/' . $path;
+		$len = strlen($path);
+		$out = [];
+		$outLen = 0;
 
-		$patterns = [
-			'#\\\\#s',       // no windows style '\\' slashes
-			'#/\.(/\.)*/#s', // remove '/./'
-			'#\//+#s',       // remove sequence of slashes
-			'#/\.$#s',       // remove trailing '/.'
-		];
+		// Force leading slash
+		$out[$outLen++] = '/';
 
-		do {
-			$count = 0;
-			$path = preg_replace($patterns, '/', $path, -1, $count);
-		} while ($count > 0);
+		$prev = '/';
+		$i = 0;
 
-		//remove trailing slash
-		if ($stripTrailingSlash && strlen($path) > 1) {
-			$path = rtrim($path, '/');
+		while ($i < $len) {
+			$c = $path[$i++];
+
+			// Normalize Windows slashes
+			if ($c === '\\') {
+				$c = '/';
+			}
+
+			// Collapse multiple slashes
+			if ($c === '/' && $prev === '/') {
+				continue;
+			}
+
+			// Handle "/./" and trailing "/."
+			if ($c === '.' && $prev === '/') {
+				$next = $i < $len ? $path[$i] : null;
+
+				if ($next === '/' || $next === null) {
+					// Skip "./"
+					if ($next === '/') {
+						$i++;
+					}
+					continue;
+				}
+			}
+
+			$out[$outLen++] = $c;
+			$prev = $c;
 		}
 
-		self::$normalizedPathCache[$cacheKey] = $path;
+		// Remove trailing slash
+		if ($stripTrailingSlash && $outLen > 1 && $out[$outLen - 1] === '/') {
+			array_pop($out);
+		}
+
+		$path = implode('', $out);
 
 		return $path;
 	}
