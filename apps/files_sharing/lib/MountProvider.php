@@ -385,13 +385,13 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 			$path .= '/';
 		}
 
-		$shares = new RecursiveIteratorIterator(
+		$shares = new \ArrayIterator([
 			...$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_USER, $path, $forChildren, $limit),
 			...$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_GROUP, $path, $forChildren, $limit),
 			...$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_CIRCLE, $path, $forChildren, $limit),
 			...$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_ROOM, $path, $forChildren, $limit),
 			...$this->shareManager->getSharedWithByPath($userId, IShare::TYPE_DECK, $path, $forChildren, $limit),
-		);
+		]);
 
 		$shares = $this->filterShares($shares, $userId);
 		$superShares = $this->buildSuperShares($shares, $user);
