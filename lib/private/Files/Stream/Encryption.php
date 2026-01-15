@@ -392,8 +392,9 @@ class Encryption extends Wrapper {
 
 	public function stream_close() {
 		$this->flush('end');
-		$position = (int)floor($this->position / $this->unencryptedBlockSize);
-		$remainingData = $this->encryptionModule->end($this->fullPath, $position . 'end');
+		$blockIndex = (int)floor($this->position / $this->unencryptedBlockSize);
+		$blockId = (string)$blockIndex . 'end';
+		$remainingData = $this->encryptionModule->end($this->fullPath, $blockId);
 		if ($this->readOnly === false) {
 			if (!empty($remainingData)) {
 				parent::stream_write($remainingData);
@@ -407,7 +408,10 @@ class Encryption extends Wrapper {
 			$cacheEntry = $cache->get($this->internalPath);
 			if ($cacheEntry) {
 				$version = $cacheEntry['encryptedVersion'] + 1;
-				$cache->update($cacheEntry->getId(), ['encrypted' => $version, 'encryptedVersion' => $version, 'unencrypted_size' => $this->unencryptedSize]);
+				$cache->update(
+					$cacheEntry->getId(),
+					['encrypted' => $version, 'encryptedVersion' => $version, 'unencrypted_size' => $this->unencryptedSize]
+				);
 			}
 		}
 
@@ -425,8 +429,9 @@ class Encryption extends Wrapper {
 			// automatically attempted when the file is written to disk -
 			// we are handling that separately here and we don't want to
 			// get into an infinite loop
-			$position = (int)floor($this->position / $this->unencryptedBlockSize);
-			$encrypted = $this->encryptionModule->encrypt($this->cache, $position . $positionPrefix);
+			$blockIndex = (int)floor($this->position / $this->unencryptedBlockSize);
+			$blockId = (string)$blockIndex . $positionPrefix);
+			$encrypted = $this->encryptionModule->encrypt($this->cache, $blockId);
 			$bytesWritten = parent::stream_write($encrypted);
 			$this->writeFlag = false;
 			// Check whether the write concerns the last block
@@ -453,12 +458,14 @@ class Encryption extends Wrapper {
 		if ($this->cache === '' && !($this->position === $this->unencryptedSize && ($this->position % $this->unencryptedBlockSize) === 0)) {
 			// Get the data from the file handle
 			$data = $this->stream_read_block($this->util->getBlockSize());
-			$position = (int)floor($this->position / $this->unencryptedBlockSize);
+			$blockIndex = (int)floor($this->position / $this->unencryptedBlockSize);
 			$numberOfChunks = (int)($this->unencryptedSize / $this->unencryptedBlockSize);
-			if ($numberOfChunks === $position) {
-				$position .= 'end';
+			if ($numberOfChunks === $blockIndex) {
+				$blockId = $blockIndex . 'end';
+			} else {
+				$blockId = $blockIndex;
 			}
-			$this->cache = $this->encryptionModule->decrypt($data, $position);
+			$this->cache = $this->encryptionModule->decrypt($data, $blockId);
 		}
 	}
 
