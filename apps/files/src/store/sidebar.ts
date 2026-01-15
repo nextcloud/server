@@ -84,7 +84,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	function getTabs(context?: ISidebarContext) {
 		let tabs = getSidebarTabs()
 		if (context) {
-			tabs = tabs.filter((tab) => tab.enabled(context))
+			tabs = tabs.filter((tab) => tab.enabled === undefined || tab.enabled(context))
 		}
 		return tabs.sort((a, b) => a.order - b.order)
 	}
@@ -98,7 +98,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	function getActions(context?: ISidebarContext) {
 		let actions = getSidebarActions()
 		if (context) {
-			actions = actions.filter((tab) => tab.enabled(context))
+			actions = actions.filter((action) => action.enabled === undefined || action.enabled(context))
 		}
 		return actions.sort((a, b) => a.order - b.order)
 	}
