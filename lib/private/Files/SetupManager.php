@@ -600,7 +600,7 @@ class SetupManager {
 				}
 				$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITH_CHILDREN;
 				foreach ($authoritativeCachedMounts as $providerClass => $cachedMounts) {
-					$providerArgs = array_filter(array_map(
+					$providerArgs = array_values(array_filter(array_map(
 						static function (ICachedMountInfo $info) use ($rootsMetadata) {
 							$rootMetadata = $rootsMetadata[$info->getRootId()] ?? null;
 
@@ -609,7 +609,7 @@ class SetupManager {
 								: null;
 						},
 						$cachedMounts
-					));
+					)));
 					$authoritativeMounts[] = $this->mountProviderCollection->getUserMountsFromProviderByPath(
 						$providerClass,
 						$path,
