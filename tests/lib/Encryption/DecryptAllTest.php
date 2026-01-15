@@ -11,13 +11,13 @@ declare(strict_types=1);
 namespace Test\Encryption;
 
 use OC\Encryption\DecryptAll;
-use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Manager;
 use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\UserInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -26,54 +26,182 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 /**
- * Class DecryptAllTest
+ * Unit tests for DecryptAll orchestration logic in lib/private/Encryption.
  *
- *
- * @package Test\Encryption
+ * This class covers high-level user and file decryption workflows as exposed by the main encryption service,
+ * differentiating it from tests in app-layer or crypto-layer classes that cover low-level session, key, or CLI logic.
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DecryptAllTest extends TestCase {
-	private IUserManager&MockObject $userManager;
-	private Manager&MockObject $encryptionManager;
-	private View&MockObject $view;
-	private InputInterface&MockObject $inputInterface;
-	private OutputInterface&MockObject $outputInterface;
-	private UserInterface&MockObject $userInterface;
+	private const TEST_USER = 'user1';
+	private const TEST_FILE = 'test.txt';
+	
+	private IUserManager&MockObject $mockUserManager;
+	private Manager&MockObject $mockEncryptionManager;
+	private View&MockObject $mockView;
+	private InputInterface&MockObject $mockInputInterface;
+	private OutputInterface&MockObject $mockOutputInterface;
+	private UserInterface&MockObject $mockUserInterface;
 
 	private DecryptAll $instance;
 
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()->getMock();
-		$this->encryptionManager = $this->getMockBuilder('OC\Encryption\Manager')
-			->disableOriginalConstructor()->getMock();
-		$this->view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()->getMock();
-		$this->inputInterface = $this->getMockBuilder(InputInterface::class)
-			->disableOriginalConstructor()->getMock();
-		$this->outputInterface = $this->getMockBuilder(OutputInterface::class)
-			->disableOriginalConstructor()->getMock();
-		$this->outputInterface->expects($this->any())->method('isDecorated')
-			->willReturn(false);
-		$this->userInterface = $this->getMockBuilder(UserInterface::class)
-			->disableOriginalConstructor()->getMock();
-
-		/* We need format method to return a string */
-		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
-		$outputFormatter->method('format')->willReturn('foo');
-		$outputFormatter->method('isDecorated')->willReturn(false);
-
-		$this->outputInterface->expects($this->any())->method('getFormatter')
-			->willReturn($outputFormatter);
-
-		$this->instance = new DecryptAll($this->encryptionManager, $this->userManager, $this->view);
-
-		$this->invokePrivate($this->instance, 'input', [$this->inputInterface]);
-		$this->invokePrivate($this->instance, 'output', [$this->outputInterface]);
+		$this->initializeMocks();
+		$this->instance = new DecryptAll(
+			$this->mockEncryptionManager,
+			$this->mockUserManager,
+			$this->mockView
+		);
 	}
 
+	private function initializeMocks(): void {
+		$this->mockUserManager = $this->createMock(IUserManager::class);
+		$this->mockEncryptionManager = $this->createMock(Manager::class);
+		$this->mockView = $this->createMock(View::class);
+		$this->mockInputInterface = $this->createMock(InputInterface::class);
+		$this->mockOutputInterface = $this->createMock(OutputInterface::class);
+		$this->mockOutputInterface->method('isDecorated')->willReturn(false);
+		$this->mockUserInterface = $this->createMock(UserInterface::class);
+	}
+
+	/**
+	 * Covers: scenarios where user does/does not exist when running decryptAll.
+	 * Ensures expected messaging and correct function return.
+	 */
+	#[DataProvider('provideUserExistence')]
+	public function testDecryptAllWithNonexistentUser(bool $userExists): void {
+		$this->mockUserManager->method('userExists')->willReturn($userExists);
+
+		if (!$userExists) {
+			$this->mockOutputInterface->expects($this->once())->method('writeln')
+				->with(sprintf('User "%s" does not exist. Please check the username and try again', self::TEST_USER));
+		}
+
+		$result = $this->instance->decryptAll($this->mockInputInterface, $this->mockOutputInterface, self::TEST_USER);
+
+		$this->assertSame($userExists, $result);
+	}
+
+	public static function provideUserExistence(): array {
+		return [
+			 [true],	// userExists
+			 [false],	// !userExists
+		];
+	}
+	
+	/**
+	 * Covers: encrypted vs. non-encrypted file decryption path and side effects.
+	 * Ensures expected filesystem operations happen only when appropriate.
+	 */
+	#[DataProvider('provideDecryptionStatus')]
+	public function testDecryptFileBehavior(bool $isEncrypted): void {
+		// Configure fileInfo for encrypted/non-encrypted
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->method('isEncrypted')->willReturn($isEncrypted);
+		$this->mockView->method('getFileInfo')->willReturn($fileInfo);
+
+		// Set up mock for the timestamp function
+		$instance = $this->getMockBuilder(DecryptAll::class)
+			->setConstructorArgs([$this->mockEncryptionManager, $this->mockUserManager, $this->mockView])
+			->onlyMethods(['getTimestamp'])
+			->getMock();
+
+		if ($isEncrypted) {
+			// Only when encrypted, "copy" and "rename" should be called
+			$instance->method('getTimestamp')->willReturn(42);
+
+			$this->mockView->expects($this->once())
+				->method('copy')
+				->with(self::TEST_FILE, self::TEST_FILE . '.decrypted.42');
+			$this->mockView->expects($this->once())
+				->method('rename')
+				->with(self::TEST_FILE . '.decrypted.42', self::TEST_FILE);
+		} else {
+			// If not encrypted, these operations should not happen
+			$instance->expects($this->never())->method('getTimestamp');
+			$this->mockView->expects($this->never())->method('copy');
+			$this->mockView->expects($this->never())->method('rename');
+		}
+
+		$result = $instance->decryptFile(self::TEST_FILE);
+
+		$this->assertTrue($result);
+	}
+
+	public static function provideDecryptionStatus(): array {
+		return [
+			[true],	// isEncrypted
+			[false]	// !isEncrypted
+		];
+	}
+
+	/**
+	 * Covers: workflow for successful module preparation and user file decryption
+	 * Ensures the main orchestration calls collaborators as expected.
+	 */
+	public function testDecryptAllTriggersModuleAndUserWorkflows(): void {
+		$this->mockUserManager->method('userExists')->willReturn(true);
+
+		// Partial mock to verify internal orchestration logic
+		$instance = $this->getMockBuilder(DecryptAll::class)
+			->setConstructorArgs([
+				$this->mockEncryptionManager,
+				$this->mockUserManager,
+				$this->mockView
+			])
+			->onlyMethods(['prepareEncryptionModules', 'decryptAllUsersFiles'])
+			->getMock();
+
+		// If module preparation succeeds, proceed with user file decryption
+		$instance->expects($this->once())
+			->method('prepareEncryptionModules')
+			->with($this->mockInputInterface, $this->mockOutputInterface, self::TEST_USER)
+			->willReturn(true);
+
+		$instance->expects($this->once())
+			->method('decryptAllUsersFiles')
+			->with($this->mockOutputInterface, self::TEST_USER);
+
+		$result = $instance->decryptAll($this->mockInputInterface, $this->mockOutputInterface, self::TEST_USER);
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * Covers: early abort if module preparation fails.
+	 * Ensures "decryptAllUsersFiles" is not called and function returns false.
+	 */
+	public function testDecryptAllAbortsIfPreparationFails(): void {
+		$this->mockUserManager->method('userExists')->willReturn(true);
+
+		$instance = $this->getMockBuilder(DecryptAll::class)
+			->setConstructorArgs([
+				$this->mockEncryptionManager,
+				$this->mockUserManager,
+				$this->mockView
+			])
+			->onlyMethods(['prepareEncryptionModules', 'decryptAllUsersFiles'])
+			->getMock();
+
+		$instance->expects($this->once())
+			->method('prepareEncryptionModules')
+			->with($this->mockInputInterface, $this->mockOutputInterface, self::TEST_USER)
+			->willReturn(false);
+
+		$instance->expects($this->never())
+			->method('decryptAllUsersFiles');
+
+		$result = $instance->decryptAll($this->mockInputInterface, $this->mockOutputInterface, self::TEST_USER);
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * TODO: 
+	 * - Add file operation failure (fileInfo/copy/rename)
+	 * - Add teamfolder scenario
+	 */
+	
+	/*********** LEGACY TESTS ************/
+	
 	public static function dataDecryptAll(): array {
 		return [
 			[true, 'user1', true],

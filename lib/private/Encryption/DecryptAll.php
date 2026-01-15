@@ -11,23 +11,33 @@ declare(strict_types=1);
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * DecryptAll handles bulk decryption of files for users.
+ */
 class DecryptAll {
 	/** @var array<string,list<string>> files which couldn't be decrypted */
 	protected array $failed = [];
 
+	protected readonly LoggerInterface $logger;
+
 	public function __construct(
-		protected IManager $encryptionManager,
-		protected IUserManager $userManager,
-		protected View $rootView,
+		protected readonly IManager $encryptionManager,
+		protected readonly IUserManager $userManager,
+		protected readonly View $rootView,
 	) {
+		// TODO: Inject LoggerInterface
+		$this->logger = \OC::$server->get(LoggerInterface::class);
+		// TODO: Inject SetupManager
 	}
 
 	/**
@@ -51,6 +61,7 @@ class DecryptAll {
 		$this->failed = [];
 		$this->decryptAllUsersFiles($output, $user);
 
+		// TODO: Drop below output; maybe still use $this->failed to return false (if we can't switch to void)
 		/** @psalm-suppress RedundantCondition $this->failed is modified by decryptAllUsersFiles, not clear why psalm fails to see it */
 		if (empty($this->failed)) {
 			$output->writeln('all files could be decrypted successfully!');
@@ -91,7 +102,7 @@ class DecryptAll {
 	}
 
 	/**
-	 * iterate over all user and encrypt their files
+	 * iterate over all user and decrypt their files
 	 *
 	 * @param string $user which users files should be decrypted, default = all users
 	 */
@@ -129,7 +140,7 @@ class DecryptAll {
 		$progress = new ProgressBar($output);
 		$progress->setFormat(" %message% \n [%bar%]");
 		$progress->start();
-		$progress->setMessage('starting to decrypt files...');
+		$progress->setMessage('Decrypting files...');
 		$progress->advance();
 
 		$numberOfUsers = count($userList);
@@ -140,50 +151,57 @@ class DecryptAll {
 			$userNo++;
 		}
 
-		$progress->setMessage('starting to decrypt files... finished');
+		$progress->setMessage('Decrypting files... finished');
 		$progress->finish();
 
 		$output->writeln("\n\n");
 	}
 
-	/**
-	 * encrypt files from the given user
-	 */
-	protected function decryptUsersFiles(string $uid, ProgressBar $progress, string $userCount): void {
+/**
+ * Decrypt all files as the given user.
+ *
+ * Recursively traverses the user's files directory, skipping files and folders not owned by the user,
+ * and attempts to decrypt each file.
+ */
+ protected function decryptUsersFiles(string $uid, ProgressBar $progress, string $userCount): void {
 		$this->setupUserFS($uid);
 		$directories = [];
 		$directories[] = '/' . $uid . '/files';
 
 		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);
+			/** @var FileInfo $file */
 			foreach ($content as $file) {
-				// only decrypt files owned by the user
-				if ($file->getStorage()->instanceOfStorage('OCA\Files_Sharing\SharedStorage')) {
+				$path = $root . '/' . $file->getName();
+
+				if ($file->getOwner() !== $uid) {
+					$progress->setMessage("Skipping shared/unowned file/folder $path");
+					$progress->advance();
 					continue;
 				}
-				$path = $root . '/' . $file['name'];
-				if ($this->rootView->is_dir($path)) {
+
+				if ($file->getType() === FileInfo::TYPE_FOLDER) {
 					$directories[] = $path;
 					continue;
-				} else {
-					try {
-						$progress->setMessage("decrypt files for user $userCount: $path");
+				}
+
+				$progress->setMessage("Decrypting file for user $userCount: $path");
+				$progress->advance();
+
+				try {
+					if ($this->decryptFile($path) === false) {
+						$progress->setMessage("Skipping already decrypted file $path for user $userCount");
 						$progress->advance();
-						if ($file->isEncrypted() === false) {
-							$progress->setMessage("decrypt files for user $userCount: $path (already decrypted)");
-							$progress->advance();
-						} else {
-							if ($this->decryptFile($path) === false) {
-								$progress->setMessage("decrypt files for user $userCount: $path (already decrypted)");
-								$progress->advance();
-							}
-						}
-					} catch (\Exception $e) {
-						if (isset($this->failed[$uid])) {
-							$this->failed[$uid][] = $path;
-						} else {
-							$this->failed[$uid] = [$path];
-						}
+					}
+				} catch (\Exception $e) {
+					$progress->setMessage("Failed to decrypt path $path: " . $e->getMessage());					
+					$progress->advance();
+					$this->logger->error('Failed to decrypt path {path}', [ 'user' => $uid, 'path' => $path, 'exception' => $e, ]);
+					// TODO: we can probably drop this since we're now outputting above like we do in EncryptAll
+					if (isset($this->failed[$uid])) {
+						$this->failed[$uid][] = $path;
+					} else {
+						$this->failed[$uid] = [$path];
 					}
 				}
 			}
@@ -191,43 +209,56 @@ class DecryptAll {
 	}
 
 	/**
-	 * encrypt file
+	 * Attempt to decrypt a single file.
+	 * @param string $path  The full filesystem path to the file.
+	 *
+	 * @throws DecryptionFailedException If file copy or rename fails during decryption.
+	 * @throws \RuntimeException If file info cannot be retrieved or touch fails.
+	 *
+	 * @return bool True if decryption succeeded, false if file is already decrypted.
 	 */
 	protected function decryptFile(string $path): bool {
-		// skip already decrypted files
 		$fileInfo = $this->rootView->getFileInfo($path);
-		if ($fileInfo !== false && !$fileInfo->isEncrypted()) {
-			return true;
+	
+		if ($fileInfo === false) {
+    		throw new \RuntimeException("Could not retrieve file info for $path");
+		}
+		
+		if (!$fileInfo->isEncrypted()) {
+			return false;
 		}
 
 		$source = $path;
-		$target = $path . '.decrypted.' . $this->getTimestamp();
+		$target = $path . '.decrypted.' . time();
 
 		try {
-			$this->rootView->copy($source, $target);
-			$this->rootView->touch($target, $fileInfo->getMTime());
-			$this->rootView->rename($target, $source);
-		} catch (DecryptionFailedException $e) {
+			if ($this->rootView->copy($source, $target) === false) {
+				throw new DecryptionFailedException("Failed to copy $source -> $target");
+			}
+
+			if ($this->rootView->touch($target, $fileInfo->getMTime()) === false) {
+				throw new \RuntimeException("Failed to update mtime for $target");
+			}
+
+			if ($this->rootView->rename($target, $source) === false) {
+				throw new DecryptionFailedException("Failed to rename $target -> $source");
+			}
+		} catch (\Exception $e) {
 			if ($this->rootView->file_exists($target)) {
+				$this->logger->debug("Cleaning up failed temp file $target after decryption exception", [ 'path' => $path, ]);
 				$this->rootView->unlink($target);
 			}
-			return false;
+			throw $e;
 		}
 
 		return true;
 	}
 
 	/**
-	 * get current timestamp
-	 */
-	protected function getTimestamp(): int {
-		return time();
-	}
-
-	/**
 	 * setup user file system
 	 */
 	protected function setupUserFS(string $uid): void {
+		// TODO: Refactor to use injected SetupManager (like EncryptAll does) + the IUser objeect
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
