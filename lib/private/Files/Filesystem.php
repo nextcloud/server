@@ -7,10 +7,8 @@
  */
 namespace OC\Files;
 
-use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
 use OC\User\NoUserException;
-use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
@@ -27,8 +25,6 @@ class Filesystem {
 	public static bool $loaded = false;
 
 	private static ?View $defaultInstance = null;
-
-	private static ?CappedMemoryCache $normalizedPathCache = null;
 
 	private static ?FilenameValidator $validator = null;
 
@@ -607,16 +603,6 @@ class Filesystem {
 			return '/';
 		}
 
-		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache(2048);
-		}
-
-		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
-
-		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
-			return self::$normalizedPathCache[$cacheKey];
-		}
-
 		//normalize unicode if possible
 		if (!$keepUnicode) {
 			$path = \OC_Util::normalizeUnicode($path);
@@ -641,8 +627,6 @@ class Filesystem {
 		if ($stripTrailingSlash && strlen($path) > 1) {
 			$path = rtrim($path, '/');
 		}
-
-		self::$normalizedPathCache[$cacheKey] = $path;
 
 		return $path;
 	}
