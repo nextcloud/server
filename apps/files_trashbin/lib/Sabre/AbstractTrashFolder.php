@@ -19,6 +19,13 @@ abstract class AbstractTrashFolder extends AbstractTrash implements ICollection,
 		$entries = $this->trashManager->listTrashFolder($this->data);
 
 		$children = array_map(function (ITrashItem $entry) {
+			if (str_starts_with($entry->getTrashPath(), '/' . $entry->getOriginalLocation())) {
+				// parent folder is a fake trash folder
+				if ($entry->getType() === FileInfo::TYPE_FOLDER) {
+					return new TrashFolder($this->trashManager, $entry);
+				}
+				return new TrashFile($this->trashManager, $entry);
+			}
 			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
 				return new TrashFolderFolder($this->trashManager, $entry);
 			}
