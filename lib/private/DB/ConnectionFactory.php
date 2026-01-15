@@ -200,6 +200,8 @@ class ConnectionFactory {
 		//additional driver options, eg. for mysql ssl
 		$driverOptions = $this->config->getValue($configPrefix . 'dbdriveroptions', $this->config->getValue('dbdriveroptions', null));
 		if ($driverOptions) {
+			$rootCertPath = $driverOptions[PDO::MYSQL_ATTR_SSL_CA] ?? $this->config->getValue('default_certificates_bundle_path', null) ?? '';
+			$driverOptions[PDO::MYSQL_ATTR_SSL_CA] = $rootCertPath;
 			$connectionParams['driverOptions'] = $driverOptions;
 		}
 
