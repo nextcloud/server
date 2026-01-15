@@ -223,6 +223,9 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		])) {
 			return false;
 		}
+		if ($class === self::class) {
+			return true;
+		}
 		return parent::instanceOfStorage($class);
 	}
 

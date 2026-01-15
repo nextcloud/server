@@ -197,8 +197,7 @@ class OC_Helper {
 		}
 
 		// TODO: need a better way to get total space from storage
-		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
-			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
+		if ($sourceStorage instanceof \OC\Files\Storage\Wrapper\Quota) {
 			$quota = $sourceStorage->getQuota();
 		}
 		try {
