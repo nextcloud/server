@@ -1565,10 +1565,15 @@ class ViewTest extends \Test\TestCase {
 				return new \OC\Files\Cache\Storage($storage, true, Server::get(IDBConnection::class));
 			});
 
-			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
-				->onlyMethods(['moveMount'])
+			$mount = $this->getMockBuilder(TestMoveableMountPoint::class)
+				->onlyMethods(['moveMount', 'getNumericStorageId'])
 				->setConstructorArgs([$storage, $mountPoint])
 				->getMock();
+
+			$mount->method('getNumericStorageId')
+				->willReturn(1);
+
+			$mounts[] = $mount;
 		}
 
 		/** @var IMountProvider|\PHPUnit\Framework\MockObject\MockObject $mountProvider */
