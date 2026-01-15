@@ -40,6 +40,8 @@ OC.L10N.register(
     "Settings" : "Seaded",
     "Could not remove app." : "Rakenduse eemaldamine ei õnnestunud.",
     "Could not update app." : "Rakenduse uuendamine ei õnnestunud.",
+    "One time login" : "Ühekordne sisselogimise võimalus",
+    "QR Code login" : "QR-koodiga sisselogimine",
     "Wrong password" : "Vale salasõna",
     "Unable to change personal password" : "Isikliku salasõna muutmine ei õnnestu",
     "Saved" : "Salvestatud",
