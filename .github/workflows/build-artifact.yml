@@ -307,7 +307,7 @@ jobs:
         continue-on-error: true
         uses: ./.github/actions/get-job-data
         with:
-          job-name: 'build-external-apps (${{ matrix.app_info.name }})'
+          job-name: 'build-external-apps (${{ matrix.app_info.name }}, ${{ matrix.app_info.sha }})'
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ github.run_id }}
@@ -903,6 +903,10 @@ jobs:
               BUILD_TYPE="stable"
           fi
 
+          # Construct source build URL for traceability
+          SOURCE_BUILD_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          echo "Source Build URL: $SOURCE_BUILD_URL"
+
           # Trigger GitLab pipeline via webhook with retry logic (3 attempts with 30s delay)
           MAX_ATTEMPTS=3
           ATTEMPT=1
@@ -925,6 +929,7 @@ jobs:
               --form "variables[NC_VERSION]=${{ needs.build-artifact.outputs.NC_VERSION }}" \
               --form "variables[BUILD_ID]=${{ github.run_id }}" \
               --form "variables[BUILD_TYPE]=${BUILD_TYPE}" \
+              --form "variables[SOURCE_BUILD_URL]=${SOURCE_BUILD_URL}" \
               "${{ secrets.GITLAB_TRIGGER_URL }}"; then
               TRIGGER_SUCCESS=true
               echo "✅ Trigger successful on attempt $ATTEMPT"
