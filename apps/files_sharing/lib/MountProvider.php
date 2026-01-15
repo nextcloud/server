@@ -396,7 +396,7 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 		$shares = $this->filterShares($shares, $userId);
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		return $this->getMountsFromSuperShares($userId, $superShares, $loader, $user);
+		return $this->getMountsFromSuperShares($user, $superShares, $loader);
 	}
 
 	/**
