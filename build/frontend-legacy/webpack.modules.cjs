@@ -27,6 +27,7 @@ module.exports = {
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 		public: path.join(__dirname, 'core/src', 'public.ts'),
+		public_share_auth: path.join(__dirname, 'core/src', 'public-share-auth.ts'),
 		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 	},
 	dashboard: {
