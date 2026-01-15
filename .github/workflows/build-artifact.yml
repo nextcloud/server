@@ -347,14 +347,25 @@ jobs:
           # Include CACHE_VERSION in path to enable complete cache invalidation
           JFROG_PATH="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/apps/${{ env.CACHE_VERSION }}/${APP_NAME}/${ARCHIVE_NAME}"
 
+          # Build properties for artifact metadata
+          JFROG_PROPS_LIST=()
+          JFROG_PROPS_LIST+=("app.name=${APP_NAME}")
+          JFROG_PROPS_LIST+=("app.sha=${APP_SHA}")
+          JFROG_PROPS_LIST+=("vcs.branch=${{ github.ref_name }}")
+          JFROG_PROPS_LIST+=("vcs.revision=${{ github.sha }}")
+
+          # Join properties into a single semicolon-separated string using IFS and array expansion
+          # This bash technique temporarily sets IFS (Internal Field Separator) to ';' and expands
+          # the array with [*] which joins elements using the first character of IFS
+          JFROG_PROPS=$(IFS=';'; printf '%s' "${JFROG_PROPS_LIST[*]}")
+
           echo ""
           echo "Uploading to JFrog..."
           echo "Target Path: $JFROG_PATH"
-          echo "Properties: app.name=${APP_NAME};app.sha=${APP_SHA};vcs.branch=${{ github.ref_name }};vcs.revision=${{ github.sha }}"
+          echo "Properties: $JFROG_PROPS"
           echo "Running: jf rt upload \"$ARCHIVE_NAME\" \"$JFROG_PATH\" --target-props \"...\""
 
-          if jf rt upload "$ARCHIVE_NAME" "$JFROG_PATH" \
-            --target-props "app.name=${APP_NAME};app.sha=${APP_SHA};vcs.branch=${{ github.ref_name }};vcs.revision=${{ github.sha }}"; then
+          if jf rt upload "$ARCHIVE_NAME" "$JFROG_PATH" --target-props "$JFROG_PROPS"; then
             echo "✅ Successfully uploaded $APP_NAME to JFrog"
             echo ""
             echo "Verifying upload..."
@@ -704,6 +715,17 @@ jobs:
 
           export PATH_TO_LATEST_ARTIFACT="${PATH_TO_DIRECTORY}/${PATH_TO_FILE}"
 
+          # Build properties for artifact metadata
+          JFROG_PROPS_LIST=()
+          JFROG_PROPS_LIST+=("build.nc_version=${{ needs.build-artifact.outputs.NC_VERSION }}")
+          JFROG_PROPS_LIST+=("vcs.branch=${{ github.ref }}")
+          JFROG_PROPS_LIST+=("vcs.revision=${{ github.sha }}")
+
+          # Join properties into a single semicolon-separated string using IFS and array expansion
+          # This bash technique temporarily sets IFS (Internal Field Separator) to ';' and expands
+          # the array with [*] which joins elements using the first character of IFS
+          JFROG_PROPS=$(IFS=';'; printf '%s' "${JFROG_PROPS_LIST[*]}")
+
           # Upload with retry logic (3 attempts with 30s delay)
           MAX_ATTEMPTS=3
           ATTEMPT=1
@@ -716,7 +738,7 @@ jobs:
             if jf rt upload "${{ env.TARGET_PACKAGE_NAME }}" \
               --build-name "${{ env.BUILD_NAME }}" \
               --build-number ${{ github.run_number }} \
-              --target-props "build.nc_version=${{ needs.build-artifact.outputs.NC_VERSION }};vcs.branch=${{ github.ref }};vcs.revision=${{ github.sha }}" \
+              --target-props "$JFROG_PROPS" \
               $PATH_TO_LATEST_ARTIFACT; then
               UPLOAD_SUCCESS=true
               echo "✅ Upload successful on attempt $ATTEMPT"
