@@ -107,6 +107,7 @@ return array(
     'OCA\\Files_External\\Migration\\Version1011Date20200630192246' => $baseDir . '/../lib/Migration/Version1011Date20200630192246.php',
     'OCA\\Files_External\\Migration\\Version1015Date20211104103506' => $baseDir . '/../lib/Migration/Version1015Date20211104103506.php',
     'OCA\\Files_External\\Migration\\Version1016Date20220324154536' => $baseDir . '/../lib/Migration/Version1016Date20220324154536.php',
+    'OCA\\Files_External\\Migration\\Version1025Date20250228162604' => $baseDir . '/../lib/Migration/Version1025Date20250228162604.php',
     'OCA\\Files_External\\Migration\\Version22000Date20210216084416' => $baseDir . '/../lib/Migration/Version22000Date20210216084416.php',
     'OCA\\Files_External\\MountConfig' => $baseDir . '/../lib/MountConfig.php',
     'OCA\\Files_External\\NotFoundException' => $baseDir . '/../lib/NotFoundException.php',
