@@ -79,13 +79,14 @@ class Update extends Command {
 		$return = 0;
 		foreach ($apps as $appId) {
 			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
-			if ($newVersion) {
+			if ($newVersion !== false) {
 				$updateFound = true;
 				$output->writeln($appId . ' new version available: ' . $newVersion);
 
 				if (!$input->getOption('showonly')) {
 					try {
-						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
+						$this->installer->downloadApp($appId, $input->getOption('allow-unstable'));
+						$result = $this->runUpgradeInSubProcess($appId);
 					} catch (\Exception $e) {
 						$this->logger->error('Failure during update of app "' . $appId . '"', [
 							'app' => 'app:update',
@@ -115,5 +116,17 @@ class Update extends Command {
 		}
 
 		return $return;
+	}
+
+	protected function runUpgradeInSubProcess(string $appId): bool {
+		$command = PHP_BINARY . ' ' . \OC::$SERVERROOT . '/appudate.php ' . escapeshellarg($appId);
+		$execResult = exec($command, result_code:$resultCode);
+		if ($execResult === false) {
+			return false;
+		}
+		if ($resultCode !== 0) {
+			return false;
+		}
+		return true;
 	}
 }
