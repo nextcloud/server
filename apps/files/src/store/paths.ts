@@ -6,6 +6,7 @@
 import type { Folder, Node } from '@nextcloud/files'
 import type { FileSource, PathOptions, PathsStore, Service, ServicesState } from '../types.ts'
 
+import { getBuilder } from '@nextcloud/browser-storage'
 import { subscribe } from '@nextcloud/event-bus'
 import { File, FileType, getNavigation } from '@nextcloud/files'
 import { dirname } from '@nextcloud/paths'
@@ -14,10 +15,8 @@ import Vue from 'vue'
 import logger from '../logger.ts'
 import { useFilesStore } from './files.ts'
 
-/**
- *
- * @param args
- */
+const browserStorage = getBuilder('files').build()
+
 export function usePathsStore(...args) {
 	const files = useFilesStore(...args)
 
@@ -169,8 +168,32 @@ export function usePathsStore(...args) {
 		subscribe('files:node:deleted', pathsStore.onDeletedNode)
 		subscribe('files:node:moved', pathsStore.onMovedNode)
 
+		// Restore from browser storage
+		if (browserStorage.getItem('paths')) {
+			try {
+				const data = browserStorage.getItem('paths')
+				if (!data) {
+					throw new Error('No data found in browser storage for paths')
+				}
+
+				const storedPaths = JSON.parse(data) as ServicesState
+				pathsStore.$state.paths = storedPaths || {}
+				logger.info('Restored paths store from browser storage', { storedPaths })
+			} catch (e) {
+				logger.info('Failed to restore paths store from browser storage', { error: e })
+			}
+		}
+
 		pathsStore._initialized = true
 	}
+
+	pathsStore.$subscribe((_mutation, state: PathsStore) => {
+		try {
+			browserStorage.setItem('paths', JSON.stringify(state.paths))
+		} catch (e) {
+			logger.error('Failed to persist paths store to browser storage', { error: e })
+		}
+	})
 
 	return pathsStore
 }
