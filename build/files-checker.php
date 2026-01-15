@@ -74,6 +74,7 @@ $expectedFiles = [
 	'package.json',
 	'psalm-ncu.xml',
 	'psalm-ocp.xml',
+	'psalm-strict.xml',
 	'psalm.xml',
 	'public.php',
 	'remote.php',
