@@ -687,8 +687,13 @@ class SetupManager implements ISetupManager {
 		}
 
 		if (!$providersAreAuthoritative && $this->fullSetupRequired($user)) {
-			$this->setupForUser($user);
-			return;
+			if ($this->optimizeAuthoritativeProviders) {
+				$this->updateNonAuthoritativeProviders($user);
+				$this->markUserMountsCached($user);
+			} else {
+				$this->setupForUser($user);
+				return;
+			}
 		}
 
 		$this->eventLogger->start('fs:setup:user:providers', 'Setup filesystem for ' . implode(', ', $providers));
