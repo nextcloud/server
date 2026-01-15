@@ -430,7 +430,7 @@ class Encryption extends Wrapper {
 			// we are handling that separately here and we don't want to
 			// get into an infinite loop
 			$blockIndex = (int)floor($this->position / $this->unencryptedBlockSize);
-			$blockId = (string)$blockIndex . $positionPrefix);
+			$blockId = (string)$blockIndex . $positionPrefix;
 			$encrypted = $this->encryptionModule->encrypt($this->cache, $blockId);
 			$bytesWritten = parent::stream_write($encrypted);
 			$this->writeFlag = false;
