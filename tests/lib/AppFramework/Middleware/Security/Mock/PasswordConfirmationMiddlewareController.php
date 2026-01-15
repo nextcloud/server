@@ -35,4 +35,9 @@ class PasswordConfirmationMiddlewareController extends Controller {
 	#[PasswordConfirmationRequired]
 	public function testSSO() {
 	}
+
+	#[PasswordConfirmationRequired(strict: true)]
+	public function testStrictAction(): void {
+		// intentionally empty; used by PasswordConfirmationMiddleware tests
+	}
 }
