@@ -5,7 +5,7 @@
 
 import { loadState } from '@nextcloud/initial-state'
 import Accessibility from './accessibility.js'
-import * as AppConfig from './appconfig.js'
+import * as AppConfig from './appconfig.ts'
 import Collaboration from './collaboration.js'
 import * as Comments from './comments.js'
 import Loader from './loader.js'
