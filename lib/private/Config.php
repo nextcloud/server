@@ -202,7 +202,7 @@ class Config {
 			unset($CONFIG);
 
 			// Invalidate opcache (only if the timestamp changed)
-			if (function_exists('opcache_invalidate')) {
+			if (!defined('PHP_PRELOAD') && function_exists('opcache_invalidate')) {
 				@opcache_invalidate($file, false);
 			}
 
@@ -233,7 +233,7 @@ class Config {
 				fclose($filePointer);
 			}
 
-			if (!defined('PHPUNIT_RUN') && headers_sent()) {
+			if (!defined('PHP_PRELOAD') && !defined('PHPUNIT_RUN') && headers_sent()) {
 				// syntax issues in the config file like leading spaces causing PHP to send output
 				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
 				if (!defined('OC_CONSOLE')) {
