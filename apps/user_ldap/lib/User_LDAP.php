@@ -14,7 +14,10 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
+use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\IUserManager;
+use OCP\LDAP\MultipleUsersReturnedException;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
@@ -29,6 +32,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		protected UserPluginManager $userPluginManager,
 		protected LoggerInterface $logger,
 		protected DeletedUsersIndex $deletedUsersIndex,
+		protected IUserManager $userManager,
 	) {
 		parent::__construct($access);
 	}
@@ -642,5 +646,39 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
 		throw new \Exception('This is implemented directly in User_Proxy');
+	}
+
+	/**
+	 * Fetches one user from LDAP based on a filter or a custom attribute and search term.
+	 *
+	 * If no custom filter is provided or the filter is empty, it creates a simple equality filter with the given attribute.
+	 * If a custom filter is provided, it uses that filter directly and the attribute and search term are ignored.
+	 *
+	 * @throws MultipleUsersReturnedException if multiple users have been found (search query should not allow this)
+	 *
+	 * @param string $filter The LDAP filter to use. If null or empty string, a default filter is constructed.
+	 * @param string $attribute The LDAP attribute name to search against (e.g., 'mail', 'cn', 'uid').
+	 * @param string $searchTerm The search term to match against the attribute. Will be escaped for LDAP filter safety.
+	 *
+	 * @return IUser |null Returns an IUser if found in LDAP using the configured LDAP filter, or null if no user is found.
+	 */
+	public function getUserFromCustomAttribute(string $filter, string $attribute, string $searchTerm): ?IUser {
+		if ($filter === null || $filter === '') {
+			$searchTerm = $this->access->escapeFilterPart($searchTerm);
+			$filter = "($attribute=$searchTerm)";
+		}
+		$records = $this->access->searchUsers($filter, ['dn']);
+		if (count($records) === 1) {
+			$ldapUser = $this->access->userManager->get($records[0]['dn'][0]);
+			$user = $this->userManager->get($ldapUser->getUsername());
+			return $user;
+		} elseif (count($records) > 1) {
+			$this->logger->error(
+				'Multiple users found for filter: ' . $filter,
+				['app' => 'user_ldap']
+			);
+			throw new MultipleUsersReturnedException();
+		}
+		return null;
 	}
 }

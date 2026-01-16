@@ -6,6 +6,8 @@
  */
 namespace OCP\LDAP;
 
+use OCP\IUser;
+
 /**
  * Interface ILDAPProvider
  *
@@ -151,4 +153,13 @@ interface ILDAPProvider {
 	 * @since 22.0.0
 	 */
 	public function getMultiValueUserAttribute(string $uid, string $attribute): array;
+
+	/**
+	 * Search for a single user in ldap
+	 *
+	 * @return IUser|null Returns a IUser if found in ldap using the configured ldap filter
+	 * @throws MultipleUsersReturnedException if multiple users has been found (search query should not allow this)
+	 * @since 33.0.0
+	 */
+	public function findOneUser(string $filter, string $attribute, string $searchTerm): ?IUser;
 }
