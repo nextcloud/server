@@ -718,7 +718,7 @@ jobs:
           # Build properties for artifact metadata
           JFROG_PROPS_LIST=()
           JFROG_PROPS_LIST+=("build.nc_version=${{ needs.build-artifact.outputs.NC_VERSION }}")
-          JFROG_PROPS_LIST+=("vcs.branch=${{ github.ref }}")
+          JFROG_PROPS_LIST+=("vcs.branch=${{ github.ref_name }}")
           JFROG_PROPS_LIST+=("vcs.revision=${{ github.sha }}")
 
           # Join properties into a single semicolon-separated string using IFS and array expansion
