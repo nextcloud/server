@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -110,157 +110,294 @@ use OCP\IConfig;
 use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 
-$application->add(new CompletionCommand());
-$application->add(Server::get(Status::class));
-$application->add(Server::get(Check::class));
-$application->add(Server::get(CreateJs::class));
-$application->add(Server::get(SignApp::class));
-$application->add(Server::get(SignCore::class));
-$application->add(Server::get(CheckApp::class));
-$application->add(Server::get(CheckCore::class));
-$application->add(Server::get(ListRoutes::class));
-$application->add(Server::get(MatchRoute::class));
+/**
+ * This file registers Nextcloud core console commands for Nextcloud's CLI application (OCC).
+ *
+ * Core commands are explicitly added in this file, resolving them from the DI container via 
+ * Server::get(...).
+ *
+ * Some commands are always registered; many are only registered when the instance is already 
+ * installed. Other commands are only registered when `occ` is executed in debug mode. A 
+ * single "install" command is registered when the instance is not yet installed.
+ *
+ * The Symfony Console `$application` instance ris provided by the including scope (see 
+ * OC\Console\Application::loadCommands).
+ *
+ * TODO (maybe): 
+ * - Refactor this into a real class/service/callable w/ clear dependency handling/etc.
+ * - Make each core command a tagged service and have the container or a service aggregator
+ *	 auto-register them.
+ */
 
-$config = Server::get(IConfig::class);
+// These variables are expected to be provided by the including scope (Application::loadCommands)
+/** @var \Symfony\Component\Console\Application $application */
+/** @var bool $installed */
+/** @var bool $maintenance */
+/** @var bool $needUpgrade */
+/** @var bool $debug */
 
-if ($config->getSystemValueBool('installed', false)) {
-	$application->add(Server::get(Disable::class));
-	$application->add(Server::get(Enable::class));
-	$application->add(Server::get(Install::class));
-	$application->add(Server::get(GetPath::class));
-	$application->add(Server::get(ListApps::class));
-	$application->add(Server::get(Remove::class));
-	$application->add(Server::get(Update::class));
+/*
+ * Commands that should always be registered (i.e. normal, pre-install, maintenance, upgrade needed)
+*/
+$alwaysCommands = [
+	CompletionCommand::class,
+	Status::class,
+	Check::class,
+	CreateJs::class,
+	SignApp::class,
+	SignCore::class,
+	CheckApp::class,
+	CheckCore::class,
+	ListRoutes::class,
+	MatchRoute::class,
+];
 
-	$application->add(Server::get(Cleanup::class));
-	$application->add(Server::get(Enforce::class));
-	$application->add(Server::get(Command\TwoFactorAuth\Enable::class));
-	$application->add(Server::get(Command\TwoFactorAuth\Disable::class));
-	$application->add(Server::get(State::class));
+/*
+ * Commands required when an upgrade is needed (besides above)
+ */
+$upgradeCommands = [
+	Command\Maintenance\Mode::class,
+	Upgrade::class,
+];
 
-	$application->add(Server::get(Mode::class));
-	$application->add(Server::get(Job::class));
-	$application->add(Server::get(ListCommand::class));
-	$application->add(Server::get(Delete::class));
-	$application->add(Server::get(JobWorker::class));
+/*
+ * Commands available only when not installed
+ */
+$installerCommands = [
+	Command\Maintenance\Install::class,
+];
 
-	$application->add(Server::get(Test::class));
+/*
+ * Commands allowed in maintenance mode (no apps loaded)
+ */
+$maintenanceCommands = [
+	Command\Maintenance\Mode::class,
+];
 
-	$application->add(Server::get(DeleteConfig::class));
-	$application->add(Server::get(GetConfig::class));
-	$application->add(Server::get(SetConfig::class));
-	$application->add(Server::get(Import::class));
-	$application->add(Server::get(ListConfigs::class));
-	$application->add(Server::get(Preset::class));
-	$application->add(Server::get(Command\Config\System\DeleteConfig::class));
-	$application->add(Server::get(Command\Config\System\GetConfig::class));
-	$application->add(Server::get(Command\Config\System\SetConfig::class));
+/*
+ * Commands for normal (installed/up-to-date/non-maintenance) operating mode
+ */
+$installedCommands = [
+	// "app"
+	Disable::class,
+	Enable::class,
+	GetPath::class,
+	Install::class,
+	ListApps::class,
+	Remove::class,
+	Update::class,
 
-	$application->add(Server::get(File::class));
-	$application->add(Server::get(Space::class));
-	$application->add(Server::get(Storage::class));
-	$application->add(Server::get(Storages::class));
+	// "background"
+	Mode::class,
 
-	$application->add(Server::get(ConvertType::class));
-	$application->add(Server::get(ConvertMysqlToMB4::class));
-	$application->add(Server::get(ConvertFilecacheBigInt::class));
-	$application->add(Server::get(AddMissingColumns::class));
-	$application->add(Server::get(AddMissingIndices::class));
-	$application->add(Server::get(AddMissingPrimaryKeys::class));
-	$application->add(Server::get(ExpectedSchema::class));
-	$application->add(Server::get(ExportSchema::class));
+	// "background-job"
+	Delete::class,
+	Job::class,
+	JobWorker::class,
+	ListCommand::class,
 
-	$application->add(Server::get(GenerateMetadataCommand::class));
-	$application->add(Server::get(PreviewCommand::class));
-	if ($config->getSystemValueBool('debug', false)) {
-		$application->add(Server::get(StatusCommand::class));
-		$application->add(Server::get(MigrateCommand::class));
-		$application->add(Server::get(GenerateCommand::class));
-		$application->add(Server::get(ExecuteCommand::class));
+	// "broadcast"
+	Test::class,
+
+	// "config"
+	Import::class,
+	ListConfigs::class,
+	Preset::class,
+
+	// "config:app"
+	DeleteConfig::class,
+	GetConfig::class,
+	SetConfig::class,
+
+	// "config:system"
+	Command\Config\System\DeleteConfig::class,
+	Command\Config\System\GetConfig::class,
+	Command\Config\System\SetConfig::class,
+
+	// "db"
+	AddMissingColumns::class,
+	AddMissingIndices::class,
+	AddMissingPrimaryKeys::class,
+	ConvertFilecacheBigInt::class,
+	ConvertMysqlToMB4::class,
+	ConvertType::class,
+	ExpectedSchema::class,
+	ExportSchema::class,
+
+	// "encryption"
+	ChangeKeyStorageRoot::class,
+	DecryptAll::class,
+	Command\Encryption\Disable::class,
+	Command\Encryption\Enable::class,
+	EncryptAll::class,
+	ListModules::class,
+	MigrateKeyStorage::class,
+	SetDefaultModule::class,
+	ShowKeyStorageRoot::class,
+	Command\Encryption\Status::class,
+
+	// "group"
+	Command\Group\Add::class,
+	AddUser::class,
+	Command\Group\Delete::class,
+	Command\Group\Info::class,
+	Command\Group\ListCommand::class,
+	RemoveUser::class,
+
+	// "info"
+	File::class,
+	Space::class,
+	Storage::class,
+	Storages::class,
+
+	// "log"
+	Command\Log\File::class,
+	Manage::class,
+
+	// "maintenance"
+	DataFingerprint::class,
+	Command\Maintenance\Mode::class,
+	Repair::class,
+	RepairShareOwnership::class,
+	UpdateTheme::class,
+	UpdateHtaccess::class,
+
+	// "maintenance:mimetype"
+	UpdateDB::class,
+	UpdateJS::class,
+
+	// "memcache""
+	RedisCommand::class,		// TODO: Should probably be moved under debug; it's not currently gated
+	DistributedClear::class,	// ditto
+	DistributedDelete::class,	// ditto
+	DistributedGet::class,		// ditto probably
+	DistributedSet::class,		// ditto
+
+	// "metadata"
+	Get::class,
+
+	// "migrations"
+	GenerateMetadataCommand::class,
+	PreviewCommand::class,
+
+	// "preview"
+	Command\Preview\Cleanup::class,
+	Generate::class,
+	ResetRenderedTexts::class,
+
+	// "tag"
+	Command\SystemTag\Add::class,
+	Command\SystemTag\Delete::class,
+	Edit::class,
+	Command\SystemTag\ListCommand::class,
+
+	// "twofactorauth"
+	Cleanup::class,
+	Command\TwoFactorAuth\Disable::class,
+	Command\TwoFactorAuth\Enable::class,
+	Enforce::class,
+	State::class,
+
+	// "security:bruteforce"
+	BruteforceAttempts::class,
+	BruteforceResetAttempts::class,
+
+	// "security:certificates"
+	ListCertificates::class,
+	ExportCertificates::class,
+	ImportCertificate::class,
+	RemoveCertificate::class,
+
+	// "setupchecks"
+	SetupChecks::class,
+
+	// "snowflake"
+	SnowflakeDecodeId::class,
+
+	// "taskprocessing"
+	EnabledCommand::class,
+	Command\TaskProcessing\Cleanup::class,
+	GetCommand::class,
+	Command\TaskProcessing\ListCommand::class,
+	Statistics::class,
+
+	// "user"
+	Add::class,
+	Command\User\AuthTokens\Add::class,
+	Command\User\AuthTokens\Delete::class,
+	Command\User\AuthTokens\ListCommand::class,
+	ClearGeneratedAvatarCacheCommand::class,
+	Command\User\Delete::class,
+	Command\User\Disable::class,
+	Command\User\Enable::class,
+	Info::class,
+	Verify::class,
+	LastSeen::class,
+	Command\User\ListCommand::class,
+	Profile::class,
+	Report::class,
+	ResetPassword::class,
+	Setting::class,
+	SyncAccountDataCommand::class,
+	Welcome::class,
+];
+
+/*
+ * Debug-mode only commands
+ */
+$debugCommands = [
+	// "migrations"
+	ExecuteCommand::class,
+	GenerateCommand::class,
+	MigrateCommand::class,
+	StatusCommand::class,
+];
+
+/** 
+ * Helper to resolve & add a list of command classes.
+ *
+ * Will abort registering if any app/service fails to load.
+ * 
+ */
+/** @var \Symfony\Component\Console\Application $application */
+$addCommands = function (array $classes) use ($application) {
+	foreach ($classes as $class) {
+		// CompletionCommand is instantiated directly (not resolved from container).
+		if ($class === CompletionCommand::class) {
+			$application->add(new CompletionCommand());
+		} else {
+			$application->add(Server::get($class));
+		}
 	}
+};
 
-	$application->add(Server::get(Command\Encryption\Disable::class));
-	$application->add(Server::get(Command\Encryption\Enable::class));
-	$application->add(Server::get(ListModules::class));
-	$application->add(Server::get(SetDefaultModule::class));
-	$application->add(Server::get(Command\Encryption\Status::class));
-	$application->add(Server::get(EncryptAll::class));
-	$application->add(Server::get(DecryptAll::class));
+/*
+ * Register commands according to state
+ */
 
-	$application->add(Server::get(Manage::class));
-	$application->add(Server::get(Command\Log\File::class));
+// Register always available commands
+$addCommands($alwaysCommands);
 
-	$application->add(Server::get(ChangeKeyStorageRoot::class));
-	$application->add(Server::get(ShowKeyStorageRoot::class));
-	$application->add(Server::get(MigrateKeyStorage::class));
+if ($needUpgrade) {
+	// Register minimal extra commands needed to perform or diagnose the upgrade.
+	$addCommands($upgradeCommands);
+	return;
+}
 
-	$application->add(Server::get(DataFingerprint::class));
-	$application->add(Server::get(UpdateDB::class));
-	$application->add(Server::get(UpdateJS::class));
-	$application->add(Server::get(Command\Maintenance\Mode::class));
-	$application->add(Server::get(UpdateHtaccess::class));
-	$application->add(Server::get(UpdateTheme::class));
+if (!$installed) {
+	// Register pre-install only commands
+	$addCommands($installerCommands);
+	return;
+}
 
-	$application->add(Server::get(Upgrade::class));
-	$application->add(Server::get(Repair::class));
-	$application->add(Server::get(RepairShareOwnership::class));
+if ($maintenance) {
+	$addCommands($maintenanceCommands);
+	return;
+}
 
-	$application->add(Server::get(Command\Preview\Cleanup::class));
-	$application->add(Server::get(Generate::class));
-	$application->add(Server::get(ResetRenderedTexts::class));
+// Normal installed & not maintenance path
+$addCommands($installedCommands);
 
-	$application->add(Server::get(Add::class));
-	$application->add(Server::get(Command\User\Delete::class));
-	$application->add(Server::get(Command\User\Disable::class));
-	$application->add(Server::get(Command\User\Enable::class));
-	$application->add(Server::get(LastSeen::class));
-	$application->add(Server::get(Report::class));
-	$application->add(Server::get(ResetPassword::class));
-	$application->add(Server::get(Setting::class));
-	$application->add(Server::get(Profile::class));
-	$application->add(Server::get(Command\User\ListCommand::class));
-	$application->add(Server::get(ClearGeneratedAvatarCacheCommand::class));
-	$application->add(Server::get(Info::class));
-	$application->add(Server::get(SyncAccountDataCommand::class));
-	$application->add(Server::get(Command\User\AuthTokens\Add::class));
-	$application->add(Server::get(Command\User\AuthTokens\ListCommand::class));
-	$application->add(Server::get(Command\User\AuthTokens\Delete::class));
-	$application->add(Server::get(Verify::class));
-	$application->add(Server::get(Welcome::class));
-
-	$application->add(Server::get(Command\Group\Add::class));
-	$application->add(Server::get(Command\Group\Delete::class));
-	$application->add(Server::get(Command\Group\ListCommand::class));
-	$application->add(Server::get(AddUser::class));
-	$application->add(Server::get(RemoveUser::class));
-	$application->add(Server::get(Command\Group\Info::class));
-
-	$application->add(Server::get(Command\SystemTag\ListCommand::class));
-	$application->add(Server::get(Command\SystemTag\Delete::class));
-	$application->add(Server::get(Command\SystemTag\Add::class));
-	$application->add(Server::get(Edit::class));
-
-	$application->add(Server::get(ListCertificates::class));
-	$application->add(Server::get(ExportCertificates::class));
-	$application->add(Server::get(ImportCertificate::class));
-	$application->add(Server::get(RemoveCertificate::class));
-	$application->add(Server::get(BruteforceAttempts::class));
-	$application->add(Server::get(BruteforceResetAttempts::class));
-	$application->add(Server::get(SetupChecks::class));
-	$application->add(Server::get(SnowflakeDecodeId::class));
-	$application->add(Server::get(Get::class));
-
-	$application->add(Server::get(GetCommand::class));
-	$application->add(Server::get(EnabledCommand::class));
-	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
-	$application->add(Server::get(Statistics::class));
-	$application->add(Server::get(Command\TaskProcessing\Cleanup::class));
-
-	$application->add(Server::get(RedisCommand::class));
-	$application->add(Server::get(DistributedClear::class));
-	$application->add(Server::get(DistributedDelete::class));
-	$application->add(Server::get(DistributedGet::class));
-	$application->add(Server::get(DistributedSet::class));
-} else {
-	$application->add(Server::get(Command\Maintenance\Install::class));
+if ($debug) {
+	$addCommands($debugCommands);
 }
