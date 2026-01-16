@@ -54,4 +54,9 @@ export const action = new FileAction({
 	},
 
 	order: -50,
+
+	hotkey: {
+		key: 'D',
+		description: t('files', 'Open the details sidebar'),
+	},
 })

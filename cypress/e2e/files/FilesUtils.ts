@@ -7,7 +7,7 @@ import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 const ACTION_COPY_MOVE = 'move-copy'
 
-export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
+export const getRowForFileId = (fileid: string | number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
 
 export const getActionsForFileId = (fileid: number) => getRowForFileId(fileid).find('[data-cy-files-list-row-actions]')
