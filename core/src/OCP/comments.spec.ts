@@ -4,7 +4,7 @@
  */
 
 import { expect, it } from 'vitest'
-import * as Comments from '../../OCP/comments.js'
+import { plainToRich } from './comments.ts'
 
 it.for([
 	{ input: 'nextcloud.com', expected: 'nextcloud.com' },
@@ -28,6 +28,6 @@ it.for([
 	{ input: 'FirebaseInstanceId.getInstance().deleteInstanceId()', expected: 'FirebaseInstanceId.getInstance().deleteInstanceId()' },
 	{ input: 'I mean...it', expected: 'I mean...it' },
 ])('OCP.Comments should parse URLs only', ({ input, expected }) => {
-	const result = Comments.plainToRich(input)
+	const result = plainToRich(input)
 	expect(result).toEqual(expected)
 })
