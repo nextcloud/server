@@ -15,6 +15,7 @@ use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -261,7 +262,12 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	}
 
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
-		$versionEntity = $this->versionsMapper->findVersionForFileId($sourceFile->getId(), $revision);
+		try {
+			$versionEntity = $this->versionsMapper->findVersionForFileId($sourceFile->getId(), $revision);
+		} catch (DoesNotExistException $e) {
+			// no version found for fileId
+			return;
+		}
 
 		if (isset($properties['timestamp'])) {
 			$versionEntity->setTimestamp($properties['timestamp']);
