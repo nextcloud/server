@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
-
 /*
  * Detects links:
  * Either the http(s) protocol is given or two strings, basically limited to ascii with the last
@@ -19,23 +17,29 @@ import $ from 'jquery'
 const urlRegex = /(\s|^)(https?:\/\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
 
 /**
- * @param {any} content -
+ * Converts plain text to rich text
+ *
+ * @param content - The plain text content
  */
-export function plainToRich(content) {
-	return this.formatLinksRich(content)
+export function plainToRich(content: string) {
+	return formatLinksRich(content)
 }
 
 /**
- * @param {any} content -
+ * Converts rich text to plain text
+ *
+ * @param content - The rich text content
  */
-export function richToPlain(content) {
-	return this.formatLinksPlain(content)
+export function richToPlain(content: string) {
+	return formatLinksPlain(content)
 }
 
 /**
- * @param {any} content -
+ * Format links in the given content to rich text links
+ *
+ * @param content - The content containing plain text URLs
  */
-export function formatLinksRich(content) {
+export function formatLinksRich(content: string) {
 	return content.replace(urlRegex, function(_, leadingSpace, protocol, url, trailingSpace) {
 		let linkText = url
 		if (!protocol) {
@@ -49,13 +53,16 @@ export function formatLinksRich(content) {
 }
 
 /**
- * @param {any} content -
+ * Format links in the given content to plain text links
+ *
+ * @param content - The content containing rich text URLs
  */
-export function formatLinksPlain(content) {
-	const $content = $('<div></div>').html(content)
-	$content.find('a').each(function() {
-		const $this = $(this)
-		$this.html($this.attr('href'))
+export function formatLinksPlain(content: string) {
+	const el = document.createElement('div')
+	el.innerHTML = content
+	el.querySelectorAll('a').forEach((anchor) => {
+		anchor.replaceWith(document.createTextNode(anchor.getAttribute('href') || ''))
 	})
-	return $content.html()
+
+	return el.innerHTML
 }
