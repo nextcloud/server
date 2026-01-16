@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Mail\Provider;
 
+use JsonSerializable;
+use OCP\Json\JsonDeserializable;
+
 /**
  * Mail Address Object
  *
@@ -16,7 +19,7 @@ namespace OCP\Mail\Provider;
  * @since 30.0.0
  *
  */
-class Address implements \OCP\Mail\Provider\IAddress {
+class Address implements IAddress, JsonSerializable, JsonDeserializable {
 
 	/**
 	 * initialize the mail address object
@@ -30,6 +33,37 @@ class Address implements \OCP\Mail\Provider\IAddress {
 		protected ?string $address = null,
 		protected ?string $label = null,
 	) {
+	}
+
+	/**
+	 * export this objects data as an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @return array representation of this object as an array
+	 */
+	public function jsonSerialize(): array {
+		return [
+			'address' => $this->address,
+			'label' => $this->label,
+		];
+	}
+
+	/**
+	 * import this objects data from an array
+	 *
+	 * @since 33.0.0
+	 *
+	 * @param array array representation of this object
+	 */
+	public static function jsonDeserialize(array|string $data): static {
+		if (is_string($data)) {
+			$data = json_decode($data, true);
+		}
+		$address = $data['address'] ?? null;
+		$label = $data['label'] ?? null;
+
+		return new static($address, $label);
 	}
 
 	/**
