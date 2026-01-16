@@ -70,10 +70,12 @@
 				</template>
 				{{ isFullscreenMode ? t('viewer', 'Exit full screen') : t('viewer', 'Full screen') }}
 			</NcActionButton>
-			<NcActionButton v-if="enableSidebar && Sidebar && sidebarOpenFilePath && !isSidebarShown"
-				:close-after-click="true"
-				icon="icon-menu-sidebar"
+			<NcActionButton v-if="enableSidebar && sidebarOpenFilePath && !isSidebarShown"
+				close-after-click
 				@click="showSidebar">
+				<template #icon>
+					<DockRight :size="20" />
+				</template>
 				{{ t('viewer', 'Open sidebar') }}
 			</NcActionButton>
 			<NcActionButton v-if="canDownload"
@@ -204,6 +206,7 @@ import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+import DockRight from 'vue-material-design-icons/DockRight.vue'
 
 import '@nextcloud/dialogs/style.css'
 
@@ -217,6 +220,7 @@ export default defineComponent({
 
 	components: {
 		Delete,
+		DockRight,
 		Download,
 		Error,
 		Fullscreen,
@@ -233,7 +237,6 @@ export default defineComponent({
 		return {
 			// Reactivity bindings
 			Viewer: OCA.Viewer,
-			Sidebar: null,
 			handlers: OCA.Viewer.availableHandlers,
 
 			// Viewer variables
@@ -330,18 +333,6 @@ export default defineComponent({
 			return ['image/jpeg', 'image/png', 'image/webp'].includes(this.currentFile?.mime)
 		},
 
-		/**
-		 * Returns the path to the current opened file in the sidebar.
-		 *
-		 * If the sidebar is available but closed an empty string is returned.
-		 * If the sidebar is not available null is returned.
-		 *
-		 * @return {string|null} the path to the current opened file in the
-		 *          sidebar, if any.
-		 */
-		sidebarFile() {
-			return this.Sidebar && this.Sidebar.file
-		},
 		sidebarOpenFilePath() {
 			try {
 				const relativePath = this.currentFile?.davPath?.split(defaultRootPath)[1]
@@ -547,11 +538,6 @@ export default defineComponent({
 				this.registerHandlerAlias(handler)
 			})
 			this.isLoaded = true
-
-			// bind Sidebar if available
-			if (OCA?.Files?.Sidebar) {
-				this.Sidebar = OCA.Files.Sidebar.state
-			}
 
 			logger.info(`${this.handlers.length} viewer handlers registered`, { handlers: this.handlers })
 		})
@@ -831,7 +817,7 @@ export default defineComponent({
 		 * Show sidebar if available and a file is already opened
 		 */
 		changeSidebar() {
-			if (this.sidebarFile) {
+			if (this.isSidebarShown) {
 				this.showSidebar()
 			}
 		},
@@ -1109,7 +1095,20 @@ export default defineComponent({
 		 */
 		async showSidebar() {
 			if (this.enableSidebar) {
-				emit('viewer:sidebar:open')
+				// TODO remove when we finally use the node API
+				const node = new NcFile({
+					source: defaultRemoteURL + getRootPath() + this.currentFile.filename,
+					id: this.currentFile.fileid,
+					displayname: this.currentFile.displayname,
+					mime: this.currentFile.mime,
+					mtime: new Date(this.currentFile.lastmod),
+					owner: this.currentFile.ownerId,
+					root: getRootPath(),
+				})
+				emit('viewer:sidebar:open', node)
+
+				// some apps mocked the files api to allow their sidebar to be used with the viewer
+				// to not break them keep this at least until Nextcloud 34.
 				if (OCA?.Files?.Sidebar) {
 					// TODO: also hide figure, needs a proper method for it in server Sidebar
 					await OCA.Files.Sidebar.open(this.sidebarOpenFilePath)
@@ -1412,6 +1411,17 @@ export default defineComponent({
 </style>
 
 <style lang="scss">
+body:has(#viewer) {
+	#app-sidebar-vue {
+		position: fixed;
+		width: calc(var(--app-sidebar-width) + var(--body-container-margin));
+	}
+
+	#header {
+		visibility: hidden;
+	}
+}
+
 .component-fade-enter-active,
 .component-fade-leave-active {
 	transition: opacity .3s ease;

@@ -27,8 +27,8 @@ function pushToHistory(node: INode, view: IView, dir: string) {
 	const editing = window.OCP.Files.Router.query.editing === 'true' ? 'true' : 'false'
 	window.OCP.Files.Router.goToRoute(
 		null,
-		{ view: view.id, fileid: String(node.fileid) },
-		{ dir, openfile: 'true', editing },
+		{ ...window.OCP.Files.Router.params, view: view.id, fileid: String(node.fileid) },
+		{ ...window.OCP.Files.Router.query, dir, openfile: 'true', editing },
 		true,
 	)
 }
