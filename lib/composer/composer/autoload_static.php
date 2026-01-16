@@ -17,11 +17,11 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' => 
+        'N' =>
         array (
             'NCU\\' => 4,
         ),
-        'B' => 
+        'B' =>
         array (
             'Bamarni\\Composer\\Bin\\' => 21,
         ),
@@ -40,11 +40,11 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' => 
+        'NCU\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
-        'Bamarni\\Composer\\Bin\\' => 
+        'Bamarni\\Composer\\Bin\\' =>
         array (
             0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
@@ -1520,6 +1520,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version31000Date20250213102442' => __DIR__ . '/../../..' . '/core/Migrations/Version31000Date20250213102442.php',
         'OC\\Core\\Migrations\\Version31000Date20250731062008' => __DIR__ . '/../../..' . '/core/Migrations/Version31000Date20250731062008.php',
         'OC\\Core\\Migrations\\Version32000Date20250620081925' => __DIR__ . '/../../..' . '/core/Migrations/Version32000Date20250620081925.php',
+        'OC\\Core\\Migrations\\Version33000Date20251209123503' => __DIR__ . '/../../..' . '/core/Migrations/Version33000Date20251209123503.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\ResponseDefinitions' => __DIR__ . '/../../..' . '/core/ResponseDefinitions.php',
         'OC\\Core\\Service\\LoginFlowV2Service' => __DIR__ . '/../../..' . '/core/Service/LoginFlowV2Service.php',
