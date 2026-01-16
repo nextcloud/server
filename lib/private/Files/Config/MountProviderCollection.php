@@ -111,6 +111,17 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 			);
 		}
 
+		$userId = null;
+		$user = null;
+		foreach ($mountProviderArgs as $mountProviderArg) {
+			if ($userId === null) {
+				$user = $mountProviderArg->mountInfo->getUser();
+				$userId = $user->getUID();
+			} elseif ($userId !== $mountProviderArg->mountInfo->getUser()->getUID()) {
+				throw new \LogicException('Mounts must belong to the same user!');
+			}
+		}
+
 		return $provider->getMountsForPath(
 			$path,
 			$forChildren,
