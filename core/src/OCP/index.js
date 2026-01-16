@@ -10,7 +10,6 @@ import Collaboration from './collaboration.js'
 import * as Comments from './comments.ts'
 import Loader from './loader.js'
 import Toast from './toast.js'
-import * as WhatsNew from './whatsnew.js'
 
 /** @namespace OCP */
 export default {
@@ -32,5 +31,4 @@ export default {
 	 * @deprecated 19.0.0 use the `@nextcloud/dialogs` package instead
 	 */
 	Toast,
-	WhatsNew,
 }
