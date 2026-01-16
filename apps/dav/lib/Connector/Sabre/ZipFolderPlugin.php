@@ -78,9 +78,11 @@ class ZipFolderPlugin extends ServerPlugin {
 			}
 			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $mtime);
 		} elseif ($node instanceof NcFolder) {
+			$this->logger->info('Creating new archive', ['filename' => $filename]);
 			$streamer->addEmptyDir($filename, $mtime);
 			$content = $node->getDirectoryListing();
 			foreach ($content as $subNode) {
+				$this->logger->info('Adding new file', ['filename' => $filename, 'file' => $subNode->getPath()]);
 				$this->streamNode($streamer, $subNode, $rootPath);
 			}
 		}
@@ -100,6 +102,8 @@ class ZipFolderPlugin extends ServerPlugin {
 			// only handle directories
 			return null;
 		}
+
+		$this->logger->info('Going to create an archive for folder', ['path' => $request->getPath()]);
 
 		$query = $request->getQueryParameters();
 
@@ -173,9 +177,11 @@ class ZipFolderPlugin extends ServerPlugin {
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive
 		if (empty($files)) {
+			$this->logger->info('Creating new archive', ['archiveName' => $archiveName, 'path' => $request->getPath()]);
 			$streamer->addEmptyDir($archiveName);
 		}
 		foreach ($content as $node) {
+			$this->logger->info('Adding a new file in the archive', ['fileName' => $node->getPath(), 'path' => $request->getPath()]);
 			$this->streamNode($streamer, $node, $rootPath);
 		}
 		$streamer->finalize();
