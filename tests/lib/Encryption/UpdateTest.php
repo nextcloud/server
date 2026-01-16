@@ -92,6 +92,7 @@ class UpdateTest extends TestCase {
 		$this->encryptionManager->expects($this->once())
 			->method('getEncryptionModule')
 			->willReturn($this->encryptionModule);
+		$this->encryptionModule->method('needDetailedAccessList')->willReturn(true);
 
 		if ($isDir) {
 			$this->util->expects($this->once())
