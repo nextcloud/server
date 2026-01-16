@@ -306,10 +306,18 @@ class EncryptionTest extends TestCase {
 			->method('decryptAllModeActivated')
 			->willReturn(false);
 
-		$this->sessionMock->expects($this->once())->method('isReady')->willReturn(false);
-		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+		$this->sessionMock->expects($this->once())
+			->method('isReady')
+			->willReturn(false);
+		$this->utilMock->expects($this->once())
+			->method('isMasterKeyEnabled')
 			->willReturn(true);
-		$this->keyManagerMock->expects($this->once())->method('init')->with('', '');
+		$this->keyManagerMock->expects($this->once())
+			->method('init')
+			->with('', '');
+		$this->cryptMock->expects($this->any())
+			->method('getLegacyCipher')
+			->willReturn('anyWillDo');
 
 		$this->instance->begin('/user/files/welcome.txt', 'user', 'r', [], []);
 	}
