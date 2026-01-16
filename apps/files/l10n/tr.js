@@ -320,6 +320,7 @@ OC.L10N.register(
     "Open online" : "Çevrim içi aç",
     "Rename" : "Yeniden adlandır",
     "Details" : "Ayrıntılar",
+    "Unfavorite" : "Sık kullanılanlardan kaldır",
     "View in folder" : "Klasörde görüntüle",
     "Today" : "Bugün",
     "Last 7 days" : "Önceki 7 gün",

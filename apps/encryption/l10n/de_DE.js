@@ -42,7 +42,6 @@ OC.L10N.register(
     "Enable recovery key" : "Wiederherstellungsschlüssel aktivieren",
     "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Der Wiederherstellungsschlüssel ist ein zusätzlicher Verschlüsselungsschlüssel, der zur Verschlüsselung von Dateien verwendet wird. Er wird verwendet, um Dateien aus einem Konto wiederherzustellen, wenn das Passwort vergessen wurde.",
     "Recovery key password" : "Passwort für den Wiederherstellungsschlüssel",
-    "Passwords do not match fields" : "Passwortfelder stimmen nicht überein",
     "Repeat recovery key password" : "Passwort für den Wiederherstellungsschlüssel wiederholen",
     "An error occurred while updating the recovery key settings. Please try again." : "Beim Aktualisieren der Einstellungen für Wiederherstellungsschlüssel ist ein Fehler aufgetreten. Bitte erneut versuchen.",
     "Change recovery key password" : "Passwort für den Wiederherstellungsschlüssel ändern",
