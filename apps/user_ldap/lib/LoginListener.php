@@ -10,6 +10,7 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Db\GroupMembership;
 use OCA\User_LDAP\Db\GroupMembershipMapper;
+use OCP\Authentication\IApacheBackend;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -49,6 +50,10 @@ class LoginListener implements IEventListener {
 			]
 		);
 		$this->updateGroups($user);
+		$backend = $user->getBackend();
+		if ($backend instanceof IApacheBackend) {
+			$backend->loginName2UserName($user->getUID(), true);
+		}
 	}
 
 	private function updateGroups(IUser $userObject): void {
