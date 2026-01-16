@@ -51,10 +51,20 @@ class ReferenceManager implements IReferenceManager {
 	 */
 	public function extractReferences(string $text): array {
 		preg_match_all(IURLGenerator::URL_REGEX, $text, $matches);
-		$references = $matches[0] ?? [];
-		return array_map(function ($reference) {
-			return trim($reference);
-		}, $references);
+		// Use capture groups 2 (protocol) and 3 (domain/path) to extract clean URLs
+		// This excludes the prefix group 1 (\s|\n|^|\]\() and suffix group 4 (\s|\n|$|\))
+		$references = [];
+		if (!empty($matches[1]) && !empty($matches[2]) && !empty($matches[3])) {
+			for ($i = 0; $i < count($matches[2]); $i++) {
+				$url = $matches[2][$i] . $matches[3][$i];
+				// If the URL was in markdown syntax [](url), remove the trailing )
+				if ($matches[1][$i] === '](') {
+					$url = rtrim($url, ')');
+				}
+				$references[] = $url;
+			}
+		}
+		return $references;
 	}
 
 	/**
