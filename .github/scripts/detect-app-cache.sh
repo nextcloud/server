@@ -17,7 +17,8 @@ set -o pipefail  # Exit if any command in pipeline fails
 : "${FORCE_REBUILD:?FORCE_REBUILD not set}"
 : "${ARTIFACTORY_REPOSITORY_SNAPSHOT:?ARTIFACTORY_REPOSITORY_SNAPSHOT not set}"
 
-# Optional JFrog variables
+# Optional variables
+APPS_TO_REBUILD="${APPS_TO_REBUILD:-}"
 JF_URL="${JF_URL:-}"
 JF_USER="${JF_USER:-}"
 JF_ACCESS_TOKEN="${JF_ACCESS_TOKEN:-}"
@@ -34,7 +35,11 @@ JF_ACCESS_TOKEN="${JF_ACCESS_TOKEN:-}"
 # - has_apps_to_restore: boolean flag
 
 echo "Collecting app SHAs and checking cache status..."
+echo "Cache version: $CACHE_VERSION"
 echo "Force rebuild mode: $FORCE_REBUILD"
+if [ -n "$APPS_TO_REBUILD" ]; then
+  echo "Apps to rebuild: $APPS_TO_REBUILD"
+fi
 echo ""
 
 # Setup JFrog CLI if credentials are available
@@ -92,8 +97,14 @@ echo ""
 
 echo "### 📦 Cache Status Report for ($GITHUB_REF)" >> "$GITHUB_STEP_SUMMARY"
 echo "" >> "$GITHUB_STEP_SUMMARY"
+echo "**Cache Version:** \`$CACHE_VERSION\`" >> "$GITHUB_STEP_SUMMARY"
+echo "" >> "$GITHUB_STEP_SUMMARY"
 if [ "$FORCE_REBUILD" == "true" ]; then
   echo "**🔄 FORCE REBUILD MODE ENABLED** - All caches bypassed" >> "$GITHUB_STEP_SUMMARY"
+  echo "" >> "$GITHUB_STEP_SUMMARY"
+fi
+if [ -n "$APPS_TO_REBUILD" ]; then
+  echo "**🔨 Specific apps to rebuild:** \`$APPS_TO_REBUILD\`" >> "$GITHUB_STEP_SUMMARY"
   echo "" >> "$GITHUB_STEP_SUMMARY"
 fi
 if [ "$JFROG_AVAILABLE" == "true" ]; then
@@ -102,6 +113,17 @@ if [ "$JFROG_AVAILABLE" == "true" ]; then
 fi
 echo "| App | SHA | Cache Key | Status |" >> "$GITHUB_STEP_SUMMARY"
 echo "|-----|-----|-----------|--------|" >> "$GITHUB_STEP_SUMMARY"
+
+# Convert comma-separated apps list to array for easier checking
+if [ -n "$APPS_TO_REBUILD" ]; then
+  IFS=',' read -ra REBUILD_APPS_ARRAY <<< "$APPS_TO_REBUILD"
+  # Trim whitespace from each app name using xargs for readability
+  for i in "${!REBUILD_APPS_ARRAY[@]}"; do
+    REBUILD_APPS_ARRAY[$i]=$(echo "${REBUILD_APPS_ARRAY[$i]}" | xargs)
+  done
+else
+  REBUILD_APPS_ARRAY=()
+fi
 
 # Iterate through each app in the matrix
 while IFS= read -r app_json; do
@@ -143,6 +165,23 @@ while IFS= read -r app_json; do
   if [ "$FORCE_REBUILD" == "true" ]; then
     echo "🔄 force rebuild"
     echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | 🔄 Force rebuild |" >> "$GITHUB_STEP_SUMMARY"
+    APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "$CURRENT_SHA" '. + [{name: $app, sha: $sha}]')
+    APPS_TO_BUILD_COUNT=$((APPS_TO_BUILD_COUNT + 1))
+    continue
+  fi
+
+  # Check if this specific app should be rebuilt (ignore cache)
+  REBUILD_THIS_APP=false
+  for rebuild_app in "${REBUILD_APPS_ARRAY[@]}"; do
+    if [ "$APP_NAME" == "$rebuild_app" ]; then
+      REBUILD_THIS_APP=true
+      break
+    fi
+  done
+
+  if [ "$REBUILD_THIS_APP" == "true" ]; then
+    echo "🔨 rebuild requested"
+    echo "| $APP_NAME | \`$SHORT_SHA\` | \`$CACHE_KEY\` | 🔨 Rebuild requested |" >> "$GITHUB_STEP_SUMMARY"
     APPS_TO_BUILD=$(echo "$APPS_TO_BUILD" | jq -c --arg app "$APP_NAME" --arg sha "$CURRENT_SHA" '. + [{name: $app, sha: $sha}]')
     APPS_TO_BUILD_COUNT=$((APPS_TO_BUILD_COUNT + 1))
     continue
