@@ -546,4 +546,112 @@ class DnsPinMiddlewareTest extends TestCase {
 		// CNAME should not be queried if A or AAAA succeeded already
 		$this->assertNotContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
 	}
+
+	public function testDnsGetRecordCalledWithPunycode() {
+		// Unicode hostname with umlaut (IDN)
+		$unicodeHost = 'bücher.com';
+		$punycodeHost = idn_to_ascii($unicodeHost, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
+
+		// We expect that the middleware will call dnsGetRecord with the Punycode (not Unicode)
+		$this->dnsPinMiddleware
+			->expects($this->atLeastOnce())
+			->method('dnsGetRecord')
+			->with(
+				$this->callback(function ($hostname) use ($punycodeHost) {
+					// Should never be raw Unicode here!
+					$this->assertEquals($punycodeHost, $hostname, "dnsGetRecord should be called with Punycode ASCII host");
+					return true;
+				}),
+				$this->anything()
+			)
+			->willReturn([
+				[
+					'host' => $punycodeHost,
+					'class' => 'IN',
+					'ttl' => 1800,
+					'type' => 'A',
+					'ip' => '203.0.113.5'
+				]
+			]);
+
+		$stack = new HandlerStack(new MockHandler([
+			static fn () => new Response(200)
+		]));
+		$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		$handler = $stack->resolve();
+
+		$handler(
+			new Request('GET', "https://$unicodeHost"),
+			['nextcloud' => ['allow_local_address' => false]]
+		);
+	}
+
+	public function testDnsGetRecordWithRawUnicodeFailsGracefully() {
+		// Simulate a middleware bug where Unicode is passed to dns_get_record
+		$unicodeHost = 'bücher.com';
+
+		$this->dnsPinMiddleware
+			->method('dnsGetRecord')
+			->willReturnCallback(function ($hostname, $type) use ($unicodeHost) {
+				if ($hostname === $unicodeHost) {
+					// Simulate real dns_get_record failure (returns false)
+					return false;
+				}
+				return [
+					[
+						'host' => $hostname,
+						'class' => 'IN',
+						'ttl' => 1800,
+						'type' => 'A',
+						'ip' => '203.0.113.5'
+					]
+				];
+			});
+
+		$stack = new HandlerStack(new MockHandler([
+			static fn () => new Response(200)
+		]));
+		$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		$handler = $stack->resolve();
+
+		$this->expectException(LocalServerException::class);
+		$this->expectExceptionMessage('No DNS record found for ' . $unicodeHost);
+
+		$handler(
+			new Request('GET', "https://$unicodeHost"),
+			['nextcloud' => ['allow_local_address' => false]]
+		);
+	}
+
+	public function testDnsPinMiddlewareAcceptsPunycodeDirectly() {
+		$punycodeHost = 'xn--bcher-kva.com';
+
+		$this->dnsPinMiddleware
+			->expects($this->atLeastOnce())
+			->method('dnsGetRecord')
+			->with(
+				$punycodeHost,
+				$this->anything()
+			)
+			->willReturn([
+				[
+					'host' => $punycodeHost,
+					'class' => 'IN',
+					'ttl' => 1800,
+					'type' => 'A',
+					'ip' => '203.0.113.80'
+				]
+			]);
+
+		$stack = new HandlerStack(new MockHandler([
+			static fn () => new Response(200)
+		]));
+		$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		$handler = $stack->resolve();
+
+		$handler(
+			new Request('GET', "https://$punycodeHost"),
+			['nextcloud' => ['allow_local_address' => false]]
+		);
+	}
 }
