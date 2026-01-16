@@ -124,7 +124,7 @@ class Updater implements IUpdater {
 		if ($this->cache instanceof Cache && $sizeDifference === null) {
 			$this->cache->correctFolderSize($path, $data);
 		}
-		$this->correctParentStorageMtime($path);
+		$this->correctParentStorageMtime($path, $data['parent'] ?? null);
 		$this->propagator->propagateChange($path, $time, $sizeDifference ?? 0);
 	}
 
@@ -147,10 +147,11 @@ class Updater implements IUpdater {
 
 		$this->cache->remove($path);
 
-		$this->correctParentStorageMtime($path);
 		if ($entry instanceof ICacheEntry) {
+			$this->correctParentStorageMtime($path, $entry->getParentId());
 			$this->propagator->propagateChange($path, time(), -$entry->getSize());
 		} else {
+			$this->correctParentStorageMtime($path);
 			$this->propagator->propagateChange($path, time());
 			if ($this->cache instanceof Cache) {
 				$this->cache->correctFolderSize($parent);
@@ -244,7 +245,7 @@ class Updater implements IUpdater {
 			$this->cache->correctFolderSize($target);
 		}
 		if ($sourceUpdater instanceof Updater) {
-			$sourceUpdater->correctParentStorageMtime($source);
+			$sourceUpdater->correctParentStorageMtime($source, $sourceInfo ? $sourceInfo->getParentId() : null);
 		}
 		$this->correctParentStorageMtime($target);
 		$this->updateStorageMTimeOnly($target);
@@ -269,11 +270,11 @@ class Updater implements IUpdater {
 
 	/**
 	 * update the storage_mtime of the direct parent in the cache to the mtime from the storage
-	 *
-	 * @param string $internalPath
 	 */
-	private function correctParentStorageMtime($internalPath) {
-		$parentId = $this->cache->getParentId($internalPath);
+	private function correctParentStorageMtime(string $internalPath, ?int $parentId = null) {
+		if ($parentId === null) {
+			$parentId = $this->cache->getParentId($internalPath);
+		}
 		$parent = dirname($internalPath);
 		if ($parentId != -1) {
 			$mtime = $this->storage->filemtime($parent);
