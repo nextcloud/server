@@ -13,12 +13,14 @@ use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
+use OC\Preview\PreviewMigrationService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IAppConfig;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IPreview;
@@ -135,12 +137,14 @@ class PreviewManager implements IPreview {
 		if ($this->generator === null) {
 			$this->generator = new Generator(
 				$this->config,
+				$this->container->get(IAppConfig::class),
 				$this,
 				new GeneratorHelper(),
 				$this->eventDispatcher,
 				$this->container->get(LoggerInterface::class),
 				$this->container->get(PreviewMapper::class),
 				$this->container->get(StorageFactory::class),
+				$this->container->get(PreviewMigrationService::class),
 			);
 		}
 		return $this->generator;

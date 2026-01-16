@@ -6,6 +6,7 @@
  */
 namespace OC\Preview;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\PreviewFile;
@@ -17,6 +18,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
@@ -30,13 +32,15 @@ class Generator {
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
 	public function __construct(
-		private IConfig $config,
-		private IPreview $previewManager,
-		private GeneratorHelper $helper,
-		private IEventDispatcher $eventDispatcher,
-		private LoggerInterface $logger,
-		private PreviewMapper $previewMapper,
-		private StorageFactory $storageFactory,
+		private readonly IConfig $config,
+		private readonly IAppConfig $appConfig,
+		private readonly IPreview $previewManager,
+		private readonly GeneratorHelper $helper,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly LoggerInterface $logger,
+		private readonly PreviewMapper $previewMapper,
+		private readonly StorageFactory $storageFactory,
+		private readonly PreviewMigrationService $migrationService,
 	) {
 	}
 
@@ -107,6 +111,10 @@ class Generator {
 		}
 
 		[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
+
+		if (empty($previews) && $this->appConfig->getValueBool('core', ConfigLexicon::ON_DEMAND_PREVIEW_MIGRATION)) {
+			$previews = $this->migrateOldPreviews($file->getId());
+		}
 
 		$previewVersion = null;
 		if ($file instanceof IVersionedPreviewFile) {
@@ -191,6 +199,21 @@ class Generator {
 		}
 
 		return $previewFile;
+	}
+
+	/**
+	 * @return Preview[]
+	 */
+	private function migrateOldPreviews(int $fileId): array {
+		if ($this->appConfig->getValueBool('core', 'previewMovedDone')) {
+			return [];
+		}
+
+		$previews = $this->migrationService->migrateFileId($fileId, flatPath: false);
+		if (empty($previews)) {
+			$previews = $this->migrationService->migrateFileId($fileId, flatPath: true);
+		}
+		return $previews;
 	}
 
 	/**
