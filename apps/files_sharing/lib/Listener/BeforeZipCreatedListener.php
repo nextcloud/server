@@ -35,16 +35,20 @@ class BeforeZipCreatedListener implements IEventListener {
 		$dir = $event->getDirectory();
 		$files = $event->getFiles();
 
-		$pathsToCheck = [];
-		foreach ($files as $file) {
-			$pathsToCheck[] = $dir . '/' . $file;
+		if (empty($files)) {
+			$pathsToCheck = [$dir];
+		} else {
+			$pathsToCheck = [];
+			foreach ($files as $file) {
+				$pathsToCheck[] = $dir . '/' . $file;
+			}
 		}
 
 		// Check only for user/group shares. Don't restrict e.g. share links
 		$user = $this->userSession->getUser();
 		if ($user) {
 			$viewOnlyHandler = new ViewOnly(
-				$this->rootFolder->getUserFolder($user->getUID())
+				$this->rootFolder
 			);
 			if (!$viewOnlyHandler->check($pathsToCheck)) {
 				$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
