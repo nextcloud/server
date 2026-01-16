@@ -143,8 +143,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
+- focus-trap
+	- version: 7.6.6
+	- license: MIT
 - @nextcloud/vue
-	- version: 8.35.0
+	- version: 8.35.2
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4
