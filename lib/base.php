@@ -853,14 +853,40 @@ class OC {
 
 		register_shutdown_function(function () {
 			$memoryPeak = memory_get_peak_usage();
-			$logLevel = match (true) {
-				$memoryPeak > 500_000_000 => ILogger::FATAL,
-				$memoryPeak > 400_000_000 => ILogger::ERROR,
-				$memoryPeak > 300_000_000 => ILogger::WARN,
-				default => null,
-			};
-			if ($logLevel !== null) {
+
+			// Use the memory helper to get the real memory limit in bytes
+			try {
+				$memoryInfo = new \OC\MemoryInfo();
+				$memoryLimit = $memoryInfo->getMemoryLimit();
+			} catch (Throwable $e) {
+				$memoryLimit = null;
+			}
+
+			// Check if a memory limit is configured and can be retrieved and determine log level
+			if ($memoryLimit !== null && $memoryLimit !== -1) {
+				$logLevel = match (true) {
+					$memoryPeak > $memoryLimit * 0.9 => ILogger::FATAL,
+					$memoryPeak > $memoryLimit * 0.75 => ILogger::ERROR,
+					$memoryPeak > $memoryLimit * 0.5 => ILogger::WARN,
+					default => null,
+				};
+
+				$memoryLimitIni = @ini_get('memory_limit');
+				$message = 'Request used ' . Util::humanFileSize($memoryPeak) . ' of memory. Memory limit: ' . ($memoryLimitIni ?: 'unknown');
+			} else {
+				// Fall back to hardcoded thresholds if memory_limit cannot be determined
+				$logLevel = match (true) {
+					$memoryPeak > 500_000_000 => ILogger::FATAL,
+					$memoryPeak > 400_000_000 => ILogger::ERROR,
+					$memoryPeak > 300_000_000 => ILogger::WARN,
+					default => null,
+				};
+
 				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
+			}
+
+			// Log the message
+			if ($logLevel !== null) {
 				$logger = Server::get(LoggerInterface::class);
 				$logger->log($logLevel, $message, ['app' => 'core']);
 			}
