@@ -13,7 +13,9 @@ use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
+use OCP\Install\Events\InstallationCompletedEvent;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -28,6 +30,7 @@ class SetupTest extends \Test\TestCase {
 	protected LoggerInterface $logger;
 	protected ISecureRandom $random;
 	protected Installer $installer;
+	protected IEventDispatcher $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,9 +45,10 @@ class SetupTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->setupClass = $this->getMockBuilder(Setup::class)
 			->onlyMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
-			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer])
+			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer, $this->eventDispatcher])
 			->getMock();
 	}
 
@@ -169,5 +173,88 @@ class SetupTest extends \Test\TestCase {
 			'invalid' => ['invalid', false],
 			'empty' => ['', false],
 		];
+	}
+
+	/**
+	 * Test that Setup class has eventDispatcher injected
+	 */
+	public function testSetupHasEventDispatcher(): void {
+		$reflectionClass = new \ReflectionClass($this->setupClass);
+		$property = $reflectionClass->getProperty('eventDispatcher');
+		$property->setAccessible(true);
+
+		$eventDispatcher = $property->getValue($this->setupClass);
+
+		$this->assertInstanceOf(IEventDispatcher::class, $eventDispatcher);
+	}
+
+	/**
+	 * Helper method to extract event parameters from install options
+	 * This mirrors the logic in Setup::install() for extracting dataDir and admin parameters
+	 *
+	 * Note: This assumes 'directory' key is present in options. Setup::install() has a fallback
+	 * that sets a default directory if empty, but our tests always provide this key.
+	 */
+	private function extractInstallationEventParameters(array $options): array {
+		$dataDir = htmlspecialchars_decode($options['directory']);
+		$disableAdminUser = (bool)($options['admindisable'] ?? false);
+		$adminUsername = !$disableAdminUser ? ($options['adminlogin'] ?? null) : null;
+		$adminEmail = !empty($options['adminemail']) ? $options['adminemail'] : null;
+
+		return [$dataDir, $adminUsername, $adminEmail];
+	}
+
+	/**
+	 * Test that InstallationCompletedEvent can be created with parameters from install options
+	 *
+	 * This test verifies that the InstallationCompletedEvent can be properly constructed with
+	 * the parameters that Setup::install() extracts from the options array for dataDir and admin parameters.
+	 *
+	 * Note: Testing that Setup::install() actually dispatches this event requires a full integration
+	 * test with database setup, file system operations, and app installation, which is beyond the
+	 * scope of a unit test. The event class itself is thoroughly tested in InstallationCompletedEventTest.php.
+	 */
+	public function testInstallationCompletedEventParametersFromInstallOptions(): void {
+		// Simulate the options array as passed to Setup::install()
+		$options = [
+			'directory' => '/path/to/data',
+			'adminlogin' => 'admin',
+			'adminemail' => 'admin@example.com',
+		];
+
+		// Extract parameters the same way Setup::install() does
+		[$dataDir, $adminUsername, $adminEmail] = $this->extractInstallationEventParameters($options);
+
+		// Create the event as Setup::install() does after successful installation
+		$event = new InstallationCompletedEvent($dataDir, $adminUsername, $adminEmail);
+
+		// Verify the event contains the expected values
+		$this->assertEquals($dataDir, $event->getDataDirectory());
+		$this->assertEquals($adminUsername, $event->getAdminUsername());
+		$this->assertEquals($adminEmail, $event->getAdminEmail());
+		$this->assertTrue($event->hasAdminUser());
+	}
+
+	/**
+	 * Test that event parameters handle disabled admin user correctly
+	 *
+	 * This tests the scenario where Setup::install() is called with admindisable=true,
+	 * resulting in a null adminUsername in the event.
+	 */
+	public function testInstallationCompletedEventWithDisabledAdminUser(): void {
+		$options = [
+			'directory' => '/path/to/data',
+			'admindisable' => true,
+		];
+
+		// Extract parameters as Setup::install() does
+		[$dataDir, $adminUsername, $adminEmail] = $this->extractInstallationEventParameters($options);
+
+		$event = new InstallationCompletedEvent($dataDir, $adminUsername, $adminEmail);
+
+		$this->assertEquals($dataDir, $event->getDataDirectory());
+		$this->assertNull($event->getAdminUsername());
+		$this->assertNull($event->getAdminEmail());
+		$this->assertFalse($event->hasAdminUser());
 	}
 }

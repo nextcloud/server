@@ -649,6 +649,7 @@ return array(
     'OCP\\IUserManager' => $baseDir . '/lib/public/IUserManager.php',
     'OCP\\IUserSession' => $baseDir . '/lib/public/IUserSession.php',
     'OCP\\Image' => $baseDir . '/lib/public/Image.php',
+    'OCP\\Install\\Events\\InstallationCompletedEvent' => $baseDir . '/lib/public/Install/Events/InstallationCompletedEvent.php',
     'OCP\\L10N\\IFactory' => $baseDir . '/lib/public/L10N/IFactory.php',
     'OCP\\L10N\\ILanguageIterator' => $baseDir . '/lib/public/L10N/ILanguageIterator.php',
     'OCP\\LDAP\\IDeletionFlagSupport' => $baseDir . '/lib/public/LDAP/IDeletionFlagSupport.php',
