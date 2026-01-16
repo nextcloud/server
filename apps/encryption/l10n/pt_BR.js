@@ -42,7 +42,6 @@ OC.L10N.register(
     "Enable recovery key" : "Ativar chave de recuperação",
     "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "A chave de recuperação é uma chave de criptografia adicional usada para criptografar arquivos. É usado para recuperar arquivos de uma conta se a senha for esquecida.",
     "Recovery key password" : "Senha da chave de recuperação",
-    "Passwords do not match fields" : "As senhas não correspondem aos campos",
     "Repeat recovery key password" : "Repita a senha da chave de recuperação",
     "An error occurred while updating the recovery key settings. Please try again." : "Ocorreu um erro ao atualizar as configurações da chave de recuperação. Tente novamente.",
     "Change recovery key password" : "Alterar a senha da chave de recuperação",
