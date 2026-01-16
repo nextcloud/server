@@ -325,12 +325,14 @@ export default defineComponent({
 	},
 	created() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
+		subscribe('files:node:updated', this.onNodeUpdated)
 
 		window.addEventListener('resize', this.handleWindowResize)
 		this.handleWindowResize()
 	},
 	beforeDestroy() {
 		unsubscribe('file:node:deleted', this.onNodeDeleted)
+		unsubscribe('file:node:deleted', this.onNodeUpdated)
 		window.removeEventListener('resize', this.handleWindowResize)
 	},
 
@@ -546,6 +548,17 @@ export default defineComponent({
 		onNodeDeleted(node) {
 			if (this.fileInfo && node && this.fileInfo.id === node.fileid) {
 				this.close()
+			}
+		},
+
+		/**
+		 * Handle if the current node was updated
+		 * @param {import('@nextcloud/files').Node} node The deleted node
+		 */
+		onNodeUpdated(node) {
+			if (this.fileInfo && node && this.fileInfo.id === node.fileid) {
+				this.close()
+				this.open(node.path)
 			}
 		},
 
