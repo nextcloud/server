@@ -110,7 +110,6 @@ class Manager implements IMountManager {
 	/**
 	 * Find all mounts in $path
 	 *
-	 * @param string $path
 	 * @return IMountPoint[]
 	 */
 	public function findIn(string $path): array {
@@ -122,11 +121,10 @@ class Manager implements IMountManager {
 		}
 
 		$result = [];
-		$pathLength = \strlen($path);
-		$mountPoints = array_keys($this->mounts);
-		foreach ($mountPoints as $mountPoint) {
-			if (substr($mountPoint, 0, $pathLength) === $path && \strlen($mountPoint) > $pathLength) {
-				$result[] = $this->mounts[$mountPoint];
+		$pathLen = strlen($path);
+		foreach ($this->mounts as $mountPoint => $mount) {
+			if (strlen($mountPoint) > $pathLen && str_starts_with($mountPoint, $path)) {
+				$result[] = $mount;
 			}
 		}
 
@@ -134,7 +132,7 @@ class Manager implements IMountManager {
 		return $result;
 	}
 
-	public function clear() {
+	public function clear(): void {
 		$this->mounts = [];
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
