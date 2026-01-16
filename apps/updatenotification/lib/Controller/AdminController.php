@@ -20,6 +20,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class AdminController extends Controller {
 
@@ -32,6 +33,7 @@ class AdminController extends Controller {
 		private IAppConfig $appConfig,
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -54,8 +56,12 @@ class AdminController extends Controller {
 	 * @return DataResponse
 	 */
 	public function createCredentials(): DataResponse {
-		if (!$this->isUpdaterEnabled()) {
+		if ($this->config->getSystemValueBool('upgrade.disable-web')) {
 			return new DataResponse(['status' => 'error', 'message' => $this->l10n->t('Web updater is disabled')], Http::STATUS_FORBIDDEN);
+		}
+
+		if ($this->config->getSystemValueBool('config_is_read_only')) {
+			return new DataResponse(['status' => 'error', 'message' => $this->l10n->t('Configuration is read-only')], Http::STATUS_FORBIDDEN);
 		}
 
 		// Create a new job and store the creation date
@@ -65,6 +71,8 @@ class AdminController extends Controller {
 		// Create a new token
 		$newToken = $this->secureRandom->generate(64);
 		$this->config->setSystemValue('updater.secret', password_hash($newToken, PASSWORD_DEFAULT));
+
+		$this->logger->warning('Created new `updater.secret`', ['app' => 'updatenotification']);
 
 		return new DataResponse($newToken);
 	}
