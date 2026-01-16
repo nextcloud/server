@@ -122,15 +122,15 @@ class ReminderService {
 				continue;
 			}
 
-			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'no') {
+			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') !== 'no') {
 				$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
 			} else {
 				$users = [];
 			}
 
 			$user = $this->getUserFromPrincipalURI($reminder['principaluri']);
-			if ($user) {
-				$users[] = $user;
+			if ($user && !isset($users[$user->getUID()])) {
+				$users[$user->getUID()] = $user;
 			}
 
 			$userPrincipalEmailAddresses = [];
@@ -144,7 +144,7 @@ class ReminderService {
 				'numUsers' => count($users),
 			]);
 			$notificationProvider = $this->notificationProviderManager->getProvider($reminder['type']);
-			$notificationProvider->send($vevent, $reminder['displayname'], $userPrincipalEmailAddresses, $users);
+			$notificationProvider->send($vevent, $reminder['displayname'], $userPrincipalEmailAddresses, array_values($users));
 
 			$this->deleteOrProcessNext($reminder, $vevent);
 		}
@@ -524,7 +524,6 @@ class ReminderService {
 		$shares = $this->caldavBackend->getShares($calendarId);
 
 		$users = [];
-		$userIds = [];
 		$groups = [];
 		foreach ($shares as $share) {
 			// Only consider writable shares
@@ -534,13 +533,13 @@ class ReminderService {
 
 			$principal = explode('/', $share['{http://owncloud.org/ns}principal']);
 			if ($principal[1] === 'users') {
-				$user = $this->userManager->get($principal[2]);
+				$userId = urldecode($principal[2]);
+				$user = $this->userManager->get($userId);
 				if ($user) {
-					$users[] = $user;
-					$userIds[] = $principal[2];
+					$users[$userId] = $user;
 				}
 			} elseif ($principal[1] === 'groups') {
-				$groups[] = $principal[2];
+				$groups[] = urldecode($principal[2]);
 			}
 		}
 
@@ -548,9 +547,8 @@ class ReminderService {
 			$group = $this->groupManager->get($gid);
 			if ($group instanceof IGroup) {
 				foreach ($group->getUsers() as $user) {
-					if (!\in_array($user->getUID(), $userIds, true)) {
-						$users[] = $user;
-						$userIds[] = $user->getUID();
+					if (!isset($users[$user->getUID()])) {
+						$users[$user->getUID()] = $user;
 					}
 				}
 			}
@@ -724,7 +722,7 @@ class ReminderService {
 			return null;
 		}
 
-		$userId = substr($principalUri, 17);
+		$userId = urldecode(substr($principalUri, 17));
 		return $this->userManager->get($userId);
 	}
 
