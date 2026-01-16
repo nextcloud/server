@@ -8,11 +8,15 @@
 namespace OC\Console;
 
 use ArgumentCountError;
+use OC\EventDispatcher\EventDispatcher;
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
 use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Command\Events\BeforeCommandExecutedEvent;
+use OCP\Command\Events\CommandExecutedEvent;
+use OCP\Command\Events\CommandFailedEvent;
 use OCP\Console\ConsoleEvent;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -23,25 +27,71 @@ use OCP\ServerVersion;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Event\ConsoleErrorEvent;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Application {
+	private IEventDispatcher $dispatcher;
 	private SymfonyApplication $application;
 
 	public function __construct(
 		ServerVersion $serverVersion,
 		private IConfig $config,
-		private IEventDispatcher $dispatcher,
+		EventDispatcher $dispatcher,
 		private IRequest $request,
 		private LoggerInterface $logger,
 		private MemoryInfo $memoryInfo,
 		private IAppManager $appManager,
 		private Defaults $defaults,
 	) {
+		$this->dispatcher = $dispatcher;
 		$this->application = new SymfonyApplication($defaults->getName(), $serverVersion->getVersionString());
+		$symfonyDispatcher = $dispatcher->getSymfonyDispatcher();
+		$symfonyDispatcher->addListener(\Symfony\Component\Console\ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) use ($dispatcher) {
+			$command = $event->getCommand();
+			$name = $command?->getName();
+			if ($name === null) {
+				// Ignore unnamed events
+				return;
+			}
+			$dispatcher->dispatchTyped(
+				new BeforeCommandExecutedEvent(
+					$name,
+				)
+			);
+		});
+		$symfonyDispatcher->addListener(\Symfony\Component\Console\ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) use ($dispatcher) {
+			$command = $event->getCommand();
+			$name = $command?->getName();
+			if ($name === null) {
+				// Ignore unnamed events
+				return;
+			}
+			$dispatcher->dispatchTyped(
+				new CommandExecutedEvent(
+					$name,
+				)
+			);
+		});
+		$symfonyDispatcher->addListener(\Symfony\Component\Console\ConsoleEvents::ERROR, function (ConsoleErrorEvent $event) use ($dispatcher) {
+			$command = $event->getCommand();
+			$name = $command?->getName();
+			if ($name === null) {
+				// Ignore unnamed events
+				return;
+			}
+			$dispatcher->dispatchTyped(
+				new CommandFailedEvent(
+					$name,
+				)
+			);
+		});
+		$this->application->setDispatcher($symfonyDispatcher);
 	}
 
 	/**
