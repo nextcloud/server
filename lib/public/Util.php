@@ -168,6 +168,15 @@ class Util {
 		}
 
 		if ($prepend) {
+			// Make sure the scripts of prepended applications are prepended within
+			// the apps as well, so that e.g. Talk can prepend itself on `/call/123456`
+			// URLs within it's template file, instead of being at the end, because
+			// other apps already queued after `core` using an earlier event or the
+			// `Application::boot()` method.
+			$appDeps = self::$scriptDeps[$application] ?? [];
+			unset(self::$scriptDeps[$application]);
+			self::$scriptDeps = [$application => $appDeps] + self::$scriptDeps;
+
 			array_unshift(self::$scripts[$application], $path);
 		} else {
 			self::$scripts[$application][] = $path;
