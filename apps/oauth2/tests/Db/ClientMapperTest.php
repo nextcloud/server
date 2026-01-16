@@ -13,7 +13,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ClientMapperTest extends TestCase {
 	/** @var ClientMapper */
 	private $clientMapper;

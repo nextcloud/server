@@ -47,7 +47,7 @@ class MailTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetForm')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetForm')]
 	public function testGetForm(bool $sendmail) {
 		$finder = $this->createMock(IBinaryFinder::class);
 		$finder->expects(self::atLeastOnce())

@@ -50,7 +50,7 @@ use Test\Traits\UserTrait;
  *
  * @package OCA\Files_Sharing\Tests\External
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ManagerTest extends TestCase {
 	use UserTrait;
 

@@ -45,7 +45,7 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRun')]
 	public function testRun(array $subscriptions, array $userExists, int $deletions): void {
 		$qb = $this->createMock(IQueryBuilder::class);
 

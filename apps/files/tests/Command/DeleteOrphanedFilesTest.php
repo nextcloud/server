@@ -25,7 +25,7 @@ use Test\TestCase;
  *
  * @package OCA\Files\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeleteOrphanedFilesTest extends TestCase {
 
 	private DeleteOrphanedFiles $command;
@@ -93,7 +93,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$fileInfo = $view->getFileInfo('files/test');
 
 		$storageId = $fileInfo->getStorage()->getId();
-		$numericStorageId = $fileInfo->getStorage()->getStorageCache()->getNumericId();
+		$numericStorageId = $fileInfo->getStorage()->getCache()->getNumericStorageId();
 
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is available');
 		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is available');

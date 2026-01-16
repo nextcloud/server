@@ -152,7 +152,7 @@ class EncryptionTest extends TestCase {
 		return $publicKeys;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestGetPathToRealFile')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataProviderForTestGetPathToRealFile')]
 	public function testGetPathToRealFile($path, $expected): void {
 		$this->assertSame($expected,
 			self::invokePrivate($this->instance, 'getPathToRealFile', [$path])
@@ -168,7 +168,7 @@ class EncryptionTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestBegin')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestBegin')]
 	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected): void {
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
@@ -265,7 +265,7 @@ class EncryptionTest extends TestCase {
 	 * @param string $fileKey
 	 * @param boolean $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUpdate')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestUpdate')]
 	public function testUpdate($fileKey, $expected): void {
 		$this->keyManagerMock->expects($this->once())
 			->method('getFileKey')->willReturn($fileKey);
@@ -351,7 +351,7 @@ class EncryptionTest extends TestCase {
 	 * by default the encryption module should encrypt regular files, files in
 	 * files_versions and files in files_trashbin
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldEncrypt')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShouldEncrypt')]
 	public function testShouldEncrypt($path, $shouldEncryptHomeStorage, $isHomeStorage, $expected): void {
 		$this->utilMock->expects($this->once())->method('shouldEncryptHomeStorage')
 			->willReturn($shouldEncryptHomeStorage);

@@ -44,11 +44,11 @@ class ApiControllerTest extends TestCase {
 	private string $appName = 'files';
 	private IUser $user;
 	private IRequest $request;
-	private TagService $tagService;
+	private TagService&MockObject $tagService;
 	private IPreview&MockObject $preview;
 	private ApiController $apiController;
 	private IManager $shareManager;
-	private IConfig $config;
+	private IConfig&MockObject $config;
 	private Folder&MockObject $userFolder;
 	private UserConfig&MockObject $userConfig;
 	private ViewConfig&MockObject $viewConfig;

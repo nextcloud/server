@@ -16,7 +16,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DbHandlerTest extends TestCase {
 	private DbHandler $dbHandler;
 	private IL10N&MockObject $il10n;
@@ -55,7 +55,7 @@ class DbHandlerTest extends TestCase {
 	 * @param string $expectedUrl the url we expect to be written to the db
 	 * @param string $expectedHash the hash value we expect to be written to the db
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestAddServer')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestAddServer')]
 	public function testAddServer(string $url, string $expectedUrl, string $expectedHash): void {
 		$id = $this->dbHandler->addServer($url);
 
@@ -126,7 +126,7 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame($id2, (int)$result[1]['id']);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestServerExists')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestServerExists')]
 	public function testServerExists(string $serverInTable, string $checkForServer, bool $expected): void {
 		$this->dbHandler->addServer($serverInTable);
 		$this->assertSame($expected,
@@ -231,7 +231,7 @@ class DbHandlerTest extends TestCase {
 	/**
 	 * hash should always be computed with the normalized URL
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestHash')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestHash')]
 	public function testHash(string $url, string $expected): void {
 		$this->assertSame($expected,
 			$this->invokePrivate($this->dbHandler, 'hash', [$url])
@@ -247,7 +247,7 @@ class DbHandlerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestNormalizeUrl')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestNormalizeUrl')]
 	public function testNormalizeUrl(string $url, string $expected): void {
 		$this->assertSame($expected,
 			$this->invokePrivate($this->dbHandler, 'normalizeUrl', [$url])
@@ -264,7 +264,7 @@ class DbHandlerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesAuth')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesAuth')]
 	public function testAuth(bool $expectedResult, string $user, string $password): void {
 		if ($expectedResult) {
 			$this->dbHandler->addServer('url1');

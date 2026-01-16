@@ -130,7 +130,7 @@ class CapabilitiesTest extends TestCase {
 	/**
 	 * @param non-empty-array<string, string> $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCapabilities')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetCapabilities')]
 	public function testGetCapabilities(string $name, string $url, string $slogan, string $color, string $textColor, string $logo, string $background, string $backgroundColor, string $backgroundTextColor, string $baseUrl, bool $backgroundThemed, array $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')

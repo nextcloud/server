@@ -469,7 +469,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('readCommentProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'readCommentProvider')]
 	public function testGetPropertiesUnreadProperty(\DateTime $creationDT, ?\DateTime $readDT, string $expected): void {
 		$this->comment->expects($this->any())
 			->method('getCreationDateTime')

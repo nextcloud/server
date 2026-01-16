@@ -185,7 +185,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('childExistsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'childExistsProvider')]
 	public function testChildExists(bool $userVisible, bool $expectedResult): void {
 		$tag = new SystemTag('123', 'One', $userVisible, false);
 		$this->tagManager->expects($this->once())

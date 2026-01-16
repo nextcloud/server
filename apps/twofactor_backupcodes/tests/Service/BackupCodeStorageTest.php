@@ -16,7 +16,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class BackupCodeStorageTest extends TestCase {
 	private IManager&MockObject $notificationManager;
 	private string $testUID = 'test123456789';

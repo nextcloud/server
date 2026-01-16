@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 use function scandir;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CalendarMigratorTest extends TestCase {
 
 	private IUserManager $userManager;
@@ -87,7 +87,7 @@ class CalendarMigratorTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAssets')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAssets')]
 	public function testImportExportAsset(string $userId, string $filename, string $initialCalendarUri, VCalendar $importCalendar): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 

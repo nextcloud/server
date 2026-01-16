@@ -45,7 +45,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
 	public function testValidateStorage(bool $expectedSuccess, array $params): void {
 		$backendParams = [];
 		foreach ($params as $name => $valid) {

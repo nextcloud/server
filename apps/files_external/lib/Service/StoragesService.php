@@ -268,14 +268,14 @@ abstract class StoragesService {
 	 * @return StorageConfig
 	 */
 	public function createStorage(
-		$mountPoint,
-		$backendIdentifier,
-		$authMechanismIdentifier,
-		$backendOptions,
-		$mountOptions = null,
-		$applicableUsers = null,
-		$applicableGroups = null,
-		$priority = null,
+		string $mountPoint,
+		string $backendIdentifier,
+		string $authMechanismIdentifier,
+		array $backendOptions,
+		?array $mountOptions = null,
+		?array $applicableUsers = null,
+		?array $applicableGroups = null,
+		?int $priority = null,
 	) {
 		$backend = $this->backendService->getBackend($backendIdentifier);
 		if (!$backend) {

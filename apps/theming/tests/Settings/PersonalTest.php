@@ -85,7 +85,7 @@ class PersonalTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataTestGetForm')]
+	#[DataProvider(methodName: 'dataTestGetForm')]
 	public function testGetForm(string $enforcedTheme, array $themesState): void {
 		$themesState = array_map(
 			$this->formatThemeForm(...),

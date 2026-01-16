@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\Files_Sharing\Tests\API
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareesAPIControllerTest extends TestCase {
 	/** @var ShareesAPIController */
 	protected $sharees;
@@ -211,7 +211,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param bool $allowGroupSharing
 	 * @throws OCSBadRequestException
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearch')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSearch')]
 	public function testSearch(
 		array $getData,
 		string $apiSetting,
@@ -333,7 +333,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param array $getData
 	 * @param string $message
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchInvalid')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSearchInvalid')]
 	public function testSearchInvalid($getData, $message): void {
 		$page = $getData['page'] ?? 1;
 		$perPage = $getData['perPage'] ?? 200;
@@ -391,7 +391,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $itemType
 	 * @param bool $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsRemoteSharingAllowed')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataIsRemoteSharingAllowed')]
 	public function testIsRemoteSharingAllowed($itemType, $expected): void {
 		$this->assertSame($expected, $this->invokePrivate($this->sharees, 'isRemoteSharingAllowed', [$itemType]));
 	}
@@ -434,7 +434,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param array $params
 	 * @param array $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetPaginationLink')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetPaginationLink')]
 	public function testGetPaginationLink($page, $scriptName, $params, $expected): void {
 		$this->request->expects($this->once())
 			->method('getScriptName')
@@ -455,7 +455,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $scriptName
 	 * @param bool $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsV2')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataIsV2')]
 	public function testIsV2($scriptName, $expected): void {
 		$this->request->expects($this->once())
 			->method('getScriptName')

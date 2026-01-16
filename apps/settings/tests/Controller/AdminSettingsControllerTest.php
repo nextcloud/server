@@ -29,7 +29,7 @@ use Test\TestCase;
  *
  * @package Tests\Settings\Controller
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AdminSettingsControllerTest extends TestCase {
 
 	private IRequest&MockObject $request;

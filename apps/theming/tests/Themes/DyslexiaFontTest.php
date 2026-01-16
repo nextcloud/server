@@ -149,7 +149,7 @@ class DyslexiaFontTest extends TestCase {
 	 * Ensure the fonts are always loaded from the web root
 	 * despite having url rewriting enabled or not
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetCustomCss')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetCustomCss')]
 	public function testGetCustomCss(string $webRoot, bool $prettyUrlsEnabled): void {
 		\OC::$WEBROOT = $webRoot;
 		$this->config->expects($this->any())

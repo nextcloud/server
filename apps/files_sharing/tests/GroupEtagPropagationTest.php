@@ -15,7 +15,7 @@ use OCP\Share\IShare;
 /**
  * @package OCA\Files_Sharing\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('SLOWDB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'SLOWDB')]
 class GroupEtagPropagationTest extends PropagationTestCase {
 	/**
 	 * "user1" creates /test, /test/sub and shares with group1

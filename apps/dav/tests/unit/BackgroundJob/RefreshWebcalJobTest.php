@@ -42,7 +42,7 @@ class RefreshWebcalJobTest extends TestCase {
 	 * @param int $time
 	 * @param bool $process
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
 	public function testRun(int $lastRun, int $time, bool $process): void {
 		$backgroundJob = new RefreshWebcalJob($this->refreshWebcalService, $this->config, $this->logger, $this->timeFactory);
 		$backgroundJob->setId('42');

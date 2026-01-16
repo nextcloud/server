@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicAuthTest extends \Test\TestCase {
 
 	private ISession&MockObject $session;

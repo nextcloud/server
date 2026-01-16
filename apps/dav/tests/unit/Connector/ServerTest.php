@@ -45,7 +45,7 @@ class ServerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('removeAllListenersData')]
+	#[DataProvider(methodName: 'removeAllListenersData')]
 	public function testRemoveAllListeners(?string $removeEventName): void {
 		$listener = static function () {
 			return false;

@@ -64,7 +64,7 @@ use Test\Traits\EmailValidatorTrait;
  *
  * @package OCA\Files_Sharing\Tests\Controller
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareAPIControllerTest extends TestCase {
 	use EmailValidatorTrait;
 
@@ -838,7 +838,7 @@ class ShareAPIControllerTest extends TestCase {
 		return $data;
 	}
 
-	#[DataProvider('dataGetShare')]
+	#[DataProvider(methodName: 'dataGetShare')]
 	public function testGetShare(array $shareParams, array $result, bool $attributes): void {
 
 		$cache = $this->createMock(ICache::class);
@@ -1529,7 +1529,7 @@ class ShareAPIControllerTest extends TestCase {
 		return $node;
 	}
 
-	#[DataProvider('dataGetShares')]
+	#[DataProvider(methodName: 'dataGetShares')]
 	public function testGetShares(array $getSharesParameters, array $shares, array $extraShareTypes, array $expected): void {
 		$shares = array_map(
 			fn ($sharesByType) => array_map(
@@ -1706,7 +1706,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 	}
 
-	#[DataProvider('dataCanAccessShareWithPermissions')]
+	#[DataProvider(methodName: 'dataCanAccessShareWithPermissions')]
 	public function testCanAccessShareWithPermissions(int $permissions, bool $expected): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
@@ -1744,7 +1744,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataCanAccessShareAsGroupMember')]
+	#[DataProvider(methodName: 'dataCanAccessShareAsGroupMember')]
 	public function testCanAccessShareAsGroupMember(string $group, bool $expected): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
@@ -1804,7 +1804,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataCanAccessRoomShare')]
+	#[DataProvider(methodName: 'dataCanAccessRoomShare')]
 	public function testCanAccessRoomShare(
 		bool $expected,
 		bool $helperAvailable,
@@ -3061,7 +3061,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-	#[DataProvider('publicUploadParamsProvider')]
+	#[DataProvider(methodName: 'publicUploadParamsProvider')]
 	public function testUpdateLinkShareEnablePublicUpload($permissions, $publicUpload, $expireDate, $password): void {
 		$ocs = $this->mockFormatShare();
 
@@ -3120,7 +3120,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('publicLinkValidPermissionsProvider')]
+	#[DataProvider(methodName: 'publicLinkValidPermissionsProvider')]
 	public function testUpdateLinkShareSetCRUDPermissions($permissions): void {
 		$ocs = $this->mockFormatShare();
 
@@ -3173,7 +3173,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('publicLinkInvalidPermissionsProvider1')]
+	#[DataProvider(methodName: 'publicLinkInvalidPermissionsProvider1')]
 	public function testUpdateLinkShareSetInvalidCRUDPermissions1($permissions): void {
 		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Share must at least have READ or CREATE permissions');
@@ -3188,7 +3188,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('publicLinkInvalidPermissionsProvider2')]
+	#[DataProvider(methodName: 'publicLinkInvalidPermissionsProvider2')]
 	public function testUpdateLinkShareSetInvalidCRUDPermissions2($permissions): void {
 		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Share must have READ permission if UPDATE or DELETE permission is set');
@@ -3240,7 +3240,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('publicUploadParamsProvider')]
+	#[DataProvider(methodName: 'publicUploadParamsProvider')]
 	public function testUpdateLinkSharePublicUploadNotAllowed($permissions, $publicUpload, $expireDate, $password): void {
 		$this->expectException(OCSForbiddenException::class);
 		$this->expectExceptionMessage('Public upload disabled by the administrator');
@@ -4898,7 +4898,7 @@ class ShareAPIControllerTest extends TestCase {
 		return $result;
 	}
 
-	#[DataProvider('dataFormatShare')]
+	#[DataProvider(methodName: 'dataFormatShare')]
 	public function testFormatShare(
 		array $expects,
 		array $shareParams,
@@ -5155,7 +5155,7 @@ class ShareAPIControllerTest extends TestCase {
 	 * @param bool $helperAvailable
 	 * @param array $formatShareByHelper
 	 */
-	#[DataProvider('dataFormatRoomShare')]
+	#[DataProvider(methodName: 'dataFormatRoomShare')]
 	public function testFormatRoomShare(array $expects, bool $helperAvailable, array $formatShareByHelper): void {
 		$file = $this->createMock(File::class);
 
@@ -5309,7 +5309,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('trustedServerProvider')]
+	#[DataProvider(methodName: 'trustedServerProvider')]
 	public function testFormatShareWithFederatedShare(bool $isKnownServer, bool $isTrusted): void {
 		$nodeId = 12;
 		$nodePath = '/test.txt';

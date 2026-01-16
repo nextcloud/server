@@ -16,7 +16,7 @@ use OCA\Files_External\Lib\Storage\SFTP;
  *
  * @package OCA\Files_External\Tests\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SftpTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 	/**
@@ -42,7 +42,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('configProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'configProvider')]
 	public function testStorageId($config, $expectedStorageId): void {
 		$instance = new SFTP($config);
 		$this->assertEquals($expectedStorageId, $instance->getId());

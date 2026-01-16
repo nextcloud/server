@@ -23,7 +23,7 @@ use Sabre\VObject\UUIDUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccountMigratorTest extends TestCase {
 	private IUserManager $userManager;
 	private IAvatarManager $avatarManager;
@@ -83,7 +83,7 @@ class AccountMigratorTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataImportExportAccount')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataImportExportAccount')]
 	public function testImportExportAccount(string $userId, array $importData, string $avatarPath, array $importConfig): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 		$avatarExt = pathinfo($avatarPath, PATHINFO_EXTENSION);

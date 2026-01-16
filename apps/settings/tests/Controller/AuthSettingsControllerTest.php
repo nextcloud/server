@@ -255,7 +255,7 @@ class AuthSettingsControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataRenameToken')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataRenameToken')]
 	public function testUpdateRename(string $name, string $newName): void {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
@@ -293,7 +293,7 @@ class AuthSettingsControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateFilesystemScope')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateFilesystemScope')]
 	public function testUpdateFilesystemScope(bool $filesystem, bool $newFilesystem): void {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);

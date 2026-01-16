@@ -68,7 +68,7 @@ class DefinitionParameterTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('validateValueProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateValueProvider')]
 	public function testValidateValue($type, $flags, $value, $success, $expectedValue = null): void {
 		$param = new Param('foo', 'bar');
 		$param->setType($type);

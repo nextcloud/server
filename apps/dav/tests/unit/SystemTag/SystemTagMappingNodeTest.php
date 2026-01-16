@@ -107,7 +107,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeDeleteProviderPermissionException')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagNodeDeleteProviderPermissionException')]
 	public function testDeleteTagExpectedException(ISystemTag $tag, $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')

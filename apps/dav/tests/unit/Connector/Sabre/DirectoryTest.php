@@ -58,7 +58,7 @@ class TestViewDirectory extends View {
 }
 
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -514,20 +514,20 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('moveFailedProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveFailedProvider')]
 	public function testMoveFailed(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('moveSuccessProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveSuccessProvider')]
 	public function testMoveSuccess(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->moveTest($source, $destination, $updatables, $deletables);
 		$this->addToAssertionCount(1);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('moveFailedInvalidCharsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveFailedInvalidCharsProvider')]
 	public function testMoveFailedInvalidChars(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(InvalidPath::class);
 

@@ -40,9 +40,7 @@ class DummyGetResponsePluginTest extends TestCase {
 
 
 	public function testHttpGet(): void {
-		/** @var \Sabre\HTTP\RequestInterface $request */
 		$request = $this->createMock(RequestInterface::class);
-		/** @var \Sabre\HTTP\ResponseInterface $response */
 		$response = $this->createMock(ResponseInterface::class);
 		$response
 			->expects($this->once())

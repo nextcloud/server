@@ -20,7 +20,7 @@ use Test\Traits\UserTrait;
  *
  * @package OCA\Files_Sharing\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SizePropagationTest extends TestCase {
 	use UserTrait;
 

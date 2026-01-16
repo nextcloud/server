@@ -185,7 +185,7 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('legalUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'legalUrlProvider')]
 	public function testGetImprintURL(string $imprintUrl): void {
 		$this->appConfig
 			->expects($this->once())
@@ -196,7 +196,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals($imprintUrl, $this->template->getImprintUrl());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('legalUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'legalUrlProvider')]
 	public function testGetPrivacyURL(string $privacyUrl): void {
 		$this->appConfig
 			->expects($this->once())
@@ -344,7 +344,7 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidLegalUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'invalidLegalUrlProvider')]
 	public function testGetShortFooterInvalidImprint(string $invalidImprintUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
@@ -361,7 +361,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidLegalUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'invalidLegalUrlProvider')]
 	public function testGetShortFooterInvalidPrivacy(string $invalidPrivacyUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->appConfig
@@ -449,7 +449,7 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetColorPrimary')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetColorPrimary')]
 	public function testGetColorPrimary(bool $disableTheming, string $primaryColor, string $userPrimaryColor, string $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -803,7 +803,7 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataReplaceImagePath')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataReplaceImagePath')]
 	public function testReplaceImagePath(string $app, string $image, string|bool $result = 'themingRoute?v=1234abcd'): void {
 		$this->cache->expects($this->any())
 			->method('get')
@@ -835,7 +835,7 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('setTypesProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setTypesProvider')]
 	public function testSetTypes(string $setting, string $value, mixed $expected): void {
 		$setValue = null;
 		$cb = function ($setting, $value) use (&$setValue) {

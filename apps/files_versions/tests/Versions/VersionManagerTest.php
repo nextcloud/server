@@ -26,6 +26,9 @@ class VersionManagerTest extends TestCase {
 		return $backend;
 	}
 
+	/**
+	 * @param class-string<IStorage> $class
+	 */
 	private function getStorage(string $class): IStorage&MockObject {
 		return $this->getMockBuilder($class)
 			->disableOriginalConstructor()

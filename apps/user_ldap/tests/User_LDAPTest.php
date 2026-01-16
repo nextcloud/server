@@ -37,7 +37,7 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class User_LDAPTest extends TestCase {
 	protected Access&MockObject $access;
 	protected OfflineUser&MockObject $offlineUser;
@@ -1324,7 +1324,7 @@ class User_LDAPTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('avatarDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'avatarDataProvider')]
 	public function testCanChangeAvatar(string|bool $imageData, bool $expected): void {
 		$isValidImage = str_starts_with((string)$imageData, 'valid');
 
@@ -1449,7 +1449,7 @@ class User_LDAPTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('actionProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'actionProvider')]
 	public function testImplementsAction(string $configurable, string|int $value, int $actionCode, bool $expected): void {
 		$this->pluginManager->expects($this->once())
 			->method('getImplementedActions')
