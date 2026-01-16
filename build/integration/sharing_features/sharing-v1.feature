@@ -559,6 +559,8 @@ Feature: sharing
   Scenario: getting all shares of a user using that user
     Given user "user0" exists
     And user "user1" exists
+    When User "user1" deletes file "/textfile0.txt"
+    And the HTTP status code should be "204"
     And file "textfile0.txt" of user "user0" is shared with user "user1"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares"

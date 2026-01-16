@@ -1663,12 +1663,6 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/files_sharing/lib/SharedMount.php">
-    <InternalMethod>
-      <code><![CDATA[file_exists]]></code>
-      <code><![CDATA[getAbsolutePath]]></code>
-      <code><![CDATA[getAbsolutePath]]></code>
-      <code><![CDATA[is_dir]]></code>
-    </InternalMethod>
     <InvalidReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>

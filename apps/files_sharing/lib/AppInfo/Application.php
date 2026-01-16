@@ -14,6 +14,7 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Config\ConfigLexicon;
+use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
@@ -24,6 +25,7 @@ use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadPublicFileRequestAuthListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
+use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
@@ -49,8 +51,10 @@ use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
+use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -108,6 +112,13 @@ class Application extends App implements IBootstrap {
 
 		// File request auth
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, LoadPublicFileRequestAuthListener::class);
+
+		// Update mounts
+		$context->registerEventListener(ShareCreatedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(BeforeShareDeletedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserAddedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, SharesUpdatedListener::class);
+		$context->registerEventListener(UserShareAccessUpdatedEvent::class, SharesUpdatedListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
