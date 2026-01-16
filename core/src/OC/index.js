@@ -64,7 +64,7 @@ import Plugins from './plugins.js'
 import {
 	build as buildQueryString,
 	parse as parseQueryString,
-} from './query-string.js'
+} from './query-string.ts'
 import { getRequestToken } from './requesttoken.ts'
 import {
 	linkToRemoteBase,
@@ -186,9 +186,7 @@ export default {
 	 */
 	getLanguage,
 
-	/**
-	 * Query string helpers
-	 */
+	// Query string helpers
 	buildQueryString,
 	parseQueryString,
 
