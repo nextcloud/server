@@ -215,6 +215,49 @@ class QBMapperTest extends \Test\TestCase {
 	}
 
 
+	public function testUpdateEntityEarlyExitWhenOnlyIdChanged(): void {
+		$entity = new QBTestEntity();
+		$entity->setId(123);
+		// Reset updated fields to simulate an entity loaded from DB
+		$entity->resetUpdatedFields();
+		
+		// Now only update the ID - this should trigger early exit
+		$entity->setId(456);
+		
+		// The query builder's update() method should never be called
+		// because the early exit happens before any query building
+		$this->db->expects($this->never())
+			->method('getQueryBuilder');
+		
+		// Call update - should return the entity without executing any query
+		$result = $this->mapper->update($entity);
+		
+		// Verify the entity is returned unchanged
+		$this->assertSame($entity, $result);
+	}
+
+
+	public function testUpdateEntityWithNoChanges(): void {
+		$entity = new QBTestEntity();
+		$entity->setId(123);
+		$entity->setIntProp(456);
+		// Reset updated fields to simulate an entity loaded from DB
+		$entity->resetUpdatedFields();
+		
+		// Don't change anything
+		
+		// The query builder's update() method should never be called
+		$this->db->expects($this->never())
+			->method('getQueryBuilder');
+		
+		// Call update - should return the entity without executing any query
+		$result = $this->mapper->update($entity);
+		
+		// Verify the entity is returned unchanged
+		$this->assertSame($entity, $result);
+	}
+
+
 	public function testGetParameterTypeForProperty(): void {
 		$entity = new QBTestEntity();
 
