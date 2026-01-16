@@ -71,7 +71,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		// ensure the different uids were used
 		foreach ($deletedUsers as $deletedUser) {
 			$this->assertTrue(in_array($deletedUser->getOCName(), $uids));
-			$i = array_search($deletedUser->getOCName(), $uids);
+			$i = array_search($deletedUser->getOCName(), $uids, true);
 			$this->assertNotFalse($i);
 			unset($uids[$i]);
 		}

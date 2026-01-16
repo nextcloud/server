@@ -141,7 +141,7 @@ class Helper {
 	 */
 	public function deleteServerConfiguration($prefix) {
 		$prefixes = $this->getServerConfigurationPrefixes();
-		$index = array_search($prefix, $prefixes);
+		$index = array_search($prefix, $prefixes, true);
 		if ($index === false) {
 			return false;
 		}

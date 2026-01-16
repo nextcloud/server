@@ -438,7 +438,7 @@ trait WebDav {
 		}
 
 		foreach ($table->getRows() as $row) {
-			$key = array_search($row[0], $foundTypes);
+			$key = array_search($row[0], $foundTypes, true);
 			if ($key === false) {
 				throw new \Exception('Expected type ' . $row[0] . ' not found');
 			}
