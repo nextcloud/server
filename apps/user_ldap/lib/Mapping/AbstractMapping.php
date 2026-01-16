@@ -113,7 +113,7 @@ abstract class AbstractMapping {
 	 * @return string|false
 	 */
 	public function getDNByName($name) {
-		$dn = array_search($name, $this->cache);
+		$dn = array_search($name, $this->cache, true);
 		if ($dn === false && ($dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name)) !== false) {
 			$this->cache[$dn] = $name;
 		}
@@ -370,7 +370,7 @@ abstract class AbstractMapping {
 			DELETE FROM `' . $this->getTableName() . '`
 			WHERE `owncloud_name` = ?');
 
-		$dn = array_search($name, $this->cache);
+		$dn = array_search($name, $this->cache, true);
 		if ($dn !== false) {
 			unset($this->cache[$dn]);
 		}

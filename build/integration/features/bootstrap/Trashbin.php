@@ -96,7 +96,7 @@ trait Trashbin {
 			$elementsSimplified = $this->simplifyArray($elementRows);
 			foreach ($elementsSimplified as $expectedElement) {
 				$expectedElement = ltrim($expectedElement, '/');
-				if (array_search($expectedElement, $trashContent) === false) {
+				if (array_search($expectedElement, $trashContent, true) === false) {
 					Assert::fail("$expectedElement" . ' is not in trash listing');
 				}
 			}
