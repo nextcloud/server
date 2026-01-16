@@ -7,7 +7,7 @@ import type { RouteRecordRaw } from 'vue-router'
 
 import { loadState } from '@nextcloud/initial-state'
 import { defineAsyncComponent } from 'vue'
-const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
+const appstoreEnabled = loadState<boolean>('appstore', 'appstoreEnabled', true)
 
 // Dynamic loading
 const AppstoreDiscover = defineAsyncComponent(() => import('../views/AppstoreDiscover.vue'))

@@ -20,7 +20,7 @@ export const useUpdatesStore = defineStore('updates', () => {
 	/**
 	 * Number of apps with available updates
 	 */
-	const internalUpdateCount = ref(loadState<number>('settings', 'appstoreUpdateCount', 0))
+	const internalUpdateCount = ref(loadState<number>('appstore', 'appstoreUpdateCount', 0))
 
 	/**
 	 * Total number of apps with available updates
@@ -52,7 +52,7 @@ export const useUpdatesStore = defineStore('updates', () => {
 			rebuildNavigation()
 		} catch (error) {
 			logger.error('Failed to update app', { appId, error })
-			showError(t('settings', 'Could not update the app. Please try again later.'))
+			showError(t('appstore', 'Could not update the app. Please try again later.'))
 		}
 	}
 

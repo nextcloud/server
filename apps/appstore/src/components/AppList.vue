@@ -14,36 +14,36 @@
 			}">
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="apps-list__toolbar">
-					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
+					{{ n('appstore', '%n app has an update available', '%n apps have an update available', counter) }}
 					<NcButton
 						v-if="showUpdateAll"
 						id="app-list-update-all"
 						variant="primary"
 						@click="updateAll">
-						{{ n('settings', 'Update', 'Update all', counter) }}
+						{{ n('appstore', 'Update', 'Update all', counter) }}
 					</NcButton>
 				</div>
 
 				<div v-if="!showUpdateAll" class="apps-list__toolbar">
-					{{ t('settings', 'All apps are up-to-date.') }}
+					{{ t('appstore', 'All apps are up-to-date.') }}
 				</div>
 
 				<TransitionGroup name="apps-list" tag="table" class="apps-list__list-container">
 					<tr key="app-list-view-header">
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Icon') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Name') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Version') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Level') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Actions') }}</span>
 						</th>
 					</tr>
 					<AppItem
@@ -59,19 +59,19 @@
 				class="apps-list__list-container">
 				<tr key="app-list-view-header">
 					<th id="app-table-col-icon">
-						<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+						<span class="hidden-visually">{{ t('appstore', 'Icon') }}</span>
 					</th>
 					<th id="app-table-col-name">
-						<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+						<span class="hidden-visually">{{ t('appstore', 'Name') }}</span>
 					</th>
 					<th id="app-table-col-version">
-						<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+						<span class="hidden-visually">{{ t('appstore', 'Version') }}</span>
 					</th>
 					<th id="app-table-col-level">
-						<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+						<span class="hidden-visually">{{ t('appstore', 'Level') }}</span>
 					</th>
 					<th id="app-table-col-actions">
-						<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+						<span class="hidden-visually">{{ t('appstore', 'Actions') }}</span>
 					</th>
 				</tr>
 				<template v-for="bundle in bundles">
@@ -82,7 +82,7 @@
 									{{ bundle.name }}
 								</span>
 								<NcButton variant="secondary" @click="toggleBundle(bundle.id)">
-									{{ t('settings', bundleToggleText(bundle.id)) }}
+									{{ t('appstore', bundleToggleText(bundle.id)) }}
 								</NcButton>
 							</div>
 						</th>
@@ -110,23 +110,23 @@
 			<div class="apps-list__list-container">
 				<table v-if="search !== '' && searchApps.length > 0" class="apps-list__list-container">
 					<caption class="apps-list__bundle-header">
-						{{ t('settings', 'Results from other categories') }}
+						{{ t('appstore', 'Results from other categories') }}
 					</caption>
 					<tr key="app-list-view-header">
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Icon') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Name') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Version') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Level') }}</span>
 						</th>
 						<th>
-							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+							<span class="hidden-visually">{{ t('appstore', 'Actions') }}</span>
 						</th>
 					</tr>
 					<AppItem
@@ -140,7 +140,7 @@
 
 		<div v-if="search !== '' && !loading && searchApps.length === 0 && apps.length === 0" id="apps-list-empty" class="emptycontent emptycontent-search">
 			<div id="app-list-empty-icon" class="icon-settings-dark" />
-			<h2>{{ t('settings', 'No apps found for your version') }}</h2>
+			<h2>{{ t('appstore', 'No apps found for your version') }}</h2>
 		</div>
 	</div>
 </template>
@@ -301,9 +301,9 @@ export default {
 		bundleToggleText() {
 			return (id) => {
 				if (this.allBundlesEnabled(id)) {
-					return t('settings', 'Disable all')
+					return t('appstore', 'Disable all')
 				}
-				return t('settings', 'Download and enable all')
+				return t('appstore', 'Download and enable all')
 			}
 		},
 	},

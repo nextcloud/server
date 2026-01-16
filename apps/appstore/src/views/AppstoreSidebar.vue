@@ -42,9 +42,9 @@ const licenseText = computed(() => {
 		return ''
 	}
 	if (app.value.licence !== '') {
-		return t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() })
+		return t('appstore', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() })
 	}
-	return t('settings', 'Version {version}', { version: app.value.version })
+	return t('appstore', 'Version {version}', { version: app.value.version })
 })
 
 const activeTab = ref('details')

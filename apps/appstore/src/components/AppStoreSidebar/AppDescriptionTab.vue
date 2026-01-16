@@ -6,7 +6,7 @@
 <template>
 	<NcAppSidebarTab
 		id="desc"
-		:name="t('settings', 'Description')"
+		:name="t('appstore', 'Description')"
 		:order="0">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiTextShort" />

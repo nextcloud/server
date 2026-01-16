@@ -7,18 +7,18 @@
 	<NcAppSidebarTab
 		v-if="app?.daemon"
 		id="daemon"
-		:name="t('settings', 'Daemon')"
+		:name="t('appstore', 'Daemon')"
 		:order="3">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiFileChart" :size="24" />
 		</template>
 		<div class="daemon">
-			<h4>{{ t('settings', 'Deploy Daemon') }}</h4>
-			<p><b>{{ t('settings', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
-			<p><b>{{ t('settings', 'Name') }}</b>: {{ app?.daemon.name }}</p>
-			<p><b>{{ t('settings', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
-			<p><b>{{ t('settings', 'GPUs support') }}</b>: {{ gpuSupport }}</p>
-			<p><b>{{ t('settings', 'Compute device') }}</b>: {{ app?.daemon?.deploy_config?.computeDevice?.label }}</p>
+			<h4>{{ t('appstore', 'Deploy Daemon') }}</h4>
+			<p><b>{{ t('appstore', 'Type') }}</b>: {{ app?.daemon.accepts_deploy_id }}</p>
+			<p><b>{{ t('appstore', 'Name') }}</b>: {{ app?.daemon.name }}</p>
+			<p><b>{{ t('appstore', 'Display Name') }}</b>: {{ app?.daemon.display_name }}</p>
+			<p><b>{{ t('appstore', 'GPUs support') }}</b>: {{ gpuSupport }}</p>
+			<p><b>{{ t('appstore', 'Compute device') }}</b>: {{ app?.daemon?.deploy_config?.computeDevice?.label }}</p>
 		</div>
 	</NcAppSidebarTab>
 </template>

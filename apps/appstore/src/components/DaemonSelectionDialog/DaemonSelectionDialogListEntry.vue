@@ -56,7 +56,7 @@ function selectDaemonAndInstall() {
 <template>
 	<NcListItem
 		:name="itemTitle"
-		:details="isDefault ? t('settings', 'Default') : ''"
+		:details="isDefault ? t('appstore', 'Default') : ''"
 		:force-display-actions="true"
 		:counter-number="daemon.exAppsCount"
 		:active="isDefault"

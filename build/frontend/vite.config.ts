@@ -9,7 +9,6 @@ import { resolve } from 'node:path'
 const modules = {
 	appstore: {
 		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
-		settings: resolve(import.meta.dirname, 'apps/appstore/src', 'settings.ts'),
 	},
 	dav: {
 		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),

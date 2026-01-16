@@ -29,10 +29,10 @@ const props = defineProps<{
 const isSupported = computed(() => props.level === 300)
 const isFeatured = computed(() => props.level === 200)
 const badgeIcon = computed(() => isSupported.value ? mdiStarShootingOutline : mdiCheck)
-const badgeText = computed(() => isSupported.value ? t('settings', 'Supported') : t('settings', 'Featured'))
+const badgeText = computed(() => isSupported.value ? t('appstore', 'Supported') : t('appstore', 'Featured'))
 const badgeTitle = computed(() => isSupported.value
-	? t('settings', 'This app is supported via your current Nextcloud subscription.')
-	: t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.'))
+	? t('appstore', 'This app is supported via your current Nextcloud subscription.')
+	: t('appstore', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.'))
 </script>
 
 <style scoped lang="scss">

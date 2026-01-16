@@ -263,7 +263,7 @@ class NavigationManager implements INavigationManager {
 					'type' => 'settings',
 					'id' => 'core_apps',
 					'order' => 5,
-					'href' => $this->urlGenerator->linkToRoute('appstore.AppSettings.viewApps'),
+					'href' => $this->urlGenerator->linkToRoute('appstore.Page.viewApps'),
 					'icon' => $this->urlGenerator->imagePath('appstore', 'apps.svg'),
 					'name' => $l->t('Apps'),
 				]);

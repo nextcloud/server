@@ -7,12 +7,12 @@ import { translate as t } from '@nextcloud/l10n'
 
 export const unlimitedQuota = {
 	id: 'none',
-	label: t('settings', 'Unlimited'),
+	label: t('appstore', 'Unlimited'),
 }
 
 export const defaultQuota = {
 	id: 'default',
-	label: t('settings', 'Default quota'),
+	label: t('appstore', 'Default quota'),
 }
 
 /**

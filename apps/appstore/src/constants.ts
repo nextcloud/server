@@ -35,14 +35,14 @@ import { t } from '@nextcloud/l10n'
  * The names of the special appstore sections
  */
 export const APPSTORE_CATEGORY_NAMES = Object.freeze({
-	discover: t('settings', 'Discover'),
-	installed: t('settings', 'Your apps'),
-	enabled: t('settings', 'Active apps'),
-	disabled: t('settings', 'Disabled apps'),
-	updates: t('settings', 'Updates'),
-	'app-bundles': t('settings', 'App bundles'),
-	featured: t('settings', 'Featured apps'),
-	supported: t('settings', 'Supported apps'), // From subscription
+	discover: t('appstore', 'Discover'),
+	installed: t('appstore', 'Your apps'),
+	enabled: t('appstore', 'Active apps'),
+	disabled: t('appstore', 'Disabled apps'),
+	updates: t('appstore', 'Updates'),
+	'app-bundles': t('appstore', 'App bundles'),
+	featured: t('appstore', 'Featured apps'),
+	supported: t('appstore', 'Supported apps'), // From subscription
 })
 
 /**

@@ -24,10 +24,10 @@ export function handleError(error: AxiosError, message: string) {
 		if (fullMessage) {
 			fullMessage += '\n'
 		}
-		fullMessage += t('settings', 'There were too many requests from your network. Retry later or contact your administrator if this is an error.')
+		fullMessage += t('appstore', 'There were too many requests from your network. Retry later or contact your administrator if this is an error.')
 	}
 
-	fullMessage = fullMessage || t('settings', 'Error')
+	fullMessage = fullMessage || t('appstore', 'Error')
 	showError(fullMessage)
 	logger.error(fullMessage, { error })
 }

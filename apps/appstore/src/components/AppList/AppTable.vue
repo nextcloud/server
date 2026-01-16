@@ -53,7 +53,7 @@
 						id: app.id,
 					},
 				}"
-				:aria-label="t('settings', 'Show details for {appName} app', { appName: app.name })">
+				:aria-label="t('appstore', 'Show details for {appName} app', { appName: app.name })">
 				{{ app.name }}
 			</router-link>
 		</component>
@@ -92,7 +92,7 @@
 				:disabled="installing || isLoading || !defaultDeployDaemonAccessible || isManualInstall"
 				:title="updateButtonText"
 				@click.stop="update(app.id)">
-				{{ t('settings', 'Update to {update}', { update: app.update }) }}
+				{{ t('appstore', 'Update to {update}', { update: app.update }) }}
 			</NcButton>
 			<NcButton
 				v-if="app.canUnInstall"
@@ -100,7 +100,7 @@
 				variant="tertiary"
 				:disabled="installing || isLoading"
 				@click.stop="remove(app.id)">
-				{{ t('settings', 'Remove') }}
+				{{ t('appstore', 'Remove') }}
 			</NcButton>
 			<NcButton
 				v-if="app.active"

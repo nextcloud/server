@@ -38,7 +38,7 @@ function closeModal() {
 <template>
 	<NcDialog
 		:open="show"
-		:name="t('settings', 'Choose Deploy Daemon for {appName}', { appName: app.name })"
+		:name="t('appstore', 'Choose Deploy Daemon for {appName}', { appName: app.name })"
 		size="normal"
 		@update:open="closeModal">
 		<DaemonSelectionDialogList

@@ -44,7 +44,7 @@ function closeModal() {
 	<div class="daemon-selection-list">
 		<ul
 			v-if="store.dockerDaemons.length > 0"
-			:aria-label="t('settings', 'Registered Deploy daemons list')">
+			:aria-label="t('appstore', 'Registered Deploy daemons list')">
 			<DaemonSelectionDialogListEntry
 				v-for="daemon in store.dockerDaemons"
 				:key="daemon.id"
@@ -57,14 +57,14 @@ function closeModal() {
 		<NcEmptyContent
 			v-else
 			class="daemon-selection-list__empty-content"
-			:name="t('settings', 'No Deploy daemons configured')"
-			:description="t('settings', 'Register a custom one or setup from available templates')">
+			:name="t('appstore', 'No Deploy daemons configured')"
+			:description="t('appstore', 'Register a custom one or setup from available templates')">
 			<template #icon>
 				<FormatListBullet :size="20" />
 			</template>
 			<template #action>
 				<NcButton :href="appApiAdminPage">
-					{{ t('settings', 'Manage Deploy daemons') }}
+					{{ t('appstore', 'Manage Deploy daemons') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>

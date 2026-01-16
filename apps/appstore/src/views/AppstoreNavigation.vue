@@ -4,7 +4,7 @@
 -->
 <template>
 	<!-- Categories & filters -->
-	<NcAppNavigation :aria-label="t('settings', 'Apps')">
+	<NcAppNavigation :aria-label="t('appstore', 'Apps')">
 		<template #list>
 			<NcAppNavigationItem
 				v-if="appstoreEnabled"
@@ -64,7 +64,7 @@
 
 			<!-- App store categories -->
 			<li v-if="appstoreEnabled && categoriesLoading" class="categories--loading">
-				<NcLoadingIcon :size="20" :aria-label="t('settings', 'Loading categories')" />
+				<NcLoadingIcon :size="20" :aria-label="t('appstore', 'Loading categories')" />
 			</li>
 			<template v-else-if="appstoreEnabled && !categoriesLoading">
 				<NcAppNavigationItem
@@ -102,7 +102,7 @@
 
 			<NcAppNavigationItem
 				id="app-developer-docs"
-				:name="t('settings', 'Developer documentation ↗')"
+				:name="t('appstore', 'Developer documentation ↗')"
 				:href="developerDocsUrl" />
 		</template>
 	</NcAppNavigation>
@@ -122,8 +122,8 @@ import { APPSTORE_CATEGORY_ICONS, APPSTORE_CATEGORY_NAMES } from '../constants.t
 import { useAppsStore } from '../store/apps.ts'
 import { useUpdatesStore } from '../store/updates.ts'
 
-const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
-const developerDocsUrl = loadState<string>('settings', 'appstoreDeveloperDocs', '')
+const appstoreEnabled = loadState<boolean>('appstore', 'appstoreEnabled', true)
+const developerDocsUrl = loadState<string>('appstore', 'appstoreDeveloperDocs', '')
 
 const store = useAppsStore()
 const updateStore = useUpdatesStore()

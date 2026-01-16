@@ -18,15 +18,15 @@ export const useExAppsStore = defineStore('external-apps', () => {
 	/**
 	 * Is the App API enabled
 	 */
-	const isEnabled = loadState('settings', 'appApiEnabled', false)
+	const isEnabled = loadState('appstore', 'appApiEnabled', false)
 
 	const apps = ref<IAppstoreExApp[]>([])
-	const updateCount = ref(loadState('settings', 'appstoreExAppUpdateCount', 0))
+	const updateCount = ref(loadState('appstore', 'appstoreExAppUpdateCount', 0))
 	const loading = ref<Record<string, boolean>>({})
 	const loadingList = ref(false)
 	const statusUpdater = ref<number | null | undefined>(null)
-	const daemonAccessible = ref(loadState('settings', 'defaultDaemonConfigAccessible', false))
-	const defaultDaemon = ref(loadState<IDeployDaemon | null>('settings', 'defaultDaemonConfig', null))
+	const daemonAccessible = ref(loadState('appstore', 'defaultDaemonConfigAccessible', false))
+	const defaultDaemon = ref(loadState<IDeployDaemon | null>('appstore', 'defaultDaemonConfig', null))
 	const dockerDaemons = ref<IDeployDaemon[]>([])
 
 	const initializingOrDeployingApps = computed(() => apps.value.filter((app) => app?.status?.action
@@ -70,7 +70,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 			// updateAppsStatus()
 		} catch (error) {
 			logger.error('Failed to update ex app', { appId, error })
-			showError(t('settings', 'Could not update the app. Please try again later.'))
+			showError(t('appstore', 'Could not update the app. Please try again later.'))
 		} finally {
 			app.loading = false
 		}
@@ -122,7 +122,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 							.then(() => {
 								if (response.data.update_required) {
 									showInfo(
-										t('settings', 'The app has been enabled but needs to be updated.'),
+										t('appstore', 'The app has been enabled but needs to be updated.'),
 										{
 											onClick: () => window.location.reload(),
 											close: false,
@@ -134,7 +134,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 								}
 							})
 							.catch(() => {
-								this.setError(appId, t('settings', 'Error: This app cannot be enabled because it makes the server unstable'))
+								this.setError(appId, t('appstore', 'Error: This app cannot be enabled because it makes the server unstable'))
 							})
 					})
 					.catch((error) => {
@@ -231,7 +231,7 @@ export const useExAppsStore = defineStore('external-apps', () => {
 				return true
 			} catch (error) {
 				logger.error(error as string)
-				showError(t('settings', 'An error occurred during the request. Unable to proceed.'))
+				showError(t('appstore', 'An error occurred during the request. Unable to proceed.'))
 				this.loadingList = false
 			}
 		},

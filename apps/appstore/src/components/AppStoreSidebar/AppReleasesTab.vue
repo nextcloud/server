@@ -6,7 +6,7 @@
 	<NcAppSidebarTab
 		v-if="hasChangelog"
 		id="changelog"
-		:name="t('settings', 'Changelog')"
+		:name="t('appstore', 'Changelog')"
 		:order="2">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiClockFast" :size="24" />

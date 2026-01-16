@@ -15,7 +15,7 @@
 		<NcEmptyContent
 			v-else-if="isLoading"
 			class="empty-content__loading"
-			:name="t('settings', 'Loading app list')">
+			:name="t('appstore', 'Loading app list')">
 			<template #icon>
 				<NcLoadingIcon :size="64" />
 			</template>
@@ -48,7 +48,7 @@ const currentCategory = computed(() => route.params?.category ?? 'discover')
 
 const viewLabel = computed<string>(() => APPSTORE_CATEGORY_NAMES[currentCategory.value] ?? store.getCategoryById(currentCategory.value)?.displayName)
 
-const pageHeading = t('settings', 'App Store')
+const pageHeading = t('appstore', 'App Store')
 const pageTitle = computed(() => `${viewLabel.value} - ${pageHeading}`) // NcAppContent automatically appends the instance name
 
 // TODO this part should be migrated to pinia

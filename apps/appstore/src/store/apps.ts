@@ -74,7 +74,7 @@ export const useAppsStore = defineStore('apps', () => {
 			categories.value = await api.getCategories()
 		} catch (error) {
 			logger.error('Failed to load app categories', { error })
-			showError(t('settings', 'Could not load app categories. Please try again later.'))
+			showError(t('appstore', 'Could not load app categories. Please try again later.'))
 		} finally {
 			isLoadingCategories.value = false
 		}
@@ -89,7 +89,7 @@ export const useAppsStore = defineStore('apps', () => {
 			appstoreApps.value = await api.getApps()
 		} catch (error) {
 			logger.error('Failed to load apps list', { error })
-			showError(t('settings', 'Could not load apps list. Please try again later.'))
+			showError(t('appstore', 'Could not load apps list. Please try again later.'))
 		} finally {
 			isLoadingApps.value = false
 		}

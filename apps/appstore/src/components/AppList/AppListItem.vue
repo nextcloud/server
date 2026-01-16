@@ -40,7 +40,7 @@
 						id: app.id,
 					},
 				}"
-				:aria-label="t('settings', 'Show details for {appName} app', { appName: app.name })">
+				:aria-label="t('appstore', 'Show details for {appName} app', { appName: app.name })">
 				{{ app.name }}
 			</router-link>
 		</div>

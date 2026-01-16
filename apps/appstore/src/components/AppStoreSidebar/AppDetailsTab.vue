@@ -6,7 +6,7 @@
 <template>
 	<NcAppSidebarTab
 		id="details"
-		:name="t('settings', 'Details')"
+		:name="t('appstore', 'Details')"
 		:order="1">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiTextBoxOutline" />
@@ -21,15 +21,15 @@
 						:value="app.id"
 						class="groups-enable__checkbox checkbox"
 						@change="setGroupLimit">
-					<label :for="`groups_enable_${app.id}`">{{ t('settings', 'Limit to groups') }}</label>
+					<label :for="`groups_enable_${app.id}`">{{ t('appstore', 'Limit to groups') }}</label>
 					<input
 						type="hidden"
 						class="group_select"
-						:title="t('settings', 'All')"
+						:title="t('appstore', 'All')"
 						value="">
 					<br>
 					<label for="limitToGroups">
-						<span>{{ t('settings', 'Limit app usage to groups') }}</span>
+						<span>{{ t('appstore', 'Limit app usage to groups') }}</span>
 					</label>
 					<NcSelect
 						v-if="isLimitedToGroups(app)"
@@ -43,7 +43,7 @@
 						@option:selected="addGroupLimitation"
 						@option:deselected="removeGroupLimitation"
 						@search="asyncFindGroup">
-						<span slot="noResult">{{ t('settings', 'No results') }}</span>
+						<span slot="noResult">{{ t('appstore', 'No results') }}</span>
 					</NcSelect>
 				</div>
 				<div class="app-details__actions-manage">
@@ -51,14 +51,14 @@
 						v-if="app.update"
 						class="update primary"
 						type="button"
-						:value="t('settings', 'Update to {version}', { version: app.update })"
+						:value="t('appstore', 'Update to {version}', { version: app.update })"
 						:disabled="installing || isLoading || isManualInstall"
 						@click="update(app.id)">
 					<input
 						v-if="app.canUnInstall"
 						class="uninstall"
 						type="button"
-						:value="t('settings', 'Remove')"
+						:value="t('appstore', 'Remove')"
 						:disabled="installing || isLoading"
 						@click="remove(app.id, removeData)">
 					<input
@@ -88,36 +88,36 @@
 						@click="forceEnable(app.id)">
 					<NcButton
 						v-if="app?.app_api && (app.canInstall || app.isCompatible)"
-						:aria-label="t('settings', 'Advanced deploy options')"
+						:aria-label="t('appstore', 'Advanced deploy options')"
 						variant="secondary"
 						@click="() => showDeployOptionsModal = true">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiToyBrickPlusOutline" />
 						</template>
-						{{ t('settings', 'Deploy options') }}
+						{{ t('appstore', 'Deploy options') }}
 					</NcButton>
 				</div>
 				<p v-if="!defaultDeployDaemonAccessible" class="warning">
-					{{ t('settings', 'Default Deploy daemon is not accessible') }}
+					{{ t('appstore', 'Default Deploy daemon is not accessible') }}
 				</p>
 				<NcCheckboxRadioSwitch
 					v-if="app.canUnInstall"
 					:model-value="removeData"
 					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
 					@update:modelValue="toggleRemoveData">
-					{{ t('settings', 'Delete data on remove') }}
+					{{ t('appstore', 'Delete data on remove') }}
 				</NcCheckboxRadioSwitch>
 			</div>
 
 			<ul class="app-details__dependencies">
 				<li v-if="app.missingMinOwnCloudVersion">
-					{{ t('settings', 'This app has no minimum {productName} version assigned. This will be an error in the future.', { productName }) }}
+					{{ t('appstore', 'This app has no minimum {productName} version assigned. This will be an error in the future.', { productName }) }}
 				</li>
 				<li v-if="app.missingMaxOwnCloudVersion">
-					{{ t('settings', 'This app has no maximum {productName} version assigned. This will be an error in the future.', { productName }) }}
+					{{ t('appstore', 'This app has no maximum {productName} version assigned. This will be an error in the future.', { productName }) }}
 				</li>
 				<li v-if="!app.canInstall">
-					{{ t('settings', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
+					{{ t('appstore', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
 					<ul class="missing-dependencies">
 						<li v-for="(dep, index) in app.missingDependencies" :key="index">
 							{{ dep }}
@@ -128,14 +128,14 @@
 
 			<div v-if="lastModified && !app.shipped" class="app-details__section">
 				<h4>
-					{{ t('settings', 'Latest updated') }}
+					{{ t('appstore', 'Latest updated') }}
 				</h4>
 				<NcDateTime :timestamp="lastModified" />
 			</div>
 
 			<div class="app-details__section">
 				<h4>
-					{{ t('settings', 'Author') }}
+					{{ t('appstore', 'Author') }}
 				</h4>
 				<p class="app-details__authors">
 					{{ appAuthors }}
@@ -144,7 +144,7 @@
 
 			<div class="app-details__section">
 				<h4>
-					{{ t('settings', 'Categories') }}
+					{{ t('appstore', 'Categories') }}
 				</h4>
 				<p>
 					{{ appCategories }}
@@ -152,8 +152,8 @@
 			</div>
 
 			<div v-if="externalResources.length > 0" class="app-details__section">
-				<h4>{{ t('settings', 'Resources') }}</h4>
-				<ul class="app-details__documentation" :aria-label="t('settings', 'Documentation')">
+				<h4>{{ t('appstore', 'Resources') }}</h4>
+				<ul class="app-details__documentation" :aria-label="t('appstore', 'Documentation')">
 					<li v-for="resource of externalResources" :key="resource.id">
 						<a
 							class="appslink"
@@ -167,13 +167,13 @@
 			</div>
 
 			<div class="app-details__section">
-				<h4>{{ t('settings', 'Interact') }}</h4>
+				<h4>{{ t('appstore', 'Interact') }}</h4>
 				<div class="app-details__interact">
 					<NcButton
 						:disabled="!app.bugs"
 						:href="app.bugs ?? '#'"
-						:aria-label="t('settings', 'Report a bug')"
-						:title="t('settings', 'Report a bug')">
+						:aria-label="t('appstore', 'Report a bug')"
+						:title="t('appstore', 'Report a bug')">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiBugOutline" />
 						</template>
@@ -181,8 +181,8 @@
 					<NcButton
 						:disabled="!app.bugs"
 						:href="app.bugs ?? '#'"
-						:aria-label="t('settings', 'Request feature')"
-						:title="t('settings', 'Request feature')">
+						:aria-label="t('appstore', 'Request feature')"
+						:title="t('appstore', 'Request feature')">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiFeatureSearchOutline" />
 						</template>
@@ -190,8 +190,8 @@
 					<NcButton
 						v-if="app.appstoreData?.discussion"
 						:href="app.appstoreData.discussion"
-						:aria-label="t('settings', 'Ask questions or discuss')"
-						:title="t('settings', 'Ask questions or discuss')">
+						:aria-label="t('appstore', 'Ask questions or discuss')"
+						:title="t('appstore', 'Ask questions or discuss')">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiTooltipQuestionOutline" />
 						</template>
@@ -199,8 +199,8 @@
 					<NcButton
 						v-if="!app.internal"
 						:href="rateAppUrl"
-						:aria-label="t('settings', 'Rate the app')"
-						:title="t('settings', 'Rate')">
+						:aria-label="t('appstore', 'Rate the app')"
+						:title="t('appstore', 'Rate')">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiStar" />
 						</template>
@@ -335,14 +335,14 @@ export default {
 				resources.push({
 					id: 'appstore',
 					href: this.appstoreUrl,
-					label: t('settings', 'View in store'),
+					label: t('appstore', 'View in store'),
 				})
 			}
 			if (this.app.website) {
 				resources.push({
 					id: 'website',
 					href: this.app.website,
-					label: t('settings', 'Visit website'),
+					label: t('appstore', 'Visit website'),
 				})
 			}
 			if (this.app.documentation) {
@@ -350,21 +350,21 @@ export default {
 					resources.push({
 						id: 'doc-user',
 						href: this.app.documentation.user,
-						label: t('settings', 'Usage documentation'),
+						label: t('appstore', 'Usage documentation'),
 					})
 				}
 				if (this.app.documentation.admin) {
 					resources.push({
 						id: 'doc-admin',
 						href: this.app.documentation.admin,
-						label: t('settings', 'Admin documentation'),
+						label: t('appstore', 'Admin documentation'),
 					})
 				}
 				if (this.app.documentation.developer) {
 					resources.push({
 						id: 'doc-developer',
 						href: this.app.documentation.developer,
-						label: t('settings', 'Developer documentation'),
+						label: t('appstore', 'Developer documentation'),
 					})
 				}
 			}
