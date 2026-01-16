@@ -325,6 +325,10 @@ class EncryptionTest extends TestCase {
 		$this->keyManagerMock->expects($this->never())->method('getVersion');
 		$this->keyManagerMock->expects($this->never())->method('setVersion');
 
+		$this->utilMock->expects($this->any())
+			->method('getOwner')
+			->willReturn('user1');
+
 		$this->assertSame($expected,
 			$this->instance->update('path', 'user1', ['users' => ['user1']])
 		);
@@ -384,6 +388,10 @@ class EncryptionTest extends TestCase {
 
 		$this->keyManagerMock->expects($this->never())->method('getVersion');
 		$this->keyManagerMock->expects($this->never())->method('setVersion');
+
+		$this->utilMock->expects($this->any())
+			->method('getOwner')
+			->willReturn('user1');
 
 		$this->assertTrue(
 			$this->instance->update('path', 'user1', ['users' => ['user1']])
