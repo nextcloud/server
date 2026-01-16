@@ -9,9 +9,11 @@
 namespace Test\Files;
 
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OC\Share\Share;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -77,7 +79,16 @@ class EtagTest extends \Test\TestCase {
 		$files = ['/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt'];
 		$originalEtags = $this->getEtags($files);
 
-		$scanner = new Scanner($user1, Server::get(IDBConnection::class), Server::get(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new Scanner(
+			$user1,
+			Server::get(IDBConnection::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+			Server::get(IUserManager::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(ITimeFactory::class)
+		);
 		$scanner->backgroundScan('/');
 
 		$newEtags = $this->getEtags($files);
