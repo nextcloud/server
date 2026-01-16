@@ -27,7 +27,16 @@ export interface IAppstoreAppRelease {
 	}
 }
 
-export interface IAppstoreApp {
+export interface IAppstoreAppData extends Record<string, unknown> {
+	ratingOverall: number
+	ratingNumOverall: number
+	ratingRecent: number
+	ratingNumRecent: number
+
+	releases: IAppstoreAppRelease[]
+}
+
+export interface IAppstoreAppResponse {
 	id: string
 	name: string
 	summary: string
@@ -38,10 +47,12 @@ export interface IAppstoreApp {
 	version: string
 	category: string | string[]
 
-	preview?: string
 	screenshot?: string
 
-	app_api: boolean
+	score: number
+	ratingNumThresholdReached: boolean
+
+	app_api: false
 	active: boolean
 	internal: boolean
 	removable: boolean
@@ -52,8 +63,12 @@ export interface IAppstoreApp {
 	needsDownload: boolean
 	update?: string
 
-	appstoreData: Record<string, never>
+	appstoreData?: IAppstoreAppData
 	releases?: IAppstoreAppRelease[]
+}
+
+export interface IAppstoreApp extends IAppstoreAppResponse {
+	loading?: boolean
 }
 
 export interface IComputeDevice {
@@ -81,10 +96,10 @@ export interface IDeployDaemon {
 export interface IExAppStatus {
 	action: string
 	deploy: number
-	deploy_start_time: number
-	error: string
+	deploy_start_time?: number
+	error?: string
 	init: number
-	init_start_time: number
+	init_start_time?: number
 	type: string
 }
 
@@ -111,8 +126,9 @@ export interface IAppstoreExAppRelease extends IAppstoreAppRelease {
 }
 
 export interface IAppstoreExApp extends IAppstoreApp {
+	app_api: true
 	daemon: IDeployDaemon | null | undefined
 	status: IExAppStatus | Record<string, never>
-	error: string
+	error?: string
 	releases: IAppstoreExAppRelease[]
 }

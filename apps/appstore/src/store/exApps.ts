@@ -3,77 +3,92 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IAppstoreExApp, IDeployDaemon, IDeployOptions, IExAppStatus } from '../app-types.ts'
+import type { IAppstoreExApp, IDeployDaemon, IExAppStatus } from '../apps.d.ts'
 
 import axios from '@nextcloud/axios'
-import { showError, showInfo } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
-import { confirmPassword } from '@nextcloud/password-confirmation'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
+import { computed, ref } from 'vue'
 import logger from '../utils/logger.ts'
-import api from './api.js'
 
-interface AppApiState {
-	apps: IAppstoreExApp[]
-	updateCount: number
-	loading: Record<string, boolean>
-	loadingList: boolean
-	statusUpdater: number | null | undefined
-	daemonAccessible: boolean
-	defaultDaemon: IDeployDaemon | null
-	dockerDaemons: IDeployDaemon[]
-}
+export const useExAppsStore = defineStore('external-apps', () => {
+	/**
+	 * Is the App API enabled
+	 */
+	const isEnabled = loadState('settings', 'appApiEnabled', false)
 
-export const useAppApiStore = defineStore('app-api-apps', {
-	state: (): AppApiState => ({
-		apps: [],
-		updateCount: loadState('settings', 'appstoreExAppUpdateCount', 0),
-		loading: {},
-		loadingList: false,
-		statusUpdater: null,
-		daemonAccessible: loadState('settings', 'defaultDaemonConfigAccessible', false),
-		defaultDaemon: loadState('settings', 'defaultDaemonConfig', null),
-		dockerDaemons: [],
-	}),
+	const apps = ref<IAppstoreExApp[]>([])
+	const updateCount = ref(loadState('settings', 'appstoreExAppUpdateCount', 0))
+	const loading = ref<Record<string, boolean>>({})
+	const loadingList = ref(false)
+	const statusUpdater = ref<number | null | undefined>(null)
+	const daemonAccessible = ref(loadState('settings', 'defaultDaemonConfigAccessible', false))
+	const defaultDaemon = ref(loadState<IDeployDaemon | null>('settings', 'defaultDaemonConfig', null))
+	const dockerDaemons = ref<IDeployDaemon[]>([])
 
-	getters: {
-		getLoading: (state) => (id: string) => state.loading[id] ?? false,
-		getAllApps: (state) => state.apps,
-		getUpdateCount: (state) => state.updateCount,
-		getDaemonAccessible: (state) => state.daemonAccessible,
-		getDefaultDaemon: (state) => state.defaultDaemon,
-		getAppStatus: (state) => (appId: string) => state.apps.find((app) => app.id === appId)?.status || null,
-		getStatusUpdater: (state) => state.statusUpdater,
-		getInitializingOrDeployingApps: (state) => state.apps.filter((app) => app?.status?.action
-			&& (app?.status?.action === 'deploy' || app.status.action === 'init' || app.status.action === 'healthcheck')
-			&& app.status.type !== ''),
-	},
+	const initializingOrDeployingApps = computed(() => apps.value.filter((app) => app?.status?.action
+		&& (app?.status?.action === 'deploy' || app.status.action === 'init' || app.status.action === 'healthcheck')
+		&& app.status.type !== ''))
 
-	actions: {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		appsApiFailure(error: any) {
-			showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
-			logger.error(error)
-		},
+	/**
+	 * Get an external app by its ID
+	 *
+	 * @param appId - The app ID
+	 */
+	function getById(appId: string): IAppstoreExApp | null {
+		return apps.value.find(({ id }) => id === appId) ?? null
+	}
 
-		setLoading(id: string, value: boolean) {
-			Vue.set(this.loading, id, value)
-		},
+	/**
+	 * Update an external app
+	 *
+	 * @param appId - The app ID
+	 */
+	async function updateApp(appId: string) {
+		const app = getById(appId)
+		if (!app) {
+			throw new Error(`App with id ${appId} not found`)
+		}
 
-		setError(appId: string | string[], error: string) {
-			const appIds = Array.isArray(appId) ? appId : [appId]
-			appIds.forEach((_id) => {
-				const app = this.apps.find((app) => app.id === _id)
-				if (app) {
-					app.error = error
-				}
-			})
-		},
+		app.loading = true
+		try {
+			await axios.get(generateUrl(`/apps/app_api/apps/update/${appId}`))
+			app.version = app.update || app.version
+			app.status = {
+				type: 'update',
+				action: 'deploy',
+				init: 0,
+				deploy: 0,
+			} satisfies IExAppStatus
+			delete app.update
+			delete app.error
+			updateCount.value--
+			// Trigger status updates
+			// updateAppsStatus()
+		} catch (error) {
+			logger.error('Failed to update ex app', { appId, error })
+			showError(t('settings', 'Could not update the app. Please try again later.'))
+		} finally {
+			app.loading = false
+		}
+	}
 
-		enableApp(appId: string, daemon: IDeployDaemon, deployOptions: IDeployOptions) {
+	return {
+		isEnabled,
+
+		apps,
+		updateCount,
+		defaultDaemon,
+		dockerDaemons,
+
+		getById,
+		updateApp,
+	}
+
+	/* enableApp(appId: string, daemon: IDeployDaemon, deployOptions: IDeployOptions) {
 			this.setLoading(appId, true)
 			this.setLoading('install', true)
 			return confirmPassword().then(() => {
@@ -207,42 +222,6 @@ export const useAppApiStore = defineStore('app-api-apps', {
 			})
 		},
 
-		updateApp(appId: string) {
-			this.setLoading(appId, true)
-			this.setLoading('install', true)
-			return confirmPassword().then(() => {
-				return api.get(generateUrl(`/apps/app_api/apps/update/${appId}`))
-					.then(() => {
-						this.setLoading(appId, false)
-						this.setLoading('install', false)
-						const app = this.apps.find((app) => app.id === appId)
-						if (app) {
-							const version = app.update
-							app.update = undefined
-							app.version = version || app.version
-							app.status = {
-								type: 'update',
-								action: 'deploy',
-								init: 0,
-								deploy: 0,
-							} as IExAppStatus
-							app.error = ''
-						}
-						this.updateCount--
-						this.updateAppsStatus()
-						return true
-					})
-					.catch((error) => {
-						this.setLoading(appId, false)
-						this.setLoading('install', false)
-						this.appsApiFailure({ appId, error })
-					})
-			}).catch(() => {
-				this.setLoading(appId, false)
-				this.setLoading('install', false)
-			})
-		},
-
 		async fetchAllApps() {
 			this.loadingList = true
 			try {
@@ -311,5 +290,5 @@ export const useAppApiStore = defineStore('app-api-apps', {
 				})
 			}, 2000) as unknown as number
 		},
-	},
+	}, */
 })

@@ -33,7 +33,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AppList from '../components/AppList.vue'
 import AppStoreDiscoverSection from '../components/AppStoreDiscover/AppStoreDiscoverSection.vue'
-import { APPS_SECTION_ENUM } from '../constants/AppsConstants.js'
+import { APPSTORE_CATEGORY_NAMES } from '../constants.ts'
 import { useAppApiStore } from '../store/app-api-store.ts'
 import { useAppsStore } from '../store/apps-store.ts'
 
@@ -46,7 +46,7 @@ const appApiStore = useAppApiStore()
  */
 const currentCategory = computed(() => route.params?.category ?? 'discover')
 
-const viewLabel = computed<string>(() => APPS_SECTION_ENUM[currentCategory.value] ?? store.getCategoryById(currentCategory.value)?.displayName)
+const viewLabel = computed<string>(() => APPSTORE_CATEGORY_NAMES[currentCategory.value] ?? store.getCategoryById(currentCategory.value)?.displayName)
 
 const pageHeading = t('settings', 'App Store')
 const pageTitle = computed(() => `${viewLabel.value} - ${pageHeading}`) // NcAppContent automatically appends the instance name
@@ -78,10 +78,6 @@ onBeforeUnmount(() => {
 }
 
 .app-settings-content__label {
-	margin-block-start: var(--app-navigation-padding);
-	margin-inline-start: calc(var(--default-clickable-area) + var(--app-navigation-padding) * 2);
-	min-height: var(--default-clickable-area);
-	line-height: var(--default-clickable-area);
-	vertical-align: center;
+	
 }
 </style>

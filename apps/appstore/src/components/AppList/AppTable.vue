@@ -129,7 +129,7 @@
 
 			<DaemonSelectionDialog
 				v-if="app?.app_api && showSelectDaemonModal"
-				:show.sync="showSelectDaemonModal"
+				v-model:show="showSelectDaemonModal"
 				:app="app" />
 		</component>
 	</component>
@@ -139,13 +139,12 @@
 import { mdiCogOutline } from '@mdi/js'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import DaemonSelectionDialog from '../AppAPI/DaemonSelectionDialog.vue'
-import SvgFilterMixin from '../SvgFilterMixin.vue'
+import DaemonSelectionDialog from '../DaemonSelectionDialog/DaemonSelectionDialog.vue'
 import AppLevelBadge from './AppLevelBadge.vue'
 import AppScore from './AppScore.vue'
 import AppManagement from '../../mixins/AppManagement.js'
-import { useAppApiStore } from '../../store/app-api-store.ts'
-import { useAppsStore } from '../../store/apps-store.js'
+import { useAppsStore } from '../../store/apps.ts'
+import { useAppApiStore } from '../../store/exApps.ts'
 
 export default {
 	name: 'AppItem',
@@ -157,7 +156,7 @@ export default {
 		DaemonSelectionDialog,
 	},
 
-	mixins: [AppManagement, SvgFilterMixin],
+	mixins: [AppManagement],
 	props: {
 		app: {
 			type: Object,
@@ -281,7 +280,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '../../../../../core/css/variables.scss' as variables;
 @use 'sass:math';
 
 .app-item {
@@ -364,7 +362,7 @@ export default {
 		}
 
 		/* Hide actions on a small screen. Click on app opens fill-screen sidebar with the buttons */
-		@media only screen and (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+		@media only screen and (max-width: 512px) {
 			.app-actions {
 				display: none;
 			}
@@ -437,7 +435,7 @@ export default {
 			}
 		}
 
-		@media only screen and (max-width: variables.$breakpoint-mobile) {
+		@media only screen and (max-width: 1024px) {
 			width: 50%;
 		}
 

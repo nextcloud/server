@@ -18,7 +18,7 @@ const state = {
 	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
 	gettingCategoriesPromise: null,
-	appApiEnabled: loadState('settings', 'appApiEnabled', false),
+	appApiEnabled: ,
 }
 
 const mutations = {

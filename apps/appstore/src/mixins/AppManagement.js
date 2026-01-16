@@ -4,7 +4,7 @@
  */
 
 import { showError } from '@nextcloud/dialogs'
-import rebuildNavigation from '../service/rebuild-navigation.js'
+import { rebuildNavigation } from '../service/rebuild-navigation.ts'
 
 const productName = window.OC.theme.productName
 
