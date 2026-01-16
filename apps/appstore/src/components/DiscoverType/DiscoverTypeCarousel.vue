@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<section :aria-roledescription="t('settings', 'Carousel')" :aria-labelledby="headingId ? `${headingId}` : undefined">
+	<section :aria-roledescription="t('appstore', 'Carousel')" :aria-labelledby="headingId ? `${headingId}` : undefined">
 		<h3 v-if="headline" :id="headingId">
 			{{ translatedHeadline }}
 		</h3>
@@ -12,7 +12,7 @@
 				<NcButton
 					class="app-discover-carousel__button app-discover-carousel__button--previous"
 					variant="tertiary-no-background"
-					:aria-label="t('settings', 'Previous slide')"
+					:aria-label="t('appstore', 'Previous slide')"
 					:disabled="!hasPrevious"
 					@click="currentIndex -= 1">
 					<template #icon>
@@ -35,7 +35,7 @@
 				<NcButton
 					class="app-discover-carousel__button app-discover-carousel__button--next"
 					variant="tertiary-no-background"
-					:aria-label="t('settings', 'Next slide')"
+					:aria-label="t('appstore', 'Next slide')"
 					:disabled="!hasNext"
 					@click="currentIndex += 1">
 					<template #icon>
@@ -44,12 +44,12 @@
 				</NcButton>
 			</div>
 		</div>
-		<div class="app-discover-carousel__tabs" role="tablist" :aria-label="t('settings', 'Choose slide to display')">
+		<div class="app-discover-carousel__tabs" role="tablist" :aria-label="t('appstore', 'Choose slide to display')">
 			<NcButton
 				v-for="index of content.length"
 				:id="`${internalId}-tab-${index}`"
 				:key="index"
-				:aria-label="t('settings', '{index} of {total}', { index, total: content.length })"
+				:aria-label="t('appstore', '{index} of {total}', { index, total: content.length })"
 				:aria-controls="`${internalId}-tabpanel-${index}`"
 				:aria-selected="`${currentIndex === (index - 1)}`"
 				role="tab"

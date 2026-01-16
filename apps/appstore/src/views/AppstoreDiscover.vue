@@ -5,16 +5,16 @@
 <template>
 	<NcEmptyContent
 		v-if="hasError"
-		:name="t('settings', 'Nothing to show')"
-		:description="t('settings', 'Could not load section content from app store.')">
+		:name="t('appstore', 'Nothing to show')"
+		:description="t('appstore', 'Could not load section content from app store.')">
 		<template #icon>
 			<NcIconSvgWrapper :path="mdiEyeOffOutline" :size="64" />
 		</template>
 	</NcEmptyContent>
 	<NcEmptyContent
 		v-else-if="elements.length === 0"
-		:name="t('settings', 'Loading')"
-		:description="t('settings', 'Fetching the latest news…')">
+		:name="t('appstore', 'Loading')"
+		:description="t('appstore', 'Fetching the latest news…')">
 		<template #icon>
 			<NcLoadingIcon :size="64" />
 		</template>
@@ -58,7 +58,7 @@ onBeforeMount(async () => {
 	} catch (error) {
 		hasError.value = true
 		logger.error(error as Error)
-		showError(t('settings', 'Could not load app discover section'))
+		showError(t('appstore', 'Could not load app discover section'))
 	}
 })
 
@@ -77,7 +77,7 @@ function getComponent(type: IAppDiscoverElements['type']) {
 	}
 	return defineComponent({
 		mounted: () => logger.error('Unknown component requested ', type),
-		render: (h) => h('div', t('settings', 'Could not render element')),
+		render: (h) => h('div', t('appstore', 'Could not render element')),
 	})
 }
 </script>
