@@ -123,7 +123,7 @@ class Manager implements IMountManager {
 		$result = [];
 		$pathLen = strlen($path);
 		foreach ($this->mounts as $mountPoint => $mount) {
-			if (strlen($mountPoint) > $pathLen && strncmp($mountPoint, $path, $pathLen) === 0) {
+			if (strlen($mountPoint) > $pathLen && str_starts_with($mountPoint, $path)) {
 				$result[] = $mount;
 			}
 		}
