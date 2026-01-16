@@ -13,6 +13,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\ServerContainer;
 use OCP\IConfig;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -90,7 +91,7 @@ class App {
 
 		try {
 			$this->container = \OC::$server->getRegisteredAppContainer($appName);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
 		}
 	}

@@ -181,10 +181,10 @@ class DeletedShareAPIController extends OCSController {
 	 * Returns the helper of DeletedShareAPIController for room shares.
 	 *
 	 * If the Talk application is not enabled or the helper is not available
-	 * a QueryException is thrown instead.
+	 * a ContainerExceptionInterface is thrown instead.
 	 *
 	 * @psalm-suppress UndefinedClass
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	private function getRoomShareHelper(): \OCA\Talk\Share\Helper\DeletedShareAPIController {
 		if (!$this->appManager->isEnabledForUser('spreed')) {
@@ -199,10 +199,10 @@ class DeletedShareAPIController extends OCSController {
 	 * Returns the helper of DeletedShareAPIHelper for deck shares.
 	 *
 	 * If the Deck application is not enabled or the helper is not available
-	 * a QueryException is thrown instead.
+	 * a ContainerExceptionInterface is thrown instead.
 	 *
 	 * @psalm-suppress UndefinedClass
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	private function getDeckShareHelper(): \OCA\Deck\Sharing\ShareAPIHelper {
 		if (!$this->appManager->isEnabledForUser('deck')) {

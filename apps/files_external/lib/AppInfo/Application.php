@@ -51,7 +51,6 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
@@ -60,6 +59,7 @@ use OCP\Group\Events\UserRemovedEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * @package OCA\Files_External\AppInfo
@@ -70,7 +70,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	/**
 	 * Application constructor.
 	 *
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);

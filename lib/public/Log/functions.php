@@ -10,7 +10,8 @@ declare(strict_types=1);
 namespace OCP\Log;
 
 use OC;
-use OCP\AppFramework\QueryException;
+use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use function class_exists;
@@ -45,14 +46,14 @@ function logger(?string $appId = null): LoggerInterface {
 		try {
 			$appContainer = OC::$server->getRegisteredAppContainer($appId);
 			return $appContainer->get(LoggerInterface::class);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			// Ignore and return the server logger below
 		}
 	}
 
 	try {
-		return OC::$server->get(LoggerInterface::class);
-	} catch (QueryException $e) {
+		return Server::get(LoggerInterface::class);
+	} catch (ContainerExceptionInterface $e) {
 		return new NullLogger();
 	}
 }
