@@ -327,9 +327,12 @@ class FilesPluginTest extends TestCase {
 
 		/** @var File&MockObject $node */
 		$node = $this->createTestNode(File::class);
-		$node->expects($this->any())
-			->method('getDavPermissions')
-			->willReturn('DWCKMSR');
+		$node->expects($this->once())
+			->method('getPublicDavPermissions')
+			->willReturn('DWCKR');
+
+		$node->expects($this->never())
+			->method('getDavPermissions');
 
 		$this->plugin->handleGetProperties(
 			$propFind,
