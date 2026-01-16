@@ -126,6 +126,10 @@ class EncryptionTest extends TestCase {
 				'user3' => 'encForUser3',
 			]);
 
+		$this->utilMock->expects($this->any())
+			->method('getOwner')
+			->willReturn('user1');
+
 		// Begin the encryption process as user1, with user2 missing their public key
 		$this->instance->begin('/foo/bar', 'user1', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
 
@@ -277,6 +281,13 @@ class EncryptionTest extends TestCase {
 			->method('getFileKey')
 			->with($path, null, true)
 			->willReturn($fileKey);
+
+		$this->cryptMock->expects($this->any())
+			->method('getCipher')
+			->willReturn('AES-256-CTR');
+		$this->cryptMock->expects($this->any())
+			->method('getLegacyCipher')
+			->willReturn('AES-128-CFB');
 
 		$this->instance->begin($path, 'user', 'r', [], []);
 
