@@ -1,0 +1,275 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: OCM Test Suite
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  # Orchestrator: compute version
+  ocm-prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    outputs:
+      current_version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: recursive
+
+      - name: Derive current Nextcloud version
+        id: version
+        shell: bash
+        run: |
+          ver=$(grep -Eo '\$OC_Version\s*=\s*\[[^]]+' version.php |
+                grep -Eo '[0-9]+' | head -n 3 | paste -sd'.' -)
+
+          if [[ ! $ver =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not parse version.php (got \"$ver\")"
+            exit 1
+          fi
+
+          echo "version=v${ver}" >> "$GITHUB_OUTPUT"
+          echo "Detected Nextcloud version: v${ver}"
+
+  # Matrix actor job: runs all OCM combinations in parallel.
+  # Each combo pulls its required images directly from registries.
+  ocm-actors:
+    needs: [ocm-prepare]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - combo_id: stub-stub
+            display_name: "Stub to Stub"
+            sender: ocmstub
+            sender_version: v1.0.0
+            receiver: ocmstub
+            receiver_version: v1.0.0
+            uses_nextcloud_source: false
+            images: |
+              mariadb:11.4.4
+              pondersource/cypress:latest
+              pondersource/dev-stock:latest
+              pondersource/ocmstub:v1.0.0
+          - combo_id: stub-nextcloud
+            display_name: "Stub to Nextcloud"
+            sender: ocmstub
+            sender_version: v1.0.0
+            receiver: nextcloud
+            receiver_version: current
+            uses_nextcloud_source: true
+            images: |
+              mariadb:11.4.4
+              pondersource/cypress:latest
+              pondersource/dev-stock:latest
+              pondersource/ocmstub:v1.0.0
+              ghcr.io/mahdibaghbani/containers/nextcloud:latest
+              valkey/valkey:9.0-alpine
+          - combo_id: nextcloud-stub
+            display_name: "Nextcloud to Stub"
+            sender: nextcloud
+            sender_version: current
+            receiver: ocmstub
+            receiver_version: v1.0.0
+            uses_nextcloud_source: true
+            images: |
+              mariadb:11.4.4
+              pondersource/cypress:latest
+              pondersource/dev-stock:latest
+              pondersource/ocmstub:v1.0.0
+              ghcr.io/mahdibaghbani/containers/nextcloud:latest
+              valkey/valkey:9.0-alpine
+          - combo_id: nextcloud-nextcloud
+            display_name: "Nextcloud to Nextcloud"
+            sender: nextcloud
+            sender_version: current
+            receiver: nextcloud
+            receiver_version: current
+            uses_nextcloud_source: true
+            images: |
+              mariadb:11.4.4
+              pondersource/cypress:latest
+              pondersource/dev-stock:latest
+              ghcr.io/mahdibaghbani/containers/nextcloud:latest
+              valkey/valkey:9.0-alpine
+
+    name: ${{ matrix.display_name }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: recursive
+
+      - name: Prepare host paths
+        run: |
+          mkdir -p "${{ github.workspace }}/.ocm-dev-stock-root/cypress/videos"
+          mkdir -p "${{ github.workspace }}/.ocm-dev-stock-root/cypress/screenshots"
+          sudo ln -sfn "${{ github.workspace }}/.ocm-dev-stock-root" /dev-stock
+
+      - name: Pull images
+        shell: bash
+        run: |
+          echo "${{ matrix.images }}" | while read -r image; do
+            if [[ -n "$image" ]]; then
+              echo "Pulling $image..."
+              docker pull "$image"
+            fi
+          done
+
+      - name: Run OCM test
+        id: run
+        env:
+          NEXTCLOUD_SOURCE_DIR: ${{ github.workspace }}
+          CURRENT_VERSION: ${{ needs.ocm-prepare.outputs.current_version }}
+        shell: bash
+        run: |
+          set +e
+
+          SENDER_VER="${{ matrix.sender_version }}"
+          RECEIVER_VER="${{ matrix.receiver_version }}"
+          if [[ "$SENDER_VER" == "current" ]]; then
+            SENDER_VER="${CURRENT_VERSION}"
+          fi
+          if [[ "$RECEIVER_VER" == "current" ]]; then
+            RECEIVER_VER="${CURRENT_VERSION}"
+          fi
+
+          NC_ENV=""
+          if [[ "${{ matrix.uses_nextcloud_source }}" == "true" ]]; then
+            NC_ENV="-e NEXTCLOUD_SOURCE_DIR=${NEXTCLOUD_SOURCE_DIR}"
+          fi
+
+          docker run --rm \
+            --name="dev-stock-${{ github.run_id }}-${{ matrix.combo_id }}" \
+            -e CI_ENVIRONMENT=true \
+            -e DEVSTOCK_DEBUG=true \
+            $NC_ENV \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            --entrypoint ocm-test-suite \
+            pondersource/dev-stock:latest \
+            share-with ${{ matrix.sender }} ${SENDER_VER} ci electron ${{ matrix.receiver }} ${RECEIVER_VER}
+
+          exit_code=$?
+          if [ $exit_code -eq 0 ]; then
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+          fi
+          exit $exit_code
+
+      - name: Write status JSON
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p /tmp/status
+          STATUS="${{ steps.run.outputs.status }}"
+          if [[ -z "$STATUS" ]]; then
+            STATUS="unknown"
+          fi
+          echo "{\"combo_id\":\"${{ matrix.combo_id }}\",\"status\":\"${STATUS}\"}" > /tmp/status/status.json
+
+      - name: Upload status artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocm-matrix-status-${{ matrix.combo_id }}
+          path: /tmp/status/status.json
+          retention-days: 1
+
+      - name: Upload Cypress artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-${{ matrix.combo_id }}
+          path: |
+            ${{ github.workspace }}/.ocm-dev-stock-root/cypress/videos
+            ${{ github.workspace }}/.ocm-dev-stock-root/cypress/screenshots
+          if-no-files-found: ignore
+
+  # Summary: collect results from matrix actors (always runs, never blocks)
+  ocm-summary:
+    name: Summary
+    needs:
+      - ocm-prepare
+      - ocm-actors
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install jq
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y jq
+
+      - name: Download status artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ocm-matrix-status-*
+          path: /tmp/status-artifacts
+          merge-multiple: false
+
+      - name: Generate OCM Test Summary
+        env:
+          CURRENT_VERSION: ${{ needs.ocm-prepare.outputs.current_version }}
+        shell: bash
+        run: |
+          {
+            echo "## OCM Test Suite Results"
+            echo ""
+            echo "Nextcloud version: \`${CURRENT_VERSION}\`"
+            echo ""
+            echo "| Combination | Scenario | Status | Artifacts |"
+            echo "|-------------|----------|--------|-----------|"
+
+            for combo in stub-stub stub-nextcloud nextcloud-stub nextcloud-nextcloud; do
+              status_file="/tmp/status-artifacts/ocm-matrix-status-${combo}/status.json"
+              if [[ -f "$status_file" ]]; then
+                status=$(jq -r '.status' "$status_file")
+              else
+                status="UNKNOWN"
+              fi
+
+              case "$combo" in
+                stub-stub)
+                  display="Stub v1.0.0 <-> Stub v1.0.0"
+                  ;;
+                stub-nextcloud)
+                  display="Stub v1.0.0 <-> Nextcloud (current)"
+                  ;;
+                nextcloud-stub)
+                  display="Nextcloud (current) <-> Stub v1.0.0"
+                  ;;
+                nextcloud-nextcloud)
+                  display="Nextcloud (current) <-> Nextcloud (current)"
+                  ;;
+              esac
+
+              echo "| ${display} | share-with | ${status} | cypress-${combo} |"
+            done
+
+            echo ""
+            echo "Note: This workflow is non-blocking. Failures are reported above but do not fail the overall workflow."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Delete status artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: ocm-matrix-status-*
+          failOnError: false
