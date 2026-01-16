@@ -20,8 +20,7 @@ use OCP\IUser;
 class ResourceProvider implements IProvider {
 	public const RESOURCE_TYPE = 'file';
 
-	/** @var array */
-	protected $nodes = [];
+	protected array $nodes = [];
 
 	public function __construct(
 		protected IRootFolder $rootFolder,
