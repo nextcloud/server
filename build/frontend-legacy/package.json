@@ -124,7 +124,7 @@
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.3",
     "mime": "^4.1.0",
-    "msw": "^2.12.6",
+    "msw": "^2.12.7",
     "patch-package": "^8.0.1",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
