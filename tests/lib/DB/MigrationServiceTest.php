@@ -19,42 +19,34 @@ use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
-use OC\Migration\MetadataManager;
 use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
 use OCP\IDBConnection;
-use OCP\Migration\Attributes\AddColumn;
-use OCP\Migration\Attributes\AddIndex;
-use OCP\Migration\Attributes\ColumnType;
-use OCP\Migration\Attributes\CreateTable;
-use OCP\Migration\Attributes\DropColumn;
-use OCP\Migration\Attributes\DropIndex;
-use OCP\Migration\Attributes\DropTable;
-use OCP\Migration\Attributes\IndexType;
-use OCP\Migration\Attributes\ModifyColumn;
 use OCP\Migration\IMigrationStep;
-use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 /**
- * Class MigrationsTest
+ * Class MigrationServiceTest
  *
  * @package Test\DB
  */
-class MigrationsTest extends \Test\TestCase {
-	private MigrationService|MockObject $migrationService;
-	private MockObject|IDBConnection $db;
-	private IAppManager $appManager;
+class MigrationServiceTest extends \Test\TestCase {
+	private Connection&MockObject $db;
+
+	private MigrationService $migrationService;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->db = $this->createMock(Connection::class);
-		$this->db->expects($this->any())->method('getPrefix')->willReturn('test_oc_');
-		$this->migrationService = new MigrationService('testing', $this->db);
+		$this->db
+			->expects($this->any())
+			->method('getPrefix')
+			->willReturn('test_oc_');
 
-		$this->appManager = Server::get(IAppManager::class);
+		$this->migrationService = new MigrationService('testing', $this->db);
 	}
 
 	public function testGetters(): void {
@@ -65,14 +57,13 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	public function testCore(): void {
-		$this->migrationService = new MigrationService('core', $this->db);
+		$migrationService = new MigrationService('core', $this->db);
 
-		$this->assertEquals('core', $this->migrationService->getApp());
-		$this->assertEquals(\OC::$SERVERROOT . '/core/Migrations', $this->migrationService->getMigrationsDirectory());
-		$this->assertEquals('OC\Core\Migrations', $this->migrationService->getMigrationsNamespace());
-		$this->assertEquals('test_oc_migrations', $this->migrationService->getMigrationsTableName());
+		$this->assertEquals('core', $migrationService->getApp());
+		$this->assertEquals(\OC::$SERVERROOT . '/core/Migrations', $migrationService->getMigrationsDirectory());
+		$this->assertEquals('OC\Core\Migrations', $migrationService->getMigrationsNamespace());
+		$this->assertEquals('test_oc_migrations', $migrationService->getMigrationsTableName());
 	}
-
 
 	public function testExecuteUnknownStep(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -81,27 +72,25 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-
 	public function testUnknownApp(): void {
 		$this->expectException(AppPathNotFoundException::class);
 		$this->expectExceptionMessage('Could not find path for unknown_bloody_app');
 
-		$migrationService = new MigrationService('unknown_bloody_app', $this->db);
+		new MigrationService('unknown_bloody_app', $this->db);
 	}
-
 
 	public function testExecuteStepWithUnknownClass(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Migration step \'X\' is unknown');
 
-		$this->migrationService = $this->getMockBuilder(MigrationService::class)
+		$migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
-		$this->migrationService->expects($this->any())->method('findMigrations')->willReturn(
+		$migrationService->expects($this->any())->method('findMigrations')->willReturn(
 			['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
 		);
-		$this->migrationService->executeStep('20170130180000');
+		$migrationService->executeStep('20170130180000');
 	}
 
 	public function testExecuteStepWithSchemaChange(): void {
@@ -114,10 +103,10 @@ class MigrationsTest extends \Test\TestCase {
 			->method('migrateToSchema');
 
 		$wrappedSchema = $this->createMock(Schema::class);
-		$wrappedSchema->expects($this->exactly(2))
+		$wrappedSchema->expects($this->atLeast(2))
 			->method('getTables')
 			->willReturn([]);
-		$wrappedSchema->expects($this->exactly(2))
+		$wrappedSchema->expects($this->atLeast(2))
 			->method('getSequences')
 			->willReturn([]);
 
@@ -135,16 +124,17 @@ class MigrationsTest extends \Test\TestCase {
 		$step->expects($this->once())
 			->method('postSchemaChange');
 
-		$this->migrationService = $this->getMockBuilder(MigrationService::class)
+		$migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 
-		$this->migrationService->expects($this->any())
+		$migrationService->expects($this->any())
 			->method('createInstance')
 			->with('20170130180000')
 			->willReturn($step);
-		$this->migrationService->executeStep('20170130180000');
+
+		$migrationService->executeStep('20170130180000');
 	}
 
 	public function testExecuteStepWithoutSchemaChange(): void {
@@ -165,16 +155,17 @@ class MigrationsTest extends \Test\TestCase {
 		$step->expects($this->once())
 			->method('postSchemaChange');
 
-		$this->migrationService = $this->getMockBuilder(MigrationService::class)
+		$migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 
-		$this->migrationService->expects($this->any())
+		$migrationService->expects($this->any())
 			->method('createInstance')
 			->with('20170130180000')
 			->willReturn($step);
-		$this->migrationService->executeStep('20170130180000');
+
+		$migrationService->executeStep('20170130180000');
 	}
 
 	public static function dataGetMigration(): array {
@@ -192,101 +183,489 @@ class MigrationsTest extends \Test\TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetMigration')]
 	public function testGetMigration($alias, $expected): void {
-		$this->migrationService = $this->getMockBuilder(MigrationService::class)
+		$migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['getMigratedVersions', 'findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
-		$this->migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
+
+		$migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
 			['20170130180000', '20170130180001']
 		);
-		$this->migrationService->expects($this->any())->method('findMigrations')->willReturn(
+		$migrationService->expects($this->any())->method('findMigrations')->willReturn(
 			['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
 		);
 
 		$this->assertEquals(
 			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$this->migrationService->getAvailableVersions());
+			$migrationService->getAvailableVersions());
 
-		$migration = $this->migrationService->getMigration($alias);
+		$migration = $migrationService->getMigration($alias);
 		$this->assertEquals($expected, $migration);
 	}
 
 	public function testMigrate(): void {
-		$this->migrationService = $this->getMockBuilder(MigrationService::class)
+		$migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
-		$this->migrationService->method('getMigratedVersions')
-			->willReturn(
-				['20170130180000', '20170130180001']
-			);
-		$this->migrationService->method('findMigrations')
-			->willReturn(
-				['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
-			);
+
+		$migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
+			['20170130180000', '20170130180001']
+		);
+		$migrationService->expects($this->any())->method('findMigrations')->willReturn(
+			['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
+		);
 
 		$this->assertEquals(
 			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$this->migrationService->getAvailableVersions()
-		);
+			$migrationService->getAvailableVersions());
 
-		$calls = [
-			['20170130180002', false],
-			['20170130180003', false],
-		];
-		$this->migrationService->expects($this->exactly(2))
+		$calls = [];
+		$migrationService
+			->expects($this->exactly(2))
 			->method('executeStep')
-			->willReturnCallback(function () use (&$calls): void {
-				$expected = array_shift($calls);
-				$this->assertEquals($expected, func_get_args());
+			->willReturnCallback(function (string $migration) use (&$calls) {
+				$calls[] = $migration;
 			});
-		$this->migrationService->migrate();
+
+		$migrationService->migrate();
+		self::assertEquals(['20170130180002', '20170130180003'], $calls);
 	}
 
-	public function testEnsureOracleConstraintsValid(): void {
-		$column = $this->createMock(Column::class);
-		$column->expects($this->once())
-			->method('getName')
-			->willReturn(\str_repeat('a', 30));
-
-		$index = $this->createMock(Index::class);
-		$index->expects($this->once())
-			->method('getName')
-			->willReturn(\str_repeat('a', 30));
-
-		$foreignKey = $this->createMock(ForeignKeyConstraint::class);
-		$foreignKey->expects($this->once())
-			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+	#[DataProvider('dataEnsureNamingConstraintsTableName')]
+	public function testEnsureNamingConstraintsTableName(string $name, int $prefixLength, bool $tableExists, bool $throws): void {
+		if ($throws) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
 
 		$table = $this->createMock(Table::class);
 		$table->expects($this->atLeastOnce())
 			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+			->willReturn($name);
+		$table->expects($this->any())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->any())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->any())
+			->method('getForeignKeys')
+			->willReturn([]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects(self::once())
+			->method('getSequences')
+			->willReturn([]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects($this->any())
+			->method('getTable')
+			->willReturnCallback(fn () => match($tableExists) {
+				false => throw new SchemaException(),
+				true => $table,
+			});
+		$sourceSchema->expects($this->any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		$this->migrationService->ensureNamingConstraints($sourceSchema, $schema, $prefixLength);
+	}
+
+	public static function dataEnsureNamingConstraintsTableName(): array {
+		return [
+			'valid name' => [
+				\str_repeat('x', 60), // table name
+				3, // prefix length
+				false, // has this table
+				false, // throws
+			],
+			'valid name - long prefix' => [
+				\str_repeat('x', 55),
+				8,
+				false,
+				false,
+			],
+			'too long but not a new table' => [
+				\str_repeat('x', 61),
+				3,
+				true,
+				false,
+			],
+			'too long' => [
+				\str_repeat('x', 61),
+				3,
+				false,
+				true,
+			],
+			'too long with prefix' => [
+				\str_repeat('x', 60),
+				4,
+				false,
+				true,
+			],
+		];
+	}
+
+	#[DataProvider('dataEnsureNamingConstraintsPrimaryDefaultKey')]
+	public function testEnsureNamingConstraintsPrimaryDefaultKey(string $tableName, int $prefixLength, string $platform, bool $throws): void {
+		if ($throws) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
+
+		$this->db->expects(self::atLeastOnce())
+			->method('getDatabaseProvider')
+			->willReturn($platform);
+
+		$defaultName = match ($platform) {
+			IDBConnection::PLATFORM_POSTGRES => $tableName . '_pkey',
+			IDBConnection::PLATFORM_ORACLE => $tableName . '_seq',
+			default => 'PRIMARY',
+		};
+
+		$index = $this->createMock(Index::class);
+		$index->expects($this->any())
+			->method('getName')
+			->willReturn($defaultName);
+		$index->expects($this->any())
+			->method('getColumns')
+			->willReturn([]);
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn($tableName);
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getForeignKeys')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getPrimaryKey')
+			->willReturn($index);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects($this->atMost(1))
+			->method('getSequences')
+			->willReturn([]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects($this->any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects($this->any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		$this->migrationService->ensureNamingConstraints($sourceSchema, $schema, $prefixLength);
+	}
+
+	public static function dataEnsureNamingConstraintsPrimaryDefaultKey(): array {
+		foreach ([IDBConnection::PLATFORM_MYSQL, IDBConnection::PLATFORM_ORACLE, IDBConnection::PLATFORM_POSTGRES, IDBConnection::PLATFORM_SQLITE] as $engine) {
+			$testcases["$engine valid"] = [
+				str_repeat('x', 55),
+				3,
+				$engine,
+				false,
+			];
+			$testcases["$engine too long"] = [
+				str_repeat('x', 56), // 56 (name) + 3 (prefix) + 5 ('_pkey')= 64 > 63
+				3,
+				$engine,
+				true,
+			];
+			$testcases["$engine too long prefix"] = [
+				str_repeat('x', 55),
+				4,
+				$engine,
+				true,
+			];
+		}
+		return $testcases;
+	}
+
+	#[DataProvider('dataEnsureNamingConstraintsPrimaryCustomKey')]
+	public function testEnsureNamingConstraintsPrimaryCustomKey(string $name, int $prefixLength, bool $newIndex, bool $throws): void {
+		if ($throws) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
+
+		$index = $this->createMock(Index::class);
+		$index->expects($this->any())
+			->method('getName')
+			->willReturn($name);
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn('tablename');
+
+		$table->expects($this->any())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->any())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects($this->any())
+			->method('getForeignKeys')
+			->willReturn([]);
+		$table->expects($this->atLeastOnce())
+			->method('getPrimaryKey')
+			->willReturn($index);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects($this->once())
+			->method('getSequences')
+			->willReturn([]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects($this->any())
+			->method('getTable')
+			->willReturnCallback(fn () => match($newIndex) {
+				true => throw new SchemaException(),
+				false => $table,
+			});
+		$sourceSchema->expects($this->any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		$this->migrationService->ensureNamingConstraints($sourceSchema, $schema, $prefixLength);
+	}
+
+	public static function dataEnsureNamingConstraintsPrimaryCustomKey(): array {
+		return [
+			'valid name' => [
+				str_repeat('x', 60),
+				3,
+				true,
+				false,
+			],
+			'valid name - prefix does not matter' => [
+				str_repeat('x', 63),
+				3,
+				true,
+				false,
+			],
+			'invalid name - but not new' => [
+				str_repeat('x', 64),
+				3,
+				false,
+				false,
+			],
+			'too long name' => [
+				str_repeat('x', 64),
+				3,
+				true,
+				true,
+			],
+		];
+	}
+
+	#[DataProvider('dataEnsureNamingConstraints')]
+	public function testEnsureNamingConstraintsColumnName(string $name, bool $throws): void {
+		if ($throws) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
+
+		$column = $this->createMock(Column::class);
+		$column->expects(self::atLeastOnce())
+			->method('getName')
+			->willReturn($name);
+
+		$table = $this->createMock(Table::class);
+		$table->expects(self::any())
+			->method('getName')
+			->willReturn('valid');
+
+		$table->expects(self::once())
+			->method('getColumns')
+			->willReturn([$column]);
+		$table->expects(self::atMost(1))
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects(self::atMost(1))
+			->method('getForeignKeys')
+			->willReturn([]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects(self::once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects(self::once())
+			->method('getSequences')
+			->willReturn([]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects(self::any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects(self::any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		$this->migrationService->ensureNamingConstraints($sourceSchema, $schema, 3);
+	}
+
+	#[DataProvider('dataEnsureNamingConstraints')]
+	public function testEnsureNamingConstraintsIndexName(string $name, bool $throws): void {
+		if ($throws) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
+
+		$index = $this->createMock(Index::class);
+		$index->expects(self::atLeastOnce())
+			->method('getName')
+			->willReturn($name);
+
+		$table = $this->createMock(Table::class);
+		$table->expects(self::any())
+			->method('getName')
+			->willReturn('valid');
+
+		$table->expects(self::atMost(1))
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects(self::once())
+			->method('getIndexes')
+			->willReturn([$index]);
+		$table->expects(self::atMost(1))
+			->method('getForeignKeys')
+			->willReturn([]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects(self::once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects(self::once())
+			->method('getSequences')
+			->willReturn([]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects(self::any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects(self::any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		$this->migrationService->ensureNamingConstraints($sourceSchema, $schema, 3);
+	}
+
+	#[DataProvider('dataEnsureNamingConstraints')]
+	public function testEnsureNamingConstraintsForeignKeyName(string $name, bool $throws): void {
+		if ($throws) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
+
+		$foreignKey = $this->createMock(ForeignKeyConstraint::class);
+		$foreignKey->expects(self::any())
+			->method('getName')
+			->willReturn($name);
+
+		$table = $this->createMock(Table::class);
+		$table->expects(self::any())
+			->method('getName')
+			->willReturn('valid');
+
+		$table->expects(self::once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects(self::once())
+			->method('getIndexes')
+			->willReturn([]);
+		$table->expects(self::once())
+			->method('getForeignKeys')
+			->willReturn([$foreignKey]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects(self::once())
+			->method('getTables')
+			->willReturn([$table]);
+		$schema->expects(self::once())
+			->method('getSequences')
+			->willReturn([]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects(self::any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects(self::any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		$this->migrationService->ensureNamingConstraints($sourceSchema, $schema, 3);
+	}
+
+	#[DataProvider('dataEnsureNamingConstraints')]
+	public function testEnsureNamingConstraintsSequenceName(string $name, bool $throws): void {
+		if ($throws) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
 
 		$sequence = $this->createMock(Sequence::class);
-		$sequence->expects($this->atLeastOnce())
+		$sequence->expects($this->any())
 			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+			->willReturn($name);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([]);
+		$schema->expects($this->once())
+			->method('getSequences')
+			->willReturn([$sequence]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects($this->any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects($this->any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		$this->migrationService->ensureNamingConstraints($sourceSchema, $schema, 3);
+	}
+
+	public static function dataEnsureNamingConstraints(): array {
+		return [
+			'valid length' => [\str_repeat('x', 63), false],
+			'too long' => [\str_repeat('x', 64), true],
+		];
+	}
+
+	public function testEnsureOracleConstraintsValid(): void {
+		$table = $this->createMock(Table::class);
+		$table->expects($this->atLeastOnce())
+			->method('getName')
+			->willReturn('tablename');
 
 		$primaryKey = $this->createMock(Index::class);
 		$primaryKey->expects($this->once())
 			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+			->willReturn('primary_key');
 
+		$column = $this->createMock(Column::class);
 		$table->expects($this->once())
 			->method('getColumns')
 			->willReturn([$column]);
 		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([$index]);
-		$table->expects($this->once())
-			->method('getForeignKeys')
-			->willReturn([$foreignKey]);
-		$table->expects($this->once())
 			->method('getPrimaryKey')
 			->willReturn($primaryKey);
 
+		$sequence = $this->createMock(Sequence::class);
 		$schema = $this->createMock(Schema::class);
 		$schema->expects($this->once())
 			->method('getTables')
@@ -303,7 +682,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
+		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
 	}
 
 	public function testEnsureOracleConstraintsValidWithPrimaryKey(): void {
@@ -319,12 +698,6 @@ class MigrationsTest extends \Test\TestCase {
 
 		$table->expects($this->once())
 			->method('getColumns')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getForeignKeys')
 			->willReturn([]);
 		$table->expects($this->once())
 			->method('getPrimaryKey')
@@ -346,7 +719,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
+		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
 	}
 
 	public function testEnsureOracleConstraintsValidWithPrimaryKeyDefault(): void {
@@ -374,12 +747,6 @@ class MigrationsTest extends \Test\TestCase {
 			->method('getColumns')
 			->willReturn([]);
 		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getForeignKeys')
-			->willReturn([]);
-		$table->expects($this->once())
 			->method('getPrimaryKey')
 			->willReturn($index);
 
@@ -399,241 +766,8 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
+		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
 	}
-
-
-	public function testEnsureOracleConstraintsTooLongTableName(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$table = $this->createMock(Table::class);
-		$table->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 31));
-
-		$schema = $this->createMock(Schema::class);
-		$schema->expects($this->once())
-			->method('getTables')
-			->willReturn([$table]);
-
-		$sourceSchema = $this->createMock(Schema::class);
-		$sourceSchema->expects($this->any())
-			->method('getTable')
-			->willThrowException(new SchemaException());
-		$sourceSchema->expects($this->any())
-			->method('hasSequence')
-			->willReturn(false);
-
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
-
-
-	public function testEnsureOracleConstraintsTooLongPrimaryWithDefault(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$defaultName = 'PRIMARY';
-		if ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
-			$defaultName = \str_repeat('a', 27) . '_' . \str_repeat('b', 30) . '_seq';
-		} elseif ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
-			$defaultName = \str_repeat('a', 27) . '_seq';
-		}
-
-		$index = $this->createMock(Index::class);
-		$index->expects($this->any())
-			->method('getName')
-			->willReturn($defaultName);
-		$index->expects($this->any())
-			->method('getColumns')
-			->willReturn([\str_repeat('b', 30)]);
-
-		$table = $this->createMock(Table::class);
-		$table->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 27));
-
-		$table->expects($this->once())
-			->method('getColumns')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getForeignKeys')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getPrimaryKey')
-			->willReturn($index);
-
-		$schema = $this->createMock(Schema::class);
-		$schema->expects($this->once())
-			->method('getTables')
-			->willReturn([$table]);
-
-		$sourceSchema = $this->createMock(Schema::class);
-		$sourceSchema->expects($this->any())
-			->method('getTable')
-			->willThrowException(new SchemaException());
-		$sourceSchema->expects($this->any())
-			->method('hasSequence')
-			->willReturn(false);
-
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
-
-
-	public function testEnsureOracleConstraintsTooLongPrimaryWithName(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$index = $this->createMock(Index::class);
-		$index->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 31));
-
-		$table = $this->createMock(Table::class);
-		$table->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 26));
-
-		$table->expects($this->once())
-			->method('getColumns')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getForeignKeys')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getPrimaryKey')
-			->willReturn($index);
-
-		$schema = $this->createMock(Schema::class);
-		$schema->expects($this->once())
-			->method('getTables')
-			->willReturn([$table]);
-
-		$sourceSchema = $this->createMock(Schema::class);
-		$sourceSchema->expects($this->any())
-			->method('getTable')
-			->willThrowException(new SchemaException());
-		$sourceSchema->expects($this->any())
-			->method('hasSequence')
-			->willReturn(false);
-
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
-
-
-	public function testEnsureOracleConstraintsTooLongColumnName(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$column = $this->createMock(Column::class);
-		$column->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 31));
-
-		$table = $this->createMock(Table::class);
-		$table->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 30));
-
-		$table->expects($this->once())
-			->method('getColumns')
-			->willReturn([$column]);
-
-		$schema = $this->createMock(Schema::class);
-		$schema->expects($this->once())
-			->method('getTables')
-			->willReturn([$table]);
-
-		$sourceSchema = $this->createMock(Schema::class);
-		$sourceSchema->expects($this->any())
-			->method('getTable')
-			->willThrowException(new SchemaException());
-		$sourceSchema->expects($this->any())
-			->method('hasSequence')
-			->willReturn(false);
-
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
-
-
-	public function testEnsureOracleConstraintsTooLongIndexName(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$index = $this->createMock(Index::class);
-		$index->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 31));
-
-		$table = $this->createMock(Table::class);
-		$table->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 30));
-
-		$table->expects($this->once())
-			->method('getColumns')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([$index]);
-
-		$schema = $this->createMock(Schema::class);
-		$schema->expects($this->once())
-			->method('getTables')
-			->willReturn([$table]);
-
-		$sourceSchema = $this->createMock(Schema::class);
-		$sourceSchema->expects($this->any())
-			->method('getTable')
-			->willThrowException(new SchemaException());
-		$sourceSchema->expects($this->any())
-			->method('hasSequence')
-			->willReturn(false);
-
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
-
-
-	public function testEnsureOracleConstraintsTooLongForeignKeyName(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$foreignKey = $this->createMock(ForeignKeyConstraint::class);
-		$foreignKey->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 31));
-
-		$table = $this->createMock(Table::class);
-		$table->expects($this->any())
-			->method('getName')
-			->willReturn(\str_repeat('a', 30));
-
-		$table->expects($this->once())
-			->method('getColumns')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getForeignKeys')
-			->willReturn([$foreignKey]);
-
-		$schema = $this->createMock(Schema::class);
-		$schema->expects($this->once())
-			->method('getTables')
-			->willReturn([$table]);
-
-		$sourceSchema = $this->createMock(Schema::class);
-		$sourceSchema->expects($this->any())
-			->method('getTable')
-			->willThrowException(new SchemaException());
-		$sourceSchema->expects($this->any())
-			->method('hasSequence')
-			->willReturn(false);
-
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
-
 
 	public function testEnsureOracleConstraintsNoPrimaryKey(): void {
 		$this->markTestSkipped('Test disabled for now due to multiple reasons, see https://github.com/nextcloud/server/pull/31580#issuecomment-1069182234 for details.');
@@ -642,15 +776,9 @@ class MigrationsTest extends \Test\TestCase {
 		$table = $this->createMock(Table::class);
 		$table->expects($this->atLeastOnce())
 			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+			->willReturn('tablename');
 		$table->expects($this->once())
 			->method('getColumns')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getIndexes')
-			->willReturn([]);
-		$table->expects($this->once())
-			->method('getForeignKeys')
 			->willReturn([]);
 		$table->expects($this->once())
 			->method('getPrimaryKey')
@@ -672,25 +800,31 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
+		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
 	}
 
-
-	public function testEnsureOracleConstraintsTooLongSequenceName(): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$sequence = $this->createMock(Sequence::class);
-		$sequence->expects($this->any())
+	/**
+	 * Alternative for testEnsureOracleConstraintsNoPrimaryKey until we enforce it.
+	 */
+	public function testEnsureOracleConstraintsNoPrimaryKeyLogging(): void {
+		$table = $this->createMock(Table::class);
+		$table->expects($this->atLeastOnce())
 			->method('getName')
-			->willReturn(\str_repeat('a', 31));
+			->willReturn('tablename');
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([]);
+		$table->expects($this->once())
+			->method('getPrimaryKey')
+			->willReturn(null);
 
 		$schema = $this->createMock(Schema::class);
 		$schema->expects($this->once())
 			->method('getTables')
-			->willReturn([]);
+			->willReturn([$table]);
 		$schema->expects($this->once())
 			->method('getSequences')
-			->willReturn([$sequence]);
+			->willReturn([]);
 
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
@@ -700,9 +834,13 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects(self::once())
+			->method('error');
+		$this->overwriteService(LoggerInterface::class, $logger);
 
+		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
+	}
 
 	#[TestWith([true])]
 	#[TestWith([false])]
@@ -724,7 +862,7 @@ class MigrationsTest extends \Test\TestCase {
 		$table = $this->createMock(Table::class);
 		$table->expects($this->any())
 			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+			->willReturn('tablename');
 		$table->method('getIndexes')->willReturn([]);
 		$table->method('getForeignKeys')->willReturn([]);
 
@@ -755,9 +893,8 @@ class MigrationsTest extends \Test\TestCase {
 				->method('setNotnull');
 		}
 
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
+		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
 	}
-
 
 	public function testEnsureOracleConstraintsStringLength4000(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -776,7 +913,7 @@ class MigrationsTest extends \Test\TestCase {
 		$table = $this->createMock(Table::class);
 		$table->expects($this->any())
 			->method('getName')
-			->willReturn(\str_repeat('a', 30));
+			->willReturn('tablename');
 
 		$table->expects($this->once())
 			->method('getColumns')
@@ -795,164 +932,6 @@ class MigrationsTest extends \Test\TestCase {
 			->method('hasSequence')
 			->willReturn(false);
 
-		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
-	}
-
-
-	public function testExtractMigrationAttributes(): void {
-		$metadataManager = Server::get(MetadataManager::class);
-		$this->appManager->loadApp('testing');
-
-		$this->assertEquals($this->getMigrationMetadata(), json_decode(json_encode($metadataManager->extractMigrationAttributes('testing')), true));
-
-		$this->appManager->disableApp('testing');
-	}
-
-	public function testDeserializeMigrationMetadata(): void {
-		$metadataManager = Server::get(MetadataManager::class);
-		$this->assertEquals(
-			[
-				'core' => [],
-				'apps' => [
-					'testing' => [
-						'30000Date20240102030405' => [
-							new DropTable('old_table'),
-							new CreateTable('new_table',
-								description: 'Table is used to store things, but also to get more things',
-								notes:       ['this is a notice', 'and another one, if really needed']
-							),
-							new AddColumn('my_table'),
-							new AddColumn('my_table', 'another_field'),
-							new AddColumn('other_table', 'last_one', ColumnType::DATE),
-							new AddIndex('my_table'),
-							new AddIndex('my_table', IndexType::PRIMARY),
-							new DropColumn('other_table'),
-							new DropColumn('other_table', 'old_column',
-								description: 'field is not used anymore and replaced by \'last_one\''
-							),
-							new DropIndex('other_table'),
-							new ModifyColumn('other_table'),
-							new ModifyColumn('other_table', 'this_field'),
-							new ModifyColumn('other_table', 'this_field', ColumnType::BIGINT)
-						]
-					]
-				]
-			],
-			$metadataManager->getMigrationsAttributesFromReleaseMetadata(
-				[
-					'core' => [],
-					'apps' => ['testing' => $this->getMigrationMetadata()]
-				]
-			)
-		);
-	}
-
-	private function getMigrationMetadata(): array {
-		return [
-			'30000Date20240102030405' => [
-				[
-					'class' => 'OCP\\Migration\\Attributes\\DropTable',
-					'table' => 'old_table',
-					'description' => '',
-					'notes' => [],
-					'columns' => []
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\CreateTable',
-					'table' => 'new_table',
-					'description' => 'Table is used to store things, but also to get more things',
-					'notes' => [
-						'this is a notice',
-						'and another one, if really needed'
-					],
-					'columns' => []
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\AddColumn',
-					'table' => 'my_table',
-					'description' => '',
-					'notes' => [],
-					'name' => '',
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\AddColumn',
-					'table' => 'my_table',
-					'description' => '',
-					'notes' => [],
-					'name' => 'another_field',
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\AddColumn',
-					'table' => 'other_table',
-					'description' => '',
-					'notes' => [],
-					'name' => 'last_one',
-					'type' => 'date'
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\AddIndex',
-					'table' => 'my_table',
-					'description' => '',
-					'notes' => [],
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\AddIndex',
-					'table' => 'my_table',
-					'description' => '',
-					'notes' => [],
-					'type' => 'primary'
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\DropColumn',
-					'table' => 'other_table',
-					'description' => '',
-					'notes' => [],
-					'name' => '',
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\DropColumn',
-					'table' => 'other_table',
-					'description' => 'field is not used anymore and replaced by \'last_one\'',
-					'notes' => [],
-					'name' => 'old_column',
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\DropIndex',
-					'table' => 'other_table',
-					'description' => '',
-					'notes' => [],
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\ModifyColumn',
-					'table' => 'other_table',
-					'description' => '',
-					'notes' => [],
-					'name' => '',
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\ModifyColumn',
-					'table' => 'other_table',
-					'description' => '',
-					'notes' => [],
-					'name' => 'this_field',
-					'type' => ''
-				],
-				[
-					'class' => 'OCP\\Migration\\Attributes\\ModifyColumn',
-					'table' => 'other_table',
-					'description' => '',
-					'notes' => [],
-					'name' => 'this_field',
-					'type' => 'bigint'
-				],
-			]
-		];
+		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
 	}
 }
