@@ -31,6 +31,7 @@ trait S3ObjectTrait {
 
 	abstract protected function getCertificateBundlePath(): ?string;
 	abstract protected function getSSECParameters(bool $copy = false): array;
+	abstract protected function getServerSideEncryptionParameters(bool $copy = false): array;
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
@@ -45,7 +46,7 @@ trait S3ObjectTrait {
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
-			] + $this->getSSECParameters());
+			] + $this->getServerSideEncryptionParameters());
 			$request = \Aws\serialize($command);
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
@@ -113,7 +114,7 @@ trait S3ObjectTrait {
 			'ContentType' => $mimetype,
 			'Metadata' => $this->buildS3Metadata($metaData),
 			'StorageClass' => $this->storageClass,
-		] + $this->getSSECParameters();
+		] + $this->getServerSideEncryptionParameters();
 
 		if ($size = $stream->getSize()) {
 			$args['ContentLength'] = $size;
@@ -156,7 +157,7 @@ trait S3ObjectTrait {
 					'ContentType' => $mimetype,
 					'Metadata' => $this->buildS3Metadata($metaData),
 					'StorageClass' => $this->storageClass,
-				] + $this->getSSECParameters(),
+				] + $this->getServerSideEncryptionParameters(),
 				'before_upload' => function (Command $command) use (&$totalWritten) {
 					$totalWritten += $command['ContentLength'];
 				},
@@ -266,14 +267,14 @@ trait S3ObjectTrait {
 	}
 
 	public function objectExists($urn) {
-		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getSSECParameters());
+		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getServerSideEncryptionParameters());
 	}
 
 	public function copyObject($from, $to, array $options = []) {
 		$sourceMetadata = $this->getConnection()->headObject([
 			'Bucket' => $this->getBucket(),
 			'Key' => $from,
-		] + $this->getSSECParameters());
+		] + $this->getServerSideEncryptionParameters());
 
 		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
 
@@ -285,13 +286,13 @@ trait S3ObjectTrait {
 				'bucket' => $this->getBucket(),
 				'key' => $to,
 				'acl' => 'private',
-				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
 				'source_metadata' => $sourceMetadata
 			], $options));
 			$copy->copy();
 		} else {
 			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
-				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'params' => $this->getServerSideEncryptionParameters() + $this->getServerSideEncryptionParameters(true),
 				'mup_threshold' => PHP_INT_MAX,
 			], $options));
 		}

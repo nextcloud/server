@@ -116,7 +116,7 @@ class AmazonS3 extends Common {
 				$this->objectCache[$key] = $this->getConnection()->headObject([
 					'Bucket' => $this->bucket,
 					'Key' => $key
-				] + $this->getSSECParameters())->toArray();
+				] + $this->getServerSideEncryptionParameters())->toArray();
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() >= 500) {
 					throw $e;
@@ -210,7 +210,7 @@ class AmazonS3 extends Common {
 				'Key' => $path . '/',
 				'Body' => '',
 				'ContentType' => FileInfo::MIMETYPE_FOLDER
-			] + $this->getSSECParameters());
+			] + $this->getServerSideEncryptionParameters());
 			$this->testTimeout();
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
@@ -513,7 +513,7 @@ class AmazonS3 extends Common {
 				'Body' => '',
 				'ContentType' => $mimeType,
 				'MetadataDirective' => 'REPLACE',
-			] + $this->getSSECParameters());
+			] + $this->getServerSideEncryptionParameters());
 			$this->testTimeout();
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
