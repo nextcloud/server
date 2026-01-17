@@ -518,6 +518,8 @@ class View {
 		if (!is_null($mtime) && !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
+		// Ensure mtime is always an integer to prevent implicit conversion warnings in PHP 8.1+
+		$mtime = (int) $mtime;
 
 		$hooks = ['touch'];
 
