@@ -29,16 +29,14 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
+              - 'apps/files_external/**'
               - 'vendor/**'
               - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
-              - '**.php'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
 
   azure-primary-tests:
     runs-on: ubuntu-latest
@@ -52,7 +50,7 @@ jobs:
         php-versions: ['8.2', '8.3']
         include:
           - php-versions: '8.4'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-azure
 

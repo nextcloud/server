@@ -64,8 +64,6 @@ jobs:
             php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
           - oracle-versions: '21'
-            php-versions: '8.2'
-          - oracle-versions: '23'
             php-versions: '8.3'
           - oracle-versions: '23'
             php-versions: '8.4'

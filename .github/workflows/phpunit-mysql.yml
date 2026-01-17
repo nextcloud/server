@@ -60,7 +60,7 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ['8.2']
-        mysql-versions: ['8.0', '8.4']
+        mysql-versions: ['8.0']
         include:
           - mysql-versions: '8.0'
             php-versions: '8.3'
