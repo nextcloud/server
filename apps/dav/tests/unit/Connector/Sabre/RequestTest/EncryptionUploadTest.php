@@ -34,4 +34,9 @@ class EncryptionUploadTest extends UploadTest {
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
 	}
+
+	protected function tearDown(): void {
+		$this->tearDownEncryptionTrait();
+		parent::tearDown();
+	}
 }

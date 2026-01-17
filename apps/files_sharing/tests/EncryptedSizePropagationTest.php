@@ -39,4 +39,9 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 		$this->setupForUser($user, $password);
 		parent::loginHelper($user, $create, $password);
 	}
+
+	protected function tearDown(): void {
+		$this->tearDownEncryptionTrait();
+		parent::tearDown();
+	}
 }
