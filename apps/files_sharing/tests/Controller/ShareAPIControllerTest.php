@@ -592,7 +592,7 @@ class ShareAPIControllerTest extends TestCase {
 	*/
 
 	public function createShare(
-		int $id,
+		string $id,
 		int $shareType,
 		?string $sharedWith,
 		string $sharedBy,
@@ -658,7 +658,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// File shared with user
 		$share = [
-			100,
+			'100',
 			IShare::TYPE_USER,
 			'userId',
 			'initiatorId',
@@ -677,7 +677,7 @@ class ShareAPIControllerTest extends TestCase {
 			[],
 		];
 		$expected = [
-			'id' => 100,
+			'id' => '100',
 			'share_type' => IShare::TYPE_USER,
 			'share_with' => 'userId',
 			'share_with_displayname' => 'userDisplay',
@@ -717,7 +717,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// Folder shared with group
 		$share = [
-			101,
+			'101',
 			IShare::TYPE_GROUP,
 			'groupId',
 			'initiatorId',
@@ -736,7 +736,7 @@ class ShareAPIControllerTest extends TestCase {
 			[],
 		];
 		$expected = [
-			'id' => 101,
+			'id' => '101',
 			'share_type' => IShare::TYPE_GROUP,
 			'share_with' => 'groupId',
 			'share_with_displayname' => 'groupId',
@@ -776,7 +776,7 @@ class ShareAPIControllerTest extends TestCase {
 		// File shared by link with Expire
 		$expire = \DateTime::createFromFormat('Y-m-d h:i:s', '2000-01-02 01:02:03');
 		$share = [
-			101,
+			'101',
 			IShare::TYPE_LINK,
 			null,
 			'initiatorId',
@@ -794,7 +794,7 @@ class ShareAPIControllerTest extends TestCase {
 			'first link share'
 		];
 		$expected = [
-			'id' => 101,
+			'id' => '101',
 			'share_type' => IShare::TYPE_LINK,
 			'password' => 'password',
 			'share_with' => 'password',

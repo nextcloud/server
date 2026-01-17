@@ -185,7 +185,9 @@ class Manager implements IManager {
 		}
 
 		// The path should be set
-		if ($share->getNode() === null) {
+		try {
+			$share->getNode();
+		} catch (NotFoundException $e) {
 			throw new \InvalidArgumentException($this->l->t('Shared path must be set'));
 		}
 

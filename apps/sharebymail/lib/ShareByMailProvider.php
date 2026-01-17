@@ -218,7 +218,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @throws \Exception
 	 */
-	protected function createMailShare(IShare $share): int {
+	protected function createMailShare(IShare $share): string {
 		$share->setToken($this->generateToken());
 		return $this->addShareToDB(
 			$share->getNodeId(),
@@ -678,7 +678,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		?string $note = '',
 		?IAttributes $attributes = null,
 		?bool $mailSend = true,
-	): int {
+	): string {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL))
@@ -708,7 +708,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$qb->executeStatement();
-		return $qb->getLastInsertId();
+		return (string)$qb->getLastInsertId();
 	}
 
 	/**
@@ -872,6 +872,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			throw new ShareNotFound();
 		}
 
+		$data['id'] = (string)$data['id'];
+
 		try {
 			$share = $this->createShareObject($data);
 		} catch (InvalidShare $e) {
@@ -897,6 +899,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
+			$data['id'] = (string)$data['id'];
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -963,6 +966,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
+
+		$data['id'] = (string)$data['id'];
 
 		try {
 			$share = $this->createShareObject($data);
@@ -1091,7 +1096,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @throws ShareNotFound
 	 */
-	protected function getRawShare(int $id): array {
+	protected function getRawShare(string $id): array {
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')

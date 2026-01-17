@@ -27,6 +27,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\HintException;
 use OCP\IAppConfig;
@@ -778,17 +779,23 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 	}
 
-	public function createShare($id, $type, $node, $sharedWith, $sharedBy, $shareOwner,
-		$permissions, $expireDate = null, $password = null, $attributes = null) {
+	public function createShare($id, int $type, ?Node $node, $sharedWith, $sharedBy, $shareOwner,
+		$permissions, $expireDate = null, $password = null, $attributes = null): IShare&MockObject {
 		$share = $this->createMock(IShare::class);
 
 		$share->method('getShareType')->willReturn($type);
 		$share->method('getSharedWith')->willReturn($sharedWith);
 		$share->method('getSharedBy')->willReturn($sharedBy);
 		$share->method('getShareOwner')->willReturn($shareOwner);
-		$share->method('getNode')->willReturn($node);
-		if ($node && $node->getId()) {
-			$share->method('getNodeId')->willReturn($node->getId());
+		if ($node) {
+			$share->method('getNode')->willReturn($node);
+			if ($node->getId()) {
+				$share->method('getNodeId')->willReturn($node->getId());
+			}
+		} else {
+			$share->method('getNode')->willReturnCallback(function (): never {
+				throw new NotFoundException();
+			});
 		}
 		$share->method('getPermissions')->willReturn($permissions);
 		$share->method('getAttributes')->willReturn($attributes);
@@ -1046,9 +1053,16 @@ class ManagerTest extends \Test\TestCase {
 			->method('getId')
 			->willReturn(42);
 		// Id 108 is used in the data to refer to the node of the share.
-		$userFolder->method('getById')
-			->with(108)
-			->willReturn([$share->getNode()]);
+		try {
+			$node = $share->getNode();
+			$userFolder->method('getById')
+				->with(108)
+				->willReturn([$node]);
+		} catch (NotFoundException $e) {
+			$userFolder->method('getById')
+				->with(108)
+				->willReturn([]);
+		}
 		$userFolder->expects($this->any())
 			->method('getRelativePath')
 			->willReturnArgument(0);
