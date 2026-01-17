@@ -74,6 +74,7 @@ jobs:
 
       - name: Set up php 8.2
         uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2.35.5
+        timeout-minutes: 5
         with:
           php-version: 8.2
           coverage: none
