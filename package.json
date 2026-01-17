@@ -76,7 +76,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/vue": "^8.1.0",
     "@types/dockerode": "^3.3.47",
-    "@vitest/coverage-istanbul": "^4.0.16",
+    "@vitest/coverage-istanbul": "^4.0.17",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "@zip.js/zip.js": "^2.8.14",
