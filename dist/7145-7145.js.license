@@ -605,7 +605,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.18
 	- license: MIT
 - tabbable
-	- version: 6.3.0
+	- version: 6.4.0
 	- license: MIT
 - isarray
 	- version: 2.0.5
