@@ -828,6 +828,17 @@ $CONFIG = [
 	'allow_local_remote_servers' => true,
 
 	/**
+	 * Add the URL of the Nextcloud server in User-Agent headers HTTP calls.
+	 *
+	 * This helps service providers identifying calls from your server,
+	 * which can be helpful for them, but can be a privacy issue on small
+	 * Nextcloud servers.
+	 *
+	 * Defaults to ``false``
+	 */
+	'add_url_in_user_agent' => false,
+
+	/**
 	 * Deleted Items (trash bin)
 	 *
 	 * These parameters control the Deleted files app.
