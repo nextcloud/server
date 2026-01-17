@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Pergi ke kanan dalam grid",
     "View" : "Tampilan",
     "Toggle grid view" : "Alihkan tampilan jala-jala",
-    "Open file sidebar" : "Buka bilah samping file",
     "Show those shortcuts" : "Tampilkan pintasan tersebut",
     "Warnings" : "Peringatan",
     "Warn before changing a file extension" : "Peringatkan sebelum mengubah ekstensi file",
@@ -442,6 +441,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Pembuatan folder baru dibatalkan",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktori ini tidak tersedia, silakan periksa log atau hubungi kontak",
     "All folders" : "Semua folder",
+    "Open file sidebar" : "Buka bilah samping file",
     "Search everywhere …" : "Cari di mana saja …",
     "Search here …" : "Cari di sini …",
     "Preparing …" : "Menyiapkan …"

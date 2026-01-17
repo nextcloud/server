@@ -134,7 +134,6 @@
     "Go right in grid" : "Ir á dereita na grella",
     "View" : "Ver",
     "Toggle grid view" : "Alternar a vista como grade",
-    "Open file sidebar" : "Abrir a barra lateral do ficheiro",
     "Show those shortcuts" : "Amosar eses atallos",
     "Warnings" : "Advertencias",
     "Warn before changing a file extension" : "Advertir antes de cambiar unha extensión de ficheiro",
@@ -445,6 +444,7 @@
     "New folder creation cancelled" : "Cancelouse a creación dun novo cartafol",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este directorio non está dispoñíbel, consulte os ficheiros de rexistro ou póñase en contacto coa administración desta instancia.",
     "All folders" : "Todos os cartafoles",
+    "Open file sidebar" : "Abrir a barra lateral do ficheiro",
     "Search everywhere …" : "Buscar en todos os sitios…",
     "Search here …" : "Buscar aquí…",
     "Preparing …" : "Preparando…"

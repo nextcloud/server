@@ -135,7 +135,6 @@ OC.L10N.register(
     "Go right in grid" : "グリッド内を右に移動",
     "View" : "表示",
     "Toggle grid view" : "グリッド表示の切り替え",
-    "Open file sidebar" : "ファイルサイドバーを開く",
     "Show those shortcuts" : "これらのショートカットを表示する",
     "Warnings" : "警告",
     "Warn before changing a file extension" : "ファイル拡張子を変更する前に警告する",
@@ -442,6 +441,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "新しいフォルダーの作成がキャンセルされました",
     "This directory is unavailable, please check the logs or contact the administrator" : "このディレクトリは利用できません。ログを確認するか管理者に問い合わせてください。",
     "All folders" : "全てのフォルダー",
+    "Open file sidebar" : "ファイルサイドバーを開く",
     "Search everywhere …" : "あらゆる場所を検索 …",
     "Search here …" : "ここを検索 …",
     "Preparing …" : "準備中 …"

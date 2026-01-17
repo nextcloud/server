@@ -135,7 +135,6 @@ OC.L10N.register(
     "Go right in grid" : "Desplazarse a la derecha en la cuadrícula",
     "View" : "Vista",
     "Toggle grid view" : "Alternar vista de cuadrícula",
-    "Open file sidebar" : "Abrir la barra lateral de archivo",
     "Show those shortcuts" : "Mostrar estos atajos",
     "Warnings" : "Advertencias",
     "Warn before changing a file extension" : "Advertir antes de cambiar la extensión de un archivo.",
@@ -430,6 +429,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Se canceló la creación de la carpeta nueva",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta carpeta no está disponible, por favor verifique los registros o contacte con el administrador",
     "All folders" : "Todas las carpetas",
+    "Open file sidebar" : "Abrir la barra lateral de archivo",
     "Search everywhere …" : "Buscar en todas partes …",
     "Search here …" : "Buscar aquí …",
     "Preparing …" : "Preparando …"

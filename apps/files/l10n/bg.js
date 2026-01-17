@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Отидете дясно на мрежата",
     "View" : "Изглед",
     "Toggle grid view" : "Превключи решетъчния изглед",
-    "Open file sidebar" : "Отворете страничната лента на файла",
     "Show those shortcuts" : "Показване тези преки пътища",
     "Warnings" : "Предупреждения",
     "Warn before changing a file extension" : "Предупреждение преди промяна на файлово разширение",
@@ -445,6 +444,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Създаването на нова папка е отменено",
     "This directory is unavailable, please check the logs or contact the administrator" : "Директорията не е налична. Проверете журнала или се свържете с администратора",
     "All folders" : "Всички папки",
+    "Open file sidebar" : "Отворете страничната лента на файла",
     "Search everywhere …" : "Търсете навсякъде...",
     "Search here …" : "Търсете тук...",
     "Preparing …" : "Подготвя се..."

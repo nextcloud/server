@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Gå åt höger i rutnätet",
     "View" : "Visa",
     "Toggle grid view" : "Växla rutnätsvy",
-    "Open file sidebar" : "Öppna filens sidofält",
     "Show those shortcuts" : "Visa dessa genvägar",
     "Warnings" : "Varningar",
     "Warn before changing a file extension" : "Varna innan en filändelse ändras",
@@ -446,6 +445,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Skapandet av ny mapp avbröts",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denna katalog är inte tillgänglig, kontrollera loggarna eller kontakta administratören",
     "All folders" : "Alla mappar",
+    "Open file sidebar" : "Öppna filens sidofält",
     "Search everywhere …" : "Sök överallt …",
     "Search here …" : "Sök här …",
     "Preparing …" : "Förbereder …"

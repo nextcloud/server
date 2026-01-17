@@ -133,7 +133,6 @@
     "Go right in grid" : "Иди на десно у мреж",
     "View" : "Погледај",
     "Toggle grid view" : "Укључи/искључи приказ мреже",
-    "Open file sidebar" : "Отвори бочну траку за фајл",
     "Show those shortcuts" : "Прикажи те пречице",
     "Warnings" : "Упозорења",
     "Warn before changing a file extension" : "Упозори пре измене екстензије фајла",
@@ -441,6 +440,7 @@
     "New folder creation cancelled" : "Отказане је креирање новог фолдера",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овај директоријум није доступан, проверите дневник или контактирајте администратора",
     "All folders" : "Сви фолдери",
+    "Open file sidebar" : "Отвори бочну траку за фајл",
     "Search everywhere …" : "Претражи свуда",
     "Search here …" : "Претражи овде…",
     "Preparing …" : "Припрема се синхронизација"

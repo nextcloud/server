@@ -135,7 +135,6 @@ OC.L10N.register(
     "Go right in grid" : "Fara til hægri í reitum",
     "View" : "Skoða",
     "Toggle grid view" : "Víxla reitasýn af/á",
-    "Open file sidebar" : "Opna hliðarspjald skráa",
     "Show those shortcuts" : "Sýna þessa flýtilykla",
     "Warnings" : "Aðvaranir",
     "Warn before changing a file extension" : "Aðvara áður en skráarendingu er breytt",
@@ -436,6 +435,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Hætti við gerð nýrrar möppu",
     "This directory is unavailable, please check the logs or contact the administrator" : "Þessi mappa er ekki tiltæk, athugaðu atvikaskrár eða hafðu samband við kerfissjóra",
     "All folders" : "Allar möppur",
+    "Open file sidebar" : "Opna hliðarspjald skráa",
     "Search everywhere …" : "Leita allsstaðar …",
     "Search here …" : "Leita hér …",
     "Preparing …" : "Undirbý …"

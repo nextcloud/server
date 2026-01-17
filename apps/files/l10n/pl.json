@@ -134,7 +134,6 @@
     "Go right in grid" : "Przejdź w prawo w siatce",
     "View" : "Podgląd",
     "Toggle grid view" : "Przełącz widok siatki",
-    "Open file sidebar" : "Otwórz panel boczny pliku",
     "Show those shortcuts" : "Pokaż te skróty",
     "Warnings" : "Ostrzeżenie",
     "Warn before changing a file extension" : "Ostrzegaj przed zmianą rozszerzenia pliku",
@@ -444,6 +443,7 @@
     "New folder creation cancelled" : "Tworzenie nowego katalogu zostało anulowane",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ten katalog jest niedostępny, sprawdź logi lub skontaktuj się z administratorem",
     "All folders" : "Wszystkie katalogi",
+    "Open file sidebar" : "Otwórz panel boczny pliku",
     "Search everywhere …" : "Szukaj wszędzie…",
     "Search here …" : "Szukaj tutaj…",
     "Preparing …" : "Przygotowywanie..."

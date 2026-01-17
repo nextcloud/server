@@ -134,7 +134,6 @@
     "Go right in grid" : "Go right in grid",
     "View" : "View",
     "Toggle grid view" : "Toggle grid view",
-    "Open file sidebar" : "Open file sidebar",
     "Show those shortcuts" : "Show those shortcuts",
     "Warnings" : "Warnings",
     "Warn before changing a file extension" : "Warn before changing a file extension",
@@ -445,6 +444,7 @@
     "New folder creation cancelled" : "New folder creation cancelled",
     "This directory is unavailable, please check the logs or contact the administrator" : "This directory is unavailable, please check the logs or contact the administrator",
     "All folders" : "All folders",
+    "Open file sidebar" : "Open file sidebar",
     "Search everywhere …" : "Search everywhere …",
     "Search here …" : "Search here …",
     "Preparing …" : "Preparing …"

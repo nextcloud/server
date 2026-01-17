@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Nenda kulia katika grid",
     "View" : "Angalia",
     "Toggle grid view" : "Badilisha mwonekano wa gridi",
-    "Open file sidebar" : "Fungua upau wa pembeni wa faili",
     "Show those shortcuts" : "Onesha mikato hiyo",
     "Warnings" : "Maonyo",
     "Warn before changing a file extension" : "Onya kabla ya kubadilisha kiendelezi cha faili",
@@ -446,6 +445,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Utengenezaji wa kisanduku kipya umesitishwa",
     "This directory is unavailable, please check the logs or contact the administrator" : "Orodha haipatikani, tafadhali angalia uingiaji au wasiliana na msimamizi",
     "All folders" : "Vikasha vyote",
+    "Open file sidebar" : "Fungua upau wa pembeni wa faili",
     "Search everywhere …" : "Tafuta kila mahali...",
     "Search here …" : "Tafuta hapa...",
     "Preparing …" : "Inaandaa..."

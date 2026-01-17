@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "Скасувати",
     "Clear reminder" : "Зняти нагадування",
     "Set reminder" : "Встановити нагадування",
+    "Set reminder for " : "Встановити нагадування для",
     "Reminder set" : "Нагадування встановлено",
     "Custom reminder" : "Індивідуальне нагадування",
     "Later today" : "Пізніше сьогодні",

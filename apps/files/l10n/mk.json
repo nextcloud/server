@@ -134,7 +134,6 @@
     "Go right in grid" : "Помести се десно во мрежата",
     "View" : "Поглед",
     "Toggle grid view" : "Промена во мрежа",
-    "Open file sidebar" : "Отвори странична лента на датотеката",
     "Show those shortcuts" : "Покажи ги овие кратенки",
     "Warnings" : "Предупредувања",
     "Warn before changing a file extension" : "Предупреди пред промена на наставката на датотека",
@@ -443,6 +442,7 @@
     "New folder creation cancelled" : "Креирањето на нова папка е откажано",
     "This directory is unavailable, please check the logs or contact the administrator" : "Овој директориум е недостапен, ве молиме проверете ги логовите или контактирајте со администраторот",
     "All folders" : "Сите папки",
+    "Open file sidebar" : "Отвори странична лента на датотеката",
     "Search everywhere …" : "Пребарај насекаде …",
     "Search here …" : "Пребарај тука …",
     "Preparing …" : "Подготовка ..."

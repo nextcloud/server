@@ -135,7 +135,6 @@ OC.L10N.register(
     "Go right in grid" : "Gå til høyre i rutenettet",
     "View" : "Vis",
     "Toggle grid view" : "Veksle rutenett-visning",
-    "Open file sidebar" : "Åpne sidepanelet for fil",
     "Show those shortcuts" : "Vis hurtigtastene",
     "Warnings" : "Advarsler",
     "Warn before changing a file extension" : "Varsle før endring av filtype",
@@ -424,6 +423,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Oppretting av ny mappe avbrutt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappen er utilgjengelig. Sjekk loggene eller kontakt administrator",
     "All folders" : "Alle mapper",
+    "Open file sidebar" : "Åpne sidepanelet for fil",
     "Search everywhere …" : "Søk overalt ...",
     "Search here …" : "Søk her ...",
     "Preparing …" : "Forbereder ..."

@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Перейти праворуч у сітці",
     "View" : "Подання",
     "Toggle grid view" : "Перемкнути подання сіткою",
-    "Open file sidebar" : "Відкрити бічну панель файлів",
     "Show those shortcuts" : "Показувати ці скорочення",
     "Warnings" : "Застереження",
     "Warn before changing a file extension" : "Попереджати перед зміною розширення файлу",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Створення нового каталогу скасовано",
     "This directory is unavailable, please check the logs or contact the administrator" : "Каталог недоступний, будь ласка, перевірте файл журналу або зверніться до адміністратора  ",
     "All folders" : "Усі каталоги",
+    "Open file sidebar" : "Відкрити бічну панель файлів",
     "Search everywhere …" : "Шукати всюди ...",
     "Search here …" : "Шукати тут …",
     "Preparing …" : "Підготовка ..."

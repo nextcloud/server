@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Přejít vpravo v mřížce",
     "View" : "Zobrazit",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
-    "Open file sidebar" : "Otevřít postranní panel souboru",
     "Show those shortcuts" : "Zobrazit tyto zkratky",
     "Warnings" : "Varování",
     "Warn before changing a file extension" : "Varovat před provedením změny přípony souboru",
@@ -446,6 +445,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Vytváření nové složky zrušeno",
     "This directory is unavailable, please check the logs or contact the administrator" : "Tento adresář není dostupný, zkontrolujte záznamy událostí nebo se obraťte na správce",
     "All folders" : "Všechny složky",
+    "Open file sidebar" : "Otevřít postranní panel souboru",
     "Search everywhere …" : "Hledat všude …",
     "Search here …" : "Hledat zde …",
     "Preparing …" : "Příprava …"
