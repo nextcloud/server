@@ -126,7 +126,6 @@ OC.L10N.register(
     "Go right in grid" : "Siirry oikealle ruudukossa",
     "View" : "Näytä",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
-    "Open file sidebar" : "Avaa tiedoston sivupalkki",
     "Warnings" : "Varoitukset",
     "Warn before changing a file extension" : "Varoita ennen tiedostopäätteen muuttamista",
     "Warn before deleting a file" : "Varoita ennen tiedoston poistamista",
@@ -395,6 +394,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Kansion luominen peruttu",
     "This directory is unavailable, please check the logs or contact the administrator" : "Hakemisto ei ole käytettävissä. Tarkista lokit tai ole yhteydessä ylläpitoon.",
     "All folders" : "Kaikki kansiot",
+    "Open file sidebar" : "Avaa tiedoston sivupalkki",
     "Search everywhere …" : "Etsi kaikkialta…",
     "Search here …" : "Etsi tästä…",
     "Preparing …" : "Valmistellaan…"

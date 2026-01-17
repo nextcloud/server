@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Im Raster nach rechts gehen",
     "View" : "Ansicht",
     "Toggle grid view" : "Kachelansicht umschalten",
-    "Open file sidebar" : "Datei-Seitenleiste öffnen",
     "Show those shortcuts" : "Diese Tastaturkürzel anzeigen",
     "Warnings" : "Warnungen",
     "Warn before changing a file extension" : "Vor der Änderung einer Dateierweiterung warnen",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Erstellung des neuen Ordners abgebrochen",
     "This directory is unavailable, please check the logs or contact the administrator" : "Dieses Verzeichnis ist nicht verfügbar, bitte überprüfen Sie die Protokolldateien oder kontaktieren Sie die Administration",
     "All folders" : "Alle Ordner",
+    "Open file sidebar" : "Datei-Seitenleiste öffnen",
     "Search everywhere …" : "Überall suchen …",
     "Search here …" : "Hier suchen …",
     "Preparing …" : "Bereite vor …"

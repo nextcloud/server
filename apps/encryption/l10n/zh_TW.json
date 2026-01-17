@@ -40,7 +40,7 @@
     "Enable recovery key" : "啟用還原金鑰",
     "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "還原金鑰是用於加密檔案的額外加密金鑰。其用於忘記密碼時從帳號還原檔案。",
     "Recovery key password" : "還原金鑰密碼",
-    "Passwords do not match fields" : "密碼與欄位不符",
+    "Passwords fields do not match" : "密碼欄位不相符",
     "Repeat recovery key password" : "再次輸入還原金鑰密碼",
     "An error occurred while updating the recovery key settings. Please try again." : "更新備援金鑰設定時發生錯誤。請再試一次。",
     "Change recovery key password" : "變更備援金鑰密碼",

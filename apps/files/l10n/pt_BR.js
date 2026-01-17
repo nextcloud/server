@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Ir para a direita na grade",
     "View" : "Visualização",
     "Toggle grid view" : "Alternar a visão em grade",
-    "Open file sidebar" : "Abrir barra lateral de arquivo",
     "Show those shortcuts" : "Mostrar esses atalhos",
     "Warnings" : "Avisos",
     "Warn before changing a file extension" : "Avisar antes de alterar uma extensão de arquivo",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Criação de nova pasta cancelada",
     "This directory is unavailable, please check the logs or contact the administrator" : "Este diretório não está disponível, por favor verifique os logs ou contacte o administrador",
     "All folders" : "Todas as pastas",
+    "Open file sidebar" : "Abrir barra lateral de arquivo",
     "Search everywhere …" : "Pesquisar em qualquer lugar…",
     "Search here …" : "Pesquisar aqui…",
     "Preparing …" : "Preparando …"

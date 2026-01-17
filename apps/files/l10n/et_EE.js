@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Mine ruudustikus paremale",
     "View" : "Vaata",
     "Toggle grid view" : "Lülita ruudustikuvaade sisse/välja",
-    "Open file sidebar" : "Ava failide külgriba",
     "Show those shortcuts" : "Näita neid otseteid",
     "Warnings" : "Hoiatused",
     "Warn before changing a file extension" : "Hoiata enne faililaiendi muutmist",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Uue kausta loomine on katkestatud",
     "This directory is unavailable, please check the logs or contact the administrator" : "See kaust pole saadaval, palun kontrolli logifaile või võta ühendust administraatoriga",
     "All folders" : "Kõik kaustad",
+    "Open file sidebar" : "Ava failide külgriba",
     "Search everywhere …" : "Otsi kõikjalt…",
     "Search here …" : "Otsi siin…",
     "Preparing …" : "Ettevalmistamisel…"

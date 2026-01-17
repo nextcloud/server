@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Reactie verwijderen",
     "Cancel edit" : "Bewerking annuleren",
     "New comment" : "Nieuwe reactie",
+    "Write a comment …" : "Schrijf een commentaar …",
     "Post comment" : "Reactie plaatsen",
     "@ for mentions, : for emoji, / for smart picker" : "@ voor vermeldingen, : voor emoji, / voor Smart Picker",
     "Could not reload comments" : "Kon reactie niet opnieuw laden",

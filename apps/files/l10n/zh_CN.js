@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "在网格中向右",
     "View" : "查看",
     "Toggle grid view" : "切换网格视图",
-    "Open file sidebar" : "打开文件侧边栏",
     "Show those shortcuts" : "显示快捷键",
     "Warnings" : "警告",
     "Warn before changing a file extension" : "更改文件扩展名前发出警告",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "新文件夹创建已取消",
     "This directory is unavailable, please check the logs or contact the administrator" : "此目录不可用，请检查日志或联系管理员",
     "All folders" : "所有文件夹",
+    "Open file sidebar" : "打开文件侧边栏",
     "Search everywhere …" : "全局搜索…",
     "Search here …" : "在此搜索…",
     "Preparing …" : "正在准备…"

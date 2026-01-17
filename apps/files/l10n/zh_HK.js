@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "在網格中向右",
     "View" : "檢視",
     "Toggle grid view" : "切換網格檢視",
-    "Open file sidebar" : "開啟檔案側邊欄",
     "Show those shortcuts" : "顯示這些快捷鍵",
     "Warnings" : "警告",
     "Warn before changing a file extension" : "變更副檔名前警告",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "已取消建立新資料夾",
     "This directory is unavailable, please check the logs or contact the administrator" : "這個目錄無法存取，請檢查伺服器記錄檔或聯絡管理員",
     "All folders" : "所有資料夾",
+    "Open file sidebar" : "開啟檔案側邊欄",
     "Search everywhere …" : "搜尋各處 …",
     "Search here …" : "搜尋此處 …",
     "Preparing …" : "正在準備 …"

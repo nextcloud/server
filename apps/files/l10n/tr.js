@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Izgarada sağa git",
     "View" : "Görüntüle",
     "Toggle grid view" : "Tablo görünümünü aç/kapat",
-    "Open file sidebar" : "Dosya kenar çubuğunu aç",
     "Show those shortcuts" : "Bu kısayolları görüntüler",
     "Warnings" : "Uyarılar",
     "Warn before changing a file extension" : "Dosya uzantıları değiştirilmeden önce uyarı görüntülensin",
@@ -320,6 +319,7 @@ OC.L10N.register(
     "Open online" : "Çevrim içi aç",
     "Rename" : "Yeniden adlandır",
     "Details" : "Ayrıntılar",
+    "Unfavorite" : "Sık kullanılanlardan kaldır",
     "View in folder" : "Klasörde görüntüle",
     "Today" : "Bugün",
     "Last 7 days" : "Önceki 7 gün",
@@ -446,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Yeni klasör oluşturma işlemi iptal edildi",
     "This directory is unavailable, please check the logs or contact the administrator" : "Bu klasör yazılabilir değil. Lütfen günlük kayıtlarına bakın ya da BT yöneticiniz ile görüşün",
     "All folders" : "Tüm klasörler",
+    "Open file sidebar" : "Dosya kenar çubuğunu aç",
     "Search everywhere …" : "Her yerde ara…",
     "Search here …" : "Burada ara…",
     "Preparing …" : "Hazırlanıyor…"

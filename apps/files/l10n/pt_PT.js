@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Ir para a direita na grelha",
     "View" : "Ver",
     "Toggle grid view" : "Alternar visualização em grelha",
-    "Open file sidebar" : "Abrir barra lateral de ficheiro",
     "Show those shortcuts" : "Mostrar esses atalhos",
     "Warnings" : "Avisos",
     "Warn before changing a file extension" : "Avisar antes de alterar uma extensão de ficheiro",
@@ -281,6 +280,7 @@ OC.L10N.register(
     "Tags" : "Etiquetas",
     "Edit locally" : "Editar localmente",
     "This directory is unavailable, please check the logs or contact the administrator" : "Esta diretoria está indisponível, por favor, verifique os registos ou contacte o administrador",
+    "Open file sidebar" : "Abrir barra lateral de ficheiro",
     "Search everywhere …" : "Pesquisar em todo o lado...",
     "Search here …" : "Pesquisar aqui…"
 },

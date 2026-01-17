@@ -134,7 +134,6 @@
     "Go right in grid" : "Téigh ar dheis sa ghreille",
     "View" : "Amharc",
     "Toggle grid view" : "Scoránaigh amharc greille",
-    "Open file sidebar" : "Oscail barra taoibh an chomhaid",
     "Show those shortcuts" : "Taispeáin na haicearraí sin",
     "Warnings" : "Rabhaidh",
     "Warn before changing a file extension" : "Tabhair rabhadh sula n-athraítear síneadh comhaid",
@@ -445,6 +444,7 @@
     "New folder creation cancelled" : "Cruthú fillteán nua curtha ar ceal",
     "This directory is unavailable, please check the logs or contact the administrator" : "Níl an t-eolaire seo ar fáil, seiceáil na logaí nó déan teagmháil leis an riarthóir le do thoil",
     "All folders" : "Gach fillteáin",
+    "Open file sidebar" : "Oscail barra taoibh an chomhaid",
     "Search everywhere …" : "Cuardaigh i ngach áit…",
     "Search here …" : "Cuardaigh anseo…",
     "Preparing …" : "Ag ullmhú …"

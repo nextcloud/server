@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Joan eskuinera saretan",
     "View" : "Ikusi",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
-    "Open file sidebar" : "Ireki alboko barra",
     "Show those shortcuts" : "Erakutsi lasterbide horiek",
     "Warnings" : "Oharrak",
     "Warn before changing a file extension" : "Abisatu fitxategiaren luzapena aldatu aurretik",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Karpeta berrien sorrera bertan behera utzi da",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktorio hau ez dago erabilgarri, egiaztatu egunkariak edo jarri administratzailearekin harremanetan",
     "All folders" : "Karpeta guztiak",
+    "Open file sidebar" : "Ireki alboko barra",
     "Search everywhere …" : "Bilatu nonahi...",
     "Search here …" : "Bilatu hemen...",
     "Preparing …" : "Prestatzen..."

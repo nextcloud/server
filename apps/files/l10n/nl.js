@@ -135,7 +135,6 @@ OC.L10N.register(
     "Go right in grid" : "Ga naar rechts in raster",
     "View" : "Bekijken",
     "Toggle grid view" : "Omschakelen roosterweergave",
-    "Open file sidebar" : "Open bestands zijbalk",
     "Show those shortcuts" : "Toon die snelkoppelingen",
     "Warnings" : "Waarschuwingen",
     "Warn before changing a file extension" : "Waarschuw voordat een bestand extensie wordt gewijzigd",
@@ -440,6 +439,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Maken van nieuwe map geannuleerd",
     "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Verifieer de logs of neem contact op met de beheerder",
     "All folders" : "Alle mappen",
+    "Open file sidebar" : "Open bestands zijbalk",
     "Search everywhere …" : "Zoek in alles...",
     "Search here …" : "Zoek hier ...",
     "Preparing …" : "Voorbereiden ..."

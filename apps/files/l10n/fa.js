@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "رفتن به راست ساختار",
     "View" : "نمایش",
     "Toggle grid view" : "نمای دریچه را تغییر دهید",
-    "Open file sidebar" : "بازکردن نواربغل فایل‌",
     "Show those shortcuts" : "نمایش میانبرها",
     "Warnings" : "هشدارها",
     "Warn before changing a file extension" : "هشدار قبل از عوض‌کردن فرمت فایل",
@@ -444,6 +443,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "ایجاد پوشه جدید لغو شد",
     "This directory is unavailable, please check the logs or contact the administrator" : "پوشه‌ در دسترس نیست، لطفا لاگ‌ها را بررسی کنید یا به مدیر سیستم اطلاع دهید",
     "All folders" : "همه پوشه‌ها",
+    "Open file sidebar" : "بازکردن نواربغل فایل‌",
     "Search everywhere …" : "جستجو در همه‌جا",
     "Search here …" : "جستجو ...",
     "Preparing …" : "درحال آماده‌سازی"
