@@ -15,7 +15,7 @@
 							:key="row.items[0].version.mtime"
 							:can-view="canView"
 							:can-compare="canCompare"
-							:load-preview="isActive"
+							:load-preview="active"
 							:version="row.items[0].version"
 							:node="node"
 							:is-current="row.items[0].version.mtime === currentVersionMtime"
@@ -57,15 +57,16 @@ import logger from '../utils/logger.ts'
 import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel } from '../utils/versions.ts'
 
 const props = defineProps<{
-	node?: INode
-	folder?: IFolder
-	view?: IView
+	active: boolean
+	node: INode
+
+	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
+	folder: IFolder
+	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
+	view: IView
 }>()
 
-defineExpose({ setActive })
-
 const isMobile = useIsMobile()
-const isActive = ref<boolean>(false)
 const versions = ref<Version[]>([])
 const loading = ref(false)
 const showVersionLabelForm = ref(false)
@@ -137,15 +138,6 @@ const canCompare = computed(() => {
 	return !isMobile.value
 		&& window.OCA.Viewer?.mimetypesCompare?.includes(props.node?.mime)
 })
-
-/**
- * This method is called by the files app if the sidebar tab state changes.
- *
- * @param active - The new active state
- */
-function setActive(active: boolean) {
-	isActive.value = active
-}
 
 /**
  * Handle restored event from Version.vue

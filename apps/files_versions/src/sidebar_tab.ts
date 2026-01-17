@@ -10,10 +10,10 @@ import { isPublicShare } from '@nextcloud/sharing/public'
 import { defineAsyncComponent, defineCustomElement } from 'vue'
 
 const tagName = 'files-versions_sidebar-tab'
-const FilesVersionsSidebarTab = defineAsyncComponent(() => import('./views/FilesVersionsSidebarTab.vue'))
 
 registerSidebarTab({
 	id: 'files_versions',
+	tagName,
 	order: 90,
 	displayName: t('files_versions', 'Versions'),
 	iconSvgInline: BackupRestore,
@@ -24,23 +24,13 @@ registerSidebarTab({
 		if (node.type !== FileType.File) {
 			return false
 		}
-		// setup tab
-		setupTab()
 		return true
 	},
-	tagName,
+
+	async onInit() {
+		const FilesVersionsSidebarTab = defineAsyncComponent(() => import('./views/FilesVersionsSidebarTab.vue'))
+		window.customElements.define(tagName, defineCustomElement(FilesVersionsSidebarTab, {
+			shadowRoot: false,
+		}))
+	},
 })
-
-/**
- * Setup the custom element for the Files Versions sidebar tab.
- */
-function setupTab() {
-	if (window.customElements.get(tagName)) {
-		// already defined
-		return
-	}
-
-	window.customElements.define(tagName, defineCustomElement(FilesVersionsSidebarTab, {
-		shadowRoot: false,
-	}))
-}

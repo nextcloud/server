@@ -11,24 +11,16 @@ import Comments from './Comments.vue'
 
 const props = defineProps<{
 	node?: INode
+
+	// eslint-disable-next-line vue/no-unused-properties -- Required on the web component interface
+	active?: boolean
 	// eslint-disable-next-line vue/no-unused-properties -- Required on the web component interface
 	folder?: IFolder
 	// eslint-disable-next-line vue/no-unused-properties -- Required on the web component interface
 	view?: IView
 }>()
 
-defineExpose({ setActive })
-
 const resourceId = computed(() => props.node?.fileid)
-
-/**
- * Set this tab as active
- *
- * @param active - The active state
- */
-function setActive(active: boolean) {
-	return active
-}
 </script>
 
 <template>

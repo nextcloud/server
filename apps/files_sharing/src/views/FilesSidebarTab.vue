@@ -12,6 +12,9 @@ import FileInfo from '../services/FileInfo.ts'
 
 const props = defineProps<{
 	node?: INode
+
+	// eslint-disable-next-line vue/no-unused-properties -- Required on the web component interface
+	active?: boolean
 	// eslint-disable-next-line vue/no-unused-properties -- Required on the web component interface
 	folder?: IFolder
 	// eslint-disable-next-line vue/no-unused-properties -- Required on the web component interface
