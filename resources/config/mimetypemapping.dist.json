@@ -75,6 +75,7 @@
 	"h": ["text/x-h"],
 	"heic": ["image/heic"],
 	"heif": ["image/heif"],
+	"hif": ["image/heic"],
 	"hh": ["text/x-h"],
 	"hpp": ["text/x-h"],
 	"htaccess": ["text/plain"],
