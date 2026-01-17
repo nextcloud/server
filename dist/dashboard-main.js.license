@@ -122,11 +122,14 @@ This file is generated from multiple sources. Included packages:
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
+- focus-trap
+	- version: 7.6.6
+	- license: MIT
 - p-queue
 	- version: 8.1.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.35.0
+	- version: 8.35.2
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -193,9 +196,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
-	- license: MIT
-- focus-trap
-	- version: 7.7.1
 	- license: MIT
 - hast-to-hyperscript
 	- version: 10.0.3
