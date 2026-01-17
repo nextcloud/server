@@ -3,6 +3,111 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { IProfileSection } from '../services/ProfileSections.ts'
+
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { computed, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcContent from '@nextcloud/vue/components/NcContent'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcRichText from '@nextcloud/vue/components/NcRichText'
+import AccountIcon from 'vue-material-design-icons/AccountOutline.vue'
+import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
+import ProfileSection from '../components/ProfileSection.vue'
+
+interface IProfileAction {
+	target: string
+	icon: string
+	id: string
+	title: string
+}
+
+interface IStatus {
+	icon: string
+	message: string
+	userId: string
+}
+
+const profileParameters = loadState('profile', 'profileParameters', {
+	userId: undefined as string | undefined,
+	displayname: undefined as string | undefined,
+	address: undefined as string | undefined,
+	organisation: undefined as string | undefined,
+	role: undefined as string | undefined,
+	headline: undefined as string | undefined,
+	biography: undefined as string | undefined,
+	actions: [] as IProfileAction[],
+	isUserAvatarVisible: false,
+	pronouns: undefined as string | undefined,
+})
+
+const userStatus = ref(loadState<Partial<IStatus>>('profile', 'status', {}))
+const sections = ref<IProfileSection[]>([])
+const sortedSections = computed(() => [...sections.value].sort((a, b) => b.order - a.order))
+onBeforeMount(() => {
+	sections.value = window.OCA.Profile.ProfileSections.getSections()
+})
+
+const isCurrentUser = getCurrentUser()?.uid === profileParameters.userId
+
+const primaryAction = profileParameters.actions[0]
+const otherActions = profileParameters.actions.slice(1)
+
+const settingsUrl = generateUrl('/settings/user')
+const emptyProfileMessage = isCurrentUser
+	? t('profile', 'You have not added any info yet')
+	: t('profile', '{user} has not added any info yet', { user: (profileParameters.displayname || profileParameters.userId || '') })
+
+onMounted(() => {
+	// Set the user's displayname or userId in the page title and preserve the default title of "Nextcloud" at the end
+	document.title = `${profileParameters.displayname || profileParameters.userId} - ${document.title}`
+	subscribe('user_status:status.updated', handleStatusUpdate)
+})
+
+onBeforeUnmount(() => {
+	unsubscribe('user_status:status.updated', handleStatusUpdate)
+})
+
+/**
+ * Update the user status
+ *
+ * @param status - The new status
+ */
+function handleStatusUpdate(status: IStatus) {
+	if (isCurrentUser && status.userId === profileParameters.userId) {
+		userStatus.value = status
+	}
+}
+
+/**
+ * Open the user status modal by simulating a click on the hidden status menu item in the avatar menu
+ */
+function openStatusModal() {
+	// Changing the user status is only enabled if you are the current user
+	if (!isCurrentUser) {
+		return
+	}
+
+	const statusMenuItem = document.querySelector<HTMLButtonElement>('.user-status-menu-item')
+	if (statusMenuItem) {
+		statusMenuItem.click()
+	} else {
+		showError(t('profile', 'Error opening the user status modal, try hard refreshing the page'))
+	}
+}
+</script>
+
 <template>
 	<NcContent app-name="profile">
 		<NcAppContent>
@@ -10,9 +115,9 @@
 				<div class="profile__header__container">
 					<div class="profile__header__container__placeholder" />
 					<div class="profile__header__container__displayname">
-						<h2>{{ displayname || userId }}</h2>
-						<span v-if="pronouns">·</span>
-						<span v-if="pronouns" class="profile__header__container__pronouns">{{ pronouns }}</span>
+						<h2>{{ profileParameters.displayname || profileParameters.userId }}</h2>
+						<span v-if="profileParameters.pronouns">·</span>
+						<span v-if="profileParameters.pronouns" class="profile__header__container__pronouns">{{ profileParameters.pronouns }}</span>
 						<NcButton
 							v-if="isCurrentUser"
 							variant="primary"
@@ -24,11 +129,11 @@
 						</NcButton>
 					</div>
 					<NcButton
-						v-if="status.icon || status.message"
+						v-if="userStatus.icon || userStatus.message"
 						:disabled="!isCurrentUser"
 						:variant="isCurrentUser ? 'tertiary' : 'tertiary-no-background'"
 						@click="openStatusModal">
-						{{ status.icon }} {{ status.message }}
+						{{ userStatus.icon }} {{ userStatus.message }}
 					</NcButton>
 				</div>
 			</div>
@@ -39,12 +144,12 @@
 						<NcAvatar
 							class="avatar"
 							:class="{ interactive: isCurrentUser }"
-							:user="userId"
+							:user="profileParameters.userId"
 							:size="180"
 							:disable-menu="true"
 							:disable-tooltip="true"
-							:is-no-user="!isUserAvatarVisible"
-							@click.native.prevent.stop="openStatusModal" />
+							:is-no-user="!profileParameters.isUserAvatarVisible"
+							@click.prevent.stop="openStatusModal" />
 
 						<div class="user-actions">
 							<!-- When a tel: URL is opened with target="_blank", a blank new tab is opened which is inconsistent with the handling of other URLs so we set target="_self" for the phone action -->
@@ -79,33 +184,31 @@
 					</div>
 
 					<div class="profile__blocks">
-						<div v-if="organisation || role || address" class="profile__blocks-details">
-							<div v-if="organisation || role" class="detail">
-								<p>{{ organisation }} <span v-if="organisation && role">•</span> {{ role }}</p>
+						<div v-if="profileParameters.organisation || profileParameters.role || profileParameters.address" class="profile__blocks-details">
+							<div v-if="profileParameters.organisation || profileParameters.role" class="detail">
+								<p>{{ profileParameters.organisation }} <span v-if="profileParameters.organisation && profileParameters.role">•</span> {{ profileParameters.role }}</p>
 							</div>
-							<div v-if="address" class="detail">
+							<div v-if="profileParameters.address" class="detail">
 								<p>
 									<MapMarkerIcon
 										class="map-icon"
 										:size="16" />
-									{{ address }}
+									{{ profileParameters.address }}
 								</p>
 							</div>
 						</div>
-						<template v-if="headline || biography || sections.length > 0">
-							<h3 v-if="headline" class="profile__blocks-headline">
-								{{ headline }}
+						<template v-if="profileParameters.headline || profileParameters.biography || sections.length > 0">
+							<h3 v-if="profileParameters.headline" class="profile__blocks-headline">
+								{{ profileParameters.headline }}
 							</h3>
-							<NcRichText v-if="biography" :text="biography" use-extended-markdown />
+							<NcRichText v-if="profileParameters.biography" :text="profileParameters.biography" use-extended-markdown />
 
 							<!-- additional entries, use it with cautious -->
-							<div
-								v-for="(section, index) in sections"
-								:ref="'section-' + index"
-								:key="index"
-								class="profile__additionalContent">
-								<component :is="section($refs['section-' + index], userId)" :user-id="userId" />
-							</div>
+							<ProfileSection
+								v-for="section in sortedSections"
+								:key="section.id"
+								:section="section"
+								:user-id="profileParameters.userId" />
 						</template>
 						<NcEmptyContent
 							v-else
@@ -122,149 +225,6 @@
 		</NcAppContent>
 	</NcContent>
 </template>
-
-<script lang="ts">
-import { getCurrentUser } from '@nextcloud/auth'
-import { showError } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
-import { defineComponent } from 'vue'
-import NcActionLink from '@nextcloud/vue/components/NcActionLink'
-import NcActions from '@nextcloud/vue/components/NcActions'
-import NcAppContent from '@nextcloud/vue/components/NcAppContent'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcContent from '@nextcloud/vue/components/NcContent'
-import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import NcRichText from '@nextcloud/vue/components/NcRichText'
-import AccountIcon from 'vue-material-design-icons/AccountOutline.vue'
-import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
-import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
-
-interface IProfileAction {
-	target: string
-	icon: string
-	id: string
-	title: string
-}
-
-interface IStatus {
-	icon: string
-	message: string
-	userId: string
-}
-
-export default defineComponent({
-	name: 'ProfileApp',
-
-	components: {
-		AccountIcon,
-		MapMarkerIcon,
-		NcActionLink,
-		NcActions,
-		NcAppContent,
-		NcAvatar,
-		NcButton,
-		NcContent,
-		NcEmptyContent,
-		NcRichText,
-		PencilIcon,
-	},
-
-	setup() {
-		return {
-			t,
-		}
-	},
-
-	data() {
-		const profileParameters = loadState('profile', 'profileParameters', {
-			userId: null as string | null,
-			displayname: null as string | null,
-			address: null as string | null,
-			organisation: null as string | null,
-			role: null as string | null,
-			headline: null as string | null,
-			biography: null as string | null,
-			actions: [] as IProfileAction[],
-			isUserAvatarVisible: false,
-			pronouns: null as string | null,
-		})
-
-		return {
-			...profileParameters,
-			status: loadState<Partial<IStatus>>('profile', 'status', {}),
-			sections: window.OCA.Core.ProfileSections.getSections(),
-		}
-	},
-
-	computed: {
-		isCurrentUser() {
-			return getCurrentUser()?.uid === this.userId
-		},
-
-		allActions() {
-			return this.actions
-		},
-
-		primaryAction() {
-			if (this.allActions.length) {
-				return this.allActions[0]
-			}
-			return null
-		},
-
-		otherActions() {
-			if (this.allActions.length > 1) {
-				return this.allActions.slice(1)
-			}
-			return []
-		},
-
-		settingsUrl() {
-			return generateUrl('/settings/user')
-		},
-
-		emptyProfileMessage() {
-			return this.isCurrentUser
-				? t('profile', 'You have not added any info yet')
-				: t('profile', '{user} has not added any info yet', { user: (this.displayname || this.userId || '') })
-		},
-	},
-
-	mounted() {
-		// Set the user's displayname or userId in the page title and preserve the default title of "Nextcloud" at the end
-		document.title = `${this.displayname || this.userId} - ${document.title}`
-		subscribe('user_status:status.updated', this.handleStatusUpdate)
-	},
-
-	beforeDestroy() {
-		unsubscribe('user_status:status.updated', this.handleStatusUpdate)
-	},
-
-	methods: {
-		handleStatusUpdate(status: IStatus) {
-			if (this.isCurrentUser && status.userId === this.userId) {
-				this.status = status
-			}
-		},
-
-		openStatusModal() {
-			const statusMenuItem = document.querySelector<HTMLButtonElement>('.user-status-menu-item')
-			// Changing the user status is only enabled if you are the current user
-			if (this.isCurrentUser) {
-				if (statusMenuItem) {
-					statusMenuItem.click()
-				} else {
-					showError(t('profile', 'Error opening the user status modal, try hard refreshing the page'))
-				}
-			}
-		},
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 $profile-max-width: 1024px;

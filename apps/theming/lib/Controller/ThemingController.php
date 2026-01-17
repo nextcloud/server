@@ -92,7 +92,7 @@ class ThemingController extends Controller {
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given legal notice address is too long');
 				}
-				if (!$this->isValidUrl($value)) {
+				if ($value !== '' && !$this->isValidUrl($value)) {
 					$error = $this->l10n->t('The given legal notice address is not a valid URL');
 				}
 				break;
@@ -103,7 +103,7 @@ class ThemingController extends Controller {
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given privacy policy address is too long');
 				}
-				if (!$this->isValidUrl($value)) {
+				if ($value !== '' && !$this->isValidUrl($value)) {
 					$error = $this->l10n->t('The given privacy policy address is not a valid URL');
 				}
 				break;
@@ -308,6 +308,8 @@ class ThemingController extends Controller {
 		$setting = match ($setting) {
 			'primaryColor' => 'primary_color',
 			'backgroundColor' => 'background_color',
+			'legalNoticeUrl' => 'imprintUrl',
+			'privacyPolicyUrl' => 'privacyUrl',
 			default => $setting,
 		};
 		$value = $this->themingDefaults->undo($setting);

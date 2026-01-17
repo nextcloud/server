@@ -20,7 +20,7 @@ use PHPUnit\Framework\ExpectationFailedException;
  *
  * @package OCA\Files_External\Tests\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SmbTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 	/**
@@ -32,7 +32,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.smb.php');
+		$this->loadConfig(__DIR__ . '/../config.smb.php');
 		if (substr($this->config['root'], -1, 1) != '/') {
 			$this->config['root'] .= '/';
 		}

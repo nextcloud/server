@@ -38,7 +38,7 @@ class PHPMongoQueryTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteQuery')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteQuery')]
 	public function testExecuteQuery(array $query, array $document, bool $matches): void {
 		$this->assertEquals($matches, PHPMongoQuery::executeQuery($query, $document));
 	}

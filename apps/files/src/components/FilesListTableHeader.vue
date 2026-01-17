@@ -75,14 +75,15 @@ import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 
@@ -126,15 +127,17 @@ export default defineComponent({
 	},
 
 	setup() {
+		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
-		const { currentView } = useNavigation()
+		const { directory } = useRouteParameters()
 
 		return {
+			activeStore,
 			filesStore,
 			selectionStore,
 
-			currentView,
+			directory,
 		}
 	},
 
@@ -144,12 +147,12 @@ export default defineComponent({
 			if (this.filesListWidth < 512) {
 				return []
 			}
-			return this.currentView?.columns || []
+			return this.activeStore.activeView?.columns || []
 		},
 
 		dir() {
 			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
+			return this.directory.replace(/^(.+)\/$/, '$1')
 		},
 
 		selectAllBind() {
@@ -195,11 +198,10 @@ export default defineComponent({
 	},
 
 	methods: {
-		ariaSortForMode(mode: string): 'ascending' | 'descending' | null {
+		ariaSortForMode(mode: string): 'ascending' | 'descending' | undefined {
 			if (this.sortingMode === mode) {
 				return this.isAscSorting ? 'ascending' : 'descending'
 			}
-			return null
 		},
 
 		classForColumn(column) {
@@ -207,7 +209,7 @@ export default defineComponent({
 				'files-list__column': true,
 				'files-list__column--sortable': !!column.sort,
 				'files-list__row-column-custom': true,
-				[`files-list__row-${this.currentView?.id}-${column.id}`]: true,
+				[`files-list__row-${this.activeStore.activeView?.id}-${column.id}`]: true,
 			}
 		},
 

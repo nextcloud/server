@@ -2,86 +2,85 @@
   - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import axios from '@nextcloud/axios'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { NcFormBox } from '@nextcloud/vue'
+import { ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+
+const passwordform = ref<HTMLFormElement>()
+
+const oldPass = ref('')
+const newPass = ref('')
+
+/**
+ * Change the user's password
+ */
+async function changePassword() {
+	const { data } = await axios.post(generateUrl('/settings/personal/changepassword'), {
+		oldpassword: oldPass.value,
+		newpassword: newPass.value,
+	})
+	if (data.status === 'error') {
+		showError(data.data.message)
+	} else {
+		showSuccess(data.data.message)
+		oldPass.value = ''
+		newPass.value = ''
+		passwordform.value?.reset()
+	}
+}
+</script>
+
 <template>
 	<NcSettingsSection :name="t('settings', 'Password')">
-		<form id="passwordform" method="POST" @submit.prevent="changePassword">
-			<NcPasswordField
-				id="old-pass"
-				v-model="oldPass"
-				:label="t('settings', 'Current password')"
-				name="oldpassword"
-				autocomplete="current-password"
-				autocapitalize="none"
-				spellcheck="false" />
+		<form
+			ref="passwordform"
+			:class="$style.passwordSection__form"
+			@submit.prevent="changePassword">
+			<NcFormBox>
+				<NcPasswordField
+					v-model="oldPass"
+					:label="t('settings', 'Current password')"
+					name="oldpassword"
+					autocomplete="current-password"
+					autocapitalize="none"
+					required
+					spellcheck="false" />
 
-			<NcPasswordField
-				id="new-pass"
-				v-model="newPass"
-				:label="t('settings', 'New password')"
-				:maxlength="469"
-				autocomplete="new-password"
-				autocapitalize="none"
-				spellcheck="false"
-				:check-password-strength="true" />
+				<NcPasswordField
+					v-model="newPass"
+					check-password-strength
+					:label="t('settings', 'New password')"
+					:maxlength="469"
+					name="newpassword"
+					autocomplete="new-password"
+					autocapitalize="none"
+					required
+					spellcheck="false" />
+			</NcFormBox>
 
 			<NcButton
-				variant="primary"
 				type="submit"
-				:disabled="newPass.length === 0 || oldPass.length === 0">
+				variant="primary"
+				wide>
 				{{ t('settings', 'Change password') }}
 			</NcButton>
 		</form>
 	</NcSettingsSection>
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { generateUrl } from '@nextcloud/router'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-
-export default {
-	name: 'PasswordSection',
-	components: {
-		NcSettingsSection,
-		NcButton,
-		NcPasswordField,
-	},
-
-	data() {
-		return {
-			oldPass: '',
-			newPass: '',
-		}
-	},
-
-	methods: {
-		changePassword() {
-			axios.post(generateUrl('/settings/personal/changepassword'), {
-				oldpassword: this.oldPass,
-				newpassword: this.newPass,
-			})
-				.then((res) => res.data)
-				.then((data) => {
-					if (data.status === 'error') {
-						this.errorMessage = data.data.message
-						showError(data.data.message)
-					} else {
-						showSuccess(data.data.message)
-					}
-				})
-		},
-	},
+<style module>
+.passwordSection__form {
+	display: flex;
+	flex-direction: column;
+	gap: calc(2 * var(--default-grid-baseline));
+	max-width: 300px !important;
 }
-</script>
-
-<style>
-	#passwordform {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		max-width: 400px;
-	}
 </style>

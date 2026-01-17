@@ -1,9 +1,10 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { IFilePickerButton } from '@nextcloud/dialogs'
-import type { Folder, Node } from '@nextcloud/files'
+import type { IFolder, INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils.ts'
 
@@ -14,7 +15,7 @@ import { FilePickerClosed, getFilePickerBuilder, showError, showInfo, TOAST_PERM
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
 import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { hasConflict, openConflictPicker } from '@nextcloud/upload'
 import { basename, join } from 'path'
 import Vue from 'vue'
@@ -28,7 +29,7 @@ import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUt
  * @param nodes The nodes to check against
  * @return The action that is possible for the given nodes
  */
-function getActionForNodes(nodes: Node[]): MoveCopyAction {
+function getActionForNodes(nodes: INode[]): MoveCopyAction {
 	if (canMove(nodes)) {
 		if (canCopy(nodes)) {
 			return MoveCopyAction.MOVE_OR_COPY
@@ -76,7 +77,7 @@ function createLoadingNotification(mode: MoveCopyAction, source: string, destina
  * @param overwrite Whether to overwrite the destination if it exists
  * @return A promise that resolves when the copy/move is done
  */
-export async function handleCopyMoveNodeTo(node: Node, destination: Folder, method: MoveCopyAction.COPY | MoveCopyAction.MOVE, overwrite = false) {
+export async function handleCopyMoveNodeTo(node: INode, destination: IFolder, method: MoveCopyAction.COPY | MoveCopyAction.MOVE, overwrite = false) {
 	if (!destination) {
 		return
 	}
@@ -217,13 +218,13 @@ export async function handleCopyMoveNodeTo(node: Node, destination: Folder, meth
 async function openFilePickerForAction(
 	action: MoveCopyAction,
 	dir = '/',
-	nodes: Node[],
+	nodes: INode[],
 ): Promise<MoveCopyResult | false> {
 	const { resolve, reject, promise } = Promise.withResolvers<MoveCopyResult | false>()
 	const fileIDs = nodes.map((node) => node.fileid).filter(Boolean)
 	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
-		.setFilter((n: Node) => {
+		.setFilter((n: INode) => {
 			// We don't want to show the current nodes in the file picker
 			return !fileIDs.includes(n.fileid)
 		})
@@ -234,7 +235,7 @@ async function openFilePickerForAction(
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
-		.setButtonFactory((selection: Node[], path: string) => {
+		.setButtonFactory((selection: INode[], path: string) => {
 			const buttons: IFilePickerButton[] = []
 			const target = basename(path)
 
@@ -246,9 +247,9 @@ async function openFilePickerForAction(
 					label: target ? t('files', 'Copy to {target}', { target }, { escape: false, sanitize: false }) : t('files', 'Copy'),
 					variant: 'primary',
 					icon: CopyIconSvg,
-					async callback(destination: Node[]) {
+					async callback(destination: INode[]) {
 						resolve({
-							destination: destination[0] as Folder,
+							destination: destination[0] as IFolder,
 							action: MoveCopyAction.COPY,
 						} as MoveCopyResult)
 					},
@@ -276,9 +277,9 @@ async function openFilePickerForAction(
 					label: target ? t('files', 'Move to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Move'),
 					variant: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
 					icon: FolderMoveSvg,
-					async callback(destination: Node[]) {
+					async callback(destination: INode[]) {
 						resolve({
-							destination: destination[0] as Folder,
+							destination: destination[0] as IFolder,
 							action: MoveCopyAction.MOVE,
 						} as MoveCopyResult)
 					},

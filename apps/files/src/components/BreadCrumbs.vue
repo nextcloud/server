@@ -50,9 +50,10 @@ import NcBreadcrumb from '@nextcloud/vue/components/NcBreadcrumb'
 import NcBreadcrumbs from '@nextcloud/vue/components/NcBreadcrumbs'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { useViews } from '../composables/useViews.ts'
 import logger from '../logger.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
@@ -76,22 +77,24 @@ export default defineComponent({
 	},
 
 	setup() {
-		const draggingStore = useDragAndDropStore()
+		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
+		const draggingStore = useDragAndDropStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
+
 		const fileListWidth = useFileListWidth()
-		const { currentView, views } = useNavigation()
+		const views = useViews()
 
 		return {
+			activeStore,
 			draggingStore,
 			filesStore,
 			pathsStore,
 			selectionStore,
 			uploaderStore,
 
-			currentView,
 			fileListWidth,
 			views,
 		}
@@ -134,7 +137,7 @@ export default defineComponent({
 
 		// used to show the views icon for the first breadcrumb
 		viewIcon(): string {
-			return this.currentView?.icon ?? HomeSvg
+			return this.activeStore.activeView?.icon ?? HomeSvg
 		},
 
 		selectedFiles() {
@@ -152,12 +155,12 @@ export default defineComponent({
 		},
 
 		getFileSourceFromPath(path: string): FileSource | null {
-			return (this.currentView && this.pathsStore.getPath(this.currentView.id, path)) ?? null
+			return (this.activeStore.activeView && this.pathsStore.getPath(this.activeStore.activeView.id, path)) ?? null
 		},
 
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
-				return this.currentView?.name || t('files', 'Home')
+				return this.activeStore.activeView?.name || t('files', 'Home')
 			}
 
 			const source = this.getFileSourceFromPath(path)
@@ -169,7 +172,7 @@ export default defineComponent({
 			if (dir === '/') {
 				return {
 					...this.$route,
-					params: { view: this.currentView?.id },
+					params: { view: this.activeStore.activeView?.id },
 					query: {},
 				}
 			}
@@ -233,7 +236,8 @@ export default defineComponent({
 			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(path)
+			const controller = new AbortController()
+			const contents = await this.activeStore.activeView?.getContents(path, { signal: controller.signal })
 			const folder = contents?.folder
 			if (!folder) {
 				showError(this.t('files', 'Target folder does not exist any more'))
@@ -275,14 +279,12 @@ export default defineComponent({
 			} else if (index === 0) {
 				return t('files', 'Go to the "{dir}" directory', section)
 			}
-			return null
 		},
 
 		ariaForSection(section) {
 			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
 			}
-			return null
 		},
 
 		t,

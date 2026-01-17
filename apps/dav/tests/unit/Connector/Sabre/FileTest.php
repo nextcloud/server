@@ -49,7 +49,7 @@ use Test\Traits\UserTrait;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class FileTest extends TestCase {
 	use MountProviderTrait;
 	use UserTrait;
@@ -150,7 +150,7 @@ class FileTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('fopenFailuresProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'fopenFailuresProvider')]
 	public function testSimplePutFails(?\Throwable $thrownException, string $expectedException, bool $checkPreviousClass = true): void {
 		// setup
 		$storage = $this->getMockBuilder(Local::class)
@@ -315,7 +315,7 @@ class FileTest extends TestCase {
 	/**
 	 * Test putting a file with string Mtime
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('legalMtimeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'legalMtimeProvider')]
 	public function testPutSingleFileLegalMtime(mixed $requestMtime, ?int $resultMtime): void {
 		$request = new Request([
 			'server' => [

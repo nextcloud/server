@@ -20,7 +20,7 @@ use OCP\Share\IShare;
 /**
  * Class ShareTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareTest extends TestCase {
 	public const TEST_FOLDER_NAME = '/folder_share_api_test';
 
@@ -189,7 +189,7 @@ class ShareTest extends TestCase {
 	/**
 	 * shared files should never have delete permissions
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderTestFileSharePermissions')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataProviderTestFileSharePermissions')]
 	public function testFileSharePermissions($permission, $expectedvalid): void {
 		$pass = true;
 		try {

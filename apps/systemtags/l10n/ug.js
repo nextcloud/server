@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "ئەگەر قوزغىتىلسا، پەقەت باشقۇرغۇچىلارلا بەلگىلەرنى يارىتالايدۇ ۋە تەھرىرلىيەلەيدۇ. ھېساباتلار يەنىلا ئۇلارنى ھۆججەتلەردىن تەقسىملىيەلەيدۇ ۋە ئۆچۈرەلەيدۇ.",
     "Restrict tag creation and editing to administrators" : "سىستېما بەلگىسىنى قۇرۇشنى پەقەت باشقۇرغۇچىلار بىلەنلا چەكلە",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "ھەمكارلىق بەلگىسى بارلىق ئىشلەتكۈچىلەر ئۈچۈن تەمىنلىنىدۇ. چەكلەنگەن بەلگىلەرنى ئىشلەتكۈچىلەر كۆرەلەيدۇ ، ئەمما ئۇلار بەلگىلىمەيدۇ. كۆرۈنمەيدىغان بەلگىلەر ئىچكى ئىشلىتىشكە ئىشلىتىلىدۇ ، چۈنكى ئىشلەتكۈچىلەر ئۇلارنى كۆرەلمەيدۇ ياكى تەقسىملىيەلمەيدۇ.",
+    "Add tags" : "خەتكۈچ قوشۇڭ",
     "Assigned collaborative tags" : "ھەمكارلىق خەتكۈچلىرى",
     "Open in Files" : "ھۆججەتلەرنى ئېچىڭ",
     "List of tags and their associated files and folders." : "خەتكۈچ ۋە ئۇلارنىڭ مۇناسىۋەتلىك ھۆججەتلىرى ۋە ھۆججەت قىسقۇچلىرى.",

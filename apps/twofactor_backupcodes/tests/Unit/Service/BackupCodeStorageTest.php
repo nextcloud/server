@@ -102,7 +102,7 @@ class BackupCodeStorageTest extends TestCase {
 		$code1 = new BackupCode();
 		$code1->setUsed(1);
 		$code2 = new BackupCode();
-		$code2->setUsed('0');
+		$code2->setUsed(0);
 		$codes = [
 			$code1,
 			$code2,
@@ -168,7 +168,7 @@ class BackupCodeStorageTest extends TestCase {
 	public function testValidateUsedCode(): void {
 		$user = $this->createMock(IUser::class);
 		$code = new BackupCode();
-		$code->setUsed('1');
+		$code->setUsed(1);
 		$code->setCode('HASHEDVALUE');
 		$codes = [
 			$code,

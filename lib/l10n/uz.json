@@ -29,7 +29,9 @@
     "Authentication error" : "Authentication error",
     "Storage is temporarily not available" : "Storage is temporarily not available",
     "Images" : "Tasvirlar",
+    "Generated response" : "Yaratilgan javob",
     "Confirmation" : "Tasdiqlash",
+    "Prompt" : "Tezkor",
     "Text" : "Matn",
     "Translate" : "Tarjima"
 },"pluralForm" :"nplurals=1; plural=0;"

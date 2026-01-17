@@ -1,8 +1,9 @@
-import { getCurrentUser } from '@nextcloud/auth'
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -32,7 +33,7 @@ export default defineComponent({
 	},
 	methods: {
 		/**
-		 * Autocomplete @mentions
+		 * Autocomplete `@mentions`
 		 *
 		 * @param search the query
 		 * @param callback the callback to process the results with

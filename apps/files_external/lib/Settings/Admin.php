@@ -7,40 +7,45 @@
 namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
-use OCA\Files_External\MountConfig;
+use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
+use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
+	use CommonSettingsTrait;
 
 	public function __construct(
 		private IManager $encryptionManager,
 		private GlobalStoragesService $globalStoragesService,
 		private BackendService $backendService,
 		private GlobalAuth $globalAuth,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
 	) {
+		$this->visibility = BackendService::VISIBILITY_ADMIN;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$parameters = [
-			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
-			'visibilityType' => BackendService::VISIBILITY_ADMIN,
-			'storages' => $this->globalStoragesService->getStorages(),
-			'backends' => $this->backendService->getAvailableBackends(),
-			'authMechanisms' => $this->backendService->getAuthMechanisms(),
-			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
-			'globalCredentials' => $this->globalAuth->getAuth(''),
-			'globalCredentialsUid' => '',
-		];
+		$this->setInitialState();
 
-		return new TemplateResponse('files_external', 'settings', $parameters, '');
+		// Admin specific
+		$backends = $this->backendService->getAvailableBackends();
+		$allowedBackends = array_filter($backends, fn (Backend $backend) => $backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL));
+		$this->initialState->provideInitialState('user-mounting', [
+			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
+			'allowedBackends' => array_values(array_map(fn (Backend $backend) => $backend->getIdentifier(), $allowedBackends)),
+		]);
+
+		$this->loadScriptsAndStyles();
+		return new TemplateResponse('files_external', 'settings', renderAs: '');
 	}
 
 	/**

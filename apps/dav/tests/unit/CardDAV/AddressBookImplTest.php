@@ -80,7 +80,7 @@ class AddressBookImplTest extends TestCase {
 			->getMock();
 
 		$pattern = 'pattern';
-		$searchProperties = 'properties';
+		$searchProperties = ['properties'];
 
 		$this->backend->expects($this->once())->method('search')
 			->with($this->addressBookInfo['id'], $pattern, $searchProperties)
@@ -104,7 +104,7 @@ class AddressBookImplTest extends TestCase {
 		$this->assertSame(2, count($result));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCreate')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCreate')]
 	public function testCreate(array $properties): void {
 		$uid = 'uid';
 
@@ -229,7 +229,7 @@ class AddressBookImplTest extends TestCase {
 		$addressBookImpl->createOrUpdate($properties);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetPermissions')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetPermissions')]
 	public function testGetPermissions(array $permissions, int $expected): void {
 		$this->addressBook->expects($this->once())->method('getACL')
 			->willReturn($permissions);

@@ -49,6 +49,16 @@ class MiddleController extends BaseController {
 	 */
 	public function test4(int $rangedOne, int $rangedTwo, ?int $rangedThree, ?int $rangedFour) {
 	}
+
+	/**
+	 * @param int<-4, 42> $rangedOne
+	 * @param int<min, max> $rangedTwo
+	 * @param int<1, 6>|null $rangedThree
+	 * @param ?int<-70, -30> $rangedFour
+	 * @return void
+	 */
+	public function test5(int $rangedOne, int $rangedTwo, ?int $rangedThree, ?int $rangedFour) {
+	}
 }
 
 class EndController extends MiddleController {
@@ -227,9 +237,30 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
 	}
 
-	public function testRangeDetection(): void {
+	public function testRangeDetectionPsalm(): void {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test4');
+
+		$rangeInfo1 = $reader->getRange('rangedOne');
+		$this->assertSame(-4, $rangeInfo1['min']);
+		$this->assertSame(42, $rangeInfo1['max']);
+
+		$rangeInfo2 = $reader->getRange('rangedTwo');
+		$this->assertSame(PHP_INT_MIN, $rangeInfo2['min']);
+		$this->assertSame(PHP_INT_MAX, $rangeInfo2['max']);
+
+		$rangeInfo3 = $reader->getRange('rangedThree');
+		$this->assertSame(1, $rangeInfo3['min']);
+		$this->assertSame(6, $rangeInfo3['max']);
+
+		$rangeInfo3 = $reader->getRange('rangedFour');
+		$this->assertSame(-70, $rangeInfo3['min']);
+		$this->assertSame(-30, $rangeInfo3['max']);
+	}
+
+	public function testRangeDetectionNative(): void {
+		$reader = new ControllerMethodReflector();
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test5');
 
 		$rangeInfo1 = $reader->getRange('rangedOne');
 		$this->assertSame(-4, $rangeInfo1['min']);

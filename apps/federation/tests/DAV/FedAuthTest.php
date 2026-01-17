@@ -15,7 +15,7 @@ use Test\TestCase;
 
 class FedAuthTest extends TestCase {
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesUser')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesUser')]
 	public function testFedAuth(bool $expected, string $user, string $password): void {
 		/** @var DbHandler&MockObject $db */
 		$db = $this->createMock(DbHandler::class);

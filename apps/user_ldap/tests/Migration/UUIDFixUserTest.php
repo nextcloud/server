@@ -16,7 +16,7 @@ use OCA\User_LDAP\User_Proxy;
  *
  * @package OCA\User_LDAP\Tests\Migration
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UUIDFixUserTest extends AbstractUUIDFixTestCase {
 	protected function setUp(): void {
 		$this->isUser = true;

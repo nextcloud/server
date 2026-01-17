@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { TagWithId } from './types.ts'
 
 declare module '@nextcloud/event-bus' {
 	interface NextcloudEvents {
-		'systemtags:node:updated': Node
+		'systemtags:node:updated': INode
 		'systemtags:tag:deleted': TagWithId
 		'systemtags:tag:updated': TagWithId
 		'systemtags:tag:created': TagWithId

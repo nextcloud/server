@@ -17,7 +17,7 @@ use OCA\Files_External\Lib\Storage\Swift;
  *
  * @package OCA\Files_External\Tests\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SwiftTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 
@@ -29,7 +29,7 @@ class SwiftTest extends \Test\Files\Storage\Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->loadConfig('files_external/tests/config.swift.php');
+		$this->loadConfig(__DIR__ . '/../config.swift.php');
 		$this->instance = new Swift($this->config);
 	}
 

@@ -80,7 +80,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		return $testCases;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemote')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSplitUserRemote')]
 	public function testSplitUserRemote(string $remote, string $expectedUser, string $expectedUrl): void {
 		$this->contactsManager->expects($this->any())
 			->method('search')
@@ -109,14 +109,14 @@ class AddressHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemoteError')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSplitUserRemoteError')]
 	public function testSplitUserRemoteError(string $id): void {
 		$this->expectException(HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCompareAddresses')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCompareAddresses')]
 	public function testCompareAddresses(string $user1, string $server1, string $user2, string $server2, bool $expected): void {
 		$this->assertSame($expected,
 			$this->addressHandler->compareAddresses($user1, $server1, $user2, $server2)
@@ -143,7 +143,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRemoveProtocolFromUrl')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRemoveProtocolFromUrl')]
 	public function testRemoveProtocolFromUrl(string $url, string $expectedResult): void {
 		$result = $this->addressHandler->removeProtocolFromUrl($url);
 		$this->assertSame($expectedResult, $result);
@@ -157,7 +157,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUrlContainProtocol')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestUrlContainProtocol')]
 	public function testUrlContainProtocol(string $url, bool $expectedResult): void {
 		$result = $this->addressHandler->urlContainProtocol($url);
 		$this->assertSame($expectedResult, $result);

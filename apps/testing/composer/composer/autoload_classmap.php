@@ -26,6 +26,7 @@ return array(
     'OCA\\Testing\\Provider\\FakeTranslationProvider' => $baseDir . '/../lib/Provider/FakeTranslationProvider.php',
     'OCA\\Testing\\Settings\\DeclarativeSettingsForm' => $baseDir . '/../lib/Settings/DeclarativeSettingsForm.php',
     'OCA\\Testing\\TaskProcessing\\FakeContextWriteProvider' => $baseDir . '/../lib/TaskProcessing/FakeContextWriteProvider.php',
+    'OCA\\Testing\\TaskProcessing\\FakeOcrProvider' => $baseDir . '/../lib/TaskProcessing/FakeOcrProvider.php',
     'OCA\\Testing\\TaskProcessing\\FakeTextToImageProvider' => $baseDir . '/../lib/TaskProcessing/FakeTextToImageProvider.php',
     'OCA\\Testing\\TaskProcessing\\FakeTextToTextChatProvider' => $baseDir . '/../lib/TaskProcessing/FakeTextToTextChatProvider.php',
     'OCA\\Testing\\TaskProcessing\\FakeTextToTextProvider' => $baseDir . '/../lib/TaskProcessing/FakeTextToTextProvider.php',

@@ -17,7 +17,7 @@ use OCA\DAV\Capabilities;
 use OCP\AppFramework\QueryException;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class NotificationProviderManagerTest extends TestCase {
 	private NotificationProviderManager $providerManager;
 

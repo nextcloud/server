@@ -52,6 +52,7 @@ use NCU\Security\Signature\Model\Signatory;
  *   instead obtained from {@see ISignatureManager::getIncomingSignedRequest}.
  *
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
  */
 interface ISignatureManager {
 	/**
@@ -69,6 +70,8 @@ interface ISignatureManager {
 	 * @throws SignatureNotFoundException if incoming request is not signed
 	 * @throws SignatureException if signature could not be confirmed
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
+	 * @psalm-suppress DeprecatedInterface
 	 */
 	public function getIncomingSignedRequest(ISignatoryManager $signatoryManager, ?string $body = null): IIncomingSignedRequest;
 
@@ -83,6 +86,8 @@ interface ISignatureManager {
 	 *
 	 * @return IOutgoingSignedRequest
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
+	 * @psalm-suppress DeprecatedInterface
 	 */
 	public function getOutgoingSignedRequest(ISignatoryManager $signatoryManager, string $content, string $method, string $uri): IOutgoingSignedRequest;
 
@@ -97,6 +102,8 @@ interface ISignatureManager {
 	 *
 	 * @return array new payload to be sent, including original payload and signature elements in headers
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
+	 * @psalm-suppress DeprecatedInterface
 	 */
 	public function signOutgoingRequestIClientPayload(ISignatoryManager $signatoryManager, array $payload, string $method, string $uri): array;
 
@@ -109,6 +116,8 @@ interface ISignatureManager {
 	 * @return Signatory
 	 * @throws SignatoryNotFoundException if entry does not exist in local database
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getSignatory(string $host, string $account = ''): Signatory;
 
@@ -120,6 +129,7 @@ interface ISignatureManager {
 	 * @return string
 	 * @throws IdentityNotFoundException if hostname is not set
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
 	 */
 	public function generateKeyIdFromConfig(string $path): string;
 
@@ -131,6 +141,7 @@ interface ISignatureManager {
 	 * @return string
 	 * @throws IdentityNotFoundException if identity cannot be extracted
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignatureManager}
 	 */
 	public function extractIdentityFromUri(string $uri): string;
 }

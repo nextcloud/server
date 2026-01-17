@@ -26,16 +26,18 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class FilesPluginTest extends TestCase {
 
 	private Tree&MockObject $tree;
@@ -72,14 +74,17 @@ class FilesPluginTest extends TestCase {
 			$this->accountManager,
 		);
 
-		$response = $this->createMock(ResponseInterface::class);
+		$response = $this->createMock(Response::class);
 		$this->server->httpResponse = $response;
 		$this->server->xml = new Service();
 
 		$this->plugin->initialize($this->server);
 	}
 
-	private function createTestNode(string $class, string $path = '/dummypath'): MockObject {
+	/**
+	 * @param class-string<INode> $class
+	 */
+	private function createTestNode(string $class, string $path = '/dummypath'): INode&MockObject {
 		$node = $this->createMock($class);
 
 		$node->expects($this->any())
@@ -650,7 +655,7 @@ class FilesPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('downloadHeadersProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'downloadHeadersProvider')]
 	public function testDownloadHeaders(bool $isClumsyAgent, string $contentDispositionHeader): void {
 		$request = $this->createMock(RequestInterface::class);
 		$response = $this->createMock(ResponseInterface::class);

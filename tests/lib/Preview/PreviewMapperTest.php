@@ -14,20 +14,20 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\IDBConnection;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewMapperTest extends TestCase {
 	private PreviewMapper $previewMapper;
 	private IDBConnection $connection;
-	private IGenerator $snowflake;
+	private ISnowflakeGenerator $snowflake;
 
 	public function setUp(): void {
 		parent::setUp();
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->connection = Server::get(IDBConnection::class);
-		$this->snowflake = Server::get(IGenerator::class);
+		$this->snowflake = Server::get(ISnowflakeGenerator::class);
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('preview_locations')->executeStatement();
@@ -79,7 +79,7 @@ class PreviewMapperTest extends TestCase {
 			$qb->executeStatement();
 		}
 		$preview = new Preview();
-		$preview->setId($this->snowflake->nextId());
+		$preview->generateId();
 		$preview->setFileId($fileId);
 		$preview->setStorageId(1);
 		$preview->setCropped(true);

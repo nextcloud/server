@@ -157,9 +157,9 @@ class File implements ICache {
 	public function gc() {
 		$storage = $this->getStorage();
 		if ($storage) {
-			// extra hour safety, in case of stray part chunks that take longer to write,
-			// because touch() is only called after the chunk was finished
-			$now = time() - 3600;
+			$ttl = \OC::$server->getConfig()->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
+			$now = time() - $ttl;
+
 			$dh = $storage->opendir('/');
 			if (!is_resource($dh)) {
 				return null;

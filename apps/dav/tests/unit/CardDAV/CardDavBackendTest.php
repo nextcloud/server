@@ -46,7 +46,7 @@ use function time;
  *
  * @package OCA\DAV\Tests\unit\CardDAV
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CardDavBackendTest extends TestCase {
 	private Principal&MockObject $principal;
 	private IUserManager&MockObject $userManager;
@@ -656,7 +656,7 @@ class CardDavBackendTest extends TestCase {
 		$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSearch')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSearch')]
 	public function testSearch(string $pattern, array $properties, array $options, array $expected): void {
 		/** @var VCard $vCards */
 		$vCards = [];

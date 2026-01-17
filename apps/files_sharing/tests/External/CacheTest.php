@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\Files_Sharing\Tests\External
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CacheTest extends TestCase {
 	protected IManager&MockObject $contactsManager;
 	private Storage&MockObject $storage;

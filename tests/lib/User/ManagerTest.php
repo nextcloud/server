@@ -740,4 +740,26 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('uid1', $users[0]->getUID());
 		$this->assertEquals('uid2', $users[1]->getUID());
 	}
+
+	public function testGetExistingUser() {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('userExists')
+			->with('foobar')
+			->willReturn(true);
+		$backend->method('getDisplayName')
+			->willReturn('Foo Bar');
+		$backend->method('implementsActions')
+			->willReturnCallback(fn (int $action) => $action === Backend::GET_DISPLAYNAME);
+
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$user = $manager->getExistingUser('foobar');
+		$this->assertEquals('foobar', $user->getUID());
+		$this->assertEquals('Foo Bar', $user->getDisplayName());
+
+		$user = $manager->getExistingUser('nobody', 'None');
+		$this->assertEquals('nobody', $user->getUID());
+		$this->assertEquals('None', $user->getDisplayName());
+	}
 }

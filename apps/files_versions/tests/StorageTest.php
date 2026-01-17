@@ -16,7 +16,7 @@ use OCP\Server;
 use Test\TestCase;
 use Test\Traits\UserTrait;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StorageTest extends TestCase {
 	use UserTrait;
 

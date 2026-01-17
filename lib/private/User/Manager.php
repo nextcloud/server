@@ -443,22 +443,23 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * returns how many users per backend exist (if supported by backend)
 	 *
-	 * @param boolean $hasLoggedIn when true only users that have a lastLogin
-	 *                             entry in the preferences table will be affected
 	 * @return array<string, int> an array of backend class as key and count number as value
 	 */
-	public function countUsers() {
+	public function countUsers(bool $onlyMappedUsers = false) {
 		$userCountStatistics = [];
 		foreach ($this->backends as $backend) {
+			$name = $backend instanceof IUserBackend
+				? $backend->getBackendName()
+				: get_class($backend);
+
+			if ($onlyMappedUsers && $backend instanceof ICountMappedUsersBackend) {
+				$userCountStatistics[$name] = $backend->countMappedUsers();
+				continue;
+			}
 			if ($backend instanceof ICountUsersBackend || $backend->implementsActions(Backend::COUNT_USERS)) {
 				/** @var ICountUsersBackend|IUserBackend $backend */
 				$backendUsers = $backend->countUsers();
 				if ($backendUsers !== false) {
-					if ($backend instanceof IUserBackend) {
-						$name = $backend->getBackendName();
-					} else {
-						$name = get_class($backend);
-					}
 					if (isset($userCountStatistics[$name])) {
 						$userCountStatistics[$name] += $backendUsers;
 					} else {
@@ -467,6 +468,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				}
 			}
 		}
+
 		return $userCountStatistics;
 	}
 
@@ -824,11 +826,15 @@ class Manager extends PublicEmitter implements IUserManager {
 				foreach ($this->backends as $backend) {
 					if ($backend->userExists($userId)) {
 						$user = new LazyUser($userId, $this, null, $backend);
-						yield $user;
+						yield $userId => $user;
 						break;
 					}
 				}
 			}
 		} while (count($userIds) === $batchSize && $limit !== 0);
+	}
+
+	public function getExistingUser(string $userId, ?string $displayName = null): IUser {
+		return new LazyUser($userId, $this, $displayName);
 	}
 }

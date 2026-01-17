@@ -54,6 +54,7 @@
 		<directory name="core"/>
 		<directory name="lib"/>
 		<directory name="ocs"/>
+		<directory name="tests/lib/Comments"/>
 		<directory name="ocs-provider"/>
 		<file name="cron.php"/>
 		<file name="index.php"/>
@@ -61,9 +62,10 @@
 		<file name="remote.php"/>
 		<file name="status.php"/>
 		<file name="version.php"/>
+		<file name="tests/lib/TestCase.php"/>
 		<ignoreFiles>
-			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
+			<directory name="apps/**/composer"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
@@ -71,6 +73,7 @@
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
+		<directory name="vendor-bin/phpunit/vendor/phpunit"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
@@ -167,37 +170,54 @@
 		<DeprecatedClass>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedClass>
 		<DeprecatedConstant>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedConstant>
 		<DeprecatedFunction>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedFunction>
 		<DeprecatedInterface>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedInterface>
 		<DeprecatedMethod>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedMethod>
 		<DeprecatedProperty>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedProperty>
 		<DeprecatedTrait>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
+		<InternalMethod>
+			<errorLevel type="suppress">
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</InternalMethod>
+		<InternalClass>
+			<errorLevel type="suppress">
+				<directory name="apps/*/tests" />
+			</errorLevel>
+		</InternalClass>
 	</issueHandlers>
 </psalm>

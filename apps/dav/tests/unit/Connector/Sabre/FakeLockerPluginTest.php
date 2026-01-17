@@ -119,7 +119,7 @@ class FakeLockerPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tokenDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tokenDataProvider')]
 	public function testValidateTokens(array $input, array $expected): void {
 		$request = $this->createMock(RequestInterface::class);
 		$this->fakeLockerPlugin->validateTokens($request, $input);

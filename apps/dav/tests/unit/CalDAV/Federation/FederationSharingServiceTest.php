@@ -390,7 +390,7 @@ class FederationSharingServiceTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideInvalidRemoteUserPrincipalData')]
+	#[DataProvider(methodName: 'provideInvalidRemoteUserPrincipalData')]
 	public function testShareWithWithInvalidRemoteUserPrincipal(string $remoteUserPrincipal): void {
 		$shareable = $this->createMock(Calendar::class);
 		$shareable->method('getOwner')

@@ -329,4 +329,11 @@ export default class Config {
 	get showFederatedSharesToTrustedServersAsInternal(): boolean {
 		return loadState('files_sharing', 'showFederatedSharesToTrustedServersAsInternal', false)
 	}
+
+	/**
+	 * Show the external share ui
+	 */
+	get showExternalSharing(): boolean {
+		return loadState('files_sharing', 'showExternalSharing', true)
+	}
 }

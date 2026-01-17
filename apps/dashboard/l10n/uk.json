@@ -18,6 +18,7 @@
     "Edit widgets" : "Редагувати віджети",
     "Get more widgets from the App Store" : "Більше віджетів у каталозі застосунків",
     "Weather service" : "Погода",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Для вашої конфіденційності дані погоди буде запитано вашим сервером {productName} від вашого імени, таким чином сервіс надання погоди не отримуватиме ваших приватних даних. ",
     "Weather data from Met.no" : "Дані про погоду з Met.no",
     "geocoding with Nominatim" : "геокодування за допомогою Nominatim",
     "elevation data from OpenTopoData" : "дані про висоту з OpenTopoData",

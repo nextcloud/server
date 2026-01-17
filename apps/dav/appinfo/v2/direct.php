@@ -21,12 +21,15 @@ if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 ignore_user_abort(true);
 
 // Turn off output buffering to prevent memory problems
-\OC_Util::obEnd();
+while (ob_get_level()) {
+	ob_end_clean();
+}
 
 $requestUri = Server::get(IRequest::class)->getRequestUri();
 
 /** @var ServerFactory $serverFactory */
 $serverFactory = Server::get(ServerFactory::class);
+/** @var string $baseuri defined in remote.php */
 $server = $serverFactory->createServer(
 	$baseuri,
 	$requestUri,
@@ -37,4 +40,4 @@ $server = $serverFactory->createServer(
 	Server::get(IRequest::class)
 );
 
-$server->exec();
+$server->start();

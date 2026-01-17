@@ -7,20 +7,22 @@
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
+use OCP\Util;
 
 class Mail implements IDelegatedSettings {
-	/**
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 */
+
 	public function __construct(
 		private IConfig $config,
 		private IL10N $l,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -30,30 +32,59 @@ class Mail implements IDelegatedSettings {
 	public function getForm() {
 		$finder = Server::get(IBinaryFinder::class);
 
-		$parameters = [
-			// Mail
-			'sendmail_is_available' => $finder->findBinaryPath('sendmail') !== false,
+		$smtpModeOptions = [
+			['label' => 'SMTP', 'id' => 'smtp'],
+		];
+		if ($finder->findBinaryPath('sendmail') !== false) {
+			$smtpModeOptions[] = ['label' => 'Sendmail', 'id' => 'sendmail'];
+		}
+		if ($finder->findBinaryPath('qmail') !== false) {
+			$smtpModeOptions[] = ['label' => 'qmail', 'id' => 'qmail'];
+		}
+
+		$this->initialState->provideInitialState('settingsAdminMail', [
+			'configIsReadonly' => $this->config->getSystemValueBool('config_is_read_only', false),
+			'docUrl' => $this->urlGenerator->linkToDocs('admin-email'),
+
+			'smtpModeOptions' => $smtpModeOptions,
+			'smtpEncryptionOptions' => [
+				['label' => $this->l->t('None / STARTTLS'), 'id' => ''],
+				['label' => 'SSL/TLS', 'id' => 'ssl'],
+			],
+			'smtpSendmailModeOptions' => [
+				['label' => 'smtp (-bs)', 'id' => 'smtp'],
+				['label' => 'pipe (-t -i)', 'id' => 'pipe'],
+			],
+		]);
+
+		$smtpPassword = $this->config->getSystemValue('mail_smtppassword', '');
+		if ($smtpPassword !== '') {
+			$smtpPassword = '********';
+		}
+
+		$smtpMode = $this->config->getSystemValue('mail_smtpmode', '');
+		if ($smtpMode === '' || $smtpMode === 'php') {
+			$smtpMode = 'smtp';
+		}
+
+		$smtpOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
+		$this->initialState->provideInitialState('settingsAdminMailConfig', [
 			'mail_domain' => $this->config->getSystemValue('mail_domain', ''),
 			'mail_from_address' => $this->config->getSystemValue('mail_from_address', ''),
-			'mail_smtpmode' => $this->config->getSystemValue('mail_smtpmode', ''),
+			'mail_smtpmode' => $smtpMode,
 			'mail_smtpsecure' => $this->config->getSystemValue('mail_smtpsecure', ''),
 			'mail_smtphost' => $this->config->getSystemValue('mail_smtphost', ''),
 			'mail_smtpport' => $this->config->getSystemValue('mail_smtpport', ''),
 			'mail_smtpauth' => $this->config->getSystemValue('mail_smtpauth', false),
 			'mail_smtpname' => $this->config->getSystemValue('mail_smtpname', ''),
-			'mail_smtppassword' => $this->config->getSystemValue('mail_smtppassword', ''),
+			'mail_smtppassword' => $smtpPassword,
 			'mail_sendmailmode' => $this->config->getSystemValue('mail_sendmailmode', 'smtp'),
-		];
 
-		if ($parameters['mail_smtppassword'] !== '') {
-			$parameters['mail_smtppassword'] = '********';
-		}
+			'mail_noverify' => $smtpOptions['ssl']['allow_self_signed'] ?? false,
+		]);
 
-		if ($parameters['mail_smtpmode'] === '' || $parameters['mail_smtpmode'] === 'php') {
-			$parameters['mail_smtpmode'] = 'smtp';
-		}
-
-		return new TemplateResponse('settings', 'settings/admin/additional-mail', $parameters, '');
+		Util::addScript('settings', 'vue-settings-admin-mail');
+		return new TemplateResponse('settings', 'settings/admin/additional-mail', renderAs: '');
 	}
 
 	/**

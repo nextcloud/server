@@ -49,7 +49,7 @@ class TemporaryNoCross extends Temporary {
  *
  * @package OCA\Files_Trashbin\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StorageTest extends \Test\TestCase {
 	use MountProviderTrait;
 
@@ -560,7 +560,7 @@ class StorageTest extends \Test\TestCase {
 		$this->assertCount(0, $results);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldMoveToTrash')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShouldMoveToTrash')]
 	public function testShouldMoveToTrash(string $mountPoint, string $path, bool $userExists, bool $appDisablesTrash, bool $expected): void {
 		$fileID = 1;
 		$cache = $this->createMock(ICache::class);

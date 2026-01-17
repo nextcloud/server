@@ -24,7 +24,7 @@ abstract class AbstractUUIDFixTestCase extends TestCase {
 	protected LDAP&MockObject $ldap;
 	protected AbstractMapping $mapper;
 	protected UUIDFix $job;
-	protected Proxy $proxy;
+	protected Proxy&MockObject $proxy;
 	protected Access&MockObject $access;
 	protected ITimeFactory&MockObject $time;
 	protected bool $isUser = true;

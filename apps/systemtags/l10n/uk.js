@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Якщо ця функція увімкнена, створювати та редагувати теги можуть лише адміністратори. Користувачі можуть як і раніше присвоювати та видаляти теги з файлів.",
     "Restrict tag creation and editing to administrators" : "Обмежити створення та редагування тегів адміністраторами",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Спільні мітки доступні для всіх користувачів. Заборонені мітки видимі для користувачів, але вони не можуть їх призначити. Невидимі мітки призначені для внутрішнього використання, оскільки користувачі не можуть бачити або призначати їх.",
+    "Add tags" : "Додати теги",
     "Assigned collaborative tags" : "Призначені спільні мітки",
     "Open in Files" : "Відкрити у Файлах",
     "List of tags and their associated files and folders." : "Перелік міток та файлів й каталогів, які їх мають",

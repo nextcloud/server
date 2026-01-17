@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "若啟用，僅有管理員可以建立與編輯標籤。一般帳號仍可分配與移除檔案中的標籤。",
     "Restrict tag creation and editing to administrators" : "限制僅管理員才能建立與編輯標籤",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "協作標籤適用於所有使用者。使用者可以看到受限的標籤，但無法由他們指派。不可見的隱藏標籤僅供內部使用，因為使用者無法看見或指派它們。",
+    "Add tags" : "新增標籤",
     "Assigned collaborative tags" : "已分配的協作標籤",
     "Open in Files" : "在「檔案」應用程式中開啟",
     "List of tags and their associated files and folders." : "標籤及其關聯檔案與資料夾的清單。",

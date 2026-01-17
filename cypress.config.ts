@@ -25,9 +25,9 @@ export default defineConfig({
 	viewportWidth: 1280,
 	viewportHeight: 720,
 
-	// Tries again 2 more times on failure
+	// Tries again when in run mode (cypress run) e.g. on CI
 	retries: {
-		runMode: 2,
+		runMode: 3,
 		// do not retry in `cypress open`
 		openMode: 0,
 	},

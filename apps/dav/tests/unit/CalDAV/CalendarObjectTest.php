@@ -79,7 +79,7 @@ class CalendarObjectTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideConfidentialObjectData')]
+	#[DataProvider(methodName: 'provideConfidentialObjectData')]
 	public function testGetWithConfidentialObject(
 		bool $expectConfidential,
 		array $calendarInfo,

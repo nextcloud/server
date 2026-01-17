@@ -34,7 +34,6 @@ use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
-use OCP\Snowflake\IGenerator;
 use Psr\Log\LoggerInterface;
 
 class Manager {
@@ -57,7 +56,6 @@ class Manager {
 		private SetupManager $setupManager,
 		private ICertificateManager $certificateManager,
 		private ExternalShareMapper $externalShareMapper,
-		private IGenerator $snowflakeGenerator,
 	) {
 		$this->user = $userSession->getUser();
 	}
@@ -186,7 +184,7 @@ class Manager {
 				$subShare = $this->externalShareMapper->getUserShare($externalShare, $user);
 			} catch (DoesNotExistException) {
 				$subShare = new ExternalShare();
-				$subShare->setId($this->snowflakeGenerator->nextId());
+				$subShare->generateId();
 				$subShare->setRemote($externalShare->getRemote());
 				$subShare->setPassword($externalShare->getPassword());
 				$subShare->setName($externalShare->getName());
@@ -195,7 +193,7 @@ class Manager {
 				$subShare->setMountpoint($mountPoint ?? $externalShare->getMountpoint());
 				$subShare->setAccepted($accepted);
 				$subShare->setRemoteId($externalShare->getRemoteId());
-				$subShare->setParent($externalShare->getId());
+				$subShare->setParent((string)$externalShare->getId());
 				$subShare->setShareType($externalShare->getShareType());
 				$subShare->setShareToken($externalShare->getShareToken());
 				$this->externalShareMapper->insert($subShare);
@@ -317,7 +315,7 @@ class Manager {
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
 			->setUser($user->getUID())
-			->setObject('remote_share', $remoteShare->getId());
+			->setObject('remote_share', (string)$remoteShare->getId());
 		$this->notificationManager->markProcessed($filter);
 	}
 

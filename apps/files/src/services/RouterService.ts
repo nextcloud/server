@@ -1,7 +1,8 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { Location, Route } from 'vue-router'
 import type VueRouter from 'vue-router'
 
@@ -51,23 +52,23 @@ export default class RouterService {
 	/**
 	 * Trigger a route change on the files App
 	 *
-	 * @param name the route name
+	 * @param name - The route name or null to keep current route and just update params/query
 	 * @param params the route parameters
 	 * @param query the url query parameters
 	 * @param replace replace the current history
 	 * @see https://router.vuejs.org/guide/essentials/navigation.html#navigate-to-a-different-location
 	 */
 	goToRoute(
-		name?: string,
-		params?: Record<string, string>,
+		name: string | null,
+		params: Record<string, string>,
 		query?: Record<string, string | (string | null)[] | null | undefined>,
 		replace?: boolean,
 	): Promise<Route> {
-		return this.router.push({
-			name,
-			query,
-			params,
-			replace,
-		} as Location)
+		name ??= this.router.currentRoute.name as string
+		const location: Location = { name, query, params }
+		if (replace) {
+			return this._router.replace(location)
+		}
+		return this._router.push(location)
 	}
 }

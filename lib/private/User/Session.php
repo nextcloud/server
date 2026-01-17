@@ -389,8 +389,9 @@ class Session implements IUserSession, Emitter {
 		}
 
 		try {
-			$isTokenPassword = $this->isTokenPassword($password);
-		} catch (ExpiredTokenException $e) {
+			$dbToken = $this->getTokenFromPassword($password);
+			$isTokenPassword = $dbToken !== null;
+		} catch (ExpiredTokenException) {
 			// Just return on an expired token no need to check further or record a failed login
 			return false;
 		}
@@ -427,7 +428,16 @@ class Session implements IUserSession, Emitter {
 		}
 
 		if ($isTokenPassword) {
-			$this->session->set('app_password', $password);
+			if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::ONETIME_TOKEN) {
+				$this->tokenProvider->invalidateTokenById($dbToken->getUID(), $dbToken->getId());
+				if ($request->getPathInfo() !== '/core/getapppassword-onetime') {
+					return false;
+				}
+
+				$this->session->set('one_time_token', $password);
+			} else {
+				$this->session->set('app_password', $password);
+			}
 		} elseif ($this->supportsCookies($request)) {
 			// Password login, but cookies supported -> create (browser) session token
 			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
@@ -483,21 +493,18 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * Check if the given 'password' is actually a device token
 	 *
-	 * @param string $password
-	 * @return boolean
 	 * @throws ExpiredTokenException
 	 */
-	public function isTokenPassword($password) {
+	private function getTokenFromPassword(string $password): ?\OCP\Authentication\Token\IToken {
 		try {
-			$this->tokenProvider->getToken($password);
-			return true;
+			return $this->tokenProvider->getToken($password);
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $ex) {
 			$this->logger->debug('Token is not valid: ' . $ex->getMessage(), [
 				'exception' => $ex,
 			]);
-			return false;
+			return null;
 		}
 	}
 
@@ -838,6 +845,13 @@ class Session implements IUserSession, Emitter {
 		// Set the session variable so we know this is an app password
 		if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::PERMANENT_TOKEN) {
 			$this->session->set('app_password', $token);
+		} elseif ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::ONETIME_TOKEN) {
+			$this->tokenProvider->invalidateTokenById($dbToken->getUID(), $dbToken->getId());
+			if ($request->getPathInfo() !== '/core/getapppassword-onetime') {
+				return false;
+			}
+
+			$this->session->set('one_time_token', $token);
 		}
 
 		return true;

@@ -25,7 +25,7 @@ use Sabre\DAV\Tree;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CustomPropertiesBackendTest extends \Test\TestCase {
 	private \Sabre\DAV\Server $server;
 	private \Sabre\DAV\Tree&MockObject $tree;

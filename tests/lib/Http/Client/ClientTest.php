@@ -284,6 +284,7 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -291,12 +292,18 @@ class ClientTest extends \Test\TestCase {
 				'https' => 'foo'
 			],
 			'headers' => [
+
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
+
 			],
 			'timeout' => 30,
 			'nextcloud' => [
 				'allow_local_address' => true,
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		];
 	}
@@ -481,11 +488,13 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
 		$this->assertEquals([
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
 			'headers' => [
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -498,6 +507,10 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\UriInterface $uri,
 				): void {
 				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
@@ -531,6 +544,8 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -539,7 +554,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'headers' => [
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -552,6 +567,10 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\UriInterface $uri,
 				): void {
 				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
@@ -585,6 +604,8 @@ class ClientTest extends \Test\TestCase {
 		$this->serverVersion->method('getVersionString')
 			->willReturn('123.45.6');
 
+		$acceptEnc = function_exists('brotli_uncompress') ? 'br, gzip' : 'gzip';
+
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -594,7 +615,7 @@ class ClientTest extends \Test\TestCase {
 			],
 			'headers' => [
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
-				'Accept-Encoding' => 'gzip',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -607,6 +628,10 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\UriInterface $uri,
 				): void {
 				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}

@@ -208,7 +208,7 @@ class BackendServiceTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('invalidConfigPlaceholderProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'invalidConfigPlaceholderProvider')]
 	public function testRegisterConfigHandlerInvalid(array $placeholders): void {
 		$this->expectException(\RuntimeException::class);
 

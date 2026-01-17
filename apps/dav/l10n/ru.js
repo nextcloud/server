@@ -204,8 +204,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Не удалось переименовать временный файл в результирующий, операция отменена вызовом обработчика",
     "Could not rename part file to final file" : "Не удалось переименовать временный файл в результирующий",
     "Failed to check file size: %1$s" : "Не удалось проверить размер файла: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Не удалось открыть файл: %1$s, файл, похоже, существует",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Не удалось открыть файл: %1$s, файл, похоже, не существует",
     "Encryption not ready: %1$s" : "Подсистема шифрования не готова: %1$s",
     "Failed to open file: %1$s" : "Не удалось открыть файл: %1$s",
     "Failed to unlink: %1$s" : "Не удалось разорвать связь: %1$s",
@@ -337,6 +335,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Через неделю, %1$s, затем %2$s и %3$s","Через %n недели, %1$s, затем %2$s и %3$s","Через %n недель, %1$s, затем %2$s и %3$s","Через %n недель, %1$s, затем %2$s и %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Через месяц, %1$s, затем %2$s и %3$s","Через %n месяца, %1$s, затем %2$s и %3$s","Через %n месяцев, %1$s, затем %2$s и %3$s","Через %n месяцев, %1$s, затем %2$s и %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Через год, %1$s, затем %2$s и %3$s","Через %n года, %1$s, затем %2$s и %3$s","Через %n лет, %1$s, затем %2$s и %3$s","Через %n лет, %1$s, затем %2$s и %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Не удалось открыть файл: %1$s, файл, похоже, существует",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Не удалось открыть файл: %1$s, файл, похоже, не существует",
     "No results." : "Неверный целевой путь.",
     "Start typing." : "Начать печатать.",
     "Time zone:" : "Часовой пояс:"

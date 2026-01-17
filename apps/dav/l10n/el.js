@@ -204,8 +204,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Αδυναμία μετονομασίας μερικού αρχείου σε τελικό αρχείο, ακυρώθηκε από hook",
     "Could not rename part file to final file" : "Αδυναμία μετονομασίας μερικού αρχείου σε τελικό αρχείο",
     "Failed to check file size: %1$s" : "Αποτυχία ελέγχου μεγέθους αρχείου: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Αδυναμία ανοίγματος αρχείου: %1$s, το αρχείο φαίνεται να υπάρχει",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Αδυναμία ανοίγματος αρχείου: %1$s, το αρχείο δεν φαίνεται να υπάρχει",
     "Encryption not ready: %1$s" : "Η κρυπτογράφηση δεν είναι έτοιμη: %1$s",
     "Failed to open file: %1$s" : "Αποτυχία ανοίγματος αρχείου: %1$s",
     "Failed to unlink: %1$s" : "Αποτυχία unlink: %1$s",
@@ -337,6 +335,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Σε μία εβδομάδα στις %1$s και έπειτα στις %2$s και %3$s","Σε %n εβδομάδες στις %极$s και έπειτα στις %2$s και %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Σε έναν μήνα στις %1$s και έπειτα στις %2$s και %3$s","Σε %n μήνες στις %1$s και έπειτα στις %2$s και %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Σε έναν χρόνο στις %1$s και έπειτα στις %2$s και %3$s","Σε %n χρόνια στις %1$s και έπειτα στις %2$s και %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Αδυναμία ανοίγματος αρχείου: %1$s, το αρχείο φαίνεται να υπάρχει",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Αδυναμία ανοίγματος αρχείου: %1$s, το αρχείο δεν φαίνεται να υπάρχει",
     "No results." : "Κανένα αποτέλεσμα.",
     "Start typing." : "Ξεκινήστε να πληκτρολογείτε.",
     "Time zone:" : "Ζώνη ώρας:"

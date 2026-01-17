@@ -38,6 +38,10 @@
 		</providers>
 	</activity>
 
+	<openmetrics>
+		<exporter>OCA\Comments\OpenMetrics\CommentsCountMetric</exporter>
+	</openmetrics>
+
 	<collaboration>
 		<plugins>
 			<plugin type="autocomplete-sort">OCA\Comments\Collaboration\CommentersSorter</plugin>

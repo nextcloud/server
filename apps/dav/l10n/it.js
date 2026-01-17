@@ -234,8 +234,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Impossibile rinominare il file di parte in file finale, annullato da hook",
     "Could not rename part file to final file" : "Impossibile rinominare il file di parte in file finale",
     "Failed to check file size: %1$s" : "Verifica della dimensione del file non riuscito: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Impossibile aprire il file: %1$s, il file sembra esistere",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Impossibile aprire il file: %1$s, il file non sembra esistere",
     "Encryption not ready: %1$s" : "Cifratura non pronta: %1$s",
     "Failed to open file: %1$s" : "Apertura del file non riuscito: %1$s",
     "Failed to unlink: %1$s" : "Scollegamento non riuscito: %1$s",
@@ -367,6 +365,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Fra una settimana il %1$s successivamente il %2$s e %3$s","Fra %n settimane il %1$s successivamente il %2$s e %3$s","Fra %n settimane il %1$s successivamente il %2$s e %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Fra un mese il %1$s successivamente il %2$s e %3$s","Fra %n mesi il %1$s successivamente il %2$s e %3$s","Fra %n mesi il %1$s successivamente il %2$s e %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Fra un anno il %1$s successivamente il %2$s e %3$s","Fra %n anni il %1$s successivamente il %2$s e %3$s","Fra %n anni il %1$s successivamente il %2$s e %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Impossibile aprire il file: %1$s, il file sembra esistere",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Impossibile aprire il file: %1$s, il file non sembra esistere",
     "No results." : "Nessun risultato.",
     "Start typing." : "Inizia a scrivere.",
     "Time zone:" : "Fuso orario:"

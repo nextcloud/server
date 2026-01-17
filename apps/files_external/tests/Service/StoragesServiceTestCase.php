@@ -53,14 +53,13 @@ class CleaningDBConfig extends DBConfigService {
 	}
 }
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 abstract class StoragesServiceTestCase extends \Test\TestCase {
 	protected StoragesService $service;
 	protected BackendService&MockObject $backendService;
 	protected string $dataDir;
 	protected CleaningDBConfig $dbConfig;
 	protected static array $hookCalls;
-	protected IUserMountCache&MockObject $mountCache;
 	protected IEventDispatcher&MockObject $eventDispatcher;
 	protected IAppConfig&MockObject $appConfig;
 
@@ -75,7 +74,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		);
 		MountConfig::$skipTest = true;
 
-		$this->mountCache = $this->createMock(IUserMountCache::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 
@@ -251,7 +249,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteStorageDataProvider')]
 	public function testDeleteStorage(array $backendOptions, string $rustyStorageId): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\DAV');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
@@ -384,11 +382,13 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	}
 
 	public function testGetStoragesBackendNotVisible(): void {
+		/** @var Backend&MockObject $backend */
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$backend->expects($this->once())
 			->method('isVisibleFor')
 			->with($this->service->getVisibilityType())
 			->willReturn(false);
+		/** @var AuthMechanism&MockObject $authMechanism */
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$authMechanism->method('isVisibleFor')
 			->with($this->service->getVisibilityType())
@@ -407,10 +407,12 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	}
 
 	public function testGetStoragesAuthMechanismNotVisible(): void {
+		/** @var Backend&MockObject $backend */
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$backend->method('isVisibleFor')
 			->with($this->service->getVisibilityType())
 			->willReturn(true);
+		/** @var AuthMechanism&MockObject $authMechanism */
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$authMechanism->expects($this->once())
 			->method('isVisibleFor')

@@ -6,7 +6,7 @@
 import { createPinia } from 'pinia'
 
 /**
- *
+ * Get the Pinia instance for the Files app.
  */
 export function getPinia() {
 	if (window._nc_files_pinia) {

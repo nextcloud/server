@@ -27,7 +27,7 @@ use Test\TestCase;
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CleanUpTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected IRootFolder&MockObject $rootFolder;
@@ -69,7 +69,7 @@ class CleanUpTest extends TestCase {
 		$this->assertCount(10, $result);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRemoveDeletedFiles')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRemoveDeletedFiles')]
 	public function testRemoveDeletedFiles(bool $nodeExists): void {
 		$this->initTable();
 		$this->rootFolder

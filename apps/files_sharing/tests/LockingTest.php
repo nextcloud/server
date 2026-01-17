@@ -22,7 +22,7 @@ use OCP\Share\IShare;
  *
  * @package OCA\Files_Sharing\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class LockingTest extends TestCase {
 	/**
 	 * @var \Test\Util\User\Dummy

@@ -1137,9 +1137,6 @@ class Image implements IImage {
 	 * Destroys the current image and resets the object
 	 */
 	public function destroy(): void {
-		if ($this->valid()) {
-			imagedestroy($this->resource);
-		}
 		$this->resource = false;
 	}
 

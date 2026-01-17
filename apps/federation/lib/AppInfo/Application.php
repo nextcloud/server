@@ -18,11 +18,13 @@ use OCP\Federation\Events\TrustedServerRemovedEvent;
 
 class Application extends App implements IBootstrap {
 
+	public const APP_ID = 'federation';
+
 	/**
 	 * @param array $urlParams
 	 */
 	public function __construct($urlParams = []) {
-		parent::__construct('federation', $urlParams);
+		parent::__construct(self::APP_ID, $urlParams);
 	}
 
 	public function register(IRegistrationContext $context): void {

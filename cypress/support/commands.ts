@@ -18,7 +18,7 @@ Cypress.env('baseUrl', url)
 
 /**
  * Enable or disable a user
- * TODO: standardize in @nextcloud/e2e-test-server
+ * TODO: standardize in `@nextcloud/e2e-test-server`
  *
  * @param {User} user the user to dis- / enable
  * @param {boolean} enable True if the user should be enable, false to disable
@@ -45,7 +45,7 @@ Cypress.Commands.add('enableUser', (user: User, enable = true) => {
 
 /**
  * cy.uploadedFile - uploads a file from the fixtures folder
- * TODO: standardize in @nextcloud/e2e-test-server
+ * TODO: standardize in `@nextcloud/e2e-test-server`
  *
  * @param {User} user the owner of the file, e.g. admin
  * @param {string} fixture the fixture file name, e.g. image1.jpg
@@ -142,7 +142,7 @@ Cypress.Commands.add('rm', (user: User, target: string) => {
 
 /**
  * cy.uploadedContent - uploads a raw content
- * TODO: standardize in @nextcloud/e2e-test-server
+ * TODO: standardize in `@nextcloud/e2e-test-server`
  *
  * @param {User} user the owner of the file, e.g. admin
  * @param {Blob} blob the content to upload

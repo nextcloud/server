@@ -22,6 +22,7 @@ $expectedFiles = [
 	'.idea',
 	'.jshintrc',
 	'.mailmap',
+	'.nextcloudignore',
 	'.npmignore',
 	'.php-cs-fixer.dist.php',
 	'.pre-commit-config.yaml',

@@ -30,6 +30,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
@@ -67,6 +68,7 @@ class Application extends App implements IBootstrap {
 				$appContainer->get(IL10N::class),
 				$appContainer->get('Session'),
 				$appContainer->get(IURLGenerator::class),
+				$appContainer->get(IInitialState::class),
 			);
 		});
 

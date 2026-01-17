@@ -12,7 +12,7 @@ use OCA\Files_Sharing\External\Scanner;
 use OCA\Files_Sharing\External\Storage;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ScannerTest extends TestCase {
 	protected Scanner $scanner;
 	/** @var Storage|\PHPUnit\Framework\MockObject\MockObject */

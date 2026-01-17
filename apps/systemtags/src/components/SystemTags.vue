@@ -35,11 +35,12 @@
 </template>
 
 <script lang="ts">
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { Tag, TagWithId } from '../types.js'
 
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe } from '@nextcloud/event-bus'
+import { getSidebar } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
@@ -226,7 +227,7 @@ export default Vue.extend({
 			this.updateAndDispatchNodeTagsEvent(this.fileId)
 		},
 
-		async onTagUpdated(node: Node) {
+		async onTagUpdated(node: INode) {
 			if (node.fileid !== this.fileId) {
 				return
 			}
@@ -243,7 +244,8 @@ export default Vue.extend({
 		},
 
 		async updateAndDispatchNodeTagsEvent(fileId: number) {
-			const path = window.OCA?.Files?.Sidebar?.file || ''
+			const sidebar = getSidebar()
+			const path = sidebar.node?.path ?? ''
 			try {
 				const node = await fetchNode(path)
 				if (node) {

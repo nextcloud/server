@@ -17,7 +17,7 @@ use OCP\Http\Client\IResponse;
 /**
  * Tests for the external Storage class for remote shares.
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ExternalStorageTest extends \Test\TestCase {
 	public static function optionsProvider() {
 		return [
@@ -87,7 +87,7 @@ class ExternalStorageTest extends \Test\TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('optionsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'optionsProvider')]
 	public function testStorageMountOptions($inputUri, $baseUri): void {
 		$storage = $this->getTestStorage($inputUri);
 		$this->assertEquals($baseUri, $storage->getBaseUri());

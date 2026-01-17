@@ -12,6 +12,7 @@ use Exception;
 
 /**
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Exceptions\SignatureException}
  */
 class SignatureException extends Exception {
 }

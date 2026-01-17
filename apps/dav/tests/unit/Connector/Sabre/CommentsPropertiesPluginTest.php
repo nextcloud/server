@@ -43,7 +43,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('nodeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'nodeProvider')]
 	public function testHandleGetProperties(string $class, bool $expectedSuccessful): void {
 		$propFind = $this->createMock(PropFind::class);
 
@@ -67,7 +67,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('baseUriProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'baseUriProvider')]
 	public function testGetCommentsLink(string $baseUri, string $fid, ?string $expectedHref): void {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())
@@ -89,7 +89,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('userProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'userProvider')]
 	public function testGetUnreadCount(?string $user): void {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())

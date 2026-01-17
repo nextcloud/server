@@ -51,7 +51,7 @@ class ProviderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('subjectData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'subjectData')]
 	public function testParse(string $subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);

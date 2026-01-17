@@ -7,12 +7,14 @@
  */
 namespace OC\Files\Config;
 
+use OC\DB\Exceptions\DbalException;
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\Event\UserMountAddedEvent;
 use OCP\Files\Config\Event\UserMountRemovedEvent;
 use OCP\Files\Config\Event\UserMountUpdatedEvent;
@@ -491,11 +493,10 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
-		$mounts = $this->getMountsForUser($user);
-		$mountPoints = array_map(function (ICachedMountInfo $mount) {
-			return $mount->getMountPoint();
-		}, $mounts);
-		$mounts = array_combine($mountPoints, $mounts);
+		$mounts = [];
+		foreach ($this->getMountsForUser($user) as $mount) {
+			$mounts[$mount->getMountPoint()] = $mount;
+		}
 
 		$current = rtrim($path, '/');
 		// walk up the directory tree until we find a path that has a mountpoint set
@@ -519,9 +520,42 @@ class UserMountCache implements IUserMountCache {
 
 	public function getMountsInPath(IUser $user, string $path): array {
 		$path = rtrim($path, '/') . '/';
-		$mounts = $this->getMountsForUser($user);
-		return array_filter($mounts, function (ICachedMountInfo $mount) use ($path) {
-			return $mount->getMountPoint() !== $path && str_starts_with($mount->getMountPoint(), $path);
-		});
+		$result = [];
+		foreach ($this->getMountsForUser($user) as $key => $mount) {
+			$mountPoint = $mount->getMountPoint();
+			if ($mountPoint !== $path && str_starts_with($mountPoint, $path)) {
+				$result[$key] = $mount;
+			}
+		}
+		return $result;
+	}
+
+	public function removeMount(string $mountPoint): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('mounts')
+			->where($query->expr()->eq('mount_point', $query->createNamedParameter($mountPoint)));
+		$query->executeStatement();
+	}
+
+	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('mounts')
+			->values([
+				'storage_id' => $query->createNamedParameter($rootCacheEntry->getStorageId()),
+				'root_id' => $query->createNamedParameter($rootCacheEntry->getId()),
+				'user_id' => $query->createNamedParameter($user->getUID()),
+				'mount_point' => $query->createNamedParameter($mountPoint),
+				'mount_point_hash' => $query->createNamedParameter(hash('xxh128', $mountPoint)),
+				'mount_id' => $query->createNamedParameter($mountId),
+				'mount_provider_class' => $query->createNamedParameter($mountProvider)
+			]);
+
+		try {
+			$query->executeStatement();
+		} catch (DbalException $e) {
+			if ($e->getReason() !== DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+		}
 	}
 }

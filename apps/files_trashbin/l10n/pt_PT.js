@@ -12,7 +12,7 @@ OC.L10N.register(
     "Deleted" : "Eliminado",
     "Unknown" : "Desconhecido",
     "All files" : "Todos os ficheiros",
-    "You" : "Vovê",
+    "You" : "Você",
     "List of files that have been deleted." : "Lista de ficheiros que foram eliminados.",
     "No deleted files" : "Sem ficheiros eliminados",
     "Files and folders you have deleted will show up here" : "Ficheiros e pastas que você eliminou aparecerão aqui",

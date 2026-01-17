@@ -107,7 +107,7 @@ jobs:
           echo "$FILEPATH:"
           docker exec --user 33 apache cat $FILEPATH
 
-  sftp-summary:
+  smb-kerberos-sso-summary:
     runs-on: ubuntu-latest-low
     needs: [changes, files-external-smb-kerberos]
 

@@ -416,15 +416,16 @@ class Installer {
 	 * Check if app is already downloaded
 	 *
 	 * The function will check if the app is already downloaded in the apps repository
+	 * and has a valid appinfo/info.xml file.
+	 *
+	 * @return bool True if the app directory exists
 	 */
-	public function isDownloaded(string $name): bool {
+	public function isDownloaded(string $appId): bool {
 		foreach (\OC::$APPSROOTS as $dir) {
-			$dirToTest = $dir['path'];
-			$dirToTest .= '/';
-			$dirToTest .= $name;
-			$dirToTest .= '/';
+			$appPath = $dir['path'] . '/' . $appId;
 
-			if (is_dir($dirToTest)) {
+			// An app is considered "downloaded" if the directory exists with info.xml
+			if (is_dir($appPath) && file_exists($appPath . '/appinfo/info.xml')) {
 				return true;
 			}
 		}
@@ -587,18 +588,22 @@ class Installer {
 	}
 
 	/**
-	 * install an app already placed in the app folder
+	 * Install an app already placed in the app folder
+	 *
+	 * @param string $appId The app ID to install
+	 * @param IOutput|null $output Optional output handler for logging installation progress
+	 * @return string|false App ID on success, false on failure
 	 */
-	public function installShippedApp(string $app, ?IOutput $output = null): string|false {
+	public function installShippedApp(string $appId, ?IOutput $output = null): string|false {
 		if ($output instanceof IOutput) {
-			$output->debug('Installing ' . $app);
+			$output->debug('Installing ' . $appId);
 		}
-		$info = $this->appManager->getAppInfo($app);
-		if (is_null($info) || $info['id'] !== $app) {
+		$info = $this->appManager->getAppInfo($appId);
+		if (is_null($info) || $info['id'] !== $appId) {
 			return false;
 		}
 
-		$appPath = $this->appManager->getAppPath($app);
+		$appPath = $this->appManager->getAppPath($appId);
 
 		return $this->installAppLastSteps($appPath, $info, $output, 'yes');
 	}

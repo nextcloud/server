@@ -17,6 +17,7 @@ OC.L10N.register(
     "Delete comment" : "Ezabatu iruzkina",
     "Cancel edit" : "Utzi editatzeari",
     "New comment" : "Iruzkin berria",
+    "Write a comment …" : "Idatzi iruzkin bat …",
     "Post comment" : "Argitaratu iruzkina",
     "@ for mentions, : for emoji, / for smart picker" : "@ aipamenetarako, : emojientzako, / hautatzaile adimentsurako",
     "Could not reload comments" : "Ezin izan dira iruzkinak freskatu",

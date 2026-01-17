@@ -17,7 +17,9 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IInitialStateService;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -290,47 +292,49 @@ class OC {
 		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'])
 			&& $_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
 
+		Util::addTranslations('core');
+		Util::addScript('core', 'common');
+		Util::addScript('core', 'main');
+		Util::addScript('core', 'update');
+
+		$initialState = Server::get(IInitialStateService::class);
+		$serverVersion = \OCP\Server::get(\OCP\ServerVersion::class);
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
 			http_response_code(503);
 			header('Retry-After: 120');
 
-			$serverVersion = \OCP\Server::get(\OCP\ServerVersion::class);
+			$urlGenerator = Server::get(IURLGenerator::class);
+			$initialState->provideInitialState('core', 'updaterView', 'adminCli');
+			$initialState->provideInitialState('core', 'updateInfo', [
+				'cliUpgradeLink' => $cliUpgradeLink ?: $urlGenerator->linkToDocs('admin-cli-upgrade'),
+				'productName' => self::getProductName(),
+				'version' => $serverVersion->getVersionString(),
+				'tooBig' => $tooBig,
+			]);
 
 			// render error page
-			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.use-cli', 'guest');
-			$template->assign('productName', 'nextcloud'); // for now
-			$template->assign('version', $serverVersion->getVersionString());
-			$template->assign('tooBig', $tooBig);
-			$template->assign('cliUpgradeLink', $cliUpgradeLink);
-
-			$template->printPage();
+			Server::get(ITemplateManager::class)
+				->getTemplate('', 'update', 'guest')
+				->printPage();
 			die();
 		}
 
 		// check whether this is a core update or apps update
 		$installedVersion = $systemConfig->getValue('version', '0.0.0');
-		$currentVersion = implode('.', \OCP\Util::getVersion());
+		$currentVersion = implode('.', $serverVersion->getVersion());
 
 		// if not a core upgrade, then it's apps upgrade
 		$isAppsOnlyUpgrade = version_compare($currentVersion, $installedVersion, '=');
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
-		\OCP\Util::addScript('core', 'common');
-		\OCP\Util::addScript('core', 'main');
-		\OCP\Util::addTranslations('core');
-		\OCP\Util::addScript('core', 'update');
 
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
-		$tmpl = Server::get(ITemplateManager::class)->getTemplate('', 'update.admin', 'guest');
-		$tmpl->assign('version', \OCP\Server::get(\OCP\ServerVersion::class)->getVersionString());
-		$tmpl->assign('isAppsOnlyUpgrade', $isAppsOnlyUpgrade);
-
 		// get third party apps
-		$ocVersion = \OCP\Util::getVersion();
+		$ocVersion = $serverVersion->getVersion();
 		$ocVersion = implode('.', $ocVersion);
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
 		$incompatibleOverwrites = $systemConfig->getValue('app_install_overwrite', []);
@@ -351,16 +355,41 @@ class OC {
 			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
 		}
 
-		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
-		$tmpl->assign('incompatibleAppsList', $incompatibleDisabledApps);
+		$appConfig = Server::get(IAppConfig::class);
+		$appsToUpgrade = array_map(function ($app) use (&$appConfig) {
+			return [
+				'id' => $app['id'],
+				'name' => $app['name'],
+				'version' => $app['version'],
+				'oldVersion' => $appConfig->getValueString($app['id'], 'installed_version'),
+			];
+		}, $appManager->getAppsNeedingUpgrade($ocVersion));
+
+		$params = [
+			'appsToUpgrade' => $appsToUpgrade,
+			'incompatibleAppsList' => $incompatibleDisabledApps,
+			'isAppsOnlyUpgrade' => $isAppsOnlyUpgrade,
+			'oldTheme' => $oldTheme,
+			'productName' => self::getProductName(),
+			'version' => $serverVersion->getVersionString(),
+		];
+
+		$initialState->provideInitialState('core', 'updaterView', 'admin');
+		$initialState->provideInitialState('core', 'updateInfo', $params);
+		Server::get(ITemplateManager::class)
+			->getTemplate('', 'update', 'guest')
+			->printPage();
+	}
+
+	private static function getProductName(): string {
+		$productName = 'Nextcloud';
 		try {
 			$defaults = new \OC_Defaults();
-			$tmpl->assign('productName', $defaults->getName());
+			$productName = $defaults->getName();
 		} catch (Throwable $error) {
-			$tmpl->assign('productName', 'Nextcloud');
+			// ignore
 		}
-		$tmpl->assign('oldTheme', $oldTheme);
-		$tmpl->printPage();
+		return $productName;
 	}
 
 	public static function initSession(): void {
@@ -970,7 +999,7 @@ class OC {
 				if (empty($restrictions)) {
 					continue;
 				}
-				$key = array_search($group->getGID(), $restrictions);
+				$key = array_search($group->getGID(), $restrictions, true);
 				unset($restrictions[$key]);
 				$restrictions = array_values($restrictions);
 				if (empty($restrictions)) {

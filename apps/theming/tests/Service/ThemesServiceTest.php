@@ -130,7 +130,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEnableTheme')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestEnableTheme')]
 	public function testEnableTheme(string $toEnable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -163,7 +163,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDisableTheme')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestDisableTheme')]
 	public function testDisableTheme(string $toDisable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -195,7 +195,7 @@ class ThemesServiceTest extends TestCase {
 	/**
 	 * @param string[] $enabledThemes
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsEnabled')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsEnabled')]
 	public function testIsEnabled(string $themeId, array $enabledThemes, bool $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -273,7 +273,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string[] $enabledThemes
 	 * @param string[] $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetEnabledThemes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetEnabledThemes')]
 	public function testSetEnabledThemes(array $enabledThemes, array $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())

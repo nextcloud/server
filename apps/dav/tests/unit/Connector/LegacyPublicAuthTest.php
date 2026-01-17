@@ -23,7 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class LegacyPublicAuthTest extends \Test\TestCase {
 	private ISession&MockObject $session;
 	private IRequest&MockObject $request;

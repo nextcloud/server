@@ -234,8 +234,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Nedaří se zapsat přejmenovat částečný soubor na ten končený – zrušeno háčkem (hook)",
     "Could not rename part file to final file" : "Nedaří se přejmenovat částečný soubor na ten konečný",
     "Failed to check file size: %1$s" : "Nepodařilo se zkontrolovat velikost souboru: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Nebylo možné otevřít soubor: %1$s – soubor zdá se existuje",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Nebylo možné otevřít soubor: %1$s – soubor zdá se neexistuje",
     "Encryption not ready: %1$s" : "Šifrování není připraveno: %1$s",
     "Failed to open file: %1$s" : "Nepodařilo se otevřít soubor: %1$s",
     "Failed to unlink: %1$s" : "Nepodařilo se zrušit propojení: %1$s",
@@ -367,6 +365,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Za týden %1$s, poté %2$s a %3$s","Za %n týdny %1$s, poté %2$s a %3$s","Za %n týdnů %1$s, poté %2$s a %3$s","Za %n týdny %1$s, poté %2$s a %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Za měsíc %1$s, poté %2$s a %3$s","Za %n měsíce %1$s, poté %2$s a %3$s","Za %n měsíců %1$s, poté %2$s a %3$s","Za %n měsíce %1$s, poté %2$s a %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Za rok %1$s, poté %2$s a %3$s","Za %n roky %1$s, poté %2$s a %3$s","Za %n let %1$s, poté %2$s a %3$s","Za %n roky %1$s, poté %2$s a %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Nebylo možné otevřít soubor: %1$s – soubor zdá se existuje",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Nebylo možné otevřít soubor: %1$s – soubor zdá se neexistuje",
     "No results." : "Nic nenalezeno.",
     "Start typing." : "Začněte psát.",
     "Time zone:" : "Časové pásmo:"

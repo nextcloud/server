@@ -31,7 +31,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class LDAPProviderTest extends \Test\TestCase {
 	private function getServerMock(IUserLDAP $userBackend, IGroupLDAP $groupBackend) {
 		$server = $this->getMockBuilder('OC\Server')

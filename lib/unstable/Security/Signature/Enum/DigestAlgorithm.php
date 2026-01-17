@@ -12,11 +12,18 @@ namespace NCU\Security\Signature\Enum;
  * list of available algorithm when generating digest from body
  *
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Enum\DigestAlgorithm}
  */
 enum DigestAlgorithm: string {
-	/** @experimental 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @deprecated 33.0.0
+	 */
 	case SHA256 = 'SHA-256';
-	/** @experimental 31.0.0 */
+	/**
+	 * @experimental 31.0.0
+	 * @deprecated 33.0.0
+	 */
 	case SHA512 = 'SHA-512';
 
 	/**
@@ -24,6 +31,8 @@ enum DigestAlgorithm: string {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\Enum\DigestAlgorithm}
+	 * @psalm-suppress DeprecatedConstant
 	 */
 	public function getHashingAlgorithm(): string {
 		return match($this) {

@@ -24,6 +24,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -56,7 +57,7 @@ $principalBackend = new Principal(
 	Server::get(ProxyMapper::class),
 	Server::get(KnownUserService::class),
 	Server::get(IConfig::class),
-	\OC::$server->getL10NFactory(),
+	Server::get(IL10NFactory::class),
 	'principals/'
 );
 $db = Server::get(IDBConnection::class);
@@ -84,7 +85,7 @@ $calDavBackend = new CalDavBackend(
 );
 
 $debugging = Server::get(IConfig::class)->getSystemValue('debug', false);
-$sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
+$sendInvitations = Server::get(IAppConfig::class)->getValueBool('dav', 'sendInvitations', true);
 
 // Root nodes
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
@@ -102,6 +103,7 @@ $nodes = [
 $server = new \Sabre\DAV\Server($nodes);
 $server::$exposeVersion = false;
 $server->httpRequest->setUrl(Server::get(IRequest::class)->getRequestUri());
+/** @var string $baseuri defined in remote.php */
 $server->setBaseUri($baseuri);
 
 // Add plugins
@@ -126,4 +128,4 @@ $server->addPlugin(Server::get(RateLimitingPlugin::class));
 $server->addPlugin(Server::get(CalDavValidatePlugin::class));
 
 // And off we go!
-$server->exec();
+$server->start();

@@ -39,7 +39,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 		$this->backgroundJob = new PruneOutdatedSyncTokensJob($this->timeFactory, $this->calDavBackend, $this->cardDavBackend, $this->config, $this->logger);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestRun')]
 	public function testRun(string $configToKeep, string $configRetentionDays, int $actualLimit, int $retentionDays, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens): void {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')

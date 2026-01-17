@@ -203,8 +203,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Kunne ikke endre navn på delfilen til endelig fil, kansellert av hook",
     "Could not rename part file to final file" : "Kunne ikke endre navn på delfil til endelig fil",
     "Failed to check file size: %1$s" : "Kunne ikke kontrollere filstørrelsen: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Kunne ikke åpne filen: %1$s, filen eksiterer ikke",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Kunne ikke åpne filen: %1$s, filen eksisterer ikke ",
     "Encryption not ready: %1$s" : "Kryptering ikke klar: %1$s",
     "Failed to open file: %1$s" : "Kunne ikke åpne filen: %1$s",
     "Failed to unlink: %1$s" : "Kunne ikke fjerne tilknytningen: %1$s",
@@ -330,6 +328,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Om en uke den %1$s deretter den %2$s og %3$s","Om %n uker den %1$s deretter den %2$s og %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Om en måned den %1$s deretter den %2$s og %3$s","Om %n måneder den %1$s deretter den %2$s og %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Om et år den %1$s deretter den %2$s og %3$s","Om %n år den %1$s deretter den %2$s og %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Kunne ikke åpne filen: %1$s, filen eksiterer ikke",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Kunne ikke åpne filen: %1$s, filen eksisterer ikke ",
     "No results." : "Ingen resultater.",
     "Start typing." : "Begynn å skrive.",
     "Time zone:" : "Tidssone:"

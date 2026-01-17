@@ -106,7 +106,6 @@ if (Util::needUpgrade()) {
 	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config): void {
 		$eventSource->send('failure', $message);
-		$eventSource->close();
 		$config->setSystemValue('maintenance', false);
 	});
 	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l): void {

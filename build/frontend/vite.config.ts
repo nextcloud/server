@@ -12,10 +12,25 @@ const modules = {
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
 		'settings-personal-availability': resolve(import.meta.dirname, 'apps/dav/src', 'settings-personal-availability.ts'),
 	},
+	encryption: {
+		encryption: resolve(import.meta.dirname, 'apps/encryption/src', 'encryption.ts'),
+		settings_admin: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-admin.ts'),
+		settings_personal: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-personal.ts'),
+	},
+	federation: {
+		'settings-admin': resolve(import.meta.dirname, 'apps/federation/src', 'settings-admin.ts'),
+	},
 	federatedfilesharing: {
 		'init-files': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'init-files.js'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-admin.ts'),
 		'settings-personal': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-personal.ts'),
+	},
+	files_external: {
+		auth_rsa: resolve(import.meta.dirname, 'apps/files_external/src', 'auth-rsa.ts'),
+
+		init: resolve(import.meta.dirname, 'apps/files_external/src', 'init-files.ts'),
+		init_settings: resolve(import.meta.dirname, 'apps/files_external/src', 'init-settings.ts'),
+		settings: resolve(import.meta.dirname, 'apps/files_external/src', 'settings-main.ts'),
 	},
 	files_reminders: {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
@@ -29,17 +44,22 @@ const modules = {
 	oauth2: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/oauth2/src', 'settings-admin.ts'),
 	},
+	profile: {
+		main: resolve(import.meta.dirname, 'apps/profile/src', 'main.ts'),
+	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
 	},
 	theming: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/theming/src', 'settings-personal.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/theming/src', 'settings-admin.ts'),
+		theming: resolve(import.meta.dirname, 'apps/theming/src', 'theming.ts'),
 	},
 	twofactor_backupcodes: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/twofactor_backupcodes/src', 'settings-personal.ts'),
 	},
 	user_ldap: {
+		renewPassword: resolve(import.meta.dirname, 'apps/user_ldap/src', 'renewPassword.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
 	},
 	user_status: {

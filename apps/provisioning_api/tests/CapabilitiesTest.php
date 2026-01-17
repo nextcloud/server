@@ -20,7 +20,7 @@ use Test\TestCase;
  *
  * @package OCA\Provisioning_API\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends TestCase {
 
 	protected IAppManager&MockObject $appManager;
@@ -48,7 +48,7 @@ class CapabilitiesTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getCapabilitiesProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getCapabilitiesProvider')]
 	public function testGetCapabilities(bool $federationAppEnabled, bool $federatedFileSharingAppEnabled, bool $lookupServerEnabled, bool $expectedFederatedScopeEnabled, bool $expectedPublishedScopeEnabled): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')

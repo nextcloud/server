@@ -59,7 +59,7 @@ class LoggingLevelTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataRun')]
 	public function testRun(string|int $value, string $expected): void {
 		$this->urlGenerator->method('linkToDocs')->willReturn('admin-logging');
 

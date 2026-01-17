@@ -255,11 +255,11 @@ export default {
 		},
 		update(appId) {
 			if (this.app?.app_api) {
-				this.appApiStore.updateApp(appId)
+				return this.appApiStore.updateApp(appId)
 					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			} else {
-				this.$store.dispatch('updateApp', { appId })
+				return this.$store.dispatch('updateApp', { appId })
 					.catch((error) => { showError(error) })
 					.then(() => {
 						rebuildNavigation()

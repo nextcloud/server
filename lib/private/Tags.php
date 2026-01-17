@@ -290,7 +290,7 @@ class Tags implements ITags {
 			return false;
 		}
 		$this->logger->debug(__METHOD__ . ' Added an tag with ' . $tag->getId(), ['app' => 'core']);
-		return $tag->getId();
+		return $tag->getId() ?? false;
 	}
 
 	/**
@@ -645,7 +645,8 @@ class Tags implements ITags {
 		return array_search(strtolower($needle), array_map(
 			function ($tag) use ($mem) {
 				return strtolower(call_user_func([$tag, $mem]));
-			}, $haystack)
+			}, $haystack),
+			true
 		);
 	}
 

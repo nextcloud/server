@@ -49,10 +49,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$this->versionCheck = $this->createMock(VersionCheck::class);
 	}
 
-	/**
-	 * @return UpdateAvailableNotifications|MockObject
-	 */
-	protected function getJob(array $methods = []): UpdateAvailableNotifications {
+	protected function getJob(array $methods = []): UpdateAvailableNotifications|MockObject {
 		if (empty($methods)) {
 			return new UpdateAvailableNotifications(
 				$this->timeFactory,
@@ -152,7 +149,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckCoreUpdate')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCheckCoreUpdate')]
 	public function testCheckCoreUpdate(string $channel, mixed $versionCheck, mixed $version, ?string $readableVersion, ?int $errorDays): void {
 		$job = $this->getJob([
 			'createNotifications',
@@ -229,7 +226,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckAppUpdates')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCheckAppUpdates')]
 	public function testCheckAppUpdates(array $apps, array $isUpdateAvailable, array $notifications): void {
 		$job = $this->getJob([
 			'isUpdateAvailable',
@@ -264,7 +261,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateNotifications')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCreateNotifications')]
 	public function testCreateNotifications(string $app, string $version, string|false $lastNotification, string|false $callDelete, bool $createNotification, ?array $users, ?array $userNotifications): void {
 		$job = $this->getJob([
 			'deleteOutdatedNotifications',
@@ -345,7 +342,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsersToNotify')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetUsersToNotify')]
 	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected): void {
 		$job = $this->getJob();
 
@@ -389,7 +386,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param string $app
 	 * @param string $version
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteOutdatedNotifications')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataDeleteOutdatedNotifications')]
 	public function testDeleteOutdatedNotifications(string $app, string $version): void {
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())

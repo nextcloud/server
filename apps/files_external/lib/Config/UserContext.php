@@ -43,8 +43,10 @@ class UserContext {
 		}
 		try {
 			$shareToken = $this->request->getParam('token');
-			$share = $this->shareManager->getShareByToken($shareToken);
-			return $share->getShareOwner();
+			if ($shareToken !== null) {
+				$share = $this->shareManager->getShareByToken($shareToken);
+				return $share->getShareOwner();
+			}
 		} catch (ShareNotFound $e) {
 		}
 

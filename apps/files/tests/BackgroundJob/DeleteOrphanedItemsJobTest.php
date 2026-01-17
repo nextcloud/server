@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test\BackgroundJob
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 	protected IDBConnection $connection;
 	protected LoggerInterface $logger;

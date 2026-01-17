@@ -48,7 +48,7 @@ describe('Open locally action conditions tests', () => {
 })
 
 describe('Open locally action enabled tests', () => {
-	test('Enabled for file with UPDATE permission', () => {
+	test('Enabled for file with WRITE permission', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
@@ -130,7 +130,7 @@ describe('Open locally action enabled tests', () => {
 		})).toBe(false)
 	})
 
-	test('Disabled without UPDATE permissions', () => {
+	test('Disabled without WRITE permissions', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',

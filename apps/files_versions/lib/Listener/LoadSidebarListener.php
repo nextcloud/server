@@ -24,6 +24,6 @@ class LoadSidebarListener implements IEventListener {
 		// TODO: make sure to only include the sidebar script when
 		// we properly split it between files list and sidebar
 		Util::addStyle(Application::APP_ID, 'sidebar-tab');
-		Util::addScript(Application::APP_ID, 'sidebar-tab');
+		Util::addInitScript(Application::APP_ID, 'sidebar-tab');
 	}
 }

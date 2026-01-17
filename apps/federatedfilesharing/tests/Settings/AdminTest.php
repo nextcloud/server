@@ -53,7 +53,7 @@ class AdminTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('sharingStateProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sharingStateProvider')]
 	public function testGetForm(bool $state): void {
 		$this->federatedShareProvider
 			->expects($this->once())

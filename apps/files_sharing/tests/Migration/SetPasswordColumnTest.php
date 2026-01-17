@@ -18,7 +18,7 @@ use OCP\Share\IShare;
 /**
  * Class SetPasswordColumnTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SetPasswordColumnTest extends TestCase {
 
 	/** @var IDBConnection */

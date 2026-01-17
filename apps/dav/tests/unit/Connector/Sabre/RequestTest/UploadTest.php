@@ -19,7 +19,7 @@ use OCP\Lock\ILockingProvider;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UploadTest extends RequestTestCase {
 	public function testBasicUpload(): void {
 		$user = self::getUniqueID();

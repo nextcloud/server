@@ -22,7 +22,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserStoragesServiceTest extends StoragesServiceTestCase {
 	use UserTrait;
 
@@ -34,7 +34,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher, $this->appConfig);
+		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->eventDispatcher, $this->appConfig);
 
 		$this->userId = $this->getUniqueID('user_');
 		$this->createUser($this->userId, $this->userId);
@@ -47,7 +47,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession, $this->mountCache, $this->eventDispatcher, $this->appConfig);
+		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession, $this->eventDispatcher, $this->appConfig);
 	}
 
 	private function makeTestStorageData() {
@@ -126,7 +126,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEmpty(self::$hookCalls);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		parent::testDeleteStorage($backendOptions, $rustyStorageId);
 

@@ -204,8 +204,6 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Gat ekki endurnefnt hlutaskrá sem endanlega skrá, hætt við af tengikrækju",
     "Could not rename part file to final file" : "Gat ekki endurnefnt hlutaskrá sem endanlega skrá",
     "Failed to check file size: %1$s" : "Mistókst að athuga skráarstærð: %1$s",
-    "Could not open file: %1$s, file does seem to exist" : "Gat ekki opnað skrá: %1$s, skráin virðist vera til.",
-    "Could not open file: %1$s, file doesn't seem to exist" : "Gat ekki opnað skrá: %1$s, skráin virðist ekki vera til.",
     "Encryption not ready: %1$s" : "Dulritun ekki tilbúin: %1$s",
     "Failed to open file: %1$s" : "Mistókst að opna skrá: %1$s",
     "Failed to unlink: %1$s" : "Mistókst að aftengja: %1$s",
@@ -337,6 +335,8 @@ OC.L10N.register(
     "_In a week on %1$s then on %2$s and %3$s_::_In %n weeks on %1$s then on %2$s and %3$s_" : ["Eftir viku þann %1$s og síðan þann %2$s og %3$s","Eftir %n vikur þann %1$s og síðan þann %2$s og %3$s"],
     "_In a month on %1$s then on %2$s and %3$s_::_In %n months on %1$s then on %2$s and %3$s_" : ["Eftir mánuð þann %1$s og síðan þann %2$s og %3$s","Eftir %n mánuði þann %1$s og síðan þann %2$s og %3$s"],
     "_In a year on %1$s then on %2$s and %3$s_::_In %n years on %1$s then on %2$s and %3$s_" : ["Eftir ár þann %1$s og síðan þann %2$s og %3$s","Eftir %n ár þann %1$s og síðan þann %2$s og %3$s"],
+    "Could not open file: %1$s, file does seem to exist" : "Gat ekki opnað skrá: %1$s, skráin virðist vera til.",
+    "Could not open file: %1$s, file doesn't seem to exist" : "Gat ekki opnað skrá: %1$s, skráin virðist ekki vera til.",
     "No results." : "Engar niðurstöður.",
     "Start typing." : "Byrjaðu að skrifa.",
     "Time zone:" : "Tímabelti:"

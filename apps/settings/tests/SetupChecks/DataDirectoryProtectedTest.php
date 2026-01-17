@@ -54,7 +54,7 @@ class DataDirectoryProtectedTest extends TestCase {
 			->getMock();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestStatusCode')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestStatusCode')]
 	public function testStatusCode(array $status, string $expected, bool $hasBody): void {
 		$responses = array_map(function ($state) use ($hasBody) {
 			$response = $this->createMock(IResponse::class);
@@ -66,7 +66,7 @@ class DataDirectoryProtectedTest extends TestCase {
 		$this->setupcheck
 			->expects($this->once())
 			->method('runRequest')
-			->will($this->generate($responses));
+			->willReturn($this->generate($responses));
 
 		$this->config
 			->expects($this->once())
@@ -94,7 +94,7 @@ class DataDirectoryProtectedTest extends TestCase {
 		$this->setupcheck
 			->expects($this->once())
 			->method('runRequest')
-			->will($this->generate([]));
+			->willReturn($this->generate([]));
 
 		$this->config
 			->expects($this->once())
@@ -110,8 +110,6 @@ class DataDirectoryProtectedTest extends TestCase {
 	 * Helper function creates a nicer interface for mocking Generator behavior
 	 */
 	protected function generate(array $yield_values) {
-		return $this->returnCallback(function () use ($yield_values) {
-			yield from $yield_values;
-		});
+		yield from $yield_values;
 	}
 }

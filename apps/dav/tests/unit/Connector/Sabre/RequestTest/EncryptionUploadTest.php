@@ -20,7 +20,7 @@ use Test\Traits\EncryptionTrait;
  *
  * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class EncryptionUploadTest extends UploadTest {
 	use EncryptionTrait;
 

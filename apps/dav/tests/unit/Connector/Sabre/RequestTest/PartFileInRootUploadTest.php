@@ -17,7 +17,7 @@ use OCP\Server;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PartFileInRootUploadTest extends UploadTest {
 	protected function setUp(): void {
 		$config = Server::get(IConfig::class);

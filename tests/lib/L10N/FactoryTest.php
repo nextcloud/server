@@ -20,6 +20,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\ILanguageIterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -88,6 +89,21 @@ class FactoryTest extends TestCase {
 		}
 
 		return new Factory($this->config, $this->request, $this->userSession, $this->cacheFactory, $this->serverRoot, $this->appManager);
+	}
+
+	public static function dataCleanLanguage(): array {
+		return [
+			'null shortcut' => [null, null],
+			'default language' => ['de', 'de'],
+			'malicious language' => ['de/../fr', 'defr'],
+			'request language' => ['kab;q=0.8,ka;q=0.7,de;q=0.6', 'kab;q=0.8,ka;q=0.7,de;q=0.6'],
+		];
+	}
+
+	#[DataProvider('dataCleanLanguage')]
+	public function testCleanLanguage(?string $lang, ?string $expected): void {
+		$factory = $this->getFactory();
+		$this->assertSame($expected, self::invokePrivate($factory, 'cleanLanguage', [$lang]));
 	}
 
 	public static function dataFindAvailableLanguages(): array {

@@ -25,6 +25,7 @@ class ComposerStaticInitCloudFederationAPI
         'OCA\\CloudFederationAPI\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\CloudFederationAPI\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\CloudFederationAPI\\Config' => __DIR__ . '/..' . '/../lib/Config.php',
+        'OCA\\CloudFederationAPI\\Controller\\OCMRequestController' => __DIR__ . '/..' . '/../lib/Controller/OCMRequestController.php',
         'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
         'OCA\\CloudFederationAPI\\Db\\FederatedInvite' => __DIR__ . '/..' . '/../lib/Db/FederatedInvite.php',
         'OCA\\CloudFederationAPI\\Db\\FederatedInviteMapper' => __DIR__ . '/..' . '/../lib/Db/FederatedInviteMapper.php',

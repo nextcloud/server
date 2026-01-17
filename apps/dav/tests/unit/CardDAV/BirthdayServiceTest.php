@@ -50,7 +50,7 @@ class BirthdayServiceTest extends TestCase {
 			$this->dbConnection, $this->l10n);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesVCards')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesVCards')]
 	public function testBuildBirthdayFromContact(?string $expectedSummary, ?string $expectedDTStart, ?string $expectedRrule, ?string $expectedFieldType, ?string $expectedUnknownYear, ?string $expectedOriginalYear, ?string $expectedReminder, ?string $data, string $fieldType, string $prefix, bool $supports4Bytes, ?string $configuredReminder): void {
 		$this->dbConnection->method('supports4ByteText')->willReturn($supports4Bytes);
 		$cal = $this->service->buildDateFromContact($data, $fieldType, $prefix, $configuredReminder);
@@ -198,7 +198,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesCardChanges')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesCardChanges')]
 	public function testOnCardChanged(string $expectedOp): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -289,7 +289,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesBirthday')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesBirthday')]
 	public function testBirthdayEvenChanged(bool $expected, string $old, string $new): void {
 		$new = Reader::read($new);
 		$this->assertEquals($expected, $this->service->birthdayEvenChanged($old, $new));

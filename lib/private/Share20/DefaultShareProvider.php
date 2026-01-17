@@ -32,6 +32,7 @@ use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
+use OCP\Share\IPartialShareProvider;
 use OCP\Share\IShare;
 use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
@@ -49,7 +50,8 @@ class DefaultShareProvider implements
 	IShareProviderWithNotification,
 	IShareProviderSupportsAccept,
 	IShareProviderSupportsAllSharesInFolder,
-	IShareProviderGetUsers {
+	IShareProviderGetUsers,
+	IPartialShareProvider {
 	public function __construct(
 		private IDBConnection $dbConn,
 		private IUserManager $userManager,
@@ -828,10 +830,33 @@ class DefaultShareProvider implements
 		return true;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
+		return $this->_getSharedWith($userId, $shareType, $limit, $offset, $node);
+	}
+
+	public function getSharedWithByPath(
+		string $userId,
+		int $shareType,
+		string $path,
+		bool $forChildren,
+		int $limit,
+		int $offset,
+	): iterable {
+		return $this->_getSharedWith($userId, $shareType, $limit, $offset, null, $path, $forChildren);
+	}
+
+	/**
+	 * @return IShare[]
+	 */
+	private function _getSharedWith(
+		string $userId,
+		int $shareType,
+		int $limit,
+		int $offset,
+		?Node $node = null,
+		?string $path = null,
+		?bool $forChildren = false,
+	): iterable {
 		/** @var Share[] $shares */
 		$shares = [];
 
@@ -864,6 +889,14 @@ class DefaultShareProvider implements
 			// Filter by node if provided
 			if ($node !== null) {
 				$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+			}
+
+			if ($path !== null) {
+				if ($forChildren) {
+					$qb->andWhere($qb->expr()->like('file_target', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($path) . '_%')));
+				} else {
+					$qb->andWhere($qb->expr()->eq('file_target', $qb->createNamedParameter($path)));
+				}
 			}
 
 			$cursor = $qb->executeQuery();
@@ -917,14 +950,26 @@ class DefaultShareProvider implements
 					$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 				}
 
+				if ($path !== null) {
+					$qb->leftJoin('s', 'share', 'sc', $qb->expr()->eq('sc.parent', 's.id'))
+						->andWhere($qb->expr()->eq('sc.share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+						->where($qb->expr()->eq('sc.share_with', $qb->createNamedParameter($userId)));
+
+					if ($forChildren) {
+						$qb->andWhere($qb->expr()->like('sc.file_target', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($path) . '_%')));
+					} else {
+						$qb->andWhere($qb->expr()->eq('sc.file_target', $qb->createNamedParameter($path)));
+					}
+				}
+
 				$groups = array_filter($groups);
 
-				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
-					->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
+				$qb->andWhere($qb->expr()->eq('s.share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+					->andWhere($qb->expr()->in('s.share_with', $qb->createNamedParameter(
 						$groups,
 						IQueryBuilder::PARAM_STR_ARRAY
 					)))
-					->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
+					->andWhere($qb->expr()->in('s.item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
 
 				$cursor = $qb->executeQuery();
 				while ($data = $cursor->fetch()) {

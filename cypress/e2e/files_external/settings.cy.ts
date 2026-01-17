@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { handlePasswordConfirmation } from '../settings/usersUtils.ts'
+
 describe('files_external settings', () => {
 	before(() => {
 		cy.runOccCommand('app:enable files_external')
@@ -13,93 +15,124 @@ describe('files_external settings', () => {
 		cy.runOccCommand('files_external:list --output json')
 			.then((exec) => {
 				const list = JSON.parse(exec.stdout)
-				for (const entry of list) {
-					cy.runOccCommand('files_external:delete ' + entry)
+				for (const { mount_id: mountId } of list) {
+					cy.runOccCommand('files_external:delete ' + mountId + ' --yes')
 				}
 			})
 		cy.visit('/settings/admin/externalstorages')
 	})
 
 	it('can see the settings section', () => {
-		cy.findByRole('heading', { name: 'External storage' })
+		cy.findByRole('heading', { name: /External storage/, level: 2 })
 			.should('be.visible')
-		cy.get('table#externalStorage')
+		cy.findByRole('table', { name: 'External storages' })
 			.should('be.visible')
 	})
 
-	it('populates the row and creates a new empty one', () => {
-		selectBackend('local')
+	it('can see the dialog', () => {
+		openDialog()
 
-		// See cell now contains the backend
+		cy.findByRole('dialog', { name: 'Add storage' })
+			.within(() => {
+				cy.findByRole('textbox', { name: 'Folder name' })
+					.should('be.visible')
+
+				getComboBox(/External storage/)
+					.should('be.visible')
+				getComboBox(/Authentication/)
+					.should('be.visible')
+				getComboBox(/Restrict to/)
+					.should('be.visible')
+				cy.findByRole('button', { name: 'Create' })
+					.should('be.visible')
+					.and('have.attr', 'type', 'submit')
+			})
+	})
+
+	it('can create storage using the dialog', () => {
+		openDialog()
+
+		cy.findByRole('dialog', { name: 'Add storage' })
+			.within(() => {
+				cy.findByRole('textbox', { name: 'Folder name' })
+					.should('be.visible')
+					.type('My Storage')
+
+				getComboBox(/External storage/)
+					.should('be.visible')
+					.click()
+				cy.root().closest('body')
+					.findByRole('option', { name: 'WebDAV' })
+					.should('be.visible')
+					.click()
+
+				getComboBox(/Authentication/)
+					.should('be.visible')
+					.as('authComboBox')
+					.click()
+				cy.root().closest('body')
+					.findByRole('option', { name: /Login and password/ })
+					.should('be.visible')
+					.click()
+
+				cy.findByRole('textbox', { name: 'Login' })
+					.should('be.visible')
+					.type('admin')
+
+				cy.get('input[type="password"]')
+					.should('be.visible')
+					.type('admin')
+
+				cy.findByRole('button', { name: 'Create' })
+					.should('be.visible')
+					.click()
+
+				cy.findByRole('textbox', { name: 'URL' })
+					.should('be.visible')
+					.and((el) => el.is(':invalid'))
+					.type('http://localhost/remote.php/dav/files/admin')
+
+				cy.findByRole('checkbox', { name: /Secure/ })
+					.uncheck({ force: true })
+
+				cy.findByRole('button', { name: 'Create' })
+					.should('be.visible')
+					.click()
+			})
+		handlePasswordConfirmation('admin')
+
+		cy.findAllByRole('dialog').should('not.exist')
+
 		getTable()
 			.findAllByRole('row')
-			.first()
-			.find('.backend')
-			.should('contain.text', 'Local')
-
-		// and the backend select is available but clear
-		getBackendSelect()
-			.should('have.value', null)
-
-		// the suggested mount point name is set to the backend
+			.should('have.length', 1)
 		getTable()
-			.findAllByRole('row')
-			.first()
-			.find('input[name="mountPoint"]')
-			.should('have.value', 'Local')
-	})
-
-	it('does not save the storage with missing configuration', function() {
-		selectBackend('local')
-
-		getTable()
-			.findAllByRole('row').first()
+			.findByRole('row')
+			.as('storageRow')
+			.findByRole('cell', { name: /My Storage/ })
 			.should('be.visible')
-			.within(() => {
-				cy.findByRole('checkbox', { name: 'All people' })
-					.check()
-				cy.get('button[title="Save"]')
-					.click()
-			})
 
-		cy.findByRole('dialog', { name: 'Authentication required' })
+		cy.get('@storageRow')
+			.findByRole('cell', { name: /WebDAV/ })
+			.should('be.visible')
+		cy.get('@storageRow')
+			.findByRole('cell', { name: /Login and password/ })
+			.should('be.visible')
+		cy.get('@storageRow')
+			.findByRole('button', { name: /Edit/ })
+			.should('be.visible')
+		cy.get('@storageRow')
+			.findByRole('button', { name: /Delete/ })
+			.should('be.visible')
+			.as('deleteButton')
+
+		cy.get('@deleteButton')
+			.click()
+		handlePasswordConfirmation('admin')
+
+		getTable()
+			.findByRole('row')
 			.should('not.exist')
-	})
-
-	it('does not save the storage with applicable configuration', function() {
-		selectBackend('local')
-
-		getTable()
-			.findAllByRole('row').first()
-			.should('be.visible')
-			.within(() => {
-				cy.get('input[placeholder="Location"]')
-					.type('/tmp')
-				cy.get('button[title="Save"]')
-					.click()
-			})
-
-		cy.findByRole('dialog', { name: 'Authentication required' })
-			.should('not.exist')
-	})
-
-	it('does save the storage with needed configuration', function() {
-		selectBackend('local')
-
-		getTable()
-			.findAllByRole('row').first()
-			.should('be.visible')
-			.within(() => {
-				cy.findByRole('checkbox', { name: 'All people' })
-					.check()
-				cy.get('input[placeholder="Location"]')
-					.type('/tmp')
-				cy.get('button[title="Save"]')
-					.click()
-			})
-
-		cy.findByRole('dialog', { name: 'Authentication required' })
-			.should('be.visible')
 	})
 })
 
@@ -107,24 +140,17 @@ describe('files_external settings', () => {
  * Get the external storages table
  */
 function getTable() {
-	return cy.get('table#externalStorage')
+	return cy.findByRole('table', { name: 'External storages' })
 		.find('tbody')
 }
 
-/**
- * Get the backend select element
- */
-function getBackendSelect() {
-	return getTable()
-		.findAllByRole('row')
-		.last()
-		.findByRole('combobox')
+function openDialog() {
+	cy.findByRole('button', { name: 'Add external storage' }).click()
+	cy.findByRole('dialog', { name: 'Add storage' }).should('be.visible')
 }
 
-/**
- * @param backend - Backend to select
- */
-function selectBackend(backend: string): void {
-	getBackendSelect()
-		.select(backend)
+function getComboBox(match: RegExp) {
+	return cy.contains('label', match)
+		.should('be.visible')
+		.then((el) => Cypress.$(`#${el.attr('for')}`))
 }

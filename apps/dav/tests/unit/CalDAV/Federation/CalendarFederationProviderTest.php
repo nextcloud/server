@@ -239,7 +239,7 @@ class CalendarFederationProviderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideIncompleteProtocolData')]
+	#[DataProvider(methodName: 'provideIncompleteProtocolData')]
 	public function testShareReceivedWithIncompleteProtocolData(array $protocol): void {
 		$share = $this->createMock(ICloudFederationShare::class);
 		$share->method('getShareType')
@@ -400,7 +400,7 @@ class CalendarFederationProviderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideIncompleteSyncCalendarNotificationData')]
+	#[DataProvider(methodName: 'provideIncompleteSyncCalendarNotificationData')]
 	public function testNotificationReceivedWithSyncCalendarNotificationAndIncompleteData(
 		array $notification,
 	): void {

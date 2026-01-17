@@ -115,7 +115,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		return $data;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('externalSharesChecksDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'externalSharesChecksDataProvider')]
 	public function testExternalSharesChecks($annotations, $config, $expectedResult): void {
 		$this->reflector
 			->expects($this->atLeastOnce())
@@ -129,7 +129,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, self::invokePrivate($this->sharingCheckMiddleware, 'externalSharesChecks'));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('externalSharesChecksDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'externalSharesChecksDataProvider')]
 	public function testBeforeControllerWithExternalShareControllerWithSharingEnabled($annotations, $config, $noException): void {
 		$this->appManager
 			->expects($this->once())

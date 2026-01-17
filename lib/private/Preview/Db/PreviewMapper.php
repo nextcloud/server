@@ -15,7 +15,7 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 
 /**
@@ -30,7 +30,7 @@ class PreviewMapper extends QBMapper {
 	public function __construct(
 		IDBConnection $db,
 		private readonly IMimeTypeLoader $mimeTypeLoader,
-		private readonly IGenerator $snowflake,
+		private readonly ISnowflakeGenerator $snowflake,
 	) {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
@@ -52,15 +52,14 @@ class PreviewMapper extends QBMapper {
 
 		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
 			$qb = $this->db->getQueryBuilder();
-			$id = $this->snowflake->nextId();
 			$qb->insert(self::VERSION_TABLE_NAME)
 				->values([
-					'id' => $qb->createNamedParameter($id),
+					'id' => $qb->createNamedParameter($preview->getId()),
 					'version' => $qb->createNamedParameter($preview->getVersion(), IQueryBuilder::PARAM_STR),
 					'file_id' => $qb->createNamedParameter($preview->getFileId()),
 				])
 				->executeStatement();
-			$entity->setVersionId($id);
+			$entity->setVersionId((string)$preview->getId());
 		}
 		return parent::insert($preview);
 	}

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2018-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Trashbin\Sabre;
@@ -22,6 +22,12 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\Uri;
 
+/**
+ * SabreDAV server plugin for managing Nextcloud's trashbin features.
+ *
+ * Handles events and properties related to deleted files, such as restoration, quota checks, and
+ * custom responses for trashbin resources over WebDAV.
+ */
 class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
 	public const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
@@ -30,17 +36,17 @@ class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_DELETED_BY_ID = '{http://nextcloud.org/ns}trashbin-deleted-by-id';
 	public const TRASHBIN_DELETED_BY_DISPLAY_NAME = '{http://nextcloud.org/ns}trashbin-deleted-by-display-name';
 	public const TRASHBIN_BACKEND = '{http://nextcloud.org/ns}trashbin-backend';
+	public const TRASHBIN_RESTORE_SPACE_SAFETY_MARGIN = 65536; // 64 KiB
 
-	/** @var Server */
-	private $server;
+	private Server $server;
 
 	public function __construct(
-		private IPreview $previewManager,
-		private View $view,
+		private readonly IPreview $previewManager,
+		private readonly View $view,
 	) {
 	}
 
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		$this->server = $server;
 
 		$this->server->on('propFind', [$this, 'propFind']);
@@ -49,131 +55,145 @@ class TrashbinPlugin extends ServerPlugin {
 	}
 
 
-	public function propFind(PropFind $propFind, INode $node) {
+	public function propFind(PropFind $propFind, INode $node): void {
+		// Only act on trashbin nodes
 		if (!($node instanceof ITrash)) {
 			return;
 		}
 
-		$propFind->handle(self::TRASHBIN_FILENAME, function () use ($node) {
-			return $node->getFilename();
-		});
-
-		$propFind->handle(self::TRASHBIN_ORIGINAL_LOCATION, function () use ($node) {
-			return $node->getOriginalLocation();
-		});
-
-		$propFind->handle(self::TRASHBIN_TITLE, function () use ($node) {
-			return $node->getTitle();
-		});
-
-		$propFind->handle(self::TRASHBIN_DELETION_TIME, function () use ($node) {
-			return $node->getDeletionTime();
-		});
-
-		$propFind->handle(self::TRASHBIN_DELETED_BY_ID, function () use ($node) {
-			return $node->getDeletedBy()?->getUID();
-		});
-
-		$propFind->handle(self::TRASHBIN_DELETED_BY_DISPLAY_NAME, function () use ($node) {
-			return $node->getDeletedBy()?->getDisplayName();
-		});
-
-		// Pass the real filename as the DAV display name
-		$propFind->handle(FilesPlugin::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
-			return $node->getFilename();
-		});
-
-		$propFind->handle(FilesPlugin::SIZE_PROPERTYNAME, function () use ($node) {
-			return $node->getSize();
-		});
-
-		$propFind->handle(FilesPlugin::FILEID_PROPERTYNAME, function () use ($node) {
-			return $node->getFileId();
-		});
-
-		$propFind->handle(FilesPlugin::PERMISSIONS_PROPERTYNAME, function () {
-			return 'GD'; // read + delete
-		});
-
-		$propFind->handle(FilesPlugin::GETETAG_PROPERTYNAME, function () use ($node) {
-			// add fake etag, it is only needed to identify the preview image
-			return $node->getLastModified();
-		});
-
-		$propFind->handle(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, function () use ($node) {
-			// add fake etag, it is only needed to identify the preview image
-			return $node->getFileId();
-		});
-
-		$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, function () use ($node): string {
-			return $this->previewManager->isAvailable($node->getFileInfo()) ? 'true' : 'false';
-		});
-
-		$propFind->handle(FilesPlugin::MOUNT_TYPE_PROPERTYNAME, function () {
-			return '';
-		});
-
-		$propFind->handle(self::TRASHBIN_BACKEND, function () use ($node) {
-			$fileInfo = $node->getFileInfo();
-			if (!($fileInfo instanceof ITrashItem)) {
-				return '';
+		// Trashbin specific properties
+		$propFind->handle(self::TRASHBIN_FILENAME, fn () => $node->getFilename());
+		$propFind->handle(self::TRASHBIN_ORIGINAL_LOCATION, fn () => $node->getOriginalLocation());
+		$propFind->handle(self::TRASHBIN_TITLE, fn () => $node->getTitle());
+		$propFind->handle(self::TRASHBIN_DELETION_TIME, fn () => $node->getDeletionTime());
+		$propFind->handle(self::TRASHBIN_DELETED_BY_ID, fn () => $node->getDeletedBy()?->getUID());
+		$propFind->handle(self::TRASHBIN_DELETED_BY_DISPLAY_NAME, fn () => $node->getDeletedBy()?->getDisplayName());
+		$propFind->handle(
+			self::TRASHBIN_BACKEND,
+			function () use ($node) {
+				$fileInfo = $node->getFileInfo();
+				if (!($fileInfo instanceof ITrashItem)) {
+					return '';
+				}
+				return $fileInfo->getTrashBackend()::class;
 			}
-			return $fileInfo->getTrashBackend()::class;
-		});
+		);
+		// Properties mapped from FilesPlugin (most are returned as from the trashbin item itself)
+		$propFind->handle(
+			FilesPlugin::DISPLAYNAME_PROPERTYNAME,
+			fn () => $node->getFilename() // original filename of the ITrash node before deletion
+		);
+		$propFind->handle(
+			FilesPlugin::SIZE_PROPERTYNAME,
+			fn () => $node->getSize()
+		);
+		$propFind->handle(
+			// User-facing file ID: lets WebDAV clients identify this trashed item in the filesystem view.
+			FilesPlugin::FILEID_PROPERTYNAME,
+			fn () => $node->getFileId()
+		);
+		$propFind->handle(
+			FilesPlugin::PERMISSIONS_PROPERTYNAME,
+			fn () => 'GD' // Permissions: 'G' = read, 'D' = delete
+		);
+		$propFind->handle(
+			FilesPlugin::HAS_PREVIEW_PROPERTYNAME,
+			fn () => $this->previewManager->isAvailable($node->getFileInfo()) ? 'true' : 'false'
+		);
+		$propFind->handle(
+			FilesPlugin::GETETAG_PROPERTYNAME,
+			fn () => $node->getLastModified() // Etag based on last modified time of deleted item
+		);
+		$propFind->handle(
+			// Instance-scoped internal file ID: uniquely references this trashbin entry within Nextcloud's storage backend.
+			FilesPlugin::INTERNAL_FILEID_PROPERTYNAME,
+			fn () => $node->getFileId() // if storage backends diverge in future can be swapped transparently.
+		);
+		$propFind->handle(
+			// Storage mount type (e.g., personal, groupfolder, or external storage)
+			FilesPlugin::MOUNT_TYPE_PROPERTYNAME,
+			fn () => '' // Trashbin items don't have a mount type currently
+		);
 	}
 
 	/**
-	 * Set real filename on trashbin download
-	 *
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
+	 * Suggest the original filename to the browser for the download.
 	 */
 	public function httpGet(RequestInterface $request, ResponseInterface $response): void {
 		$path = $request->getPath();
 		$node = $this->server->tree->getNodeForPath($path);
-		if ($node instanceof ITrash) {
-			$response->addHeader('Content-Disposition', 'attachment; filename="' . $node->getFilename() . '"');
+
+		if (!($node instanceof ITrash)) {
+			return;
 		}
+
+		$response->addHeader(
+			'Content-Disposition',
+			'attachment; filename="' . $node->getFilename() . '"' // TODO: Confirm `filename` value is ASCII; add `filename*=UTF-8` support w/ encoding
+		);
 	}
 
 	/**
-	 * Check if a user has available space before attempting to
-	 * restore from trashbin unless they have unlimited quota.
+	 * Checks if there is enough available storage space to restore a file, to the destination path, from the trashbin.
 	 *
-	 * @param string $sourcePath
-	 * @param string $destinationPath
-	 * @return bool
+	 * This method is called before moving a file out of the trashbin. It returns true if the user
+	 * has sufficient quota to restore the file, or if the quota is unlimited or cannot be determined.
+	 *
+	 * @param string $sourcePath The path to the file in the trashbin.
+	 * @param string $destinationPath The path where the file will be restored.
+	 * @return bool True if restore is allowed, false otherwise.
 	 */
 	public function beforeMove(string $sourcePath, string $destinationPath): bool {
+		$logger = \OCP\Server::get(LoggerInterface::class);
+
 		try {
 			$node = $this->server->tree->getNodeForPath($sourcePath);
-			[$destinationDir, ] = Uri\split($destinationPath);
-			$destinationNodeParent = $this->server->tree->getNodeForPath($destinationDir);
-		} catch (\Sabre\DAV\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)
-				->error($e->getMessage(), ['app' => 'files_trashbin', 'exception' => $e]);
-			return true;
-		}
 
-		// Check if a file is being restored before proceeding
-		if (!$node instanceof ITrash || !$destinationNodeParent instanceof RestoreFolder) {
+			if (!($node instanceof ITrash)) {
+				return true;
+			}
+
+			[$destinationParentPath, ] = Uri\split($destinationPath);
+			$destinationParentNode = $this->server->tree->getNodeForPath($destinationParentPath);
+
+			if (!($destinationParentNode instanceof RestoreFolder)) {
+				return true;
+			}
+
+		} catch (\Sabre\DAV\Exception $e) {
+			$logger->error('Failed to move trashbin file', [
+				'app' => 'files_trashbin',
+				'exception' => $e
+			]);
 			return true;
 		}
 
 		$fileInfo = $node->getFileInfo();
-		if (!$fileInfo instanceof ITrashItem) {
+
+		if (!($fileInfo instanceof ITrashItem)) {
 			return true;
 		}
-		$restoreFolder = dirname($fileInfo->getOriginalLocation());
-		$freeSpace = $this->view->free_space($restoreFolder);
-		if ($freeSpace === FileInfo::SPACE_NOT_COMPUTED
+
+		$freeSpace = $this->view->free_space($destinationParentPath);
+
+		if (
+			$freeSpace === FileInfo::SPACE_NOT_COMPUTED
 			|| $freeSpace === FileInfo::SPACE_UNKNOWN
-			|| $freeSpace === FileInfo::SPACE_UNLIMITED) {
+			|| $freeSpace === FileInfo::SPACE_UNLIMITED
+		) {
+			// No relevant quota
 			return true;
 		}
-		$filesize = $fileInfo->getSize();
-		if ($freeSpace < $filesize) {
+
+		$fileSize = $fileInfo->getSize();
+
+		if ($freeSpace - $fileSize < self::TRASHBIN_RESTORE_SPACE_SAFETY_MARGIN) {
+			// Not enough space, block restore
 			$this->server->httpResponse->setStatus(507);
+			$logger->debug('Failed to move trashbin file', [
+				'app' => 'files_trashbin',
+				'reason' => 'Insufficient space available to restore safely'
+			]);
 			return false;
 		}
 

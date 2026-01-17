@@ -93,6 +93,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "عند تمكنيها، يمكن للمشرفين فقط إنشاء وتعديل الوسوم. باقي الحسابات مايزال بإمكانها إسنادها إلى وإزالتها عن الملفات. ",
     "Restrict tag creation and editing to administrators" : "تقييد إنشاء وتعديل الوسوم على المشرفين",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "الوسوم التعاونية متاحة لكل المستخدمين. الوسوم المقيدة restricted يمكن للمستخدمين رؤيتها لكن لا يمكنهم إسنادها. الوسوم المخفية invisible للاستعمال الداخلي فقط حيث لا يستطيع المستخدمون رؤيتها و لا إسنادها.",
+    "Add tags" : "إضافة سِمَاتٍ",
     "Assigned collaborative tags" : "الوسوم التعاونية المُسندَة",
     "Open in Files" : "إفتَح في \"الملفات\"",
     "List of tags and their associated files and folders." : "قائمة بالوسوم والملفات والمجلدات الموسومة بها.",

@@ -64,11 +64,12 @@ import Plugins from './plugins.js'
 import {
 	build as buildQueryString,
 	parse as parseQueryString,
-} from './query-string.js'
+} from './query-string.ts'
 import { getRequestToken } from './requesttoken.ts'
 import {
 	linkToRemoteBase,
 } from './routing.js'
+import Settings from './settings.js'
 import { theme } from './theme.js'
 import Util from './util.js'
 import webroot from './webroot.js'
@@ -185,9 +186,7 @@ export default {
 	 */
 	getLanguage,
 
-	/**
-	 * Query string helpers
-	 */
+	// Query string helpers
 	buildQueryString,
 	parseQueryString,
 
@@ -198,6 +197,10 @@ export default {
 	 */
 	PasswordConfirmation,
 	Plugins,
+	/**
+	 * @deprecated 25.0.0 Use Vue based (`@nextcloud/vue`) settings components instead
+	 */
+	Settings,
 	theme,
 	Util,
 	debug,

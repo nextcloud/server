@@ -95,6 +95,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Si está habilitado, sólo los administradores podrán crear y editar etiquetas. Las demás cuentas todavía serán capaces de asignarlas o eliminarlas de los archivos.",
     "Restrict tag creation and editing to administrators" : "Restringir la creación y edición de etiquetas a los administradores",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Las etiquetas colaborativas están disponibles para todos los usuarios. Las etiquetas restringidas son visibles para los usuarios, pero no pueden ser asignadas por ellos. Las etiquetas invisibles son para uso interno, pues los usuarios no pueden verlas ni asignarlas.",
+    "Add tags" : "Añadir etiquetas",
     "Assigned collaborative tags" : "Etiquetas colaborativas asignadas",
     "Open in Files" : "Abrir en Archivos",
     "List of tags and their associated files and folders." : "Lista de etiquetas y sus carpetas y archivos asociados.",

@@ -117,7 +117,6 @@ class RootMountProviderTest extends TestCase {
 
 		$class = new \ReflectionClass($storage);
 		$prop = $class->getProperty('objectStore');
-		$prop->setAccessible(true);
 		/** @var S3 $objectStore */
 		$objectStore = $prop->getValue($storage);
 		$this->assertEquals('nextcloud0', $objectStore->getBucket());

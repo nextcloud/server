@@ -12,35 +12,23 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IConfig;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IL10N;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 class RecoveryController extends Controller {
-	/**
-	 * @param string $AppName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 * @param Recovery $recovery
-	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
-		private IConfig $config,
 		private IL10N $l,
 		private Recovery $recovery,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @param string $recoveryPassword
-	 * @param string $confirmPassword
-	 * @param string $adminEnableRecovery
-	 * @return DataResponse
-	 */
-	public function adminRecovery($recoveryPassword, $confirmPassword, $adminEnableRecovery) {
+	public function adminRecovery(string $recoveryPassword, string $confirmPassword, bool $adminEnableRecovery): DataResponse {
 		// Check if both passwords are the same
 		if (empty($recoveryPassword)) {
 			$errorMessage = $this->l->t('Missing recovery key password');
@@ -60,28 +48,28 @@ class RecoveryController extends Controller {
 				Http::STATUS_BAD_REQUEST);
 		}
 
-		if (isset($adminEnableRecovery) && $adminEnableRecovery === '1') {
-			if ($this->recovery->enableAdminRecovery($recoveryPassword)) {
-				return new DataResponse(['data' => ['message' => $this->l->t('Recovery key successfully enabled')]]);
+		try {
+			if ($adminEnableRecovery) {
+				if ($this->recovery->enableAdminRecovery($recoveryPassword)) {
+					return new DataResponse(['data' => ['message' => $this->l->t('Recovery key successfully enabled')]]);
+				}
+				return new DataResponse(['data' => ['message' => $this->l->t('Could not enable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
+			} else {
+				if ($this->recovery->disableAdminRecovery($recoveryPassword)) {
+					return new DataResponse(['data' => ['message' => $this->l->t('Recovery key successfully disabled')]]);
+				}
+				return new DataResponse(['data' => ['message' => $this->l->t('Could not disable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
 			}
-			return new DataResponse(['data' => ['message' => $this->l->t('Could not enable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
-		} elseif (isset($adminEnableRecovery) && $adminEnableRecovery === '0') {
-			if ($this->recovery->disableAdminRecovery($recoveryPassword)) {
-				return new DataResponse(['data' => ['message' => $this->l->t('Recovery key successfully disabled')]]);
+		} catch (\Exception $e) {
+			$this->logger->error('Error enabling or disabling recovery key', ['exception' => $e]);
+			if ($e instanceof GenericEncryptionException) {
+				return new DataResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
-			return new DataResponse(['data' => ['message' => $this->l->t('Could not disable recovery key. Please check your recovery key password!')]], Http::STATUS_BAD_REQUEST);
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
-		// this response should never be sent but just in case.
-		return new DataResponse(['data' => ['message' => $this->l->t('Missing parameters')]], Http::STATUS_BAD_REQUEST);
 	}
 
-	/**
-	 * @param string $newPassword
-	 * @param string $oldPassword
-	 * @param string $confirmPassword
-	 * @return DataResponse
-	 */
-	public function changeRecoveryPassword($newPassword, $oldPassword, $confirmPassword) {
+	public function changeRecoveryPassword(string $newPassword, string $oldPassword, string $confirmPassword): DataResponse {
 		//check if both passwords are the same
 		if (empty($oldPassword)) {
 			$errorMessage = $this->l->t('Please provide the old recovery password');
@@ -103,23 +91,30 @@ class RecoveryController extends Controller {
 			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
-		$result = $this->recovery->changeRecoveryKeyPassword($newPassword,
-			$oldPassword);
+		try {
+			$result = $this->recovery->changeRecoveryKeyPassword($newPassword,
+				$oldPassword);
 
-		if ($result) {
-			return new DataResponse(
-				[
-					'data' => [
-						'message' => $this->l->t('Password successfully changed.')]
-				]
-			);
-		}
-		return new DataResponse(
-			[
+			if ($result) {
+				return new DataResponse(
+					[
+						'data' => [
+							'message' => $this->l->t('Password successfully changed.')]
+					]
+				);
+			}
+			return new DataResponse([
 				'data' => [
 					'message' => $this->l->t('Could not change the password. Maybe the old password was not correct.')
 				]
 			], Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			$this->logger->error('Error changing recovery password', ['exception' => $e]);
+			if ($e instanceof GenericEncryptionException) {
+				return new DataResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
+			}
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	/**

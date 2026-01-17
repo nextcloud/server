@@ -263,7 +263,7 @@ class BackendService {
 	 * @param Backend $backend
 	 * @return bool
 	 */
-	protected function isAllowedUserBackend(Backend $backend): bool {
+	public function isAllowedUserBackend(Backend $backend): bool {
 		return ($this->isUserMountingAllowed() && array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends));
 	}
 

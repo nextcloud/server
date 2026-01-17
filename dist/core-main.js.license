@@ -79,6 +79,7 @@ SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Daniel Cousens
 SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Chen Fengyuan
 SPDX-FileCopyrightText: Calvin Metcalf <calvin.metcalf@gmail.com>
 SPDX-FileCopyrightText: Calvin Metcalf
 SPDX-FileCopyrightText: Borys Serebrov
@@ -94,6 +95,9 @@ SPDX-FileCopyrightText:
 
 
 This file is generated from multiple sources. Included packages:
+- @chenfengyuan/vue-qrcode
+	- version: 1.0.2
+	- license: MIT
 - @ctrl/tinycolor
 	- version: 3.6.1
 	- license: MIT
@@ -170,7 +174,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-beta.7
+	- version: 4.0.0-rc.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -758,7 +762,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - typescript-event-target
-	- version: 1.1.1
+	- version: 1.1.2
 	- license: MIT
 - underscore
 	- version: 1.13.7

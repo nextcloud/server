@@ -13,7 +13,7 @@ use OCP\Activity\IFilter;
 use OCP\Server;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class GenericTest extends TestCase {
 	public static function dataFilters(): array {
 		return [
@@ -22,27 +22,27 @@ class GenericTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
 	public function testImplementsInterface(string $filterClass): void {
 		$filter = Server::get($filterClass);
 		$this->assertInstanceOf(IFilter::class, $filter);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
 	public function testGetIdentifier(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
 		$this->assertIsString($filter->getIdentifier());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
 	public function testGetName(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
 		$this->assertIsString($filter->getName());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
 	public function testGetPriority(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
@@ -52,7 +52,7 @@ class GenericTest extends TestCase {
 		$this->assertLessThanOrEqual(100, $priority);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
 	public function testGetIcon(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
@@ -60,14 +60,14 @@ class GenericTest extends TestCase {
 		$this->assertStringStartsWith('http', $filter->getIcon());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
 	public function testFilterTypes(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
 		$this->assertIsArray($filter->filterTypes([]));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilters')]
 	public function testAllowedApps(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
