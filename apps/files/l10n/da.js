@@ -135,7 +135,6 @@ OC.L10N.register(
     "Go right in grid" : "Gå til højre i gitter",
     "View" : "Vis",
     "Toggle grid view" : "Vis som liste",
-    "Open file sidebar" : "Åbn fil sidebjælke",
     "Show those shortcuts" : "Vis disse genveje",
     "Warnings" : "Advarsler",
     "Warn before changing a file extension" : "Advar inden en filendelse ændres",
@@ -442,6 +441,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Oprettelse af ny mappe annulleret",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappe er utilgængelig, tjek venligst loggene eller kontakt administratoren",
     "All folders" : "Alle mapper",
+    "Open file sidebar" : "Åbn fil sidebjælke",
     "Search everywhere …" : "Søg overalt …",
     "Search here …" : "Søg her …",
     "Preparing …" : "Forbereder ..."

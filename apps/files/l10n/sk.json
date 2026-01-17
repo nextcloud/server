@@ -134,7 +134,6 @@
     "Go right in grid" : "Prejsť doprava v mriežke",
     "View" : "Zobraziť",
     "Toggle grid view" : "Prepnúť zobrazenie mriežky",
-    "Open file sidebar" : "Otvoriť bočný panel súboru",
     "Show those shortcuts" : "Zobraziť klávesové skratky",
     "Warnings" : "Upozornenia",
     "Warn before changing a file extension" : "Upozorniť pred zmenou prípony súboru",
@@ -444,6 +443,7 @@
     "New folder creation cancelled" : "Vytvorenie adresára bolo zrušené",
     "This directory is unavailable, please check the logs or contact the administrator" : "Priečinok je nedostupný, skontrolujte prosím logy, alebo kontaktujte správcu",
     "All folders" : "Všetky adresáre",
+    "Open file sidebar" : "Otvoriť bočný panel súboru",
     "Search everywhere …" : "Hľadať všade ...",
     "Search here …" : "Hľadať tu …",
     "Preparing …" : "Pripravuje sa …"

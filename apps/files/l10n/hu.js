@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "Jobbra ugrás a rácsban",
     "View" : "Nézet",
     "Toggle grid view" : "Rácsnézet be/ki",
-    "Open file sidebar" : "Fájl oldalsáv megnyitása",
     "Show those shortcuts" : "Gyorsbillentyűk megjelenítése",
     "Warnings" : "Figyelmeztetések",
     "Warn before changing a file extension" : "Figyelmeztetés a fájlkiterjesztés módosítása előtt",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Az új mappa létrehozása megszakítva",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem érhető el, nézze meg a naplófájlokat vagy lépjen kapcsolatba az adminisztrátorral",
     "All folders" : "Összes mappa",
+    "Open file sidebar" : "Fájl oldalsáv megnyitása",
     "Search everywhere …" : "Keresés mindenhol…",
     "Search here …" : "Keresés itt…",
     "Preparing …" : "Előkészítés…"

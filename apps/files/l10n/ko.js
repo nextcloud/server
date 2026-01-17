@@ -126,7 +126,6 @@ OC.L10N.register(
     "Go right in grid" : "그리드에서 오른쪽으로 이동",
     "View" : "보기",
     "Toggle grid view" : "그리드뷰 전환",
-    "Open file sidebar" : "파일 사이드바 열기",
     "Show those shortcuts" : "다음 단축키 표시",
     "Warnings" : "경고",
     "Warn before changing a file extension" : "파일 확장자 변경 시 경고",
@@ -376,6 +375,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "새 폴더 생성 취소됨",
     "This directory is unavailable, please check the logs or contact the administrator" : "디렉터리를 사용할 수 없습니다. 로그를 확인하거나 관리자에게 연락하십시오",
     "All folders" : "모든 폴더",
+    "Open file sidebar" : "파일 사이드바 열기",
     "Search everywhere …" : "모든 곳에서 검색 ...",
     "Search here …" : "여기서 검색 ..."
 },

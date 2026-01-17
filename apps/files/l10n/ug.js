@@ -136,7 +136,6 @@ OC.L10N.register(
     "Go right in grid" : "ئوڭغا بار",
     "View" : "كۆرۈنۈش",
     "Toggle grid view" : "تورسىمان كۆرۈنۈشنى قوزغات",
-    "Open file sidebar" : "ھۆججەت يانبالداقنى ئاچ",
     "Show those shortcuts" : "ئۇ قىسقايولنى كۆرسەت",
     "Warnings" : "ئاگاھلاندۇرۇش",
     "Warn before changing a file extension" : "بىر ھۆججەت كېڭەيتىلمىسىنى ئۆزگەرتىشتىن بۇرۇن ئاگاھلاندۇر",
@@ -447,6 +446,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "يېڭى ھۆججەت قىسقۇچ قۇرۇش ئەمەلدىن قالدۇرۇلدى",
     "This directory is unavailable, please check the logs or contact the administrator" : "بۇ مۇندەرىجىنى ئىشلەتكىلى بولمايدۇ ، خاتىرىلەرنى تەكشۈرۈپ بېقىڭ ياكى باشقۇرغۇچى بىلەن ئالاقىلىشىڭ",
     "All folders" : "بارلىق ھۆججەت قىسقۇچلار",
+    "Open file sidebar" : "ھۆججەت يانبالداقنى ئاچ",
     "Search everywhere …" : "ھەممە يەردىن ئىزدە ...",
     "Search here …" : "بۇ يەردە ئىزدە ...",
     "Preparing …" : "تەييارلىنۋاتىدۇ ..."

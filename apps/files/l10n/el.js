@@ -135,7 +135,6 @@ OC.L10N.register(
     "Go right in grid" : "Μετάβαση δεξιά στο πλέγμα",
     "View" : "Προβολή",
     "Toggle grid view" : "Εναλλαγή σε προβολή πλέγματος",
-    "Open file sidebar" : "Άνοιγμα πλευρικής μπάρας αρχείου",
     "Show those shortcuts" : "Εμφάνιση αυτών των συντομεύσεων",
     "Warnings" : "Προειδοποιήσεις",
     "Warn before changing a file extension" : "Προειδοποίηση πριν από την αλλαγή επέκτασης αρχείου",
@@ -438,6 +437,7 @@ OC.L10N.register(
     "New folder creation cancelled" : "Ακυρώθηκε η δημιουργία νέου φακέλου",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ο κατάλογος δεν είναι διαθέσιμος, παρακαλούμε ελέγξτε τα αρχεία καταγραφής ή επικοινωνήστε με το διαχειριστή",
     "All folders" : "Όλοι οι φάκελοι",
+    "Open file sidebar" : "Άνοιγμα πλευρικής μπάρας αρχείου",
     "Search everywhere …" : "Αναζήτηση παντού …",
     "Search here …" : "Αναζήτηση εδώ …",
     "Preparing …" : "Προετοιμασία …"
