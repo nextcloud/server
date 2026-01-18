@@ -75,7 +75,7 @@
     "@testing-library/cypress": "^10.1.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/vue": "^8.1.0",
-    "@types/dockerode": "^3.3.47",
+    "@types/dockerode": "^4.0.0",
     "@vitest/coverage-istanbul": "^4.0.17",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
