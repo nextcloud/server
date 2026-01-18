@@ -29,7 +29,7 @@
 
 			<section>
 				<div class="section-header">
-					<h4>{{ t('files_sharing', 'Internal shares') }}</h4>
+					<h4>{{ config.showExternalSharing ? t('files_sharing', 'Internal shares') : t('files_sharing', 'Shares') }}</h4>
 					<NcPopover popup-role="dialog">
 						<template #trigger>
 							<NcButton
