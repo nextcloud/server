@@ -319,6 +319,7 @@ OC.L10N.register(
     "Open online" : "Online öffnen",
     "Rename" : "Umbenennen",
     "Details" : "Details",
+    "Open the details sidebar" : "Die Details-Seitenleiste öffnen",
     "Unfavorite" : "Nicht favorisieren",
     "View in folder" : "In Ordner anzeigen",
     "Today" : "Heute",
