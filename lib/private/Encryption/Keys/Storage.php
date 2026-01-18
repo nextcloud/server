@@ -235,72 +235,59 @@ class Storage implements IStorage {
 	}
 
 	/**
-	 * read key from hard disk
+	 * Read the key from disk.
 	 *
-	 * @param string $path to key
-	 * @return array containing key as base64encoded key, and possible the uid
+	 * @param string $path Path to key file.
+	 * @return array Containing key as base64encoded key, and possibly the uid.
+	 * @throws ServerNotAvailableException
 	 */
 	private function getKey($path): array {
-		$key = [
-			'key' => '',
-		];
+		if (!$this->view->file_exists($path)) {
+			return = [
+				'key' => '',
+			];
+		}
 
-		if ($this->view->file_exists($path)) {
-			if (isset($this->keyCache[$path])) {
-				$key = $this->keyCache[$path];
-			} else {
-				$data = $this->view->file_get_contents($path);
+		if (isset($this->keyCache[$path])) {
+			return $this->keyCache[$path];
+		}
+			
+		$data = $this->view->file_get_contents($path);
+		$migrated = $this->config->getSystemValueBool('encryption.key_storage_migrated', true);
 
-				// Version <20.0.0.1 doesn't have this
-				$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
-				if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
-					$key = [
-						'key' => base64_encode($data),
-					];
-				} else {
-					if ($this->config->getSystemValueBool('encryption.key_storage_migrated', true)) {
-						try {
-							$clearData = $this->crypto->decrypt($data);
-						} catch (\Exception $e) {
-							throw new ServerNotAvailableException('Could not decrypt key', 0, $e);
-						}
-
-						$dataArray = json_decode($clearData, true);
-						if ($dataArray === null) {
-							throw new ServerNotAvailableException('Invalid encryption key');
-						}
-
-						$key = $dataArray;
-					} else {
-						/*
-						 * Even if not all keys are migrated we should still try to decrypt it (in case some have moved).
-						 * However it is only a failure now if it is an array and decryption fails
-						 */
-						$fallback = false;
-						try {
-							$clearData = $this->crypto->decrypt($data);
-						} catch (\Throwable $e) {
-							$fallback = true;
-						}
-
-						if (!$fallback) {
-							$dataArray = json_decode($clearData, true);
-							if ($dataArray === null) {
-								throw new ServerNotAvailableException('Invalid encryption key');
-							}
-							$key = $dataArray;
-						} else {
-							$key = [
-								'key' => base64_encode($data),
-							];
-						}
-					}
+		if ($migrated) {
+			try {
+				$clearData = $this->crypto->decrypt($data);
+				$dataArray = json_decode($clearData, true);
+				if ($dataArray === null) {
+					throw new ServerNotAvailableException('Invalid encryption key');
 				}
-
-				$this->keyCache[$path] = $key;
+				$key = $dataArray;
+			} catch (\Exception $e) {
+				// Config indicates migration completed, but decrypted data is invalid.
+				throw new ServerNotAvailableException('Could not decrypt key', 0, $e);
+			}
+		} else {
+			// If key storage migration isn't indicated as being complete,
+			// attempt to decrypt the key as some may have already migrated.
+			// Otherwise, fall back to returning the (non-migrated) base64-encoded key.
+			try {
+				$clearData = $this->crypto->decrypt($data);
+				$dataArray = json_decode($clearData, true);
+				if ($dataArray === null) {
+					// used only to trigger fallback
+					throw new ServerNotAvailableException('Invalid encryption key');
+				}
+				$key = $dataArray;
+			} catch (\Throwable $e) {
+				// Fallback: base64-encoded blob if decryption fails
+				$key = [
+					'key' => base64_encode($data)
+				];
 			}
 		}
 
+		$this->keyCache[$path] = $key;
 		return $key;
 	}
 
