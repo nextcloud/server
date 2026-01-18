@@ -66,10 +66,7 @@ class Manager implements IMountManager {
 	}
 
 	/**
-	 * Find the mount for $path
-	 *
-	 * @param string $path
-	 * @return IMountPoint
+	 * Find/return the mount for $path
 	 */
 	public function find(string $path): IMountPoint {
 		$this->setupManager->setupForPath($path);
@@ -78,8 +75,6 @@ class Manager implements IMountManager {
 		if (isset($this->pathCache[$path])) {
 			return $this->pathCache[$path];
 		}
-
-
 
 		if (count($this->mounts) === 0) {
 			$this->setupManager->setupRoot();
