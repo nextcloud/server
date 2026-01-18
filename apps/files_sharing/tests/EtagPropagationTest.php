@@ -30,13 +30,7 @@ class EtagPropagationTest extends PropagationTestCase {
 	 * - "user1" is the owner, creates folders and files, shares with "user2" and "user3"
 	 * - "user2" and "user3" accept and organize their shares
 	 * - "user2" reshares one folder with "user4"
-	 * - "user4" places received folder at a nested location
-	 
-	 * "user1" is the admin who shares a folder "sub1/sub2/folder" with "user2" and "user3"
-	 * "user2" receives the folder and puts it in "sub1/sub2/folder"
-	 * "user3" receives the folder and puts it in "sub1/sub2/folder"
-	 * "user2" reshares the subdir "sub1/sub2/folder/inside" with "user4"
-	 * "user4" puts the received "inside" folder into "sub1/sub2/inside" (this is to check if it propagates across multiple subfolders)
+	 * - "user4" places received folder at a nested location (this is to check if it propagates across multiple subfolders)
 	 */
 	protected function setUpShares() {
 		// Tracking arrays for file IDs and etags
@@ -176,8 +170,8 @@ class EtagPropagationTest extends PropagationTestCase {
 		// --- USER 4: accepts re-shares from user 2, organizes folders ---
 		//
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER4);
-		$this->shareManager->acceptShare($insideShareToUser4, self::TEST_FILES_SHARING_API_USER4)
-		$this->shareManager->acceptShare($directReshareFromUser2ToUser4, self::TEST_FILES_SHARING_API_USER4);;
+		$this->shareManager->acceptShare($insideShareToUser4, self::TEST_FILES_SHARING_API_USER4);
+		$this->shareManager->acceptShare($directReshareFromUser2ToUser4, self::TEST_FILES_SHARING_API_USER4);
 
 		$view4 = new View('/' . self::TEST_FILES_SHARING_API_USER4 . '/files');
 		$view4->mkdir('/sub1/sub2');
