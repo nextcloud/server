@@ -79,7 +79,7 @@
     "@vitest/coverage-istanbul": "^4.0.17",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
-    "@zip.js/zip.js": "^2.8.14",
+    "@zip.js/zip.js": "^2.8.15",
     "concurrently": "^9.2.1",
     "cypress": "^15.9.0",
     "cypress-axe": "^1.7.0",
