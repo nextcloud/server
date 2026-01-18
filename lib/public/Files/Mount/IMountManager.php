@@ -47,7 +47,7 @@ interface IMountManager {
 	 *
 	 * @param string $path The filesystem path to search for a mount.
 	 * @return IMountPoint The found mount point.
-	 * @throws NotFoundException If no mount is found for the path.
+	 * @throws OCP\Files\NotFoundException If no mount is found for the path.
 	 * @throws \Exception If no mounts exist after setup.
 	 * @since 8.2.0
 	 */
