@@ -319,6 +319,7 @@ OC.L10N.register(
     "Open online" : "Open online",
     "Rename" : "Rename",
     "Details" : "Details",
+    "Open the details sidebar" : "Open the details sidebar",
     "Unfavorite" : "Unfavourite",
     "View in folder" : "View in folder",
     "Today" : "Today",
