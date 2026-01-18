@@ -17,13 +17,14 @@ use OC\App\InfoParser;
 use OC\Migration\SimpleOutput;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
-use OCP\AppFramework\QueryException;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 use OCP\Server;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class MigrationService {
@@ -47,6 +48,7 @@ class MigrationService {
 		?LoggerInterface $logger = null,
 	) {
 		$this->appName = $appName;
+		$this->checkOracle = false;
 		$this->connection = $connection;
 		if ($logger === null) {
 			$this->logger = Server::get(LoggerInterface::class);
@@ -103,7 +105,7 @@ class MigrationService {
 			return false;
 		}
 
-		if ($this->connection->tableExists('migrations') && \OC::$server->getConfig()->getAppValue('core', 'vendor', '') !== 'owncloud') {
+		if ($this->connection->tableExists('migrations') && \OCP\Server::get(IConfig::class)->getAppValue('core', 'vendor', '') !== 'owncloud') {
 			$this->migrationTableCreated = true;
 			return false;
 		}
@@ -282,7 +284,7 @@ class MigrationService {
 	/**
 	 * @param string $version
 	 */
-	private function markAsExecuted($version) {
+	private function markAsExecuted($version): void {
 		$this->connection->insertIfNotExist('*PREFIX*migrations', [
 			'app' => $this->appName,
 			'version' => $version
@@ -343,7 +345,7 @@ class MigrationService {
 
 		$versions = $this->getAvailableVersions();
 		array_unshift($versions, '0');
-		/** @var int $offset */
+		/** @var int|false $offset */
 		$offset = array_search($version, $versions, true);
 		if ($offset === false || !isset($versions[$offset + $delta])) {
 			// Unknown version or delta out of bounds.
@@ -358,8 +360,7 @@ class MigrationService {
 		if (count($m) === 0) {
 			return '0';
 		}
-		$migrations = array_values($m);
-		return @end($migrations);
+		return @end($m);
 	}
 
 	/**
@@ -431,10 +432,11 @@ class MigrationService {
 		if ($toSchema instanceof SchemaWrapper) {
 			$this->output->debug('- Checking target database schema');
 			$targetSchema = $toSchema->getWrappedSchema();
+			$beforeSchema = $this->connection->createSchema();
 			$this->ensureUniqueNamesConstraints($targetSchema, true);
+			$this->ensureNamingConstraints($beforeSchema, $targetSchema, \strlen($this->connection->getPrefix()));
 			if ($this->checkOracle) {
-				$beforeSchema = $this->connection->createSchema();
-				$this->ensureOracleConstraints($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
+				$this->ensureOracleConstraints($beforeSchema, $targetSchema);
 			}
 
 			$this->output->debug('- Migrate database schema');
@@ -472,14 +474,11 @@ class MigrationService {
 	 * @throws \InvalidArgumentException
 	 */
 	public function createInstance($version) {
+		/** @psalm-var class-string<IMigrationStep> $class */
 		$class = $this->getClass($version);
 		try {
 			$s = \OCP\Server::get($class);
-
-			if (!$s instanceof IMigrationStep) {
-				throw new \InvalidArgumentException('Not a valid migration');
-			}
-		} catch (QueryException $e) {
+		} catch (NotFoundExceptionInterface) {
 			if (class_exists($class)) {
 				$s = new $class();
 			} else {
@@ -487,6 +486,9 @@ class MigrationService {
 			}
 		}
 
+		if (!$s instanceof IMigrationStep) {
+			throw new \InvalidArgumentException('Not a valid migration');
+		}
 		return $s;
 	}
 
@@ -497,7 +499,7 @@ class MigrationService {
 	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function executeStep($version, $schemaOnly = false) {
+	public function executeStep($version, $schemaOnly = false): void {
 		$instance = $this->createInstance($version);
 
 		if (!$schemaOnly) {
@@ -512,10 +514,11 @@ class MigrationService {
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
+			$sourceSchema = $this->connection->createSchema();
 			$this->ensureUniqueNamesConstraints($targetSchema, $schemaOnly);
+			$this->ensureNamingConstraints($sourceSchema, $targetSchema, \strlen($this->connection->getPrefix()));
 			if ($this->checkOracle) {
-				$sourceSchema = $this->connection->createSchema();
-				$this->ensureOracleConstraints($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
+				$this->ensureOracleConstraints($sourceSchema, $targetSchema);
 			}
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
@@ -531,12 +534,108 @@ class MigrationService {
 	}
 
 	/**
+	 * Enforces some naming conventions to make sure tables can be used on all supported database engines.
+	 *
 	 * Naming constraints:
-	 * - Tables names must be 30 chars or shorter (27 + oc_ prefix)
-	 * - Column names must be 30 chars or shorter
-	 * - Index names must be 30 chars or shorter
-	 * - Sequence names must be 30 chars or shorter
-	 * - Primary key names must be set or the table name 23 chars or shorter
+	 * - Tables names must be 63 chars or shorter (including its prefix (default 'oc_'))
+	 * - Column names must be 63 chars or shorter
+	 * - Index names must be 63 chars or shorter
+	 * - Sequence names must be 63 chars or shorter
+	 * - Primary key names must be set to 63 chars or shorter - or the table name must be <= 58 characters (63 - 5 for '_pKey' suffix) including the table name prefix
+	 *
+	 * This is based on the identifier limits set by our supported database engines:
+	 * - MySQL and MariaDB support 64 characters
+	 * - Oracle supports 128 characters (since 12c)
+	 * - PostgreSQL support 63
+	 * - SQLite does not have any limits
+	 *
+	 * @see https://github.com/nextcloud/documentation/blob/master/developer_manual/basics/storage/database.rst
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	public function ensureNamingConstraints(Schema $sourceSchema, Schema $targetSchema, int $prefixLength): void {
+		$MAX_NAME_LENGTH = 63;
+		$sequences = $targetSchema->getSequences();
+
+		foreach ($targetSchema->getTables() as $table) {
+			try {
+				$sourceTable = $sourceSchema->getTable($table->getName());
+			} catch (SchemaException $e) {
+				// we only validate new tables
+				if (\strlen($table->getName()) + $prefixLength > $MAX_NAME_LENGTH) {
+					throw new \InvalidArgumentException('Table name "' . $table->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
+				}
+				$sourceTable = null;
+			}
+
+			foreach ($table->getColumns() as $thing) {
+				// If the table doesn't exist OR if the column doesn't exist in the table
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName()))
+					&& \strlen($thing->getName()) > $MAX_NAME_LENGTH
+				) {
+					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
+				}
+			}
+
+			foreach ($table->getIndexes() as $thing) {
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasIndex($thing->getName()))
+					&& \strlen($thing->getName()) > $MAX_NAME_LENGTH
+				) {
+					throw new \InvalidArgumentException('Index name "' . $table->getName() . '"."' . $thing->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
+				}
+			}
+
+			foreach ($table->getForeignKeys() as $thing) {
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasForeignKey($thing->getName()))
+					&& \strlen($thing->getName()) > $MAX_NAME_LENGTH
+				) {
+					throw new \InvalidArgumentException('Foreign key name "' . $table->getName() . '"."' . $thing->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
+				}
+			}
+
+			$primaryKey = $table->getPrimaryKey();
+			// only check if there is a primary key
+			// and there was non in the old table or there was no old table
+			if ($primaryKey !== null && ($sourceTable === null || $sourceTable->getPrimaryKey() === null)) {
+				$indexName = strtolower($primaryKey->getName());
+				$isUsingDefaultName = $indexName === 'primary';
+				// This is the default name when using postgres - we use this for length comparison
+				// as this is the longest default names for the DB engines provided by doctrine
+				$defaultName = strtolower($table->getName() . '_pkey');
+
+				if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
+					$isUsingDefaultName = $defaultName === $indexName;
+
+					if ($isUsingDefaultName) {
+						$sequenceName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
+						$sequences = array_filter($sequences, function (Sequence $sequence) use ($sequenceName) {
+							return $sequence->getName() !== $sequenceName;
+						});
+					}
+				} elseif ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
+					$isUsingDefaultName = strtolower($table->getName() . '_seq') === $indexName;
+				}
+
+				if (!$isUsingDefaultName && \strlen($indexName) > $MAX_NAME_LENGTH) {
+					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
+				}
+				if ($isUsingDefaultName && \strlen($defaultName) + $prefixLength > $MAX_NAME_LENGTH) {
+					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
+				}
+			}
+		}
+
+		foreach ($sequences as $sequence) {
+			if (!$sourceSchema->hasSequence($sequence->getName())
+				&& \strlen($sequence->getName()) > $MAX_NAME_LENGTH
+			) {
+				throw new \InvalidArgumentException('Sequence name "' . $sequence->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
+			}
+		}
+	}
+
+	/**
+	 * Enforces some data conventions to make sure tables can be used on Oracle SQL.
 	 *
 	 * Data constraints:
 	 * - Tables need a primary key (Not specific to Oracle, but required for performant clustering support)
@@ -546,66 +645,47 @@ class MigrationService {
 	 * - Columns with type "string" can not be longer than 4.000 characters, use "text" instead
 	 *
 	 * @see https://github.com/nextcloud/documentation/blob/master/developer_manual/basics/storage/database.rst
-	 *
-	 * @param Schema $sourceSchema
-	 * @param Schema $targetSchema
-	 * @param int $prefixLength
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public function ensureOracleConstraints(Schema $sourceSchema, Schema $targetSchema, int $prefixLength) {
+	public function ensureOracleConstraints(Schema $sourceSchema, Schema $targetSchema): void {
 		$sequences = $targetSchema->getSequences();
 
 		foreach ($targetSchema->getTables() as $table) {
 			try {
 				$sourceTable = $sourceSchema->getTable($table->getName());
 			} catch (SchemaException $e) {
-				if (\strlen($table->getName()) - $prefixLength > 27) {
-					throw new \InvalidArgumentException('Table name "' . $table->getName() . '" is too long.');
-				}
 				$sourceTable = null;
 			}
 
-			foreach ($table->getColumns() as $thing) {
+			foreach ($table->getColumns() as $column) {
 				// If the table doesn't exist OR if the column doesn't exist in the table
-				if (!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) {
-					if (\strlen($thing->getName()) > 30) {
-						throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				if (!$sourceTable instanceof Table || !$sourceTable->hasColumn($column->getName())) {
+					if ($column->getNotnull() && $column->getDefault() === ''
+						&& $sourceTable instanceof Table && !$sourceTable->hasColumn($column->getName())) {
+						// null and empty string are the same on Oracle SQL
+						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $column->getName() . '" is NotNull, but has empty string or null as default.');
 					}
 
-					if ($thing->getNotnull() && $thing->getDefault() === ''
-						&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
-						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
-					}
-
-					if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
+					if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE
+						&& $column->getNotnull()
+						&& Type::lookupName($column->getType()) === Types::BOOLEAN
+					) {
 						// Oracle doesn't support boolean column with non-null value
-						if ($thing->getNotnull() && Type::lookupName($thing->getType()) === Types::BOOLEAN) {
-							$thing->setNotnull(false);
-						}
+						// to still allow lighter DB schemas on other providers we force it to not null
+						// see https://github.com/nextcloud/server/pull/55156
+						$column->setNotnull(false);
 					}
 
 					$sourceColumn = null;
 				} else {
-					$sourceColumn = $sourceTable->getColumn($thing->getName());
+					$sourceColumn = $sourceTable->getColumn($column->getName());
 				}
 
 				// If the column was just created OR the length changed OR the type changed
 				// we will NOT detect invalid length if the column is not modified
-				if (($sourceColumn === null || $sourceColumn->getLength() !== $thing->getLength() || Type::lookupName($sourceColumn->getType()) !== Types::STRING)
-					&& $thing->getLength() > 4000 && Type::lookupName($thing->getType()) === Types::STRING) {
-					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type String, but exceeding the 4.000 length limit.');
-				}
-			}
-
-			foreach ($table->getIndexes() as $thing) {
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasIndex($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Index name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
-				}
-			}
-
-			foreach ($table->getForeignKeys() as $thing) {
-				if ((!$sourceTable instanceof Table || !$sourceTable->hasForeignKey($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Foreign key name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+				if (($sourceColumn === null || $sourceColumn->getLength() !== $column->getLength() || Type::lookupName($sourceColumn->getType()) !== Types::STRING)
+					&& $column->getLength() > 4000 && Type::lookupName($column->getType()) === Types::STRING) {
+					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $column->getName() . '" is type String, but exceeding the 4.000 length limit.');
 				}
 			}
 
@@ -628,24 +708,11 @@ class MigrationService {
 					$defaultName = $table->getName() . '_seq';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 				}
-
-				if (!$isUsingDefaultName && \strlen($indexName) > 30) {
-					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" is too long.');
-				}
-				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength >= 23) {
-					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" is too long.');
-				}
 			} elseif (!$primaryKey instanceof Index && !$sourceTable instanceof Table) {
 				/** @var LoggerInterface $logger */
-				$logger = \OC::$server->get(LoggerInterface::class);
+				$logger = \OCP\Server::get(LoggerInterface::class);
 				$logger->error('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups. This will throw an exception and not be installable in a future version of Nextcloud.');
 				// throw new \InvalidArgumentException('Table "' . $table->getName() . '" has no primary key and therefor will not behave sane in clustered setups.');
-			}
-		}
-
-		foreach ($sequences as $sequence) {
-			if (!$sourceSchema->hasSequence($sequence->getName()) && \strlen($sequence->getName()) > 30) {
-				throw new \InvalidArgumentException('Sequence name "' . $sequence->getName() . '" is too long.');
 			}
 		}
 	}
