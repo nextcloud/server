@@ -316,13 +316,13 @@ class Storage implements IStorage {
 	private function setKey(string $path, array $key): bool {
 		$this->keySetPreparation(dirname($path));
 
-		if (!is_array($key) || !isset($key['key'])) {
-			throw new \UnexpectedValueException('Provided $key is not a valid array with required "key" entry');
+		if (!isset($key['key'])) {
+			throw new \UnexpectedValueException('Provided $key missing required "key" entry');
 		}
 
 		try {
 			$json = json_encode($key, JSON_THROW_ON_ERROR);
-			$data = $this->crypto->encrypt($json));
+			$data = $this->crypto->encrypt($json);
 		} catch (\JsonException $e) {
 			throw new \RuntimeException('Failed to JSON encode key for storage: ' . $e->getMessage(), 0, $e);
 		} catch (\Throwable $e) {
