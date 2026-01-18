@@ -78,8 +78,8 @@ interface IEncryptionModule {
 	 *
 	 * @param string $data you want to encrypt
 	 * @param string $blockId Block identifier representing the block index we want to encrypt
-	 *						  (starts with '0'). Usually a numeric string (e.g. "0", "5"), but
-	 *						  may have a special marker, such as "5end" to denote the final block.
+	 *                        (starts with '0'). Usually a numeric string (e.g. "0", "5"), but
+	 *                        may have a special marker, such as "5end" to denote the final block.
 	 *
 	 * @return string encrypted data
 	 *
