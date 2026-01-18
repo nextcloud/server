@@ -305,34 +305,41 @@ class Storage implements IStorage {
 	}
 
 	/**
-	 * write key to disk
+	 * Write the given key to disk.
 	 *
-	 *
-	 * @param string $path path to key directory
-	 * @param array $key key
-	 * @return bool
+	 * @param string $path Destination file path for the key
+	 * @param array $key Associative array with encryption key data (must have 'key')	 
+	 * @return bool True if key is persisted; throws on error.
+	 * @throws \UnexpectedValueException if $key structure is invalid (rare)
+	 * @throws \RuntimeException if encode, encrypt, or write fails or is incomplete
 	 */
-	private function setKey($path, $key) {
+	private function setKey(string $path, array $key): bool {
 		$this->keySetPreparation(dirname($path));
 
-		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
-		if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
-			// Only store old format if this happens during the migration.
-			// TODO: Remove for 21
-			$data = base64_decode($key['key']);
-		} else {
-			// Wrap the data
-			$data = $this->crypto->encrypt(json_encode($key));
+		if (!is_array($key) || !isset($key['key'])) {
+			throw new \UnexpectedValueException('Provided $key is not a valid array with required "key" entry');
+		}
+
+		try {
+			$json = json_encode($key, JSON_THROW_ON_ERROR);
+			$data = $this->crypto->encrypt($json));
+		} catch (\JsonException $e) {
+			throw new \RuntimeException('Failed to JSON encode key for storage: ' . $e->getMessage(), 0, $e);
+		} catch (\Throwable $e) {
+			throw new \RuntimeException('Failed to encrypt key for storage: ' . $e->getMessage(), 0, $e);
 		}
 
 		$result = $this->view->file_put_contents($path, $data);
-
-		if (is_int($result) && $result > 0) {
-			$this->keyCache[$path] = $key;
-			return true;
+		$expected = \strlen($data);
+		if ($result === false || $result !== $expected) {
+			throw new \RuntimeException(
+				"Failed to write encryption key to {$path}: "
+				. ($result === false ? 'file_put_contents returned false' : "wrote {$result} bytes, expected ".\strlen($data))
+			);
 		}
 
-		return false;
+		$this->keyCache[$path] = $key;
+		return true;
 	}
 
 	/**
