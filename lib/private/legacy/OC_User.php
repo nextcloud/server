@@ -306,15 +306,14 @@ class OC_User {
 		return $isAdmin && self::$incognitoMode === false;
 	}
 
-
 	/**
-	 * get the user id of the user currently logged in.
+	 * Get the user id of the user currently logged in unless in incognito mode.
 	 *
-	 * @return string|false uid or false
+	 * @return string|false User id if available; false otherwise.
 	 */
-	public static function getUser() {
+	public static function getUser(): string|false {
 		$uid = Server::get(ISession::class)?->get('user_id');
-		if (!is_null($uid) && self::$incognitoMode === false) {
+		if ($uid !== null && self::$incognitoMode === false) {
 			return $uid;
 		} else {
 			return false;
