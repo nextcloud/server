@@ -148,7 +148,7 @@ class Node implements INode {
 				if (is_null($mtime)) {
 					$mtime = time();
 				}
-				$this->fileInfo['mtime'] = $mtime;
+				$this->fileInfo['mtime'] = $mtime; // XXX This isn't normalized like it is at the View::touch() level
 			}
 		} else {
 			throw new NotPermittedException();
