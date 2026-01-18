@@ -319,6 +319,7 @@ OC.L10N.register(
     "Open online" : "Oscail ar líne",
     "Rename" : "Athainmnigh",
     "Details" : "Sonraí",
+    "Open the details sidebar" : "Oscail an barra taoibh sonraí",
     "Unfavorite" : "Mí-mheas",
     "View in folder" : "Amharc san fhillteán",
     "Today" : "Inniu",

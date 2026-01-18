@@ -833,7 +833,7 @@
     "Authentication required" : "Authentifizierung benötigt",
     "Sending test email…" : "Sende Test-E-Mail …",
     "Send test email" : "Test-E-Mail senden",
-    "Saving…" : "Speichere…",
+    "Saving…" : "Speichere​ …",
     "Save settings" : "Einstellungen speichern",
     "Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}." : "Bitte die {linkStartInstallationGuides} Installationsanleitung {linkEnd} nochmals überprüfen und im {linkStartLog}Protokoll{linkEnd} nach Fehlern oder Warnungen sehen.",
     "Check the security of your {productName} over {linkStart}our security scan{linkEnd}." : "Die Sicherheit von {productName} mit {linkStart}unserem Sicherheitsscan{linkEnd} überprüfen.",
