@@ -32,7 +32,7 @@ class Manager implements IManager {
 	/** @var string */
 	protected $formattingObjectType;
 
-	/** @var int */
+	/** @var int|string */
 	protected $formattingObjectId;
 
 	/** @var bool */
