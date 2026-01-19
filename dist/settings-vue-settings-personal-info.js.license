@@ -464,7 +464,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.7.1
 	- license: MIT
 - libphonenumber-js
-	- version: 1.12.31
+	- version: 1.12.34
 	- license: MIT
 - linkifyjs
 	- version: 4.3.2
