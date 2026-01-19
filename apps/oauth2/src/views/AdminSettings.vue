@@ -160,7 +160,7 @@ async function addClient() {
 		overflow: hidden;
 		padding: var(--default-grid-baseline);
 		text-wrap: wrap;
-		word-wrap: break-word;
+		overflow-wrap: break-word;
 	}
 
 	tbody tr {

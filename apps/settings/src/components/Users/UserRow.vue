@@ -1035,7 +1035,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use './shared/styles';
+@use './shared/styles.scss';
 
 .user-list__row {
 	@include styles.row;

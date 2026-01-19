@@ -3,9 +3,10 @@
  * SPDX-FileCopyrightText: 2011 Jan-Christoph Borchardt, http://jancborchardt.net
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@use 'variables';
+
 @use 'sass:math';
-@use 'functions';
+@use 'variables.scss';
+@use 'functions.scss';
 
 input {
 	&#openid, &#webdav {
@@ -92,7 +93,7 @@ select {
 	padding: 20px;
 	max-width: 1700px;
 	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-	grid-column-gap: 10px;
+	column-gap: 10px;
 
 	.section {
 		padding: 10px 10px;

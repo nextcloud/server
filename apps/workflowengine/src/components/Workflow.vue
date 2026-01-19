@@ -157,7 +157,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	@use "./../styles/operation";
+	@use "./../styles/operation.scss";
 
 	#workflowengine {
 		border-bottom: 1px solid var(--color-border);
