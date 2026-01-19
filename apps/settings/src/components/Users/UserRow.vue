@@ -588,7 +588,6 @@ export default {
 				for (const group of groups) {
 					this.$store.commit('addGroup', group)
 				}
-				this.selectedGroups = this.selectedGroups.map(selectedGroup => groups.find(group => group.id === selectedGroup.id) ?? selectedGroup)
 			} catch (error) {
 				logger.error(t('settings', 'Failed to load groups with details'), { error })
 			}
@@ -605,7 +604,6 @@ export default {
 				for (const group of groups) {
 					this.$store.commit('addGroup', group)
 				}
-				this.selectedSubAdminGroups = this.selectedSubAdminGroups.map(selectedGroup => groups.find(group => group.id === selectedGroup.id) ?? selectedGroup)
 			} catch (error) {
 				logger.error(t('settings', 'Failed to load sub admin groups with details'), { error })
 			}
@@ -794,7 +792,6 @@ export default {
 				await this.$store.dispatch('addGroup', gid)
 				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
-				this.userGroups.push({ id: gid, name: gid })
 			} catch (error) {
 				logger.error(t('settings', 'Failed to create group'), { error })
 			}
@@ -820,7 +817,6 @@ export default {
 			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addUserGroup', { userid, gid })
-				this.userGroups.push(group)
 			} catch (error) {
 				console.error(error)
 			}
@@ -844,7 +840,6 @@ export default {
 					userid,
 					gid,
 				})
-				this.userGroups = this.userGroups.filter(group => group.id !== gid)
 				this.loading.groups = false
 				// remove user from current list if current list is the removed group
 				if (this.$route.params.selectedGroup === gid) {
@@ -869,7 +864,6 @@ export default {
 					userid,
 					gid,
 				})
-				this.userSubAdminGroups.push(group)
 			} catch (error) {
 				console.error(error)
 			}
@@ -891,7 +885,6 @@ export default {
 					userid,
 					gid,
 				})
-				this.userSubAdminGroups = this.userSubAdminGroups.filter(group => group.id !== gid)
 			} catch (error) {
 				console.error(error)
 			} finally {
