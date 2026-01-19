@@ -29,7 +29,6 @@ import logger from '../logger.js'
 import { isUserAdmin } from './admin.js'
 import { appConfig } from './appconfig.js'
 import appswebroots from './appswebroots.js'
-import Backbone from './backbone.js'
 import { getCapabilities } from './capabilities.js'
 import Config from './config.js'
 import {
@@ -86,7 +85,6 @@ export default {
 	 */
 	appConfig,
 	appswebroots,
-	Backbone,
 	config: Config,
 	/**
 	 * Currently logged in user or null if none

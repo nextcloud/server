@@ -4,8 +4,6 @@
  */
 
 /* eslint-disable @nextcloud/no-deprecations */
-// END TODO
-import Backbone from 'backbone'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
@@ -83,9 +81,8 @@ function setDeprecatedProp(global, cb, msg) {
 	})
 }
 
-window._ = _
 setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp(['_'], () => _, 'The global underscore is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
