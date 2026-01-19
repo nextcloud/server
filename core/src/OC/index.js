@@ -49,12 +49,6 @@ import { debug } from './debug.js'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
 import L10N from './l10n.js'
-import {
-	hideMenus,
-	registerMenu,
-	showMenu,
-	unregisterMenu,
-} from './menu.js'
 import * as MimeType from './mimeType.js'
 import msg from './msg.js'
 import PasswordConfirmation from './password-confirmation.js'
@@ -129,14 +123,6 @@ export default {
 	 * @deprecated 20.0.0 use @nextcloud/capabilities instead
 	 */
 	getCapabilities,
-
-	/*
-	 * Legacy menu helpers
-	 */
-	hideMenus,
-	registerMenu,
-	showMenu,
-	unregisterMenu,
 
 	/*
 	 * Path helpers

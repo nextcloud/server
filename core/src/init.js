@@ -69,19 +69,6 @@ export function initCore() {
 
 	initSessionHeartBeat()
 
-	OC.registerMenu($('#expand'), $('#expanddiv'), false, true)
-
-	// toggle for menus
-	$(document).on('mouseup.closemenus', (event) => {
-		const $el = $(event.target)
-		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
-			// don't close when clicking on the menu directly or a menu toggle
-			return false
-		}
-
-		OC.hideMenus()
-	})
-
 	setUpMainMenu()
 	setUpUserMenu()
 	setUpContactsMenu()
