@@ -1357,31 +1357,35 @@ class View {
 	}
 
 	/**
-	 * Get file info from cache
+	 * Returns cache metadata from the given storage for specified path.
+	 * Scans and updates cache if needed (i.e. not in cache or file has changed). If file is locked, 
+	 * returns prior (outdated) cache entry.
 	 *
-	 * If the file is not in cached it will be scanned
-	 * If the file has changed on storage the cache will be updated
-	 *
-	 * @param Storage $storage
-	 * @param string $internalPath
-	 * @param string $relativePath
-	 * @return ICacheEntry|bool
+	 * @param Storage $storage Storage backend for the file
+	 * @param string $internalPath Path to the file within the storage
+	 * @param string $relativePath Relative path used for locking and reference
+	 * @return ICacheEntry|false Metadata object or false if file not found
 	 */
-	private function getCacheEntry($storage, $internalPath, $relativePath) {
+	private function getCacheEntry(Storage $storage, string $internalPath, string $relativePath): ICacheEntry|false {
 		$cache = $storage->getCache($internalPath);
+
 		$data = $cache->get($internalPath);
 		$watcher = $storage->getWatcher($internalPath);
 
 		try {
-			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
+			// If the file is not in the cache or has a placeholder "size == -1", check underlying storage and rescan if it exists.
 			if (!$data || (isset($data['size']) && $data['size'] === -1)) {
 				if (!$storage->file_exists($internalPath)) {
 					return false;
 				}
-				// don't need to get a lock here since the scanner does it's own locking
+				// scanner does it's own locking
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
+				if (!data) {
+					return false;
+				}
+			// If watcher says cache is out of date (and not a partial file), lock/update/re-check cache
 			} elseif (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
@@ -1390,81 +1394,85 @@ class View {
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
 		} catch (LockedException $e) {
-			// if the file is locked we just use the old cache info
+			// Use the old cache info if locked
 		}
-
-		return $data;
+		return $data ?: false;
 	}
 
 	/**
-	 * get the filesystem info
+	 * Looks up and returns the file or folder metadata as a FileInfo object for the given path.
 	 *
-	 * @param string $path
-	 * @param bool|string $includeMountPoints true to add mountpoint sizes,
-	 *                                        'ext' to add only ext storage mount point sizes. Defaults to true.
-	 * @return \OC\Files\FileInfo|false False if file does not exist
+	 * @param string $path Relative path to file or directory
+	 * @param bool|string $includeMountPoints true to add mount sizes,
+	 *                                        'ext' for external mounts only.
+	 * @return \OC\Files\FileInfo|false FileInfo object or false not found
 	 */
-	public function getFileInfo($path, $includeMountPoints = true) {
+	public function getFileInfo(string $path, bool|string $includeMountPoints = true): \OC\Files\FileInfo|false {
 		$this->assertPathLength($path);
 		if (!Filesystem::isValidPath($path)) {
 			return false;
 		}
+
 		$relativePath = $path;
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 
 		$mount = Filesystem::getMountManager()->find($path);
 		$storage = $mount->getStorage();
-		$internalPath = $mount->getInternalPath($path);
-		if ($storage) {
-			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
-
-			if (!$data instanceof ICacheEntry) {
-				if (Cache\Scanner::isPartialFile($relativePath)) {
-					return $this->getPartFileInfo($relativePath);
-				}
-
-				return false;
-			}
-
-			if ($mount instanceof MoveableMount && $internalPath === '') {
-				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
-			}
-			if ($internalPath === '' && $data['name']) {
-				$data['name'] = basename($path);
-			}
-
-			$ownerId = $storage->getOwner($internalPath);
-			$owner = null;
-			if ($ownerId !== false) {
-				// ownerId might be null if files are accessed with an access token without file system access
-				$owner = $this->getUserObjectForOwner($ownerId);
-			}
-			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
-
-			if (isset($data['fileid'])) {
-				if ($includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
-					//add the sizes of other mount points to the folder
-					$extOnly = ($includeMountPoints === 'ext');
-					$this->addSubMounts($info, $extOnly);
-				}
-			}
-
-			return $info;
-		} else {
+		if (!$storage) {
 			$this->logger->warning('Storage not valid for mountpoint: ' . $mount->getMountPoint(), ['app' => 'core']);
+			return false;
+		}
+	
+		$internalPath = $mount->getInternalPath($path);
+		$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
+
+		if (!$data instanceof ICacheEntry) {
+			if (Cache\Scanner::isPartialFile($relativePath)) {
+				return $this->getPartFileInfo($relativePath);
+			}
+			return false;
 		}
 
-		return false;
+		if ($mount instanceof MoveableMount && $internalPath === '') {
+			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
+		}
+		if ($internalPath === '' && isset($data['name'])) {
+			$data['name'] = basename($path);
+		}
+
+		$ownerId = $storage->getOwner($internalPath);
+		// ownerId might be null if files are accessed with an access token without file system access
+		$owner = ($ownerId !== false && $ownerId !== null) ? $this->getUserObjectForOwner($ownerId) : null;
+
+		$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
+
+		if (isset($data['fileid']) && $includeMountPoints && $data['mimetype'] === 'httpd/unix-directory') {
+			// add the sizes of other mount points to the folder
+			$extOnly = ($includeMountPoints === 'ext');
+			$this->addSubMounts($info, $extOnly);
+		}
+
+		return $info;
 	}
 
 	/**
-	 * Extend a FileInfo that was previously requested with `$includeMountPoints = false` to include the sub mounts
+	 * Assigns sub-mount points found within the given FileInfo's path.
+	 *
+	 * e.g., Extend a FileInfo that was previously requested with `$includeMountPoints = false`
+	 * to include the sub mounts.
+	 *
+	 * @param FileInfo $info FileInfo for which to find and assign sub-mounts
+	 * @param bool $extOnly Include only non-shared (external) mounts (defaults to false)
 	 */
-	public function addSubMounts(FileInfo $info, $extOnly = false): void {
-		$mounts = Filesystem::getMountManager()->findIn($info->getPath());
-		$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
-			return !($extOnly && $mount instanceof SharedMount);
-		}));
+	public function addSubMounts(FileInfo $info, bool $extOnly = false): void {
+		$path = $info->getPath();
+		$mounts = Filesystem::getMountManager()->findIn($path);
+		$info->setSubMounts(array_filter(
+			$mounts,
+			function (IMountPoint $mount) use ($extOnly) {
+				return !($extOnly && $mount instanceof SharedMount);
+			}
+		));
 	}
 
 	/**
