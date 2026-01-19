@@ -7,12 +7,6 @@
 
 namespace OCA\DAV\Controller;
 
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureException;
-use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
-use NCU\Security\Signature\ISignatureManager;
-use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use OC\Authentication\Token\IProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCP\AppFramework\ApiController;
@@ -28,6 +22,12 @@ use OCP\Authentication\Token\IToken;
 use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureException;
+use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
+use OCP\Security\Signature\IIncomingSignedRequest;
+use OCP\Security\Signature\ISignatureManager;
 use Psr\Log\LoggerInterface;
 
 /**
