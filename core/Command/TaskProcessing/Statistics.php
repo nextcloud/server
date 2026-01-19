@@ -78,9 +78,9 @@ class Statistics extends Base {
 		$type = $input->getOption('type');
 		$appId = $input->getOption('appId');
 		$customId = $input->getOption('customId');
-		$status = $input->getOption('status');
-		$scheduledAfter = $input->getOption('scheduledAfter');
-		$endedBefore = $input->getOption('endedBefore');
+		$status = $input->getOption('status') !== null ? (int)$input->getOption('status') : null;
+		$scheduledAfter = $input->getOption('scheduledAfter') !== null ? (int)$input->getOption('scheduledAfter') : null;
+		$endedBefore = $input->getOption('endedBefore') !== null ? (int)$input->getOption('endedBefore') : null;
 
 		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore);
 
