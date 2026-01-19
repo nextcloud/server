@@ -18,8 +18,6 @@ use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
 /** @template-implements IEventListener<LoadSettingsScriptsEvent> */
 class LoadAdditionalSettingsScriptsListener implements IEventListener {
 	public function handle(Event $event): void {
-		Util::addScript('core', 'files_fileinfo');
-		Util::addScript('core', 'files_client');
 		Util::addScript('core', 'systemtags');
 		Util::addScript(Application::APP_ID, 'workflowengine');
 	}
