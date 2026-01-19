@@ -12,9 +12,9 @@ use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatureException;
 use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
 use NCU\Security\Signature\ISignatureManager;
+use NCU\Security\Signature\Model\IIncomingSignedRequest;
 use OC\Authentication\Token\IProvider;
 use OC\OCM\OCMSignatoryManager;
-use OC\Security\Signature\Model\IncomingSignedRequest;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -53,10 +53,10 @@ class TokenController extends ApiController {
 	/**
 	 * Verify the signature of incoming request if available
 	 *
-	 * @return IncomingSignedRequest|null null if remote does not support signed requests
+	 * @return IIncomingSignedRequest|null null if remote does not support signed requests
 	 * @throws IncomingRequestException if signature is required but invalid
 	 */
-	private function verifySignedRequest(): ?IncomingSignedRequest {
+	private function verifySignedRequest(): ?IIncomingSignedRequest {
 		try {
 			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
 			$this->logger->debug('Token request signature verified', [
@@ -80,11 +80,12 @@ class TokenController extends ApiController {
 	/**
 	 * Exchange a refresh token for a short-lived access token
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{access_token: string, token_type: string, expires_in: int}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED|Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{access_token: string, token_type: string, expires_in: int}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED|Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR, array{error: string}, array{}>
 	 *
 	 * 200: Access token successfully generated
 	 * 400: Bad request - missing refresh token or invalid request format
 	 * 401: Unauthorized - invalid or expired refresh token, or invalid signature
+	 * 500: Internal server error
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]

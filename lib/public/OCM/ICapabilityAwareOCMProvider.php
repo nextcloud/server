@@ -15,4 +15,21 @@ namespace OCP\OCM;
  * @deprecated 33.0.0 {@see IOCMProvider}
  */
 interface ICapabilityAwareOCMProvider extends IOCMProvider {
+	/**
+	 * get the token endpoint URL
+	 *
+	 * @return string
+	 * @since 32.0.0
+	 */
+	public function getTokenEndPoint(): string;
+
+	/**
+	 * set the token endpoint URL
+	 *
+	 * @param string $endPoint
+	 *
+	 * @return $this
+	 * @since 32.0.0
+	 */
+	public function setTokenEndPoint(string $endPoint): static;
 }
