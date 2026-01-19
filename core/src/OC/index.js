@@ -69,7 +69,6 @@ import { getRequestToken } from './requesttoken.ts'
 import {
 	linkToRemoteBase,
 } from './routing.js'
-import Settings from './settings.js'
 import { theme } from './theme.js'
 import Util from './util.js'
 import webroot from './webroot.js'
@@ -190,10 +189,6 @@ export default {
 	 */
 	PasswordConfirmation,
 	Plugins,
-	/**
-	 * @deprecated 25.0.0 Use Vue based (`@nextcloud/vue`) settings components instead
-	 */
-	Settings,
 	theme,
 	Util,
 	debug,
@@ -202,7 +197,7 @@ export default {
 	 */
 	filePath: generateFilePath,
 	/**
-	 * @deprecated 19.0.0 use `generateUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 * @deprecated 19.0.0 use `WgenerateUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	generateUrl,
 	/**
