@@ -10,8 +10,8 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
-use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\IOCMDiscoveryService;
 use Psr\Log\LoggerInterface;
 
 class CloudFederationFactory implements ICloudFederationFactory {
