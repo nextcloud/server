@@ -73,11 +73,6 @@ import Settings from './settings.js'
 import { theme } from './theme.js'
 import Util from './util.js'
 import webroot from './webroot.js'
-import {
-	ajaxConnectionLostHandler,
-	processAjaxError,
-	registerXHRForErrorProcessing,
-} from './xhr-error.js'
 
 /** @namespace OC */
 export default {
@@ -125,13 +120,11 @@ export default {
 	L10N,
 
 	/**
-	 * Ajax error handlers
+	 * This is already handled by `interceptRequests` in `core/src/init.js`.
 	 *
-	 * @todo remove from here and keep internally -> requires new tests
+	 * @deprecated 33.0.0 - unused by Nextcloud and only a stub remains. Just remove usage.
 	 */
-	_ajaxConnectionLostHandler: ajaxConnectionLostHandler,
-	_processAjaxError: processAjaxError,
-	registerXHRForErrorProcessing,
+	registerXHRForErrorProcessing: () => {},
 
 	/**
 	 * Capabilities
