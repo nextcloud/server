@@ -9,11 +9,13 @@ declare(strict_types=1);
 namespace OCA\FederatedFileSharing\Tests;
 
 use LogicException;
+use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\Authentication\Token\IToken;
 use OCP\Constants;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -27,6 +29,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -87,6 +90,19 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 
+		// Mock ISecureRandom to return a predictable token (must be 32+ chars)
+		$secureRandom = $this->createMock(ISecureRandom::class);
+		$secureRandom->method('generate')
+			->willReturn('tokentokentokentokentokentokenab');
+		$this->overwriteService(ISecureRandom::class, $secureRandom);
+
+		// Mock PublicKeyTokenProvider to avoid database token creation
+		$tokenProvider = $this->createMock(PublicKeyTokenProvider::class);
+		$mockToken = $this->createMock(IToken::class);
+		$tokenProvider->method('generateToken')
+			->willReturn($mockToken);
+		$this->overwriteService(PublicKeyTokenProvider::class, $tokenProvider);
+
 		$this->provider = new FederatedShareProvider(
 			$this->connection,
 			$this->addressHandler,
@@ -145,7 +161,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->equalTo('tokentokentokentokentokentokenab'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -183,7 +199,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			'file_source' => 42,
 			'permissions' => 19,
 			'accepted' => 0,
-			'token' => 'token',
+			'token' => 'tokentokentokentokentokentokenab',
 			'expiration' => $expectedDataDate,
 		];
 		foreach (array_keys($expected) as $key) {
@@ -198,7 +214,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('file', $share->getNodeType());
 		$this->assertEquals(42, $share->getNodeId());
 		$this->assertEquals(19, $share->getPermissions());
-		$this->assertEquals('token', $share->getToken());
+		$this->assertEquals('tokentokentokentokentokentokenab', $share->getToken());
 		$this->assertEquals($expirationDate, $share->getExpirationDate());
 	}
 
@@ -369,7 +385,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->equalTo('tokentokentokentokentokentokenab'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
@@ -440,7 +456,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
-				$this->equalTo('token'),
+				$this->equalTo('tokentokentokentokentokentokenab'),
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
