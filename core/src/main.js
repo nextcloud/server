@@ -13,7 +13,6 @@ import OC from './OC/index.js'
 import 'core-js/stable/index.js'
 import 'regenerator-runtime/runtime.js'
 import './globals.js'
-import './jquery/index.js'
 
 __webpack_nonce__ = getCSPNonce()
 

@@ -7,7 +7,8 @@ import Vue from 'vue'
 import AccountMenu from '../views/AccountMenu.vue'
 
 /**
- *
+ * Set up the user menu component ("AccountMenu")
+ * This is the top right menu where users can access their settings, profile, logout, etc.
  */
 export function setUp() {
 	const mountPoint = document.getElementById('user-menu')
