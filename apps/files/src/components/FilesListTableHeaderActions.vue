@@ -6,13 +6,13 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions
 			ref="actionsMenu"
+			:open.sync="openedMenu"
 			container="#app-content-vue"
 			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="enabledInlineActions.length"
 			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : null"
-			:open.sync="openedMenu"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
 			<NcActionButton
@@ -80,6 +80,7 @@ import { translate } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
@@ -101,6 +102,7 @@ export default defineComponent({
 		ArrowLeftIcon,
 		NcActions,
 		NcActionButton,
+		NcActionSeparator,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
