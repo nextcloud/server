@@ -46,7 +46,7 @@ class Cleanup extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$maxAgeSeconds = (int) $input->getArgument('maxAgeSeconds') ?? Manager::MAX_TASK_AGE_SECONDS;
+		$maxAgeSeconds = (int) ($input->getArgument('maxAgeSeconds') ?? Manager::MAX_TASK_AGE_SECONDS);
 		$output->writeln('<comment>Cleanup up tasks older than ' . $maxAgeSeconds . ' seconds and the related output files</comment>');
 
 		$taskIdsToCleanup = [];
