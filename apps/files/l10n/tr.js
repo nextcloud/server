@@ -319,6 +319,7 @@ OC.L10N.register(
     "Open online" : "Çevrim içi aç",
     "Rename" : "Yeniden adlandır",
     "Details" : "Ayrıntılar",
+    "Open the details sidebar" : "Ayrıntılar kenar çubuğunu aç",
     "Unfavorite" : "Sık kullanılanlardan kaldır",
     "View in folder" : "Klasörde görüntüle",
     "Today" : "Bugün",
