@@ -67,36 +67,6 @@ export function initCore() {
 	interceptRequests()
 	initFallbackClipboardAPI()
 
-	$(window).on('unload.main', () => {
-		OC._unloadCalled = true
-	})
-	$(window).on('beforeunload.main', () => {
-		// super-trick thanks to http://stackoverflow.com/a/4651049
-		// in case another handler displays a confirmation dialog (ex: navigating away
-		// during an upload), there are two possible outcomes: user clicked "ok" or
-		// "cancel"
-
-		// first timeout handler is called after unload dialog is closed
-		setTimeout(() => {
-			OC._userIsNavigatingAway = true
-
-			// second timeout event is only called if user cancelled (Chrome),
-			// but in other browsers it might still be triggered, so need to
-			// set a higher delay...
-			setTimeout(() => {
-				if (!OC._unloadCalled) {
-					OC._userIsNavigatingAway = false
-				}
-			}, 10000)
-		}, 1)
-	})
-	$(document).on('ajaxError.main', function(event, request, settings) {
-		if (settings && settings.allowAuthErrors) {
-			return
-		}
-		OC._processAjaxError(request)
-	})
-
 	initSessionHeartBeat()
 
 	OC.registerMenu($('#expand'), $('#expanddiv'), false, true)
