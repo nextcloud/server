@@ -39,6 +39,8 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -118,6 +120,8 @@ class Application extends App implements IBootstrap {
 		// Security events
 		$context->registerEventListener(TwoFactorProviderChallengePassed::class, SecurityEventListener::class);
 		$context->registerEventListener(TwoFactorProviderChallengeFailed::class, SecurityEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserRegistered::class, SecurityEventListener::class);
+		$context->registerEventListener(TwoFactorProviderForUserUnregistered::class, SecurityEventListener::class);
 
 		// App management events
 		$context->registerEventListener(AppEnableEvent::class, AppManagementEventListener::class);

@@ -14,6 +14,8 @@ use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -61,5 +63,27 @@ class SecurityEventListenerTest extends TestCase {
 			);
 
 		$this->security->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
+	}
+
+	public function testTwofactorRegistered(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				$this->equalTo('Two factor provider myprovider enabled for user mydisplayname (myuid)'),
+				['app' => 'admin_audit']
+			);
+
+		$this->security->handle(new TwoFactorProviderForUserRegistered($this->user, $this->provider));
+	}
+
+	public function testTwofactorUnregistered(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				$this->equalTo('Two factor provider myprovider disabled for user mydisplayname (myuid)'),
+				['app' => 'admin_audit']
+			);
+
+		$this->security->handle(new TwoFactorProviderForUserUnregistered($this->user, $this->provider));
 	}
 }
