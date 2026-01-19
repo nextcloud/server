@@ -3,9 +3,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@use 'variables';
+
 @use 'sass:color';
-@use 'functions';
+@use 'variables.scss';
+@use 'functions.scss';
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {

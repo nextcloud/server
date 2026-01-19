@@ -146,7 +146,7 @@ function numberToHex(numeric: string): string {
 	height: 96px;
 	width: 168px;
 
-	word-wrap: break-word;
+	overflow-wrap: break-word;
 	hyphens: auto;
 
 	border: 2px solid var(--color-main-background);

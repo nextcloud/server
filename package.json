@@ -69,7 +69,7 @@
     "@nextcloud/browserslist-config": "^3.1.2",
     "@nextcloud/e2e-test-server": "^0.4.0",
     "@nextcloud/eslint-config": "^9.0.0-rc.6",
-    "@nextcloud/stylelint-config": "^3.1.1",
+    "@nextcloud/stylelint-config": "^3.2.0",
     "@nextcloud/typings": "^1.10.0",
     "@nextcloud/vite-config": "^2.5.2",
     "@testing-library/cypress": "^10.1.0",
@@ -95,8 +95,7 @@
     "jsdom-testing-mocks": "^1.16.0",
     "msw": "^2.12.7",
     "sass": "^1.97.2",
-    "stylelint": "^16.26.1",
-    "stylelint-use-logical": "^2.1.2",
+    "stylelint": "^17.0.0",
     "vite": "^7.3.1",
     "vitest": "^4.0.15"
   },
