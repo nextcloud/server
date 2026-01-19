@@ -893,9 +893,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$folder1 = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 		$file1 = $folder1->newFile('bar1');
 
-		$this->tokenHandler->expects($this->exactly(2))
-			->method('generateToken')
-			->willReturnOnConsecutiveCalls('token1', 'token2');
+		// Token generation now uses ISecureRandom instead of tokenHandler
+		$this->tokenHandler->expects($this->never())
+			->method('generateToken');
 		$this->notifications->expects($this->atLeastOnce())
 			->method('sendRemoteShare')
 			->willReturn(true);
