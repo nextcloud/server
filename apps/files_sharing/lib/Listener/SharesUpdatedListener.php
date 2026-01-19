@@ -44,7 +44,12 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof FilesystemTornDownEvent) {
 			$this->updatedUsers = new CappedMemoryCache();
 		}
-		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent || $event instanceof UserShareAccessUpdatedEvent) {
+		if ($event instanceof UserShareAccessUpdatedEvent) {
+			foreach ($event->getUsers() as $user) {
+				$this->updateForUser($user);
+			}
+		}
+		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent) {
 			$this->updateForUser($event->getUser());
 		}
 		if ($event instanceof ShareCreatedEvent || $event instanceof BeforeShareDeletedEvent) {
