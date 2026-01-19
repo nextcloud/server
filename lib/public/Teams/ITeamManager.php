@@ -48,4 +48,12 @@ interface ITeamManager {
 	 * @since 33.0.0
 	 */
 	public function getSharedWithList(array $teams, string $userId): array;
+
+	/**
+	 * Returns all teams that a given user is a member of
+	 *
+	 * @return list<Team>
+	 * @since 33.0.0
+	 */
+	public function getTeamsForUser(string $userId): array;
 }
