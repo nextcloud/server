@@ -58,7 +58,6 @@ import {
 } from './menu.js'
 import * as MimeType from './mimeType.js'
 import msg from './msg.js'
-import Notification from './notification.js'
 import PasswordConfirmation from './password-confirmation.js'
 import Plugins from './plugins.js'
 import {
@@ -183,7 +182,6 @@ export default {
 	parseQueryString,
 
 	msg,
-	Notification,
 	/**
 	 * @deprecated 28.0.0 use methods from '@nextcloud/password-confirmation'
 	 */
