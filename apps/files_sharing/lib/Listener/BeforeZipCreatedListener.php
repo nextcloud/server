@@ -48,7 +48,7 @@ class BeforeZipCreatedListener implements IEventListener {
 		$user = $this->userSession->getUser();
 		if ($user) {
 			$viewOnlyHandler = new ViewOnly(
-				$this->rootFolder
+				$this->rootFolder->getUserFolder($user->getUID())
 			);
 			if (!$viewOnlyHandler->check($pathsToCheck)) {
 				$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
