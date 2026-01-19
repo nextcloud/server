@@ -28,7 +28,6 @@ import {
 import logger from '../logger.js'
 import { isUserAdmin } from './admin.js'
 import { appConfig } from './appconfig.js'
-import Apps from './apps.js'
 import appswebroots from './appswebroots.js'
 import Backbone from './backbone.js'
 import { getCapabilities } from './capabilities.js'
@@ -91,7 +90,6 @@ export default {
 	/*
 	 * Deprecated helpers to be removed
 	 */
-	Apps,
 	appConfig,
 	appswebroots,
 	Backbone,

@@ -8,7 +8,6 @@ import Axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import _ from 'underscore'
 import { initCore } from './init.js'
-import { registerAppsSlideToggle } from './OC/apps.js'
 import OC from './OC/index.js'
 
 import 'core-js/stable/index.js'
@@ -20,7 +19,6 @@ __webpack_nonce__ = getCSPNonce()
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
-	registerAppsSlideToggle()
 
 	// fallback to hashchange when no history support
 	if (window.history.pushState) {
