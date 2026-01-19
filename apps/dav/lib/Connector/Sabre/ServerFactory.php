@@ -75,6 +75,7 @@ class ServerFactory {
 		$server->addPlugin(new LockPlugin());
 
 		$server->addPlugin(new RequestIdHeaderPlugin($this->request));
+		$server->addPlugin(new UserIdHeaderPlugin($this->userSession));
 
 		$server->addPlugin(new ZipFolderPlugin(
 			$objectTree,

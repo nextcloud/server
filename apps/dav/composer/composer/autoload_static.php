@@ -240,6 +240,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\SharesPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/SharesPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\TagList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagList.php',
         'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagsPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\ZipFolderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ZipFolderPlugin.php',
         'OCA\\DAV\\Controller\\BirthdayCalendarController' => __DIR__ . '/..' . '/../lib/Controller/BirthdayCalendarController.php',
         'OCA\\DAV\\Controller\\DirectController' => __DIR__ . '/..' . '/../lib/Controller/DirectController.php',
