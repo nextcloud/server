@@ -181,7 +181,7 @@ OC.L10N.register(
     "Choose a default folder for accepted shares" : "Виберіть типовий каталог, куди зберігатимуться прийняті спільні ресурси",
     "Invalid path selected" : "Вибрано неправильний шлях",
     "Unknown error" : "Невідома помилка",
-    "Set default folder for accepted shares" : "Встановити типовий каталог для прийнятих спільних ресурсів",
+    "Set default folder for accepted shares" : "Типовий каталог для прийнятих спільних ресурсів",
     "Reset" : "Скидання",
     "Reset folder to system default" : "Відновити типові системні налаштування для каталогу",
     "Share expiration: {date}" : "У спільному доступі до: {date}",
