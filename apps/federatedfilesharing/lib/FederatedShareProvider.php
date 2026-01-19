@@ -8,10 +8,10 @@
 namespace OCA\FederatedFileSharing;
 
 use OC\Authentication\Token\PublicKeyTokenProvider;
-use OCP\Authentication\Token\IToken;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudFederationProviderManager;
