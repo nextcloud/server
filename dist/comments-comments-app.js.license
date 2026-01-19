@@ -314,7 +314,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.0
+	- version: 6.14.1
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
