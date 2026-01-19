@@ -25,7 +25,6 @@ SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
-SPDX-FileCopyrightText: Jordan Humphreys <jordan@zurb.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
@@ -125,6 +124,9 @@ This file is generated from multiple sources. Included packages:
 - axios
 	- version: 1.12.2
 	- license: MIT
+- bail
+	- version: 2.0.2
+	- license: MIT
 - base64-js
 	- version: 1.5.1
 	- license: MIT
@@ -187,6 +189,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-buffer
 	- version: 1.1.6
+	- license: MIT
+- is-plain-obj
+	- version: 4.1.0
 	- license: MIT
 - jquery
 	- version: 3.7.1
@@ -316,9 +321,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.4.0
-	- license: MIT
-- tributejs
-	- version: 5.1.3
 	- license: MIT
 - trim-lines
 	- version: 3.0.1

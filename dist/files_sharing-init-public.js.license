@@ -79,9 +79,6 @@ This file is generated from multiple sources. Included packages:
 - base64-js
 	- version: 1.5.1
 	- license: MIT
-- buffer
-	- version: 5.7.1
-	- license: MIT
 - debounce
 	- version: 3.0.0
 	- license: MIT
@@ -166,6 +163,15 @@ This file is generated from multiple sources. Included packages:
 - webpack
 	- version: 5.104.1
 	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- buffer
+	- version: 5.7.1
+	- license: MIT
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
 - nextcloud
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later
