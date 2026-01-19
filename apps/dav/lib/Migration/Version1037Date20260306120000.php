@@ -18,6 +18,7 @@ use OCP\Migration\SimpleMigrationStep;
 
 #[CreateTable(table: 'dav_ocm_token_map', description: 'Maps OCM access tokens to their originating refresh tokens')]
 class Version1037Date20260306120000 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

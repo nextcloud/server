@@ -8,7 +8,6 @@
 namespace OCA\CloudFederationAPI\Controller;
 
 use OC\Authentication\Token\PublicKeyTokenProvider;
-use OCA\DAV\Db\OcmTokenMapMapper;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;

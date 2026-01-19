@@ -36,10 +36,12 @@ use OCP\Share\IShare;
  * oc_authtoken are silently repaired.
  */
 class Version1012Date20260306120000 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		return null;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$db = Server::get(IDBConnection::class);
 		$tokenProvider = Server::get(PublicKeyTokenProvider::class);

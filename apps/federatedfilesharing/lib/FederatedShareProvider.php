@@ -9,7 +9,6 @@ namespace OCA\FederatedFileSharing;
 
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Share20\Exception\InvalidShare;
-use OCA\DAV\Db\OcmTokenMapMapper;
 use OC\Share20\Share;
 use OCA\DAV\Db\OcmTokenMapMapper;
 use OCP\Authentication\Exceptions\InvalidTokenException;

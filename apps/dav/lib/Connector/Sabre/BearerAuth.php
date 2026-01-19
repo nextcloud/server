@@ -62,7 +62,6 @@ class BearerAuth extends AbstractBearer {
 	public function getShare(): IShare {
 		$shareManager = Server::get(IManager::class);
 		$share = $shareManager->getShareByToken($this->token);
-		assert($share !== null);
 		return $share;
 	}
 

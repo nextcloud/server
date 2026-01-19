@@ -151,6 +151,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 *
 	 * @return bool True if token was refreshed (or reused from DB) successfully
 	 */
+	#[\Override]
 	protected function refreshBearerToken(): bool {
 		$now = time();
 

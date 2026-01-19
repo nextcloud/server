@@ -204,6 +204,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return parent::getRemember();
 	}
 
+	#[\Override]
 	public function getType(): int {
 		return $this->getter('type');
 	}

@@ -125,6 +125,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setTokenEndPoint(string $endPoint): static {
 		$this->tokenEndPoint = $endPoint;
 
@@ -134,6 +135,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getTokenEndPoint(): string {
 		if (in_array('exchange-token', $this->capabilities)) {
 			return $this->tokenEndPoint;

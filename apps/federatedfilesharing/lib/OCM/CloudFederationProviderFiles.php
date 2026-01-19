@@ -7,8 +7,8 @@
 namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
-use OC\OCM\OCMSignatoryManager;
 use OC\Files\Filesystem;
+use OC\OCM\OCMSignatoryManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Federation\TrustedServers;
@@ -34,6 +34,7 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
+use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -45,7 +46,6 @@ use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\ISignatureManager;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Http\Client\IClientService;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
