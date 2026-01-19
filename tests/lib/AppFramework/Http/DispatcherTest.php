@@ -148,9 +148,13 @@ class DispatcherTest extends \Test\TestCase {
 	 * @param string $out
 	 * @param string $httpHeaders
 	 */
-	private function setMiddlewareExpectations($out = null,
-		$httpHeaders = null, $responseHeaders = [],
-		$ex = false, $catchEx = true) {
+	private function setMiddlewareExpectations(
+		$out = null,
+		$httpHeaders = '',
+		$responseHeaders = [],
+		$ex = false,
+		$catchEx = true,
+	) {
 		if ($ex) {
 			$exception = new \Exception();
 			$this->middlewareDispatcher->expects($this->once())
