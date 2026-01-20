@@ -10,7 +10,7 @@
 				<template #actions>
 					<!-- Sharing button -->
 					<NcButton
-						v-if="canShare && fileListWidth >= 512"
+						v-if="canShare && !isNarrow"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
 						:title="shareButtonLabel"
@@ -27,7 +27,7 @@
 					<UploadPicker
 						v-if="canUpload && !isQuotaExceeded && currentFolder"
 						allow-folders
-						:no-label="fileListWidth <= 511"
+						:no-label="isNarrow"
 						class="files-list__header-upload-button"
 						:content="getContent"
 						:destination="currentFolder"
@@ -259,7 +259,7 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 
-		const fileListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
@@ -271,7 +271,7 @@ export default defineComponent({
 			currentView,
 			directory,
 			fileId,
-			fileListWidth,
+			isNarrow,
 			t,
 
 			sidebar,
@@ -848,7 +848,7 @@ export default defineComponent({
 		max-width: 100%;
 		// Align with the navigation toggle icon
 		margin-block: var(--app-navigation-padding, 4px);
-		margin-inline: calc(var(--default-clickable-area, 44px) + 2 * var(--app-navigation-padding, 4px)) var(--app-navigation-padding, 4px);
+		margin-inline: calc(var(--default-clickable-area) + 2 * var(--app-navigation-padding, 4px)) var(--app-navigation-padding, 4px);
 
 		&--public {
 			// There is no navigation toggle on public shares

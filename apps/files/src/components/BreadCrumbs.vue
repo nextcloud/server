@@ -16,7 +16,7 @@
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="index === 0 && fileListWidth >= 486"
+			:force-icon-text="index === 0 && !isNarrow"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)"
@@ -76,6 +76,8 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['reload'],
+
 	setup() {
 		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
@@ -84,7 +86,7 @@ export default defineComponent({
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
 
-		const fileListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const views = useViews()
 
 		return {
@@ -95,7 +97,7 @@ export default defineComponent({
 			selectionStore,
 			uploaderStore,
 
-			fileListWidth,
+			isNarrow,
 			views,
 		}
 	},
@@ -132,7 +134,7 @@ export default defineComponent({
 		wrapUploadProgressBar(): boolean {
 			// if an upload is ongoing, and on small screens / mobile, then
 			// show the progress bar for the upload below breadcrumbs
-			return this.isUploadInProgress && this.fileListWidth < 512
+			return this.isUploadInProgress && this.isNarrow
 		},
 
 		// used to show the views icon for the first breadcrumb
