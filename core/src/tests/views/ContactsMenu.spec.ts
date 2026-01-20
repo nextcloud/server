@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { mount, shallowMount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { cleanup, findAllByRole, render } from '@testing-library/vue'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import ContactsMenu from '../../views/ContactsMenu.vue'
 
 const axios = vi.hoisted(() => ({
 	post: vi.fn(),
+	get: vi.fn(),
 }))
 vi.mock('@nextcloud/axios', () => ({ default: axios }))
 
@@ -16,67 +17,47 @@ vi.mock('@nextcloud/auth', () => ({
 	getCurrentUser: () => ({ uid: 'user', isAdmin: false, displayName: 'User' }),
 }))
 
+afterEach(cleanup)
+
 describe('ContactsMenu', function() {
-	it('is closed by default', () => {
-		const view = shallowMount(ContactsMenu)
-
-		expect(view.vm.contacts).toEqual([])
-		expect(view.vm.loadingText).toBe(undefined)
-	})
-
 	it('shows a loading text', async () => {
-		const view = shallowMount(ContactsMenu)
-		axios.post.mockResolvedValue({
+		const { promise, resolve } = Promise.withResolvers<void>()
+		axios.post.mockImplementationOnce(async () => (await promise, {
 			data: {
 				contacts: [],
 				contactsAppEnabled: false,
 			},
+		}))
+		axios.get.mockResolvedValue({
+			data: [],
 		})
 
-		const opening = view.vm.handleOpen()
+		const view = render(ContactsMenu)
+		await view.findByRole('button')
+			.then((button) => button.click())
 
-		expect(view.vm.contacts).toEqual([])
-		expect(view.vm.loadingText).toBe('Loading your contacts …')
-		await opening
+		await expect(view.findByText(/Loading your contacts\s…/)).resolves.toBeTruthy()
+		resolve()
+		await expect(view.findByText('No contacts found')).resolves.toBeTruthy()
 	})
 
 	it('shows error view when contacts can not be loaded', async () => {
-		const view = mount(ContactsMenu)
 		axios.post.mockResolvedValue({})
+		axios.get.mockResolvedValue({
+			data: [],
+		})
 		vi.spyOn(console, 'error').mockImplementation(() => {})
 
-		try {
-			await view.vm.handleOpen()
-
-			throw new Error('should not be reached')
-		} catch {
-			expect(console.error).toHaveBeenCalled()
-			console.error.mockRestore()
-			expect(view.vm.error).toBe(true)
-			expect(view.vm.contacts).toEqual([])
-			expect(view.text()).toContain('Could not load your contacts')
-		}
-	})
-
-	it('shows text when there are no contacts', async () => {
-		const view = mount(ContactsMenu)
-		axios.post.mockResolvedValueOnce({
-			data: {
-				contacts: [],
-				contactsAppEnabled: false,
-			},
-		})
-
-		await view.vm.handleOpen()
-
-		expect(view.vm.error).toBe(false)
-		expect(view.vm.contacts).toEqual([])
-		expect(view.vm.loadingText).toBe(undefined)
-		expect(view.text()).toContain('No contacts found')
+		const view = render(ContactsMenu)
+		await view.findByRole('button')
+			.then((button) => button.click())
+		await expect(view.findByText(/Could not load your contacts/)).resolves.toBeTruthy()
 	})
 
 	it('shows contacts', async () => {
-		const view = mount(ContactsMenu)
+		axios.get.mockResolvedValue({
+			data: [],
+		})
 		axios.post.mockResolvedValue({
 			data: {
 				contacts: [
@@ -131,12 +112,16 @@ describe('ContactsMenu', function() {
 			},
 		})
 
-		await view.vm.handleOpen()
+		const view = render(ContactsMenu)
+		await view.findByRole('button')
+			.then((button) => button.click())
 
-		expect(view.vm.error).toBe(false)
-		expect(view.vm.contacts.length).toBe(2)
-		expect(view.text()).toContain('Acosta Lancaster')
-		expect(view.text()).toContain('Adeline Snider')
-		expect(view.text()).toContain('Show all contacts')
+		await expect(view.findByRole('list', { name: 'Contacts list' })).resolves.toBeTruthy()
+		const list = view.getByRole('list', { name: 'Contacts list' })
+		await expect(findAllByRole(list, 'listitem')).resolves.toHaveLength(2)
+
+		const items = await findAllByRole(list, 'listitem')
+		expect(items[0]!.textContent).toContain('Acosta Lancaster')
+		expect(items[1]!.textContent).toContain('Adeline Snider')
 	})
 })

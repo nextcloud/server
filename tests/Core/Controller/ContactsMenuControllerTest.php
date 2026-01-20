@@ -9,6 +9,7 @@ namespace Tests\Controller;
 
 use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\Controller\ContactsMenuController;
+use OC\Teams\TeamManager;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IRequest;
 use OCP\IUser;
@@ -17,11 +18,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsMenuControllerTest extends TestCase {
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var Manager|MockObject */
-	private $contactsManager;
+	private IUserSession&MockObject $userSession;
+	private Manager&MockObject $contactsManager;
+	private TeamManager&MockObject $teamManager;
 
 	private ContactsMenuController $controller;
 
@@ -31,8 +30,14 @@ class ContactsMenuControllerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->contactsManager = $this->createMock(Manager::class);
+		$this->teamManager = $this->createMock(TeamManager::class);
 
-		$this->controller = new ContactsMenuController($request, $this->userSession, $this->contactsManager);
+		$this->controller = new ContactsMenuController(
+			$request,
+			$this->userSession,
+			$this->contactsManager,
+			$this->teamManager,
+		);
 	}
 
 	public function testIndex(): void {
@@ -52,6 +57,40 @@ class ContactsMenuControllerTest extends TestCase {
 		$response = $this->controller->index();
 
 		$this->assertEquals($entries, $response);
+	}
+
+	public function testIndex_withTeam(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('current-user');
+
+		$entries = [
+			$this->createMock(IEntry::class),
+			$this->createMock(IEntry::class),
+		];
+		$entries[0]->method('getProperty')
+			->with('UID')
+			->willReturn('member1');
+		$entries[0]->method('getProperty')
+			->with('UID')
+			->willReturn('member2');
+
+		$this->userSession->expects($this->atLeastOnce())
+			->method('getUser')
+			->willReturn($user);
+		$this->contactsManager->expects($this->once())
+			->method('getEntries')
+			->with($this->equalTo($user), $this->equalTo(null))
+			->willReturn(['contacts' => $entries]);
+
+		$this->teamManager->expects($this->once())
+			->method('getMembersOfTeam')
+			->with('team-id', 'current-user')
+			->willReturn(['member1', 'member3']);
+
+		$response = $this->controller->index(teamId: 'team-id');
+
+		$this->assertEquals([$entries[0]], $response['contacts']);
 	}
 
 	public function testFindOne(): void {
