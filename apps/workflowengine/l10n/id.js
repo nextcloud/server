@@ -32,6 +32,7 @@ OC.L10N.register(
     "Desktop client" : "Klien desktop",
     "Select groups" : "Pilih grup",
     "Groups" : "Grup",
+    "Active" : "Aktif",
     "Save" : "Simpan",
     "Cancel" : "Membatalkan",
     "Delete" : "Hapus",

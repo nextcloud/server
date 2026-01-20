@@ -52,6 +52,7 @@
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "แอป \"%s\" ไม่สามารถติดตั้งได้ เพราะไฟล์ appInfo ไม่สามารถอ่านได้",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "ไม่สามารถติดตั้งแอป \"%s\" เนื่องจากแอปเข้ากับเซิร์ฟเวอร์รุ่นนี้ไม่ได้",
     "__language_name__" : "ไทย",
+    "Help & privacy" : "ความช่วยเหลือและความเป็นส่วนตัว",
     "Apps" : "แอป",
     "Personal settings" : "การตั้งค่าส่วนบุคคล",
     "Administration settings" : "การตั้งค่าการดูแลระบบ",
