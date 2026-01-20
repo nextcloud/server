@@ -15,12 +15,12 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
-use OCP\AppFramework\QueryException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use phpseclib\Crypt\AES;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -48,7 +48,7 @@ class MountConfig {
 	 * @param mixed $input
 	 * @param string|null $userId
 	 * @return mixed
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 * @since 16.0.0
 	 */
 	public static function substitutePlaceholdersInConfig($input, ?string $userId = null) {

@@ -11,7 +11,6 @@
 namespace OCP;
 
 use Closure;
-use OCP\AppFramework\QueryException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -37,7 +36,6 @@ interface IContainer extends ContainerInterface {
 	 * @since 8.2.0
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 * @throws ContainerExceptionInterface if the class could not be found or instantiated
-	 * @throws QueryException if the class could not be found or instantiated
 	 */
 	public function resolve($name);
 
@@ -53,7 +51,6 @@ interface IContainer extends ContainerInterface {
 	 * @psalm-return ($name is class-string ? T : mixed)
 	 * @throws ContainerExceptionInterface if the query could not be resolved
 	 * @throws NotFoundExceptionInterface if the name could not be found within the container
-	 * @throws QueryException if the query could not be resolved
 	 * @since 6.0.0
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */

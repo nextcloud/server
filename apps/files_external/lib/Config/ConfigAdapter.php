@@ -16,7 +16,6 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
-use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Mount\IMountPoint;
@@ -28,6 +27,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
 use OCP\Server;
 use Psr\Clock\ClockInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -57,7 +57,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider {
 	/**
 	 * Process storage ready for mounting
 	 *
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user): void {
 		foreach ($storage->getBackendOptions() as $option => $value) {
