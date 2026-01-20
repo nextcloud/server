@@ -173,15 +173,17 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['update:opened'],
+
 	setup() {
 		// The file list is guaranteed to be  shown with active view - thus we can set the `loaded` flag
 		const activeStore = useActiveStore()
-		const filesListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
 		return {
 			activeStore,
 			enabledFileActions,
-			filesListWidth,
+			isNarrow,
 			t,
 		}
 	},
@@ -206,7 +208,7 @@ export default defineComponent({
 
 		// Enabled action that are displayed inline
 		enabledInlineActions() {
-			if (this.filesListWidth < 768 || this.gridMode) {
+			if (this.isNarrow || this.gridMode) {
 				return []
 			}
 			return this.enabledFileActions.filter((action) => {
@@ -302,7 +304,7 @@ export default defineComponent({
 	methods: {
 		actionDisplayName(action: FileAction) {
 			try {
-				if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
+				if ((this.gridMode || (this.isNarrow && action.inline)) && typeof action.title === 'function') {
 					// if an inline action is rendered in the menu for
 					// lack of space we use the title first if defined
 					const title = action.title(this.actionContext)

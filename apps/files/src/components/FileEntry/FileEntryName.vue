@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Node } from '@nextcloud/files'
+import type { FileAction, Node, TFileType } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { showError } from '@nextcloud/dialogs'
@@ -96,7 +96,7 @@ export default defineComponent({
 
 	setup() {
 		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const filesListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const renamingStore = useRenamingStore()
 		const userConfigStore = useUserConfigStore()
 		const { activeFolder, activeView } = useActiveStore()
@@ -107,7 +107,7 @@ export default defineComponent({
 			activeFolder,
 			activeView,
 			defaultFileAction,
-			filesListWidth,
+			isNarrow,
 			renamingStore,
 			userConfigStore,
 		}
@@ -119,7 +119,7 @@ export default defineComponent({
 		},
 
 		isRenamingSmallScreen() {
-			return this.isRenaming && this.filesListWidth < 512
+			return this.isRenaming && this.isNarrow
 		},
 
 		newName: {
@@ -133,7 +133,7 @@ export default defineComponent({
 		},
 
 		renameLabel() {
-			const matchLabel: Record<FileType, string> = {
+			const matchLabel: Record<TFileType, string> = {
 				[FileType.File]: t('files', 'Filename'),
 				[FileType.Folder]: t('files', 'Folder name'),
 			}
