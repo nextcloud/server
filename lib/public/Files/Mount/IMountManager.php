@@ -43,13 +43,15 @@ interface IMountManager {
 	public function moveMount(string $mountPoint, string $target);
 
 	/**
-	 * Find the mount for $path
+	 * Finds and returns the mount point for a given path.
 	 *
-	 * @param string $path
-	 * @return IMountPoint
+	 * @param string $path The filesystem path to search for a mount.
+	 * @return IMountPoint The found mount point.
+	 * @throws \OCP\Files\NotFoundException If no mount is found for the path.
+	 * @throws \Exception If no mounts exist after setup.
 	 * @since 8.2.0
 	 */
-	public function find(string $path): ?IMountPoint;
+	public function find(string $path): IMountPoint;
 
 	/**
 	 * Find all mounts in $path
