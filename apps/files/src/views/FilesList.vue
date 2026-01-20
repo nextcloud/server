@@ -8,21 +8,6 @@
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
-					<!-- Sharing button -->
-					<NcButton
-						v-if="canShare && !isNarrow"
-						:aria-label="shareButtonLabel"
-						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
-						:title="shareButtonLabel"
-						class="files-list__header-share-button"
-						variant="tertiary"
-						@click="openSharingSidebar">
-						<template #icon>
-							<LinkIcon v-if="shareButtonType === ShareType.Link" />
-							<AccountPlusIcon v-else :size="20" />
-						</template>
-					</NcButton>
-
 					<!-- Uploader -->
 					<UploadPicker
 						v-if="canUpload && !isQuotaExceeded && currentFolder"
@@ -168,7 +153,6 @@ import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { getCapabilities } from '@nextcloud/capabilities'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, getFileListActions, Permission, sortNodes } from '@nextcloud/files'
@@ -188,10 +172,8 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlusOutline.vue'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
 import IconReload from 'vue-material-design-icons/Reload.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGridOutline.vue'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
@@ -215,8 +197,6 @@ import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import { defaultView } from '../utils/filesViews.ts'
 import { getSummaryFor } from '../utils/fileUtils.ts'
 
-const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
-
 export default defineComponent({
 	name: 'FilesList',
 
@@ -225,7 +205,6 @@ export default defineComponent({
 		DragAndDropNotice,
 		FileListFilters,
 		FilesListVirtual,
-		LinkIcon,
 		ListViewIcon,
 		NcAppContent,
 		NcActions,
@@ -234,7 +213,6 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
 		IconAlertCircleOutline,
@@ -436,37 +414,6 @@ export default defineComponent({
 			return { ...this.$route, query: { dir } }
 		},
 
-		shareTypesAttributes(): number[] | undefined {
-			if (!this.currentFolder?.attributes?.['share-types']) {
-				return undefined
-			}
-			return Object.values(this.currentFolder?.attributes?.['share-types'] || {}).flat() as number[]
-		},
-
-		shareButtonLabel() {
-			if (!this.shareTypesAttributes) {
-				return t('files', 'Share')
-			}
-
-			if (this.shareButtonType === ShareType.Link) {
-				return t('files', 'Shared by link')
-			}
-			return t('files', 'Shared')
-		},
-
-		shareButtonType(): ShareType | null {
-			if (!this.shareTypesAttributes) {
-				return null
-			}
-
-			// If all types are links, show the link icon
-			if (this.shareTypesAttributes.some((type) => type === ShareType.Link)) {
-				return ShareType.Link
-			}
-
-			return ShareType.User
-		},
-
 		gridViewButtonLabel() {
 			return this.userConfig.grid_view
 				? t('files', 'Switch to list view')
@@ -482,14 +429,6 @@ export default defineComponent({
 
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
-		},
-
-		/**
-		 * Check if current folder has share permissions
-		 */
-		canShare() {
-			return isSharingEnabled && !this.isPublic
-				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
 
 		showCustomEmptyView() {
@@ -763,15 +702,6 @@ export default defineComponent({
 			}
 		},
 
-		openSharingSidebar() {
-			if (!this.currentFolder) {
-				logger.debug('No current folder found for opening sharing sidebar')
-				return
-			}
-
-			this.sidebar.open(this.currentFolder, 'sharing')
-		},
-
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
 		},
@@ -863,14 +793,6 @@ export default defineComponent({
 			// Do not grow or shrink (horizontally)
 			// Only the breadcrumbs shrinks
 			flex: 0 0;
-		}
-
-		&-share-button {
-			color: var(--color-text-maxcontrast) !important;
-
-			&--shared {
-				color: var(--color-main-text) !important;
-			}
 		}
 
 		&-actions {
