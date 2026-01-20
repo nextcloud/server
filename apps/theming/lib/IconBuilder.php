@@ -136,9 +136,8 @@ class IconBuilder {
 
 			// convert svg to resized image
 			$appIconFile = new Imagick();
-			$resX = (int)(72 * $size / $x);
-			$resY = (int)(72 * $size / $y);
-			$appIconFile->setResolution($resX, $resY);
+			$res = (int)(72 * $size / max($x, $y));
+			$appIconFile->setResolution($res, $res);
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 			$appIconFile->readImageBlob($svg);
 
