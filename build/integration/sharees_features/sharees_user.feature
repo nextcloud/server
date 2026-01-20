@@ -413,3 +413,65 @@ Feature: sharees_user
 		And "exact users" sharees returned are
 			| test1 | 0 | test1 | test1 |
 		And "users" sharees returned is empty
+
+	Scenario: Search for part of userid with shared group returns wide user with sharee enumeration limited to group
+		Given user "test1" with displayname "Test One" exists
+		And group "test-group" exists
+		And user "test1" belongs to group "test-group"
+		And user "user1" exists
+		And user "user1" belongs to group "test-group"
+		And As an "user1"
+		And parameter "shareapi_restrict_user_enumeration_to_group" of app "core" is set to "yes"
+		When getting sharees for
+			| search   | test |
+			| itemType | file |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And "exact users" sharees returned is empty
+		And "users" sharees returned are
+			| Test One | 0 | test1 | test1 |
+
+	Scenario: Search for part of userid without shared group returns nothing with sharee enumeration limited to group
+		Given user "test1" with displayname "Test One" exists
+		And user "user1" exists
+		And As an "user1"
+		And parameter "shareapi_restrict_user_enumeration_to_group" of app "core" is set to "yes"
+		When getting sharees for
+			| search   | test |
+			| itemType | file |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And "exact users" sharees returned is empty
+		And "users" sharees returned is empty
+
+	Scenario: Search for exact userid without shared group returns exact user with sharee enumeration limited to group
+		Given user "test1" with displayname "Test One" exists
+		And user "user1" exists
+		And As an "user1"
+		And parameter "shareapi_restrict_user_enumeration_to_group" of app "core" is set to "yes"
+		When getting sharees for
+			| search   | test1 |
+			| itemType | file  |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And "exact users" sharees returned are
+			| Test One | 0 | test1 | test1 |
+		And "users" sharees returned is empty
+
+	Scenario: Search for exact email without shared group returns exact user with sharee enumeration limited to group
+		Given user "test1" with displayname "Test One" exists
+		And As an "admin"
+		And sending "PUT" to "/cloud/users/test1" with
+			| key   | email            |
+			| value | test@example.com |
+		And user "user1" exists
+		And As an "user1"
+		And parameter "shareapi_restrict_user_enumeration_to_group" of app "core" is set to "yes"
+		When getting sharees for
+			| search   | test@example.com |
+			| itemType | file             |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And "exact users" sharees returned are
+			| Test One | 0 | test1 | test@example.com |
+		And "users" sharees returned is empty
