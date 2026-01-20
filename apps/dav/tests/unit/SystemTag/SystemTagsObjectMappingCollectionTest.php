@@ -93,7 +93,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('permissionsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'permissionsProvider')]
 	public function testAssignTagNoPermission(bool $userVisible, bool $userAssignable, string $expectedException): void {
 		$tag = new SystemTag('1', 'Test', $userVisible, $userAssignable);
 		$this->tagManager->expects($this->once())

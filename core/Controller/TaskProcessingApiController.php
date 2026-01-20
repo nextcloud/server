@@ -58,18 +58,9 @@ class TaskProcessingApiController extends OCSController {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * Returns all available TaskProcessing task types
-	 *
-	 * @return DataResponse<Http::STATUS_OK, array{types: array<string, CoreTaskProcessingTaskType>}, array{}>
-	 *
-	 * 200: Task types returned
-	 */
-	#[NoAdminRequired]
-	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
-	public function taskTypes(): DataResponse {
-		/** @var array<string, CoreTaskProcessingTaskType> $taskTypes */
-		$taskTypes = array_map(function (array $tt) {
+	private function getTaskTypesInternal(): array {
+		/** @var array<string, CoreTaskProcessingTaskType> */
+		return array_map(function (array $tt) {
 			$tt['inputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
 			}, $tt['inputShape']);
@@ -134,9 +125,72 @@ class TaskProcessingApiController extends OCSController {
 			}
 			return $tt;
 		}, $this->taskProcessingManager->getAvailableTaskTypes());
+	}
+
+	/**
+	 * Returns all available TaskProcessing task types
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{types: array<string, CoreTaskProcessingTaskType>}, array{}>
+	 *
+	 * 200: Task types returned
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
+	public function taskTypes(): DataResponse {
 		return new DataResponse([
-			'types' => $taskTypes,
+			'types' => $this->getTaskTypesInternal(),
 		]);
+	}
+
+	/**
+	 * Returns all available TaskProcessing task types
+	 *
+	 * Endpoint for ExApp usage without user context
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{types: array<string, CoreTaskProcessingTaskType>}, array{}>
+	 *
+	 * 200: Task types returned
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'GET', url: '/tasks_consumer/tasktypes', root: '/taskprocessing')]
+	public function taskTypesExAppEndpoint(): DataResponse {
+		return new DataResponse([
+			'types' => $this->getTaskTypesInternal(),
+		]);
+	}
+
+	/**
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 */
+	private function handleScheduleTaskInternal(
+		array $input, string $type, string $appId, string $customId = '',
+		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+	): DataResponse {
+		$task = new Task($type, $input, $appId, $this->userId, $customId);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
+		$task->setIncludeWatermark($includeWatermark);
+		try {
+			$this->taskProcessingManager->scheduleTask($task);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (PreConditionNotMetException) {
+			return new DataResponse(['message' => $this->l->t('The given provider is not available')], Http::STATUS_PRECONDITION_FAILED);
+		} catch (ValidationException $e) {
+			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		} catch (UnauthorizedException) {
+			if ($this->userId === null) {
+				return new DataResponse(['message' => 'Cannot schedule task with files referenced without user context'], Http::STATUS_UNAUTHORIZED);
+			}
+			return new DataResponse(['message' => 'User does not have access to the files mentioned in the task input'], Http::STATUS_UNAUTHORIZED);
+		} catch (Exception) {
+			return new DataResponse(['message' => 'Internal server error'], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	/**
@@ -163,12 +217,59 @@ class TaskProcessingApiController extends OCSController {
 		array $input, string $type, string $appId, string $customId = '',
 		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
 	): DataResponse {
-		$task = new Task($type, $input, $appId, $this->userId, $customId);
-		$task->setWebhookUri($webhookUri);
-		$task->setWebhookMethod($webhookMethod);
-		$task->setIncludeWatermark($includeWatermark);
+		return $this->handleScheduleTaskInternal(
+			$input,
+			$type,
+			$appId,
+			$customId,
+			$webhookUri,
+			$webhookMethod,
+			$includeWatermark,
+		);
+	}
+
+	/**
+	 * Schedules a task
+	 *
+	 * Endpoint for ExApp usage without user context. Files cannot be referenced in this case.
+	 *
+	 * @param array<string, mixed> $input Task's input parameters
+	 * @param string $type Type of the task
+	 * @param string $appId ID of the app that will execute the task
+	 * @param string $customId An arbitrary identifier for the task
+	 * @param string|null $webhookUri URI to be requested when the task finishes
+	 * @param string|null $webhookMethod Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)
+	 * @param bool $includeWatermark Whether to include a watermark in the output file or not
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 *
+	 * 200: Task scheduled successfully
+	 * 400: Scheduling task is not possible
+	 * 412: Scheduling task is not possible
+	 * 401: Cannot schedule task because it references files in its input
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks_consumer/schedule', root: '/taskprocessing')]
+	public function scheduleExAppEndpoint(
+		array $input, string $type, string $appId, string $customId = '',
+		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+	): DataResponse {
+		return $this->handleScheduleTaskInternal(
+			$input,
+			$type,
+			$appId,
+			$customId,
+			$webhookUri,
+			$webhookMethod,
+			$includeWatermark,
+		);
+	}
+
+	/**
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 */
+	private function handleGetTaskInternal(int $id): DataResponse {
 		try {
-			$this->taskProcessingManager->scheduleTask($task);
+			$task = $this->taskProcessingManager->getUserTask($id, $this->userId);
 
 			/** @var CoreTaskProcessingTask $json */
 			$json = $task->jsonSerialize();
@@ -176,14 +277,10 @@ class TaskProcessingApiController extends OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (PreConditionNotMetException) {
-			return new DataResponse(['message' => $this->l->t('The given provider is not available')], Http::STATUS_PRECONDITION_FAILED);
-		} catch (ValidationException $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
-		} catch (UnauthorizedException) {
-			return new DataResponse(['message' => 'User does not have access to the files mentioned in the task input'], Http::STATUS_UNAUTHORIZED);
-		} catch (Exception) {
-			return new DataResponse(['message' => 'Internal server error'], Http::STATUS_INTERNAL_SERVER_ERROR);
+		} catch (NotFoundException) {
+			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+		} catch (RuntimeException) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -202,18 +299,42 @@ class TaskProcessingApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/taskprocessing')]
 	public function getTask(int $id): DataResponse {
+		return $this->handleGetTaskInternal($id);
+	}
+
+	/**
+	 * Gets a task including status and result
+	 *
+	 * Endpoint for ExApp usage without user context
+	 *
+	 * Tasks are removed 1 week after receiving their last update
+	 *
+	 * @param int $id The id of the task
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 * 200: Task returned
+	 * 404: Task not found
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'GET', url: '/tasks_consumer/task/{id}', root: '/taskprocessing')]
+	public function getTaskExAppEndpoint(int $id): DataResponse {
+		return $this->handleGetTaskInternal($id);
+	}
+
+	/**
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 */
+	private function handleDeleteTaskInternal(int $id): DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getUserTask($id, $this->userId);
 
-			/** @var CoreTaskProcessingTask $json */
-			$json = $task->jsonSerialize();
+			$this->taskProcessingManager->deleteTask($task);
 
-			return new DataResponse([
-				'task' => $json,
-			]);
+			return new DataResponse(null);
 		} catch (NotFoundException) {
-			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
-		} catch (RuntimeException) {
+			return new DataResponse(null);
+		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -230,17 +351,24 @@ class TaskProcessingApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/task/{id}', root: '/taskprocessing')]
 	public function deleteTask(int $id): DataResponse {
-		try {
-			$task = $this->taskProcessingManager->getUserTask($id, $this->userId);
+		return $this->handleDeleteTaskInternal($id);
+	}
 
-			$this->taskProcessingManager->deleteTask($task);
-
-			return new DataResponse(null);
-		} catch (NotFoundException) {
-			return new DataResponse(null);
-		} catch (Exception) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
+	/**
+	 * Deletes a task
+	 *
+	 * Endpoint for ExApp usage without user context
+	 *
+	 * @param int $id The id of the task
+	 *
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 * 200: Task deleted
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'DELETE', url: '/tasks_consumer/task/{id}', root: '/taskprocessing')]
+	public function deleteTaskExAppEndpoint(int $id): DataResponse {
+		return $this->handleDeleteTaskInternal($id);
 	}
 
 
@@ -490,17 +618,9 @@ class TaskProcessingApiController extends OCSController {
 	}
 
 	/**
-	 * Cancels a task
-	 *
-	 * @param int $taskId The id of the task
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
-	 *
-	 * 200: Task canceled successfully
-	 * 404: Task not found
 	 */
-	#[NoAdminRequired]
-	#[ApiRoute(verb: 'POST', url: '/tasks/{taskId}/cancel', root: '/taskprocessing')]
-	public function cancelTask(int $taskId): DataResponse {
+	private function handleCancelTaskInternal(int $taskId): DataResponse {
 		try {
 			// Check if the current user can access the task
 			$this->taskProcessingManager->getUserTask($taskId, $this->userId);
@@ -519,6 +639,38 @@ class TaskProcessingApiController extends OCSController {
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	/**
+	 * Cancels a task
+	 *
+	 * @param int $taskId The id of the task
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: Task canceled successfully
+	 * 404: Task not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks/{taskId}/cancel', root: '/taskprocessing')]
+	public function cancelTask(int $taskId): DataResponse {
+		return $this->handleCancelTaskInternal($taskId);
+	}
+
+	/**
+	 * Cancels a task
+	 *
+	 * Endpoint for ExApp usage without user context
+	 *
+	 * @param int $taskId The id of the task
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: Task canceled successfully
+	 * 404: Task not found
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks_consumer/tasks/{taskId}/cancel', root: '/taskprocessing')]
+	public function cancelTaskExAppEndpoint(int $taskId): DataResponse {
+		return $this->handleCancelTaskInternal($taskId);
 	}
 
 	/**

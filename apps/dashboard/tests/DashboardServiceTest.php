@@ -13,7 +13,7 @@ use OC\Accounts\Account;
 use OCA\Dashboard\Service\DashboardService;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Services\IAppConfig;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,7 +21,7 @@ use Test\TestCase;
 
 class DashboardServiceTest extends TestCase {
 
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
 	private IAppConfig&MockObject $appConfig;
 	private IUserManager&MockObject $userManager;
 	private IAccountManager&MockObject $accountManager;
@@ -30,13 +30,13 @@ class DashboardServiceTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
 
 		$this->service = new DashboardService(
-			$this->config,
+			$this->userConfig,
 			$this->appConfig,
 			'alice',
 			$this->userManager,
@@ -90,7 +90,7 @@ class DashboardServiceTest extends TestCase {
 
 	public function testGetBirthdateNoUserId(): void {
 		$service = new DashboardService(
-			$this->config,
+			$this->userConfig,
 			$this->appConfig,
 			null,
 			$this->userManager,

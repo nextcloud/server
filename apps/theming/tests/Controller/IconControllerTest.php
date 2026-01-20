@@ -18,6 +18,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -61,8 +62,8 @@ class IconControllerTest extends TestCase {
 		parent::setUp();
 	}
 
-	private function iconFileMock($filename, $data) {
-		$icon = $this->getMockBuilder('OCP\Files\File')->getMock();
+	private function iconFileMock($filename, $data): SimpleFile {
+		$icon = $this->createMock(File::class);
 		$icon->expects($this->any())->method('getContent')->willReturn($data);
 		$icon->expects($this->any())->method('getMimeType')->willReturn('image type');
 		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');

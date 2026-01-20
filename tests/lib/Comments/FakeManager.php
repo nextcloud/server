@@ -16,10 +16,12 @@ use OCP\IUser;
  * Class FakeManager
  */
 class FakeManager implements ICommentsManager {
-	public function get($id) {
+	public function get($id): IComment {
+		throw new \Exception('Not implemented');
 	}
 
-	public function getTree($id, $limit = 0, $offset = 0) {
+	public function getTree($id, $limit = 0, $offset = 0): array {
+		return ['comment' => new Comment(), 'replies' => []];
 	}
 
 	public function getForObject(
@@ -28,7 +30,8 @@ class FakeManager implements ICommentsManager {
 		$limit = 0,
 		$offset = 0,
 		?\DateTime $notOlderThan = null,
-	) {
+	): array {
+		return [];
 	}
 
 	public function getForObjectSince(
@@ -57,6 +60,7 @@ class FakeManager implements ICommentsManager {
 	}
 
 	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = ''): int {
+		return 0;
 	}
 
 	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = ''): array {
@@ -67,10 +71,12 @@ class FakeManager implements ICommentsManager {
 		return [];
 	}
 
-	public function create($actorType, $actorId, $objectType, $objectId) {
+	public function create($actorType, $actorId, $objectType, $objectId): IComment {
+		return new Comment();
 	}
 
-	public function delete($id) {
+	public function delete($id): bool {
+		return false;
 	}
 
 	public function getReactionComment(int $parentId, string $actorType, string $actorId, string $reaction): IComment {
@@ -89,45 +95,50 @@ class FakeManager implements ICommentsManager {
 		return false;
 	}
 
-	public function save(IComment $comment) {
+	public function save(IComment $comment): bool {
+		return false;
 	}
 
-	public function deleteReferencesOfActor($actorType, $actorId) {
+	public function deleteReferencesOfActor($actorType, $actorId): bool {
+		return false;
 	}
 
-	public function deleteCommentsAtObject($objectType, $objectId) {
+	public function deleteCommentsAtObject($objectType, $objectId): bool {
+		return false;
 	}
 
-	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {
+	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user): bool {
+		return false;
 	}
 
-	public function getReadMark($objectType, $objectId, IUser $user) {
+	public function getReadMark($objectType, $objectId, IUser $user): bool {
+		return false;
 	}
 
-	public function deleteReadMarksFromUser(IUser $user) {
+	public function deleteReadMarksFromUser(IUser $user): bool {
+		return false;
 	}
 
-	public function deleteReadMarksOnObject($objectType, $objectId) {
+	public function deleteReadMarksOnObject($objectType, $objectId): bool {
+		return false;
 	}
 
-	public function registerEventHandler(\Closure $closure) {
+	public function registerEventHandler(\Closure $closure): void {
 	}
 
-	public function registerDisplayNameResolver($type, \Closure $closure) {
+	public function registerDisplayNameResolver($type, \Closure $closure): void {
 	}
 
-	public function resolveDisplayName($type, $id) {
+	public function resolveDisplayName($type, $id): string {
+		return '';
 	}
 
-	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
+	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user): array {
+		return [];
 	}
 
 	public function getNumberOfUnreadCommentsForObjects(string $objectType, array $objectIds, IUser $user, $verb = ''): array {
 		return [];
-	}
-
-
-	public function getActorsInTree($id) {
 	}
 
 	public function load(): void {

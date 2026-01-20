@@ -10,8 +10,9 @@ import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextc
 export const client = getClient()
 
 /**
+ * Fetches a node from the given path
  *
- * @param path
+ * @param path - The path to fetch the node from
  */
 export async function fetchNode(path: string): Promise<Node> {
 	const propfindPayload = getDefaultPropfind()

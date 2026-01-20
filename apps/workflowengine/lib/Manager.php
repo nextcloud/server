@@ -264,7 +264,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $class
 	 * @param string $name
-	 * @param array<int, Check> $checks
+	 * @param list<Check> $checks
 	 * @param string $operation
 	 * @return array The added operation
 	 * @throws \UnexpectedValueException
@@ -455,7 +455,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param class-string<IOperation> $class
-	 * @param array<int, Check> $checks
+	 * @param list<Check> $checks
 	 * @param array $events
 	 * @throws \UnexpectedValueException
 	 */

@@ -17,11 +17,11 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\IUrlGenerator;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ServerTest extends TestCase {
 	private IDBConnection $connection;
 	private Server&MockObject $admin;
@@ -31,7 +31,7 @@ class ServerTest extends TestCase {
 	private IConfig&MockObject $config;
 	private IAppConfig&MockObject $appConfig;
 	private IL10N&MockObject $l10n;
-	private IUrlGenerator&MockObject $urlGenerator;
+	private IURLGenerator&MockObject $urlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,7 +42,7 @@ class ServerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->urlGenerator = $this->createMock(IUrlGenerator::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->admin = $this->getMockBuilder(Server::class)
 			->onlyMethods(['cronMaxAge'])

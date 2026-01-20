@@ -342,13 +342,13 @@ class Log implements ILogger, IDataLogger {
 			$this->error('Failed to load ExceptionSerializer serializer while trying to log ' . $exception->getMessage());
 			return;
 		}
+
+		$context = array_map($this->normalizer->format(...), $context);
 		$data = $context;
-		unset($data['app']);
-		unset($data['level']);
+		unset($data['app'], $data['level']);
+
 		$data = array_merge($serializer->serializeException($exception), $data);
 		$data = $this->interpolateMessage($data, isset($context['message']) && $context['message'] !== '' ? $context['message'] : ('Exception thrown: ' . get_class($exception)), 'CustomMessage');
-
-		array_walk($context, [$this->normalizer, 'format']);
 
 		$this->eventDispatcher?->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
 
@@ -374,8 +374,7 @@ class Log implements ILogger, IDataLogger {
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		$minLevel = $this->getLogLevel($context, $message);
-
-		array_walk($context, [$this->normalizer, 'format']);
+		$data = array_map($this->normalizer->format(...), $data);
 
 		try {
 			if ($level >= $minLevel) {
@@ -385,8 +384,6 @@ class Log implements ILogger, IDataLogger {
 				}
 				$this->writeLog($app, $data, $level);
 			}
-
-			$context['level'] = $level;
 		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 			error_log('Error when trying to log exception: ' . $e->getMessage() . ' ' . $e->getTraceAsString());

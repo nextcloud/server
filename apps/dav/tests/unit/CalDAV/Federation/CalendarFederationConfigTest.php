@@ -37,7 +37,7 @@ class CalendarFederationConfigTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideIsFederationEnabledData')]
+	#[DataProvider(methodName: 'provideIsFederationEnabledData')]
 	public function testIsFederationEnabled(bool $configValue): void {
 		$this->appConfig->expects(self::once())
 			->method('getAppValueBool')

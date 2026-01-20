@@ -16,7 +16,7 @@ use OCA\Files_External\Lib\Storage\OwnCloud;
  *
  * @package OCA\Files_External\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class OwnCloudFunctionsTest extends \Test\TestCase {
 	public static function configUrlProvider(): array {
 		return [
@@ -87,7 +87,7 @@ class OwnCloudFunctionsTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('configUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'configUrlProvider')]
 	public function testConfig(array $config, string $expectedUri): void {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';

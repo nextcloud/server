@@ -24,6 +24,7 @@ use NCU\Security\Signature\Model\Signatory;
  * @see IOutgoingSignedRequest
  *
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
  */
 interface ISignedRequest {
 	/**
@@ -31,6 +32,7 @@ interface ISignedRequest {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function getBody(): string;
 
@@ -39,6 +41,8 @@ interface ISignedRequest {
 	 *
 	 * @return DigestAlgorithm
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getDigestAlgorithm(): DigestAlgorithm;
 
@@ -47,6 +51,7 @@ interface ISignedRequest {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function getDigest(): string;
 
@@ -57,6 +62,7 @@ interface ISignedRequest {
 	 *
 	 * @return self
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function setSigningElements(array $elements): self;
 
@@ -65,6 +71,7 @@ interface ISignedRequest {
 	 *
 	 * @return array
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function getSigningElements(): array;
 
@@ -74,6 +81,7 @@ interface ISignedRequest {
 	 * @return string
 	 * @throws SignatureElementNotFoundException
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function getSigningElement(string $key): string;
 
@@ -82,6 +90,7 @@ interface ISignedRequest {
 	 *
 	 * @return array
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function getSignatureData(): array;
 
@@ -90,6 +99,7 @@ interface ISignedRequest {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function getSignature(): string;
 
@@ -99,6 +109,8 @@ interface ISignedRequest {
 	 * @param Signatory $signatory
 	 * @return self
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function setSignatory(Signatory $signatory): self;
 
@@ -108,6 +120,8 @@ interface ISignedRequest {
 	 * @return Signatory
 	 * @throws SignatoryNotFoundException
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getSignatory(): Signatory;
 
@@ -116,6 +130,7 @@ interface ISignedRequest {
 	 *
 	 * @return bool
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\ISignedRequest}
 	 */
 	public function hasSignatory(): bool;
 }

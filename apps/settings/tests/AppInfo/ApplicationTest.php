@@ -26,7 +26,7 @@ use Test\TestCase;
  *
  * @package Tests\Settings
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
 	protected Application $app;
 	protected IAppContainer $container;
@@ -56,7 +56,7 @@ class ApplicationTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataContainerQuery')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataContainerQuery')]
 	public function testContainerQuery(string $service, string $expected): void {
 		$this->assertTrue($this->container->query($service) instanceof $expected);
 	}

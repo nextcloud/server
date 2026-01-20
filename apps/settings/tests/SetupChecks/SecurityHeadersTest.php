@@ -106,7 +106,7 @@ class SecurityHeadersTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSuccess')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSuccess')]
 	public function testSuccess(array $headers): void {
 		$headers = array_merge(
 			[
@@ -145,7 +145,7 @@ class SecurityHeadersTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFailure')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFailure')]
 	public function testFailure(array $headers, string $msg): void {
 		$headers = array_merge(
 			[
@@ -182,15 +182,13 @@ class SecurityHeadersTest extends TestCase {
 		$this->setupcheck
 			->expects($this->atLeastOnce())
 			->method('runRequest')
-			->willReturnOnConsecutiveCalls($this->generate([$response]));
+			->willReturn($this->generate([$response]));
 	}
 
 	/**
 	 * Helper function creates a nicer interface for mocking Generator behavior
 	 */
 	protected function generate(array $yield_values) {
-		return $this->returnCallback(function () use ($yield_values) {
-			yield from $yield_values;
-		});
+		yield from $yield_values;
 	}
 }

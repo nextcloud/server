@@ -77,8 +77,7 @@ import type { ComponentPublicInstance, PropType } from 'vue'
 import type { UserConfig } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { FileType, Folder, getFileActions, Permission, View } from '@nextcloud/files'
+import { FileType, Folder, getFileActions, getSidebar, Permission, View } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
@@ -90,7 +89,6 @@ import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import VirtualList from './VirtualList.vue'
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
@@ -134,6 +132,7 @@ export default defineComponent({
 	},
 
 	setup() {
+		const sidebar = getSidebar()
 		const activeStore = useActiveStore()
 		const selectionStore = useSelectionStore()
 		const userConfigStore = useUserConfigStore()
@@ -148,6 +147,7 @@ export default defineComponent({
 			openDetails,
 			openFile,
 
+			sidebar,
 			activeStore,
 			selectionStore,
 			userConfigStore,
@@ -270,20 +270,18 @@ export default defineComponent({
 		// Add events on parent to cover both the table and DragAndDrop notice
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
-		subscribe('files:sidebar:closed', this.onSidebarClosed)
 	},
 
 	beforeUnmount() {
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
-		unsubscribe('files:sidebar:closed', this.onSidebarClosed)
 	},
 
 	methods: {
 		handleOpenQueries() {
 			// If the list is empty, or we don't have a fileId,
 			// there's nothing to be done.
-			if (this.isEmpty || !this.fileId) {
+			if (this.isEmpty || this.fileId === null) {
 				return
 			}
 
@@ -303,7 +301,11 @@ export default defineComponent({
 			}
 
 			if (this.fileId) {
-				this.scrollToFile(this.fileId, false)
+				const node = this.nodes.find((node) => node.fileid === this.fileId)
+				if (node) {
+					this.activeStore.activeNode = node
+					this.scrollToFile(this.fileId, false)
+				}
 			}
 		},
 
@@ -311,22 +313,12 @@ export default defineComponent({
 			// Open the sidebar for the given URL fileid
 			// iif we just loaded the app.
 			const node = this.nodes.find((n) => n.fileid === fileId) as NcNode
-			if (node && sidebarAction?.enabled?.({
-				nodes: [node],
-				folder: this.currentFolder,
-				view: this.currentView,
-				contents: this.nodes,
-			})) {
+			if (node && this.sidebar.available) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
-				sidebarAction.exec({
-					nodes: [node],
-					folder: this.currentFolder,
-					view: this.currentView,
-					contents: this.nodes,
-				})
-				return
+				this.sidebar.open(node)
+			} else {
+				logger.warn(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 			}
-			logger.warn(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number | null, warn = true) {
@@ -354,26 +346,7 @@ export default defineComponent({
 			delete query.openfile
 			delete query.opendetails
 
-			this.activeStore.activeNode = undefined
-			window.OCP.Files.Router.goToRoute(
-				null,
-				{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
-				query,
-				true,
-			)
-		},
-
-		// When sidebar is closed, we remove the openDetails parameter from the URL
-		onSidebarClosed() {
-			if (this.openDetails) {
-				const query = { ...this.$route.query }
-				delete query.opendetails
-				window.OCP.Files.Router.goToRoute(
-					null,
-					this.$route.params,
-					query,
-				)
-			}
+			this.activeStore.activeNode = this.currentFolder
 		},
 
 		/**
@@ -421,7 +394,7 @@ export default defineComponent({
 			logger.debug('Ignore `openfile` query and replacing with `opendetails` for ' + node.path, { node })
 			window.OCP.Files.Router.goToRoute(
 				null,
-				this.$route.params,
+				window.OCP.Files.Router.params,
 				{ ...this.$route.query, openfile: undefined, opendetails: '' },
 				true, // silent update of the URL
 			)
@@ -456,10 +429,29 @@ export default defineComponent({
 		},
 
 		onKeyDown(event: KeyboardEvent) {
+			if (this.isEmpty) {
+				return
+			}
+
+			if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown'
+				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))
+			) {
+				// not an arrow key we handle
+				return
+			}
+
+			if (!this.fileId || this.fileId === this.currentFolder.fileid) {
+				// no active node so use either first or last node
+				const index = event.key === 'ArrowUp' || event.key === 'ArrowLeft'
+					? this.nodes.length - 1
+					: 0
+				this.setActiveNode(this.nodes[index] as NcNode & { fileid: number })
+			}
+
+			const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 			// Up and down arrow keys
 			if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
 				const columnCount = this.$refs.table?.columnCount ?? 1
-				const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 				const nextIndex = event.key === 'ArrowUp' ? index - columnCount : index + columnCount
 				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
 					return
@@ -475,7 +467,6 @@ export default defineComponent({
 
 			// if grid mode, left and right arrow keys
 			if (this.userConfig.grid_view && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-				const index = this.nodes.findIndex((node) => node.fileid === this.fileId) ?? 0
 				const nextIndex = event.key === 'ArrowLeft' ? index - 1 : index + 1
 				if (nextIndex < 0 || nextIndex >= this.nodes.length) {
 					return
@@ -490,7 +481,7 @@ export default defineComponent({
 			}
 		},
 
-		setActiveNode(node: NcNode & { fileid: number }) {
+		async setActiveNode(node: NcNode & { fileid: number }) {
 			logger.debug('Navigating to file ' + node.path, { node, fileid: node.fileid })
 			this.scrollToFile(node.fileid)
 
@@ -498,16 +489,13 @@ export default defineComponent({
 			const query = { ...this.$route.query }
 			delete query.openfile
 			delete query.opendetails
-
-			this.activeStore.activeNode = node
-
-			// Silent update of the URL
-			window.OCP.Files.Router.goToRoute(
-				null,
-				{ ...this.$route.params, fileid: String(node.fileid) },
+			await this.$router.replace({
+				...this.$route,
 				query,
-				true,
-			)
+			})
+
+			// set the new file as active
+			this.activeStore.activeNode = node
 		},
 	},
 })

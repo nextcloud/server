@@ -31,36 +31,73 @@ describe('Admin theming set default apps', () => {
 		cy.visit('/settings/admin/theming')
 
 		cy.get('.settings-section').contains('Navigation bar settings').should('exist')
-		cy.get('[data-cy-switch-default-app]').should('exist')
-		cy.get('[data-cy-switch-default-app]').scrollIntoView()
+		getDefaultAppSwitch().should('exist')
+		getDefaultAppSwitch().scrollIntoView()
 	})
 
 	it('Toggle the "use custom default app" switch', () => {
-		cy.get('[data-cy-switch-default-app] input').should('not.be.checked')
-		cy.get('[data-cy-switch-default-app] .checkbox-content').click()
-		cy.get('[data-cy-switch-default-app] input').should('be.checked')
+		getDefaultAppSwitch().should('not.be.checked')
+		cy.findByRole('region', { name: 'Global default app' })
+			.should('not.exist')
+
+		getDefaultAppSwitch().check({ force: true })
+		getDefaultAppSwitch().should('be.checked')
+		cy.findByRole('region', { name: 'Global default app' })
+			.should('exist')
+	})
+
+	it('See the default app combobox', () => {
+		cy.findByRole('region', { name: 'Global default app' })
+			.should('exist')
+			.findByRole('combobox')
+			.as('defaultAppSelect')
+			.scrollIntoView()
+
+		cy.get('@defaultAppSelect')
+			.findByText('Dashboard')
+			.should('be.visible')
+		cy.get('@defaultAppSelect')
+			.findByText('Files')
+			.should('be.visible')
 	})
 
 	it('See the default app order selector', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then((elements) => {
-			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
-			expect(appIDs).to.deep.eq(['dashboard', 'files'])
-		})
+		cy.findByRole('region', { name: 'Global default app' })
+			.should('exist')
+		cy.findByRole('list', { name: 'Navigation bar app order' })
+			.should('exist')
+			.findAllByRole('listitem')
+			.should('have.length', 2)
+			.then((elements) => {
+				const appIDs = elements.map((idx, el) => el.innerText.trim()).get()
+				expect(appIDs).to.deep.eq(['Dashboard', 'Files'])
+			})
 	})
 
 	it('Change the default app', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"]').scrollIntoView()
+		cy.findByRole('list', { name: 'Navigation bar app order' })
+			.should('exist')
+			.as('appOrderSelector')
+			.scrollIntoView()
 
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
+		cy.get('@appOrderSelector')
+			.findAllByRole('listitem')
+			.filter((_, e) => !!e.innerText.match(/Files/i))
+			.findByRole('button', { name: 'Move up' })
+			.as('moveFilesUpButton')
+
+		cy.get('@moveFilesUpButton').should('be.visible')
+		cy.get('@moveFilesUpButton').click()
+		cy.get('@moveFilesUpButton').should('not.exist')
 	})
 
 	it('See the default app is changed', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then((elements) => {
-			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
-			expect(appIDs).to.deep.eq(['files', 'dashboard'])
-		})
+		cy.findByRole('list', { name: 'Navigation bar app order' })
+			.findAllByRole('listitem')
+			.then((elements) => {
+				const appIDs = elements.map((idx, el) => el.innerText.trim()).get()
+				expect(appIDs).to.deep.eq(['Files', 'Dashboard'])
+			})
 
 		// Check the redirect to the default app works
 		cy.request({ url: '/', followRedirect: false }).then((response) => {
@@ -72,14 +109,12 @@ describe('Admin theming set default apps', () => {
 
 	it('Toggle the "use custom default app" switch back to reset the default apps', () => {
 		cy.visit('/settings/admin/theming')
-		cy.get('[data-cy-switch-default-app]').scrollIntoView()
+		getDefaultAppSwitch().scrollIntoView()
 
-		cy.get('[data-cy-switch-default-app] input').should('be.checked')
-		cy.get('[data-cy-switch-default-app] .checkbox-content').click()
-		cy.get('[data-cy-switch-default-app] input').should('be.not.checked')
-	})
+		getDefaultAppSwitch().should('be.checked')
+		getDefaultAppSwitch().uncheck({ force: true })
+		getDefaultAppSwitch().should('be.not.checked')
 
-	it('See the default app is changed back to default', () => {
 		// Check the redirect to the default app works
 		cy.request({ url: '/', followRedirect: false }).then((response) => {
 			expect(response.status).to.eq(302)
@@ -88,3 +123,7 @@ describe('Admin theming set default apps', () => {
 		})
 	})
 })
+
+function getDefaultAppSwitch() {
+	return cy.findByRole('checkbox', { name: 'Use custom default app' })
+}

@@ -35,7 +35,7 @@ class RSA extends AuthMechanism {
 					->setType(DefinitionParameter::VALUE_PASSWORD)
 					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
-			->addCustomJs('public_key')
+			->addCustomJs('auth_rsa')
 		;
 	}
 

@@ -23,7 +23,7 @@ const defaultShareContext: ShareContext = {
  *
  * @param context The current share context (defaults to `defaultShareContext` if not provided).
  * @return The share URL.
- * @throws Error if the share context has no URL.
+ * @throws {Error} if the share context has no URL.
  */
 export function getShareUrl(context: ShareContext = defaultShareContext): string {
 	if (!context.url) {

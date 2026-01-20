@@ -41,7 +41,7 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccessTest extends TestCase {
 	protected UserMapping&MockObject $userMapper;
 	protected IManager&MockObject $shareManager;
@@ -86,7 +86,10 @@ class AccessTest extends TestCase {
 		$this->access->setGroupMapper($this->groupMapper);
 	}
 
-	private function getConnectorAndLdapMock() {
+	/**
+	 * @return array{0: ILDAPWrapper&MockObject, 1: Connection&MockObject, 2: Manager&MockObject, 3: Helper}
+	 */
+	private function getConnectorAndLdapMock(): array {
 		/** @var ILDAPWrapper&MockObject */
 		$lw = $this->createMock(ILDAPWrapper::class);
 		/** @var Connection&MockObject */
@@ -135,7 +138,7 @@ class AccessTest extends TestCase {
 	 * @param array $sidArray
 	 * @param $sidExpected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('convertSID2StrSuccessData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'convertSID2StrSuccessData')]
 	public function testConvertSID2StrSuccess(array $sidArray, $sidExpected): void {
 		$sidBinary = implode('', $sidArray);
 		$this->assertSame($sidExpected, $this->access->convertSID2Str($sidBinary));
@@ -219,7 +222,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnInputDataProvider')]
 	public function testStringResemblesDN(string $input, array|bool $interResult, bool $expectedResult): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
@@ -236,7 +239,7 @@ class AccessTest extends TestCase {
 		$this->assertSame($expectedResult, $access->stringResemblesDN($input));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnInputDataProvider')]
 	public function testStringResemblesDNLDAPmod(string $input, array|bool $interResult, bool $expectedResult): void {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		$lw = new LDAP();
@@ -406,7 +409,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dNAttributeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dNAttributeProvider')]
 	public function testSanitizeDN(string $attribute): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
@@ -685,7 +688,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('intUsernameProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'intUsernameProvider')]
 	public function testSanitizeUsername(string $name, ?string $expected): void {
 		if ($expected === null) {
 			$this->expectException(\InvalidArgumentException::class);
@@ -694,7 +697,7 @@ class AccessTest extends TestCase {
 		$this->assertSame($expected, $sanitizedName);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('groupIDCandidateProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'groupIDCandidateProvider')]
 	public function testSanitizeGroupIDCandidate(string $name, string $expected): void {
 		$sanitizedName = $this->access->sanitizeGroupIDCandidate($name);
 		$this->assertSame($expected, $sanitizedName);

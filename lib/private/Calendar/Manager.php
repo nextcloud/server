@@ -316,7 +316,29 @@ class Manager implements IManager {
 				$this->logger->warning('iMip message could not be processed because no writable calendar was found');
 				return false;
 			}
-			$calendar->handleIMipMessage($userId, $vObject->serialize());
+			if (!empty($options['absentCreateStatus'])) {
+				$status = strtoupper($options['absentCreateStatus']);
+
+				if (in_array($status, ['TENTATIVE', 'CONFIRMED', 'CANCELLED'], true) === false) {
+					$this->logger->warning('iMip message could not be processed because an invalid status was provided for the event');
+					return false;
+				}
+
+				if (isset($vObject->VEVENT->STATUS)) {
+					$vObject->VEVENT->STATUS->setValue($status);
+				} else {
+					$vObject->VEVENT->add('STATUS', $status);
+				}
+			}
+
+			try {
+				$calendar->handleIMipMessage($userId, $vObject->serialize());
+			} catch (CalendarException $e) {
+				$this->logger->error('iMip message could not be processed because an error occurred', ['exception' => $e]);
+				return false;
+			}
+
+			return true;
 		}
 
 		$this->logger->warning('iMip message could not be processed because no corresponding event was found in any calendar');

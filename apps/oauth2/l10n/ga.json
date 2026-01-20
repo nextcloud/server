@@ -11,6 +11,7 @@
     "OAuth 2.0 allows external services to request access to {instanceName}." : "Ligeann OAuth 2.0 do sheirbhísí seachtracha rochtain a iarraidh ar {instanceName}.",
     "Name" : "Ainm",
     "Redirection URI" : "Atreo URI",
+    "Client identifier" : "Aitheantóir cliant",
     "Delete client" : "Scrios cliant",
     "Make sure you store the secret key, it cannot be recovered." : "Déan cinnte go stórálann tú an eochair rúnda, ní féidir í a aisghabháil.",
     "Add client" : "Cuir cliant leis",

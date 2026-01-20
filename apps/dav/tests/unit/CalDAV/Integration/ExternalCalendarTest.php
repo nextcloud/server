@@ -18,7 +18,9 @@ class ExternalCalendarTest extends TestCase {
 		parent::setUp();
 
 		$this->abstractExternalCalendar
-			= $this->getMockForAbstractClass(ExternalCalendar::class, ['example-app-id', 'calendar-uri-in-backend']);
+			= $this->getMockBuilder(ExternalCalendar::class)
+				->setConstructorArgs(['example-app-id', 'calendar-uri-in-backend'])
+				->getMock();
 	}
 
 	public function testGetName():void {
@@ -66,7 +68,7 @@ class ExternalCalendarTest extends TestCase {
 		$this->assertTrue(ExternalCalendar::isAppGeneratedCalendar('app-generated--example--foo--2'));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('splitAppGeneratedCalendarUriDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'splitAppGeneratedCalendarUriDataProvider')]
 	public function testSplitAppGeneratedCalendarUriInvalid(string $name):void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Provided calendar uri was not app-generated');

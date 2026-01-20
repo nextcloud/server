@@ -122,7 +122,7 @@ class Template extends Base implements ITemplate {
 
 			// Add custom headers
 			$headers = '';
-			foreach (\OC_Util::$headers as $header) {
+			foreach (array_merge(\OC_Util::$headers, $this->headers) as $header) {
 				$headers .= '<' . Util::sanitizeHTML($header['tag']);
 				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
 					$headers .= ' defer';

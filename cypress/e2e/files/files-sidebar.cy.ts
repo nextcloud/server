@@ -55,6 +55,9 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			.findByRole('heading', { name: 'file' })
 			.should('be.visible')
 
+		// eslint-disable-next-line cypress/no-unnecessary-waiting
+		cy.wait(600) // wait for a bit to avoid flakiness
+
 		triggerActionForFile('folder', 'details')
 		cy.get('[data-cy-sidebar]')
 			.should('be.visible')
@@ -89,7 +92,11 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// open the sidebar
 		triggerActionForFile('file', 'details')
 		// validate it is open
-		cy.get('[data-cy-sidebar]').should('be.visible')
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+		// eslint-disable-next-line cypress/no-unnecessary-waiting
+		cy.wait(600) // wait for a bit to avoid flakiness
+
 		// delete the file
 		triggerActionForFile('file', 'delete')
 		cy.wait('@deleteFile', { timeout: 10000 })
@@ -116,10 +123,13 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			cy.get('[data-cy-sidebar]').should('be.visible')
 			cy.url().should('contain', `apps/files/files/${otherFileId}`)
 
+			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			cy.wait(600) // wait for a bit to avoid flakiness
+
 			triggerActionForFile('other', 'delete')
 			cy.wait('@deleteFile')
 
-			cy.get('[data-cy-sidebar]').should('not.exist')
+			cy.get('[data-cy-sidebar]').should('not.be.visible')
 			// Ensure the URL is changed
 			cy.url().should('not.contain', `apps/files/files/${otherFileId}`)
 		})

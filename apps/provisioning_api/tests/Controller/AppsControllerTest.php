@@ -25,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\Provisioning_API\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AppsControllerTest extends TestCase {
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;

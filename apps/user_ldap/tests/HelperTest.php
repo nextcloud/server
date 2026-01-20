@@ -13,7 +13,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class HelperTest extends \Test\TestCase {
 	private IAppConfig&MockObject $appConfig;
 

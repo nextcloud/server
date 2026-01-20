@@ -49,7 +49,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		return [[true], [false]];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('adminFlagProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'adminFlagProvider')]
 	public function testGetters(bool $isAdmin): void {
 		$tag = new SystemTag('1', 'Test', true, true);
 		$node = $this->getTagNode($isAdmin, $tag);
@@ -87,7 +87,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagNodeProvider')]
 	public function testUpdateTag(bool $isAdmin, ISystemTag $originalTag, array $changedArgs): void {
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
@@ -145,7 +145,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeProviderPermissionException')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagNodeProviderPermissionException')]
 	public function testUpdateTagPermissionException(ISystemTag $originalTag, array $changedArgs, string $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
@@ -210,7 +210,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('adminFlagProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'adminFlagProvider')]
 	public function testDeleteTag(bool $isAdmin): void {
 		$tag = new SystemTag('1', 'tag1', true, true);
 		$this->tagManager->expects($isAdmin ? $this->once() : $this->never())
@@ -241,7 +241,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeDeleteProviderPermissionException')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tagNodeDeleteProviderPermissionException')]
 	public function testDeleteTagPermissionException(ISystemTag $tag, string $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')

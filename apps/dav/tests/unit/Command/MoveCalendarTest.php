@@ -64,7 +64,7 @@ class MoveCalendarTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecute')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecute')]
 	public function testWithBadUserOrigin(bool $userOriginExists, bool $userDestinationExists): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -176,7 +176,7 @@ class MoveCalendarTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestMoveWithDestinationNotPartOfGroup')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestMoveWithDestinationNotPartOfGroup')]
 	public function testMoveWithDestinationNotPartOfGroup(bool $shareWithGroupMembersOnly): void {
 		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
@@ -307,7 +307,7 @@ class MoveCalendarTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestMoveWithCalendarAlreadySharedToDestination')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestMoveWithCalendarAlreadySharedToDestination')]
 	public function testMoveWithCalendarAlreadySharedToDestination(bool $force): void {
 		$this->userManager->expects($this->exactly(2))
 			->method('userExists')

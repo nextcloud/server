@@ -58,7 +58,7 @@ class TestViewDirectory extends View {
 }
 
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -300,9 +300,6 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getPath')
 			->willReturn('/admin/files/my/deep/folder/');
 		$pathNode->expects($this->once())
-			->method('isReadable')
-			->willReturn(true);
-		$pathNode->expects($this->once())
 			->method('getMimetype')
 			->willReturn(FileInfo::MIMETYPE_FOLDER);
 
@@ -353,9 +350,6 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getPath')
 			->willReturn('/admin/files/my/deep/folder/');
 		$pathNode->expects($this->once())
-			->method('isReadable')
-			->willReturn(true);
-		$pathNode->expects($this->once())
 			->method('getMimetype')
 			->willReturn(FileInfo::MIMETYPE_FOLDER);
 
@@ -393,9 +387,15 @@ class DirectoryTest extends \Test\TestCase {
 			->method('instanceOfStorage')
 			->willReturn(false);
 
-		$directoryNode->expects($this->once())
+		$invokedCount = $this->exactly(2);
+		$directoryNode->expects($invokedCount)
 			->method('isReadable')
-			->willReturn(true);
+			->willReturnCallback(function () use ($invokedCount) {
+				return match ($invokedCount->numberOfInvocations()) {
+					1 => true,
+					2 => false,
+				};
+			});
 		$directoryNode->expects($this->once())
 			->method('getPath')
 			->willReturn('/admin/files/');
@@ -403,11 +403,7 @@ class DirectoryTest extends \Test\TestCase {
 			->method('get')
 			->willReturn($pathNode);
 
-		$pathNode->expects($this->once())
-			->method('isReadable')
-			->willReturn(false);
-
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$dir = new Directory($this->view, $directoryNode);
 		$dir->getNodeForPath('/my/deep/folder/');
@@ -518,20 +514,20 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('moveFailedProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveFailedProvider')]
 	public function testMoveFailed(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('moveSuccessProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveSuccessProvider')]
 	public function testMoveSuccess(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->moveTest($source, $destination, $updatables, $deletables);
 		$this->addToAssertionCount(1);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('moveFailedInvalidCharsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveFailedInvalidCharsProvider')]
 	public function testMoveFailedInvalidChars(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(InvalidPath::class);
 

@@ -1,0 +1,17 @@
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: escape-html developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/l10n
+	- version: 3.4.1
+	- license: GPL-3.0-or-later
+- dompurify
+	- version: 3.3.1
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT

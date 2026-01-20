@@ -53,7 +53,7 @@ class InvitationResponseControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
 	public function testAccept(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -115,7 +115,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
 	public function testAcceptSequence(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -177,7 +177,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
 	public function testAcceptRecurrenceId(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -267,7 +267,7 @@ EOF;
 		$this->assertEquals([], $response->getParams());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
 	public function testDecline(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -336,7 +336,7 @@ EOF;
 		$this->assertEquals(['token' => 'TOKEN123'], $response->getParams());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
 	public function testProcessMoreOptionsResult(bool $isExternalAttendee): void {
 		$this->request->expects($this->once())
 			->method('getParam')
@@ -430,7 +430,7 @@ EOF;
 		$expr->expects($this->once())
 			->method('eq')
 			->with('token', 'namedParameterToken')
-			->willReturn((string)$function);
+			->willReturn($function);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')

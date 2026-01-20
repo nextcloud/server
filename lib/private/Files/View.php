@@ -31,6 +31,8 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\Files\StorageInvalidException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -1350,11 +1352,7 @@ class View {
 		return $this->basicOperation('hasUpdated', $path, [], $time);
 	}
 
-	/**
-	 * @param string $ownerId
-	 * @return IUser
-	 */
-	private function getUserObjectForOwner(string $ownerId) {
+	private function getUserObjectForOwner(string $ownerId): IUser {
 		return new LazyUser($ownerId, $this->userManager);
 	}
 
@@ -1511,35 +1509,38 @@ class View {
 		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
 		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
+		$permissionsMask = ~\OCP\Constants::PERMISSION_SHARE;
 
-		$fileNames = array_map(function (ICacheEntry $content) {
-			return $content->getName();
-		}, $contents);
-		/**
-		 * @var \OC\Files\FileInfo[] $fileInfos
-		 */
-		$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
+		$files = [];
+		foreach ($contents as $content) {
+			$name = $content->getName();
+			$contentPath = $content->getPath();
+
 			if ($sharingDisabled) {
-				$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
+				$content['permissions'] = $content->getPermissions() & $permissionsMask;
 			}
-			$ownerId = $storage->getOwner($content['path']);
-			if ($ownerId !== false) {
-				$owner = $this->getUserObjectForOwner($ownerId);
-			} else {
-				$owner = null;
-			}
-			return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
-		}, $contents);
-		$files = array_combine($fileNames, $fileInfos);
+
+			$ownerId = $storage->getOwner($contentPath);
+			$owner = $ownerId !== false
+				? $this->getUserObjectForOwner($ownerId)
+				: null;
+
+			$files[$name] = new FileInfo(
+				$path . '/' . $name,
+				$storage,
+				$contentPath,
+				$content,
+				$mount,
+				$owner
+			);
+		}
 
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
 
 		// make sure nested mounts are sorted after their parent mounts
 		// otherwise doesn't propagate the etag across storage boundaries correctly
-		usort($mounts, function (IMountPoint $a, IMountPoint $b) {
-			return $a->getMountPoint() <=> $b->getMountPoint();
-		});
+		usort($mounts, static fn (IMountPoint $a, IMountPoint $b): int => $a->getMountPoint() <=> $b->getMountPoint());
 
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
@@ -1553,9 +1554,7 @@ class View {
 					$subScanner = $subStorage->getScanner();
 					try {
 						$subScanner->scanFile('');
-					} catch (\OCP\Files\StorageNotAvailableException $e) {
-						continue;
-					} catch (\OCP\Files\StorageInvalidException $e) {
+					} catch (StorageNotAvailableException|StorageInvalidException) {
 						continue;
 					} catch (\Exception $e) {
 						// sometimes when the storage is not available it can be any exception
@@ -1874,7 +1873,6 @@ class View {
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK,
-			IShare::TYPE_SCIENCEMESH
 		];
 		$shareManager = Server::get(IManager::class);
 		/** @var IShare[] $shares */

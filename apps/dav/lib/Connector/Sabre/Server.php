@@ -150,12 +150,13 @@ class Server extends \Sabre\DAV\Server {
 		string $pluginName,
 		string $eventName,
 	): callable {
+		$connection = \OCP\Server::get(Connection::class);
 		return function (PropFind $propFind, INode $node) use (
 			$callBack,
 			$pluginName,
 			$eventName,
+			$connection,
 		): bool {
-			$connection = \OCP\Server::get(Connection::class);
 			$queriesBefore = $connection->getStats()['executed'];
 			$result = $callBack($propFind, $node);
 			$queriesAfter = $connection->getStats()['executed'];

@@ -5,7 +5,7 @@
 
 import { User } from '@nextcloud/e2e-test-server/cypress'
 import { NavigationHeader } from '../../pages/NavigationHeader.ts'
-import { defaultBackground, defaultPrimary, validateBodyThemingCss } from './themingUtils.ts'
+import { defaultPrimary, pickColor, validateBodyThemingCss } from './themingUtils.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -20,22 +20,14 @@ describe('User default background settings', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView()
-		cy.get('[data-user-theming-background-settings]').should('be.visible')
-	})
-
-	// Default cloud background is not rendered if admin theming background remains unchanged
-	it('Default cloud background is not rendered', function() {
-		cy.get(`[data-user-theming-background-shipped="${defaultBackground}"]`).should('not.exist')
+		cy.findByRole('heading', { name: /Appearance and accessibility settings/ })
+			.should('be.visible')
 	})
 
 	it('Default is selected on new users', function() {
-		cy.get('[data-user-theming-background-default]').should('be.visible')
-		cy.get('[data-user-theming-background-default]').should('have.class', 'background--active')
-	})
-
-	it('Default background has accessibility attribute set', function() {
-		cy.get('[data-user-theming-background-default]').should('have.attr', 'aria-pressed', 'true')
+		cy.findByRole('button', { name: 'Default background', pressed: true })
+			.should('exist')
+			.scrollIntoView()
 	})
 })
 
@@ -48,19 +40,21 @@ describe('User select shipped backgrounds and remove background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView()
-		cy.get('[data-user-theming-background-settings]').should('be.visible')
+		cy.findByRole('heading', { name: /Background and color/ })
+			.should('exist')
+			.scrollIntoView()
 	})
 
 	it('Select a shipped background', function() {
 		const background = 'anatoly-mikhaltsov-butterfly-wing-scale.jpg'
+		const backgroundName = 'Background picture of a red-ish butterfly wing under microscope'
 		cy.intercept('*/apps/theming/background/shipped').as('setBackground')
 
 		// Select background
-		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
-
-		// Set the accessibility state
-		cy.get(`[data-user-theming-background-shipped="${background}"]`).should('have.attr', 'aria-pressed', 'true')
+		cy.findByRole('button', { name: backgroundName, pressed: false })
+			.click()
+		cy.findByRole('button', { name: backgroundName, pressed: true })
+			.should('be.visible')
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
@@ -69,31 +63,17 @@ describe('User select shipped backgrounds and remove background', function() {
 
 	it('Select a bright shipped background', function() {
 		const background = 'bernie-cetonia-aurata-take-off-composition.jpg'
+		const backgroundName = 'Montage of a cetonia aurata bug that takes off with white background'
 		cy.intercept('*/apps/theming/background/shipped').as('setBackground')
 
-		// Select background
-		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
-
-		// Set the accessibility state
-		cy.get(`[data-user-theming-background-shipped="${background}"]`).should('have.attr', 'aria-pressed', 'true')
+		cy.findByRole('button', { name: backgroundName, pressed: false })
+			.click()
+		cy.findByRole('button', { name: backgroundName, pressed: true })
+			.should('be.visible')
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
 		cy.waitUntil(() => validateBodyThemingCss('#56633d', background, '#dee0d3'))
-	})
-
-	it('Remove background', function() {
-		cy.intercept('*/apps/theming/background/color').as('clearBackground')
-
-		// Clear background
-		cy.get('[data-user-theming-background-color]').click()
-
-		// Set the accessibility state
-		cy.get('[data-user-theming-background-color]').should('have.attr', 'aria-pressed', 'true')
-
-		// Validate clear background
-		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', null, '#dee0d3'))
 	})
 })
 
@@ -106,19 +86,20 @@ describe('User select a custom color', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView()
-		cy.get('[data-user-theming-background-settings]').should('be.visible')
+		cy.findByRole('heading', { name: /Background and color/ })
+			.should('exist')
+			.scrollIntoView()
 	})
 
 	it('Select a custom color', function() {
-		cy.intercept('*/apps/theming/background/color').as('setColor')
+		cy.intercept('*/apps/theming/background/color').as('clearBackground')
 
-		cy.get('[data-user-theming-background-color]').click()
-		cy.get('.color-picker__simple-color-circle').eq(5).click()
+		// Clear background
+		pickColor(cy.findByRole('button', { name: 'Plain background' }), 7)
 
-		// Validate custom colour change
-		cy.wait('@setColor')
-		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null, '#a5b872'))
+		// Validate clear background
+		cy.wait('@clearBackground')
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null, '#3794ac'))
 	})
 })
 
@@ -133,32 +114,20 @@ describe('User select a bright custom color and remove background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView()
-		cy.get('[data-user-theming-background-settings]').should('be.visible')
+		cy.findByRole('heading', { name: /Background and color/ })
+			.should('exist')
+			.scrollIntoView()
 	})
 
 	it('Remove background', function() {
 		cy.intercept('*/apps/theming/background/color').as('clearBackground')
 
 		// Clear background
-		cy.get('[data-user-theming-background-color]').click()
-		cy.get('[data-user-theming-background-color]').click()
+		pickColor(cy.findByRole('button', { name: 'Plain background' }), 4)
 
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss(undefined, null))
-	})
-
-	it('Select a custom color', function() {
-		cy.intercept('*/apps/theming/background/color').as('setColor')
-
-		// Pick one of the bright color preset
-		cy.get('[data-user-theming-background-color]').scrollIntoView()
-		cy.get('[data-user-theming-background-color]').click()
-		cy.get('.color-picker__simple-color-circle:eq(4)').click()
-
-		// Validate custom colour change
-		cy.wait('@setColor')
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null, '#ddcb55'))
 	})
 
 	it('See the header being inverted', function() {
@@ -173,10 +142,14 @@ describe('User select a bright custom color and remove background', function() {
 
 	it('Select another but non-bright shipped background', function() {
 		const background = 'anatoly-mikhaltsov-butterfly-wing-scale.jpg'
+		const backgroundName = 'Background picture of a red-ish butterfly wing under microscope'
 		cy.intercept('*/apps/theming/background/shipped').as('setBackground')
 
 		// Select background
-		cy.get(`[data-user-theming-background-shipped="${background}"]`).click()
+		cy.findByRole('button', { name: backgroundName, pressed: false })
+			.click()
+		cy.findByRole('button', { name: backgroundName, pressed: true })
+			.should('be.visible')
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
@@ -205,23 +178,21 @@ describe('User select a custom background', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView()
-		cy.get('[data-user-theming-background-settings]').should('be.visible')
+		cy.findByRole('heading', { name: /Background and color/ })
+			.should('exist')
+			.scrollIntoView()
 	})
 
 	it('Select a custom background', function() {
 		cy.intercept('*/apps/theming/background/custom').as('setBackground')
 
-		cy.on('uncaught:exception', (err) => {
-			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
-			if (err.message.includes('ResizeObserver loop limit exceeded')) {
-				return false
-			}
-		})
-
 		// Pick background
-		cy.get('[data-user-theming-background-custom]').click()
-		cy.get('.file-picker__files tr').contains(image).click()
+		cy.findByRole('button', { name: 'Custom background' }).click()
+		cy.findByRole('dialog')
+			.should('be.visible')
+			.findAllByRole('row')
+			.contains(image)
+			.click()
 		cy.findByRole('button', { name: 'Select background' }).click()
 
 		// Wait for background to be set
@@ -232,7 +203,6 @@ describe('User select a custom background', function() {
 
 describe('User changes settings and reload the page', function() {
 	const image = 'image.jpg'
-	const colorFromImage = '#2f2221'
 
 	before(function() {
 		cy.createRandomUser().then((user: User) => {
@@ -243,54 +213,44 @@ describe('User changes settings and reload the page', function() {
 
 	it('See the user background settings', function() {
 		cy.visit('/settings/user/theming')
-		cy.get('[data-user-theming-background-settings]').scrollIntoView()
-		cy.get('[data-user-theming-background-settings]').should('be.visible')
+		cy.findByRole('heading', { name: /Background and color/ })
+			.should('exist')
+			.scrollIntoView()
 	})
 
 	it('Select a custom background', function() {
 		cy.intercept('*/apps/theming/background/custom').as('setBackground')
 
-		cy.on('uncaught:exception', (err) => {
-			// This can happen because of blink engine & skeleton animation, its not a bug just engine related.
-			if (err.message.includes('ResizeObserver loop limit exceeded')) {
-				return false
-			}
-		})
-
 		// Pick background
-		cy.get('[data-user-theming-background-custom]').click()
-		cy.get('.file-picker__files tr').contains(image).click()
+		cy.findByRole('button', { name: 'Custom background' }).click()
+		cy.findByRole('dialog')
+			.should('be.visible')
+			.findAllByRole('row')
+			.contains(image)
+			.click()
 		cy.findByRole('button', { name: 'Select background' }).click()
 
 		// Wait for background to be set
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, 'apps/theming/background?v=', colorFromImage))
+		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, 'apps/theming/background?v=', '#2f2221'))
 	})
 
-	it('Select a custom color', function() {
-		cy.intercept('*/apps/theming/background/color').as('setColor')
+	it('Select a custom background color', function() {
+		cy.intercept('*/apps/theming/background/color').as('clearBackground')
 
-		cy.get('[data-user-theming-background-color]').click()
-		cy.get('.color-picker__simple-color-circle:eq(5)').click()
-		cy.get('[data-user-theming-background-color]').click()
+		// Clear background
+		pickColor(cy.findByRole('button', { name: 'Plain background' }), 5)
 
 		// Validate clear background
-		cy.wait('@setColor')
+		cy.wait('@clearBackground')
 		cy.waitUntil(() => validateBodyThemingCss(defaultPrimary, null, '#a5b872'))
 	})
 
 	it('Select a custom primary color', function() {
 		cy.intercept('/ocs/v2.php/apps/provisioning_api/api/v1/config/users/theming/primary_color').as('setPrimaryColor')
 
-		cy.get('[data-user-theming-primary-color-trigger]').scrollIntoView()
-		cy.get('[data-user-theming-primary-color-trigger]').click()
-		// eslint-disable-next-line cypress/no-unnecessary-waiting
-		cy.wait(500)
-		cy.get('.color-picker__simple-color-circle').should('be.visible')
-		cy.get('.color-picker__simple-color-circle:eq(2)').click()
-		cy.get('[data-user-theming-primary-color-trigger]').click()
+		pickColor(cy.findByRole('button', { name: 'Primary color' }), 2)
 
-		// Validate clear background
 		cy.wait('@setPrimaryColor')
 		cy.waitUntil(() => validateBodyThemingCss('#c98879', null, '#a5b872'))
 	})

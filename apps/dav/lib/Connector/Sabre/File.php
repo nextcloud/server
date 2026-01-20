@@ -468,9 +468,9 @@ class File extends Node implements IFile {
 
 			if ($res === false) {
 				if ($this->fileView->file_exists($path)) {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file does seem to exist', [$path]));
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s (%2$d), file does seem to exist', [$path, $this->info->getId()]));
 				} else {
-					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s, file doesn\'t seem to exist', [$path]));
+					throw new ServiceUnavailable($this->l10n->t('Could not open file: %1$s (%2$d), file doesn\'t seem to exist', [$path, $this->info->getId()]));
 				}
 			}
 

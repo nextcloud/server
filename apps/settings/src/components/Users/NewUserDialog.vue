@@ -96,7 +96,7 @@
 					:input-label="t('settings', 'Admin of the following groups')"
 					:placeholder="t('settings', 'Set account as admin for …')"
 					:disabled="loading.groups || loading.all"
-					:options="availableGroups"
+					:options="availableSubAdminGroups"
 					keep-open
 					:multiple="true"
 					label="name"
@@ -229,6 +229,10 @@ export default {
 				: this.$store.getters.getSubAdminGroups
 
 			return groups.filter((group) => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+		},
+
+		availableSubAdminGroups() {
+			return this.availableGroups.filter((group) => group.id !== 'admin')
 		},
 
 		languages() {

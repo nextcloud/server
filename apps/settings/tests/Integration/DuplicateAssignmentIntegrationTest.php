@@ -17,7 +17,7 @@ use Test\TestCase;
  * Integration test for duplicate prevention in AuthorizedGroupService
  * This test verifies the complete flow of duplicate detection and prevention
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DuplicateAssignmentIntegrationTest extends TestCase {
 
 	private AuthorizedGroupService $service;

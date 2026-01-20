@@ -13,11 +13,11 @@ use OCA\Files_External\MountConfig;
 
 use OCA\Files_External\Service\GlobalStoragesService;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 	protected function setUp(): void {
 		parent::setUp();
-		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher, $this->appConfig);
+		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->eventDispatcher, $this->appConfig);
 	}
 
 	protected function tearDown(): void {
@@ -113,7 +113,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('storageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'storageDataProvider')]
 	public function testAddStorage($storageParams): void {
 		$storage = $this->makeStorageConfig($storageParams);
 		$newStorage = $this->service->addStorage($storage);
@@ -135,7 +135,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEquals($baseId + 1, $nextStorage->getId());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('storageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'storageDataProvider')]
 	public function testUpdateStorage($updatedStorageParams): void {
 		$updatedStorage = $this->makeStorageConfig($updatedStorageParams);
 		$storage = $this->makeStorageConfig([
@@ -275,7 +275,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('hooksAddStorageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'hooksAddStorageDataProvider')]
 	public function testHooksAddStorage($applicableUsers, $applicableGroups, $expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($applicableUsers);
@@ -411,7 +411,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('hooksUpdateStorageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'hooksUpdateStorageDataProvider')]
 	public function testHooksUpdateStorage(
 		array $sourceApplicableUsers,
 		array $sourceApplicableGroups,
@@ -569,7 +569,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('hooksDeleteStorageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'hooksDeleteStorageDataProvider')]
 	public function testHooksDeleteStorage(
 		array $sourceApplicableUsers,
 		array $sourceApplicableGroups,

@@ -19,13 +19,13 @@ class QuotaPluginTest extends TestCase {
 	private QuotaPlugin $plugin;
 
 	private function init(int $quota, string $checkedPath = ''): void {
-		$view = $this->buildFileViewMock((string)$quota, $checkedPath);
+		$view = $this->buildFileViewMock($quota, $checkedPath);
 		$this->server = new \Sabre\DAV\Server();
 		$this->plugin = new QuotaPlugin($view);
 		$this->plugin->initialize($this->server);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('lengthProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'lengthProvider')]
 	public function testLength(?int $expected, array $headers): void {
 		$this->init(0);
 
@@ -34,7 +34,7 @@ class QuotaPluginTest extends TestCase {
 		$this->assertEquals($expected, $length);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('quotaOkayProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'quotaOkayProvider')]
 	public function testCheckQuota(int $quota, array $headers): void {
 		$this->init($quota);
 
@@ -43,7 +43,7 @@ class QuotaPluginTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('quotaExceededProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'quotaExceededProvider')]
 	public function testCheckExceededQuota(int $quota, array $headers): void {
 		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
 
@@ -53,7 +53,7 @@ class QuotaPluginTest extends TestCase {
 		$this->plugin->checkQuota('');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('quotaOkayProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'quotaOkayProvider')]
 	public function testCheckQuotaOnPath(int $quota, array $headers): void {
 		$this->init($quota, 'sub/test.txt');
 
@@ -136,7 +136,14 @@ class QuotaPluginTest extends TestCase {
 		];
 	}
 
-	private function buildFileViewMock(string $quota, string $checkedPath): View {
+	/**
+	 * Build a mock for the View class with a controlled free_space() response.
+	 *
+	 * @param int|float|false $quota The quota value to return from free_space().
+	 * @param string $checkedPath The path expected as a parameter to free_space().
+	 * @return View&\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private function buildFileViewMock(int|float|false $quota, string $checkedPath): View {
 		// mock filesystem
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['free_space'])

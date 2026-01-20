@@ -42,7 +42,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 abstract class AbstractCalDavBackend extends TestCase {
 
 

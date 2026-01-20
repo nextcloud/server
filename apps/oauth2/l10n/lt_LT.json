@@ -4,6 +4,7 @@
     "OAuth 2.0" : "OAuth 2.0",
     "Secret key" : "Slaptasis raktas",
     "Delete" : "Ištrinti",
+    "An unknown error occurred." : "Įvyko nežinoma klaida.",
     "OAuth 2.0 clients" : "OAuth 2.0 klientai",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 leidžia išorinėms tarnyboms užklausti prieigą prie {instanceName}.",
     "Name" : "Pavadinimas",

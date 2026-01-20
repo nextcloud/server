@@ -65,7 +65,7 @@ class PublicCalendarObjectTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideConfidentialObjectData')]
+	#[DataProvider(methodName: 'provideConfidentialObjectData')]
 	public function testGetWithConfidentialObject(array $calendarInfo): void {
 		$ics = <<<EOF
 BEGIN:VCALENDAR

@@ -29,6 +29,8 @@ use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Server;
 use OCP\Settings\ISettings;
+use OCP\Teams\ITeamManager;
+use OCP\Teams\Team;
 use OCP\Util;
 
 class PersonalInfo implements ISettings {
@@ -40,6 +42,7 @@ class PersonalInfo implements ISettings {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
+		private ITeamManager $teamManager,
 		private IAccountManager $accountManager,
 		ProfileManager $profileManager,
 		private IAppManager $appManager,
@@ -87,6 +90,7 @@ class PersonalInfo implements ISettings {
 			'userId' => $uid,
 			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
 			'groups' => $this->getGroups($user),
+			'teams' => $this->getTeamMemberships($user),
 			'quota' => $storageInfo['quota'],
 			'totalSpace' => $totalSpace,
 			'usage' => Util::humanFileSize($storageInfo['used']),
@@ -193,6 +197,20 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
+	 * returns a list of the user's team memberships, sorted alphabetically
+	 * @return list<string> team names
+	 */
+	private function getTeamMemberships(IUser $user): array {
+		$teams = array_map(
+			static fn (Team $team): string => $team->getDisplayName(),
+			$this->teamManager->getTeamsForUser($user->getUID())
+		);
+		sort($teams);
+
+		return $teams;
+	}
+
+	/**
 	 * returns the primary email and additional emails in an
 	 * associative array
 	 */
@@ -242,11 +260,11 @@ class PersonalInfo implements ISettings {
 		$languages = $this->l10nFactory->getLanguages();
 
 		// associate the user language with the proper array
-		$userLangIndex = array_search($userConfLang, array_column($languages['commonLanguages'], 'code'));
+		$userLangIndex = array_search($userConfLang, array_column($languages['commonLanguages'], 'code'), true);
 		$userLang = $languages['commonLanguages'][$userLangIndex];
 		// search in the other languages
 		if ($userLangIndex === false) {
-			$userLangIndex = array_search($userConfLang, array_column($languages['otherLanguages'], 'code'));
+			$userLangIndex = array_search($userConfLang, array_column($languages['otherLanguages'], 'code'), true);
 			$userLang = $languages['otherLanguages'][$userLangIndex];
 		}
 		// if user language is not available but set somehow: show the actual code as name

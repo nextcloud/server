@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -29,6 +28,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * @psalm-import-type Files_SharingDeletedShare from ResponseDefinitions
@@ -108,24 +108,18 @@ class DeletedShareAPIController extends OCSController {
 			$result['share_with_displayname'] = '';
 
 			try {
+				/** @psalm-suppress UndefinedClass */
 				$result = array_merge($result, $this->getRoomShareHelper()->formatShare($share));
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface) {
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = '';
 
 			try {
+				/** @psalm-suppress UndefinedClass */
 				$result = array_merge($result, $this->getDeckShareHelper()->formatShare($share));
-			} catch (QueryException $e) {
-			}
-		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
-			$result['share_with'] = $share->getSharedWith();
-			$result['share_with_displayname'] = '';
-
-			try {
-				$result = array_merge($result, $this->getSciencemeshShareHelper()->formatShare($share));
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface) {
 			}
 		}
 
@@ -145,13 +139,9 @@ class DeletedShareAPIController extends OCSController {
 		$teamShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_CIRCLE, null, -1, 0);
 		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
 		$deckShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_DECK, null, -1, 0);
-		$sciencemeshShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_SCIENCEMESH, null, -1, 0);
 
-		$shares = array_merge($groupShares, $teamShares, $roomShares, $deckShares, $sciencemeshShares);
-
-		$shares = array_values(array_map(function (IShare $share) {
-			return $this->formatShare($share);
-		}, $shares));
+		$shares = array_merge($groupShares, $teamShares, $roomShares, $deckShares);
+		$shares = array_values(array_map(fn (IShare $share): array => $this->formatShare($share), $shares));
 
 		return new DataResponse($shares);
 	}
@@ -170,7 +160,7 @@ class DeletedShareAPIController extends OCSController {
 	public function undelete(string $id): DataResponse {
 		try {
 			$share = $this->shareManager->getShareById($id, $this->userId);
-		} catch (ShareNotFound $e) {
+		} catch (ShareNotFound) {
 			throw new OCSNotFoundException('Share not found');
 		}
 
@@ -193,15 +183,16 @@ class DeletedShareAPIController extends OCSController {
 	 * If the Talk application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Talk\Share\Helper\DeletedShareAPIController
+	 * @psalm-suppress UndefinedClass
 	 * @throws QueryException
 	 */
-	private function getRoomShareHelper() {
+	private function getRoomShareHelper(): \OCA\Talk\Share\Helper\DeletedShareAPIController {
 		if (!$this->appManager->isEnabledForUser('spreed')) {
 			throw new QueryException();
 		}
 
-		return Server::get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
+		/** @psalm-suppress UndefinedClass */
+		return Server::get(\OCA\Talk\Share\Helper\DeletedShareAPIController::class);
 	}
 
 	/**
@@ -210,31 +201,15 @@ class DeletedShareAPIController extends OCSController {
 	 * If the Deck application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return ShareAPIHelper
+	 * @psalm-suppress UndefinedClass
 	 * @throws QueryException
 	 */
-	private function getDeckShareHelper() {
+	private function getDeckShareHelper(): \OCA\Deck\Sharing\ShareAPIHelper {
 		if (!$this->appManager->isEnabledForUser('deck')) {
 			throw new QueryException();
 		}
 
-		return Server::get('\OCA\Deck\Sharing\ShareAPIHelper');
-	}
-
-	/**
-	 * Returns the helper of DeletedShareAPIHelper for sciencemesh shares.
-	 *
-	 * If the sciencemesh application is not enabled or the helper is not available
-	 * a QueryException is thrown instead.
-	 *
-	 * @return ShareAPIHelper
-	 * @throws QueryException
-	 */
-	private function getSciencemeshShareHelper() {
-		if (!$this->appManager->isEnabledForUser('sciencemesh')) {
-			throw new QueryException();
-		}
-
-		return Server::get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
+		/** @psalm-suppress UndefinedClass */
+		return Server::get(\OCA\Deck\Sharing\ShareAPIHelper::class);
 	}
 }

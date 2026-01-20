@@ -1,19 +1,17 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, Node } from '@nextcloud/files'
+import type { IFolder, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { RootDirectory } from './DropServiceUtils.ts'
 
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { NodeStatus } from '@nextcloud/files'
-import { getRootPath } from '@nextcloud/files/dav'
-import { translate as t } from '@nextcloud/l10n'
-import { joinPaths } from '@nextcloud/paths'
+import { t } from '@nextcloud/l10n'
+import { join } from '@nextcloud/paths'
 import { getUploader, hasConflict } from '@nextcloud/upload'
-import { join } from 'path'
 import Vue from 'vue'
 import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
@@ -97,7 +95,7 @@ export async function dataTransferToFileTree(items: DataTransferItem[]): Promise
  * @param destination - The destination folder
  * @param contents - The contents of the destination folder
  */
-export async function onDropExternalFiles(root: RootDirectory, destination: Folder, contents: Node[]): Promise<Upload[]> {
+export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<Upload[]> {
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
@@ -126,14 +124,13 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 			// If the file is a directory, we need to create it first
 			// then browse its tree and upload its contents.
 			if (file instanceof Directory) {
-				const absolutePath = joinPaths(getRootPath(), destination.path, relativePath)
 				try {
 					logger.debug('Processing directory', { relativePath })
-					await createDirectoryIfNotExists(absolutePath)
+					await createDirectoryIfNotExists(relativePath)
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))
-					logger.error('', { error, absolutePath, directory: file })
+					logger.error('Unable to create the directory', { error, relativePath, directory: file })
 				}
 				continue
 			}
@@ -173,13 +170,14 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 }
 
 /**
+ * Handle dropping internal files
  *
- * @param nodes
- * @param destination
- * @param contents
- * @param isCopy
+ * @param nodes - The nodes being dropped
+ * @param destination - The destination folder
+ * @param contents - The contents of the destination folder
+ * @param isCopy - Whether the operation is a copy
  */
-export async function onDropInternalFiles(nodes: Node[], destination: Folder, contents: Node[], isCopy = false) {
+export async function onDropInternalFiles(nodes: INode[], destination: IFolder, contents: INode[], isCopy = false) {
 	const queue = [] as Promise<void>[]
 
 	// Check for conflicts on root elements

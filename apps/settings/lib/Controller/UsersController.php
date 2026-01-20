@@ -19,6 +19,7 @@ use OC\KnownUser\KnownUserService;
 use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
 use OCA\Settings\Settings\Admin\Users;
 use OCA\User_LDAP\User_Proxy;
@@ -38,9 +39,11 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
+use OCP\Config\IUserConfig;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\ISubAdmin;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -59,6 +62,15 @@ class UsersController extends Controller {
 	/** Limit for counting users for subadmins, to avoid spending too much time */
 	private const COUNT_LIMIT_FOR_SUBADMINS = 999;
 
+	public const ALLOWED_USER_PREFERENCES = [
+		ConfigLexicon::USER_LIST_SHOW_STORAGE_PATH,
+		ConfigLexicon::USER_LIST_SHOW_USER_BACKEND,
+		ConfigLexicon::USER_LIST_SHOW_FIRST_LOGIN,
+		ConfigLexicon::USER_LIST_SHOW_LAST_LOGIN,
+		ConfigLexicon::USER_LIST_SHOW_NEW_USER_FORM,
+		ConfigLexicon::USER_LIST_SHOW_LANGUAGES,
+	];
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -66,6 +78,8 @@ class UsersController extends Controller {
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private IConfig $config,
+		private IAppConfig $appConfig,
+		private IUserConfig $userConfig,
 		private IL10N $l10n,
 		private IMailer $mailer,
 		private IFactory $l10nFactory,
@@ -191,12 +205,12 @@ class UsersController extends Controller {
 		}
 
 		/* QUOTAS PRESETS */
-		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
-		$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
+		$quotaPreset = $this->parseQuotaPreset($this->appConfig->getValueString('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
+		$allowUnlimitedQuota = $this->appConfig->getValueBool('files', 'allow_unlimited_quota', true);
 		if (!$allowUnlimitedQuota && count($quotaPreset) > 0) {
-			$defaultQuota = $this->config->getAppValue('files', 'default_quota', $quotaPreset[0]);
+			$defaultQuota = $this->appConfig->getValueString('files', 'default_quota', $quotaPreset[0]);
 		} else {
-			$defaultQuota = $this->config->getAppValue('files', 'default_quota', 'none');
+			$defaultQuota = $this->appConfig->getValueString('files', 'default_quota', 'none');
 		}
 
 		$event = new BeforeTemplateRenderedEvent();
@@ -219,7 +233,7 @@ class UsersController extends Controller {
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
 		$serverData['sortGroups'] = $forceSortGroupByName
 			? MetaData::SORT_GROUPNAME
-			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)MetaData::SORT_USERCOUNT);
+			: (int)$this->appConfig->getValueString('core', 'group.sortBy', (string)MetaData::SORT_USERCOUNT);
 		$serverData['forceSortGroupByName'] = $forceSortGroupByName;
 		$serverData['quotaPreset'] = $quotaPreset;
 		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
@@ -230,9 +244,13 @@ class UsersController extends Controller {
 		// Settings
 		$serverData['defaultQuota'] = $defaultQuota;
 		$serverData['canChangePassword'] = $canChangePassword;
-		$serverData['newUserGenerateUserID'] = $this->config->getAppValue('core', 'newUser.generateUserID', 'no') === 'yes';
-		$serverData['newUserRequireEmail'] = $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes';
-		$serverData['newUserSendEmail'] = $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes';
+		$serverData['newUserGenerateUserID'] = $this->appConfig->getValueBool('core', 'newUser.generateUserID', false);
+		$serverData['newUserRequireEmail'] = $this->appConfig->getValueBool('core', 'newUser.requireEmail', false);
+		$serverData['newUserSendEmail'] = $this->appConfig->getValueBool('core', 'newUser.sendEmail', true);
+		$serverData['showConfig'] = [];
+		foreach (self::ALLOWED_USER_PREFERENCES as $key) {
+			$serverData['showConfig'][$key] = $this->userConfig->getValueBool($uid, $this->appName, $key, false);
+		}
 
 		$this->initialState->provideInitialState('usersSettings', $serverData);
 
@@ -250,12 +268,21 @@ class UsersController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function setPreference(string $key, string $value): JSONResponse {
-		$allowed = ['newUser.sendEmail', 'group.sortBy'];
-		if (!in_array($key, $allowed, true)) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		switch ($key) {
+			case 'newUser.sendEmail':
+				$this->appConfig->setValueBool('core', $key, $value === 'yes');
+				break;
+			case 'group.sortBy':
+				$this->appConfig->setValueString('core', $key, $value);
+				break;
+			default:
+				if (in_array($key, self::ALLOWED_USER_PREFERENCES, true)) {
+					$this->userConfig->setValueBool($this->userSession->getUser()->getUID(), $this->appName, $key, $value === 'true');
+				} else {
+					return new JSONResponse([], Http::STATUS_FORBIDDEN);
+				}
+				break;
 		}
-
-		$this->config->setAppValue('core', $key, $value);
 
 		return new JSONResponse([]);
 	}

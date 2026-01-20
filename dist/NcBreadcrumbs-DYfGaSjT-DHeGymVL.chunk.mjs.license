@@ -1,0 +1,20 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: p-queue developers
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/vue
+	- version: 9.3.1
+	- license: AGPL-3.0-or-later
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 9.0.1
+	- license: MIT
+- p-timeout
+	- version: 7.0.1
+	- license: MIT

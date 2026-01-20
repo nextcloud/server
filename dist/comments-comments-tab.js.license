@@ -2,6 +2,7 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: BSD-2-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: string_decoder developers
@@ -13,6 +14,7 @@ SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
@@ -28,14 +30,17 @@ SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://jos
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jordan Harbamd <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
@@ -49,11 +54,17 @@ SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 
 
 This file is generated from multiple sources. Included packages:
+- @buttercup/fetch
+	- version: 0.2.1
+	- license: MIT
 - @nextcloud/auth
 	- version: 2.5.3
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.5.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - semver
 	- version: 7.7.2
@@ -61,6 +72,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 4.0.0-rc.0
+	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
 	- license: GPL-3.0-or-later
@@ -73,11 +87,17 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/moment
 	- version: 1.3.5
 	- license: GPL-3.0-or-later
+- @nextcloud/paths
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4
+	- license: MIT
+- @vue/web-component-wrapper
+	- version: 1.3.0
 	- license: MIT
 - available-typed-arrays
 	- version: 1.0.7
@@ -93,9 +113,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - brace-expansion
 	- version: 2.0.2
-	- license: MIT
-- buffer
-	- version: 5.7.1
 	- license: MIT
 - builtin-status-codes
 	- version: 3.0.0
@@ -122,7 +139,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.4
 	- license: MIT
 - dompurify
-	- version: 3.3.0
+	- version: 3.3.1
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -199,6 +216,9 @@ This file is generated from multiple sources. Included packages:
 - is-regex
 	- version: 1.2.1
 	- license: MIT
+- is-svg
+	- version: 6.1.0
+	- license: MIT
 - is-typed-array
 	- version: 1.1.15
 	- license: MIT
@@ -239,7 +259,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.0
+	- version: 6.14.1
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -253,6 +273,9 @@ This file is generated from multiple sources. Included packages:
 - safe-regex-test
 	- version: 1.1.0
 	- license: MIT
+- sax
+	- version: 1.4.1
+	- license: ISC
 - set-function-length
 	- version: 1.2.2
 	- license: MIT
@@ -283,6 +306,9 @@ This file is generated from multiple sources. Included packages:
 - string_decoder
 	- version: 1.3.0
 	- license: MIT
+- typescript-event-target
+	- version: 1.1.2
+	- license: MIT
 - url-join
 	- version: 5.0.0
 	- license: MIT
@@ -304,6 +330,9 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
+- entities
+	- version: 6.0.1
+	- license: BSD-2-Clause
 - fast-xml-parser
 	- version: 4.5.3
 	- license: MIT
@@ -317,7 +346,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.8.0
 	- license: MIT
 - webpack
-	- version: 5.103.0
+	- version: 5.104.1
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
@@ -325,6 +354,15 @@ This file is generated from multiple sources. Included packages:
 - xtend
 	- version: 4.0.2
 	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- buffer
+	- version: 5.7.1
+	- license: MIT
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
 - nextcloud
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later

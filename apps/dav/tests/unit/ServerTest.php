@@ -17,10 +17,10 @@ use OCP\IRequest;
  *
  * @package OCA\DAV\Tests\Unit
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ServerTest extends \Test\TestCase {
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesUris')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesUris')]
 	public function test(string $uri, array $plugins): void {
 		/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject $r */
 		$r = $this->createMock(IRequest::class);

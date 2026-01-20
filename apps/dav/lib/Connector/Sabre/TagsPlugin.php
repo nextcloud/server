@@ -123,7 +123,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		$isFav = false;
 		$tags = $this->getTags($fileId);
 		if ($tags) {
-			$favPos = array_search(self::TAG_FAVORITE, $tags);
+			$favPos = array_search(self::TAG_FAVORITE, $tags, true);
 			if ($favPos !== false) {
 				$isFav = true;
 				unset($tags[$favPos]);

@@ -9,16 +9,16 @@ declare(strict_types=1);
 
 namespace OC\OCM\Model;
 
-use NCU\Security\Signature\Model\Signatory;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
-use OCP\OCM\ICapabilityAwareOCMProvider;
+use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * @since 28.0.0
  */
-class OCMProvider implements ICapabilityAwareOCMProvider {
+class OCMProvider implements IOCMProvider {
 	private bool $enabled = false;
 	private string $apiVersion = '';
 	private string $inviteAcceptDialog = '';
@@ -124,12 +124,10 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 * @return $this
 	 */
 	public function setCapabilities(array $capabilities): static {
-		foreach ($capabilities as $value) {
-			if (!in_array($value, $this->capabilities)) {
-				array_push($this->capabilities, $value);
-			}
-		}
-
+		$this->capabilities = array_unique(array_merge(
+			$this->capabilities,
+			array_map([$this, 'normalizeCapability'], $capabilities)
+		));
 		return $this;
 	}
 
@@ -139,6 +137,20 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	public function getCapabilities(): array {
 		return $this->capabilities;
 	}
+
+	/**
+	 * @param string $capability
+	 * @return bool
+	 */
+	public function hasCapability(string $capability): bool {
+		return (in_array($this->normalizeCapability($capability), $this->capabilities, true));
+	}
+
+	private function normalizeCapability(string $capability): string {
+		// since ocm 1.2, removing leading slashes from capabilities
+		return strtolower(ltrim($capability, '/'));
+	}
+
 	/**
 	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
 	 * @return IOCMResource

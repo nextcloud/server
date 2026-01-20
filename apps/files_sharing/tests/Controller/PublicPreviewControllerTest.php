@@ -59,7 +59,7 @@ class PublicPreviewControllerTest extends TestCase {
 	}
 
 	public function testInvalidToken(): void {
-		$res = $this->controller->getPreview('', 'file', 10, 10, '');
+		$res = $this->controller->getPreview('', 'file', 10, 10);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);

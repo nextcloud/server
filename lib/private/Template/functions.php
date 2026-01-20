@@ -54,23 +54,22 @@ function emit_css_loading_tags($obj): void {
  * @param string $src the source URL, ignored when empty
  * @param string $script_content the inline script content, ignored when empty
  * @param string $content_type the type of the source (e.g. 'module')
+ *
+ * @since 27.0.0 added the $content_type parameter
  */
 function emit_script_tag(string $src, string $script_content = '', string $content_type = ''): void {
 	$nonceManager = Server::get(ContentSecurityPolicyNonceManager::class);
 
-	$defer_str = ' defer';
+	$defer_str = $content_type === '' ? ' defer' : ''; // "defer" only works with classic scripts
 	$type = $content_type !== '' ? ' type="' . $content_type . '"' : '';
 
-	$s = '<script nonce="' . $nonceManager->getNonce() . '"';
+	$s = '<script nonce="' . $nonceManager->getNonce() . '"' . $type;
 	if (!empty($src)) {
 		// emit script tag for deferred loading from $src
-		$s .= $defer_str . ' src="' . $src . '"' . $type . '>';
-	} elseif ($script_content !== '') {
+		$s .= $defer_str . ' src="' . $src . '">';
+	} else {
 		// emit script tag for inline script from $script_content without defer (see MDN)
 		$s .= ">\n" . $script_content . "\n";
-	} else {
-		// no $src nor $src_content, really useless empty tag
-		$s .= '>';
 	}
 	$s .= '</script>';
 	print_unescaped($s . "\n");
@@ -81,6 +80,8 @@ function emit_script_tag(string $src, string $script_content = '', string $conte
  * @param array $obj all the script information from template
  */
 function emit_script_loading_tags($obj): void {
+	emit_import_map($obj);
+
 	foreach ($obj['jsfiles'] as $jsfile) {
 		$fileName = explode('?', $jsfile, 2)[0];
 		$type = str_ends_with($fileName, '.mjs') ? 'module' : '';
@@ -88,6 +89,29 @@ function emit_script_loading_tags($obj): void {
 	}
 	if (!empty($obj['inline_ocjs'])) {
 		emit_script_tag('', $obj['inline_ocjs']);
+	}
+}
+
+/**
+ * Print the import map for the current JS modules.
+ * The import map is needed to ensure that an import of an entry point does not duplicate the state,
+ * but reuses the already loaded module. This is needed because Nextcloud will append a cache buster
+ * to the entry point URLs but the scripts does not know about that (both must match).
+ *
+ * @param $obj all the script information from template
+ */
+function emit_import_map(array $obj): void {
+	$modules = [];
+	foreach ($obj['jsfiles'] as $jsfile) {
+		$fileName = explode('?', $jsfile, 2)[0];
+		if (str_ends_with($fileName, '.mjs') && $jsfile !== $fileName) {
+			// its a module and we have a cache buster available
+			$modules[$fileName] = $jsfile;
+		}
+	}
+	if (!empty($modules)) {
+		$json = json_encode(['imports' => $modules], JSON_UNESCAPED_SLASHES | JSON_FORCE_OBJECT);
+		emit_script_tag('', $json, 'importmap');
 	}
 }
 

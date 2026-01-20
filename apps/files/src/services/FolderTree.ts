@@ -4,13 +4,12 @@
  */
 
 import type { ContentsWithRoot } from '@nextcloud/files'
-import type { CancelablePromise } from 'cancelable-promise'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { getRemoteURL } from '@nextcloud/files/dav'
 import { getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
-import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
+import { dirname, encodePath, join } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getContents as getFiles } from './Files.ts'
 
@@ -47,15 +46,16 @@ const collator = Intl.Collator(
 const compareNodes = (a: TreeNodeData, b: TreeNodeData) => collator.compare(a.displayName ?? a.basename, b.displayName ?? b.basename)
 
 /**
+ * Get all tree nodes recursively
  *
- * @param tree
- * @param currentPath
- * @param nodes
+ * @param tree - The tree to process
+ * @param currentPath - The current path
+ * @param nodes - The nodes collected so far
  */
 function getTreeNodes(tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] {
 	const sortedTree = tree.toSorted(compareNodes)
 	for (const { id, basename, displayName, children } of sortedTree) {
-		const path = joinPaths(currentPath, basename)
+		const path = join(currentPath, basename)
 		const source = `${sourceRoot}${path}`
 		const node: TreeNode = {
 			source,
@@ -76,9 +76,10 @@ function getTreeNodes(tree: Tree, currentPath: string = '/', nodes: TreeNode[] =
 }
 
 /**
+ * Get folder tree nodes
  *
- * @param path
- * @param depth
+ * @param path - The path to get the tree from
+ * @param depth - The depth to fetch
  */
 export async function getFolderTreeNodes(path: string = '/', depth: number = 1): Promise<TreeNode[]> {
 	const { data: tree } = await axios.get<Tree>(generateOcsUrl('/apps/files/api/v1/folder-tree'), {
@@ -88,11 +89,12 @@ export async function getFolderTreeNodes(path: string = '/', depth: number = 1):
 	return nodes
 }
 
-export const getContents = (path: string): CancelablePromise<ContentsWithRoot> => getFiles(path)
+export const getContents = (path: string, options: { signal: AbortSignal }): Promise<ContentsWithRoot> => getFiles(path, options)
 
 /**
+ * Encode source URL
  *
- * @param source
+ * @param source - The source URL
  */
 export function encodeSource(source: string): string {
 	const { origin } = new URL(source)
@@ -100,8 +102,9 @@ export function encodeSource(source: string): string {
 }
 
 /**
+ * Get parent source URL
  *
- * @param source
+ * @param source - The source URL
  */
 export function getSourceParent(source: string): string {
 	const parent = dirname(source)

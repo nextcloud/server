@@ -3,7 +3,7 @@
 	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./core/**/*.ts", "./core/**/*.vue", "./*.d.ts"],
 	"exclude": ["./**/*.cy.ts"],
 	"compilerOptions": {
-		"lib": ["DOM", "ESNext"],
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"types": ["node", "vue", "vue-router"],
 		"outDir": "./dist/",
 		"target": "ESNext",

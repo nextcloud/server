@@ -99,7 +99,7 @@ function parseOriginalLocation(node: Node): string {
 	}
 
 	const dir = dirname(path)
-	if (dir === path) { // Node is in root folder
+	if (dir === '/' || dir === '.') { // Node is in root folder
 		return t('files_trashbin', 'All files')
 	}
 

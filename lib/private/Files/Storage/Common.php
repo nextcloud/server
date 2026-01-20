@@ -331,6 +331,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			$this->watcher = new Watcher($storage);
 			$globalPolicy = Server::get(IConfig::class)->getSystemValueInt('filesystem_check_changes', Watcher::CHECK_NEVER);
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
+			$this->watcher->setCheckFilter($this->getMountOption('filesystem_check_filter'));
 		}
 		return $this->watcher;
 	}

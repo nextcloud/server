@@ -408,7 +408,7 @@ class EventsSearchProviderTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideDeepLinkData')]
+	#[DataProvider(methodName: 'provideDeepLinkData')]
 	public function testGetDeepLinkToCalendarApp(
 		string $principalUri,
 		string $expectedBase64DavUrl,
@@ -435,7 +435,7 @@ class EventsSearchProviderTest extends TestCase {
 		$this->assertEquals('absolute-url-to-route', $actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('generateSublineDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateSublineDataProvider')]
 	public function testGenerateSubline(string $ics, string $expectedSubline): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$eventComponent = $vCalendar->VEVENT;

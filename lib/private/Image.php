@@ -839,7 +839,6 @@ class Image implements IImage {
 			return false;
 		}
 		$result = $this->resizeNew($maxSize);
-		imagedestroy($this->resource);
 		$this->resource = $result;
 		return $this->valid();
 	}
@@ -875,7 +874,6 @@ class Image implements IImage {
 			return false;
 		}
 		$result = $this->preciseResizeNew($width, $height);
-		imagedestroy($this->resource);
 		$this->resource = $result;
 		return $this->valid();
 	}
@@ -1139,9 +1137,6 @@ class Image implements IImage {
 	 * Destroys the current image and resets the object
 	 */
 	public function destroy(): void {
-		if ($this->valid()) {
-			imagedestroy($this->resource);
-		}
 		$this->resource = false;
 	}
 

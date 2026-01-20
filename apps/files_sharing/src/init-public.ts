@@ -1,8 +1,9 @@
-import type { Folder } from '@nextcloud/files'
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { Folder } from '@nextcloud/files'
 import type { ShareAttribute } from './sharing.d.ts'
 
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -22,7 +23,12 @@ registerPublicFileShareView()
 // Get the current view from state and set it active
 const view = loadState<string>('files_sharing', 'view')
 const navigation = getNavigation()
-navigation.setActive(navigation.views.find(({ id }) => id === view) ?? null)
+try {
+	navigation.setActive(view)
+} catch {
+	// no such view
+	navigation.setActive(null)
+}
 
 // Force our own router
 window.OCP.Files = window.OCP.Files ?? {}

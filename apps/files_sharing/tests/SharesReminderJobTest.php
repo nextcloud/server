@@ -32,7 +32,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\Files_Sharing\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SharesReminderJobTest extends \Test\TestCase {
 	private SharesReminderJob $job;
 	private IDBConnection $db;
@@ -151,7 +151,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 	 * @param int $permissions
 	 * @param bool $shouldBeReminded
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSharesReminder')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSharesReminder')]
 	public function testSharesReminder(
 		?\DateTime $expirationDate, string $email, bool $isEmpty, int $permissions, bool $shouldBeReminded,
 	): void {

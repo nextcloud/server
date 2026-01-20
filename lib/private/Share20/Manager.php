@@ -7,6 +7,7 @@
  */
 namespace OC\Share20;
 
+use ArrayIterator;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
@@ -49,6 +50,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
+use OCP\Share\IPartialShareProvider;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
@@ -166,10 +168,7 @@ class Manager implements IManager {
 			if ($circle === null) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
 			}
-		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
-		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
-		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
-		} else {
+		} elseif ($share->getShareType() !== IShare::TYPE_ROOM && $share->getShareType() !== IShare::TYPE_DECK) {
 			// We cannot handle other types yet
 			throw new \InvalidArgumentException($this->l->t('Unknown share type'));
 		}
@@ -1286,6 +1285,46 @@ class Manager implements IManager {
 		return $shares;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable {
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return [];
+		}
+
+		if (!$provider instanceof IPartialShareProvider) {
+			throw new \RuntimeException(\get_class($provider) . ' must implement IPartialShareProvider');
+		}
+
+		$shares = $provider->getSharedWithByPath(
+			$userId,
+			$shareType,
+			$path,
+			$forChildren,
+			$limit,
+			$offset,
+		);
+
+		if (\is_array($shares)) {
+			$shares = new ArrayIterator($shares);
+		} elseif (!$shares instanceof \Iterator) {
+			$shares = new \IteratorIterator($shares);
+		}
+
+		return new \CallbackFilterIterator($shares, function (IShare $share) {
+			// remove all shares which are already expired
+			try {
+				$this->checkShare($share);
+				return true;
+			} catch (ShareNotFound $e) {
+				return false;
+			}
+		});
+	}
+
 	#[Override]
 	public function getDeletedSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array {
 		$shares = $this->getSharedWith($userId, $shareType, $node, $limit, $offset);
@@ -1742,6 +1781,10 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 	}
 
+	public function matchDisplayName(): bool {
+		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
+	}
+
 	#[Override]
 	public function ignoreSecondDisplayName(): bool {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
@@ -1878,6 +1921,15 @@ class Manager implements IManager {
 			$this->dispatcher->dispatchTyped($event);
 		} catch (\Exception $e) {
 			$this->logger->error("Error while sending ' . $name . ' event", ['exception' => $e]);
+		}
+	}
+
+	public function getUsersForShare(IShare $share): iterable {
+		$provider = $this->factory->getProviderForType($share->getShareType());
+		if ($provider instanceof Share\IShareProviderGetUsers) {
+			return $provider->getUsersForShare($share);
+		} else {
+			return [];
 		}
 	}
 }

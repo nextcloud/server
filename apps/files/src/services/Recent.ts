@@ -8,7 +8,7 @@ import type { ResponseDataDetailed, SearchResult } from 'webdav'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
 import { getRecentSearch, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
-import { CancelablePromise } from 'cancelable-promise'
+import logger from '../logger.ts'
 import { getPinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { client } from './WebdavClient.ts'
@@ -22,8 +22,10 @@ const lastTwoWeeksTimestamp = Math.round((Date.now() / 1000) - (60 * 60 * 24 * 1
  * If hidden files are not shown, then also recently changed files *in* hidden directories are filtered.
  *
  * @param path Path to search for recent changes
+ * @param options Options including abort signal
+ * @param options.signal Abort signal to cancel the request
  */
-export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
+export async function getContents(path = '/', options: { signal: AbortSignal }): Promise<ContentsWithRoot> {
 	const store = useUserConfigStore(getPinia())
 
 	/**
@@ -35,10 +37,9 @@ export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
 		|| store.userConfig.show_hidden // If configured to show hidden files we can early return
 		|| !node.dirname.split('/').some((dir) => dir.startsWith('.')) // otherwise only include the file if non of the parent directories is hidden
 
-	const controller = new AbortController()
-	const handler = async () => {
+	try {
 		const contentsResponse = await client.search('/', {
-			signal: controller.signal,
+			signal: options.signal,
 			details: true,
 			data: getRecentSearch(lastTwoWeeksTimestamp),
 		}) as ResponseDataDetailed<SearchResult>
@@ -61,10 +62,12 @@ export function getContents(path = '/'): CancelablePromise<ContentsWithRoot> {
 			}),
 			contents,
 		}
+	} catch (error) {
+		if (options.signal.aborted) {
+			logger.info('Fetching recent files aborted')
+			throw new DOMException('Aborted', 'AbortError')
+		}
+		logger.error('Failed to fetch recent files', { error })
+		throw error
 	}
-
-	return new CancelablePromise(async (resolve, reject, cancel) => {
-		cancel(() => controller.abort())
-		resolve(handler())
-	})
 }

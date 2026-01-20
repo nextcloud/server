@@ -438,6 +438,7 @@ interface ICommentsManager {
 	 * to consumers of the comments infrastructure
 	 *
 	 * @param \Closure $closure
+	 * @return void
 	 * @since 11.0.0
 	 */
 	public function registerEventHandler(\Closure $closure);
@@ -447,6 +448,7 @@ interface ICommentsManager {
 	 *
 	 * @param string $type
 	 * @param \Closure $closure
+	 * @return void
 	 * @throws \OutOfBoundsException
 	 * @since 11.0.0
 	 *

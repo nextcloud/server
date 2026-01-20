@@ -70,6 +70,9 @@
                                         "type": "string"
                                     }
                                 }
+                            },
+                            "can-create-app-token": {
+                                "type": "boolean"
                             }
                         }
                     }
@@ -659,6 +662,10 @@
         {
             "name": "ocm",
             "description": "Controller about the endpoint /ocm-provider/"
+        },
+        {
+            "name": "open_metrics",
+            "description": "OpenMetrics controller Gather and display metrics"
         }
     ]
 }

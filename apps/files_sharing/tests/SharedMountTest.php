@@ -23,7 +23,7 @@ use OCP\Share\IShare;
 /**
  * Class SharedMountTest
  */
-#[\PHPUnit\Framework\Attributes\Group('SLOWDB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'SLOWDB')]
 class SharedMountTest extends TestCase {
 
 	/** @var IGroupManager */
@@ -225,7 +225,7 @@ class SharedMountTest extends TestCase {
 	 * @param string $expectedResult
 	 * @param bool $exception if a exception is expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderTestStripUserFilesPath')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataProviderTestStripUserFilesPath')]
 	public function testStripUserFilesPath($path, $expectedResult, $exception): void {
 		$testClass = new DummyTestClassSharedMount(null, null);
 		try {
@@ -375,7 +375,6 @@ class SharedMountTest extends TestCase {
 		$mountProvider = Server::get(MountProvider::class);
 		$reflectionClass = new \ReflectionClass($mountProvider);
 		$reflectionCacheFactory = $reflectionClass->getProperty('cacheFactory');
-		$reflectionCacheFactory->setAccessible(true);
 		$reflectionCacheFactory->setValue($mountProvider, $cacheFactory);
 
 		// share to user

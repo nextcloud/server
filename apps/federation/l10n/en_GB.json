@@ -9,11 +9,23 @@
     "Federation" : "Federation",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "Federation allows you to connect with other trusted servers to exchange the account directory.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing.",
-    "External documentation for Federated Cloud Sharing" : "External documentation for Federated Cloud Sharing",
+    "Could not add trusted server. Please try again later." : "Could not add trusted server. Please try again later.",
+    "Add trusted server" : "Add trusted server",
+    "Server url" : "Server url",
+    "Add" : "Add",
+    "Server ok" : "Server ok",
+    "User list was exchanged at least once successfully with the remote server." : "User list was exchanged at least once successfully with the remote server.",
+    "Server pending" : "Server pending",
+    "Waiting for shared secret or initial user list exchange." : "Waiting for shared secret or initial user list exchange.",
+    "Server access revoked" : "Server access revoked",
+    "Server failure" : "Server failure",
+    "Connection to the remote server failed or the remote server is misconfigured." : "Connection to the remote server failed or the remote server is misconfigured.",
+    "Failed to delete trusted server. Please try again later." : "Failed to delete trusted server. Please try again later.",
+    "Delete" : "Delete",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share.",
     "Each server must validate the other. This process may require a few cron cycles." : "Each server must validate the other. This process may require a few cron cycles.",
+    "External documentation for Federated Cloud Sharing" : "External documentation for Federated Cloud Sharing",
     "+ Add trusted server" : "+ Add trusted server",
-    "Trusted server" : "Trusted server",
-    "Add" : "Add"
+    "Trusted server" : "Trusted server"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

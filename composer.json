@@ -61,11 +61,17 @@
 		],
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
-		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
+		"lint": [
+			"@lint-8.2-or-earlier",
+			"@lint-8.3-or-later"
+		],
+		"lint-8.2-or-earlier": "[ $(php -r \"echo PHP_VERSION_ID;\") -ge 80300 ] || find . -type f -name '*.php' -not -path './3rdparty/*' -not -path '*/composer/*' -not -path '*/stubs/*' -not -path '*/vendor-bin/*' -not -path '*/vendor/*' -print0 | xargs -0 -n1 -P$(nproc) php -l",
+		"lint-8.3-or-later": "[ $(php -r \"echo PHP_VERSION_ID;\") -lt 80300 ] || find . -type f -name '*.php' -not -path './3rdparty/*' -not -path '*/composer/*' -not -path '*/stubs/*' -not -path '*/vendor-bin/*' -not -path '*/vendor/*' -print0 | xargs -0 -n200 -P$(nproc) php -l",
 		"psalm": "psalm --no-cache --threads=$(nproc)",
 		"psalm:ocp": "psalm --no-cache --threads=$(nproc) -c psalm-ocp.xml",
 		"psalm:ncu": "psalm --no-cache --threads=$(nproc) -c psalm-ncu.xml",
 		"psalm:security": "psalm --no-cache --threads=$(nproc) --taint-analysis --use-baseline=build/psalm-baseline-security.xml",
+		"psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
 		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
 		"serve": [
 			"Composer\\Config::disableProcessTimeout",

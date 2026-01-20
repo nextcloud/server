@@ -42,15 +42,6 @@ class AjaxController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-
-	/**
-	 * Legacy endpoint for oauth2 callback
-	 */
-	#[NoAdminRequired()]
-	public function oauth2Callback(): JSONResponse {
-		return new JSONResponse(['status' => 'success']);
-	}
-
 	/**
 	 * Returns a list of users and groups that match the given pattern.
 	 * Used for user and group picker in the admin settings.

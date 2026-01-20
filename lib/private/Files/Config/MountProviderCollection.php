@@ -13,11 +13,11 @@ use OCA\Files_Sharing\MountProvider;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Config\IMountProviderArgs;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -84,29 +84,47 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
-	 * @param IMountProviderArgs[] $mountProviderArgs
-	 * @return array<string, IMountPoint> IMountPoint array indexed by mount
-	 *                                    point.
+	 * The caller is responsible to ensure that all provided MountProviderArgs
+	 * are for the same user.
+	 * And that the `$providerClass` implements IPartialMountProvider.
+	 *
+	 * @param list<MountProviderArgs> $mountProviderArgs
+	 * @return array<string, IMountPoint> IMountPoint array indexed by mount point.
 	 */
 	public function getUserMountsFromProviderByPath(
 		string $providerClass,
 		string $path,
+		bool $forChildren,
 		array $mountProviderArgs,
 	): array {
 		$provider = $this->providers[$providerClass] ?? null;
 		if ($provider === null) {
 			return [];
 		}
+		if (count($mountProviderArgs) === 0) {
+			return [];
+		}
 
-		if (!is_a($providerClass, IPartialMountProvider::class, true)) {
+		if (!$provider instanceof IPartialMountProvider) {
 			throw new \LogicException(
 				'Mount provider does not support partial mounts'
 			);
 		}
 
-		/** @var IPartialMountProvider $provider */
+		$userId = null;
+		$user = null;
+		foreach ($mountProviderArgs as $mountProviderArg) {
+			if ($userId === null) {
+				$user = $mountProviderArg->mountInfo->getUser();
+				$userId = $user->getUID();
+			} elseif ($userId !== $mountProviderArg->mountInfo->getUser()->getUID()) {
+				throw new \LogicException('Mounts must belong to the same user!');
+			}
+		}
+
 		return $provider->getMountsForPath(
 			$path,
+			$forChildren,
 			$mountProviderArgs,
 			$this->loader,
 		);

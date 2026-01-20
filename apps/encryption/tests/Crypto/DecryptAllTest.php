@@ -63,7 +63,7 @@ class DecryptAllTest extends TestCase {
 	 * @param string $user
 	 * @param string $recoveryKeyId
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetPrivateKey')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetPrivateKey')]
 	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId): void {
 		$password = 'passwd';
 		$recoveryKey = 'recoveryKey';

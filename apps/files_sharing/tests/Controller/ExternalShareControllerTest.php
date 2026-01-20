@@ -21,7 +21,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ExternalShareControllerTest extends \Test\TestCase {
 	private IRequest&MockObject $request;
-	private Manager $externalManager;
+	private Manager&MockObject $externalManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -29,10 +29,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->externalManager = $this->createMock(Manager::class);
 	}
 
-	/**
-	 * @return ExternalSharesController
-	 */
-	public function getExternalShareController() {
+	public function getExternalShareController(): ExternalSharesController {
 		return new ExternalSharesController(
 			'files_sharing',
 			$this->request,

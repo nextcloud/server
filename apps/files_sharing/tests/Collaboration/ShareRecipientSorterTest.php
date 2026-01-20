@@ -38,7 +38,7 @@ class ShareRecipientSorterTest extends TestCase {
 	/**
 	 * @param $data
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('sortDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sortDataProvider')]
 	public function testSort($data): void {
 		$node = $this->createMock(Node::class);
 

@@ -14,7 +14,7 @@ import {
 	dirname,
 	encodePath,
 	isSamePath,
-	joinPaths,
+	join,
 } from '@nextcloud/paths'
 import {
 	generateFilePath,
@@ -64,19 +64,15 @@ import Plugins from './plugins.js'
 import {
 	build as buildQueryString,
 	parse as parseQueryString,
-} from './query-string.js'
+} from './query-string.ts'
 import { getRequestToken } from './requesttoken.ts'
 import {
 	linkToRemoteBase,
 } from './routing.js'
+import Settings from './settings.js'
 import { theme } from './theme.js'
 import Util from './util.js'
 import webroot from './webroot.js'
-import {
-	ajaxConnectionLostHandler,
-	processAjaxError,
-	registerXHRForErrorProcessing,
-} from './xhr-error.js'
 
 /** @namespace OC */
 export default {
@@ -124,13 +120,11 @@ export default {
 	L10N,
 
 	/**
-	 * Ajax error handlers
+	 * This is already handled by `interceptRequests` in `core/src/init.js`.
 	 *
-	 * @todo remove from here and keep internally -> requires new tests
+	 * @deprecated 33.0.0 - unused by Nextcloud and only a stub remains. Just remove usage.
 	 */
-	_ajaxConnectionLostHandler: ajaxConnectionLostHandler,
-	_processAjaxError: processAjaxError,
-	registerXHRForErrorProcessing,
+	registerXHRForErrorProcessing: () => {},
 
 	/**
 	 * Capabilities
@@ -170,7 +164,7 @@ export default {
 	/**
 	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
 	 */
-	joinPaths,
+	joinPaths: join,
 
 	/**
 	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
@@ -185,9 +179,7 @@ export default {
 	 */
 	getLanguage,
 
-	/**
-	 * Query string helpers
-	 */
+	// Query string helpers
 	buildQueryString,
 	parseQueryString,
 
@@ -198,6 +190,10 @@ export default {
 	 */
 	PasswordConfirmation,
 	Plugins,
+	/**
+	 * @deprecated 25.0.0 Use Vue based (`@nextcloud/vue`) settings components instead
+	 */
+	Settings,
 	theme,
 	Util,
 	debug,

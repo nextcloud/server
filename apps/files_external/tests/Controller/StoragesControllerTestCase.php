@@ -186,7 +186,7 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('mountPointNamesProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'mountPointNamesProvider')]
 	public function testAddOrUpdateStorageInvalidMountPoint($mountPoint): void {
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint($mountPoint);
@@ -355,7 +355,7 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
 	public function testValidateStorage(bool $backendValidate, bool $authMechValidate, bool $expectSuccess): void {
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')

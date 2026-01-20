@@ -42,10 +42,18 @@ interface ITeamManager {
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array;
 
 	/**
-	 * @param list<Team> $teams
+	 * @param string[] $teams
 	 * @return array<string, list<TeamResource>>
 	 *
 	 * @since 33.0.0
 	 */
 	public function getSharedWithList(array $teams, string $userId): array;
+
+	/**
+	 * Returns all teams that a given user is a member of
+	 *
+	 * @return list<Team>
+	 * @since 33.0.0
+	 */
+	public function getTeamsForUser(string $userId): array;
 }

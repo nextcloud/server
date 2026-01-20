@@ -97,7 +97,7 @@ trait Trashbin {
 			$elementsSimplified = $this->simplifyArray($elementRows);
 			foreach ($elementsSimplified as $expectedElement) {
 				$expectedElement = ltrim($expectedElement, '/');
-				if (array_search($expectedElement, $trashContent) === false) {
+				if (array_search($expectedElement, $trashContent, true) === false) {
 					Assert::fail("$expectedElement" . ' is not in trash listing');
 				}
 			}
@@ -121,7 +121,7 @@ trait Trashbin {
 			return $item['{http://nextcloud.org/ns}trashbin-filename'];
 		}, $elementList));
 
-		if (array_search($name, array_values($trashContent)) === false) {
+		if (array_search($name, array_values($trashContent), true) === false) {
 			Assert::fail("$name" . ' is not in trash listing');
 		}
 	}

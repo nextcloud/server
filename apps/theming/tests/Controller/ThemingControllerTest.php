@@ -89,20 +89,21 @@ class ThemingControllerTest extends TestCase {
 			['name', str_repeat('a', 250), 'Saved'],
 			['url', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['slogan', str_repeat('a', 500), 'Saved'],
-			['color', '#0082c9', 'Saved'],
-			['color', '#0082C9', 'Saved'],
-			['color', '#0082C9', 'Saved'],
+			['primaryColor', '#0082c9', 'Saved', 'primary_color'],
+			['primary_color', '#0082C9', 'Saved'],
+			['backgroundColor', '#0082C9', 'Saved', 'background_color'],
+			['background_color', '#0082C9', 'Saved'],
 			['imprintUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['privacyUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetSuccess')]
-	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateStylesheetSuccess')]
+	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message, ?string $realSetting = null): void {
 		$this->themingDefaults
 			->expects($this->once())
 			->method('set')
-			->with($setting, $value);
+			->with($realSetting ?? $setting, $value);
 		$this->l10n
 			->expects($this->once())
 			->method('t')
@@ -149,11 +150,13 @@ class ThemingControllerTest extends TestCase {
 			['background_color', '#0082Z9', 'The given color is invalid'],
 			['background_color', 'Nextcloud', 'The given color is invalid'],
 
+			['doesnotexist', 'value', 'Invalid setting key'],
+
 			...$urlTests,
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetError')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateStylesheetError')]
 	public function testUpdateStylesheetError(string $setting, string $value, string $message): void {
 		$this->themingDefaults
 			->expects($this->never())
@@ -342,7 +345,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImages')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateImages')]
 	public function testUpdateLogoNormalLogoUpload(string $mimeType, bool $folderExists = true): void {
 		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . '/logo.svg';
 		$destination = Server::get(ITempManager::class)->getTemporaryFolder();
@@ -498,7 +501,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPhpUploadErrors')]
 	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload(int $error, string $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -535,7 +538,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPhpUploadErrors')]
 	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -604,7 +607,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUndoDelete')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUndoDelete')]
 	public function testUndoDelete(string $value, string $filename): void {
 		$this->l10n
 			->expects($this->once())
@@ -704,7 +707,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetManifest')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetManifest')]
 	public function testGetManifest(bool $standalone): void {
 		$this->config
 			->expects($this->once())

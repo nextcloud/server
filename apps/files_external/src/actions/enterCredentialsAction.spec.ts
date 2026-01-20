@@ -1,14 +1,14 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { View } from '@nextcloud/files'
-import type { StorageConfig } from '../services/externalStorage.ts'
+import type { IStorage } from '../types.ts'
 
 import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
-import { STORAGE_STATUS } from '../utils/credentialsUtils.ts'
+import { StorageStatus } from '../types.ts'
 import { action } from './enterCredentialsAction.ts'
 
 const view = {
@@ -31,8 +31,8 @@ describe('Enter credentials action conditions tests', () => {
 			permissions: Permission.ALL,
 			attributes: {
 				config: {
-					status: STORAGE_STATUS.SUCCESS,
-				} as StorageConfig,
+					status: StorageStatus.Success,
+				} as IStorage,
 			},
 		})
 
@@ -72,8 +72,8 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-				status: STORAGE_STATUS.SUCCESS,
-			} as StorageConfig,
+				status: StorageStatus.Success,
+			} as IStorage,
 		},
 	})
 
@@ -87,9 +87,9 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-				status: STORAGE_STATUS.INCOMPLETE_CONF,
+				status: StorageStatus.IncompleteConf,
 				userProvided: true,
-			} as StorageConfig,
+			} as IStorage,
 		},
 	})
 
@@ -103,9 +103,9 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-				status: STORAGE_STATUS.INCOMPLETE_CONF,
+				status: StorageStatus.IncompleteConf,
 				authMechanism: 'password::global::user',
-			} as StorageConfig,
+			} as IStorage,
 		},
 	})
 
@@ -119,7 +119,7 @@ describe('Enter credentials action enabled tests', () => {
 			scope: 'system',
 			backend: 'SFTP',
 			config: {
-			} as StorageConfig,
+			} as IStorage,
 		},
 	})
 

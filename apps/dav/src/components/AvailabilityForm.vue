@@ -151,8 +151,8 @@ async function save() {
 .grid-table {
 	display: grid;
 	margin-bottom: 32px;
-	grid-column-gap: 24px;
-	grid-row-gap: 6px;
+	column-gap: 24px;
+	row-gap: 6px;
 	grid-template-columns: min-content auto min-content;
 	max-width: 500px;
 }

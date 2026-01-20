@@ -87,7 +87,7 @@ class WellKnownUrlsTest extends TestCase {
 		$this->setupcheck
 			->expects($this->once())
 			->method('runRequest')
-			->will($this->generate([]));
+			->willReturn($this->generate([]));
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals(SetupResult::INFO, $result->getSeverity());
@@ -97,7 +97,7 @@ class WellKnownUrlsTest extends TestCase {
 	/**
 	 * Test responses
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestResponses')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestResponses')]
 	public function testResponses($responses, string $expectedSeverity): void {
 		$createResponse = function (int $statuscode, array $header = []): IResponse&MockObject {
 			$response = $this->createMock(IResponse::class);
@@ -219,8 +219,6 @@ class WellKnownUrlsTest extends TestCase {
 	 * Helper function creates a nicer interface for mocking Generator behavior
 	 */
 	protected function generate(array $yield_values) {
-		return $this->returnCallback(function () use ($yield_values) {
-			yield from $yield_values;
-		});
+		yield from $yield_values;
 	}
 }

@@ -2,8 +2,9 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@use 'variables';
-@use 'functions';
+
+@use 'variables.scss';
+@use 'functions.scss';
 
 .toastify.toast {
 	min-width: 200px;

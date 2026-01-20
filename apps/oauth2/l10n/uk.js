@@ -13,6 +13,7 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 дозволяє зовнішнім службам запитувати доступ до {instanceName}.",
     "Name" : "Ім'я",
     "Redirection URI" : "URI перенаправлення",
+    "Client identifier" : "Ідентифікатор клієнта",
     "Delete client" : "Вилучити клієнта",
     "Make sure you store the secret key, it cannot be recovered." : "Обов'язково збережіть секретний ключ, його неможливо відновити.",
     "Add client" : "Додати клієнта",

@@ -7,6 +7,7 @@ import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import { randomBytes } from 'crypto'
 import { getRowForFile, triggerActionForFile } from '../files/FilesUtils.ts'
+import { createNewTagInDialog } from './utils.ts'
 
 describe('Systemtags: Files sidebar integration', { testIsolation: true }, () => {
 	let user: User
@@ -32,14 +33,9 @@ describe('Systemtags: Files sidebar integration', { testIsolation: true }, () =>
 			.should('be.visible')
 			.click()
 
-		cy.findByRole('menuitem', { name: 'Tags' })
+		cy.findByRole('menuitem', { name: 'Add tags' })
 			.click()
 
-		cy.intercept('PUT', '**/remote.php/dav/systemtags-relations/files/**').as('assignTag')
-		cy.get('[data-cy-sidebar]')
-			.findByRole('combobox', { name: /collaborative tags/i })
-			.should('be.visible')
-			.type(`${tag}{enter}`)
-		cy.wait('@assignTag')
+		createNewTagInDialog(tag)
 	})
 })

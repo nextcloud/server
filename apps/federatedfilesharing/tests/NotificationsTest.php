@@ -78,7 +78,7 @@ class NotificationsTest extends \Test\TestCase {
 	}
 
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSendUpdateToRemote')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSendUpdateToRemote')]
 	public function testSendUpdateToRemote(int $try, array $httpRequestResult, bool $expected): void {
 		$remote = 'http://remote';
 		$id = 42;
