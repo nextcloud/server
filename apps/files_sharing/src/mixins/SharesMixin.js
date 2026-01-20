@@ -11,6 +11,7 @@ import debounce from 'debounce'
 import PQueue from 'p-queue'
 import { fetchNode } from '../../../files/src/services/WebdavClient.ts'
 import {
+	ATOMIC_PERMISSIONS,
 	BUNDLED_PERMISSIONS,
 } from '../lib/SharePermissionsToolBox.js'
 import Share from '../models/Share.ts'
@@ -139,10 +140,12 @@ export default {
 		hasCustomPermissions() {
 			const bundledPermissions = [
 				BUNDLED_PERMISSIONS.ALL,
+				BUNDLED_PERMISSIONS.ALL_FILE,
 				BUNDLED_PERMISSIONS.READ_ONLY,
 				BUNDLED_PERMISSIONS.FILE_DROP,
 			]
-			return !bundledPermissions.includes(this.share.permissions)
+			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
+			return !bundledPermissions.includes(permissionsWithoutShare)
 		},
 		maxExpirationDateEnforced() {
 			if (this.isExpiryDateEnforced) {

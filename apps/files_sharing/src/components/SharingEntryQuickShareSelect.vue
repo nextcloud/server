@@ -95,11 +95,12 @@ export default {
 
 		preSelectedOption() {
 			// We remove the share permission for the comparison as it is not relevant for bundled permissions.
-			if ((this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE) === BUNDLED_PERMISSIONS.READ_ONLY) {
+			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
+			if (permissionsWithoutShare === BUNDLED_PERMISSIONS.READ_ONLY) {
 				return this.canViewText
-			} else if (this.share.permissions === BUNDLED_PERMISSIONS.ALL || this.share.permissions === BUNDLED_PERMISSIONS.ALL_FILE) {
+			} else if (permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL || permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL_FILE) {
 				return this.canEditText
-			} else if ((this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE) === BUNDLED_PERMISSIONS.FILE_DROP) {
+			} else if (permissionsWithoutShare === BUNDLED_PERMISSIONS.FILE_DROP) {
 				return this.fileDropText
 			}
 

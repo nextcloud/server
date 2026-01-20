@@ -1021,8 +1021,11 @@ export default {
 		handleDefaultPermissions() {
 			if (this.isNewShare) {
 				const defaultPermissions = this.config.defaultPermissions
-				if (defaultPermissions === BUNDLED_PERMISSIONS.READ_ONLY || defaultPermissions === BUNDLED_PERMISSIONS.ALL) {
-					this.sharingPermission = defaultPermissions.toString()
+				const permissionsWithoutShare = defaultPermissions & ~ATOMIC_PERMISSIONS.SHARE
+				if (permissionsWithoutShare === BUNDLED_PERMISSIONS.READ_ONLY
+					|| permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL
+					|| permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL_FILE) {
+					this.sharingPermission = permissionsWithoutShare.toString()
 				} else {
 					this.sharingPermission = 'custom'
 					this.share.permissions = defaultPermissions
