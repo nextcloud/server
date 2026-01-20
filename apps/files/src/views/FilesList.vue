@@ -63,6 +63,8 @@
 				</NcActionButton>
 			</NcActions>
 
+			<FileListFilters />
+
 			<NcButton
 				v-if="enableGridView"
 				:aria-label="gridViewButtonLabel"
@@ -194,6 +196,7 @@ import IconReload from 'vue-material-design-icons/Reload.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGridOutline.vue'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import FileListFilters from '../components/FileListFilter/FileListFilters.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
@@ -220,6 +223,7 @@ export default defineComponent({
 	components: {
 		BreadCrumbs,
 		DragAndDropNotice,
+		FileListFilters,
 		FilesListVirtual,
 		LinkIcon,
 		ListViewIcon,

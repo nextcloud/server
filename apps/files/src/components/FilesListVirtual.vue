@@ -17,9 +17,8 @@
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
-		<template #filters>
-			<FileListFilters />
-		</template>
+		<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -- no space allowed as otherwise `:empty` css selector does not trigger! -->
+		<template #filters><FileListFilterToSearch /><FileListFilterChips /></template>
 
 		<template v-if="!isNoneSelected" #header-overlay>
 			<span class="files-list__selected">
@@ -81,7 +80,8 @@ import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { computed, defineComponent } from 'vue'
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
-import FileListFilters from './FileListFilters.vue'
+import FileListFilterChips from './FileListFilter/FileListFilterChips.vue'
+import FileListFilterToSearch from './FileListFilter/FileListFilterToSearch.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
@@ -99,7 +99,8 @@ export default defineComponent({
 	name: 'FilesListVirtual',
 
 	components: {
-		FileListFilters,
+		FileListFilterChips,
+		FileListFilterToSearch,
 		FilesListHeader,
 		FilesListTableFooter,
 		FilesListTableHeader,
@@ -511,15 +512,15 @@ export default defineComponent({
 	--clickable-area: var(--default-clickable-area);
 	--icon-preview-size: 24px;
 
-	--fixed-block-start-position: var(--default-clickable-area);
+	--fixed-block-start-position: calc(var(--clickable-area-small) + var(--default-grid-baseline, 4px));
 	display: flex;
 	flex-direction: column;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
 
-	&:has(.file-list-filters__active) {
-		--fixed-block-start-position: calc(var(--default-clickable-area) + var(--default-grid-baseline) + var(--clickable-area-small));
+	&:has(&__filters:empty) {
+		--fixed-block-start-position: 0px;
 	}
 
 	& :deep() {
@@ -572,6 +573,10 @@ export default defineComponent({
 		}
 
 		.files-list__filters {
+			display: flex;
+			gap: var(--default-grid-baseline);
+			box-sizing: border-box;
+
 			// Pinned on top when scrolling above table header
 			position: sticky;
 			top: 0;
@@ -582,6 +587,10 @@ export default defineComponent({
 			padding-inline: var(--row-height) var(--default-grid-baseline, 4px);
 			height: var(--fixed-block-start-position);
 			width: 100%;
+
+			&:not(:empty) {
+				padding-block: calc(var(--default-grid-baseline, 4px) / 2);
+			}
 		}
 
 		.files-list__thead-overlay {
