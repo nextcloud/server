@@ -21,7 +21,7 @@ use OCP\Files\Folder;
  * @since 25.0.0
  */
 class BeforeZipCreatedEvent extends Event {
-	private ?string $directory = null;
+	private string $directory = '';
 	private bool $successful = true;
 	private ?string $errorMessage = null;
 	private ?Folder $folder = null;

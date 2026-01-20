@@ -32,6 +32,7 @@ class BeforeZipCreatedListener implements IEventListener {
 			return;
 		}
 
+		/** @psalm-suppress DeprecatedMethod should be migrated to getFolder but for now it would just duplicate code */
 		$dir = $event->getDirectory();
 		$files = $event->getFiles();
 
