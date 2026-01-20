@@ -319,6 +319,7 @@ OC.L10N.register(
     "Open online" : "Abrir on-line",
     "Rename" : "Renomear",
     "Details" : "Detalhes",
+    "Open the details sidebar" : "Abrir a barra lateral de detalhes",
     "Unfavorite" : "Desfavoritar",
     "View in folder" : "Exibir na pasta",
     "Today" : "Hoje",

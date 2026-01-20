@@ -146,6 +146,7 @@ OC.L10N.register(
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",
     "Picture provided by original account" : "ใช้รูปภาพจากบัญชีเดิม",
+    "You are a member of the following groups:" : "คุณเป็นสมาชิกกลุ่มต่อไปนี้:",
     "No email address set" : "ไม่ได้ระบุที่อยู่อีเมล",
     "Email options" : "ตัวเลือกอีเมล",
     "Remove primary email" : "ลบอีเมลหลักออก",

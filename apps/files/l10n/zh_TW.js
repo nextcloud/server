@@ -319,6 +319,7 @@ OC.L10N.register(
     "Open online" : "線上開啟",
     "Rename" : "重新命名",
     "Details" : "詳細資料",
+    "Open the details sidebar" : "開啟詳細資訊側邊欄",
     "Unfavorite" : "取消收藏",
     "View in folder" : "在資料夾中檢視",
     "Today" : "今日",
