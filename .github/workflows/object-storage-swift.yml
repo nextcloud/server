@@ -29,16 +29,22 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
               - 'vendor/**'
               - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
-              - '**.php'
+              - 'apps/files/lib/**'
+              - 'apps/files/tests/**'
+              - 'apps/files_external/**'
+              - 'apps/files_sharing/lib/**'
+              - 'apps/files_sharing/tests/**'
+              - 'apps/files_trashbin/lib/**'
+              - 'apps/files_trashbin/tests/**'
+              - 'apps/files_versions/lib/**'
+              - 'apps/files_versions/tests/**'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
 
   swift-primary-tests:
     runs-on: ubuntu-latest
@@ -52,7 +58,7 @@ jobs:
         php-versions: ['8.2']
         include:
           - php-versions: '8.3'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-swift
 
