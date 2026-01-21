@@ -349,8 +349,7 @@ export default defineComponent({
 	flex: 1 1 100% !important;
 	width: 100%;
 	height: 100%;
-	margin-block: 0;
-	margin-inline: 10px;
+	margin: 0;
 	min-width: 0;
 
 	:deep() {

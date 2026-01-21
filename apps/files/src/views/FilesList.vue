@@ -5,27 +5,33 @@
 <template>
 	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
 		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
+			<!-- Uploader -->
+			<component :is="isNarrow ? 'Teleport' : 'div'" :to="isNarrow ? 'body' : undefined">
+				<UploadPicker
+					v-if="canUpload && !isQuotaExceeded && currentFolder"
+					allow-folders
+					:no-label="isNarrow"
+					class="files-list__header-upload-button"
+					:class="{ 'files-list__header-upload-button--narrow': isNarrow }"
+					:content="getContent"
+					:destination="currentFolder"
+					:forbidden-characters="forbiddenCharacters"
+					multiple
+					primary
+					@failed="onUploadFail"
+					@uploaded="onUpload" />
+			</component>
+
 			<!-- Current folder breadcrumbs -->
-			<BreadCrumbs :path="directory" @reload="fetchContent">
-				<template #actions>
-					<!-- Uploader -->
-					<UploadPicker
-						v-if="canUpload && !isQuotaExceeded && currentFolder"
-						allow-folders
-						:no-label="isNarrow"
-						class="files-list__header-upload-button"
-						:content="getContent"
-						:destination="currentFolder"
-						:forbidden-characters="forbiddenCharacters"
-						multiple
-						@failed="onUploadFail"
-						@uploaded="onUpload" />
-				</template>
-			</BreadCrumbs>
+			<BreadCrumbs :path="directory" @reload="fetchContent" />
 
-			<!-- Secondary loading indicator -->
-			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
+			<!-- Loading indicator -->
+			<NcLoadingIcon
+				v-if="isRefreshing"
+				class="files-list__refresh-icon"
+				:name="t('files', 'File list is reloading')" />
 
+			<!-- File list actions (global actions like restore all files from trashbin) -->
 			<NcActions
 				class="files-list__header-actions"
 				:inline="1"
@@ -48,8 +54,10 @@
 				</NcActionButton>
 			</NcActions>
 
+			<!-- Filters thats can be applied to the file list -->
 			<FileListFilters />
 
+			<!-- Grid view toggle -->
 			<NcButton
 				v-if="enableGridView"
 				:aria-label="gridViewButtonLabel"
@@ -165,6 +173,7 @@ import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { useThrottleFn } from '@vueuse/core'
 import { normalize, relative } from 'path'
 import { computed, defineComponent } from 'vue'
+import Teleport from 'vue2-teleport' // TODO: replace with native Vue Teleport when we switch to Vue 3
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -213,6 +222,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
+		Teleport,
 		UploadPicker,
 		ViewGridIcon,
 		IconAlertCircleOutline,
@@ -776,6 +786,7 @@ export default defineComponent({
 .files-list {
 	&__header {
 		display: flex;
+		gap: var(--default-grid-baseline);
 		align-items: center;
 		// Do not grow or shrink (vertically)
 		flex: 0 0;
@@ -797,8 +808,14 @@ export default defineComponent({
 
 		&-actions {
 			min-width: fit-content !important;
-			margin-inline: calc(var(--default-grid-baseline) * 2);
 		}
+	}
+
+	&__header-upload-button--narrow {
+		// this is teleported to body on narrow screens
+		position: fixed;
+		inset-block-end: calc(1.5 * var(--default-grid-baseline));
+		inset-inline-end: calc(1.5 * var(--default-grid-baseline));
 	}
 
 	&__before {
