@@ -32,7 +32,7 @@ class Manager implements IManager {
 	/** @var string */
 	protected $formattingObjectType;
 
-	/** @var int */
+	/** @var int|string */
 	protected $formattingObjectId;
 
 	/** @var bool */
@@ -297,9 +297,9 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $type
-	 * @param int $id
+	 * @param int|numeric-string $id
 	 */
-	public function setFormattingObject(string $type, int $id): void {
+	public function setFormattingObject(string $type, int|string $id): void {
 		$this->formattingObjectType = $type;
 		$this->formattingObjectId = $id;
 	}
