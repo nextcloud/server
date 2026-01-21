@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OC;
 
-use OCP\Util;
-
 /**
  * Helper class that covers memory info.
  */
