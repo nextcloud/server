@@ -56,4 +56,4 @@ jobs:
       - name: PHPUnit
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
         with:
-          args: /bin/sh -c "composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness"
+          args: /bin/sh -c "composer run test -- --exclude-group PRIMARY-azure --exclude-group PRIMARY-s3 --exclude-group PRIMARY-swift --exclude-group Memcached --exclude-group Redis --exclude-group RoutingWeirdness"
