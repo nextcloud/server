@@ -475,3 +475,23 @@ Feature: sharees_user
 		And "exact users" sharees returned are
 			| Test One | 0 | test1 | test@example.com |
 		And "users" sharees returned is empty
+
+	Scenario: Search for exact additional email returns exact user
+		Given user "test1" with displayname "Test One" exists
+		And As an "admin"
+		And sending "PUT" to "/cloud/users/test1" with
+			| key   | email            |
+			| value | test@example.com |
+		And sending "PUT" to "/cloud/users/test1" with
+			| key   | additional_mail  |
+			| value | test@example.org |
+		And user "user1" exists
+		And As an "user1"
+		When getting sharees for
+			| search   | test@example.org |
+			| itemType | file             |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And "exact users" sharees returned are
+			| Test One (test@example.org) | 0 | test1 | test@example.org |
+		And "users" sharees returned is empty

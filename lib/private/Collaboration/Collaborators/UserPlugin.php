@@ -10,6 +10,7 @@ namespace OC\Collaboration\Collaborators;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -106,14 +107,16 @@ readonly class UserPlugin implements ISearchPlugin {
 			if ($shareeEnumerationFullMatchEmail) {
 				$qb = $this->connection->getQueryBuilder();
 				$qb
-					->selectDistinct('uid')
+					->select('uid', 'value', 'name')
 					->from('accounts_data')
 					->where($qb->expr()->eq($qb->func()->lower('value'), $qb->createNamedParameter($lowerSearch)))
-					->andWhere($qb->expr()->eq('name', $qb->createNamedParameter('email')));
+					->andWhere($qb->expr()->in('name', $qb->createNamedParameter(['email', 'additional_mail'], IQueryBuilder::PARAM_STR_ARRAY)));
 				$result = $qb->executeQuery();
-				while ($uid = $result->fetchOne()) {
-					/** @var string $uid */
-					$users[$uid] = ['exact', $this->userManager->get($uid)];
+				while ($row = $result->fetch()) {
+					$uid = $row['uid'];
+					$email = $row['value'];
+					$isAdditional = $row['name'] === 'additional_mail';
+					$users[$uid] = ['exact', $this->userManager->get($uid), $isAdditional ? $email : null];
 				}
 				$result->closeCursor();
 			}
@@ -144,17 +147,25 @@ readonly class UserPlugin implements ISearchPlugin {
 
 		$result = ['wide' => [], 'exact' => []];
 		foreach ($users as $match) {
-			[$type, $user] = $match;
+			$match[2] ??= null;
+			[$type, $user, $uniqueDisplayName] = $match;
+
+			$displayName = $user->getDisplayName();
+			if ($uniqueDisplayName !== null) {
+				$displayName .= ' (' . $uniqueDisplayName . ')';
+			}
+
 			$status = $userStatuses[$user->getUID()] ?? [];
+
 			$result[$type][] = [
-				'label' => $user->getDisplayName(),
+				'label' => $displayName,
 				'subline' => $status['message'] ?? '',
 				'icon' => 'icon-user',
 				'value' => [
 					'shareType' => IShare::TYPE_USER,
 					'shareWith' => $user->getUID(),
 				],
-				'shareWithDisplayNameUnique' => $user->getSystemEMailAddress() ?: $user->getUID(),
+				'shareWithDisplayNameUnique' => $uniqueDisplayName ?? $user->getSystemEMailAddress() ?: $user->getUID(),
 				'status' => $status,
 			];
 		}
