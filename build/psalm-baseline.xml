@@ -3215,12 +3215,6 @@
 		)]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Controller/WhatsNewController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Middleware/TwoFactorMiddleware.php">
     <DeprecatedInterface>
       <code><![CDATA[private]]></code>
