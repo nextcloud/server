@@ -189,8 +189,7 @@ Feature: sharees_provisioningapiv2
       | itemType | file |
     Then the OCS status code should be "200"
     And the HTTP status code should be "200"
-    Then "exact users" sharees returned are
-      | Sharee1 | 0 | Sharee1 | Sharee1 |
+    Then "exact users" sharees returned is empty
     Then "users" sharees returned is empty
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
