@@ -16,6 +16,7 @@ OC.L10N.register(
     "Confirm" : "ยืนยัน",
     "Undo" : "เลิกทำ",
     "Custom" : "กำหนดเอง",
+    "Blur" : "เบลอ",
     "Text" : "ข้อความ",
     "Size" : "ขนาด",
     "Position" : "ตำแหน่ง",
