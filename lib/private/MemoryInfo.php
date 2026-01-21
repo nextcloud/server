@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2018-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -28,47 +28,17 @@ class MemoryInfo {
 	}
 
 	/**
-	 * Returns the php memory limit.
+	 * Returns the interpreted (by PHP) memory limit in bytes.
 	 *
-	 * @return int|float The memory limit in bytes.
+	 * @return int The memory limit in bytes, or -1 if unlimited.
+	 * @throws \InvalidArgumentException If the memory_limit value cannot be parsed.
 	 */
-	public function getMemoryLimit(): int|float {
-		$iniValue = trim(ini_get('memory_limit'));
-		if ($iniValue === '-1') {
-			return -1;
-		} elseif (is_numeric($iniValue)) {
-			return Util::numericToNumber($iniValue);
-		} else {
-			return $this->memoryLimitToBytes($iniValue);
+	public function getMemoryLimit(): int {
+		$iniValue = ini_get('memory_limit');
+		$bytes = ini_parse_quantity($iniValue); // can emit E_WARNING
+		if ($bytes === false) {
+			throw new \InvalidArgumentException($iniValue . ' is not a valid memory limit value (in memory_limit ini directive)');
 		}
-	}
-
-	/**
-	 * Converts the ini memory limit to bytes.
-	 *
-	 * @param string $memoryLimit The "memory_limit" ini value
-	 */
-	private function memoryLimitToBytes(string $memoryLimit): int|float {
-		$last = strtolower(substr($memoryLimit, -1));
-		$number = substr($memoryLimit, 0, -1);
-		if (is_numeric($number)) {
-			$memoryLimit = Util::numericToNumber($number);
-		} else {
-			throw new \InvalidArgumentException($number . ' is not a valid numeric string (in memory_limit ini directive)');
-		}
-
-		// intended fall through
-		switch ($last) {
-			case 'g':
-				$memoryLimit *= 1024;
-				// no break
-			case 'm':
-				$memoryLimit *= 1024;
-				// no break
-			case 'k':
-				$memoryLimit *= 1024;
-		}
-
-		return $memoryLimit;
+		return $bytes;
 	}
 }
