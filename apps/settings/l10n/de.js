@@ -382,6 +382,8 @@ OC.L10N.register(
     "Shares with guessable tokens may be accessed easily" : "Auf Freigaben mit erratbaren Token kann u. U. leicht zugegriffen werden",
     "Limit sharing based on groups" : "Freigaben nach Gruppen einschränken",
     "Allow sharing for everyone (default)" : "Teilen für alle erlauben (Standard)",
+    "Exclude some groups" : "Einige Gruppen ausschließen",
+    "Allow some groups" : "Einige Gruppen zulassen",
     "Groups allowed to share" : "Für die Linkfreigabe zugelassene Gruppen",
     "Groups excluded from sharing" : "Von der Linkfreigabe ausgeschlossene Gruppen",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "Nicht zugelassene Gruppen können zwar weiterhin Freigaben empfangen, aber nicht erstellen.",
