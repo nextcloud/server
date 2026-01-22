@@ -36,10 +36,6 @@ export default defineComponent({
 			type: Array as PropType<Node[]>,
 			required: true,
 		},
-		filesListWidth: {
-			type: Number,
-			default: 0,
-		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
@@ -119,7 +115,7 @@ export default defineComponent({
 			return this.renamingStore.renamingNode === this.source
 		},
 		isRenamingSmallScreen() {
-			return this.isRenaming && this.filesListWidth < 512
+			return this.isRenaming && this.isNarrow
 		},
 
 		isActive() {

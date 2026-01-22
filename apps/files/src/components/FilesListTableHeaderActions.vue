@@ -77,7 +77,7 @@ import type { FileSource } from '../types.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { DefaultType, getFileActions, NodeStatus } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
@@ -126,18 +126,28 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
-		const fileListWidth = useFileListWidth()
+		const { isMedium, isNarrow } = useFileListWidth()
 
 		const boundariesElement = document.getElementById('app-content-vue')
+
+		const inlineActions = computed(() => {
+			if (isNarrow.value) {
+				return 0
+			}
+			if (isMedium.value) {
+				return 1
+			}
+			return 3
+		})
 
 		return {
 			actionsMenuStore,
 			activeFolder,
-			fileListWidth,
 			filesStore,
 			selectionStore,
 
 			boundariesElement,
+			inlineActions,
 		}
 	},
 
@@ -255,19 +265,6 @@ export default defineComponent({
 			set(opened) {
 				this.actionsMenuStore.opened = opened ? 'global' : null
 			},
-		},
-
-		inlineActions() {
-			if (this.fileListWidth < 512) {
-				return 0
-			}
-			if (this.fileListWidth < 768) {
-				return 1
-			}
-			if (this.fileListWidth < 1024) {
-				return 2
-			}
-			return 3
 		},
 	},
 

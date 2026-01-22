@@ -21,7 +21,6 @@ import { action as viewInFolderAction } from './actions/viewInFolderAction.ts'
 import { registerFilenameFilter } from './filters/FilenameFilter.ts'
 import { registerHiddenFilesFilter } from './filters/HiddenFilesFilter.ts'
 import { registerModifiedFilter } from './filters/ModifiedFilter.ts'
-import { registerFilterToSearchToggle } from './filters/SearchFilter.ts'
 import { registerTypeFilter } from './filters/TypeFilter.ts'
 import { entry as newFolderEntry } from './newMenu/newFolder.ts'
 import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
@@ -68,7 +67,6 @@ registerHiddenFilesFilter()
 registerTypeFilter()
 registerModifiedFilter()
 registerFilenameFilter()
-registerFilterToSearchToggle()
 
 // Register sidebar action
 registerSidebarFavoriteAction()

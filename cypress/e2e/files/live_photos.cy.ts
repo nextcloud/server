@@ -6,13 +6,13 @@
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import {
-	clickOnBreadcrumbs,
 	copyFile,
 	createFolder,
 	getRowForFile,
 	getRowForFileId,
 	moveFile,
 	navigateToFolder,
+	reloadCurrentFolder,
 	renameFile,
 	triggerActionForFile,
 	triggerInlineActionForFileId,
@@ -52,7 +52,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Copies both files when copying the .jpg', () => {
 			copyFile(`${randomFileName}.jpg`, '.')
-			clickOnBreadcrumbs('All files')
+			reloadCurrentFolder()
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
@@ -62,7 +62,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Copies both files when copying the .mov', () => {
 			copyFile(`${randomFileName}.mov`, '.')
-			clickOnBreadcrumbs('All files')
+			reloadCurrentFolder()
 
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
 			getRowForFile(`${randomFileName} (copy).jpg`).should('have.length', 1)
@@ -100,7 +100,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Moves files when moving the .jpg', () => {
 			renameFile(`${randomFileName}.jpg`, `${randomFileName}_moved.jpg`)
-			clickOnBreadcrumbs('All files')
+			reloadCurrentFolder()
 
 			getRowForFileId(jpgFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.jpg`)
 			getRowForFileId(movFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.mov`)
@@ -108,7 +108,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Moves files when moving the .mov', () => {
 			renameFile(`${randomFileName}.mov`, `${randomFileName}_moved.mov`)
-			clickOnBreadcrumbs('All files')
+			reloadCurrentFolder()
 
 			getRowForFileId(jpgFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.jpg`)
 			getRowForFileId(movFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.mov`)
@@ -116,7 +116,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Deletes files when deleting the .jpg', () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
-			clickOnBreadcrumbs('All files')
+			reloadCurrentFolder()
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 0)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
@@ -129,7 +129,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Block deletion when deleting the .mov', () => {
 			triggerActionForFile(`${randomFileName}.mov`, 'delete')
-			clickOnBreadcrumbs('All files')
+			reloadCurrentFolder()
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
@@ -143,8 +143,9 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 		it('Restores files when restoring the .jpg', () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
 			cy.visit('/apps/files/trashbin')
+
 			triggerInlineActionForFileId(jpgFileId, 'restore')
-			clickOnBreadcrumbs('Deleted files')
+			reloadCurrentFolder()
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 0)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
@@ -158,8 +159,9 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 		it('Blocks restoration when restoring the .mov', () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
 			cy.visit('/apps/files/trashbin')
+
 			triggerInlineActionForFileId(movFileId, 'restore')
-			clickOnBreadcrumbs('Deleted files')
+			reloadCurrentFolder()
 
 			getRowForFileId(jpgFileId).should('have.length', 1)
 			getRowForFileId(movFileId).should('have.length', 1)

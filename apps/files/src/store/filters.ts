@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FilterUpdateChipsEvent, IFileListFilter, IFileListFilterChip } from '@nextcloud/files'
+import type { FilterUpdateChipsEvent, IFileListFilter, IFileListFilterChip, IFileListFilterWithUi } from '@nextcloud/files'
 
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { getFileListFilters } from '@nextcloud/files'
@@ -16,8 +16,8 @@ import logger from '../logger.ts'
  *
  * @param value The filter to check
  */
-function isFileListFilterWithUi(value: IFileListFilter): value is Required<IFileListFilter> {
-	return 'mount' in value
+function isFileListFilterWithUi(value: IFileListFilter): value is IFileListFilterWithUi {
+	return 'tagName' in value
 }
 
 export const useFiltersStore = defineStore('filters', () => {
@@ -37,7 +37,7 @@ export const useFiltersStore = defineStore('filters', () => {
 	/**
 	 * All filters that provide a UI for visual controlling the filter state
 	 */
-	const filtersWithUI = computed<Required<IFileListFilter>[]>(() => sortedFilters.value.filter(isFileListFilterWithUi))
+	const filtersWithUI = computed<IFileListFilterWithUi[]>(() => sortedFilters.value.filter(isFileListFilterWithUi))
 
 	/**
 	 * Register a new filter on the store.
