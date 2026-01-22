@@ -32,12 +32,14 @@ class MemoryInfoTest extends TestCase {
 	}
 
 	public static function getMemoryLimitTestData(): array {
+		// On 32-bit, '2G' should overflows to 0; on 64-bit, it is 2147483648
+		$twoG = PHP_INT_SIZE === 4 ? 0 : 2147483648;
 		return [
 			'unlimited' => ['-1', -1,],
 			'524288000 bytes' => ['524288000', 524288000,],
 			'500M' => ['500M', 524288000,],
 			'512000K' => ['512000K', 524288000,],
-			'2G' => ['2G', 2147483648,],
+			'2G' => ['2G', $twoG,],
 		];
 	}
 
