@@ -382,6 +382,8 @@ OC.L10N.register(
     "Shares with guessable tokens may be accessed easily" : "包含可猜測權杖的分享可能會比較容易被存取",
     "Limit sharing based on groups" : "以群組為基礎進行分享限制",
     "Allow sharing for everyone (default)" : "允許所有人分享（預設）",
+    "Exclude some groups" : "排除部份群組",
+    "Allow some groups" : "允許部份群組",
     "Groups allowed to share" : "允許分享的群組",
     "Groups excluded from sharing" : "被排除而不能分享的群組",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "不允許的群組仍然可以接收分享，但無法發起分享。",
