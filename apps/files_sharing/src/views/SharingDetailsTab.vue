@@ -331,7 +331,7 @@ import SidebarTabExternalAction from '../components/SidebarTabExternal/SidebarTa
 import SidebarTabExternalActionLegacy from '../components/SidebarTabExternal/SidebarTabExternalActionLegacy.vue'
 import {
 	ATOMIC_PERMISSIONS,
-	BUNDLED_PERMISSIONS,
+	getBundledPermissions,
 	hasPermissions,
 } from '../lib/SharePermissionsToolBox.js'
 import ShareRequests from '../mixins/ShareRequests.js'
@@ -390,12 +390,11 @@ export default {
 	data() {
 		return {
 			writeNoteToRecipientIsChecked: false,
-			sharingPermission: BUNDLED_PERMISSIONS.ALL.toString(),
-			revertSharingPermission: BUNDLED_PERMISSIONS.ALL.toString(),
+			sharingPermission: getBundledPermissions().ALL.toString(),
+			revertSharingPermission: getBundledPermissions().ALL.toString(),
 			setCustomPermissions: false,
 			passwordError: false,
 			advancedSectionAccordionExpanded: false,
-			bundledPermissions: BUNDLED_PERMISSIONS,
 			isFirstComponentLoad: true,
 			test: false,
 			creating: false,
@@ -441,6 +440,10 @@ export default {
 					}
 				}
 			}
+		},
+
+		bundledPermissions() {
+			return getBundledPermissions(this.config.excludeReshareFromEdit)
 		},
 
 		allPermissions() {
@@ -1022,9 +1025,10 @@ export default {
 			if (this.isNewShare) {
 				const defaultPermissions = this.config.defaultPermissions
 				const permissionsWithoutShare = defaultPermissions & ~ATOMIC_PERMISSIONS.SHARE
-				if (permissionsWithoutShare === BUNDLED_PERMISSIONS.READ_ONLY
-					|| permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL
-					|| permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL_FILE) {
+				const basePermissions = getBundledPermissions(true)
+				if (permissionsWithoutShare === basePermissions.READ_ONLY
+					|| permissionsWithoutShare === basePermissions.ALL
+					|| permissionsWithoutShare === basePermissions.ALL_FILE) {
 					this.sharingPermission = permissionsWithoutShare.toString()
 				} else {
 					this.sharingPermission = 'custom'
@@ -1075,9 +1079,9 @@ export default {
 				this.share.permissions = sharePermissionsSet
 			}
 
-			if (!this.isFolder && this.share.permissions === BUNDLED_PERMISSIONS.ALL) {
+			if (!this.isFolder && this.share.permissions === this.bundledPermissions.ALL) {
 				// It's not possible to create an existing file.
-				this.share.permissions = BUNDLED_PERMISSIONS.ALL_FILE
+				this.share.permissions = this.bundledPermissions.ALL_FILE
 			}
 			if (!this.writeNoteToRecipientIsChecked) {
 				this.share.note = ''
