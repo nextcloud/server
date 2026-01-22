@@ -382,6 +382,8 @@ OC.L10N.register(
     "Shares with guessable tokens may be accessed easily" : "Compartilhamentos com tokens adivinháveis podem ser acessados facilmente",
     "Limit sharing based on groups" : "Limitar o compartilhamento com base em grupos",
     "Allow sharing for everyone (default)" : "Permitir compartilhamento para todos (padrão)",
+    "Exclude some groups" : "Ignorar alguns grupos",
+    "Allow some groups" : "Permitir alguns grupos",
     "Groups allowed to share" : "Grupos com permissão para compartilhar",
     "Groups excluded from sharing" : "Grupos excluídos do compartilhamento",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "Grupos não permitidos ainda poderão receber compartilhamentos, mas não poderão iniciá-los.",
