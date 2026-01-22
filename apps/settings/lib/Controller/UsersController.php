@@ -224,7 +224,7 @@ class UsersController extends Controller {
 		$forceSortGroupByName = $sortGroupsBy === MetaData::SORT_GROUPNAME;
 
 		
-		// display user count with a plus appended, if limit is exceede
+		// display user count with a plus appended, if limit is exceeded
 		$userCount = ($userCount < self::COUNT_LIMIT_FOR_SUBADMINS) ? $userCount : self::COUNT_LIMIT_FOR_SUBADMINS . '+';
 
 
