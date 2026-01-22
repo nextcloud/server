@@ -889,6 +889,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\Events\\ShareCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareCreatedEvent.php',
         'OCP\\Share\\Events\\ShareDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareDeletedEvent.php',
         'OCP\\Share\\Events\\ShareDeletedFromSelfEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareDeletedFromSelfEvent.php',
+        'OCP\\Share\\Events\\ShareTransferredEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/ShareTransferredEvent.php',
         'OCP\\Share\\Events\\VerifyMountPointEvent' => __DIR__ . '/../../..' . '/lib/public/Share/Events/VerifyMountPointEvent.php',
         'OCP\\Share\\Exceptions\\AlreadySharedException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/AlreadySharedException.php',
         'OCP\\Share\\Exceptions\\GenericShareException' => __DIR__ . '/../../..' . '/lib/public/Share/Exceptions/GenericShareException.php',

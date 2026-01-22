@@ -22,12 +22,13 @@ use OCP\Group\Events\UserRemovedEvent;
 use OCP\IUser;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
 
 /**
  * Listen to various events that can change what shares a user has access to
  *
- * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|FilesystemTornDownEvent>
+ * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|FilesystemTornDownEvent>
  */
 class SharesUpdatedListener implements IEventListener {
 	private CappedMemoryCache $updatedUsers;
@@ -52,7 +53,11 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent) {
 			$this->updateForUser($event->getUser());
 		}
-		if ($event instanceof ShareCreatedEvent || $event instanceof BeforeShareDeletedEvent) {
+		if (
+			$event instanceof ShareCreatedEvent
+			|| $event instanceof BeforeShareDeletedEvent
+			|| $event instanceof ShareTransferredEvent
+		) {
 			foreach ($this->shareManager->getUsersForShare($event->getShare()) as $user) {
 				$this->updateForUser($user);
 			}
