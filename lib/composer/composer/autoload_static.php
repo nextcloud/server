@@ -656,6 +656,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\IUserManager' => __DIR__ . '/../../..' . '/lib/public/IUserManager.php',
         'OCP\\IUserSession' => __DIR__ . '/../../..' . '/lib/public/IUserSession.php',
         'OCP\\Image' => __DIR__ . '/../../..' . '/lib/public/Image.php',
+        'OCP\\Install\\Events\\InstallationCompletedEvent' => __DIR__ . '/../../..' . '/lib/public/Install/Events/InstallationCompletedEvent.php',
         'OCP\\L10N\\IFactory' => __DIR__ . '/../../..' . '/lib/public/L10N/IFactory.php',
         'OCP\\L10N\\ILanguageIterator' => __DIR__ . '/../../..' . '/lib/public/L10N/ILanguageIterator.php',
         'OCP\\LDAP\\IDeletionFlagSupport' => __DIR__ . '/../../..' . '/lib/public/LDAP/IDeletionFlagSupport.php',
