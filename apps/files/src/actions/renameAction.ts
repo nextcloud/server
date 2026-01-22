@@ -34,10 +34,15 @@ export const action = new FileAction({
 			: filesStore.getNode(dirname(node.source))
 		const parentPermissions = parentNode?.permissions || Permission.NONE
 
-		// Only enable if the node have the delete permission
-		// and if the parent folder allows creating files
-		return Boolean(node.permissions & Permission.DELETE)
-			&& Boolean(parentPermissions & Permission.CREATE)
+		// Enable if the node has update permissions or the node
+		// has delete permission and the parent folder allows creating files
+		return (
+			(
+				Boolean(node.permissions & Permission.DELETE)
+				&& Boolean(parentPermissions & Permission.CREATE)
+			)
+			|| Boolean(node.permissions & Permission.UPDATE)
+		)
 	},
 
 	async exec({ nodes }) {
