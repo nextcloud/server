@@ -162,7 +162,7 @@ export function triggerSelectionAction(actionId: string) {
 	getSelectionActionButton().click({ force: true })
 	// the entry might already be a button or a button might its child
 	getSelectionActionEntry(actionId)
-		.then(($el) => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('button').last())
+		.then(($el) => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('menuitem').last())
 		.should('exist')
 		.click()
 }
@@ -384,12 +384,24 @@ export function triggerFileListAction(actionId: string) {
 }
 
 /**
+ * Reloads the current folder
  *
+ * @param intercept if true this will wait for the PROPFIND to complete before it resolves
  */
-export function reloadCurrentFolder() {
+export function reloadCurrentFolder(intercept = true) {
 	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
-	cy.get('[data-cy-files-content-breadcrumbs]').findByRole('button', { description: 'Reload current directory' }).click()
-	cy.wait('@propfind')
+	cy.findByRole('navigation', { name: 'Current directory path' })
+		.findAllByRole('button')
+		.filter('[aria-haspopup="menu"]')
+		.click()
+	cy.findByRole('menu')
+		.should('be.visible')
+		.findByRole('menuitem', { name: 'Reload content' })
+		.click()
+
+	if (intercept) {
+		cy.wait('@propfind')
+	}
 }
 
 /**
