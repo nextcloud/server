@@ -117,7 +117,7 @@
     "@vitejs/plugin-vue2": "^2.3.4",
     "@vitest/coverage-v8": "^4.0.17",
     "@vue/test-utils": "^1.3.5",
-    "@vue/tsconfig": "~0.5.1",
+    "@vue/tsconfig": "~0.8.1",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "babel-plugin-module-resolver": "^5.0.2",
     "colord": "^2.9.3",
