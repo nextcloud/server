@@ -18,7 +18,7 @@ Administrators can configure webhook listeners via the app's OCS API. The app al
         ]]>
     </description>
 
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <licence>agpl</licence>
     <author>Côme Chilliet</author>
     <namespace>WebhookListeners</namespace>
@@ -38,7 +38,7 @@ Administrators can configure webhook listeners via the app's OCS API. The app al
     <repository>https://github.com/nextcloud/server.git</repository>
 
     <dependencies>
-        <nextcloud min-version="33" max-version="33"/>
+        <nextcloud min-version="34" max-version="34"/>
     </dependencies>
 
     <commands>

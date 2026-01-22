@@ -26,6 +26,7 @@ jobs:
       matrix:
         branches:
           - ${{ github.event.repository.default_branch }}
+          - 'stable33'
           - 'stable32'
           - 'stable31'
 
