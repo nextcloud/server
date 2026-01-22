@@ -13,6 +13,7 @@ use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\NotFoundException;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -48,7 +49,11 @@ class Updater {
 			throw new \Exception('user folder has no owner');
 		}
 
-		$src = $userFolder->get($path);
+		try {
+			$src = $userFolder->get($path);
+		} catch (NotFoundException) {
+			return;
+		}
 
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 
