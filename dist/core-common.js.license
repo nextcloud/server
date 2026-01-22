@@ -122,6 +122,9 @@ This file is generated from multiple sources. Included packages:
 - @mapbox/hast-util-table-cell-style
 	- version: 0.2.1
 	- license: BSD-2-Clause
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
 - @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0
