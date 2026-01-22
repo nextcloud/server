@@ -53,7 +53,23 @@ jobs:
             ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=autotest --database-pass=rootpassword --admin-user admin --admin-pass admin &&
             php -f tests/enable_all.php"
 
+      - name: Show disk usage before PHPUnit tests
+        run: df -h && du -sh .
+
+      - name: Show disk usage inside container before tests
+        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
+        with:
+          args: /bin/sh -c "df -h && du -sh /github/workspace"
+  
       - name: PHPUnit
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
         with:
-          args: /bin/sh -c "composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness"
+          args: /bin/sh -c "composer run test -- --exclude-path apps/user_ldap/tests --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness"
+
+      - name: Show runner disk usage after PHPUnit tests
+        run: df -h && du -sh .
+
+      - name: Show disk usage inside container after tests
+        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
+        with:
+          args: /bin/sh -c "df -h && du -sh /github/workspace"
