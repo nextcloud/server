@@ -26,11 +26,11 @@
 			*   To encrypt all existing files, use the command `occ encryption:encrypt-all`.
 
 			**Before You Begin**
-			*   **Read the Documentation:** Before you enable SSE, encrypt existing files, or disable SSE, it is critical to 
+			*   **Read the Documentation:** Before you enable SSE, encrypt existing files, or disable SSE, it is critical to
 				read the documentation to understand implications and the appropriate procedures to avoid data loss.
 		]]>
 	</description>
-	<version>2.21.0</version>
+	<version>2.22.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<author>Clark Tomlinson</author>
@@ -50,7 +50,7 @@
 
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="33" max-version="33"/>
+		<nextcloud min-version="34" max-version="34"/>
 	</dependencies>
 
 	<repair-steps>
