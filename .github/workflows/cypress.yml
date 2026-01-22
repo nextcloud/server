@@ -171,7 +171,7 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@2ad32e649e4db26c07674ebae31a297601dbcbaf # v6.10.8
+        uses: cypress-io/github-action@dca986193e4336cb32820819b07e9ecacacaaaf6 # v7.0.0
         with:
           # We already installed the dependencies in the init job
           install: false
