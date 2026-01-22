@@ -11,12 +11,10 @@ namespace OCA\Files_Sharing\Listener;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\ShareTargetValidator;
-use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IUser;
@@ -28,23 +26,17 @@ use OCP\Share\IManager;
 /**
  * Listen to various events that can change what shares a user has access to
  *
- * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|FilesystemTornDownEvent>
+ * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent>
  */
 class SharesUpdatedListener implements IEventListener {
-	private CappedMemoryCache $updatedUsers;
-
 	public function __construct(
 		private readonly IManager $shareManager,
 		private readonly IUserMountCache $userMountCache,
 		private readonly MountProvider $shareMountProvider,
 		private readonly ShareTargetValidator $shareTargetValidator,
 	) {
-		$this->updatedUsers = new CappedMemoryCache();
 	}
 	public function handle(Event $event): void {
-		if ($event instanceof FilesystemTornDownEvent) {
-			$this->updatedUsers = new CappedMemoryCache();
-		}
 		if ($event instanceof UserShareAccessUpdatedEvent) {
 			foreach ($event->getUsers() as $user) {
 				$this->updateForUser($user);
@@ -65,11 +57,6 @@ class SharesUpdatedListener implements IEventListener {
 	}
 
 	private function updateForUser(IUser $user): void {
-		if (isset($this->updatedUsers[$user->getUID()])) {
-			return;
-		}
-		$this->updatedUsers[$user->getUID()] = true;
-
 		$cachedMounts = $this->userMountCache->getMountsForUser($user);
 		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
 		$mountsByPath = array_combine($mountPoints, $cachedMounts);
