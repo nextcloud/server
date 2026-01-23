@@ -120,7 +120,7 @@
     "Verify settings and count the groups" : "Verify settings and count the groups",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): {filter}" : "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): {filter}",
     "User found and settings verified." : "User found and settings verified.",
-    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in.",
+    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Consider narrowing your search. It matched many users, and only the first one will be able to log in.",
     "An unspecified error occurred. Please check log and settings." : "An unspecified error occurred. Please check log and settings.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "The search filter is invalid, probably due to syntax issues like an uneven number of opened and closed brackets. Please revise.",
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "A connection error to LDAP/AD occurred. Please check host, port and credentials.",
