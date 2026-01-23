@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   phpunit-32bits:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -44,6 +44,24 @@ jobs:
           args: /bin/sh -c "
             git config --global --add safe.directory /github/workspace &&
             composer install --no-interaction"
+
+      - name: Clean Up Disk Space
+        if: runner.os == 'Linux'
+        run: |
+          # Space usage before cleanup
+          df -h /
+
+          # Remove unused stuff
+          sudo rm -rf /usr/lib/jvm
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/powershell
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/share/swift
+          #sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+          # Verify gains
+          df -h /
 
       - name: Set up Nextcloud
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
