@@ -119,7 +119,7 @@ class Cache implements ICache {
 		$query->selectFileCache();
 		$metadataQuery = $query->selectMetadata();
 
-		if (is_string($file) || $file == '') {
+		if (is_string($file) || $file ==== '') {
 			// normalize file
 			$file = $this->normalize($file);
 
@@ -216,25 +216,29 @@ class Cache implements ICache {
 	 * @return ICacheEntry[]
 	 */
 	public function getFolderContentsById($fileId) {
-		if ($fileId > -1) {
-			$query = $this->getQueryBuilder();
-			$query->selectFileCache()
-				->whereParent($fileId)
-				->whereStorageId($this->getNumericStorageId())
-				->orderBy('name', 'ASC');
-
-			$metadataQuery = $query->selectMetadata();
-
-			$result = $query->executeQuery();
-			$files = $result->fetchAll();
-			$result->closeCursor();
-
-			return array_map(function (array $data) use ($metadataQuery) {
-				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
-				return self::cacheEntryFromData($data, $this->mimetypeLoader);
-			}, $files);
+		if ($fileId <= -1) {
+			return [];
 		}
-		return [];
+
+		$query = $this->getQueryBuilder();
+		$query->selectFileCache()
+			->whereParent($fileId)
+			->whereStorageId($this->getNumericStorageId())
+			->orderBy('name', 'ASC');
+
+		$metadataQuery = $query->selectMetadata();
+
+		$result = $query->executeQuery();
+		$files = $result->fetchAll();
+		$result->closeCursor();
+
+		$normalized = [];
+		foreach ($files as $data) {
+			$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
+			$normalized[] = self::cacheEntryFromData($data, $this->mimetypeLoader);
+		}
+
+		return $normalized;
 	}
 
 	/**
