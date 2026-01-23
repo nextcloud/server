@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\BackgroundJob;
 use OCA\DAV\BackgroundJob\CleanupInvitationTokenJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -46,9 +47,12 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			->willReturn($queryBuilder);
 		$queryBuilder->method('expr')
 			->willReturn($expr);
+		$parameter = $this->createMock(IParameter::class);
+		$parameter->method('__toString')
+			->willReturn('namedParameter1337');
 		$queryBuilder->method('createNamedParameter')
 			->willReturnMap([
-				[1337, \PDO::PARAM_STR, null, 'namedParameter1337']
+				[1337, \PDO::PARAM_STR, null, $parameter],
 			]);
 
 		$function = 'function1337';

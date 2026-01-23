@@ -55,6 +55,7 @@
 		<directory name="lib"/>
 		<directory name="ocs"/>
 		<directory name="tests/lib/Comments"/>
+		<directory name="tests/lib/DB/QueryBuilder"/>
 		<directory name="ocs-provider"/>
 		<file name="cron.php"/>
 		<file name="index.php"/>
@@ -172,52 +173,61 @@
 			<errorLevel type="suppress">
 				<directory name="lib" />
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</DeprecatedClass>
 		<DeprecatedConstant>
 			<errorLevel type="suppress">
 				<directory name="lib" />
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</DeprecatedConstant>
 		<DeprecatedFunction>
 			<errorLevel type="suppress">
 				<directory name="lib" />
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</DeprecatedFunction>
 		<DeprecatedInterface>
 			<errorLevel type="suppress">
 				<directory name="lib" />
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</DeprecatedInterface>
 		<DeprecatedMethod>
 			<errorLevel type="suppress">
 				<directory name="lib" />
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</DeprecatedMethod>
 		<DeprecatedProperty>
 			<errorLevel type="suppress">
 				<directory name="lib" />
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</DeprecatedProperty>
 		<DeprecatedTrait>
 			<errorLevel type="suppress">
 				<directory name="lib" />
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</DeprecatedTrait>
 		<InternalMethod>
 			<errorLevel type="suppress">
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</InternalMethod>
 		<InternalClass>
 			<errorLevel type="suppress">
 				<directory name="apps/*/tests" />
+				<directory name="tests" />
 			</errorLevel>
 		</InternalClass>
 	</issueHandlers>

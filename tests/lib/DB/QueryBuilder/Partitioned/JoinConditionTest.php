@@ -14,6 +14,7 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -41,7 +42,7 @@ class JoinConditionTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('platformProvider')]
+	#[DataProvider(methodName: 'platformProvider')]
 	public function testParseCondition(string $platform): void {
 		$query = $this->getBuilder($platform);
 		$param1 = $query->createNamedParameter('files');
@@ -61,7 +62,7 @@ class JoinConditionTest extends TestCase {
 		], $parsed->toConditions);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('platformProvider')]
+	#[DataProvider(methodName: 'platformProvider')]
 	public function testParseCastCondition(string $platform): void {
 		$query = $this->getBuilder($platform);
 

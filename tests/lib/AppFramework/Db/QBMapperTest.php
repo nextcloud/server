@@ -10,6 +10,7 @@ namespace Test\AppFramework\Db;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IDBConnection;
@@ -28,6 +29,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @method void setIntegerProp(integer $integerProp)
  * @method ?\DateTimeImmutable getDatetimeProp()
  * @method void setDatetimeProp(?\DateTimeImmutable $datetime)
+ * @method array getJsonProp()
+ * @method void setJsonProp(array $jsonProp)
  */
 class QBTestEntity extends Entity {
 	protected $intProp;
@@ -92,14 +95,11 @@ class QBMapperTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-
 		$this->qb->method('expr')->willReturn($this->expr);
 		$this->db->method('getQueryBuilder')->willReturn($this->qb);
 
-
 		$this->mapper = new QBTestMapper($this->db);
 	}
-
 
 	public function testInsertEntityParameterTypeMapping(): void {
 		$datetime = new \DateTimeImmutable();
@@ -119,18 +119,19 @@ class QBMapperTest extends \Test\TestCase {
 		$datetimeParam = $this->qb->createNamedParameter('datetime_prop', IQueryBuilder::PARAM_DATETIME_IMMUTABLE);
 
 		$createNamedParameterCalls = [
-			[123, IQueryBuilder::PARAM_INT, null],
-			[true, IQueryBuilder::PARAM_BOOL, null],
-			['string', IQueryBuilder::PARAM_STR, null],
-			[456, IQueryBuilder::PARAM_INT, null],
-			[false, IQueryBuilder::PARAM_BOOL, null],
-			[$datetime, IQueryBuilder::PARAM_DATETIME_IMMUTABLE, null],
+			[123, IQueryBuilder::PARAM_INT, null, $intParam],
+			[true, IQueryBuilder::PARAM_BOOL, null, $boolParam],
+			['string', IQueryBuilder::PARAM_STR, null, $stringParam],
+			[456, IQueryBuilder::PARAM_INT, null, $integerParam],
+			[false, IQueryBuilder::PARAM_BOOL, null, $booleanParam],
+			[$datetime, IQueryBuilder::PARAM_DATETIME_IMMUTABLE, null, $datetimeParam],
 		];
 		$this->qb->expects($this->exactly(6))
 			->method('createNamedParameter')
-			->willReturnCallback(function () use (&$createNamedParameterCalls): void {
+			->willReturnCallback(function () use (&$createNamedParameterCalls): IParameter {
 				$expected = array_shift($createNamedParameterCalls);
-				$this->assertEquals($expected, func_get_args());
+				$this->assertEquals([$expected[0], $expected[1], $expected[2]], func_get_args());
+				return $expected[3];
 			});
 
 		$setValueCalls = [
@@ -143,14 +144,14 @@ class QBMapperTest extends \Test\TestCase {
 		];
 		$this->qb->expects($this->exactly(6))
 			->method('setValue')
-			->willReturnCallback(function () use (&$setValueCalls): void {
+			->willReturnCallback(function () use (&$setValueCalls): IQueryBuilder {
 				$expected = array_shift($setValueCalls);
 				$this->assertEquals($expected, func_get_args());
+				return $this->qb;
 			});
 
 		$this->mapper->insert($entity);
 	}
-
 
 	public function testUpdateEntityParameterTypeMapping(): void {
 		$datetime = new \DateTimeImmutable();
@@ -174,20 +175,21 @@ class QBMapperTest extends \Test\TestCase {
 		$datetimeParam = $this->qb->createNamedParameter('datetime_prop', IQueryBuilder::PARAM_DATETIME_IMMUTABLE);
 
 		$createNamedParameterCalls = [
-			[123, IQueryBuilder::PARAM_INT, null],
-			[true, IQueryBuilder::PARAM_BOOL, null],
-			['string', IQueryBuilder::PARAM_STR, null],
-			[456, IQueryBuilder::PARAM_INT, null],
-			[false, IQueryBuilder::PARAM_BOOL, null],
-			[['hello' => 'world'], IQueryBuilder::PARAM_JSON, null],
-			[$datetime, IQueryBuilder::PARAM_DATETIME_IMMUTABLE, null],
-			[789, IQueryBuilder::PARAM_INT, null],
+			[123, IQueryBuilder::PARAM_INT, null, $intParam],
+			[true, IQueryBuilder::PARAM_BOOL, null, $boolParam],
+			['string', IQueryBuilder::PARAM_STR, null, $stringParam],
+			[456, IQueryBuilder::PARAM_INT, null, $integerParam],
+			[false, IQueryBuilder::PARAM_BOOL, null, $booleanParam],
+			[['hello' => 'world'], IQueryBuilder::PARAM_JSON, null, $jsonParam],
+			[$datetime, IQueryBuilder::PARAM_DATETIME_IMMUTABLE, null, $datetimeParam],
+			[789, IQueryBuilder::PARAM_INT, null, $idParam],
 		];
 		$this->qb->expects($this->exactly(8))
 			->method('createNamedParameter')
-			->willReturnCallback(function () use (&$createNamedParameterCalls): void {
+			->willReturnCallback(function () use (&$createNamedParameterCalls): IParameter {
 				$expected = array_shift($createNamedParameterCalls);
-				$this->assertEquals($expected, func_get_args());
+				$this->assertEquals([$expected[0], $expected[1], $expected[2]], func_get_args());
+				return $expected[3];
 			});
 
 		$setCalls = [
@@ -201,15 +203,15 @@ class QBMapperTest extends \Test\TestCase {
 		];
 		$this->qb->expects($this->exactly(7))
 			->method('set')
-			->willReturnCallback(function () use (&$setCalls): void {
+			->willReturnCallback(function () use (&$setCalls): IQueryBuilder {
 				$expected = array_shift($setCalls);
 				$this->assertEquals($expected, func_get_args());
+				return $this->qb;
 			});
 
 		$this->expr->expects($this->once())
 			->method('eq')
 			->with($this->equalTo('id'), $this->equalTo($idParam));
-
 
 		$this->mapper->update($entity);
 	}

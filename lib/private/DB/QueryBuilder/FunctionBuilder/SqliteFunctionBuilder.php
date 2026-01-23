@@ -7,7 +7,10 @@
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Override;
 
 class SqliteFunctionBuilder extends FunctionBuilder {
 	public function concat($x, ...$expr): IQueryFunction {
@@ -24,11 +27,19 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')');
 	}
 
-	public function greatest($x, $y): IQueryFunction {
+	#[Override]
+	public function greatest(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction {
 		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
-	public function least($x, $y): IQueryFunction {
+	#[Override]
+	public function least(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 

@@ -10,284 +10,349 @@ namespace OC\DB\QueryBuilder;
 
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ConflictResolutionMode;
+use OCP\DB\QueryBuilder\ICompositeExpression;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use Override;
 
 /**
  * Base class for creating classes that extend the builtin query builder
  */
 abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 	public function __construct(
-		protected IQueryBuilder $builder,
+		protected readonly IQueryBuilder $builder,
 	) {
 	}
 
-	public function automaticTablePrefix($enabled) {
+	#[Override]
+	public function automaticTablePrefix(bool $enabled): void {
 		$this->builder->automaticTablePrefix($enabled);
-		return $this;
 	}
 
-	public function expr() {
+	#[Override]
+	public function expr(): IExpressionBuilder {
 		return $this->builder->expr();
 	}
 
-	public function func() {
+	#[Override]
+	public function func(): IFunctionBuilder {
 		return $this->builder->func();
 	}
 
-	public function getType() {
+	#[Override]
+	public function getType(): int {
 		return $this->builder->getType();
 	}
 
-	public function getConnection() {
+	#[Override]
+	public function getConnection(): IDBConnection {
 		return $this->builder->getConnection();
 	}
 
-	public function getState() {
+	#[Override]
+	public function getState(): int {
 		return $this->builder->getState();
 	}
 
-	public function getSQL() {
+	#[Override]
+	public function getSQL(): string {
 		return $this->builder->getSQL();
 	}
 
-	public function setParameter($key, $value, $type = null) {
+	#[Override]
+	public function setParameter(string|int $key, mixed $value, string|null|int $type = null): self {
 		$this->builder->setParameter($key, $value, $type);
 		return $this;
 	}
 
-	public function setParameters(array $params, array $types = []) {
+	#[Override]
+	public function setParameters(array $params, array $types = []): self {
 		$this->builder->setParameters($params, $types);
 		return $this;
 	}
 
-	public function getParameters() {
+	#[Override]
+	public function getParameters(): array {
 		return $this->builder->getParameters();
 	}
 
-	public function getParameter($key) {
+	#[Override]
+	public function getParameter(int|string $key): mixed {
 		return $this->builder->getParameter($key);
 	}
 
-	public function getParameterTypes() {
+	#[Override]
+	public function getParameterTypes(): array {
 		return $this->builder->getParameterTypes();
 	}
 
-	public function getParameterType($key) {
+	#[Override]
+	public function getParameterType(int|string $key): int|string {
 		return $this->builder->getParameterType($key);
 	}
 
-	public function setFirstResult($firstResult) {
+	#[Override]
+	public function setFirstResult(int $firstResult): self {
 		$this->builder->setFirstResult($firstResult);
 		return $this;
 	}
 
-	public function getFirstResult() {
+	#[Override]
+	public function getFirstResult(): int {
 		return $this->builder->getFirstResult();
 	}
 
-	public function setMaxResults($maxResults) {
+	#[Override]
+	public function setMaxResults(?int $maxResults): self {
 		$this->builder->setMaxResults($maxResults);
 		return $this;
 	}
 
-	public function getMaxResults() {
+	#[Override]
+	public function getMaxResults(): ?int {
 		return $this->builder->getMaxResults();
 	}
 
-	public function select(...$selects) {
+	#[Override]
+	public function select(...$selects): self {
 		$this->builder->select(...$selects);
 		return $this;
 	}
 
-	public function selectAlias($select, $alias): self {
+	#[Override]
+	public function selectAlias(string|IQueryFunction|IParameter|ILiteral $select, string $alias): self {
 		$this->builder->selectAlias($select, $alias);
 		return $this;
 	}
 
-	public function selectDistinct($select) {
+	#[Override]
+	public function selectDistinct(string|array $select): self {
 		$this->builder->selectDistinct($select);
 		return $this;
 	}
 
-	public function addSelect(...$select) {
+	#[Override]
+	public function addSelect(...$select): self {
 		$this->builder->addSelect(...$select);
 		return $this;
 	}
 
-	public function delete($delete = null, $alias = null) {
+	#[Override]
+	public function delete(string $delete, ?string $alias = null): self {
 		$this->builder->delete($delete, $alias);
 		return $this;
 	}
 
-	public function update($update = null, $alias = null) {
+	#[Override]
+	public function update(string $update, ?string $alias = null): self {
 		$this->builder->update($update, $alias);
 		return $this;
 	}
 
-	public function insert($insert = null) {
+	#[Override]
+	public function insert(string $insert): self {
 		$this->builder->insert($insert);
 		return $this;
 	}
 
-	public function from($from, $alias = null) {
+	#[Override]
+	public function from(string|IQueryFunction $from, ?string $alias = null): self {
 		$this->builder->from($from, $alias);
 		return $this;
 	}
 
-	public function join($fromAlias, $join, $alias, $condition = null) {
+	#[Override]
+	public function join(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
 		$this->builder->join($fromAlias, $join, $alias, $condition);
 		return $this;
 	}
 
-	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
+	#[Override]
+	public function innerJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
 		$this->builder->innerJoin($fromAlias, $join, $alias, $condition);
 		return $this;
 	}
 
-	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
+	#[Override]
+	public function leftJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
 		$this->builder->leftJoin($fromAlias, $join, $alias, $condition);
 		return $this;
 	}
 
-	public function rightJoin($fromAlias, $join, $alias, $condition = null) {
+	#[Override]
+	public function rightJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self {
 		$this->builder->rightJoin($fromAlias, $join, $alias, $condition);
 		return $this;
 	}
 
-	public function set($key, $value) {
+	#[Override]
+	public function set(string $key, ILiteral|IParameter|IQueryFunction|string $value): self {
 		$this->builder->set($key, $value);
 		return $this;
 	}
 
-	public function where(...$predicates) {
+	#[Override]
+	public function where(...$predicates): self {
 		$this->builder->where(...$predicates);
 		return $this;
 	}
 
-	public function andWhere(...$where) {
+	#[Override]
+	public function andWhere(...$where): self {
 		$this->builder->andWhere(...$where);
 		return $this;
 	}
 
-	public function orWhere(...$where) {
+	#[Override]
+	public function orWhere(...$where): self {
 		$this->builder->orWhere(...$where);
 		return $this;
 	}
 
-	public function groupBy(...$groupBys) {
+	#[Override]
+	public function groupBy(...$groupBys): self {
 		$this->builder->groupBy(...$groupBys);
 		return $this;
 	}
 
-	public function addGroupBy(...$groupBy) {
+	#[Override]
+	public function addGroupBy(...$groupBy): self {
 		$this->builder->addGroupBy(...$groupBy);
 		return $this;
 	}
 
-	public function setValue($column, $value) {
+	#[Override]
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string $value): self {
 		$this->builder->setValue($column, $value);
 		return $this;
 	}
 
-	public function values(array $values) {
+	#[Override]
+	public function values(array $values): self {
 		$this->builder->values($values);
 		return $this;
 	}
 
-	public function having(...$having) {
+	#[Override]
+	public function having(...$having): self {
 		$this->builder->having(...$having);
 		return $this;
 	}
 
-	public function andHaving(...$having) {
+	#[Override]
+	public function andHaving(...$having): self {
 		$this->builder->andHaving(...$having);
 		return $this;
 	}
 
-	public function orHaving(...$having) {
+	#[Override]
+	public function orHaving(...$having): self {
 		$this->builder->orHaving(...$having);
 		return $this;
 	}
 
-	public function orderBy($sort, $order = null) {
+	#[Override]
+	public function orderBy(string|ILiteral|IParameter|IQueryFunction $sort, ?string $order = null): self {
 		$this->builder->orderBy($sort, $order);
 		return $this;
 	}
 
-	public function addOrderBy($sort, $order = null) {
+	#[Override]
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, ?string $order = null): self {
 		$this->builder->addOrderBy($sort, $order);
 		return $this;
 	}
 
-	public function getQueryPart($queryPartName) {
+	#[Override]
+	public function getQueryPart(string $queryPartName): mixed {
 		return $this->builder->getQueryPart($queryPartName);
 	}
 
-	public function getQueryParts() {
+	#[Override]
+	public function getQueryParts(): array {
 		return $this->builder->getQueryParts();
 	}
 
-	public function resetQueryParts($queryPartNames = null) {
+	#[Override]
+	public function resetQueryParts(?array $queryPartNames = null): self {
 		$this->builder->resetQueryParts($queryPartNames);
 		return $this;
 	}
 
-	public function resetQueryPart($queryPartName) {
+	#[Override]
+	public function resetQueryPart(string $queryPartName): self {
 		$this->builder->resetQueryPart($queryPartName);
 		return $this;
 	}
 
-	public function createNamedParameter($value, $type = self::PARAM_STR, $placeHolder = null) {
+	#[Override]
+	public function createNamedParameter(mixed $value, mixed $type = self::PARAM_STR, $placeHolder = null): IParameter {
 		return $this->builder->createNamedParameter($value, $type, $placeHolder);
 	}
 
-	public function createPositionalParameter($value, $type = self::PARAM_STR) {
+	#[Override]
+	public function createPositionalParameter(mixed $value, mixed $type = self::PARAM_STR): IParameter {
 		return $this->builder->createPositionalParameter($value, $type);
 	}
 
-	public function createParameter($name) {
+	#[Override]
+	public function createParameter(string $name): IParameter {
 		return $this->builder->createParameter($name);
 	}
 
-	public function createFunction($call) {
+	#[Override]
+	public function createFunction(string $call): IQueryFunction {
 		return $this->builder->createFunction($call);
 	}
 
+	#[Override]
 	public function getLastInsertId(): int {
 		return $this->builder->getLastInsertId();
 	}
 
-	public function getTableName($table) {
+	#[Override]
+	public function getTableName(string|IQueryFunction $table): string {
 		return $this->builder->getTableName($table);
 	}
 
-	public function getColumnName($column, $tableAlias = '') {
+	#[Override]
+	public function getColumnName(string $column, string $tableAlias = ''): string {
 		return $this->builder->getColumnName($column, $tableAlias);
 	}
 
+	#[Override]
 	public function executeQuery(?IDBConnection $connection = null): IResult {
 		return $this->builder->executeQuery($connection);
 	}
 
+	#[Override]
 	public function executeStatement(?IDBConnection $connection = null): int {
 		return $this->builder->executeStatement($connection);
 	}
 
+	#[Override]
 	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
 		$this->builder->hintShardKey($column, $value, $overwrite);
 		return $this;
 	}
 
+	#[Override]
 	public function runAcrossAllShards(): self {
 		$this->builder->runAcrossAllShards();
 		return $this;
 	}
 
+	#[Override]
 	public function getOutputColumns(): array {
 		return $this->builder->getOutputColumns();
 	}
 
+	#[Override]
 	public function prefixTableName(string $table): string {
 		return $this->builder->prefixTableName($table);
 	}

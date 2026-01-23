@@ -14,13 +14,14 @@ use OCP\DB\Types;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group(name: 'DB')]
 class ExpressionBuilderDBTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|IDBConnection */
-	protected $connection;
-	protected $schemaSetup = false;
+	protected IDBConnection $connection;
+	protected bool $schemaSetup = false;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,14 +46,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $param1
-	 * @param string $param2
-	 * @param boolean $match
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('likeProvider')]
-	public function testLike($param1, $param2, $match): void {
+	#[DataProvider(methodName: 'likeProvider')]
+	public function testLike(string $param1, string $param2, bool $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -82,14 +77,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $param1
-	 * @param string $param2
-	 * @param boolean $match
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('ilikeProvider')]
-	public function testILike($param1, $param2, $match): void {
+	#[DataProvider(methodName: 'ilikeProvider')]
+	public function testILike(string $param1, string $param2, bool $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -233,7 +222,11 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertCount(1, $entries);
 	}
 
-	protected function createConfig($appId, $key, $value) {
+	/**
+	 * @psalm-param '1'|'mykey' $key
+	 * @psalm-param '4'|'myvalue' $value
+	 */
+	protected function createConfig(string $appId, string $key, string $value) {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('appconfig')
 			->values([

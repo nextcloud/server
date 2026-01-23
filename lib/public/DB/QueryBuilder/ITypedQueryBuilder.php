@@ -31,7 +31,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @internal This method does not work with {@see self}. Use {@see self::selectColumns()} or {@see self::selectAlias()} instead.
 	 */
 	#[Override]
-	public function select(...$selects);
+	public function select(...$selects): self;
 
 	/**
 	 * @template NewS of string
@@ -46,7 +46,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @internal This method does not work with {@see self}. Use {@see self::selectColumnDistinct()} or {@see self::selectAlias()} instead.
 	 */
 	#[Override]
-	public function selectDistinct($select);
+	public function selectDistinct(string|array $select): self;
 
 	/**
 	 * @template NewS of string
@@ -61,16 +61,16 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @internal This method does not work with {@see self}. Use {@see self::selectColumns()} or {@see self::selectAlias()} instead.
 	 */
 	#[Override]
-	public function addSelect(...$select);
+	public function addSelect(...$select): self;
 
 	/**
 	 * @inheritDoc
-	 * @param mixed $select
+	 * @param string|IParameter|IQueryFunction|ILiteral $select
 	 * @template NewS of string
 	 * @param NewS $alias
 	 * @psalm-this-out self<S|NewS>
 	 * @psalm-suppress LessSpecificImplementedReturnType
 	 */
 	#[Override]
-	public function selectAlias($select, $alias): self;
+	public function selectAlias(string|IParameter|IQueryFunction|ILiteral $select, string $alias): self;
 }

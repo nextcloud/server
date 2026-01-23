@@ -13,10 +13,10 @@ use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class QuoteHelperTest extends \Test\TestCase {
-	/** @var QuoteHelper */
-	protected $helper;
+	protected QuoteHelper $helper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,12 +37,8 @@ class QuoteHelperTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param mixed $input
-	 * @param string $expected
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataQuoteColumnName')]
-	public function testQuoteColumnName($input, $expected): void {
+	#[DataProvider(methodName: 'dataQuoteColumnName')]
+	public function testQuoteColumnName(string|Literal|Parameter $input, string $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->helper->quoteColumnName($input)
@@ -72,23 +68,15 @@ class QuoteHelperTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param mixed $input
-	 * @param string $expected
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataQuoteColumnNames')]
-	public function testQuoteColumnNames($input, $expected): void {
+	#[DataProvider(methodName: 'dataQuoteColumnNames')]
+	public function testQuoteColumnNames(string|Literal|Parameter|array $input, string|array $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->helper->quoteColumnNames($input)
 		);
 	}
 
-	/**
-	 * @param array|string|ILiteral|IParameter $strings string, Literal or Parameter
-	 * @return array|string
-	 */
-	public function quoteColumnNames($strings) {
+	public function quoteColumnNames(array|string|ILiteral|IParameter $strings): array|string {
 		if (!is_array($strings)) {
 			return $this->quoteColumnName($strings);
 		}
@@ -101,25 +89,9 @@ class QuoteHelperTest extends \Test\TestCase {
 		return $return;
 	}
 
-	/**
-	 * @param string|ILiteral|IParameter $string string, Literal or Parameter
-	 * @return string
-	 */
-	public function quoteColumnName($string) {
-		if ($string instanceof IParameter) {
-			return $string->getName();
-		}
-
-		if ($string instanceof ILiteral) {
-			return $string->getLiteral();
-		}
-
-		if ($string === null) {
-			return $string;
-		}
-
-		if (!is_string($string)) {
-			throw new \InvalidArgumentException('Only strings, Literals and Parameters are allowed');
+	public function quoteColumnName(string|ILiteral|IParameter $string): string {
+		if ($string instanceof ILiteral || $string instanceof IParameter) {
+			return (string)$string;
 		}
 
 		if (substr_count($string, '.')) {

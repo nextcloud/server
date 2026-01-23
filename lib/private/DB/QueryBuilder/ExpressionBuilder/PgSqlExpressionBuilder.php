@@ -12,32 +12,20 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Override;
 
 class PgSqlExpressionBuilder extends ExpressionBuilder {
-	/**
-	 * Returns a IQueryFunction that casts the column to the given type
-	 *
-	 * @param string|IQueryFunction $column
-	 * @param mixed $type One of IQueryBuilder::PARAM_*
-	 * @psalm-param IQueryBuilder::PARAM_* $type
-	 * @return IQueryFunction
-	 */
-	public function castColumn($column, $type): IQueryFunction {
-		switch ($type) {
-			case IQueryBuilder::PARAM_INT:
-				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS BIGINT)');
-			case IQueryBuilder::PARAM_STR:
-			case IQueryBuilder::PARAM_JSON:
-				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS TEXT)');
-			default:
-				return parent::castColumn($column, $type);
-		}
+	#[Override]
+	public function castColumn(string|IQueryFunction|ILiteral|IParameter $column, string|int $type): IQueryFunction {
+		return match ($type) {
+			IQueryBuilder::PARAM_INT => new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS BIGINT)'),
+			IQueryBuilder::PARAM_STR, IQueryBuilder::PARAM_JSON => new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS TEXT)'),
+			default => parent::castColumn($column, $type),
+		};
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function prepareColumn($column, $type) {
+	#[Override]
+	protected function prepareColumn(IQueryFunction|ILiteral|IParameter|string|array $column, int|string|null $type): string|array {
 		if ($type === IQueryBuilder::PARAM_JSON && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
 			$column = $this->castColumn($column, $type);
 		}
@@ -45,10 +33,8 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 		return parent::prepareColumn($column, $type);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function iLike($x, $y, $type = null): string {
+	#[Override]
+	public function iLike(string|IParameter|ILiteral|IQueryFunction $x, mixed $y, mixed $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, 'ILIKE', $y);

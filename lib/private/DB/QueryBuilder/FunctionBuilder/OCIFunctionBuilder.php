@@ -6,17 +6,15 @@
  */
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
-use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Override;
 
 class OCIFunctionBuilder extends FunctionBuilder {
-	public function md5($input): IQueryFunction {
-		/** @var ConnectionAdapter $co */
-		$co = $this->connection;
-		if (version_compare($co->getServerVersion(), '20', '>=')) {
+	public function md5(string|ILiteral|IParameter|IQueryFunction $input): IQueryFunction {
+		if (version_compare($this->connection->getServerVersion(), '20', '>=')) {
 			return new QueryFunction('LOWER(STANDARD_HASH(' . $this->helper->quoteColumnName($input) . ", 'MD5'))");
 		}
 		return new QueryFunction('LOWER(DBMS_OBFUSCATION_TOOLKIT.md5 (input => UTL_RAW.cast_to_raw(' . $this->helper->quoteColumnName($input) . ')))');
@@ -30,11 +28,12 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 * the second parameter is a function or column, we have to put that as
 	 * first parameter.
 	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $x
-	 * @param string|ILiteral|IParameter|IQueryFunction $y
-	 * @return IQueryFunction
 	 */
-	public function greatest($x, $y): IQueryFunction {
+	#[Override]
+	public function greatest(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction {
 		if (is_string($y) || $y instanceof IQueryFunction) {
 			return parent::greatest($y, $x);
 		}
@@ -49,12 +48,12 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 * math, it will cast the expression to int and continue with a "0". So when
 	 * the second parameter is a function or column, we have to put that as
 	 * first parameter.
-	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $x
-	 * @param string|ILiteral|IParameter|IQueryFunction $y
-	 * @return IQueryFunction
 	 */
-	public function least($x, $y): IQueryFunction {
+	#[Override]
+	public function least(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction {
 		if (is_string($y) || $y instanceof IQueryFunction) {
 			return parent::least($y, $x);
 		}
@@ -62,7 +61,8 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return parent::least($x, $y);
 	}
 
-	public function concat($x, ...$expr): IQueryFunction {
+	#[Override]
+	public function concat(string|ILiteral|IParameter|IQueryFunction $x, string|ILiteral|IParameter|IQueryFunction ...$expr): IQueryFunction {
 		$args = func_get_args();
 		$list = [];
 		foreach ($args as $item) {
@@ -71,7 +71,8 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
-	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
+	#[Override]
+	public function groupConcat(string|ILiteral|IParameter|IQueryFunction $expr, ?string $separator = ','): IQueryFunction {
 		$orderByClause = ' WITHIN GROUP(ORDER BY NULL)';
 		if (is_null($separator)) {
 			return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ')' . $orderByClause);
@@ -81,13 +82,15 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')' . $orderByClause);
 	}
 
-	public function octetLength($field, $alias = ''): IQueryFunction {
+	#[Override]
+	public function octetLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('COALESCE(LENGTHB(' . $quotedName . '), 0)' . $alias);
 	}
 
-	public function charLength($field, $alias = ''): IQueryFunction {
+	#[Override]
+	public function charLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('COALESCE(LENGTH(' . $quotedName . '), 0)' . $alias);

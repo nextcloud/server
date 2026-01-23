@@ -1020,7 +1020,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					'synctoken' => $query->createNamedParameter($syncToken),
 					'addressbookid' => $query->createNamedParameter($addressBookId),
 					'operation' => $query->createNamedParameter($operation),
-					'created_at' => time(),
+					'created_at' => $query->createNamedParameter(time()),
 				])
 				->executeStatement();
 

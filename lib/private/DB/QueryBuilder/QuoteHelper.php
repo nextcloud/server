@@ -12,11 +12,7 @@ use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class QuoteHelper {
-	/**
-	 * @param array|string|ILiteral|IParameter|IQueryFunction $strings string, Literal or Parameter
-	 * @return array|string
-	 */
-	public function quoteColumnNames($strings) {
+	public function quoteColumnNames(array|string|ILiteral|IParameter|IQueryFunction $strings): array|string {
 		if (!is_array($strings)) {
 			return $this->quoteColumnName($strings);
 		}
@@ -29,26 +25,18 @@ class QuoteHelper {
 		return $return;
 	}
 
-	/**
-	 * @param string|ILiteral|IParameter|IQueryFunction $string string, Literal or Parameter
-	 * @return string
-	 */
-	public function quoteColumnName($string) {
+	public function quoteColumnName(string|ILiteral|IParameter|IQueryFunction $string): string {
 		if ($string instanceof IParameter || $string instanceof ILiteral || $string instanceof IQueryFunction) {
 			return (string)$string;
 		}
 
-		if ($string === null || $string === 'null' || $string === '*') {
+		if ($string === 'null' || $string === '*') {
 			return $string;
-		}
-
-		if (!is_string($string)) {
-			throw new \InvalidArgumentException('Only strings, Literals and Parameters are allowed');
 		}
 
 		$string = str_replace(' AS ', ' as ', $string);
 		if (substr_count($string, ' as ')) {
-			return implode(' as ', array_map([$this, 'quoteColumnName'], explode(' as ', $string, 2)));
+			return implode(' as ', array_map($this->quoteColumnName(...), explode(' as ', $string, 2)));
 		}
 
 		if (substr_count($string, '.')) {
