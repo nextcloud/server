@@ -112,30 +112,35 @@ class TagSearchProvider implements IProvider {
 		// prepare files results
 		return SearchResult::paginated(
 			$this->l10n->t('Tags'),
-			array_map(function (Node $result) use ($userFolder, $matchedTags, $query) {
-				// Generate thumbnail url
-				$thumbnailUrl = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->getId()]);
-				$path = $userFolder->getRelativePath($result->getPath());
+			[
+				...$tagResults,
+				...array_map(function (Node $result) use ($userFolder, $matchedTags, $query) {
+					$nodeId = $result->getId();
+					// Generate thumbnail url
+					$thumbnailUrl = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $nodeId]);
+					$path = $userFolder->getRelativePath($result->getPath());
 
-				// Use shortened link to centralize the various
-				// files/folder url redirection in files.View.showFile
-				$link = $this->urlGenerator->linkToRoute(
-					'files.View.showFile',
-					['fileid' => $result->getId()]
-				);
+					// Use shortened link to centralize the various
+					// files/folder url redirection in files.View.showFile
+					$link = $this->urlGenerator->linkToRoute(
+						'files.View.showFile',
+						['fileid' => $nodeId]
+					);
 
-				$searchResultEntry = new SearchResultEntry(
-					$thumbnailUrl,
-					$result->getName(),
-					$this->formatSubline($query, $matchedTags[$result->getId()]),
-					$this->urlGenerator->getAbsoluteURL($link),
-					$result->getMimetype() === FileInfo::MIMETYPE_FOLDER ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->getMimetype())
-				);
-				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
-				$searchResultEntry->addAttribute('path', $path);
-				return $searchResultEntry;
-			}, $searchResults)
-			+ $tagResults,
+					$searchResultEntry = new SearchResultEntry(
+						$thumbnailUrl,
+						$result->getName(),
+						$this->formatSubline($query, $matchedTags[$nodeId]),
+						$this->urlGenerator->getAbsoluteURL($link),
+						$result->getMimetype() === FileInfo::MIMETYPE_FOLDER
+							? 'icon-folder'
+							: $this->mimeTypeDetector->mimeTypeIcon($result->getMimetype())
+					);
+					$searchResultEntry->addAttribute('fileId', (string)$nodeId);
+					$searchResultEntry->addAttribute('path', $path);
+					return $searchResultEntry;
+				}, $searchResults)
+			],
 			$query->getCursor() + $query->getLimit()
 		);
 	}
