@@ -16,9 +16,10 @@ class MemoryInfo {
 	public const RECOMMENDED_MEMORY_LIMIT = 512 * 1024 * 1024;
 
 	/**
-	 * Tests if the memory limit is greater or equal the recommended value.
+	 * Tests if the memory limit is compliant with the recommendation value.
 	 *
 	 * @return bool
+	 * @throws \InvalidArgumentException (via $this->getMemoryLimit()) if the memory limit is misconfigured.
 	 */
 	public function isMemoryLimitSufficient(): bool {
 		$memoryLimit = $this->getMemoryLimit();
@@ -29,14 +30,22 @@ class MemoryInfo {
 	 * Returns the interpreted (by PHP) memory limit in bytes.
 	 *
 	 * @return int The memory limit in bytes, or -1 if unlimited.
-	 * @throws \InvalidArgumentException If the memory_limit value cannot be parsed.
+	 * @throws \InvalidArgumentException if the memory_limit value cannot be parsed.
 	 */
 	public function getMemoryLimit(): int {
 		$iniValue = ini_get('memory_limit');
-		$bytes = ini_parse_quantity($iniValue); // can emit E_WARNING
-		if ($bytes === false) {
-			throw new \InvalidArgumentException($iniValue . ' is not a valid memory limit value (in memory_limit ini directive)');
+
+		set_error_handler(function($errno, $errstr) {
+        	throw new \ErrorException($errstr, 0, $errno);
+		});
+
+		try {
+			$bytes = ini_parse_quantity($iniValue); // can emit E_WARNING
+			return $bytes;
+		} catch (\ErrorException $e) {
+			throw new \InvalidArgumentException('Error parsing PHP memory_limit ini directive: ' . $e->getMessage());
+		} finally {
+			restore_error_handler();
 		}
-		return $bytes;
 	}
 }
