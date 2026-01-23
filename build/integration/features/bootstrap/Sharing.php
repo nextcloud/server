@@ -316,7 +316,8 @@ trait Sharing {
 		if (count($data->element) > 0) {
 			foreach ($data as $element) {
 				if ($contentExpected == 'A_TOKEN') {
-					return (strlen((string)$element->$field) == 15);
+					$tokenLength = strlen((string)$element->$field);
+					return $tokenLength == 15 || $tokenLength == 32;
 				} elseif ($contentExpected == 'A_NUMBER') {
 					return is_numeric((string)$element->$field);
 				} elseif ($contentExpected == 'AN_URL') {
@@ -331,7 +332,8 @@ trait Sharing {
 			return false;
 		} else {
 			if ($contentExpected == 'A_TOKEN') {
-				return (strlen((string)$data->$field) == 15);
+				$tokenLength = strlen((string)$data->$field);
+				return $tokenLength == 15 || $tokenLength == 32;
 			} elseif ($contentExpected == 'A_NUMBER') {
 				return is_numeric((string)$data->$field);
 			} elseif ($contentExpected == 'AN_URL') {
@@ -617,9 +619,10 @@ trait Sharing {
 		if ($contentExpected === 'A_NUMBER') {
 			Assert::assertTrue(is_numeric((string)$returnedShare->$field), "Field '$field' is not a number: " . $returnedShare->$field);
 		} elseif ($contentExpected === 'A_TOKEN') {
-			// A token is composed by 15 characters from
-			// ISecureRandom::CHAR_HUMAN_READABLE.
-			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
+			// A token is either:
+			// - 15 characters from ISecureRandom::CHAR_HUMAN_READABLE (legacy), or
+			// - 32 characters from ISecureRandom::CHAR_ALPHANUMERIC (new OCM tokens)
+			Assert::assertRegExp('/^[a-zA-Z0-9]{15,32}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
 		} elseif (strpos($contentExpected, 'REGEXP ') === 0) {
 			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
 		} else {
