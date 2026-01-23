@@ -266,7 +266,7 @@
     "Your account is not setup for passwordless login." : "你的賬號尚未設定免密碼登入。",
     "Your connection is not secure" : "您的連線不安全",
     "Passwordless authentication is only available over a secure connection." : "無密碼身分驗證僅支援經加密的連線。",
-    "Browser not supported" : "不支持該瀏覽器",
+    "Browser not supported" : "不支援該瀏覽器",
     "Passwordless authentication is not supported in your browser." : "你使用的瀏覽器不支援無密碼身分驗證。",
     "Reset password" : "重設密碼",
     "Back to login" : "回到登入畫面",
