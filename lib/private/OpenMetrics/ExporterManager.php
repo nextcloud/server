@@ -63,13 +63,18 @@ class ExporterManager {
 			if (!isset($appInfo[self::XML_ENTRY]) || !is_array($appInfo[self::XML_ENTRY])) {
 				continue;
 			}
-			foreach ($appInfo[self::XML_ENTRY] as $classname) {
-				if (isset($this->skippedClasses[$classname])) {
-					continue;
-				}
-				$exporter = $this->loadExporter($classname, $appId);
-				if ($exporter !== null) {
-					yield $exporter;
+			foreach ($appInfo[self::XML_ENTRY] as $classEntries) {
+				// When multiple exporters are specified, $classEntries will be an array, instead of a string
+				$classnames = is_array($classEntries) ? $classEntries : [$classEntries];
+
+				foreach ($classnames as $classname) {
+					if (isset($this->skippedClasses[$classname])) {
+						continue;
+					}
+					$exporter = $this->loadExporter($classname, $appId);
+					if ($exporter !== null) {
+						yield $exporter;
+					}
 				}
 			}
 		}
