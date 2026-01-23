@@ -29,6 +29,8 @@ use OCP\Share\IManager;
  * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent>
  */
 class SharesUpdatedListener implements IEventListener {
+	private array $inUpdate = [];
+
 	public function __construct(
 		private readonly IManager $shareManager,
 		private readonly IUserMountCache $userMountCache,
@@ -57,6 +59,12 @@ class SharesUpdatedListener implements IEventListener {
 	}
 
 	private function updateForUser(IUser $user): void {
+		// prevent recursion
+		if (isset($this->inUpdate[$user->getUID()])) {
+			return;
+		}
+		$this->inUpdate[$user->getUID()] = true;
+
 		$cachedMounts = $this->userMountCache->getMountsForUser($user);
 		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
 		$mountsByPath = array_combine($mountPoints, $cachedMounts);
@@ -71,5 +79,7 @@ class SharesUpdatedListener implements IEventListener {
 				$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $mountsByPath, $groupedShares);
 			}
 		}
+
+		unset($this->inUpdate[$user->getUID()]);
 	}
 }
