@@ -26,6 +26,7 @@ use OC\Updater;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -197,12 +198,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		// MultiKeyEncryptException failures in subsequent tests when encryption
 		// is left enabled but user keys don't exist
 		try {
-			$config = Server::get(IConfig::class);
-			$currentValue = $config->getAppValue('core', 'encryption_enabled', 'no');
+			$appConfig = Server::get(IAppConfig::class);
+			$currentValue = $appConfig->getValueString('core', 'encryption_enabled', 'no');
 			if ($currentValue === 'yes') {
-				$config->setAppValue('core', 'encryption_enabled', 'no');
-				$config->deleteAppValue('core', 'default_encryption_module');
-				$config->deleteAppValue('encryption', 'useMasterKey');
+				$appConfig->setValueString('core', 'encryption_enabled', 'no');
+				$appConfig->deleteKey('core', 'default_encryption_module');
+				$appConfig->deleteKey('encryption', 'useMasterKey');
 			}
 		} catch (\Throwable $e) {
 			// Ignore - may be called before bootstrap completes
