@@ -160,7 +160,7 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		const filesListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const {
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
@@ -178,7 +178,7 @@ export default defineComponent({
 			activeView,
 			currentRouteFileId,
 			draggingStore,
-			filesListWidth,
+			isNarrow,
 			filesStore,
 			renamingStore,
 			selectionStore,
@@ -209,10 +209,10 @@ export default defineComponent({
 
 		columns() {
 			// Hide columns if the list is too small
-			if (this.filesListWidth < 512 || this.compact) {
+			if (this.isNarrow || this.compact) {
 				return []
 			}
-			return this.activeView.columns || []
+			return this.activeView?.columns || []
 		},
 
 		mime() {

@@ -10,7 +10,7 @@
 			<NcCheckboxRadioSwitch
 				v-bind="selectAllBind"
 				data-cy-files-list-selection-checkbox
-				@update:modelValue="onToggleAll" />
+				@update:model-value="onToggleAll" />
 		</th>
 
 		<!-- Columns display -->
@@ -80,6 +80,7 @@ import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
@@ -119,11 +120,6 @@ export default defineComponent({
 			type: Array as PropType<Node[]>,
 			required: true,
 		},
-
-		filesListWidth: {
-			type: Number,
-			default: 0,
-		},
 	},
 
 	setup() {
@@ -132,19 +128,22 @@ export default defineComponent({
 		const selectionStore = useSelectionStore()
 		const { directory } = useRouteParameters()
 
+		const { isNarrow } = useFileListWidth()
+
 		return {
 			activeStore,
 			filesStore,
 			selectionStore,
 
 			directory,
+			isNarrow,
 		}
 	},
 
 	computed: {
 		columns() {
 			// Hide columns if the list is too small
-			if (this.filesListWidth < 512) {
+			if (this.isNarrow) {
 				return []
 			}
 			return this.activeStore.activeView?.columns || []

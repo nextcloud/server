@@ -131,7 +131,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const fileListWidth = useFileListWidth()
+		const { width: fileListWidth } = useFileListWidth()
 
 		return {
 			fileListWidth,

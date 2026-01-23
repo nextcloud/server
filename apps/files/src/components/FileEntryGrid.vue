@@ -113,7 +113,7 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
-		const filesListWidth = useFileListWidth()
+		const { isNarrow } = useFileListWidth()
 		const {
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
@@ -131,7 +131,7 @@ export default defineComponent({
 			activeView,
 			currentRouteFileId,
 			draggingStore,
-			filesListWidth,
+			isNarrow,
 			filesStore,
 			renamingStore,
 			selectionStore,

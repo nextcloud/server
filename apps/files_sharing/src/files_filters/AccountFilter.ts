@@ -3,12 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IFileListFilterChip, INode } from '@nextcloud/files'
+import type { IFileListFilterChip, IFileListFilterWithUi, INode } from '@nextcloud/files'
 
+import svgAccountMultipleOutline from '@mdi/svg/svg/account-multiple-outline.svg?raw'
 import { subscribe } from '@nextcloud/event-bus'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import wrap from '@vue/web-component-wrapper'
 import Vue from 'vue'
 import FileListFilterAccount from '../components/FileListFilterAccount.vue'
 
@@ -21,48 +24,42 @@ export interface IAccountData {
 	displayName: string
 }
 
-type CurrentInstance = Vue & {
-	resetFilter: () => void
-	setAvailableAccounts: (accounts: IAccountData[]) => void
-	toggleAccount: (account: string) => void
-}
+const tagName = 'files_sharing-file-list-filter-account'
 
 /**
  * File list filter to filter by owner / sharee
  */
-class AccountFilter extends FileListFilter {
-	private availableAccounts: IAccountData[]
-	private currentInstance?: CurrentInstance
-	private filterAccounts?: IAccountData[]
+class AccountFilter extends FileListFilter implements IFileListFilterWithUi {
+	#availableAccounts: IAccountData[]
+	#filterAccounts?: IAccountData[]
+
+	public readonly displayName = t('files_sharing', 'People')
+	public readonly iconSvgInline = svgAccountMultipleOutline
+	public readonly tagName = tagName
 
 	constructor() {
 		super('files_sharing:account', 100)
-		this.availableAccounts = []
+		this.#availableAccounts = []
 
 		subscribe('files:list:updated', ({ contents }) => {
 			this.updateAvailableAccounts(contents)
 		})
 	}
 
-	public mount(el: HTMLElement) {
-		if (this.currentInstance) {
-			this.currentInstance.$destroy()
-		}
+	public get availableAccounts() {
+		return this.#availableAccounts
+	}
 
-		const View = Vue.extend(FileListFilterAccount as never)
-		this.currentInstance = new View({ el })
-			.$on('update:accounts', (accounts?: IAccountData[]) => this.setAccounts(accounts))
-			.$mount() as CurrentInstance
-		this.currentInstance
-			.setAvailableAccounts(this.availableAccounts)
+	public get filterAccounts() {
+		return this.#filterAccounts
 	}
 
 	public filter(nodes: INode[]): INode[] {
-		if (!this.filterAccounts || this.filterAccounts.length === 0) {
+		if (!this.#filterAccounts || this.#filterAccounts.length === 0) {
 			return nodes
 		}
 
-		const userIds = this.filterAccounts.map(({ uid }) => uid)
+		const userIds = this.#filterAccounts.map(({ uid }) => uid)
 		// Filter if the owner of the node is in the list of filtered accounts
 		return nodes.filter((node) => {
 			if (window.OCP.Files.Router.params.view === TRASHBIN_VIEW_ID) {
@@ -95,7 +92,7 @@ class AccountFilter extends FileListFilter {
 	}
 
 	public reset(): void {
-		this.currentInstance?.resetFilter()
+		this.dispatchEvent(new CustomEvent('reset'))
 	}
 
 	/**
@@ -104,13 +101,13 @@ class AccountFilter extends FileListFilter {
 	 * @param accounts - Account to filter or undefined if inactive.
 	 */
 	public setAccounts(accounts?: IAccountData[]) {
-		this.filterAccounts = accounts
+		this.#filterAccounts = accounts
 		let chips: IFileListFilterChip[] = []
-		if (this.filterAccounts && this.filterAccounts.length > 0) {
-			chips = this.filterAccounts.map(({ displayName, uid }) => ({
+		if (this.#filterAccounts && this.#filterAccounts.length > 0) {
+			chips = this.#filterAccounts.map(({ displayName, uid }) => ({
 				text: displayName,
 				user: uid,
-				onclick: () => this.currentInstance?.toggleAccount(uid),
+				onclick: () => this.dispatchEvent(new CustomEvent('deselect', { detail: uid })),
 			}))
 		}
 
@@ -164,12 +161,12 @@ class AccountFilter extends FileListFilter {
 			}
 		}
 
-		this.availableAccounts = [...available.values()]
-		if (this.currentInstance) {
-			this.currentInstance.setAvailableAccounts(this.availableAccounts)
-		}
+		this.#availableAccounts = [...available.values()]
+		this.dispatchEvent(new CustomEvent('accounts-updated'))
 	}
 }
+
+export type { AccountFilter }
 
 /**
  * Register the file list filter by owner or sharees
@@ -180,5 +177,20 @@ export function registerAccountFilter() {
 		return
 	}
 
+	const WrappedComponent = wrap(Vue, FileListFilterAccount)
+	// In Vue 2, wrap doesn't support disabling shadow :(
+	// Disable with a hack
+	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', {
+		value() {
+			return this
+		},
+	})
+	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', {
+		get() {
+			return this
+		},
+	})
+
+	customElements.define(tagName, WrappedComponent)
 	registerFileListFilter(new AccountFilter())
 }
