@@ -180,15 +180,19 @@ class Cache implements ICache {
 		];
 
 		if (isset($data['folder_id'])) {
-			// groupfolders specific fields
+			// groupfolders and collectives specific fields
 			$normalized['folder_id'] = (int)$data['folder_id'];
-			$normalized['mount_point'] = (string)$data['mount_point'];
-			$normalized['quota'] = $data['quota'];
-			$normalized['acl'] = (int)$data['acl'];
-			$normalized['acl_default_no_permission'] = (int)$data['acl_default_no_permission'];
-			$normalized['storage_id'] = (int)$data['storage_id'];
-			$normalized['root_id'] = (int)$data['root_id'];
-			$normalized['options'] = (string)$data['options'];
+
+			if (isset($data['storage_id'])) {
+				// groupfolders specific fields
+				$normalized['mount_point'] = (string)$data['mount_point'];
+				$normalized['quota'] = $data['quota'];
+				$normalized['acl'] = (int)$data['acl'];
+				$normalized['acl_default_no_permission'] = (int)$data['acl_default_no_permission'];
+				$normalized['storage_id'] = (int)$data['storage_id'];
+				$normalized['root_id'] = (int)$data['root_id'];
+				$normalized['options'] = (string)$data['options'];
+			}
 		}
 
 		return new CacheEntry($normalized);
