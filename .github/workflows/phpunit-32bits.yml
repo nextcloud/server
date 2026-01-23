@@ -64,7 +64,7 @@ jobs:
       - name: PHPUnit
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
         with:
-          args: /bin/sh -c "composer run test -- --exclude-path apps/user_ldap/tests --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness"
+          args: /bin/sh -c "composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness"
 
       - name: Show runner disk usage after PHPUnit tests
         run: df -h && sudo du -sh .
