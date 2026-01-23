@@ -48,4 +48,10 @@ interface ICompositeExpression {
 	 * @since 8.2.0
 	 */
 	public function getType(): string;
+
+	/**
+	 * Case the composite expression to string.
+	 * @since 34.0.0
+	 */
+	public function __toString(): string;
 }

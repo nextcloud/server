@@ -10,6 +10,7 @@ namespace OC\DB\QueryBuilder\Partitioned;
 
 use OC\DB\QueryBuilder\CompositeExpression;
 use OC\DB\QueryBuilder\QueryFunction;
+use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 /**
@@ -66,14 +67,9 @@ class JoinCondition {
 	}
 
 	/**
-	 * @param null|string|CompositeExpression $condition
-	 * @param string $join
-	 * @param string $alias
-	 * @param string $fromAlias
-	 * @return JoinCondition
 	 * @throws InvalidPartitionedQueryException
 	 */
-	public static function parse($condition, string $join, string $alias, string $fromAlias): JoinCondition {
+	public static function parse(null|string|ICompositeExpression $condition, string $join, string $alias, string $fromAlias): JoinCondition {
 		if ($condition === null) {
 			throw new InvalidPartitionedQueryException("Can't join on $join without a condition");
 		}
@@ -85,7 +81,7 @@ class JoinCondition {
 		return $result;
 	}
 
-	private static function parseSubCondition($condition, string $join, string $alias, string $fromAlias): JoinCondition {
+	private static function parseSubCondition(string|ICompositeExpression $condition, string $join, string $alias, string $fromAlias): JoinCondition {
 		if ($condition instanceof CompositeExpression) {
 			if ($condition->getType() === CompositeExpression::TYPE_OR) {
 				throw new InvalidPartitionedQueryException("Cannot join on $join with an OR expression");

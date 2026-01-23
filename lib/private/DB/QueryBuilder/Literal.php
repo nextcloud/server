@@ -13,11 +13,8 @@ namespace OC\DB\QueryBuilder;
 use OCP\DB\QueryBuilder\ILiteral;
 
 class Literal implements ILiteral {
-	/**
-	 * @param mixed $literal
-	 */
 	public function __construct(
-		protected $literal,
+		protected readonly mixed $literal,
 	) {
 	}
 

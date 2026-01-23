@@ -12,6 +12,7 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Types\Types;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\DB\Exception;
 use OCP\DB\IResult;
 use OCP\IDBConnection;
@@ -22,6 +23,7 @@ use OCP\IDBConnection;
  *
  * @psalm-taint-specialize
  */
+#[Consumable(since: '8.2.0')]
 interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
@@ -135,7 +137,7 @@ interface IQueryBuilder {
 	 *                      owncloud database prefix automatically.
 	 * @since 8.2.0
 	 */
-	public function automaticTablePrefix($enabled);
+	public function automaticTablePrefix(bool $enabled): void;
 
 	/**
 	 * Gets an ExpressionBuilder used for object-oriented construction of query expressions.
@@ -151,10 +153,9 @@ interface IQueryBuilder {
 	 * For more complex expression construction, consider storing the expression
 	 * builder object in a local variable.
 	 *
-	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 * @since 8.2.0
 	 */
-	public function expr();
+	public function expr(): IExpressionBuilder;
 
 	/**
 	 * Gets an FunctionBuilder used for object-oriented construction of query functions.
@@ -170,26 +171,24 @@ interface IQueryBuilder {
 	 * For more complex function construction, consider storing the function
 	 * builder object in a local variable.
 	 *
-	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 * @since 12.0.0
 	 */
-	public function func();
+	public function func(): IFunctionBuilder;
 
 	/**
 	 * Gets the type of the currently built query.
 	 *
-	 * @return integer
+	 * @deprecated 34.0.0 If necessary, track the type of the query being built outside of the builder.
 	 * @since 8.2.0
 	 */
-	public function getType();
+	public function getType(): int;
 
 	/**
 	 * Gets the associated DBAL Connection for this query builder.
 	 *
-	 * @return \OCP\IDBConnection
 	 * @since 8.2.0
 	 */
-	public function getConnection();
+	public function getConnection(): IDBConnection;
 
 	/**
 	 * Gets the state of this query builder instance.
@@ -199,7 +198,7 @@ interface IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *    and we can not fix this in our wrapper.
 	 */
-	public function getState();
+	public function getState(): int;
 
 	/**
 	 * Execute for select statements
@@ -238,7 +237,7 @@ interface IQueryBuilder {
 	 * @return string The SQL query string.
 	 * @since 8.2.0
 	 */
-	public function getSQL();
+	public function getSQL(): string;
 
 	/**
 	 * Sets a query parameter for the query being constructed.
@@ -254,11 +253,11 @@ interface IQueryBuilder {
 	 * @param string|integer $key The parameter position or name.
 	 * @param mixed $value The parameter value.
 	 * @param string|null|int $type One of the IQueryBuilder::PARAM_* constants.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 */
-	public function setParameter($key, $value, $type = null);
+	public function setParameter(string|int $key, mixed $value, string|null|int $type = null): self;
 
 	/**
 	 * Sets a collection of query parameters for the query being constructed.
@@ -276,11 +275,11 @@ interface IQueryBuilder {
 	 *
 	 * @param array $params The query parameters to set.
 	 * @param array $types The query parameters types to set.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 */
-	public function setParameters(array $params, array $types = []);
+	public function setParameters(array $params, array $types = []): self;
 
 	/**
 	 * Gets all defined query parameters for the query being constructed indexed by parameter index or name.
@@ -288,35 +287,35 @@ interface IQueryBuilder {
 	 * @return array The currently defined query parameters indexed by parameter index or name.
 	 * @since 8.2.0
 	 */
-	public function getParameters();
+	public function getParameters(): array;
 
 	/**
 	 * Gets a (previously set) query parameter of the query being constructed.
 	 *
-	 * @param mixed $key The key (index or name) of the bound parameter.
+	 * @param int|string $key The key (index or name) of the bound parameter.
 	 *
 	 * @return mixed The value of the bound parameter.
 	 * @since 8.2.0
 	 */
-	public function getParameter($key);
+	public function getParameter(int|string $key): mixed;
 
 	/**
 	 * Gets all defined query parameter types for the query being constructed indexed by parameter index or name.
 	 *
-	 * @return array The currently defined query parameter types indexed by parameter index or name.
+	 * @return list<self::PARAM_*> The currently defined query parameter types indexed by parameter index or name.
 	 * @since 8.2.0
 	 */
-	public function getParameterTypes();
+	public function getParameterTypes(): array;
 
 	/**
 	 * Gets a (previously set) query parameter type of the query being constructed.
 	 *
-	 * @param mixed $key The key (index or name) of the bound parameter type.
+	 * @param int|string $key The key (index or name) of the bound parameter type.
 	 *
-	 * @return mixed The value of the bound parameter type.
+	 * @return self::PARAM_* The value of the bound parameter type.
 	 * @since 8.2.0
 	 */
-	public function getParameterType($key);
+	public function getParameterType(int|string $key): int|string;
 
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
@@ -326,7 +325,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setFirstResult($firstResult);
+	public function setFirstResult(int $firstResult): self;
 
 	/**
 	 * Gets the position of the first result the query object was set to retrieve (the "offset").
@@ -335,17 +334,17 @@ interface IQueryBuilder {
 	 * @return int The position of the first result.
 	 * @since 8.2.0
 	 */
-	public function getFirstResult();
+	public function getFirstResult(): int;
 
 	/**
 	 * Sets the maximum number of results to retrieve (the "limit").
 	 *
 	 * @param int|null $maxResults The maximum number of results to retrieve.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 */
-	public function setMaxResults($maxResults);
+	public function setMaxResults(?int $maxResults): self;
 
 	/**
 	 * Gets the maximum number of results the query object was set to retrieve (the "limit").
@@ -354,7 +353,7 @@ interface IQueryBuilder {
 	 * @return int|null The maximum number of results.
 	 * @since 8.2.0
 	 */
-	public function getMaxResults();
+	public function getMaxResults(): ?int;
 
 	/**
 	 * Specifies an item that is to be returned in the query result.
@@ -368,13 +367,13 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed ...$selects The selection expressions.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $selects
 	 */
-	public function select(...$selects);
+	public function select(...$selects): self;
 
 	/**
 	 * Specifies an item that is to be returned with a different name in the query result.
@@ -386,16 +385,16 @@ interface IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'p', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expressions.
+	 * @param string|IParameter|IQueryFunction $select The selection expressions.
 	 * @param string $alias The column alias used in the constructed query.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.1
 	 *
 	 * @psalm-taint-sink sql $select
 	 * @psalm-taint-sink sql $alias
 	 */
-	public function selectAlias($select, $alias): self;
+	public function selectAlias(string|IParameter|IQueryFunction|ILiteral $select, string $alias): self;
 
 	/**
 	 * Specifies an item that is to be returned uniquely in the query result.
@@ -406,14 +405,14 @@ interface IQueryBuilder {
 	 *         ->from('users');
 	 * </code>
 	 *
-	 * @param mixed $select The selection expressions.
-	 *
+	 * @param string|string[] $select The selection expressions.
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 9.0.0
 	 *
 	 * @psalm-taint-sink sql $select
 	 */
-	public function selectDistinct($select);
+	public function selectDistinct(string|array $select): self;
 
 	/**
 	 * Adds an item that is to be returned in the query result.
@@ -427,13 +426,13 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed ...$select The selection expression.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $select
 	 */
-	public function addSelect(...$select);
+	public function addSelect(...$select): self;
 
 	/**
 	 * Turns the query being built into a bulk delete query that ranges over
@@ -447,15 +446,15 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $delete The table whose rows are subject to the deletion.
-	 * @param string $alias The table alias used in the constructed query.
+	 * @param ?string $alias The table alias used in the constructed query.
 	 *
-	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @return $this This QueryBuilder instance.
 	 *
 	 * @psalm-taint-sink sql $delete
 	 */
-	public function delete($delete = null, $alias = null);
+	public function delete(string $delete, ?string $alias = null): self;
 
 	/**
 	 * Turns the query being built into a bulk update query that ranges over
@@ -470,15 +469,15 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $update The table whose rows are subject to the update.
-	 * @param string $alias The table alias used in the constructed query.
-	 *
+	 * @param ?string $alias The table alias used in the constructed query.
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $update
 	 */
-	public function update($update = null, $alias = null);
+	public function update(string $update, ?string $alias = null): self;
 
 	/**
 	 * Turns the query being built into an insert query that inserts into
@@ -496,13 +495,13 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $insert The table into which the rows should be inserted.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $insert
 	 */
-	public function insert($insert = null);
+	public function insert(string $insert): self;
 
 	/**
 	 * Creates and adds a query root corresponding to the table identified by the
@@ -516,13 +515,13 @@ interface IQueryBuilder {
 	 *
 	 * @param string|IQueryFunction $from The table.
 	 * @param string|null $alias The alias of the table.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $from
 	 */
-	public function from($from, $alias = null);
+	public function from(string|IQueryFunction $from, ?string $alias = null): self;
 
 	/**
 	 * Creates and adds a join to the query.
@@ -536,10 +535,10 @@ interface IQueryBuilder {
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string|IQueryFunction $join The table name to join.
-	 * @param string $alias The alias of the join table.
+	 * @param ?string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $fromAlias
@@ -547,7 +546,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $alias
 	 * @psalm-taint-sink sql $condition
 	 */
-	public function join($fromAlias, $join, $alias, $condition = null);
+	public function join(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
 
 	/**
 	 * Creates and adds a join to the query.
@@ -561,10 +560,10 @@ interface IQueryBuilder {
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string|IQueryFunction $join The table name to join.
-	 * @param string $alias The alias of the join table.
+	 * @param ?string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $fromAlias
@@ -572,7 +571,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $alias
 	 * @psalm-taint-sink sql $condition
 	 */
-	public function innerJoin($fromAlias, $join, $alias, $condition = null);
+	public function innerJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
 
 	/**
 	 * Creates and adds a left join to the query.
@@ -586,10 +585,10 @@ interface IQueryBuilder {
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string|IQueryFunction $join The table name to join.
-	 * @param string $alias The alias of the join table.
+	 * @param ?string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 * @since 30.0.0 Allow passing IQueryFunction as parameter for `$join` to allow join with a sub-query.
 	 *
@@ -598,7 +597,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $alias
 	 * @psalm-taint-sink sql $condition
 	 */
-	public function leftJoin($fromAlias, $join, $alias, $condition = null);
+	public function leftJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
 
 	/**
 	 * Creates and adds a right join to the query.
@@ -612,10 +611,10 @@ interface IQueryBuilder {
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string|IQueryFunction $join The table name to join.
-	 * @param string $alias The alias of the join table.
+	 * @param ?string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $fromAlias
@@ -623,7 +622,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $alias
 	 * @psalm-taint-sink sql $condition
 	 */
-	public function rightJoin($fromAlias, $join, $alias, $condition = null);
+	public function rightJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
 
 	/**
 	 * Sets a new value for a column in a bulk update query.
@@ -637,14 +636,14 @@ interface IQueryBuilder {
 	 *
 	 * @param string $key The column to set.
 	 * @param ILiteral|IParameter|IQueryFunction|string $value The value, expression, placeholder, etc.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $key
 	 * @psalm-taint-sink sql $value
 	 */
-	public function set($key, $value);
+	public function set(string $key, ILiteral|IParameter|IQueryFunction|string $value): self;
 
 	/**
 	 * Specifies one or more restrictions to the query result.
@@ -670,13 +669,13 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $predicates The restriction predicates.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $predicates
 	 */
-	public function where(...$predicates);
+	public function where(...$predicates): self;
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -691,7 +690,6 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed ...$where The query restrictions.
-	 *
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @see where()
@@ -699,7 +697,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-sink sql $where
 	 */
-	public function andWhere(...$where);
+	public function andWhere(...$where): self;
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -714,7 +712,6 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed ...$where The WHERE statement.
-	 *
 	 * @return $this This QueryBuilder instance.
 	 *
 	 * @see where()
@@ -722,7 +719,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-sink sql $where
 	 */
-	public function orWhere(...$where);
+	public function orWhere(...$where): self;
 
 	/**
 	 * Specifies a grouping over the results of the query.
@@ -736,13 +733,13 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed ...$groupBys The grouping expression.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $groupBys
 	 */
-	public function groupBy(...$groupBys);
+	public function groupBy(...$groupBys): self;
 
 	/**
 	 * Adds a grouping expression to the query.
@@ -756,13 +753,13 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed ...$groupBy The grouping expression.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $groupby
 	 */
-	public function addGroupBy(...$groupBy);
+	public function addGroupBy(...$groupBy): self;
 
 	/**
 	 * Sets a value for a column in an insert query.
@@ -780,14 +777,14 @@ interface IQueryBuilder {
 	 *
 	 * @param string $column The column into which the value should be inserted.
 	 * @param IParameter|IQueryFunction|string $value The value that should be inserted into the column.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $column
 	 * @psalm-taint-sink sql $value
 	 */
-	public function setValue($column, $value);
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string $value): self;
 
 	/**
 	 * Specifies values for an insert query indexed by column names.
@@ -804,60 +801,60 @@ interface IQueryBuilder {
 	 *         );
 	 * </code>
 	 *
-	 * @param array $values The values to specify for the insert query indexed by column names.
-	 *
+	 * @param array<string, IParameter|ILiteral|IFunctionBuilder|string|int> $values The values to specify for the insert query indexed by column names.
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $values
 	 */
-	public function values(array $values);
+	public function values(array $values): self;
 
 	/**
 	 * Specifies a restriction over the groups of the query.
 	 * Replaces any previous having restrictions, if any.
 	 *
 	 * @param mixed ...$having The restriction over the groups.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $having
 	 */
-	public function having(...$having);
+	public function having(...$having): self;
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * conjunction with any existing having restrictions.
 	 *
 	 * @param mixed ...$having The restriction to append.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $andHaving
 	 */
-	public function andHaving(...$having);
+	public function andHaving(...$having): self;
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical
 	 * disjunction with any existing having restrictions.
 	 *
 	 * @param mixed ...$having The restriction to add.
-	 *
 	 * @return $this This QueryBuilder instance.
+	 *
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $having
 	 */
-	public function orHaving(...$having);
+	public function orHaving(...$having): self;
 
 	/**
 	 * Specifies an ordering for the query results.
 	 * Replaces any previously specified orderings, if any.
 	 *
 	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -865,13 +862,13 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $sort
 	 * @psalm-taint-sink sql $order
 	 */
-	public function orderBy($sort, $order = null);
+	public function orderBy(string|IQueryFunction|ILiteral|IParameter $sort, ?string $order = null): self;
 
 	/**
 	 * Adds an ordering to the query results.
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -879,29 +876,25 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $sort
 	 * @psalm-taint-sink sql $order
 	 */
-	public function addOrderBy($sort, $order = null);
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, ?string $order = null): self;
 
 	/**
 	 * Gets a query part by its name.
 	 *
-	 * @param string $queryPartName
-	 *
-	 * @return mixed
 	 * @since 8.2.0
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
-	public function getQueryPart($queryPartName);
+	public function getQueryPart(string $queryPartName): mixed;
 
 	/**
 	 * Gets all query parts.
 	 *
-	 * @return array
 	 * @since 8.2.0
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
-	public function getQueryParts();
+	public function getQueryParts(): array;
 
 	/**
 	 * Resets SQL parts.
@@ -913,7 +906,7 @@ interface IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 * and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
-	public function resetQueryParts($queryPartNames = null);
+	public function resetQueryParts(?array $queryPartNames = null): self;
 
 	/**
 	 * Resets a single SQL part.
@@ -925,7 +918,7 @@ interface IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
-	public function resetQueryPart($queryPartName);
+	public function resetQueryPart(string $queryPartName): self;
 
 	/**
 	 * Creates a new named parameter and bind the value $value to it.
@@ -959,7 +952,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-escape sql
 	 */
-	public function createNamedParameter($value, $type = self::PARAM_STR, $placeHolder = null);
+	public function createNamedParameter(mixed $value, $type = self::PARAM_STR, ?string $placeHolder = null): IParameter;
 
 	/**
 	 * Creates a new positional parameter and bind the given value to it.
@@ -986,7 +979,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-escape sql
 	 */
-	public function createPositionalParameter($value, $type = self::PARAM_STR);
+	public function createPositionalParameter(mixed $value, $type = self::PARAM_STR): IParameter;
 
 	/**
 	 * Creates a new parameter
@@ -1007,7 +1000,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-escape sql
 	 */
-	public function createParameter($name);
+	public function createParameter(string $name): IParameter;
 
 	/**
 	 * Creates a new function.
@@ -1036,7 +1029,7 @@ interface IQueryBuilder {
 	 *
 	 * @psalm-taint-sink sql $call
 	 */
-	public function createFunction($call);
+	public function createFunction(string $call): IQueryFunction;
 
 	/**
 	 * Used to get the id of the last inserted element
@@ -1056,13 +1049,11 @@ interface IQueryBuilder {
 	 * @since 9.0.0
 	 * @since 24.0.0 accepts IQueryFunction as parameter
 	 */
-	public function getTableName($table);
+	public function getTableName(string|IQueryFunction $table): string;
 
 	/**
 	 * Returns the table name with database prefix as needed by the implementation
 	 *
-	 * @param string $table
-	 * @return string
 	 * @since 30.0.0
 	 */
 	public function prefixTableName(string $table): string;
@@ -1070,19 +1061,14 @@ interface IQueryBuilder {
 	/**
 	 * Returns the column name quoted and with table alias prefix as needed by the implementation
 	 *
-	 * @param string $column
-	 * @param string $tableAlias
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getColumnName($column, $tableAlias = '');
+	public function getColumnName(string $column, string $tableAlias = ''): string;
 
 	/**
 	 * Provide a hint for the shard key for queries where this can't be detected otherwise
 	 *
-	 * @param string $column
-	 * @param mixed $value
-	 * @return $this
+	 * @return $this This QueryBuilder instance.
 	 * @since 30.0.0
 	 */
 	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self;
@@ -1090,7 +1076,7 @@ interface IQueryBuilder {
 	/**
 	 * Set the query to run across all shards if sharding is enabled.
 	 *
-	 * @return $this
+	 * @return $this This QueryBuilder instance.
 	 * @since 30.0.0
 	 */
 	public function runAcrossAllShards(): self;
@@ -1098,7 +1084,7 @@ interface IQueryBuilder {
 	/**
 	 * Get a list of column names that are expected in the query output
 	 *
-	 * @return array
+	 * @return string[]
 	 * @since 30.0.0
 	 */
 	public function getOutputColumns(): array;
