@@ -1,6 +1,6 @@
 {
   "name": "viewer",
-  "version": "6.0.0-dev.0",
+  "version": "7.0.0-dev.0",
   "private": true,
   "description": "Simple file viewer with slideshow for media",
   "keywords": [

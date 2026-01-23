@@ -19,9 +19,9 @@
   "ignoreUnstable": false,
   "baseBranchPatterns": [
     "master",
+    "stable33",
     "stable32",
-    "stable31",
-    "stable30"
+    "stable31"
   ],
   "enabledManagers": [
     "npm"
@@ -67,9 +67,9 @@
         "major"
       ],
       "matchBaseBranches": [
+        "stable33",
         "stable32",
-        "stable31",
-        "stable30"
+        "stable31"
       ],
       "enabled": false
     },
