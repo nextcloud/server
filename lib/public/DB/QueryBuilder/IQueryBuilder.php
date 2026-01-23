@@ -770,7 +770,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $column The column into which the value should be inserted.
-	 * @param IParameter|string $value The value that should be inserted into the column.
+	 * @param IParameter|IQueryFunction|string $value The value that should be inserted into the column.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -1001,9 +1001,10 @@ interface IQueryBuilder {
 	public function createParameter($name);
 
 	/**
-	 * Creates a new function
+	 * Creates a new function.
 	 *
-	 * Attention: Column names inside the call have to be quoted before hand
+	 * @warning Column names inside the call have to be quoted beforehand. In most
+	 * case you can use the IFunctionBuilder instead.
 	 *
 	 * Example:
 	 * <code>

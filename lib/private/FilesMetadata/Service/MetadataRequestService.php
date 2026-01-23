@@ -63,7 +63,7 @@ class MetadataRequestService {
 			->setValue('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT))
 			->setValue('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
 			->setValue('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
-			->setValue('last_update', (string)$qb->createFunction('NOW()'));
+			->setValue('last_update', $qb->func()->now());
 		$qb->executeStatement();
 	}
 
@@ -159,7 +159,7 @@ class MetadataRequestService {
 			->hintShardKey('files_metadata', $this->getStorageId($filesMetadata))
 			->set('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
 			->set('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
-			->set('last_update', $qb->createFunction('NOW()'))
+			->set('last_update', $qb->func()->now())
 			->where(
 				$expr->andX(
 					$expr->eq('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)),

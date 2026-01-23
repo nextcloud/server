@@ -13,6 +13,7 @@ use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use Override;
 
 class FunctionBuilder implements IFunctionBuilder {
 	/** @var IDBConnection|Connection */
@@ -104,5 +105,10 @@ class FunctionBuilder implements IFunctionBuilder {
 
 	public function least($x, $y): IQueryFunction {
 		return new QueryFunction('LEAST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
+	}
+
+	#[Override]
+	public function now(): IQueryFunction {
+		return new QueryFunction('NOW()');
 	}
 }
