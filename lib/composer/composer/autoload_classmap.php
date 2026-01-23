@@ -1939,6 +1939,7 @@ return array(
     'OC\\OpenMetrics\\Exporters\\Cached' => $baseDir . '/lib/private/OpenMetrics/Exporters/Cached.php',
     'OC\\OpenMetrics\\Exporters\\FilesByType' => $baseDir . '/lib/private/OpenMetrics/Exporters/FilesByType.php',
     'OC\\OpenMetrics\\Exporters\\InstanceInfo' => $baseDir . '/lib/private/OpenMetrics/Exporters/InstanceInfo.php',
+    'OC\\OpenMetrics\\Exporters\\LogLevel' => $baseDir . '/lib/private/OpenMetrics/Exporters/LogLevel.php',
     'OC\\OpenMetrics\\Exporters\\Maintenance' => $baseDir . '/lib/private/OpenMetrics/Exporters/Maintenance.php',
     'OC\\OpenMetrics\\Exporters\\RunningJobs' => $baseDir . '/lib/private/OpenMetrics/Exporters/RunningJobs.php',
     'OC\\OpenMetrics\\Exporters\\UsersByBackend' => $baseDir . '/lib/private/OpenMetrics/Exporters/UsersByBackend.php',
