@@ -119,7 +119,7 @@ class Cache implements ICache {
 		$query->selectFileCache();
 		$metadataQuery = $query->selectMetadata();
 
-		if (is_string($file) || $file ==== '') {
+		if (is_string($file) || $file === '') {
 			// normalize file
 			$file = $this->normalize($file);
 
