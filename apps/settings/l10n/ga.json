@@ -380,6 +380,8 @@
     "Shares with guessable tokens may be accessed easily" : "Is féidir teacht ar scaireanna a bhfuil comharthaí intomhaiste acu go héasca",
     "Limit sharing based on groups" : "Teorainn a chur le roinnt bunaithe ar ghrúpaí",
     "Allow sharing for everyone (default)" : "Ceadaigh comhroinnt do gach duine (réamhshocraithe)",
+    "Exclude some groups" : "Eisiamh roinnt grúpaí",
+    "Allow some groups" : "Ceadaigh roinnt grúpaí",
     "Groups allowed to share" : "Ceadaítear do ghrúpaí a roinnt",
     "Groups excluded from sharing" : "Grúpaí eisiata ó chomhroinnt",
     "Not allowed groups will still be able to receive shares, but not to initiate them." : "Beidh grúpaí nach bhfuil ceadaithe fós in ann scaireanna a fháil, ach gan iad a thionscnamh.",

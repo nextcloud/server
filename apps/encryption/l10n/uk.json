@@ -26,8 +26,8 @@
     "Missing Signature" : "Відсутній підпис",
     "one-time password for server-side-encryption" : "одноразовий пароль для шифрування на сервері",
     "Encryption password" : "Пароль для шифрування",
-    "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Адміністратор увімкнув шифрування даних на рівні сервера. Ваші файли було зашифровано з використанням паролю <strong>%s</strong>.",
-    "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Адміністратор увімкнув шифрування даних на рівні сервера. Ваші файли було зашифровано з використанням паролю \"%s\".",
+    "The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>." : "Адміністратор увімкнув шифрування даних на рівні сервера. Ваші файли було зашифровано з використанням пароля <strong>%s</strong>.",
+    "The administration enabled server-side-encryption. Your files were encrypted using the password \"%s\"." : "Адміністратор увімкнув шифрування даних на рівні сервера. Ваші файли було зашифровано з використанням пароля \"%s\".",
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old login password\" field and your current login password." : "Будь ласка, увійдіть до вебінтерфейсу хмари, перейдіть до розділу \"Безпека\" ваших особистих налаштувань та оновіть ваш пароль шифрування даних: для цього зазначте пароль у полі \"Старий пароль входу\" та ваш поточний пароль входу.",
     "Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не вдається розшифрувати цей файл, ймовірно, він знаходиться у спільному доступі. Будь ласка, зверніться до власника файлу з проханням надати вам доступ до нього.",
     "Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Не вдається прочитати цей файл, ймовірно, це файл із загальним доступом. Будь ласка, попросіть власника файлу надати вам спільний доступ до нього. ",
@@ -47,7 +47,7 @@
     "Old log-in password" : "Старий пароль входу",
     "Current log-in password" : "Поточний пароль входу",
     "Update" : "Оновлювати",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати паролю",
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включення цієї опції дозволить вам отримати доступ до своїх зашифрованих файлів у випадку втрати пароля",
     "Default encryption module" : "Типовий модуль шифрування",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Застосунок для шифрування увімкнено, але ваші ключі не ініціалізовано. Будь ласка, вийдіть із системи та увійдіть знову",
     "Basic encryption module" : "Основний модуль шифрування",
@@ -59,7 +59,7 @@
     "Your private key password no longer matches your log-in password." : "Пароль вашого закритого ключа більше не відповідає паролю від вашого облікового запису.",
     "Set your old private key password to your current log-in password:" : "Замініть старий пароль від закритого ключа на новий пароль входу:",
     "Update Private Key Password" : "Оновити пароль для закритого ключа",
-    "Enable password recovery:" : "Ввімкнути відновлення паролю:",
+    "Enable password recovery:" : "Ввімкнути відновлення пароля:",
     "Enabled" : "Увімкнено",
     "Disabled" : "Вимкнено"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"

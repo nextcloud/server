@@ -26,7 +26,7 @@ OC.L10N.register(
     "Later today" : "今日稍後",
     "Set reminder for later today" : "設定今天稍後的提醒",
     "Tomorrow" : "明日",
-    "Set reminder for tomorrow" : "設定明天的提醒",
+    "Set reminder for tomorrow" : "設定明日的提醒",
     "This weekend" : "本週末",
     "Set reminder for this weekend" : "設定本週末的提醒",
     "Next week" : "下星期",
