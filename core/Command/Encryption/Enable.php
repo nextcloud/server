@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\Encryption;
 
 use OCP\Encryption\IManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Enable extends Command {
 	public function __construct(
 		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected IManager $encryptionManager,
 	) {
 		parent::__construct();
@@ -31,10 +33,10 @@ class Enable extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->config->getAppValue('core', 'encryption_enabled', 'no') === 'yes') {
+		if ($this->appConfig->getValueString('core', 'encryption_enabled', 'no') === 'yes') {
 			$output->writeln('Encryption is already enabled');
 		} else {
-			$this->config->setAppValue('core', 'encryption_enabled', 'yes');
+			$this->appConfig->setValueString('core', 'encryption_enabled', 'yes');
 			$output->writeln('<info>Encryption enabled</info>');
 		}
 		$output->writeln('');
@@ -44,7 +46,7 @@ class Enable extends Command {
 			$output->writeln('<error>No encryption module is loaded</error>');
 			return 1;
 		}
-		$defaultModule = $this->config->getAppValue('core', 'default_encryption_module');
+		$defaultModule = $this->appConfig->getValueString('core', 'default_encryption_module', '');
 		if ($defaultModule === '') {
 			$output->writeln('<error>No default module is set</error>');
 			return 1;
