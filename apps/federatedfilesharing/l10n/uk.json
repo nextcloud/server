@@ -32,7 +32,7 @@
     "Enable querying" : "Увімкнути запити",
     "Disable querying" : "Вимкнути запити",
     "Unable to update federated files sharing config" : "Неможливо оновити конфігурацію спільного доступу до об’єднаних файлів",
-    "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Налаштуйте, як користувчі можуть надавати у спільний доступ ресурси користувачам інших серверів хмар. Це включає в себе надання у спільний доступ ресурсів користувачів як цього серверу, так і об'єднаних хмар.",
+    "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Налаштуйте, як користувчі можуть надавати у спільний доступ ресурси користувачам інших серверів хмар. Це включає в себе надання у спільний доступ ресурсів користувачів як цього сервера, так і сервера об'єднаних хмар.",
     "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Дозволити користувачам цієї хмари надавати ресурси у спільний доступ користувачам інших серверів хмар (цей параметр дозволить доступ через протокол WebDAV до публічних спільних ресурсів)",
     "Allow people on this server to receive shares from other servers" : "Дозволити користувачам цієї хмари отримувати доступ до спільних ресурсів користувачів з інших серверів хмар",
     "Allow people on this server to send shares to groups on other servers" : "Дозволити користувачам цієї хмари надавати у спільний доступ ресурси групам користувачів інших хмарних серверів",
@@ -64,7 +64,7 @@
     "Remote share password" : "Пароль для віддаленого каталогу",
     "Incoming share could not be processed" : "Неможливо обробити вхідну частку",
     "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
-    "Copy to clipboard" : "Копіювати до буферу обміну",
+    "Copy to clipboard" : "Копіювати до буфера обміну",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Ви можете поділитися з будь-ким, хто використовує сервер Nextcloud або інші сервери та служби, сумісні з Open Cloud Mesh (OCM). Просто введіть їхній Federated Cloud ID у діалоговому вікні спільного доступу. Це виглядає як person@cloud.example.com",
     "X (formerly Twitter)" : "X (раніше відома як Twitter)",
     "formerly Twitter" : "раніше відома як Twitter"

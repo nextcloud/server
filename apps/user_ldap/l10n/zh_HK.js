@@ -122,7 +122,7 @@ OC.L10N.register(
     "Verify settings and count the groups" : "驗證設置併點算群組數目",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): {filter}" : "找不到使用者。請檢查您的登入資料與使用者名稱。有效的過濾條件（複製貼上以進行命令列驗證）：{filter}",
     "User found and settings verified." : "用戶存在，設定值正確。",
-    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "如返回結果太多可考慮進一步縮小搜尋範圍，僅返回的第一個用戶可以登入。",
+    "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "請考慮縮窄搜尋範圍。由於搜尋結果包含多名用戶，只有排在第一位的用戶才能登入。",
     "An unspecified error occurred. Please check log and settings." : "發生一個不明的錯誤‧請檢查日誌和設定。",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "搜尋過濾器無效，可能是由於語法問題引起的，例如，方括號的數量不均勻。請修改。",
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "連線到 LDAP/AD 出現錯誤。請檢查主機，連接埠和身份驗證。",
