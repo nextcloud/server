@@ -2,6 +2,7 @@ OC.L10N.register(
     "viewer",
     {
     "Cancel" : "Sefsex",
+    "LIVE" : "SRID",
     "Edit" : "Ẓreg",
     "Open sidebar" : "Ldi-d afeggag adisan",
     "Download" : "Sider",
