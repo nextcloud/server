@@ -331,6 +331,13 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->never())
 			->method('set');
 		$session->expects($this->once())
@@ -368,6 +375,13 @@ class SessionTest extends \Test\TestCase {
 			])
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
 
 		$session->expects($this->never())
 			->method('set');
