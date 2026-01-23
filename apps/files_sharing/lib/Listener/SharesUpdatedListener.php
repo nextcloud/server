@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Listener;
 
+use OC\Files\FileInfo;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\ShareTargetValidator;
@@ -23,6 +24,7 @@ use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * Listen to various events that can change what shares a user has access to
@@ -49,12 +51,15 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent) {
 			$this->updateForUser($event->getUser(), true);
 		}
-		if (
-			$event instanceof ShareCreatedEvent
-			|| $event instanceof ShareTransferredEvent
-		) {
-			foreach ($this->shareManager->getUsersForShare($event->getShare()) as $user) {
-				$this->updateForUser($user, true);
+		if ($event instanceof ShareCreatedEvent || $event instanceof ShareTransferredEvent) {
+			$share = $event->getShare();
+			$shareTarget = $share->getTarget();
+			foreach ($this->shareManager->getUsersForShare($share) as $user) {
+				if ($share->getSharedBy() !== $user->getUID()) {
+					$this->updateForShare($user, $share);
+					// Share target validation might have changed the target, restore it for the next user
+					$share->setTarget($shareTarget);
+				}
 			}
 		}
 		if ($event instanceof BeforeShareDeletedEvent) {
@@ -96,5 +101,20 @@ class SharesUpdatedListener implements IEventListener {
 		}
 
 		unset($this->inUpdate[$user->getUID()]);
+	}
+
+	private function updateForShare(IUser $user, IShare $share): void {
+		$cachedMounts = $this->userMountCache->getMountsForUser($user);
+		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
+		$mountsByPath = array_combine($mountPoints, $cachedMounts);
+
+		$target = $this->shareTargetValidator->verifyMountPoint($user, $share, $mountsByPath, [$share]);
+		$mountPoint = '/' . $user->getUID() . '/files/' . trim($target, '/') . '/';
+
+		$fileInfo = $share->getNode();
+		if (!$fileInfo instanceof FileInfo) {
+			throw new \Exception("share node is the wrong fileinfo");
+		}
+		$this->userMountCache->addMount($user, $mountPoint, $fileInfo->getData(), MountProvider::class);
 	}
 }
