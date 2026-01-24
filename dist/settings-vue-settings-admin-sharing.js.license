@@ -234,7 +234,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.7.1
 	- license: MIT
 - lodash
-	- version: 4.17.21
+	- version: 4.17.23
 	- license: MIT
 - md5
 	- version: 2.3.0
