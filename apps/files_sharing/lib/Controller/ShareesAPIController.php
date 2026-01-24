@@ -11,6 +11,7 @@ namespace OCA\Files_Sharing\Controller;
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Share\Share;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -72,6 +73,7 @@ class ShareesAPIController extends OCSController {
 		protected IURLGenerator $urlGenerator,
 		protected IManager $shareManager,
 		protected ISearch $collaboratorSearch,
+		protected FederatedShareProvider $federatedShareProvider,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -141,6 +143,20 @@ class ShareesAPIController extends OCSController {
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
+		} elseif ($itemType === 'contacts') {
+			if ($this->shareManager->allowGroupSharing()) {
+				$shareTypes[] = IShare::TYPE_GROUP;
+			}
+
+			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+				$shareTypes[] = IShare::TYPE_REMOTE;
+			}
+
+			if ($this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled()) {
+				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
+			}
+
+			$shareTypes[] = IShare::TYPE_EMAIL;
 		} else {
 			if ($this->shareManager->allowGroupSharing()) {
 				$shareTypes[] = IShare::TYPE_GROUP;
