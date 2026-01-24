@@ -132,8 +132,8 @@ class InfoXmlTest extends TestCase {
 			}
 		}
 
-		if (isset($appInfo['openmetrics'])) {
-			foreach ($appInfo['openmetrics'] as $class) {
+		if (isset($appInfo['openmetrics']['exporter'])) {
+			foreach ($appInfo['openmetrics']['exporter'] as $class) {
 				$this->assertTrue(class_exists($class), 'Asserting exporter "' . $class . '"exists');
 				$exporter = Server::get($class);
 				$this->assertInstanceOf($class, $exporter);
