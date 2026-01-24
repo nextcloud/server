@@ -58,7 +58,7 @@
     "cancelable-promise": "^4.3.1",
     "clipboard": "^2.0.11",
     "color": "^5.0.3",
-    "core-js": "^3.47.0",
+    "core-js": "^3.48.0",
     "crypto-browserify": "^3.12.1",
     "davclient.js": "nextcloud-deps/davclient.js#59d7777d7fe290c5f1fd74a58e7eb529b63e153d",
     "debounce": "^3.0.0",
