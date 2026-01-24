@@ -128,8 +128,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/upload
 	- version: 1.11.0
 	- license: AGPL-3.0-or-later
+- focus-trap
+	- version: 7.8.0
+	- license: MIT
 - @nextcloud/vue
-	- version: 8.35.2
+	- version: 8.35.3
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4
