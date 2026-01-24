@@ -77,6 +77,9 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 14.1.0
 	- license: MIT
+- focus-trap
+	- version: 7.6.6
+	- license: MIT
 - vue-router
 	- version: 4.6.4
 	- license: MIT
@@ -198,7 +201,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.1.0
 	- license: MIT
 - focus-trap
-	- version: 7.6.6
+	- version: 7.8.0
 	- license: MIT
 - handlebars
 	- version: 4.7.8
