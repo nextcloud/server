@@ -11,7 +11,7 @@ OC.L10N.register(
     "Cannot create sub-admins for admin group" : "Impossibile creare sotto-amministratori per il gruppo amministratori",
     "No permissions to promote sub-admins" : "Nessun permesso per promuovere i sotto-amministratori",
     "Invalid password value" : "Valore password non valido",
-    "An email address is required, to send a password link to the user." : "È necessario un indirizzo email per inviare all'utente il link per la password.",
+    "An email address is required, to send a password link to the user." : "È necessario un indirizzo email per inviare all'utente il collegamento per la password.",
     "Required email address was not provided" : "L'indirizzo e-mail richiesto non è stato fornito",
     "User creation failed" : "Creazione dell'utente fallita",
     "Invalid quota value: %1$s" : "Valore di quota non valido: %1$s",

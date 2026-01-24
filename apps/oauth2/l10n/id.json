@@ -1,4 +1,6 @@
 { "translations": {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Klien Anda tidak berwenang untuk terhubung. Harap beri tahu administrator klien Anda.",
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL pengalihan Anda harus berupa URL lengkap, misalnya: [https://yourdomain.com/path](https://yourdomain.com/path)",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Memungkinkan autentikasi yang kompatibel dengan OAuth2 dari aplikasi web lain.",
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Aplikasi OAuth2 memungkinkan administrator mengonfigurasi alur kerja autentikasi bawaan agar juga mengizinkan autentikasi yang kompatibel dengan OAuth2 dari aplikasi web lain.",
