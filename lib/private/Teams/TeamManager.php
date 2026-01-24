@@ -133,6 +133,18 @@ class TeamManager implements ITeamManager {
 	}
 
 	/**
+	 * @return string[]
+	 */
+	public function getMembersOfTeam(string $teamId, string $userId): array {
+		$team = $this->getTeam($teamId, $userId);
+		if ($team === null) {
+			return [];
+		}
+		$members = $team->getInheritedMembers();
+		return array_map(fn ($member) => $member->getUserId(), $members);
+	}
+
+	/**
 	 * @return Circle[]
 	 */
 	private function getTeams(array $teams, string $userId): array {

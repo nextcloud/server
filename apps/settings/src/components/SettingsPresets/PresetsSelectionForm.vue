@@ -31,9 +31,9 @@ const emit = defineEmits<{
 }>()
 
 const PresetNames = {
-// TRANSLATORS Large organization > Big organization > Small organization
+	// TRANSLATORS Large organization > Big organization > Small organization
 	LARGE: t('settings', 'Large organization'),
-// TRANSLATORS Large organization > Big organization > Small organization
+	// TRANSLATORS Large organization > Big organization > Small organization
 	MEDIUM: t('settings', 'Big organization'),
 	SMALL: t('settings', 'Small organization'),
 	SHARED: t('settings', 'Hosting company'),
