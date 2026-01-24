@@ -199,6 +199,8 @@ OC.L10N.register(
     "Windows Media video" : "Windows Mediaビデオ",
     "AVI video" : "AVI ビデオ",
     "Done" : "完了",
+    "Scan QR code to log in" : "QRコードをスキャンしてログイン",
+    "Use {productName} mobile client you want to connect to scan the code" : "接続したい{productName}モバイルクライアントでコードをスキャンしてください",
     "Applications menu" : "アプリケーションメニュー",
     "Apps" : "アプリ",
     "More apps" : "さらにアプリ",

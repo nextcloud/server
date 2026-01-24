@@ -10,7 +10,7 @@ OC.L10N.register(
     "Not enough free space to restore the file/folder" : "Non c'è abbastanza spazio libero per ripristinare i file/cartelle",
     "Empty deleted files" : "Svuota file eliminati",
     "Confirm permanent deletion" : "Conferma eliminazione permanente",
-    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Sei sicuro di voler eliminare permanentemente tutti i file e le cartelle nel cestino? Questa operarazione non può essere annullata.",
+    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Sei sicuro di voler eliminare definitivamente tutti i file e le cartelle nel cestino? Questa operazione non può essere annullata.",
     "Cancel" : "Annulla",
     "Original location" : "Percorso originale",
     "Deleted by" : "Eliminato da",
