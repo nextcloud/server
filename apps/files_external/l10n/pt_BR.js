@@ -166,7 +166,7 @@ OC.L10N.register(
     "Error" : "Erro",
     "Indeterminate" : "Indeterminado",
     "Incomplete configuration" : "Configuração incompleta",
-    "Unauthorized" : "Não Autorizado",
+    "Unauthorized" : "Não autorizado",
     "Network error" : "Erro de rede",
     "Grant access" : "Garantir acesso",
     "Error configuring OAuth1" : "Erro configurando OAuth1",
