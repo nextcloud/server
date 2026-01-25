@@ -37,6 +37,7 @@ class ExporterManager {
 			Exporters\AppsInfo::class,
 			Exporters\AppsCount::class,
 			Exporters\Maintenance::class,
+			Exporters\LogLevel::class,
 
 			// File exporters
 			Exporters\FilesByType::class,

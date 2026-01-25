@@ -1980,6 +1980,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\OpenMetrics\\Exporters\\Cached' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/Cached.php',
         'OC\\OpenMetrics\\Exporters\\FilesByType' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/FilesByType.php',
         'OC\\OpenMetrics\\Exporters\\InstanceInfo' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/InstanceInfo.php',
+        'OC\\OpenMetrics\\Exporters\\LogLevel' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/LogLevel.php',
         'OC\\OpenMetrics\\Exporters\\Maintenance' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/Maintenance.php',
         'OC\\OpenMetrics\\Exporters\\RunningJobs' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/RunningJobs.php',
         'OC\\OpenMetrics\\Exporters\\UsersByBackend' => __DIR__ . '/../../..' . '/lib/private/OpenMetrics/Exporters/UsersByBackend.php',
