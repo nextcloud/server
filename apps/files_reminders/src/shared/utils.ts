@@ -23,8 +23,7 @@ function getFirstWorkdayOfWeek() {
 }
 
 /**
- *
- * @param date
+ * @param date - The date to get the week number for
  */
 function getWeek(date: Date) {
 	const dateClone = new Date(date)
@@ -35,9 +34,8 @@ function getWeek(date: Date) {
 }
 
 /**
- *
- * @param a
- * @param b
+ * @param a - First date
+ * @param b - Second date
  */
 function isSameWeek(a: Date, b: Date) {
 	return getWeek(a) === getWeek(b)
@@ -45,9 +43,8 @@ function isSameWeek(a: Date, b: Date) {
 }
 
 /**
- *
- * @param a
- * @param b
+ * @param a - First date
+ * @param b - Second date
  */
 function isSameDate(a: Date, b: Date) {
 	return a.getDate() === b.getDate()
@@ -56,8 +53,7 @@ function isSameDate(a: Date, b: Date) {
 }
 
 /**
- *
- * @param dateTime
+ * @param dateTime - The preset to get the date for
  */
 export function getDateTime(dateTime: DateTimePreset): null | Date {
 	const matchPreset: Record<DateTimePreset, () => null | Date> = {
@@ -126,8 +122,7 @@ export function getInitialCustomDueDate(): Date {
 }
 
 /**
- *
- * @param dueDate
+ * @param dueDate - The date to format as a string
  */
 export function getDateString(dueDate: Date): string {
 	let formatOptions: Intl.DateTimeFormatOptions = {
@@ -166,8 +161,7 @@ export function getDateString(dueDate: Date): string {
 }
 
 /**
- *
- * @param dueDate
+ * @param dueDate - The date to format as a string
  */
 export function getVerboseDateString(dueDate: Date): string {
 	let formatOptions: Intl.DateTimeFormatOptions = {

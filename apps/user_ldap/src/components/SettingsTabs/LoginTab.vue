@@ -73,7 +73,7 @@ import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
 import { useLDAPConfigsStore } from '../../store/configs.ts'
 
@@ -99,18 +99,18 @@ const ldapLoginFilterAttributes = computed({
 const ldapLoginFilterMode = computed(() => ldapConfigProxy.value.ldapLoginFilterMode === '1')
 const filteredLoginFilterOptions = computed(() => loginFilterOptions.value.filter((option) => !ldapLoginFilterAttributes.value.includes(option)))
 
+onBeforeMount(init)
+
 /**
- *
+ * Initialize login filter options
  */
 async function init() {
 	const response = await callWizard('determineAttributes', props.configId)
 	loginFilterOptions.value = response.options?.ldap_loginfilter_attributes ?? []
 }
 
-init()
-
 /**
- *
+ * Get user login filter
  */
 async function getUserLoginFilter() {
 	if (ldapConfigProxy.value.ldapLoginFilterMode === '0') {
@@ -121,7 +121,7 @@ async function getUserLoginFilter() {
 }
 
 /**
- *
+ * Verify login name
  */
 async function verifyLoginName() {
 	try {
@@ -155,8 +155,9 @@ async function verifyLoginName() {
 }
 
 /**
+ * Toggle filter mode
  *
- * @param value
+ * @param value - new value
  */
 async function toggleFilterMode(value: boolean) {
 	if (value) {

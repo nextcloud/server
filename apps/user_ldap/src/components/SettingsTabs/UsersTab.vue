@@ -62,7 +62,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { t } from '@nextcloud/l10n'
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect, NcTextArea } from '@nextcloud/vue'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
 import { useLDAPConfigsStore } from '../../store/configs.ts'
 
@@ -92,8 +92,10 @@ const ldapUserFilterGroups = computed({
 	set(value) { ldapConfigProxy.value.ldapUserFilterGroups = value.join(';') },
 })
 
+onBeforeMount(init)
+
 /**
- *
+ * Initialize user filter options
  */
 async function init() {
 	const response1 = await callWizard('determineUserObjectClasses', props.configId)
@@ -107,10 +109,8 @@ async function init() {
 	ldapConfigs.value[props.configId]!.ldapUserFilterGroups = (response2.changes?.ldap_userfilter_groups as string[] | undefined)?.join(';') ?? ''
 }
 
-init()
-
 /**
- *
+ * Reload filters
  */
 async function reloadFilters() {
 	if (ldapConfigProxy.value.ldapUserFilterMode === '0') {
@@ -125,7 +125,7 @@ async function reloadFilters() {
 }
 
 /**
- *
+ * Count users
  */
 async function countUsers() {
 	try {
@@ -138,8 +138,9 @@ async function countUsers() {
 }
 
 /**
+ * Toggle filter mode
  *
- * @param value
+ * @param value - new value
  */
 async function toggleFilterMode(value: boolean) {
 	if (value) {

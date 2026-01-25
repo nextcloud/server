@@ -127,8 +127,9 @@ async function countGroups() {
 }
 
 /**
+ * Toggle filter mode
  *
- * @param value
+ * @param value - new value
  */
 async function toggleFilterMode(value: boolean) {
 	if (value) {

@@ -102,11 +102,11 @@
 				v-model="ldapConfigProxy.ldapGroupMemberAssocAttr"
 				:options="Object.keys(groupMemberAssociation)"
 				:inputLabel="t('user_ldap', 'Group-Member association')">
-				<template #option="{ label: configId }">
-					{{ groupMemberAssociation[configId] }}
+				<template #option="{ label }">
+					{{ groupMemberAssociation[label] }}
 				</template>
-				<template #selected-option="{ label: configId }">
-					{{ groupMemberAssociation[configId] }}
+				<template #selected-option="{ label }">
+					{{ groupMemberAssociation[label] }}
 				</template>
 			</NcSelect>
 
