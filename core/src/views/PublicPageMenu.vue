@@ -48,7 +48,8 @@ import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import {
 	type Ref,
 
-	computed, ref,
+	computed,
+	ref,
 } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'

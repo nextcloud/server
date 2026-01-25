@@ -383,7 +383,12 @@ export default defineComponent({
 			this.$nextTick(() => {
 				this.$el.scrollTop = scrollTop
 				logger.debug(`VirtualList: scrolling to index ${index}`, {
-					clampedIndex, scrollTop, columnCount: this.columnCount, total: this.totalRowCount, visibleRows: this.visibleRows, beforeHeight: this.beforeHeight,
+					clampedIndex,
+					scrollTop,
+					columnCount: this.columnCount,
+					total: this.totalRowCount,
+					visibleRows: this.visibleRows,
+					beforeHeight: this.beforeHeight,
 				})
 			})
 		},
