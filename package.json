@@ -55,7 +55,7 @@
     "@nextcloud/paths": "^3.0.0",
     "@nextcloud/router": "^3.1.0",
     "@nextcloud/sharing": "^0.3.0",
-    "@nextcloud/vue": "^9.3.1",
+    "@nextcloud/vue": "^9.4.0",
     "@vueuse/core": "^14.1.0",
     "@vueuse/integrations": "^14.1.0",
     "debounce": "^3.0.0",
