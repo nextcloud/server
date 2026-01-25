@@ -8,7 +8,7 @@
 		<NcCheckboxRadioSwitch
 			:model-value="enableDefaultContact"
 			type="switch"
-			@update:model-value="updateEnableDefaultContact">
+			@update:modelValue="updateEnableDefaultContact">
 			{{ t('dav', "Add example contact to user's address book when they first log in") }}
 		</NcCheckboxRadioSwitch>
 		<div v-if="enableDefaultContact" class="example-contact-settings__buttons">

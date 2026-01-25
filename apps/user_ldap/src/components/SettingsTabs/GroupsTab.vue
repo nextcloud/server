@@ -29,7 +29,7 @@
 		<div class="ldap-wizard__groups__line ldap-wizard__groups__groups-filter">
 			<NcCheckboxRadioSwitch
 				:model-value="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				@update:model-value="toggleFilterMode">
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 

@@ -9,7 +9,7 @@
 				:model-value="ldapConfigProxy.ldapConfigurationActive === '1'"
 				type="switch"
 				:aria-label="t('user_ldap', 'When unchecked, this configuration will be skipped.')"
-				@update:model-value="ldapConfigProxy.ldapConfigurationActive = $event ? '1' : '0'">
+				@update:modelValue="ldapConfigProxy.ldapConfigurationActive = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Configuration active') }}
 			</NcCheckboxRadioSwitch>
 

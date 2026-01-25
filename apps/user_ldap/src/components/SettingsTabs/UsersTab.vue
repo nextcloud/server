@@ -30,7 +30,7 @@
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter">
 			<NcCheckboxRadioSwitch
 				:model-value="ldapConfigProxy.ldapUserFilterMode === '1'"
-				@update:model-value="toggleFilterMode">
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
