@@ -9,8 +9,10 @@
 namespace Test\Session;
 
 use OC\Session\CryptoSessionData;
+use OC\Session\Memory;
 use OCP\ISession;
 use OCP\Security\ICrypto;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -20,52 +22,39 @@ use Test\TestCase;
  * TODO: Should really be testing CryptoWrapper!
  */
 class CryptoWrappingTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ICrypto */
-	protected $crypto;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ISession */
-	protected $wrappedSession;
-
-	/** @var \OC\Session\CryptoSessionData */
-	protected $instance;
+	protected ICrypto|MockObject $crypto;
+	protected ISession|MockObject $session;
+	protected CryptoSessionData $instance;
+	
+	protected string $passphrase = 'PASS';
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->wrappedSession = $this->getMockBuilder(ISession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->crypto = $this->getMockBuilder('OCP\Security\ICrypto')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->crypto->expects($this->any())
-			->method('encrypt')
-			->willReturnCallback(function ($input) {
-				return $input;
-			});
-		$this->crypto->expects($this->any())
-			->method('decrypt')
-			->willReturnCallback(function ($input) {
-				if ($input === '') {
-					return '';
-				}
-				return substr($input, 1, -1);
-			});
+		$this->session = new Memory();
+		
+		$this->crypto = $this->createMock(ICrypto::class);
+		
+		$this->crypto->method('encrypt')
+			->willReturnCallback(fn($input) =>
+				'#' . $input . '#');
 
-		$this->instance = new CryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
+		$this->crypto->method('decrypt')
+			->willReturnCallback(fn($input) =>
+				($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1));
+
+		// Encrypted session handler under test
+		$this->instance = new CryptoSessionData($this->session, $this->crypto, $this->passphrase);
 	}
 
 	public function testUnwrappingGet(): void {
+		$keyName = 'someKey';
 		$unencryptedValue = 'foobar';
 		$encryptedValue = $this->crypto->encrypt($unencryptedValue);
 
-		$this->wrappedSession->expects($this->once())
-			->method('get')
-			->with('encrypted_session_data')
-			->willReturnCallback(function () use ($encryptedValue) {
-				return $encryptedValue;
-			});
+		$this->instance->set($keyName, $unencryptedValue);
 
-		$this->assertSame($unencryptedValue, $this->wrappedSession->get('encrypted_session_data'));
+		$this->assertTrue($this->instance->exists($keyName));
+		$this->assertSame($unencryptedValue, $this->instance->get($keyName));
 	}
 }
