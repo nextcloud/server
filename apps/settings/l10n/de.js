@@ -505,7 +505,7 @@ OC.L10N.register(
     "Description" : "Beschreibung",
     "View in store" : "Im Store anzeigen",
     "Visit website" : "Webseite besuchen",
-    "Usage documentation" : "Nutzungsdokumentation",
+    "Usage documentation" : "Bedienungsanleitung",
     "Admin documentation" : "Dokumentation für die Administration",
     "Developer documentation" : "Entwickler-Dokumentation",
     "Details" : "Details",
