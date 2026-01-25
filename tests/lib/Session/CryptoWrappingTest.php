@@ -13,6 +13,12 @@ use OCP\ISession;
 use OCP\Security\ICrypto;
 use Test\TestCase;
 
+/**
+ * Test cases for the internal logic of OC\Session\CryptoSessionData.
+ * Focuses on correct encryption/decryption of session data and wrapping behavior.
+ *
+ * TODO: Should really be testing CryptoWrapper!
+ */
 class CryptoWrappingTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ICrypto */
 	protected $crypto;
