@@ -115,13 +115,13 @@ async function reloadStatus() {
 				<NcChip
 					v-for="group of storage.applicableGroups"
 					:key="group"
-					:icon-path="mdiAccountGroupOutline"
-					no-close
+					:iconPath="mdiAccountGroupOutline"
+					noClose
 					:text="group" />
 				<NcUserBubble
 					v-for="user of users"
 					:key="user.user"
-					:display-name="user.displayName"
+					:displayName="user.displayName"
 					:size="24"
 					:user="user.user" />
 			</div>

@@ -67,7 +67,7 @@ async function addStorage(storage?: Partial<IStorage>) {
 
 <template>
 	<NcSettingsSection
-		:doc-url="settings.docUrl"
+		:docUrl="settings.docUrl"
 		:name="t('files_external', 'External storage')"
 		:description="
 			t('files_external', 'External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices.')

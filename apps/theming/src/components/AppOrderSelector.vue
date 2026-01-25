@@ -151,8 +151,8 @@ function updateStatusInfo(index: number) {
 			:app="app"
 			:aria-details="ariaDetails"
 			:aria-describedby="statusInfoId"
-			:is-first="index === 0 || !!appList[index - 1]!.default"
-			:is-last="index === appList.length - 1"
+			:isFirst="index === 0 || !!appList[index - 1]!.default"
+			:isLast="index === appList.length - 1"
 			v-on="app.default
 				? {}
 				: {

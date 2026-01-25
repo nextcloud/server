@@ -59,9 +59,9 @@ async function onSearch(pattern: string) {
 <template>
 	<NcSelectUsers
 		v-model="model"
-		keep-open
+		keepOpen
 		multiple
 		:options="entities"
-		:input-label="t('files_external', 'Restrict to')"
+		:inputLabel="t('files_external', 'Restrict to')"
 		@search="debouncedSearch" />
 </template>

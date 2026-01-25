@@ -57,13 +57,13 @@ async function generateKeys() {
 			v-show="!(configOption.flags & ConfigurationFlag.Hidden)"
 			:key="configOption.value"
 			v-model="modelValue[configKey]!"
-			:config-key="configKey"
-			:config-option="configOption" />
+			:configKey="configKey"
+			:configOption="configOption" />
 
 		<NcSelect
 			v-model="keySize"
 			:clearable="false"
-			:input-label="t('files_external', 'Key size')"
+			:inputLabel="t('files_external', 'Key size')"
 			:options="[1024, 2048, 4096]"
 			required />
 

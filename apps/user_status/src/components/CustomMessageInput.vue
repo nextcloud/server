@@ -19,10 +19,10 @@
 				maxlength="80"
 				:disabled="disabled"
 				:placeholder="t('user_status', 'What is your status?')"
-				:model-value="message"
+				:modelValue="message"
 				type="text"
 				:label="t('user_status', 'What is your status?')"
-				@update:model-value="onChange" />
+				@update:modelValue="onChange" />
 		</div>
 	</div>
 </template>

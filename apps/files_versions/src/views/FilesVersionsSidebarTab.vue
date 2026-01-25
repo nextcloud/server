@@ -6,24 +6,24 @@
 	<div v-if="node" class="versions-tab__container">
 		<VirtualScrolling
 			:sections="sections"
-			:header-height="0">
+			:headerHeight="0">
 			<template #default="{ visibleSections }">
 				<ul :aria-label="t('files_versions', 'File versions')" data-files-versions-versions-list>
 					<template v-if="visibleSections.length === 1">
 						<VersionEntry
 							v-for="(row) of visibleSections[0].rows"
 							:key="row.items[0].version.mtime"
-							:can-view="canView"
-							:can-compare="canCompare"
-							:load-preview="active"
+							:canView="canView"
+							:canCompare="canCompare"
+							:loadPreview="active"
 							:version="row.items[0].version"
 							:node="node"
-							:is-current="row.items[0].version.mtime === currentVersionMtime"
-							:is-first-version="row.items[0].version.mtime === initialVersionMtime"
+							:isCurrent="row.items[0].version.mtime === currentVersionMtime"
+							:isFirstVersion="row.items[0].version.mtime === initialVersionMtime"
 							@click="openVersion"
 							@compare="compareVersion"
 							@restore="handleRestore"
-							@label-update-request="handleLabelUpdateRequest(row.items[0].version)"
+							@labelUpdateRequest="handleLabelUpdateRequest(row.items[0].version)"
 							@delete="handleDelete" />
 					</template>
 				</ul>
@@ -234,10 +234,9 @@ async function handleDelete(version: Version) {
 }
 
 /**
- * @param payload - The event payload
- * @param payload.version - The version to open
+ * @param version - The version to open
  */
-function openVersion({ version }: { version: Version }) {
+function openVersion(version: Version) {
 	if (props.node === null) {
 		return
 	}
@@ -261,10 +260,9 @@ function openVersion({ version }: { version: Version }) {
 }
 
 /**
- * @param payload - The event payload
- * @param payload.version - The version to compare
+ * @param version - The version to compare
  */
-function compareVersion({ version }: { version: Version }) {
+function compareVersion(version: Version) {
 	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
 
 	window.OCA.Viewer.compare(
