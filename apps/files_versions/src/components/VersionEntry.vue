@@ -133,7 +133,6 @@
 
 <script lang="ts" setup>
 import type { INode } from '@nextcloud/files'
-import type { PropType } from 'vue'
 import type { Version } from '../utils/versions.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -154,44 +153,23 @@ import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 
-const props = defineProps({
-	version: {
-		type: Object as PropType<Version>,
-		required: true,
-	},
+const props = defineProps<{
+	version: Version
+	node: INode
+	isCurrent: boolean
+	isFirstVersion: boolean
+	loadPreview: boolean
+	canView: boolean
+	canCompare: boolean
+}>()
 
-	node: {
-		type: Object as PropType<INode>,
-		required: true,
-	},
-
-	isCurrent: {
-		type: Boolean,
-		default: false,
-	},
-
-	isFirstVersion: {
-		type: Boolean,
-		default: false,
-	},
-
-	loadPreview: {
-		type: Boolean,
-		default: false,
-	},
-
-	canView: {
-		type: Boolean,
-		default: false,
-	},
-
-	canCompare: {
-		type: Boolean,
-		default: false,
-	},
-})
-
-const emit = defineEmits(['click', 'compare', 'restore', 'delete', 'label-update-request'])
+const emit = defineEmits<{
+	click: [version: Version]
+	compare: [version: Version]
+	restore: [version: Version]
+	delete: [version: Version]
+	labelUpdateRequest: []
+}>()
 
 const previewLoaded = ref(false)
 const previewErrored = ref(false)
@@ -287,7 +265,7 @@ const isDownloadable = computed(() => {
  * Label update request
  */
 function labelUpdate() {
-	emit('label-update-request')
+	emit('labelUpdateRequest')
 }
 
 /**
@@ -318,7 +296,7 @@ function click(event: MouseEvent) {
 		event.preventDefault()
 	}
 
-	emit('click', { version: props.version })
+	emit('click', props.version)
 }
 
 /**
@@ -328,7 +306,7 @@ function compareVersion() {
 	if (!props.canView) {
 		throw new Error('Cannot compare version of this file')
 	}
-	emit('compare', { version: props.version })
+	emit('compare', props.version)
 }
 
 /**

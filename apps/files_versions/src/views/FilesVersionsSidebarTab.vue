@@ -234,10 +234,9 @@ async function handleDelete(version: Version) {
 }
 
 /**
- * @param payload - The event payload
- * @param payload.version - The version to open
+ * @param version - The version to open
  */
-function openVersion({ version }: { version: Version }) {
+function openVersion(version: Version) {
 	if (props.node === null) {
 		return
 	}
@@ -261,10 +260,9 @@ function openVersion({ version }: { version: Version }) {
 }
 
 /**
- * @param payload - The event payload
- * @param payload.version - The version to compare
+ * @param version - The version to compare
  */
-function compareVersion({ version }: { version: Version }) {
+function compareVersion(version: Version) {
 	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
 
 	window.OCA.Viewer.compare(
