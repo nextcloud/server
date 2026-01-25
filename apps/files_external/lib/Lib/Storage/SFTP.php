@@ -70,7 +70,7 @@ class SFTP extends Common {
 		$parsedHost = $this->splitHost($parameters['host']);
 
 		$this->host = $parsedHost[0];
-		$this->port = $parsedHost[1];
+		$this->port = $parameters['port'] ?? $parsedHost[1];
 
 		if (!isset($parameters['user'])) {
 			throw new \UnexpectedValueException('no authentication parameters specified');
