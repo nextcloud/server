@@ -121,9 +121,6 @@ This file is generated from multiple sources. Included packages:
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
-- focus-trap
-	- version: 7.8.0
-	- license: MIT
 - p-queue
 	- version: 8.1.1
 	- license: MIT
@@ -192,6 +189,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
+	- license: MIT
+- focus-trap
+	- version: 7.8.0
 	- license: MIT
 - hast-to-hyperscript
 	- version: 10.0.3

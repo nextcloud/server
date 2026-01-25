@@ -58,6 +58,9 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 14.1.0
 	- license: MIT
+- focus-trap
+	- version: 7.6.6
+	- license: MIT
 - vue-router
 	- version: 4.6.4
 	- license: MIT
@@ -120,9 +123,6 @@ This file is generated from multiple sources. Included packages:
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
-	- license: MIT
-- focus-trap
-	- version: 7.6.6
 	- license: MIT
 - ieee754
 	- version: 1.2.1
