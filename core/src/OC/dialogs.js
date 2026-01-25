@@ -684,8 +684,7 @@ const Dialogs = {
 						}
 						$(dialogId).ocdialog('close')
 					},
-				},
-				{
+				}, {
 					text: t('core', 'Continue'),
 					classes: 'continue',
 					click: function() {

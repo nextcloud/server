@@ -93,7 +93,8 @@ export default {
 				const version = list[id]
 				const name = agents[id]?.browser
 				return this.t('core', '{name} version {version} and above', {
-					name, version,
+					name,
+					version,
 				})
 			}).filter((entry) => entry !== null)
 		},

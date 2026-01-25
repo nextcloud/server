@@ -356,8 +356,7 @@ export default defineComponent({
 						value: this.emails,
 						key: 'emails',
 						scope: 'shareWith',
-					},
-					{
+					}, {
 						value: true,
 						key: 'enabled',
 						scope: 'fileRequest',
