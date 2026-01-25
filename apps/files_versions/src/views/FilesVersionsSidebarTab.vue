@@ -6,20 +6,20 @@
 	<div v-if="node" class="versions-tab__container">
 		<VirtualScrolling
 			:sections="sections"
-			:header-height="0">
+			:headerHeight="0">
 			<template #default="{ visibleSections }">
 				<ul :aria-label="t('files_versions', 'File versions')" data-files-versions-versions-list>
 					<template v-if="visibleSections.length === 1">
 						<VersionEntry
 							v-for="(row) of visibleSections[0].rows"
 							:key="row.items[0].version.mtime"
-							:can-view="canView"
-							:can-compare="canCompare"
-							:load-preview="active"
+							:canView="canView"
+							:canCompare="canCompare"
+							:loadPreview="active"
 							:version="row.items[0].version"
 							:node="node"
-							:is-current="row.items[0].version.mtime === currentVersionMtime"
-							:is-first-version="row.items[0].version.mtime === initialVersionMtime"
+							:isCurrent="row.items[0].version.mtime === currentVersionMtime"
+							:isFirstVersion="row.items[0].version.mtime === initialVersionMtime"
 							@click="openVersion"
 							@compare="compareVersion"
 							@restore="handleRestore"

@@ -6,7 +6,7 @@
 <template>
 	<div class="example-event-settings">
 		<NcCheckboxRadioSwitch
-			:model-value="createExampleEvent"
+			:modelValue="createExampleEvent"
 			:disabled="savingConfig"
 			type="switch"
 			@update:modelValue="updateCreateExampleEvent">

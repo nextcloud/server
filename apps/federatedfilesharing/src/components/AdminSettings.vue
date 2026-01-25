@@ -156,7 +156,7 @@ async function updateAppConfig(key: string, value: boolean) {
 	<NcSettingsSection
 		:name="t('federatedfilesharing', 'Federated Cloud Sharing')"
 		:description="t('federatedfilesharing', 'Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing.')"
-		:doc-url="sharingFederatedDocUrl">
+		:docUrl="sharingFederatedDocUrl">
 		<NcCheckboxRadioSwitch
 			v-model="state.outgoingServer2serverShareEnabled"
 			type="switch">
@@ -188,7 +188,7 @@ async function updateAppConfig(key: string, value: boolean) {
 
 			<NcCheckboxRadioSwitch
 				type="switch"
-				:model-value="state.lookupServerEnabled"
+				:modelValue="state.lookupServerEnabled"
 				disabled
 				@update:modelValue="showLookupServerConfirmation">
 				{{ t('federatedfilesharing', 'Search global and public address book for people') }}
@@ -196,7 +196,7 @@ async function updateAppConfig(key: string, value: boolean) {
 
 			<NcCheckboxRadioSwitch
 				type="switch"
-				:model-value="state.lookupServerUploadEnabled"
+				:modelValue="state.lookupServerUploadEnabled"
 				disabled
 				@update:modelValue="showLookupServerUploadConfirmation">
 				{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}

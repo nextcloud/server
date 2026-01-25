@@ -51,7 +51,7 @@ async function reloadStatus() {
 
 		<SettingsPersonalChangePrivateKey
 			v-else-if="initialized === InitStatus.InitExecuted"
-			:recovery-enabled-for-user
+			:recoveryEnabledForUser
 			@updated="reloadStatus" />
 		<SettingsPersonalEnableRecovery
 			v-else-if="personalSettings.recoveryEnabled && personalSettings.privateKeySet"
