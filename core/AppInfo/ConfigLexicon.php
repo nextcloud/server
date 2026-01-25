@@ -21,6 +21,8 @@ use NCU\Config\ValueType;
 class ConfigLexicon implements IConfigLexicon {
 	public const UNIFIED_SEARCH_MIN_SEARCH_LENGTH = 'unified_search_min_search_length';
 	public const UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST = 'unified_search_max_results_per_request';
+	public const USER_LANGUAGE = 'lang';
+	public const LASTCRON_TIMESTAMP = 'lastcron';
 
 	public function getStrictness(): ConfigLexiconStrictness {
 		return ConfigLexiconStrictness::IGNORE;
@@ -30,11 +32,13 @@ class ConfigLexicon implements IConfigLexicon {
 		return [
 			new ConfigLexiconEntry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', lazy: false),
 			new ConfigLexiconEntry(self::UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST, ValueType::INT, 25, 'Maximum number of results returned per request', lazy: false),
+			new ConfigLexiconEntry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 		];
 	}
 
 	public function getUserConfigs(): array {
 		return [
+			new ConfigLexiconEntry(self::USER_LANGUAGE, ValueType::STRING, null, 'language'),
 		];
 	}
 }
