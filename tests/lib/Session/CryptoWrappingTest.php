@@ -56,5 +56,13 @@ class CryptoWrappingTest extends TestCase {
 
 		$this->assertTrue($this->instance->exists($keyName));
 		$this->assertSame($unencryptedValue, $this->instance->get($keyName));
+
+		// Trigger flush so encrypted_session_data blob gets written out
+		$this->instance->close(); // or unset($this->instance)
+
+		// Confirm data is truly encrypted
+		$encryptedSessionDataBlob = $this->session->get('encrypted_session_data'); // should contain raw encrypted blob not the decrypted data
+		$expectedEncryptedSessionDataBlob = $this->crypto->encrypt(json_encode(["$keyName" => "$unencryptedValue"]), $this->passphrase);
+		$this->assertSame($expectedEncryptedSessionDataBlob, $encryptedSessionDataBlob);
 	}
 }
