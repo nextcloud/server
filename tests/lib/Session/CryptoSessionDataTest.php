@@ -13,6 +13,11 @@ use OC\Session\Memory;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 
+/**
+ * Test case for OC\Session\CryptoSessionData using in-memory session storage.
+ * Reuses session contract tests but verifies they hold with encrypted storage 
+ * (i.e., session values are encrypted/decrypted transparently).
+ */
 class CryptoSessionDataTest extends Session {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ICrypto */
 	protected $crypto;
