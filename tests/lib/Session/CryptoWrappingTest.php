@@ -8,10 +8,12 @@
 
 namespace Test\Session;
 
+use OC\Session\CryptoWrapper;
 use OC\Session\CryptoSessionData;
 use OC\Session\Memory;
-use OCP\ISession;
+use OCP\IRequest;
 use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -23,46 +25,92 @@ use Test\TestCase;
  */
 class CryptoWrappingTest extends TestCase {
 	protected ICrypto|MockObject $crypto;
-	protected ISession|MockObject $session;
-	protected CryptoSessionData $instance;
-	
-	protected string $passphrase = 'PASS';
+	protected ISecureRandom|MockObject $random;
+	protected IRequest|MockObject $request;
 
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->session = new Memory();
 		
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->random = $this->createMock(ISecureRandom::class);
+		$this->request = $this->createMock(IRequest::class);
+	}
+
+	public function testWrapSessionReturnsCryptoSessionData(): void {
+		$this->random->method('generate')->willReturn(str_repeat('Q', 128));
+		$this->request->method('getCookie')->willReturn(null);
+		$this->request->method('getServerProtocol')->willReturn('https');
+
+		$session = new Memory();
+
+		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);
+		$wrappedSession = $cryptoWrapper->wrapSession($session);
+
+		$this->assertInstanceOf(CryptoSessionData::class, $wrappedSession);
+	}
+
+	public function testWrapSessionDoesNotDoubleWrap(): void {
+		$alreadyWrapped = $this->createMock(CryptoSessionData::class);
+
+		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);
+		$wrappedSession = $cryptoWrapper->wrapSession($alreadyWrapped);
+
+		$this->assertSame($alreadyWrapped, $wrappedSession);
+	}
+
+	public function testPassphraseGeneratedIfNoCookie(): void {
+		$expectedPassphrase = str_repeat('z', 128);
+		$this->random->expects($this->once())->method('generate')->with(128)->willReturn($expectedPassphrase);
+		$this->request->method('getCookie')->willReturn(null);
+		$this->request->method('getServerProtocol')->willReturn('https');
+
+		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);
+		$ref = new \ReflectionProperty($cryptoWrapper, 'passphrase');
+		$ref->setAccessible(true);
+		$this->assertSame($expectedPassphrase, $ref->getValue($cryptoWrapper));
+	}
+
+	public function testPassphraseReusedIfCookiePresent(): void {
+		$cookieVal = 'pass_from_cookie';
+		$this->request->method('getCookie')->willReturn($cookieVal);
+		$this->random->expects($this->never())->method('generate');
+		$this->request->method('getServerProtocol')->willReturn('https');
+
+		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);
+		$ref = new \ReflectionProperty($cryptoWrapper, 'passphrase');
+		$ref->setAccessible(true);
+		$this->assertSame($cookieVal, $ref->getValue($cryptoWrapper));
+	}
+
+	public function testIntegrationWrapSetAndGet(): void {
+		$keyName = 'someKey';
+		$unencryptedValue = 'foobar';
+		$encryptedValue = $this->crypto->encrypt($unencryptedValue);
 		
 		$this->crypto->method('encrypt')
 			->willReturnCallback(fn($input) =>
 				'#' . $input . '#');
-
 		$this->crypto->method('decrypt')
 			->willReturnCallback(fn($input) =>
 				($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1));
+		$this->random->method('generate')->willReturn(str_repeat('C', 128));
+		$this->request->method('getCookie')->willReturn(null);
+		$this->request->method('getServerProtocol')->willReturn('https');
 
-		// Encrypted session handler under test
-		$this->instance = new CryptoSessionData($this->session, $this->crypto, $this->passphrase);
-	}
+		$session = new Memory();
+		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);		
+		$wrappedSession = $cryptoWrapper->wrapSession($session);
+	
+		$wrappedSession->set($keyName, $unencryptedValue);
 
-	public function testUnwrappingGet(): void {
-		$keyName = 'someKey';
-		$unencryptedValue = 'foobar';
-		$encryptedValue = $this->crypto->encrypt($unencryptedValue);
+		$this->assertTrue($wrappedSession->exists($keyName));
+		$this->assertSame($unencryptedValue, $wrappedSession->get($keyName));
 
-		$this->instance->set($keyName, $unencryptedValue);
+		// Encrypted storage check
+		$wrappedSession->close(); // trigger flush so blob gets written out
 
-		$this->assertTrue($this->instance->exists($keyName));
-		$this->assertSame($unencryptedValue, $this->instance->get($keyName));
-
-		// Trigger flush so encrypted_session_data blob gets written out
-		$this->instance->close(); // or unset($this->instance)
-
-		// Confirm data is truly encrypted
-		$encryptedSessionDataBlob = $this->session->get('encrypted_session_data'); // should contain raw encrypted blob not the decrypted data
-		$expectedEncryptedSessionDataBlob = $this->crypto->encrypt(json_encode(["$keyName" => "$unencryptedValue"]), $this->passphrase);
+		$encryptedSessionDataBlob = $session->get('encrypted_session_data'); // should contain raw encrypted blob not the decrypted data
+		$expectedEncryptedSessionDataBlob = $this->crypto->encrypt(json_encode(["$keyName" => "$unencryptedValue"]), $this->random->generate(128));
 		$this->assertSame($expectedEncryptedSessionDataBlob, $encryptedSessionDataBlob);
 	}
 }
