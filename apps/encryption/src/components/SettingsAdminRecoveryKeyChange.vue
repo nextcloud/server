@@ -77,7 +77,7 @@ async function onSubmit() {
 				required
 				name="confirmPassword"
 				:error="!passwordMatch && !!confirmPassword"
-				:helper-text="(passwordMatch || !confirmPassword) ? '' : t('encryption', 'Passwords fields do not match')"
+				:helperText="(passwordMatch || !confirmPassword) ? '' : t('encryption', 'Passwords fields do not match')"
 				:label="t('encryption', 'Repeat new recovery key password')" />
 
 			<NcButton type="submit" variant="primary">

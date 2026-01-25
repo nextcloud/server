@@ -38,7 +38,7 @@
 		<h3>{{ t('theming', 'Misc accessibility options') }}</h3>
 		<NcCheckboxRadioSwitch
 			type="checkbox"
-			:model-value="enableBlurFilter === 'yes'"
+			:modelValue="enableBlurFilter === 'yes'"
 			:indeterminate="enableBlurFilter === ''"
 			@update:modelValue="changeEnableBlurFilter">
 			{{ t('theming', 'Enable blur background filter (may increase GPU load)') }}

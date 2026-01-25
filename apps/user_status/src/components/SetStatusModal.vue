@@ -6,9 +6,9 @@
 <template>
 	<NcModal
 		size="normal"
-		label-id="user_status-set-dialog"
+		labelId="user_status-set-dialog"
 		dark
-		:set-return-focus="setReturnFocus"
+		:setReturnFocus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
@@ -60,7 +60,7 @@
 					@select="revertBackupFromServer" />
 				<PredefinedStatusesList @selectStatus="selectPredefinedMessage" />
 				<ClearAtSelect
-					:clear-at="clearAt"
+					:clearAt="clearAt"
 					@selectClearAt="setClearAt" />
 				<div class="status-buttons">
 					<NcButton

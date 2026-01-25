@@ -144,7 +144,7 @@ async function saveSetting(key: string, value: unknown) {
 		<AppOrderSelector
 			:class="$style.userSectionAppMenu__selector"
 			:aria-details="ariaDetailsAppOrder"
-			:model-value="appOrder"
+			:modelValue="appOrder"
 			@update:modelValue="updateAppOrder" />
 
 		<NcButton

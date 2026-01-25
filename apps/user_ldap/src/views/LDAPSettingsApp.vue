@@ -17,7 +17,7 @@
 					v-if="selectedConfigId !== undefined"
 					v-model="selectedConfigId"
 					:options="Object.keys(ldapConfigs)"
-					:input-label="t('user_ldap', 'Select LDAP Config')">
+					:inputLabel="t('user_ldap', 'Select LDAP Config')">
 					<template #option="{ label: configId }">
 						{{ `${configId}: ${ldapConfigs[configId]?.ldapHost ?? ''}` }}
 					</template>
@@ -43,24 +43,24 @@
 							v-for="(tabLabel, tabId) in tabs"
 							:key="tabId"
 							v-model="selectedTab"
-							:button-variant="true"
+							:buttonVariant="true"
 							:value="tabId"
 							type="radio"
 							:disabled="tabId !== 'server' && !selectedConfigHasServerInfo"
-							button-variant-grouped="horizontal">
+							buttonVariantGrouped="horizontal">
 							{{ tabLabel }}
 						</NcCheckboxRadioSwitch>
 					</div>
 				</div>
 
-				<ServerTab v-if="selectedTab === 'server'" :config-id="selectedConfigId" />
-				<UsersTab v-else-if="selectedTab === 'users'" :config-id="selectedConfigId" />
-				<LoginTab v-else-if="selectedTab === 'login'" :config-id="selectedConfigId" />
-				<GroupsTab v-else-if="selectedTab === 'groups'" :config-id="selectedConfigId" />
-				<ExpertTab v-else-if="selectedTab === 'expert'" :config-id="selectedConfigId" />
-				<AdvancedTab v-else-if="selectedTab === 'advanced'" :config-id="selectedConfigId" />
+				<ServerTab v-if="selectedTab === 'server'" :configId="selectedConfigId" />
+				<UsersTab v-else-if="selectedTab === 'users'" :configId="selectedConfigId" />
+				<LoginTab v-else-if="selectedTab === 'login'" :configId="selectedConfigId" />
+				<GroupsTab v-else-if="selectedTab === 'groups'" :configId="selectedConfigId" />
+				<ExpertTab v-else-if="selectedTab === 'expert'" :configId="selectedConfigId" />
+				<AdvancedTab v-else-if="selectedTab === 'advanced'" :configId="selectedConfigId" />
 
-				<WizardControls class="ldap-wizard__controls" :config-id="selectedConfigId" />
+				<WizardControls class="ldap-wizard__controls" :configId="selectedConfigId" />
 			</div>
 
 			<div class="ldap-wizard__clear-mapping">

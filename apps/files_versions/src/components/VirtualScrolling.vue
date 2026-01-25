@@ -8,7 +8,7 @@
 			ref="rowsContainer"
 			class="vs-rows-container"
 			:style="rowsContainerStyle">
-			<slot :visible-sections="visibleSections" />
+			<slot :visibleSections="visibleSections" />
 			<slot name="loader" />
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 		ref="rowsContainer"
 		class="vs-rows-container"
 		:style="rowsContainerStyle">
-		<slot :visible-sections="visibleSections" />
+		<slot :visibleSections="visibleSections" />
 		<slot name="loader" />
 	</div>
 </template>

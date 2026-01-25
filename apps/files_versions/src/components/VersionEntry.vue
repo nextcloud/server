@@ -5,7 +5,7 @@
 <template>
 	<NcListItem
 		class="version"
-		:force-display-actions="true"
+		:forceDisplayActions="true"
 		:actions-aria-label="t('files_versions', 'Actions for version from {versionHumanExplicitDate}', { versionHumanExplicitDate })"
 		:data-files-versions-version="version.fileVersion"
 		:href="downloadURL"
@@ -49,9 +49,9 @@
 						class="avatar"
 						:user="version.author ?? undefined"
 						:size="20"
-						disable-menu
-						disable-tooltip
-						hide-status />
+						disableMenu
+						disableTooltip
+						hideStatus />
 					<div
 						class="version__info__author_name"
 						:title="versionAuthor">
@@ -66,7 +66,7 @@
 			<div class="version__info version__info__subline">
 				<NcDateTime
 					class="version__info__date"
-					relative-time="short"
+					relativeTime="short"
 					:timestamp="version.mtime" />
 				<!-- Separate dot to improve alignment -->
 				<span>•</span>
@@ -79,7 +79,7 @@
 			<NcActionButton
 				v-if="enableLabeling && hasUpdatePermissions"
 				data-cy-files-versions-version-action="label"
-				:close-after-click="true"
+				:closeAfterClick="true"
 				@click="labelUpdate">
 				<template #icon>
 					<Pencil :size="22" />
@@ -89,7 +89,7 @@
 			<NcActionButton
 				v-if="!isCurrent && canView && canCompare"
 				data-cy-files-versions-version-action="compare"
-				:close-after-click="true"
+				:closeAfterClick="true"
 				@click="compareVersion">
 				<template #icon>
 					<FileCompare :size="22" />
@@ -99,7 +99,7 @@
 			<NcActionButton
 				v-if="!isCurrent && hasUpdatePermissions"
 				data-cy-files-versions-version-action="restore"
-				:close-after-click="true"
+				:closeAfterClick="true"
 				@click="restoreVersion">
 				<template #icon>
 					<BackupRestore :size="22" />
@@ -110,7 +110,7 @@
 				v-if="isDownloadable"
 				data-cy-files-versions-version-action="download"
 				:href="downloadURL"
-				:close-after-click="true"
+				:closeAfterClick="true"
 				:download="downloadURL">
 				<template #icon>
 					<Download :size="22" />
@@ -120,7 +120,7 @@
 			<NcActionButton
 				v-if="!isCurrent && enableDeletion && hasDeletePermissions"
 				data-cy-files-versions-version-action="delete"
-				:close-after-click="true"
+				:closeAfterClick="true"
 				@click="deleteVersion">
 				<template #icon>
 					<Delete :size="22" />

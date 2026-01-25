@@ -81,7 +81,7 @@ const checkFilesystem = computed({
 			:aria-labelledby="idButton">
 			<NcSelect
 				v-model="checkFilesystem"
-				:input-label="t('files_external', 'Check filesystem changes')"
+				:inputLabel="t('files_external', 'Check filesystem changes')"
 				:options="checkFilesystemOptions" />
 
 			<NcCheckboxRadioSwitch v-model="modelValue.readonly" type="switch">
