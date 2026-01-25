@@ -23,7 +23,7 @@
 							@click="openVersion"
 							@compare="compareVersion"
 							@restore="handleRestore"
-							@label-update-request="handleLabelUpdateRequest(row.items[0].version)"
+							@labelUpdateRequest="handleLabelUpdateRequest(row.items[0].version)"
 							@delete="handleDelete" />
 					</template>
 				</ul>

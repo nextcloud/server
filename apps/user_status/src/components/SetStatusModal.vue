@@ -38,7 +38,7 @@
 						:icon="icon"
 						:message="editedMessage"
 						@change="setMessage"
-						@select-icon="setIcon" />
+						@selectIcon="setIcon" />
 					<NcButton
 						v-if="messageId === 'vacationing'"
 						:href="absencePageUrl"
@@ -58,10 +58,10 @@
 					:icon="backupIcon"
 					:message="backupMessage"
 					@select="revertBackupFromServer" />
-				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
+				<PredefinedStatusesList @selectStatus="selectPredefinedMessage" />
 				<ClearAtSelect
 					:clear-at="clearAt"
-					@select-clear-at="setClearAt" />
+					@selectClearAt="setClearAt" />
 				<div class="status-buttons">
 					<NcButton
 						:wide="true"

@@ -11,14 +11,14 @@
 		<NcCheckboxRadioSwitch
 			:model-value="ldapConfigProxy.ldapLoginFilterUsername === '1'"
 			:description="t('user_ldap', 'Allows login against the LDAP/AD username, which is either \'uid\' or \'sAMAccountName\' and will be detected.')"
-			@update:model-value="ldapConfigProxy.ldapLoginFilterUsername = $event ? '1' : '0'">
+			@update:modelValue="ldapConfigProxy.ldapLoginFilterUsername = $event ? '1' : '0'">
 			{{ t('user_ldap', 'LDAP/AD Username:') }}
 		</NcCheckboxRadioSwitch>
 
 		<NcCheckboxRadioSwitch
 			:model-value="ldapConfigProxy.ldapLoginFilterEmail === '1'"
 			:description="t('user_ldap', 'Allows login against an email attribute. \'mail\' and \'mailPrimaryAddress\' allowed.')"
-			@update:model-value="ldapConfigProxy.ldapLoginFilterEmail = $event ? '1' : '0'">
+			@update:modelValue="ldapConfigProxy.ldapLoginFilterEmail = $event ? '1' : '0'">
 			{{ t('user_ldap', 'LDAP/AD Email Address:') }}
 		</NcCheckboxRadioSwitch>
 
@@ -35,7 +35,7 @@
 		<div class="ldap-wizard__login__line ldap-wizard__login__user-login-filter">
 			<NcCheckboxRadioSwitch
 				:model-value="ldapLoginFilterMode"
-				@update:model-value="toggleFilterMode">
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 

@@ -53,7 +53,7 @@ watchDebounced(modelValue, (value) => {
 		:type
 		:show-trailing-button="modelValue !== defaultValue"
 		:trailing-button-icon="defaultValue ? 'undo' : 'close'"
-		@trailing-button-click="reset">
+		@trailingButtonClick="reset">
 		<template v-if="isSaving" #icon>
 			<NcLoadingIcon />
 		</template>

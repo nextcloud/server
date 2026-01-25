@@ -22,7 +22,7 @@
 				:model-value="message"
 				type="text"
 				:label="t('user_status', 'What is your status?')"
-				@update:model-value="onChange" />
+				@update:modelValue="onChange" />
 		</div>
 	</div>
 </template>

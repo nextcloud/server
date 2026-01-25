@@ -24,14 +24,14 @@
 				:model-value="ldapConfigProxy.ldapOverrideMainServer === '1'"
 				type="switch"
 				:aria-label="t('user_ldap', 'Only connect to the replica server.')"
-				@update:model-value="ldapConfigProxy.ldapOverrideMainServer = $event ? '1' : '0'">
+				@update:modelValue="ldapConfigProxy.ldapOverrideMainServer = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Disable Main Server') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcCheckboxRadioSwitch
 				:model-value="ldapConfigProxy.turnOffCertCheck === '1'"
 				:aria-label="t('user_ldap', 'Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your {instanceName} server.', { instanceName })"
-				@update:model-value="ldapConfigProxy.turnOffCertCheck = $event ? '1' : '0'">
+				@update:modelValue="ldapConfigProxy.turnOffCertCheck = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Turn off SSL certificate validation.') }}
 			</NcCheckboxRadioSwitch>
 
@@ -75,7 +75,7 @@
 			<NcCheckboxRadioSwitch
 				:model-value="ldapConfigProxy.markRemnantsAsDisabled === '1'"
 				:aria-label="t('user_ldap', 'When switched on, users imported from LDAP which are then missing will be disabled')"
-				@update:model-value="ldapConfigProxy.markRemnantsAsDisabled = $event ? '1' : '0'">
+				@update:modelValue="ldapConfigProxy.markRemnantsAsDisabled = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Disable users missing from LDAP') }}
 			</NcCheckboxRadioSwitch>
 
@@ -120,7 +120,7 @@
 			<NcCheckboxRadioSwitch
 				:model-value="ldapConfigProxy.ldapNestedGroups === '1'"
 				:aria-label="t('user_ldap', 'When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)')"
-				@update:model-value="ldapConfigProxy.ldapNestedGroups = $event ? '1' : '0'">
+				@update:modelValue="ldapConfigProxy.ldapNestedGroups = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Nested Groups') }}
 			</NcCheckboxRadioSwitch>
 
@@ -134,7 +134,7 @@
 			<NcCheckboxRadioSwitch
 				:model-value="ldapConfigProxy.turnOnPasswordChange === '1'"
 				:aria-label="t('user_ldap', 'Allow LDAP users to change their password and allow Super Administrators and Group Administrators to change the password of their LDAP users. Only works when access control policies are configured accordingly on the LDAP server. As passwords are sent in plaintext to the LDAP server, transport encryption must be used and password hashing should be configured on the LDAP server.')"
-				@update:model-value="ldapConfigProxy.turnOnPasswordChange = $event ? '1' : '0'">
+				@update:modelValue="ldapConfigProxy.turnOnPasswordChange = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Enable LDAP password changes per user') }}
 			</NcCheckboxRadioSwitch>
 			<span class="tablecell">

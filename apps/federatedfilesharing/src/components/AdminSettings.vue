@@ -190,7 +190,7 @@ async function updateAppConfig(key: string, value: boolean) {
 				type="switch"
 				:model-value="state.lookupServerEnabled"
 				disabled
-				@update:model-value="showLookupServerConfirmation">
+				@update:modelValue="showLookupServerConfirmation">
 				{{ t('federatedfilesharing', 'Search global and public address book for people') }}
 			</NcCheckboxRadioSwitch>
 
@@ -198,7 +198,7 @@ async function updateAppConfig(key: string, value: boolean) {
 				type="switch"
 				:model-value="state.lookupServerUploadEnabled"
 				disabled
-				@update:model-value="showLookupServerUploadConfirmation">
+				@update:modelValue="showLookupServerUploadConfirmation">
 				{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
 			</NcCheckboxRadioSwitch>
 		</fieldset>
