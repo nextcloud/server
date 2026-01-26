@@ -58,7 +58,6 @@ class OpenMetricsControllerTest extends TestCase {
 			# UNIT nextcloud_exporter_duration seconds
 			# HELP nextcloud_exporter_duration Exporter run time
 			nextcloud_exporter_duration %f
-
 			# EOF
 
 			EXPECTED;
