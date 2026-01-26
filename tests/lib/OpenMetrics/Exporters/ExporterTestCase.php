@@ -26,11 +26,28 @@ abstract class ExporterTestCase extends TestCase {
 	}
 
 	public function testNotEmptyData(): void {
-		$this->assertNotEmpty($this->exporter->name());
 		$this->assertNotEmpty($this->metrics);
 	}
 
-	public function testValidNames(): void {
+	public function testValidExporterName(): void {
+		$exporterName = $this->exporter->name();
+		$this->assertMatchesRegularExpression('/^[a-z_:][a-z0-9_:]*$/i', $exporterName, );
+
+		$unit = $this->exporter->unit();
+		if ($unit === '') {
+			return;
+		}
+		// Unit name must follow metric name format
+		$this->assertMatchesRegularExpression('/^[a-z_:][a-z0-9_:]*$/i', $unit);
+		// Unit name must be a suffix in exporter name
+		$this->assertMatchesRegularExpression(
+			'/(^|_)' . $unit . '$/',
+			$exporterName,
+			'Metric name "' . $exporterName . '" must contains unit "' . $unit . '" as a suffix',
+		);
+	}
+
+	public function testValidLabelKey(): void {
 		$labelNames = [];
 		foreach ($this->metrics as $metric) {
 			foreach ($metric->labels as $label => $value) {

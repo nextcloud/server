@@ -83,10 +83,10 @@ class OpenMetricsController extends Controller {
 
 		$elapsed = (string)(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
 		yield <<<SUMMARY
-			# TYPE nextcloud_exporter_duration gauge
-			# UNIT nextcloud_exporter_duration seconds
-			# HELP nextcloud_exporter_duration Exporter run time
-			nextcloud_exporter_duration $elapsed
+			# TYPE nextcloud_exporter_run_seconds gauge
+			# UNIT nextcloud_exporter_run_seconds seconds
+			# HELP nextcloud_exporter_run_seconds Exporter run time
+			nextcloud_exporter_run_seconds $elapsed
 			# EOF
 
 			SUMMARY;

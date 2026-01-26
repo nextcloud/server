@@ -54,10 +54,10 @@ class OpenMetricsControllerTest extends TestCase {
 		$this->assertEquals('200', $response->getStatus());
 		$this->assertEquals('application/openmetrics-text; version=1.0.0; charset=utf-8', $response->getHeaders()['Content-Type']);
 		$expected = <<<EXPECTED
-			# TYPE nextcloud_exporter_duration gauge
-			# UNIT nextcloud_exporter_duration seconds
-			# HELP nextcloud_exporter_duration Exporter run time
-			nextcloud_exporter_duration %f
+			# TYPE nextcloud_exporter_run_seconds gauge
+			# UNIT nextcloud_exporter_run_seconds seconds
+			# HELP nextcloud_exporter_run_seconds Exporter run time
+			nextcloud_exporter_run_seconds %f
 			# EOF
 
 			EXPECTED;
