@@ -37,6 +37,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
