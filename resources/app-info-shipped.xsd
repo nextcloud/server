@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -42,6 +42,8 @@
                             maxOccurs="1"/>
                 <xs:element name="screenshot" type="screenshot" minOccurs="0"
                             maxOccurs="10"/>
+                <xs:element name="donation" type="donation" minOccurs="0"
+                            maxOccurs="10"/>
                 <xs:element name="dependencies" type="dependencies"
                             minOccurs="1" maxOccurs="1"/>
                 <xs:element name="background-jobs" type="jobs"
@@ -77,6 +79,7 @@
                             maxOccurs="1" />
                 <xs:element name="versions" type="versions" minOccurs="0"
                             maxOccurs="1" />
+                <xs:element name="external-app" type="external-app" minOccurs="0" maxOccurs="1"/>
             </xs:sequence>
         </xs:complexType>
         <xs:unique name="uniqueNameL10n">
@@ -371,11 +374,13 @@
             <xs:enumeration value="games"/>
             <xs:enumeration value="search"/>
             <xs:enumeration value="workflow"/>
+            <xs:enumeration value="ai"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="licence">
         <xs:restriction base="xs:string">
+            <!-- Requires Nextcloud minVersion >= 31 -->
             <xs:enumeration value="AGPL-3.0-only"/>
             <xs:enumeration value="AGPL-3.0-or-later"/>
             <xs:enumeration value="Apache-2.0"/>
@@ -386,8 +391,10 @@
 
             <!-- Deprecated -->
             <xs:enumeration value="agpl"/>
+            <xs:enumeration value="mit"/>
             <xs:enumeration value="mpl"/>
             <xs:enumeration value="apache"/>
+            <xs:enumeration value="gpl3"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -422,6 +429,23 @@
             <xs:element name="admin-delegation-section" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="donate-platform">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="paypal"/>
+            <xs:enumeration value="stripe"/>
+            <xs:enumeration value="other"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="donation">
+        <xs:simpleContent>
+            <xs:extension base="secure-url">
+                <xs:attribute name="title" type="limited-string" use="optional"/>
+                <xs:attribute name="type" type="donate-platform" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="activity">
@@ -531,17 +555,17 @@
         </xs:restriction>
     </xs:simpleType>
 
-        <xs:complexType name="openmetrics">
-                <xs:sequence>
-                        <xs:element name="exporter" type="openmetrics-exporter" maxOccurs="unbounded"/>
-                </xs:sequence>
-        </xs:complexType>
+    <xs:complexType name="openmetrics">
+        <xs:sequence>
+            <xs:element name="exporter" type="openmetrics-exporter" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
 
-        <xs:complexType name="openmetrics-exporter">
-                <xs:simpleContent>
-                        <xs:extension base="php-class"/>
-                </xs:simpleContent>
-        </xs:complexType>
+    <xs:complexType name="openmetrics-exporter">
+        <xs:simpleContent>
+            <xs:extension base="php-class"/>
+        </xs:simpleContent>
+    </xs:complexType>
 
     <xs:complexType name="sabre">
         <xs:sequence>
@@ -686,6 +710,44 @@
                         maxOccurs="1"/>
             <xs:element name="uninstall" type="steps" minOccurs="0"
                         maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="docker-install">
+        <xs:sequence>
+            <xs:element name="registry" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="image" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="image-tag" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="scopes">
+        <xs:sequence>
+            <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="environment-variable">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="display-name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="default" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="environment-variables">
+        <xs:sequence>
+            <xs:element name="variable" type="environment-variable" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="external-app">
+        <xs:sequence>
+            <xs:element name="docker-install" type="docker-install" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="scopes" type="scopes" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="system" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="environment-variables" type="environment-variables" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
