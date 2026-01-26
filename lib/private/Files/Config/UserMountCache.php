@@ -382,7 +382,8 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
 			->from('mounts', 'm')
 			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
-			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+			->where($builder->expr()->eq('m.storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+			->andWhere($builder->expr()->eq('m.storage_id', 'f.storage')) # Hint for DBs
 			->andWhere(
 				$builder->expr()->orX(
 					$builder->expr()->eq('f.fileid', $builder->createNamedParameter($fileId)),
