@@ -37,9 +37,9 @@ defineEmits<{
 				v-if="client.clientSecret"
 				:class="$style.oAuthItem__clientSecret"
 				:aria-label="t('oauth2', 'Secret key')"
-				as-text
-				:model-value="client.clientSecret"
-				show-trailing-button />
+				asText
+				:modelValue="client.clientSecret"
+				showTrailingButton />
 			<span v-else>*****</span>
 		</td>
 		<td>

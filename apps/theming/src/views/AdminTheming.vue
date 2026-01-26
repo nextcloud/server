@@ -7,7 +7,7 @@
 	<NcNoteCard
 		v-if="!isThemeable"
 		:text="notThemeableErrorMessage"
-		show-alert
+		showAlert
 		type="error" />
 	<template v-else>
 		<AdminSectionTheming />

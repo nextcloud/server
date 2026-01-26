@@ -76,20 +76,20 @@ async function save() {
 		<CalendarAvailability
 			v-model:slots="slots"
 			:loading="loading"
-			:l10n-to="t('dav', 'to')"
-			:l10n-delete-slot="t('dav', 'Delete slot')"
-			:l10n-empty-day="t('dav', 'No working hours set')"
-			:l10n-add-slot="t('dav', 'Add slot')"
-			:l10n-week-day-list-label="t('dav', 'Weekdays')"
-			:l10n-monday="t('dav', 'Monday')"
-			:l10n-tuesday="t('dav', 'Tuesday')"
-			:l10n-wednesday="t('dav', 'Wednesday')"
-			:l10n-thursday="t('dav', 'Thursday')"
-			:l10n-friday="t('dav', 'Friday')"
-			:l10n-saturday="t('dav', 'Saturday')"
-			:l10n-sunday="t('dav', 'Sunday')"
-			:l10n-start-picker-label="(dayName) => t('dav', 'Pick a start time for {dayName}', { dayName })"
-			:l10n-end-picker-label="(dayName) => t('dav', 'Pick a end time for {dayName}', { dayName })" />
+			:l10nTo="t('dav', 'to')"
+			:l10nDeleteSlot="t('dav', 'Delete slot')"
+			:l10nEmptyDay="t('dav', 'No working hours set')"
+			:l10nAddSlot="t('dav', 'Add slot')"
+			:l10nWeekDayListLabel="t('dav', 'Weekdays')"
+			:l10nMonday="t('dav', 'Monday')"
+			:l10nTuesday="t('dav', 'Tuesday')"
+			:l10nWednesday="t('dav', 'Wednesday')"
+			:l10nThursday="t('dav', 'Thursday')"
+			:l10nFriday="t('dav', 'Friday')"
+			:l10nSaturday="t('dav', 'Saturday')"
+			:l10nSunday="t('dav', 'Sunday')"
+			:l10nStartPickerLabel="(dayName) => t('dav', 'Pick a start time for {dayName}', { dayName })"
+			:l10nEndPickerLabel="(dayName) => t('dav', 'Pick a end time for {dayName}', { dayName })" />
 
 		<NcCheckboxRadioSwitch v-model="automated">
 			{{ t('dav', 'Automatically set user status to "Do not disturb" outside of availability to mute all notifications.') }}

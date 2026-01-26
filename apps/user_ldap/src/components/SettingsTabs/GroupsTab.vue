@@ -14,7 +14,7 @@
 				class="ldap-wizard__groups__group-filter-groups__select"
 				:options="groupObjectClasses"
 				:disabled="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				:input-label="t('user_ldap', 'Only these object classes:')"
+				:inputLabel="t('user_ldap', 'Only these object classes:')"
 				:multiple="true" />
 
 			<NcSelect
@@ -22,14 +22,14 @@
 				class="ldap-wizard__groups__group-filter-groups__select"
 				:options="groupGroups"
 				:disabled="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				:input-label="t('user_ldap', 'Only from these groups:')"
+				:inputLabel="t('user_ldap', 'Only from these groups:')"
 				:multiple="true" />
 		</div>
 
 		<div class="ldap-wizard__groups__line ldap-wizard__groups__groups-filter">
 			<NcCheckboxRadioSwitch
-				:model-value="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				@update:model-value="toggleFilterMode">
+				:modelValue="ldapConfigProxy.ldapGroupFilterMode === '1'"
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
@@ -37,7 +37,7 @@
 				<NcTextArea
 					v-model="ldapConfigProxy.ldapGroupFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
-					:helper-text="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', { instanceName })" />
+					:helperText="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>

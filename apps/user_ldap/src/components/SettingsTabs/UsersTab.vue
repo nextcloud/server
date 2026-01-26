@@ -12,7 +12,7 @@
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				class="ldap-wizard__users__user-filter-object-class__select"
 				:options="userObjectClasses"
-				:input-label="t('user_ldap', 'Only these object classes:')"
+				:inputLabel="t('user_ldap', 'Only these object classes:')"
 				:multiple="true" />
 			{{ t('user_ldap', 'The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.') }}
 		</div>
@@ -23,14 +23,14 @@
 				class="ldap-wizard__users__user-filter-groups__select"
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				:options="userGroups"
-				:input-label="t('user_ldap', 'Only from these groups:')"
+				:inputLabel="t('user_ldap', 'Only from these groups:')"
 				:multiple="true" />
 		</div>
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter">
 			<NcCheckboxRadioSwitch
-				:model-value="ldapConfigProxy.ldapUserFilterMode === '1'"
-				@update:model-value="toggleFilterMode">
+				:modelValue="ldapConfigProxy.ldapUserFilterMode === '1'"
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
@@ -38,7 +38,7 @@
 				<NcTextArea
 					v-model="ldapConfigProxy.ldapUserFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
-					:helper-text="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
+					:helperText="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
 			<div v-else>
 				<label>{{ t('user_ldap', 'LDAP Filter:') }}</label>

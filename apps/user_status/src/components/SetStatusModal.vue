@@ -6,9 +6,9 @@
 <template>
 	<NcModal
 		size="normal"
-		label-id="user_status-set-dialog"
+		labelId="user_status-set-dialog"
 		dark
-		:set-return-focus="setReturnFocus"
+		:setReturnFocus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
@@ -38,7 +38,7 @@
 						:icon="icon"
 						:message="editedMessage"
 						@change="setMessage"
-						@select-icon="setIcon" />
+						@selectIcon="setIcon" />
 					<NcButton
 						v-if="messageId === 'vacationing'"
 						:href="absencePageUrl"
@@ -58,10 +58,10 @@
 					:icon="backupIcon"
 					:message="backupMessage"
 					@select="revertBackupFromServer" />
-				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
+				<PredefinedStatusesList @selectStatus="selectPredefinedMessage" />
 				<ClearAtSelect
-					:clear-at="clearAt"
-					@select-clear-at="setClearAt" />
+					:clearAt="clearAt"
+					@selectClearAt="setClearAt" />
 				<div class="status-buttons">
 					<NcButton
 						:wide="true"

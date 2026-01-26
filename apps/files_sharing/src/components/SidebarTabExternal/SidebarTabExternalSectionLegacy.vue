@@ -11,7 +11,8 @@
 
 <script lang="ts" setup>
 import {
-	type Component, type PropType,
+	type Component,
+	type PropType,
 
 	computed,
 } from 'vue'

@@ -78,8 +78,8 @@ watch(authMechanisms, () => {
 <template>
 	<NcDialog
 		v-model:open="open"
-		is-form
-		:content-classes="$style.externalStorageDialog"
+		isForm
+		:contentClasses="$style.externalStorageDialog"
 		:name="internalStorage.id ? t('files_external', 'Edit storage') : t('files_external', 'Add storage')"
 		@submit="$emit('close', internalStorage)"
 		@update:open="$event || $emit('close')">
@@ -99,7 +99,7 @@ watch(authMechanisms, () => {
 			v-model="backend"
 			:options="backends"
 			:disabled="!!(internalStorage.id && internalStorage.backend)"
-			:input-label="t('files_external', 'External storage')"
+			:inputLabel="t('files_external', 'External storage')"
 			label="name"
 			required />
 
@@ -107,7 +107,7 @@ watch(authMechanisms, () => {
 			v-model="authMechanism"
 			:options="authMechanisms"
 			:disabled="!internalStorage.backend || authMechanisms.length <= 1 || !!(internalStorage.id && internalStorage.authMechanism)"
-			:input-label="t('files_external', 'Authentication')"
+			:inputLabel="t('files_external', 'Authentication')"
 			label="name"
 			required />
 
@@ -121,7 +121,7 @@ watch(authMechanisms, () => {
 			v-if="authMechanism"
 			v-model="internalStorage.backendOptions"
 			:class="$style.externalStorageDialog__configuration"
-			:auth-mechanism="authMechanism" />
+			:authMechanism="authMechanism" />
 
 		<template #actions>
 			<NcButton v-if="storage.id" @click="$emit('close')">
