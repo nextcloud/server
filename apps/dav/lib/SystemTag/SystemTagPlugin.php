@@ -62,7 +62,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private $server;
 
-	/** @var array<int, string[]> */
+	/** @var array<string, list<string>> */
 	private array $cachedTagMappings = [];
 	/** @var array<string, ISystemTag> */
 	private array $cachedTags = [];
@@ -210,17 +210,17 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		if ($collection instanceof Directory
-			&& !isset($this->cachedTagMappings[$collection->getId()])
+			&& !isset($this->cachedTagMappings[(string)$collection->getId()])
 			&& $propFind->getStatus(
 				self::SYSTEM_TAGS_PROPERTYNAME
 			) !== null) {
-			$fileIds = [$collection->getId()];
+			$fileIds = [(string)$collection->getId()];
 
 			// note: pre-fetching only supported for depth <= 1
 			$folderContent = $collection->getChildren();
 			foreach ($folderContent as $info) {
 				if ($info instanceof Node) {
-					$fileIds[] = $info->getId();
+					$fileIds[] = (string)$info->getId();
 				}
 			}
 
@@ -231,7 +231,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 			// also cache the ones that were not found
 			foreach ($emptyFileIds as $fileId) {
-				$this->cachedTagMappings[$fileId] = [];
+				$this->cachedTagMappings[(string)$fileId] = [];
 			}
 		}
 	}
@@ -350,10 +350,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return ISystemTag[]
 	 */
 	private function getTagsForFile(int $fileId, ?IUser $user): array {
-		if (isset($this->cachedTagMappings[$fileId])) {
-			$tagIds = $this->cachedTagMappings[$fileId];
+		if (isset($this->cachedTagMappings[(string)$fileId])) {
+			$tagIds = $this->cachedTagMappings[(string)$fileId];
 		} else {
-			$tags = $this->tagMapper->getTagIdsForObjects([$fileId], 'files');
+			$tags = $this->tagMapper->getTagIdsForObjects([(string)$fileId], 'files');
 			$fileTags = current($tags);
 			if ($fileTags) {
 				$tagIds = $fileTags;
@@ -362,13 +362,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 
-		$tags = array_filter(array_map(function (string $tagId) {
-			return $this->cachedTags[$tagId] ?? null;
-		}, $tagIds));
+		$tags = array_filter(array_map(
+			fn (string $tagId): ?ISystemTag => $this->cachedTags[$tagId] ?? null, $tagIds));
 
-		$uncachedTagIds = array_filter($tagIds, function (string $tagId): bool {
-			return !isset($this->cachedTags[$tagId]);
-		});
+		$uncachedTagIds = array_filter($tagIds, fn (string $tagId): bool => !isset($this->cachedTags[$tagId]));
 
 		if (count($uncachedTagIds)) {
 			$retrievedTags = $this->tagManager->getTagsByIds($uncachedTagIds);

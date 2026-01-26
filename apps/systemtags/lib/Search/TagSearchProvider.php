@@ -130,7 +130,7 @@ class TagSearchProvider implements IProvider {
 					$searchResultEntry = new SearchResultEntry(
 						$thumbnailUrl,
 						$result->getName(),
-						$this->formatSubline($query, $matchedTags[$nodeId]),
+						$this->formatSubline($query, $matchedTags[(string)$nodeId]),
 						$this->urlGenerator->getAbsoluteURL($link),
 						$result->getMimetype() === FileInfo::MIMETYPE_FOLDER
 							? 'icon-folder'
