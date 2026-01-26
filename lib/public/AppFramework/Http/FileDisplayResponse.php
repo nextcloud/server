@@ -19,8 +19,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {
-	/** @var File|ISimpleFile */
-	private $file;
+	private File|ISimpleFile $file;
 
 	/**
 	 * FileDisplayResponse constructor.
@@ -48,8 +47,18 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 	 */
 	public function callback(IOutput $output) {
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
+			$file = $this->file instanceof File
+				? $this->file->fopen('rb')
+				: $this->file->read();
+
+			if ($file === false) {
+				$output->setHttpResponseCode(Http::STATUS_NOT_FOUND);
+				$output->setOutput('');
+				return;
+			}
+
 			$output->setHeader('Content-Length: ' . $this->file->getSize());
-			$output->setOutput($this->file->getContent());
+			$output->setReadfile($file);
 		}
 	}
 }
