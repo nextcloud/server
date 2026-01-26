@@ -195,7 +195,7 @@
     "Failed to save global credentials" : "Globale Anmeldeinformationen konnten nicht gespeichert werden",
     "Failed to save global credentials: {message}" : "Globale Anmeldeinformationen konnten nicht gespeichert werden: {message}",
     "No external storage configured or you don't have the permission to configure them" : "Es ist kein externer Speicher eingerichtet oder Sie haben keine Berechtigung, diesen einzurichten.",
-    "Open documentation" : "Anleitung öffnen",
+    "Open documentation" : "Dokumentation öffnen",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services." : "Externer Speicher erlaubt es, externe Speicherdienste und Geräte als Zweitspeicher-Geräte in Nextcloud einzubinden. Es kann Personen erlaubt werden eigene externe Speicherdienste einzubinden.",
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
