@@ -874,6 +874,7 @@ class Session implements IUserSession, Emitter {
 			$this->session->set('app_password', $token);
 		} elseif ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::ONETIME_TOKEN) {
 			$this->tokenProvider->invalidateTokenById($dbToken->getUID(), $dbToken->getId());
+			$request = \OCP\Server::get(IRequest::class);
 			if ($request->getPathInfo() !== '/core/getapppassword-onetime') {
 				return false;
 			}
