@@ -18,11 +18,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1761588595,
-        "narHash": "sha256-XKUZz9zewJNUj46b4AJdiRZJAvSZ0Dqj2BNfXvFlJC4=",
+        "lastModified": 1766661267,
+        "narHash": "sha256-QN1r/zNqvXHwWqlRAnRtFf4CQwIOJx58PtdExIzAw94=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "rev": "f275e157c50c3a9a682b4c9b4aa4db7a4cd3b5f2",
         "type": "github"
       },
       "original": {
@@ -79,11 +79,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764617178,
-        "narHash": "sha256-46vihXpm0fr/l+BUlj4dJYg2cblWRi7zZhsYPka+3Uw=",
+        "lastModified": 1768845737,
+        "narHash": "sha256-lbZkWotPUuZjH7MqupZCkzY7sFGaE1cvRcuju/n0ACE=",
         "ref": "refs/heads/main",
-        "rev": "35967a8912660b80e9f47d52c2bd8e2d7d49e8e2",
-        "revCount": 320,
+        "rev": "036232285c06719c83f27c0786b8446850795694",
+        "revCount": 329,
         "type": "git",
         "url": "https://codeberg.org/icewind/haze.git"
       },
@@ -117,11 +117,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1764522689,
-        "narHash": "sha256-SqUuBFjhl/kpDiVaKLQBoD8TLD+/cTUzzgVFoaHrkqY=",
+        "lastModified": 1769089682,
+        "narHash": "sha256-9yA/LIuAVQq0lXelrZPjLuLVuZdm03p8tfmHhnDIkms=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "8bb5646e0bed5dbd3ab08c7a7cc15b75ab4e1d0f",
+        "rev": "078d69f03934859a181e81ba987c2bb033eebfc5",
         "type": "github"
       },
       "original": {
@@ -142,11 +142,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1763965909,
-        "narHash": "sha256-Hx/ZHl8Tc8C6gP2xN0zAl7txk1sUZA98NrflyJuw+70=",
+        "lastModified": 1766935672,
+        "narHash": "sha256-XkSpJep7KTV1qwDz0qOnqar2Vj8iNvq38C4w2tYfbjo=",
         "owner": "fossar",
         "repo": "nix-phps",
-        "rev": "8b3b0250e31d56283a8fa1b66dbd78fb21fa4893",
+        "rev": "4628eecc30d4d25ffbff6ea4fbb30698dbdd3f71",
         "type": "github"
       },
       "original": {
