@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
@@ -30,7 +30,7 @@ class ShareTargetValidator {
 	public function __construct(
 		private readonly IManager $shareManager,
 		private readonly IEventDispatcher $eventDispatcher,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 		private readonly IMountManager $mountManager,
 	) {
 		$this->folderExistsCache = new CappedMemoryCache();

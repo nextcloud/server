@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\Files\BackgroundJob;
 
-use OC\Files\SetupManager;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Service\SettingsService;
 use OCP\AppFramework\Services\IAppConfig;
@@ -16,10 +15,10 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Config\IUserConfig;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
@@ -43,7 +42,7 @@ class SanitizeFilenames extends QueuedJob {
 		private IAppConfig $appConfig,
 		private IUserConfig $userConfig,
 		private IRootFolder $rootFolder,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 		private IFilenameValidator $filenameValidator,
 		private LoggerInterface $logger,
 	) {

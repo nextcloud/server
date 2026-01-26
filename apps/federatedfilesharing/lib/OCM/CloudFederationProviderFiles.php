@@ -8,7 +8,6 @@ namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Federation\TrustedServers;
@@ -31,6 +30,7 @@ use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Federation\ISignedCloudFederationProvider;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
@@ -68,7 +68,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		private readonly LoggerInterface $logger,
 		private readonly IFilenameValidator $filenameValidator,
 		private readonly IProviderFactory $shareProviderFactory,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 		private readonly ExternalShareMapper $externalShareMapper,
 	) {
 	}

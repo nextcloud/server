@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-declare(strict_types=1);
 
 namespace OC\Files;
 
@@ -119,6 +119,7 @@ class SetupManager implements ISetupManager {
 		return in_array($user->getUID(), $this->setupUsers, true);
 	}
 
+	#[Override]
 	public function isSetupComplete(IUser $user): bool {
 		return in_array($user->getUID(), $this->setupUsersComplete, true);
 	}
@@ -451,10 +452,7 @@ class SetupManager implements ISetupManager {
 		return $this->userManager->get($userId);
 	}
 
-	/**
-	 * Set up the filesystem for the specified path, optionally including all
-	 * children mounts.
-	 */
+	#[Override]
 	public function setupForPath(string $path, bool $includeChildren = false): void {
 		$user = $this->getUserForPath($path);
 		if (!$user) {
