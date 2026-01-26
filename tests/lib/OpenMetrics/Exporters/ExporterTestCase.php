@@ -25,12 +25,30 @@ abstract class ExporterTestCase extends TestCase {
 		$this->metrics = iterator_to_array($this->exporter->metrics());
 	}
 
-	public function testNotEmptyData() {
+	public function testNotEmptyData(): void {
 		$this->assertNotEmpty($this->exporter->name());
 		$this->assertNotEmpty($this->metrics);
 	}
 
-	protected function assertLabelsAre(array $expectedLabels) {
+	public function testValidNames(): void {
+		$labelNames = [];
+		foreach ($this->metrics as $metric) {
+			foreach ($metric->labels as $label => $value) {
+				$labelNames[$label] = $label;
+			}
+		}
+
+		if (empty($labelNames)) {
+			$this->expectNotToPerformAssertions();
+			return;
+		}
+		foreach ($labelNames as $label) {
+			$this->assertMatchesRegularExpression('/^[a-z_][a-z0-9_]*$/i', $label);
+		}
+
+	}
+
+	protected function assertLabelsAre(array $expectedLabels): void {
 		$foundLabels = [];
 		foreach ($this->metrics as $metric) {
 			$foundLabels[] = $metric->labels;
