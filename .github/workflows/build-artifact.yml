@@ -941,8 +941,8 @@ jobs:
           # Branch to GitLab Trigger Mapping:
           # | ref_name     | GITLAB_REF   | BUILD_TYPE  |
           # |--------------|--------------|-------------|
-          # | ionos-dev    | stable       | dev         |
-          # | ionos-stable | stable       | stable      |
+          # | ionos-dev    | main         | dev         |
+          # | ionos-stable | main         | stable      |
 
           BUILD_TYPE="dev"
 
@@ -971,7 +971,7 @@ jobs:
               --fail-with-body \
               -o response.json \
               --form token=${{ secrets.GITLAB_TOKEN }} \
-              --form ref="stable" \
+              --form ref="main" \
               --form "variables[GITHUB_SHA]=${{ github.sha }}" \
               --form "variables[ARTIFACTORY_LAST_BUILD_PATH]=${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH }}" \
               --form "variables[NC_VERSION]=${{ needs.build-artifact.outputs.NC_VERSION }}" \
