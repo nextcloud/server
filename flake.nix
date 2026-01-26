@@ -99,6 +99,7 @@
               pkgs.libreoffice
 
               haze.packages.${system}.default
+              pkgs.reuse
             ];
           };
       }
