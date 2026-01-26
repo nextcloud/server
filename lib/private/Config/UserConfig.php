@@ -1100,11 +1100,19 @@ class UserConfig implements IUserConfig {
 		}
 
 		$this->assertParams($userId, $app, $key);
-		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags)) {
+		/** @var ?Entry $lexiconEntry */
+		$lexiconEntry = null;
+		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags, lexiconEntry: $lexiconEntry)) {
 			// returns false as database is not updated
 			return false;
 		}
 		$this->loadConfig($userId, $lazy);
+
+		// lexicon entry might have requested a check on the value
+		$confirmationClosure = $lexiconEntry?->onSetConfirmation();
+		if ($confirmationClosure !== null && !$confirmationClosure($value)) {
+			return false;
+		}
 
 		$inserted = $refreshCache = false;
 		$origValue = $value;
@@ -1938,6 +1946,7 @@ class UserConfig implements IUserConfig {
 		ValueType &$type = ValueType::MIXED,
 		int &$flags = 0,
 		?string &$default = null,
+		?Entry &$lexiconEntry = null,
 	): bool {
 		$configDetails = $this->getConfigDetailsFromLexicon($app);
 		if (array_key_exists($key, $configDetails['aliases']) && !$this->ignoreLexiconAliases) {
@@ -1954,18 +1963,18 @@ class UserConfig implements IUserConfig {
 			return true;
 		}
 
-		/** @var Entry $configValue */
-		$configValue = $configDetails['entries'][$key];
+		/** @var Entry $lexiconEntry */
+		$lexiconEntry = $configDetails['entries'][$key];
 		if ($type === ValueType::MIXED) {
 			// we overwrite if value was requested as mixed
-			$type = $configValue->getValueType();
-		} elseif ($configValue->getValueType() !== $type) {
+			$type = $lexiconEntry->getValueType();
+		} elseif ($lexiconEntry->getValueType() !== $type) {
 			throw new TypeConflictException('The user config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
 		}
 
-		$lazy = $configValue->isLazy();
-		$flags = $configValue->getFlags();
-		if ($configValue->isDeprecated()) {
+		$lazy = $lexiconEntry->isLazy();
+		$flags = $lexiconEntry->getFlags();
+		if ($lexiconEntry->isDeprecated()) {
 			$this->logger->notice('User config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 
@@ -1977,7 +1986,7 @@ class UserConfig implements IUserConfig {
 
 		// only look for default if needed, default from Lexicon got priority if not overwritten by admin
 		if ($default !== null) {
-			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->presetManager->getLexiconPreset()) ?? $default;
+			$default = $this->getSystemDefault($app, $lexiconEntry) ?? $lexiconEntry->getDefault($this->presetManager->getLexiconPreset()) ?? $default;
 		}
 
 		// returning false will make get() returning $default and set() not changing value in database
