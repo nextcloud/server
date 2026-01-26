@@ -35,8 +35,8 @@ Enterprise? Public Sector or Education user? You may want to have a look into [*
 ## Get in touch 💬
 
 * [📋 Forum](https://help.nextcloud.com)
+* [🦋 Bluesky](https://bsky.app/profile/nextcloud.bsky.social)
 * [👥 Facebook](https://www.facebook.com/nextclouders)
-* [🐣 Twitter](https://twitter.com/Nextclouders)
 * [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
 You can also [get support for Nextcloud](https://nextcloud.com/support)!
