@@ -87,7 +87,6 @@ class OpenMetricsController extends Controller {
 			# UNIT nextcloud_exporter_duration seconds
 			# HELP nextcloud_exporter_duration Exporter run time
 			nextcloud_exporter_duration $elapsed
-
 			# EOF
 
 			SUMMARY;
@@ -112,7 +111,6 @@ class OpenMetricsController extends Controller {
 			}
 			$output .= "\n";
 		}
-		$output .= "\n";
 
 		return $output;
 	}
