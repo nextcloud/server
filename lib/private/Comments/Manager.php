@@ -798,7 +798,7 @@ class Manager implements ICommentsManager {
 
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('actor_id')
-			->selectAlias($query->createFunction('MAX(' . $query->getColumnName('creation_timestamp') . ')'), 'last_comment')
+			->selectAlias($query->func()->max('creation_timestamp'), 'last_comment')
 			->from('comments')
 			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
