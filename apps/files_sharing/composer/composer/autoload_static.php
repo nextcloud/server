@@ -111,6 +111,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\Files_Sharing\\ShareBackend\\File' => __DIR__ . '/..' . '/../lib/ShareBackend/File.php',
         'OCA\\Files_Sharing\\ShareBackend\\Folder' => __DIR__ . '/..' . '/../lib/ShareBackend/Folder.php',
+        'OCA\\Files_Sharing\\ShareTargetValidator' => __DIR__ . '/..' . '/../lib/ShareTargetValidator.php',
         'OCA\\Files_Sharing\\SharedMount' => __DIR__ . '/..' . '/../lib/SharedMount.php',
         'OCA\\Files_Sharing\\SharedStorage' => __DIR__ . '/..' . '/../lib/SharedStorage.php',
         'OCA\\Files_Sharing\\SharesReminderJob' => __DIR__ . '/..' . '/../lib/SharesReminderJob.php',
