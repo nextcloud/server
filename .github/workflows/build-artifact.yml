@@ -31,6 +31,7 @@ on:
     branches:
       - ionos-dev
       - ionos-stable
+      - 'rc/**'
   workflow_dispatch:  # Manual trigger to bypass all caches
     inputs:
       force_rebuild:
@@ -55,7 +56,8 @@ concurrency:
       github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) ||
       (
         (
-          contains(fromJson('["refs/heads/ionos-dev"]'), github.ref)
+          contains(fromJson('["refs/heads/ionos-dev"]'), github.ref) ||
+          startsWith(github.ref, 'refs/heads/rc/')
         ) && github.run_id ||
         github.ref
       )
@@ -151,11 +153,11 @@ jobs:
               echo "   ✅ Event type is 'push'"
             fi
 
-            # Check if branch matches expected patterns: ionos-dev, ionos-stable
-            VALID_BRANCH_PATTERN='^(ionos-dev|ionos-stable)$'
+            # Check if branch matches expected patterns: ionos-dev, ionos-stable, or rc/*
+            VALID_BRANCH_PATTERN='^(ionos-dev|ionos-stable)$|^rc/.*$'
             if [[ ! "${{ github.ref_name }}" =~ $VALID_BRANCH_PATTERN ]]; then
-              echo "- ❌ Branch must be 'ionos-dev' or 'ionos-stable' (current: \`${{ github.ref_name }}\`)" >> $GITHUB_STEP_SUMMARY
-              echo "   ❌ Branch is '${{ github.ref_name }}' (must be 'ionos-dev' or 'ionos-stable')"
+              echo "- ❌ Branch must be 'ionos-dev', 'ionos-stable', or 'rc/*' (current: \`${{ github.ref_name }}\`)" >> $GITHUB_STEP_SUMMARY
+              echo "   ❌ Branch is '${{ github.ref_name }}' (must be 'ionos-dev', 'ionos-stable', or 'rc/*')"
               WILL_TRIGGER=false
             else
               echo "- ✅ Branch is '\`${{ github.ref_name }}\`'" >> $GITHUB_STEP_SUMMARY
@@ -687,10 +689,10 @@ jobs:
 
   upload-to-artifactory:
     runs-on: self-hosted
-    # Upload the artifact to the Artifactory repository on PR *OR* on "ionos-dev|ionos-stable" branch push defined in the on:push:branches
+    # Upload the artifact to the Artifactory repository on PR *OR* on "ionos-dev|ionos-stable|rc/*" branch push defined in the on:push:branches
     if: |
       always() &&
-      (github.event_name == 'pull_request' || github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
+      (github.event_name == 'pull_request' || github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable' || startsWith(github.ref_name, 'rc/')) &&
       needs.prepare-matrix.result == 'success' &&
       (needs.build-external-apps.result == 'success' || needs.build-external-apps.result == 'skipped') &&
       needs.build-artifact.result == 'success'
@@ -775,12 +777,16 @@ jobs:
           # | Pull Request     | dev            | dev/pr/nextcloud-workspace-pr-<number>.zip         |
           # | ionos-dev        | dev            | dev/nextcloud-workspace-<ncVersion>.zip            |
           # | ionos-stable     | stable         | stable/nextcloud-workspace-<ncVersion>.zip         |
+          # | rc/*             | rc             | rc/<github.ref_name>/nextcloud-workspace-<ncVersion>.zip             |
 
           ARTIFACTORY_STAGE_PREFIX="dev"
 
           # Set stage prefix based on branch
           if [ "${{ github.ref_name }}" == "ionos-stable" ]; then
               ARTIFACTORY_STAGE_PREFIX="stable"
+          # set ARTIFACTORY_STAGE_PREFIX=rc on rc/* branches
+          elif [[ "${{ github.ref_name }}" =~ ^rc/.*$ ]]; then
+              ARTIFACTORY_STAGE_PREFIX="${{ github.ref_name }}"
           fi
 
           export PATH_TO_DIRECTORY="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/${ARTIFACTORY_STAGE_PREFIX}"
@@ -923,13 +929,13 @@ jobs:
 
     name: Trigger remote workflow
     needs: [upload-to-artifactory]
-    # Trigger remote build on "ionos-dev|ionos-stable" branch *push* defined in the on:push:branches
+    # Trigger remote build on "ionos-dev|ionos-stable|rc/*" branch *push* defined in the on:push:branches
     # Can be disabled via repository variable 'DISABLE_REMOTE_TRIGGER' (set to 'true' to disable)
     # Configure at: https://github.com/IONOS-Productivity/ncw-server/settings/variables/actions
     if: |
       always() &&
       github.event_name == 'push' &&
-      (github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable') &&
+      (github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable' || startsWith(github.ref_name, 'rc/')) &&
       needs.upload-to-artifactory.result == 'success' &&
       vars.DISABLE_REMOTE_TRIGGER != 'true'
     steps:
@@ -943,12 +949,16 @@ jobs:
           # |--------------|--------------|-------------|
           # | ionos-dev    | main         | dev         |
           # | ionos-stable | main         | stable      |
+          # | rc/*         | main         | rc          |
 
           BUILD_TYPE="dev"
 
           # Override build type for stable branch
           if [ "${{ github.ref_name }}" == "ionos-stable" ]; then
               BUILD_TYPE="stable"
+          # Override build type for rc/* branches
+          elif [[ "${{ github.ref_name }}" =~ ^rc/ ]]; then
+              BUILD_TYPE="rc"
           fi
 
           # Construct source build URL for traceability
