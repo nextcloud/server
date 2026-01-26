@@ -758,12 +758,16 @@ jobs:
       - name: Upload build to artifactory
         id: artifactory_upload
         run: |
-          # PR builds are stored in a separate directory as "dev/pr/nextcloud-workspace-pr-<number>.zip"
-          # Push to "ionos-dev" branch is stored as "dev/nextcloud-workspace-<ncVersion>.zip"
+          # Artifactory Build Storage Structure:
+          # | Branch/Event     | Stage Prefix   | Artifact Path                                      |
+          # |------------------|----------------|----------------------------------------------------|
+          # | Pull Request     | dev            | dev/pr/nextcloud-workspace-pr-<number>.zip         |
+          # | ionos-dev        | dev            | dev/nextcloud-workspace-<ncVersion>.zip            |
+          # | ionos-stable     | stable         | stable/nextcloud-workspace-<ncVersion>.zip         |
 
           ARTIFACTORY_STAGE_PREFIX="dev"
 
-          # set ARTIFACTORY_STAGE_PREFIX=stable on ionos-stable branch
+          # Set stage prefix based on branch
           if [ "${{ github.ref_name }}" == "ionos-stable" ]; then
               ARTIFACTORY_STAGE_PREFIX="stable"
           fi
@@ -923,9 +927,12 @@ jobs:
           # Enable command echo for debugging purposes
           set -x
 
-          # Determine build type based on branch:
-          # - 'ionos-dev' branch triggers 'dev' build type
-          # - 'ionos-stable' branch triggers 'stable' build type
+          # Branch to GitLab Trigger Mapping:
+          # | ref_name     | GITLAB_REF   | BUILD_TYPE  |
+          # |--------------|--------------|-------------|
+          # | ionos-dev    | stable       | dev         |
+          # | ionos-stable | stable       | stable      |
+
           BUILD_TYPE="dev"
 
           # Override build type for stable branch
