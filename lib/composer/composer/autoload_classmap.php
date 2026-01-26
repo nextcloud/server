@@ -477,6 +477,7 @@ return array(
     'OCP\\Files\\IMimeTypeDetector' => $baseDir . '/lib/public/Files/IMimeTypeDetector.php',
     'OCP\\Files\\IMimeTypeLoader' => $baseDir . '/lib/public/Files/IMimeTypeLoader.php',
     'OCP\\Files\\IRootFolder' => $baseDir . '/lib/public/Files/IRootFolder.php',
+    'OCP\\Files\\ISetupManager' => $baseDir . '/lib/public/Files/ISetupManager.php',
     'OCP\\Files\\InvalidCharacterInPathException' => $baseDir . '/lib/public/Files/InvalidCharacterInPathException.php',
     'OCP\\Files\\InvalidContentException' => $baseDir . '/lib/public/Files/InvalidContentException.php',
     'OCP\\Files\\InvalidDirectoryException' => $baseDir . '/lib/public/Files/InvalidDirectoryException.php',

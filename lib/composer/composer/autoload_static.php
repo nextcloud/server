@@ -518,6 +518,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\IMimeTypeDetector' => __DIR__ . '/../../..' . '/lib/public/Files/IMimeTypeDetector.php',
         'OCP\\Files\\IMimeTypeLoader' => __DIR__ . '/../../..' . '/lib/public/Files/IMimeTypeLoader.php',
         'OCP\\Files\\IRootFolder' => __DIR__ . '/../../..' . '/lib/public/Files/IRootFolder.php',
+        'OCP\\Files\\ISetupManager' => __DIR__ . '/../../..' . '/lib/public/Files/ISetupManager.php',
         'OCP\\Files\\InvalidCharacterInPathException' => __DIR__ . '/../../..' . '/lib/public/Files/InvalidCharacterInPathException.php',
         'OCP\\Files\\InvalidContentException' => __DIR__ . '/../../..' . '/lib/public/Files/InvalidContentException.php',
         'OCP\\Files\\InvalidDirectoryException' => __DIR__ . '/../../..' . '/lib/public/Files/InvalidDirectoryException.php',
