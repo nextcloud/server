@@ -166,6 +166,8 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('span.name-parts__first')
 			.contains('admin')
 			.should('be.visible')
+		// Then I disable the group limitation
+		cy.get('button[title="Deselect admin"]').click()
 	})
 
 	/*
