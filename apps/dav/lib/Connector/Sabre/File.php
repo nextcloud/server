@@ -55,12 +55,6 @@ class File extends Node implements IFile {
 
 	/**
 	 * Sets up the node, expects a full path name
-	 *
-	 * @param View $view
-	 * @param FileInfo $info
-	 * @param ?\OCP\Share\IManager $shareManager
-	 * @param ?IRequest $request
-	 * @param ?IL10N $l10n
 	 */
 	public function __construct(View $view, FileInfo $info, ?IManager $shareManager = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		parent::__construct($view, $info, $shareManager);
@@ -369,7 +363,7 @@ class File extends Node implements IFile {
 			if ($checksumHeader) {
 				$checksum = trim($checksumHeader);
 				$this->setChecksum($checksum);
-			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			} elseif ($this->getChecksum() !== '') {
 				$this->setChecksum('');
 			}
 		} catch (StorageNotAvailableException $e) {
@@ -549,9 +543,6 @@ class File extends Node implements IFile {
 		}
 		$node = $this->getNode();
 		$storage = $node->getStorage();
-		if (!$storage) {
-			return false;
-		}
 
 		if (!($node->getPermissions() & Constants::PERMISSION_READ)) {
 			return false;
@@ -612,10 +603,8 @@ class File extends Node implements IFile {
 
 	/**
 	 * Get the checksum for this file
-	 *
-	 * @return string|null
 	 */
-	public function getChecksum() {
+	public function getChecksum(): string {
 		return $this->info->getChecksum();
 	}
 

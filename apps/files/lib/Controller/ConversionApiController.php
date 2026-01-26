@@ -99,7 +99,7 @@ class ConversionApiController extends OCSController {
 		}
 
 		$file = $userFolder->get($convertedFileRelativePath);
-		$fileId = $file->getId();
+		$fileId = $file->getId() ?? -1;
 
 		return new DataResponse([
 			'path' => $convertedFileRelativePath,

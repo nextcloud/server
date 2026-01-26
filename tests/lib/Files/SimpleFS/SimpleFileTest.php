@@ -91,7 +91,7 @@ class SimpleFileTest extends \Test\TestCase {
 
 	public function testGetContentInvalidAppData(): void {
 		$this->file->method('getContent')
-			->willReturn(false);
+			->willThrowException($this->createMock(NotFoundException::class));
 		$this->file->method('stat')->willReturn(false);
 
 		$parent = $this->createMock(Folder::class);

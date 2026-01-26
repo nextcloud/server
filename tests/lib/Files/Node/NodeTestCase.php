@@ -119,10 +119,12 @@ abstract class NodeTestCase extends \Test\TestCase {
 		return $storage;
 	}
 
-	protected function getFileInfo($data, $internalPath = '', ?IStorage $storage = null) {
+	protected function getFileInfo(array $data, string $internalPath = '', ?IStorage $storage = null): FileInfo {
 		$mount = $this->createMock(IMountPoint::class);
 		$mount->method('getStorage')
 			->willReturn($storage);
+		$mount->method('getInternalPath')
+			->willReturnArgument(0);
 		return new FileInfo('', $this->getMockStorage(), $internalPath, $data, $mount);
 	}
 

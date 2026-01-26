@@ -242,7 +242,7 @@ class Filesystem {
 	 * get the storage mounted at $mountPoint
 	 *
 	 * @param string $mountPoint
-	 * @return \OC\Files\Storage\Storage|null
+	 * @return \OCP\Files\Storage\IStorage|null
 	 */
 	public static function getStorage($mountPoint) {
 		$mount = self::getMountManager()->find($mountPoint);
@@ -251,7 +251,7 @@ class Filesystem {
 
 	/**
 	 * @param string $id
-	 * @return Mount\MountPoint[]
+	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public static function getMountByStorageId($id) {
 		return self::getMountManager()->findByStorageId($id);
@@ -259,7 +259,7 @@ class Filesystem {
 
 	/**
 	 * @param int $id
-	 * @return Mount\MountPoint[]
+	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public static function getMountByNumericId($id) {
 		return self::getMountManager()->findByNumericId($id);

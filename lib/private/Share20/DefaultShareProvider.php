@@ -653,9 +653,7 @@ class DefaultShareProvider implements
 		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node): bool {
 			return $node->getInternalPath() === '';
 		});
-		$childMountRootIds = array_map(function (Node $node): int {
-			return $node->getId();
-		}, $childMountNodes);
+		$childMountRootIds = array_map(fn (Node $node): int => $node->getId() ?? -1, $childMountNodes);
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
 		$qb->andWhere(

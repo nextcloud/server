@@ -8,7 +8,6 @@
 namespace OCA\Files_Versions\Listener;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OC\DB\Exceptions\DbalException;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
@@ -122,7 +121,12 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		$this->nodesTouched[$node->getId()] = $node;
+		$nodeId = $node->getId();
+		if ($nodeId === null) {
+			return;
+		}
+
+		$this->nodesTouched[$nodeId] = $node;
 	}
 
 	public function touch_hook(Node $node): void {
@@ -142,13 +146,17 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		$previousNode = $this->nodesTouched[$node->getId()] ?? null;
+		$nodeId = $node->getId();
+		if ($nodeId === null) {
+			throw new \LogicException('Invalid node given');
+		}
+		$previousNode = $this->nodesTouched[$nodeId] ?? null;
 
 		if ($previousNode === null) {
 			return;
 		}
 
-		unset($this->nodesTouched[$node->getId()]);
+		unset($this->nodesTouched[$nodeId]);
 
 		try {
 			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
@@ -157,15 +165,15 @@ class FileEventsListener implements IEventListener {
 				// We update the timestamp of the version entity associated with the previousNode.
 				$this->versionManager->updateVersionEntity($node, $revision, ['timestamp' => $node->getMTime()]);
 			}
-		} catch (DbalException $ex) {
+		} catch (Exception $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
-			// Where the previous node would temporary have the mtime of the old version, so the rollback touches it to fix it.
-			if (!($ex->getPrevious() instanceof UniqueConstraintViolationException)) {
+			// Where the previous node would temporarily have the mtime of the old version, so the rollback touches it to fix it.
+			if ($ex->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 				throw $ex;
 			}
 		} catch (DoesNotExistException $ex) {
 			// Ignore DoesNotExistException, as we are probably in the middle of a rollback
-			// Where the previous node would temporary have a wrong mtime, so the rollback touches it to fix it.
+			// Where the previous node would temporarily have a wrong mtime, so the rollback touches it to fix it.
 		}
 	}
 
@@ -208,8 +216,13 @@ class FileEventsListener implements IEventListener {
 		$path = $this->getPathForNode($node);
 		$result = Storage::store($path);
 
+		$nodeId = $node->getId();
+		if ($nodeId === null) {
+			throw new \LogicException('Invalid node given');
+		}
+
 		// Store the result of the version creation so it can be used in post_write_hook.
-		$this->writeHookInfo[$node->getId()] = [
+		$this->writeHookInfo[$nodeId] = [
 			'previousNode' => $node,
 			'versionCreated' => $result !== false
 		];
@@ -235,7 +248,12 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		$writeHookInfo = $this->writeHookInfo[$node->getId()] ?? null;
+		$nodeId = $node->getId();
+		if ($nodeId === null) {
+			throw new \LogicException('Invalid node given');
+		}
+
+		$writeHookInfo = $this->writeHookInfo[$nodeId] ?? null;
 
 		if ($writeHookInfo === null) {
 			return;

@@ -149,6 +149,6 @@ class AppData implements IAppData {
 	}
 
 	public function getId(): int {
-		return $this->getAppDataFolder()->getId();
+		return $this->getAppDataFolder()->getId() ?? -1;
 	}
 }

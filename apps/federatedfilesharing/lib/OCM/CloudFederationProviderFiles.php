@@ -313,6 +313,9 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		try {
 			$fileId = $share->getNode()->getId();
+			if ($fileId == null) {
+				throw new \LogicException('Invalid node for share');
+			}
 			[$file, $link] = $this->getFile($user, $fileId);
 		} catch (\Exception) {
 			throw new ShareNotFound();
@@ -388,6 +391,9 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		try {
 			$fileId = $share->getNode()->getId();
+			if ($fileId == null) {
+				throw new \LogicException('Invalid node for share');
+			}
 			[$file, $link] = $this->getFile($user, $fileId);
 		} catch (\Exception) {
 			throw new ShareNotFound();
