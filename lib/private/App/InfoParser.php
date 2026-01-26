@@ -196,6 +196,9 @@ class InfoParser {
 		if (isset($array['dependencies']['backend']) && !is_array($array['dependencies']['backend'])) {
 			$array['dependencies']['backend'] = [$array['dependencies']['backend']];
 		}
+		if (isset($array['openmetrics']['exporter']) && !is_array($array['openmetrics']['exporter'])) {
+			$array['openmetrics']['exporter'] = [$array['openmetrics']['exporter']];
+		}
 
 		// Ensure some fields are always arrays
 		if (isset($array['screenshot']) && !is_array($array['screenshot'])) {
