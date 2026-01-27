@@ -142,7 +142,9 @@ jobs:
               echo "   ✅ Event type is 'push'"
             fi
 
-            if [ "${{ github.ref_name }}" != "ionos-dev" ] && [ "${{ github.ref_name }}" != "ionos-stable" ]; then
+            # Check if branch matches expected patterns: ionos-dev, ionos-stable
+            VALID_BRANCH_PATTERN='^(ionos-dev|ionos-stable)$'
+            if [[ ! "${{ github.ref_name }}" =~ $VALID_BRANCH_PATTERN ]]; then
               echo "- ❌ Branch must be 'ionos-dev' or 'ionos-stable' (current: \`${{ github.ref_name }}\`)" >> $GITHUB_STEP_SUMMARY
               echo "   ❌ Branch is '${{ github.ref_name }}' (must be 'ionos-dev' or 'ionos-stable')"
               WILL_TRIGGER=false
