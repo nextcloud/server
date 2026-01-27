@@ -772,12 +772,12 @@ jobs:
         id: artifactory_upload
         run: |
           # Artifactory Build Storage Structure:
-          # | Branch/Event     | Stage Prefix   | Artifact Path                                      |
-          # |------------------|----------------|----------------------------------------------------|
-          # | Pull Request     | dev            | dev/pr/nextcloud-workspace-pr-<number>.zip         |
-          # | ionos-dev        | dev            | dev/nextcloud-workspace-<ncVersion>.zip            |
-          # | ionos-stable     | stable         | stable/nextcloud-workspace-<ncVersion>.zip         |
-          # | rc/*             | rc             | rc/<github.ref_name>/nextcloud-workspace-<ncVersion>.zip             |
+          # | Branch/Event     | Stage Prefix   | Artifact Path                                                            |
+          # |------------------|----------------|--------------------------------------------------------------------------|
+          # | Pull Request     | dev            | dev/pr/nextcloud-workspace-pr-<number>.zip                               |
+          # | ionos-dev        | dev            | dev/ncw-<ncVersion>/<shortSha>/nextcloud-workspace-<ncVersion>.zip       |
+          # | ionos-stable     | stable         | stable/ncw-<ncVersion>/<shortSha>/nextcloud-workspace-<ncVersion>.zip    |
+          # | rc/*             | rc             | rc/<github.ref_name>/ncw-<ncVersion>/<shortSha>/nextcloud-workspace-<ncVersion>.zip        |
 
           ARTIFACTORY_STAGE_PREFIX="dev"
 
@@ -790,10 +790,18 @@ jobs:
           fi
 
           export PATH_TO_DIRECTORY="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/${ARTIFACTORY_STAGE_PREFIX}"
-          PATH_TO_FILE="pr/nextcloud-workspace-pr-${{ github.event.pull_request.number }}.zip"
 
-          if [ -z "${{ github.event.pull_request.number }}" ]; then
-            PATH_TO_FILE="nextcloud-workspace-${{ needs.build-artifact.outputs.NC_VERSION }}.zip"
+          # For PR: use simple pr/<number> path
+          # For branches: use ncw-<version>/<sha>/ structure to ensure unique paths
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            PATH_TO_FILE="pr/nextcloud-workspace-pr-${{ github.event.pull_request.number }}.zip"
+          else
+            # Extract short SHA (first 7 characters)
+            SHORT_SHA="${{ github.sha }}"
+            SHORT_SHA="${SHORT_SHA:0:7}"
+            NC_VERSION="${{ needs.build-artifact.outputs.NC_VERSION }}"
+
+            PATH_TO_FILE="ncw-${NC_VERSION}/${SHORT_SHA}/nextcloud-workspace-${NC_VERSION}.zip"
           fi
 
           export PATH_TO_LATEST_ARTIFACT="${PATH_TO_DIRECTORY}/${PATH_TO_FILE}"
