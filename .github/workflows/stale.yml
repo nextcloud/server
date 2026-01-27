@@ -7,8 +7,10 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
+# Give the GITHUB_TOKEN the necessary permissions
 permissions:
   contents: read
+  issues: write
 
 jobs:
   stale:
@@ -16,13 +18,10 @@ jobs:
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
-    permissions:
-      issues: write
-
     steps:
     - uses: actions/stale@997185467fa4f803885201cee163a9f38240193d # v9
       with:
-        repo-token: ${{ secrets.COMMAND_BOT_PAT }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: >
           This issue has been automatically marked as stale because it has not had
           recent activity and seems to be missing some essential information.
@@ -33,5 +32,3 @@ jobs:
         exempt-issue-labels: '1. to develop,2. developing,3. to review,4. to release,security'
         days-before-stale: 30
         days-before-close: 14
-        # debug-only: true
-
