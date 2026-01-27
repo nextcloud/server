@@ -197,6 +197,8 @@
     "Windows Media video" : "Vidéo Windows Media",
     "AVI video" : "Vidéo AVI",
     "Done" : "Terminé",
+    "Scan QR code to log in" : "Scannez le QR code pour vous connecter",
+    "Use {productName} mobile client you want to connect to scan the code" : "Utilisez le client mobile {productName} que vous voulez connecter pour scanner le code",
     "Applications menu" : "Menu des applications",
     "Apps" : "Applications",
     "More apps" : "Plus d’applications",

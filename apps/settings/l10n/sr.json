@@ -923,7 +923,6 @@
     "Reasons to use Nextcloud in your organization" : "Разлози да користите Некстклауд у Вашој организацији",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Развијено од стране {communityopen}Некстклауд заједнице{linkclose}, {githubopen}изворни код{linkclose} је под {licenseopen}AGPL{linkclose} лиценцом.",
     "Like our Facebook page" : "Лајкујте нашу Фејсбук страну",
-    "Follow us on X" : "Пратите нас на X-у",
     "Follow us on Bluesky" : "Пратите нас на Bluesky",
     "Follow us on Mastodon" : "Запратите нас на Мастадонту",
     "Check out our blog" : "Баците поглед на наш блог",
@@ -973,6 +972,7 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Због безбедности и перформанси Ваше инстанце сервера, важно је да је све подешено исправно. Да бисмо Вам помогли у томе, радићемо неке аутоматске провере. Погледајте увезану документацију за више информација.",
     "Checking for system and security issues." : "Проверавам за системске и безбедноносне проблеме.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Добро погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">инсталациону документацију ↗</a> и проверите за било какве грешке или упозорења у <a href=\"%2$s\">записнику</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверите безбедност Вашег Некстклауда на <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">нашем безбедоносном скенирању↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверите безбедност Вашег Некстклауда на <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">нашем безбедоносном скенирању↗</a>.",
+    "Follow us on X" : "Пратите нас на X-у"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -942,7 +942,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "在您的組織單位中使用 Nextcloud 的原因",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "由 {communityopen}Nextcloud 社群{linkclose}開發，{githubopen}原始碼{linkclose}採用 {licenseopen}AGPL{linkclose} 授權。",
     "Like our Facebook page" : "到我們的 Facebook 頁面按讚",
-    "Follow us on X" : "在 X 上追蹤我們",
     "Follow us on Bluesky" : "在 Bluesky 上追蹤我們",
     "Follow us on Mastodon" : "在 Mastodon 上追蹤我們",
     "Check out our blog" : "逛逛我們的部落格",
@@ -992,6 +991,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "正確設定每項事物對您的站台安全性與效能來說非常重要。為了協助您，我們正在進行一些自動檢查。請參閱連結資訊以了解更多資訊。",
     "Checking for system and security issues." : "檢查系統與安全性問題。",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "請再次確認<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">安裝指南 ↗</a>，並在<a href=\"%2$s\">紀錄檔</a>中檢查是否有任何錯誤或警告。",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "透過<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我們的安全性掃描 ↗</a>檢查您 Nextcloud 的安全性。"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "透過<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我們的安全性掃描 ↗</a>檢查您 Nextcloud 的安全性。",
+    "Follow us on X" : "在 X 上追蹤我們"
 },
 "nplurals=1; plural=0;");

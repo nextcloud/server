@@ -652,7 +652,6 @@
     "Reasons to use Nextcloud in your organization" : "Razlogi za uporabo oblaka Nextcloud v vaši organizaciji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Okolje razvija {communityopen}skupnost Nextcloud{linkclose}, {githubopen}izvorna koda{linkclose} pa je objavljena pod pogoji dovoljenja {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Spremljajte naš Facebook",
-    "Follow us on X" : "Sledite nam na X",
     "Follow us on Mastodon" : "Sledite nam na Mastodon",
     "Check out our blog" : "Preverite naš blog",
     "Subscribe to our newsletter" : "Naročite se na novice",
@@ -691,6 +690,7 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zaradi varnosti in optimizacije delovanja je nujno, da je sistem posodobljen in pravilno nastavljen. Preverjanje poteka tako, da se nekateri preizkusi izvajajo sproti in samodejno. Več podrobnosti je zabeleženih v dokumentaciji. ",
     "Checking for system and security issues." : "Preverjanje sistemskih in varnostnih nastavitev.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Preverite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">namestitveno dokumentacijo ↗</a> in morebitne napake oziroma opozorila v <a href=\"%2$s\">sistemskem dnevniku</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Preverite lahko tudi varnost storitev Nextcloud s <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">preverjalnikom ↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Preverite lahko tudi varnost storitev Nextcloud s <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">preverjalnikom ↗</a>.",
+    "Follow us on X" : "Sledite nam na X"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
