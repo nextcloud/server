@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Controller;
 
+use Generator;
 use OC\Core\Controller\OpenMetricsController;
 use OC\OpenMetrics\ExporterManager;
 use OCP\AppFramework\Http\IOutput;
@@ -16,6 +17,9 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\OpenMetrics\IMetricFamily;
+use OCP\OpenMetrics\Metric;
+use OCP\OpenMetrics\MetricType;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -34,10 +38,23 @@ class OpenMetricsControllerTest extends TestCase {
 			->willReturn('192.168.1.1');
 		$this->config = $this->createMock(IConfig::class);
 		$this->exporterManager = $this->createMock(ExporterManager::class);
+		$this->exporterManager->method('export')->willReturnCallback([$this, 'getFakeMetrics']);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->controller = new OpenMetricsController('core', $this->request, $this->config, $this->exporterManager, $this->logger);
 	}
 
+	public function getFakeMetrics(): Generator {
+		$metric = $this->createMock(IMetricFamily::class);
+		$metric->method('type')->willReturn(MetricType::gauge);
+		$metric->method('unit')->willReturn('fake');
+		$metric->method('name')->willReturn('fake_count');
+		$metric->method('help')->willReturn('A fake count used for tests');
+		$metric->method('metrics')->willReturnCallback(function () {
+			yield new Metric(42, ['type' => 'used']);
+			yield new Metric(24, ['type' => 'unused']);
+		});
+		yield $metric;
+	}
 	public function testGetMetrics(): void {
 		$output = $this->createMock(IOutput::class);
 		$fullOutput = '';
@@ -54,11 +71,15 @@ class OpenMetricsControllerTest extends TestCase {
 		$this->assertEquals('200', $response->getStatus());
 		$this->assertEquals('application/openmetrics-text; version=1.0.0; charset=utf-8', $response->getHeaders()['Content-Type']);
 		$expected = <<<EXPECTED
-			# TYPE nextcloud_exporter_duration gauge
-			# UNIT nextcloud_exporter_duration seconds
-			# HELP nextcloud_exporter_duration Exporter run time
-			nextcloud_exporter_duration %f
-
+			# TYPE nextcloud_fake_count gauge
+			# UNIT nextcloud_fake_count fake
+			# HELP nextcloud_fake_count A fake count used for tests
+			nextcloud_fake_count{type="used"} 42
+			nextcloud_fake_count{type="unused"} 24
+			# TYPE nextcloud_exporter_run_seconds gauge
+			# UNIT nextcloud_exporter_run_seconds seconds
+			# HELP nextcloud_exporter_run_seconds Exporter run time
+			nextcloud_exporter_run_seconds %f
 			# EOF
 
 			EXPECTED;
