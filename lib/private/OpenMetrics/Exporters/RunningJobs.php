@@ -27,7 +27,7 @@ class RunningJobs implements IMetricFamily {
 
 	#[Override]
 	public function name(): string {
-		return 'jobs_running';
+		return 'running_jobs';
 	}
 
 	#[Override]
