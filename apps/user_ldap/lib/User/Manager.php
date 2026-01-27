@@ -163,9 +163,14 @@ class Manager {
 	 * @return bool
 	 */
 	public function isDeletedUser($id) {
-		$isDeleted = $this->ocConfig->getUserValue(
-			$id, 'user_ldap', 'isDeleted', 0);
-		return (int)$isDeleted === 1;
+		try {
+			$isDeleted = $this->ocConfig->getUserValue($id, 'user_ldap', 'isDeleted', 0);
+			return (int)$isDeleted === 1;
+		} catch (\InvalidArgumentException $e) {
+			// Most likely the string is too long to be a valid user id
+			$this->logger->debug('Invalid id given to isDeletedUser', ['exception' => $e]);
+			return false;
+		}
 	}
 
 	/**
