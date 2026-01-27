@@ -19,6 +19,8 @@ use OCP\Files\File;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class SVGTest extends Provider {
+	use TraitSvgSanitizing;
+
 	protected function setUp(): void {
 		$checkImagick = new \Imagick();
 		if (count($checkImagick->queryFormats('SVG')) === 1) {

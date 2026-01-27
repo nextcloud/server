@@ -18,6 +18,8 @@ use OC\Preview\JPEG;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class ImageTest extends Provider {
+	use TraitSvgSanitizing;
+
 	protected function setUp(): void {
 		parent::setUp();
 

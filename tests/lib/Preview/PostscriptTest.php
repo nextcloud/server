@@ -13,6 +13,8 @@ use OC\Preview\Postscript;
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PostscriptTest extends Provider {
 
+	use TraitSvgSanitizing;
+
 	protected function setUp(): void {
 		if (\Imagick::queryFormats('EPS') === false) {
 			$this->markTestSkipped('An error occurred while operating with Imagick.');

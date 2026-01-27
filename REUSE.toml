@@ -34,6 +34,12 @@ SPDX-FileCopyrightText = "2015 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
+path = ["tests/data/empty.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "CC-0-1.0"
+
+[[annotations]]
 path = ".tx/config"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2011-2012 ownCloud, Inc., 2017-2023 Nextcloud GmbH and Nextcloud contributors"
