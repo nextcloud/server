@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Export\ExportService;
 use OCA\DAV\CalDAV\Import\ImportService;
+use OCP\App\IAppManager;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\IManager as ICalendarManager;
@@ -26,6 +27,7 @@ use OCP\UserMigration\IImportSource;
 use OCP\UserMigration\IMigrator;
 use OCP\UserMigration\ISizeEstimationMigrator;
 use OCP\UserMigration\TMigratorBasicVersionHandling;
+use Sabre\DAV\Xml\Property\Href;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
@@ -33,11 +35,24 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
+	private const PATH_ROOT = Application::APP_ID . '/calendars/';
+	private const PATH_VERSION = self::PATH_ROOT . 'version.json';
+	private const PATH_CALENDARS = self::PATH_ROOT . 'calendars.json';
+	private const PATH_SUBSCRIPTIONS = self::PATH_ROOT . 'subscriptions.json';
 	private const USERS_URI_ROOT = 'principals/users/';
 	private const MIGRATED_URI_PREFIX = 'migrated-';
-	private const EXPORT_ROOT = Application::APP_ID . '/calendars/';
+
+	private const DAV_PROPERTY_URI = 'uri';
+	private const DAV_PROPERTY_DISPLAYNAME = '{DAV:}displayname';
+	private const DAV_PROPERTY_CALENDAR_COLOR = '{http://apple.com/ns/ical/}calendar-color';
+	private const DAV_PROPERTY_CALENDAR_TIMEZONE = '{urn:ietf:params:xml:ns:caldav}calendar-timezone';
+	private const DAV_PROPERTY_SUBSCRIBED_SOURCE = 'source';
+	private const DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
+	private const DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
+	private const DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
 
 	public function __construct(
+		private readonly IAppManager $appManager,
 		private readonly CalDavBackend $calDavBackend,
 		private readonly ICalendarManager $calendarManager,
 		private readonly Defaults $defaults,
@@ -104,16 +119,38 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
-		$output->writeln('Exporting calendars into ' . CalendarMigrator::EXPORT_ROOT . '…');
+		$output->writeln('Exporting calendaring data…');
+		$this->exportVersion($exportDestination, $output);
+		$this->exportCalendars($user, $exportDestination, $output);
+		$this->exportSubscriptions($user, $exportDestination, $output);
+	}
 
-		$calendarExports = $this->calendarManager->getCalendarsForPrincipal(self::USERS_URI_ROOT . $user->getUID());
-
-		if (empty($calendarExports)) {
-			$output->writeln('No calendars to export…');
+	/**
+	 * @throws CalendarMigratorException
+	 */
+	private function exportVersion(IExportDestination $exportDestination, OutputInterface $output): void {
+		try {
+			$versionData = [
+				'appVersion' => $this->appManager->getAppVersion(Application::APP_ID),
+			];
+			$exportDestination->addFileContents(self::PATH_VERSION, json_encode($versionData, JSON_THROW_ON_ERROR));
+		} catch (Throwable $e) {
+			throw new CalendarMigratorException('Could not export version information', 0, $e);
 		}
+	}
+
+	/**
+	 * @throws CalendarMigratorException
+	 */
+	public function exportCalendars(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
+		$output->writeln('Exporting calendars to ' . self::PATH_CALENDARS . '…');
 
 		try {
+			$calendarExports = $this->calendarManager->getCalendarsForPrincipal(self::USERS_URI_ROOT . $user->getUID());
+
+			$exportData = [];
 			/** @var CalendarImpl $calendar */
 			foreach ($calendarExports as $calendar) {
 				$output->writeln('Exporting calendar "' . $calendar->getUri() . '"');
@@ -128,19 +165,18 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 					continue;
 				}
 
-				// construct archive paths
+				// construct archive path for calendar data
 				$filename = preg_replace('/[^a-z0-9-_]/iu', '', $calendar->getUri());
-				$exportMetaPath = CalendarMigrator::EXPORT_ROOT . $filename . '.meta';
-				$exportDataPath = CalendarMigrator::EXPORT_ROOT . $filename . '.data';
+				$exportDataPath = self::PATH_ROOT . $filename . '.data';
 
-				// add calendar meta to the export archive
-				$exportDestination->addFileContents($exportMetaPath, json_encode([
+				// add calendar metadata to the collection
+				$exportData[] = [
 					'format' => 'ical',
 					'uri' => $calendar->getUri(),
 					'label' => $calendar->getDisplayName(),
 					'color' => $calendar->getDisplayColor(),
 					'timezone' => $calendar->getSchedulingTimezone(),
-				], JSON_THROW_ON_ERROR));
+				];
 
 				// export calendar data to a temporary file
 				$options = new CalendarExportOptions();
@@ -156,8 +192,43 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 				$exportDestination->addFileAsStream($exportDataPath, $tempFile);
 				fclose($tempFile);
 			}
+
+			// write all calendar metadata
+			$exportDestination->addFileContents(self::PATH_CALENDARS, json_encode($exportData, JSON_THROW_ON_ERROR));
+
+			$output->writeln('Exported ' . count($exportData) . ' calendar(s)…');
 		} catch (Throwable $e) {
 			throw new CalendarMigratorException('Could not export calendars', 0, $e);
+		}
+	}
+
+	/**
+	 * @throws CalendarMigratorException
+	 */
+	private function exportSubscriptions(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
+		$output->writeln('Exporting calendar subscriptions to ' . self::PATH_SUBSCRIPTIONS . '…');
+
+		try {
+			$subscriptions = $this->calDavBackend->getSubscriptionsForUser(self::USERS_URI_ROOT . $user->getUID());
+
+			$exportData = [];
+			foreach ($subscriptions as $subscription) {
+				$exportData[] = [
+					'uri' => $subscription[self::DAV_PROPERTY_URI],
+					'displayname' => $subscription[self::DAV_PROPERTY_DISPLAYNAME] ?? null,
+					'color' => $subscription[self::DAV_PROPERTY_CALENDAR_COLOR] ?? null,
+					'source' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_SOURCE] ?? null,
+					'striptodos' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS] ?? null,
+					'stripalarms' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS] ?? null,
+					'stripattachments' => $subscription[self::DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS] ?? null,
+				];
+			}
+
+			$exportDestination->addFileContents(self::PATH_SUBSCRIPTIONS, json_encode($exportData, JSON_THROW_ON_ERROR));
+
+			$output->writeln('Exported ' . count($exportData) . ' calendar subscription(s)…');
+		} catch (Throwable $e) {
+			throw new CalendarMigratorException('Could not export calendar subscriptions', 0, $e);
 		}
 	}
 
@@ -167,109 +238,130 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	 * @throws CalendarMigratorException
 	 */
 	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {
-		$migratorVersion = $importSource->getMigratorVersion($this->getId());
-
-		if ($migratorVersion === null) {
+		$output->writeln('Importing calendaring data…');
+		if ($importSource->getMigratorVersion($this->getId()) === null) {
 			$output->writeln('No version for ' . static::class . ', skipping import…');
 			return;
 		}
 
-		$output->writeln('Importing calendars from ' . CalendarMigrator::EXPORT_ROOT . '…');
+		$this->importCalendars($user, $importSource, $output);
+		$this->importSubscriptions($user, $importSource, $output);
+	}
 
+	/**
+	 * @throws CalendarMigratorException
+	 */
+	public function importCalendars(IUser $user, IImportSource $importSource, OutputInterface $output): void {
+		$output->writeln('Importing calendars from ' . self::PATH_ROOT . '…');
+
+		$migratorVersion = $importSource->getMigratorVersion($this->getId());
 		match ($migratorVersion) {
-			1 => $this->importV1($user, $importSource, $output),
-			2 => $this->importV2($user, $importSource, $output),
+			1 => $this->importCalendarsV1($user, $importSource, $output),
+			2 => $this->importCalendarsV2($user, $importSource, $output),
 			default => throw new CalendarMigratorException('Unsupported migrator version ' . $migratorVersion . ' for ' . static::class),
 		};
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @throws CalendarMigratorException
 	 */
-	public function importV2(IUser $user, IImportSource $importSource, OutputInterface $output): void {
-		$files = $importSource->getFolderListing(CalendarMigrator::EXPORT_ROOT);
-		if (empty($files)) {
+	public function importCalendarsV2(IUser $user, IImportSource $importSource, OutputInterface $output): void {
+		$output->writeln('Importing calendars from ' . self::PATH_CALENDARS . '…');
+
+		if ($importSource->pathExists(self::PATH_CALENDARS) === false) {
 			$output->writeln('No calendars to import…');
+			return;
 		}
 
-		$principalUri = self::USERS_URI_ROOT . $user->getUID();
+		$importData = $importSource->getFileContents(self::PATH_CALENDARS);
+		if (empty($importData)) {
+			$output->writeln('No calendars to import…');
+			return;
+		}
 
-		foreach ($files as $filename) {
-			// Only process .meta files
-			if (!str_ends_with($filename, '.meta')) {
-				continue;
+		try {
+			/** @var array<int, array<string, mixed>> $calendarsData */
+			$calendarsData = json_decode($importData, true, 512, JSON_THROW_ON_ERROR);
+
+			if (empty($calendarsData)) {
+				$output->writeln('No calendars to import…');
+				return;
 			}
 
-			// construct archive paths
-			$importMetaPath = CalendarMigrator::EXPORT_ROOT . $filename;
-			$importDataPath = CalendarMigrator::EXPORT_ROOT . substr($filename, 0, -5) . '.data';
+			$principalUri = self::USERS_URI_ROOT . $user->getUID();
 
-			try {
-				// read calendar meta from the import archive
-				$calendarMeta = json_decode($importSource->getFileContents($importMetaPath), true, 512, JSON_THROW_ON_ERROR);
+			$importCount = 0;
+			foreach ($calendarsData as $calendarMeta) {
 				$migratedCalendarUri = self::MIGRATED_URI_PREFIX . $calendarMeta['uri'];
-				// check if a calendar with this URI already exists
-				$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri, [$migratedCalendarUri]);
-				if (empty($calendars)) {
-					$output->writeln("Creating calendar \"$migratedCalendarUri\"");
-					// create the calendar
-					$this->calDavBackend->createCalendar($principalUri, $migratedCalendarUri, [
-						'{DAV:}displayname' => $calendarMeta['label'] ?? $this->l10n->t('Migrated calendar (%1$s)', [$calendarMeta['uri']]),
-						'{http://apple.com/ns/ical/}calendar-color' => $calendarMeta['color'] ?? $this->defaults->getColorPrimary(),
-						'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => $calendarMeta['timezone'] ?? null,
-					]);
-					// retrieve the created calendar
-					$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri, [$migratedCalendarUri]);
-					if (empty($calendars) || !($calendars[0] instanceof CalendarImpl)) {
-						$output->writeln("Failed to retrieve created calendar \"$migratedCalendarUri\", skipping import…");
-						continue;
-					}
-				} else {
-					$output->writeln("Using existing calendar \"$migratedCalendarUri\"");
-				}
-				$calendar = $calendars[0];
+				$filename = preg_replace('/[^a-z0-9-_]/iu', '', $calendarMeta['uri']);
+				$importDataPath = self::PATH_ROOT . $filename . '.data';
 
-				// copy import stream to temporary file as the source stream is not rewindable
-				$importStream = $importSource->getFileAsStream($importDataPath);
-				$tempPath = $this->tempManager->getTemporaryFile();
-				$tempFile = fopen($tempPath, 'w+');
-				stream_copy_to_stream($importStream, $tempFile);
-				rewind($tempFile);
-
-				// import calendar data
 				try {
-					$options = new CalendarImportOptions();
-					$options->setFormat($calendarMeta['format'] ?? 'ical');
-					$options->setErrors(0);
-					$options->setValidate(1);
-					$options->setSupersede(true);
+					// check if a calendar with this URI already exists
+					$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri, [$migratedCalendarUri]);
+					if (empty($calendars)) {
+						$output->writeln("Creating calendar \"$migratedCalendarUri\"");
+						// create the calendar
+						$this->calDavBackend->createCalendar($principalUri, $migratedCalendarUri, [
+							self::DAV_PROPERTY_DISPLAYNAME => $calendarMeta['label'] ?? $this->l10n->t('Migrated calendar (%1$s)', [$calendarMeta['uri']]),
+							self::DAV_PROPERTY_CALENDAR_COLOR => $calendarMeta['color'] ?? $this->defaults->getColorPrimary(),
+							self::DAV_PROPERTY_CALENDAR_TIMEZONE => $calendarMeta['timezone'] ?? null,
+						]);
+						// retrieve the created calendar
+						$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri, [$migratedCalendarUri]);
+						if (empty($calendars) || !($calendars[0] instanceof CalendarImpl)) {
+							$output->writeln("Failed to retrieve created calendar \"$migratedCalendarUri\", skipping import…");
+							continue;
+						}
+					} else {
+						$output->writeln("Using existing calendar \"$migratedCalendarUri\"");
+					}
+					$calendar = $calendars[0];
 
-					$outcome = $this->importService->import(
-						$tempFile,
-						$calendar,
-						$options
-					);
-				} finally {
-					fclose($tempFile);
+					// copy import stream to temporary file as the source stream is not rewindable
+					$importStream = $importSource->getFileAsStream($importDataPath);
+					$tempPath = $this->tempManager->getTemporaryFile();
+					$tempFile = fopen($tempPath, 'w+');
+					stream_copy_to_stream($importStream, $tempFile);
+					rewind($tempFile);
+
+					// import calendar data
+					try {
+						$options = new CalendarImportOptions();
+						$options->setFormat($calendarMeta['format'] ?? 'ical');
+						$options->setErrors(0);
+						$options->setValidate(1);
+						$options->setSupersede(true);
+
+						$outcome = $this->importService->import(
+							$tempFile,
+							$calendar,
+							$options
+						);
+					} finally {
+						fclose($tempFile);
+					}
+
+					$this->importSummary($calendarMeta['label'] ?? $calendarMeta['uri'], $outcome, $output);
+
+					$importCount++;
+				} catch (Throwable $e) {
+					$output->writeln('Failed to import calendar "' . ($calendarMeta['uri'] ?? 'unknown') . '", skipping…');
+					continue;
 				}
-
-				$this->importSummary($calendarMeta['label'] ?? $calendarMeta['uri'], $outcome, $output);
-			} catch (Throwable $e) {
-				$output->writeln("Failed to import calendar \"$filename\", skipping…");
-				continue;
 			}
+
+			$output->writeln('Imported ' . $importCount . ' calendar(s)…');
+		} catch (Throwable $e) {
+			throw new CalendarMigratorException('Could not import calendars', 0, $e);
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @throws CalendarMigratorException
 	 */
-	public function importV1(IUser $user, IImportSource $importSource, OutputInterface $output): void {
-		$files = $importSource->getFolderListing(CalendarMigrator::EXPORT_ROOT);
+	public function importCalendarsV1(IUser $user, IImportSource $importSource, OutputInterface $output): void {
+		$files = $importSource->getFolderListing(self::PATH_ROOT);
 		if (empty($files)) {
 			$output->writeln('No calendars to import…');
 		}
@@ -283,7 +375,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 			}
 
 			// construct archive path
-			$importDataPath = CalendarMigrator::EXPORT_ROOT . $filename;
+			$importDataPath = self::PATH_ROOT . $filename;
 
 			try {
 				$calendarUri = substr($filename, 0, -4);
@@ -322,8 +414,8 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 					rewind($tempFile);
 					// create the calendar
 					$this->calDavBackend->createCalendar($principalUri, $migratedCalendarUri, [
-						'{DAV:}displayname' => $calendarName ?? $this->l10n->t('Migrated calendar (%1$s)', [$calendarUri]),
-						'{http://apple.com/ns/ical/}calendar-color' => $calendarColor ?? $this->defaults->getColorPrimary(),
+						self::DAV_PROPERTY_DISPLAYNAME => $calendarName ?? $this->l10n->t('Migrated calendar (%1$s)', [$calendarUri]),
+						self::DAV_PROPERTY_CALENDAR_COLOR => $calendarColor ?? $this->defaults->getColorPrimary(),
 					]);
 					// retrieve the created calendar
 					$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri, [$migratedCalendarUri]);
@@ -362,6 +454,61 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 		}
 	}
 
+	/**
+	 * @throws CalendarMigratorException
+	 */
+	public function importSubscriptions(IUser $user, IImportSource $importSource, OutputInterface $output): void {
+		$output->writeln('Importing calendar subscriptions from ' . self::PATH_SUBSCRIPTIONS . '…');
+
+		if ($importSource->pathExists(self::PATH_SUBSCRIPTIONS) === false) {
+			$output->writeln('No calendar subscriptions to import…');
+			return;
+		}
+
+		$importData = $importSource->getFileContents(self::PATH_SUBSCRIPTIONS);
+		if (empty($importData)) {
+			$output->writeln('No calendar subscriptions to import…');
+			return;
+		}
+
+		try {
+			$subscriptions = json_decode($importData, true, 512, JSON_THROW_ON_ERROR);
+
+			if (empty($subscriptions)) {
+				$output->writeln('No calendar subscriptions to import…');
+				return;
+			}
+
+			$principalUri = self::USERS_URI_ROOT . $user->getUID();
+			$importCount = 0;
+			foreach ($subscriptions as $subscription) {
+				$output->writeln('Importing calendar subscription "' . ($subscription['displayname'] ?? $subscription['source'] ?? 'unknown') . '"');
+
+				if (empty($subscription['source'])) {
+					$output->writeln('Skipping subscription without source URL');
+					continue;
+				}
+
+				$this->calDavBackend->createSubscription(
+					$principalUri,
+					$subscription['uri'] ? self::MIGRATED_URI_PREFIX . $subscription['uri'] : self::MIGRATED_URI_PREFIX . bin2hex(random_bytes(16)),
+					[
+						'{http://calendarserver.org/ns/}source' => new Href($subscription['source']),
+						self::DAV_PROPERTY_DISPLAYNAME => $subscription['displayname'] ?? null,
+						self::DAV_PROPERTY_CALENDAR_COLOR => $subscription['color'] ?? null,
+						self::DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS => $subscription['striptodos'] ?? null,
+						self::DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS => $subscription['stripalarms'] ?? null,
+						self::DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS => $subscription['stripattachments'] ?? null,
+					]
+				);
+				$importCount++;
+			}
+
+			$output->writeln('Imported ' . $importCount . ' subscription(s)…');
+		} catch (Throwable $e) {
+			throw new CalendarMigratorException('Could not import calendar subscriptions', 0, $e);
+		}
+	}
 
 	private function importSummary(string $label, array $outcome, OutputInterface $output): void {
 		$created = 0;
