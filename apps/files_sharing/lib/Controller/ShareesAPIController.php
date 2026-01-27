@@ -165,7 +165,7 @@ class ShareesAPIController extends OCSController {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
-		if ($itemType === 'calendar') {
+		if ($itemType === 'calendar' || $itemType === 'deck') {
 			$shareTypes[] = IShare::TYPE_REMOTE;
 		}
 
