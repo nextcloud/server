@@ -142,11 +142,28 @@ export default {
 	},
 	mounted() {
 		subscribe('files_versions:restore:restored', this.fetchVersions)
+		subscribe('files:node:updated', this.handleNodeUpdated)
 	},
 	beforeUnmount() {
 		unsubscribe('files_versions:restore:restored', this.fetchVersions)
+		unsubscribe('files:node:updated', this.handleNodeUpdated)
 	},
 	methods: {
+		/**
+		 * Handle files:node:updated event to reload versions when the current file is saved
+		 *
+		 * @param {object} node The updated node
+		 */
+		handleNodeUpdated(node) {
+			// Reload if this is the currently open file
+			if (this.fileInfo && node.fileid === this.fileInfo.id) {
+				// Delay to let the server create the new version
+				setTimeout(() => {
+					this.fetchVersions()
+				}, 1000)
+			}
+		},
+
 		/**
 		 * Update current fileInfo and fetch new data
 		 *
