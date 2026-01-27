@@ -50,21 +50,9 @@ trait CommonSettingsTrait {
 	private $initialState;
 
 	/**
-	 * @return array{forms: array{personal: array, admin: array}}
-	 */
-	private function getNavigationParameters(string $currentType, string $currentSection): array {
-		return [
-			'forms' => [
-				'personal' => $this->formatPersonalSections($currentType, $currentSection),
-				'admin' => $this->formatAdminSections($currentType, $currentSection),
-			],
-		];
-	}
-
-	/**
 	 * @param IIconSection[][] $sections
 	 * @psalm-param 'admin'|'personal' $type
-	 * @return list<array{anchor: string, section-name: string, active: bool, icon: string}>
+	 * @return list<array{id: string, name: string, active: bool, icon: string}>
 	 */
 	protected function formatSections(array $sections, string $currentSection, string $type, string $currentType): array {
 		$templateParameters = [];
@@ -89,8 +77,8 @@ trait CommonSettingsTrait {
 					&& $type === $currentType;
 
 				$templateParameters[] = [
-					'anchor' => $section->getID(),
-					'section-name' => $section->getName(),
+					'id' => $section->getID(),
+					'name' => $section->getName(),
 					'active' => $active,
 					'icon' => $icon,
 				];
@@ -99,11 +87,17 @@ trait CommonSettingsTrait {
 		return $templateParameters;
 	}
 
+	/**
+	 * @return list<array{id: string, name: string, active: bool, icon: string}>
+	 */
 	protected function formatPersonalSections(string $currentType, string $currentSection): array {
 		$sections = $this->settingsManager->getPersonalSections();
 		return $this->formatSections($sections, $currentSection, 'personal', $currentType);
 	}
 
+	/**
+	 * @return list<array{id: string, name: string, active: bool, icon: string}>
+	 */
 	protected function formatAdminSections(string $currentType, string $currentSection): array {
 		$sections = $this->settingsManager->getAdminSections();
 		return $this->formatSections($sections, $currentSection, 'admin', $currentType);
@@ -175,9 +169,13 @@ trait CommonSettingsTrait {
 			$this->initialState->provideInitialState('declarative-settings-forms', $declarativeSettings);
 		}
 
+		$this->initialState->provideInitialState('sections', [
+			'personal' => $this->formatPersonalSections($type, $section),
+			'admin' => $this->formatAdminSections($type, $section),
+		]);
+
 		$settings = array_merge(...$settings);
 		$templateParams = $this->formatSettings($settings, $declarativeSettings);
-		$templateParams = array_merge($templateParams, $this->getNavigationParameters($type, $section));
 
 		$activeSection = $this->settingsManager->getSection($type, $section);
 		if ($activeSection) {
@@ -186,6 +184,7 @@ trait CommonSettingsTrait {
 			$templateParams['activeSectionType'] = $type;
 		}
 
+		Util::addScript(Application::APP_ID, 'main', prepend: true);
 		return new TemplateResponse('settings', 'settings/frame', $templateParams);
 	}
 }
