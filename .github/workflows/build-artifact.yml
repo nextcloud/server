@@ -928,7 +928,7 @@ jobs:
     runs-on: self-hosted
 
     name: Trigger remote workflow
-    needs: [upload-to-artifactory]
+    needs: [build-artifact, upload-to-artifactory]
     # Trigger remote build on "ionos-dev|ionos-stable|rc/*" branch *push* defined in the on:push:branches
     # Can be disabled via repository variable 'DISABLE_REMOTE_TRIGGER' (set to 'true' to disable)
     # Configure at: https://github.com/IONOS-Productivity/ncw-server/settings/variables/actions
@@ -936,9 +936,70 @@ jobs:
       always() &&
       github.event_name == 'push' &&
       (github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable' || startsWith(github.ref_name, 'rc/')) &&
+      needs.build-artifact.result == 'success' &&
       needs.upload-to-artifactory.result == 'success' &&
       vars.DISABLE_REMOTE_TRIGGER != 'true'
     steps:
+      - name: Check prerequisites
+        run: |
+          echo "Checking if all required variables are set..."
+          error_count=0
+
+          # Check secrets
+          if [ -z "${{ secrets.GITLAB_TOKEN }}" ]; then
+            echo "::error::GITLAB_TOKEN secret is not set"
+            error_count=$((error_count + 1))
+          fi
+
+          if [ -z "${{ secrets.GITLAB_TRIGGER_URL }}" ]; then
+            echo "::error::GITLAB_TRIGGER_URL secret is not set"
+            error_count=$((error_count + 1))
+          fi
+
+          # Check required outputs from previous jobs
+          if [ -z "${{ needs.build-artifact.outputs.NC_VERSION }}" ]; then
+            echo "::error::NC_VERSION output from build-artifact job is not set"
+            error_count=$((error_count + 1))
+          else
+            echo "✓ NC_VERSION: ${{ needs.build-artifact.outputs.NC_VERSION }}"
+          fi
+
+          if [ -z "${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH }}" ]; then
+            echo "::error::ARTIFACTORY_LAST_BUILD_PATH output from upload-to-artifactory job is not set"
+            error_count=$((error_count + 1))
+          else
+            echo "✓ ARTIFACTORY_LAST_BUILD_PATH: ${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH }}"
+          fi
+
+          # Check GitHub context variables
+          if [ -z "${{ github.sha }}" ]; then
+            echo "::error::github.sha is not set"
+            error_count=$((error_count + 1))
+          else
+            echo "✓ GITHUB_SHA: ${{ github.sha }}"
+          fi
+
+          if [ -z "${{ github.run_id }}" ]; then
+            echo "::error::github.run_id is not set"
+            error_count=$((error_count + 1))
+          else
+            echo "✓ BUILD_ID: ${{ github.run_id }}"
+          fi
+
+          if [ -z "${{ github.ref_name }}" ]; then
+            echo "::error::github.ref_name is not set"
+            error_count=$((error_count + 1))
+          else
+            echo "✓ BRANCH: ${{ github.ref_name }}"
+          fi
+
+          # Abort if any required variable is not set
+          if [ $error_count -ne 0 ]; then
+            echo "::error::Required variables are not set. Aborting."
+            exit 1
+          fi
+
+          echo "✅ All required variables are set"
       - name: Trigger remote workflow
         run: |
           # Enable command echo for debugging purposes
