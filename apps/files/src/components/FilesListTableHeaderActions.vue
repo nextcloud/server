@@ -287,7 +287,7 @@ export default defineComponent({
 
 			let displayName = action.id
 			try {
-				displayName = action.displayName(this.nodes, this.currentView)
+				displayName = action.displayName(this.actionContext)
 			} catch (error) {
 				logger.error('Error while getting action display name', { action, error })
 			}
