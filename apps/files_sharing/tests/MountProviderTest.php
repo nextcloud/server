@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Share20\Share;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\SharedMount;
+use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountInfo;
@@ -54,8 +55,9 @@ class MountProviderTest extends \Test\TestCase {
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createLocal')->willReturn($this->cache);
 		$mountManager = $this->createMock(IMountManager::class);
+		$shareValidator = $this->createMock(ShareTargetValidator::class);
 
-		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger, $eventDispatcher, $cacheFactory, $mountManager);
+		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger, $eventDispatcher, $cacheFactory, $mountManager, $shareValidator);
 	}
 
 	private function makeMockShareAttributes($attrs) {
