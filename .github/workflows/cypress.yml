@@ -110,7 +110,7 @@ jobs:
     services:
       mysql:
         # Only start mysql if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-mysql-8.4:latest' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-mysql-8.4:latest' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '3306/tcp'
         env:
@@ -122,7 +122,7 @@ jobs:
 
       mariadb:
         # Only start mariadb if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'mariadb:11.4' || ''}}
+        image: ${{matrix.containers == 'setup' && 'mariadb:11.4' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '3306/tcp'
         env:
@@ -134,7 +134,7 @@ jobs:
 
       postgres:
         # Only start postgres if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-postgres-17:latest' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-postgres-17:latest' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '5432/tcp'
         env:
@@ -145,7 +145,7 @@ jobs:
 
       oracle:
         # Only start oracle if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/gvenzl/oracle-free:23' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/gvenzl/oracle-free:23' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '1521'
         env:
