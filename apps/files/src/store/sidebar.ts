@@ -42,13 +42,22 @@ export const useSidebarStore = defineStore('sidebar', () => {
 	 */
 	function open(node: INode, tabId?: string) {
 		if (!(node && activeStore.activeFolder && activeStore.activeView)) {
-			logger.debug('Cannot open sidebar because the active folder or view is not set.', {
+			logger.debug('sidebar: cannot open sidebar because the active folder or view is not set.', {
 				node,
 				activeFolder: activeStore.activeFolder,
 				activeView: activeStore.activeView,
 			})
 
 			throw new Error('Cannot open sidebar because the active folder or view is not set.')
+		}
+
+		if (isOpen.value && currentNode.value?.source === node.source) {
+			logger.debug('sidebar: already open for current node')
+			if (tabId) {
+				logger.debug('sidebar: already open for current node - switching tab', { tabId })
+				setActiveTab(tabId)
+			}
+			return
 		}
 
 		const newTabs = getTabs({
@@ -58,12 +67,12 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		})
 
 		if (tabId && !newTabs.find(({ id }) => id === tabId)) {
-			logger.warn(`Cannot open sidebar tab '${tabId}' because it is not available for the current context.`)
+			logger.warn(`sidebar: cannot open tab '${tabId}' because it is not available for the current context.`)
 			activeTab.value = newTabs[0]?.id
 		} else {
 			activeTab.value = tabId ?? newTabs[0]?.id
 		}
-		logger.debug(`Opening sidebar for ${node.displayname}`, { node })
+		logger.debug(`sidebar: opening for ${node.displayname}`, { node })
 		activeStore.activeNode = node
 		isOpen.value = true
 	}
@@ -133,10 +142,10 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		const filesStore = useFilesStore()
 		const node = filesStore.getNode(source)
 		if (node) {
-			logger.debug('Opening sidebar for node from Viewer.', { node })
+			logger.debug('sidebar: opening for node from Viewer.', { node })
 			open(node)
 		} else {
-			logger.error(`Cannot open sidebar for node '${source}' because it was not found in the current view.`)
+			logger.error(`sidebar: cannot open for node '${source}' because it was not found in the current view.`)
 		}
 	})
 
@@ -148,7 +157,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 			window.OCP.Files.Router._router.afterEach((to, from) => {
 				if ((from.query && ('opendetails' in from.query))
 					&& (to.query && !('opendetails' in to.query))) {
-					logger.debug('Closing sidebar because "opendetails" query parameter was removed from URL.')
+					logger.debug('sidebar: closing because "opendetails" query parameter was removed from URL.')
 					close()
 				}
 			})
@@ -160,7 +169,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		const params = { ...(window.OCP?.Files?.Router?.params ?? {}) }
 		const query = { ...(window.OCP?.Files?.Router?.query ?? {}) }
 
-		logger.debug(`Sidebar current node changed: ${isOpen ? 'open' : 'closed'}`, { query, params, node: activeStore.activeNode })
+		logger.debug(`sidebar: current node changed: ${isOpen ? 'open' : 'closed'}`, { query, params, node: activeStore.activeNode })
 		if (!isOpen && ('opendetails' in query)) {
 			delete query.opendetails
 			window.OCP.Files.Router.goToRoute(
