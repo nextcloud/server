@@ -930,7 +930,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "تەشكىلاتىڭىزدىكى Nextcloud نى ئىشلىتىشنىڭ سەۋەبلىرى",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen} Nextcloud جەمئىيتى {linkclose} تەرىپىدىن ياسىلىپ، {githubopen} مەنبە كود{linkclose} بولسا {licenseopen} AGPL{linkclose} ئىجازەتنامىسى ئاستىدا تارقىتىلدى.",
     "Like our Facebook page" : "بىزنىڭ Facebook بېتىمىزگە ئوخشاش",
-    "Follow us on X" : "بىزگە ئەگىشىڭ",
     "Follow us on Bluesky" : "بىزنى Bluesky دا قوشۇۋېلىڭ",
     "Follow us on Mastodon" : "بىزگە ئەگىشىڭ",
     "Check out our blog" : "بىلوگىمىزنى تەكشۈرۈپ بېقىڭ",
@@ -980,6 +979,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "ھەممە ئىشنىڭ توغرا تەڭشەلگەنلىكىڭىزنىڭ بىخەتەرلىكى ۋە ئىقتىدارى ئۈچۈن ئىنتايىن مۇھىم. سىزگە ياردەم قىلىش ئۈچۈن بىز ئاپتوماتىك تەكشۈرۈش ئېلىپ بېرىۋاتىمىز. تېخىمۇ كۆپ ئۇچۇرغا ئۇلانغان ھۆججەتلەرنى كۆرۈڭ.",
     "Checking for system and security issues." : "سىستېما ۋە بىخەتەرلىك مەسىلىلىرىنى تەكشۈرۈش.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\"> قاچىلاش قوللانمىسى ↗ </a> نى قايتا تەكشۈرۈپ ، <a href=\"%2$s\"> خاتىرە </a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Nextcloud نىڭ بىخەتەرلىكىنى <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\"> بىخەتەرلىك تەكشۈرۈشىمىز ↗ </a> دىن تەكشۈرۈڭ."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Nextcloud نىڭ بىخەتەرلىكىنى <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\"> بىخەتەرلىك تەكشۈرۈشىمىز ↗ </a> دىن تەكشۈرۈڭ.",
+    "Follow us on X" : "بىزگە ئەگىشىڭ"
 },
 "nplurals=2; plural=(n != 1);");

@@ -939,7 +939,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Důvody proč používat Nextcloud ve vaší organizaci",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Vyvíjeno {communityopen}komunitou Nextcloud{linkclose}, {githubopen}zdrojové kódy{linkclose} jsou licencovány pod {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Hodnoťte naše stránky na Facebooku",
-    "Follow us on X" : "Sledujte nás na X",
     "Follow us on Bluesky" : "Následujte nás na Bluesky",
     "Follow us on Mastodon" : "Následujte nás na Mastodon",
     "Check out our blog" : "Čtete náš blog",
@@ -989,6 +988,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Pro zabezpečení a optimální výkon instance Nextcloud je důležité, aby vše bylo správně nastaveno. Jako pomoc, instance samotná automaticky ověřuje některá nastavení. Další informace naleznete v odkazované dokumentaci.",
     "Checking for system and security issues." : "Kontrola systému a problémů se zabezpečením.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Důkladně si přečtěte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">průvodce instalací ↗</a> a zkontrolujte, že v <a href=\"%2$s\">záznamu událostí</a> nejsou žádné chyby ani varování.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Zkontrolujte zabezpečení svého Nextcloud přes <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">náš skener zabezpečení ↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Zkontrolujte zabezpečení svého Nextcloud přes <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">náš skener zabezpečení ↗</a>.",
+    "Follow us on X" : "Sledujte nás na X"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
