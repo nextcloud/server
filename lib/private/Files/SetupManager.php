@@ -673,7 +673,18 @@ class SetupManager {
 			return;
 		}
 
-		if ($this->fullSetupRequired($user)) {
+		$providersAreAuthoritative = true;
+		foreach ($providers as $provider) {
+			if (!(
+				is_a($provider, IAuthoritativeMountProvider::class, true)
+				|| is_a($provider, IRootMountProvider::class, true)
+				|| is_a($provider, IHomeMountProvider::class, true)
+			)) {
+				$providersAreAuthoritative = false;
+			}
+		}
+
+		if (!$providersAreAuthoritative && $this->fullSetupRequired($user)) {
 			$this->setupForUser($user);
 			return;
 		}
