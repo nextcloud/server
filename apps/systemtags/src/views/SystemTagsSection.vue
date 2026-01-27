@@ -3,6 +3,64 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { TagWithId } from '../types.ts'
+
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { onBeforeMount, ref } from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import SystemTagForm from '../components/SystemTagForm.vue'
+import SystemTagsCreationControl from '../components/SystemTagsCreationControl.vue'
+import logger from '../logger.ts'
+import { fetchTags } from '../services/api.ts'
+
+const loadingTags = ref(false)
+const tags = ref<TagWithId[]>([])
+
+onBeforeMount(async () => {
+	loadingTags.value = true
+	try {
+		tags.value = await fetchTags()
+	} catch (error) {
+		showError(t('systemtags', 'Failed to load tags'))
+		logger.error('Failed to load tags', { error })
+	}
+	loadingTags.value = false
+})
+
+/**
+ * Handle tag creation
+ *
+ * @param tag - The created tag
+ */
+function handleCreate(tag: TagWithId) {
+	tags.value.unshift(tag)
+}
+
+/**
+ * Handle tag update
+ *
+ * @param tag - The updated tag
+ */
+function handleUpdate(tag: TagWithId) {
+	const tagIndex = tags.value.findIndex((currTag) => currTag.id === tag.id)
+	tags.value.splice(tagIndex, 1)
+	tags.value.unshift(tag)
+}
+
+/**
+ * Handle tag deletion
+ *
+ * @param tag - The deleted tag
+ */
+function handleDelete(tag: TagWithId) {
+	const tagIndex = tags.value.findIndex((currTag) => currTag.id === tag.id)
+	tags.value.splice(tagIndex, 1)
+}
+</script>
+
 <template>
 	<NcSettingsSection
 		:name="t('systemtags', 'Collaborative tags')"
@@ -20,65 +78,3 @@
 			@tag:deleted="handleDelete" />
 	</NcSettingsSection>
 </template>
-
-<script lang="ts">
-import type { TagWithId } from '../types.js'
-
-import { showError } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
-import Vue from 'vue'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import SystemTagForm from '../components/SystemTagForm.vue'
-import SystemTagsCreationControl from '../components/SystemTagsCreationControl.vue'
-import logger from '../logger.js'
-import { fetchTags } from '../services/api.js'
-
-export default Vue.extend({
-	name: 'SystemTagsSection',
-
-	components: {
-		NcLoadingIcon,
-		NcSettingsSection,
-		SystemTagForm,
-		SystemTagsCreationControl,
-	},
-
-	data() {
-		return {
-			loadingTags: false,
-			tags: [] as TagWithId[],
-		}
-	},
-
-	async created() {
-		this.loadingTags = true
-		try {
-			this.tags = await fetchTags()
-		} catch (error) {
-			showError(t('systemtags', 'Failed to load tags'))
-			logger.error('Failed to load tags', { error })
-		}
-		this.loadingTags = false
-	},
-
-	methods: {
-		t,
-
-		handleCreate(tag: TagWithId) {
-			this.tags.unshift(tag)
-		},
-
-		handleUpdate(tag: TagWithId) {
-			const tagIndex = this.tags.findIndex((currTag) => currTag.id === tag.id)
-			this.tags.splice(tagIndex, 1)
-			this.tags.unshift(tag)
-		},
-
-		handleDelete(tag: TagWithId) {
-			const tagIndex = this.tags.findIndex((currTag) => currTag.id === tag.id)
-			this.tags.splice(tagIndex, 1)
-		},
-	},
-})
-</script>
