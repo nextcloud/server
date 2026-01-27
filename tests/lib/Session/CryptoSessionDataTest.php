@@ -45,7 +45,6 @@ class CryptoSessionDataTest extends Session {
 	public function testSessionDataStoredEncrypted(): void {
 		$keyName = 'secret';
 		$unencryptedValue = 'superSecretValue123';
-		$encryptedValue = $this->crypto->encrypt($unencryptedValue);
 		
 		$this->instance->set('secret', 'superSecretValue123');
 		$this->instance->close();
