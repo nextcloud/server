@@ -66,6 +66,7 @@
 		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
 		"serve": [
 			"Composer\\Config::disableProcessTimeout",
+			"php -f occ config:system:set 'overwrite.cli.url' --type string --value \"http://${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080}\"",
 			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
 		],
 		"test": "phpunit --colors=always --configuration tests/phpunit-autotest.xml",
