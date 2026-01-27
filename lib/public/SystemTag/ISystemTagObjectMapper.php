@@ -8,30 +8,36 @@ declare(strict_types=1);
  */
 namespace OCP\SystemTag;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Public interface to access and manage system-wide tags.
  *
  * @since 9.0.0
  */
+#[Consumable(since: '9.0.0')]
 interface ISystemTagObjectMapper {
 	/**
 	 * Get a list of tag ids for the given object ids.
 	 *
 	 * This returns an array that maps object id to tag ids
+	 *
+	 * ```
 	 * [
-	 *   1 => array('id1', 'id2'),
-	 *   2 => array('id3', 'id2'),
-	 *   3 => array('id5'),
-	 *   4 => array()
+	 *   1 => ['id1', 'id2'],
+	 *   2 => ['id3', 'id2'],
+	 *   3 => ['id5'],
+	 *   4 => []
 	 * ]
+	 * ```
 	 *
 	 * Untagged objects will have an empty array associated.
 	 *
-	 * @param string|array $objIds object ids
+	 * @param string|list<string> $objIds object ids
 	 * @param string $objectType object type
 	 *
-	 * @return array with object id as key and an array
-	 *               of tag ids as value
+	 * @return array<string, list<string>> with object id as key and an array
+	 *                                     of tag ids as value
 	 *
 	 * @since 9.0.0
 	 */
@@ -40,12 +46,12 @@ interface ISystemTagObjectMapper {
 	/**
 	 * Get a list of objects tagged with $tagIds.
 	 *
-	 * @param string|array $tagIds Tag id or array of tag ids.
+	 * @param string|list<string> $tagIds Tag id or array of tag ids.
 	 * @param string $objectType object type
 	 * @param int $limit Count of object ids you want to get
 	 * @param string $offset The last object id you already received
 	 *
-	 * @return string[] array of object ids or empty array if none found
+	 * @return list<string> array of object ids or empty array if none found
 	 *
 	 * @throws TagNotFoundException if at least one of the
 	 *                              given tags does not exist
@@ -66,7 +72,7 @@ interface ISystemTagObjectMapper {
 	 *
 	 * @param string $objId object id
 	 * @param string $objectType object type
-	 * @param string|array $tagIds tag id or array of tag ids to assign
+	 * @param string|list<string> $tagIds tag id or array of tag ids to assign
 	 *
 	 * @throws TagNotFoundException if at least one of the
 	 *                              given tags does not exist
@@ -85,7 +91,7 @@ interface ISystemTagObjectMapper {
 	 *
 	 * @param string $objId object id
 	 * @param string $objectType object type
-	 * @param string|array $tagIds tag id or array of tag ids to unassign
+	 * @param string|list<string> $tagIds tag id or array of tag ids to unassign
 	 *
 	 * @throws TagNotFoundException if at least one of the
 	 *                              given tags does not exist
@@ -97,7 +103,7 @@ interface ISystemTagObjectMapper {
 	/**
 	 * Checks whether the given objects have the given tag.
 	 *
-	 * @param string|array $objIds object ids
+	 * @param string|list<string> $objIds object ids
 	 * @param string $objectType object type
 	 * @param string $tagId tag id to check
 	 * @param bool $all true to check that ALL objects have the tag assigned,
@@ -128,7 +134,7 @@ interface ISystemTagObjectMapper {
 	 *
 	 * @param string $tagId tag id
 	 * @param string $objectType object type
-	 * @param string[] $objectIds list of object ids
+	 * @param list<string> $objectIds list of object ids
 	 *
 	 * @throws TagNotFoundException if the tag does not exist
 	 * @since 31.0.0
