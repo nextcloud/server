@@ -942,7 +942,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Cúiseanna le Nextcloud a úsáid i d’eagraíocht",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Arna fhorbairt ag {communityopen}pobal Nextcloud{linkclose}, tá an {githubopen}cód foinseach{linkclose} ceadúnaithe faoin {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Cosúil lenár leathanach Facebook",
-    "Follow us on X" : "Lean muid ar X",
     "Follow us on Bluesky" : "Lean muid ar Bluesky",
     "Follow us on Mastodon" : "Follow us on Mastodon",
     "Check out our blog" : "Amharc ar ár mblag",
@@ -992,6 +991,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Tá sé tábhachtach ar mhaithe le slándáil agus feidhmíocht do chás go bhfuil gach rud cumraithe i gceart. Chun cabhrú leat leis sin táimid ag déanamh roinnt seiceálacha uathoibríocha. Féach ar an doiciméadú nasctha le haghaidh tuilleadh eolais le do thoil.",
     "Checking for system and security issues." : "Seiceáil le haghaidh saincheisteanna córais agus slándála.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Déan seiceáil faoi dhó ar na <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\"> treoracha suiteála ↗</a>, agus seiceáil le haghaidh aon earráidí nó rabhaidh sa<a href=\"%2$s\">log</a> le do thoil.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Seiceáil slándáil do Nextcloud thar<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ár scanadh slándála ↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Seiceáil slándáil do Nextcloud thar<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ár scanadh slándála ↗</a>.",
+    "Follow us on X" : "Lean muid ar X"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

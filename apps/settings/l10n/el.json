@@ -901,7 +901,6 @@
     "Reasons to use Nextcloud in your organization" : "Λόγοι για να χρησιμοποιήσετε το Nextcloud στον οργανισμό σας",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Αναπτύχθηκε από τη {communityopen}Κοινότητα του Nextcloud {linkclose}, ο πηγαίος κώδικας {githubopen} {linkclose}  είναι αδειοδοτημένος υπό την άδεια {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Ακολουθήστε μας στην σελίδα μας στο Facebook",
-    "Follow us on X" : "Ακολουθήστε μας στο X",
     "Follow us on Bluesky" : "Ακολουθήστε μας στο Bluesky",
     "Follow us on Mastodon" : "Ακολουθήστε μας στο Mastodon",
     "Check out our blog" : "Επισκεφθείτε το ιστολόγιό μας",
@@ -950,6 +949,7 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Είναι σημαντικό για την ασφάλεια και την απόδοση του συστήματός σας ότι όλα έχουν ρυθμιστεί σωστά. Για να σας βοηθήσουμε, κάνουμε μερικούς αυτόματους ελέγχους. Για περισσότερες πληροφορίες, ανατρέξτε στη σχετική τεκμηρίωση.",
     "Checking for system and security issues." : "Έλεγχος για θέματα συστήματος και ασφάλειας.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Παρακαλώ ελέγξτε τις <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">οδηγίες εγκατάστασης ↗</a>, και ελέγξτε για σφάλματα ή προειδοποιήσεις στα <a href=\"%2$s\">αρχεία καταγραφής</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ελέγξτε την ασφάλεια του Nextcloud σας μέσω <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">της σάρωσης ασφαλείας μας ↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ελέγξτε την ασφάλεια του Nextcloud σας μέσω <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">της σάρωσης ασφαλείας μας ↗</a>.",
+    "Follow us on X" : "Ακολουθήστε μας στο X"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

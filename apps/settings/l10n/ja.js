@@ -925,7 +925,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "あなたの組織でNextcloudを使うべきこれだけの理由",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen} Nextcloudコミュニティ{linkclose}によって開発された{githubopen}ソースコード{linkclose}は、{licenseopen} AGPL {linkclose}で許諾されています。",
     "Like our Facebook page" : "私たちのFacebookのページをイイネ！",
-    "Follow us on X" : "X でフォロー！",
     "Follow us on Bluesky" : "Blueskyで私たちをフォローしてください",
     "Follow us on Mastodon" : "Mastodonでフォロー",
     "Check out our blog" : "私たちのブログを見てね！",
@@ -975,6 +974,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "サーバーのセキュリティとパフォーマンスにとって重要なことは、すべてが正確に設定されていることです。あなたの助けとなるよう、Nextcloudでは一部の自動チェックを行っています。詳細な情報は、リンク先のドキュメントを参照してください。",
     "Checking for system and security issues." : "システムおよびセキュリティの問題をチェックしています。",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">インストールガイド ↗</a>を再確認して、 <a href=\"%2$s\">ログ</a> にあるすべてのエラーや警告を確認してください。",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Nextcloudのセキュリティは、<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">セキュリティスキャン ↗</a>でチェックしてください。"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Nextcloudのセキュリティは、<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">セキュリティスキャン ↗</a>でチェックしてください。",
+    "Follow us on X" : "X でフォロー！"
 },
 "nplurals=1; plural=0;");

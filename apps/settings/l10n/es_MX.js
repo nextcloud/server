@@ -723,7 +723,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Razones para usar Nextcloud en su organización",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desarrollado por la  {communityopen}comunidad Nextcloud {linkclose}, el {githubopen}código fuente {linkclose} está licenciado bajo  {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
-    "Follow us on X" : "Síguenos en X (ex Twitter)",
     "Follow us on Mastodon" : "Síguenos en Mastodon",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
@@ -763,6 +762,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Es importante para la seguridad y rendimiento de su instancia que todo esté correctamente configurado. Para ayudarle en ello estamos haciendo algunas comprobaciones automáticas. Para más información, por favor compruebe la documentación enlazada.",
     "Checking for system and security issues." : "Comprobando problemas del sistema y seguridad.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Por favor, revise cuidadosamente las <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">guías de instalación ↗</a> y compruebe por errores o advertencias en el <a href=\"%2$s\">registro</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nuestro escáner de seguridad ↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nuestro escáner de seguridad ↗</a>.",
+    "Follow us on X" : "Síguenos en X (ex Twitter)"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
