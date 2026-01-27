@@ -11,26 +11,25 @@ namespace OCA\Files_Sharing\Listener;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\ShareTargetValidator;
-use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IUser;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
 
 /**
  * Listen to various events that can change what shares a user has access to
  *
- * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent|FilesystemTornDownEvent>
+ * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|ShareCreatedEvent|ShareTransferredEvent|BeforeShareDeletedEvent|UserShareAccessUpdatedEvent>
  */
 class SharesUpdatedListener implements IEventListener {
-	private CappedMemoryCache $updatedUsers;
+	private array $inUpdate = [];
 
 	public function __construct(
 		private readonly IManager $shareManager,
@@ -38,12 +37,8 @@ class SharesUpdatedListener implements IEventListener {
 		private readonly MountProvider $shareMountProvider,
 		private readonly ShareTargetValidator $shareTargetValidator,
 	) {
-		$this->updatedUsers = new CappedMemoryCache();
 	}
 	public function handle(Event $event): void {
-		if ($event instanceof FilesystemTornDownEvent) {
-			$this->updatedUsers = new CappedMemoryCache();
-		}
 		if ($event instanceof UserShareAccessUpdatedEvent) {
 			foreach ($event->getUsers() as $user) {
 				$this->updateForUser($user);
@@ -52,7 +47,11 @@ class SharesUpdatedListener implements IEventListener {
 		if ($event instanceof UserAddedEvent || $event instanceof UserRemovedEvent) {
 			$this->updateForUser($event->getUser());
 		}
-		if ($event instanceof ShareCreatedEvent || $event instanceof BeforeShareDeletedEvent) {
+		if (
+			$event instanceof ShareCreatedEvent
+			|| $event instanceof BeforeShareDeletedEvent
+			|| $event instanceof ShareTransferredEvent
+		) {
 			foreach ($this->shareManager->getUsersForShare($event->getShare()) as $user) {
 				$this->updateForUser($user);
 			}
@@ -60,10 +59,11 @@ class SharesUpdatedListener implements IEventListener {
 	}
 
 	private function updateForUser(IUser $user): void {
-		if (isset($this->updatedUsers[$user->getUID()])) {
+		// prevent recursion
+		if (isset($this->inUpdate[$user->getUID()])) {
 			return;
 		}
-		$this->updatedUsers[$user->getUID()] = true;
+		$this->inUpdate[$user->getUID()] = true;
 
 		$cachedMounts = $this->userMountCache->getMountsForUser($user);
 		$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts);
@@ -79,5 +79,7 @@ class SharesUpdatedListener implements IEventListener {
 				$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $mountsByPath, $groupedShares);
 			}
 		}
+
+		unset($this->inUpdate[$user->getUID()]);
 	}
 }
