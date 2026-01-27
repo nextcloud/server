@@ -50,7 +50,12 @@ on:
         default: ''
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/ionos-dev' && github.run_id || github.event.pull_request.number || github.ref }}
+  group: >-
+    ${{ github.workflow }}-${{
+      github.ref == 'refs/heads/ionos-dev' && github.run_id ||
+      github.event.pull_request.number ||
+      github.ref
+    }}
   cancel-in-progress: true
 
 env:
