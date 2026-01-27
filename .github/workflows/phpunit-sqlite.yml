@@ -86,14 +86,17 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
-        run: composer i
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghostscript
+          composer i
 
       - name: Set up Nextcloud
         run: |
@@ -107,7 +110,7 @@ jobs:
         run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
       - name: PHPUnit database tests
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
+        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }} tests/lib/Preview/PostscriptTest.php
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
@@ -125,6 +128,8 @@ jobs:
       - name: Print logs
         if: always()
         run: |
+          gs --version
+          cat /etc/ImageMagick-6/policy.xml
           cat data/nextcloud.log
 
   summary:
