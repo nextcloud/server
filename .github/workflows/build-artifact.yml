@@ -53,8 +53,12 @@ concurrency:
   group: >-
     ${{ github.workflow }}-${{
       github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) ||
-      github.ref == 'refs/heads/ionos-dev' && github.run_id ||
-      github.ref
+      (
+        (
+          contains(fromJson('["refs/heads/ionos-dev"]'), github.ref)
+        ) && github.run_id ||
+        github.ref
+      )
     }}
   cancel-in-progress: true
 
