@@ -663,7 +663,6 @@ OC.L10N.register(
     "Reasons to use Nextcloud in your organization" : "Ástæður til að nota Nextcloud á vinnustaðnum þínum",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Þróað af {communityopen}Nextcloud samfélaginu{linkclose}, {githubopen}grunnkóðinn{linkclose} er gefinn út með {licenseopen}AGPL{linkclose} notkunarleyfinu.",
     "Like our Facebook page" : "Líkaðu við Facebook-síðuna okkar",
-    "Follow us on X" : "Fylgstu með okkur á X",
     "Follow us on Mastodon" : "Fylgstu með okkur á Mastodon",
     "Check out our blog" : "Kíktu á bloggið okkar",
     "Subscribe to our newsletter" : "Gerstu áskrifandi að fréttabréfinu okkar",
@@ -704,6 +703,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Það er mikilvægt fyrir öryggi og afköst uppsetningarinnar þinnar að allt sé rétt stillt. Til að hjálpa við að svo sé, eru gerðar ýmsar sjálfvirkar prófanir. Skoðaðu hjálparskjölin til að sjá ítarlegar upplýsingar.",
     "Checking for system and security issues." : "Athuga með kerfis- og öryggisvandamál.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Yfirfarðu vandlega <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">uppsetningarleiðbeiningarnar ↗</a>, og athugaðu hvort nokkrar villumeldingar eða aðvaranir séu í <a href=\"%2$s\">annálnum</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Athugaðu öryggi Nextcloud-skýsins með <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">öryggisskönnun okkar ↗</a>."
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Athugaðu öryggi Nextcloud-skýsins með <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">öryggisskönnun okkar ↗</a>.",
+    "Follow us on X" : "Fylgstu með okkur á X"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
