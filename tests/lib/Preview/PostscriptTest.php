@@ -10,15 +10,14 @@ namespace Test\Preview;
 
 use OC\Preview\Postscript;
 
-/**
- * Class BitmapTest
- *
- *
- * @package Test\Preview
- */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
-class BitmapTest extends Provider {
+class PostscriptTest extends Provider {
+
 	protected function setUp(): void {
+		if (\Imagick::queryFormats('EPS') === false) {
+			$this->markTestSkipped('An error occurred while operating with Imagick.');
+		}
+
 		parent::setUp();
 
 		$fileName = 'testimage.eps';
