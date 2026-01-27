@@ -70,10 +70,6 @@ module.exports = {
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
 	},
-	systemtags: {
-		init: path.join(__dirname, 'apps/systemtags/src', 'init.ts'),
-		admin: path.join(__dirname, 'apps/systemtags/src', 'admin.ts'),
-	},
 	updatenotification: {
 		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),

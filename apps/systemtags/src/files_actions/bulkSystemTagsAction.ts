@@ -19,14 +19,14 @@ import { defineAsyncComponent } from 'vue'
  * @param context.nodes - Nodes to modify tags for
  */
 async function execBatch({ nodes }: ActionContext | ActionContextSingle): Promise<(null | boolean)[]> {
-	const response = await new Promise<null | boolean>((resolve) => {
-		spawnDialog(defineAsyncComponent(() => import('../components/SystemTagPicker.vue')), {
+	const response = await spawnDialog(
+		defineAsyncComponent(() => import('../components/SystemTagPicker.vue')),
+		{
 			nodes,
-		}, (status) => {
-			resolve(status as null | boolean)
-		})
-	})
-	return Array(nodes.length).fill(response)
+		},
+	)
+	return Array(nodes.length)
+		.fill(response)
 }
 
 export const action = new FileAction({
@@ -55,7 +55,7 @@ export const action = new FileAction({
 
 	async exec(context: ActionContextSingle) {
 		const [result] = await execBatch(context)
-		return result
+		return result!
 	},
 
 	execBatch,
