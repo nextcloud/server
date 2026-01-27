@@ -52,7 +52,7 @@ on:
 concurrency:
   group: >-
     ${{ github.workflow }}-${{
-      github.event.pull_request.number ||
+      github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) ||
       github.ref == 'refs/heads/ionos-dev' && github.run_id ||
       github.ref
     }}
