@@ -77,7 +77,7 @@ abstract class ASettings implements ISettings {
 			$this->urlGenerator->linkToDocs('admin-workflowengine')
 		);
 
-		return new TemplateResponse(Application::APP_ID, 'settings', [], 'blank');
+		return new TemplateResponse(Application::APP_ID, 'settings', [], TemplateResponse::RENDER_AS_BLANK);
 	}
 
 	/**
