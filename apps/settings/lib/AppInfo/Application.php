@@ -74,6 +74,7 @@ use OCA\Settings\SetupChecks\SystemIs64bit;
 use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
+use OCA\Settings\SetupChecks\TwoFactorConfiguration;
 use OCA\Settings\SetupChecks\WellKnownUrls;
 use OCA\Settings\SetupChecks\Woff2Loading;
 use OCA\Settings\UserMigration\AccountMigrator;
@@ -213,6 +214,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(TaskProcessingPickupSpeed::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
+		$context->registerSetupCheck(TwoFactorConfiguration::class);
 		$context->registerSetupCheck(PushService::class);
 		$context->registerSetupCheck(WellKnownUrls::class);
 		$context->registerSetupCheck(Woff2Loading::class);
