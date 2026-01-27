@@ -4125,14 +4125,6 @@
       <code><![CDATA[getProviderForType]]></code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Share20/Share.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->node]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[getNode]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/private/Streamer.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[get]]></code>
