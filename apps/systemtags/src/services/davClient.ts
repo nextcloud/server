@@ -1,30 +1,25 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { createClient } from 'webdav'
+import type { Node } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-// init webdav client
-const rootUrl = generateRemoteUrl('dav')
-export const davClient = createClient(rootUrl)
+import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 
-// set CSRF token header
+export const davClient = getClient()
+
 /**
+ * Fetches a node from the given path
  *
- * @param token
+ * @param path - The path to fetch the node from
  */
-function setHeaders(token: string | null) {
-	davClient.setHeaders({
-		// Add this so the server knows it is an request from the browser
-		'X-Requested-With': 'XMLHttpRequest',
-		// Inject user auth
-		requesttoken: token ?? '',
-	})
+export async function fetchNode(path: string): Promise<Node> {
+	const propfindPayload = getDefaultPropfind()
+	const result = await davClient.stat(`${getRootPath()}${path}`, {
+		details: true,
+		data: propfindPayload,
+	}) as ResponseDataDetailed<FileStat>
+	return resultToNode(result.data)
 }
-
-// refresh headers when request token changes
-onRequestTokenUpdate(setHeaders)
-setHeaders(getRequestToken())

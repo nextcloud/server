@@ -4,17 +4,18 @@
  */
 
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import type { ServerTagWithId, Tag, TagWithId } from '../types.js'
+import type { ServerTagWithId, Tag, TagWithId } from '../types.ts'
 
 import { t } from '@nextcloud/l10n'
 import logger from '../logger.ts'
-import { formatTag, parseTags } from '../utils.js'
-import { createTag, fetchTagsPayload } from './api.js'
-import { davClient } from './davClient.js'
+import { formatTag, parseTags } from '../utils.ts'
+import { createTag, fetchTagsPayload } from './api.ts'
+import { davClient } from './davClient.ts'
 
 /**
+ * Fetch all tags for a given file (by id).
  *
- * @param fileId
+ * @param fileId - The id of the file to fetch tags for
  */
 export async function fetchTagsForFile(fileId: number): Promise<TagWithId[]> {
 	const path = '/systemtags-relations/files/' + fileId
@@ -50,9 +51,10 @@ export async function createTagForFile(tag: Tag, fileId: number): Promise<number
 }
 
 /**
+ * Set a tag for a given file (by id).
  *
- * @param tag
- * @param fileId
+ * @param tag - The tag to set
+ * @param fileId - The id of the file to set the tag for
  */
 export async function setTagForFile(tag: TagWithId | ServerTagWithId, fileId: number): Promise<void> {
 	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id
@@ -69,9 +71,10 @@ export async function setTagForFile(tag: TagWithId | ServerTagWithId, fileId: nu
 }
 
 /**
+ * Delete a tag for a given file (by id).
  *
- * @param tag
- * @param fileId
+ * @param tag - The tag to delete
+ * @param fileId - The id of the file to delete the tag for
  */
 export async function deleteTagForFile(tag: TagWithId, fileId: number): Promise<void> {
 	const path = '/systemtags-relations/files/' + fileId + '/' + tag.id

@@ -50,6 +50,10 @@ const modules = {
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
 	},
+	systemtags: {
+		init: resolve(import.meta.dirname, 'apps/systemtags/src', 'init.ts'),
+		admin: resolve(import.meta.dirname, 'apps/systemtags/src', 'admin.ts'),
+	},
 	theming: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/theming/src', 'settings-personal.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/theming/src', 'settings-admin.ts'),
