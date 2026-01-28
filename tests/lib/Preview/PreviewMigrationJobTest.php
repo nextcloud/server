@@ -10,8 +10,9 @@ declare(strict_types=1);
 
 namespace lib\Preview;
 
-use OC\Core\BackgroundJobs\MovePreviewJob;
+use OC\Core\BackgroundJobs\PreviewMigrationJob;
 use OC\Preview\Db\PreviewMapper;
+use OC\Preview\PreviewMigrationService;
 use OC\Preview\PreviewService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -30,7 +31,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
-class MovePreviewJobTest extends TestCase {
+class PreviewMigrationJobTest extends TestCase {
 	private IAppData $previewAppData;
 	private PreviewMapper $previewMapper;
 	private IAppConfig&MockObject $appConfig;
@@ -112,18 +113,23 @@ class MovePreviewJobTest extends TestCase {
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new MovePreviewJob(
+		$job = new PreviewMigrationJob(
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			$this->previewMapper,
-			$this->storageFactory,
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
-			$this->mimeTypeDetector,
-			$this->mimeTypeLoader,
-			$this->logger,
-			Server::get(IAppDataFactory::class),
+			new PreviewMigrationService(
+				$this->config,
+				Server::get(IRootFolder::class),
+				$this->logger,
+				$this->mimeTypeDetector,
+				$this->mimeTypeLoader,
+				Server::get(IDBConnection::class),
+				$this->previewMapper,
+				$this->storageFactory,
+				Server::get(IAppDataFactory::class),
+			)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -144,18 +150,23 @@ class MovePreviewJobTest extends TestCase {
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new MovePreviewJob(
+		$job = new PreviewMigrationJob(
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			$this->previewMapper,
-			$this->storageFactory,
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
-			$this->mimeTypeDetector,
-			$this->mimeTypeLoader,
-			$this->logger,
-			Server::get(IAppDataFactory::class)
+			new PreviewMigrationService(
+				$this->config,
+				Server::get(IRootFolder::class),
+				$this->logger,
+				$this->mimeTypeDetector,
+				$this->mimeTypeLoader,
+				Server::get(IDBConnection::class),
+				$this->previewMapper,
+				$this->storageFactory,
+				Server::get(IAppDataFactory::class),
+			)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -184,18 +195,23 @@ class MovePreviewJobTest extends TestCase {
 		$this->assertEquals(9, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new MovePreviewJob(
+		$job = new PreviewMigrationJob(
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			$this->previewMapper,
-			$this->storageFactory,
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
-			$this->mimeTypeDetector,
-			$this->mimeTypeLoader,
-			$this->logger,
-			Server::get(IAppDataFactory::class)
+			new PreviewMigrationService(
+				$this->config,
+				Server::get(IRootFolder::class),
+				$this->logger,
+				$this->mimeTypeDetector,
+				$this->mimeTypeLoader,
+				Server::get(IDBConnection::class),
+				$this->previewMapper,
+				$this->storageFactory,
+				Server::get(IAppDataFactory::class),
+			)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$previews = iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5));
