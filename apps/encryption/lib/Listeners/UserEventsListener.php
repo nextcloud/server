@@ -10,7 +10,6 @@ namespace OCA\Encryption\Listeners;
 
 use OC\Core\Events\BeforePasswordResetEvent;
 use OC\Core\Events\PasswordResetEvent;
-use OC\Files\SetupManager;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Services\PassphraseService;
 use OCA\Encryption\Session;
@@ -18,9 +17,8 @@ use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\ISetupManager;
 use OCP\IUser;
-use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -40,9 +38,7 @@ class UserEventsListener implements IEventListener {
 		private Setup $userSetup,
 		private Session $session,
 		private KeyManager $keyManager,
-		private IUserManager $userManager,
-		private IUserSession $userSession,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 		private PassphraseService $passphraseService,
 		private ILockdownManager $lockdownManager,
 	) {

@@ -10,7 +10,6 @@ namespace OCA\Encryption\Command;
 
 use OC\Encryption\Manager;
 use OC\Encryption\Util;
-use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OCP\Encryption\IManager;
@@ -19,6 +18,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -38,7 +38,7 @@ class FixKeyLocation extends Command {
 		private readonly IUserMountCache $userMountCache,
 		private readonly Util $encryptionUtil,
 		private readonly IRootFolder $rootFolder,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 		IManager $encryptionManager,
 	) {
 		$this->keyRootDirectory = rtrim($this->encryptionUtil->getKeyStorageRoot(), '/');

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,8 +14,6 @@ use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Common;
-use OC\Files\Storage\Home;
-use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Availability;
 use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
@@ -43,6 +42,7 @@ use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -57,13 +57,14 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Share\Events\ShareCreatedEvent;
+use Override;
 use Psr\Log\LoggerInterface;
 use function array_key_exists;
 use function count;
 use function dirname;
 use function in_array;
 
-class SetupManager {
+class SetupManager implements ISetupManager {
 	private bool $rootSetup = false;
 	// List of users for which at least one mount is setup
 	private array $setupUsers = [];
@@ -118,6 +119,7 @@ class SetupManager {
 		return in_array($user->getUID(), $this->setupUsers, true);
 	}
 
+	#[Override]
 	public function isSetupComplete(IUser $user): bool {
 		return in_array($user->getUID(), $this->setupUsersComplete, true);
 	}
@@ -143,7 +145,7 @@ class SetupManager {
 		return false;
 	}
 
-	private function setupBuiltinWrappers() {
+	private function setupBuiltinWrappers(): void {
 		if ($this->setupBuiltinWrappersDone) {
 			return;
 		}
@@ -256,9 +258,7 @@ class SetupManager {
 		$updatingProviders = false;
 	}
 
-	/**
-	 * Setup the full filesystem for the specified user
-	 */
+	#[Override]
 	public function setupForUser(IUser $user): void {
 		if ($this->isSetupComplete($user)) {
 			return;
@@ -454,10 +454,7 @@ class SetupManager {
 		return $this->userManager->get($userId);
 	}
 
-	/**
-	 * Set up the filesystem for the specified path, optionally including all
-	 * children mounts.
-	 */
+	#[Override]
 	public function setupForPath(string $path, bool $includeChildren = false): void {
 		$user = $this->getUserForPath($path);
 		if (!$user) {
@@ -724,7 +721,8 @@ class SetupManager {
 		$this->eventLogger->end('fs:setup:user:providers');
 	}
 
-	public function tearDown() {
+	#[Override]
+	public function tearDown(): void {
 		$this->setupUsers = [];
 		$this->setupUsersComplete = [];
 		$this->setupUserMountProviders = [];

@@ -9,7 +9,6 @@ namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
 use OC\Files\Mount\MountPoint;
-use OC\Files\SetupManager;
 use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Temporary;
@@ -24,6 +23,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
@@ -68,7 +68,7 @@ class ManagerTest extends TestCase {
 	protected ICloudFederationFactory&MockObject $cloudFederationFactory;
 	protected IGroupManager&MockObject $groupManager;
 	protected IUserManager&MockObject $userManager;
-	protected SetupManager&MockObject $setupManager;
+	protected ISetupManager&MockObject $setupManager;
 	protected ICertificateManager&MockObject $certificateManager;
 	private ExternalShareMapper $externalShareMapper;
 
@@ -84,7 +84,7 @@ class ManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->setupManager = $this->createMock(SetupManager::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->willReturnCallback(function (string $userId): Folder {

@@ -10,16 +10,14 @@ namespace OCA\Encryption\Tests\Listeners;
 
 use OC\Core\Events\BeforePasswordResetEvent;
 use OC\Core\Events\PasswordResetEvent;
-use OC\Files\SetupManager;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Listeners\UserEventsListener;
 use OCA\Encryption\Services\PassphraseService;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
+use OCP\Files\ISetupManager;
 use OCP\IUser;
-use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -32,14 +30,11 @@ use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserEventsListenersTest extends TestCase {
-
 	protected Util&MockObject $util;
 	protected Setup&MockObject $userSetup;
 	protected Session&MockObject $session;
 	protected KeyManager&MockObject $keyManager;
-	protected IUserManager&MockObject $userManager;
-	protected IUserSession&MockObject $userSession;
-	protected SetupManager&MockObject $setupManager;
+	protected ISetupManager&MockObject $setupManager;
 	protected ILockdownManager&MockObject $lockdownManager;
 	protected PassphraseService&MockObject $passphraseService;
 
@@ -52,9 +47,7 @@ class UserEventsListenersTest extends TestCase {
 		$this->userSetup = $this->createMock(Setup::class);
 		$this->session = $this->createMock(Session::class);
 		$this->keyManager = $this->createMock(KeyManager::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-		$this->userSession = $this->createMock(IUserSession::class);
-		$this->setupManager = $this->createMock(SetupManager::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
 		$this->lockdownManager = $this->createMock(ILockdownManager::class);
 		$this->passphraseService = $this->createMock(PassphraseService::class);
 
@@ -63,8 +56,6 @@ class UserEventsListenersTest extends TestCase {
 			$this->userSetup,
 			$this->session,
 			$this->keyManager,
-			$this->userManager,
-			$this->userSession,
 			$this->setupManager,
 			$this->passphraseService,
 			$this->lockdownManager,

@@ -7,13 +7,13 @@
  */
 namespace OCA\Files_Trashbin\BackgroundJob;
 
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -32,7 +32,7 @@ class ExpireTrash extends TimedJob {
 		private IUserManager $userManager,
 		private Expiration $expiration,
 		private LoggerInterface $logger,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 		private ILockingProvider $lockingProvider,
 		ITimeFactory $time,
 	) {

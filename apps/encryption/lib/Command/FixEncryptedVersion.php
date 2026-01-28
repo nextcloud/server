@@ -8,12 +8,12 @@
 
 namespace OCA\Encryption\Command;
 
-use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
 use OCA\Encryption\Util;
 use OCP\Encryption\Exceptions\InvalidHeaderException;
+use OCP\Files\ISetupManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IUser;
@@ -34,7 +34,7 @@ class FixEncryptedVersion extends Command {
 		private readonly IUserManager $userManager,
 		private readonly Util $util,
 		private readonly View $view,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 	) {
 		parent::__construct();
 	}

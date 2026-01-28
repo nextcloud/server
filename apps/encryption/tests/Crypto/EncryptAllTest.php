@@ -9,13 +9,13 @@ declare(strict_types=1);
  */
 namespace OCA\Encryption\Tests\Crypto;
 
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\Files\FileInfo;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
@@ -50,7 +50,7 @@ class EncryptAllTest extends TestCase {
 	protected UserInterface&MockObject $userInterface;
 	protected ISecureRandom&MockObject $secureRandom;
 	protected LoggerInterface&MockObject $logger;
-	protected SetupManager&MockObject $setupManager;
+	protected ISetupManager&MockObject $setupManager;
 	protected IUser&MockObject $user1;
 	protected IUser&MockObject $user2;
 
@@ -84,7 +84,7 @@ class EncryptAllTest extends TestCase {
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->setupManager = $this->createMock(SetupManager::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
 
 		/**
 		 * We need format method to return a string

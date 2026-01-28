@@ -11,12 +11,12 @@ declare(strict_types=1);
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\Files\FileInfo;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
@@ -53,7 +53,7 @@ class EncryptAll {
 		protected readonly QuestionHelper $questionHelper,
 		protected readonly ISecureRandom $secureRandom,
 		protected readonly LoggerInterface $logger,
-		protected readonly SetupManager $setupManager,
+		protected readonly ISetupManager $setupManager,
 	) {
 	}
 

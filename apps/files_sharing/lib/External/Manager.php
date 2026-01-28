@@ -9,7 +9,6 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OC\User\NoUserException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
@@ -21,6 +20,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorageFactory;
@@ -53,7 +53,7 @@ class Manager {
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
 		private IRootFolder $rootFolder,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 		private ICertificateManager $certificateManager,
 		private ExternalShareMapper $externalShareMapper,
 	) {

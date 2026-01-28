@@ -7,7 +7,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
-use OC\Files\SetupManager;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -22,12 +22,12 @@ class Info extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IGroupManager $groupManager,
-		protected SetupManager $setupManager,
+		protected ISetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('user:info')
 			->setDescription('show user info')
