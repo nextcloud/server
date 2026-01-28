@@ -135,6 +135,14 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
+
+		// Remove background invert variables from parent
+		unset(
+			$defaultVariables['--background-invert-if-dark'],
+			$defaultVariables['--background-invert-if-bright'],
+			$defaultVariables['--background-image-invert-if-bright']
+		);
+
 		$originalFontFace = $defaultVariables['--font-face'];
 
 		// IONOS COLORS
