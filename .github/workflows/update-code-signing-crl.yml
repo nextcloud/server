@@ -7,10 +7,8 @@ on:
   schedule:
     - cron: "5 2 * * *"
 
-# Allow the workflow to write files and create PRs
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   update-code-signing-crl:
@@ -19,22 +17,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['master', 'stable33', 'stable32', 'stable31', 'stable30', 'stable29', 'stable28', 'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
+        branches: ['master', 'stable33', 'stable32', 'stable31', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
 
     name: update-code-signing-crl-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           persist-credentials: false
           ref: ${{ matrix.branches }}
           submodules: true
 
-      - name: Ensure resources directory exists
-        run: mkdir -p resources/codesigning
-
       - name: Download CRL file from Appstore repository
-        run: curl --location --fail --output resources/codesigning/root.crl https://raw.githubusercontent.com/nextcloud/appstore/master/nextcloudappstore/certificate/nextcloud.crl
+        run: curl --output resources/codesigning/root.crl https://raw.githubusercontent.com/nextcloud/appstore/master/nextcloudappstore/certificate/nextcloud.crl
 
       - name: Verify CRL is from CRT
         run: openssl crl -verify -in resources/codesigning/root.crl -CAfile resources/codesigning/root.crt -noout
@@ -42,13 +37,13 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: 'fix(security): Update code signing revocation list'
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: "automated/noid/${{ matrix.branches }}-update-code-signing-crl"
-          title: "[${{ matrix.branches }}] fix(security): Update code signing revocation list"
+          branch: 'automated/noid/${{ matrix.branches }}-update-code-signing-crl'
+          title: '[${{ matrix.branches }}] fix(security): Update code signing revocation list'
           body: |
             Auto-generated update of code signing revocation list from [Appstore](https://github.com/nextcloud/appstore/commits/master/nextcloudappstore/certificate/nextcloud.crl)
           labels: |
