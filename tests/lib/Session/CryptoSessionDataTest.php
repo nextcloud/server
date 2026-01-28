@@ -13,102 +13,159 @@ use OC\Session\Memory;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Test case for OC\Session\CryptoSessionData using in-memory session storage.
- * Reuses session contract tests but verifies they hold with encrypted storage 
- * (i.e., session values are encrypted/decrypted transparently).
+ * Unit tests for CryptoSessionData, verifying encrypted session storage,
+ * tamper resistance, passphrase boundaries, and round-trip data integrity.
+ * Covers edge cases and crypto-specific behaviors beyond the base session contract.
+ *
+ * Note: ISession API conformity/contract tests are inherited from the parent
+ * (Test\Session\Session). Only crypto-specific (and pre-wrapper) additions are
+ * defined here.
  */
+#[CoversClass(CryptoSessionData::class)]
+#[UsesClass(Memory::class)]
 class CryptoSessionDataTest extends Session {
+	private const DUMMY_PASSPHRASE = 'dummyPassphrase';
+	private const TAMPERED_BLOB = 'garbage-data';
+	private const MALFORMED_JSON_BLOB = '{not:valid:json}';
+
 	protected ICrypto|MockObject $crypto;
 	protected ISession $session;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->session = new Memory();
-
 		$this->crypto = $this->createMock(ICrypto::class);
-		$this->crypto->method('encrypt')
-			->willReturnCallback(fn($input) =>
-				'#' . $input . '#');
-		$this->crypto->method('decrypt')
-			->willReturnCallback(fn($input) =>
-				($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1));
 
-		$this->instance = new CryptoSessionData($this->session, $this->crypto, 'PASS');
+		$this->crypto->method('encrypt')->willReturnCallback(
+			fn($input) => '#' . $input . '#'
+		);
+		$this->crypto->method('decrypt')->willReturnCallback(
+			fn($input) => ($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1)
+		);
+
+		$this->session = new Memory();
+		$this->instance = new CryptoSessionData($this->session, $this->crypto, self::DUMMY_PASSPHRASE);
 	}
 
-	/* Basic API conformity/contract tests are in parent class; these are crypto specific pre-wrapper additions */
-
+	/**
+	 * Ensure backend never stores plaintext at-rest.
+	 */
 	public function testSessionDataStoredEncrypted(): void {
 		$keyName = 'secret';
 		$unencryptedValue = 'superSecretValue123';
 		
-		$this->instance->set('secret', 'superSecretValue123');
+		$this->instance->set($keyName, $unencryptedValue);
 		$this->instance->close();
 
 		$unencryptedSessionDataJson = json_encode(["$keyName" => "$unencryptedValue"]);
-		$expectedEncryptedSessionDataBlob = $this->crypto->encrypt($unencryptedSessionDataJson, 'PASS');
+		$expectedEncryptedSessionDataBlob = $this->crypto->encrypt($unencryptedSessionDataJson, self::DUMMY_PASSPHRASE);
 
-		// Retrieve the CryptoSessionData blob directly from lower level session layer to guarantee bypass of crypto layer
+		// Retrieve the CryptoSessionData blob directly from lower level session layer to bypass crypto decryption layer
 		$encryptedSessionDataBlob = $this->session->get('encrypted_session_data'); // should contain raw encrypted blob not the decrypted data
 		// Definitely encrypted?
-		$this->assertStringStartsWith('#', $encryptedSessionDataBlob); // Must match mocked crypto->encrypt()
+		$this->assertStringStartsWith('#', $encryptedSessionDataBlob); // Must match stubbed crypto->encrypt()
 		$this->assertStringEndsWith('#', $encryptedSessionDataBlob); // ditto
-		$this->assertFalse($expectedEncryptedSessionDataBlob === $unencryptedSessionDataJson);
-		// Expected before/after?
+		$this->assertNotSame($unencryptedSessionDataJson, $expectedEncryptedSessionDataBlob);
 		$this->assertSame($expectedEncryptedSessionDataBlob, $encryptedSessionDataBlob);
 	}
 
-	public function testLargeAndUnicodeValuesRoundTrip() {
-		$unicodeValue = "héllo 🌍";
-		$largeValue = str_repeat('x', 4096);
-		$this->instance->set('unicode', $unicodeValue);
-		$this->instance->set('big', $largeValue);
+	/**
+	 * Ensure various key/value types are storable/retrievable
+	 */
+	#[DataProvider('roundTripValuesProvider')]
+	public function testRoundTripValue($key, $value): void {
+		$this->instance->set($key, $value);
 		$this->instance->close();
-		// Simulate reload 
-		$instance2 = new CryptoSessionData($this->session, $this->crypto, 'PASS');
-		$this->assertSame($unicodeValue, $instance2->get('unicode'));
-		$this->assertSame($largeValue, $instance2->get('big'));
+		// Simulate reload
+		$instance2 = new CryptoSessionData($this->session, $this->crypto, self::DUMMY_PASSPHRASE);
+		$this->assertSame($value, $instance2->get($key));
 	}
 
-	public function testLargeArrayRoundTrip() {
-		$bigArray = [];
-		for ($i = 0; $i < 1000; $i++) {
-			$bigArray["key$i"] = "val$i";
+	public static function roundTripValuesProvider(): array {
+		return [
+			'simple string'  => ['foo', 'bar'],
+			'unicode value'  => ['uni', "héllo 🌍"],
+			'large value'    => ['big', str_repeat('x', 4096)],
+			'large array'    => ['thousand', json_encode(self::makeLargeArray())],
+			'empty string'   => ['', ''],
+		];
+	}
+
+	/* Helper */
+	private static function makeLargeArray(int $size = 1000): array {
+		$result = [];
+		for ($i = 0; $i < $size; $i++) {
+			$result["key$i"] = "val$i";
 		}
-		$this->instance->set('thousand', json_encode($bigArray));
-		$this->instance->close();
-
-		$instance2 = new CryptoSessionData($this->session, $this->crypto, 'PASS');
-		$this->assertSame(json_encode($bigArray), $instance2->get('thousand'));
+		return $result;
 	}
 
-	public function testRemovedValueIsGoneAfterClose() {
+	/**
+	 * Ensure removed values are not accessible after flush/reload.
+	 */
+	public function testRemovedValueIsGoneAfterClose(): void {
 		$this->instance->set('temp', 'gone soon');
 		$this->instance->remove('temp');
 		$this->instance->close();
 
-		$instance2 = new CryptoSessionData($this->session, $this->crypto, 'PASS');
+		$instance2 = new CryptoSessionData($this->session, $this->crypto, self::DUMMY_PASSPHRASE);
 		$this->assertNull($instance2->get('temp'));
 	}
 
-	public function testTamperedBlobReturnsNull() {
+	/**
+	 * Ensure tampering is handled robustly.
+	 */
+	public function testTamperedBlobReturnsNull(): void {
 		$this->instance->set('foo', 'bar');
 		$this->instance->close();
-		// Tamper the lower level blob
-		$this->session->set('encrypted_session_data', 'garbage-data');
+		// Bypass crypto layer and tamper the lower level blob
+		$this->session->set('encrypted_session_data', self::TAMPERED_BLOB);
 
-		$instance2 = new CryptoSessionData($this->session, $this->crypto, 'PASS');
+		$instance2 = new CryptoSessionData($this->session, $this->crypto, self::DUMMY_PASSPHRASE);
 		$this->assertNull($instance2->get('foo'));
 		$this->assertNull($instance2->get('notfoo'));
 	}
 
-	public function testWrongPassphraseGivesNoAccess() {
+	/**
+	 * Ensure malformed JSON is handled robustly.
+	 */
+	public function testMalformedJsonBlobReturnsNull(): void {
+		$this->instance->set('foo', 'bar');
+		$this->instance->close();
+		$this->session->set('encrypted_session_data', '#' . self::MALFORMED_JSON_BLOB . '#');
+		$instance2 = new CryptoSessionData($this->session, $this->crypto, self::DUMMY_PASSPHRASE);
+		$this->assertNull($instance2->get('foo'));
+	}
+
+	/**
+	 * Ensure an invalid passphrase is handled appropriately.
+	 */
+	public function testWrongPassphraseGivesNoAccess(): void {
 		// Override ICrypto mock/stubs for this test only
+		$crypto = $this->createPassphraseAwareCryptoMock();
+
+		// Override main instance with local ISession and local ICrypto mock/stubs
+		$session = new Memory();
+		$instance = new CryptoSessionData($session, $crypto, self::DUMMY_PASSPHRASE);
+
+		$instance->set('secure', 'yes');
+		$instance->close();
+
+		$instance2 = new CryptoSessionData($session, $crypto, 'NOT_THE_DUMMY_PASSPHRASE');
+		$this->assertNull($instance2->get('secure'));
+		$this->assertFalse($instance2->exists('secure'));
+	}
+
+	/* Helper */
+	private function createPassphraseAwareCryptoMock(): ICrypto {
 		$crypto = $this->createMock(ICrypto::class);
+
 		$crypto->method('encrypt')->willReturnCallback(function($plain, $passphrase = null) {
 			// Set up: store a value with the passphrase embedded (fake encryption)
 			return $passphrase . '#' . $plain . '#' . $passphrase;
@@ -123,26 +180,13 @@ class CryptoSessionDataTest extends Session {
 			return '';
 		});
 
-		// Override main instance with local ISession and local ICrypto mock/stubs
-		$session = new Memory();
-		$instance = new CryptoSessionData($session, $crypto, 'PASS');
-
-		$instance->set('secure', 'yes');
-		$instance->close();
-
-		$instance2 = new CryptoSessionData($session, $crypto, 'DIFFERENT');
-		$this->assertNull($instance2->get('secure'));
-		$this->assertFalse($instance2->exists('secure'));
+		return $crypto;
 	}
 
-	public function testEmptyKeyValue() {
-		$this->instance->set('', '');
-		$this->instance->close();
-		$instance2 = new CryptoSessionData($this->session, $this->crypto, 'PASS');
-		$this->assertSame('', $instance2->get(''));
-	}
-
-	public function testDoubleCloseDoesNotCorrupt() {
+	/**
+	 * Ensure closes are idempotent and safe.
+	 */
+	public function testDoubleCloseDoesNotCorrupt(): void {
 		$this->instance->set('safe', 'value');
 		$this->instance->close();
 		$blobBefore = $this->session->get('encrypted_session_data');
