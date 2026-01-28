@@ -18,6 +18,7 @@ use OC\SystemConfig;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Cache\CacheEntryUpdatedEvent;
@@ -633,14 +634,32 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		foreach (array_combine($deletedIds, $deletedPaths) as $fileId => $filePath) {
-			$cacheEntryRemovedEvent = new CacheEntryRemovedEvent(
-				$this->storage,
-				$filePath,
-				$fileId,
-				$this->getNumericStorageId()
-			);
-			$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
+		$cacheEntryRemovedEvents = [];
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), 1000) as $chunk) {
+			/** @var array<int, string> $chunk */
+			foreach ($chunk as $fileId => $filePath) {
+				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
+					$this->storage,
+					$filePath,
+					$fileId,
+					$this->getNumericStorageId()
+				);
+			}
+
+			$exception = null;
+			try {
+				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent($cacheEntryRemovedEvents));
+			} catch (\Exception $e) {
+				// still send the other event
+				$exception = $e;
+			}
+			foreach ($cacheEntryRemovedEvents as $cacheEntryRemovedEvent) {
+				$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
+			}
+
+			if ($exception !== null) {
+				throw $exception;
+			}
 		}
 	}
 
@@ -805,7 +824,11 @@ class Cache implements ICache {
 
 			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
 				\OCP\Server::get(\OCP\Files\Config\IUserMountCache::class)->clear();
-				$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId()));
+
+				$event = new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId());
+				$this->eventDispatcher->dispatchTyped($event);
+				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
+
 				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
 				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);

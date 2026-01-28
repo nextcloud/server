@@ -11,14 +11,14 @@ namespace OC\FilesMetadata\Listener;
 use Exception;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\Files\Cache\CacheEntryRemovedEvent;
+use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use Psr\Log\LoggerInterface;
 
 /**
  * Handle file deletion event and remove stored metadata related to the deleted file
  *
- * @template-implements IEventListener<CacheEntryRemovedEvent>
+ * @template-implements IEventListener<CacheEntriesRemovedEvent>
  */
 class MetadataDelete implements IEventListener {
 	public function __construct(
@@ -28,14 +28,25 @@ class MetadataDelete implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof CacheEntryRemovedEvent)) {
+		if (!($event instanceof CacheEntriesRemovedEvent)) {
 			return;
 		}
 
+		$entries = $event->getCacheEntryRemovedEvents();
+		$storageToFileIds = [];
+
+		foreach ($entries as $entry) {
+			try {
+				$storageToFileIds[$entry->getStorageId()] ??= [];
+				$storageToFileIds[$entry->getStorageId()][] = $entry->getFileId();
+			} catch (Exception $e) {
+				$this->logger->warning('issue while running MetadataDelete', ['exception' => $e]);
+			}
+		}
+
 		try {
-			$nodeId = $event->getFileId();
-			if ($nodeId > 0) {
-				$this->filesMetadataManager->deleteMetadata($nodeId);
+			foreach ($storageToFileIds as $storageId => $fileIds) {
+				$this->filesMetadataManager->deleteMetadataForFiles($storageId, $fileIds);
 			}
 		} catch (Exception $e) {
 			$this->logger->warning('issue while running MetadataDelete', ['exception' => $e]);

@@ -403,6 +403,7 @@ return array(
     'OCP\\Files\\AlreadyExistsException' => $baseDir . '/lib/public/Files/AlreadyExistsException.php',
     'OCP\\Files\\AppData\\IAppDataFactory' => $baseDir . '/lib/public/Files/AppData/IAppDataFactory.php',
     'OCP\\Files\\Cache\\AbstractCacheEvent' => $baseDir . '/lib/public/Files/Cache/AbstractCacheEvent.php',
+    'OCP\\Files\\Cache\\CacheEntriesRemovedEvent' => $baseDir . '/lib/public/Files/Cache/CacheEntriesRemovedEvent.php',
     'OCP\\Files\\Cache\\CacheEntryInsertedEvent' => $baseDir . '/lib/public/Files/Cache/CacheEntryInsertedEvent.php',
     'OCP\\Files\\Cache\\CacheEntryRemovedEvent' => $baseDir . '/lib/public/Files/Cache/CacheEntryRemovedEvent.php',
     'OCP\\Files\\Cache\\CacheEntryUpdatedEvent' => $baseDir . '/lib/public/Files/Cache/CacheEntryUpdatedEvent.php',
