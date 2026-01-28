@@ -663,14 +663,14 @@ class Filesystem {
 	}
 
 	/**
-	 * get the content of a directory
+	 * Get the content of a directory.
 	 *
 	 * @param string $directory path under datadirectory
-	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
+	 * @param string $mimeTypeFilter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public static function getDirectoryContent($directory, $mimetype_filter = '') {
-		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);
+	public static function getDirectoryContent($directory, string $mimeTypeFilter = '') {
+		return self::$defaultInstance->getDirectoryContent($directory, $mimeTypeFilter);
 	}
 
 	/**

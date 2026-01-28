@@ -249,7 +249,7 @@ class ApiController extends Controller {
 	 * @param \OCP\Files\Node[] $nodes
 	 * @param int $depth The depth to traverse into the contents of each node
 	 */
-	private function getChildren(array $nodes, int $depth = 1, int $currentDepth = 0): array {
+	private function getChildren(array $nodes, int $depth = 1, int $currentDepth = 0, string $mimeTypeFilter = ''): array {
 		if ($currentDepth >= $depth) {
 			return [];
 		}
@@ -264,7 +264,7 @@ class ApiController extends Controller {
 			$entry = [
 				'id' => $node->getId(),
 				'basename' => $basename,
-				'children' => $this->getChildren($node->getDirectoryListing(), $depth, $currentDepth + 1),
+				'children' => $this->getChildren($node->getDirectoryListing($mimeTypeFilter), $depth, $currentDepth + 1),
 			];
 			$displayName = $node->getName();
 			if ($basename !== $displayName) {
@@ -308,8 +308,8 @@ class ApiController extends Controller {
 					'message' => $this->l10n->t('Invalid folder path'),
 				], Http::STATUS_BAD_REQUEST);
 			}
-			$nodes = $node->getDirectoryListing();
-			$tree = $this->getChildren($nodes, $depth);
+			$nodes = $node->getDirectoryListing('httpd/unix-directory');
+			$tree = $this->getChildren($nodes, $depth, 0, 'httpd/unix-directory');
 		} catch (NotFoundException $e) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Folder not found'),

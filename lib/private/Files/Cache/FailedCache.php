@@ -26,12 +26,11 @@ class FailedCache implements ICache {
 	) {
 	}
 
-
-	public function getNumericStorageId() {
+	public function getNumericStorageId(): int {
 		return -1;
 	}
 
-	public function get($file) {
+	public function get($file): false|ICacheEntry {
 		if ($file === '') {
 			return new CacheEntry([
 				'fileid' => -1,
@@ -46,11 +45,11 @@ class FailedCache implements ICache {
 		}
 	}
 
-	public function getFolderContents($folder) {
+	public function getFolderContents($folder): array {
 		return [];
 	}
 
-	public function getFolderContentsById($fileId) {
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
@@ -63,15 +62,15 @@ class FailedCache implements ICache {
 	public function update($id, array $data) {
 	}
 
-	public function getId($file) {
+	public function getId($file): int {
 		return -1;
 	}
 
-	public function getParentId($file) {
+	public function getParentId($file): int {
 		return -1;
 	}
 
-	public function inCache($file) {
+	public function inCache($file): bool {
 		return false;
 	}
 

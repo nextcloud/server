@@ -218,7 +218,7 @@ class Cache implements ICache {
 	 * @param int $fileId the file id of the folder
 	 * @return ICacheEntry[]
 	 */
-	public function getFolderContentsById($fileId) {
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null) {
 		if ($fileId > -1) {
 			$query = $this->getQueryBuilder();
 			$query->selectFileCache()
@@ -226,13 +226,22 @@ class Cache implements ICache {
 				->whereStorageId($this->getNumericStorageId())
 				->orderBy('name', 'ASC');
 
+			if ($mimeTypeFilter !== null) {
+				$mimetype = $this->mimetypeLoader->getId($mimeTypeFilter);
+				if (str_contains($mimeTypeFilter, '/')) {
+					$query->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($mimetype)));
+				} else {
+					$query->andWhere($query->expr()->eq('mimepart', $query->createNamedParameter($mimetype)));
+				}
+			}
+
 			$metadataQuery = $query->selectMetadata();
 
 			$result = $query->executeQuery();
 			$files = $result->fetchAll();
 			$result->closeCursor();
 
-			return array_map(function (array $data) use ($metadataQuery) {
+			return array_map(function (array $data) use ($metadataQuery): ICacheEntry {
 				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
 				return self::cacheEntryFromData($data, $this->mimetypeLoader);
 			}, $files);

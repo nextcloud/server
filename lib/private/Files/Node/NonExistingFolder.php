@@ -8,6 +8,7 @@
 namespace OC\Files\Node;
 
 use OCP\Files\NotFoundException;
+use Override;
 
 class NonExistingFolder extends Folder {
 	/**
@@ -118,7 +119,8 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
-	public function getDirectoryListing() {
+	#[Override]
+	public function getDirectoryListing(?string $mimetypeFilter = null): never {
 		throw new NotFoundException();
 	}
 

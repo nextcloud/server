@@ -77,10 +77,12 @@ interface ICache {
 	 * Only returns files one level deep, no recursion
 	 *
 	 * @param int $fileId the file id of the folder
+	 * @param ?non-empty-string $mimeTypeFilter The mimetype or mimepart for which the content should be filtered
 	 * @return ICacheEntry[]
 	 * @since 9.0.0
+	 * @since 34.0.0 The $mimetypeFilter was added.
 	 */
-	public function getFolderContentsById($fileId);
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null);
 
 	/**
 	 * store meta data for a file or folder

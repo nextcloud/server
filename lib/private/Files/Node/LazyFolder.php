@@ -415,10 +415,8 @@ class LazyFolder implements Folder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDirectoryListing() {
+	#[Override]
+	public function getDirectoryListing(?string $mimetypeFilter = null): array {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
