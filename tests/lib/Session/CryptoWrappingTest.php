@@ -14,18 +14,25 @@ use OC\Session\Memory;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
- * Test cases for CryptoWrapper+CryptoSessionData wrapping logic.
- * - Focuses on correct session wrapping.
- * - Ensures passphrase handling (cookie, random generation).
- * - Validates integration and robustness.
+ * Unit tests for CryptoWrapper, focusing on session wrapping logic,
+ * passphrase handling (cookie and generation), and integration with
+ * CryptoSessionData. Ensures robust construction and non-duplication
+ * of crypto-wrapped sessions.
  *
- * @see Test\Session\CryptoSessionDataTest for crypto storage testing logic.
+ * Only wrapper-specific crypto behavior is tested here;
+ * core session encryption contract is covered in CryptoSessionDataTest.
+ *
+ * @see Test\Session\CryptoSessionDataTest For crypto storage testing logic.
  */
 #[CoversClass(CryptoWrapper::class)]
+#[UsesClass(Memory::class)]
+#[UsesClass(CryptoSessionData::class)]
 class CryptoWrappingTest extends TestCase {
 	private const DUMMY_PASSPHRASE = 'dummyPassphrase';
 	private const COOKIE_PASSPHRASE = 'cookiePassphrase';
@@ -47,7 +54,6 @@ class CryptoWrappingTest extends TestCase {
 	/**
 	 * Ensure wrapSession returns a CryptoSessionData when passed a basic session.
 	 */
-	#[CoversMethod(CryptoWrapper::class, 'wrapSession')]
 	public function testWrapSessionReturnsCryptoSessionData(): void {
 		$generatedPassphrase128 = str_pad(self::GENERATED_PASSPHRASE, 128, '_' . __FUNCTION__, STR_PAD_RIGHT);
 		$this->random->method('generate')->willReturn($generatedPassphrase128);
@@ -66,7 +72,6 @@ class CryptoWrappingTest extends TestCase {
 	/**
 	 * Ensure wrapSession returns the same instance if already wrapped.
 	 */
-	#[CoversMethod(CryptoWrapper::class, 'wrapSession')]
 	public function testWrapSessionDoesNotDoubleWrap(): void {
 		$alreadyWrapped = $this->createMock(CryptoSessionData::class);
 
@@ -79,7 +84,6 @@ class CryptoWrappingTest extends TestCase {
 	/**
 	 * Ensure a passphrase is generated and stored if no cookie is present.
 	 */
-	#[CoversMethod(CryptoWrapper::class, '__construct__')]
 	public function testPassphraseGeneratedIfNoCookie(): void {
 		$expectedPassphrase = str_pad(self::GENERATED_PASSPHRASE, 128, '_' . __FUNCTION__, STR_PAD_RIGHT);
 		$this->random->expects($this->once())->method('generate')->with(128)->willReturn($expectedPassphrase);
@@ -98,7 +102,6 @@ class CryptoWrappingTest extends TestCase {
 	/**
 	 * Ensure only the passphrase from cookie is used if present.
 	 */
-	#[CoversMethod(CryptoWrapper::class, '__construct__')]
 	public function testPassphraseReusedIfCookiePresent(): void {
 		$cookieVal = self::COOKIE_PASSPHRASE;
 		$this->request->method('getCookie')->willReturn($cookieVal);
@@ -116,7 +119,6 @@ class CryptoWrappingTest extends TestCase {
 	/**
 	 * Ensure wrapSession throws if passed a non-ISession object (robustness).
 	 */
-	#[CoversMethod(CryptoWrapper::class, 'wrapSession')]
 	public function testWrapSessionThrowsTypeErrorOnInvalidInput(): void {
 		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);
 		$this->expectException(\TypeError::class);
@@ -126,8 +128,6 @@ class CryptoWrappingTest extends TestCase {
 	/**
 	 * Full integration: wrap, set, get, flush, and encrypted blob.
 	 */
-	#[CoversMethod(CryptoWrapper::class, 'wrapSession')]
-	#[CoversClass(CryptoSessionData::class)]
 	public function testIntegrationWrapSetAndGet(): void {
 		$keyName = 'someKey';
 		$unencryptedValue = 'foobar';
