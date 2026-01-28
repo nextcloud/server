@@ -140,7 +140,7 @@ OC.L10N.register(
     "_{count} email address already added_::_{count} email addresses already added_" : ["{count} ел. адресу вже додано","{count} ел. адреси вже додано","{count} ел. адрес вже додано","{count} ел. адрес вже додано"],
     "_{count} email address added_::_{count} email addresses added_" : ["{count} ел. адресу додано","{count} ел. адреси додано","{count} ел. адрес додано","{count} ел. адрес додано"],
     "You can now share the link below to allow people to upload files to your directory." : "Тепер ви можете поділитися посиланням, за яким користувачі матимуть змогу завантажити файли до вашого каталогу. ",
-    "Share link" : "Передати у публічний доступ",
+    "Share link" : "Надати для публічного доступу",
     "Copy" : "Копіювати",
     "Send link via email" : "Надіслати посилання електронною поштою",
     "Enter an email address or paste a list" : "Зазначте ел. адресу або список адрес",
