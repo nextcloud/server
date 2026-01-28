@@ -11,14 +11,11 @@ SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: readable-stream developers
-SPDX-FileCopyrightText: qs developers
 SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: omahlama
-SPDX-FileCopyrightText: jden <jason@denizac.org>
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
-SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
@@ -37,37 +34,29 @@ SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
-SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
 SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
-SPDX-FileCopyrightText: Mathias Bynens
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
-SPDX-FileCopyrightText: Julian Gruber
 SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: Jordan Harbamd <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
-SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: Jeremy Ashkenas <jeremy@documentcloud.org>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
-SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Hiroki Osame
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
-SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
@@ -78,23 +67,17 @@ SPDX-FileCopyrightText: Christopher Jeffrey
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Chen Fengyuan
 SPDX-FileCopyrightText: Borys Serebrov
-SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
-SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
-- @buttercup/fetch
-	- version: 0.2.1
-	- license: MIT
 - @chenfengyuan/vue-qrcode
 	- version: 1.0.2
 	- license: MIT
@@ -314,20 +297,11 @@ This file is generated from multiple sources. Included packages:
 - bail
 	- version: 2.0.2
 	- license: MIT
-- balanced-match
-	- version: 1.0.2
-	- license: MIT
 - base64-js
 	- version: 1.5.1
 	- license: MIT
 - blurhash
 	- version: 2.0.5
-	- license: MIT
-- brace-expansion
-	- version: 2.0.2
-	- license: MIT
-- builtin-status-codes
-	- version: 3.0.0
 	- license: MIT
 - call-bind-apply-helpers
 	- version: 1.0.2
@@ -413,9 +387,6 @@ This file is generated from multiple sources. Included packages:
 - function-bind
 	- version: 1.1.2
 	- license: MIT
-- generator-function
-	- version: 2.0.1
-	- license: MIT
 - get-intrinsic
 	- version: 1.3.0
 	- license: MIT
@@ -446,9 +417,6 @@ This file is generated from multiple sources. Included packages:
 - hast-util-whitespace
 	- version: 2.0.1
 	- license: MIT
-- hot-patcher
-	- version: 2.0.1
-	- license: MIT
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
@@ -461,23 +429,14 @@ This file is generated from multiple sources. Included packages:
 - is-absolute-url
 	- version: 4.0.1
 	- license: MIT
-- is-arguments
-	- version: 1.2.0
-	- license: MIT
 - is-buffer
 	- version: 1.1.6
 	- license: MIT
 - is-callable
 	- version: 1.2.7
 	- license: MIT
-- is-generator-function
-	- version: 1.1.2
-	- license: MIT
 - is-plain-obj
 	- version: 4.1.0
-	- license: MIT
-- is-regex
-	- version: 1.2.1
 	- license: MIT
 - is-retry-allowed
 	- version: 2.2.0
@@ -490,9 +449,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - jquery
 	- version: 3.7.1
-	- license: MIT
-- layerr
-	- version: 3.0.0
 	- license: MIT
 - lodash
 	- version: 4.17.23
@@ -587,14 +543,8 @@ This file is generated from multiple sources. Included packages:
 - moment
 	- version: 2.30.1
 	- license: MIT
-- nested-property
-	- version: 4.0.0
-	- license: MIT
 - buffer
 	- version: 6.0.3
-	- license: MIT
-- object-inspect
-	- version: 1.13.4
 	- license: MIT
 - p-cancelable
 	- version: 4.0.1
@@ -608,9 +558,6 @@ This file is generated from multiple sources. Included packages:
 - p-timeout
 	- version: 7.0.1
 	- license: MIT
-- path-posix
-	- version: 1.0.0
-	- license: ISC
 - inherits
 	- version: 2.0.3
 	- license: ISC
@@ -632,17 +579,8 @@ This file is generated from multiple sources. Included packages:
 - property-information
 	- version: 6.5.0
 	- license: MIT
-- punycode
-	- version: 1.4.1
-	- license: MIT
-- qs
-	- version: 6.14.1
-	- license: BSD-3-Clause
 - query-string
 	- version: 9.3.1
-	- license: MIT
-- querystringify
-	- version: 2.2.0
 	- license: MIT
 - rehype-external-links
 	- version: 3.0.0
@@ -662,32 +600,14 @@ This file is generated from multiple sources. Included packages:
 - remark-unlink-protocols
 	- version: 1.0.0
 	- license: MIT
-- requires-port
-	- version: 1.0.0
-	- license: MIT
 - safe-buffer
 	- version: 5.2.1
-	- license: MIT
-- safe-regex-test
-	- version: 1.1.0
 	- license: MIT
 - sax
 	- version: 1.4.1
 	- license: ISC
 - set-function-length
 	- version: 1.2.2
-	- license: MIT
-- side-channel-list
-	- version: 1.0.0
-	- license: MIT
-- side-channel-map
-	- version: 1.0.1
-	- license: MIT
-- side-channel-weakmap
-	- version: 1.0.2
-	- license: MIT
-- side-channel
-	- version: 1.1.0
 	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
@@ -703,12 +623,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - stream-browserify
 	- version: 3.0.0
-	- license: MIT
-- readable-stream
-	- version: 3.6.2
-	- license: MIT
-- stream-http
-	- version: 3.2.0
 	- license: MIT
 - strip-ansi
 	- version: 7.1.2
@@ -764,17 +678,8 @@ This file is generated from multiple sources. Included packages:
 - unist-util-visit
 	- version: 5.0.0
 	- license: MIT
-- url-join
-	- version: 5.0.0
-	- license: MIT
-- url
-	- version: 0.11.4
-	- license: MIT
 - util-deprecate
 	- version: 1.0.2
-	- license: MIT
-- util
-	- version: 0.12.5
 	- license: MIT
 - vfile-message
 	- version: 4.0.3
@@ -806,26 +711,11 @@ This file is generated from multiple sources. Included packages:
 - web-namespaces
 	- version: 2.0.1
 	- license: MIT
-- entities
-	- version: 6.0.1
-	- license: BSD-2-Clause
-- fast-xml-parser
-	- version: 4.5.3
-	- license: MIT
-- minimatch
-	- version: 9.0.5
-	- license: ISC
-- strnum
-	- version: 1.1.2
-	- license: MIT
 - webdav
 	- version: 5.8.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
-	- license: MIT
-- xtend
-	- version: 4.0.2
 	- license: MIT
 - base64-js
 	- version: 1.5.1

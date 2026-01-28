@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
-import type { ServerTag, Tag, TagWithId } from '../types.js'
+import type { ServerTag, Tag, TagWithId } from '../types.ts'
 
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
@@ -13,7 +14,7 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import logger from '../logger.ts'
 import { formatTag, parseIdFromLocation, parseTags } from '../utils.ts'
-import { davClient } from './davClient.js'
+import { davClient } from './davClient.ts'
 
 export const fetchTagsPayload = `<?xml version="1.0"?>
 <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
@@ -29,7 +30,7 @@ export const fetchTagsPayload = `<?xml version="1.0"?>
 </d:propfind>`
 
 /**
- *
+ * Fetch all tags.
  */
 export async function fetchTags(): Promise<TagWithId[]> {
 	const path = '/systemtags'
@@ -47,8 +48,9 @@ export async function fetchTags(): Promise<TagWithId[]> {
 }
 
 /**
+ * Fetch a single tag by its ID.
  *
- * @param tagId
+ * @param tagId - The ID of the tag to fetch
  */
 export async function fetchTag(tagId: number): Promise<TagWithId> {
 	const path = '/systemtags/' + tagId
@@ -57,7 +59,7 @@ export async function fetchTag(tagId: number): Promise<TagWithId> {
 			data: fetchTagsPayload,
 			details: true,
 		}) as ResponseDataDetailed<Required<FileStat>>
-		return parseTags([tag])[0]
+		return parseTags([tag])[0]!
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to load tag'), { error })
 		throw new Error(t('systemtags', 'Failed to load tag'))
@@ -65,7 +67,7 @@ export async function fetchTag(tagId: number): Promise<TagWithId> {
 }
 
 /**
- *
+ * Get the last used tag IDs.
  */
 export async function fetchLastUsedTagIds(): Promise<number[]> {
 	const url = generateUrl('/apps/systemtags/lastused')
@@ -109,8 +111,9 @@ export async function createTag(tag: Tag | ServerTag): Promise<number> {
 }
 
 /**
+ * Update a tag on the server.
  *
- * @param tag
+ * @param tag - The tag to update
  */
 export async function updateTag(tag: TagWithId): Promise<void> {
 	const path = '/systemtags/' + tag.id
@@ -139,8 +142,9 @@ export async function updateTag(tag: TagWithId): Promise<void> {
 }
 
 /**
+ * Delete a tag.
  *
- * @param tag
+ * @param tag - The tag to delete
  */
 export async function deleteTag(tag: TagWithId): Promise<void> {
 	const path = '/systemtags/' + tag.id
@@ -164,9 +168,10 @@ type TagObjectResponse = {
 }
 
 /**
+ * Get the objects for a tag.
  *
- * @param tag
- * @param type
+ * @param tag - The tag to get the objects for
+ * @param type - The type of the objects
  */
 export async function getTagObjects(tag: TagWithId, type: string): Promise<TagObjectResponse> {
 	const path = `/systemtags/${tag.id}/${type}`
@@ -178,7 +183,7 @@ export async function getTagObjects(tag: TagWithId, type: string): Promise<TagOb
 		</d:prop>
 	</d:propfind>`
 
-	const response = await davClient.stat(path, { data, details: true })
+	const response = await davClient.stat(path, { data, details: true }) as ResponseDataDetailed<FileStat>
 	const etag = response?.data?.props?.getetag || '""'
 	const objects = Object.values(response?.data?.props?.['object-ids'] || []).flat() as TagObject[]
 
@@ -228,15 +233,12 @@ export async function setTagObjects(tag: TagWithId, type: string, objectIds: Tag
 	})
 }
 
-type OcsResponse = {
-	ocs: NonNullable<unknown>
-}
-
 /**
+ * Update the system tags admin restriction setting.
  *
- * @param isAllowed
+ * @param isAllowed - True if system tags creation is allowed for non-admins
  */
-export async function updateSystemTagsAdminRestriction(isAllowed: boolean): Promise<OcsResponse> {
+export async function updateSystemTagsAdminRestriction(isAllowed: boolean): Promise<OCSResponse> {
 	// Convert to string for compatibility
 	const isAllowedString = isAllowed ? '1' : '0'
 
@@ -247,9 +249,9 @@ export async function updateSystemTagsAdminRestriction(isAllowed: boolean): Prom
 
 	await confirmPassword()
 
-	const res = await axios.post(url, {
+	const { data } = await axios.post(url, {
 		value: isAllowedString,
 	})
 
-	return res.data
+	return data
 }
