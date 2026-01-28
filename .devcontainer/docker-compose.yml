@@ -3,6 +3,7 @@
 services:
   nextclouddev:
     build: .
+    container_name: nextclouddev
     volumes:
       - .:/workspace:cached
       - /var/run/docker.sock:/var/run/docker-host.sock
