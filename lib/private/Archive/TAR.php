@@ -121,10 +121,10 @@ class TAR extends Archive {
 			$this->cachedHeaders = $this->tar->listContent();
 		}
 		foreach ($this->cachedHeaders as $header) {
-			if ($file == $header['filename']
-				|| $file . '/' == $header['filename']
-				|| '/' . $file . '/' == $header['filename']
-				|| '/' . $file == $header['filename']
+			if ($file === $header['filename']
+				|| $file . '/' === $header['filename']
+				|| '/' . $file . '/' === $header['filename']
+				|| '/' . $file === $header['filename']
 			) {
 				return $header;
 			}
@@ -158,10 +158,10 @@ class TAR extends Archive {
 		$folderContent = [];
 		$pathLength = strlen($path);
 		foreach ($files as $file) {
-			if ($file[0] == '/') {
+			if ($file[0] === '/') {
 				$file = substr($file, 1);
 			}
-			if (substr($file, 0, $pathLength) == $path && $file != $path) {
+			if (substr($file, 0, $pathLength) === $path && $file !== $path) {
 				$result = substr($file, $pathLength);
 				if ($pos = strpos($result, '/')) {
 					$result = substr($result, 0, $pos + 1);
@@ -250,12 +250,12 @@ class TAR extends Archive {
 			$folderPath = rtrim($path, '/') . '/';
 			$pathLength = strlen($folderPath);
 			foreach ($files as $file) {
-				if (strlen($file) > $pathLength && substr($file, 0, $pathLength) == $folderPath) {
+				if (strlen($file) > $pathLength && substr($file, 0, $pathLength) === $folderPath) {
 					return true;
 				}
 			}
 		}
-		if ($path[0] != '/') { //not all programs agree on the use of a leading /
+		if ($path[0] !== '/') { //not all programs agree on the use of a leading /
 			return $this->fileExists('/' . $path);
 		} else {
 			return false;
@@ -296,10 +296,10 @@ class TAR extends Archive {
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
-		} elseif ($mode == 'r' || $mode == 'rb') {
+		} elseif ($mode === 'r' || $mode === 'rb') {
 			return false;
 		}
-		if ($mode == 'r' || $mode == 'rb') {
+		if ($mode === 'r' || $mode === 'rb') {
 			return fopen($tmpFile, $mode);
 		} else {
 			$handle = fopen($tmpFile, $mode);

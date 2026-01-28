@@ -216,7 +216,7 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function filetype(string $path): string|false {
 		$filetype = filetype($this->getSourcePath($path));
-		if ($filetype == 'link') {
+		if ($filetype === 'link') {
 			$filetype = filetype(realpath($this->getSourcePath($path)));
 		}
 		return $filetype;

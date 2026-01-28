@@ -40,7 +40,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 	}
 
 	private function isPathPrefixOperator(ISearchOperator $operator): bool {
-		if ($operator instanceof ISearchBinaryOperator && $operator->getType() === ISearchBinaryOperator::OPERATOR_OR && count($operator->getArguments()) == 2) {
+		if ($operator instanceof ISearchBinaryOperator && $operator->getType() === ISearchBinaryOperator::OPERATOR_OR && count($operator->getArguments()) === 2) {
 			$a = $operator->getArguments()[0];
 			$b = $operator->getArguments()[1];
 			if ($this->operatorPairIsPathPrefix($a, $b) || $this->operatorPairIsPathPrefix($b, $a)) {

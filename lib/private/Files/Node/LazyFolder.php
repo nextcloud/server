@@ -258,7 +258,7 @@ class LazyFolder implements Folder {
 	 */
 	public function isReadable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_READ) == Constants::PERMISSION_READ;
+			return ($this->data['permissions'] & Constants::PERMISSION_READ) === Constants::PERMISSION_READ;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -268,7 +268,7 @@ class LazyFolder implements Folder {
 	 */
 	public function isUpdateable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_UPDATE) == Constants::PERMISSION_UPDATE;
+			return ($this->data['permissions'] & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -278,7 +278,7 @@ class LazyFolder implements Folder {
 	 */
 	public function isDeletable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_DELETE) == Constants::PERMISSION_DELETE;
+			return ($this->data['permissions'] & Constants::PERMISSION_DELETE) === Constants::PERMISSION_DELETE;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
@@ -288,7 +288,7 @@ class LazyFolder implements Folder {
 	 */
 	public function isShareable() {
 		if (isset($this->data['permissions'])) {
-			return ($this->data['permissions'] & Constants::PERMISSION_SHARE) == Constants::PERMISSION_SHARE;
+			return ($this->data['permissions'] & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
