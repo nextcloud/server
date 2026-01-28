@@ -283,7 +283,7 @@ class Config {
 		$filePointer = fopen($this->configFilePath, 'r+');
 
 		// Prevent others not to read the config
-		chmod($this->configFilePath, 0640);
+		chmod($this->configFilePath, 0660);
 
 		// File does not exist, this can happen when doing a fresh install
 		if (!is_resource($filePointer)) {
