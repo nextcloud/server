@@ -8,8 +8,8 @@
 
 namespace Test\Session;
 
-use OC\Session\CryptoWrapper;
 use OC\Session\CryptoSessionData;
+use OC\Session\CryptoWrapper;
 use OC\Session\Memory;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
@@ -38,7 +38,7 @@ class CryptoWrappingTest extends TestCase {
 	private const COOKIE_PASSPHRASE = 'cookiePassphrase';
 	private const GENERATED_PASSPHRASE = 'generatedPassphrase';
 	private const SERVER_PROTOCOL = 'https';
-	
+
 	protected ICrypto|MockObject $crypto;
 	protected ISecureRandom|MockObject $random;
 	protected IRequest|MockObject $request;
@@ -134,10 +134,10 @@ class CryptoWrappingTest extends TestCase {
 		$expectedPassphrase = str_pad(self::GENERATED_PASSPHRASE, 128, '_' . __FUNCTION__, STR_PAD_RIGHT);
 
 		$this->crypto->method('encrypt')->willReturnCallback(
-			fn($input) => '#' . $input . '#'
+			fn ($input) => '#' . $input . '#'
 		);
 		$this->crypto->method('decrypt')->willReturnCallback(
-			fn($input) => ($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1)
+			fn ($input) => ($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1)
 		);
 
 		$this->random->method('generate')->with(128)->willReturn($expectedPassphrase);
@@ -145,9 +145,9 @@ class CryptoWrappingTest extends TestCase {
 		$this->request->method('getServerProtocol')->willReturn(self::SERVER_PROTOCOL);
 
 		$session = new Memory();
-		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);		
+		$cryptoWrapper = new CryptoWrapper($this->crypto, $this->random, $this->request);
 		$wrappedSession = $cryptoWrapper->wrapSession($session);
-	
+
 		$wrappedSession->set($keyName, $unencryptedValue);
 		$wrappedSession->close();
 
