@@ -9,5 +9,5 @@ import browserslist from 'browserslist'
 import browserslistConfig from '@nextcloud/browserslist-config'
 
 // Generate a regex that matches user agents to detect incompatible browsers
-export const supportedBrowsersRegExp = getUserAgentRegex({ allowHigherVersions: true, browsers: browserslistConfig })
+export const supportedBrowsersRegExp = new RegExp(getUserAgentRegex({ allowHigherVersions: true, browsers: browserslistConfig }).source + '|AscDesktopEditor')
 export const supportedBrowsers = browserslist(browserslistConfig)
