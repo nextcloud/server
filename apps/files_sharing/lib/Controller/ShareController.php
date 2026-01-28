@@ -15,12 +15,12 @@ use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\Defaults;
@@ -343,18 +343,13 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
-	 * @param string $token
-	 * @param string|null $files
-	 * @param string $path
-	 * @return void|Response
 	 * @throws NotFoundException
 	 * @deprecated 31.0.0 Users are encouraged to use the DAV endpoint
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	public function downloadShare($token, $files = null, $path = '') {
+	#[NoSameSiteCookieRequired]
+	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
 		\OC_User::setIncognitoMode(true);
 
 		$share = $this->shareManager->getShareByToken($token);

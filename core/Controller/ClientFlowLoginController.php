@@ -17,6 +17,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -171,13 +172,11 @@ class ClientFlowLoginController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @NoSameSiteCookieRequired
-	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/flow/grant')]
+	#[NoSameSiteCookieRequired]
 	public function grantPage(
 		string $stateToken = '',
 		string $clientIdentifier = '',
