@@ -43,10 +43,10 @@ class CryptoSessionDataTest extends Session {
 		$this->crypto = $this->createMock(ICrypto::class);
 
 		$this->crypto->method('encrypt')->willReturnCallback(
-			fn($input) => '#' . $input . '#'
+			fn ($input) => '#' . $input . '#'
 		);
 		$this->crypto->method('decrypt')->willReturnCallback(
-			fn($input) => ($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1)
+			fn ($input) => ($input === '' || strlen($input) < 2) ? '' : substr($input, 1, -1)
 		);
 
 		$this->session = new Memory();
@@ -59,7 +59,7 @@ class CryptoSessionDataTest extends Session {
 	public function testSessionDataStoredEncrypted(): void {
 		$keyName = 'secret';
 		$unencryptedValue = 'superSecretValue123';
-		
+
 		$this->instance->set($keyName, $unencryptedValue);
 		$this->instance->close();
 
@@ -89,11 +89,11 @@ class CryptoSessionDataTest extends Session {
 
 	public static function roundTripValuesProvider(): array {
 		return [
-			'simple string'  => ['foo', 'bar'],
-			'unicode value'  => ['uni', "héllo 🌍"],
-			'large value'    => ['big', str_repeat('x', 4096)],
-			'large array'    => ['thousand', json_encode(self::makeLargeArray())],
-			'empty string'   => ['', ''],
+			'simple string' => ['foo', 'bar'],
+			'unicode value' => ['uni', "héllo 🌍"],
+			'large value' => ['big', str_repeat('x', 4096)],
+			'large array' => ['thousand', json_encode(self::makeLargeArray())],
+			'empty string' => ['', ''],
 		];
 	}
 
@@ -166,11 +166,11 @@ class CryptoSessionDataTest extends Session {
 	private function createPassphraseAwareCryptoMock(): ICrypto {
 		$crypto = $this->createMock(ICrypto::class);
 
-		$crypto->method('encrypt')->willReturnCallback(function($plain, $passphrase = null) {
+		$crypto->method('encrypt')->willReturnCallback(function ($plain, $passphrase = null) {
 			// Set up: store a value with the passphrase embedded (fake encryption)
 			return $passphrase . '#' . $plain . '#' . $passphrase;
 		});
-		$crypto->method('decrypt')->willReturnCallback(function($input, $passphrase = null) {
+		$crypto->method('decrypt')->willReturnCallback(function ($input, $passphrase = null) {
 			// Only successfully decrypt if the embedded passphrase matches
 			if (strpos($input, $passphrase . '#') === 0 && strrpos($input, '#' . $passphrase) === strlen($input) - strlen('#' . $passphrase)) {
 				// Strip off passphrase markers and return the "decrypted" string
