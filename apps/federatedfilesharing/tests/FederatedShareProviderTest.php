@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\FederatedFileSharing\Tests;
 
+use LogicException;
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -202,6 +203,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateCouldNotFindServer(): void {
+		$this->expectException(LogicException::class);
 		$share = $this->shareManager->newShare();
 
 		$node = $this->createMock(File::class);
@@ -250,19 +252,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable or uses a self-signed certificate.', $e->getMessage());
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$stmt = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-			->executeQuery();
-
-		$data = $stmt->fetchAssociative();
-		$stmt->closeCursor();
-
-		$this->assertFalse($data);
+		$share->getId();
 	}
 
 	public function testCreateException(): void {
+		$this->expectException(LogicException::class);
 		$share = $this->shareManager->newShare();
 
 		$node = $this->createMock(File::class);
@@ -311,19 +305,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable or uses a self-signed certificate.', $e->getMessage());
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$stmt = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-			->executeQuery();
-
-		$data = $stmt->fetchAssociative();
-		$stmt->closeCursor();
-
-		$this->assertFalse($data);
+		$share->getId();
 	}
 
 	public function testCreateShareWithSelf(): void {
+		$this->expectException(LogicException::class);
 		$share = $this->shareManager->newShare();
 
 		$node = $this->createMock(File::class);
@@ -354,16 +340,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->assertEquals('Not allowed to create a federated share to the same account', $e->getMessage());
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$stmt = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-			->executeQuery();
-
-		$data = $stmt->fetchAssociative();
-		$stmt->closeCursor();
-
-		$this->assertFalse($data);
+		$share->getId();
 	}
 
 	public function testCreateAlreadyShared(): void {

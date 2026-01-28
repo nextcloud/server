@@ -2,7 +2,6 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
-SPDX-License-Identifier: BSD-2-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: string_decoder developers
@@ -30,20 +29,17 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mathias Bynens
 SPDX-FileCopyrightText: Julian Gruber
 SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jordan Harbamd <ljharb@gmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
-SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
-SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
@@ -62,9 +58,6 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
-- @buttercup/fetch
-	- version: 0.2.1
-	- license: MIT
 - @floating-ui/core
 	- version: 1.7.3
 	- license: MIT
@@ -386,9 +379,6 @@ This file is generated from multiple sources. Included packages:
 - unist-util-visit
 	- version: 5.0.0
 	- license: MIT
-- url-join
-	- version: 5.0.0
-	- license: MIT
 - url-parse
 	- version: 1.5.10
 	- license: MIT
@@ -416,20 +406,11 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
-- entities
-	- version: 6.0.1
-	- license: BSD-2-Clause
 - fast-xml-parser
 	- version: 4.5.3
 	- license: MIT
-- minimatch
-	- version: 9.0.5
-	- license: ISC
 - strnum
 	- version: 1.1.2
-	- license: MIT
-- webdav
-	- version: 5.8.0
 	- license: MIT
 - webpack
 	- version: 5.104.1

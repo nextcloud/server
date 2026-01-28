@@ -3,6 +3,219 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { Tag, TagWithId } from '../types.ts'
+
+import { showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { computed, ref, useTemplateRef, watch } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import { createTag, deleteTag, updateTag } from '../services/api.ts'
+import { defaultBaseTag } from '../utils.ts'
+
+const props = defineProps<{
+	tags: TagWithId[]
+}>()
+
+const emit = defineEmits<{
+	'tag:created': [tag: TagWithId]
+	'tag:updated': [tag: TagWithId]
+	'tag:deleted': [tag: TagWithId]
+}>()
+
+enum TagLevel {
+	Public = 'Public',
+	Restricted = 'Restricted',
+	Invisible = 'Invisible',
+}
+
+interface TagLevelOption {
+	id: TagLevel
+	label: string
+}
+
+const tagLevelOptions: TagLevelOption[] = [
+	{
+		id: TagLevel.Public,
+		label: t('systemtags', 'Public'),
+	},
+	{
+		id: TagLevel.Restricted,
+		label: t('systemtags', 'Restricted'),
+	},
+	{
+		id: TagLevel.Invisible,
+		label: t('systemtags', 'Invisible'),
+	},
+]
+
+const tagNameInputElement = useTemplateRef('tagNameInput')
+
+const loading = ref(false)
+const errorMessage = ref('')
+const tagName = ref('')
+const tagLevel = ref(TagLevel.Public)
+
+const selectedTag = ref<null | TagWithId>(null)
+watch(selectedTag, (tag: null | TagWithId) => {
+	tagName.value = tag ? tag.displayName : ''
+	tagLevel.value = tag ? getTagLevel(tag.userVisible, tag.userAssignable) : TagLevel.Public
+})
+
+const isCreating = computed(() => selectedTag.value === null)
+const isCreateDisabled = computed(() => tagName.value === '')
+
+const isUpdateDisabled = computed(() => (
+	tagName.value === ''
+	|| (
+		selectedTag.value?.displayName === tagName.value
+		&& getTagLevel(selectedTag.value?.userVisible, selectedTag.value?.userAssignable) === tagLevel.value
+	)
+))
+
+const isResetDisabled = computed(() => {
+	if (isCreating.value) {
+		return tagName.value === '' && tagLevel.value === TagLevel.Public
+	}
+	return selectedTag.value === null
+})
+
+const userVisible = computed((): boolean => {
+	const matchLevel: Record<TagLevel, boolean> = {
+		[TagLevel.Public]: true,
+		[TagLevel.Restricted]: true,
+		[TagLevel.Invisible]: false,
+	}
+	return matchLevel[tagLevel.value]
+})
+
+const userAssignable = computed(() => {
+	const matchLevel: Record<TagLevel, boolean> = {
+		[TagLevel.Public]: true,
+		[TagLevel.Restricted]: false,
+		[TagLevel.Invisible]: false,
+	}
+	return matchLevel[tagLevel.value]
+})
+
+const tagProperties = computed((): Omit<Tag, 'id' | 'canAssign'> => {
+	return {
+		displayName: tagName.value,
+		userVisible: userVisible.value,
+		userAssignable: userAssignable.value,
+	}
+})
+
+/**
+ * Handle tag selection
+ *
+ * @param tagId - The selected tag ID
+ */
+function onSelectTag(tagId: number | null) {
+	const tag = props.tags.find((search) => search.id === tagId) || null
+	selectedTag.value = tag
+}
+
+/**
+ * Handle form submission
+ */
+async function handleSubmit() {
+	if (isCreating.value) {
+		await create()
+		return
+	}
+	await update()
+}
+
+/**
+ * Create a new tag
+ */
+async function create() {
+	const tag: Tag = { ...defaultBaseTag, ...tagProperties.value }
+	loading.value = true
+	try {
+		const id = await createTag(tag)
+		const createdTag: TagWithId = { ...tag, id }
+		emit('tag:created', createdTag)
+		showSuccess(t('systemtags', 'Created tag'))
+		reset()
+	} catch {
+		errorMessage.value = t('systemtags', 'Failed to create tag')
+	}
+	loading.value = false
+}
+
+/**
+ * Update the selected tag
+ */
+async function update() {
+	if (selectedTag.value === null) {
+		return
+	}
+	const tag: TagWithId = { ...selectedTag.value, ...tagProperties.value }
+	loading.value = true
+	try {
+		await updateTag(tag)
+		selectedTag.value = tag
+		emit('tag:updated', tag)
+		showSuccess(t('systemtags', 'Updated tag'))
+		tagNameInputElement.value?.focus()
+	} catch {
+		errorMessage.value = t('systemtags', 'Failed to update tag')
+	}
+	loading.value = false
+}
+
+/**
+ * Delete the selected tag
+ */
+async function handleDelete() {
+	if (selectedTag.value === null) {
+		return
+	}
+	loading.value = true
+	try {
+		await deleteTag(selectedTag.value)
+		emit('tag:deleted', selectedTag.value)
+		showSuccess(t('systemtags', 'Deleted tag'))
+		reset()
+	} catch {
+		errorMessage.value = t('systemtags', 'Failed to delete tag')
+	}
+	loading.value = false
+}
+
+/**
+ * Reset the form
+ */
+function reset() {
+	selectedTag.value = null
+	errorMessage.value = ''
+	tagName.value = ''
+	tagLevel.value = TagLevel.Public
+	tagNameInputElement.value?.focus()
+}
+
+/**
+ * Get tag level based on visibility and assignability
+ *
+ * @param userVisible - Whether the tag is visible to users
+ * @param userAssignable - Whether the tag is assignable by users
+ */
+function getTagLevel(userVisible: boolean, userAssignable: boolean): TagLevel {
+	const matchLevel: Record<string, TagLevel> = {
+		[[true, true].join(',')]: TagLevel.Public,
+		[[true, false].join(',')]: TagLevel.Restricted,
+		[[false, false].join(',')]: TagLevel.Invisible,
+	}
+	return matchLevel[[userVisible, userAssignable].join(',')]!
+}
+</script>
+
 <template>
 	<form
 		class="system-tag-form"
@@ -17,14 +230,14 @@
 		<div class="system-tag-form__group">
 			<label for="system-tags-input">{{ t('systemtags', 'Search for a tag to edit') }}</label>
 			<NcSelectTags
-				:model-value="selectedTag"
-				input-id="system-tags-input"
+				:modelValue="selectedTag"
+				inputId="system-tags-input"
 				:placeholder="t('systemtags', 'Collaborative tags …')"
-				:fetch-tags="false"
+				:fetchTags="false"
 				:options="tags"
 				:multiple="false"
-				label-outside
-				@update:model-value="onSelectTag">
+				labelOutside
+				@update:modelValue="onSelectTag">
 				<template #no-options>
 					{{ t('systemtags', 'No tags to select') }}
 				</template>
@@ -38,20 +251,20 @@
 				ref="tagNameInput"
 				v-model="tagName"
 				:error="Boolean(errorMessage)"
-				:helper-text="errorMessage"
-				label-outside />
+				:helperText="errorMessage"
+				labelOutside />
 		</div>
 
 		<div class="system-tag-form__group">
 			<label for="system-tag-level">{{ t('systemtags', 'Tag level') }}</label>
 			<NcSelect
 				v-model="tagLevel"
-				input-id="system-tag-level"
+				inputId="system-tag-level"
 				:options="tagLevelOptions"
 				:reduce="level => level.id"
 				:clearable="false"
 				:disabled="loading"
-				label-outside />
+				labelOutside />
 		</div>
 
 		<div class="system-tag-form__row">
@@ -85,232 +298,6 @@
 		</div>
 	</form>
 </template>
-
-<script lang="ts">
-import type { PropType } from 'vue'
-import type { Tag, TagWithId } from '../types.js'
-
-import { showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import { createTag, deleteTag, updateTag } from '../services/api.js'
-import { defaultBaseTag } from '../utils.js'
-
-enum TagLevel {
-	Public = 'Public',
-	Restricted = 'Restricted',
-	Invisible = 'Invisible',
-}
-
-interface TagLevelOption {
-	id: TagLevel
-	label: string
-}
-
-const tagLevelOptions: TagLevelOption[] = [
-	{
-		id: TagLevel.Public,
-		label: t('systemtags', 'Public'),
-	},
-	{
-		id: TagLevel.Restricted,
-		label: t('systemtags', 'Restricted'),
-	},
-	{
-		id: TagLevel.Invisible,
-		label: t('systemtags', 'Invisible'),
-	},
-]
-
-/**
- *
- * @param userVisible
- * @param userAssignable
- */
-function getTagLevel(userVisible: boolean, userAssignable: boolean): TagLevel {
-	const matchLevel: Record<string, TagLevel> = {
-		[[true, true].join(',')]: TagLevel.Public,
-		[[true, false].join(',')]: TagLevel.Restricted,
-		[[false, false].join(',')]: TagLevel.Invisible,
-	}
-	return matchLevel[[userVisible, userAssignable].join(',')]!
-}
-
-export default defineComponent({
-	name: 'SystemTagForm',
-
-	components: {
-		NcButton,
-		NcLoadingIcon,
-		NcSelect,
-		NcSelectTags,
-		NcTextField,
-	},
-
-	props: {
-		tags: {
-			type: Array as PropType<TagWithId[]>,
-			required: true,
-		},
-	},
-
-	emits: [
-		'tag:created',
-		'tag:updated',
-		'tag:deleted',
-	],
-
-	data() {
-		return {
-			loading: false,
-			tagLevelOptions,
-			selectedTag: null as null | TagWithId,
-			errorMessage: '',
-			tagName: '',
-			tagLevel: TagLevel.Public,
-		}
-	},
-
-	computed: {
-		isCreating(): boolean {
-			return this.selectedTag === null
-		},
-
-		isCreateDisabled(): boolean {
-			return this.tagName === ''
-		},
-
-		isUpdateDisabled(): boolean {
-			return (
-				this.tagName === ''
-				|| (
-					this.selectedTag?.displayName === this.tagName
-					&& getTagLevel(this.selectedTag?.userVisible, this.selectedTag?.userAssignable) === this.tagLevel
-				)
-			)
-		},
-
-		isResetDisabled(): boolean {
-			if (this.isCreating) {
-				return this.tagName === '' && this.tagLevel === TagLevel.Public
-			}
-			return this.selectedTag === null
-		},
-
-		userVisible(): boolean {
-			const matchLevel: Record<TagLevel, boolean> = {
-				[TagLevel.Public]: true,
-				[TagLevel.Restricted]: true,
-				[TagLevel.Invisible]: false,
-			}
-			return matchLevel[this.tagLevel]
-		},
-
-		userAssignable(): boolean {
-			const matchLevel: Record<TagLevel, boolean> = {
-				[TagLevel.Public]: true,
-				[TagLevel.Restricted]: false,
-				[TagLevel.Invisible]: false,
-			}
-			return matchLevel[this.tagLevel]
-		},
-
-		tagProperties(): Omit<Tag, 'id' | 'canAssign'> {
-			return {
-				displayName: this.tagName,
-				userVisible: this.userVisible,
-				userAssignable: this.userAssignable,
-			}
-		},
-	},
-
-	watch: {
-		selectedTag(tag: null | TagWithId) {
-			this.tagName = tag ? tag.displayName : ''
-			this.tagLevel = tag ? getTagLevel(tag.userVisible, tag.userAssignable) : TagLevel.Public
-		},
-	},
-
-	methods: {
-		t,
-
-		onSelectTag(tagId: number | null) {
-			const tag = this.tags.find((search) => search.id === tagId) || null
-			this.selectedTag = tag
-		},
-
-		async handleSubmit() {
-			if (this.isCreating) {
-				await this.create()
-				return
-			}
-			await this.update()
-		},
-
-		async create() {
-			const tag: Tag = { ...defaultBaseTag, ...this.tagProperties }
-			this.loading = true
-			try {
-				const id = await createTag(tag)
-				const createdTag: TagWithId = { ...tag, id }
-				this.$emit('tag:created', createdTag)
-				showSuccess(t('systemtags', 'Created tag'))
-				this.reset()
-			} catch {
-				this.errorMessage = t('systemtags', 'Failed to create tag')
-			}
-			this.loading = false
-		},
-
-		async update() {
-			if (this.selectedTag === null) {
-				return
-			}
-			const tag: TagWithId = { ...this.selectedTag, ...this.tagProperties }
-			this.loading = true
-			try {
-				await updateTag(tag)
-				this.selectedTag = tag
-				this.$emit('tag:updated', tag)
-				showSuccess(t('systemtags', 'Updated tag'))
-				this.$refs.tagNameInput?.focus()
-			} catch {
-				this.errorMessage = t('systemtags', 'Failed to update tag')
-			}
-			this.loading = false
-		},
-
-		async handleDelete() {
-			if (this.selectedTag === null) {
-				return
-			}
-			this.loading = true
-			try {
-				await deleteTag(this.selectedTag)
-				this.$emit('tag:deleted', this.selectedTag)
-				showSuccess(t('systemtags', 'Deleted tag'))
-				this.reset()
-			} catch {
-				this.errorMessage = t('systemtags', 'Failed to delete tag')
-			}
-			this.loading = false
-		},
-
-		reset() {
-			this.selectedTag = null
-			this.errorMessage = ''
-			this.tagName = ''
-			this.tagLevel = TagLevel.Public
-			this.$refs.tagNameInput?.focus()
-		},
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 .system-tag-form {

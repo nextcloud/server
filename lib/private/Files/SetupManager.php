@@ -434,8 +434,10 @@ class SetupManager {
 	 * @param string $path
 	 * @return IUser|null
 	 */
-	private function getUserForPath(string $path) {
-		if (str_starts_with($path, '/__groupfolders')) {
+	private function getUserForPath(string $path): ?IUser {
+		if ($path === '' || $path === '/') {
+			return null;
+		} elseif (str_starts_with($path, '/__groupfolders')) {
 			return null;
 		} elseif (substr_count($path, '/') < 2) {
 			if ($user = $this->userSession->getUser()) {
@@ -671,7 +673,18 @@ class SetupManager {
 			return;
 		}
 
-		if ($this->fullSetupRequired($user)) {
+		$providersAreAuthoritative = true;
+		foreach ($providers as $provider) {
+			if (!(
+				is_a($provider, IAuthoritativeMountProvider::class, true)
+				|| is_a($provider, IRootMountProvider::class, true)
+				|| is_a($provider, IHomeMountProvider::class, true)
+			)) {
+				$providersAreAuthoritative = false;
+			}
+		}
+
+		if (!$providersAreAuthoritative && $this->fullSetupRequired($user)) {
 			$this->setupForUser($user);
 			return;
 		}
