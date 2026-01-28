@@ -8,6 +8,7 @@
 namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
@@ -1661,6 +1662,9 @@ class View {
 	public function putFileInfo($path, $data) {
 		$this->assertPathLength($path);
 		if ($data instanceof FileInfo) {
+			$data = $data->getData();
+		}
+		if ($data instanceof CacheEntry) {
 			$data = $data->getData();
 		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
