@@ -90,7 +90,7 @@ class CryptoSessionDataTest extends Session {
 	public static function roundTripValuesProvider(): array {
 		return [
 			'simple string' => ['foo', 'bar'],
-			'unicode value' => ['uni', "héllo 🌍"],
+			'unicode value' => ['uni', 'héllo 🌍'],
 			'large value' => ['big', str_repeat('x', 4096)],
 			'large array' => ['thousand', json_encode(self::makeLargeArray())],
 			'empty string' => ['', ''],
