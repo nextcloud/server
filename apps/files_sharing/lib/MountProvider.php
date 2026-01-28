@@ -11,7 +11,6 @@ use Exception;
 use InvalidArgumentException;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
-use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IPartialMountProvider;
@@ -29,6 +28,7 @@ use Psr\Log\LoggerInterface;
 use function count;
 
 class MountProvider implements IMountProvider, IPartialMountProvider {
+
 	/**
 	 * @param IConfig $config
 	 * @param IManager $shareManager
@@ -41,6 +41,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		protected IEventDispatcher $eventDispatcher,
 		protected ICacheFactory $cacheFactory,
 		protected IMountManager $mountManager,
+		protected ShareTargetValidator $shareTargetValidator,
 	) {
 	}
 
@@ -270,8 +271,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$view = new View('/' . $userId . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($userId);
-		/** @var CappedMemoryCache<bool> $folderExistCache */
-		$foldersExistCache = new CappedMemoryCache();
 
 		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
 		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
@@ -292,10 +291,17 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				if (!isset($ownerViews[$owner])) {
 					$ownerViews[$owner] = new View('/' . $owner . '/files');
 				}
+
 				$shareId = (int)$parentShare->getId();
+				$absMountPoint = '/' . $user->getUID() . '/files/' . trim($parentShare->getTarget(), '/') . '/';
+
+				// after the mountpoint is verified for the first time, only new mountpoints (e.g. groupfolders can overwrite the target)
+				if ($shareId > $maxValidatedShare || isset($allMounts[$absMountPoint])) {
+					$this->shareTargetValidator->verifyMountPoint($user, $parentShare, $allMounts, $groupedShares);
+				}
+
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
-					$allMounts,
 					[
 						'user' => $userId,
 						// parent share
@@ -307,10 +313,8 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 					],
 					$loader,
 					$view,
-					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
-					$shareId <= $maxValidatedShare,
 				);
 
 				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);
