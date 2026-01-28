@@ -73,6 +73,8 @@ OC.L10N.register(
     "Where: %s" : "Gdzie: %s",
     "%1$s via %2$s" : "%1$s przez %2$s",
     "In the past on %1$s for the entire day" : "W przeszłości w %1$s na cały dzień",
+    "_In %n minute on %1$s for the entire day_::_In %n minutes on %1$s for the entire day_" : ["Za minutę o %1$s przez cały dzień","Za %n minut o %1$s przez cały dzień","Za %n minut o %1$s przez cały dzień","Za %n minut o %1$s przez cały dzień"],
+    "_In %n hour on %1$s for the entire day_::_In %n hours on %1$s for the entire day_" : ["Za %n godzinę o %1$s przez cały dzień","Za %n godzin o %1$s przez cały dzień","Za %n godzin o %1$s przez cały dzień","Za %n godziny o %1$s przez cały dzień"],
     "In the past on %1$s between %2$s - %3$s" : "W przeszłości dnia %1$s między %2$s - %3$s",
     "Could not generate when statement" : "Nie można wygenerować instrukcji when",
     "Every Day for the entire day" : "Codziennie przez cały dzień",
