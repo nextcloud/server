@@ -57,13 +57,6 @@
 	}
 
 	.contactsmenu__menu {
-		.contact__action__icon {
-			filter: invert(100%);
-			@media (prefers-color-scheme: light) {
-				filter: none;
-			}
-		}
-
 		.contactsmenu__menu__content__footer .button-vue--vue-tertiary {
 			background-color: var(--ion-button-secondary-background-default);
 			color: var(--ion-button-secondary-text);
@@ -88,7 +81,6 @@
 .header-end svg {
 	fill: var(--ion-text);
 }
-
 
 
 #content-vue {
@@ -119,12 +111,6 @@
 
 	.panel {
 		background-color: var(--ion-surface-secondary);
-		.panel--header img {
-			filter: none;
-			@media (prefers-color-scheme: dark) {
-				filter: var(--background-invert-if-bright);
-			}
-		}
 	}
 }
 

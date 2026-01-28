@@ -7,12 +7,5 @@ div.suggestion-list {
 		&.is-selected {
 			background-color: var(--ion-context-menu-item-background-active);
 		}
-
-		img {
-			filter: none;
-			@media (prefers-color-scheme: dark) {
-				filter: invert(100%);
-			}
-		}
 	}
 }

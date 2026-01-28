@@ -1,4 +1,22 @@
 & {
+	/* Background inversion for light/dark mode */
+	--background-invert-if-dark: no;
+	--background-invert-if-bright: invert(100%);
+	--background-image-invert-if-bright: no;
+	/* Primary color inversion for light/dark mode */
+	--primary-invert-if-bright: no;
+	--primary-invert-if-dark: invert(100%);
+
+	@media (prefers-color-scheme: dark) {
+		--background-invert-if-dark: invert(100%);
+		--background-invert-if-bright: no;
+		--background-image-invert-if-bright: invert(100%);
+
+		--primary-invert-if-bright: invert(100%);
+		--primary-invert-if-dark: no;
+	}
+
+
 	/* Text colors */
 	--ion-text: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
 	--ion-text-bright: var(--ion-color-cool-grey-c7);
