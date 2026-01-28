@@ -21,10 +21,10 @@ use OCP\AppFramework\Attribute\Consumable;
  * (use this wisely and only in two-factor auth apps, e.g. to allow setup during
  * login).
  *
- * @since 33.0.0
+ * @since 34.0.0
  */
 #[Attribute(Attribute::TARGET_METHOD)]
-#[Consumable(since: '33.0.0')]
+#[Consumable(since: '34.0.0')]
 class NoTwoFactorRequired {
 
 }
