@@ -183,7 +183,7 @@ class ContactsStore implements IContactsStore {
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 
-			if ($excludeGroups != 'allow') {
+			if ($excludeGroups !== 'allow') {
 				if (count($selfGroups) > 0 && count(array_diff($selfGroups, $excludeGroupsList)) === 0) {
 					// all the groups of the current user are excluded -> filter all local users
 					$skipLocal = true;

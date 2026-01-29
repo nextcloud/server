@@ -195,7 +195,7 @@ class AppManager implements IAppManager {
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
 					if (
-						$file[0] != '.'
+						$file[0] !== '.'
 						&& is_dir($apps_dir['path'] . '/' . $file)
 						&& is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')
 					) {
@@ -711,7 +711,7 @@ class AppManager implements IAppManager {
 			return __DIR__ . '/../../../core';
 		}
 
-		if (($dir = $this->findAppInDirectories($appId, $ignoreCache)) != false) {
+		if (($dir = $this->findAppInDirectories($appId, $ignoreCache)) !== false) {
 			return $dir['path'] . '/' . $appId;
 		}
 		throw new AppPathNotFoundException('Could not find path for ' . $appId);
@@ -723,7 +723,7 @@ class AppManager implements IAppManager {
 	 * @throws AppPathNotFoundException if app path can't be found
 	 */
 	public function getAppWebPath(string $appId): string {
-		if (($dir = $this->findAppInDirectories($appId)) != false) {
+		if (($dir = $this->findAppInDirectories($appId)) !== false) {
 			return \OC::$WEBROOT . $dir['url'] . '/' . $appId;
 		}
 		throw new AppPathNotFoundException('Could not find web path for ' . $appId);

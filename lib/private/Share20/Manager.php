@@ -780,7 +780,7 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->userCreateChecks($share);
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -788,7 +788,7 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$this->groupCreateChecks($share);
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -824,13 +824,13 @@ class Manager implements IManager {
 				}
 			}
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateLink($share);
 				$expirationDateUpdated = true;
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;

@@ -49,7 +49,7 @@ class CertificateManager implements ICertificateManager {
 			return [];
 		}
 		while (false !== ($file = readdir($handle))) {
-			if ($file != '.' && $file != '..') {
+			if ($file !== '.' && $file !== '..') {
 				try {
 					$content = $this->view->file_get_contents($path . $file);
 					if ($content !== false) {
