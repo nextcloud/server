@@ -18,8 +18,11 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 
 class Manager implements IMountManager {
-	/** @var MountPoint[] */
+	/** @var array<string, IMountPoint> */
 	private array $mounts = [];
+	private bool $areMountsSorted = false;
+	/** @var list<string>|null $mountKeys */
+	private ?array $mountKeys = null;
 	/** @var CappedMemoryCache<IMountPoint> */
 	private CappedMemoryCache $pathCache;
 	/** @var CappedMemoryCache<IMountPoint[]> */
@@ -32,19 +35,14 @@ class Manager implements IMountManager {
 		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
-	/**
-	 * @param IMountPoint $mount
-	 */
-	public function addMount(IMountPoint $mount) {
+	public function addMount(IMountPoint $mount): void {
 		$this->mounts[$mount->getMountPoint()] = $mount;
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
+		$this->areMountsSorted = false;
 	}
 
-	/**
-	 * @param string $mountPoint
-	 */
-	public function removeMount(string $mountPoint) {
+	public function removeMount(string $mountPoint): void {
 		$mountPoint = Filesystem::normalizePath($mountPoint);
 		if (\strlen($mountPoint) > 1) {
 			$mountPoint .= '/';
@@ -52,24 +50,19 @@ class Manager implements IMountManager {
 		unset($this->mounts[$mountPoint]);
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
+		$this->areMountsSorted = false;
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @param string $target
-	 */
-	public function moveMount(string $mountPoint, string $target) {
+	public function moveMount(string $mountPoint, string $target): void {
 		$this->mounts[$target] = $this->mounts[$mountPoint];
 		unset($this->mounts[$mountPoint]);
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
+		$this->areMountsSorted = false;
 	}
 
 	/**
 	 * Find the mount for $path
-	 *
-	 * @param string $path
-	 * @return IMountPoint
 	 */
 	public function find(string $path): IMountPoint {
 		$this->setupManager->setupForPath($path);
@@ -78,8 +71,6 @@ class Manager implements IMountManager {
 		if (isset($this->pathCache[$path])) {
 			return $this->pathCache[$path];
 		}
-
-
 
 		if (count($this->mounts) === 0) {
 			$this->setupManager->setupRoot();
@@ -120,15 +111,57 @@ class Manager implements IMountManager {
 			return $this->inPathCache[$path];
 		}
 
-		$result = [];
-		$pathLen = strlen($path);
-		foreach ($this->mounts as $mountPoint => $mount) {
-			if (strlen($mountPoint) > $pathLen && str_starts_with($mountPoint, $path)) {
-				$result[] = $mount;
+		if (!$this->areMountsSorted) {
+			ksort($this->mounts, SORT_STRING);
+			$this->mountKeys = array_keys($this->mounts);
+			$this->areMountsSorted = true;
+		}
+
+		$result = $this->binarySearch($this->mounts, $this->mountKeys, $path);
+
+		$this->inPathCache[$path] = $result;
+		return $result;
+	}
+
+	/**
+	 * Search for all entries in $sortedArray where $prefix is a prefix but not equal to their key.
+	 *
+	 * @template T
+	 * @param array<string, T> $sortedArray
+	 * @param list<string> $sortedKeys
+	 * @param string $prefix
+	 * @return list<T>
+	 */
+	private function binarySearch(array $sortedArray, array $sortedKeys, string $prefix): array {
+		$low = 0;
+		$high = count($sortedArray) - 1;
+		$start = null;
+
+		// binary search
+		while ($low <= $high) {
+			$mid = ($low + $high) >> 1;
+			if ($sortedKeys[$mid] < $prefix) {
+				$low = $mid + 1;
+			} else {
+				$start = $mid;
+				$high = $mid - 1;
 			}
 		}
 
-		$this->inPathCache[$path] = $result;
+		$result = [];
+		if ($start !== null) {
+			for ($i = $start, $n = count($sortedKeys); $i < $n; $i++) {
+				$key = $sortedKeys[$i];
+				if (!str_starts_with($key, $prefix)) {
+					break;
+				}
+
+				if ($key !== $prefix) {
+					$result[] = $sortedArray[$key];
+				}
+			}
+		}
+
 		return $result;
 	}
 
@@ -201,7 +234,7 @@ class Manager implements IMountManager {
 	 *
 	 * @param string $path
 	 * @param string[] $mountProviders
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsByMountProvider(string $path, array $mountProviders) {
 		$this->getSetupManager()->setupForProvider($path, $mountProviders);
