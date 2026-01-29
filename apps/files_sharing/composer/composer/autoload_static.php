@@ -107,6 +107,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\Files_Sharing\\OpenMetrics\\SharesCountMetric' => __DIR__ . '/..' . '/../lib/OpenMetrics/SharesCountMetric.php',
         'OCA\\Files_Sharing\\OrphanHelper' => __DIR__ . '/..' . '/../lib/OrphanHelper.php',
+        'OCA\\Files_Sharing\\Repair\\CleanupShareTarget' => __DIR__ . '/..' . '/../lib/Repair/CleanupShareTarget.php',
         'OCA\\Files_Sharing\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files_Sharing\\Scanner' => __DIR__ . '/..' . '/../lib/Scanner.php',
         'OCA\\Files_Sharing\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
