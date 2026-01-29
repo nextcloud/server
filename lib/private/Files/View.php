@@ -1179,7 +1179,7 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @return mixed
+	 * @return int|float|false
 	 * @throws InvalidPathException
 	 */
 	public function free_space($path = '/') {
