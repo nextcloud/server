@@ -471,6 +471,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Events\\BeforeFileScannedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/BeforeFileScannedEvent.php',
         'OCP\\Files\\Events\\BeforeFileSystemSetupEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/BeforeFileSystemSetupEvent.php',
         'OCP\\Files\\Events\\BeforeFolderScannedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/BeforeFolderScannedEvent.php',
+        'OCP\\Files\\Events\\BeforeRemotePropfindEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/BeforeRemotePropfindEvent.php',
         'OCP\\Files\\Events\\BeforeZipCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/BeforeZipCreatedEvent.php',
         'OCP\\Files\\Events\\FileCacheUpdated' => __DIR__ . '/../../..' . '/lib/public/Files/Events/FileCacheUpdated.php',
         'OCP\\Files\\Events\\FileScannedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/FileScannedEvent.php',
