@@ -405,6 +405,7 @@ class Root extends Folder implements IRootFolder {
 	 */
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
+		$setupManager = $this->mountManager->getSetupManager();
 		if ($path !== '' && strpos($path, '/', 1) > 0) {
 			[, $user] = explode('/', $path);
 		} else {
@@ -414,7 +415,7 @@ class Root extends Folder implements IRootFolder {
 
 		// if the mount isn't in the cache yet, perform a setup first, then try again
 		if (count($mountsContainingFile) === 0) {
-			$this->mountManager->getSetupManager()->setupForPath($path, true);
+			$setupManager->setupForPath($path, true);
 			$mountsContainingFile = $mountCache->getMountsForFileId($id, $user);
 		}
 
@@ -436,11 +437,7 @@ class Root extends Folder implements IRootFolder {
 		}, $mountsContainingFile));
 		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
 
-		$mounts = $this->mountManager->getMountsByMountProvider($path, $mountProviders);
-
-		$mountsContainingFile = array_filter($mounts, function ($mount) use ($mountRoots) {
-			return isset($mountRoots[$mount->getStorageRootId()]);
-		});
+		$mountsContainingFile = array_filter(array_map($this->mountManager->getMountFromMountInfo(...), $mountsContainingFile));
 
 		if (count($mountsContainingFile) === 0) {
 			if ($user === $this->getAppDataDirectoryName()) {
