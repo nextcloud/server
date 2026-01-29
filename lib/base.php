@@ -851,16 +851,46 @@ class OC {
 			$eventLogger->end('request');
 		});
 
-		register_shutdown_function(function () {
+		register_shutdown_function(function () use ($config) {
 			$memoryPeak = memory_get_peak_usage();
-			$logLevel = match (true) {
-				$memoryPeak > 500_000_000 => ILogger::FATAL,
-				$memoryPeak > 400_000_000 => ILogger::ERROR,
-				$memoryPeak > 300_000_000 => ILogger::WARN,
-				default => null,
-			};
-			if ($logLevel !== null) {
+			$debugModeEnabled = $config->getSystemValueBool('debug', false);
+			$memoryLimit = null;
+
+			if (!$debugModeEnabled) {
+				// Use the memory helper to get the real memory limit in bytes if debug mode is disabled
+				try {
+					$memoryInfo = new \OC\MemoryInfo();
+					$memoryLimit = $memoryInfo->getMemoryLimit();
+				} catch (Throwable $e) {
+					// Ignore any errors and fall back to hardcoded thresholds
+				}
+			}
+
+			// Check if a memory limit is configured and can be retrieved and determine log level if debug mode is disabled
+			if (!$debugModeEnabled && $memoryLimit !== null && $memoryLimit !== -1) {
+				$logLevel = match (true) {
+					$memoryPeak > $memoryLimit * 0.9 => ILogger::FATAL,
+					$memoryPeak > $memoryLimit * 0.75 => ILogger::ERROR,
+					$memoryPeak > $memoryLimit * 0.5 => ILogger::WARN,
+					default => null,
+				};
+
+				$memoryLimitIni = @ini_get('memory_limit');
+				$message = 'Request used ' . Util::humanFileSize($memoryPeak) . ' of memory. Memory limit: ' . ($memoryLimitIni ?: 'unknown');
+			} else {
+				// Fall back to hardcoded thresholds if memory_limit cannot be determined or if debug mode is enabled
+				$logLevel = match (true) {
+					$memoryPeak > 500_000_000 => ILogger::FATAL,
+					$memoryPeak > 400_000_000 => ILogger::ERROR,
+					$memoryPeak > 300_000_000 => ILogger::WARN,
+					default => null,
+				};
+
 				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
+			}
+
+			// Log the message
+			if ($logLevel !== null) {
 				$logger = Server::get(LoggerInterface::class);
 				$logger->log($logLevel, $message, ['app' => 'core']);
 			}
