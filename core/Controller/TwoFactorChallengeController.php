@@ -72,7 +72,7 @@ class TwoFactorChallengeController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/selectchallenge')]
 	#[TwoFactorSetUpDoneRequired]
-	public function selectChallenge(string $redirect_url): StandaloneTemplateResponse {
+	public function selectChallenge(?string $redirect_url = null): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$allProviders = $providerSet->getProviders();
@@ -96,7 +96,7 @@ class TwoFactorChallengeController extends Controller {
 	#[UseSession]
 	#[TwoFactorSetUpDoneRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/login/challenge/{challengeProviderId}')]
-	public function showChallenge(string $challengeProviderId, string $redirect_url): StandaloneTemplateResponse|RedirectResponse {
+	public function showChallenge(string $challengeProviderId, ?string $redirect_url = null): StandaloneTemplateResponse|RedirectResponse {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$provider = $providerSet->getProvider($challengeProviderId);
