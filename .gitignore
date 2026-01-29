@@ -15,6 +15,9 @@
 /translationfiles
 /translationtool.phar
 
+# CI/CD generated files
+/.buildnumber
+
 # ignore all apps except core ones
 /apps*/*
 !/apps/cloud_federation_api

@@ -656,6 +656,15 @@ jobs:
       - name: Add config partials
         run: make -f IONOS/Makefile add_config_partials
 
+      # IONOS Customization: Inject build number for production traceability
+      # This is specific to IONOS Nextcloud Workspace and not part of upstream Nextcloud
+      - name: Inject build number
+        run: |
+          echo "${{ github.run_number }}" > .buildnumber
+          echo "✅ Build number injected: ${{ github.run_number }}"
+          echo "📄 File created: .buildnumber"
+          cat .buildnumber
+
       - name: Zip dependencies
         run: make -f IONOS/Makefile zip_dependencies TARGET_PACKAGE_NAME=${{ env.TARGET_PACKAGE_NAME }}
 
