@@ -1336,4 +1336,136 @@ class SessionTest extends \Test\TestCase {
 
 		$this->assertFalse($userSession->logClientIn('john@foo.bar', 'I-AM-A-PASSWORD', $request, $this->throttler));
 	}
+
+	public function testDoTryTokenLoginSuccess(): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('testuser');
+		$user->method('isEnabled')->willReturn(true);
+
+		$manager->method('get')
+			->with('testuser')
+			->willReturn($user);
+
+		$token = $this->createMock(PublicKeyToken::class);
+		$token->method('getUID')->willReturn('testuser');
+		$token->method('getLoginName')->willReturn('testuser');
+		$token->method('getType')->willReturn(\OCP\Authentication\Token\IToken::PERMANENT_TOKEN);
+		$token->method('getLastCheck')->willReturn($this->timeFactory->getTime());
+
+		$this->tokenProvider->method('getToken')
+			->with('valid-token')
+			->willReturn($token);
+
+		$appPasswordSet = false;
+		$session->expects($this->atLeastOnce())
+			->method('set')
+			->willReturnCallback(function ($key, $value) use (&$appPasswordSet) {
+				// We expect app_password to be set for permanent tokens
+				if ($key === 'app_password') {
+					$appPasswordSet = true;
+					$this->assertEquals('valid-token', $value);
+				}
+				return true;
+			});
+
+		/** @var Session $userSession */
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->onlyMethods(['setMagicInCookie'])
+			->getMock();
+
+		$this->assertTrue($userSession->doTryTokenLogin('valid-token'));
+		$this->assertTrue($appPasswordSet, 'app_password should be set for permanent tokens');
+	}
+
+	public function testDoTryTokenLoginInvalidToken(): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+
+		$this->tokenProvider->method('getToken')
+			->with('invalid-token')
+			->willThrowException(new InvalidTokenException());
+
+		/** @var Session $userSession */
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->onlyMethods(['setMagicInCookie'])
+			->getMock();
+
+		$this->assertFalse($userSession->doTryTokenLogin('invalid-token'));
+	}
+
+	public function testDoTryTokenLoginTemporaryToken(): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('testuser');
+		$user->method('isEnabled')->willReturn(true);
+
+		$manager->method('get')
+			->with('testuser')
+			->willReturn($user);
+
+		$token = $this->createMock(PublicKeyToken::class);
+		$token->method('getUID')->willReturn('testuser');
+		$token->method('getLoginName')->willReturn('testuser');
+		$token->method('getType')->willReturn(\OCP\Authentication\Token\IToken::TEMPORARY_TOKEN);
+		$token->method('getLastCheck')->willReturn($this->timeFactory->getTime());
+
+		$this->tokenProvider->method('getToken')
+			->with('temp-token')
+			->willReturn($token);
+
+		// app_password should NOT be set for temporary tokens
+		$session->expects($this->atLeastOnce())
+			->method('set')
+			->willReturnCallback(function ($key, $value) {
+				$this->assertNotEquals('app_password', $key, 'app_password should not be set for temporary tokens');
+				return true;
+			});
+
+		/** @var Session $userSession */
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->onlyMethods(['setMagicInCookie'])
+			->getMock();
+
+		$this->assertTrue($userSession->doTryTokenLogin('temp-token'));
+	}
+
+	public function testDoTryTokenLoginDisabledUser(): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('testuser');
+		$user->method('isEnabled')->willReturn(false);
+
+		$manager->method('get')
+			->with('testuser')
+			->willReturn($user);
+
+		$token = $this->createMock(PublicKeyToken::class);
+		$token->method('getUID')->willReturn('testuser');
+		$token->method('getLoginName')->willReturn('testuser');
+		$token->method('getType')->willReturn(\OCP\Authentication\Token\IToken::PERMANENT_TOKEN);
+		$token->method('getLastCheck')->willReturn($this->timeFactory->getTime());
+
+		$this->tokenProvider->method('getToken')
+			->with('valid-token')
+			->willReturn($token);
+
+		/** @var Session $userSession */
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->onlyMethods(['setMagicInCookie'])
+			->getMock();
+
+		$this->expectException(LoginException::class);
+		$userSession->doTryTokenLogin('valid-token');
+	}
 }
