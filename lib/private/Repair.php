@@ -60,6 +60,7 @@ use OC\Repair\RepairMimeTypes;
 use OC\Template\JSCombiner;
 use OCA\DAV\Migration\DeleteSchedulingObjects;
 use OCA\DAV\Migration\RemoveObjectProperties;
+use OCA\Files_Sharing\Repair\CleanupShareTarget;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
@@ -221,6 +222,7 @@ class Repair implements IOutput {
 			),
 			\OCP\Server::get(DeleteSchedulingObjects::class),
 			\OC::$server->get(RemoveObjectProperties::class),
+			\OCP\Server::get(CleanupShareTarget::class),
 		];
 	}
 

@@ -91,6 +91,7 @@ return array(
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\Files_Sharing\\OpenMetrics\\SharesCountMetric' => $baseDir . '/../lib/OpenMetrics/SharesCountMetric.php',
     'OCA\\Files_Sharing\\OrphanHelper' => $baseDir . '/../lib/OrphanHelper.php',
+    'OCA\\Files_Sharing\\Repair\\CleanupShareTarget' => $baseDir . '/../lib/Repair/CleanupShareTarget.php',
     'OCA\\Files_Sharing\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files_Sharing\\Scanner' => $baseDir . '/../lib/Scanner.php',
     'OCA\\Files_Sharing\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
