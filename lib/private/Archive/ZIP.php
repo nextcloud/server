@@ -92,7 +92,7 @@ class ZIP extends Archive {
 		$folderContent = [];
 		$pathLength = strlen($path);
 		foreach ($files as $file) {
-			if (substr($file, 0, $pathLength) == $path && $file != $path) {
+			if (substr($file, 0, $pathLength) === $path && $file !== $path) {
 				if (strrpos(substr($file, 0, -1), '/') <= $pathLength) {
 					$folderContent[] = substr($file, $pathLength);
 				}
@@ -220,7 +220,7 @@ class ZIP extends Archive {
 	}
 
 	private function stripPath(string $path): string {
-		if (!$path || $path[0] == '/') {
+		if (!$path || $path[0] === '/') {
 			return substr($path, 1);
 		} else {
 			return $path;

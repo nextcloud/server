@@ -391,15 +391,15 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	 * @return string cleaned path
 	 */
 	public function cleanPath(string $path): string {
-		if (strlen($path) == 0 || $path[0] != '/') {
+		if (strlen($path) === 0 || $path[0] !== '/') {
 			$path = '/' . $path;
 		}
 
 		$output = [];
 		foreach (explode('/', $path) as $chunk) {
-			if ($chunk == '..') {
+			if ($chunk === '..') {
 				array_pop($output);
-			} elseif ($chunk == '.') {
+			} elseif ($chunk === '.') {
 			} else {
 				$output[] = $chunk;
 			}
@@ -611,7 +611,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		if ($data['mtime'] === false) {
 			$data['mtime'] = time();
 		}
-		if ($data['mimetype'] == 'httpd/unix-directory') {
+		if ($data['mimetype'] === 'httpd/unix-directory') {
 			$data['size'] = -1; //unknown
 		} else {
 			$data['size'] = $this->filesize($path);

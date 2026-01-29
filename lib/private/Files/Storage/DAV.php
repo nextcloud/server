@@ -284,7 +284,7 @@ class DAV extends Common {
 				/** @var ResourceType[] $response */
 				$responseType = $response['{DAV:}resourcetype']->getValue();
 			}
-			return (count($responseType) > 0 && $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
+			return (count($responseType) > 0 && $responseType[0] === '{DAV:}collection') ? 'dir' : 'file';
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
@@ -572,7 +572,7 @@ class DAV extends Common {
 			/** @var ResourceType[] $response */
 			$responseType = $response['{DAV:}resourcetype']->getValue();
 		}
-		$type = (count($responseType) > 0 && $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
+		$type = (count($responseType) > 0 && $responseType[0] === '{DAV:}collection') ? 'dir' : 'file';
 		if ($type === 'dir') {
 			$mimeType = 'httpd/unix-directory';
 		} elseif (isset($response['{DAV:}getcontenttype'])) {
@@ -648,7 +648,7 @@ class DAV extends Common {
 		$path = $this->cleanPath($path);
 		try {
 			$response = $this->client->request($method, $this->encodePath($path), $body);
-			return $response['statusCode'] == $expected;
+			return $response['statusCode'] === $expected;
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 404 && $method === 'DELETE') {
 				$this->statCache->clear($path . '/');

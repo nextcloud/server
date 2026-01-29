@@ -104,7 +104,7 @@ class CacheJail extends CacheWrapper {
 	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
-		if (is_string($file) || $file == '') {
+		if (is_string($file) || $file === '') {
 			$file = $this->getSourcePath($file);
 		}
 		return parent::get($file);

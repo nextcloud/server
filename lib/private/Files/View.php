@@ -105,7 +105,7 @@ class View {
 	 * @param string $fakeRoot
 	 */
 	public function chroot($fakeRoot): void {
-		if (!$fakeRoot == '') {
+		if ($fakeRoot !== '') {
 			if ($fakeRoot[0] !== '/') {
 				$fakeRoot = '/' . $fakeRoot;
 			}
@@ -127,7 +127,7 @@ class View {
 	 */
 	public function getRelativePath($path): ?string {
 		$this->assertPathLength($path);
-		if ($this->fakeRoot == '') {
+		if ($this->fakeRoot === '') {
 			return $path;
 		}
 
@@ -320,7 +320,7 @@ class View {
 	 * @return bool|mixed
 	 */
 	public function is_dir($path) {
-		if ($path == '/') {
+		if ($path === '/') {
 			return true;
 		}
 		return $this->basicOperation('is_dir', $path);
@@ -331,7 +331,7 @@ class View {
 	 * @return bool|mixed
 	 */
 	public function is_file($path) {
-		if ($path == '/') {
+		if ($path === '/') {
 			return false;
 		}
 		return $this->basicOperation('is_file', $path);
@@ -497,7 +497,7 @@ class View {
 	 * @return bool|mixed
 	 */
 	public function file_exists($path) {
-		if ($path == '/') {
+		if ($path === '/') {
 			return true;
 		}
 		return $this->basicOperation('file_exists', $path);
@@ -729,7 +729,7 @@ class View {
 			$target = $this->getRelativePath($absolutePath2);
 			$exists = $this->file_exists($target);
 
-			if ($source == null || $target == null) {
+			if ($source === null || $target === null) {
 				return false;
 			}
 
@@ -926,7 +926,7 @@ class View {
 			$source = $this->getRelativePath($absolutePath1);
 			$target = $this->getRelativePath($absolutePath2);
 
-			if ($source == null || $target == null) {
+			if ($source === null || $target === null) {
 				return false;
 			}
 			$run = true;
@@ -961,7 +961,7 @@ class View {
 					$this->changeLock($target, ILockingProvider::LOCK_EXCLUSIVE);
 					$lockTypePath2 = ILockingProvider::LOCK_EXCLUSIVE;
 
-					if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
+					if ($mount1->getMountPoint() === $mount2->getMountPoint()) {
 						if ($storage1) {
 							$result = $storage1->copy($internalPath1, $internalPath2);
 						} else {
@@ -1132,7 +1132,7 @@ class View {
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
-			if ($path == null) {
+			if ($path === null) {
 				return false;
 			}
 			if ($this->shouldEmitHooks($path)) {
@@ -1183,7 +1183,7 @@ class View {
 			&& !Filesystem::isFileBlacklisted($path)
 		) {
 			$path = $this->getRelativePath($absolutePath);
-			if ($path == null) {
+			if ($path === null) {
 				return false;
 			}
 
@@ -1251,7 +1251,7 @@ class View {
 				}
 
 				if ($this->shouldEmitHooks($path) && $result !== false) {
-					if ($operation != 'fopen') { //no post hooks for fopen, the file stream is still open
+					if ($operation !== 'fopen') { //no post hooks for fopen, the file stream is still open
 						$this->runHooks($hooks, $path, true);
 					}
 				}
@@ -1319,7 +1319,7 @@ class View {
 		$run = true;
 		if ($this->shouldEmitHooks($relativePath)) {
 			foreach ($hooks as $hook) {
-				if ($hook != 'read') {
+				if ($hook !== 'read') {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						$prefix . $hook,
@@ -2256,7 +2256,7 @@ class View {
 			throw new NotFoundException($this->getAbsolutePath($filename) . ' not found');
 		}
 		$uid = $info->getOwner()->getUID();
-		if ($uid != \OC_User::getUser()) {
+		if ($uid !== \OC_User::getUser()) {
 			Filesystem::initMountPoints($uid);
 			$ownerView = new View('/' . $uid . '/files');
 			try {
