@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin\Tests\Command;
 
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Command\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
@@ -16,9 +17,9 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -37,7 +38,6 @@ class ExpireTrashTest extends TestCase {
 	private IUserManager $userManager;
 	private IUser $user;
 	private ITimeFactory&MockObject $timeFactory;
-
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -66,7 +66,7 @@ class ExpireTrashTest extends TestCase {
 		parent::tearDown();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'retentionObligationProvider')]
+	#[DataProvider(methodName: 'retentionObligationProvider')]
 	public function testRetentionObligation(string $obligation, string $quota, int $elapsed, int $fileSize, bool $shouldExpire): void {
 		$this->config->setSystemValues(['trashbin_retention_obligation' => $obligation]);
 		$this->expiration->setRetentionObligation($obligation);
@@ -99,9 +99,10 @@ class ExpireTrashTest extends TestCase {
 			->willReturn([$userId]);
 
 		$command = new ExpireTrash(
-			Server::get(LoggerInterface::class),
 			Server::get(IUserManager::class),
-			$this->expiration
+			$this->expiration,
+			Server::get(SetupManager::class),
+			Server::get(IRootFolder::class),
 		);
 
 		$this->invokePrivate($command, 'execute', [$inputInterface, $outputInterface]);
