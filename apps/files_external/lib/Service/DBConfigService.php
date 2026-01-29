@@ -9,6 +9,7 @@
 namespace OCA\Files_External\Service;
 
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -17,7 +18,17 @@ use OCP\Security\ICrypto;
  * Stores the mount config in the database
  *
  * @psalm-type ApplicableConfig = array{type: int, value: string}
- * @psalm-type StorageConfigData = array{type: int, priority: int, applicable: list<ApplicableConfig>, config: array, options: array, ...<string, mixed>}
+ * @psalm-type ExternalMountInfo = array{
+ *      mount_id: int,
+ *      mount_point: string,
+ *      storage_backend: string,
+ *      auth_backend: string,
+ *      priority: int,
+ *      type: self::MOUNT_TYPE_ADMIN|self::MOUNT_TYPE_PERSONAL,
+ *      applicable: list<ApplicableConfig>,
+ *      config: array,
+ *      options: array,
+ *  }
  */
 class DBConfigService {
 	public const MOUNT_TYPE_ADMIN = 1;
@@ -35,6 +46,9 @@ class DBConfigService {
 	) {
 	}
 
+	/**
+	 * @return ?ExternalMountInfo
+	 */
 	public function getMountById(int $mountId): ?array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
@@ -51,57 +65,88 @@ class DBConfigService {
 	/**
 	 * Get all configured mounts
 	 *
-	 * @return array
+	 * @return list<ExternalMountInfo>
 	 */
-	public function getAllMounts() {
+	public function getAllMounts(): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
 			->from('external_mounts');
 		return $this->getMountsFromQuery($query);
 	}
 
-	public function getMountsForUser($userId, $groupIds) {
-		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
-			->from('external_mounts', 'm')
-			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
-			->where($builder->expr()->orX(
-				$builder->expr()->andX( // global mounts
-					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GLOBAL, IQueryBuilder::PARAM_INT)),
-					$builder->expr()->isNull('a.value'),
-				),
-				$builder->expr()->andX( // mounts for user
-					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_USER, IQueryBuilder::PARAM_INT)),
-					$builder->expr()->eq('a.value', $builder->createNamedParameter($userId)),
-				),
-				$builder->expr()->andX( // mounts for group
-					$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
-					$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
-				),
-			));
+	public function getMountsForUser(string $userId, array $groupIds): array {
+		$builder = $this->getSelectQueryBuilder();
+		$builder = $builder->where($builder->expr()->orX(
+			$builder->expr()->andX( // global mounts
+				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GLOBAL, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->isNull('a.value'),
+			),
+			$builder->expr()->andX( // mounts for user
+				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_USER, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->eq('a.value', $builder->createNamedParameter($userId)),
+			),
+			$builder->expr()->andX( // mounts for group
+				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
+			),
+		));
 
-		return $this->getMountsFromQuery($query);
+		return $this->getMountsFromQuery($builder);
 	}
 
 	/**
 	 * @param list<string> $groupIds
-	 * @return list<StorageConfigData>
+	 * @return list<ExternalMountInfo>
 	 */
 	public function getMountsForGroups(array $groupIds): array {
+		$builder = $this->getSelectQueryBuilder();
+		$builder = $builder->where($builder->expr()->andX( // mounts for group
+			$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
+			$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
+		));
+
+		return $this->getMountsFromQuery($builder);
+	}
+
+	private function getSelectQueryBuilder(): IQueryBuilder {
 		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
+		return $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
 			->from('external_mounts', 'm')
-			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
-			->where($builder->expr()->andX( // mounts for group
+			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'));
+	}
+
+	/*
+	 * @return list<ExternalMountInfo>
+	 */
+	public function getMountsForUserAndPath(string $userId, array $groupIds, string $path, bool $forChildren): array {
+		$path = str_replace('/' . $userId . '/files', '', $path);
+		$builder = $this->getSelectQueryBuilder();
+		$builder->where($builder->expr()->orX(
+			$builder->expr()->andX( // global mounts
+				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GLOBAL, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->isNull('a.value'),
+				$forChildren ? $builder->expr()->like('m.mount_point', $builder->createNamedParameter($this->connection->escapeLikeParameter($path) . '_%', IQueryBuilder::PARAM_STR))
+							 : $builder->expr()->eq('m.mount_point', $builder->createNamedParameter($path, IQueryBuilder::PARAM_STR)),
+			),
+			$builder->expr()->andX( // mounts for user
+				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_USER, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->eq('a.value', $builder->createNamedParameter($userId)),
+				$forChildren ? $builder->expr()->like('m.mount_point', $builder->createNamedParameter($this->connection->escapeLikeParameter($path) . '_%', IQueryBuilder::PARAM_STR))
+							 : $builder->expr()->eq('m.mount_point', $builder->createNamedParameter($path, IQueryBuilder::PARAM_STR)),
+			),
+			$builder->expr()->andX( // mounts for group
 				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
-			));
+				$forChildren ? $builder->expr()->like('m.mount_point', $builder->createNamedParameter($this->connection->escapeLikeParameter($path) . '_%', IQueryBuilder::PARAM_STR))
+							 : $builder->expr()->eq('m.mount_point', $builder->createNamedParameter($path, IQueryBuilder::PARAM_STR)),
+			),
+		));
 
-		return $this->getMountsFromQuery($query);
+		return $this->getMountsFromQuery($builder);
 	}
 
 	/**
-	 * @return list<StorageConfigData>
+	 * @return list<ExternalMountInfo>
 	 */
 	public function getGlobalMounts(): array {
 		$builder = $this->connection->getQueryBuilder();
@@ -151,9 +196,9 @@ class DBConfigService {
 	/**
 	 * Get admin defined mounts
 	 *
-	 * @return array
+	 * @return list<ExternalMountInfo>
 	 */
-	public function getAdminMounts() {
+	public function getAdminMounts(): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
 			->from('external_mounts')
@@ -161,19 +206,17 @@ class DBConfigService {
 		return $this->getMountsFromQuery($query);
 	}
 
-	protected function getForQuery(IQueryBuilder $builder, $type, $value) {
-		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
-			->from('external_mounts', 'm')
-			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
-			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)));
+	protected function getForQuery(IQueryBuilder $builder, int $type, ?string $value): IQueryBuilder {
+		$builder = $this->getSelectQueryBuilder();
+		$builder = $builder->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)));
 
 		if (is_null($value)) {
-			$query = $query->andWhere($builder->expr()->isNull('a.value'));
+			$builder = $builder->andWhere($builder->expr()->isNull('a.value'));
 		} else {
-			$query = $query->andWhere($builder->expr()->eq('a.value', $builder->createNamedParameter($value)));
+			$builder = $builder->andWhere($builder->expr()->eq('a.value', $builder->createNamedParameter($value)));
 		}
 
-		return $query;
+		return $builder;
 	}
 
 	/**
@@ -181,9 +224,9 @@ class DBConfigService {
 	 *
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string|null $value user_id, group_id or null for global mounts
-	 * @return array
+	 * @return list<ExternalMountInfo>
 	 */
-	public function getMountsFor($type, $value) {
+	public function getMountsFor(int $type, ?string $value): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $this->getForQuery($builder, $type, $value);
 
@@ -195,9 +238,9 @@ class DBConfigService {
 	 *
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string|null $value user_id, group_id or null for global mounts
-	 * @return array
+	 * @return list<ExternalMountInfo>
 	 */
-	public function getAdminMountsFor($type, $value) {
+	public function getAdminMountsFor(int $type, ?string $value): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $this->getForQuery($builder, $type, $value);
 		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, IQueryBuilder::PARAM_INT)));
@@ -210,22 +253,20 @@ class DBConfigService {
 	 *
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string[] $values user_ids or group_ids
-	 * @return array
+	 * @return list<ExternalMountInfo>
 	 */
-	public function getAdminMountsForMultiple($type, array $values) {
-		$builder = $this->connection->getQueryBuilder();
-		$params = array_map(function ($value) use ($builder) {
+	public function getAdminMountsForMultiple(int $type, array $values): array {
+		$builder = $this->getSelectQueryBuilder();
+		$params = array_map(function (string $value) use ($builder): IParameter {
 			return $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR);
 		}, $values);
 
-		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
-			->from('external_mounts', 'm')
-			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
+		$builder = $builder
 			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('a.value', $params));
-		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, IQueryBuilder::PARAM_INT)));
+		$builder->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, IQueryBuilder::PARAM_INT)));
 
-		return $this->getMountsFromQuery($query);
+		return $this->getMountsFromQuery($builder);
 	}
 
 	/**
@@ -233,9 +274,9 @@ class DBConfigService {
 	 *
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string|null $value user_id, group_id or null for global mounts
-	 * @return array
+	 * @return list<ExternalMountInfo>
 	 */
-	public function getUserMountsFor($type, $value) {
+	public function getUserMountsFor(int $type, ?string $value): array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $this->getForQuery($builder, $type, $value);
 		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_PERSONAL, IQueryBuilder::PARAM_INT)));
@@ -246,14 +287,10 @@ class DBConfigService {
 	/**
 	 * Add a mount to the database
 	 *
-	 * @param string $mountPoint
-	 * @param string $storageBackend
-	 * @param string $authBackend
-	 * @param int $priority
-	 * @param int $type self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAL
+	 * @param self::MOUNT_TYPE_ADMIN|self::MOUNT_TYPE_PERSONAL $type
 	 * @return int the id of the new mount
 	 */
-	public function addMount($mountPoint, $storageBackend, $authBackend, $priority, $type) {
+	public function addMount(string $mountPoint, string $storageBackend, string $authBackend, ?int $priority, int $type): int {
 		if (!$priority) {
 			$priority = 100;
 		}
@@ -272,10 +309,8 @@ class DBConfigService {
 
 	/**
 	 * Remove a mount from the database
-	 *
-	 * @param int $mountId
 	 */
-	public function removeMount($mountId) {
+	public function removeMount(int $mountId): void {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_mounts')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
@@ -297,11 +332,7 @@ class DBConfigService {
 		$query->executeStatement();
 	}
 
-	/**
-	 * @param int $mountId
-	 * @param string $newMountPoint
-	 */
-	public function setMountPoint($mountId, $newMountPoint) {
+	public function setMountPoint(int $mountId, string $newMountPoint): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->update('external_mounts')
@@ -311,11 +342,7 @@ class DBConfigService {
 		$query->executeStatement();
 	}
 
-	/**
-	 * @param int $mountId
-	 * @param string $newAuthBackend
-	 */
-	public function setAuthBackend($mountId, $newAuthBackend) {
+	public function setAuthBackend(int $mountId, string $newAuthBackend): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->update('external_mounts')
@@ -325,12 +352,7 @@ class DBConfigService {
 		$query->executeStatement();
 	}
 
-	/**
-	 * @param int $mountId
-	 * @param string $key
-	 * @param string $value
-	 */
-	public function setConfig($mountId, $key, $value) {
+	public function setConfig(int $mountId, string $key, string $value): void {
 		if ($key === 'password') {
 			$value = $this->encryptValue($value);
 		}
@@ -355,12 +377,7 @@ class DBConfigService {
 		}
 	}
 
-	/**
-	 * @param int $mountId
-	 * @param string $key
-	 * @param string $value
-	 */
-	public function setOption($mountId, $key, $value) {
+	public function setOption(int $mountId, string $key, string $value): void {
 		try {
 			$builder = $this->connection->getQueryBuilder();
 			$builder->insert('external_options')
@@ -381,7 +398,7 @@ class DBConfigService {
 		}
 	}
 
-	public function addApplicable($mountId, $type, $value) {
+	public function addApplicable(int $mountId, int $type, ?string $value): void {
 		try {
 			$builder = $this->connection->getQueryBuilder();
 			$builder->insert('external_applicable')
@@ -397,7 +414,7 @@ class DBConfigService {
 		}
 	}
 
-	public function removeApplicable($mountId, $type, $value) {
+	public function removeApplicable(int $mountId, int $type, ?string $value): void {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
@@ -413,11 +430,13 @@ class DBConfigService {
 	}
 
 	/**
-	 * @return list<StorageConfigData>
+	 * @return list<ExternalMountInfo>
+	 * @throws Exception
 	 */
 	private function getMountsFromQuery(IQueryBuilder $query): array {
 		$result = $query->executeQuery();
-		$mounts = $result->fetchAllAssociative();
+		/** @var \Generator<array{mount_id: int, mount_point: string, storage_backend: string, auth_backend: string, priority: mixed, type: int}> $mounts */
+		$mounts = $result->iterateAssociative();
 		$uniqueMounts = [];
 		foreach ($mounts as $mount) {
 			$id = $mount['mount_id'];
@@ -427,7 +446,7 @@ class DBConfigService {
 		}
 		$uniqueMounts = array_values($uniqueMounts);
 
-		$mountIds = array_map(function ($mount) {
+		$mountIds = array_map(function (array $mount): int {
 			return $mount['mount_id'];
 		}, $uniqueMounts);
 		$mountIds = array_values(array_unique($mountIds));
@@ -436,8 +455,10 @@ class DBConfigService {
 		$config = $this->getConfigForMounts($mountIds);
 		$options = $this->getOptionsForMounts($mountIds);
 
-		return array_map(function ($mount, $applicable, $config, $options) {
-			$mount['type'] = (int)$mount['type'];
+		return array_map(function (array $mount, array $applicable, array $config, array $options): array {
+			$mountType = (int)$mount['type'];
+			assert($mountType === self::MOUNT_TYPE_ADMIN || $mountType === self::MOUNT_TYPE_PERSONAL);
+			$mount['type'] = $mountType;
 			$mount['priority'] = (int)$mount['priority'];
 			$mount['applicable'] = $applicable;
 			$mount['config'] = $config;
@@ -449,7 +470,6 @@ class DBConfigService {
 	/**
 	 * Get mount options from a table grouped by mount id
 	 *
-	 * @param string $table
 	 * @param string[] $fields
 	 * @param int[] $mountIds
 	 * @return array<int, list<array>> [$mountId => [['field1' => $value1, ...], ...], ...]
@@ -460,9 +480,7 @@ class DBConfigService {
 		}
 		$builder = $this->connection->getQueryBuilder();
 		$fields[] = 'mount_id';
-		$placeHolders = array_map(function ($id) use ($builder) {
-			return $builder->createPositionalParameter($id, IQueryBuilder::PARAM_INT);
-		}, $mountIds);
+		$placeHolders = array_map(fn ($id) => $builder->createPositionalParameter($id, IQueryBuilder::PARAM_INT), $mountIds);
 		$query = $builder->select($fields)
 			->from($table)
 			->where($builder->expr()->in('mount_id', $placeHolders));
@@ -486,26 +504,28 @@ class DBConfigService {
 
 	/**
 	 * @param int[] $mountIds
-	 * @return array<int, list<ApplicableConfig>> [$id => [['type' => $type, 'value' => $value], ...], ...]
+	 * @return array<int, list<array{type: mixed, value: string}>> [$id => [['type' => $type, 'value' => $value], ...], ...]
 	 */
 	public function getApplicableForMounts(array $mountIds): array {
-		return $this->selectForMounts('external_applicable', ['type', 'value'], $mountIds);
+		/** @var array<int, list<array{type: mixed, value: string}>> $result */
+		$result = $this->selectForMounts('external_applicable', ['type', 'value'], $mountIds);
+		return $result;
 	}
 
 	/**
 	 * @param int[] $mountIds
-	 * @return array [$id => ['key1' => $value1, ...], ...]
+	 * @return array<int, array> [$id => ['key1' => $value1, ...], ...]
 	 */
-	public function getConfigForMounts($mountIds) {
+	public function getConfigForMounts(array $mountIds): array {
 		$mountConfigs = $this->selectForMounts('external_config', ['key', 'value'], $mountIds);
 		return array_map([$this, 'createKeyValueMap'], $mountConfigs);
 	}
 
 	/**
 	 * @param int[] $mountIds
-	 * @return array [$id => ['key1' => $value1, ...], ...]
+	 * @return array<int, array> [$id => ['key1' => $value1, ...], ...]
 	 */
-	public function getOptionsForMounts($mountIds) {
+	public function getOptionsForMounts(array $mountIds): array {
 		$mountOptions = $this->selectForMounts('external_options', ['key', 'value'], $mountIds);
 		$optionsMap = array_map([$this, 'createKeyValueMap'], $mountOptions);
 		return array_map(function (array $options) {
@@ -516,10 +536,10 @@ class DBConfigService {
 	}
 
 	/**
-	 * @param array $keyValuePairs [['key'=>$key, 'value=>$value], ...]
+	 * @param list<array{key: string, value: string}> $keyValuePairs [['key'=>$key, 'value=>$value], ...]
 	 * @return array ['key1' => $value1, ...]
 	 */
-	private function createKeyValueMap(array $keyValuePairs) {
+	private function createKeyValueMap(array $keyValuePairs): array {
 		$decryptedPairts = array_map(function ($pair) {
 			if ($pair['key'] === 'password') {
 				$pair['value'] = $this->decryptValue($pair['value']);
@@ -536,14 +556,14 @@ class DBConfigService {
 		return array_combine($keys, $values);
 	}
 
-	private function encryptValue($value) {
+	private function encryptValue(string $value): string {
 		return $this->crypto->encrypt($value);
 	}
 
-	private function decryptValue($value) {
+	private function decryptValue(string $value): string {
 		try {
 			return $this->crypto->decrypt($value);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return $value;
 		}
 	}
