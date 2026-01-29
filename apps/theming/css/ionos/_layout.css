@@ -135,8 +135,12 @@
 		box-shadow: none;
 	}
 
-	.guest-box.login-box {
+	.guest-box.login-box, footer.guest-box {
 		background-color: var(--ion-surface-secondary);
+
+		.info, a {
+			color: var(--ion-text);
+		}
 	}
 }
 
