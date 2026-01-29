@@ -57,6 +57,7 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
+use OC\Repair\RepairSanitizeSystemTags;
 use OC\Template\JSCombiner;
 use OCA\DAV\Migration\DeleteSchedulingObjects;
 use OCA\DAV\Migration\RemoveObjectProperties;
@@ -221,6 +222,7 @@ class Repair implements IOutput {
 			),
 			\OCP\Server::get(DeleteSchedulingObjects::class),
 			\OC::$server->get(RemoveObjectProperties::class),
+			\OCP\Server::get(RepairSanitizeSystemTags::class),
 		];
 	}
 
