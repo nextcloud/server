@@ -35,7 +35,7 @@ class Entry {
 	 * @param string|null $rename source in case of a rename of a config key.
 	 * @param int $options additional bitflag options {@see self::RENAME_INVERT_BOOLEAN}
 	 * @param string $note additional note and warning related to the use of the config key.
-	 * @param Closure|null $onSetConfirm callback to be called when a config value is set. {@see onSetConfirmation()} for more details.
+	 * @param (Closure(string $value): bool)|null $onSetConfirm callback to be called when a config value is set. {@see onSetConfirmation()} for more details.
 	 *
 	 * @since 32.0.0
 	 * @since 34.0.0 added $onSetConfirm
