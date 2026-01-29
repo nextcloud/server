@@ -8,7 +8,6 @@ namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OC\OCM\OCMSignatoryManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
