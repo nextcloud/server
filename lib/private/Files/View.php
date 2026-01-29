@@ -1507,7 +1507,7 @@ class View {
 		}
 
 		$folderId = $data->getId();
-		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+		$contents = $cache->iterateFolderContentsById($folderId, false, true); // TODO Mimetype filter
 
 		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
 		$permissionsMask = ~\OCP\Constants::PERMISSION_SHARE;

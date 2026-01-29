@@ -35,6 +35,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -236,6 +237,33 @@ class Cache implements ICache {
 			}, $files);
 		}
 		return [];
+	}
+
+	#[Override]
+	public function iterateFolderContentsById(int $fileId, bool $includeMetadata = false, bool $sortByName = false): iterable {
+		if ($fileId < 1) {
+			return [];
+		}
+
+		$query = $this->getQueryBuilder()
+			->selectFileCache()
+			->whereParent($fileId)
+			->whereStorageId($this->getNumericStorageId());
+		if ($includeMetadata === true) {
+			$metadataQuery = $query->selectMetadata();
+		}
+		if ($sortByName) {
+			$query->orderBy('name', 'ASC');
+		}
+
+		$result = $query->executeQuery();
+		foreach ($result->iterateAssociative() as $row) {
+			if ($includeMetadata === true) {
+				$row['metadata'] = $metadataQuery->extractMetadata($row)->asArray();
+			}
+			yield self::cacheEntryFromData($row, $this->mimetypeLoader);
+		}
+		$result->closeCursor();
 	}
 
 	/**

@@ -141,7 +141,7 @@ class Watcher implements IWatcher {
 	 * @param string $path
 	 */
 	public function cleanFolder($path) {
-		$cachedContent = $this->cache->getFolderContents($path);
+		$cachedContent = $this->cache->iterateFolderContentsById($this->cache->getId($path));
 		foreach ($cachedContent as $entry) {
 			if (!$this->storage->file_exists($entry['path'])) {
 				$this->cache->remove($entry['path']);

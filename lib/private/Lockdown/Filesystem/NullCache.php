@@ -49,6 +49,11 @@ class NullCache implements ICache {
 		return [];
 	}
 
+	#[Override]
+	public function iterateFolderContentsById(int $fileId, bool $includeMetadata = false, bool $sortByName = false): iterable {
+		return [];
+	}
+
 	public function put($file, array $data) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}

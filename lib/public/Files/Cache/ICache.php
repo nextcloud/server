@@ -83,6 +83,16 @@ interface ICache {
 	public function getFolderContentsById($fileId);
 
 	/**
+	 * Get an iterator on files stored in folder
+	 *
+	 * Only returns files one level deep, no recursion
+	 *
+	 * @return iterable<ICacheEntry>
+	 * @since 34.0.0
+	 */
+	public function iterateFolderContentsById(int $fileId, bool $includeMetadata = false, bool $sortByName = false): iterable;
+
+	/**
 	 * store meta data for a file or folder
 	 * This will automatically call either insert or update depending on if the file exists
 	 *

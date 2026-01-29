@@ -41,7 +41,8 @@ class Helper {
 		$internalPath = $mount->getInternalPath($absoluteDir);
 
 		$extraData = Trashbin::getExtraData($user);
-		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
+		$dirId = $storage->getCache()->getId($mount->getInternalPath($view->getAbsolutePath($dir)));
+		$dirContent = $storage->getCache()->iterateFolderContentsById($dirId);
 		foreach ($dirContent as $entry) {
 			$entryName = $entry->getName();
 			$name = $entryName;
