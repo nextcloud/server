@@ -434,8 +434,8 @@ class SetupManager implements ISetupManager {
 	 * @param string $path
 	 * @return IUser|null
 	 */
-	private function getUserForPath(string $path): ?IUser {
-		if ($path === '' || $path === '/') {
+	private function getUserForPath(string $path, bool $includeChildren = false): ?IUser {
+		if (($path === '' || $path === '/') && !$includeChildren) {
 			return null;
 		} elseif (str_starts_with($path, '/__groupfolders')) {
 			return null;
@@ -456,7 +456,7 @@ class SetupManager implements ISetupManager {
 
 	#[Override]
 	public function setupForPath(string $path, bool $includeChildren = false): void {
-		$user = $this->getUserForPath($path);
+		$user = $this->getUserForPath($path, $includeChildren);
 		if (!$user) {
 			$this->setupRoot();
 			return;
