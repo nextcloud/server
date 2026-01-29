@@ -16,6 +16,7 @@ OC.L10N.register(
     "Share by mail" : "Dijelite poštom",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ne možemo vam poslati automatski generiranu zaporku. U osobnim postavkama postavite valjanu adresu e-pošte i pokušajte ponovo.",
     "Failed to send share by email" : "Slanje dijeljenja putem e-pošte nije uspjelo",
+    "Note:" : "Napomena:",
     "%1$s via %2$s" : "%1$s putem %2$s",
     "It is protected with the following password:" : "Zaštićeno je sljedećom zaporkom:",
     "This is the password:" : "Ovo je zaporka:",

@@ -91,6 +91,7 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
     "Saving …" : "Spremanje…",
     "Save" : "Spremi",
+    "Open in Files" : "Otvori u aplikaciji Datoteke",
     "External mount error" : "Pogreška vanjskog postavljanja",
     "Ignore" : "Zanemari",
     "Storage type" : "Vrsta pohrane",

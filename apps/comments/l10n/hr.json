@@ -8,11 +8,18 @@
     "{author} commented on {file}" : "{author} je komentirao {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentari</strong> za datoteke",
     "Files" : "Datoteke",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Spomenuti ste u komentaru na „{file}” od računa koji je u međuvremenu izbrisan.",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} vas je spomenuo u komentaru na „{file}”",
     "Files app plugin to add comments to files" : "Dodatak za aplikaciju Datoteke za dodavanje komentara na datoteke",
     "Edit comment" : "Uredi komentar",
     "Delete comment" : "Izbriši komentar",
     "Cancel edit" : "Otkaži uređivanje",
+    "New comment" : "Novi komentar",
+    "Write a comment …" : "Napiši komentar …",
     "Post comment" : "Objavi komentar",
+    "@ for mentions, : for emoji, / for smart picker" : "@ za spominjanje, : za emoji, / za pametni odabir",
+    "Could not reload comments" : "Nije moguće ponovno učitati komentare",
+    "Failed to mark comments as read" : "Nije uspjelo označavanje komentara kao pročitani",
     "Unable to load the comments list" : "Nije moguće učitati popis komentara",
     "No comments yet, start the conversation!" : "Još nema komentara, započnite razgovor!",
     "No more messages" : "Nema više poruka",
@@ -22,6 +29,7 @@
     "An error occurred while trying to edit the comment" : "Došlo je do pogreške prilikom uređivanja komentara",
     "Comment deleted" : "Komentar izbrisan",
     "An error occurred while trying to delete the comment" : "Došlo je do pogreške prilikom brisanja komentara",
-    "An error occurred while trying to create the comment" : "Došlo je do pogreške prilikom stvaranja komentara"
+    "An error occurred while trying to create the comment" : "Došlo je do pogreške prilikom stvaranja komentara",
+    "Write a comment …" : "Napiši komentar …"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }
