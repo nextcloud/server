@@ -8,12 +8,15 @@
 namespace OCP;
 
 use InvalidArgumentException;
+use OCP\Accounts\IAccountManager;
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * Interface IUser
  *
  * @since 8.0.0
  */
+#[Consumable(since: '8.0.0')]
 interface IUser {
 	/**
 	 * @since 32.0.0
@@ -133,26 +136,23 @@ interface IUser {
 	/**
 	 * check if the backend allows the user to change their avatar on Personal page
 	 *
-	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function canChangeAvatar();
+	public function canChangeAvatar(): bool;
 
 	/**
 	 * check if the backend supports changing passwords
 	 *
-	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function canChangePassword();
+	public function canChangePassword(): bool;
 
 	/**
 	 * check if the backend supports changing display names
 	 *
-	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function canChangeDisplayName();
+	public function canChangeDisplayName(): bool;
 
 	/**
 	 * Check if the backend supports changing email
@@ -160,6 +160,12 @@ interface IUser {
 	 * @since 32.0.0
 	 */
 	public function canChangeEmail(): bool;
+
+	/**
+	 * @param IAccountManager::PROPERTY_*|IAccountManager::COLLECTION_* $property
+	 * @since 34.0.0
+	 */
+	public function canEditProperty(string $property): bool;
 
 	/**
 	 * check if the user is enabled

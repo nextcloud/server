@@ -1013,6 +1013,7 @@ return array(
     'OCP\\User\\Backend\\ILimitAwareCountUsersBackend' => $baseDir . '/lib/public/User/Backend/ILimitAwareCountUsersBackend.php',
     'OCP\\User\\Backend\\IPasswordConfirmationBackend' => $baseDir . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
     'OCP\\User\\Backend\\IPasswordHashBackend' => $baseDir . '/lib/public/User/Backend/IPasswordHashBackend.php',
+    'OCP\\User\\Backend\\IPropertyPermissionBackend' => $baseDir . '/lib/public/User/Backend/IPropertyPermissionBackend.php',
     'OCP\\User\\Backend\\IProvideAvatarBackend' => $baseDir . '/lib/public/User/Backend/IProvideAvatarBackend.php',
     'OCP\\User\\Backend\\IProvideEnabledStateBackend' => $baseDir . '/lib/public/User/Backend/IProvideEnabledStateBackend.php',
     'OCP\\User\\Backend\\ISearchKnownUsersBackend' => $baseDir . '/lib/public/User/Backend/ISearchKnownUsersBackend.php',

@@ -1054,6 +1054,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Backend\\ILimitAwareCountUsersBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ILimitAwareCountUsersBackend.php',
         'OCP\\User\\Backend\\IPasswordConfirmationBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
         'OCP\\User\\Backend\\IPasswordHashBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IPasswordHashBackend.php',
+        'OCP\\User\\Backend\\IPropertyPermissionBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IPropertyPermissionBackend.php',
         'OCP\\User\\Backend\\IProvideAvatarBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IProvideAvatarBackend.php',
         'OCP\\User\\Backend\\IProvideEnabledStateBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IProvideEnabledStateBackend.php',
         'OCP\\User\\Backend\\ISearchKnownUsersBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ISearchKnownUsersBackend.php',
