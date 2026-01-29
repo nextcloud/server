@@ -89,11 +89,11 @@ class CacheWrapper extends Cache {
 	 * @param string $folder
 	 * @return ICacheEntry[]
 	 */
-	public function getFolderContents($folder) {
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		// can't do a simple $this->getCache()->.... call here since getFolderContentsById needs to be called on this
 		// and not the wrapped cache
 		$fileId = $this->getId($folder);
-		return $this->getFolderContentsById($fileId);
+		return $this->getFolderContentsById($fileId, $mimeTypeFilter);
 	}
 
 	/**
