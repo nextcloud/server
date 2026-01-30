@@ -230,11 +230,11 @@ class Manager implements IMountManager {
 	}
 
 	/**
-	 * Return all mounts in a path from a specific mount provider
+	 * Return all mounts in a path from a specific mount provider, indexed by mount point
 	 *
 	 * @param string $path
 	 * @param string[] $mountProviders
-	 * @return IMountPoint[]
+	 * @return array<string, IMountPoint>
 	 */
 	public function getMountsByMountProvider(string $path, array $mountProviders) {
 		$this->getSetupManager()->setupForProvider($path, $mountProviders);
