@@ -333,7 +333,7 @@ OC.L10N.register(
     "Open online" : "Otevřít online",
     "Rename" : "Přejmenovat",
     "Details" : "Podrobnosti",
-    "Open the details sidebar" : "Otevřít postranní panel detailů",
+    "Open the details sidebar" : "Otevřít postranní panel podrobností",
     "Unfavorite" : "Odebrat z oblíbených",
     "View in folder" : "Zobrazit ve složce",
     "Type" : "Typ",
