@@ -860,6 +860,16 @@ class DefaultShareProvider implements
 		/** @var Share[] $shares */
 		$shares = [];
 
+		$nonChildPath = '/';
+		if ($path !== null) {
+			$path = str_replace('/' . $userId . '/files', '', $path);
+			$path = rtrim($path, '/');
+
+			if ($path !== '') {
+				$nonChildPath = $path;
+			}
+		}
+
 		if ($shareType === IShare::TYPE_USER) {
 			//Get shares directly with this user
 			$qb = $this->dbConn->getQueryBuilder();
@@ -893,9 +903,14 @@ class DefaultShareProvider implements
 
 			if ($path !== null) {
 				if ($forChildren) {
-					$qb->andWhere($qb->expr()->like('file_target', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($path) . '_%')));
+					$qb->andWhere(
+						$qb->expr()->like(
+							'file_target',
+							$qb->createNamedParameter($this->dbConn->escapeLikeParameter($path) . '/_%', IQueryBuilder::PARAM_STR),
+						),
+					);
 				} else {
-					$qb->andWhere($qb->expr()->eq('file_target', $qb->createNamedParameter($path)));
+					$qb->andWhere($qb->expr()->eq('file_target', $qb->createNamedParameter($nonChildPath, IQueryBuilder::PARAM_STR)));
 				}
 			}
 
@@ -951,14 +966,34 @@ class DefaultShareProvider implements
 				}
 
 				if ($path !== null) {
-					$qb->leftJoin('s', 'share', 'sc', $qb->expr()->eq('sc.parent', 's.id'))
-						->andWhere($qb->expr()->eq('sc.share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
-						->where($qb->expr()->eq('sc.share_with', $qb->createNamedParameter($userId)));
+					$onClause = $qb->expr()->andX(
+						$qb->expr()->eq('sc.parent', 's.id'),
+						$qb->expr()->eq('sc.share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)),
+						$qb->expr()->eq('sc.share_with', $qb->createNamedParameter($userId)),
+					);
+					$qb->leftJoin('s', 'share', 'sc', $onClause);
 
 					if ($forChildren) {
-						$qb->andWhere($qb->expr()->like('sc.file_target', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($path) . '_%')));
+						$childPathTemplate = $this->dbConn->escapeLikeParameter($path) . '/_%';
+						$qb->andWhere(
+							$qb->expr()->orX(
+								$qb->expr()->like('sc.file_target', $qb->createNamedParameter($childPathTemplate)),
+								$qb->expr()->andX(
+									$qb->expr()->isNull('sc.file_target'),
+									$qb->expr()->like('s.file_target', $qb->createNamedParameter($childPathTemplate))
+								),
+							),
+						);
 					} else {
-						$qb->andWhere($qb->expr()->eq('sc.file_target', $qb->createNamedParameter($path)));
+						$qb->andWhere(
+							$qb->expr()->orX(
+								$qb->expr()->eq('sc.file_target', $qb->createNamedParameter($nonChildPath, IQueryBuilder::PARAM_STR)),
+								$qb->expr()->andX(
+									$qb->expr()->isNull('sc.file_target'),
+									$qb->expr()->eq('s.file_target', $qb->createNamedParameter($nonChildPath, IQueryBuilder::PARAM_STR)),
+								),
+							)
+						);
 					}
 				}
 
@@ -989,7 +1024,7 @@ class DefaultShareProvider implements
 			/*
 			 * Resolve all group shares to user specific shares
 			 */
-			$shares = $this->resolveGroupShares($shares2, $userId);
+			$shares = $this->resolveGroupShares($shares2, $userId, $path, $forChildren);
 		} else {
 			throw new BackendError('Invalid backend');
 		}
@@ -1105,7 +1140,7 @@ class DefaultShareProvider implements
 	 * @param $userId
 	 * @return Share[] The updates shares if no update is found for a share return the original
 	 */
-	private function resolveGroupShares($shareMap, $userId) {
+	private function resolveGroupShares($shareMap, $userId, ?string $path = null, ?bool $forChildren = false) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select('*')
 			->from('share')
@@ -1119,6 +1154,14 @@ class DefaultShareProvider implements
 		if (count($shareMap) === 1) {
 			$share = reset($shareMap);
 			$query->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())));
+		} elseif ($path !== null) {
+			if ($forChildren) {
+				$query->andWhere($qb->expr()->like('file_target',
+					$qb->createNamedParameter($this->dbConn->escapeLikeParameter($path) . '/_%')));
+			} else {
+				$nonChildPath = $path !== '' ? $path : '/';
+				$query->andWhere($qb->expr()->eq('file_target', $qb->createNamedParameter($nonChildPath)));
+			}
 		}
 
 		$stmt = $query->executeQuery();
