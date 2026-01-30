@@ -33,6 +33,9 @@ class FileSequence implements ISequence {
 
 	private function ensureWorkdirExists(): void {
 		if (is_dir($this->workDir)) {
+			if (!is_writable($this->workDir)) {
+				throw new \Exception('File sequence directory exists but is not writable');
+			}
 			return;
 		}
 
@@ -104,6 +107,6 @@ class FileSequence implements ISequence {
 	}
 
 	private function getFilePath(int $fileId): string {
-		return $this->workDir . sprintf(self::LOCK_FILE_FORMAT, $fileId);
+		return $this->workDir . '/' . sprintf(self::LOCK_FILE_FORMAT, $fileId);
 	}
 }
