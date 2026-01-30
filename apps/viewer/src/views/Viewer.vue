@@ -600,6 +600,16 @@ export default defineComponent({
 			// initial loading start
 			this.initiated = true
 
+			const sidebar = document.querySelector('aside.app-sidebar')
+			if (sidebar && sidebar.style.display !== 'none') {
+				this.isSidebarShown = true
+				this.sidebarPosition = sidebar.getBoundingClientRect().left
+				this.trapElements = [sidebar]
+			} else {
+				this.isSidebarShown = false
+				this.trapElements = []
+			}
+
 			if (OCA?.Files?.Sidebar?.setFullScreenMode) {
 				OCA.Files.Sidebar.setFullScreenMode(true)
 			}
