@@ -120,6 +120,7 @@ class DBConfigService {
 	 */
 	public function getMountsForUserAndPath(string $userId, array $groupIds, string $path, bool $forChildren): array {
 		$path = str_replace('/' . $userId . '/files', '', $path);
+		$path = rtrim($path, '/');
 		$builder = $this->getSelectQueryBuilder();
 		$builder->where($builder->expr()->orX(
 			$builder->expr()->andX( // global mounts
