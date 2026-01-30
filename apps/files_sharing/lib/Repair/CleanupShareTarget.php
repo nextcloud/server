@@ -13,14 +13,16 @@ use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
-use OCP\Share\IManager;
-use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 
+/**
+ * @psalm-type ShareInfo = array{id: string|int, share_type: string, share_with: string, file_source: string, file_target: string}
+ */
 class CleanupShareTarget implements IRepairStep {
 	/** we only care about shares with a user target,
 	 *  since the underling group/deck/talk share doesn't get moved
@@ -34,12 +36,11 @@ class CleanupShareTarget implements IRepairStep {
 
 	public function __construct(
 		private readonly IDBConnection $connection,
-		private readonly IManager $shareManager,
-		private readonly IProviderFactory $shareProviderFactory,
 		private readonly ShareTargetValidator $shareTargetValidator,
 		private readonly IUserManager $userManager,
 		private readonly SetupManager $setupManager,
 		private readonly IUserMountCache $userMountCache,
+		private readonly IRootFolder $rootFolder,
 	) {
 	}
 
@@ -58,12 +59,10 @@ class CleanupShareTarget implements IRepairStep {
 
 		$lastUser = '';
 		$userMounts = [];
+		$userFolder = null;
 
 		foreach ($this->getProblemShares() as $shareInfo) {
 			$recipient = $this->userManager->getExistingUser($shareInfo['share_with']);
-			$share = $this->shareProviderFactory
-				->getProviderForType((int)$shareInfo['share_type'])
-				->getShareById($shareInfo['id'], $recipient->getUID());
 
 			// since we ordered the share by user, we can reuse the last data until we get to the next user
 			if ($lastUser !== $recipient->getUID()) {
@@ -74,19 +73,23 @@ class CleanupShareTarget implements IRepairStep {
 				$mounts = $this->userMountCache->getMountsForUser($recipient);
 				$mountPoints = array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $mounts);
 				$userMounts = array_combine($mountPoints, $mounts);
+				$userFolder = $this->rootFolder->getUserFolder($recipient->getUID());
 			}
 
-			$oldTarget = $share->getTarget();
+			$oldTarget = $shareInfo['file_target'];
 			$newTarget = $this->cleanTarget($oldTarget);
-			$share->setTarget($newTarget);
-			$this->shareManager->moveShare($share, $recipient->getUID());
+			$absoluteNewTarget = $userFolder->getFullPath($newTarget);
+			$targetParentNode = $this->rootFolder->get(dirname($absoluteNewTarget));
 
-			$this->shareTargetValidator->verifyMountPoint(
-				$recipient,
-				$share,
+			$absoluteNewTarget = $this->shareTargetValidator->generateUniqueTarget(
+				(int)$shareInfo['file_source'],
+				$absoluteNewTarget,
+				$targetParentNode->getMountPoint(),
 				$userMounts,
-				[$share],
 			);
+			$newTarget = $userFolder->getRelativePath($absoluteNewTarget);
+
+			$this->moveShare((string)$shareInfo['id'], $newTarget);
 
 			$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
 			$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
@@ -108,19 +111,29 @@ class CleanupShareTarget implements IRepairStep {
 		return (int)$query->executeQuery()->fetchOne();
 	}
 
+	private function moveShare(string $id, string $target): void {
+		// since we only process user-specific shares, we can just move them
+		// without having to check if we need to create a user-specific override
+		$query = $this->connection->getQueryBuilder();
+		$query->update('share')
+			->set('file_target', $query->createNamedParameter($target))
+			->where($query->expr()->eq('id', $query->createNamedParameter($id)))
+			->executeStatement();
+	}
+
 	/**
-	 * @return \Traversable<array{id: string, share_type: string, share_with: string}>
+	 * @return \Traversable<ShareInfo>
 	 */
 	private function getProblemShares(): \Traversable {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('id', 'share_type', 'share_with')
+		$query->select('id', 'share_type', 'share_with', 'file_source', 'file_target')
 			->from('share')
 			->where($query->expr()->like('file_target', $query->createNamedParameter('% (_) (_)%')))
 			->andWhere($query->expr()->in('share_type', $query->createNamedParameter(self::USER_SHARE_TYPES, IQueryBuilder::PARAM_INT_ARRAY), IQueryBuilder::PARAM_INT_ARRAY))
 			->orderBy('share_with')
 			->addOrderBy('id');
 		$result = $query->executeQuery();
-		/** @var \Traversable<array{id: string, share_type: string, share_with: string}> $rows */
+		/** @var \Traversable<ShareInfo> $rows */
 		$rows = $result->iterateAssociative();
 		return $rows;
 	}
