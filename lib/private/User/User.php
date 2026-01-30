@@ -49,15 +49,27 @@ class User implements IUser {
 
 	private IConfig $config;
 	private IURLGenerator $urlGenerator;
-	private IAccountManager $accountManager;
-	private IAvatarManager $avatarManager;
 
-	private ?string $displayName = null;
-	private ?bool $enabled = null;
-	private Emitter|Manager|null $emitter = null;
-	private string $home = '';
+	/** @var IAccountManager */
+	protected $accountManager;
+
+	/** @var string|null */
+	private $displayName;
+
+	/** @var bool|null */
+	private $enabled;
+
+	/** @var Emitter|Manager|null */
+	private $emitter;
+
+	/** @var string */
+	private $home;
+
 	private ?int $lastLogin = null;
 	private ?int $firstLogin = null;
+
+	/** @var IAvatarManager */
+	private $avatarManager;
 
 	public function __construct(
 		private string $uid,
@@ -68,10 +80,8 @@ class User implements IUser {
 		$urlGenerator = null,
 	) {
 		$this->emitter = $emitter;
-		$this->config = $config ?? Server::get(IConfig::class);
-		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
-		$this->accountManager = Server::get(IAccountManager::class);
-		$this->avatarManager = Server::get(IAvatarManager::class);
+		$this->config = $config ?? \OCP\Server::get(IConfig::class);
+		$this->urlGenerator = $urlGenerator ?? \OCP\Server::get(IURLGenerator::class);
 	}
 
 	/**
@@ -650,8 +660,17 @@ class User implements IUser {
 	 * @since 9.0.0
 	 */
 	public function getAvatarImage($size) {
+		// delay the initialization
+		if ($this->avatarManager === null) {
+			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
+		}
+
 		$avatar = $this->avatarManager->getAvatar($this->uid);
-		return $avatar->get($size) ?: null;
+		if ($image = $avatar->get($size)) {
+			return $image;
+		}
+
+		return null;
 	}
 
 	/**
