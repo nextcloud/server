@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -200,6 +200,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\App\\Events\\AppUpdateEvent' => __DIR__ . '/../../..' . '/lib/public/App/Events/AppUpdateEvent.php',
         'OCP\\App\\IAppManager' => __DIR__ . '/../../..' . '/lib/public/App/IAppManager.php',
         'OCP\\App\\ManagerEvent' => __DIR__ . '/../../..' . '/lib/public/App/ManagerEvent.php',
+        'OCP\\Authentication\\Events\\AfterAuthTokenCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/Events/AfterAuthTokenCreatedEvent.php',
         'OCP\\Authentication\\Events\\AnyLoginFailedEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/Events/AnyLoginFailedEvent.php',
         'OCP\\Authentication\\Events\\LoginFailedEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/Events/LoginFailedEvent.php',
         'OCP\\Authentication\\Events\\TokenInvalidatedEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/Events/TokenInvalidatedEvent.php',

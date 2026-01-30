@@ -16,10 +16,12 @@ use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Controller\AuthSettingsController;
+use OCP\Authentication\Events\AfterAuthTokenCreatedEvent;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -38,6 +40,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private ISecureRandom&MockObject $secureRandom;
 	private IManager&MockObject $activityManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private IAppConfig&MockObject $appConfig;
 	private RemoteWipe&MockObject $remoteWipe;
 	private IConfig&MockObject $serverConfig;
@@ -54,12 +57,13 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->activityManager = $this->createMock(IManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
 		$this->serverConfig = $this->createMock(IConfig::class);
+		$this->l = $this->createMock(IL10N::class);
 		/** @var LoggerInterface&MockObject $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$this->l = $this->createMock(IL10N::class);
 
 		$this->controller = new AuthSettingsController(
 			'core',
@@ -70,6 +74,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$this->uid,
 			$this->userSession,
 			$this->activityManager,
+			$this->eventDispatcher,
 			$this->appConfig,
 			$this->remoteWipe,
 			$logger,
@@ -108,6 +113,13 @@ class AuthSettingsControllerTest extends TestCase {
 			->willReturn('XXXXX');
 		$newToken = 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX';
 
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(function (AfterAuthTokenCreatedEvent $event) use ($newToken) {
+				$this->assertSame($newToken, $event->getToken());
+				return true;
+			}));
+
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
 			->with($newToken, $this->uid, 'User13', $password, $name, IToken::PERMANENT_TOKEN)
@@ -130,28 +142,64 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $response->getData());
 	}
 
-	public function testCreateDisabledBySystemConfig(): void {
-		$name = 'Nexus 4';
+	public function testCreateTokenModifiedByEvent(): void {
+		$name = 'Pixel 8';
+		$sessionToken = $this->createMock(IToken::class);
+		$deviceToken = $this->createMock(IToken::class);
+		$password = 'secret';
 
 		$this->serverConfig->method('getSystemValueBool')
 			->with('auth_can_create_app_token', true)
-			->willReturn(false);
+			->willReturn(true);
 		$this->session->expects($this->once())
 			->method('getId')
 			->willReturn('sessionid');
-		$this->tokenProvider->expects($this->never())
-			->method('getToken');
-		$this->tokenProvider->expects($this->never())
-			->method('getPassword');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessionid')
+			->willReturn($sessionToken);
+		$this->tokenProvider->expects($this->once())
+			->method('getPassword')
+			->with($sessionToken, 'sessionid')
+			->willReturn($password);
+		$sessionToken->expects($this->once())
+			->method('getLoginName')
+			->willReturn('User99');
 
+		$this->secureRandom->expects($this->exactly(5))
+			->method('generate')
+			->with(5, ISecureRandom::CHAR_HUMAN_READABLE)
+			->willReturnOnConsecutiveCalls('AAAAA', 'BBBBB', 'CCCCC', 'DDDDD', 'EEEEE');
+		$initialToken = 'AAAAA-BBBBB-CCCCC-DDDDD-EEEEE';
 
-		$this->tokenProvider->expects($this->never())
-			->method('generateToken');
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(function (AfterAuthTokenCreatedEvent $event) use ($initialToken) {
+				$this->assertSame($initialToken, $event->getToken());
+				$event->setToken('custom-token');
+				return true;
+			}));
 
-		$expected = new JSONResponse();
-		$expected->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with('custom-token', $this->uid, 'User99', $password, $name, IToken::PERMANENT_TOKEN, null)
+			->willReturn($deviceToken);
 
-		$this->assertEquals($expected, $this->controller->create($name));
+		$deviceToken->expects($this->once())
+			->method('jsonSerialize')
+			->willReturn(['dummy' => 'dummy', 'canDelete' => true]);
+
+		$this->mockActivityManager();
+
+		$expected = [
+			'token' => 'custom-token',
+			'deviceToken' => ['dummy' => 'dummy', 'canDelete' => true, 'canRename' => true],
+			'loginName' => 'User99',
+		];
+
+		$response = $this->controller->create($name);
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals($expected, $response->getData());
 	}
 
 	public function testCreateSessionNotAvailable(): void {
