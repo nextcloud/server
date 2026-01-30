@@ -12,7 +12,6 @@ use OC\Session\CryptoSessionData;
 use OC\Session\Memory;
 use OCP\ISession;
 use OCP\Security\ICrypto;
-use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
