@@ -67,8 +67,7 @@ use Psr\Log\LoggerInterface;
 class Session implements IUserSession, Emitter {
 	use TTransactional;
 
-	/** @var User $activeUser */
-	protected $activeUser;
+	protected ?IUser $activeUser = null;
 
 	public function __construct(
 		private Manager $manager,
@@ -83,9 +82,6 @@ class Session implements IUserSession, Emitter {
 	) {
 	}
 
-	/**
-	 * @param IProvider $provider
-	 */
 	public function setTokenProvider(IProvider $provider) {
 		$this->tokenProvider = $provider;
 	}
@@ -93,7 +89,6 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * @param string $scope
 	 * @param string $method
-	 * @param callable $callback
 	 */
 	public function listen($scope, $method, callable $callback) {
 		$this->manager->listen($scope, $method, $callback);
@@ -102,7 +97,6 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * @param string $scope optional
 	 * @param string $method optional
-	 * @param callable $callback optional
 	 */
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
@@ -145,7 +139,7 @@ class Session implements IUserSession, Emitter {
 	 * @param IUser|null $user
 	 */
 	public function setUser($user) {
-		if (is_null($user)) {
+		if ($user === null) {
 			$this->session->remove('user_id');
 		} else {
 			$this->session->set('user_id', $user->getUID());
@@ -173,17 +167,22 @@ class Session implements IUserSession, Emitter {
 		if (OC_User::isIncognitoMode()) {
 			return null;
 		}
-		if (is_null($this->activeUser)) {
-			$uid = $this->session->get('user_id');
-			if (is_null($uid)) {
-				return null;
-			}
-			$this->activeUser = $this->manager->get($uid);
-			if (is_null($this->activeUser)) {
-				return null;
-			}
-			$this->validateSession();
+
+		if ($this->activeUser !== null) {
+			return $this->activeUser;
 		}
+
+		$uid = $this->session->get('user_id');
+		if ($uid === null) {
+			return null;
+		}
+
+		$this->activeUser = $this->manager->get($uid);
+		if ($this->activeUser === null) {
+			return null;
+		}
+
+		$this->validateSession();
 		return $this->activeUser;
 	}
 
@@ -194,17 +193,12 @@ class Session implements IUserSession, Emitter {
 	 * - For browsers, the session token validity is checked
 	 */
 	protected function validateSession() {
-		$token = null;
 		$appPassword = $this->session->get('app_password');
 
-		if (is_null($appPassword)) {
-			try {
-				$token = $this->session->getId();
-			} catch (SessionNotAvailableException $ex) {
-				return;
-			}
-		} else {
-			$token = $appPassword;
+		try {
+			$token = $appPassword ?? $this->session->getId();
+		} catch (SessionNotAvailableException $ex) {
+			return;
 		}
 
 		if (!$this->validateToken($token)) {
@@ -220,7 +214,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function isLoggedIn() {
 		$user = $this->getUser();
-		if (is_null($user)) {
+		if ($user === null) {
 			return false;
 		}
 
@@ -233,7 +227,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string|null $loginName for the logged in user
 	 */
 	public function setLoginName($loginName) {
-		if (is_null($loginName)) {
+		if ($loginName === null) {
 			$this->session->remove('loginname');
 		} else {
 			$this->session->set('loginname', $loginName);
@@ -246,12 +240,12 @@ class Session implements IUserSession, Emitter {
 	 * @return ?string
 	 */
 	public function getLoginName() {
-		if ($this->activeUser) {
+		if ($this->activeUser !== null) {
 			return $this->session->get('loginname');
 		}
 
 		$uid = $this->session->get('user_id');
-		if ($uid) {
+		if ($uid !== null) {
 			$this->activeUser = $this->manager->get($uid);
 			return $this->session->get('loginname');
 		}
@@ -273,7 +267,6 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$currentUser = $this->getUser();
-
 		if ($currentUser === null) {
 			throw new \OC\User\NoUserException();
 		}
@@ -348,19 +341,21 @@ class Session implements IUserSession, Emitter {
 			$loginDetails['password'],
 			$isToken
 		));
+
 		$this->manager->emit('\OC\User', 'postLogin', [
 			$user,
 			$loginDetails['loginName'],
 			$loginDetails['password'],
 			$isToken,
 		]);
-		if ($this->isLoggedIn()) {
-			$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
-			return true;
+
+		if (!$this->isLoggedIn()) {
+			$message = \OCP\Util::getL10N('lib')->t('Login canceled by app');
+			throw new LoginException($message);
 		}
 
-		$message = \OCP\Util::getL10N('lib')->t('Login canceled by app');
-		throw new LoginException($message);
+		$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
+		return true;
 	}
 
 	/**
@@ -458,7 +453,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	protected function supportsCookies(IRequest $request) {
-		if (!is_null($request->getCookie('cookie_test'))) {
+		if ($request->getCookie('cookie_test') !== null) {
 			return true;
 		}
 		setcookie('cookie_test', 'test', $this->timeFactory->getTime() + 3600);
@@ -476,7 +471,7 @@ class Session implements IUserSession, Emitter {
 			['uid' => &$username]
 		);
 		$user = $this->manager->get($username);
-		if (is_null($user)) {
+		if ($user === null) {
 			$users = $this->manager->getByEmail($username);
 			if (empty($users)) {
 				return false;
@@ -619,7 +614,7 @@ class Session implements IUserSession, Emitter {
 		$this->manager->emit('\OC\User', 'preLogin', [$dbToken->getLoginName(), $password]);
 
 		$user = $this->manager->get($uid);
-		if (is_null($user)) {
+		if ($user === null) {
 			// user does not exist
 			return false;
 		}
@@ -645,7 +640,7 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean
 	 */
 	public function createSessionToken(IRequest $request, $uid, $loginName, $password = null, $remember = IToken::DO_NOT_REMEMBER) {
-		if (is_null($this->manager->get($uid))) {
+		if ($this->manager->get($uid) === null) {
 			// User does not exist
 			return false;
 		}
@@ -675,7 +670,7 @@ class Session implements IUserSession, Emitter {
 	 * @return string|null the password or null if none was set in the token
 	 */
 	private function getPassword($password) {
-		if (is_null($password)) {
+		if ($password === null) {
 			// This is surely no token ;-)
 			return null;
 		}
@@ -714,7 +709,7 @@ class Session implements IUserSession, Emitter {
 		} catch (PasswordlessTokenException $ex) {
 			// Token has no password
 
-			if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
+			if ($this->activeUser !== null && !$this->activeUser->isEnabled()) {
 				$this->tokenProvider->invalidateToken($token);
 				return false;
 			}
@@ -723,7 +718,7 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// Invalidate token if the user is no longer active
-		if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
+		if ($this->activeUser !== null && !$this->activeUser->isEnabled()) {
 			$this->tokenProvider->invalidateToken($token);
 			return false;
 		}
@@ -764,7 +759,7 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if (!is_null($user) && !$this->validateTokenLoginName($user, $dbToken)) {
+		if ($user !== null && !$this->validateTokenLoginName($user, $dbToken)) {
 			return false;
 		}
 
@@ -791,7 +786,7 @@ class Session implements IUserSession, Emitter {
 		if (mb_strtolower($token->getLoginName()) !== mb_strtolower($loginName ?? '')) {
 			// TODO: this makes it impossible to use different login names on browser and client
 			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
-			//      allow to use the client token with the login name 'user'.
+			// allow to use the client token with the login name 'user'.
 			$this->logger->error('App token login name does not match', [
 				'tokenLoginName' => $token->getLoginName(),
 				'sessionLoginName' => $loginName,
@@ -869,7 +864,7 @@ class Session implements IUserSession, Emitter {
 		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preRememberedLogin', [$uid]);
 		$user = $this->manager->get($uid);
-		if (is_null($user)) {
+		if ($user === null) {
 			// user does not exist
 			return false;
 		}
@@ -949,6 +944,7 @@ class Session implements IUserSession, Emitter {
 	public function logout() {
 		$user = $this->getUser();
 		$this->manager->emit('\OC\User', 'logout', [$user]);
+
 		if ($user !== null) {
 			try {
 				$token = $this->session->getId();
@@ -957,16 +953,18 @@ class Session implements IUserSession, Emitter {
 					'user' => $user->getUID(),
 				]);
 			} catch (SessionNotAvailableException $ex) {
+				// Session not available, continue logout
 			}
 		}
 		$this->logger->debug('Logging out', [
-			'user' => $user === null ? null : $user->getUID(),
+			'user' => $user?->getUID(),
 		]);
 		$this->setUser(null);
 		$this->setLoginName(null);
 		$this->setToken(null);
 		$this->unsetMagicInCookie();
 		$this->session->clear();
+
 		$this->manager->emit('\OC\User', 'postLogout', [$user]);
 	}
 
@@ -985,6 +983,7 @@ class Session implements IUserSession, Emitter {
 		$domain = $this->config->getSystemValueString('cookie_domain');
 
 		$maxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+
 		\OC\Http\CookieHelper::setCookie(
 			'nc_username',
 			$username,
@@ -995,6 +994,7 @@ class Session implements IUserSession, Emitter {
 			true,
 			\OC\Http\CookieHelper::SAMESITE_LAX
 		);
+
 		\OC\Http\CookieHelper::setCookie(
 			'nc_token',
 			$token,
@@ -1005,6 +1005,7 @@ class Session implements IUserSession, Emitter {
 			true,
 			\OC\Http\CookieHelper::SAMESITE_LAX
 		);
+
 		try {
 			\OC\Http\CookieHelper::setCookie(
 				'nc_session_id',
@@ -1028,18 +1029,31 @@ class Session implements IUserSession, Emitter {
 		//TODO: DI for cookies and IRequest
 		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
 		$domain = $this->config->getSystemValueString('cookie_domain');
+		$expireTime = $this->timeFactory->getTime() - 3600;
 
-		unset($_COOKIE['nc_username']); //TODO: DI
-		unset($_COOKIE['nc_token']);
-		unset($_COOKIE['nc_session_id']);
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
+		//TODO: DI
+		unset($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id']);
+
+		$cookieOptions = [
+			'expires' => $expireTime,
+			'path' => OC::$WEBROOT,
+			'domain' => $domain,
+			'secure' => $secureCookie,
+			'httponly' => true,
+			'samesite' => 'Lax',
+		];
+
+		// Clear cookies with current path
+		setcookie('nc_username', '', $cookieOptions);
+		setcookie('nc_token', '', $cookieOptions);
+		setcookie('nc_session_id', '', $cookieOptions);
+
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
+		$cookieOptions['path'] = OC::$WEBROOT . '/';
+		setcookie('nc_username', '', $cookieOptions);
+		setcookie('nc_token', '', $cookieOptions);
+		setcookie('nc_session_id', '', $cookieOptions);
 	}
 
 	/**

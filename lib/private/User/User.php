@@ -25,6 +25,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
@@ -48,27 +49,15 @@ class User implements IUser {
 
 	private IConfig $config;
 	private IURLGenerator $urlGenerator;
+	private IAccountManager $accountManager;
+	private IAvatarManager $avatarManager;
 
-	/** @var IAccountManager */
-	protected $accountManager;
-
-	/** @var string|null */
-	private $displayName;
-
-	/** @var bool|null */
-	private $enabled;
-
-	/** @var Emitter|Manager|null */
-	private $emitter;
-
-	/** @var string */
-	private $home;
-
+	private ?string $displayName = null;
+	private ?bool $enabled = null;
+	private Emitter|Manager|null $emitter = null;
+	private string $home = '';
 	private ?int $lastLogin = null;
 	private ?int $firstLogin = null;
-
-	/** @var IAvatarManager */
-	private $avatarManager;
 
 	public function __construct(
 		private string $uid,
@@ -79,8 +68,10 @@ class User implements IUser {
 		$urlGenerator = null,
 	) {
 		$this->emitter = $emitter;
-		$this->config = $config ?? \OCP\Server::get(IConfig::class);
-		$this->urlGenerator = $urlGenerator ?? \OCP\Server::get(IURLGenerator::class);
+		$this->config = $config ?? Server::get(IConfig::class);
+		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
+		$this->accountManager = Server::get(IAccountManager::class);
+		$this->avatarManager = Server::get(IAvatarManager::class);
 	}
 
 	/**
@@ -98,22 +89,20 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getDisplayName() {
-		if ($this->displayName === null) {
-			$displayName = '';
-			if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
-				// get display name and strip whitespace from the beginning and end of it
-				$backendDisplayName = $this->backend->getDisplayName($this->uid);
-				if (is_string($backendDisplayName)) {
-					$displayName = trim($backendDisplayName);
-				}
-			}
+		if ($this->displayName !== null) {
+			return $this->displayName;
+		}
 
-			if (!empty($displayName)) {
-				$this->displayName = $displayName;
-			} else {
-				$this->displayName = $this->uid;
+		$displayName = '';
+		if ($this->backend?->implementsActions(Backend::GET_DISPLAYNAME)) {
+			// get display name and strip whitespace from the beginning and end of it
+			$backendDisplayName = $this->backend->getDisplayName($this->uid);
+			if (is_string($backendDisplayName)) {
+				$displayName = trim($backendDisplayName);
 			}
 		}
+
+		$this->displayName = $displayName ?: $this->uid;
 		return $this->displayName;
 	}
 
@@ -128,18 +117,28 @@ class User implements IUser {
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
-		$oldDisplayName = $this->getDisplayName();
-		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName) && $displayName !== $oldDisplayName) {
-			/** @var ISetDisplayNameBackend $backend */
-			$backend = $this->backend;
-			$result = $backend->setDisplayName($this->uid, $displayName);
-			if ($result) {
-				$this->displayName = $displayName;
-				$this->triggerChange('displayName', $displayName, $oldDisplayName);
-			}
-			return $result !== false;
+		if (empty($displayName)) {
+			return false;
 		}
-		return false;
+
+		$oldDisplayName = $this->getDisplayName();
+		if ($displayName === $oldDisplayName) {
+			return false;
+		}
+
+		if (!$this->backend?->implementsActions(Backend::SET_DISPLAYNAME)) {
+			return false;
+		}
+
+		/** @var ISetDisplayNameBackend $backend */
+		$backend = $this->backend;
+		$result = $backend->setDisplayName($this->uid, $displayName);
+		if ($result) {
+			$this->displayName = $displayName;
+			$this->triggerChange('displayName', $displayName, $oldDisplayName);
+		}
+
+		return $result !== false;
 	}
 
 	/**
@@ -256,7 +255,7 @@ class User implements IUser {
 	 */
 	public function delete() {
 		if ($this->backend === null) {
-			\OCP\Server::get(LoggerInterface::class)->error('Cannot delete user: No backend set');
+			Server::get(LoggerInterface::class)->error('Cannot delete user: No backend set');
 			return false;
 		}
 
@@ -269,6 +268,7 @@ class User implements IUser {
 		// Set delete flag on the user - this is needed to ensure that the user data is removed if there happen any exception in the backend
 		// because we can not restore the user meaning we could not rollback to any stable state otherwise.
 		$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
+
 		// We also need to backup the home path as this can not be reconstructed later if the original backend uses custom home paths
 		$this->config->setUserValue($this->uid, 'core', 'deleted.home-path', $this->getHome());
 
@@ -281,7 +281,7 @@ class User implements IUser {
 		}
 
 		// We have to delete the user from all groups
-		$groupManager = \OCP\Server::get(IGroupManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		foreach ($groupManager->getUserGroupIds($this) as $groupId) {
 			$group = $groupManager->get($groupId);
 			if ($group) {
@@ -291,32 +291,35 @@ class User implements IUser {
 			}
 		}
 
-		$commentsManager = \OCP\Server::get(ICommentsManager::class);
+		$commentsManager = Server::get(ICommentsManager::class);
 		$commentsManager->deleteReferencesOfActor('users', $this->uid);
 		$commentsManager->deleteReadMarksFromUser($this);
 
-		$avatarManager = \OCP\Server::get(AvatarManager::class);
+		$avatarManager = Server::get(AvatarManager::class);
 		$avatarManager->deleteUserAvatar($this->uid);
 
-		$notificationManager = \OCP\Server::get(INotificationManager::class);
+		$notificationManager = Server::get(INotificationManager::class);
 		$notification = $notificationManager->createNotification();
 		$notification->setUser($this->uid);
 		$notificationManager->markProcessed($notification);
 
-		$accountManager = \OCP\Server::get(AccountManager::class);
+		$accountManager = Server::get(AccountManager::class);
 		$accountManager->deleteUser($this);
 
-		$database = \OCP\Server::get(IDBConnection::class);
+		$database = Server::get(IDBConnection::class);
 		try {
 			// We need to create a transaction to make sure we are in a defined state
 			// because if all user values are removed also the flag is gone, but if an exception happens (e.g. database lost connection on the set operation)
 			// exactly here we are in an undefined state as the data is still present but the user does not exist on the system anymore.
 			$database->beginTransaction();
+
 			// Remove all user settings
 			$this->config->deleteAllUserValues($this->uid);
+
 			// But again set flag that this user is about to be deleted
 			$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
 			$this->config->setUserValue($this->uid, 'core', 'deleted.home-path', $this->getHome());
+
 			// Commit the transaction so we are in a defined state: either the preferences are removed or an exception occurred but the delete flag is still present
 			$database->commit();
 		} catch (\Throwable $e) {
@@ -345,36 +348,35 @@ class User implements IUser {
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
 		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
-		}
-		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
-			/** @var ISetPasswordBackend $backend */
-			$backend = $this->backend;
-			$result = $backend->setPassword($this->uid, $password);
+		$this->emitter?->emit('\\OC\\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 
-			if ($result !== false) {
-				$this->dispatcher->dispatchTyped(new PasswordUpdatedEvent($this, $password, $recoveryPassword));
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
-				}
-			}
-
-			return !($result === false);
-		} else {
+		if (!$this->backend?->implementsActions(Backend::SET_PASSWORD)) {
 			return false;
 		}
+
+		/** @var ISetPasswordBackend $backend */
+		$backend = $this->backend;
+		$result = $backend->setPassword($this->uid, $password);
+
+		if ($result === false) {
+			return false;
+		}
+
+		$this->dispatcher->dispatchTyped(new PasswordUpdatedEvent($this, $password, $recoveryPassword));
+		$this->emitter?->emit('\\OC\\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
+
+		return true;
 	}
 
 	public function getPasswordHash(): ?string {
-		if (!($this->backend instanceof IPasswordHashBackend)) {
+		if (!$this->backend instanceof IPasswordHashBackend) {
 			return null;
 		}
 		return $this->backend->getPasswordHash($this->uid);
 	}
 
 	public function setPasswordHash(string $passwordHash): bool {
-		if (!($this->backend instanceof IPasswordHashBackend)) {
+		if (!$this->backend instanceof IPasswordHashBackend) {
 			return false;
 		}
 		return $this->backend->setPasswordHash($this->uid, $passwordHash);
@@ -386,14 +388,21 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getHome() {
-		if (!$this->home) {
-			/** @psalm-suppress UndefinedInterfaceMethod Once we get rid of the legacy implementsActions, psalm won't complain anymore */
-			if (($this->backend instanceof IGetHomeBackend || $this->backend->implementsActions(Backend::GET_HOME)) && $home = $this->backend->getHome($this->uid)) {
+		if ($this->home) {
+			return $this->home;
+		}
+
+		/** @psalm-suppress UndefinedInterfaceMethod Once we get rid of the legacy implementsActions, psalm won't complain anymore */
+		if ($this->backend instanceof IGetHomeBackend || $this->backend?->implementsActions(Backend::GET_HOME)) {
+			$home = $this->backend->getHome($this->uid);
+			if ($home) {
 				$this->home = $home;
-			} else {
-				$this->home = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
+				return $this->home;
 			}
 		}
+
+		$this->home = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $this->uid;
+
 		return $this->home;
 	}
 
@@ -460,17 +469,18 @@ class User implements IUser {
 	 */
 	public function isEnabled() {
 		$queryDatabaseValue = function (): bool {
-			if ($this->enabled === null) {
-				$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
-				$this->enabled = $enabled === 'true';
+			if ($this->enabled !== null) {
+				return $this->enabled;
 			}
+
+			$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+			$this->enabled = ($enabled === 'true');
 			return $this->enabled;
 		};
-		if ($this->backend instanceof IProvideEnabledStateBackend) {
-			return $this->backend->isUserEnabled($this->uid, $queryDatabaseValue);
-		} else {
-			return $queryDatabaseValue();
-		}
+
+		return $this->backend instanceof IProvideEnabledStateBackend
+			? $this->backend->isUserEnabled($this->uid, $queryDatabaseValue)
+			: $queryDatabaseValue();
 	}
 
 	/**
@@ -480,23 +490,27 @@ class User implements IUser {
 	 */
 	public function setEnabled(bool $enabled = true) {
 		$oldStatus = $this->isEnabled();
+
 		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 			$this->enabled = $enabled;
 		};
-		if ($this->backend instanceof IProvideEnabledStateBackend) {
-			$queryDatabaseValue = function (): bool {
-				if ($this->enabled === null) {
-					$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
-					$this->enabled = $enabled === 'true';
-				}
+
+		$queryDatabaseValue = function (): bool {
+			if ($this->enabled !== null) {
 				return $this->enabled;
-			};
-			$enabled = $this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
-			if ($oldStatus !== $enabled) {
-				$this->triggerChange('enabled', $enabled, $oldStatus);
 			}
-		} elseif ($oldStatus !== $enabled) {
+
+			$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+			$this->enabled = ($enabled === 'true');
+			return $this->enabled;
+		};
+
+		if ($this->backend instanceof IProvideEnabledStateBackend) {
+			$enabled = $this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
+		}
+
+		if ($oldStatus !== $enabled) {
 			$setDatabaseValue($enabled);
 			$this->triggerChange('enabled', $enabled, $oldStatus);
 		}
@@ -539,26 +553,32 @@ class User implements IUser {
 		$event = new GetQuotaEvent($this);
 		$this->dispatcher->dispatchTyped($event);
 		$overwriteQuota = $event->getQuota();
-		if ($overwriteQuota) {
-			$quota = $overwriteQuota;
-		} else {
-			$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
-		}
-		if ($quota === 'default') {
-			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
 
-			// if unlimited quota is not allowed => avoid getting 'unlimited' as default_quota fallback value
-			// use the first preset instead
-			$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
-			if (!$allowUnlimitedQuota) {
-				$presets = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
-				$presets = array_filter(array_map('trim', explode(',', $presets)));
-				$quotaPreset = array_values(array_diff($presets, ['default', 'none']));
-				if (count($quotaPreset) > 0) {
-					$quota = $this->config->getAppValue('files', 'default_quota', $quotaPreset[0]);
-				}
-			}
+		if ($overwriteQuota) {
+			return $overwriteQuota;
 		}
+
+		$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
+		if ($quota !== 'default') {
+			return $quota;
+		}
+
+		$quota = $this->config->getAppValue('files', 'default_quota', 'none');
+		$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
+		if ($allowUnlimitedQuota) {
+			return $quota;
+		}
+
+		// if unlimited quota is not allowed => avoid getting 'unlimited' as default_quota fallback value
+		// use the first preset instead
+		$presets = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+		$presets = array_filter(array_map('trim', explode(',', $presets)));
+		$quotaPreset = array_values(array_diff($presets, ['default', 'none']));
+
+		if (count($quotaPreset) > 0) {
+			return $this->config->getAppValue('files', 'default_quota', $quotaPreset[0]);
+		}
+
 		return $quota;
 	}
 
@@ -585,17 +605,19 @@ class User implements IUser {
 	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
-		if ($quota !== 'none' && $quota !== 'default') {
+		if (!in_array($quota, ['none', 'default'], true)) {
 			$bytesQuota = \OCP\Util::computerFileSize($quota);
 			if ($bytesQuota === false) {
 				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);
 			}
 			$quota = \OCP\Util::humanFileSize($bytesQuota);
 		}
+
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
+
 		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
 	}
 
@@ -628,18 +650,8 @@ class User implements IUser {
 	 * @since 9.0.0
 	 */
 	public function getAvatarImage($size) {
-		// delay the initialization
-		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
-		}
-
 		$avatar = $this->avatarManager->getAvatar($this->uid);
-		$image = $avatar->get($size);
-		if ($image) {
-			return $image;
-		}
-
-		return null;
+		return $avatar->get($size) ?: null;
 	}
 
 	/**
@@ -668,8 +680,6 @@ class User implements IUser {
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
 		$this->dispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
-		}
+		$this->emitter?->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 	}
 }
