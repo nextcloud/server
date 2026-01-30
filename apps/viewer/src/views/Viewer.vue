@@ -1427,6 +1427,15 @@ body:has(#viewer) {
 		width: calc(var(--app-sidebar-width) + var(--body-container-margin));
 	}
 
+	.app-navigation ~ #app-content-vue:has(~ #app-sidebar-vue:not([style*="display: none"])) {
+		flex-basis: calc(100% - 300px - clamp(300px, 27vw, 500px));
+	}
+
+	#app-content-vue:first-child:has(~ #app-sidebar-vue:not([style*="display: none"])),
+	.app-navigation--closed ~ #app-content-vue:has(~ #app-sidebar-vue:not([style*="display: none"])) {
+		flex-basis: calc(100% - clamp(300px, 27vw, 500px));
+	}
+
 	#header {
 		visibility: hidden;
 	}
