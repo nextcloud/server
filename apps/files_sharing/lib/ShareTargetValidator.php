@@ -84,7 +84,7 @@ class ShareTargetValidator {
 		}
 
 		$newAbsoluteMountPoint = $this->generateUniqueTarget(
-			$share,
+			$share->getNodeId(),
 			Filesystem::normalizePath($absoluteParent . '/' . $mountPoint),
 			$parentMount,
 			$allCachedMounts,
@@ -107,8 +107,8 @@ class ShareTargetValidator {
 	/**
 	 * @param IMountPoint[] $allCachedMounts
 	 */
-	private function generateUniqueTarget(
-		IShare $share,
+	public function generateUniqueTarget(
+		int $shareNodeId,
 		string $absolutePath,
 		IMountPoint $parentMount,
 		array $allCachedMounts,
@@ -121,7 +121,7 @@ class ShareTargetValidator {
 		$i = 2;
 		$parentCache = $parentMount->getStorage()->getCache();
 		$internalPath = $parentMount->getInternalPath($absolutePath);
-		while ($parentCache->inCache($internalPath) || $this->hasConflictingMount($share, $allCachedMounts, $absolutePath)) {
+		while ($parentCache->inCache($internalPath) || $this->hasConflictingMount($shareNodeId, $allCachedMounts, $absolutePath)) {
 			$absolutePath = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
 			$internalPath = $parentMount->getInternalPath($absolutePath);
 			$i++;
@@ -133,13 +133,13 @@ class ShareTargetValidator {
 	/**
 	 * @param IMountPoint[] $allCachedMounts
 	 */
-	private function hasConflictingMount(IShare $share, array $allCachedMounts, string $absolutePath): bool {
+	private function hasConflictingMount(int $shareNodeId, array $allCachedMounts, string $absolutePath): bool {
 		if (!isset($allCachedMounts[$absolutePath . '/'])) {
 			return false;
 		}
 
 		$mount = $allCachedMounts[$absolutePath . '/'];
-		if ($mount instanceof SharedMount && $mount->getShare()->getNodeId() === $share->getNodeId()) {
+		if ($mount instanceof SharedMount && $mount->getShare()->getNodeId() === $shareNodeId) {
 			// "conflicting" mount is a mount for the current share
 			return false;
 		}
