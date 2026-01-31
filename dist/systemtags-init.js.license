@@ -127,7 +127,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.12.2
+	- version: 1.13.4
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -373,7 +373,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.12.0
 	- license: MIT
 - typescript-event-target
-	- version: 1.1.1
+	- version: 1.1.2
 	- license: MIT
 - url-join
 	- version: 5.0.0
