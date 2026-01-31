@@ -49,6 +49,7 @@
     "Current log-in password" : "Stávající přihlašovací heslo",
     "Update" : "Aktualizovat",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
+    "Enable password recovery" : "Zapnout obnovu hesla",
     "Default encryption module" : "Výchozí šifrovací modul",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale šifrovací klíče ještě nejsou inicializované. Odhlaste se a znovu se přihlaste",
     "Basic encryption module" : "Základní šifrovací modul",

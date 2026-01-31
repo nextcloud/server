@@ -34,6 +34,7 @@ OC.L10N.register(
     "Settings" : "Nastavení",
     "Could not remove app." : "Aplikaci se nedaří odebrat.",
     "Could not update app." : "Aplikaci se nedaří aktualizovat.",
+    "One time login" : "Jednorázové přihlášení",
     "QR Code login" : "Přihlášení QR kódem",
     "Wrong password" : "Nesprávné heslo",
     "Unable to change personal password" : "Osobní heslo se nedaří změnit",

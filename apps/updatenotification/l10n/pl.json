@@ -1,6 +1,7 @@
 { "translations": {
     "Channel updated" : "Zaktualizowano kanał",
     "Web updater is disabled" : "Aktualizator sieciowy jest wyłączony",
+    "Configuration is read-only" : "Konfiguracja jest tylko do odczytu",
     "App updated" : "Aplikacja została zaktualizowana",
     "See what's new" : "Zobacz co nowego",
     "{app} updated to version {version}" : "{app} zaktualizowana do wersji {version}",
