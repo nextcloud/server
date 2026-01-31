@@ -239,7 +239,7 @@
     "Failed to unlink: %1$s" : "Neuspjelo uklanjanje veze: %1$s",
     "Failed to write file contents: %1$s" : "Neuspjelo zapisivanje sadržaja datoteke: %1$s",
     "File not found: %1$s" : "Datoteka nije pronađena: %1$s",
-    "Invalid target path" : "Neispravna odredišna putanja",
+    "Invalid target path" : "Nevažeća odredišna putanja",
     "System is in maintenance mode." : "Sustav je u načinu održavanja.",
     "Upgrade needed" : "Potrebno nadograditi",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Vaš %s treba konfigurirati za korištenje HTTPS-a kako bi se mogli upotrebljavati CalDAV i CardDAV s operacijskim sustavom iOS/macOS.",
