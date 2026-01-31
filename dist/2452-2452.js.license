@@ -62,7 +62,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.3
 	- license: MIT
 - dompurify
 	- version: 3.3.1
