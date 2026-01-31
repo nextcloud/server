@@ -164,6 +164,8 @@ OC.L10N.register(
     "System" : "System",
     "Connected" : "Połączony",
     "Error" : "Błąd",
+    "Indeterminate" : "Nieokreślone",
+    "Incomplete configuration" : "Niekompletna konfiguracja",
     "Unauthorized" : "Nieautoryzowany",
     "Network error" : "Błąd sieci",
     "Grant access" : "Udziel dostępu",
