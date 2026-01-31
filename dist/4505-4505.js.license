@@ -161,7 +161,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.3
 	- license: MIT
 - debounce
 	- version: 2.2.0
