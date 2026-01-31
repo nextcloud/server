@@ -53,7 +53,7 @@ jobs:
 
     steps:
         - name: Checkout server
-          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+          uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
           with:
             persist-credentials: false
             submodules: true
@@ -71,7 +71,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Set up Python
-          uses: LizardByte/actions/actions/setup_python@e6bc045033a5614035b66daafc38ff86faecb23a # v2026.116.208
+          uses: LizardByte/actions/actions/setup_python@09a6e10dc8175f2933c20bdf35fde0a193a9c00e # v2026.129.194351
           with:
             python-version: '2.7'
 
