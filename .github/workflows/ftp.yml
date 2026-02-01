@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
         with:
           submodules: true
 
@@ -40,7 +40,7 @@ jobs:
           if [[ "${{ matrix.ftpd }}" == 'vsftpd' ]]; then docker run --name ftp -d --net host -e FTP_USER=test -e FTP_PASS=test -e PASV_ADDRESS=127.0.0.1 -v /tmp/ftp:/home/vsftpd/test fauria/vsftpd; fi
           if [[ "${{ matrix.ftpd }}" == 'pure-ftpd' ]]; then docker run --name ftp -d --net host -e "PUBLICHOST=localhost" -e FTP_USER_NAME=test -e FTP_USER_PASS=test -e FTP_USER_HOME=/home/test -v /tmp/ftp2:/home/test -v /tmp/ftp2:/etc/pure-ftpd/passwd stilliard/pure-ftpd; fi
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # master
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:9
