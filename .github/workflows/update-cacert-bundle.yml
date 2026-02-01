@@ -17,7 +17,7 @@ jobs:
     name: update-ca-certificate-bundle-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
           ref: ${{ matrix.branches }}
           submodules: true
@@ -26,7 +26,7 @@ jobs:
         run: curl --etag-compare build/ca-bundle-etag.txt --etag-save build/ca-bundle-etag.txt --output resources/config/ca-bundle.crt https://curl.se/ca/cacert.pem
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@18f7dc018cc2cd597073088f7c7591b9d1c02672 # v3.14.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: Update CA certificate bundle
