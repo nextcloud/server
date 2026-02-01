@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
       - name: Checkout submodules
         shell: bash
@@ -53,7 +53,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # master
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,oci8,openssl,pcntl,pdo_sqlite,posix,sqlite,xml,zip
