@@ -77,7 +77,7 @@ class LoginController extends Controller {
 	#[NoAdminRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/logout')]
-	public function logout() {
+	public function logout(?string $redirect_url = null) {
 		$loginToken = $this->request->getCookie('nc_token');
 		if (!is_null($loginToken)) {
 			$this->config->deleteUserValue($this->userSession->getUser()->getUID(), 'login_token', $loginToken);
@@ -86,7 +86,10 @@ class LoginController extends Controller {
 
 		$response = new RedirectResponse($this->urlGenerator->linkToRouteAbsolute(
 			'core.login.showLoginForm',
-			['clear' => true] // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+			[
+				'clear' => true, // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+				'redirect_url' => $redirect_url,
+			],
 		));
 
 		$this->session->set('clearingExecutionContexts', '1');

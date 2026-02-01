@@ -47,8 +47,8 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @return string
 	 */
-	protected function getLogoutUrl() {
-		return OC_User::getLogoutUrl($this->urlGenerator);
+	protected function getLogoutUrl(?string $redirectUrl = null): string {
+		return OC_User::getLogoutUrl($this->urlGenerator, $redirectUrl);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class TwoFactorChallengeController extends Controller {
 			'backupProvider' => $backupProvider,
 			'providerMissing' => $providerSet->isProviderMissing(),
 			'redirect_url' => $redirect_url,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->getLogoutUrl($redirect_url),
 			'hasSetupProviders' => !empty($setupProviders),
 		];
 		Util::addScript('core', 'twofactor-request-token');
@@ -126,7 +126,7 @@ class TwoFactorChallengeController extends Controller {
 			'error_message' => $errorMessage,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->getLogoutUrl($redirect_url),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
@@ -186,7 +186,7 @@ class TwoFactorChallengeController extends Controller {
 
 		$data = [
 			'providers' => $setupProviders,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->getLogoutUrl($redirect_url),
 			'redirect_url' => $redirect_url,
 		];
 
@@ -217,7 +217,7 @@ class TwoFactorChallengeController extends Controller {
 		$tmpl = $provider->getLoginSetup($user)->getBody();
 		$data = [
 			'provider' => $provider,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->getLogoutUrl($redirect_url),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
