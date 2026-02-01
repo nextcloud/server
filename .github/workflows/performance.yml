@@ -17,13 +17,13 @@ jobs:
 
     steps:
       - name: Checkout server before PR
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # master
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit:9
@@ -38,7 +38,7 @@ jobs:
 
           php -S localhost:8080 &
       - name: Apply blueprint
-        uses: icewind1991/blueprint@v0.1.2
+        uses: icewind1991/blueprint@00504403f76cb2a09efd0d16793575055e6f63cb # v0.1.2
         with:
           blueprint: tests/blueprints/basic.toml
           ref: ${{ github.event.pull_request.head.ref }}
@@ -86,7 +86,7 @@ jobs:
             before.json
             after.json
 
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@211cb3fefb35a799baa5156f9321bb774fe56294 # v5.2.0
         if: failure() && steps.compare.outcome == 'failure'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
