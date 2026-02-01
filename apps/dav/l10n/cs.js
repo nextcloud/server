@@ -234,6 +234,8 @@ OC.L10N.register(
     "Could not rename part file to final file, canceled by hook" : "Nedaří se zapsat přejmenovat částečný soubor na ten končený – zrušeno háčkem (hook)",
     "Could not rename part file to final file" : "Nedaří se přejmenovat částečný soubor na ten konečný",
     "Failed to check file size: %1$s" : "Nepodařilo se zkontrolovat velikost souboru: %1$s",
+    "Could not open file: %1$s (%2$d), file does seem to exist" : "Nebylo možné otevřít soubor: %1$s (%2$d) – zdá se, že soubor existuje",
+    "Could not open file: %1$s (%2$d), file doesn't seem to exist" : "Nebylo možné otevřít soubor: %1$s (%2$d) – zdá se, že soubor neexistuje",
     "Encryption not ready: %1$s" : "Šifrování není připraveno: %1$s",
     "Failed to open file: %1$s" : "Nepodařilo se otevřít soubor: %1$s",
     "Failed to unlink: %1$s" : "Nepodařilo se zrušit propojení: %1$s",
