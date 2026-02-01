@@ -41,7 +41,7 @@ jobs:
 
           php -S localhost:8080 &
       - name: Apply blueprint
-        uses: icewind1991/blueprint@v0.1.2
+        uses: icewind1991/blueprint@00504403f76cb2a09efd0d16793575055e6f63cb # v0.1.2
         with:
           blueprint: tests/blueprints/basic.toml
           ref: ${{ github.event.pull_request.head.ref }}
@@ -90,7 +90,7 @@ jobs:
             before.json
             after.json
 
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         if: failure() && steps.compare.outcome == 'failure'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
