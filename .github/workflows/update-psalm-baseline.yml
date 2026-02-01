@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
         with:
           submodules: true
 
       - name: Set up php7.4
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # master
         with:
           php-version: 7.4
           extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -34,7 +34,7 @@ jobs:
           git checkout composer.json composer.lock lib/composer
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@18f7dc018cc2cd597073088f7c7591b9d1c02672 # v3.14.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: Update psalm baseline
