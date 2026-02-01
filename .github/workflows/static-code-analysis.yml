@@ -15,12 +15,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
         with:
           php-version: '8.0'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@b8d3b6e8af63cde30bdc382c0bc28114f4346c88 # v2.28.1
         with:
           sarif_file: results.sarif
 
@@ -49,12 +49,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
         with:
           php-version: '8.0'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
@@ -68,7 +68,7 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@b8d3b6e8af63cde30bdc382c0bc28114f4346c88 # v2.28.1
         with:
           sarif_file: results.sarif
 
@@ -77,12 +77,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
         with:
           php-version: '8.0'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
