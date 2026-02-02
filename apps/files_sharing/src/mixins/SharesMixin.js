@@ -182,7 +182,7 @@ export default {
 					this.$set(this.share, 'newPassword', await GeneratePassword(true))
 				} else {
 					this.passwordProtectedState = false
-					this.$delete(this.share, 'newPassword')
+					this.$set(this.share, 'newPassword', '')
 				}
 			},
 		},
@@ -342,7 +342,7 @@ export default {
 
 						if (propertyNames.includes('password')) {
 							// reset password state after sync
-							this.share.password = this.share.newPassword ?? ''
+							this.share.password = this.share.newPassword || undefined
 							this.$delete(this.share, 'newPassword')
 
 							// updates password expiration time after sync
