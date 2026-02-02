@@ -3,21 +3,19 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { Folder, IFolder, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
-import type { RootDirectory } from './DropServiceUtils'
+import type { RootDirectory } from './DropServiceUtils.ts'
 
-import { Folder, Node, NodeStatus, davRootPath } from '@nextcloud/files'
-import { getUploader, hasConflict } from '@nextcloud/upload'
-import { join } from 'path'
-import { joinPaths } from '@nextcloud/paths'
+import { createDirectoryIfNotExists, Directory, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import Vue from 'vue'
-
-import { Directory, traverseTree, resolveConflict, createDirectoryIfNotExists } from './DropServiceUtils'
-import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction'
-import { MoveCopyAction } from '../actions/moveOrCopyActionUtils'
+import { t } from '@nextcloud/l10n'
+import { join } from '@nextcloud/paths'
+import { getUploader, hasConflict } from '@nextcloud/upload'
+import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
+import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
 import logger from '../logger.ts'
+import { defaultRootPath } from '@nextcloud/files/dav'
 
 /**
  * This function converts a list of DataTransferItems to a file tree.
@@ -100,7 +98,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
-	if (await hasConflict(root.contents, contents)) {
+	if (hasConflict(root.contents, contents)) {
 		root.contents = await resolveConflict(root.contents, destination, contents)
 		if (root.contents.length === 0) {
 			// user cancelled the upload
@@ -125,7 +123,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 			// If the file is a directory, we need to create it first
 			// then browse its tree and upload its contents.
 			if (file instanceof Directory) {
-				const absolutePath = joinPaths(davRootPath, destination.path, relativePath)
+				const absolutePath = join(defaultRootPath, destination.path, relativePath)
 				try {
 					console.debug('Processing directory', { relativePath })
 					await createDirectoryIfNotExists(absolutePath)
@@ -171,11 +169,17 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 	return Promise.all(queue)
 }
 
-export const onDropInternalFiles = async (nodes: Node[], destination: Folder, contents: Node[], isCopy = false) => {
-	const queue = [] as Promise<void>[]
-
+/**
+ * Handle dropping internal files
+ *
+ * @param nodes - The nodes being dropped
+ * @param destination - The destination folder
+ * @param contents - The contents of the destination folder
+ * @param isCopy - Whether the operation is a copy
+ */
+export async function onDropInternalFiles(nodes: INode[], destination: IFolder, contents: INode[], isCopy = false) {
 	// Check for conflicts on root elements
-	if (await hasConflict(nodes, contents)) {
+	if (hasConflict(nodes, contents)) {
 		nodes = await resolveConflict(nodes, destination, contents)
 	}
 
@@ -185,23 +189,17 @@ export const onDropInternalFiles = async (nodes: Node[], destination: Folder, co
 		return
 	}
 
-	for (const node of nodes) {
-		Vue.set(node, 'status', NodeStatus.LOADING)
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
+	try {
+		const promises = Array.fromAsync(handleCopyMoveNodesTo(nodes, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE))
+		await promises
+		logger.debug('Files copy/move successful')
+		showSuccess(isCopy ? t('files', 'Files copied successfully') : t('files', 'Files moved successfully'))
+	} catch (error) {
+		logger.error('Error while processing dropped files', { error })
+		if (error instanceof HintException) {
+			showError(error.message)
+		} else {
+			showError(isCopy ? t('files', 'Some files could not be copied') : t('files', 'Some files could not be moved'))
+		}
 	}
-
-	// Wait for all promises to settle
-	const results = await Promise.allSettled(queue)
-	nodes.forEach(node => Vue.set(node, 'status', undefined))
-
-	// Check for errors
-	const errors = results.filter(result => result.status === 'rejected')
-	if (errors.length > 0) {
-		logger.error('Error while copying or moving files', { errors })
-		showError(isCopy ? t('files', 'Some files could not be copied') : t('files', 'Some files could not be moved'))
-		return
-	}
-
-	logger.debug('Files copy/move successful')
-	showSuccess(isCopy ? t('files', 'Files copied successfully') : t('files', 'Files moved successfully'))
 }
