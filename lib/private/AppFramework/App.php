@@ -198,5 +198,13 @@ class App {
 				$io->setOutput($output);
 			}
 		}
+
+		if ($response->getFlushEarly()) {
+			fastcgi_finish_request();
+			while (ob_get_level() > 0) {
+				ob_end_flush();
+			}
+			flush();
+		}
 	}
 }
