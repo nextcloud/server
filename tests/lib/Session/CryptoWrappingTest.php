@@ -39,9 +39,9 @@ class CryptoWrappingTest extends TestCase {
 	private const GENERATED_PASSPHRASE = 'generatedPassphrase';
 	private const SERVER_PROTOCOL = 'https';
 
-	protected ICrypto|MockObject $crypto;
-	protected ISecureRandom|MockObject $random;
-	protected IRequest|MockObject $request;
+	protected ICrypto&MockObject $crypto;
+	protected ISecureRandom&MockObject $random;
+	protected IRequest&MockObject $request;
 
 	protected function setUp(): void {
 		parent::setUp();
