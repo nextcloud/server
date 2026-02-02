@@ -19,6 +19,7 @@ use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-type ShareInfo = array{id: string|int, share_type: string, share_with: string, file_source: string, file_target: string}
@@ -41,6 +42,7 @@ class CleanupShareTarget implements IRepairStep {
 		private readonly SetupManager $setupManager,
 		private readonly IUserMountCache $userMountCache,
 		private readonly IRootFolder $rootFolder,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -63,6 +65,9 @@ class CleanupShareTarget implements IRepairStep {
 
 		foreach ($this->getProblemShares() as $shareInfo) {
 			$recipient = $this->userManager->getExistingUser($shareInfo['share_with']);
+			if (!$recipient->isEnabled()) {
+				continue;
+			}
 
 			// since we ordered the share by user, we can reuse the last data until we get to the next user
 			if ($lastUser !== $recipient->getUID()) {
@@ -81,20 +86,26 @@ class CleanupShareTarget implements IRepairStep {
 			$absoluteNewTarget = $userFolder->getFullPath($newTarget);
 			$targetParentNode = $this->rootFolder->get(dirname($absoluteNewTarget));
 
-			$absoluteNewTarget = $this->shareTargetValidator->generateUniqueTarget(
-				(int)$shareInfo['file_source'],
-				$absoluteNewTarget,
-				$targetParentNode->getMountPoint(),
-				$userMounts,
-			);
-			$newTarget = $userFolder->getRelativePath($absoluteNewTarget);
+			try {
+				$absoluteNewTarget = $this->shareTargetValidator->generateUniqueTarget(
+					(int)$shareInfo['file_source'],
+					$absoluteNewTarget,
+					$targetParentNode->getMountPoint(),
+					$userMounts,
+				);
+				$newTarget = $userFolder->getRelativePath($absoluteNewTarget);
 
-			$this->moveShare((string)$shareInfo['id'], $newTarget);
+				$this->moveShare((string)$shareInfo['id'], $newTarget);
 
-			$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
-			$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
-			$userMounts[$newMountPoint] = $userMounts[$oldMountPoint];
-			unset($userMounts[$oldMountPoint]);
+				$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
+				$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
+				$userMounts[$newMountPoint] = $userMounts[$oldMountPoint];
+				unset($userMounts[$oldMountPoint]);
+			} catch (\Exception $e) {
+				$msg = 'error cleaning up share target: ' . $e->getMessage();
+				$this->logger->error($msg, ['exception' => $e, 'app' => 'files_sharing']);
+				$output->warning($msg);
+			}
 
 			$output->advance();
 		}
