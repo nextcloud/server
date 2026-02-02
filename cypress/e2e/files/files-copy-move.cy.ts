@@ -108,23 +108,23 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		copyFile('original.txt', '.')
 
 		getRowForFile('original.txt').should('be.visible')
-		getRowForFile('original (copy).txt').should('be.visible')
+		getRowForFile('original (1).txt').should('be.visible')
 	})
 
 	it('Can copy a file multiple times to same folder', () => {
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
-		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original (copy).txt')
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original (1).txt')
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
 		copyFile('original.txt', '.')
 
 		getRowForFile('original.txt').should('be.visible')
-		getRowForFile('original (copy 2).txt').should('be.visible')
+		getRowForFile('original (2).txt').should('be.visible')
 	})
 
 	/**
-	 * Test that a copied folder with a dot will be renamed correctly ('foo.bar' -> 'foo.bar (copy)')
+	 * Test that a copied folder with a dot will be renamed correctly ('foo.bar' -> 'foo.bar (1)')
 	 * Test for: https://github.com/nextcloud/server/issues/43843
 	 */
 	it('Can copy a folder to same folder', () => {
@@ -135,7 +135,7 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		copyFile('foo.bar', '.')
 
 		getRowForFile('foo.bar').should('be.visible')
-		getRowForFile('foo.bar (copy)').should('be.visible')
+		getRowForFile('foo.bar (1)').should('be.visible')
 	})
 
 	/** Test for https://github.com/nextcloud/server/issues/43329 */

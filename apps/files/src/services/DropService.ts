@@ -185,9 +185,18 @@ export const onDropInternalFiles = async (nodes: Node[], destination: Folder, co
 		return
 	}
 
-	for (const node of nodes) {
-		Vue.set(node, 'status', NodeStatus.LOADING)
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
+	try {
+		const promises = Array.fromAsync(handleCopyMoveNodesTo(nodes, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE))
+		await promises
+		logger.debug('Files copy/move successful')
+		showSuccess(isCopy ? t('files', 'Files copied successfully') : t('files', 'Files moved successfully'))
+	} catch (error) {
+		logger.error('Error while processing dropped files', { error })
+		if (error instanceof HintException) {
+			showError(error.message)
+		} else {
+			showError(isCopy ? t('files', 'Some files could not be copied') : t('files', 'Some files could not be moved'))
+		}
 	}
 
 	// Wait for all promises to settle
