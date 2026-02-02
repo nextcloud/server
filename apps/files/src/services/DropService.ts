@@ -8,12 +8,10 @@ import type { Upload } from '@nextcloud/upload'
 import type { RootDirectory } from './DropServiceUtils.ts'
 
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
-import { NodeStatus } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
 import { getUploader, hasConflict } from '@nextcloud/upload'
-import Vue from 'vue'
-import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction.ts'
+import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
 import logger from '../logger.ts'
 import { createDirectoryIfNotExists, Directory, resolveConflict, traverseTree } from './DropServiceUtils.ts'
@@ -178,8 +176,6 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
  * @param isCopy - Whether the operation is a copy
  */
 export async function onDropInternalFiles(nodes: INode[], destination: IFolder, contents: INode[], isCopy = false) {
-	const queue = [] as Promise<void>[]
-
 	// Check for conflicts on root elements
 	if (await hasConflict(nodes, contents)) {
 		nodes = await resolveConflict(nodes, destination, contents)
@@ -191,23 +187,17 @@ export async function onDropInternalFiles(nodes: INode[], destination: IFolder, 
 		return
 	}
 
-	for (const node of nodes) {
-		Vue.set(node, 'status', NodeStatus.LOADING)
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
+	try {
+		const promises = Array.fromAsync(handleCopyMoveNodesTo(nodes, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE))
+		await promises
+		logger.debug('Files copy/move successful')
+		showSuccess(isCopy ? t('files', 'Files copied successfully') : t('files', 'Files moved successfully'))
+	} catch (error) {
+		logger.error('Error while processing dropped files', { error })
+		if (error instanceof HintException) {
+			showError(error.message)
+		} else {
+			showError(isCopy ? t('files', 'Some files could not be copied') : t('files', 'Some files could not be moved'))
+		}
 	}
-
-	// Wait for all promises to settle
-	const results = await Promise.allSettled(queue)
-	nodes.forEach((node) => Vue.set(node, 'status', undefined))
-
-	// Check for errors
-	const errors = results.filter((result) => result.status === 'rejected')
-	if (errors.length > 0) {
-		logger.error('Error while copying or moving files', { errors })
-		showError(isCopy ? t('files', 'Some files could not be copied') : t('files', 'Some files could not be moved'))
-		return
-	}
-
-	logger.debug('Files copy/move successful')
-	showSuccess(isCopy ? t('files', 'Files copied successfully') : t('files', 'Files moved successfully'))
 }
