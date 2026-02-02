@@ -264,13 +264,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		IStorageFactory $loader,
 	): array {
 		$userId = $user->getUID();
-		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
-		$view = new View('/' . $userId . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($userId);
-		/** @var CappedMemoryCache<bool> $folderExistCache */
-		$foldersExistCache = new CappedMemoryCache();
 
 		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
 		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
@@ -313,10 +309,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
 
-				$mounts[$mount->getMountPoint()] = $allMounts[$mount->getMountPoint()] = $mount;
+				$mounts[$mount->getMountPoint()] = $mount;
 				foreach ($event->getAdditionalMounts() as $additionalMount) {
 					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
-					$allMounts[$additionalMount->getMountPoint()] = $additionalMount;
 				}
 			} catch (Exception $e) {
 				$this->logger->error(
