@@ -158,7 +158,12 @@ class UserConfig implements IUserConfig {
 	public function hasKey(string $userId, string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfig($userId, $lazy);
-		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
+
+		// to avoid a loop on hasKey(), we set $default to null
+		// as matchAndApplyLexiconDefinition() will only search
+		// for $default if requested
+		$default = null;
+		$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, default: $default);
 
 		if ($lazy === null) {
 			$appCache = $this->getValues($userId, $app);
@@ -1970,15 +1975,18 @@ class UserConfig implements IUserConfig {
 		}
 
 		$enforcedValue = $this->config->getSystemValue('lexicon.default.userconfig.enforced', [])[$app][$key] ?? false;
+		// only look for default if needed
+		if ($default === null) {
+			return !$enforcedValue;
+		}
+
 		if (!$enforcedValue && $this->hasKey($userId, $app, $key, $lazy)) {
 			// if key exists there should be no need to extract default
 			return true;
 		}
 
-		// only look for default if needed, default from Lexicon got priority if not overwritten by admin
-		if ($default !== null) {
-			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->presetManager->getLexiconPreset()) ?? $default;
-		}
+		// default from Lexicon got priority if not overwritten by admin
+		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->presetManager->getLexiconPreset()) ?? $default;
 
 		// returning false will make get() returning $default and set() not changing value in database
 		return !$enforcedValue;

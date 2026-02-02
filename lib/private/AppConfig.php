@@ -163,7 +163,7 @@ class AppConfig implements IAppConfig {
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig($app, $lazy ?? true);
-		$this->matchAndApplyLexiconDefinition($app, $key);
+		$this->matchAndApplyLexiconDefinition($app, $key, $lazy);
 
 		$hasLazy = isset($this->lazyCache[$app][$key]);
 		$hasFast = isset($this->fastCache[$app][$key]);
