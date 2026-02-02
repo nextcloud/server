@@ -76,8 +76,17 @@ async function onChange() {
 		})
 		mime.value = file.type
 		emit('updated')
+	} catch (error: any) {
+		if (error?.response?.status === 422) {
+			const serverMessage = error.response.data?.data?.message
+			showError(serverMessage || t('theming', 'Failed to upload image'))
+		} else {
+			showError(t('theming', 'Failed to upload image'))
+		}
 	} finally {
 		isSaving.value = false
+		// Reset input to allow re-selecting the same file and show validation errors on every attempt
+		inputElement.value!.value = ''
 	}
 }
 
