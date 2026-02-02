@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\SetupChecks;
 
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
+use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OCP\IL10N;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
@@ -21,7 +22,7 @@ class TwoFactorConfiguration implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Two factor configuration');
+		return $this->l10n->t('Second factor configuration');
 	}
 
 	public function getCategory(): string {
@@ -30,7 +31,9 @@ class TwoFactorConfiguration implements ISetupCheck {
 
 	public function run(): SetupResult {
 		$providers = $this->providerLoader->getProviders();
-		if (count($providers) === 0) {
+		$providerSet = new ProviderSet($providers, false);
+		$primaryProviders = $providerSet->getPrimaryProviders();
+		if (count($primaryProviders) === 0) {
 			return SetupResult::warning($this->l10n->t('This instance has no second factor provider available.'));
 		} else {
 			return SetupResult::success(
@@ -39,7 +42,7 @@ class TwoFactorConfiguration implements ISetupCheck {
 					[
 						implode(', ', array_map(
 							fn ($p) => '"' . $p->getDisplayName() . '"',
-							$providers)
+							$primaryProviders)
 						)
 					]
 				)
