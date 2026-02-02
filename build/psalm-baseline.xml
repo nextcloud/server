@@ -3781,17 +3781,12 @@
       <code><![CDATA[$this->mountManager->findByNumericId($numericId)]]></code>
       <code><![CDATA[$this->mountManager->findByStorageId($storageId)]]></code>
       <code><![CDATA[$this->mountManager->findIn($mountPoint)]]></code>
-      <code><![CDATA[$this->user]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[MountPoint[]]]></code>
       <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
       <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
-      <code><![CDATA[\OC\User\User]]></code>
     </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->user]]></code>
-    </NullableReturnStatement>
     <UndefinedMethod>
       <code><![CDATA[remove]]></code>
     </UndefinedMethod>
