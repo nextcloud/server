@@ -142,7 +142,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.12.2
+	- version: 1.13.4
 	- license: MIT
 - bail
 	- version: 2.0.2
@@ -166,7 +166,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 7.1.2
+	- version: 7.1.3
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
