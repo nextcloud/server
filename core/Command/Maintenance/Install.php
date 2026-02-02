@@ -48,7 +48,9 @@ class Install extends Command {
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
-			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data');
+			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data')
+			->addOption('password-salt', null, InputOption::VALUE_OPTIONAL, 'Password salt, at least ' . Setup::MIN_PASSWORD_SALT_LENGTH . ' characters (will be randomly generated if not provided)')
+			->addOption('server-secret', null, InputOption::VALUE_OPTIONAL, 'Server secret, at least ' . Setup::MIN_SECRET_LENGTH . ' characters (will be randomly generated if not provided)');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -152,6 +154,16 @@ class Install extends Command {
 			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
 		}
 
+		$passwordSalt = $input->getOption('password-salt');
+		$secret = $input->getOption('server-secret');
+
+		if ($passwordSalt !== null && strlen($passwordSalt) < Setup::MIN_PASSWORD_SALT_LENGTH) {
+			throw new InvalidArgumentException('Password salt must be at least ' . Setup::MIN_PASSWORD_SALT_LENGTH . ' characters long.');
+		}
+		if ($secret !== null && strlen($secret) < Setup::MIN_SECRET_LENGTH) {
+			throw new InvalidArgumentException('Server secret must be at least ' . Setup::MIN_SECRET_LENGTH . ' characters long.');
+		}
+
 		$options = [
 			'dbtype' => $db,
 			'dbuser' => $dbUser,
@@ -162,7 +174,9 @@ class Install extends Command {
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
 			'adminemail' => $adminEmail,
-			'directory' => $dataDir
+			'directory' => $dataDir,
+			'passwordsalt' => $passwordSalt,
+			'secret' => $secret,
 		];
 		if ($db === 'oci') {
 			$options['dbtablespace'] = $input->getParameterOption('--database-table-space', '');
