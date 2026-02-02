@@ -14,6 +14,6 @@
 	<namespace>UserPicker</namespace>
 	<category>integration</category>
 	<dependencies>
-		<nextcloud min-version="33" max-version="33"/>
+		<nextcloud min-version="34" max-version="34"/>
 	</dependencies>
 </info>
