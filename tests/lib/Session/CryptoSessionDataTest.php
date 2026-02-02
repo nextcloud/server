@@ -33,7 +33,7 @@ class CryptoSessionDataTest extends Session {
 	private const TAMPERED_BLOB = 'garbage-data';
 	private const MALFORMED_JSON_BLOB = '{not:valid:json}';
 
-	protected ICrypto|MockObject $crypto;
+	protected ICrypto&MockObject $crypto;
 	protected ISession $session;
 
 	protected function setUp(): void {
@@ -171,7 +171,7 @@ class CryptoSessionDataTest extends Session {
 		});
 		$crypto->method('decrypt')->willReturnCallback(function ($input, $passphrase = null) {
 			// Only successfully decrypt if the embedded passphrase matches
-			if (strpos($input, $passphrase . '#') === 0 && strrpos($input, '#' . $passphrase) === strlen($input) - strlen('#' . $passphrase)) {
+			if (str_starts_with($input, $passphrase . '#') && str_ends_with($input, '#' . $passphrase)) {
 				// Strip off passphrase markers and return the "decrypted" string
 				return substr($input, strlen($passphrase . '#'), -strlen('#' . $passphrase));
 			}
