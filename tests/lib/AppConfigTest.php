@@ -51,7 +51,7 @@ class AppConfigTest extends TestCase {
 
 	protected function getAppConfig($cached = false): AppConfig {
 		$this->config->method('getSystemValueBool')
-			->with('cache_app_config', $cached)
+			->with('cache_app_config', true)
 			->willReturn(true);
 		$this->cacheFactory->method('isLocalCacheAvailable')->willReturn($cached);
 		if ($cached) {
