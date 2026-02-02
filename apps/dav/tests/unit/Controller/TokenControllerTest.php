@@ -21,7 +21,6 @@ use OCP\Authentication\Token\IToken;
 use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
-use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 use OCP\Security\Signature\Exceptions\SignatureException;
 use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
