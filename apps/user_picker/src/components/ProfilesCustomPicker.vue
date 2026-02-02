@@ -13,11 +13,11 @@
 				<NcSelect
 					ref="profiles-search-input"
 					v-model="selectedProfile"
-					input-id="profiles-search"
+					inputId="profiles-search"
 					:loading="loading"
 					:filterable="false"
 					:placeholder="t('user_picker', 'Search for a user profile')"
-					:clear-search-on-blur="() => false"
+					:clearSearchOnBlur="() => false"
 					:multiple="false"
 					:options="options"
 					label="displayName"
@@ -83,6 +83,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['submit'],
 
 	data() {
 		return {

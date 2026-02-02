@@ -12,7 +12,7 @@
 					<a :href="richObject.url" target="_blank">
 						<AccountOutline :size="20" />
 						<strong>
-							AAA {{ richObject.email !== null ? richObject.title + ' - ' + richObject.email : richObject.title }}
+							{{ richObject.email !== null ? richObject.title + ' - ' + richObject.email : richObject.title }}
 						</strong>
 					</a>
 				</div>
