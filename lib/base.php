@@ -940,7 +940,7 @@ class OC {
 				};
 
 				$memoryLimitIni = @ini_get('memory_limit');
-				$message = 'Request used ' . Util::humanFileSize($memoryPeak) . ' of memory. Memory limit: ' . ($memoryLimitIni ?: 'unknown');
+				$message = 'Request used ' . Util::humanFileSize($memoryPeak, true) . ' of memory. Memory limit: ' . ($memoryLimitIni ?: 'unknown');
 			} else {
 				// Fall back to hardcoded thresholds if memory_limit cannot be determined or if debug mode is enabled
 				$logLevel = match (true) {
@@ -950,7 +950,7 @@ class OC {
 					default => null,
 				};
 
-				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
+				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak, true);
 			}
 
 			// Log the message
