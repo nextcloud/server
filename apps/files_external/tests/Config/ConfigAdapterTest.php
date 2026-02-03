@@ -214,7 +214,7 @@ class ConfigAdapterTest extends TestCase {
 	public function testPartialMountpointExact(): void {
 		$mountFileInfo = $this->createMock(ICachedMountFileInfo::class);
 		$mountFileInfo->method('getUser')->willReturn($this->user);
-		$mountFileInfo->method('getMountPoint')->willReturn('/user1/files/subfolder/subfolder');
+		$mountFileInfo->method('getMountPoint')->willReturn('/user1/files/subfolder/subfolder/');
 		$cacheEntry = $this->createMock(ICacheEntry::class);
 
 		$result = $this->adapter->getMountsForPath('/user1/files/subfolder/subfolder', true, [
