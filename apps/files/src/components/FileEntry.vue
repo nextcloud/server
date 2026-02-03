@@ -40,7 +40,6 @@
 				ref="name"
 				:basename="basename"
 				:extension="extension"
-				:nodes="nodes"
 				:source="source"
 				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
