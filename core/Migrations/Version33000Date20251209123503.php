@@ -25,7 +25,8 @@ class Version33000Date20251209123503 extends SimpleMigrationStep {
 
 	#[Override]
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
-		$this->connection->truncateTable('mounts', false);
+		// disabled for oracle upgrade as table OC_MOUNTS does not exist (it's oc_mounts)
+		// $this->connection->truncateTable('mounts', false);
 	}
 
 	#[Override]
