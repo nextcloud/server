@@ -27,7 +27,7 @@ use Psr\Container\ContainerExceptionInterface;
 class Util {
 	private const DECIMAL_LABELS = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 	private const BINARY_LABELS = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB'];
-	private const MAX_LANE:_INDEX = 5;
+	private const MAX_LABEL_INDEX = 5;
 
 	private static ?IManager $shareManager = null;
 
