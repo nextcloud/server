@@ -43,6 +43,9 @@ use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
 class Setup {
+	public const MIN_PASSWORD_SALT_LENGTH = 30;
+	public const MIN_SECRET_LENGTH = 48;
+
 	protected IL10N $l10n;
 
 	public function __construct(
@@ -357,10 +360,8 @@ class Setup {
 			$dbType = 'sqlite3';
 		}
 
-		//generate a random salt that is used to salt the local  passwords
-		$salt = $this->random->generate(30);
-		// generate a secret
-		$secret = $this->random->generate(48);
+		$salt = $options['passwordsalt'] ?: $this->random->generate(self::MIN_PASSWORD_SALT_LENGTH);
+		$secret = $options['secret'] ?: $this->random->generate(self::MIN_SECRET_LENGTH);
 
 		//write the config file
 		$newConfigValues = [
