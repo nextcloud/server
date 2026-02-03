@@ -340,7 +340,7 @@ class Manager implements IManager {
 							'numberOfImages cannot be greater than 12',
 							userFacingMessage:
 								$this->l10nFactory->get('core', $this->l10nFactory->getUserLanguage($this->userManager->get($userId)))
-								->t('Cannot generate more than 12 images')
+									->t('Cannot generate more than 12 images')
 						);
 					}
 					if ($input['numberOfImages'] < 1) {
