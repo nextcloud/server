@@ -43,9 +43,9 @@ class CalendarProvider implements ICalendarProvider {
 			});
 		}
 
-		$additionalProperties = $this->getAdditionalPropertiesForCalendars($calendarInfos);
 		$iCalendars = [];
 
+		$additionalProperties = $this->getAdditionalPropertiesForCalendars($calendarInfos);
 		foreach ($calendarInfos as $calendarInfo) {
 			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
 			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
@@ -60,9 +60,7 @@ class CalendarProvider implements ICalendarProvider {
 			);
 		}
 
-		$additionalFederatedProps = $this->getAdditionalPropertiesForCalendars(
-			$federatedCalendarInfos,
-		);
+		$additionalFederatedProps = $this->getAdditionalPropertiesForCalendars($federatedCalendarInfos);
 		foreach ($federatedCalendarInfos as $calendarInfo) {
 			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
 			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
