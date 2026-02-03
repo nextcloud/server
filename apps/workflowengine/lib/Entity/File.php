@@ -136,9 +136,8 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 				if (!$this->event instanceof MapperEvent || $this->event->getObjectType() !== 'files') {
 					throw new NotFoundException();
 				}
-				$nodes = $this->root->getById((int)$this->event->getObjectId());
-				if (is_array($nodes) && isset($nodes[0])) {
-					$this->node = $nodes[0];
+				$this->node = $this->root->getFirstNodeById((int)$this->event->getObjectId());
+				if ($this->node !== null) {
 					return $this->node;
 				}
 				break;
@@ -228,11 +227,11 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		$this->eventName = $contextIDs['eventName'];
 		if ($contextIDs['nodeOwnerId'] !== null) {
 			$userFolder = $this->root->getUserFolder($contextIDs['nodeOwnerId']);
-			$nodes = $userFolder->getById($contextIDs['nodeId']);
+			$node = $userFolder->getFirstNodeById($contextIDs['nodeId']);
 		} else {
-			$nodes = $this->root->getById($contextIDs['nodeId']);
+			$node = $this->root->getFirstNodeById($contextIDs['nodeId']);
 		}
-		$this->node = $nodes[0] ?? null;
+		$this->node = $node;
 		if ($contextIDs['actingUserId']) {
 			$this->actingUser = $this->userManager->get($contextIDs['actingUserId']);
 		}
