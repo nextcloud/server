@@ -165,7 +165,10 @@ class OCSAuthAPIController extends OCSController {
 	}
 
 	protected function isValidToken(string $url, string $token): bool {
+		if ($url === '' || $token === '') {
+			return false;
+		}
 		$storedToken = $this->dbHandler->getToken($url);
-		return hash_equals($storedToken, $token);
+		return $storedToken !== '' && hash_equals($storedToken, $token);
 	}
 }
