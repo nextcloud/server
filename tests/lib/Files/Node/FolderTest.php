@@ -706,8 +706,8 @@ class FolderTest extends NodeTestCase {
 		$node = new Folder($root, $view, '/bar/foo');
 		$result = $node->getById(1);
 		$this->assertEquals(2, count($result));
-		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
-		$this->assertEquals('/bar/foo/asd/foo/qwerty', $result[1]->getPath());
+		$this->assertEquals('/bar/foo/asd/foo/qwerty', $result[0]->getPath());
+		$this->assertEquals('/bar/foo/qwerty', $result[1]->getPath());
 	}
 
 	public static function uniqueNameProvider(): array {

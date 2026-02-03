@@ -368,7 +368,7 @@ class Root extends Folder implements IRootFolder {
 				}
 			}
 		}
-		$node = current($this->getByIdInPath($id, $path));
+		$node = current($this->getByIdInPath($id, $path, true));
 		if (!$node) {
 			return null;
 		}
@@ -380,9 +380,10 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @return INode[]
+	 * @return list<INode>
+	 * @note $onlyFirst is not part of the public API, only used by getFirstNodeByIdInPath
 	 */
-	public function getByIdInPath(int $id, string $path): array {
+	public function getByIdInPath(int $id, string $path, bool $onlyFirst = false): array {
 		$mountCache = $this->getUserMountCache();
 		$setupManager = $this->mountManager->getSetupManager();
 		if ($path !== '' && strpos($path, '/', 1) > 0) {
@@ -405,22 +406,20 @@ class Root extends Folder implements IRootFolder {
 		//
 		// so instead of using the cached entries directly, we instead filter the current mounts by the rootid of the cache entry
 
-		$mountRootIds = array_map(function ($mount) {
-			return $mount->getRootId();
-		}, $mountInfosContainingFiles);
-		$mountRootPaths = array_map(function ($mount) {
-			return $mount->getRootInternalPath();
-		}, $mountInfosContainingFiles);
-		$mountProviders = array_unique(array_map(function ($mount) {
-			return $mount->getMountProvider();
-		}, $mountInfosContainingFiles));
 		$mountPoints = array_map(fn (ICachedMountInfo $mountInfo) => $mountInfo->getMountPoint(), $mountInfosContainingFiles);
-		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
+		/** @var array<int, string> $mountRoots */
+		$mountRoots = [];
+		$mountProviders = [];
+		foreach ($mountInfosContainingFiles as $mountInfo) {
+			$mountRoots[$mountInfo->getRootId()] = $mountInfo->getRootInternalPath();
+			$mountProviders[] = $mountInfo->getMountProvider();
+		}
+		$mountProviders = array_unique($mountProviders);
 
 		$mounts = $this->mountManager->getMountsByMountProvider($path, $mountProviders);
 		$mountsContainingFile = array_filter($mounts, fn (IMountPoint $mount) => in_array($mount->getMountPoint(), $mountPoints));
 
-		// if we haven't found a relevant mount that is setup, but we do have relevant mount infos
+		// if we haven't found a relevant mount that is set up, but we do have relevant mount infos
 		// we try to load them from the mount info.
 		if (count($mountsContainingFile) === 0 && count($mountInfosContainingFiles) > 0) {
 			// in order to minimize the cost of this, we only use the mount infos from one user.
@@ -439,41 +438,37 @@ class Root extends Folder implements IRootFolder {
 			$mountsContainingFile = array_filter(array_map($this->mountManager->getMountFromMountInfo(...), $mountInfosContainingFiles));
 		}
 
-		if (count($mountsContainingFile) === 0) {
-			if ($user === $this->getAppDataDirectoryName()) {
-				$folder = $this->get($path);
-				if ($folder instanceof Folder) {
-					return $folder->getByIdInRootMount($id);
-				} else {
-					throw new \Exception('getByIdInPath with non folder');
-				}
-			}
-			return [];
-		}
+		$userManager = Server::get(IUserManager::class);
+		$foundMount = false;
+		$nodes = [];
+		usort($mountsContainingFile, static fn (IMountPoint $a, IMountPoint $b): int => $b->getMountPoint() <=> $a->getMountPoint());
+		foreach ($mountsContainingFile as $mount) {
+			$foundMount = true;
 
-		$nodes = array_map(function (IMountPoint $mount) use ($id, $mountRoots) {
-			$rootInternalPath = $mountRoots[$mount->getStorageRootId()];
-			$cacheEntry = $mount->getStorage()->getCache()->get($id);
-			if (!$cacheEntry) {
-				return null;
+			$storage = $mount->getStorage();
+			if ($storage === null) {
+				continue;
 			}
+
+			$cacheEntry = $storage->getCache()->get($id);
+			if ($cacheEntry === false) {
+				continue;
+			}
+
+			$rootInternalPath = $mountRoots[$mount->getStorageRootId()];
 
 			// cache jails will hide the "true" internal path
 			$internalPath = ltrim($rootInternalPath . '/' . $cacheEntry->getPath(), '/');
 			$pathRelativeToMount = substr($internalPath, strlen($rootInternalPath));
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
 			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
-			$storage = $mount->getStorage();
-			if ($storage === null) {
-				return null;
-			}
 			$ownerId = $storage->getOwner($pathRelativeToMount);
 			if ($ownerId !== false) {
-				$owner = Server::get(IUserManager::class)->get($ownerId);
+				$owner = $userManager->get($ownerId);
 			} else {
 				$owner = null;
 			}
-			return $this->createNode($absolutePath, new FileInfo(
+			$node = $this->createNode($absolutePath, new FileInfo(
 				$absolutePath,
 				$storage,
 				$cacheEntry->getPath(),
@@ -481,15 +476,28 @@ class Root extends Folder implements IRootFolder {
 				$mount,
 				$owner,
 			));
-		}, $mountsContainingFile);
 
-		$nodes = array_filter($nodes);
+			if (PathHelper::getRelativePath($path, $node->getPath()) !== null) {
+				$nodes[] = $node;
+				if ($onlyFirst) {
+					return $nodes;
+				}
+			}
+		}
 
-		$folders = array_filter($nodes, function (Node $node) use ($path) {
-			return PathHelper::getRelativePath($path, $node->getPath()) !== null;
-		});
-		usort($folders, static fn (Node $a, Node $b): int => $b->getPath() <=> $a->getPath());
-		return $folders;
+		if (!$foundMount) {
+			if ($user === $this->getAppDataDirectoryName()) {
+				$folder = $this->get($path);
+				if ($folder instanceof Folder) {
+					return $folder->getByIdInRootMount($id);
+				} else {
+					throw new \RuntimeException('getByIdInPath with non folder');
+				}
+			}
+			return [];
+		}
+
+		return $nodes;
 	}
 
 	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
