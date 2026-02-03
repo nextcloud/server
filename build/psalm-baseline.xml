@@ -1627,11 +1627,9 @@
   <file src="apps/files_sharing/lib/MountProvider.php">
     <InternalClass>
       <code><![CDATA[new View('/' . $owner . '/files')]]></code>
-      <code><![CDATA[new View('/' . $userId . '/files')]]></code>
     </InternalClass>
     <InternalMethod>
       <code><![CDATA[new View('/' . $owner . '/files')]]></code>
-      <code><![CDATA[new View('/' . $userId . '/files')]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_sharing/lib/Scanner.php">

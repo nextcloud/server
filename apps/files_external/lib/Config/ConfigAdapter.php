@@ -134,11 +134,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 		}, $storages, $storageConfigs);
 	}
 
-	/**
-	 * Get all mountpoints applicable for the user
-	 *
-	 * @return IMountPoint[]
-	 */
+	#[Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		$this->userStoragesService->setUser($user);
 		$this->userGlobalStoragesService->setUser($user);
