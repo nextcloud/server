@@ -541,6 +541,8 @@ class FolderTest extends NodeTestCase {
 
 		$manager->method('getMountFromMountInfo')
 			->willReturn($mount);
+		$manager->method('getMountsByMountProvider')
+			->willReturn([$mount]);
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$result = $node->getById(1);
@@ -586,6 +588,8 @@ class FolderTest extends NodeTestCase {
 
 		$manager->method('getMountFromMountInfo')
 			->willReturn($mount);
+		$manager->method('getMountsByMountProvider')
+			->willReturn([$mount]);
 
 		$node = new Folder($root, $view, '/bar');
 		$result = $node->getById(1);
@@ -631,6 +635,8 @@ class FolderTest extends NodeTestCase {
 
 		$manager->method('getMountFromMountInfo')
 			->willReturn($mount);
+		$manager->method('getMountsByMountProvider')
+			->willReturn([$mount]);
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$result = $node->getById(1);
@@ -694,6 +700,8 @@ class FolderTest extends NodeTestCase {
 				}
 				return null;
 			});
+		$manager->method('getMountsByMountProvider')
+			->willReturn([$mount1, $mount2]);
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$result = $node->getById(1);
