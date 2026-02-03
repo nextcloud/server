@@ -1980,9 +1980,6 @@
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
-      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
-      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
-      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -1990,8 +1987,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[implementsActions]]></code>
-      <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[search]]></code>
       <code><![CDATA[search]]></code>
@@ -2337,8 +2332,6 @@
   </file>
   <file src="apps/theming/lib/Controller/ThemingController.php">
     <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
