@@ -304,6 +304,7 @@ OC.L10N.register(
     "Loading your contacts …" : "Chargement de vos contacts...",
     "Looking for {term} …" : "Recherche de {term}...",
     "Search contacts" : "Rechercher des contacts",
+    "All teams" : "Toutes les équipes",
     "Search contacts …" : "Rechercher un contact...",
     "Reset search" : "Réinitialiser la recherche",
     "Could not load your contacts" : "Impossible de charger vos contacts",
