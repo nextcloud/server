@@ -94,6 +94,7 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+		$this->initialState->provideInitialState('isAllInOne', filter_var(getenv('THIS_IS_AIO'), FILTER_VALIDATE_BOOL));
 
 		$groups = array_map(static fn (IGroup $group): array => [
 			'id' => $group->getGID(),
