@@ -42,8 +42,6 @@
 				ref="name"
 				:basename="basename"
 				:extension="extension"
-				:grid-mode="true"
-				:nodes="nodes"
 				:source="source"
 				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
