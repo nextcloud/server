@@ -7,7 +7,7 @@
 import type { AdminThemingParameters } from '../../types.d.ts'
 
 import { mdiImageOutline, mdiUndo } from '@mdi/js'
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
@@ -76,8 +76,8 @@ async function onChange() {
 		})
 		mime.value = file.type
 		emit('updated')
-	} catch (error: any) {
-		if (error?.response?.status === 422) {
+	} catch (error) {
+		if (isAxiosError(error) && error.response?.status === 422) {
 			const serverMessage = error.response.data?.data?.message
 			showError(serverMessage || t('theming', 'Failed to upload image'))
 		} else {
