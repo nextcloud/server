@@ -371,6 +371,7 @@ class Util {
 		for ($unitIndex = 1; $unitIndex <= self::MAX_LABEL_INDEX; $unitIndex++) {
 			$value = round($value / 1024, 1);
 			if ($value < 1024 || $unitIndex === self::MAX_LABEL_INDEX) {
+				/** @var int<0, 5> $unitIndex */
 				return "$value {$units[$unitIndex]}";
 			}
 		}
