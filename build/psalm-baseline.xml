@@ -3640,7 +3640,6 @@
   </file>
   <file src="lib/private/Files/Node/Root.php">
     <LessSpecificReturnStatement>
-      <code><![CDATA[$folders]]></code>
       <code><![CDATA[$this->mountManager->findByNumericId($numericId)]]></code>
       <code><![CDATA[$this->mountManager->findByStorageId($storageId)]]></code>
       <code><![CDATA[$this->mountManager->findIn($mountPoint)]]></code>

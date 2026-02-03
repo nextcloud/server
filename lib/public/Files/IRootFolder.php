@@ -36,7 +36,7 @@ interface IRootFolder extends Folder, Emitter {
 	 *
 	 * @param int $id
 	 * @param string $path
-	 * @return Node[]
+	 * @return list<Node>
 	 *
 	 * @since 24.0.0
 	 */
