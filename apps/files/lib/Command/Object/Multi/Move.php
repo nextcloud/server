@@ -74,8 +74,9 @@ class Move extends Base {
 			return 1;
 		}
 
+		$allowIdenticalBuckets = $this->objectStoreConfig->allowIdenticalBucketNames();
 		try {
-			$targetValid = $this->validateForUser($user, $objectStore, $bucket);
+			$targetValid = $this->validateForUser($user, $objectStore, $bucket, $allowIdenticalBuckets);
 		} catch (\Exception $e) {
 			$output->writeln('Object store <info>' . $objectStore . '</info> and bucket <info>' . $bucket . '</info> invalid for <info>' . $userId . '</info>: ' . $e->getMessage());
 
@@ -96,7 +97,7 @@ class Move extends Base {
 		return 0;
 	}
 
-	private function validateForUser(IUser $user, string $targetObjectStore, string $targetBucket): bool {
+	private function validateForUser(IUser $user, string $targetObjectStore, string $targetBucket, bool $allowIdenticalBuckets = false): bool {
 		$currentObjectStore = $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'objectstore');
 		if ($currentObjectStore === '') {
 			throw new \Exception('No object store set for ' . $user->getUID() . '. Please set an object store and bucket before proceeding.');
@@ -107,7 +108,7 @@ class Move extends Base {
 			throw new \Exception('No bucket set for ' . $user->getUID() . '. Please set a bucket before proceeding.');
 		}
 		if ($currentBucket === $targetBucket) {
-			if ($currentObjectStore !== $targetObjectStore) {
+			if ($currentObjectStore !== $targetObjectStore && !$allowIdenticalBuckets) {
 				throw new \Exception('Bucket names must be unique');
 			}
 

@@ -144,7 +144,7 @@ class PrimaryObjectStoreConfig {
 		foreach ($configs as $config) {
 			if (is_array($config)) {
 				$bucket = $config['arguments']['bucket'] ?? '';
-				if (in_array($bucket, $usedBuckets)) {
+				if (in_array($bucket, $usedBuckets) && !$this->allowIdenticalBucketNames()) {
 					throw new InvalidObjectStoreConfigurationException('Each object store configuration must use distinct bucket names');
 				}
 				$usedBuckets[] = $bucket;
@@ -234,5 +234,14 @@ class PrimaryObjectStoreConfig {
 		} else {
 			return 'default';
 		}
+	}
+
+	public function allowIdenticalBucketNames(): bool {
+		$config = $this->config->getSystemValue('objectstore', null);
+		if (is_array($config)) {
+			return $config['identical_bucket_names'];
+		}
+
+		return false;
 	}
 }
