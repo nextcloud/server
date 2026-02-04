@@ -246,6 +246,7 @@ import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
 import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -279,6 +280,7 @@ export default {
 		NcActionSeparator,
 		NcAvatar,
 		NcDialog,
+		NcIconSvgWrapper,
 		VueQrcode,
 		Tune,
 		IconCalendarBlank,
