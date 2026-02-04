@@ -165,7 +165,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Клацніть для повторної перевірки налаштувань",
     "Saving …" : "Збереження …",
     "Failed to save global credentials" : "Не вдалося зберегти глобальні облікові дані",
-    "Failed to save global credentials: {message}" : "Не вдалося зберегти глобальні облікові дані: {повідомлення}",
+    "Failed to save global credentials: {message}" : "Не вдалося зберегти глобальні облікові дані: {message}",
     "No external storage configured or you don't have the permission to configure them" : "Зовнішнє сховище не налаштовано або ви не маєте дозволу на їх налаштування",
     "Open documentation" : "Відкрити документацію",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services." : "Зовнішнє сховище дає змогу підключати зовнішні сервіси та пристрої для зберігання даних як вторинні пристрої Nextcloud. Ви також можете дозволити користувачам монтувати власні зовнішні сховища.",
