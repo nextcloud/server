@@ -22,12 +22,14 @@ use OC\User\BackgroundJobs\CleanupDeletedUsers;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\Install\Events\InstallationCompletedEvent;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -50,6 +52,7 @@ class Setup {
 		protected LoggerInterface $logger,
 		protected ISecureRandom $random,
 		protected Installer $installer,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 		$this->l10n = $l10nFactory->get('lib');
 	}
@@ -493,6 +496,13 @@ class Setup {
 				$user->setSystemEMailAddress($options['adminemail']);
 			}
 		}
+
+		// Dispatch installation completed event
+		$adminUsername = !$disableAdminUser ? ($options['adminlogin'] ?? null) : null;
+		$adminEmail = !empty($options['adminemail']) ? $options['adminemail'] : null;
+		$this->eventDispatcher->dispatchTyped(
+			new InstallationCompletedEvent($dataDir, $adminUsername, $adminEmail)
+		);
 
 		return $error;
 	}
