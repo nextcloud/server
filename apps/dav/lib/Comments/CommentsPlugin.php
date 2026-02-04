@@ -157,6 +157,7 @@ class CommentsPlugin extends ServerPlugin {
 		if (!is_null($args['datetime'])) {
 			$args['datetime'] = new \DateTime((string)$args['datetime']);
 		}
+		$args['limit'] = min(max(1, $args['limit']), 100);
 
 		$results = $node->findChildren($args['limit'], $args['offset'], $args['datetime']);
 
