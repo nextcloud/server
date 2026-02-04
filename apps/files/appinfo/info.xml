@@ -45,7 +45,8 @@
 		<command>OCA\Files\Command\Object\Get</command>
 		<command>OCA\Files\Command\Object\Put</command>
 		<command>OCA\Files\Command\Object\Multi\Users</command>
-		<command>OCA\Files\Command\Object\Multi\Rename</command>
+		<command>OCA\Files\Command\Object\Multi\Move</command>
+		<command>OCA\Files\Command\Object\Multi\PreMigrate</command>
 	</commands>
 
 	<activity>
