@@ -67,6 +67,18 @@ class ObjectStoreStorageTest extends Storage {
 		}
 	}
 
+	public function testWriteStreamNormalizesPath(): void {
+		$this->instance->mkdir('files');
+		$this->instance->mkdir('files/user');
+
+		$this->instance->file_put_contents('files//user/test.txt', 'foo');
+
+		$cache = $this->instance->getCache();
+		$this->assertTrue($cache->inCache('files/user/test.txt'));
+		$this->assertFalse($cache->inCache('files//user/test.txt'));
+		$this->assertEquals('foo', $this->instance->file_get_contents('files/user/test.txt'));
+	}
+
 	public function testCheckUpdate(): void {
 		$this->markTestSkipped('Detecting external changes is not supported on object storages');
 	}

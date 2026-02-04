@@ -123,7 +123,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private function normalizePath(string $path): string {
 		$path = trim($path, '/');
 		//FIXME why do we sometimes get a path like 'files//username'?
-		$path = str_replace('//', '/', $path);
+		$path = preg_replace('#/{2,}#', '/', $path);
 
 		// dirname('/folder') returns '.' but internally (in the cache) we store the root as ''
 		if (!$path || $path === '.') {
@@ -456,6 +456,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
+		$path = $this->normalizePath($path);
 		if ($size === null) {
 			$stats = fstat($stream);
 			if (is_array($stats) && isset($stats['size'])) {
