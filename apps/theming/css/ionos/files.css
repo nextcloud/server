@@ -227,6 +227,8 @@ div.v-popper--theme-dropdown.v-popper__popper:has(.v-popper__wrapper), .header-m
 			padding: 2px 12px;
 			border-radius: inherit;
 			background-color: var(--ion-context-menu-background);
+			/* Reserve space for header and popover margins/spacing */
+			max-height: calc(100vh - var(--header-height) - 100px);
 
 			li.action:has(button.action-button), li.list-item__wrapper {
 				&.active, &.list-item__wrapper--active>.list-item {
