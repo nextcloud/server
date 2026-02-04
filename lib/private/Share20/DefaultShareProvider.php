@@ -1076,7 +1076,7 @@ class DefaultShareProvider implements
 	 * @return \OCP\Share\IShare
 	 * @throws InvalidShare
 	 */
-	private function createShare($data) {
+	private function createShare($data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
