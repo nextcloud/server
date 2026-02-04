@@ -18,12 +18,12 @@ jobs:
 
     steps:
       - name: Check actor permission
-        uses: skjnldsv/check-actor-permission@v2
+        uses: skjnldsv/check-actor-permission@e591dbfe838300c007028e1219ca82cc26e8d7c5 # v2.1
         with:
           require: write
 
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae # v1.4.5
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
@@ -31,7 +31,7 @@ jobs:
           reaction-type: "+1"
 
       - name: Parse command
-        uses: skjnldsv/parse-command-comment@master
+        uses: skjnldsv/parse-command-comment@7cef1df370a99dfd5bf896d50121390c96785db8 # v2.0
         id: command
 
       # Init path depending on which command is run
@@ -45,7 +45,7 @@ jobs:
           fi
 
       - name: Init branch
-        uses: xt0rted/pull-request-comment-branch@v1
+        uses: xt0rted/pull-request-comment-branch@653a7d5ca8bd91d3c5cb83286063314d0b063b8e # v1.4.0
         id: comment-branch
     
   process:
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
@@ -66,14 +66,14 @@ jobs:
           git config --local user.name "nextcloud-command"
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@v1
+        uses: skjnldsv/read-package-engines-version-actions@1bdcee71fa343c46b18dc6aceffb4cd1e35209c6 # v1.2
         id: package-engines-versions
         with:
           fallbackNode: '^12'
           fallbackNpm: '^6'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
@@ -108,7 +108,7 @@ jobs:
           git push --force origin ${{ needs.init.outputs.head_ref }}
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@a35cf36e5301d70b76f316e867e7788a55a31dae # v1.4.5
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
