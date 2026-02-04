@@ -12,6 +12,7 @@ use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share\Helper;
+use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
@@ -64,6 +65,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * This class is the communication hub for all sharing related operations.
+ *
+ * @psalm-import-type ShareRow from IManager
  */
 class Manager implements IManager {
 
@@ -998,6 +1001,48 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
+	/**
+	 * @param array<string, mixed> $data
+	 * @return ShareRow
+	 */
+	private function formatShare(array $data): array {
+		 $result = [
+			'id' => (string)$data['id'],
+			'type' => (int)$data['share_type'],
+			'permissions' => (int)$data['permissions'],
+			'file_target' => $data['file_target'],
+			'mail_send' => (bool)$data['mail_send'],
+			'accepted' => (int)$data['accepted'],
+			'label' => $data['label'] ?? '',
+			'stime' => (int)$data['stime'],
+			'share_with' => $data['share_with'],
+			'password' => $data['password'],
+			'password_by_talk' => (bool)$data['password_by_talk'],
+			'token' => $data['token'],
+			'attributes' => $data['attributes'],
+			'expiration' => $data['expiration'],
+			'hide_download' => (int)$data['hide_download'] === 1,
+			'reminder_sent' => (bool)$data['hide_download'],
+		];
+
+		if (isset($data['f_permissions'])) {
+			$result = array_merge($data, $result);
+		}
+
+		return $result;
+	}
+
+	private function createShareFromData(array $data): ?IShare {
+		$share = $this->formatShare($data);
+		try {
+			$provider = $this->factory->getProviderForType($share['share_type']);
+		} catch (ProviderException $e) {
+			throw new InvalidShare("Could not create a share provider for share type " . $share['share_type'], previous: $e);
+		}
+
+		return $provider->createShare($share);
+	}
+
 	/** Promote re-shares into direct shares so that target user keeps access */
 	protected function promoteReshares(IShare $share): void {
 		try {
@@ -1038,7 +1083,7 @@ class Manager implements IManager {
 
 		// Figure out which users has some shares with which providers
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('uid_initiator', 'share_type')
+		$qb->select('*')
 			->from('share')
 			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
 			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)))
@@ -1060,50 +1105,30 @@ class Manager implements IManager {
 		$qb->orderBy('id');
 
 		$cursor = $qb->executeQuery();
-		$rawShares = [];
-		while ($data = $cursor->fetch()) {
-			if (!isset($rawShares[$data['uid_initiator']])) {
-				$rawShares[$data['uid_initiator']] = [];
+		/** @var <IShare::TYPE_*, IShareProvider> $providers */
+		while ($data = $cursor->fetchAssociative()) {
+			try {
+				$share = $this->createShareFromData($data);
+			} catch (InvalidShare) {
+				continue;
 			}
-			if (!in_array($data['share_type'], $rawShares[$data['uid_initiator']], true)) {
-				$rawShares[$data['uid_initiator']][] = $data['share_type'];
+
+			if ($node instanceof Folder) {
+				try {
+					$path = $share->getNode()->getPath();
+				} catch (NotFoundException) {
+					/* Ignore share of non-existing node */
+					continue;
+				}
+				if ($node->getRelativePath($path) !== null) {
+					/* If relative path is not null it means the shared node is the same or in a subfolder */
+					$reshareRecords[] = $share;
+				}
+			} else {
+				$reshareRecords[] = $share;
 			}
 		}
 		$cursor->closeCursor();
-
-		foreach ($rawShares as $userId => $shareTypes) {
-			foreach ($shareTypes as $shareType) {
-				try {
-					$provider = $this->factory->getProviderForType($shareType);
-				} catch (ProviderException) {
-					continue;
-				}
-
-
-				if ($node instanceof Folder) {
-					/* We need to get all shares by this user to get subshares */
-					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
-
-					foreach ($shares as $share) {
-						try {
-							$path = $share->getNode()->getPath();
-						} catch (NotFoundException) {
-							/* Ignore share of non-existing node */
-							continue;
-						}
-						if ($node->getRelativePath($path) !== null) {
-							/* If relative path is not null it means the shared node is the same or in a subfolder */
-							$reshareRecords[] = $share;
-						}
-					}
-				} else {
-					$shares = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
-					foreach ($shares as $child) {
-						$reshareRecords[] = $child;
-					}
-				}
-			}
-		}
 
 		foreach ($reshareRecords as $child) {
 			try {
@@ -1404,52 +1429,28 @@ class Manager implements IManager {
 		if ($this->userManager->userExists($token)) {
 			throw new ShareNotFound();
 		}
-		$share = null;
-		try {
-			if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
-				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
-				$share = $provider->getShareByToken($token);
-			}
-		} catch (ProviderException|ShareNotFound) {
-		}
 
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->executeQuery();
 
-		// If it is not a link share try to fetch a federated share by token
-		if ($share === null) {
-			try {
-				$provider = $this->factory->getProviderForType(IShare::TYPE_REMOTE);
-				$share = $provider->getShareByToken($token);
-			} catch (ProviderException|ShareNotFound) {
-			}
-		}
+		$data = $result->fetchAssociative();
 
-		// If it is not a link share try to fetch a mail share by token
-		if ($share === null && $this->shareProviderExists(IShare::TYPE_EMAIL)) {
-			try {
-				$provider = $this->factory->getProviderForType(IShare::TYPE_EMAIL);
-				$share = $provider->getShareByToken($token);
-			} catch (ProviderException|ShareNotFound) {
-			}
-		}
-
-		if ($share === null && $this->shareProviderExists(IShare::TYPE_CIRCLE)) {
-			try {
-				$provider = $this->factory->getProviderForType(IShare::TYPE_CIRCLE);
-				$share = $provider->getShareByToken($token);
-			} catch (ProviderException|ShareNotFound) {
-			}
-		}
-
-		if ($share === null && $this->shareProviderExists(IShare::TYPE_ROOM)) {
-			try {
-				$provider = $this->factory->getProviderForType(IShare::TYPE_ROOM);
-				$share = $provider->getShareByToken($token);
-			} catch (ProviderException|ShareNotFound) {
-			}
-		}
-
-		if ($share === null) {
+		if ($data === false) {
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
+		}
+
+		try {
+			$share = $this->createShareFromData($data);
+		} catch (InvalidShare) {
+			throw new ShareNotFound($this->l->t('The requested share is invalid'));
+		}
+
+		if ($share->getShareType() === IShare::TYPE_LINK && !$this->appConfig->getValueBool('core', 'shareapi_allow_links', true)) {
+			throw new ShareNotFound($this->l->t('Share links are not allowed'));
 		}
 
 		$this->checkShare($share);
@@ -1910,11 +1911,17 @@ class Manager implements IManager {
 
 	#[Override]
 	public function getAllShares(): iterable {
-		$providers = $this->factory->getAllProviders();
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('*')
+			->from('share')
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->executeQuery();
 
-		foreach ($providers as $provider) {
-			yield from $provider->getAllShares();
+		while ($row = $result->fetchAssociative()) {
+			yield $this->createShareFromData($row);
 		}
+
+		$result->closeCursor();
 	}
 
 	#[Override]

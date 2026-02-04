@@ -7,6 +7,7 @@
  */
 namespace OCP\Share;
 
+use OC\Share20\Exception\InvalidShare;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Share\Exceptions\GenericShareException;
@@ -15,6 +16,30 @@ use OCP\Share\Exceptions\ShareNotFound;
 /**
  * Interface IShareProvider
  *
+ * @psalm-type ShareRow = array{
+ *      id: string,
+ *      share_type: int,
+ *      permissions: int,
+ *      file_target: string,
+ *      note: string,
+ *      mail_send: bool,
+ *      accepted: int,
+ *      label: string,
+ *      stime: int,
+ *      share_with: string,
+ *      password: string,
+ *      password_by_talk: bool,
+ *      attributes: ?string,
+ *      uid_initiator: ?string,
+ *      uid_owner: string,
+ *      file_source: int,
+ *      item_type: string,
+ *      expiration: ?string,
+ *      f_permissions?: int,
+ *      hide_download: bool,
+ *      reminder_sent: bool,
+ *      ...mixed
+ *  }
  * @since 9.0.0
  */
 interface IShareProvider {
@@ -123,7 +148,7 @@ interface IShareProvider {
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
-	public function getShareById($id, $recipientId = null);
+	public function getShareById(string $id, ?string $recipientId = null);
 
 	/**
 	 * Get shares for a given path
@@ -216,4 +241,12 @@ interface IShareProvider {
 	 * @since 9.0.0
 	 */
 	public function getChildren(IShare $parent);
+
+	/**
+	 * Create share from a database row.
+	 *
+	 * @param ShareRow $data
+	 * @throws InvalidShare
+	 */
+	public function createShare(array $data): IShare;
 }

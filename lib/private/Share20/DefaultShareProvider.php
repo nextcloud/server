@@ -38,6 +38,7 @@ use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
+use Override;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
@@ -736,9 +737,7 @@ class DefaultShareProvider implements
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
+	#[Override]
 	public function getShareById($id, $recipientId = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -1030,13 +1029,8 @@ class DefaultShareProvider implements
 		return $share;
 	}
 
-	/**
-	 * Create a share object from a database row
-	 *
-	 * @param array<string, mixed> $data
-	 * @throws InvalidShare
-	 */
-	private function createShare($data): IShare {
+	#[Override]
+	public function createShare(array $data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
@@ -1665,23 +1659,8 @@ class DefaultShareProvider implements
 	}
 
 	public function getAllShares(): iterable {
-		$qb = $this->dbConn->getQueryBuilder();
-
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK], IQueryBuilder::PARAM_INT_ARRAY)));
-
-		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
-			try {
-				$share = $this->createShare($data);
-			} catch (InvalidShare $e) {
-				continue;
-			}
-
-			yield $share;
-		}
-		$cursor->closeCursor();
+		// No used anymore
+		return;
 	}
 
 	/**

@@ -117,7 +117,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			$data['password'] = $password;
 		}
 
-		return $this->createShareObject($data);
+		return $this->createShare($data);
 	}
 
 	/**
@@ -651,7 +651,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetchAssociative()) {
-			$children[] = $this->createShareObject($data);
+			$children[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
@@ -846,7 +846,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
-			$shares[] = $this->createShareObject($data);
+			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
@@ -875,7 +875,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$data['id'] = (string)$data['id'];
 
 		try {
-			$share = $this->createShareObject($data);
+			$share = $this->createShare($data);
 		} catch (InvalidShare $e) {
 			throw new ShareNotFound();
 		}
@@ -900,7 +900,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
 			$data['id'] = (string)$data['id'];
-			$shares[] = $this->createShareObject($data);
+			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
@@ -939,7 +939,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$cursor = $qb->executeQuery();
 
 		while ($data = $cursor->fetchAssociative()) {
-			$shares[] = $this->createShareObject($data);
+			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
@@ -970,7 +970,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$data['id'] = (string)$data['id'];
 
 		try {
-			$share = $this->createShareObject($data);
+			$share = $this->createShare($data);
 		} catch (InvalidShare $e) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
@@ -994,7 +994,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @throws InvalidShare
 	 * @throws ShareNotFound
 	 */
-	protected function createShareObject(array $data): IShare {
+	public function createShare(array $data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
@@ -1159,7 +1159,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
-			$shares[$data['fileid']][] = $this->createShareObject($data);
+			$shares[$data['fileid']][] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
@@ -1215,7 +1215,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetchAssociative()) {
 			try {
-				$share = $this->createShareObject($data);
+				$share = $this->createShare($data);
 			} catch (InvalidShare $e) {
 				continue;
 			} catch (ShareNotFound $e) {
