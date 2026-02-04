@@ -17,6 +17,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;

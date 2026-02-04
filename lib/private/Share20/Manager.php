@@ -24,6 +24,7 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -83,6 +84,7 @@ class Manager implements IManager {
 		private ShareDisableChecker $shareDisableChecker,
 		private IDateTimeZone $dateTimeZone,
 		private IAppConfig $appConfig,
+		private IDBConnection $connection,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
 		// The constructor of LegacyHooks registers the listeners of share events
@@ -1068,13 +1070,49 @@ class Manager implements IManager {
 			IShare::TYPE_EMAIL,
 		];
 
-		foreach ($userIds as $userId) {
+		// Figure out which users has some shares with which providers
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('uid_initiator', 'share_type')
+			->from('share')
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->in('uid_initiator', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)),
+					// Special case for old shares created via the web UI
+					$qb->expr()->andX(
+						$qb->expr()->in('uid_owner', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)),
+						$qb->expr()->isNull('uid_initiator')
+					)
+				)
+			);
+
+		if (!$node instanceof Folder) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)));
+		}
+
+		$qb->orderBy('id');
+
+		$cursor = $qb->executeQuery();
+		$rawShares = [];
+		while ($data = $cursor->fetch()) {
+			if (!isset($rawShares[$data['uid_initiator']])) {
+				$rawShares[$data['uid_initiator']] = [];
+			}
+			if (!in_array($data['share_type'], $rawShares[$data['uid_initiator']], true)) {
+				$rawShares[$data['uid_initiator']][] = $data['share_type'];
+			}
+		}
+		$cursor->closeCursor();
+
+		foreach ($rawShares as $userId => $shareTypes) {
 			foreach ($shareTypes as $shareType) {
 				try {
 					$provider = $this->factory->getProviderForType($shareType);
-				} catch (ProviderException $e) {
+				} catch (ProviderException) {
 					continue;
 				}
+
 
 				if ($node instanceof Folder) {
 					/* We need to get all shares by this user to get subshares */

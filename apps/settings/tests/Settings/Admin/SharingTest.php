@@ -17,6 +17,7 @@ use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
+#[Group(name: 'DB')]
 class SharingTest extends TestCase {
 	/** @var Sharing */
 	private $admin;
