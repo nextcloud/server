@@ -121,25 +121,31 @@ class DBConfigService {
 	public function getMountsForUserAndPath(string $userId, array $groupIds, string $path, bool $forChildren): array {
 		$path = str_replace('/' . $userId . '/files', '', $path);
 		$path = rtrim($path, '/');
+		if ($path === '') {
+			$nonChildPath = '/';
+		} else {
+			$nonChildPath = $path;
+		}
+
 		$builder = $this->getSelectQueryBuilder();
+		$pathFilter = $forChildren
+			? $builder->expr()->like('m.mount_point', $builder->createNamedParameter($this->connection->escapeLikeParameter($path) . '/_%', IQueryBuilder::PARAM_STR))
+			: $builder->expr()->eq('m.mount_point', $builder->createNamedParameter($nonChildPath, IQueryBuilder::PARAM_STR));
 		$builder->where($builder->expr()->orX(
 			$builder->expr()->andX( // global mounts
 				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GLOBAL, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->isNull('a.value'),
-				$forChildren ? $builder->expr()->like('m.mount_point', $builder->createNamedParameter($this->connection->escapeLikeParameter($path) . '_%', IQueryBuilder::PARAM_STR))
-							 : $builder->expr()->eq('m.mount_point', $builder->createNamedParameter($path, IQueryBuilder::PARAM_STR)),
+				$pathFilter,
 			),
 			$builder->expr()->andX( // mounts for user
 				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_USER, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->eq('a.value', $builder->createNamedParameter($userId)),
-				$forChildren ? $builder->expr()->like('m.mount_point', $builder->createNamedParameter($this->connection->escapeLikeParameter($path) . '_%', IQueryBuilder::PARAM_STR))
-							 : $builder->expr()->eq('m.mount_point', $builder->createNamedParameter($path, IQueryBuilder::PARAM_STR)),
+				$pathFilter,
 			),
 			$builder->expr()->andX( // mounts for group
 				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GROUP, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->in('a.value', $builder->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)),
-				$forChildren ? $builder->expr()->like('m.mount_point', $builder->createNamedParameter($this->connection->escapeLikeParameter($path) . '_%', IQueryBuilder::PARAM_STR))
-							 : $builder->expr()->eq('m.mount_point', $builder->createNamedParameter($path, IQueryBuilder::PARAM_STR)),
+				$pathFilter,
 			),
 		));
 
@@ -157,7 +163,7 @@ class DBConfigService {
 			->where($builder->expr()->andX( // global mounts
 				$builder->expr()->eq('a.type', $builder->createNamedParameter(self::APPLICABLE_TYPE_GLOBAL, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->isNull('a.value'),
-			), );
+			));
 
 		return $this->getMountsFromQuery($query);
 	}
