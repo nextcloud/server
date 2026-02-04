@@ -143,17 +143,13 @@ class ShareesAPIController extends OCSController {
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
-		} elseif ($itemType === 'contacts') {
+		} elseif ($itemType === 'teams') {
 			if ($this->shareManager->allowGroupSharing()) {
 				$shareTypes[] = IShare::TYPE_GROUP;
 			}
 
 			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 				$shareTypes[] = IShare::TYPE_REMOTE;
-			}
-
-			if ($this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled()) {
-				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
 			}
 
 			$shareTypes[] = IShare::TYPE_EMAIL;
