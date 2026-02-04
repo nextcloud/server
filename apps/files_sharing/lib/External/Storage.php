@@ -113,12 +113,11 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	/**
-	 * Refresh the access token by exchanging the refresh token.
-	 * Updates both the in-memory password and the database.
+	 * Refresh the bearer token. Extends parent to also persist to database.
 	 *
 	 * @return bool True if token was refreshed successfully
 	 */
-	protected function refreshAccessToken(): bool {
+	protected function refreshBearerToken(): bool {
 		if ($this->tokenRefreshed) {
 			// only try to refresh once per request
 			return false;
@@ -133,6 +132,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 			$this->ready = false;
 			$this->client = null;
+			$this->init();
 
 			$this->logger->debug('Successfully refreshed access token', ['app' => 'files_sharing']);
 			return true;
@@ -142,30 +142,6 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				'exception' => $e,
 			]);
 			return false;
-		}
-	}
-
-	/**
-	 * Execute an operation with automatic token refresh on 401 errors.
-	 *
-	 * @template T
-	 * @param callable(): T $operation The operation to execute
-	 * @return T
-	 * @throws \Exception
-	 */
-	protected function withTokenRefresh(callable $operation) {
-		try {
-			return $operation();
-		} catch (\Sabre\HTTP\ClientHttpException $e) {
-			if ($e->getHttpStatus() === 401 && $this->refreshAccessToken()) {
-				return $operation();
-			}
-			throw $e;
-		} catch (\Sabre\DAV\Exception\NotAuthenticated $e) {
-			if ($this->refreshAccessToken()) {
-				return $operation();
-			}
-			throw $e;
 		}
 	}
 
@@ -230,7 +206,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		}
 		$this->updateChecked = true;
 		try {
-			return $this->withTokenRefresh(fn () => parent::hasUpdated('', $time));
+			return parent::hasUpdated('', $time);
 		} catch (StorageInvalidException $e) {
 			// check if it needs to be removed
 			$this->checkStorageAvailability();
@@ -244,7 +220,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 	public function test(): bool {
 		try {
-			return $this->withTokenRefresh(fn () => parent::test());
+			return parent::test();
 		} catch (StorageInvalidException $e) {
 			// check if it needs to be removed
 			$this->checkStorageAvailability();
