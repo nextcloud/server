@@ -6,7 +6,7 @@ jobs:
     static-code-analysis:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
             - name: Checkout submodules
               shell: bash
               run: |
@@ -14,7 +14,7 @@ jobs:
                 git submodule sync --recursive
                 git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
             - name: Set up php7.4
-              uses: shivammathur/setup-php@master
+              uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
               with:
                 php-version: 7.4
                 coverage: none
@@ -31,7 +31,7 @@ jobs:
     static-code-analysis-ocp:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
             - name: Checkout submodules
               shell: bash
               run: |
@@ -39,7 +39,7 @@ jobs:
                 git submodule sync --recursive
                 git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
             - name: Set up php7.4
-              uses: shivammathur/setup-php@master
+              uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
               with:
                 php-version: 7.4
                 coverage: none
