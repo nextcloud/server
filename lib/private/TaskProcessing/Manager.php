@@ -348,19 +348,14 @@ class Manager implements IManager {
 						$folder = $this->appData->newFolder('text2image');
 					}
 					if ($input['numberOfImages'] > 12) {
-						throw new UserFacingProcessingException(
-							'numberOfImages cannot be greater than 12',
-							userFacingMessage:
-								$this->l10nFactory->get('core', $this->l10nFactory->getUserLanguage($this->userManager->get($userId)))
-									->t('Cannot generate more than 12 images')
+						throw new ProcessingException(
+							'numberOfImages cannot be greater than 12'
 						);
 					}
 					if ($input['numberOfImages'] < 1) {
-						throw new UserFacingProcessingException(
-							'numberOfImages must be greater than 0',
-							userFacingMessage:
-								$this->l10nFactory->get('core', $this->l10nFactory->getUserLanguage($this->userManager->get($userId)))
-									->t('Cannot generate less than 1 image'));
+						throw new ProcessingException(
+							'numberOfImages must be greater than 0'
+						);
 					}
 					$resources = [];
 					$files = [];
