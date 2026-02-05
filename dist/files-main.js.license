@@ -116,7 +116,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.11.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.35.3
+	- version: 8.36.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
@@ -257,7 +257,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.1
 	- license: MIT
 - unist-util-visit
-	- version: 5.0.0
+	- version: 5.1.0
 	- license: MIT
 - vue-frag
 	- version: 1.4.3
