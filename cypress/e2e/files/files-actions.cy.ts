@@ -4,8 +4,8 @@
  */
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
+import type { IFileAction } from '@nextcloud/files'
 
-import { FileAction } from '@nextcloud/files'
 import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils.ts'
 
 const ACTION_DELETE = 'delete'
@@ -14,7 +14,7 @@ const ACTION_DETAILS = 'details'
 
 declare global {
 	interface Window {
-		_nc_fileactions: FileAction[]
+		_nc_fileactions: IFileAction[]
 	}
 }
 
@@ -58,28 +58,28 @@ describe('Files: Actions', { testIsolation: true }, () => {
 	})
 
 	it('Show some nested actions', () => {
-		const parent = new FileAction({
+		const parent: IFileAction = {
 			id: 'nested-action',
 			displayName: () => 'Nested Action',
 			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
-		})
+		}
 
-		const child1 = new FileAction({
+		const child1: IFileAction = {
 			id: 'nested-child-1',
 			displayName: () => 'Nested Child 1',
 			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 			parent: 'nested-action',
-		})
+		}
 
-		const child2 = new FileAction({
+		const child2: IFileAction = {
 			id: 'nested-child-2',
 			displayName: () => 'Nested Child 2',
 			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 			parent: 'nested-action',
-		})
+		}
 
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here
@@ -147,30 +147,30 @@ describe('Files: Actions', { testIsolation: true }, () => {
 	})
 
 	it('Show some nested actions for a selection', () => {
-		const parent = new FileAction({
+		const parent: IFileAction = {
 			id: 'nested-action',
 			displayName: () => 'Nested Action',
 			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
-		})
+		}
 
-		const child1 = new FileAction({
+		const child1: IFileAction = {
 			id: 'nested-child-1',
 			displayName: () => 'Nested Child 1',
 			exec: cy.spy(),
 			execBatch: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 			parent: 'nested-action',
-		})
+		}
 
-		const child2 = new FileAction({
+		const child2: IFileAction = {
 			id: 'nested-child-2',
 			displayName: () => 'Nested Child 2',
 			exec: cy.spy(),
 			execBatch: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 			parent: 'nested-action',
-		})
+		}
 
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here
@@ -220,28 +220,28 @@ describe('Files: Actions', { testIsolation: true }, () => {
 	})
 
 	it('Do not show parent if nested action has no batch support', () => {
-		const parent = new FileAction({
+		const parent: IFileAction = {
 			id: 'nested-action',
 			displayName: () => 'Nested Action',
 			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
-		})
+		}
 
-		const child1 = new FileAction({
+		const child1: IFileAction = {
 			id: 'nested-child-1',
 			displayName: () => 'Nested Child 1',
 			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 			parent: 'nested-action',
-		})
+		}
 
-		const child2 = new FileAction({
+		const child2: IFileAction = {
 			id: 'nested-child-2',
 			displayName: () => 'Nested Child 2',
 			exec: cy.spy(),
 			iconSvgInline: () => '<svg></svg>',
 			parent: 'nested-action',
-		})
+		}
 
 		cy.visit('/apps/files', {
 			// Cannot use registerFileAction here

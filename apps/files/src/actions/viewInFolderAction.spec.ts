@@ -1,26 +1,26 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { View } from '@nextcloud/files'
 
-import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
+
+import { File, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
 import { action } from './viewInFolderAction.ts'
 
 const view = {
 	id: 'trashbin',
 	name: 'Trashbin',
-} as View
+} as IView
 
 const viewFiles = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 describe('View in folder action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('view-in-folder')
 		expect(action.displayName({
 			nodes: [],
