@@ -774,9 +774,9 @@ class ShareAPIControllerTest extends TestCase {
 		$data[] = [$share, $expected];
 
 		// File shared by link with Expire
-		$expire = \DateTime::createFromFormat('Y-m-d h:i:s', '2000-01-02 01:02:03');
-		$share = $this->createShare(
-			101,
+		$expire = \DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-02 23:59:59');
+		$share = [
+			'101',
 			IShare::TYPE_LINK,
 			null,
 			'initiatorId',
@@ -808,7 +808,7 @@ class ShareAPIControllerTest extends TestCase {
 			'file_target' => 'target',
 			'file_parent' => 3,
 			'token' => 'token',
-			'expiration' => '2000-01-02 00:00:00',
+			'expiration' => '2000-01-02 23:59:59',
 			'permissions' => 4,
 			'attributes' => null,
 			'stime' => 5,
@@ -4481,7 +4481,7 @@ class ShareAPIControllerTest extends TestCase {
 				'permissions' => 1,
 				'stime' => 946684862,
 				'parent' => null,
-				'expiration' => '2001-02-03 00:00:00',
+				'expiration' => '2001-02-03 04:05:06',
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
@@ -4535,7 +4535,7 @@ class ShareAPIControllerTest extends TestCase {
 				'permissions' => 1,
 				'stime' => 946684862,
 				'parent' => null,
-				'expiration' => '2001-02-03 00:00:00',
+				'expiration' => '2001-02-03 04:05:06',
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
