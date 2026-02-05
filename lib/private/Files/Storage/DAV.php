@@ -15,6 +15,8 @@ use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeRemotePropfindEvent;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IMimeTypeDetector;
@@ -233,6 +235,34 @@ class DAV extends Common {
 	}
 
 	/**
+	 * @return array<string>
+	 */
+	protected function getPropfindProperties(): array {
+		$event = new BeforeRemotePropfindEvent(self::PROPFIND_PROPS);
+		Server::get(IEventDispatcher::class)->dispatchTyped($event);
+		return $event->getProperties();
+	}
+
+	/**
+	 *  Get property value from cached PROPFIND response.
+	 *  For accessing app-specific properties not included in getMetaData().
+	 *
+	 * @param string $path
+	 * @param string $propertyName
+	 * @return mixed
+	 */
+	public function getPropfindPropertyValue(string $path, string $propertyName): mixed {
+		$path = $this->cleanPath($path);
+		$propfindResponse = $this->statCache->get($path);
+
+		if (!is_array($propfindResponse)) {
+			return null;
+		}
+
+		return $propfindResponse[$propertyName] ?? null;
+	}
+
+	/**
 	 * Propfind call with cache handling.
 	 *
 	 * First checks if information is cached.
@@ -254,7 +284,7 @@ class DAV extends Common {
 			try {
 				$response = $this->client->propFind(
 					$this->encodePath($path),
-					self::PROPFIND_PROPS
+					$this->getPropfindProperties()
 				);
 				$this->statCache->set($path, $response);
 			} catch (ClientHttpException $e) {
@@ -818,7 +848,7 @@ class DAV extends Common {
 		try {
 			$responses = $this->client->propFind(
 				$this->encodePath($directory),
-				self::PROPFIND_PROPS,
+				$this->getPropfindProperties(),
 				1
 			);
 
