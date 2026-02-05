@@ -11,7 +11,6 @@ use Exception;
 use InvalidArgumentException;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
-use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IPartialMountProvider;
@@ -24,34 +23,24 @@ use OCP\IUser;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Override;
 use Psr\Log\LoggerInterface;
 
 use function count;
 
 class MountProvider implements IMountProvider, IPartialMountProvider {
-	/**
-	 * @param IConfig $config
-	 * @param IManager $shareManager
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
-		protected IConfig $config,
-		protected IManager $shareManager,
-		protected LoggerInterface $logger,
-		protected IEventDispatcher $eventDispatcher,
-		protected ICacheFactory $cacheFactory,
-		protected IMountManager $mountManager,
+		protected readonly IConfig $config,
+		protected readonly IManager $shareManager,
+		protected readonly LoggerInterface $logger,
+		protected readonly IEventDispatcher $eventDispatcher,
+		protected readonly ICacheFactory $cacheFactory,
+		protected readonly IMountManager $mountManager,
 	) {
 	}
 
-	/**
-	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
-	 *
-	 * @param IUser $user
-	 * @param IStorageFactory $loader
-	 * @return IMountPoint[]
-	 */
-	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+	#[Override]
+	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return array_values($this->getMountsFromSuperShares($user, $this->getSuperSharesForUser($user), $loader));
 	}
 
@@ -77,8 +66,8 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 * Groups shares by path (nodeId) and target path
 	 *
 	 * @param iterable<IShare> $shares
-	 * @return IShare[][] array of grouped shares, each element in the
-	 *                    array is a group which itself is an array of shares
+	 * @return list<list<IShare>> array of grouped shares, each element in the
+	 *                            array is a group which itself is an array of shares
 	 */
 	private function groupShares(iterable $shares): array {
 		$tmp = [];
@@ -98,9 +87,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				$aTime = $a->getShareTime()->getTimestamp();
 				$bTime = $b->getShareTime()->getTimestamp();
 				if ($aTime === $bTime) {
-					return $a->getId() < $b->getId() ? -1 : 1;
+					return $a->getId() <=> $b->getId();
 				}
-				return $aTime < $bTime ? -1 : 1;
+				return $aTime <=> $bTime;
 			});
 			$result[] = $tmp2;
 		}
@@ -117,7 +106,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 * possible.
 	 *
 	 * @param iterable<IShare> $allShares
-	 * @param IUser $user user
 	 * @return list<array{IShare, array<IShare>}> Tuple of [superShare, groupedShares]
 	 */
 	private function buildSuperShares(iterable $allShares, IUser $user): array {
@@ -205,8 +193,6 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	 * DB queries to retrieve the same information.
 	 *
 	 * @param array<IShare> $shares
-	 * @param IShare $superShare
-	 * @return void
 	 */
 	private function combineNotes(
 		array &$shares,
@@ -251,11 +237,8 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		}
 	}
 	/**
-	 * @param string $userId
 	 * @param list<array{IShare, array<IShare>}> $superShares
-	 * @param IStorageFactory $loader
-	 * @param IUser $user
-	 * @return array IMountPoint indexed by mount point
+	 * @return array<string, IMountPoint> indexed by mount point
 	 * @throws Exception
 	 */
 	public function getMountsFromSuperShares(
@@ -264,13 +247,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		IStorageFactory $loader,
 	): array {
 		$userId = $user->getUID();
-		$allMounts = $this->mountManager->getAll();
 		$mounts = [];
-		$view = new View('/' . $userId . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($userId);
-		/** @var CappedMemoryCache<bool> $folderExistCache */
-		$foldersExistCache = new CappedMemoryCache();
 
 		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
 		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
@@ -293,7 +272,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				}
 				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
-					'\OCA\Files_Sharing\SharedStorage',
+					SharedStorage::class,
 					[
 						'user' => $userId,
 						// parent share
@@ -313,10 +292,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
 
-				$mounts[$mount->getMountPoint()] = $allMounts[$mount->getMountPoint()] = $mount;
+				$mounts[$mount->getMountPoint()] = $mount;
 				foreach ($event->getAdditionalMounts() as $additionalMount) {
 					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
-					$allMounts[$additionalMount->getMountPoint()] = $additionalMount;
 				}
 			} catch (Exception $e) {
 				$this->logger->error(
@@ -354,6 +332,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		}
 	}
 
+	#[Override]
 	public function getMountsForPath(
 		string $setupPathHint,
 		bool $forChildren,
@@ -394,8 +373,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 	}
 
 	/**
-	 * @param iterable ...$iterables
-	 * @return iterable
+	 * @template T
+	 * @param iterable<T> ...$iterables
+	 * @return iterable<T>
 	 */
 	private function mergeIterables(...$iterables): iterable {
 		foreach ($iterables as $iterable) {
