@@ -164,8 +164,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
 			$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 			$fileId = $share->getNode()->getId();
-			$nodes = $ownerFolder->getById($fileId);
-			$ownerPath = $nodes[0]->getPath();
+			$node = $ownerFolder->getFirstNodeById($fileId);
+			if ($node === null) {
+				throw new \LogicException("Unable to find node $fileId asociated with the share");
+			}
+			$ownerPath = $node->getPath();
 			$this->publishActivity(
 				$type === 'share' ? Activity::SUBJECT_SHARED_EMAIL_BY : Activity::SUBJECT_UNSHARED_EMAIL_BY,
 				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
