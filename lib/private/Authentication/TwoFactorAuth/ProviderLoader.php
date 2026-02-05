@@ -30,8 +30,12 @@ class ProviderLoader {
 	 * @return IProvider[]
 	 * @throws Exception
 	 */
-	public function getProviders(IUser $user): array {
-		$allApps = $this->appManager->getEnabledAppsForUser($user);
+	public function getProviders(?IUser $user = null): array {
+		if ($user === null) {
+			$allApps = $this->appManager->getEnabledApps();
+		} else {
+			$allApps = $this->appManager->getEnabledAppsForUser($user);
+		}
 		$providers = [];
 
 		foreach ($allApps as $appId) {
