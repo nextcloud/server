@@ -7,6 +7,7 @@
  */
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareesAPIController;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\AppFramework\Http\DataResponse;
@@ -46,6 +47,9 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	protected $config;
 
+	/** @var FederatedShareProvider|MockObject */
+	protected $federatedShareProvider;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -58,6 +62,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$urlGeneratorMock = $this->createMock(IURLGenerator::class);
 
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
+		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 
 		$this->sharees = new ShareesAPIController(
 			'files_sharing',
@@ -66,7 +71,8 @@ class ShareesAPIControllerTest extends TestCase {
 			$this->config,
 			$urlGeneratorMock,
 			$this->shareManager,
-			$this->collaboratorSearch
+			$this->collaboratorSearch,
+			$this->federatedShareProvider
 		);
 	}
 
@@ -260,7 +266,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$config,
 				$urlGenerator,
 				$this->shareManager,
-				$this->collaboratorSearch
+				$this->collaboratorSearch,
+				$this->federatedShareProvider
 			])
 			->onlyMethods(['isRemoteSharingAllowed', 'isRemoteGroupSharingAllowed'])
 			->getMock();
@@ -359,7 +366,8 @@ class ShareesAPIControllerTest extends TestCase {
 				$config,
 				$urlGenerator,
 				$this->shareManager,
-				$this->collaboratorSearch
+				$this->collaboratorSearch,
+				$this->federatedShareProvider
 			])
 			->onlyMethods(['isRemoteSharingAllowed'])
 			->getMock();
