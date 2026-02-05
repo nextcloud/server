@@ -80,7 +80,9 @@ class LocalPreviewStorage implements IPreviewStorage {
 
 	private function createParentFiles(string $path): void {
 		$dirname = dirname($path);
-		@mkdir($dirname, recursive: true);
+		if (!is_dir($dirname)) {
+			mkdir($dirname, recursive: true);
+		}
 		if (!is_dir($dirname)) {
 			throw new NotPermittedException("Unable to create directory '$dirname'");
 		}
