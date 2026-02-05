@@ -235,7 +235,7 @@ class ShareAPIController extends OCSController {
 		$expiration = $share->getExpirationDate();
 		if ($expiration !== null) {
 			$expiration->setTimezone($this->dateTimeZone->getTimeZone());
-			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
+			$result['expiration'] = $expiration->format('Y-m-d H:i:s');
 		}
 
 		$currentUserPermissions = $recipientNode?->getPermissions() ?? Constants::PERMISSION_ALL;
