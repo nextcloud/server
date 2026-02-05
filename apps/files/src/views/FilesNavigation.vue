@@ -167,7 +167,6 @@ export default defineComponent({
 			const viewsToLoad: View[] = (Object.entries(this.viewConfigStore.viewConfigs) as Array<[string, ViewConfig]>)
 				.filter(([, config]) => config.expanded === true)
 				.map(([viewId]) => this.views.find((view) => view.id === viewId))
-
 				.filter(Boolean as unknown as ((u: unknown) => u is View))
 				.filter((view) => view.loadChildViews && !view.loaded)
 			for (const view of viewsToLoad) {
