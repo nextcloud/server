@@ -221,85 +221,102 @@ class Setup {
 		];
 	}
 
-	public function createHtaccessTestFile(string $dataDir): string|false {
-		// php dev server does not support htaccess
-		if (php_sapi_name() === 'cli-server') {
+	/**
+	 * Create a temporary htaccess test file for isHtaccessWorking().
+	 *
+	 * Writes "htaccesstest.txt" into $dataDir and returns its content, or false if skipped.
+	 *
+	 * @return string|false The test content written, or false if the test was skipped
+	 * @throws \OCP\HintException If the test file cannot be created or written
+	 * @internal
+	 */
+	private function createHtaccessTestFile(string $dataDir): string|false {
+		$testFile = $dataDir . '/htaccesstest.txt';
+		if (file_exists($testFile)) { // unexpected; possible recursive call
 			return false;
 		}
 
-		// testdata
-		$fileName = '/htaccesstest.txt';
 		$testContent = 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
-
-		// creating a test file
-		$testFile = $dataDir . '/' . $fileName;
-
-		if (file_exists($testFile)) {// already running this test, possible recursive call
-			return false;
+		$written = @file_put_contents($testFile, $testContent);
+		if ($written === false) {
+			throw new \OCP\HintException(
+				'Can\'t create htaccess test file to verify .htaccess protection.',
+				'Make sure the web server user can write to the data directory (default: /data).'
+			);
 		}
-
-		$fp = @fopen($testFile, 'w');
-		if (!$fp) {
-			throw new \OCP\HintException('Can\'t create test file to check for working .htaccess file.',
-				'Make sure it is possible for the web server to write to ' . $testFile);
-		}
-		fwrite($fp, $testContent);
-		fclose($fp);
 
 		return $testContent;
 	}
 
 	/**
-	 * Check if the .htaccess file is working
+	 * Check whether the .htaccess protection is effective for the given data directory.
 	 *
-	 * @param \OCP\IConfig $config
-	 * @return bool
-	 * @throws Exception
-	 * @throws \OCP\HintException If the test file can't get written.
+	 * Creates a temporary file (htaccesstest.txt) under $dataDir and performs an HTTP
+	 * probe. Bypassed under some scenarios (see code) when unnecessary or to avoid false
+	 * negatives.
+	 *
+	 * @return bool True when .htaccess protection appears to work, false otherwise.
+	 * @throws \OCP\HintException If the test file cannot be created.
 	 */
-	public function isHtaccessWorking(string $dataDir) {
-		$config = Server::get(IConfig::class);
+	public function isHtaccessWorking(string $dataDir): bool {
 
-		if (\OC::$CLI || !$config->getSystemValueBool('check_for_working_htaccess', true)) {
+		// Skip quietly to avoid false negatives since web server state unknown in CLI mode
+		if (\OC::$CLI) {
 			return true;
 		}
 
-		$testContent = $this->createHtaccessTestFile($dataDir);
-		if ($testContent === false) {
+		// Skip quietly if explicitly configured to do so
+		if (!(bool)$this->config->getValue('check_for_working_htaccess', true)) {
+			return true;
+		}
+
+		// Don't bother probing; we already know PHP's dev server does not support
+		if (PHP_SAPI === 'cli-server') {
 			return false;
 		}
 
-		$fileName = '/htaccesstest.txt';
-		$testFile = $dataDir . '/' . $fileName;
+		// Create a temporary htaccess test file
+		$testContent = $this->createHtaccessTestFile($dataDir);
+		if ($testContent === false) { // File already exists for some reason
+			// Note: createHtaccessTestFile() passes up a HintException for most real-world
+			// failure scenarios which we currently expect our caller to handle.
+			return false;
+		}
 
-		// accessing the file via http
-		$url = Server::get(IURLGenerator::class)->getAbsoluteURL(\OC::$WEBROOT . '/data' . $fileName);
+		$testFile = $dataDir . '/htaccesstest.txt';
+
+		// TODO: consider supporting non-default datadirectory
+		$url = Server::get(IURLGenerator::class)->getAbsoluteURL(\OC::$WEBROOT . '/data/htaccesstest.txt');
+
+		$client = Server::get(IClientService::class)->newClient();
+		$fetch = function (string $target) use ($client, $testContent): string|false {
+			try {
+				$resp = $client->get($target);
+				$body = $resp->getBody();
+
+				if (is_resource($body)) {
+					$max = strlen($testContent) + 1024; // small margin
+					return stream_get_contents($body, $max);
+				}
+
+				return (string)$body;
+			} catch (\Exception $e) {
+				return false;
+			}
+		};
+
 		try {
-			$content = Server::get(IClientService::class)->newClient()->get($url)->getBody();
-		} catch (\Exception $e) {
-			$content = false;
+			$content = $fetch($url);
+			// Probe both schemes for full coverage
+			$fallbackUrl = str_starts_with($url, 'https:') ? 'http:' . substr($url, 6) : 'https:' . substr($url, 5);
+			$fallbackContent = $fetch($fallbackUrl);
+
+			// .htaccess likely works if content of probes !== the test content
+			return $content !== $testContent && $fallbackContent !== $testContent;
+		} finally {
+			// Always cleanup
+			@unlink($testFile);
 		}
-
-		if (str_starts_with($url, 'https:')) {
-			$url = 'http:' . substr($url, 6);
-		} else {
-			$url = 'https:' . substr($url, 5);
-		}
-
-		try {
-			$fallbackContent = Server::get(IClientService::class)->newClient()->get($url)->getBody();
-		} catch (\Exception $e) {
-			$fallbackContent = false;
-		}
-
-		// cleanup
-		@unlink($testFile);
-
-		/*
-		 * If the content is not equal to test content our .htaccess
-		 * is working as required
-		 */
-		return $content !== $testContent && $fallbackContent !== $testContent;
 	}
 
 	/**
@@ -551,12 +568,29 @@ class Setup {
 	}
 
 	/**
-	 * Append the correct ErrorDocument path for Apache hosts
+	 * Update the default (installation provided) .htaccess by inserting or overwriting
+	 * the non-static section (ErrorDocument and optional front end controller) while
+	 * preserving all static (install artifact) content above the preservation marker.
 	 *
-	 * @return bool True when success, False otherwise
-	 * @throws \OCP\AppFramework\QueryException
+	 * Runs regardless of web server in use, but only effective on Apache web servers.
+	 *
+	 * TODO: Make this no longer static (looks easy; few calls)
+	 *
+	 * @return bool True on success; False if not
 	 */
 	public static function updateHtaccess(): bool {
+		$setupHelper = Server::get(\OC\Setup::class);
+		$htaccessPath = $setupHelper->pathToHtaccess();
+
+		// The distributed .htaccess file is required
+		if (!is_writable($htaccessPath)
+			|| !is_readable($htaccessPath)
+		) {
+			// cannot update .htaccess (bad permissions or it is missing)
+			return false;
+		}
+
+		// We're a static method; cannot use $this->config
 		$config = Server::get(SystemConfig::class);
 
 		try {
@@ -565,65 +599,122 @@ class Setup {
 			return false;
 		}
 
-		$setupHelper = Server::get(\OC\Setup::class);
+		// TODO: Add a check to detect when the .htaccess file isn't the expected one 
+		// (e.g. when it's the datadirectory one due to a misconfiguration) so that we
+		// don't append to the wrong file (and enable a very problematic configuration).
 
-		if (!is_writable($setupHelper->pathToHtaccess())) {
+		// Read original content
+		$original = @file_get_contents($htaccessPath);
+		// extra check for good measure
+		if ($original === false) {
+			// bad permissions or installation provided .htaccess is missing
 			return false;
 		}
 
-		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
-		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
-		$htaccessContent = explode($content, $htaccessContent, 2)[0];
+		$preservationBoundary = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
 
-		//custom 403 error page
-		$content .= "\nErrorDocument 403 " . $webRoot . '/index.php/error/403';
+		// Preserve everything above the boundary line; drop the rest (if any)
+		$parts = explode($preservationBoundary, $original, 2);
+		$preservedContent = $parts[0];
 
-		//custom 404 error page
-		$content .= "\nErrorDocument 404 " . $webRoot . '/index.php/error/404';
+		// New section must start with the boundary marker
+		$newContent = $preservationBoundary;
 
-		// Add rewrite rules if the RewriteBase is configured
+		// Handle 403s/404s via primary front controller under all installation scenarios
+		// ErrorDocument path must be relative to the VirtualHost DocumentRoot
+		$newContent .= "\nErrorDocument 403 " . $webRoot . '/index.php/error/403';
+		$newContent .= "\nErrorDocument 404 " . $webRoot . '/index.php/error/404';
+
+		// RewriteBase tells mod_rewrite the URL base for the rules in this
+		// .htaccess file. It is required when Nextcloud is served from a subpath (so the
+		// rewrite rules generate and match the correct prefixed request paths). It
+		// also enables "pretty" URLs by routing most requests to the primary front
+		// controller (index.php).
+		//
+		// When served from the document root, RewriteBase is usually not required,
+		// though some specific server setups may still need it. In Nextcloud, setting
+		// htaccess.RewriteBase to '/' (instead of leaving it empty or unconfigured) is
+		// the trigger that causes updateHtaccess() to write the bundled rewrite rules
+		// and thus enable "pretty" URLs for root installs.
+
 		$rewriteBase = $config->getValue('htaccess.RewriteBase', '');
+		// Notes:
+		//  - Equivalent handling may be provided by the web server (e.g. nginx location
+		//	  / Apache vhost blocks) even without this.
+		//  - This is not the entire Nextcloud .htaccess file; these are merely appended
+		//	  to the base file distributed with each release.
+		// TODO: Document these rules/conditions
 		if ($rewriteBase !== '') {
-			$content .= "\n<IfModule mod_rewrite.c>";
-			$content .= "\n  Options -MultiViews";
-			$content .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|ico|jpg|jpeg|png|webp|html|otf|ttf|woff2?|map|webm|mp4|mp3|ogg|wav|flac|wasm|tflite)$";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update\\.php";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/img/(favicon\\.ico|manifest\\.json)$";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status)\\.php";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v(1|2)\\.php";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots\\.txt";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(ocs-provider|updater)/";
-			$content .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/richdocumentscode(_arm64)?/proxy.php$";
-			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteBase " . $rewriteBase;
-			$content .= "\n  <IfModule mod_env.c>";
-			$content .= "\n    SetEnv front_controller_active true";
-			$content .= "\n    <IfModule mod_dir.c>";
-			$content .= "\n      DirectorySlash off";
-			$content .= "\n    </IfModule>";
-			$content .= "\n  </IfModule>";
-			$content .= "\n</IfModule>";
+			$newContent .= "\n<IfModule mod_rewrite.c>";
+			$newContent .= "\n  Options -MultiViews";
+			$newContent .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
+			$newContent .= "\n  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|ico|jpg|jpeg|png|webp|html|otf|ttf|woff2?|map|webm|mp4|mp3|ogg|wav|flac|wasm|tflite)$";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update\\.php";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/img/(favicon\\.ico|manifest\\.json)$";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status)\\.php";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v(1|2)\\.php";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !/robots\\.txt";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !/(ocs-provider|updater)/";
+			$newContent .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
+			$newContent .= "\n  RewriteCond %{REQUEST_FILENAME} !/richdocumentscode(_arm64)?/proxy.php$";
+			$newContent .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
+			$newContent .= "\n  RewriteBase " . $rewriteBase;
+			$newContent .= "\n  <IfModule mod_env.c>";
+			$newContent .= "\n    SetEnv front_controller_active true";
+			$newContent .= "\n    <IfModule mod_dir.c>";
+			$newContent .= "\n      DirectorySlash off";
+			$newContent .= "\n    </IfModule>";
+			$newContent .= "\n  </IfModule>";
+			$newContent .= "\n</IfModule>";
 		}
 
-		// Never write file back if disk space should be too low
-		if (function_exists('disk_free_space')) {
-			$df = disk_free_space(\OC::$SERVERROOT);
-			$size = strlen($content) + 10240;
-			if ($df !== false && $df < (float)$size) {
-				throw new \Exception(\OC::$SERVERROOT . ' does not have enough space for writing the htaccess file! Not writing it back!');
+		// Assemble new file contents
+		$assembled = $preservedContent . $newContent . "\n";
+
+		// Only write if changed
+		if ($original !== $assembled) {
+			// Guard against disk space being too low to safely update
+			if (function_exists('disk_free_space')) {
+				$df = disk_free_space(\OC::$SERVERROOT);
+				$size = strlen($assembled) + 10240;
+				if ($df !== false && $df < (float)$size) {
+					throw new \Exception(\OC::$SERVERROOT . ' does not have enough storage space for writing the updated .htaccess file! Giving up!');
+				}
 			}
+			// TODO: Consider atomic write (write to tmp + rename)
+			$written = @file_put_contents($htaccessPath, $assembled);
+			return ($written !== false);
 		}
-		//suppress errors in case we don't have permissions for it
-		return (bool)@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent . $content . "\n");
+
+		return true;
 	}
 
+	/**
+	 * Prevents direct HTTP access to user files (high security risk if the
+	 * data directory were web-accessible).
+	 *
+	 * - Prevents directory listing of the data directory.
+	 * - Provides a safe default protection for Apache installs (where .htaccess is honored).
+	 */
 	public static function protectDataDirectory(): void {
-		//Require all denied
+
+		$defaultDataDir = \OC::$SERVERROOT . '/data';
+		$dataDir = Server::get(IConfig::class)->getSystemValueString('datadirectory', $defaultDataDir);
+
+		// Ensure data directory exists and is writable
+		if (!is_dir($dataDir) || !is_writable($dataDir)) {
+			throw new \Exception("Unable to write to data directory ($dataDir) to protect it! Giving up!");
+		}
+
+		$dataDirHtaccess = $dataDir . '/.htaccess';
+		$dataDirIndex = $dataDir . '/index.html';
+
+		// Content for the .htaccess file that locks down (most) Apache environments
 		$now = date('Y-m-d H:i:s');
 		$content = "# Generated by Nextcloud on $now\n";
+		$content .= "# Deployed in Nextcloud data directory\n";
+		$content .= "# Do not change this file\n\n";
 		$content .= "# Section for Apache 2.4 to 2.6\n";
 		$content .= "<IfModule mod_authz_core.c>\n";
 		$content .= "  Require all denied\n";
@@ -648,9 +739,14 @@ class Setup {
 		$content .= "  IndexIgnore *\n";
 		$content .= '</IfModule>';
 
-		$baseDir = Server::get(IConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
-		file_put_contents($baseDir . '/.htaccess', $content);
-		file_put_contents($baseDir . '/index.html', '');
+		// Create an empty index.html to prevent simply browsing
+		$writtenIndex = file_put_contents($dataDirIndex, '');
+		// Create the .htaccess file
+		$writtenHtaccess = file_put_contents($dataDirHtaccess, $content);
+
+		if ($writtenHtaccess === false || $writtenIndex === false) {
+			throw new \Exception("Failed to write $dataDirHtaccess or $dataDirIndex");
+		}
 	}
 
 	private function getVendorData(): array {
