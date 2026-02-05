@@ -1708,6 +1708,7 @@ class UserConfig implements IUserConfig {
 	 * @param bool $allowEmptyUser
 	 * @param bool $allowEmptyApp $app can be empty string
 	 * @param ValueType|null $valueType assert value type is only one type
+	 * @throws InvalidArgumentException if userId, app, or prefKey is invalid (too long, or empty string)
 	 */
 	private function assertParams(
 		string $userId = '',

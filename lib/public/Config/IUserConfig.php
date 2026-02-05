@@ -48,6 +48,7 @@ interface IUserConfig {
 	 * @param string $appId optional id of app
 	 *
 	 * @return list<string> list of userIds
+	 * @throws \InvalidArgumentException if $appId is invalid (too long)
 	 *
 	 * @since 32.0.0
 	 */
@@ -62,6 +63,7 @@ interface IUserConfig {
 	 * @param string $userId id of the user
 	 *
 	 * @return list<string> list of app ids
+	 * @throws \InvalidArgumentException if $userId is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -77,6 +79,7 @@ interface IUserConfig {
 	 * @param string $app id of the app
 	 *
 	 * @return list<string> list of stored config keys
+	 * @throws \InvalidArgumentException if $userId or $app is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -91,6 +94,7 @@ interface IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 *
 	 * @return bool TRUE if key exists
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -106,6 +110,7 @@ interface IUserConfig {
 	 *
 	 * @return bool TRUE if value is sensitive
 	 * @throws UnknownKeyException if config key is not known
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -126,6 +131,7 @@ interface IUserConfig {
 	 *
 	 * @return bool TRUE if value is sensitive
 	 * @throws UnknownKeyException if config key is not known
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -142,6 +148,7 @@ interface IUserConfig {
 	 *
 	 * @return bool TRUE if config is lazy loaded
 	 * @throws UnknownKeyException if config key is not known
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 * @see IUserConfig for details about lazy loading
 	 *
 	 * @since 32.0.0
@@ -160,6 +167,7 @@ interface IUserConfig {
 	 * @param bool $filtered filter sensitive config values
 	 *
 	 * @return array<string, string|int|float|bool|array> [key => value]
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -175,6 +183,7 @@ interface IUserConfig {
 	 * @param bool $filtered filter sensitive config values
 	 *
 	 * @return array<string, string|int|float|bool|array> [key => value]
+	 * @throws \InvalidArgumentException if $userId is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -190,6 +199,7 @@ interface IUserConfig {
 	 * @param ValueType|null $typedAs enforce type for the returned values
 	 *
 	 * @return array<string, string|int|float|bool|array> [appId => value]
+	 * @throws \InvalidArgumentException if $userId or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -207,6 +217,7 @@ interface IUserConfig {
 	 * @param array|null $userIds limit the search to a list of user ids
 	 *
 	 * @return array<string, string|int|float|bool|array> [userId => value]
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -224,6 +235,7 @@ interface IUserConfig {
 	 * @param bool $caseInsensitive non-case-sensitive search, only works if $value is a string
 	 *
 	 * @return Generator<string>
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -240,6 +252,7 @@ interface IUserConfig {
 	 * @param int $value config value
 	 *
 	 * @return Generator<string>
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -256,6 +269,7 @@ interface IUserConfig {
 	 * @param array $values list of possible config values
 	 *
 	 * @return Generator<string>
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -272,6 +286,7 @@ interface IUserConfig {
 	 * @param bool $value config value
 	 *
 	 * @return Generator<string>
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -289,6 +304,7 @@ interface IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 *
 	 * @return string stored config value or $default if not set in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -312,6 +328,7 @@ interface IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 *
 	 * @return int stored config value or $default if not set in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -335,6 +352,7 @@ interface IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 *
 	 * @return float stored config value or $default if not set in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -358,6 +376,7 @@ interface IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 *
 	 * @return bool stored config value or $default if not set in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -381,6 +400,7 @@ interface IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 *
 	 * @return array stored config value or $default if not set in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -406,6 +426,7 @@ interface IUserConfig {
 	 * @return ValueType type of the value
 	 * @throws UnknownKeyException if config key is not known
 	 * @throws IncorrectTypeException if config value type is not known
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -425,6 +446,7 @@ interface IUserConfig {
 	 * @return int a bitflag in relation to the config value
 	 * @throws UnknownKeyException if config key is not known
 	 * @throws IncorrectTypeException if config value type is not known
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -446,6 +468,7 @@ interface IUserConfig {
 	 * @param bool $lazy set config as lazy loaded
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -478,6 +501,7 @@ interface IUserConfig {
 	 * @param bool $lazy set config as lazy loaded
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -505,6 +529,7 @@ interface IUserConfig {
 	 * @param bool $lazy set config as lazy loaded
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -531,6 +556,7 @@ interface IUserConfig {
 	 * @param bool $lazy set config as lazy loaded
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -558,6 +584,7 @@ interface IUserConfig {
 	 * @param bool $lazy set config as lazy loaded
 	 *
 	 * @return bool TRUE if value was different, therefor updated in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 *
@@ -580,6 +607,7 @@ interface IUserConfig {
 	 * @param bool $sensitive TRUE to set as sensitive, FALSE to unset
 	 *
 	 * @return bool TRUE if database update were necessary
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -593,6 +621,7 @@ interface IUserConfig {
 	 * @param string $app id of the app
 	 * @param string $key config key
 	 * @param bool $sensitive TRUE to set as sensitive, FALSE to unset
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -610,6 +639,7 @@ interface IUserConfig {
 	 * @param bool $indexed TRUE to set as indexed, FALSE to unset
 	 *
 	 * @return bool TRUE if database update were necessary
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -623,6 +653,7 @@ interface IUserConfig {
 	 * @param string $app id of the app
 	 * @param string $key config key
 	 * @param bool $indexed TRUE to set as indexed, FALSE to unset
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -637,6 +668,7 @@ interface IUserConfig {
 	 * @param bool $lazy TRUE to set as lazy loaded, FALSE to unset
 	 *
 	 * @return bool TRUE if database update was necessary
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -650,6 +682,7 @@ interface IUserConfig {
 	 * @param string $app id of the app
 	 * @param string $key config key
 	 * @param bool $lazy TRUE to set as lazy loaded, FALSE to unset
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -676,6 +709,7 @@ interface IUserConfig {
 	 *
 	 * @return array
 	 * @throws UnknownKeyException if config key is not known in database
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -687,6 +721,7 @@ interface IUserConfig {
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
 	 * @param string $key config key
+	 * @throws \InvalidArgumentException if $userId, $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -697,6 +732,7 @@ interface IUserConfig {
 	 *
 	 * @param string $app id of the app
 	 * @param string $key config key
+	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -706,6 +742,7 @@ interface IUserConfig {
 	 * delete all config keys linked to an app
 	 *
 	 * @param string $app id of the app
+	 * @throws \InvalidArgumentException if $app is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -715,6 +752,7 @@ interface IUserConfig {
 	 * delete all config keys linked to a user
 	 *
 	 * @param string $userId id of the user
+	 * @throws \InvalidArgumentException if $userId is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
@@ -727,6 +765,7 @@ interface IUserConfig {
 	 *
 	 * @param string $userId id of the user
 	 * @param bool $reload set to TRUE to refill cache instantly after clearing it
+	 * @throws \InvalidArgumentException if $userId is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
 	 */
