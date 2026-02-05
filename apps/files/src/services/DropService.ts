@@ -3,17 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { Folder, Node, IFolder, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
-import type { RootDirectory } from './DropServiceUtils'
+import type { RootDirectory } from './DropServiceUtils.ts'
 
-import { Folder, Node, NodeStatus, davRootPath } from '@nextcloud/files'
+import { NodeStatus } from '@nextcloud/files'
 import { getUploader, hasConflict } from '@nextcloud/upload'
 import { join } from '@nextcloud/paths'
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
 
-import { Directory, traverseTree, resolveConflict, createDirectoryIfNotExists } from './DropServiceUtils'
+import { Directory, traverseTree, resolveConflict, createDirectoryIfNotExists } from './DropServiceUtils.ts'
 import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils'
 import logger from '../logger.ts'
@@ -95,11 +96,11 @@ export const dataTransferToFileTree = async (items: DataTransferItem[]): Promise
  * @param destination - The destination folder
  * @param contents - The contents of the destination folder
  */
-export async function onDropExternalFiles(root: RootDirectory, destination: Folder, contents: Node[]): Promise<Upload[]> {
+export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<Upload[]> {
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
-	if (await hasConflict(root.contents, contents)) {
+	if (hasConflict(root.contents, contents as Node[])) {
 		root.contents = await resolveConflict(root.contents, destination, contents)
 		if (root.contents.length === 0) {
 			// user cancelled the upload
@@ -124,14 +125,13 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 			// If the file is a directory, we need to create it first
 			// then browse its tree and upload its contents.
 			if (file instanceof Directory) {
-				const absolutePath = join(davRootPath, destination.path, relativePath)
 				try {
-					console.debug('Processing directory', { relativePath })
-					await createDirectoryIfNotExists(absolutePath)
+					logger.debug('Processing directory', { relativePath })
+					await createDirectoryIfNotExists(relativePath)
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))
-					logger.error('', { error, absolutePath, directory: file })
+					logger.error('Unable to create the directory', { error, relativePath, directory: file })
 				}
 				continue
 			}
@@ -170,11 +170,11 @@ export async function onDropExternalFiles(root: RootDirectory, destination: Fold
 	return Promise.all(queue)
 }
 
-export const onDropInternalFiles = async (nodes: Node[], destination: Folder, contents: Node[], isCopy = false) => {
+export const onDropInternalFiles = async (nodes: Node[], destination: IFolder, contents: INode[], isCopy = false) => {
 	const queue = [] as Promise<void>[]
 
 	// Check for conflicts on root elements
-	if (await hasConflict(nodes, contents)) {
+	if (hasConflict(nodes, contents as Node[])) {
 		nodes = await resolveConflict(nodes, destination, contents)
 	}
 
@@ -186,7 +186,7 @@ export const onDropInternalFiles = async (nodes: Node[], destination: Folder, co
 
 	for (const node of nodes) {
 		Vue.set(node, 'status', NodeStatus.LOADING)
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
+		queue.push(handleCopyMoveNodeTo(node, destination as Folder, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
 	}
 
 	// Wait for all promises to settle

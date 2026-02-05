@@ -2,13 +2,16 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFolder, INode, Node } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { showWarning, showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { Folder, Node, davGetClient, davGetDefaultPropfind, davResultToNode } from '@nextcloud/files'
+import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
+import { t } from '@nextcloud/l10n'
+import { join } from '@nextcloud/paths'
 import { openConflictPicker } from '@nextcloud/upload'
-import { translate as t } from '@nextcloud/l10n'
 
 import logger from '../logger.ts'
 
@@ -129,31 +132,35 @@ const readDirectory = (directory: FileSystemDirectoryEntry): Promise<FileSystemE
 	})
 }
 
-export const createDirectoryIfNotExists = async (absolutePath: string) => {
-	const davClient = davGetClient()
-	const dirExists = await davClient.exists(absolutePath)
+/**
+ * @param path - The path relative to the dav root
+ */
+export async function createDirectoryIfNotExists(path: string) {
+	const davUrl = join(defaultRemoteURL, defaultRootPath)
+	const davClient = getClient(davUrl)
+	const dirExists = await davClient.exists(path)
 	if (!dirExists) {
-		logger.debug('Directory does not exist, creating it', { absolutePath })
-		await davClient.createDirectory(absolutePath, { recursive: true })
-		const stat = await davClient.stat(absolutePath, { details: true, data: davGetDefaultPropfind() }) as ResponseDataDetailed<FileStat>
-		emit('files:node:created', davResultToNode(stat.data))
+		logger.debug('Directory does not exist, creating it', { path })
+		await davClient.createDirectory(path, { recursive: true })
+		const stat = await davClient.stat(path, { details: true, data: getDefaultPropfind() }) as ResponseDataDetailed<FileStat>
+		emit('files:node:created', resultToNode(stat.data, defaultRootPath, davUrl))
 	}
 }
 
-export const resolveConflict = async <T extends ((Directory|File)|Node)>(files: Array<T>, destination: Folder, contents: Node[]): Promise<T[]> => {
+export const resolveConflict = async <T extends ((Directory|File)|INode)>(files: Array<T>, destination: IFolder, contents: INode[]): Promise<T[]> => {
 	try {
 		// List all conflicting files
-		const conflicts = files.filter((file: File|Node) => {
-			return contents.find((node: Node) => node.basename === (file instanceof File ? file.name : file.basename))
-		}).filter(Boolean) as (File|Node)[]
+		const conflicts = files.filter((file: File|INode) => {
+			return contents.find((node: INode) => node.basename === (file instanceof File ? file.name : file.basename))
+		}).filter(Boolean) as (File|INode)[]
 
 		// List of incoming files that are NOT in conflict
-		const uploads = files.filter((file: File|Node) => {
+		const uploads = files.filter((file: T) => {
 			return !conflicts.includes(file)
 		})
 
 		// Let the user choose what to do with the conflicting files
-		const { selected, renamed } = await openConflictPicker(destination.path, conflicts, contents)
+		const { selected, renamed } = await openConflictPicker(destination.path, conflicts as (File | Node)[], contents as Node[])
 
 		logger.debug('Conflict resolution', { uploads, selected, renamed })
 
