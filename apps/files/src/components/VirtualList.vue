@@ -336,6 +336,13 @@ export default defineComponent({
 				return
 			}
 
+			// Skip scrolling if the target index is already visible
+			const lastVisibleIndex = this.index + (this.visibleRows * this.columnCount) - 1
+			if (index >= this.index && index <= lastVisibleIndex) {
+				logger.debug('VirtualList: Skip scrolling, index already visible', { index })
+				return
+			}
+
 			// Check if the content is smaller (not equal! keep the footer in mind) than the viewport
 			// meaning there is no scrollbar
 			if (this.totalRowCount < this.visibleRows) {
