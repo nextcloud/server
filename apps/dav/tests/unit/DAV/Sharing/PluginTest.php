@@ -54,7 +54,6 @@ class PluginTest extends TestCase {
 			->with([[
 				'href' => 'principal:principals/admin',
 				'commonName' => null,
-				'summary' => null,
 				'readOnly' => false,
 			]], ['mailto:wilfredo@example.com']);
 		$body = '<?xml version="1.0" encoding="utf-8" ?><CS:share xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns"><CS:set><D:href>principal:principals/admin</D:href><CS:read-write/></CS:set> <CS:remove><D:href>mailto:wilfredo@example.com</D:href></CS:remove></CS:share>';
@@ -70,6 +69,18 @@ class PluginTest extends TestCase {
 		$this->expectException(BadRequest::class);
 		$this->expectExceptionMessage('{http://owncloud.org/ns}share needs at least one set or remove element');
 		$body = '<?xml version="1.0" encoding="utf-8" ?><CS:share xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns"></CS:share>';
+
+		$this->executeRequest($body);
+	}
+
+	public function testSelfClosingShareRequestIsRejected(): void {
+		$this->rateLimiting->expects(self::once())
+			->method('check');
+		$this->book->expects(self::never())
+			->method('updateShares');
+		$this->expectException(BadRequest::class);
+		$this->expectExceptionMessage('{http://owncloud.org/ns}share needs at least one set or remove element');
+		$body = '<?xml version="1.0" encoding="utf-8" ?><CS:share xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns"/>';
 
 		$this->executeRequest($body);
 	}

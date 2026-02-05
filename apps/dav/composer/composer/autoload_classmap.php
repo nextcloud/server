@@ -298,6 +298,7 @@ return array(
     'OCA\\DAV\\DAV\\Sharing\\SharingService' => $baseDir . '/../lib/DAV/Sharing/SharingService.php',
     'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite' => $baseDir . '/../lib/DAV/Sharing/Xml/Invite.php',
     'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest' => $baseDir . '/../lib/DAV/Sharing/Xml/ShareRequest.php',
+    'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequestElement' => $baseDir . '/../lib/DAV/Sharing/Xml/ShareRequestElement.php',
     'OCA\\DAV\\DAV\\SystemPrincipalBackend' => $baseDir . '/../lib/DAV/SystemPrincipalBackend.php',
     'OCA\\DAV\\DAV\\ViewOnlyPlugin' => $baseDir . '/../lib/DAV/ViewOnlyPlugin.php',
     'OCA\\DAV\\Db\\Absence' => $baseDir . '/../lib/Db/Absence.php',
