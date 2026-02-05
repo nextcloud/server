@@ -19,6 +19,7 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Activity\ISetting;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -26,20 +27,13 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
-	/** @var string */
-	protected $formattingObjectType;
-
-	/** @var int|string */
-	protected $formattingObjectId;
-
-	/** @var bool */
-	protected $requirePNG = false;
-
-	/** @var string */
-	protected $currentUserId;
+	protected string $formattingObjectType;
+	protected string|int $formattingObjectId;
+	protected bool $requirePNG = false;
+	protected ?string $currentUserId;
 
 	public function __construct(
 		protected IRequest $request,
@@ -49,17 +43,20 @@ class Manager implements IManager {
 		protected IRichTextFormatter $richTextFormatter,
 		protected IL10N $l10n,
 		protected ITimeFactory $timeFactory,
+		protected IAppConfig $appConfig,
+		protected LoggerInterface $logger,
 	) {
+		$this->currentUserId = $this->session->getUser()?->getUID();
 	}
 
 	/** @var \Closure[] */
-	private $consumersClosures = [];
+	private array $consumersClosures = [];
 
 	/** @var IConsumer[] */
-	private $consumers = [];
+	private array $consumers = [];
 
 	/**
-	 * @return \OCP\Activity\IConsumer[]
+	 * @return IConsumer[]
 	 */
 	protected function getConsumers(): array {
 		if (!empty($this->consumers)) {
@@ -92,7 +89,7 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent(): IEvent {
-		return new Event($this->validator, $this->richTextFormatter);
+		return new Event($this->validator, $this->richTextFormatter, $this->logger, $this->appConfig);
 	}
 
 	/**
@@ -163,10 +160,10 @@ class Manager implements IManager {
 	}
 
 	/** @var string[] */
-	protected $filterClasses = [];
+	protected array $filterClasses = [];
 
 	/** @var IFilter[] */
-	protected $filters = [];
+	protected array $filters = [];
 
 	/**
 	 * @param string $filter Class must implement OCA\Activity\IFilter
@@ -210,10 +207,10 @@ class Manager implements IManager {
 	}
 
 	/** @var string[] */
-	protected $providerClasses = [];
+	protected array $providerClasses = [];
 
 	/** @var IProvider[] */
-	protected $providers = [];
+	protected array $providers = [];
 
 	/**
 	 * @param string $provider Class must implement OCA\Activity\IProvider
@@ -244,10 +241,10 @@ class Manager implements IManager {
 	}
 
 	/** @var string[] */
-	protected $settingsClasses = [];
+	protected array $settingsClasses = [];
 
 	/** @var ISetting[] */
-	protected $settings = [];
+	protected array $settings = [];
 
 	/**
 	 * @param string $setting Class must implement OCA\Activity\ISetting

@@ -11,59 +11,43 @@ namespace OC\Activity;
 
 use OCP\Activity\Exceptions\InvalidValueException;
 use OCP\Activity\IEvent;
+use OCP\IAppConfig;
 use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use Psr\Log\LoggerInterface;
 
 class Event implements IEvent {
-	/** @var string */
-	protected $app = '';
-	/** @var string */
-	protected $type = '';
-	/** @var string */
-	protected $affectedUser = '';
-	/** @var string */
-	protected $author = '';
-	/** @var int */
-	protected $timestamp = 0;
-	/** @var string */
-	protected $subject = '';
-	/** @var array */
-	protected $subjectParameters = [];
-	/** @var string */
-	protected $subjectParsed = '';
-	/** @var string */
-	protected $subjectRich = '';
+	protected string $app = '';
+	protected string $type = '';
+	protected string $affectedUser = '';
+	protected string $author = '';
+	protected int $timestamp = 0;
+	protected string $subject = '';
+	protected array $subjectParameters = [];
+	protected string $subjectParsed = '';
+	protected string $subjectRich = '';
 	/** @var array<string, array<string, string>> */
-	protected $subjectRichParameters = [];
-	/** @var string */
-	protected $message = '';
-	/** @var array */
-	protected $messageParameters = [];
-	/** @var string */
-	protected $messageParsed = '';
-	/** @var string */
-	protected $messageRich = '';
+	protected array $subjectRichParameters = [];
+	protected string $message = '';
+	protected array $messageParameters = [];
+	protected string $messageParsed = '';
+	protected string $messageRich = '';
 	/** @var array<string, array<string, string>> */
-	protected $messageRichParameters = [];
-	/** @var string */
-	protected $objectType = '';
+	protected array $messageRichParameters = [];
+	protected string $objectType = '';
 	protected string|int $objectId = 0;
-	/** @var string */
-	protected $objectName = '';
-	/** @var string */
-	protected $link = '';
-	/** @var string */
-	protected $icon = '';
-	/** @var bool */
-	protected $generateNotification = true;
-
-	/** @var IEvent|null */
-	protected $child;
+	protected string $objectName = '';
+	protected string $link = '';
+	protected string $icon = '';
+	protected bool $generateNotification = true;
+	protected ?IEvent $child;
 
 	public function __construct(
 		protected IValidator $richValidator,
 		protected IRichTextFormatter $richTextFormatter,
+		protected LoggerInterface $logger,
+		protected IAppConfig $appConfig,
 	) {
 	}
 
@@ -164,6 +148,24 @@ class Event implements IEvent {
 		if (isset($subject[255])) {
 			throw new InvalidValueException('subject');
 		}
+
+		$counter = $this->appConfig->getValueInt('activity', 'overly_long_activities', 0);
+		$return = [];
+		array_walk_recursive($parameters, static function ($a) use (&$return) { $return[] = $a; });
+		$parameter = implode('', $return);
+
+		if (strlen($parameter) > 4000) {
+			$counter++;
+			$this->logger->error('Activity with over 4000 characters detected', ['app' => $this->getApp()]);
+		} elseif (strlen($parameter) > 2000) {
+			$counter++;
+			$this->logger->warning('Activity with over 2000 characters detected', ['app' => $this->getApp()]);
+		}
+
+		if ($counter !== 0) {
+			$this->appConfig->setValueInt('activity', 'overly_long_activities', $counter);
+		}
+
 		$this->subject = $subject;
 		$this->subjectParameters = $parameters;
 		return $this;
