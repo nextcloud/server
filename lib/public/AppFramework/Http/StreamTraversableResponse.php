@@ -16,8 +16,8 @@ use Traversable;
  * Class StreamResponse
  *
  * @since 33.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class StreamTraversableResponse extends Response implements ICallbackResponse {

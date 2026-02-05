@@ -15,8 +15,8 @@ use OCP\IInitialStateService;
  * Class PublicTemplateResponse
  *
  * @since 14.0.0
- * @template H of array<string, mixed>
- * @template S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
  * @template-extends TemplateResponse<Http::STATUS_*, array<string, mixed>>
  */
 class PublicTemplateResponse extends TemplateResponse {
