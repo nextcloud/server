@@ -92,12 +92,11 @@ class ListenerTest extends TestCase {
 			->willReturn($userMountCache);
 
 		$node = $this->createMock(Node::class);
-		$nodes = [ $node ];
 
 		$ownerFolder = $this->createMock(Folder::class);
 		$ownerFolder->expects($this->any())
-			->method('getById')
-			->willReturn($nodes);
+			->method('getFirstNodeById')
+			->willReturn($node);
 
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
