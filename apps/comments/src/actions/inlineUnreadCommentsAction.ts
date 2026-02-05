@@ -3,12 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { IFileAction } from '@nextcloud/files'
+
 import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
-import { FileAction, getSidebar } from '@nextcloud/files'
+import { getSidebar } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import logger from '../logger.js'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'comments-unread',
 
 	title({ nodes }) {
@@ -47,4 +49,4 @@ export const action = new FileAction({
 	inline: () => true,
 
 	order: -140,
-})
+}
