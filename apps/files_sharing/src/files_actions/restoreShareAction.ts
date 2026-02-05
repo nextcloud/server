@@ -1,16 +1,18 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import ArrowULeftTopSvg from '@mdi/svg/svg/arrow-u-left-top.svg?raw'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, registerFileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { deletedSharesViewId } from '../files_views/shares.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'restore-share',
 	displayName: ({ nodes }) => n('files_sharing', 'Restore share', 'Restore shares', nodes.length),
 
@@ -40,6 +42,4 @@ export const action = new FileAction({
 
 	order: 1,
 	inline: () => true,
-})
-
-registerFileAction(action)
+}
