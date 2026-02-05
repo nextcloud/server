@@ -285,6 +285,8 @@ export default defineComponent({
 
 	data() {
 		return {
+			initialized: false,
+
 			loading: true,
 			loadingAction: null as string | null,
 			error: null as string | null,
@@ -497,6 +499,15 @@ export default defineComponent({
 
 		currentFolder() {
 			this.activeStore.activeFolder = this.currentFolder
+
+			// if not already initialized and we have a valid folder, we can consider the list as initialized
+			if (!this.initialized
+				&& this.currentFolder.fileid
+				&& this.currentFolder.fileid > 0
+			) {
+				this.initialized = true
+				this.$nextTick(async () => emit('files:list:initialized'))
+			}
 		},
 
 		currentView(newView, oldView) {

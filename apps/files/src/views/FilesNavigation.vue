@@ -43,12 +43,12 @@
 </template>
 
 <script lang="ts">
-import type { View } from '@nextcloud/files'
-import type { ViewConfig } from '../types.ts'
+import type { IView, View } from '@nextcloud/files'
 
-import { emit, subscribe } from '@nextcloud/event-bus'
+import { emit } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { getCanonicalLocale, getLanguage, t } from '@nextcloud/l10n'
+import { watchDebounced } from '@vueuse/core'
 import { defineComponent } from 'vue'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -94,6 +94,19 @@ export default defineComponent({
 		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
 
+		const views = useViews()
+		watchDebounced(views, () => {
+			const expandedViews = Object.entries(viewConfigStore.viewConfigs)
+				.filter(([, config]) => config.expanded)
+				.map(([id]) => id)
+			const expandedViewsWithChildView = views.value
+				.filter((view) => 'loadChildViews' in view && view.loadChildViews)
+				.filter((view) => expandedViews.includes(view.id)) as (View & Pick<Required<IView>, 'loadChildViews'>)[]
+			for (const view of expandedViewsWithChildView) {
+				view.loadChildViews(view)
+			}
+		}, { debounce: 100 })
+
 		return {
 			t,
 
@@ -102,7 +115,7 @@ export default defineComponent({
 			filtersStore,
 			viewConfigStore,
 
-			views: useViews(),
+			views,
 		}
 	},
 
@@ -123,18 +136,18 @@ export default defineComponent({
 		/**
 		 * Map of parent ids to views
 		 */
-		viewMap(): Record<string, View[]> {
+		viewMap(): Record<string, IView[]> {
 			return this.views
 				.reduce((map, view) => {
 					map[view.parent!] = [...(map[view.parent!] || []), view]
-					map[view.parent!].sort((a, b) => {
+					map[view.parent!]!.sort((a, b) => {
 						if (typeof a.order === 'number' || typeof b.order === 'number') {
 							return (a.order ?? 0) - (b.order ?? 0)
 						}
 						return collator.compare(a.name, b.name)
 					})
 					return map
-				}, {} as Record<string, View[]>)
+				}, {} as Record<string, IView[]>)
 		},
 	},
 
@@ -150,11 +163,6 @@ export default defineComponent({
 		},
 	},
 
-	created() {
-		subscribe('files:folder-tree:initialized', this.loadExpandedViews)
-		subscribe('files:folder-tree:expanded', this.loadExpandedViews)
-	},
-
 	beforeMount() {
 		// This is guaranteed to be a view because `currentViewId` falls back to the default 'files' view
 		const view = this.views.find(({ id }) => id === this.currentViewId)!
@@ -163,23 +171,12 @@ export default defineComponent({
 	},
 
 	methods: {
-		async loadExpandedViews() {
-			const viewsToLoad: View[] = (Object.entries(this.viewConfigStore.viewConfigs) as Array<[string, ViewConfig]>)
-				.filter(([, config]) => config.expanded === true)
-				.map(([viewId]) => this.views.find((view) => view.id === viewId))
-				.filter(Boolean as unknown as ((u: unknown) => u is View))
-				.filter((view) => view.loadChildViews && !view.loaded)
-			for (const view of viewsToLoad) {
-				await view.loadChildViews(view)
-			}
-		},
-
 		/**
 		 * Set the view as active on the navigation and handle internal state
 		 *
 		 * @param view View to set active
 		 */
-		showView(view: View) {
+		showView(view: IView) {
 			this.sidebar.close()
 			getNavigation().setActive(view.id)
 			emit('files:navigation:changed', view)
