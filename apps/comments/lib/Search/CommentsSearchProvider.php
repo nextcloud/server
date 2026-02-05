@@ -116,11 +116,11 @@ class CommentsSearchProvider implements IProvider {
 	 * @throws NotFoundException
 	 */
 	protected function getFileForComment(Folder $userFolder, IComment $comment): Node {
-		$nodes = $userFolder->getById((int)$comment->getObjectId());
-		if (empty($nodes)) {
+		$node = $userFolder->getFirstNodeById((int)$comment->getObjectId());
+		if ($node === null) {
 			throw new NotFoundException('File not found');
 		}
 
-		return array_shift($nodes);
+		return $node;
 	}
 }
