@@ -1,15 +1,17 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import AlarmOffSvg from '@mdi/svg/svg/alarm-off.svg?raw'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { clearReminder } from '../services/reminderService.ts'
 import { getVerboseDateString } from '../shared/utils.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'clear-reminder',
 
 	displayName: () => t('files_reminders', 'Clear reminder'),
@@ -48,4 +50,4 @@ export const action = new FileAction({
 	},
 
 	order: 19,
-})
+}

@@ -1,14 +1,16 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
-import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 
 export const SET_REMINDER_MENU_ID = 'set-reminder-menu'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: SET_REMINDER_MENU_ID,
 	displayName: () => t('files_reminders', 'Set reminder'),
 	iconSvgInline: () => AlarmSvg,
@@ -31,4 +33,4 @@ export const action = new FileAction({
 	},
 
 	order: 20,
-})
+}
