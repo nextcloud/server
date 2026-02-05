@@ -1,16 +1,18 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import CheckSvg from '@mdi/svg/svg/check.svg?raw'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, registerFileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { pendingSharesViewId } from '../files_views/shares.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'accept-share',
 	displayName: ({ nodes }) => n('files_sharing', 'Accept share', 'Accept shares', nodes.length),
 	iconSvgInline: () => CheckSvg,
@@ -46,6 +48,4 @@ export const action = new FileAction({
 
 	order: 1,
 	inline: () => true,
-})
-
-registerFileAction(action)
+}

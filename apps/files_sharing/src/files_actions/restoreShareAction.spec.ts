@@ -1,12 +1,13 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Folder, View } from '@nextcloud/files'
+
+import type { IFolder, IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import { File, FileAction, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { action } from './restoreShareAction.ts'
@@ -19,12 +20,12 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const deletedShareView = {
 	id: 'deletedshares',
 	name: 'Deleted shares',
-} as View
+} as IView
 
 // Mock webroot variable
 beforeAll(() => {
@@ -42,18 +43,17 @@ describe('Restore share action conditions tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('restore-share')
 		expect(action.displayName({
 			view: deletedShareView,
 			nodes: [file],
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Restore share')
 		expect(action.iconSvgInline({
 			view: deletedShareView,
 			nodes: [file],
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
@@ -62,7 +62,7 @@ describe('Restore share action conditions tests', () => {
 		expect(action.inline!({
 			view: deletedShareView,
 			nodes: [file],
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -88,7 +88,7 @@ describe('Restore share action conditions tests', () => {
 		expect(action.displayName({
 			view: deletedShareView,
 			nodes: [file1, file2],
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Restore shares')
 	})
@@ -109,7 +109,7 @@ describe('Restore share action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view: deletedShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -119,7 +119,7 @@ describe('Restore share action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -129,7 +129,7 @@ describe('Restore share action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [],
 			view: deletedShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -160,7 +160,7 @@ describe('Restore share action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: deletedShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -205,7 +205,7 @@ describe('Restore share action execute tests', () => {
 		const exec = await action.execBatch!({
 			nodes: [file1, file2],
 			view: deletedShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -239,7 +239,7 @@ describe('Restore share action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: deletedShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
