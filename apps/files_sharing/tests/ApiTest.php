@@ -1050,7 +1050,7 @@ class ApiTest extends TestCase {
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
 		// date should be changed
-		$dateWithinRange->setTime(0, 0, 0);
+		$dateWithinRange->setTime(23, 59, 59);
 		$dateWithinRange->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 
@@ -1261,7 +1261,7 @@ class ApiTest extends TestCase {
 
 	public static function datesProvider() {
 		$date = new \DateTime();
-		$date->setTime(0, 0);
+		$date->setTime(23, 59, 59);
 		$date->add(new \DateInterval('P5D'));
 		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
@@ -1323,14 +1323,14 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date->format('Y-m-d 00:00:00'), $data['expiration']);
+		$this->assertEquals($date->format('Y-m-d 23:59:59'), $data['expiration']);
 
 		// check for correct link
 		$url = Server::get(IURLGenerator::class)->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		$share = $this->shareManager->getShareById('ocinternal:' . $data['id']);
-		$date->setTime(0, 0, 0);
+		$date->setTime(23, 59, 59);
 		$this->assertEquals($date, $share->getExpirationDate());
 
 		$this->shareManager->deleteShare($share);
