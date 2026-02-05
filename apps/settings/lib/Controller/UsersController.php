@@ -422,10 +422,8 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_BIRTHDATE => ['value' => $birthdate, 'scope' => $birthdateScope],
 			IAccountManager::PROPERTY_PRONOUNS => ['value' => $pronouns, 'scope' => $pronounsScope],
 		];
-		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
 		foreach ($updatable as $property => $data) {
-			if ($allowUserToChangeDisplayName === false
-				&& in_array($property, [IAccountManager::PROPERTY_DISPLAYNAME, IAccountManager::PROPERTY_EMAIL], true)) {
+			if (!$user->canEditProperty($property)) {
 				continue;
 			}
 			$property = $userAccount->getProperty($property);
