@@ -1,13 +1,14 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { View } from '@nextcloud/files'
+
+import type { IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as capabilities from '@nextcloud/capabilities'
 import * as eventBus from '@nextcloud/event-bus'
-import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import logger from '../logger.ts'
 import { action } from './deleteAction.ts'
@@ -20,12 +21,12 @@ vi.mock('@nextcloud/capabilities')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const trashbinView = {
 	id: 'trashbin',
 	name: 'Trashbin',
-} as View
+} as IView
 
 describe('Delete action conditions tests', () => {
 	beforeEach(() => {
@@ -90,7 +91,6 @@ describe('Delete action conditions tests', () => {
 	})
 
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('delete')
 		expect(action.displayName({
 			nodes: [file],

@@ -1,10 +1,13 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import AutoRenewSvg from '@mdi/svg/svg/autorenew.svg?raw'
 import { getCapabilities } from '@nextcloud/capabilities'
-import { FileAction, registerFileAction } from '@nextcloud/files'
+import { registerFileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { convertFile, convertFiles } from './convertUtils.ts'
@@ -18,47 +21,45 @@ type ConversionsProvider = {
 export const ACTION_CONVERT = 'convert'
 
 /**
- *
+ * Registers the convert actions based on the capabilities provided by the server.
  */
 export function registerConvertActions() {
 	// Generate sub actions
 	const convertProviders = getCapabilities()?.files?.file_conversions as ConversionsProvider[] ?? []
-	const actions = convertProviders.map(({ to, from, displayName }) => {
-		return new FileAction({
-			id: `convert-${from}-${to}`,
-			displayName: () => t('files', 'Save as {displayName}', { displayName }),
-			iconSvgInline: () => generateIconSvg(to),
-			enabled: ({ nodes }) => {
-				// Check that all nodes have the same mime type
-				return nodes.every((node) => from === node.mime)
-			},
+	const actions = convertProviders.map(({ to, from, displayName }) => ({
+		id: `convert-${from}-${to}`,
+		displayName: () => t('files', 'Save as {displayName}', { displayName }),
+		iconSvgInline: () => generateIconSvg(to),
+		enabled: ({ nodes }) => {
+			// Check that all nodes have the same mime type
+			return nodes.every((node) => from === node.mime)
+		},
 
-			async exec({ nodes }) {
-				if (!nodes[0]) {
-					return false
-				}
+		async exec({ nodes }) {
+			if (!nodes[0]) {
+				return false
+			}
 
-				// If we're here, we know that the node has a fileid
-				convertFile(nodes[0].fileid as number, to)
+			// If we're here, we know that the node has a fileid
+			convertFile(nodes[0].fileid as number, to)
 
-				// Silently terminate, we'll handle the UI in the background
-				return null
-			},
+			// Silently terminate, we'll handle the UI in the background
+			return null
+		},
 
-			async execBatch({ nodes }) {
-				const fileIds = nodes.map((node) => node.fileid).filter(Boolean) as number[]
-				convertFiles(fileIds, to)
+		async execBatch({ nodes }) {
+			const fileIds = nodes.map((node) => node.fileid).filter(Boolean) as number[]
+			convertFiles(fileIds, to)
 
-				// Silently terminate, we'll handle the UI in the background
-				return Array(nodes.length).fill(null)
-			},
+			// Silently terminate, we'll handle the UI in the background
+			return Array(nodes.length).fill(null)
+		},
 
-			parent: ACTION_CONVERT,
-		})
-	})
+		parent: ACTION_CONVERT,
+	} satisfies IFileAction))
 
 	// Register main action
-	registerFileAction(new FileAction({
+	registerFileAction({
 		id: ACTION_CONVERT,
 		displayName: () => t('files', 'Save as …'),
 		iconSvgInline: () => AutoRenewSvg,
@@ -69,15 +70,16 @@ export function registerConvertActions() {
 			return null
 		},
 		order: 25,
-	}))
+	} satisfies IFileAction)
 
 	// Register sub actions
 	actions.forEach(registerFileAction)
 }
 
 /**
+ * Generates an SVG icon for a given mime type by using the server's mime icon endpoint.
  *
- * @param mime
+ * @param mime - The mime type to generate the icon for
  */
 export function generateIconSvg(mime: string) {
 	// Generate icon based on mime type

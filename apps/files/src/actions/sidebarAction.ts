@@ -3,15 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { IFileAction } from '@nextcloud/files'
+
 import InformationSvg from '@mdi/svg/svg/information-outline.svg?raw'
-import { FileAction, getSidebar, Permission } from '@nextcloud/files'
+import { getSidebar, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import logger from '../logger.ts'
 
 export const ACTION_DETAILS = 'details'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_DETAILS,
 	displayName: () => t('files', 'Details'),
 	iconSvgInline: () => InformationSvg,
@@ -59,4 +61,4 @@ export const action = new FileAction({
 		key: 'D',
 		description: t('files', 'Open the details sidebar'),
 	},
-})
+}

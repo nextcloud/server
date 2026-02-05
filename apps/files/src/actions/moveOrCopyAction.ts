@@ -4,7 +4,7 @@
  */
 
 import type { IFilePickerButton } from '@nextcloud/dialogs'
-import type { IFolder, INode } from '@nextcloud/files'
+import type { IFileAction, IFolder, INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils.ts'
 
@@ -13,7 +13,7 @@ import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 import { isAxiosError } from '@nextcloud/axios'
 import { FilePickerClosed, getFilePickerBuilder, openConflictPicker, showError, showLoading } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
+import { FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
 import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
 import { getConflicts } from '@nextcloud/upload'
@@ -31,7 +31,7 @@ export class HintException extends Error {}
 
 export const ACTION_COPY_MOVE = 'move-copy'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_COPY_MOVE,
 	order: 15,
 	displayName({ nodes }) {
@@ -84,7 +84,7 @@ export const action = new FileAction({
 			return nodes.map(() => false)
 		}
 	},
-})
+}
 
 /**
  * Handle the copy/move of a node to a destination
@@ -248,11 +248,11 @@ function getActionForNodes(nodes: INode[]): MoveCopyAction {
 function createLoadingNotification(mode: MoveCopyAction, sources: string[], destination: string): () => void {
 	const text = mode === MoveCopyAction.MOVE
 		? (sources.length === 1
-				? t('files', 'Moving "{source}" to "{destination}" …', { source: sources[0], destination })
+				? t('files', 'Moving "{source}" to "{destination}" …', { source: sources[0]!, destination })
 				: t('files', 'Moving {count} files to "{destination}" …', { count: sources.length, destination })
 			)
 		: (sources.length === 1
-				? t('files', 'Copying "{source}" to "{destination}" …', { source: sources[0], destination })
+				? t('files', 'Copying "{source}" to "{destination}" …', { source: sources[0]!, destination })
 				: t('files', 'Copying {count} files to "{destination}" …', { count: sources.length, destination })
 			)
 
@@ -277,7 +277,7 @@ async function openFilePickerForAction(
 	const fileIDs = nodes.map((node) => node.fileid).filter(Boolean)
 	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
-		.setFilter((n: INode) => {
+		.setFilter((n) => {
 			// We don't want to show the current nodes in the file picker
 			return !fileIDs.includes(n.fileid)
 		})
@@ -288,7 +288,7 @@ async function openFilePickerForAction(
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
-		.setButtonFactory((selection: INode[], path: string) => {
+		.setButtonFactory((selection, path) => {
 			const buttons: IFilePickerButton[] = []
 			const target = basename(path)
 
@@ -300,9 +300,9 @@ async function openFilePickerForAction(
 					label: target ? t('files', 'Copy to {target}', { target }, { escape: false, sanitize: false }) : t('files', 'Copy'),
 					variant: 'primary',
 					icon: CopyIconSvg,
-					async callback(destination: INode[]) {
+					async callback(destination) {
 						resolve({
-							destination: destination[0] as IFolder,
+							destination: destination[0] as unknown as IFolder,
 							action: MoveCopyAction.COPY,
 						} as MoveCopyResult)
 					},
@@ -330,9 +330,9 @@ async function openFilePickerForAction(
 					label: target ? t('files', 'Move to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Move'),
 					variant: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
 					icon: FolderMoveSvg,
-					async callback(destination: INode[]) {
+					async callback(destination) {
 						resolve({
-							destination: destination[0] as IFolder,
+							destination: destination[0] as unknown as IFolder,
 							action: MoveCopyAction.MOVE,
 						} as MoveCopyResult)
 					},

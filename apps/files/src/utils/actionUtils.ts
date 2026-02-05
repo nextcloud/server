@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ActionContextSingle, FileAction } from '@nextcloud/files'
+import type { ActionContextSingle, IFileAction } from '@nextcloud/files'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { NodeStatus } from '@nextcloud/files'
@@ -16,7 +16,7 @@ import { useActiveStore } from '../store/active.ts'
  *
  * @param action The action to execute
  */
-export async function executeAction(action: FileAction) {
+export async function executeAction(action: IFileAction) {
 	const activeStore = useActiveStore()
 	const currentFolder = activeStore.activeFolder
 	const currentNode = activeStore.activeNode
