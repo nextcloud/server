@@ -74,7 +74,7 @@ class AddTest extends TestCase {
 			->with($groupId, $settingClass)
 			->willReturn($authorizedGroup);
 
-		$this->invokePrivate($this->command, 'execute', [$inputInterface, $outputInterface]);
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 
 		$this->assertEquals(0, $result);
 	}
@@ -103,7 +103,7 @@ class AddTest extends TestCase {
 			->with($groupId, $settingClass)
 			->willThrowException(new ConflictException('Group is already assigned to this class'));
 
-		$this->invokePrivate($this->command, 'execute', [$inputInterface, $outputInterface]);
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 
 		$this->assertEquals(4, $result, 'Duplicate assignment should return exit code 4');
 	}
@@ -117,7 +117,7 @@ class AddTest extends TestCase {
 			->with('settingClass')
 			->willReturn($settingClass);
 
-		$this->invokePrivate($this->command, 'execute', [$inputInterface, $outputInterface]);
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 
 		// Should return exit code 2 for invalid setting class
 		$this->assertEquals(2, $result);
@@ -140,7 +140,7 @@ class AddTest extends TestCase {
 			->with($groupId)
 			->willReturn(false);
 
-		$this->invokePrivate($this->command, 'execute', [$inputInterface, $outputInterface]);
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 
 		// Should return exit code 3 for non-existent group
 		$this->assertEquals(3, $result);
