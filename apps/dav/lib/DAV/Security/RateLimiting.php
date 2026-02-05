@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV\DAV\Security;
 
+use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
 use OCP\IAppConfig;
 use OCP\IUserSession;
@@ -34,8 +36,8 @@ class RateLimiting {
 		}
 
 		$identifier = 'share-addressbook-or-calendar';
-		$userLimit = $this->config->getValueInt('dav', 'rateLimitShareAddressbookOrCalendar', 100);
-		$userPeriod = $this->config->getValueInt('dav', 'rateLimitPeriodShareAddressbookOrCalendar', 3600);
+		$userLimit = $this->config->getValueInt(Application::APP_ID, ConfigLexicon::RATE_LIMIT_SHARE_ADDRESSBOOK_OR_CALENDAR);
+		$userPeriod = $this->config->getValueInt(Application::APP_ID, ConfigLexicon::RATE_LIMIT_PERIOD_SHARE_ADDRESSBOOK_OR_CALENDAR);
 
 		try {
 			$this->limiter->registerUserRequest($identifier, $userLimit, $userPeriod, $user);
