@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INode } from '@nextcloud/files'
+import type { IFileAction, INode } from '@nextcloud/files'
 import type { TagWithId } from '../types.ts'
 
 import { subscribe } from '@nextcloud/event-bus'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import logger from '../logger.ts'
 import { fetchTags } from '../services/api.ts'
@@ -19,7 +18,7 @@ import '../css/fileEntryInlineSystemTags.scss'
 // Init tag cache
 const cache: TagWithId[] = []
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'system-tags',
 	displayName: () => '',
 	iconSvgInline: () => '',
@@ -44,7 +43,7 @@ export const action = new FileAction({
 	},
 
 	order: 0,
-})
+}
 
 // Subscribe to the events
 subscribe('systemtags:node:updated', updateSystemTagsHtml)
@@ -167,11 +166,11 @@ async function renderInline(node: INode): Promise<HTMLElement> {
 		}
 	}
 
-	systemTagsElement.append(renderTag(tags[0]))
+	systemTagsElement.append(renderTag(tags[0]!))
 	if (tags.length === 2) {
 		// Special case only two tags:
 		// the overflow fake tag would take the same space as this, so render it
-		systemTagsElement.append(renderTag(tags[1]))
+		systemTagsElement.append(renderTag(tags[1]!))
 	} else if (tags.length > 1) {
 		// More tags than the one we're showing
 		// So we add a overflow element indicating there are more tags

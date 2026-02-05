@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, View } from '@nextcloud/files'
+import type { IFolder, IView } from '@nextcloud/files'
 
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { File, FileAction, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import * as serviceTagApi from '../services/api.ts'
 import { setNodeSystemTags } from '../utils.ts'
@@ -15,7 +15,7 @@ import { action } from './inlineSystemTagsAction.ts'
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 describe('Inline system tags action conditions tests', () => {
 	test('Default values', () => {
@@ -28,18 +28,17 @@ describe('Inline system tags action conditions tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('system-tags')
 		expect(action.displayName({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('')
 		expect(action.iconSvgInline({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('')
 		expect(action.default).toBeUndefined()
@@ -49,7 +48,7 @@ describe('Inline system tags action conditions tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -72,7 +71,7 @@ describe('Inline system tags action conditions tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -98,7 +97,7 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
@@ -123,7 +122,7 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
@@ -148,7 +147,7 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
@@ -178,7 +177,7 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
@@ -208,7 +207,7 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		}) as HTMLElement
 		document.body.appendChild(result)
@@ -270,7 +269,7 @@ describe('Inline system tags action colors', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
@@ -297,7 +296,7 @@ describe('Inline system tags action colors', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
@@ -324,7 +323,7 @@ describe('Inline system tags action colors', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		}) as HTMLElement
 		document.body.appendChild(result)
