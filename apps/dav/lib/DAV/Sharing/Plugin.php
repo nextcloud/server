@@ -130,54 +130,45 @@ class Plugin extends ServerPlugin {
 
 		$message = $this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
 
-		switch ($documentType) {
-			// Dealing with the 'share' document, which modified invitees on a
-			// calendar.
-			case '{' . self::NS_OWNCLOUD . '}share':
+		if ($message instanceof ShareRequest) {
+			$this->rateLimiting->check();
+			$this->validateShareRequest($message);
 
-				$this->rateLimiting->check();
-				$this->validateShareRequest($message);
+			// We can only deal with IShareableCalendar objects
+			if (!$node instanceof IShareable) {
+				return;
+			}
 
-				// We can only deal with IShareableCalendar objects
-				if (!$node instanceof IShareable) {
+			$this->server->transactionType = 'post-oc-resource-share';
+
+			// Getting ACL info
+			$acl = $this->server->getPlugin('acl');
+
+			// If there's no ACL support, we allow everything
+			if ($acl) {
+				/** @var \Sabre\DAVACL\Plugin $acl */
+				$acl->checkPrivileges($path, '{DAV:}write');
+
+				$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
+				$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
+				if ($limitSharingToOwner && !$isOwner) {
 					return;
 				}
+			}
 
-				$this->server->transactionType = 'post-oc-resource-share';
+			$node->updateShares($message->set, $message->remove);
 
-				// Getting ACL info
-				$acl = $this->server->getPlugin('acl');
+			$response->setStatus(Http::STATUS_OK);
+			// Adding this because sending a response body may cause issues,
+			// and I wanted some type of indicator the response was handled.
+			$response->setHeader('X-Sabre-Status', 'everything-went-well');
 
-				// If there's no ACL support, we allow everything
-				if ($acl) {
-					/** @var \Sabre\DAVACL\Plugin $acl */
-					$acl->checkPrivileges($path, '{DAV:}write');
-
-					$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
-					$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
-					if ($limitSharingToOwner && !$isOwner) {
-						return;
-					}
-				}
-
-				$node->updateShares($message->set, $message->remove);
-
-				$response->setStatus(Http::STATUS_OK);
-				// Adding this because sending a response body may cause issues,
-				// and I wanted some type of indicator the response was handled.
-				$response->setHeader('X-Sabre-Status', 'everything-went-well');
-
-				// Breaking the event chain
-				return false;
+			// Breaking the event chain
+			return false;
 		}
 	}
 
-	private function validateShareRequest($shareRequest): void {
-		if (!$shareRequest instanceof ShareRequest) {
-			// @FIXME: Replace switch-case in httpPost with instanceof ShareRequest
-			throw new BadRequest('The given request is not valid');
-		}
-
+	private function validateShareRequest(ShareRequest $shareRequest): void {
 		$elements = (count($shareRequest->set) + count($shareRequest->remove));
 
 		if ($elements === 0) {

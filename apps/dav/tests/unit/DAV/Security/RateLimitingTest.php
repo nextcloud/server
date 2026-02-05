@@ -55,13 +55,10 @@ class RateLimitingTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$this->config->method('getValueInt')
-			->willReturnCallback(static function (string $app, string $key, int $default): int {
-				return match ($key) {
-					'rateLimitShareAddressbookOrCalendar' => 7,
-					'rateLimitPeriodShareAddressbookOrCalendar' => 600,
-					default => $default,
-				};
-			});
+			->willReturnMap([
+				['dav', 'rateLimitShareAddressbookOrCalendar', 7],
+				['dav', 'rateLimitPeriodShareAddressbookOrCalendar', 600],
+			]);
 		$this->limiter->expects($this->once())
 			->method('registerUserRequest')
 			->with(
@@ -80,7 +77,10 @@ class RateLimitingTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$this->config->method('getValueInt')
-			->willReturnArgument(2);
+			->willReturnMap([
+				['dav', 'rateLimitShareAddressbookOrCalendar', 100],
+				['dav', 'rateLimitPeriodShareAddressbookOrCalendar', 3600],
+			]);
 		$this->limiter->expects($this->once())
 			->method('registerUserRequest')
 			->with(
