@@ -77,6 +77,7 @@ class Propagator implements IPropagator {
 		}
 
 		$parentHashes = array_map('md5', $parents);
+		sort($parentHashes); // Ensure rows are always locked in the same order
 		$etag = uniqid(); // since we give all folders the same etag we don't ask the storage for the etag
 
 		$builder = $this->connection->getQueryBuilder();
