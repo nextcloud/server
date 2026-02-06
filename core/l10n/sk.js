@@ -45,6 +45,7 @@ OC.L10N.register(
     "Input text is too long" : "Vstupný text je príliš dlhý.",
     "Requested task type does not exist" : "Vyžiadaný typ úlohy neexistuje",
     "Necessary language model provider is not available" : "Potrebný poskytovateľ jazykového modelu nie je dostupný",
+    "Cannot generate less than 1 image" : "Nie je možné vygenerovať menej ako 1 obrázok",
     "No text to image provider is available" : "Nie je dostupný žiadny poskytovateľ služby \"text na obrázok\"",
     "Image not found" : "Obrázok nenájdený",
     "No translation provider available" : "Nie je dostupný žiadny poskytovateľ prekladu",

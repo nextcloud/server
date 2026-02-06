@@ -439,7 +439,7 @@ OC.L10N.register(
     "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Os aplicativos em destaque são desenvolvidos pela comunidade. Eles oferecem funcionalidade central e estão prontos para uso em produção.",
     "Community rating: {score}/5" : "Avaliação da comunidade: {score}/5",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "A troca de pacotes de escritório é gerenciada através da interface Nextcloud All-in-One.",
-    "Please use the AIO interface to switch between office suites." : "Utilize a interface AIO para alternar entre os pacotes de escritório.",
+    "Please use the AIO interface to switch between office suites." : "Por favor, utilize a interface AIO para alternar entre os pacotes de escritório.",
     "Select your preferred office suite. Please note that installing requires manual server setup." : "Selecione o seu pacote de escritório preferido. Observe que a instalação requer configuração manual do servidor.",
     "installed" : "instalado",
     "Learn more" : "Saiba mais",
@@ -1009,7 +1009,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Para segurança e desempenho da sua instalação é importante que tudo esteja configurado corretamente. Para ajudá-lo com isso, estamos fazendo algumas verificações automáticas. Consulte a documentação para mais informações.",
     "Checking for system and security issues." : "Verificando problemas de sistema e segurança.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Verifique novamente os <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">manuais de instalação ↗</a> e procure por erros ou avisos no <a href=\"%2$s\">log</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Verifique a segurança do seu Nextcloud em <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nossa verificação de segurança ↗</a>.",
-    "Follow us on X" : "Siga-nos no X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Verifique a segurança do seu Nextcloud em <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nossa verificação de segurança ↗</a>."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -1009,7 +1009,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "為確保您 Nextcloud 實例安全和性能，正確配置至關重要。為幫助您達到這一目標，我們正在進行一些自動檢查。請參閱連結的說明書以獲取更多詳細信息。",
     "Checking for system and security issues." : "檢查系統與安全性問題。",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "請再次確認<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">安裝手冊 ↗</a>，並在<a href=\"%2$s\">紀錄檔</a>中檢查是否有任何錯誤或警告。",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "透過<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我們的安全性掃描 ↗</a>檢查您 Nextcloud 的安全性。",
-    "Follow us on X" : "在 X 上追蹤我們"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "透過<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">我們的安全性掃描 ↗</a>檢查您 Nextcloud 的安全性。"
 },
 "nplurals=1; plural=0;");

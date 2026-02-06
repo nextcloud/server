@@ -897,7 +897,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zure instantziaren segurtasuna eta funtzionamenduarentzat oso garrantzitsua da dena ondo konfiguratuta egotea. Horretan laguntzeko egiaztapen automatiko batzuk egiten ditu tresnak bera. Irakurri estekatutako dokumentazioa informazio gehiago lortzeko.",
     "Checking for system and security issues." : "Sistema eta segurtasun arazoak bilatzen.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Mesedez egiaztatu <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">instalazio gidak↗</a> eta begiratu errore eta abisuak <a href=\"%2$s\">log fitxategian</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Egiaztatu zure Nextcloud instantziaren segurtasuna <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">gure segurtasun eskaneoa eginez ↗</a>.",
-    "Follow us on X" : "Jarraitu gaitzazu X-en"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Egiaztatu zure Nextcloud instantziaren segurtasuna <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">gure segurtasun eskaneoa eginez ↗</a>."
 },
 "nplurals=2; plural=(n != 1);");

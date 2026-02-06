@@ -895,7 +895,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "من المهم لأمان الخادم و مستوى أدائه أن يتم تكوين كل شيء بشكل صحيح. لمساعدتك في ذلك، نقوم ببعض الفحوصات التلقائية. يُرجى الاطلاع على الوثائق ذات الصلة لمزيد من المعلومات.",
     "Checking for system and security issues." : "التحقق من مشاكل النظام والأمان.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "يرجى إعادة التحقُّق مرة أخرى من<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\"> أدلة التنصيب ↗</a>، والتحقق من وجود أي أخطاء أو تحذيرات في <a href=\"%2$s\">سجل أنشطة </a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "تحقق من أمان نكست كلاود عندك من خلال <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">اختبار فحص الأمان من طرفنا our security scan↗</a>.",
-    "Follow us on X" : "تابعنا على منصة X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "تحقق من أمان نكست كلاود عندك من خلال <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">اختبار فحص الأمان من طرفنا our security scan↗</a>."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
