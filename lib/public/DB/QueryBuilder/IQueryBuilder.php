@@ -1092,4 +1092,12 @@ interface IQueryBuilder {
 	 * @since 30.0.0
 	 */
 	public function getOutputColumns(): array;
+
+	/**
+	 * Locks the queried rows for a subsequent update.
+	 *
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
 }
