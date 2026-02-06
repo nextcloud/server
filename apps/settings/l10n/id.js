@@ -989,7 +989,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Sangat penting sekali untuk semuanya diatur secara benar demi keamanan dan performa instansi Anda. Untuk membantu Anda dengan hal itu kami melakukan cek otomatis. Mohon melihat tautan dokumentasi untuk lebih lanjut.",
     "Checking for system and security issues." : "Memeriksa masalah sistem dan keamanan.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Mohon cek kembali Petunjuk pemasangan ↗, dan cek semua galat atau peringatan di <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">log<a href=\"%2$s\">.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Cek keamanan Nextcloud Anda dengan <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">pemindaian keamanan kami ↗</a>.",
-    "Follow us on X" : "Ikuti kami di X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Cek keamanan Nextcloud Anda dengan <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">pemindaian keamanan kami ↗</a>."
 },
 "nplurals=1; plural=0;");

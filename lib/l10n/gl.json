@@ -223,6 +223,7 @@
     "Could not find category \"%s\"" : "Non foi posíbel atopar a categoría «%s»",
     "Input text" : "Texto de entrada",
     "The input text" : "O texto de entrada",
+    "Cannot generate less than 1 image" : "Non é posíbel xerar menos de 1 imaxe",
     "Sunday" : "domingo",
     "Monday" : "luns",
     "Tuesday" : "martes",

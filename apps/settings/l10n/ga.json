@@ -436,9 +436,11 @@
     "This app is supported via your current Nextcloud subscription." : "Tacaítear leis an aip seo trí do shíntiús reatha Nextcloud.",
     "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Forbraíonn an pobal agus laistigh den phobal aipeanna sainghnéitheacha. Cuireann siad feidhmiúlacht lárnach ar fáil agus tá siad réidh le húsáid táirgeachta.",
     "Community rating: {score}/5" : "Rátáil pobail: {score}/5",
+    "installed" : "suiteáilte",
     "Learn more" : "Foghlaim níos mó",
     "Disable all" : "Díchumasaigh go léir",
     "Download and enable all" : "Íoslódáil agus a chumasú go léir",
+    "{name} enabled" : "{name} cumasaithe",
     "All apps are up-to-date." : "Tá gach aip cothrom le dáta.",
     "Icon" : "Deilbhín",
     "Name" : "Ainm",
@@ -898,6 +900,7 @@
     "App bundles" : "Pacáistí aip",
     "Featured apps" : "Aipeanna faoi thrácht",
     "Supported apps" : "Aipeanna tacaithe",
+    "Open source" : "Foinse oscailte",
     "Show to everyone" : "Taispeáin do gach duine",
     "Show to logged in accounts only" : "Taispeáin go cuntais logáilte isteach amháin",
     "Hide" : "Folaigh",
@@ -989,7 +992,6 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Tá sé tábhachtach ar mhaithe le slándáil agus feidhmíocht do chás go bhfuil gach rud cumraithe i gceart. Chun cabhrú leat leis sin táimid ag déanamh roinnt seiceálacha uathoibríocha. Féach ar an doiciméadú nasctha le haghaidh tuilleadh eolais le do thoil.",
     "Checking for system and security issues." : "Seiceáil le haghaidh saincheisteanna córais agus slándála.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Déan seiceáil faoi dhó ar na <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\"> treoracha suiteála ↗</a>, agus seiceáil le haghaidh aon earráidí nó rabhaidh sa<a href=\"%2$s\">log</a> le do thoil.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Seiceáil slándáil do Nextcloud thar<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ár scanadh slándála ↗</a>.",
-    "Follow us on X" : "Lean muid ar X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Seiceáil slándáil do Nextcloud thar<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ár scanadh slándála ↗</a>."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

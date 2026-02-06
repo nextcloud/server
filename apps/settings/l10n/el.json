@@ -949,7 +949,6 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Είναι σημαντικό για την ασφάλεια και την απόδοση του συστήματός σας ότι όλα έχουν ρυθμιστεί σωστά. Για να σας βοηθήσουμε, κάνουμε μερικούς αυτόματους ελέγχους. Για περισσότερες πληροφορίες, ανατρέξτε στη σχετική τεκμηρίωση.",
     "Checking for system and security issues." : "Έλεγχος για θέματα συστήματος και ασφάλειας.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Παρακαλώ ελέγξτε τις <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">οδηγίες εγκατάστασης ↗</a>, και ελέγξτε για σφάλματα ή προειδοποιήσεις στα <a href=\"%2$s\">αρχεία καταγραφής</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ελέγξτε την ασφάλεια του Nextcloud σας μέσω <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">της σάρωσης ασφαλείας μας ↗</a>.",
-    "Follow us on X" : "Ακολουθήστε μας στο X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ελέγξτε την ασφάλεια του Nextcloud σας μέσω <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">της σάρωσης ασφαλείας μας ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

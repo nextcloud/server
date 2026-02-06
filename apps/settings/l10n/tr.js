@@ -989,7 +989,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Kopyanızın güvenli ve yüksek başarımla çalışması için ayarların doğru yapılmış olması önemlidir. Bunu sağlamak için bazı otomatik denetimler yapılır. Ayrıntılı bilgi almak için İpuçları bölümüne ve belgelere bakın.",
     "Checking for system and security issues." : "Sistem ve güvenlik sorunları denetleniyor.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Lütfen <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">kurulum rehberlerini↗</a> yeniden gözden geçirin ve <a href=\"%2$s\">günlük</a> kayıtlarındaki hata ve uyarılara bakın.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">Güvenlik sınamamızdan ↗</a> geçirerek Nextcloud güvenliğinizi denetleyin.",
-    "Follow us on X" : "Bizi X üzerinde izleyin"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">Güvenlik sınamamızdan ↗</a> geçirerek Nextcloud güvenliğinizi denetleyin."
 },
 "nplurals=2; plural=(n > 1);");

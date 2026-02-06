@@ -43,6 +43,7 @@
     "Input text is too long" : "Giriş yazısı çok uzun",
     "Requested task type does not exist" : "İstenilen görev türü bulunamadı",
     "Necessary language model provider is not available" : "Gerekli dil modeli sağlayıcısı kullanılamıyor",
+    "Cannot generate less than 1 image" : "En az 1 görsel oluşturulabilir",
     "No text to image provider is available" : "Kullanılabilecek bir yazıdan görsel oluşturma hizmeti sağlayıcısı yok",
     "Image not found" : "Görsel bulunamadı",
     "No translation provider available" : "Kullanılabilecek bir çeviri hizmeti sağlayıcı yok",

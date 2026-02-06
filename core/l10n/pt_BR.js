@@ -45,6 +45,7 @@ OC.L10N.register(
     "Input text is too long" : "Texto de entrada é muito longo",
     "Requested task type does not exist" : "O tipo de tarefa solicitado não existe",
     "Necessary language model provider is not available" : "O provedor de modelo de linguagem necessário não está disponível",
+    "Cannot generate less than 1 image" : "Não é possível gerar menos de 1 imagem",
     "No text to image provider is available" : "Nenhum provedor de texto para imagem está disponível",
     "Image not found" : "Imagem não encontrada",
     "No translation provider available" : "Nenhum provedor de tradução disponível",

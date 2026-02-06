@@ -974,7 +974,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Важно е, от гледна точка на сигурност и производителност, всичко да бъде настроено коректно. За тази цел са създадени автоматични проверки. Прегледайте връзките, към документацията (по-долу), за допълнителна информация.",
     "Checking for system and security issues." : "Проверка за проблеми със системата и сигурността.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Прегледайте  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">ръководството за инсталиране ↗</a>, и проверете  <a href=\"%2$s\">журналите</a>за предупреждения и грешки. ",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверете сигурността на Nextcloud <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">като заявите сканиране ↗</a>.",
-    "Follow us on X" : "Последвайте ни на X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверете сигурността на Nextcloud <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">като заявите сканиране ↗</a>."
 },
 "nplurals=2; plural=(n != 1);");

@@ -991,7 +991,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Poprawna konfiguracja jest ważna dla bezpieczeństwa i wydajności Twojej instancji. W celach pomocniczych przeprowadzane jest automatyczne sprawdzanie. Więcej informacji możesz znaleźć w dokumentacji.",
     "Checking for system and security issues." : "Sprawdzanie błędów systemu i bezpieczeństwa.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Sprawdź dokładnie <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">instrukcje instalacji ↗</a> oraz sprawdź, czy nie ma błędów lub ostrzeżeń w <a href=\"%2$s\">dzienniku</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Sprawdź bezpieczeństwo swojego serwera Nextcloud <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">naszym skanerem bezpieczeństwa ↗</a>.",
-    "Follow us on X" : "Śledź nas na X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Sprawdź bezpieczeństwo swojego serwera Nextcloud <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">naszym skanerem bezpieczeństwa ↗</a>."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

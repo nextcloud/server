@@ -824,7 +824,6 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Det er viktig for sikkerheten og ytelsen på din installasjon at alt er satt opp rett. For å hjelpe deg er det satt i verk noen automatiske sjekker. Se vedlagt lenke for å lese mer i dokumentasjonen.",
     "Checking for system and security issues." : "Sjekker for system- og sikkerhetsfeil.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Dobbeltsjekk <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installasjonsguidene ↗</a> og se etter feil eller advarsler i <a href=\"%2$s\">loggen</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Sjekk sikkerheten til din Nextcloud med <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">vår sikkerhetsskanning ↗</a>.",
-    "Follow us on X" : "Følg oss på X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Sjekk sikkerheten til din Nextcloud med <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">vår sikkerhetsskanning ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

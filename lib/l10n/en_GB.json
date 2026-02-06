@@ -223,6 +223,7 @@
     "Could not find category \"%s\"" : "Could not find category \"%s\"",
     "Input text" : "Input text",
     "The input text" : "The input text",
+    "Cannot generate less than 1 image" : "Cannot generate less than 1 image",
     "Sunday" : "Sunday",
     "Monday" : "Monday",
     "Tuesday" : "Tuesday",
