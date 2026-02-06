@@ -10,10 +10,13 @@ use OC\TaskProcessing\Db\TaskMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class RemoveOldTasksBackgroundJob extends TimedJob {
-	private \OCP\Files\IAppData $appData;
+	private IAppData $appData;
 
 	public function __construct(
 		ITimeFactory $timeFactory,
@@ -29,9 +32,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 		$this->appData = $appDataFactory->get('core');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
+	#[Override]
 	protected function run($argument): void {
 		try {
 			iterator_to_array($this->taskProcessingManager->cleanupTaskProcessingTaskFiles());
@@ -45,12 +46,12 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 		}
 		try {
 			iterator_to_array($this->taskProcessingManager->clearFilesOlderThan($this->appData->getFolder('text2image')));
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException) {
 			// noop
 		}
 		try {
 			iterator_to_array($this->taskProcessingManager->clearFilesOlderThan($this->appData->getFolder('audio2text')));
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException) {
 			// noop
 		}
 	}

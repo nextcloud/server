@@ -11,14 +11,11 @@ namespace OC\Authentication\Events;
 use OCP\EventDispatcher\Event;
 
 class LoginFailed extends Event {
-	private string $loginName;
-	private ?string $password;
-
-	public function __construct(string $loginName, ?string $password) {
+	public function __construct(
+		private string $loginName,
+		private ?string $password,
+	) {
 		parent::__construct();
-
-		$this->loginName = $loginName;
-		$this->password = $password;
 	}
 
 	public function getLoginName(): string {

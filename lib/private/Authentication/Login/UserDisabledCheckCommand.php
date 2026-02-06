@@ -13,16 +13,10 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class UserDisabledCheckCommand extends ALoginCommand {
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IUserManager $userManager,
-		LoggerInterface $logger) {
-		$this->userManager = $userManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
@@ -33,7 +27,7 @@ class UserDisabledCheckCommand extends ALoginCommand {
 
 			$this->logger->warning("Login failed: $username disabled (Remote IP: $ip)");
 
-			return LoginResult::failure($loginData, LoginController::LOGIN_MSG_USERDISABLED);
+			return LoginResult::failure(LoginController::LOGIN_MSG_USERDISABLED);
 		}
 
 		return $this->processNextOrFinishSuccessfully($loginData);

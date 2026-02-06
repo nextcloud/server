@@ -23,9 +23,6 @@ use OCP\Util;
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
 
-	/** @var ProfileManager */
-	private $profileManager;
-
 	/**
 	 * BeforeTemplateRenderedListener constructor.
 	 *
@@ -35,12 +32,11 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	 * @param JSDataService $jsDataService
 	 */
 	public function __construct(
-		ProfileManager $profileManager,
+		private ProfileManager $profileManager,
 		private IUserSession $userSession,
 		private IInitialStateService $initialState,
 		private JSDataService $jsDataService,
 	) {
-		$this->profileManager = $profileManager;
 	}
 
 	/**

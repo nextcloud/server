@@ -14,11 +14,9 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 
 class NotModifiedMiddleware extends Middleware {
-	/** @var IRequest */
-	private $request;
-
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
 	public function afterController($controller, $methodName, Response $response) {

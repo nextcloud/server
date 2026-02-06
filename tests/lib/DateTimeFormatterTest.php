@@ -12,8 +12,7 @@ use OC\DateTimeFormatter;
 use OCP\Util;
 
 class DateTimeFormatterTest extends TestCase {
-	/** @var \OC\DateTimeFormatter */
-	protected $formatter;
+	protected DateTimeFormatter $formatter;
 	protected static $oneMinute = 60;
 	protected static $oneHour = 3600;
 	protected static $oneDay;

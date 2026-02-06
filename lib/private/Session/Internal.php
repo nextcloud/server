@@ -12,6 +12,7 @@ namespace OC\Session;
 use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use function call_user_func_array;
@@ -136,7 +137,7 @@ class Internal extends Session {
 			$newId = $this->getId();
 
 			/** @var IProvider $tokenProvider */
-			$tokenProvider = \OCP\Server::get(IProvider::class);
+			$tokenProvider = Server::get(IProvider::class);
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);

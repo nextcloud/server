@@ -16,21 +16,11 @@ use function array_pop;
 use function count;
 
 class TwoFactorCommand extends ALoginCommand {
-	/** @var Manager */
-	private $twoFactorManager;
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(Manager $twoFactorManager,
-		MandatoryTwoFactor $mandatoryTwoFactor,
-		IURLGenerator $urlGenerator) {
-		$this->twoFactorManager = $twoFactorManager;
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private Manager $twoFactorManager,
+		private MandatoryTwoFactor $mandatoryTwoFactor,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
@@ -68,7 +58,6 @@ class TwoFactorCommand extends ALoginCommand {
 		}
 
 		return LoginResult::success(
-			$loginData,
 			$this->urlGenerator->linkToRoute($url, $urlParams)
 		);
 	}

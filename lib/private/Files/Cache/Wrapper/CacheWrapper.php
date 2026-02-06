@@ -16,17 +16,14 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\Server;
 
 class CacheWrapper extends Cache {
-	/**
-	 * @var ?ICache
-	 */
-	protected $cache;
-
-	public function __construct(?ICache $cache, ?CacheDependencies $dependencies = null) {
-		$this->cache = $cache;
-		if (!$dependencies && $cache instanceof Cache) {
-			$this->mimetypeLoader = $cache->mimetypeLoader;
-			$this->connection = $cache->connection;
-			$this->querySearchHelper = $cache->querySearchHelper;
+	public function __construct(
+		protected ?ICache $cache,
+		?CacheDependencies $dependencies = null,
+	) {
+		if (!$dependencies && $this->cache instanceof Cache) {
+			$this->mimetypeLoader = $this->cache->mimetypeLoader;
+			$this->connection = $this->cache->connection;
+			$this->querySearchHelper = $this->cache->querySearchHelper;
 		} else {
 			if (!$dependencies) {
 				$dependencies = Server::get(CacheDependencies::class);

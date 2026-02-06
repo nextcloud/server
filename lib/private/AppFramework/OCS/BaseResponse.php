@@ -21,38 +21,19 @@ abstract class BaseResponse extends Response {
 	/** @var array */
 	protected $data;
 
-	/** @var string */
-	protected $format;
-
-	/** @var ?string */
-	protected $statusMessage;
-
-	/** @var ?int */
-	protected $itemsCount;
-
-	/** @var ?int */
-	protected $itemsPerPage;
-
 	/**
 	 * BaseResponse constructor.
 	 *
 	 * @param DataResponse<S, T, H> $dataResponse
-	 * @param string $format
-	 * @param string|null $statusMessage
-	 * @param int|null $itemsCount
-	 * @param int|null $itemsPerPage
 	 */
-	public function __construct(DataResponse $dataResponse,
-		$format = 'xml',
-		$statusMessage = null,
-		$itemsCount = null,
-		$itemsPerPage = null) {
+	public function __construct(
+		DataResponse $dataResponse,
+		protected string $format = 'xml',
+		protected ?string $statusMessage = null,
+		protected ?int $itemsCount = null,
+		protected ?int $itemsPerPage = null,
+	) {
 		parent::__construct();
-
-		$this->format = $format;
-		$this->statusMessage = $statusMessage;
-		$this->itemsCount = $itemsCount;
-		$this->itemsPerPage = $itemsPerPage;
 
 		$this->data = $dataResponse->getData();
 
@@ -67,7 +48,7 @@ abstract class BaseResponse extends Response {
 			$this->throttle($throttleMetadata);
 		}
 
-		if ($format === 'json') {
+		if ($this->format === 'json') {
 			$this->addHeader(
 				'Content-Type', 'application/json; charset=utf-8'
 			);

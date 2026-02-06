@@ -17,52 +17,26 @@ use OCP\IConfig;
 use OCP\Security\ICrypto;
 
 class Storage implements IStorage {
-	// hidden file which indicate that the folder is a valid key storage
+	/** @var string hidden file which indicate that the folder is a valid key storage */
 	public const KEY_STORAGE_MARKER = '.oc_key_storage';
+	/** @var string base dir where all the file related keys are stored */
+	private string $keys_base_dir;
+	/** @var string root of the key storage default is empty which means that we use the data folder */
+	private string $root_dir;
+	private string $encryption_base_dir;
+	private string $backup_base_dir;
+	private array $keyCache = [];
 
-	/** @var View */
-	private $view;
-
-	/** @var Util */
-	private $util;
-
-	// base dir where all the file related keys are stored
-	/** @var string */
-	private $keys_base_dir;
-
-	// root of the key storage default is empty which means that we use the data folder
-	/** @var string */
-	private $root_dir;
-
-	/** @var string */
-	private $encryption_base_dir;
-
-	/** @var string */
-	private $backup_base_dir;
-
-	/** @var array */
-	private $keyCache = [];
-
-	/** @var ICrypto */
-	private $crypto;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param View $view
-	 * @param Util $util
-	 */
-	public function __construct(View $view, Util $util, ICrypto $crypto, IConfig $config) {
-		$this->view = $view;
-		$this->util = $util;
-
+	public function __construct(
+		private readonly View $view,
+		private readonly Util $util,
+		private readonly ICrypto $crypto,
+		private readonly IConfig $config,
+	) {
 		$this->encryption_base_dir = '/files_encryption';
 		$this->keys_base_dir = $this->encryption_base_dir . '/keys';
 		$this->backup_base_dir = $this->encryption_base_dir . '/backup';
 		$this->root_dir = $this->util->getKeyStorageRoot();
-		$this->crypto = $crypto;
-		$this->config = $config;
 	}
 
 	/**
@@ -193,7 +167,7 @@ class Storage implements IStorage {
 				. $encryptionModuleId . '/' . $uid . '.' . $keyId;
 		}
 
-		return \OC\Files\Filesystem::normalizePath($path);
+		return Filesystem::normalizePath($path);
 	}
 
 	/**

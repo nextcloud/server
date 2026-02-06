@@ -21,6 +21,8 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
@@ -171,7 +173,7 @@ class Mailer implements IMailer {
 		}
 
 		if (empty($message->getFrom())) {
-			$message->setFrom([\OCP\Util::getDefaultEmailAddress('no-reply') => $this->defaults->getName()]);
+			$message->setFrom([Util::getDefaultEmailAddress('no-reply') => $this->defaults->getName()]);
 		}
 
 		$mailer = $this->getInstance();
@@ -190,7 +192,7 @@ class Mailer implements IMailer {
 			$recipients = array_merge($message->getTo(), $message->getCc(), $message->getBcc());
 			$failedRecipients = [];
 
-			array_walk($recipients, function ($value, $key) use (&$failedRecipients) {
+			array_walk($recipients, function ($value, $key) use (&$failedRecipients): void {
 				if (is_numeric($key)) {
 					$failedRecipients[] = $value;
 				} else {
@@ -212,7 +214,7 @@ class Mailer implements IMailer {
 			$recipients = array_merge($message->getTo(), $message->getCc(), $message->getBcc());
 			$failedRecipients = [];
 
-			array_walk($recipients, function ($value, $key) use (&$failedRecipients) {
+			array_walk($recipients, function ($value, $key) use (&$failedRecipients): void {
 				if (is_numeric($key)) {
 					$failedRecipients[] = $value;
 				} else {
@@ -325,7 +327,7 @@ class Mailer implements IMailer {
 				$binaryPath = '/var/qmail/bin/sendmail';
 				break;
 			default:
-				$sendmail = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
+				$sendmail = Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
 				if ($sendmail === false) {
 					// fallback (though not sure what good it'll do)
 					$sendmail = '/usr/sbin/sendmail';

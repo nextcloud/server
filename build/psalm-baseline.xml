@@ -2175,31 +2175,6 @@
       <code><![CDATA[Response]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/settings/lib/AppInfo/Application.php">
-    <DeprecatedInterface>
-      <code><![CDATA[$serverContainer]]></code>
-      <code><![CDATA[$serverContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-      <code><![CDATA[IAppContainer]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[getConfig]]></code>
-      <code><![CDATA[getCrypto]]></code>
-      <code><![CDATA[getL10NFactory]]></code>
-      <code><![CDATA[getMailer]]></code>
-      <code><![CDATA[getSecureRandom]]></code>
-      <code><![CDATA[getURLGenerator]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-      <code><![CDATA[query]]></code>
-    </DeprecatedMethod>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getSettingsManager]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/settings/lib/BackgroundJobs/VerifyUserData.php">
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
@@ -3214,14 +3189,6 @@
       <code><![CDATA[getName]]></code>
     </UndefinedMethod>
   </file>
-  <file src="lib/private/AppFramework/DependencyInjection/DIContainer.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->server]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[\OCP\IServerContainer]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/AppFramework/Http/Output.php">
     <InvalidReturnStatement>
       <code><![CDATA[@readfile($path)]]></code>
@@ -3261,9 +3228,6 @@
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
-    <UndefinedClass>
-      <code><![CDATA[\OCA\Talk\Controller\PageController]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType>
@@ -3371,16 +3335,16 @@
   </file>
   <file src="lib/private/Command/CommandJob.php">
     <UndefinedClass>
-      <code><![CDATA[\Test\Command\FilesystemCommand]]></code>
-      <code><![CDATA[\Test\Command\SimpleCommand]]></code>
-      <code><![CDATA[\Test\Command\StateFullCommand]]></code>
+      <code><![CDATA[FilesystemCommand]]></code>
+      <code><![CDATA[SimpleCommand]]></code>
+      <code><![CDATA[StateFullCommand]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/private/Command/QueueBus.php">
     <UndefinedClass>
-      <code><![CDATA[\Test\Command\FilesystemCommand]]></code>
-      <code><![CDATA[\Test\Command\SimpleCommand]]></code>
-      <code><![CDATA[\Test\Command\StateFullCommand]]></code>
+      <code><![CDATA[FilesystemCommand]]></code>
+      <code><![CDATA[SimpleCommand]]></code>
+      <code><![CDATA[StateFullCommand]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/private/Comments/Manager.php">
@@ -3483,16 +3447,6 @@
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Diagnostics/Query.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[float]]></code>
-    </ImplementedReturnTypeMismatch>
-  </file>
-  <file src="lib/private/Diagnostics/QueryLogger.php">
-    <InvalidArgument>
-      <code><![CDATA[microtime(true)]]></code>
-    </InvalidArgument>
-  </file>
   <file src="lib/private/DirectEditing/Manager.php">
     <InvalidReturnType>
       <code><![CDATA[TemplateResponse]]></code>
@@ -3581,11 +3535,6 @@
       <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/Files/Cache/Updater.php">
-    <RedundantCondition>
-      <code><![CDATA[$this->cache instanceof Cache]]></code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
     <LessSpecificImplementedReturnType>
       <code><![CDATA[array]]></code>
@@ -3610,18 +3559,6 @@
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[array{int, string, int}]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/Files/Filesystem.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$mount->getStorage()]]></code>
-      <code><![CDATA[self::getMountManager()->findByNumericId($id)]]></code>
-      <code><![CDATA[self::getMountManager()->findByStorageId($id)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[Mount\MountPoint[]]]></code>
-      <code><![CDATA[Mount\MountPoint[]]]></code>
-      <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Mount/MountPoint.php">
@@ -3799,32 +3736,7 @@
       <code><![CDATA[is_null($this->getContent())]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/Group/Group.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$users]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\OC\User\User[]]]></code>
-    </MoreSpecificReturnType>
-    <RedundantCondition>
-      <code><![CDATA[$this->emitter]]></code>
-      <code><![CDATA[$this->emitter]]></code>
-      <code><![CDATA[$this->emitter]]></code>
-    </RedundantCondition>
-    <UndefinedMethod>
-      <code><![CDATA[addToGroup]]></code>
-      <code><![CDATA[countUsersInGroup]]></code>
-      <code><![CDATA[deleteGroup]]></code>
-      <code><![CDATA[removeFromGroup]]></code>
-    </UndefinedMethod>
-  </file>
   <file src="lib/private/Group/Manager.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$groups]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Group\Group[]]]></code>
-    </MoreSpecificReturnType>
     <UndefinedInterfaceMethod>
       <code><![CDATA[createGroup]]></code>
       <code><![CDATA[getGroupDetails]]></code>
@@ -3913,11 +3825,6 @@
       <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Notification/Manager.php">
-    <UndefinedClass>
-      <code><![CDATA[\OCA\Notifications\App]]></code>
-    </UndefinedClass>
-  </file>
   <file src="lib/private/Profile/Actions/FediverseAction.php">
     <NoValue>
       <code><![CDATA[$instance]]></code>
@@ -3935,16 +3842,6 @@
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[array]]></code>
     </ImplementedReturnTypeMismatch>
-  </file>
-  <file src="lib/private/Remote/Instance.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$response]]></code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="lib/private/Repair/Owncloud/CleanPreviews.php">
-    <InvalidArgument>
-      <code><![CDATA[false]]></code>
-    </InvalidArgument>
   </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>
@@ -3978,25 +3875,6 @@
       <code><![CDATA[setPassword]]></code>
       <code><![CDATA[setPassword]]></code>
     </InternalMethod>
-  </file>
-  <file src="lib/private/Server.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[\OCP\Files\Folder|null]]></code>
-    </ImplementedReturnTypeMismatch>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->get(IFile::class)]]></code>
-      <code><![CDATA[$this->get(IGroupManager::class)]]></code>
-      <code><![CDATA[$this->get(IUserManager::class)]]></code>
-      <code><![CDATA[$this->get(IUserSession::class)]]></code>
-      <code><![CDATA[$this->get(\OCP\Encryption\IManager::class)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Encryption\File]]></code>
-      <code><![CDATA[\OC\Encryption\Manager]]></code>
-      <code><![CDATA[\OC\Group\Manager]]></code>
-      <code><![CDATA[\OC\User\Manager]]></code>
-      <code><![CDATA[\OC\User\Session]]></code>
-    </MoreSpecificReturnType>
   </file>
   <file src="lib/private/ServerContainer.php">
     <InvalidPropertyAssignmentValue>
@@ -4035,11 +3913,6 @@
       <code><![CDATA[$this->dbprettyname]]></code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Share20/Manager.php">
-    <UndefinedClass>
-      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
-    </UndefinedClass>
-  </file>
   <file src="lib/private/Share20/ProviderFactory.php">
     <InvalidReturnStatement>
       <code><![CDATA[$provider]]></code>
@@ -4064,14 +3937,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getSupportedApps]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/TagManager.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[\OCP\ITags]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Tags.php">
     <InvalidScalarArgument>

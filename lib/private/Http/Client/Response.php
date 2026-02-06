@@ -12,12 +12,10 @@ use OCP\Http\Client\IResponse;
 use Psr\Http\Message\ResponseInterface;
 
 class Response implements IResponse {
-	private ResponseInterface $response;
-	private bool $stream;
-
-	public function __construct(ResponseInterface $response, bool $stream = false) {
-		$this->response = $response;
-		$this->stream = $stream;
+	public function __construct(
+		private ResponseInterface $response,
+		private bool $stream = false,
+	) {
 	}
 
 	public function getBody() {

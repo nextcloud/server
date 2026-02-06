@@ -13,6 +13,7 @@ use OCP\App\IAppManager;
 use OCP\Dashboard\IConditionalWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
+use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -68,7 +69,7 @@ class Manager implements IManager {
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
 				 */
-				\OC::$server->get(LoggerInterface::class)->critical(
+				Server::get(LoggerInterface::class)->critical(
 					'Could not load lazy dashboard widget: ' . $service['class'],
 					['exception' => $e]
 				);
@@ -89,7 +90,7 @@ class Manager implements IManager {
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
 				 */
-				\OC::$server->get(LoggerInterface::class)->critical(
+				Server::get(LoggerInterface::class)->critical(
 					'Could not register lazy dashboard widget: ' . $service['class'],
 					['exception' => $e]
 				);
@@ -102,7 +103,7 @@ class Manager implements IManager {
 				$endTime = microtime(true);
 				$duration = $endTime - $startTime;
 				if ($duration > 1) {
-					\OC::$server->get(LoggerInterface::class)->info(
+					Server::get(LoggerInterface::class)->info(
 						'Dashboard widget {widget} took {duration} seconds to load.',
 						[
 							'widget' => $widget->getId(),
@@ -111,7 +112,7 @@ class Manager implements IManager {
 					);
 				}
 			} catch (Throwable $e) {
-				\OC::$server->get(LoggerInterface::class)->critical(
+				Server::get(LoggerInterface::class)->critical(
 					'Error during dashboard widget loading: ' . $service['class'],
 					['exception' => $e]
 				);

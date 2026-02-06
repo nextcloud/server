@@ -12,29 +12,21 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Override;
 
 class RemoveBrokenProperties implements IRepairStep {
-	/**
-	 * RemoveBrokenProperties constructor.
-	 *
-	 * @param IDBConnection $db
-	 */
 	public function __construct(
-		private IDBConnection $db,
+		private readonly IDBConnection $db,
 	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getName() {
+	#[Override]
+	public function getName(): string {
 		return 'Remove broken DAV object properties';
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function run(IOutput $output) {
+	#[Override]
+	public function run(IOutput $output): void {
 		// retrieve all object properties
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('id', 'propertyvalue')

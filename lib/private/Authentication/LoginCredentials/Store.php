@@ -22,25 +22,12 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
-	/** @var ISession */
-	private $session;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IProvider|null */
-	private $tokenProvider;
-
 	public function __construct(
-		ISession $session,
-		LoggerInterface $logger,
+		private ISession $session,
+		private LoggerInterface $logger,
 		private readonly ICrypto $crypto,
-		?IProvider $tokenProvider = null,
+		private ?IProvider $tokenProvider = null,
 	) {
-		$this->session = $session;
-		$this->logger = $logger;
-		$this->tokenProvider = $tokenProvider;
-
 		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
 	}
 

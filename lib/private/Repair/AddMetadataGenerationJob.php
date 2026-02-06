@@ -17,11 +17,11 @@ class AddMetadataGenerationJob implements IRepairStep {
 	) {
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'Queue a job to generate metadata';
 	}
 
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$this->jobList->add(GenerateMetadataJob::class);
 	}
 }

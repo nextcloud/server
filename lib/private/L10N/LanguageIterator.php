@@ -13,15 +13,12 @@ use OCP\IUser;
 use OCP\L10N\ILanguageIterator;
 
 class LanguageIterator implements ILanguageIterator {
-	private $i = 0;
-	/** @var IConfig */
-	private $config;
-	/** @var IUser */
-	private $user;
+	private int $i = 0;
 
-	public function __construct(IUser $user, IConfig $config) {
-		$this->config = $config;
-		$this->user = $user;
+	public function __construct(
+		private IUser $user,
+		private IConfig $config,
+	) {
 	}
 
 	/**

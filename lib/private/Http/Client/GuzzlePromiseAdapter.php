@@ -46,7 +46,7 @@ class GuzzlePromiseAdapter implements IPromise {
 		?callable $onRejected = null,
 	): IPromise {
 		if ($onFulfilled !== null) {
-			$wrappedOnFulfilled = static function (ResponseInterface $response) use ($onFulfilled) {
+			$wrappedOnFulfilled = static function (ResponseInterface $response) use ($onFulfilled): void {
 				$onFulfilled(new Response($response));
 			};
 		} else {
@@ -54,7 +54,7 @@ class GuzzlePromiseAdapter implements IPromise {
 		}
 
 		if ($onRejected !== null) {
-			$wrappedOnRejected = static function (RequestException $e) use ($onRejected) {
+			$wrappedOnRejected = static function (RequestException $e) use ($onRejected): void {
 				$onRejected($e);
 			};
 		} else {

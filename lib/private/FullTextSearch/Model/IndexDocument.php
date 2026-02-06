@@ -30,8 +30,6 @@ use OCP\FullTextSearch\Model\IIndexDocument;
  * @package OC\FullTextSearch\Model
  */
 class IndexDocument implements IIndexDocument, JsonSerializable {
-	protected string $id = '';
-
 	protected DocumentAccess $access;
 
 	protected ?IIndex $index = null;
@@ -77,9 +75,8 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 */
 	public function __construct(
 		protected string $providerId,
-		string $documentId,
+		protected string $id,
 	) {
-		$this->id = $documentId;
 	}
 
 

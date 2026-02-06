@@ -42,9 +42,6 @@ class Principal implements BackendInterface {
 	/** @var bool */
 	private $hasCircles;
 
-	/** @var KnownUserService */
-	private $knownUserService;
-
 	public function __construct(
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
@@ -53,14 +50,13 @@ class Principal implements BackendInterface {
 		private IUserSession $userSession,
 		private IAppManager $appManager,
 		private ProxyMapper $proxyMapper,
-		KnownUserService $knownUserService,
+		private KnownUserService $knownUserService,
 		private IConfig $config,
 		private IFactory $languageFactory,
 		string $principalPrefix = 'principals/users/',
 	) {
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
-		$this->knownUserService = $knownUserService;
 	}
 
 	use PrincipalProxyTrait {

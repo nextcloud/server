@@ -9,21 +9,15 @@ declare(strict_types=1);
 namespace OC\Repair\NC16;
 
 use OC\Collaboration\Resources\Manager;
-use OCP\Collaboration\Resources\IManager;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearCollectionsAccessCache implements IRepairStep {
-	/** @var IConfig */
-	private $config;
-
-	/** @var Manager */
-	private $manager;
-
-	public function __construct(IConfig $config, IManager $manager) {
-		$this->config = $config;
-		$this->manager = $manager;
+	public function __construct(
+		private readonly IConfig $config,
+		private readonly Manager $manager,
+	) {
 	}
 
 	public function getName(): string {

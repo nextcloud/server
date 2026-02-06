@@ -16,15 +16,12 @@ use OCP\IRequest;
 
 class TwoFactorSettingsController extends Controller {
 
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		MandatoryTwoFactor $mandatoryTwoFactor) {
+		private MandatoryTwoFactor $mandatoryTwoFactor,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 	}
 
 	public function index(): JSONResponse {

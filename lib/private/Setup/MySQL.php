@@ -9,15 +9,16 @@ namespace OC\Setup;
 
 use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQL84Platform;
+use OC\DatabaseSetupException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
 use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
-	public $dbprettyname = 'MySQL/MariaDB';
+	public string $dbprettyname = 'MySQL/MariaDB';
 
-	public function setupDatabase() {
+	public function setupDatabase(): void {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
 
@@ -52,15 +53,12 @@ class MySQL extends AbstractDatabase {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 			]);
-			throw new \OC\DatabaseSetupException($this->trans->t('MySQL Login and/or password not valid'),
+			throw new DatabaseSetupException($this->trans->t('MySQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
 	}
 
-	/**
-	 * @param \OC\DB\Connection $connection
-	 */
-	private function createDatabase($connection): void {
+	private function createDatabase(\OC\DB\Connection $connection): void {
 		try {
 			$name = $this->dbName;
 			$user = $this->dbUser;
@@ -89,10 +87,9 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @param IDBConnection $connection
-	 * @throws \OC\DatabaseSetupException
+	 * @throws DatabaseSetupException
 	 */
-	private function createDBUser($connection): void {
+	private function createDBUser(IDBConnection $connection): void {
 		$name = $this->dbUser;
 		$password = $this->dbPassword;
 
@@ -126,11 +123,7 @@ class MySQL extends AbstractDatabase {
 		}
 	}
 
-	/**
-	 * @param string $username
-	 * @param IDBConnection $connection
-	 */
-	private function createSpecificUser($username, $connection): void {
+	private function createSpecificUser(string $username, IDBConnection $connection): void {
 		$rootUser = $this->dbUser;
 		$rootPassword = $this->dbPassword;
 

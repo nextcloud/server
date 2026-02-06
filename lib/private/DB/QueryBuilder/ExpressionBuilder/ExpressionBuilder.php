@@ -10,40 +10,30 @@ namespace OC\DB\QueryBuilder\ExpressionBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\CompositeExpression;
-use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
-use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class ExpressionBuilder implements IExpressionBuilder {
-	/** @var \Doctrine\DBAL\Query\Expression\ExpressionBuilder */
-	protected $expressionBuilder;
+	protected DoctrineExpressionBuilder $expressionBuilder;
+	protected QuoteHelper $helper;
+	protected IFunctionBuilder $functionBuilder;
 
-	/** @var QuoteHelper */
-	protected $helper;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var FunctionBuilder */
-	protected $functionBuilder;
-
-	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder, LoggerInterface $logger) {
-		$this->connection = $connection;
-		$this->logger = $logger;
+	public function __construct(
+		protected ConnectionAdapter $connection,
+		IQueryBuilder $queryBuilder,
+		protected LoggerInterface $logger,
+	) {
 		$this->helper = new QuoteHelper();
-		$this->expressionBuilder = new DoctrineExpressionBuilder($connection->getInner());
+		$this->expressionBuilder = new DoctrineExpressionBuilder($this->connection->getInner());
 		$this->functionBuilder = $queryBuilder->func();
 	}
 
@@ -59,7 +49,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed ...$x Optional clause. Defaults = null, but requires
 	 *                    at least one defined when converting to string.
 	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
+	 * @return ICompositeExpression
 	 */
 	public function andX(...$x): ICompositeExpression {
 		if (empty($x)) {
@@ -80,7 +70,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @param mixed ...$x Optional clause. Defaults = null, but requires
 	 *                    at least one defined when converting to string.
 	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
+	 * @return ICompositeExpression
 	 */
 	public function orX(...$x): ICompositeExpression {
 		if (empty($x)) {

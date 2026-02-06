@@ -7,22 +7,18 @@
  */
 namespace OCA\Federation;
 
-use OC\OCS\DiscoveryService;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\AppFramework\Http;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
 
 class SyncFederationAddressBooks {
-	private DiscoveryService $ocsDiscoveryService;
-
 	public function __construct(
 		protected DbHandler $dbHandler,
 		private SyncService $syncService,
-		IDiscoveryService $ocsDiscoveryService,
+		private IDiscoveryService $ocsDiscoveryService,
 		private LoggerInterface $logger,
 	) {
-		$this->ocsDiscoveryService = $ocsDiscoveryService;
 	}
 
 	/**

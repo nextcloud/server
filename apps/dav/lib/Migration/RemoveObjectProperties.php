@@ -16,27 +16,16 @@ class RemoveObjectProperties implements IRepairStep {
 	private const ME_CARD_PROPERTY = '{http://calendarserver.org/ns/}me-card';
 	private const CALENDAR_TRANSP_PROPERTY = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
 
-	/**
-	 * RemoveObjectProperties constructor.
-	 *
-	 * @param IDBConnection $connection
-	 */
 	public function __construct(
-		private IDBConnection $connection,
+		private readonly IDBConnection $connection,
 	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Remove invalid object properties';
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 		$updated = $query->delete('properties')
 			->where($query->expr()->in('propertyname', $query->createNamedParameter([self::RESOURCE_TYPE_PROPERTY, self::ME_CARD_PROPERTY, self::CALENDAR_TRANSP_PROPERTY], IQueryBuilder::PARAM_STR_ARRAY)))

@@ -23,11 +23,9 @@ return (require 'rector-shared.php')
 		$nextcloudDir . '/remote.php',
 		$nextcloudDir . '/status.php',
 		$nextcloudDir . '/version.php',
-		$nextcloudDir . '/lib/private/Share20/ProviderFactory.php',
-		$nextcloudDir . '/lib/private/Template',
+		$nextcloudDir . '/lib/private',
 		$nextcloudDir . '/tests',
 		// $nextcloudDir . '/config',
-		// $nextcloudDir . '/lib',
 		// $nextcloudDir . '/themes',
 	])
 	->withTypeCoverageLevel(0);

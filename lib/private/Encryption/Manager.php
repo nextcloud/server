@@ -7,6 +7,8 @@
  */
 namespace OC\Encryption;
 
+use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Keys\Storage;
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -92,7 +94,7 @@ class Manager implements IManager {
 	 */
 	public function registerEncryptionModule($id, $displayName, callable $callback) {
 		if (isset($this->encryptionModules[$id])) {
-			throw new Exceptions\ModuleAlreadyExistsException($id, $displayName);
+			throw new ModuleAlreadyExistsException($id, $displayName);
 		}
 
 		$this->encryptionModules[$id] = [
@@ -142,26 +144,26 @@ class Manager implements IManager {
 		}
 		$message = "Module with ID: $moduleId does not exist.";
 		$hint = $this->l->t('Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
-		throw new Exceptions\ModuleDoesNotExistsException($message, $hint);
+		throw new ModuleDoesNotExistsException($message, $hint);
 	}
 
 	/**
 	 * get default encryption module
 	 *
-	 * @return \OCP\Encryption\IEncryptionModule
+	 * @return IEncryptionModule
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
 	protected function getDefaultEncryptionModule() {
 		$defaultModuleId = $this->getDefaultEncryptionModuleId();
 		if (empty($defaultModuleId)) {
 			$message = 'No default encryption module defined';
-			throw new Exceptions\ModuleDoesNotExistsException($message);
+			throw new ModuleDoesNotExistsException($message);
 		}
 		if (isset($this->encryptionModules[$defaultModuleId])) {
 			return call_user_func($this->encryptionModules[$defaultModuleId]['callback']);
 		}
 		$message = 'Default encryption module not loaded';
-		throw new Exceptions\ModuleDoesNotExistsException($message);
+		throw new ModuleDoesNotExistsException($message);
 	}
 
 	/**

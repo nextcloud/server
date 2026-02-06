@@ -18,7 +18,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<\OC\Authentication\Events\AppPasswordCreatedEvent>
+ * @template-implements IEventListener<AppPasswordCreatedEvent>
  */
 class AppPasswordCreatedActivityListener implements IEventListener {
 	public function __construct(

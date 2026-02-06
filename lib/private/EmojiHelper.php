@@ -12,10 +12,9 @@ use OCP\IDBConnection;
 use OCP\IEmojiHelper;
 
 class EmojiHelper implements IEmojiHelper {
-	private IDBConnection $db;
-
-	public function __construct(IDBConnection $db) {
-		$this->db = $db;
+	public function __construct(
+		private IDBConnection $db,
+	) {
 	}
 
 	public function doesPlatformSupportEmoji(): bool {

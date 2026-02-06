@@ -16,7 +16,7 @@ use OCP\Security\ISecureRandom;
 class CsrfTokenGeneratorTest extends \Test\TestCase {
 	/** @var ISecureRandom */
 	private $random;
-	/** @var \OC\Security\CSRF\CsrfTokenGenerator */
+	/** @var CsrfTokenGenerator */
 	private $csrfTokenGenerator;
 
 	protected function setUp(): void {

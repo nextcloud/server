@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OC\Files;
 
+use OCP\Constants;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\IFilenameValidator;
@@ -126,7 +127,7 @@ class FilenameValidator implements IFilenameValidator {
 	public function getForbiddenCharacters(): array {
 		if (empty($this->forbiddenCharacters)) {
 			// Get always forbidden characters
-			$forbiddenCharacters = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
+			$forbiddenCharacters = str_split(Constants::FILENAME_INVALID_CHARS);
 
 			// Get admin defined invalid characters
 			$additionalChars = $this->config->getSystemValue('forbidden_filename_characters', []);
@@ -159,7 +160,7 @@ class FilenameValidator implements IFilenameValidator {
 	public function isFilenameValid(string $filename): bool {
 		try {
 			$this->validateFilename($filename);
-		} catch (\OCP\Files\InvalidPathException) {
+		} catch (InvalidPathException) {
 			return false;
 		}
 		return true;

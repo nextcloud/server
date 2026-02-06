@@ -17,16 +17,10 @@ use OCP\ISession;
 use ReflectionMethod;
 
 class SessionMiddleware extends Middleware {
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	/** @var ISession */
-	private $session;
-
-	public function __construct(ControllerMethodReflector $reflector,
-		ISession $session) {
-		$this->reflector = $reflector;
-		$this->session = $session;
+	public function __construct(
+		private ControllerMethodReflector $reflector,
+		private ISession $session,
+	) {
 	}
 
 	/**

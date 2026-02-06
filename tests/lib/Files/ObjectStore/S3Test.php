@@ -92,7 +92,7 @@ class S3Test extends ObjectStoreTestCase {
 	}
 
 	public function assertNoUpload($objectUrn) {
-		/** @var \OC\Files\ObjectStore\S3 */
+		/** @var S3 */
 		$s3 = $this->getInstance();
 		$s3client = $s3->getConnection();
 		$uploads = $s3client->listMultipartUploads([

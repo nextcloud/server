@@ -11,6 +11,7 @@ namespace OC\Profiler;
 use DateTime;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Server;
 
 class BuiltInProfiler {
 	private \ExcimerProfiler $excimer;
@@ -64,7 +65,7 @@ class BuiltInProfiler {
 			return;
 		}
 
-		$request = \OCP\Server::get(IRequest::class);
+		$request = Server::get(IRequest::class);
 		$data = $this->excimer->getLog()->getSpeedscopeData();
 
 		$data['profiles'][0]['name'] = $request->getMethod() . ' ' . $request->getRequestUri() . ' ' . $request->getId();

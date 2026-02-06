@@ -9,11 +9,13 @@ namespace OC\Memcache;
 
 use OC\SystemConfig;
 use OCP\Cache\CappedMemoryCache;
+use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IMemcache;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
@@ -72,7 +74,7 @@ class Factory implements ICacheFactory {
 				// APCu however cannot be shared between PHP instances (CLI and web) anyway.
 				$localCacheClass = self::NULL_CACHE;
 			} else {
-				throw new \OCP\HintException(strtr($missingCacheMessage, [
+				throw new HintException(strtr($missingCacheMessage, [
 					'{class}' => $localCacheClass, '{use}' => 'local'
 				]), $missingCacheHint);
 			}
@@ -88,7 +90,7 @@ class Factory implements ICacheFactory {
 				// APCu however cannot be shared between Nextcloud (PHP) instances anyway.
 				$distributedCacheClass = self::NULL_CACHE;
 			} else {
-				throw new \OCP\HintException(strtr($missingCacheMessage, [
+				throw new HintException(strtr($missingCacheMessage, [
 					'{class}' => $distributedCacheClass, '{use}' => 'distributed'
 				]), $missingCacheHint);
 			}
@@ -112,11 +114,11 @@ class Factory implements ICacheFactory {
 
 	protected function getGlobalPrefix(): string {
 		if ($this->globalPrefix === null) {
-			$config = \OCP\Server::get(SystemConfig::class);
+			$config = Server::get(SystemConfig::class);
 			$maintenanceMode = $config->getValue('maintenance', false);
 			$versions = [];
 			if ($config->getValue('installed', false) && !$maintenanceMode) {
-				$appConfig = \OCP\Server::get(IAppConfig::class);
+				$appConfig = Server::get(IAppConfig::class);
 				// only get the enabled apps to clear the cache in case an app is enabled or disabled (e.g. clear routes)
 				$versions = $appConfig->getAppInstalledVersions(true);
 				ksort($versions);
@@ -144,7 +146,7 @@ class Factory implements ICacheFactory {
 		$backupPrefix = $this->globalPrefix;
 
 		// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
-		$instanceid = \OCP\Server::get(SystemConfig::class)->getValue('instanceid');
+		$instanceid = Server::get(SystemConfig::class)->getValue('instanceid');
 		$this->globalPrefix = hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
 		$closure($this);
 		$this->globalPrefix = $backupPrefix;

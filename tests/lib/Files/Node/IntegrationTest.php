@@ -8,6 +8,7 @@
 
 namespace Test\Files\Node;
 
+use OC\Files\Node\File;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
@@ -34,7 +35,7 @@ class IntegrationTest extends \Test\TestCase {
 	use UserTrait;
 
 	/**
-	 * @var \OC\Files\Node\Root $root
+	 * @var Root $root
 	 */
 	private $root;
 
@@ -134,7 +135,7 @@ class IntegrationTest extends \Test\TestCase {
 
 		$folder->move('/asd');
 		/**
-		 * @var \OC\Files\Node\File $file
+		 * @var File $file
 		 */
 		$file = $folder->get('/bar');
 		$this->assertInstanceOf('\OC\Files\Node\File', $file);
@@ -143,7 +144,7 @@ class IntegrationTest extends \Test\TestCase {
 		$this->assertEquals('qwerty', $file->getContent());
 		$folder->move('/substorage/foo');
 		/**
-		 * @var \OC\Files\Node\File $file
+		 * @var File $file
 		 */
 		$file = $folder->get('/bar');
 		$this->assertInstanceOf('\OC\Files\Node\File', $file);

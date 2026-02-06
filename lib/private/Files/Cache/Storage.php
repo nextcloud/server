@@ -10,6 +10,7 @@ namespace OC\Files\Cache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -34,7 +35,7 @@ class Storage {
 	 */
 	public static function getGlobalCache() {
 		if (is_null(self::$globalCache)) {
-			self::$globalCache = new StorageGlobal(\OC::$server->getDatabaseConnection());
+			self::$globalCache = new StorageGlobal(Server::get(IDBConnection::class));
 		}
 		return self::$globalCache;
 	}
@@ -149,10 +150,10 @@ class Storage {
 	public function setAvailability($isAvailable, int $delay = 0) {
 		$available = $isAvailable ? 1 : 0;
 		if (!$isAvailable) {
-			\OCP\Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
+			Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
 		}
 
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->update('storages')
 			->set('available', $query->createNamedParameter($available))
 			->set('last_checked', $query->createNamedParameter(time() + $delay))
@@ -179,13 +180,13 @@ class Storage {
 		$storageId = self::adjustStorageId($storageId);
 		$numericId = self::getNumericStorageId($storageId);
 
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
 		$query->executeStatement();
 
 		if (!is_null($numericId)) {
-			$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$query = Server::get(IDBConnection::class)->getQueryBuilder();
 			$query->delete('filecache')
 				->where($query->expr()->eq('storage', $query->createNamedParameter($numericId)));
 			$query->executeStatement();
@@ -198,7 +199,7 @@ class Storage {
 	 * @param int $mountId
 	 */
 	public static function cleanByMountId(int $mountId) {
-		$db = \OC::$server->getDatabaseConnection();
+		$db = Server::get(IDBConnection::class);
 
 		try {
 			$db->beginTransaction();

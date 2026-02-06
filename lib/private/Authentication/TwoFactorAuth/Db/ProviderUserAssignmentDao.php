@@ -18,11 +18,9 @@ use function array_map;
 class ProviderUserAssignmentDao {
 	public const TABLE_NAME = 'twofactor_providers';
 
-	/** @var IDBConnection */
-	private $conn;
-
-	public function __construct(IDBConnection $dbConn) {
-		$this->conn = $dbConn;
+	public function __construct(
+		private IDBConnection $conn,
+	) {
 	}
 
 	/**

@@ -12,6 +12,7 @@ use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Encryption\Crypto\Encryption;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Files\Mount\ISystemMountPoint;
 use OCP\IConfig;
@@ -27,54 +28,32 @@ class Util {
 	public const HEADER_ENCRYPTION_MODULE_KEY = 'oc_encryption_module';
 
 	/**
-	 * block size will always be 8192 for a PHP stream
+	 * Block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
-	 * @var integer
 	 */
-	protected $headerSize = 8192;
+	protected int $headerSize = 8192;
 
 	/**
-	 * block size will always be 8192 for a PHP stream
+	 * Block size will always be 8192 for a PHP stream
 	 * @see https://bugs.php.net/bug.php?id=21641
-	 * @var integer
 	 */
-	protected $blockSize = 8192;
+	protected int $blockSize = 8192;
 
-	/** @var View */
-	protected $rootView;
-
-	/** @var array */
-	protected $ocHeaderKeys;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var array paths excluded from encryption */
+	protected array $ocHeaderKeys;
 	protected array $excludedPaths = [];
-	protected IGroupManager $groupManager;
-	protected IUserManager $userManager;
 
-	/**
-	 *
-	 * @param View $rootView
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		View $rootView,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IConfig $config) {
+		protected View $rootView,
+		protected IUserManager $userManager,
+		protected IGroupManager $groupManager,
+		protected IConfig $config,
+	) {
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
 		];
 
-		$this->rootView = $rootView;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->config = $config;
-
 		$this->excludedPaths[] = 'files_encryption';
-		$this->excludedPaths[] = 'appdata_' . $config->getSystemValueString('instanceid');
+		$this->excludedPaths[] = 'appdata_' . $this->config->getSystemValueString('instanceid');
 		$this->excludedPaths[] = 'files_external';
 	}
 
@@ -95,7 +74,7 @@ class Util {
 			if (class_exists('\OCA\Encryption\Crypto\Encryption')) {
 				// fall back to default encryption if the user migrated from
 				// ownCloud <= 8.0 with the old encryption
-				$id = \OCA\Encryption\Crypto\Encryption::ID;
+				$id = Encryption::ID;
 			} else {
 				throw new ModuleDoesNotExistsException('Default encryption module missing');
 			}

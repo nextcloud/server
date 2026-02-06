@@ -9,12 +9,13 @@
 namespace Test\Memcache;
 
 use OC\Memcache\ArrayCache;
+use OC\Memcache\CasTrait;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('Memcache')]
 class CasTraitTest extends TestCase {
 	/**
-	 * @return \OC\Memcache\CasTrait
+	 * @return CasTrait
 	 */
 	private function getCache() {
 		$sourceCache = new ArrayCache();

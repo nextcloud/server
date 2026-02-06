@@ -18,7 +18,9 @@ use OCP\Files\Folder;
 use OCP\IDBConnection;
 use OCP\ITags;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\Share_Backend;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Tags implements ITags {
@@ -212,7 +214,7 @@ class Tags implements ITags {
 		}
 
 		if ($tagId === false) {
-			$l10n = \OCP\Util::getL10N('core');
+			$l10n = Util::getL10N('core');
 			throw new \Exception(
 				$l10n->t('Could not find category "%s"', [$tag])
 			);
@@ -461,7 +463,7 @@ class Tags implements ITags {
 		try {
 			return $this->getIdsForTag(ITags::TAG_FAVORITE);
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				$e->getMessage(),
 				[
 					'app' => 'core',
@@ -522,7 +524,7 @@ class Tags implements ITags {
 		try {
 			$qb->executeStatement();
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
+			Server::get(LoggerInterface::class)->error($e->getMessage(), [
 				'app' => 'core',
 				'exception' => $e,
 			]);

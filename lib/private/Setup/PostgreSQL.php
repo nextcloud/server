@@ -8,17 +8,19 @@
 namespace OC\Setup;
 
 use OC\DatabaseException;
+use OC\DatabaseSetupException;
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\Literal;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 
 class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	/**
-	 * @throws \OC\DatabaseSetupException
+	 * @throws DatabaseSetupException
 	 */
-	public function setupDatabase() {
+	public function setupDatabase(): void {
 		try {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
@@ -47,7 +49,7 @@ class PostgreSQL extends AbstractDatabase {
 					//add prefix to the postgresql user name to prevent collisions
 					$this->dbUser = 'oc_admin';
 					//create a new password so we don't need to store the admin config in the config file
-					$this->dbPassword = \OC::$server->get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+					$this->dbPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
 					$this->createDBUser($connection);
 				}
@@ -96,12 +98,12 @@ class PostgreSQL extends AbstractDatabase {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 			]);
-			throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL Login and/or password not valid'),
+			throw new DatabaseSetupException($this->trans->t('PostgreSQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
 	}
 
-	private function createDatabase(Connection $connection) {
+	private function createDatabase(Connection $connection): void {
 		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
 			$query = $connection->prepare('CREATE DATABASE ' . addslashes($this->dbName) . ' OWNER "' . addslashes($this->dbUser) . '"');
@@ -124,7 +126,7 @@ class PostgreSQL extends AbstractDatabase {
 		}
 	}
 
-	private function userExists(Connection $connection) {
+	private function userExists(Connection $connection): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('*')
@@ -134,7 +136,7 @@ class PostgreSQL extends AbstractDatabase {
 		return $result->rowCount() > 0;
 	}
 
-	private function databaseExists(Connection $connection) {
+	private function databaseExists(Connection $connection): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('datname')
@@ -144,7 +146,7 @@ class PostgreSQL extends AbstractDatabase {
 		return $result->rowCount() > 0;
 	}
 
-	private function createDBUser(Connection $connection) {
+	private function createDBUser(Connection $connection): void {
 		$dbUser = $this->dbUser;
 		try {
 			$i = 1;

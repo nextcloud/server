@@ -25,9 +25,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class IconController extends Controller {
-	/** @var FileAccessHelper */
-	private $fileAccessHelper;
-
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -35,11 +32,10 @@ class IconController extends Controller {
 		private ThemingDefaults $themingDefaults,
 		private IconBuilder $iconBuilder,
 		private ImageManager $imageManager,
-		FileAccessHelper $fileAccessHelper,
+		private FileAccessHelper $fileAccessHelper,
 		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
-		$this->fileAccessHelper = $fileAccessHelper;
 	}
 
 	/**

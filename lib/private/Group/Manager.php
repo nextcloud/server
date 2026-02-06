@@ -9,6 +9,8 @@ namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\SubAdmin;
+use OCA\Settings\Settings\Admin\Users;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
@@ -17,10 +19,12 @@ use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\GroupInterface;
 use OCP\ICacheFactory;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Security\Ip\IRemoteAddress;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use function is_string;
 
@@ -41,19 +45,13 @@ use function is_string;
  */
 class Manager extends PublicEmitter implements IGroupManager {
 	/** @var GroupInterface[] */
-	private $backends = [];
-
+	private array $backends = [];
 	/** @var array<string, IGroup> */
-	private $cachedGroups = [];
-
+	private array $cachedGroups = [];
 	/** @var array<string, list<string>> */
-	private $cachedUserGroups = [];
-
-	/** @var \OC\SubAdmin */
-	private $subAdmin = null;
-
+	private array $cachedUserGroups = [];
+	private ?SubAdmin $subAdmin = null;
 	private DisplayNameCache $displayNameCache;
-
 	private const MAX_GROUP_LENGTH = 255;
 
 	public function __construct(
@@ -96,7 +94,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
-	 * @param \OCP\GroupInterface $backend
+	 * @param GroupInterface $backend
 	 */
 	public function addBackend($backend) {
 		$this->backends[] = $backend;
@@ -111,7 +109,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/**
 	 * Get the active backends
 	 *
-	 * @return \OCP\GroupInterface[]
+	 * @return GroupInterface[]
 	 */
 	public function getBackends() {
 		return $this->backends;
@@ -137,7 +135,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/**
 	 * @param string $gid
 	 * @param string $displayName
-	 * @return \OCP\IGroup|null
+	 * @return IGroup|null
 	 */
 	protected function getGroupObject($gid, $displayName = null) {
 		$backends = [];
@@ -181,7 +179,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof IGroupDetailsBackend || $backend->implementsActions(GroupInterface::GROUP_DETAILS)) {
-				/** @var IGroupDetailsBackend $backend */
+				/** @var GroupInterface&IGroupDetailsBackend $backend */
 				if ($backend instanceof IBatchMethodsBackend) {
 					$groupDatas = $backend->getGroupsDetails($gids);
 				} else {
@@ -281,9 +279,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param IUser|null $user
-	 * @return \OC\Group\Group[]
+	 * @return array<string, IGroup>
 	 */
-	public function getUserGroups(?IUser $user = null) {
+	public function getUserGroups(?IUser $user = null): array {
 		if (!$user instanceof IUser) {
 			return [];
 		}
@@ -292,7 +290,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $uid the user id
-	 * @return \OC\Group\Group[]
+	 * @return array<string, IGroup>
 	 */
 	public function getUserIdGroups(string $uid): array {
 		$groups = [];
@@ -334,10 +332,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 
 		// Check if the user as admin delegation for users listing
-		$authorizedGroupMapper = \OCP\Server::get(AuthorizedGroupMapper::class);
+		$authorizedGroupMapper = Server::get(AuthorizedGroupMapper::class);
 		$user = $this->userManager->get($userId);
 		$authorizedClasses = $authorizedGroupMapper->findAllClassesForUser($user);
-		return in_array(\OCA\Settings\Settings\Admin\Users::class, $authorizedClasses, true);
+		return in_array(Users::class, $authorizedClasses, true);
 	}
 
 	/**
@@ -446,14 +444,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
-	 * @return \OC\SubAdmin
+	 * @return SubAdmin
 	 */
 	public function getSubAdmin() {
 		if (!$this->subAdmin) {
-			$this->subAdmin = new \OC\SubAdmin(
+			$this->subAdmin = new SubAdmin(
 				$this->userManager,
 				$this,
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->dispatcher
 			);
 		}

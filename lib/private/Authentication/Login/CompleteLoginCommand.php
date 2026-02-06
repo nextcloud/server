@@ -11,11 +11,9 @@ namespace OC\Authentication\Login;
 use OC\User\Session;
 
 class CompleteLoginCommand extends ALoginCommand {
-	/** @var Session */
-	private $userSession;
-
-	public function __construct(Session $userSession) {
-		$this->userSession = $userSession;
+	public function __construct(
+		private Session $userSession,
+	) {
 	}
 
 	public function process(LoginData $loginData): LoginResult {

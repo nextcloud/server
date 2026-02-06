@@ -12,8 +12,6 @@ use OCP\DataCollector\IDataCollector;
 use OCP\Profiler\IProfile;
 
 class Profile implements \JsonSerializable, IProfile {
-	private string $token;
-
 	private ?int $time = null;
 
 	private ?string $url = null;
@@ -30,8 +28,9 @@ class Profile implements \JsonSerializable, IProfile {
 	/** @var IProfile[] */
 	private array $children = [];
 
-	public function __construct(string $token) {
-		$this->token = $token;
+	public function __construct(
+		private string $token,
+	) {
 	}
 
 	public function getToken(): string {

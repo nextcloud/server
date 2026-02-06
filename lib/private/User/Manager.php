@@ -18,6 +18,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
+use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -34,6 +35,7 @@ use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -60,7 +62,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	private array $backends = [];
 
 	/**
-	 * @var array<string,\OC\User\User> $cachedUsers
+	 * @var array<string, User> $cachedUsers
 	 */
 	private array $cachedUsers = [];
 
@@ -110,7 +112,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * get a user by user id
 	 *
 	 * @param string $uid
-	 * @return \OC\User\User|null Either the user or null if the specified user does not exist
+	 * @return User|null Either the user or null if the specified user does not exist
 	 */
 	public function get($uid) {
 		if (is_null($uid) || $uid === '' || $uid === false) {
@@ -156,9 +158,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * get or construct the user object
 	 *
 	 * @param string $uid
-	 * @param \OCP\UserInterface $backend
+	 * @param UserInterface $backend
 	 * @param bool $cacheUser If false the newly created user object will not be cached
-	 * @return \OC\User\User
+	 * @return User
 	 */
 	public function getUserObject($uid, $backend, $cacheUser = true) {
 		if ($backend instanceof IGetRealUIDBackend) {
@@ -202,7 +204,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$result = $this->checkPasswordNoLogging($loginName, $password);
 
 		if ($result === false) {
-			$this->logger->warning('Login failed: \'' . $loginName . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
+			$this->logger->warning('Login failed: \'' . $loginName . '\' (Remote IP: \'' . Server::get(IRequest::class)->getRemoteAddress() . '\')', ['app' => 'core']);
 		}
 
 		return $result;
@@ -373,10 +375,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @throws \InvalidArgumentException
 	 * @throws HintException
 	 */
-	public function createUser($uid, $password) {
+	public function createUser($uid, $password): IUser|false {
 		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
 		/** @var IAssertion $assertion */
-		$assertion = \OC::$server->get(IAssertion::class);
+		$assertion = Server::get(IAssertion::class);
 		$assertion->createUserIsLegit();
 
 		$localBackends = [];
@@ -404,12 +406,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
-	 * @param UserInterface $backend
-	 * @return IUser|false
 	 * @throws \InvalidArgumentException
 	 */
-	public function createUserFromBackend($uid, $password, UserInterface $backend) {
-		$l = \OCP\Util::getL10N('lib');
+	public function createUserFromBackend($uid, $password, UserInterface $backend): IUser|false {
+		$l = Util::getL10N('lib');
 
 		$this->validateUserId($uid, true);
 
@@ -530,7 +530,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * The callback is executed for each user on each backend.
 	 * If the callback returns false no further users will be retrieved.
 	 *
-	 * @psalm-param \Closure(\OCP\IUser):?bool $callback
+	 * @psalm-param \Closure(IUser):?bool $callback
 	 * @param string $search
 	 * @param boolean $onlySeen when true only users that have a lastLogin entry
 	 *                          in the preferences table will be affected

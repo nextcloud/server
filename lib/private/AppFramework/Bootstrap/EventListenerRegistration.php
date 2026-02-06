@@ -8,24 +8,20 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Bootstrap;
 
+use OCP\EventDispatcher\IEventListener;
+
 /**
  * @psalm-immutable
- * @template-extends ServiceRegistration<\OCP\EventDispatcher\IEventListener>
+ * @template-extends ServiceRegistration<IEventListener>
  */
 class EventListenerRegistration extends ServiceRegistration {
-	/** @var string */
-	private $event;
-
-	/** @var int */
-	private $priority;
-
-	public function __construct(string $appId,
-		string $event,
+	public function __construct(
+		string $appId,
+		private string $event,
 		string $service,
-		int $priority) {
+		private int $priority,
+	) {
 		parent::__construct($appId, $service);
-		$this->event = $event;
-		$this->priority = $priority;
 	}
 
 	/**

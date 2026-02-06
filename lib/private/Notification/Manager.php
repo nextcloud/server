@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Notification;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCA\Notifications\App;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
@@ -26,6 +27,7 @@ use OCP\Notification\NotificationPreloadReason;
 use OCP\Notification\UnknownNotificationException;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -78,7 +80,8 @@ class Manager implements IManager {
 	public function registerApp(string $appClass): void {
 		// other apps may want to rely on the 'main' notification app so make it deterministic that
 		// the 'main' notification app adds it's notifications first and removes it's notifications last
-		if ($appClass === \OCA\Notifications\App::class) {
+		/** @psalm-suppress UndefinedClass */
+		if ($appClass === App::class) {
 			// add 'main' notifications app to start of internal list of apps
 			array_unshift($this->appClasses, $appClass);
 		} else {
@@ -122,7 +125,7 @@ class Manager implements IManager {
 
 		foreach ($this->appClasses as $appClass) {
 			try {
-				$app = \OC::$server->get($appClass);
+				$app = Server::get($appClass);
 			} catch (ContainerExceptionInterface $e) {
 				$this->logger->error('Failed to load notification app class: ' . $appClass, [
 					'exception' => $e,
@@ -154,7 +157,7 @@ class Manager implements IManager {
 			$notifierServices = $this->coordinator->getRegistrationContext()->getNotifierServices();
 			foreach ($notifierServices as $notifierService) {
 				try {
-					$notifier = \OC::$server->get($notifierService->getService());
+					$notifier = Server::get($notifierService->getService());
 				} catch (ContainerExceptionInterface $e) {
 					$this->logger->error('Failed to load notification notifier class: ' . $notifierService->getService(), [
 						'exception' => $e,
@@ -182,7 +185,7 @@ class Manager implements IManager {
 
 		foreach ($this->notifierClasses as $notifierClass) {
 			try {
-				$notifier = \OC::$server->get($notifierClass);
+				$notifier = Server::get($notifierClass);
 			} catch (ContainerExceptionInterface $e) {
 				$this->logger->error('Failed to load notification notifier class: ' . $notifierClass, [
 					'exception' => $e,

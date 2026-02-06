@@ -11,8 +11,6 @@ namespace OC\Security;
 use OCP\ICertificate;
 
 class Certificate implements ICertificate {
-	protected string $name;
-
 	protected ?string $commonName;
 
 	protected ?string $organization;
@@ -30,8 +28,10 @@ class Certificate implements ICertificate {
 	 * @param string $data base64 encoded certificate
 	 * @throws \Exception If the certificate could not get parsed
 	 */
-	public function __construct(string $data, string $name) {
-		$this->name = $name;
+	public function __construct(
+		string $data,
+		protected string $name,
+	) {
 		$gmt = new \DateTimeZone('GMT');
 
 		// If string starts with "file://" ignore the certificate

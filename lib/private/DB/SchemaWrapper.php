@@ -15,18 +15,16 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class SchemaWrapper implements ISchemaWrapper {
-	/** @var Connection */
-	protected $connection;
+	protected Schema $schema;
 
-	/** @var Schema */
-	protected $schema;
+	/** @var array<string, true> */
+	protected array $tablesToDelete = [];
 
-	/** @var array */
-	protected $tablesToDelete = [];
-
-	public function __construct(Connection $connection, ?Schema $schema = null) {
-		$this->connection = $connection;
-		if ($schema) {
+	public function __construct(
+		protected Connection $connection,
+		?Schema $schema = null,
+	) {
+		if ($schema !== null) {
 			$this->schema = $schema;
 		} else {
 			$this->schema = $this->connection->createSchema();
@@ -37,7 +35,7 @@ class SchemaWrapper implements ISchemaWrapper {
 		return $this->schema;
 	}
 
-	public function performDropTableCalls() {
+	public function performDropTableCalls(): void {
 		foreach ($this->tablesToDelete as $tableName => $true) {
 			$this->connection->dropTable($tableName);
 			foreach ($this->connection->getShardConnections() as $shardConnection) {

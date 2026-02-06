@@ -16,6 +16,11 @@ use OCP\Encryption\Keys\IStorage as EncryptionKeysStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -26,24 +31,14 @@ use Psr\Log\LoggerInterface;
  * @package OC\Encryption
  */
 class EncryptionWrapper {
-	/** @var ArrayCache */
-	private $arrayCache;
-
-	/** @var Manager */
-	private $manager;
-
-	private LoggerInterface $logger;
-
 	/**
 	 * EncryptionWrapper constructor.
 	 */
-	public function __construct(ArrayCache $arrayCache,
-		Manager $manager,
-		LoggerInterface $logger,
+	public function __construct(
+		private ArrayCache $arrayCache,
+		private Manager $manager,
+		private LoggerInterface $logger,
 	) {
-		$this->arrayCache = $arrayCache;
-		$this->manager = $manager;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -63,17 +58,17 @@ class EncryptionWrapper {
 		];
 
 		if ($force || (!$storage->instanceOfStorage(IDisableEncryptionStorage::class) && $mountPoint !== '/')) {
-			$user = \OC::$server->getUserSession()->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 			$mountManager = Filesystem::getMountManager();
 			$uid = $user ? $user->getUID() : null;
-			$fileHelper = \OC::$server->get(IFile::class);
-			$keyStorage = \OC::$server->get(EncryptionKeysStorage::class);
+			$fileHelper = Server::get(IFile::class);
+			$keyStorage = Server::get(EncryptionKeysStorage::class);
 
 			$util = new Util(
 				new View(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getConfig()
+				Server::get(IUserManager::class),
+				Server::get(IGroupManager::class),
+				Server::get(IConfig::class)
 			);
 			return new Encryption(
 				$parameters,

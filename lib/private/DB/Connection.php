@@ -36,7 +36,9 @@ use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\Sharded\IShardMapper;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IRequestId;
@@ -50,35 +52,21 @@ use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
-	/** @var string */
-	protected $tablePrefix;
-
-	/** @var \OC\DB\Adapter $adapter */
-	protected $adapter;
-
-	/** @var SystemConfig */
-	private $systemConfig;
-
+	protected string $tablePrefix;
+	protected Adapter $adapter;
+	private SystemConfig $systemConfig;
 	private ClockInterface $clock;
-
 	private LoggerInterface $logger;
-
 	protected $lockedTable = null;
-
-	/** @var int */
-	protected $queriesBuilt = 0;
-
-	/** @var int */
-	protected $queriesExecuted = 0;
-
-	/** @var DbDataCollector|null */
-	protected $dbDataCollector = null;
+	protected int $queriesBuilt = 0;
+	protected int $queriesExecuted = 0;
+	protected ?DbDataCollector $dbDataCollector = null;
 	private array $lastConnectionCheck = [];
 
 	protected ?float $transactionActiveSince = null;
 
 	/** @var array<string, int> */
-	protected $tableDirtyWrites = [];
+	protected array $tableDirtyWrites = [];
 
 	protected bool $logDbException = false;
 	private ?array $transactionBacktrace = null;
@@ -143,7 +131,7 @@ class Connection extends PrimaryReadReplicaConnection {
 				$this->shardConnectionManager,
 			);
 		}
-		$this->systemConfig = \OC::$server->getSystemConfig();
+		$this->systemConfig = Server::get(SystemConfig::class);
 		$this->clock = Server::get(ClockInterface::class);
 		$this->logger = Server::get(LoggerInterface::class);
 
@@ -151,7 +139,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$this->logDbException = $this->systemConfig->getValue('db.log_exceptions', false);
 		$this->requestId = Server::get(IRequestId::class)->getId();
 
-		/** @var \OCP\Profiler\IProfiler */
+		/** @var IProfiler */
 		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
 			$this->dbDataCollector = new DbDataCollector($this);
@@ -326,10 +314,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		return '';
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPrefix() {
+	public function getPrefix(): string {
 		return $this->tablePrefix;
 	}
 
@@ -820,10 +805,10 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getMigrator() {
 		// TODO properly inject those dependencies
-		$random = \OC::$server->get(ISecureRandom::class);
+		$random = Server::get(ISecureRandom::class);
 		$platform = $this->getDatabasePlatform();
-		$config = \OC::$server->getConfig();
-		$dispatcher = Server::get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$config = Server::get(IConfig::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {

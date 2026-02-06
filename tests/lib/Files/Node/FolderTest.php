@@ -748,7 +748,7 @@ class FolderTest extends NodeTestCase {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Root $root */
 		$root = $this->getMockBuilder(Root::class)
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
@@ -817,7 +817,7 @@ class FolderTest extends NodeTestCase {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Root $root */
 		$root = $this->getMockBuilder(Root::class)
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
@@ -884,7 +884,7 @@ class FolderTest extends NodeTestCase {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Root $root */
 		$root = $this->getMockBuilder(Root::class)
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])

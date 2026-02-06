@@ -9,19 +9,19 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
+use OCP\Preview\IProviderV2;
+
 /**
  * @psalm-immutable
- * @template-extends ServiceRegistration<\OCP\Preview\IProviderV2>
+ * @template-extends ServiceRegistration<IProviderV2>
  */
 class PreviewProviderRegistration extends ServiceRegistration {
-	/** @var string */
-	private $mimeTypeRegex;
-
-	public function __construct(string $appId,
+	public function __construct(
+		string $appId,
 		string $service,
-		string $mimeTypeRegex) {
+		private string $mimeTypeRegex,
+	) {
 		parent::__construct($appId, $service);
-		$this->mimeTypeRegex = $mimeTypeRegex;
 	}
 
 	public function getMimeTypeRegex(): string {
