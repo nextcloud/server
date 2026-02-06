@@ -218,6 +218,9 @@ This file is generated from multiple sources. Included packages:
 - events
 	- version: 3.3.0
 	- license: MIT
+- fast-xml-parser
+	- version: 5.3.4
+	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
 	- license: MIT
@@ -365,6 +368,9 @@ This file is generated from multiple sources. Included packages:
 - striptags
 	- version: 3.2.0
 	- license: MIT
+- strnum
+	- version: 2.1.2
+	- license: MIT
 - style-loader
 	- version: 4.0.0
 	- license: MIT
@@ -419,17 +425,11 @@ This file is generated from multiple sources. Included packages:
 - entities
 	- version: 6.0.1
 	- license: BSD-2-Clause
-- fast-xml-parser
-	- version: 4.5.3
-	- license: MIT
 - minimatch
 	- version: 9.0.5
 	- license: ISC
-- strnum
-	- version: 1.1.2
-	- license: MIT
 - webdav
-	- version: 5.8.0
+	- version: 5.9.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
