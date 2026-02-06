@@ -81,7 +81,7 @@
 	url = git@github.com:IONOS-Productivity/nc-notifications.git
 [submodule "apps-external/user_oidc"]
 	path = apps-external/user_oidc
-	url = git@github.com:nextcloud/user_oidc.git
+	url = git@github.com:IONOS-Productivity/nc-user_oidc.git
 [submodule "apps-external/end_to_end_encryption"]
 	path = apps-external/end_to_end_encryption
 	url = git@github.com:nextcloud/end_to_end_encryption.git
