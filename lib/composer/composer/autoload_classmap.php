@@ -311,6 +311,7 @@ return array(
     'OCP\\DB\\IPreparedStatement' => $baseDir . '/lib/public/DB/IPreparedStatement.php',
     'OCP\\DB\\IResult' => $baseDir . '/lib/public/DB/IResult.php',
     'OCP\\DB\\ISchemaWrapper' => $baseDir . '/lib/public/DB/ISchemaWrapper.php',
+    'OCP\\DB\\QueryBuilder\\ConflictResolutionMode' => $baseDir . '/lib/public/DB/QueryBuilder/ConflictResolutionMode.php',
     'OCP\\DB\\QueryBuilder\\ICompositeExpression' => $baseDir . '/lib/public/DB/QueryBuilder/ICompositeExpression.php',
     'OCP\\DB\\QueryBuilder\\IExpressionBuilder' => $baseDir . '/lib/public/DB/QueryBuilder/IExpressionBuilder.php',
     'OCP\\DB\\QueryBuilder\\IFunctionBuilder' => $baseDir . '/lib/public/DB/QueryBuilder/IFunctionBuilder.php',
