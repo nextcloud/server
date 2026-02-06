@@ -82,7 +82,7 @@
     "@vue/tsconfig": "^0.8.1",
     "@zip.js/zip.js": "^2.8.16",
     "concurrently": "^9.2.1",
-    "cypress": "^15.9.0",
+    "cypress": "^15.10.0",
     "cypress-axe": "^1.7.0",
     "cypress-if": "^1.13.2",
     "cypress-split": "^1.24.28",
