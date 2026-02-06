@@ -223,6 +223,7 @@
     "Could not find category \"%s\"" : "Nedaří se nalézt kategorii „%s“",
     "Input text" : "Zadejte text",
     "The input text" : "Vstupní text",
+    "Cannot generate less than 1 image" : "Není možné vytvořit méně než 1 obrázek",
     "Sunday" : "neděle",
     "Monday" : "pondělí",
     "Tuesday" : "úterý",

@@ -694,7 +694,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Voor beveiliging en prestaties van je server is het belangrijk dat alles goed is geconfigureerd. Om je hierbij te helpen doen we paar automatische controles. Bekijk de gerelateerde documentatie voor meer informatie.",
     "Checking for system and security issues." : "Controleren op systeem- en beveiligingsproblemen.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Lees de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installatie-handleiding ↗</a> goed door en controleer <a href=\"%2$s\">de logs</a> op fouten en waarschuwingen.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Controleer de beveiliging van je Nextcloud via <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">onze securityscan ↗</a>.",
-    "Follow us on X" : "Volg ons op X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Controleer de beveiliging van je Nextcloud via <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">onze securityscan ↗</a>."
 },
 "nplurals=2; plural=(n != 1);");

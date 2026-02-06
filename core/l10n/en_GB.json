@@ -43,6 +43,7 @@
     "Input text is too long" : "Input text is too long",
     "Requested task type does not exist" : "Requested task type does not exist",
     "Necessary language model provider is not available" : "Necessary language model provider is not available",
+    "Cannot generate less than 1 image" : "Cannot generate less than 1 image",
     "No text to image provider is available" : "No text to image provider is available",
     "Image not found" : "Image not found",
     "No translation provider available" : "No translation provider available",

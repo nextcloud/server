@@ -899,7 +899,6 @@
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Sinu serveri turvalisuse ja jõudluse jaoks on oluline, et kõik oleks korrektselt seadistatud. Sinu aitamiseks käivitame mõned automaatsed testid ja kontrollid. Lisateavet leiad viidatud juhendist.",
     "Checking for system and security issues." : "Kontrollin süsteemivigade ja turvaprobleemide olemasolu.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Palun vaata uuesti <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">paigaldusjuhendit ↗</a> ning kontrolli <a href=\"%2$s\">logides</a> leiduvaid vigu ja hoiatusi.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Testi selle Nextcloudi serveri turvalisust <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">meie turvakontrolliga ↗</a>.",
-    "Follow us on X" : "Jälgi meid X-is"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Testi selle Nextcloudi serveri turvalisust <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">meie turvakontrolliga ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
