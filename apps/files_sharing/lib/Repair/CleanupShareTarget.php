@@ -14,6 +14,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
@@ -84,7 +85,12 @@ class CleanupShareTarget implements IRepairStep {
 			$oldTarget = $shareInfo['file_target'];
 			$newTarget = $this->cleanTarget($oldTarget);
 			$absoluteNewTarget = $userFolder->getFullPath($newTarget);
-			$targetParentNode = $this->rootFolder->get(dirname($absoluteNewTarget));
+			try {
+				$targetParentNode = $this->rootFolder->get(dirname($absoluteNewTarget));
+			} catch (NotFoundException) {
+				$absoluteNewTarget = $userFolder->getFullPath(basename($newTarget));
+				$targetParentNode = $userFolder;
+			}
 
 			try {
 				$absoluteNewTarget = $this->shareTargetValidator->generateUniqueTarget(
