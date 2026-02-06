@@ -142,6 +142,30 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $response->getData());
 	}
 
+	public function testCreateDisabledBySystemConfig(): void {
+		$name = 'Nexus 4';
+
+		$this->serverConfig->method('getSystemValueBool')
+			->with('auth_can_create_app_token', true)
+			->willReturn(false);
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sessionid');
+		$this->tokenProvider->expects($this->never())
+			->method('getToken');
+		$this->tokenProvider->expects($this->never())
+			->method('getPassword');
+		$this->eventDispatcher->expects($this->never())
+			->method('dispatchTyped');
+		$this->tokenProvider->expects($this->never())
+			->method('generateToken');
+
+		$expected = new JSONResponse();
+		$expected->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
+
+		$this->assertEquals($expected, $this->controller->create($name));
+	}
+
 	public function testCreateTokenModifiedByEvent(): void {
 		$name = 'Pixel 8';
 		$sessionToken = $this->createMock(IToken::class);
