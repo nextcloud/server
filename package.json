@@ -64,7 +64,7 @@
     "sortablejs": "^1.15.6",
     "vue": "^3.5.27",
     "vuex": "^4.1.0",
-    "webdav": "^5.8.0"
+    "webdav": "^5.9.0"
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.1.2",
