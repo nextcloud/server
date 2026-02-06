@@ -1800,7 +1800,7 @@ class View {
 	 * @throws NotFoundException
 	 */
 	public function getOwner(string $path): string {
-		$info = $this->getFileInfo($path);
+		$info = $this->getFileInfo($path, false);
 		if (!$info) {
 			throw new NotFoundException($path . ' not found while trying to get owner');
 		}
