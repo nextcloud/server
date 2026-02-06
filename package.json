@@ -57,7 +57,7 @@
     "@nextcloud/sharing": "^0.3.0",
     "@nextcloud/vue": "^9.4.0",
     "@vueuse/core": "^14.1.0",
-    "@vueuse/integrations": "^14.1.0",
+    "@vueuse/integrations": "^14.2.0",
     "color": "^5.0.3",
     "debounce": "^3.0.0",
     "pinia": "^3.0.4",
