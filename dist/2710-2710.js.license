@@ -25,7 +25,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.6.1
 	- license: MIT
 - @floating-ui/core
-	- version: 1.7.3
+	- version: 1.7.4
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
