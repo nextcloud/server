@@ -161,7 +161,7 @@ trait S3ObjectTrait {
 					$totalWritten += $command['ContentLength'];
 				},
 				'before_complete' => function ($_command) use (&$totalWritten, $size, &$uploader, &$attempts) {
-					if ($size !== null && $totalWritten != $size) {
+					if ($size !== null && $totalWritten !== $size) {
 						$e = new \Exception('Incomplete multi part upload, expected ' . $size . ' bytes, wrote ' . $totalWritten);
 						throw new MultipartUploadException($uploader->getState(), $e);
 					}

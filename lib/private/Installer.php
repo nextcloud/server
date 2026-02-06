@@ -631,7 +631,7 @@ class Installer {
 			}
 			$files = scandir($src);
 			foreach ($files as $file) {
-				if ($file != '.' && $file != '..') {
+				if ($file !== '.' && $file !== '..') {
 					$this->copyRecursive("$src/$file", "$dest/$file");
 				}
 			}

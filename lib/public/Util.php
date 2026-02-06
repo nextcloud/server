@@ -263,7 +263,7 @@ class Util {
 		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
 		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
 		return $urlGenerator->getAbsoluteURL(
-			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
+			$remoteBase . (($service[strlen($service) - 1] !== '/') ? '/' : '')
 		);
 	}
 
@@ -276,7 +276,7 @@ class Util {
 		$host_name = \OCP\Server::get(IRequest::class)->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
-		if ($colon_pos != false) {
+		if ($colon_pos !== false) {
 			$host_name = substr($host_name, 0, $colon_pos);
 		}
 		return $host_name;
@@ -491,7 +491,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+		$case = ($case !== MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
 		$ret = [];
 		foreach ($input as $k => $v) {
 			$ret[mb_convert_case($k, $case, $encoding)] = $v;
