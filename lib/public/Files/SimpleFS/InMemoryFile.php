@@ -105,7 +105,7 @@ class InMemoryFile implements ISimpleFile {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @inheritDoc
 	 * @since 24.0.0
 	 */
 	public function getExtension(): string {
@@ -113,15 +113,15 @@ class InMemoryFile implements ISimpleFile {
 	}
 
 	/**
-	 * Stream reading is unsupported for in memory files.
-	 *
-	 * @throws NotPermittedException
+	 * @inheritDoc
 	 * @since 16.0.0
+	 * @since 34.0.0 - return in-memory stream of contents
 	 */
 	public function read() {
-		throw new NotPermittedException(
-			'Stream reading is unsupported for in memory files'
-		);
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $this->contents);
+		rewind($stream);
+		return $stream;
 	}
 
 	/**
