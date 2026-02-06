@@ -979,7 +979,6 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Kvôli bezpečnosti a výkonu vašej inštalácie je dôležité, aby bolo všetko správne nastavené. Robíme automatickú kontrolu, ktorá vám s touto úlohou pomôže. Pre ďalšie informácie nahliadnite do priloženej dokumentácie.",
     "Checking for system and security issues." : "Prebieha kontrola systémových a bezpečnostných problémov.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Prosím skontrolujte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">inštalačnú dokumentáciu</a> a skontrolujte existenciu chýb a upozornení v <a href=\"%2$s\">logu</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Skontrolujte bezpečnosť svojho Nextcloudu pomocou <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nášho bezpečnostného skenu</a>.",
-    "Follow us on X" : "Sledujte nás na X"
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Skontrolujte bezpečnosť svojho Nextcloudu pomocou <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nášho bezpečnostného skenu</a>."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

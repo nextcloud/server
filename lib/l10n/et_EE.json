@@ -219,6 +219,7 @@
     "Could not find category \"%s\"" : "Ei leia kategooriat „%s“",
     "Input text" : "Sisendtekst",
     "The input text" : "Sisendtekst",
+    "Cannot generate less than 1 image" : "Ei saa luua alla 1 pildi",
     "Sunday" : "Pühapäev",
     "Monday" : "Esmaspäev",
     "Tuesday" : "Teisipäev",
