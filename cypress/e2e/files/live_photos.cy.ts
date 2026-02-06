@@ -56,8 +56,8 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
-			getRowForFile(`${randomFileName} (copy).jpg`).should('have.length', 1)
-			getRowForFile(`${randomFileName} (copy).mov`).should('have.length', 1)
+			getRowForFile(`${randomFileName} (1).jpg`).should('have.length', 1)
+			getRowForFile(`${randomFileName} (1).mov`).should('have.length', 1)
 		})
 
 		it('Copies both files when copying the .mov', () => {
@@ -65,15 +65,15 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			reloadCurrentFolder()
 
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
-			getRowForFile(`${randomFileName} (copy).jpg`).should('have.length', 1)
-			getRowForFile(`${randomFileName} (copy).mov`).should('have.length', 1)
+			getRowForFile(`${randomFileName} (1).jpg`).should('have.length', 1)
+			getRowForFile(`${randomFileName} (1).mov`).should('have.length', 1)
 		})
 
 		it('Keeps live photo link when copying folder', () => {
 			createFolder('folder')
 			moveFile(`${randomFileName}.jpg`, 'folder')
 			copyFile('folder', '.')
-			navigateToFolder('folder (copy)')
+			navigateToFolder('folder (1)')
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
@@ -95,7 +95,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			cy.get('[data-cy-files-list-row-fileid]').should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 0)
-			getRowForFile(`${randomFileName} (copy).jpg`).should('have.length', 0)
+			getRowForFile(`${randomFileName} (1).jpg`).should('have.length', 0)
 		})
 
 		it('Moves files when moving the .jpg', () => {
