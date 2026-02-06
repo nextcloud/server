@@ -166,6 +166,7 @@ The development container provides several convenience features for development:
 *   Pay attention to the IONOS-specific scripts and configurations when working on related features.
 *   Use the `IONOS/configure.sh` script for most configuration tasks rather than manual OCC commands.
 *   Before committing any changes, make sure to run the relevant tests and linters.
+*   **Recurring Tasks Documentation:** For common development tasks (e.g., delegating settings to admin, adding apps, etc.), check `../<tools-dir>/docs/recurring-tasks/` for step-by-step guides.
 
 ## Code Organization & Structure
 
