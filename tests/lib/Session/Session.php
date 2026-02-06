@@ -8,6 +8,11 @@
 
 namespace Test\Session;
 
+/**
+ * Abstract base test class defining the contract for session storage backends.
+ * Contains generic tests for set/get/remove/clear/array session API compliance.
+ * Extend this class to provide $this->instance and validate custom session implementations.
+ */
 abstract class Session extends \Test\TestCase {
 	/**
 	 * @var \OC\Session\Session
