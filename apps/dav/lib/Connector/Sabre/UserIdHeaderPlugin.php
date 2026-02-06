@@ -19,7 +19,7 @@ class UserIdHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	public function initialize(\Sabre\DAV\Server $server): void {
-		$server->on('afterMethod:*', [$this, 'afterMethod']);
+		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
 	}
 
 	/**
@@ -28,7 +28,7 @@ class UserIdHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param RequestInterface $request request
 	 * @param ResponseInterface $response response
 	 */
-	public function afterMethod(RequestInterface $request, ResponseInterface $response): void {
+	public function beforeMethod(RequestInterface $request, ResponseInterface $response): void {
 		if ($user = $this->userSession->getUser()) {
 			$response->setHeader('X-User-Id', $user->getUID());
 		}
