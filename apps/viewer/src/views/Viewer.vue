@@ -600,6 +600,16 @@ export default defineComponent({
 			// initial loading start
 			this.initiated = true
 
+			const sidebar = document.querySelector('aside.app-sidebar')
+			if (sidebar && sidebar.style.display !== 'none') {
+				this.isSidebarShown = true
+				this.sidebarPosition = sidebar.getBoundingClientRect().left
+				this.trapElements = [sidebar]
+			} else {
+				this.isSidebarShown = false
+				this.trapElements = []
+			}
+
 			if (OCA?.Files?.Sidebar?.setFullScreenMode) {
 				OCA.Files.Sidebar.setFullScreenMode(true)
 			}
@@ -1415,6 +1425,15 @@ body:has(#viewer) {
 	#app-sidebar-vue {
 		position: fixed;
 		width: calc(var(--app-sidebar-width) + var(--body-container-margin));
+	}
+
+	.app-navigation ~ #app-content-vue:has(~ #app-sidebar-vue:not([style*="display: none"])) {
+		flex-basis: calc(100% - 300px - clamp(300px, 27vw, 500px));
+	}
+
+	#app-content-vue:first-child:has(~ #app-sidebar-vue:not([style*="display: none"])),
+	.app-navigation--closed ~ #app-content-vue:has(~ #app-sidebar-vue:not([style*="display: none"])) {
+		flex-basis: calc(100% - clamp(300px, 27vw, 500px));
 	}
 
 	#header {
