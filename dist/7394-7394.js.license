@@ -60,9 +60,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
-- @nextcloud/paths
-	- version: 3.0.0
-	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.12.2
 	- license: AGPL-3.0-or-later

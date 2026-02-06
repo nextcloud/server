@@ -1,13 +1,14 @@
-import type { Folder, View } from '@nextcloud/files'
-
-import axios from '@nextcloud/axios'
-import * as eventBus from '@nextcloud/event-bus'
-import { File, FileAction, Permission } from '@nextcloud/files'
-import { ShareType } from '@nextcloud/sharing'
-/**
+/*
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFolder, IView } from '@nextcloud/files'
+
+import axios from '@nextcloud/axios'
+import * as eventBus from '@nextcloud/event-bus'
+import { File, Permission } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { action } from './acceptShareAction.ts'
 
@@ -18,12 +19,12 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const pendingShareView = {
 	id: 'pendingshares',
 	name: 'Pending shares',
-} as View
+} as IView
 
 // Mock webroot variable
 beforeAll(() => {
@@ -41,18 +42,17 @@ describe('Accept share action conditions tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('accept-share')
 		expect(action.displayName({
 			nodes: [file],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Accept share')
 		expect(action.iconSvgInline({
 			nodes: [file],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
@@ -61,7 +61,7 @@ describe('Accept share action conditions tests', () => {
 		expect(action.inline!({
 			nodes: [file],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -87,7 +87,7 @@ describe('Accept share action conditions tests', () => {
 		expect(action.displayName({
 			nodes: [file1, file2],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Accept shares')
 	})
@@ -108,7 +108,7 @@ describe('Accept share action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -118,7 +118,7 @@ describe('Accept share action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -128,7 +128,7 @@ describe('Accept share action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -159,7 +159,7 @@ describe('Accept share action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -192,7 +192,7 @@ describe('Accept share action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -237,7 +237,7 @@ describe('Accept share action execute tests', () => {
 		const exec = await action.execBatch!({
 			nodes: [file1, file2],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -272,7 +272,7 @@ describe('Accept share action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: pendingShareView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 

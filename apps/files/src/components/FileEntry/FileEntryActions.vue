@@ -121,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import type { ActionContextSingle, FileAction, Node } from '@nextcloud/files'
+import type { ActionContextSingle, IFileAction, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
@@ -179,7 +179,7 @@ export default defineComponent({
 		// The file list is guaranteed to be  shown with active view - thus we can set the `loaded` flag
 		const activeStore = useActiveStore()
 		const { isNarrow } = useFileListWidth()
-		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
+		const enabledFileActions = inject<IFileAction[]>('enabledFileActions', [])
 		return {
 			activeStore,
 			enabledFileActions,
@@ -302,7 +302,7 @@ export default defineComponent({
 	},
 
 	methods: {
-		actionDisplayName(action: FileAction) {
+		actionDisplayName(action: IFileAction) {
 			try {
 				if ((this.gridMode || (this.isNarrow && action.inline)) && typeof action.title === 'function') {
 					// if an inline action is rendered in the menu for
@@ -320,7 +320,7 @@ export default defineComponent({
 			}
 		},
 
-		isLoadingAction(action: FileAction) {
+		isLoadingAction(action: IFileAction) {
 			if (!this.isActive) {
 				return false
 			}

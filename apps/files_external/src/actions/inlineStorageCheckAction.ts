@@ -4,12 +4,12 @@
  */
 
 import type { AxiosError } from '@nextcloud/axios'
+import type { IFileAction } from '@nextcloud/files'
 import type { IStorage } from '../types.ts'
 
 import AlertSvg from '@mdi/svg/svg/alert-circle.svg?raw'
 import { showWarning } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { getStatus } from '../services/externalStorage.ts'
 import { StorageStatus } from '../types.ts'
@@ -18,7 +18,7 @@ import { isNodeExternalStorage } from '../utils/externalStorageUtils.ts'
 
 import '../css/fileEntryStatus.scss'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'check-external-storage',
 	displayName: () => '',
 	iconSvgInline: () => '',
@@ -88,4 +88,4 @@ export const action = new FileAction({
 	},
 
 	order: 10,
-})
+}

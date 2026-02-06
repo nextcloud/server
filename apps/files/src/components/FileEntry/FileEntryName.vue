@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Node, TFileType } from '@nextcloud/files'
+import type { IFileAction, Node, TFileType } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { showError } from '@nextcloud/dialogs'
@@ -92,7 +92,7 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const { activeFolder, activeView } = useActiveStore()
 
-		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
+		const defaultFileAction = inject<IFileAction | undefined>('defaultFileAction')
 
 		return {
 			activeFolder,
