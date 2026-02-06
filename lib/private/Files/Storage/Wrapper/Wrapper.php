@@ -24,9 +24,7 @@ use Override;
 use Psr\Log\LoggerInterface;
 
 class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
-	/**
-	 * @var Storage $storage
-	 */
+	/** @var Storage $storage */
 	protected $storage;
 
 	public $cache;
@@ -36,14 +34,14 @@ class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
 	public $updater;
 
 	/**
-	 * @param array $parameters
+	 * @param array{storage: IStorage, ...} $parameters
 	 */
 	public function __construct(array $parameters) {
 		$this->storage = $parameters['storage'];
 	}
 
 	public function getWrapperStorage(): Storage {
-		if (!$this->storage) {
+		if ($this->storage === null) {
 			$message = 'storage wrapper ' . get_class($this) . " doesn't have a wrapped storage set";
 			$logger = Server::get(LoggerInterface::class);
 			$logger->error($message);

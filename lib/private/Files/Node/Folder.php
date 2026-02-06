@@ -14,6 +14,7 @@ use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Utils\PathHelper;
 use OC\User\LazyUser;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder as IFolder;
@@ -26,7 +27,9 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
+use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
 use Override;
 
 class Folder extends Node implements IFolder {
@@ -35,13 +38,8 @@ class Folder extends Node implements IFolder {
 
 	private bool $wasDeleted = false;
 
-	/**
-	 * Creates a Folder that represents a non-existing path
-	 *
-	 * @param string $path path
-	 * @return NonExistingFolder non-existing node
-	 */
-	protected function createNonExistingNode($path) {
+	#[Override]
+	protected function createNonExistingNode(string $path): NonExistingFolder {
 		return new NonExistingFolder($this->root, $this->view, $path);
 	}
 
@@ -127,7 +125,7 @@ class Folder extends Node implements IFolder {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFolder($path) {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
@@ -159,15 +157,14 @@ class Folder extends Node implements IFolder {
 	/**
 	 * @param string $path
 	 * @param string | resource | null $content
-	 * @return \OC\Files\Node\File
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function newFile($path, $content = null) {
+	public function newFile($path, $content = null): File {
 		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
 		$this->recreateIfNeeded();
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
@@ -191,7 +188,7 @@ class Folder extends Node implements IFolder {
 			$user = null;
 		} else {
 			/** @var IUserManager $userManager */
-			$userManager = \OCP\Server::get(IUserManager::class);
+			$userManager = Server::get(IUserManager::class);
 			$user = $userManager->get($uid);
 		}
 		return new SearchQuery($operator, $limit, $offset, [], $user);
@@ -217,7 +214,7 @@ class Folder extends Node implements IFolder {
 		}
 
 		/** @var QuerySearchHelper $searchHelper */
-		$searchHelper = \OC::$server->get(QuerySearchHelper::class);
+		$searchHelper = Server::get(QuerySearchHelper::class);
 		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch($this->root, $this->path, $limitToHome);
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
@@ -264,7 +261,7 @@ class Folder extends Node implements IFolder {
 		if ($ownerId !== false) {
 			// Cache the user manager (for performance)
 			if ($this->userManager === null) {
-				$this->userManager = \OCP\Server::get(IUserManager::class);
+				$this->userManager = Server::get(IUserManager::class);
 			}
 			$owner = new LazyUser($ownerId, $this->userManager);
 		}
@@ -319,12 +316,12 @@ class Folder extends Node implements IFolder {
 		return $this->root->getByIdInPath((int)$id, $this->getPath());
 	}
 
-	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+	public function getFirstNodeById(int $id): ?INode {
 		return $this->root->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	public function getAppDataDirectoryName(): string {
-		$instanceId = \OC::$server->getConfig()->getSystemValueString('instanceid');
+		$instanceId = Server::get(IConfig::class)->getSystemValueString('instanceid');
 		return 'appdata_' . $instanceId;
 	}
 
@@ -337,8 +334,7 @@ class Folder extends Node implements IFolder {
 	 * the id. If it does we check if the path is inside the path we are working
 	 * in.
 	 *
-	 * @param int $id
-	 * @return array
+	 * @return list<INode>
 	 */
 	protected function getByIdInRootMount(int $id): array {
 		if (!method_exists($this->root, 'createNode')) {
@@ -376,7 +372,7 @@ class Folder extends Node implements IFolder {
 	}
 
 	public function delete() {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(['preDelete']);
 			$fileInfo = $this->getFileInfo();
 			$this->view->rmdir($this->path);

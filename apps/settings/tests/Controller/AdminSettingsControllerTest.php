@@ -125,7 +125,7 @@ class AdminSettingsControllerTest extends TestCase {
 		$initialState = [];
 		$this->initialState->expects(self::atLeastOnce())
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$initialState) {
+			->willReturnCallback(function () use (&$initialState): void {
 				$initialState[] = func_get_args();
 			});
 

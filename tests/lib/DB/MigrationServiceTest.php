@@ -224,7 +224,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$migrationService
 			->expects($this->exactly(2))
 			->method('executeStep')
-			->willReturnCallback(function (string $migration) use (&$calls) {
+			->willReturnCallback(function (string $migration) use (&$calls): void {
 				$calls[] = $migration;
 			});
 

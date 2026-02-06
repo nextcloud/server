@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -204,12 +205,12 @@ class DeletedShareAPIController extends OCSController {
 	 * @psalm-suppress UndefinedClass
 	 * @throws ContainerExceptionInterface
 	 */
-	private function getDeckShareHelper(): \OCA\Deck\Sharing\ShareAPIHelper {
+	private function getDeckShareHelper(): ShareAPIHelper {
 		if (!$this->appManager->isEnabledForUser('deck')) {
 			throw new QueryException();
 		}
 
 		/** @psalm-suppress UndefinedClass */
-		return Server::get(\OCA\Deck\Sharing\ShareAPIHelper::class);
+		return Server::get(ShareAPIHelper::class);
 	}
 }

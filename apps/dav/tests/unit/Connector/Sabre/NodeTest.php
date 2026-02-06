@@ -55,7 +55,7 @@ class NodeTest extends \Test\TestCase {
 	public function testDavPermissions(int $permissions, string $type, bool $shared, int $shareRootPermissions, bool $mounted, string $internalPath, string $expected): void {
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getPermissions', 'isShared', 'isMounted', 'getType', 'getInternalPath', 'getStorage', 'getMountPoint'])
+			->onlyMethods(['getPermissions', 'isShared', 'isMounted', 'getType', 'getInternalPath', 'getStorage', 'getMountPoint', 'getPath'])
 			->getMock();
 		$info->method('getPermissions')
 			->willReturn($permissions);
@@ -65,6 +65,8 @@ class NodeTest extends \Test\TestCase {
 			->willReturn($mounted);
 		$info->method('getType')
 			->willReturn($type);
+		$info->method('getPath')
+			->willReturn('');
 		$info->method('getInternalPath')
 			->willReturn($internalPath);
 		$info->method('getMountPoint')
@@ -160,18 +162,18 @@ class NodeTest extends \Test\TestCase {
 
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType', 'getMountPoint', 'getPermissions'])
+			->onlyMethods(['getStorage', 'getType', 'getMountPoint', 'getPermissions', 'getPath'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
+		$info->method('getPath')->willReturn('notMyPath');
 		$info->method('getType')->willReturn($type);
 		$info->method('getMountPoint')->willReturn($mountpoint);
 		$info->method('getPermissions')->willReturn($permissions);
 
 		$view = $this->createMock(View::class);
 
-		$node = new File($view, $info);
-		$this->invokePrivate($node, 'shareManager', [$shareManager]);
+		$node = new File($view, $info, $shareManager);
 		$this->assertEquals($expected, $node->getSharePermissions($user));
 	}
 
@@ -196,9 +198,10 @@ class NodeTest extends \Test\TestCase {
 		/** @var Folder&MockObject $info */
 		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType', 'getPath'])
 			->getMock();
 
+		$info->method('getPath')->willReturn('myPath');
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
@@ -217,9 +220,10 @@ class NodeTest extends \Test\TestCase {
 		/** @var Folder&MockObject */
 		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType', 'getPath'])
 			->getMock();
 
+		$info->method('getPath')->willReturn('myPath');
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 

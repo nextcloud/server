@@ -13,6 +13,7 @@ use OC\ForbiddenException;
 use OC\User\NoUserException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\ICache;
+use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
@@ -161,7 +162,7 @@ class File implements ICache {
 	public function gc() {
 		$storage = $this->getStorage();
 		if ($storage) {
-			$ttl = \OC::$server->getConfig()->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
+			$ttl = Server::get(IConfig::class)->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
 			$now = time() - $ttl;
 
 			$dh = $storage->opendir('/');

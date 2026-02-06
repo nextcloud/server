@@ -16,6 +16,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class LazyUserFolder extends LazyFolder {
@@ -48,7 +49,7 @@ class LazyUserFolder extends LazyFolder {
 					$node = $this->getRootFolder()->get($this->path);
 					if ($node instanceof File) {
 						$e = new \RuntimeException();
-						\OCP\Server::get(LoggerInterface::class)->error('User root storage is not a folder: ' . $this->path, [
+						Server::get(LoggerInterface::class)->error('User root storage is not a folder: ' . $this->path, [
 							'exception' => $e,
 						]);
 						throw $e;

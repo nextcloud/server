@@ -11,6 +11,7 @@ use OC\Files\Cache\Wrapper\CachePermissionsMask;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IScanner;
+use OCP\Files\Storage;
 use OCP\Files\Storage\IStorage;
 
 /**
@@ -24,10 +25,10 @@ class PermissionsMask extends Wrapper {
 	/**
 	 * @var int the permissions bits we want to keep
 	 */
-	private $mask;
+	private int $mask;
 
 	/**
-	 * @param array $parameters ['storage' => $storage, 'mask' => $mask]
+	 * @param array{storage: ?IStorage, mask: int} $parameters
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $mask: The permission bits that should be kept, a combination of the \OCP\Constant::PERMISSION_ constants
