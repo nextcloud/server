@@ -11,6 +11,7 @@ namespace OC\Files\Cache;
 
 use OC\DB\Exceptions\DbalException;
 use OC\Files\Storage\Wrapper\Encryption;
+use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Storage\IReliableEtagStorage;
@@ -28,8 +29,11 @@ class Propagator implements IPropagator {
 	private array $batch = [];
 	private ClockInterface $clock;
 
+	/**
+	 * @param IStorage $storage
+	 */
 	public function __construct(
-		protected readonly IStorage $storage,
+		protected $storage,
 		private readonly IDBConnection $connection,
 		private readonly array $ignore = [],
 	) {
@@ -63,9 +67,7 @@ class Propagator implements IPropagator {
 		$etag = uniqid(); // since we give all folders the same etag we don't ask the storage for the etag
 
 		$builder = $this->connection->getQueryBuilder();
-		$hashParams = array_map(function ($hash) use ($builder) {
-			return $builder->expr()->literal($hash);
-		}, $parentHashes);
+		$hashParams = array_map(static fn (string $hash): ILiteral => $builder->expr()->literal($hash), $parentHashes);
 
 		$builder->update('filecache')
 			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter($time, IQueryBuilder::PARAM_INT)))
@@ -106,9 +108,27 @@ class Propagator implements IPropagator {
 
 		for ($i = 0; $i < self::MAX_RETRIES; $i++) {
 			try {
-				$builder->executeStatement();
+				if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_SQLITE) {
+					$this->connection->beginTransaction();
+					// Lock all the rows first with a SELECT FOR UPDATE ordered by path_hash
+					$forUpdate = $this->connection->getQueryBuilder();
+					$forUpdate->select('fileid')
+						->from('filecache')
+						->where($forUpdate->expr()->eq('storage', $forUpdate->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->andWhere($forUpdate->expr()->in('path_hash', $hashParams))
+						->orderBy('path_hash')
+						->forUpdate()
+						->executeQuery();
+					$builder->executeStatement();
+					$this->connection->commit();
+				} else {
+					$builder->executeStatement();
+				}
 				break;
 			} catch (DbalException $e) {
+				if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_SQLITE) {
+					$this->connection->rollBack();
+				}
 				if (!$e->isRetryable()) {
 					throw $e;
 				}
@@ -200,7 +220,7 @@ class Propagator implements IPropagator {
 						->where($queryWithSize->expr()->eq('storage', $queryWithSize->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 						->andWhere($queryWithSize->expr()->eq('fileid', $queryWithSize->createParameter('fileid')));
 
-					while ($row = $result->fetchAssociative()) {
+					while ($row = $result->fetch()) {
 						$item = $this->batch[$row['path']];
 						if ($item['size'] && $row['size'] > -1) {
 							$queryWithSize->setParameter('fileid', $row['fileid'], IQueryBuilder::PARAM_INT)
