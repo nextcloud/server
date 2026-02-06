@@ -1,13 +1,13 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { action } from './rejectShareAction.ts'
@@ -19,12 +19,12 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const pendingShareView = {
 	id: 'pendingshares',
 	name: 'Pending shares',
-} as View
+} as IView
 
 // Mock webroot variable
 beforeAll(() => {
@@ -42,7 +42,6 @@ describe('Reject share action conditions tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('reject-share')
 		expect(action.displayName({
 			nodes: [file],

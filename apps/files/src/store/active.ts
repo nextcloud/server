@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction, IFolder, INode, IView } from '@nextcloud/files'
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import logger from '../logger.ts'
 
 export const useActiveStore = defineStore('active', () => {
 	/**
 	 * The currently active action
 	 */
-	const activeAction = ref<FileAction>()
+	const activeAction = shallowRef<IFileAction>()
 
 	/**
 	 * The currently active folder
@@ -30,7 +30,7 @@ export const useActiveStore = defineStore('active', () => {
 	/**
 	 * The current active view
 	 */
-	const activeView = ref<IView>()
+	const activeView = shallowRef<IView>()
 
 	// Set the active node on the router params
 	watch(activeNode, () => {

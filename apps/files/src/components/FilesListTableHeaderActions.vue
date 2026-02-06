@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import type { ActionContext, FileAction, Node, View } from '@nextcloud/files'
+import type { ActionContext, IFileAction, Node, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
@@ -158,7 +158,7 @@ export default defineComponent({
 	},
 
 	computed: {
-		enabledFileActions(): FileAction[] {
+		enabledFileActions(): IFileAction[] {
 			return actions
 				// We don't handle renderInline actions in this component
 				.filter((action) => !action.renderInline)
@@ -178,7 +178,7 @@ export default defineComponent({
 		 * This means that they are not within a menu, nor
 		 * being the parent of submenu actions.
 		 */
-		enabledInlineActions(): FileAction[] {
+		enabledInlineActions(): IFileAction[] {
 			return this.enabledFileActions
 				// Remove all actions that are not top-level actions
 				.filter((action) => action.parent === undefined)
@@ -194,7 +194,7 @@ export default defineComponent({
 		 * Return the rest of enabled actions that are not
 		 * rendered inlined.
 		 */
-		enabledMenuActions(): FileAction[] {
+		enabledMenuActions(): IFileAction[] {
 			// If we're in a submenu, only render the inline
 			// actions before the filtered submenu
 			if (this.openedSubmenu) {

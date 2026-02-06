@@ -1,14 +1,16 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import CalendarClockSvg from '@mdi/svg/svg/calendar-clock.svg?raw'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { pickCustomDate } from '../services/customPicker.ts'
 import { SET_REMINDER_MENU_ID } from './setReminderMenuAction.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'set-reminder-custom',
 	displayName: () => t('files_reminders', 'Custom reminder'),
 	title: () => t('files_reminders', 'Reminder at custom date & time'),
@@ -37,4 +39,4 @@ export const action = new FileAction({
 
 	// After presets
 	order: 22,
-})
+}

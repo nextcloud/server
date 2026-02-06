@@ -1,15 +1,15 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 
 import { Folder } from '@nextcloud/files'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { action } from './clearReminderAction.ts'
 
-const view = {} as unknown as View
+const view = {} as unknown as IView
 
 const root = new Folder({
 	owner: 'user',

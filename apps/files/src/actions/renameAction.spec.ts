@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 
 import * as eventBus from '@nextcloud/event-bus'
-import { File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { useFilesStore } from '../store/files.ts'
 import { getPinia } from '../store/index.ts'
@@ -15,7 +15,7 @@ import { action } from './renameAction.ts'
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 beforeEach(() => {
 	const root = new Folder({
@@ -31,7 +31,6 @@ beforeEach(() => {
 
 describe('Rename action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('rename')
 		expect(action.displayName({
 			nodes: [],

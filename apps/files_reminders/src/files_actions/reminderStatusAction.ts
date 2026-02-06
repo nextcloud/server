@@ -1,14 +1,16 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { pickCustomDate } from '../services/customPicker.ts'
 import { getVerboseDateString } from '../shared/utils.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'reminder-status',
 
 	inline: () => true,
@@ -41,4 +43,4 @@ export const action = new FileAction({
 	},
 
 	order: -15,
-})
+}

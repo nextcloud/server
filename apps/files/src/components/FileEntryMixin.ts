@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction } from '@nextcloud/files'
+import type { IFileAction } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
@@ -234,7 +234,7 @@ export default defineComponent({
 			}
 
 			return actions
-				.filter((action: FileAction) => {
+				.filter((action: IFileAction) => {
 					if (!action.enabled) {
 						return true
 					}
@@ -257,7 +257,7 @@ export default defineComponent({
 		},
 
 		defaultFileAction() {
-			return this.enabledFileActions.find((action: FileAction) => action.default !== undefined)
+			return this.enabledFileActions.find((action: IFileAction) => action.default !== undefined)
 		},
 	},
 
