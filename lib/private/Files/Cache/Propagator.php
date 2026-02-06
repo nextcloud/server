@@ -59,6 +59,7 @@ class Propagator implements IPropagator {
 		}
 
 		$parentHashes = array_map('md5', $parents);
+		sort($parentHashes); // Ensure rows are always locked in the same order
 		$etag = uniqid(); // since we give all folders the same etag we don't ask the storage for the etag
 
 		$builder = $this->connection->getQueryBuilder();
@@ -159,6 +160,9 @@ class Propagator implements IPropagator {
 			throw new \BadMethodCallException('Not in batch');
 		}
 		$this->inBatch = false;
+
+		// Ensure rows are always locked in the same order
+		uasort($this->batch, static fn (array $a, array $b) => $a['hash'] <=> $b['hash']);
 
 		try {
 			$this->connection->beginTransaction();
