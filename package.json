@@ -183,7 +183,7 @@
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.97.3",
-    "sass-loader": "^16.0.6",
+    "sass-loader": "^16.0.7",
     "sinon": "<= 5.0.7",
     "style-loader": "^4.0.0",
     "stylelint": "^16.26.1",
