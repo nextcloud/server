@@ -85,7 +85,7 @@
     "cypress": "^15.10.0",
     "cypress-axe": "^1.7.0",
     "cypress-if": "^1.13.2",
-    "cypress-split": "^1.24.25",
+    "cypress-split": "^1.24.28",
     "cypress-vite": "^1.8.0",
     "cypress-wait-until": "^3.0.2",
     "eslint": "^9.39.2",
