@@ -7,10 +7,12 @@ import type { RouteRecordRaw } from 'vue-router'
 
 import { loadState } from '@nextcloud/initial-state'
 import { defineAsyncComponent } from 'vue'
-const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
+
+const appstoreEnabled = loadState<boolean>('appstore', 'appstoreEnabled', true)
 
 // Dynamic loading
 const AppstoreDiscover = defineAsyncComponent(() => import('../views/AppstoreDiscover.vue'))
+const AppstoreManage = defineAsyncComponent(() => import('../views/AppstoreManage.vue'))
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -21,7 +23,7 @@ const routes: RouteRecordRaw[] = [
 					name: 'apps-discover',
 				}
 			: {
-					name: 'apps-category',
+					name: 'apps-manage',
 					params: { category: 'installed' },
 				},
 		children: [
@@ -31,14 +33,18 @@ const routes: RouteRecordRaw[] = [
 				component: AppstoreDiscover,
 			},
 			{
+				path: ':category(installed|enabled|disabled|updates)/:id?',
+				name: 'apps-manage',
+				component: AppstoreManage,
+			},
+			{
 				path: ':category',
 				name: 'apps-category',
-				children: [
-					{
-						path: ':id',
-						name: 'apps-details',
-					},
-				],
+				children: [{
+					path: ':id',
+					name: 'apps-details',
+					component: {},
+				}],
 			},
 		],
 	},
