@@ -70,7 +70,7 @@
     "@nextcloud/browserslist-config": "^3.1.2",
     "@nextcloud/e2e-test-server": "^0.4.0",
     "@nextcloud/eslint-config": "^9.0.0-rc.8",
-    "@nextcloud/stylelint-config": "^3.2.0",
+    "@nextcloud/stylelint-config": "^3.2.1",
     "@nextcloud/typings": "^1.10.0",
     "@nextcloud/vite-config": "^2.5.2",
     "@testing-library/cypress": "^10.1.0",
