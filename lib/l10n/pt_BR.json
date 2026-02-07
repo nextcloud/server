@@ -223,6 +223,7 @@
     "Could not find category \"%s\"" : "Impossível localizar a categoria \"%s\"",
     "Input text" : "Texto de entrada",
     "The input text" : "O texto de entrada",
+    "Cannot generate more than 12 images" : "Não é possível gerar mais de 12 imagens",
     "Cannot generate less than 1 image" : "Não é possível gerar menos de 1 imagem",
     "Sunday" : "Domingo",
     "Monday" : "Segunda-feira",
