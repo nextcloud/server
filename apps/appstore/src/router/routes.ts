@@ -30,7 +30,7 @@ const routes: RouteConfig[] = [
 		},
 		children: [
 			{
-				path: ':category',
+				path: 'apps/:category',
 				name: 'apps-category',
 				children: [
 					{

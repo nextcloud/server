@@ -38,10 +38,10 @@
 				</legend>
 				<NcTextField
 					v-for="(value, key) in configuredDeployOptions.environment_variables"
-					:key="key"
+					:key
 					:label="value.displayName ?? key"
-					:helper-text="value.description"
-					:model-value="value.value"
+					:helperText="value.description"
+					:modelValue="value.value"
 					readonly />
 			</fieldset>
 			<template v-else>
@@ -200,6 +200,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['update:show'],
 
 	setup(props) {
 		// for AppManagement mixin
