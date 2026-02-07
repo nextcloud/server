@@ -20,7 +20,7 @@ export function canInstall(app: IAppstoreApp | IAppstoreExApp) {
  * @param app - The app to check if uninstallable
  */
 export function canUninstall(app: IAppstoreApp | IAppstoreExApp) {
-	return app.installed && app.removable
+	return app.installed && app.removable && !app.active
 }
 
 /**

@@ -154,7 +154,9 @@ export const useAppsStore = defineStore('apps', () => {
 			} else {
 				await api.uninstallApp(appId)
 			}
+			app.active = false
 			app.installed = false
+			await rebuildNavigation()
 		} finally {
 			app.loading = false
 		}

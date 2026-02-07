@@ -128,17 +128,15 @@ class ApiController extends OCSController {
 			}
 
 			$appData['groups'] = $groups;
-			$appData['canUninstall'] = !$appData['active'] && $appData['removable'];
-
 			// analyze dependencies
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 			$missing = $this->dependencyAnalyzer->analyze($appData, $ignoreMax);
-			$appData['canInstall'] = empty($missing);
 			$appData['missingDependencies'] = $missing;
 
 			$appData['missingMinNextcloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['min-version']);
 			$appData['missingMaxNextcloudVersion'] = !isset($appData['dependencies']['nextcloud']['@attributes']['max-version']);
 			$appData['isCompatible'] = $this->dependencyAnalyzer->isMarkedCompatible($appData);
+			$appData['internal'] = in_array($appData['id'], $this->appManager->getAlwaysEnabledApps());
 
 			return $appData;
 		}, $apps);
@@ -220,7 +218,6 @@ class ApiController extends OCSController {
 
 	/**
 	 * Uninstall an app.
-	 * This will disable the app - if needed - and then remove the app from the system
 	 *
 	 * @param string $appId - The app to uninstall
 	 * @return DataResponse<Http::STATUS_OK, array{}, array{}>
@@ -232,6 +229,10 @@ class ApiController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/api/v1/apps/uninstall')]
 	public function uninstallApp(string $appId): DataResponse {
 		$appId = $this->appManager->cleanAppId($appId);
+		if ($this->appManager->isEnabledForAnyone($appId)) {
+			$this->disableApp($appId);
+		}
+
 		$result = $this->installer->removeApp($appId);
 		if ($result !== false) {
 			// If this app was force enabled, remove the force-enabled-state
@@ -458,6 +459,7 @@ class ApiController extends OCSController {
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => $this->appManager->isShipped($app['id']),
+				'internal' => in_array($app['id'], $this->appManager->getAlwaysEnabledApps()),
 				'version' => $currentVersion,
 				'types' => [],
 				'documentation' => [
@@ -474,7 +476,6 @@ class ApiController extends OCSController {
 				'level' => ($app['isFeatured'] === true) ? 200 : 100,
 				'missingMaxNextcloudVersion' => false,
 				'missingMinNextcloudVersion' => false,
-				'canInstall' => true,
 				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
 				'score' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
