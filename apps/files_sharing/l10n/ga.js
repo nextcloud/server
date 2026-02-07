@@ -277,7 +277,7 @@ OC.L10N.register(
     "Replace current password" : "Ionadaigh an pasfhocal reatha",
     "Failed to generate a new token" : "Theip ar chomhartha nua a ghiniúint",
     "Allow upload and editing" : "Ceadaigh uaslódáil agus eagarthóireacht",
-    "Allow editing" : "Allow editing",
+    "Allow editing" : "Ceadaigh eagarthóireacht",
     "Upload only" : "Uaslódáil ach amháin",
     "Advanced settings" : "Ardsocruithe",
     "Share label" : "Comhroinn lipéad",
