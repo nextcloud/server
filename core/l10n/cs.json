@@ -43,6 +43,7 @@
     "Input text is too long" : "Vstupní text je příliš dlouhý",
     "Requested task type does not exist" : "Požadovaný typ úkolu neexistuje",
     "Necessary language model provider is not available" : "Nezbytný poskytovatel jazykového modelu není k dsipozici",
+    "Cannot generate more than 12 images" : "Není možné vytvořit více než 12 obrázků",
     "Cannot generate less than 1 image" : "Není možné vytvořit méně než 1 obrázek",
     "No text to image provider is available" : "Není k dispozici žádný poskytovatel převodu textu na obrázek",
     "Image not found" : "Obrázek nenalezen",

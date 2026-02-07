@@ -223,6 +223,7 @@
     "Could not find category \"%s\"" : "Níorbh fhéidir an chatagóir \"%s\" a aimsiú",
     "Input text" : "Téacs ionchuir",
     "The input text" : "An téacs ionchuir",
+    "Cannot generate more than 12 images" : "Ní féidir níos mó ná 12 íomhá a ghiniúint",
     "Cannot generate less than 1 image" : "Ní féidir níos lú ná 1 íomhá a ghiniúint",
     "Sunday" : "Domhnach",
     "Monday" : "Dé Luain",

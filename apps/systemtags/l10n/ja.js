@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "有効にすると、管理者のみがタグを作成および編集できます。アカウントは引き続き、タグを割り当てたり、ファイルから削除したりできます。",
     "Restrict tag creation and editing to administrators" : "タグの作成と編集を管理者に制限する",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "コラボタグはすべてのユーザーで利用できます。制限付きタグは、ユーザーから見えますが、ユーザーが割り当てることはできません。不可視タグは、ユーザーが見ることも割り当てることもできず、内部利用のためのものです。",
+    "Add tags" : "タグを追加",
     "Assigned collaborative tags" : "割り当てられたコラボレーションタグ",
     "Open in Files" : "ファイルアプリで開く",
     "List of tags and their associated files and folders." : "タグとそれに関連するファイルやフォルダのリスト。",

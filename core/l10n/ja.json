@@ -43,6 +43,8 @@
     "Input text is too long" : "入力テキストが長すぎます",
     "Requested task type does not exist" : "要求されたタスクの種類が存在しません",
     "Necessary language model provider is not available" : "必要な言語モデルプロバイダーが利用できません",
+    "Cannot generate more than 12 images" : "12枚以上の画像を生成できません",
+    "Cannot generate less than 1 image" : "1枚未満の画像を生成できません",
     "No text to image provider is available" : "テキストを画像に変換するプロバイダーはありません",
     "Image not found" : "画像が見つかりません",
     "No translation provider available" : "利用可能な翻訳プロバイダーがありません",

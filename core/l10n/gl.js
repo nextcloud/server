@@ -45,6 +45,7 @@ OC.L10N.register(
     "Input text is too long" : "O texto de entrada é demasiado longo",
     "Requested task type does not exist" : "O tipo de tarefa solicitado non existe",
     "Necessary language model provider is not available" : "O provedor de modelos de linguaxe necesario non está dispoñíbel",
+    "Cannot generate more than 12 images" : "Non é posíbel xerar máis de 12 imaxes",
     "Cannot generate less than 1 image" : "Non é posíbel xerar menos de 1 imaxe",
     "No text to image provider is available" : "Non hai ningún provedor de texto a imaxe dispoñíbel",
     "Image not found" : "Non se atopou a imaxe",
