@@ -53,7 +53,7 @@ export default defineComponent({
 	computed: {
 		title() {
 			const appScore = (this.score * 5).toFixed(1)
-			return t('settings', 'Community rating: {score}/5', { score: appScore })
+			return t('appstore', 'Community rating: {score}/5', { score: appScore })
 		},
 
 		fullStars() {

@@ -4,7 +4,7 @@
  */
 
 import { showError } from '@nextcloud/dialogs'
-import rebuildNavigation from '../service/rebuild-navigation.js'
+import { rebuildNavigation } from '../service/rebuild-navigation.ts'
 
 const productName = window.OC.theme.productName
 
@@ -47,64 +47,64 @@ export default {
 		},
 		updateButtonText() {
 			if (this.app?.app_api && this.app?.daemon?.accepts_deploy_id === 'manual-install') {
-				return t('settings', 'Manually installed apps cannot be updated')
+				return t('appstore', 'Manually installed apps cannot be updated')
 			}
-			return t('settings', 'Update to {version}', { version: this.app?.update })
+			return t('appstore', 'Update to {version}', { version: this.app?.update })
 		},
 		enableButtonText() {
 			if (this.app?.app_api) {
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
-					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy ?? 0 })
+					return t('appstore', '{progress}% Deploying …', { progress: this.app?.status?.deploy ?? 0 })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
-					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init ?? 0 })
+					return t('appstore', '{progress}% Initializing …', { progress: this.app?.status?.init ?? 0 })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
-					return t('settings', 'Health checking')
+					return t('appstore', 'Health checking')
 				}
 				if (this.app.needsDownload) {
-					return t('settings', 'Deploy and Enable')
+					return t('appstore', 'Deploy and Enable')
 				}
-				return t('settings', 'Enable')
+				return t('appstore', 'Enable')
 			} else {
 				if (this.app.needsDownload) {
-					return t('settings', 'Download and enable')
+					return t('appstore', 'Download and enable')
 				}
-				return t('settings', 'Enable')
+				return t('appstore', 'Enable')
 			}
 		},
 		disableButtonText() {
 			if (this.app?.app_api) {
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'deploy') {
-					return t('settings', '{progress}% Deploying …', { progress: this.app?.status?.deploy })
+					return t('appstore', '{progress}% Deploying …', { progress: this.app?.status?.deploy })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'init') {
-					return t('settings', '{progress}% Initializing …', { progress: this.app?.status?.init })
+					return t('appstore', '{progress}% Initializing …', { progress: this.app?.status?.init })
 				}
 				if (this.app && this.app?.status?.action && this.app?.status?.action === 'healthcheck') {
-					return t('settings', 'Health checking')
+					return t('appstore', 'Health checking')
 				}
 			}
-			return t('settings', 'Disable')
+			return t('appstore', 'Disable')
 		},
 		forceEnableButtonText() {
 			if (this.app.needsDownload) {
-				return t('settings', 'Allow untested app')
+				return t('appstore', 'Allow untested app')
 			}
-			return t('settings', 'Allow untested app')
+			return t('appstore', 'Allow untested app')
 		},
 		enableButtonTooltip() {
 			if (!this.app?.app_api && this.app.needsDownload) {
-				return t('settings', 'The app will be downloaded from the App Store')
+				return t('appstore', 'The app will be downloaded from the App Store')
 			}
 			return null
 		},
 		forceEnableButtonTooltip() {
-			const base = t('settings', 'This app is not marked as compatible with your {productName} version.', { productName })
+			const base = t('appstore', 'This app is not marked as compatible with your {productName} version.', { productName })
 				+ ' '
-				+ t('settings', 'If you continue you will still be able to install the app. Note that the app might not work as expected.')
+				+ t('appstore', 'If you continue you will still be able to install the app. Note that the app might not work as expected.')
 			if (this.app.needsDownload) {
-				return base + ' ' + t('settings', 'The app will be downloaded from the App Store')
+				return base + ' ' + t('appstore', 'The app will be downloaded from the App Store')
 			}
 			return base
 		},
