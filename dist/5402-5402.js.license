@@ -45,10 +45,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.3
+	- version: 1.7.4
 	- license: MIT
 - @floating-ui/dom
-	- version: 1.7.4
+	- version: 1.7.5
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
@@ -111,7 +111,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.35.3
+	- version: 8.36.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
@@ -210,7 +210,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.1
 	- license: MIT
 - unist-util-visit
-	- version: 5.0.0
+	- version: 5.1.0
 	- license: MIT
 - vue-demi
 	- version: 0.14.10
