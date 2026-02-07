@@ -43,6 +43,8 @@
     "Input text is too long" : "Uneseni tekst je predugačak",
     "Requested task type does not exist" : "Zatraženi tip zadatka ne postoji",
     "Necessary language model provider is not available" : "Potreban pružatelj jezičnog modela nije dostupan.",
+    "Cannot generate more than 12 images" : "Nije moguće generirati više od 12 slika",
+    "Cannot generate less than 1 image" : "Nije moguće generirati manje od 1 slike",
     "No text to image provider is available" : "Nijedan pružatelj pretvorbe teksta u sliku nije dostupan.",
     "Image not found" : "Slika nije pronađena",
     "No translation provider available" : "Nije pružatelj usluge prijevoda nije dostupan",
