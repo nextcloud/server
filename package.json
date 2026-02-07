@@ -92,7 +92,7 @@
     "eslint-plugin-cypress": "^5.2.1",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "is-svg": "^6.1.0",
-    "jsdom": "^27.4.0",
+    "jsdom": "^28.0.0",
     "jsdom-testing-mocks": "^1.16.0",
     "msw": "^2.12.9",
     "sass": "^1.97.3",
