@@ -55,6 +55,12 @@ class Updater {
 			return;
 		}
 
+		// if the share itself is being moved, we don't need to do anything,
+		// since incoming shares can't be moved into other shares (and thus also not out of shares)
+		if ($src->getMountPoint() instanceof SharedMount && $src->getInternalPath() === '') {
+			return;
+		}
+
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 
 		// We intentionally include invalid shares, as they have been automatically invalidated due to the node no longer
