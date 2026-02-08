@@ -45,6 +45,7 @@ OC.L10N.register(
     "Input text is too long" : "Sisendtekst on liiga pikk",
     "Requested task type does not exist" : "Küsitud ülesannete tüüpi ei leidu",
     "Necessary language model provider is not available" : "Vajaliku keelemudeli teenusepakkuja pole saadaval",
+    "Cannot generate more than 12 images" : "Ei saa luua üle 12 pildi",
     "Cannot generate less than 1 image" : "Ei saa luua alla 1 pildi",
     "No text to image provider is available" : "Ühtegi optilise tekstituvastuse teenusepakkujat pole saadaval",
     "Image not found" : "Pilti ei leidu",
