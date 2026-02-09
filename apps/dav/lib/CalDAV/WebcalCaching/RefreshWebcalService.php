@@ -113,7 +113,7 @@ class RefreshWebcalService {
 
 				$sObject = $vObject->serialize();
 				$uid = $vBase->UID->getValue();
-				$etag = md5($sObject);
+				$etag = md5($vBase->UID?->getValue() . $vBase->SEQUENCE?->getValue() . $vBase->{'LAST-MODIFIED'}?->getValue());
 
 				// No existing object with this UID, create it
 				if (!isset($existingObjects[$uid])) {
