@@ -8,16 +8,25 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\EventDispatcher\EventDispatcher;
+use OC\Files\SetupManager;
 use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\Constants;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
-use OCP\Files\Folder;
+use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\Server;
+use OCP\Share\Events\VerifyMountPointEvent;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyEventDispatcher;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareTargetValidatorTest extends TestCase {
+	private IEventDispatcher $eventDispatcher;
 	private ShareTargetValidator $targetValidator;
 
 	private IUser $user2;
@@ -40,7 +49,17 @@ class ShareTargetValidatorTest extends TestCase {
 		$this->view->file_put_contents($this->folder . $this->filename, 'file in subfolder');
 		$this->view->file_put_contents($this->folder2 . $this->filename, 'file in subfolder2');
 
-		$this->targetValidator = Server::get(ShareTargetValidator::class);
+		$this->eventDispatcher = new EventDispatcher(
+			new SymfonyEventDispatcher(),
+			Server::get(ContainerInterface::class),
+			$this->createMock(LoggerInterface::class),
+		);
+		$this->targetValidator = new ShareTargetValidator(
+			Server::get(IManager::class),
+			$this->eventDispatcher,
+			Server::get(SetupManager::class),
+			Server::get(IMountManager::class),
+		);
 		$this->user2 = $this->createMock(IUser::class);
 		$this->user2->method('getUID')
 			->willReturn(self::TEST_FILES_SHARING_API_USER2);
@@ -136,6 +155,42 @@ class ShareTargetValidatorTest extends TestCase {
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->shareManager->deleteShare($share2);
+		$this->view->unlink($this->folder);
+	}
+
+
+	/**
+	 * test if the parent folder is created if asked for
+	 */
+	public function testShareMountCreateParentFolder(): void {
+		// share to user
+		$share = $this->share(
+			IShare::TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			Constants::PERMISSION_ALL);
+		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
+
+		$share->setTarget('/foo/bar' . $this->folder);
+		$this->shareManager->moveShare($share, self::TEST_FILES_SHARING_API_USER2);
+
+		$share = $this->shareManager->getShareById($share->getFullId());
+		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());
+
+		$this->eventDispatcher->addListener(VerifyMountPointEvent::class, function (VerifyMountPointEvent $event) {
+			$event->setCreateParent(true);
+		});
+		$this->targetValidator->verifyMountPoint($this->user2, $share, [], [$share]);
+
+		$share = $this->shareManager->getShareById($share->getFullId());
+		$this->assertSame('/foo/bar' . $this->folder, $share->getTarget());
+		$userFolder = $this->rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($userFolder->nodeExists('/foo/bar'));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->shareManager->deleteShare($share);
 		$this->view->unlink($this->folder);
 	}
 }
