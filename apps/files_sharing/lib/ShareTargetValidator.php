@@ -61,7 +61,7 @@ class ShareTargetValidator {
 		$parent = dirname($share->getTarget());
 
 		$recipientView = $this->getViewForUser($user);
-		$event = new VerifyMountPointEvent($share, $recipientView, $parent);
+		$event = new VerifyMountPointEvent($share, $recipientView, $parent, $user);
 		$this->eventDispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
 
@@ -79,9 +79,15 @@ class ShareTargetValidator {
 			$this->folderExistsCache->set($parent, $parentExists);
 		}
 		if (!$parentExists) {
-			$parent = Helper::getShareFolder($recipientView, $user->getUID());
-			/** @psalm-suppress InternalMethod */
-			$absoluteParent = $recipientView->getAbsolutePath($parent);
+			if ($event->createParent()) {
+				$internalPath = $parentMount->getInternalPath($absoluteParent);
+				$parentMount->getStorage()->mkdir($internalPath);
+				$parentMount->getStorage()->getUpdater()->update($internalPath);
+			} else {
+				$parent = Helper::getShareFolder($recipientView, $user->getUID());
+				/** @psalm-suppress InternalMethod */
+				$absoluteParent = $recipientView->getAbsolutePath($parent);
+			}
 		}
 
 		$newAbsoluteMountPoint = $this->generateUniqueTarget(
