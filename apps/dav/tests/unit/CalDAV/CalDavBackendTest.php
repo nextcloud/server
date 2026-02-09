@@ -15,6 +15,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\CalendarObjectEtagHelper;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
@@ -27,6 +28,7 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
+use Sabre\VObject\Reader;
 use function time;
 
 /**
@@ -1182,6 +1184,39 @@ EOD;
 
 		$this->assertEquals($calData, $this->backend->getCalendarObject($calendarId, $uri, CalDavBackend::CALENDAR_TYPE_CALENDAR)['calendardata']);
 		$this->assertEquals($calData2, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION)['calendardata']);
+	}
+
+	public function testEtagIgnoresDtstampOnlyForSubscriptions(): void {
+		$calendarId = $this->createTestCalendar();
+		$subscriptionId = $this->createTestSubscription();
+
+		$uri = static::getUniqueID('calobj');
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+UID:47d15e3ec8
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$calDataNewDtstamp = str_replace('20130910T125139Z', '20260209T120000Z', $calData);
+
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+		$this->backend->createCalendarObject($subscriptionId, $uri, $calData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+
+		$this->assertEquals('"' . md5($calData) . '"', $this->backend->getCalendarObject($calendarId, $uri)['etag']);
+		$this->assertEquals('"' . CalendarObjectEtagHelper::computeWithoutDtstamp(Reader::read($calData)) . '"', $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION)['etag']);
+
+		$calendarEtag = $this->backend->updateCalendarObject($calendarId, $uri, $calDataNewDtstamp);
+		$subscriptionEtag = $this->backend->updateCalendarObject($subscriptionId, $uri, $calDataNewDtstamp, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+
+		$this->assertEquals('"' . md5($calDataNewDtstamp) . '"', $calendarEtag);
+		$this->assertEquals('"' . CalendarObjectEtagHelper::computeWithoutDtstamp(Reader::read($calData)) . '"', $subscriptionEtag);
 	}
 
 	public function testPurgeAllCachedEventsForSubscription(): void {
