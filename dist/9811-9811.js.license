@@ -17,7 +17,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.36.0
+	- version: 8.35.3
 	- license: AGPL-3.0-or-later
 - css-loader
 	- version: 7.1.2

@@ -41,7 +41,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0-rc.1
+	- version: 4.0.0-rc.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -107,7 +107,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - webpack
-	- version: 5.105.0
+	- version: 5.104.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1

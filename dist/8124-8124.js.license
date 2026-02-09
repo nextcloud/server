@@ -66,7 +66,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.1
 	- license: MIT
 - @floating-ui/core
-	- version: 1.7.4
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
@@ -126,7 +126,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.36.0
+	- version: 8.35.3
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.4
@@ -217,9 +217,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - events
 	- version: 3.3.0
-	- license: MIT
-- fast-xml-parser
-	- version: 5.3.4
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -368,9 +365,6 @@ This file is generated from multiple sources. Included packages:
 - striptags
 	- version: 3.2.0
 	- license: MIT
-- strnum
-	- version: 2.1.2
-	- license: MIT
 - style-loader
 	- version: 4.0.0
 	- license: MIT
@@ -390,7 +384,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.1
 	- license: MIT
 - unist-util-visit
-	- version: 5.1.0
+	- version: 5.0.0
 	- license: MIT
 - url-join
 	- version: 5.0.0
@@ -425,11 +419,17 @@ This file is generated from multiple sources. Included packages:
 - entities
 	- version: 6.0.1
 	- license: BSD-2-Clause
+- fast-xml-parser
+	- version: 4.5.3
+	- license: MIT
 - minimatch
 	- version: 9.0.5
 	- license: ISC
+- strnum
+	- version: 1.1.2
+	- license: MIT
 - webdav
-	- version: 5.9.0
+	- version: 5.8.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
