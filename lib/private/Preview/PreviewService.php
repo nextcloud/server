@@ -110,7 +110,7 @@ class PreviewService {
 	 * @throws Exception
 	 */
 	public function deleteAll(): void {
-		$lastId = 0;
+		$lastId = '0';
 		while (true) {
 			$previews = $this->previewMapper->getPreviews($lastId, 1000);
 			$i = 0;
