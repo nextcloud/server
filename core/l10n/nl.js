@@ -262,7 +262,7 @@ OC.L10N.register(
     "An internal error occurred." : "Er heeft zich een interne fout voorgedaan.",
     "Please try again or contact your administrator." : "Probeer het opnieuw of neem contact op met je beheerder.",
     "Password" : "Wachtwoord",
-    "Remember me" : "Onthoudt mij",
+    "Remember me" : "Onthoud mij",
     "Log in with a device" : "Inloggen met een apparaat",
     "Login or email" : "Login of email",
     "Your account is not setup for passwordless login." : "Je account is niet ingesteld voor inloggen zonder wachtwoord.",
