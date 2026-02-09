@@ -67,7 +67,7 @@ class CalendarProvider implements ICalendarProvider {
 			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
 			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
 			if (isset($additionalFederatedProps[$path])) {
-				$calendarInfo = array_merge($calendarInfo, $additionalProperties[$path]);
+				$calendarInfo = array_merge($calendarInfo, $additionalFederatedProps[$path]);
 			}
 
 			$iCalendars[] = new FederatedCalendarImpl($calendarInfo, $this->calDavBackend);
