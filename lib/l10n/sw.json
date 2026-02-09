@@ -222,6 +222,10 @@
     "Audio input" : "Audio input",
     "Confirmation" : "Uthibitisho",
     "Optical character recognition" : "Utambuzi wa herufi za macho",
+    "Input files" : "Input files",
+    "The files to extract text from" : "The files to extract text from",
+    "Output texts" : "Output texts",
+    "The texts that were extracted from the files" : "The texts that were extracted from the files",
     "Generate image" : "Generate image",
     "Prompt" : "Prompt",
     "Describe the image you want to generate" : "Describe the image you want to generate",
@@ -242,6 +246,10 @@
     "Summarize" : "Summarize",
     "Summary" : "Muhtasari",
     "Translate" : "Tafsiri",
+    "Origin language" : "Origin language",
+    "The language of the origin text" : "The language of the origin text",
+    "Target language" : "Target language",
+    "The desired language to translate the origin text in" : "The desired language to translate the origin text in",
     "Result" : "Result"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
