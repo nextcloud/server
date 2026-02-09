@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\WebhookListeners\Listener;
 
+use InvalidArgumentException;
 use OCA\WebhookListeners\BackgroundJobs\WebhookCall;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCA\WebhookListeners\Service\PHPMongoQuery;
@@ -46,15 +47,19 @@ class WebhooksEventListener implements IEventListener {
 				'time' => time(),
 			];
 			if ($this->filterMatch($webhookListener->getEventFilter(), $data)) {
-				$this->jobList->add(
-					WebhookCall::class,
-					[
-						$data,
-						$webhookListener->getId(),
-						/* Random string to avoid collision with another job with the same parameters */
-						bin2hex(random_bytes(5)),
-					]
-				);
+				try {
+					$this->jobList->add(
+						WebhookCall::class,
+						[
+							$data,
+							$webhookListener->getId(),
+							/* Random string to avoid collision with another job with the same parameters */
+							bin2hex(random_bytes(5)),
+						]
+					);
+				} catch (InvalidArgumentException $e) {
+					$this->logger->error('Could not add background job for webhook listener', ['exception' => $e]);
+				}
 			}
 		}
 	}
