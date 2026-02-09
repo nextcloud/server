@@ -17,6 +17,7 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\DB\Exception;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
@@ -40,6 +41,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly LoggerInterface $logger,
 		private readonly ISnowflakeGenerator $generator,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
 	) {
 		$this->instanceId = $this->config->getSystemValueString('instanceid');
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
@@ -133,9 +135,9 @@ class LocalPreviewStorage implements IPreviewStorage {
 						->setMaxResults(1)
 						->runAcrossAllShards() // Unavoidable because we can't extract the storage_id from the preview name
 						->executeQuery()
-						->fetchAll();
+						->fetchAssociative();
 
-					if (empty($result)) {
+					if ($result === false) {
 						// original file is deleted
 						@unlink($file->getRealPath());
 						continue;
@@ -151,9 +153,9 @@ class LocalPreviewStorage implements IPreviewStorage {
 						}
 					}
 
-					$preview->setStorageId($result[0]['storage']);
-					$preview->setEtag($result[0]['etag']);
-					$preview->setSourceMimetype($result[0]['mimetype']);
+					$preview->setStorageId($result['storage']);
+					$preview->setEtag($result['etag']);
+					$preview->setSourceMimetype($this->mimeTypeLoader->getMimetypeById($result['mimetype']));
 					$preview->generateId();
 					// try to insert, if that fails the preview is already in the DB
 					$this->previewMapper->insert($preview);
