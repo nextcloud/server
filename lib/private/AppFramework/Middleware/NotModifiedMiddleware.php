@@ -11,6 +11,7 @@ namespace OC\AppFramework\Middleware;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use OCP\Constants;
 use OCP\IRequest;
 
 class NotModifiedMiddleware extends Middleware {
@@ -27,7 +28,7 @@ class NotModifiedMiddleware extends Middleware {
 		}
 
 		$modifiedSinceHeader = $this->request->getHeader('IF_MODIFIED_SINCE');
-		if ($modifiedSinceHeader !== '' && $response->getLastModified() !== null && trim($modifiedSinceHeader) === $response->getLastModified()->format(\DateTimeInterface::RFC7231)) {
+		if ($modifiedSinceHeader !== '' && $response->getLastModified() !== null && trim($modifiedSinceHeader) === $response->getLastModified()->format(Constants::DATE_RFC7231)) {
 			$response->setStatus(Http::STATUS_NOT_MODIFIED);
 			return $response;
 		}

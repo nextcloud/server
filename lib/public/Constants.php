@@ -59,4 +59,12 @@ class Constants {
 	 * cf. sharing.maxAutocompleteResults in config.sample.php.
 	 */
 	public const SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT = 25;
+
+	/**
+	 * Replacement for the built-in `DATE_RFC7231` constant
+	 * deprecated since PHP 8.5.
+	 *
+	 * @since 33.0.1
+	 */
+	public const DATE_RFC7231 = 'D, d M Y H:i:s \G\M\T';
 }
