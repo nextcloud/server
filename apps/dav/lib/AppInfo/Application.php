@@ -89,6 +89,7 @@ use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Server;
@@ -205,6 +206,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserCreatedEvent::class, UserEventsListener::class);
 		$context->registerEventListener(UserChangedEvent::class, UserEventsListener::class);
 		$context->registerEventListener(UserUpdatedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, UserEventsListener::class);
 
 		$context->registerEventListener(SabrePluginAuthInitEvent::class, SabrePluginAuthInitListener::class);
 
