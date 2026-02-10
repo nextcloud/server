@@ -204,10 +204,10 @@ class PreviewMapper extends QBMapper {
 	/**
 	 * @return \Generator<Preview>
 	 */
-	public function getPreviews(int $lastId, int $limit = 1000): \Generator {
+	public function getPreviews(string $lastId, int $limit = 1000): \Generator {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
-			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
 			->setMaxResults($limit);
 		return $this->yieldEntities($qb);
 
