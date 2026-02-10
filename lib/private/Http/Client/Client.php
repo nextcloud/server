@@ -73,6 +73,14 @@ class Client implements IClient {
 
 		$options = array_merge($defaults, $options);
 
+		if ($this->isClientAuthenticationEnabled($options)) {
+			$client_auth_options = [
+				RequestOptions::CERT => $this->getClientAuthenticationCert($options),
+				RequestOptions::SSL_KEY => $this->getClientAuthenticationKey($options),
+			];
+			$options = array_merge($client_auth_options, $options);
+		}
+
 		if (!isset($options[RequestOptions::HEADERS]['User-Agent'])) {
 			$userAgent = 'Nextcloud-Server-Crawler/' . $this->serverVersion->getVersionString();
 			$options[RequestOptions::HEADERS]['User-Agent'] = $userAgent;
@@ -107,6 +115,36 @@ class Client implements IClient {
 		}
 
 		return $this->certificateManager->getAbsoluteBundlePath();
+	}
+
+	private function isClientAuthenticationEnabled(array $options): bool {
+		if (($options['nextcloud']['client_authentication_enabled'] ?? false) ||
+			$this->config->getSystemValueBool('client_authentication_enabled', false)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function getClientAuthenticationCert(array $options): ?string {
+		$clientCert = $this->config->getSystemValueString('internal_client_authentication_cert', \OC::$SERVERROOT . '/config/client_ssl/cert.pem');
+		if ($clientCert === '') {
+						return null;
+		}
+		return $clientCert;
+	}
+
+	private function getClientAuthenticationKey(array $options) {
+		$clientKey = $this->config->getSystemValueString('internal_client_authentication_key', \OC::$SERVERROOT . '/config/client_ssl/key.pem');
+		$clientKeyPass = $this->config->getSystemValueString('internal_client_authentication_key_pass', '<not specified>');
+		if ($clientKey === '') {
+			return null;
+		}
+		if ($clientKeyPass === '<not specified>') {
+			return $clientKey;
+		} else {
+			return array($clientKey, $clientKeyPass);
+		}
 	}
 
 	/**
