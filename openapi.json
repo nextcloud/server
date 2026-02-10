@@ -50,6 +50,10 @@
             "description": "Class OCSAuthAPI OCS API end-points to exchange shared secret between two connected Nextclouds"
         },
         {
+            "name": "files/resumable_upload",
+            "description": "Implementation of https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-resumable-upload-05 All functionality described by the draft RFC is excluded from OpenAPI, only the custom endpoint to finish the upload is included."
+        },
+        {
             "name": "theming/theming",
             "description": "Class ThemingController handle ajax requests to update the theme"
         }
@@ -1664,6 +1668,7 @@
                             "forbidden_filename_extensions",
                             "chunked_upload",
                             "file_conversions",
+                            "resumable_upload",
                             "directEditing"
                         ],
                         "properties": {
@@ -1747,6 +1752,21 @@
                                         "displayName": {
                                             "type": "string"
                                         }
+                                    }
+                                }
+                            },
+                            "resumable_upload": {
+                                "type": "object",
+                                "required": [
+                                    "supported",
+                                    "interop_version"
+                                ],
+                                "properties": {
+                                    "supported": {
+                                        "type": "boolean"
+                                    },
+                                    "interop_version": {
+                                        "type": "string"
                                     }
                                 }
                             },
@@ -20959,6 +20979,105 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/index.php/apps/files/upload/{token}/finish": {
+            "post": {
+                "operationId": "files-resumable_upload-finish-upload",
+                "summary": "Finish the upload.",
+                "tags": [
+                    "files/resumable_upload"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "path",
+                                    "createdTimestamp",
+                                    "lastModifiedTimestamp"
+                                ],
+                                "properties": {
+                                    "path": {
+                                        "type": "string",
+                                        "description": "The final path where the file will be moved to"
+                                    },
+                                    "createdTimestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "The unix timestamp of when the file was created"
+                                    },
+                                    "lastModifiedTimestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "The unix timestamp of when the file was last modified"
+                                    },
+                                    "overwrite": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether an existing file should be overwritten"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "The token of the upload",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Upload finished successfully"
+                    },
+                    "400": {
+                        "description": "Upload not complete"
+                    },
+                    "401": {
+                        "description": "User is unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Upload not found"
+                    },
+                    "409": {
+                        "description": "File already exists"
+                    },
+                    "500": {
+                        "description": ""
                     }
                 }
             }
