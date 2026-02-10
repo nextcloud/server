@@ -12,7 +12,7 @@
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="enabledInlineActions.length"
-			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : null"
+			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : undefined"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
 			<NcActionButton
@@ -75,7 +75,7 @@ import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { DefaultType, getFileActions, NodeStatus } from '@nextcloud/files'
+import { DefaultType, NodeStatus } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
 import { computed, defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -84,6 +84,7 @@ import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import { useFileActions } from '../composables/useFileActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import logger from '../logger.ts'
 import actionsMixins from '../mixins/actionsMixin.ts'
@@ -91,9 +92,6 @@ import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-
-// The registered actions list
-const actions = getFileActions()
 
 export default defineComponent({
 	name: 'FilesListTableHeaderActions',
@@ -128,7 +126,7 @@ export default defineComponent({
 		const selectionStore = useSelectionStore()
 		const { isMedium, isNarrow } = useFileListWidth()
 
-		const boundariesElement = document.getElementById('app-content-vue')
+		const boundariesElement = document.getElementById('app-content-vue') as HTMLElement
 
 		const inlineActions = computed(() => {
 			if (isNarrow.value) {
@@ -140,7 +138,10 @@ export default defineComponent({
 			return 3
 		})
 
+		const actions = useFileActions()
+
 		return {
+			actions,
 			actionsMenuStore,
 			activeFolder,
 			filesStore,
@@ -159,7 +160,7 @@ export default defineComponent({
 
 	computed: {
 		enabledFileActions(): IFileAction[] {
-			return actions
+			return this.actions
 				// We don't handle renderInline actions in this component
 				.filter((action) => !action.renderInline)
 				// We don't handle actions that are not visible

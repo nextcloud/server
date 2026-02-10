@@ -6,7 +6,7 @@
 import type { FilterUpdateChipsEvent, IFileListFilter, IFileListFilterChip, IFileListFilterWithUi } from '@nextcloud/files'
 
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { getFileListFilters } from '@nextcloud/files'
+import { getFileListFilters, getFilesRegistry } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import logger from '../logger.ts'
@@ -63,8 +63,8 @@ export const useFiltersStore = defineStore('filters', () => {
 		const index = filters.value.findIndex(({ id }) => id === filterId)
 		if (index > -1) {
 			const [filter] = filters.value.splice(index, 1)
-			filter.removeEventListener('update:chips', onFilterUpdateChips)
-			filter.removeEventListener('update:filter', onFilterUpdate)
+			filter!.removeEventListener('update:chips', onFilterUpdateChips)
+			filter!.removeEventListener('update:filter', onFilterUpdate)
 			logger.debug('Files list filter unregistered', { id: filterId })
 		}
 	}
@@ -92,27 +92,7 @@ export const useFiltersStore = defineStore('filters', () => {
 		logger.debug('File list filter chips updated', { filter: id, chips: event.detail })
 	}
 
-	/**
-	 * Event handler that resets all filters if the file list view was changed.
-	 *
-	 */
-	function onViewChanged() {
-		logger.debug('Reset all file list filters - view changed')
-
-		for (const filter of filters.value) {
-			if (filter.reset !== undefined) {
-				filter.reset()
-			}
-		}
-	}
-
-	// Initialize the store
-	subscribe('files:navigation:changed', onViewChanged)
-	subscribe('files:filter:added', addFilter)
-	subscribe('files:filter:removed', removeFilter)
-	for (const filter of getFileListFilters()) {
-		addFilter(filter)
-	}
+	initialize()
 
 	return {
 		// state
@@ -123,9 +103,44 @@ export const useFiltersStore = defineStore('filters', () => {
 		// getters / computed
 		activeChips,
 		sortedFilters,
+	}
 
-		// actions / methods
-		addFilter,
-		removeFilter,
+	/**
+	 * Initialize the store by registering event listeners and loading initial filters.
+	 *
+	 * @internal
+	 */
+	function initialize() {
+		const registry = getFilesRegistry()
+		const initialFilters = getFileListFilters()
+		// handle adding and removing filters after initialization
+		registry.addEventListener('register:listFilter', (event) => {
+			addFilter(event.detail)
+		})
+		registry.addEventListener('unregister:listFilter', (event) => {
+			removeFilter(event.detail)
+		})
+		// register the initial filters
+		for (const filter of initialFilters) {
+			addFilter(filter)
+		}
+
+		// subscribe to file list view changes to reset the filters
+		subscribe('files:navigation:changed', onViewChanged)
+	}
+
+	/**
+	 * Event handler that resets all filters if the file list view was changed.
+	 *
+	 * @internal
+	 */
+	function onViewChanged() {
+		logger.debug('Reset all file list filters - view changed')
+
+		for (const filter of filters.value) {
+			if (filter.reset !== undefined) {
+				filter.reset()
+			}
+		}
 	}
 })
