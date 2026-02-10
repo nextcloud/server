@@ -16,6 +16,7 @@ use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -113,68 +114,98 @@ class LocalPreviewStorage implements IPreviewStorage {
 
 		$scanner = new RecursiveDirectoryIterator($this->getPreviewRootFolder());
 		$previewsFound = 0;
+		$previews = [];
+		$pathHashes = [];
+		$newPreviews = [];
 		foreach (new RecursiveIteratorIterator($scanner) as $file) {
-			if ($file->isFile()) {
-				$preview = Preview::fromPath((string)$file, $this->mimeTypeDetector);
-				if ($preview === false) {
-					$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
-					continue;
-				}
-				$preview->generateId();
-				try {
-					$preview->setSize($file->getSize());
-					$preview->setMtime($file->getMtime());
-					$preview->setEncrypted(false);
+			if (!$file->isFile()) {
+				continue;
+			}
 
-					$qb = $this->connection->getQueryBuilder();
-					$result = $qb->select('storage', 'etag', 'mimetype')
-						->from('filecache')
-						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($preview->getFileId())))
-						->setMaxResults(1)
-						->runAcrossAllShards() // Unavoidable because we can't extract the storage_id from the preview name
-						->executeQuery()
-						->fetchAll();
+			$preview = Preview::fromPath((string)$file, $this->mimeTypeDetector);
+			if ($preview === false) {
+				$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
+				continue;
+			}
+			$preview->generateId();
+			$preview->setSize($file->getSize());
+			$preview->setMtime($file->getMtime());
+			$preview->setEncrypted(false);
+			$previews[$preview->getFileId()] = $preview;
+			$pathHashes[$preview->getFileId()] = md5(str_replace($this->rootFolder . '/', '', $file->getRealPath()));
+		}
 
-					if (empty($result)) {
-						// original file is deleted
-						@unlink($file->getRealPath());
+		$fileIds = array_keys($previews);
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('fileid', 'storage', 'etag', 'mimetype')
+			->from('filecache')
+			->where($qb->expr()->in('fileid', $qb->createParameter('fileIds')));
+
+		foreach(array_chunk($fileIds, 1000) as $chunk) {
+			// all rows from oc_filecache for previews
+			$results = $qb->setParameter('fileIds', $chunk, IQueryBuilder::PARAM_INT_ARRAY)
+				->runAcrossAllShards() // Unavoidable because we can't extract the storage_id from the preview name
+				->executeQuery()
+				->fetchAll();
+
+			$toDelete = [];
+			// Crosscheck existing preview files with oc_filecache entries
+			try {
+				$this->connection->beginTransaction();
+				$qb = $this->connection->getQueryBuilder();
+				foreach ($results as $item) {
+					if (!isset($previews[$item['fileid']])) {
+						// weird but ok
 						continue;
 					}
 
-					if ($checkForFileCache) {
-						$relativePath = str_replace($this->rootFolder . '/', '', $file->getRealPath());
-						$rowAffected = $qb->delete('filecache')
-							->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($relativePath))))
-							->executeStatement();
-						if ($rowAffected > 0) {
-							$this->deleteParentsFromFileCache(dirname($relativePath));
-						}
-					}
-
-					$preview->setStorageId($result[0]['storage']);
-					$preview->setEtag($result[0]['etag']);
-					$preview->setSourceMimetype($result[0]['mimetype']);
-					$preview->generateId();
-					// try to insert, if that fails the preview is already in the DB
-					$this->previewMapper->insert($preview);
-
-					// Move old flat preview to new format
-					$dirName = str_replace($this->getPreviewRootFolder(), '', $file->getPath());
-					if (preg_match('/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9]+/', $dirName) !== 1) {
-						$previewPath = $this->constructPath($preview);
-						$this->createParentFiles($previewPath);
-						$ok = rename($file->getRealPath(), $previewPath);
-						if (!$ok) {
-							throw new LogicException('Failed to move ' . $file->getRealPath() . ' to ' . $previewPath);
-						}
-					}
-				} catch (Exception $e) {
-					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-						throw $e;
-					}
+					$new = $previews[$item['fileid']];
+					$new->setStorageId($item['storage']);
+					$new->setEtag($item['etag']);
+					$new->setSourceMimetype($item['mimetype']);
+					$new->generateId();
+					// File exists and can be recreated as a preview
+					unset($previews[$item['fileid']]);
+					$this->previewMapper->insert($new);
+					$previewsFound++;
 				}
-				$previewsFound++;
+				$this->connection->commit();
+			} catch (Exception $e) {
+				$this->connection->rollback();
+				$this->logger->error('Transaction failed, rolling back ', ['exception' => $e]);
+				throw $e;
 			}
+
+			if (!$checkForFileCache) {
+				$this->connection->beginTransaction();
+				$qb = $this->connection->getQueryBuilder();
+				$rowAffected = $qb->delete('filecache')
+					->where($qb->expr()->in('path_hash', $qb->createParameter('pathHashes')));
+				foreach(array_chunk($pathHashes, 1000) as $hash) {
+					$qb->setParameter('pathHashes', $hash, IQueryBuilder::PARAM_STR_ARRAY);
+					$rows = $qb->executeStatement();
+				}
+
+				if ($rowAffected > 0) {
+					$this->deleteParentsFromFileCache(dirname($relativePath));
+				}
+			}
+
+			// Move old flat preview to new format
+			$dirName = str_replace($this->getPreviewRootFolder(), '', $file->getPath());
+			if (preg_match('/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9]+/', $dirName) !== 1) {
+				$previewPath = $this->constructPath($preview);
+				$this->createParentFiles($previewPath);
+				$ok = rename($file->getRealPath(), $previewPath);
+				if (!$ok) {
+					throw new LogicException('Failed to move ' . $file->getRealPath() . ' to ' . $previewPath);
+				}
+			}
+		}
+
+		// Unlink whatever data is left over in the $previews array as they have no associated file
+		foreach ($previews as $preview) {
+			@unlink($preview->getRealPath());
 		}
 
 		return $previewsFound;
