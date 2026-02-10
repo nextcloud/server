@@ -10,7 +10,7 @@ $nextcloudDir = dirname(__DIR__);
 return (require __DIR__ . '/rector-shared.php')
 	->withPaths([
 		$nextcloudDir . '/build/rector-strict.php',
-		// TODO: Add more files. The entry above is just there to stop rector from complaining about the fact that it ran without checking any files.
+		$nextcloudDir . '/core/BackgroundJobs/ExpirePreviewsJob.php',
 	])
 	->withPreparedSets(
 		deadCode: true,

@@ -16,6 +16,7 @@
 	phpVersion="8.2"
 >
 	<projectFiles>
+		<file name="core/BackgroundJobs/ExpirePreviewsJob.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
