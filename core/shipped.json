@@ -95,6 +95,7 @@
     "theming",
     "twofactor_totp",
     "updatenotification",
+    "user_picker",
     "user_status",
     "viewer",
     "weather_status",
