@@ -81,6 +81,12 @@ class TextToImageApiController extends OCSController {
 		if (strlen($input) > 64_000) {
 			return new DataResponse(['message' => $this->l->t('Input text is too long')], Http::STATUS_PRECONDITION_FAILED);
 		}
+		if ($numberOfImages > 12) {
+			return new DataResponse(['message' => $this->l->t('Cannot generate more than 12 images')], Http::STATUS_PRECONDITION_FAILED);
+		}
+		if ($numberOfImages < 1) {
+			return new DataResponse(['message' => $this->l->t('Cannot generate less than 1 image')], Http::STATUS_PRECONDITION_FAILED);
+		}
 		$task = new Task($input, $appId, $numberOfImages, $this->userId, $identifier);
 		try {
 			try {
