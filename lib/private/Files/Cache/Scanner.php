@@ -451,7 +451,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
 	 */
 	private function handleChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float &$size, bool &$etagChanged): array {
-		// we put this in it's own function so it cleans up the memory before we start recursing
+		// we put this in its own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
 
