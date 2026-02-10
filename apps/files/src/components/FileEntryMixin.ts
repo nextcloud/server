@@ -8,7 +8,7 @@ import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
+import { FileType, Folder, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
@@ -23,8 +23,6 @@ import { hashCode } from '../utils/hashUtils.ts'
 import { isDownloadable } from '../utils/permissions.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
-
-const actions = getFileActions()
 
 export default defineComponent({
 	props: {
@@ -233,7 +231,7 @@ export default defineComponent({
 				return []
 			}
 
-			return actions
+			return this.actions
 				.filter((action: IFileAction) => {
 					if (!action.enabled) {
 						return true

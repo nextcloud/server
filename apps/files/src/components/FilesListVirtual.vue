@@ -74,7 +74,7 @@ import type { ComponentPublicInstance, PropType } from 'vue'
 import type { UserConfig } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { FileType, Folder, getFileActions, getSidebar, Permission, View } from '@nextcloud/files'
+import { FileType, Folder, getSidebar, Permission, View } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { computed, defineComponent } from 'vue'
@@ -363,21 +363,13 @@ export default defineComponent({
 			}
 
 			if (node.type === FileType.File) {
-				const defaultAction = getFileActions()
-					// Get only default actions (visible and hidden)
-					.filter((action) => !!action?.default)
-					// Find actions that are either always enabled or enabled for the current node
-					.filter((action) => (!action.enabled || action.enabled({
-						nodes: [node],
-						view: this.currentView,
-						folder: this.currentFolder,
-						contents: this.nodes,
-					})))
-					.filter((action) => action.id !== 'download')
-					// Sort enabled default actions by order
-					.sort((a, b) => (a.order || 0) - (b.order || 0))
-					// Get the first one
-					.at(0)
+				const actions = useEnabledFileActions({
+					nodes: [node],
+					view: this.currentView,
+					folder: this.currentFolder,
+					contents: this.nodes,
+				})
+				const defaultAction = actions.value.find((action) => action.id !== 'download' && !!action.default)
 
 				// Some file types do not have a default action (e.g. they can only be downloaded)
 				// So if there is an enabled default action, so execute it
