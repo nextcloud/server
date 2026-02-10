@@ -11,6 +11,7 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
+use OCP\DB\Exception as DBException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
@@ -330,9 +331,26 @@ class Generator {
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
 		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
 
-		return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
+		try {
+			return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
+		} catch (DBException $e) {
+			if ($e->getReason() === DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				// Fetch again, likely two HTTP requests for the same file were done around the same time
+				[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
+				foreach ($previews as $preview) {
+					if ($preview->isMax() && ($version === $preview->getVersion())) {
+						return $preview;
+					}
+				}
+			}
+			throw $e;
+		}
 	}
 
+	/**
+	 * @throws DBException
+	 * @throws NotFoundException
+	 */
 	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
@@ -550,7 +568,7 @@ class Generator {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @throws \OCP\DB\Exception
+	 * @throws DBException
 	 */
 	public function savePreview(Preview $previewEntry, IImage $preview): Preview {
 		// we need to save to DB first
