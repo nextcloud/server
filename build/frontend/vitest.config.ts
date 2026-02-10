@@ -38,6 +38,7 @@ export default defineConfig({
 	},
 	test: {
 		include: ['apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		passWithNoTests: true,
 		env: {
 			LANG: 'en_US',
 			TZ: 'UTC',
