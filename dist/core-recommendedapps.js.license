@@ -49,7 +49,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.36.0
 	- license: AGPL-3.0-or-later
 - axios
-	- version: 1.12.2
+	- version: 1.13.5
 	- license: MIT
 - base64-js
 	- version: 1.5.1
