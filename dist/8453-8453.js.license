@@ -16,10 +16,10 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.4
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/dom
-	- version: 1.7.5
+	- version: 1.7.4
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10

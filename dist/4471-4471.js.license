@@ -29,7 +29,7 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.4
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.10
@@ -42,6 +42,9 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.1
+	- license: GPL-3.0-or-later
+- @nextcloud/paths
+	- version: 3.0.0
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.12.2
@@ -149,7 +152,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.2
 	- license: MIT
 - webdav
-	- version: 5.9.0
+	- version: 5.8.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1

@@ -450,23 +450,8 @@ export default {
 				)
 
 				for (const share of shares) {
-					if ([ShareType.Link, ShareType.Email].includes(share.type)) {
-						this.linkShares.push(share)
-					} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
-						if (this.config.showFederatedSharesToTrustedServersAsInternal) {
-							if (share.isTrustedServer) {
-								this.shares.push(share)
-							} else {
-								this.externalShares.push(share)
-							}
-						} else if (this.config.showFederatedSharesAsInternal) {
-							this.shares.push(share)
-						} else {
-							this.externalShares.push(share)
-						}
-					} else {
-						this.shares.push(share)
-					}
+					const shareList = this.findShareListByShare(share)
+					shareList.push(share)
 				}
 
 				logger.debug(`Processed ${this.linkShares.length} link share(s)`)
@@ -529,24 +514,8 @@ export default {
 		 * @param {Function} [resolve] a function to run after the share is added and its component initialized
 		 */
 		addShare(share, resolve = () => { }) {
-			// only catching share type MAIL as link shares are added differently
-			// meaning: not from the ShareInput
-			if (share.type === ShareType.Email) {
-				this.linkShares.unshift(share)
-			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
-				if (this.config.showFederatedSharesAsInternal) {
-					this.shares.unshift(share)
-				}
-				if (this.config.showFederatedSharesToTrustedServersAsInternal) {
-					if (share.isTrustedServer) {
-						this.shares.unshift(share)
-					}
-				} else {
-					this.externalShares.unshift(share)
-				}
-			} else {
-				this.shares.unshift(share)
-			}
+			const shareList = this.findShareListByShare(share)
+			shareList.unshift(share)
 			this.awaitForShare(share, resolve)
 		},
 
@@ -556,12 +525,26 @@ export default {
 		 * @param {Share} share the share to remove
 		 */
 		removeShare(share) {
-			// Get reference for this.linkShares or this.shares
-			const shareList
-				= share.type === ShareType.Email
-					|| share.type === ShareType.Link
-					? this.linkShares
-					: this.shares
+			this.removeShareFromList(this.findShareListByShare(share), share)
+		},
+
+		findShareListByShare(share) {
+			if (share.type === ShareType.Remote || share.type === ShareType.RemoteGroup) {
+				if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+					return share.isTrustedServer ? this.shares : this.externalShares
+				} else if (this.config.showFederatedSharesAsInternal) {
+					return this.shares
+				} else {
+					return this.externalShares
+				}
+			} else if (share.type === ShareType.Email || share.type === ShareType.Link) {
+				return this.linkShares
+			} else {
+				return this.shares
+			}
+		},
+
+		removeShareFromList(shareList, share) {
 			const index = shareList.findIndex((item) => item.id === share.id)
 			if (index !== -1) {
 				shareList.splice(index, 1)
