@@ -45,6 +45,7 @@ OC.L10N.register(
     "Input text is too long" : "輸入文字太長",
     "Requested task type does not exist" : "請求的任務類型不存在",
     "Necessary language model provider is not available" : "沒有可用的語言模型程式",
+    "Cannot generate more than 12 images" : "無法產生超過 12 張影像",
     "Cannot generate less than 1 image" : "無法產生少於 1 張影像",
     "No text to image provider is available" : "沒有可用的文字轉影像提供者",
     "Image not found" : "找不到影像",
