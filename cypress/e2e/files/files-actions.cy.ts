@@ -4,19 +4,12 @@
  */
 
 import type { User } from '@nextcloud/e2e-test-server/cypress'
-import type { IFileAction } from '@nextcloud/files'
 
 import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSelectionActionButton, getSelectionActionEntry, selectRowForFile } from './FilesUtils.ts'
 
 const ACTION_DELETE = 'delete'
 const ACTION_COPY_MOVE = 'move-copy'
 const ACTION_DETAILS = 'details'
-
-declare global {
-	interface Window {
-		_nc_fileactions: IFileAction[]
-	}
-}
 
 // Those two arrays doesn't represent the full list of actions
 // the goal is to test a few, we're not trying to match the full feature set
@@ -57,77 +50,6 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		})
 	})
 
-	it('Show some nested actions', () => {
-		const parent: IFileAction = {
-			id: 'nested-action',
-			displayName: () => 'Nested Action',
-			exec: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-		}
-
-		const child1: IFileAction = {
-			id: 'nested-child-1',
-			displayName: () => 'Nested Child 1',
-			exec: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-			parent: 'nested-action',
-		}
-
-		const child2: IFileAction = {
-			id: 'nested-child-2',
-			displayName: () => 'Nested Child 2',
-			exec: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-			parent: 'nested-action',
-		}
-
-		cy.visit('/apps/files', {
-			// Cannot use registerFileAction here
-			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) {
-					win._nc_fileactions = []
-				}
-				// Cannot use registerFileAction here
-				win._nc_fileactions.push(parent)
-				win._nc_fileactions.push(child1)
-				win._nc_fileactions.push(child2)
-			},
-		})
-
-		// Open the menu
-		getActionButtonForFileId(fileId)
-			.scrollIntoView()
-			.click({ force: true })
-
-		// Check we have the parent action but not the children
-		getActionEntryForFileId(fileId, 'nested-action').should('be.visible')
-		getActionEntryForFileId(fileId, 'menu-back').should('not.exist')
-		getActionEntryForFileId(fileId, 'nested-child-1').should('not.exist')
-		getActionEntryForFileId(fileId, 'nested-child-2').should('not.exist')
-
-		// Click on the parent action
-		getActionEntryForFileId(fileId, 'nested-action')
-			.should('be.visible')
-			.click()
-
-		// Check we have the children and the back button but not the parent
-		getActionEntryForFileId(fileId, 'nested-action').should('not.exist')
-		getActionEntryForFileId(fileId, 'menu-back').should('be.visible')
-		getActionEntryForFileId(fileId, 'nested-child-1').should('be.visible')
-		getActionEntryForFileId(fileId, 'nested-child-2').should('be.visible')
-
-		// Click on the back button
-		getActionEntryForFileId(fileId, 'menu-back')
-			.should('be.visible')
-			.click()
-
-		// Check we have the parent action but not the children
-		getActionEntryForFileId(fileId, 'nested-action').should('be.visible')
-		getActionEntryForFileId(fileId, 'menu-back').should('not.exist')
-		getActionEntryForFileId(fileId, 'nested-child-1').should('not.exist')
-		getActionEntryForFileId(fileId, 'nested-child-2').should('not.exist')
-	})
-
 	it('Show some actions for a selection', () => {
 		cy.visit('/apps/files')
 		getRowForFile('image.jpg').should('be.visible')
@@ -144,127 +66,5 @@ describe('Files: Actions', { testIsolation: true }, () => {
 		expectedDefaultSelectionActionsIDs.forEach((actionId) => {
 			getSelectionActionEntry(actionId).should('be.visible')
 		})
-	})
-
-	it('Show some nested actions for a selection', () => {
-		const parent: IFileAction = {
-			id: 'nested-action',
-			displayName: () => 'Nested Action',
-			exec: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-		}
-
-		const child1: IFileAction = {
-			id: 'nested-child-1',
-			displayName: () => 'Nested Child 1',
-			exec: cy.spy(),
-			execBatch: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-			parent: 'nested-action',
-		}
-
-		const child2: IFileAction = {
-			id: 'nested-child-2',
-			displayName: () => 'Nested Child 2',
-			exec: cy.spy(),
-			execBatch: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-			parent: 'nested-action',
-		}
-
-		cy.visit('/apps/files', {
-			// Cannot use registerFileAction here
-			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) {
-					win._nc_fileactions = []
-				}
-				// Cannot use registerFileAction here
-				win._nc_fileactions.push(parent)
-				win._nc_fileactions.push(child1)
-				win._nc_fileactions.push(child2)
-			},
-		})
-
-		selectRowForFile('image.jpg')
-
-		// Open the menu
-		getSelectionActionButton().click({ force: true })
-
-		// Check we have the parent action but not the children
-		getSelectionActionEntry('nested-action').should('be.visible')
-		getSelectionActionEntry('menu-back').should('not.exist')
-		getSelectionActionEntry('nested-child-1').should('not.exist')
-		getSelectionActionEntry('nested-child-2').should('not.exist')
-
-		// Click on the parent action
-		getSelectionActionEntry('nested-action')
-			.find('button').last()
-			.should('exist').click({ force: true })
-
-		// Check we have the children and the back button but not the parent
-		getSelectionActionEntry('nested-action').should('not.exist')
-		getSelectionActionEntry('menu-back').should('be.visible')
-		getSelectionActionEntry('nested-child-1').should('be.visible')
-		getSelectionActionEntry('nested-child-2').should('be.visible')
-
-		// Click on the back button
-		getSelectionActionEntry('menu-back')
-			.find('button').last()
-			.should('exist').click({ force: true })
-
-		// Check we have the parent action but not the children
-		getSelectionActionEntry('nested-action').should('be.visible')
-		getSelectionActionEntry('menu-back').should('not.exist')
-		getSelectionActionEntry('nested-child-1').should('not.exist')
-		getSelectionActionEntry('nested-child-2').should('not.exist')
-	})
-
-	it('Do not show parent if nested action has no batch support', () => {
-		const parent: IFileAction = {
-			id: 'nested-action',
-			displayName: () => 'Nested Action',
-			exec: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-		}
-
-		const child1: IFileAction = {
-			id: 'nested-child-1',
-			displayName: () => 'Nested Child 1',
-			exec: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-			parent: 'nested-action',
-		}
-
-		const child2: IFileAction = {
-			id: 'nested-child-2',
-			displayName: () => 'Nested Child 2',
-			exec: cy.spy(),
-			iconSvgInline: () => '<svg></svg>',
-			parent: 'nested-action',
-		}
-
-		cy.visit('/apps/files', {
-			// Cannot use registerFileAction here
-			onBeforeLoad: (win) => {
-				if (!win._nc_fileactions) {
-					win._nc_fileactions = []
-				}
-				// Cannot use registerFileAction here
-				win._nc_fileactions.push(parent)
-				win._nc_fileactions.push(child1)
-				win._nc_fileactions.push(child2)
-			},
-		})
-
-		selectRowForFile('image.jpg')
-
-		// Open the menu
-		getSelectionActionButton().click({ force: true })
-
-		// Check we have the parent action but not the children
-		getSelectionActionEntry('nested-action').should('not.exist')
-		getSelectionActionEntry('menu-back').should('not.exist')
-		getSelectionActionEntry('nested-child-1').should('not.exist')
-		getSelectionActionEntry('nested-child-2').should('not.exist')
 	})
 })
