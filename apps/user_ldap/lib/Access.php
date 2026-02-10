@@ -1576,7 +1576,12 @@ class Access extends LDAPUtility {
 		if ($term === '') {
 			$result = '*';
 		} elseif ($allowEnum) {
-			$result = $term . '*';
+			$activeDirectoryCompat = $this->appConfig->getValueBool('user_ldap', 'partial_search_active_directory_compatibility', false);
+			if ($activeDirectoryCompat) {
+				$result = '*' . $term . '*';
+			} else {
+				$result = $term . '*';
+			}
 		}
 		return $result;
 	}
