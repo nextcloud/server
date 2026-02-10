@@ -491,7 +491,7 @@ jobs:
 
       - name: Restore all apps from cache and JFrog
         run: |
-          set -e
+          set -euo pipefail
 
           # Restore apps that are in cache (from apps_to_restore)
           if [ "${{ needs.prepare-matrix.outputs.has_apps_to_restore }}" == "true" ]; then
