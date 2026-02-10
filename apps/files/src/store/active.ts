@@ -1,26 +1,36 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 
+import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe } from '@nextcloud/event-bus'
-import { getNavigation } from '@nextcloud/files'
+import { Folder, getNavigation, Permission } from '@nextcloud/files'
+import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { defineStore } from 'pinia'
-import { ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
+import { useFilesStore } from './files.ts'
+
+// Temporary fake folder to use until we have the first valid folder
+// fetched and cached. This allow us to mount the FilesListVirtual
+// at all time and avoid unmount/mount and undesired rendering issues.
+const dummyFolder = new Folder({
+	id: 0,
+	source: getRemoteURL() + getRootPath(),
+	root: getRootPath(),
+	owner: getCurrentUser()?.uid || null,
+	permissions: Permission.NONE,
+})
 
 export const useActiveStore = defineStore('active', () => {
 	/**
 	 * The currently active action
 	 */
 	const activeAction = shallowRef<IFileAction>()
-
-	/**
-	 * The currently active folder
-	 */
-	const activeFolder = ref<IFolder>()
 
 	/**
 	 * The current active node within the folder
@@ -31,6 +41,20 @@ export const useActiveStore = defineStore('active', () => {
 	 * The current active view
 	 */
 	const activeView = shallowRef<IView>()
+
+	const filesStore = useFilesStore()
+	const { directory } = useRouteParameters()
+	/**
+	 * The currently active folder
+	 */
+	const activeFolder = computed<IFolder>(() => {
+		if (!activeView.value?.id) {
+			return dummyFolder
+		}
+
+		return filesStore.getDirectoryByPath(activeView.value.id, directory.value)
+			?? dummyFolder
+	})
 
 	// Set the active node on the router params
 	watch(activeNode, () => {

@@ -160,11 +160,9 @@ import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
-import { getCurrentUser } from '@nextcloud/auth'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, getFileListActions, Permission, sortNodes } from '@nextcloud/files'
-import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
+import { Permission, sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { dirname, join } from '@nextcloud/paths'
@@ -189,6 +187,7 @@ import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FileListFilters from '../components/FileListFilter/FileListFilters.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
+import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import logger from '../logger.ts'
@@ -258,13 +257,27 @@ export default defineComponent({
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 		const currentView = computed(() => activeStore.activeView)
+		const currentFolder = computed(() => activeStore.activeFolder)
+		const dirContents = computed<INode[]>(() => {
+			const sources = (currentFolder.value as { _children?: string[] })?._children ?? []
+			return sources.map(filesStore.getNode)
+				.filter(Boolean) as INode[]
+		})
+
+		const enabledFileListActions = useEnabledFileListActions(
+			currentFolder,
+			dirContents,
+			currentView,
+		)
 
 		return {
+			currentFolder,
 			currentView,
+			dirContents,
 			directory,
+			enabledFileListActions,
 			fileId,
 			isNarrow,
-			t,
 
 			sidebar,
 			activeStore,
@@ -280,6 +293,7 @@ export default defineComponent({
 			enableGridView,
 			forbiddenCharacters,
 			ShareType,
+			t,
 		}
 	},
 
@@ -327,34 +341,6 @@ export default defineComponent({
 				return title
 			}
 			return `${this.currentFolder.displayname} - ${title}`
-		},
-
-		/**
-		 * The current folder.
-		 */
-		currentFolder(): Folder {
-			// Temporary fake folder to use until we have the first valid folder
-			// fetched and cached. This allow us to mount the FilesListVirtual
-			// at all time and avoid unmount/mount and undesired rendering issues.
-			const dummyFolder = new Folder({
-				id: 0,
-				source: getRemoteURL() + getRootPath(),
-				root: getRootPath(),
-				owner: getCurrentUser()?.uid || null,
-				permissions: Permission.NONE,
-			})
-
-			if (!this.currentView?.id) {
-				return dummyFolder
-			}
-
-			return this.filesStore.getDirectoryByPath(this.currentView.id, this.directory) || dummyFolder
-		},
-
-		dirContents(): Node[] {
-			return (this.currentFolder?._children || [])
-				.map(this.filesStore.getNode)
-				.filter((node: Node) => !!node)
 		},
 
 		/**
@@ -445,27 +431,6 @@ export default defineComponent({
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
 		},
 
-		enabledFileListActions() {
-			if (!this.currentView || !this.currentFolder) {
-				return []
-			}
-
-			const actions = getFileListActions()
-			const enabledActions = actions
-				.filter((action) => {
-					if (action.enabled === undefined) {
-						return true
-					}
-					return action.enabled({
-						view: this.currentView!,
-						folder: this.currentFolder!,
-						contents: this.dirContents,
-					})
-				})
-				.toSorted((a, b) => a.order - b.order)
-			return enabledActions
-		},
-
 		/**
 		 * Using the filtered content if filters are active
 		 */
@@ -493,10 +458,6 @@ export default defineComponent({
 					this.currentView!.emptyView!(el)
 				})
 			}
-		},
-
-		currentFolder() {
-			this.activeStore.activeFolder = this.currentFolder
 		},
 
 		currentView(newView, oldView) {
