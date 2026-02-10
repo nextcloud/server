@@ -508,6 +508,10 @@ class Setup {
 			}
 		}
 
+		// Seed the mimetype_version for future mimetype repair jobs with the install-time version
+		$serverVersion = $config->getSystemValueString('version', '0.0.0');
+		$appConfig->setValueString('files', 'mimetype_version', $serverVersion);
+
 		// Dispatch installation completed event
 		$adminUsername = !$disableAdminUser ? ($options['adminlogin'] ?? null) : null;
 		$adminEmail = !empty($options['adminemail']) ? $options['adminemail'] : null;
