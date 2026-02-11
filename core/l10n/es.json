@@ -43,6 +43,8 @@
     "Input text is too long" : "El texto introducido es demasiado largo",
     "Requested task type does not exist" : "El tipo de tarea solicitada no existe",
     "Necessary language model provider is not available" : "El proveedor de modelo de lenguaje necesario no está disponible",
+    "Cannot generate more than 12 images" : "No se puede generar más de 12 imágenes",
+    "Cannot generate less than 1 image" : "No se puede generar menos de 1 imágen",
     "No text to image provider is available" : "No hay proveedores de texto a imagen disponible",
     "Image not found" : "Imagen no encontrada",
     "No translation provider available" : "No hay proveedores de traducción disponibles",
