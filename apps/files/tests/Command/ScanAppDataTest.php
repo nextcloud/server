@@ -23,8 +23,10 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
@@ -92,6 +94,14 @@ class ScanAppDataTest extends TestCase {
 	}
 
 	public function testScanAppDataRoot(): void {
+		$homeProvider = Server::get(ObjectHomeMountProvider::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('foo');
+		if ($homeProvider->getHomeMountForUser($user, $this->createMock(IStorageFactory::class)) !== null) {
+			$this->markTestSkipped();
+		}
+
 		$this->input->method('getArgument')->with('folder')->willReturn('');
 		$this->internalScanner->method('scan')->willReturnCallback(function () {
 			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'scanFile', ['path42']);
@@ -120,6 +130,13 @@ class ScanAppDataTest extends TestCase {
 
 	#[DataProvider(methodName: 'scanPreviewLocalData')]
 	public function testScanAppDataPreviewOnlyLocalFile(bool $migrationDone, ?bool $legacy): void {
+		$homeProvider = Server::get(ObjectHomeMountProvider::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('foo');
+		if ($homeProvider->getHomeMountForUser($user, $this->createMock(IStorageFactory::class)) !== null) {
+			$this->markTestSkipped();
+		}
 		$this->input->method('getArgument')->with('folder')->willReturn('preview');
 
 		$file = $this->rootFolder->getUserFolder($this->user)->newFile('myfile.jpeg');
