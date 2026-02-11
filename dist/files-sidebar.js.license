@@ -133,7 +133,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.9.0
 	- license: MIT
 - webpack
-	- version: 5.105.0
+	- version: 5.105.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
