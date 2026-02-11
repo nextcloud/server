@@ -19,11 +19,13 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier as NotifierCalDAV;
+use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\Notification\Notifier as NotifierCardDAV;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\ConfigLexicon;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
 use OCA\DAV\Events\AddressBookShareUpdatedEvent;
@@ -82,14 +84,18 @@ use OCP\Calendar\Events\CalendarObjectMovedEvent;
 use OCP\Calendar\Events\CalendarObjectMovedToTrashEvent;
 use OCP\Calendar\Events\CalendarObjectRestoredEvent;
 use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
+use OCP\Calendar\IManager;
 use OCP\Calendar\IManager as ICalendarManager;
+use OCP\Calendar\ITimezoneService;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
+use OCP\Config\IUserConfig;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Group\Events\GroupDeletedEvent;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Server;
@@ -233,6 +239,15 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, DavAdminSettingsListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
+
+		$context->registerService(ITimezoneService::class, function (ContainerInterface $c) {
+			return new TimezoneService(
+				$c->get(IConfig::class),
+				$c->get(IUserConfig::class),
+				$c->get(PropertyMapper::class),
+				$c->get(ICalendarManager::class),
+			);
+		});
 	}
 
 	public function boot(IBootContext $context): void {
