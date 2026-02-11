@@ -81,7 +81,7 @@ class QuerySearchHelper {
 
 
 	/**
-	 * @return array<array-key, array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
+	 * @return list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
 	 */
 	public function findUsedTagsInCaches(ISearchQuery $searchQuery, array $caches): array {
 		$query = $this->getQueryBuilder();
@@ -90,6 +90,7 @@ class QuerySearchHelper {
 		$this->applySearchConstraints($query, $searchQuery, $caches);
 
 		$result = $query->executeQuery();
+		/** @var list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}> $tags */
 		$tags = $result->fetchAll();
 		$result->closeCursor();
 		return $tags;

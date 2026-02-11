@@ -19,7 +19,7 @@ class ArrayResult implements IResult {
 	protected int $count;
 
 	public function __construct(
-		/** @var array<string, mixed> $rows */
+		/** @var list<array<string, mixed>> $rows */
 		protected array $rows,
 	) {
 		$this->count = count($this->rows);
@@ -66,52 +66,39 @@ class ArrayResult implements IResult {
 		$row = $this->fetch();
 		if ($row) {
 			return current($row);
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	#[Override]
 	public function fetchAssociative(): array|false {
 		$row = $this->fetch();
 		if ($row) {
-			/** @var array<string, mixed> $row */
 			return $row;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	#[Override]
 	public function fetchNumeric(): array|false {
-		$row = $this->fetch(PDO::FETCH_NUM);
-		if ($row) {
-			/** @var list<mixed> $row */
-			return $row;
-		} else {
-			return false;
-		}
+		return $this->fetch(PDO::FETCH_NUM);
 	}
 
 	#[Override]
 	public function fetchAllNumeric(): array {
-		/** @var list<list<mixed>> $result */
-		$result = $this->fetchAll(PDO::FETCH_NUM);
-		return $result;
+		return $this->fetchAll(PDO::FETCH_NUM);
 	}
 
 	#[Override]
 	public function fetchAllAssociative(): array {
-		/** @var list<array<string,mixed>> $result */
-		$result = $this->fetchAll();
-		return $result;
+		return $this->fetchAll();
 	}
 
 	#[Override]
 	public function fetchFirstColumn(): array {
-		/** @var list<mixed> $result */
-		$result = $this->fetchAll(PDO::FETCH_COLUMN);
-		return $result;
+		return $this->fetchAll(PDO::FETCH_COLUMN);
 	}
 
 	#[Override]
