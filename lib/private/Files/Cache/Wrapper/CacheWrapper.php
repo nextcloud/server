@@ -107,6 +107,13 @@ class CacheWrapper extends Cache {
 		return array_map([$this, 'formatCacheEntry'], $results);
 	}
 
+	#[Override]
+	public function iterateFolderContentsById(int $fileId, bool $includeMetadata = false, bool $sortByName = false): iterable {
+		foreach ($this->getCache()->iterateFolderContentsById($fileId, $includeMetadata, $sortByName) as $entry) {
+			yield $this->formatCacheEntry($entry);
+		}
+	}
+
 	/**
 	 * insert or update meta data for a file or folder
 	 *

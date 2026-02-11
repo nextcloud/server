@@ -168,7 +168,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	}
 
 	private function rmObjects(ICacheEntry $entry): bool {
-		$children = $this->getCache()->getFolderContentsById($entry->getId());
+		$children = $this->getCache()->iterateFolderContentsById($entry->getId());
 		foreach ($children as $child) {
 			if ($child->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
 				if (!$this->rmObjects($child)) {
@@ -267,7 +267,7 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 
 		try {
 			$files = [];
-			$folderContents = $this->getCache()->getFolderContents($path);
+			$folderContents = $this->getCache()->iterateFolderContentsById($this->getCache()->getId($path), false, true);
 			foreach ($folderContents as $file) {
 				$files[] = $file['name'];
 			}

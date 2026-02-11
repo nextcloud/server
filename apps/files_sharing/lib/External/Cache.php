@@ -48,4 +48,13 @@ class Cache extends \OC\Files\Cache\Cache {
 		}
 		return $results;
 	}
+
+	#[Override]
+	public function iterateFolderContentsById(int $fileId, bool $includeMetadata = false, bool $sortByName = false): iterable {
+		$displayId = $this->cloudId->getDisplayId();
+		foreach (parent::iterateFolderContentsById($fileI, $includeMetadata, $sortByName) as $entry) {
+			$entry['displayname_owner'] = $displayId;
+			yield $entry;
+		}
+	}
 }

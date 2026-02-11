@@ -54,6 +54,11 @@ class FailedCache implements ICache {
 		return [];
 	}
 
+	#[Override]
+	public function iterateFolderContentsById(int $fileId, bool $includeMetadata = false, bool $sortByName = false): iterable {
+		return [];
+	}
+
 	public function put($file, array $data) {
 	}
 
