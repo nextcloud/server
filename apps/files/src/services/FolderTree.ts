@@ -112,5 +112,5 @@ export function getSourceParent(source: string): string {
 	if (parent === sourceRoot) {
 		return folderTreeId
 	}
-	return encodeSource(parent)
+	return `${folderTreeId}::${encodeSource(parent)}`
 }
