@@ -23058,6 +23058,15 @@
                         }
                     },
                     {
+                        "name": "withParents",
+                        "in": "query",
+                        "description": "Whether to include parent folders in the response",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
