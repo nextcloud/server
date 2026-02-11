@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Bootstrap;
 
+use OC\AppFramework\Utility\SimpleContainer;
 use OCP\AppFramework\IAppContainer;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Calendar\ICalendarProvider;
@@ -68,7 +69,7 @@ interface IRegistrationContext {
 	 *
 	 * @param string $name
 	 * @param callable $factory
-	 * @psalm-param callable(\Psr\Container\ContainerInterface): mixed $factory
+	 * @psalm-param callable(SimpleContainer): mixed $factory
 	 * @param bool $shared If set to true the factory result will be cached otherwise every query will call the factory again
 	 *
 	 * @return void

@@ -8,13 +8,15 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Bootstrap;
 
+use OC\AppFramework\Utility\SimpleContainer;
+
 /**
  * @psalm-immutable
  */
 class ServiceFactoryRegistration extends ARegistration {
 	/**
 	 * @var callable
-	 * @psalm-var callable(\Psr\Container\ContainerInterface): mixed
+	 * @psalm-var callable(SimpleContainer): mixed
 	 */
 	private $factory;
 
@@ -36,7 +38,7 @@ class ServiceFactoryRegistration extends ARegistration {
 	}
 
 	/**
-	 * @psalm-return callable(\Psr\Container\ContainerInterface): mixed
+	 * @psalm-return callable(SimpleContainer): mixed
 	 */
 	public function getFactory(): callable {
 		return $this->factory;
