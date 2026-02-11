@@ -42,7 +42,7 @@ export const action: IFileAction = {
 			const node = nodes[0]
 			const isRemote = !!node.attributes.remote
 			const shareBase = isRemote ? 'remote_shares' : 'shares'
-			const id = node.attributes.id
+			const id = node.id
 			let url: string
 			if (node.attributes.accepted === 0) {
 				url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
