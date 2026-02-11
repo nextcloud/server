@@ -5,7 +5,7 @@
 
 import type { INode, IView } from '@nextcloud/files'
 
-import { DefaultType, FileAction, Permission, registerFileAction } from '@nextcloud/files'
+import { DefaultType, Permission, registerFileAction } from '@nextcloud/files'
 import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 import svgEye from '@mdi/svg/svg/eye.svg?raw'
@@ -95,7 +95,7 @@ async function execAction({ nodes, view, folder }): Promise<boolean|null> {
  * Register the viewer action on the files API
  */
 export function registerViewerAction() {
-	registerFileAction(new FileAction({
+	registerFileAction({
 		id: 'view',
 		displayName: () => t('viewer', 'View'),
 		iconSvgInline: () => svgEye,
@@ -112,5 +112,5 @@ export function registerViewerAction() {
 			)
 		},
 		exec: execAction,
-	}))
+	})
 }
