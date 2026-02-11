@@ -84,7 +84,6 @@ use OCP\Calendar\Events\CalendarObjectMovedEvent;
 use OCP\Calendar\Events\CalendarObjectMovedToTrashEvent;
 use OCP\Calendar\Events\CalendarObjectRestoredEvent;
 use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
-use OCP\Calendar\IManager;
 use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Calendar\ITimezoneService;
 use OCP\Config\BeforePreferenceDeletedEvent;

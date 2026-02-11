@@ -9,9 +9,13 @@ declare(strict_types=1);
 
 namespace OCP\Calendar;
 
+/**
+ * The timezone service can be used to conveniently get a user's timezone string
+ *
+ * @since 34.0.0
+ */
 interface ITimezoneService {
 	public function getUserTimezone(string $userId): ?string;
 
 	public function getDefaultTimezone(): string;
-
 }
