@@ -94,3 +94,6 @@
 [submodule "apps-external/files_pdfviewer"]
 	path = apps-external/files_pdfviewer
 	url = git@github.com:nextcloud/files_pdfviewer.git
+[submodule "apps-external/bruteforcesettings"]
+	path = apps-external/bruteforcesettings
+	url = git@github.com:IONOS-Productivity/nc-bruteforcesettings.git
