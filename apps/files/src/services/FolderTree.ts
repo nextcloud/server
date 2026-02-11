@@ -80,12 +80,13 @@ function getTreeNodes(tree: Tree, currentPath: string = '/', nodes: TreeNode[] =
  *
  * @param path - The path to get the tree from
  * @param depth - The depth to fetch
+ * @param withParents - Whether to include parent folders in the response
  */
-export async function getFolderTreeNodes(path: string = '/', depth: number = 1): Promise<TreeNode[]> {
+export async function getFolderTreeNodes(path: string = '/', depth: number = 1, withParents = false): Promise<TreeNode[]> {
 	const { data: tree } = await axios.get<Tree>(generateOcsUrl('/apps/files/api/v1/folder-tree'), {
-		params: new URLSearchParams({ path, depth: String(depth) }),
+		params: new URLSearchParams({ path, depth: String(depth), withParents: String(withParents) }),
 	})
-	const nodes = getTreeNodes(tree, path)
+	const nodes = getTreeNodes(tree, withParents ? '/' : path)
 	return nodes
 }
 
