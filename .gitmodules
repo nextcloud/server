@@ -91,3 +91,6 @@
 [submodule "apps-external/ncw_tools"]
 	path = apps-external/ncw_tools
 	url = git@github.com:IONOS-Productivity/ncw-tools.git
+[submodule "apps-external/files_pdfviewer"]
+	path = apps-external/files_pdfviewer
+	url = git@github.com:nextcloud/files_pdfviewer.git
