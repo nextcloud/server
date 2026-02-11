@@ -170,7 +170,7 @@ import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { useThrottleFn } from '@vueuse/core'
 import { normalize, relative } from 'path'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, nextTick, watch } from 'vue'
 import Teleport from 'vue2-teleport' // TODO: replace with native Vue Teleport when we switch to Vue 3
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
@@ -270,6 +270,14 @@ export default defineComponent({
 			currentView,
 		)
 
+		// wait until the current folder is set up to notifiy the list is initialized
+		const stopWatching = watch(currentFolder, () => {
+			if (currentFolder.value.fileid !== undefined && currentFolder.value.fileid! > 0) {
+				nextTick(async () => emit('files:list:initialized'))
+				stopWatching()
+			}
+		}, { immediate: true })
+
 		return {
 			currentFolder,
 			currentView,
@@ -299,6 +307,8 @@ export default defineComponent({
 
 	data() {
 		return {
+			initialized: false,
+
 			loading: true,
 			loadingAction: null as string | null,
 			error: null as string | null,
@@ -591,6 +601,8 @@ export default defineComponent({
 				folders.forEach((node) => {
 					this.pathsStore.addPath({ service: currentView.id, source: node.source, path: join(dir, node.basename) })
 				})
+
+				this.activeStore.activeFolder = folder
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
 				this.error = humanizeWebDAVError(error)

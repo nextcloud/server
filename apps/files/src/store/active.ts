@@ -10,10 +10,8 @@ import { subscribe } from '@nextcloud/event-bus'
 import { Folder, getNavigation, Permission } from '@nextcloud/files'
 import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { defineStore } from 'pinia'
-import { computed, ref, shallowRef, watch } from 'vue'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { ref, shallowRef, watch } from 'vue'
 import logger from '../logger.ts'
-import { useFilesStore } from './files.ts'
 
 // Temporary fake folder to use until we have the first valid folder
 // fetched and cached. This allow us to mount the FilesListVirtual
@@ -42,19 +40,10 @@ export const useActiveStore = defineStore('active', () => {
 	 */
 	const activeView = shallowRef<IView>()
 
-	const filesStore = useFilesStore()
-	const { directory } = useRouteParameters()
 	/**
 	 * The currently active folder
 	 */
-	const activeFolder = computed<IFolder>(() => {
-		if (!activeView.value?.id) {
-			return dummyFolder
-		}
-
-		return filesStore.getDirectoryByPath(activeView.value.id, directory.value)
-			?? dummyFolder
-	})
+	const activeFolder = ref<IFolder>(dummyFolder)
 
 	// Set the active node on the router params
 	watch(activeNode, () => {
