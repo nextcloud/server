@@ -39,9 +39,9 @@ interface IResult {
 	public function closeCursor(): bool;
 
 	/**
-	 * @param int $fetchMode
+	 * @param PDO::FETCH_* $fetchMode
 	 *
-	 * @return mixed
+	 * @return ($fetchMode is PDO::FETCH_ASSOC ? array<string, mixed> : ($fetchMode is PDO::FETCH_NUM ? list<mixed> : mixed))|false
 	 *
 	 * @since 21.0.0
 	 * @note Since 33.0.0, prefer using fetchAssociative/fetchNumeric/fetchOne or iterateAssociate/iterateNumeric instead.
@@ -76,9 +76,9 @@ interface IResult {
 	public function fetchOne();
 
 	/**
-	 * @param int $fetchMode (one of PDO::FETCH_ASSOC, PDO::FETCH_NUM or PDO::FETCH_COLUMN (2, 3 or 7)
+	 * @param PDO::FETCH_* $fetchMode
 	 *
-	 * @return mixed[]
+	 * @return list<($fetchMode is PDO::FETCH_ASSOC ? array<string, mixed> : ($fetchMode is PDO::FETCH_NUM ? list<mixed> : mixed))>
 	 *
 	 * @since 21.0.0
 	 * @note Since 33.0.0, prefer using fetchAllAssociative/fetchAllNumeric/fetchFirstColumn or iterateAssociate/iterateNumeric instead.
