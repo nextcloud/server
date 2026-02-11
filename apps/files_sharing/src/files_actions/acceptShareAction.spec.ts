@@ -144,13 +144,12 @@ describe('Accept share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',
@@ -176,13 +175,12 @@ describe('Accept share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				remote: 3,
 				share_type: ShareType.User,
 			},
@@ -209,26 +207,24 @@ describe('Accept share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file1 = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',
 		})
 
 		const file2 = new File({
-			id: 2,
+			id: 456,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 456,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',
@@ -257,13 +253,12 @@ describe('Accept share action execute tests', () => {
 		})
 
 		const file = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
 			root: '/files/admin',
