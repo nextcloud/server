@@ -224,6 +224,7 @@ class Cache implements ICache {
 			$query->selectFileCache()
 				->whereParent($fileId)
 				->whereStorageId($this->getNumericStorageId())
+				->setMaxResults(10000)
 				->orderBy('name', 'ASC');
 
 			$metadataQuery = $query->selectMetadata();
