@@ -44,7 +44,7 @@ class ReminderService {
 		protected LoggerInterface $logger,
 		protected ICacheFactory $cacheFactory,
 	) {
-		$this->cache = $this->cacheFactory->createInMemory();
+		$this->cache = $this->cacheFactory->createInMemory(30000);
 	}
 
 	public function cacheFolder(IUser $user, Folder $folder): void {
