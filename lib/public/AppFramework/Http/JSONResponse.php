@@ -12,9 +12,9 @@ use OCP\AppFramework\Http;
 /**
  * A renderer for JSON calls
  * @since 6.0.0
- * @template S of Http::STATUS_*
+ * @template-covariant S of Http::STATUS_*
  * @template-covariant T of null|string|int|float|bool|array|\stdClass|\JsonSerializable
- * @template H of array<string, mixed>
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class JSONResponse extends Response {

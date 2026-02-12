@@ -12,8 +12,8 @@ use OCP\AppFramework\Http;
 /**
  * Redirects to a different URL
  * @since 7.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class RedirectResponse extends Response {

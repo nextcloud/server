@@ -25,7 +25,7 @@ export const action: IFileAction = {
 			const isRemote = !!node.attributes.remote
 			const url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
 				shareBase: isRemote ? 'remote_shares' : 'shares',
-				id: node.attributes.id,
+				id: node.id,
 			})
 			await axios.post(url)
 
