@@ -12,6 +12,8 @@ declare module '@nextcloud/event-bus' {
 		'files:config:updated': { key: string, value: UserConfig[string] }
 		'files:view-config:updated': { key: string, value: string | number | boolean, IView: string }
 
+		'files:list:initialized': undefined
+
 		'files:favorites:added': INode
 		'files:favorites:removed': INode
 
