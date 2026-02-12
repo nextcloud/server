@@ -37,10 +37,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @template T
 	 * @param class-string<T>|string $id
-	 * @return T|mixed
-	 * @psalm-template S as class-string<T>|string
-	 * @psalm-param S $id
-	 * @psalm-return (S is class-string<T> ? T : mixed)
+	 * @return ($id is class-string<T> ? T : mixed)
 	 */
 	public function get(string $id): mixed {
 		return $this->query($id);
@@ -172,15 +169,6 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$this[$name] = $value;
 	}
 
-	/**
-	 * The given closure is call the first time the given service is queried.
-	 * The closure has to return the instance for the given service.
-	 * Created instance will be cached in case $shared is true.
-	 *
-	 * @param string $name name of the service to register another backend for
-	 * @param Closure $closure the closure to be called on service creation
-	 * @param bool $shared
-	 */
 	public function registerService($name, Closure $closure, $shared = true) {
 		$wrapped = function () use ($closure) {
 			return $closure($this);

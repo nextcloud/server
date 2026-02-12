@@ -11,6 +11,7 @@
 namespace OCP;
 
 use Closure;
+use OC\AppFramework\Utility\SimpleContainer;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -75,7 +76,7 @@ interface IContainer extends ContainerInterface {
 	 * In case the parameter is false the service will be recreated on every call.
 	 *
 	 * @param string $name
-	 * @param \Closure $closure
+	 * @param \Closure(SimpleContainer): mixed $closure
 	 * @param bool $shared
 	 * @return void
 	 * @since 6.0.0

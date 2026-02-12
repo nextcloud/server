@@ -958,7 +958,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ILockingProvider::class, function (ContainerInterface $c) {
 			$ini = $c->get(IniGetWrapper::class);
 			$config = $c->get(IConfig::class);
-			$ttl = $config->getSystemValueInt('filelocking.ttl', max(3600, $ini->getNumeric('max_execution_time')));
+			$ttl = $config->getSystemValueInt('filelocking.ttl', max(3600, (int)($ini->getNumeric('max_execution_time') ?? 0)));
 			if ($config->getSystemValueBool('filelocking.enabled', true) || (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				/** @var Factory $memcacheFactory */
 				$memcacheFactory = $c->get(ICacheFactory::class);
@@ -1212,7 +1212,9 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(ISession::class, function (ContainerInterface $c) {
-			return $c->get(IUserSession::class)->getSession();
+			/** @var Session $session */
+			$session = $c->get(IUserSession::class);
+			return $session->getSession();
 		}, false);
 
 		$this->registerService(IShareHelper::class, function (ContainerInterface $c) {
