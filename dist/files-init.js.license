@@ -117,13 +117,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
 	- version: 6.4.2
 	- license: AGPL-3.0-or-later
 - @nextcloud/paths
 	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
 	- license: GPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
