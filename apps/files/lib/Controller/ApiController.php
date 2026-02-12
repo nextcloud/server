@@ -287,7 +287,7 @@ class ApiController extends Controller {
 	 */
 	private function getParents(Folder $currentFolder, string $root, array $children): array {
 		$parentFolder = $currentFolder->getParent();
-		$parentContent = array_filter($parentFolder->getDirectoryListing(), fn (Node $node) => $node instanceof Folder);
+		$parentContent = $parentFolder->getDirectoryListing('httpd/unix-directory');
 		$parentData = array_map(fn (Folder $node) => [
 			'id' => $node->getId(),
 			'basename' => basename($node->getPath()),
