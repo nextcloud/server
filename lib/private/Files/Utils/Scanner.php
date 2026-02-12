@@ -44,41 +44,22 @@ use Psr\Log\LoggerInterface;
 class Scanner extends PublicEmitter {
 	public const MAX_ENTRIES_TO_COMMIT = 10000;
 
-	/** @var string $user */
-	private $user;
-
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	protected LoggerInterface $logger;
-
 	/**
 	 * Whether to use a DB transaction
-	 *
-	 * @var bool
 	 */
-	protected $useTransaction;
+	protected bool $useTransaction;
 
 	/**
 	 * Number of entries scanned to commit
-	 *
-	 * @var int
 	 */
-	protected $entriesToCommit;
+	protected int $entriesToCommit = 0;
 
-	/**
-	 * @param string $user
-	 * @param IDBConnection|null $db
-	 * @param IEventDispatcher $dispatcher
-	 */
-	public function __construct($user, $db, IEventDispatcher $dispatcher, LoggerInterface $logger) {
-		$this->user = $user;
-		$this->db = $db;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private ?string $user,
+		protected ?IDBConnection $db,
+		private IEventDispatcher $dispatcher,
+		protected LoggerInterface $logger,
+	) {
 		// when DB locking is used, no DB transactions will be used
 		$this->useTransaction = !(\OC::$server->get(ILockingProvider::class) instanceof DBLockingProvider);
 	}

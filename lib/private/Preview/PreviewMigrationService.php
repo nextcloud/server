@@ -66,11 +66,11 @@ class PreviewMigrationService {
 			$path = $fileId . '/' . $previewFile->getName();
 			/** @var SimpleFile $previewFile */
 			$preview = Preview::fromPath($path, $this->mimeTypeDetector);
-			$preview->generateId();
-			if (!$preview) {
+			if ($preview === false) {
 				$this->logger->error('Unable to import old preview at path.');
 				continue;
 			}
+			$preview->generateId();
 			$preview->setSize($previewFile->getSize());
 			$preview->setMtime($previewFile->getMtime());
 			$preview->setOldFileId($previewFile->getId());
@@ -93,17 +93,17 @@ class PreviewMigrationService {
 			->setMaxResults(1);
 
 		$result = $qb->executeQuery();
-		$result = $result->fetchAllAssociative();
+		$result = $result->fetchAssociative();
 
-		if (count($result) > 0) {
+		if ($result !== false) {
 			foreach ($previewFiles as $previewFile) {
 				/** @var Preview $preview */
 				$preview = $previewFile['preview'];
 				/** @var SimpleFile $file */
 				$file = $previewFile['file'];
-				$preview->setStorageId($result[0]['storage']);
-				$preview->setEtag($result[0]['etag']);
-				$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result[0]['mimetype']));
+				$preview->setStorageId($result['storage']);
+				$preview->setEtag($result['etag']);
+				$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
 				$preview->generateId();
 				try {
 					$preview = $this->previewMapper->insert($preview);
