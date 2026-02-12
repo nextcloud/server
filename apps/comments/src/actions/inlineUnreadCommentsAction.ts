@@ -9,6 +9,7 @@ import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
 import { getSidebar } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
 import logger from '../logger.js'
+import { isUsingActivityIntegration } from '../utils/activity.js'
 
 export const action: IFileAction = {
 	id: 'comments-unread',
@@ -38,7 +39,13 @@ export const action: IFileAction = {
 
 		try {
 			const sidebar = getSidebar()
-			sidebar.open(nodes[0], 'comments')
+			const sidebarTabId = isUsingActivityIntegration() ? 'activity' : 'comments'
+			if (sidebar.isOpen && sidebar.node?.source === nodes[0].source) {
+				logger.debug('Sidebar already open for this node, just activating comments tab')
+				sidebar.setActiveTab(sidebarTabId)
+				return null
+			}
+			sidebar.open(nodes[0], sidebarTabId)
 			return null
 		} catch (error) {
 			logger.error('Error while opening sidebar', { error })
