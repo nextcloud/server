@@ -261,13 +261,16 @@ class AmazonS3 extends Common {
 			// to delete all objects prefixed with the path.
 			do {
 				// instead of the iterator, manually loop over the list ...
-				$objects = $connection->listObjects($params);
+				$objects = $connection->listObjectsV2($params);
 				// ... so we can delete the files in batches
 				if (isset($objects['Contents'])) {
 					$connection->deleteObjects([
 						'Bucket' => $this->bucket,
 						'Delete' => [
-							'Objects' => $objects['Contents']
+							'Objects' => array_map(fn (array $object) => [
+								'ETag' => $object['ETag'],
+								'Key' => $object['Key'],
+							], $objects['Contents'])
 						]
 					]);
 					$this->testTimeout();
