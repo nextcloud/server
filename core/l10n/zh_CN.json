@@ -1,7 +1,7 @@
 { "translations": {
     "Please select a file." : "请选择一个文件。",
-    "File is too big" : "文件太大",
-    "The selected file is not an image." : "所选文件不是一张图片。",
+    "File is too big" : "文件太大了",
+    "The selected file is not an image." : "所选的文件不是图片格式。",
     "The selected file cannot be read." : "无法读取所选文件。",
     "The file was uploaded" : "文件已上传 ",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "上传的文件超过了 php.ini 中的 upload_max_filesize 指令",
@@ -43,6 +43,8 @@
     "Input text is too long" : "输入文本太长",
     "Requested task type does not exist" : "请求的任务类型不存在",
     "Necessary language model provider is not available" : "无必要的语言模型提供程序",
+    "Cannot generate more than 12 images" : "无法产生超过12张图片",
+    "Cannot generate less than 1 image" : "至少需要生成一张图片",
     "No text to image provider is available" : "没有可用的文字转图片提供者",
     "Image not found" : "未找到图片",
     "No translation provider available" : "没有可用的翻译提供程序",

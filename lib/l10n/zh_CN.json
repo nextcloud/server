@@ -223,6 +223,8 @@
     "Could not find category \"%s\"" : "无法找到分类 \"%s\"",
     "Input text" : "输入文本",
     "The input text" : "输入文本",
+    "Cannot generate more than 12 images" : "无法产生超过12张图片",
+    "Cannot generate less than 1 image" : "至少需要生成一张图片",
     "Sunday" : "星期日",
     "Monday" : "星期一",
     "Tuesday" : "星期二",
