@@ -17,21 +17,17 @@ use OCP\DB\Types;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 class Version1025Date20240308063933 extends SimpleMigrationStep {
 
 	public function __construct(
-		private IAppConfig $appConfig,
-		private IDBConnection $db,
+		private readonly IAppConfig $appConfig,
+		private readonly IDBConnection $db,
 	) {
 	}
 
-	/**
-	 * @param IOutput $output
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 * @param array $options
-	 * @return null|ISchemaWrapper
-	 */
+	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -50,6 +46,7 @@ class Version1025Date20240308063933 extends SimpleMigrationStep {
 		return $schema;
 	}
 
+	#[Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options): void {
 		// The threshold is higher than the default of \OCA\DAV\BackgroundJob\PruneOutdatedSyncTokensJob
 		// but small enough to fit into a cluster transaction size.

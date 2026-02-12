@@ -17,9 +17,6 @@ use Override;
 
 #[ModifyColumn(table: 'jobs', name: 'id', description: 'Remove auto-increment')]
 class Version33000Date20251124110529 extends SimpleMigrationStep {
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 */
 	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		$schema = $schemaClosure();

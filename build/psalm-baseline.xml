@@ -1318,12 +1318,6 @@
       <code><![CDATA[$i]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/files/lib/Migration/Version2003Date20241021095629.php">
-    <DeprecatedMethod>
-      <code><![CDATA[deleteAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($destinationUser->getUID())]]></code>
@@ -3534,7 +3528,6 @@
   </file>
   <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
     <LessSpecificImplementedReturnType>
-      <code><![CDATA[array]]></code>
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
   </file>
