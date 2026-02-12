@@ -45,6 +45,8 @@ OC.L10N.register(
     "Input text is too long" : "Wprowadzony tekst jest zbyt długi",
     "Requested task type does not exist" : "Żądany typ zadania nie istnieje",
     "Necessary language model provider is not available" : "Niezbędny dostawca modelu językowego nie jest dostępny",
+    "Cannot generate more than 12 images" : "Nie można wygenerować więcej niż 12 obrazów",
+    "Cannot generate less than 1 image" : "Nie można wygenerować mniej niż 1 obraz",
     "No text to image provider is available" : "Brak dostępnego dostawcy tekstu na obraz",
     "Image not found" : "Nie znaleziono obrazu",
     "No translation provider available" : "Brak dostępnego dostawcy tłumaczenia",
