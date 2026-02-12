@@ -10,8 +10,6 @@
 
 namespace OCP;
 
-use OCP\Files\IMimeTypeDetector;
-
 /**
  * This class provides access to the internal filesystem abstraction layer. Use
  * this class exclusively if you want to access files
@@ -59,28 +57,5 @@ class Files {
 		}
 
 		return !file_exists($dir);
-	}
-
-	/**
-	 * Get the mimetype form a local file
-	 * @param string $path
-	 * @return string
-	 *                does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
-	 * @since 5.0.0
-	 * @deprecated 14.0.0
-	 */
-	public static function getMimeType($path) {
-		return Server::get(IMimeTypeDetector::class)->detect($path);
-	}
-
-	/**
-	 * Search for files by mimetype
-	 * @param string $mimetype
-	 * @return array
-	 * @since 6.0.0
-	 * @deprecated 14.0.0
-	 */
-	public static function searchByMime($mimetype) {
-		return \OC\Files\Filesystem::searchByMime($mimetype);
 	}
 }
