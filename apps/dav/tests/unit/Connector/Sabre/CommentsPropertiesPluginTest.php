@@ -61,14 +61,14 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 
 	public static function baseUriProvider(): array {
 		return [
-			['owncloud/remote.php/webdav/', '4567', 'owncloud/remote.php/dav/comments/files/4567'],
-			['owncloud/remote.php/files/', '4567', 'owncloud/remote.php/dav/comments/files/4567'],
-			['owncloud/wicked.php/files/', '4567', null]
+			['owncloud/remote.php/webdav/', 4567, 'owncloud/remote.php/dav/comments/files/4567'],
+			['owncloud/remote.php/files/', 4567, 'owncloud/remote.php/dav/comments/files/4567'],
+			['owncloud/wicked.php/files/', 4567, null]
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'baseUriProvider')]
-	public function testGetCommentsLink(string $baseUri, string $fid, ?string $expectedHref): void {
+	public function testGetCommentsLink(string $baseUri, int $fid, ?string $expectedHref): void {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())
 			->method('getId')
@@ -94,7 +94,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())
 			->method('getId')
-			->willReturn('4567');
+			->willReturn(4567);
 
 		if ($user !== null) {
 			$user = $this->createMock($user);

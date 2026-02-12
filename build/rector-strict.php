@@ -12,6 +12,7 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/build/rector-strict.php',
 		$nextcloudDir . '/core/BackgroundJobs/ExpirePreviewsJob.php',
 		$nextcloudDir . '/lib/public/IContainer.php',
+		$nextcloudDir . '/apps/dav/lib/Connector/Sabre/Node.php',
 	])
 	->withPreparedSets(
 		deadCode: true,

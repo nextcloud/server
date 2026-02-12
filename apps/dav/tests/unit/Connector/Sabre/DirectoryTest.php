@@ -230,6 +230,10 @@ class DirectoryTest extends \Test\TestCase {
 		$info->expects($this->any())
 			->method('isReadable')
 			->willReturn(false);
+		$this->view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$dir = new Directory($this->view, $info);
 		$dir->getChildren();
@@ -242,6 +246,10 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->expects($this->any())
 			->method('isReadable')
 			->willReturn(false);
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/folder')
+			->willReturn('');
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('test');
@@ -254,6 +262,10 @@ class DirectoryTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->willThrowException(new StorageNotAvailableException());
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/folder')
+			->willReturn('');
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
@@ -268,6 +280,10 @@ class DirectoryTest extends \Test\TestCase {
 			->willThrowException(new InvalidPathException());
 		$this->view->expects($this->never())
 			->method('getFileInfo');
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/folder')
+			->willReturn('');
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
@@ -376,6 +392,11 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetNodeForPathFailsWithNoReadPermissionsForPath(): void {
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/')
+			->willReturn('');
+
 		$directoryNode = $this->createMock(Folder::class);
 		$pathNode = $this->createMock(Folder::class);
 		$storage = $this->createMock(IStorage::class);
@@ -396,7 +417,7 @@ class DirectoryTest extends \Test\TestCase {
 					2 => false,
 				};
 			});
-		$directoryNode->expects($this->once())
+		$directoryNode
 			->method('getPath')
 			->willReturn('/admin/files/');
 		$directoryNode->expects($this->once())

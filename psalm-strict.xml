@@ -18,6 +18,7 @@
 	<projectFiles>
 		<file name="core/BackgroundJobs/ExpirePreviewsJob.php"/>
 		<file name="lib/public/IContainer.php"/>
+		<file name="apps/dav/lib/Connector/Sabre/Node.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
@@ -27,8 +28,13 @@
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
+		<directory name="apps/dav/lib"/>
 		<directory name="3rdparty"/>
 	</extraFiles>
+	<stubs>
+		<!-- Psalm does not find methods in here through <extraFiles/> 🤷‍♀️ -->
+		<file name="3rdparty/sabre/uri/lib/functions.php"/>
+	</stubs>
 	<issueHandlers>
 		<InternalClass>
 			<errorLevel type="suppress">

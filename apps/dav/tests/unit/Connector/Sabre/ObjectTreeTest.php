@@ -63,6 +63,10 @@ class ObjectTreeTest extends \Test\TestCase {
 			->method('getFileInfo')
 			->with($targetParent === '' ? '.' : $targetParent)
 			->willReturn($info);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$rootDir = new Directory($view, $info);
 		$objectTree = $this->getMockBuilder(ObjectTree::class)
@@ -104,6 +108,10 @@ class ObjectTreeTest extends \Test\TestCase {
 			->method('getFileInfo')
 			->with($targetParent === '' ? '.' : $targetParent)
 			->willReturn($info);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$rootDir = new Directory($view, $info);
 		$objectTree = $this->getMockBuilder(ObjectTree::class)
@@ -141,6 +149,10 @@ class ObjectTreeTest extends \Test\TestCase {
 		$view->method('getFileInfo')
 			->with($fileInfoQueryPath)
 			->willReturn($fileInfo);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$tree = new ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);

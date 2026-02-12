@@ -616,20 +616,11 @@
       <code><![CDATA[lockFile]]></code>
       <code><![CDATA[putFileInfo]]></code>
       <code><![CDATA[putFileInfo]]></code>
-      <code><![CDATA[putFileInfo]]></code>
       <code><![CDATA[rename]]></code>
       <code><![CDATA[touch]]></code>
       <code><![CDATA[unlockFile]]></code>
       <code><![CDATA[verifyPath]]></code>
     </InternalMethod>
-    <InvalidNullableReturnType>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[integer]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->info->getId()]]></code>
-      <code><![CDATA[$this->info->getId()]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ObjectTree.php">
     <InternalMethod>
