@@ -43,6 +43,7 @@ use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
+use OCP\Files\Events\UserHomeSetupEvent;
 use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -334,6 +335,9 @@ class SetupManager implements ISetupManager {
 				$this->eventLogger->end('fs:setup:user:home:scan');
 			}
 			$this->eventLogger->end('fs:setup:user:home');
+
+			$event = new UserHomeSetupEvent($user, $homeMount);
+			$this->eventDispatcher->dispatchTyped($event);
 		} else {
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),
