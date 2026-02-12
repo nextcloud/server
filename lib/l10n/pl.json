@@ -223,6 +223,8 @@
     "Could not find category \"%s\"" : "Nie można znaleźć kategorii \"%s\"",
     "Input text" : "Wprowadź tekst",
     "The input text" : "Wprowadzony tekst",
+    "Cannot generate more than 12 images" : "Nie można wygenerować więcej niż 12 obrazów",
+    "Cannot generate less than 1 image" : "Nie można wygenerować mniej niż 1 obraz",
     "Sunday" : "Niedziela",
     "Monday" : "Poniedziałek",
     "Tuesday" : "Wtorek",

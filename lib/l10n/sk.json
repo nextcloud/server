@@ -219,6 +219,7 @@
     "Could not find category \"%s\"" : "Nemožno nájsť danú kategóriu \"%s\"",
     "Input text" : "Vstupný text",
     "The input text" : "Vstupný text",
+    "Cannot generate more than 12 images" : "Nie je možné vygenerovať viac ako 12 obrázkov",
     "Cannot generate less than 1 image" : "Nie je možné vygenerovať menej ako 1 obrázok",
     "Sunday" : "Nedeľa",
     "Monday" : "Pondelok",
