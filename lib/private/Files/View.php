@@ -639,7 +639,10 @@ class View {
 				[$storage, $internalPath] = $this->resolvePath($path);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
-					[, $result] = Files::streamCopy($data, $target, true);
+					$result = stream_copy_to_stream($data, $target);
+					if ($result !== false) {
+						$result = true;
+					}
 					fclose($target);
 					fclose($data);
 

@@ -83,47 +83,4 @@ class Files {
 	public static function searchByMime($mimetype) {
 		return \OC\Files\Filesystem::searchByMime($mimetype);
 	}
-
-	/**
-	 * Copy the contents of one stream to another
-	 *
-	 * @template T of null|true
-	 * @param resource $source
-	 * @param resource $target
-	 * @param T $includeResult
-	 * @return int|array
-	 * @psalm-return (T is true ? array{0: int, 1: bool} : int)
-	 * @since 5.0.0
-	 * @since 32.0.0 added $includeResult parameter
-	 * @deprecated 14.0.0
-	 */
-	public static function streamCopy($source, $target, ?bool $includeResult = null) {
-		if (!$source || !$target) {
-			return $includeResult ? [0, false] : 0;
-		}
-
-		$bufSize = 8192;
-		$count = 0;
-		$result = true;
-		while (!feof($source)) {
-			$buf = fread($source, $bufSize);
-			if ($buf === false) {
-				$result = false;
-				break;
-			}
-
-			$bytesWritten = fwrite($target, $buf);
-			if ($bytesWritten !== false) {
-				$count += $bytesWritten;
-			}
-
-			if ($bytesWritten === false
-				|| ($bytesWritten < $bufSize && $bytesWritten < strlen($buf))
-			) {
-				$result = false;
-				break;
-			}
-		}
-		return $includeResult ? [$count, $result] : $count;
-	}
 }

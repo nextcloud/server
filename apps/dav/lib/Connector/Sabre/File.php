@@ -236,7 +236,13 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				[$count, $result] = Files::streamCopy($data, $target, true);
+				$count = stream_copy_to_stream($data, $target);
+				if ($count === false) {
+					$result = false;
+					$count = 0;
+				} else {
+					$result = true;
+				}
 				fclose($target);
 			}
 			if ($result === false && $expected !== null) {

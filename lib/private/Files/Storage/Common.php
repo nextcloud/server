@@ -212,7 +212,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		} else {
 			$sourceStream = $this->fopen($source, 'r');
 			$targetStream = $this->fopen($target, 'w');
-			[, $result] = Files::streamCopy($sourceStream, $targetStream, true);
+			$result = stream_copy_to_stream($sourceStream, $targetStream);
+			if ($result !== false) {
+				$result = true;
+			}
 			if (!$result) {
 				Server::get(LoggerInterface::class)->warning("Failed to write data while copying $source to $target");
 			}
@@ -743,8 +746,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 			throw new GenericFileException("Failed to open $path for writing");
 		}
 		try {
-			[$count, $result] = Files::streamCopy($stream, $target, true);
-			if (!$result) {
+			$count = stream_copy_to_stream($stream, $target);
+			if ($count === false) {
 				throw new GenericFileException('Failed to copy stream');
 			}
 		} finally {

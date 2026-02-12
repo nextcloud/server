@@ -96,7 +96,8 @@ abstract class TestBase extends \Test\TestCase {
 		$this->instance = $this->getNew();
 		$fh = $this->instance->getStream('lorem.txt', 'w');
 		$source = fopen($dir . '/lorem.txt', 'r');
-		Files::streamCopy($source, $fh);
+		$result = stream_copy_to_stream($source, $fh);
+		$this->assertNotFalse($result);
 		fclose($source);
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));

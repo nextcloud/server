@@ -11,10 +11,10 @@ use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
 use OC\Files\Cache\Wrapper\JailWatcher;
 use OC\Files\Filesystem;
-use OCP\Files;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IWatcher;
+use OCP\Files\GenericFileException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\IDBConnection;
@@ -258,9 +258,13 @@ class Jail extends Wrapper {
 			return $storage->writeStream($this->getUnjailedPath($path), $stream, $size);
 		} else {
 			$target = $this->fopen($path, 'w');
-			$count = Files::streamCopy($stream, $target);
+			$count = stream_copy_to_stream($stream, $target);
 			fclose($stream);
 			fclose($target);
+			if ($count === false) {
+				throw new GenericFileException('Failed to copy stream.');
+			}
+
 			return $count;
 		}
 	}
