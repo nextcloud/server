@@ -87,6 +87,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/ShareInteractionListener.php',
         'OCA\\Files_Sharing\\Listener\\SharesUpdatedListener' => __DIR__ . '/..' . '/../lib/Listener/SharesUpdatedListener.php',
         'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => __DIR__ . '/..' . '/../lib/Listener/UserAddedToGroupListener.php',
+        'OCA\\Files_Sharing\\Listener\\UserHomeSetupListener' => __DIR__ . '/..' . '/../lib/Listener/UserHomeSetupListener.php',
         'OCA\\Files_Sharing\\Listener\\UserShareAcceptanceListener' => __DIR__ . '/..' . '/../lib/Listener/UserShareAcceptanceListener.php',
         'OCA\\Files_Sharing\\Middleware\\OCSShareAPIMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/OCSShareAPIMiddleware.php',
         'OCA\\Files_Sharing\\Middleware\\ShareInfoMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ShareInfoMiddleware.php',
