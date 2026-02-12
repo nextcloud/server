@@ -12,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\Setup;
 use OC\SystemConfig;
+use OCP\App\IAppManager;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
@@ -787,14 +788,14 @@ class OC_Util {
 	 * @deprecated 32.0.0 Use \OCP\Util::needUpgrade() instead.
 	 * @see \OCP\Util::needUpgrade
 	 */
-	public static function needUpgrade(\OC\SystemConfig $config): bool {
+	public static function needUpgrade(SystemConfig $config): bool {
 		if (!$config->getValue('installed', false)) {
 			// not installed (nothing to do)
 			return false;
 		}
 
 		$installedVersion = (string)$config->getValue('version', '0.0.0');
-		$codeVersion = implode('.', \OCP\Util::getVersion());
+		$codeVersion = implode('.', Util::getVersion());
 
 		// codebase newer: upgrade needed
 		if (version_compare($codeVersion, $installedVersion, '>')) {
@@ -815,12 +816,12 @@ class OC_Util {
 
 			// disallow downgrade (not in debug mode or major.minor mismatch)
 			/** @var \Psr\Log\LoggerInterface $logger */
-			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->error(
 				'Detected downgrade attempt from installed {installed} to code {code}',
 				[ 'installed' => $installedVersion, 'code' => $codeVersion, 'app' => 'core', ]
 			);
-			throw new \OCP\HintException(sprintf(
+			throw new HintException(sprintf(
 				'Downgrading Nextcloud from %s to %s is not supported and may corrupt your instance (database and data directory). '
 				. 'Restore a full backup (code, database, and data directory) taken before the change, '
 				. 'or restore the previous codebase so that it matches the installed version (version %s).',
@@ -829,7 +830,7 @@ class OC_Util {
 		}
 
 		// versions are equal: check whether any enabled apps need upgrading
-		$appManager = \OCP\Server::get(\OCP\App\IAppManager::class);
+		$appManager = Server::get(IAppManager::class);
 		$apps = $appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			if ($appManager->isUpgradeRequired($app)) {

@@ -629,7 +629,7 @@ class SetupManager implements ISetupManager {
 				$this->registerMounts($user, $fullProviderMounts, $currentProviders);
 			}
 
-			$this->setupForUserWith($user, function () use ($fullProviderMounts, $authoritativeMounts) {
+			$this->setupForUserWith($user, function () use ($fullProviderMounts, $authoritativeMounts): void {
 				$allMounts = [...$fullProviderMounts, ...$authoritativeMounts];
 				array_walk($allMounts, $this->mountManager->addMount(...));
 			});
@@ -765,7 +765,7 @@ class SetupManager implements ISetupManager {
 		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			$this->cache->remove($event->getShare()->getSharedWith());
 		});
-		$this->eventDispatcher->addListener(BeforeNodeRenamedEvent::class, function (BeforeNodeRenamedEvent $event) {
+		$this->eventDispatcher->addListener(BeforeNodeRenamedEvent::class, function (BeforeNodeRenamedEvent $event): void {
 			// update cache information that is cached by mount point
 			$from = rtrim($event->getSource()->getPath(), '/') . '/';
 			$to = rtrim($event->getTarget()->getPath(), '/') . '/';

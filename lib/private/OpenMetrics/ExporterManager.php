@@ -10,6 +10,16 @@ declare(strict_types=1);
 namespace OC\OpenMetrics;
 
 use Generator;
+use OC\OpenMetrics\Exporters\ActiveSessions;
+use OC\OpenMetrics\Exporters\ActiveUsers;
+use OC\OpenMetrics\Exporters\AppsCount;
+use OC\OpenMetrics\Exporters\AppsInfo;
+use OC\OpenMetrics\Exporters\FilesByType;
+use OC\OpenMetrics\Exporters\InstanceInfo;
+use OC\OpenMetrics\Exporters\LogLevel;
+use OC\OpenMetrics\Exporters\Maintenance;
+use OC\OpenMetrics\Exporters\RunningJobs;
+use OC\OpenMetrics\Exporters\UsersByBackend;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\OpenMetrics\IMetricFamily;
@@ -33,22 +43,22 @@ class ExporterManager {
 		// Core exporters
 		$exporters = [
 			// Basic exporters
-			Exporters\InstanceInfo::class,
-			Exporters\AppsInfo::class,
-			Exporters\AppsCount::class,
-			Exporters\Maintenance::class,
-			Exporters\LogLevel::class,
+			InstanceInfo::class,
+			AppsInfo::class,
+			AppsCount::class,
+			Maintenance::class,
+			LogLevel::class,
 
 			// File exporters
-			Exporters\FilesByType::class,
+			FilesByType::class,
 
 			// Users exporters
-			Exporters\ActiveUsers::class,
-			Exporters\ActiveSessions::class,
-			Exporters\UsersByBackend::class,
+			ActiveUsers::class,
+			ActiveSessions::class,
+			UsersByBackend::class,
 
 			// Jobs
-			Exporters\RunningJobs::class,
+			RunningJobs::class,
 		];
 		$exporters = array_filter($exporters, fn ($classname) => !isset($this->skippedClasses[$classname]));
 		foreach ($exporters as $classname) {

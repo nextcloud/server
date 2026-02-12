@@ -14,6 +14,7 @@ use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	/**
@@ -44,8 +45,8 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('lookupServerUploadEnabled', $this->fedShareProvider->isLookupServerUploadEnabled());
 		$this->initialState->provideInitialState('federatedTrustedShareAutoAccept', $this->fedShareProvider->isFederatedTrustedShareAutoAccept());
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-admin');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
 		return new TemplateResponse(Application::APP_ID, 'settings-admin', renderAs: '');
 	}
 

@@ -33,7 +33,7 @@ class Jail extends Wrapper {
 	protected $rootPath;
 
 	/**
-	 * @param array $parameters ['storage' => $storage, 'root' => $root]
+	 * @param array{storage: IStorage, root: string} $parameters
 	 *
 	 * $storage: The storage that will be wrapper
 	 * $root: The folder in the wrapped storage that will become the root folder of the wrapped storage

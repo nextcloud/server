@@ -70,7 +70,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 	private LoggerInterface $logger;
 
-	/** @var IStorage */
+	/** @var Storage */
 	private $nonMaskedStorage;
 
 	private array $mountOptions = [];
@@ -84,12 +84,6 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	private string $sourcePath = '';
 
 	private static int $initDepth = 0;
-
-	/**
-	 * @psalm-suppress NonInvariantDocblockPropertyType
-	 * @var ?Storage $storage
-	 */
-	protected $storage;
 
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
@@ -105,6 +99,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			$this->sharingDisabledForUser = false;
 		}
 
+		/** @psalm-suppress InvalidArgument This is fine as we also overwrite getWrappedStorage */
 		parent::__construct([
 			'storage' => null,
 			'root' => null,
@@ -129,7 +124,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	/**
 	 * @psalm-assert Storage $this->storage
 	 */
-	private function init() {
+	private function init(): void {
 		if ($this->initialized) {
 			if (!$this->storage) {
 				// marked as initialized but no storage set

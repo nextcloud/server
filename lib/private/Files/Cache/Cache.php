@@ -27,6 +27,7 @@ use OCP\Files\Cache\CacheInsertEvent;
 use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchComparison;
@@ -825,7 +826,7 @@ class Cache implements ICache {
 			$this->connection->commit();
 
 			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
-				\OCP\Server::get(\OCP\Files\Config\IUserMountCache::class)->clear();
+				Server::get(IUserMountCache::class)->clear();
 
 				$event = new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId());
 				$this->eventDispatcher->dispatchTyped($event);

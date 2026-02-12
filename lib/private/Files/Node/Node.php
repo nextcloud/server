@@ -10,6 +10,8 @@ namespace OC\Files\Node;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
+use OC\Files\View;
+use OCP\Constants;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
@@ -20,53 +22,30 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
+use OCP\Server;
 
 // FIXME: this class really should be abstract (+1)
 class Node implements INode {
-	/**
-	 * @var \OC\Files\View $view
-	 */
-	protected $view;
-
-	protected IRootFolder $root;
-
-	/**
-	 * @var string $path Absolute path to the node (e.g. /admin/files/folder/file)
-	 */
-	protected $path;
-
-	protected ?FileInfo $fileInfo;
-
-	protected ?INode $parent;
-
-	private bool $infoHasSubMountsIncluded;
-
-	/**
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\IRootFolder $root
-	 * @param string $path
-	 * @param FileInfo $fileInfo
-	 */
-	public function __construct(IRootFolder $root, $view, $path, $fileInfo = null, ?INode $parent = null, bool $infoHasSubMountsIncluded = true) {
+	/** @param string $path */
+	public function __construct(
+		protected IRootFolder $root,
+		protected View $view,
+		protected $path,
+		protected ?FileInfo $fileInfo = null,
+		protected ?INode $parent = null,
+		private bool $infoHasSubMountsIncluded = true,
+	) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
-		$this->view = $view;
-		$this->root = $root;
-		$this->path = $path;
-		$this->fileInfo = $fileInfo;
-		$this->parent = $parent;
-		$this->infoHasSubMountsIncluded = $infoHasSubMountsIncluded;
 	}
 
 	/**
-	 * Creates a Node of the same type that represents a non-existing path
+	 * Get non existing node.
 	 *
-	 * @param string $path path
-	 * @return Node non-existing node
 	 * @throws \Exception
 	 */
-	protected function createNonExistingNode($path) {
+	protected function createNonExistingNode(string $path): Node {
 		throw new \Exception('Must be implemented by subclasses');
 	}
 
@@ -104,7 +83,7 @@ class Node implements INode {
 	protected function sendHooks($hooks, ?array $args = null) {
 		$args = !empty($args) ? $args : [$this];
 		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 		foreach ($hooks as $hook) {
 			if (method_exists($this->root, 'emit')) {
 				$this->root->emit('\OC\Files', $hook, $args);
@@ -140,7 +119,7 @@ class Node implements INode {
 	 * @throws NotPermittedException
 	 */
 	public function touch($mtime = null) {
-		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
+		if ($this->checkPermissions(Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(['preTouch']);
 			$this->view->touch($this->path, $mtime);
 			$this->sendHooks(['postTouch']);

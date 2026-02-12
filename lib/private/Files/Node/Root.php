@@ -11,6 +11,7 @@ namespace OC\Files\Node;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\Storage;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
@@ -18,6 +19,7 @@ use OC\User\NoUserException;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\ConfigLexicon;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountFileInfo;
@@ -76,7 +78,7 @@ class Root extends Folder implements IRootFolder {
 		parent::__construct($this, $view, '');
 		$this->emitter = new PublicEmitter();
 		$this->userFolderCache = new CappedMemoryCache();
-		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
+		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function (): void {
 			$this->userFolderCache = new CappedMemoryCache();
 		});
 		$this->pathByIdCache = $cacheFactory->createLocal('path-by-id');
@@ -118,7 +120,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param Storage $storage
 	 * @param string $mountPoint
 	 * @param array $arguments
 	 */
@@ -133,33 +135,10 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
-	}
-
-	/**
-	 * @param string $storageId
-	 * @return \OC\Files\Mount\MountPoint[]
-	 */
-	public function getMountByStorageId($storageId) {
-		return $this->mountManager->findByStorageId($storageId);
-	}
-
-	/**
-	 * @param int $numericId
-	 * @return MountPoint[]
-	 */
-	public function getMountByNumericStorageId($numericId) {
-		return $this->mountManager->findByNumericId($numericId);
-	}
-
-	/**
-	 * @param \OC\Files\Mount\MountPoint $mount
-	 */
-	public function unMount($mount) {
-		$this->mountManager->remove($mount);
 	}
 
 	public function get($path) {
@@ -181,23 +160,21 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $targetPath
-	 * @return Node
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function rename($targetPath) {
+	public function rename($targetPath): never {
 		throw new NotPermittedException();
 	}
 
-	public function delete() {
+	public function delete(): never {
 		throw new NotPermittedException();
 	}
 
 	/**
 	 * @param string $targetPath
-	 * @return Node
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function copy($targetPath) {
+	public function copy($targetPath): never {
 		throw new NotPermittedException();
 	}
 
@@ -205,50 +182,34 @@ class Root extends Folder implements IRootFolder {
 	 * @param int $mtime
 	 * @throws \OCP\Files\NotPermittedException
 	 */
-	public function touch($mtime = null) {
+	public function touch($mtime = null): never {
 		throw new NotPermittedException();
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function getStorage() {
+	public function getStorage(): never {
 		throw new NotFoundException();
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPath() {
+	public function getPath(): string {
 		return '/';
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getInternalPath() {
+	public function getInternalPath(): string {
 		return '';
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getId() {
+	public function getId(): int {
 		return 0;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function stat() {
+	public function stat(): array {
 		return [];
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getMTime() {
+	public function getMTime(): int {
 		return 0;
 	}
 
@@ -260,45 +221,27 @@ class Root extends Folder implements IRootFolder {
 		return 0;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getEtag() {
+	public function getEtag(): string {
 		return '';
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getPermissions() {
-		return \OCP\Constants::PERMISSION_CREATE;
+	public function getPermissions(): int {
+		return Constants::PERMISSION_CREATE;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isReadable() {
+	public function isReadable(): bool {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isUpdateable() {
+	public function isUpdateable(): bool {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isDeletable() {
+	public function isDeletable(): bool {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isShareable() {
+	public function isShareable(): bool {
 		return false;
 	}
 
@@ -367,7 +310,7 @@ class Root extends Folder implements IRootFolder {
 		return $this->userFolderCache->get($userId);
 	}
 
-	public function getUserMountCache() {
+	public function getUserMountCache(): IUserMountCache {
 		return $this->userMountCache;
 	}
 
@@ -401,8 +344,7 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @param int $id
-	 * @return Node[]
+	 * @return list<INode>
 	 */
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
@@ -473,7 +415,7 @@ class Root extends Folder implements IRootFolder {
 			return [];
 		}
 
-		$nodes = array_map(function (IMountPoint $mount) use ($id, $mountRoots) {
+		$nodes = array_map(function (IMountPoint $mount) use ($id, $mountRoots): ?INode {
 			$rootInternalPath = $mountRoots[$mount->getStorageRootId()];
 			$cacheEntry = $mount->getStorage()->getCache()->get($id);
 			if (!$cacheEntry) {
@@ -507,12 +449,10 @@ class Root extends Folder implements IRootFolder {
 
 		$nodes = array_filter($nodes);
 
-		$folders = array_filter($nodes, function (Node $node) use ($path) {
+		$folders = array_filter($nodes, function (INode $node) use ($path): bool {
 			return PathHelper::getRelativePath($path, $node->getPath()) !== null;
 		});
-		usort($folders, function ($a, $b) {
-			return $b->getPath() <=> $a->getPath();
-		});
+		usort($folders, static fn (INode $a, INode $b): int => $b->getPath() <=> $a->getPath());
 		return $folders;
 	}
 

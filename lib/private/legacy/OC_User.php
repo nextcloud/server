@@ -9,6 +9,7 @@ use OC\Authentication\Token\IProvider;
 use OC\SystemConfig;
 use OC\User\Database;
 use OC\User\DisabledUserException;
+use OC\User\Session;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\IApacheBackend;
@@ -151,7 +152,7 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				/** @var \OC\User\Session $userSession */
+				/** @var Session $userSession */
 				$userSession = Server::get(IUserSession::class);
 
 				/** @var IEventDispatcher $dispatcher */
@@ -234,7 +235,7 @@ class OC_User {
 
 			//setup extra user backends
 			self::setupBackends();
-			/** @var \OC\User\Session $session */
+			/** @var Session $session */
 			$session = Server::get(IUserSession::class);
 			$session->unsetMagicInCookie();
 

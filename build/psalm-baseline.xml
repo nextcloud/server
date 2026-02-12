@@ -3638,22 +3638,6 @@
       <code><![CDATA[$this->fileInfo]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Files/Node/Root.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$folders]]></code>
-      <code><![CDATA[$this->mountManager->findByNumericId($numericId)]]></code>
-      <code><![CDATA[$this->mountManager->findByStorageId($storageId)]]></code>
-      <code><![CDATA[$this->mountManager->findIn($mountPoint)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[MountPoint[]]]></code>
-      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
-      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
-    </MoreSpecificReturnType>
-    <UndefinedMethod>
-      <code><![CDATA[remove]]></code>
-    </UndefinedMethod>
-  </file>
   <file src="lib/private/Files/ObjectStore/S3ConnectionTrait.php">
     <InternalClass>
       <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>

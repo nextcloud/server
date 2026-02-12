@@ -8,6 +8,7 @@ namespace OC\Core\Controller;
 
 use Exception;
 use OC\Contacts\ContactsMenu\Manager;
+use OC\Teams\TeamManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -37,7 +38,7 @@ class ContactsMenuController extends Controller {
 	public function index(?string $filter = null, ?string $teamId = null): array {
 		$entries = $this->manager->getEntries($this->userSession->getUser(), $filter);
 		if ($teamId !== null) {
-			/** @var \OC\Teams\TeamManager */
+			/** @var TeamManager */
 			$teamManager = $this->teamManager;
 			$memberIds = $teamManager->getMembersOfTeam($teamId, $this->userSession->getUser()->getUID());
 			$entries['contacts'] = array_filter(

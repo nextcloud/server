@@ -10,36 +10,16 @@ namespace OC\Files;
 use OC\Files\Mount\HomeMountPoint;
 use OCA\Files_Sharing\External\Mount;
 use OCA\Files_Sharing\ISharedMountPoint;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
 /**
  * @template-implements \ArrayAccess<string,mixed>
  */
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
-	private array|ICacheEntry $data;
-	/**
-	 * @var string
-	 */
-	private $path;
-
-	/**
-	 * @var \OC\Files\Storage\Storage $storage
-	 */
-	private $storage;
-
-	/**
-	 * @var string
-	 */
-	private $internalPath;
-
-	/**
-	 * @var \OCP\Files\Mount\IMountPoint
-	 */
-	private $mount;
-
-	private ?IUser $owner;
 
 	/**
 	 * @var string[]
@@ -59,20 +39,18 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private int|float $rawSize = 0;
 
 	/**
-	 * @param string|boolean $path
-	 * @param Storage\Storage $storage
 	 * @param string $internalPath
-	 * @param array|ICacheEntry $data
+	 * @param IStorage $storage
 	 * @param IMountPoint $mount
-	 * @param ?IUser $owner
 	 */
-	public function __construct($path, $storage, $internalPath, $data, $mount, $owner = null) {
-		$this->path = $path;
-		$this->storage = $storage;
-		$this->internalPath = $internalPath;
-		$this->data = $data;
-		$this->mount = $mount;
-		$this->owner = $owner;
+	public function __construct(
+		private string $path,
+		private $storage,
+		private $internalPath,
+		private array|ICacheEntry $data,
+		private $mount,
+		private ?IUser $owner = null,
+	) {
 		if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] !== 0) {
 			$this->rawSize = $this->data['unencrypted_size'];
 		} else {
@@ -106,13 +84,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		};
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPath() {
+	public function getPath(): string {
 		return $this->path;
 	}
 
+	/**
+	 * @return IStorage
+	 */
 	public function getStorage() {
 		return $this->storage;
 	}
@@ -239,14 +217,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isReadable() {
-		return $this->checkPermissions(\OCP\Constants::PERMISSION_READ);
+		return $this->checkPermissions(Constants::PERMISSION_READ);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isUpdateable() {
-		return $this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE);
+		return $this->checkPermissions(Constants::PERMISSION_UPDATE);
 	}
 
 	/**
@@ -255,21 +233,21 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isCreatable() {
-		return $this->checkPermissions(\OCP\Constants::PERMISSION_CREATE);
+		return $this->checkPermissions(Constants::PERMISSION_CREATE);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isDeletable() {
-		return $this->checkPermissions(\OCP\Constants::PERMISSION_DELETE);
+		return $this->checkPermissions(Constants::PERMISSION_DELETE);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isShareable() {
-		return $this->checkPermissions(\OCP\Constants::PERMISSION_SHARE);
+		return $this->checkPermissions(Constants::PERMISSION_SHARE);
 	}
 
 	/**
@@ -289,7 +267,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
 	 * Get the mountpoint the file belongs to
 	 *
-	 * @return \OCP\Files\Mount\IMountPoint
+	 * @return IMountPoint
 	 */
 	public function getMountPoint() {
 		return $this->mount;

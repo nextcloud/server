@@ -17,6 +17,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Server;
 
 class Application extends App implements IBootstrap {
 
@@ -41,7 +42,7 @@ class Application extends App implements IBootstrap {
 			$manager->addCloudFederationProvider($type,
 				'Federated Files Sharing',
 				function (): CloudFederationProviderFiles {
-					return \OCP\Server::get(CloudFederationProviderFiles::class);
+					return Server::get(CloudFederationProviderFiles::class);
 				});
 		}
 	}

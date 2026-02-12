@@ -85,7 +85,7 @@ class AdminTest extends TestCase {
 		$this->initialState
 			->expects($this->atLeastOnce())
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$initialState) {
+			->willReturnCallback(function () use (&$initialState): void {
 				$args = func_get_args();
 				$initialState[$args[0]] = $args[1];
 			});
