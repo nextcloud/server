@@ -11,6 +11,7 @@ use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
 use OC\Files\Cache\Wrapper\JailWatcher;
 use OC\Files\Filesystem;
+use OC\Files\Storage\FailedStorage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IWatcher;
@@ -20,6 +21,7 @@ use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Jail to a subdirectory of the wrapped storage
@@ -51,6 +53,12 @@ class Jail extends Wrapper {
 	 * This is separate from Wrapper::getWrapperStorage so we can get the jailed storage consistently even if the jail is inside another wrapper
 	 */
 	public function getUnjailedStorage(): IStorage {
+		if ($this->storage === null) {
+			$message = 'storage jail ' . get_class($this) . " doesn't have a wrapped storage set";
+			Server::get(LoggerInterface::class)->error($message);
+			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);
+		}
+
 		return $this->storage;
 	}
 

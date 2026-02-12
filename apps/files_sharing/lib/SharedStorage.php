@@ -85,12 +85,6 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 	private static int $initDepth = 0;
 
-	/**
-	 * @psalm-suppress NonInvariantDocblockPropertyType
-	 * @var ?Storage $storage
-	 */
-	protected $storage;
-
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
 		$this->logger = Server::get(LoggerInterface::class);

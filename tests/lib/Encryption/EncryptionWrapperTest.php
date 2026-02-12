@@ -15,7 +15,6 @@ use OC\Memcache\ArrayCache;
 use OCA\Files_Trashbin\Storage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
-use OCP\Files\Storage\IStorage;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -45,17 +44,13 @@ class EncryptionWrapperTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideWrapStorage')]
 	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {
-		$storage = $this->getMockBuilder(IStorage::class)
+		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		foreach ($wrappedStorages as $wrapper) {
-			$storage->expects($this->any())
-				->method('instanceOfStorage')
-				->willReturnMap([
-					[$wrapper, true],
-				]);
-		}
+		$storage->expects($this->any())
+			->method('instanceOfStorage')
+			->willReturnCallback(fn (string $storage): bool => in_array($storage, $wrappedStorages, true));
 
 		$mount = $this->getMockBuilder(IMountPoint::class)
 			->disableOriginalConstructor()

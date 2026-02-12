@@ -24,6 +24,7 @@
 		<file name="lib/private/Settings/AuthorizedGroupMapper.php"/>
 		<file name="apps/settings/lib/Service/AuthorizedGroupService.php"/>
 		<file name="lib/private/Files/Storage/Storage.php"/>
+		<file name="lib/private/Files/Storage/Wrapper/Wrapper.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
