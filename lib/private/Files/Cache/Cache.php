@@ -37,6 +37,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -201,24 +202,14 @@ class Cache implements ICache {
 		return new CacheEntry($normalized);
 	}
 
-	/**
-	 * get the metadata of all files stored in $folder
-	 *
-	 * @param string $folder
-	 * @return ICacheEntry[]
-	 */
-	public function getFolderContents($folder) {
+	#[Override]
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null) {
 		$fileId = $this->getId($folder);
-		return $this->getFolderContentsById($fileId);
+		return $this->getFolderContentsById($fileId, $mimeTypeFilter);
 	}
 
-	/**
-	 * get the metadata of all files stored in $folder
-	 *
-	 * @param int $fileId the file id of the folder
-	 * @return ICacheEntry[]
-	 */
-	public function getFolderContentsById($fileId) {
+	#[Override]
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null) {
 		if ($fileId > -1) {
 			$query = $this->getQueryBuilder();
 			$query->selectFileCache()
@@ -226,13 +217,22 @@ class Cache implements ICache {
 				->whereStorageId($this->getNumericStorageId())
 				->orderBy('name', 'ASC');
 
+			if ($mimeTypeFilter !== null) {
+				$mimetype = $this->mimetypeLoader->getId($mimeTypeFilter);
+				if (str_contains($mimeTypeFilter, '/')) {
+					$query->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($mimetype)));
+				} else {
+					$query->andWhere($query->expr()->eq('mimepart', $query->createNamedParameter($mimetype)));
+				}
+			}
+
 			$metadataQuery = $query->selectMetadata();
 
 			$result = $query->executeQuery();
 			$files = $result->fetchAll();
 			$result->closeCursor();
 
-			return array_map(function (array $data) use ($metadataQuery) {
+			return array_map(function (array $data) use ($metadataQuery): ICacheEntry {
 				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
 				return self::cacheEntryFromData($data, $this->mimetypeLoader);
 			}, $files);

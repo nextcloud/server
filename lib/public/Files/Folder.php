@@ -46,13 +46,14 @@ interface Folder extends Node {
 	public function isSubNode($node);
 
 	/**
-	 * get the content of this directory
+	 * Get the content of this directory.
 	 *
+	 * @param ?non-empty-string $mimetypeFilter Limit the returned content to this mimetype or mimepart
 	 * @throws \OCP\Files\NotFoundException
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
-	public function getDirectoryListing();
+	public function getDirectoryListing(?string $mimetypeFilter = null): array;
 
 	/**
 	 * Get the node at $path

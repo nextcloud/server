@@ -76,16 +76,11 @@ class Folder extends Node implements IFolder {
 		return str_starts_with($node->getPath(), $this->path . '/');
 	}
 
-	/**
-	 * get the content of this directory
-	 *
-	 * @return Node[]
-	 * @throws \OCP\Files\NotFoundException
-	 */
-	public function getDirectoryListing() {
-		$folderContent = $this->view->getDirectoryContent($this->path, '', $this->getFileInfo(false));
+	#[Override]
+	public function getDirectoryListing(?string $mimetypeFilter = null): array {
+		$folderContent = $this->view->getDirectoryContent($this->path, $mimetypeFilter, $this->getFileInfo(false));
 
-		return array_map(function (FileInfo $info) {
+		return array_map(function (FileInfo $info): Node {
 			if ($info->getMimetype() === FileInfo::MIMETYPE_FOLDER) {
 				return new Folder($this->root, $this->view, $info->getPath(), $info, $this);
 			} else {

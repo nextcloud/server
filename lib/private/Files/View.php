@@ -1481,13 +1481,18 @@ class View {
 	 * get the content of a directory
 	 *
 	 * @param string $directory path under datadirectory
-	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
+	 * @param ?non-empty-string $mimeTypeFilter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public function getDirectoryContent($directory, $mimetype_filter = '', ?\OCP\Files\FileInfo $directoryInfo = null) {
+	public function getDirectoryContent(string $directory, ?string $mimeTypeFilter = null, ?\OCP\Files\FileInfo $directoryInfo = null) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
+		}
+
+		/** @psalm-suppress TypeDoesNotContainType For legacy compatibility */
+		if ($mimeTypeFilter === '') {
+			$mimeTypeFilter = null;
 		}
 
 		$path = $this->getAbsolutePath($directory);
@@ -1516,7 +1521,7 @@ class View {
 		}
 
 		$folderId = $data->getId();
-		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
+		$contents = $cache->getFolderContentsById($folderId, $mimeTypeFilter);
 
 		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
 		$permissionsMask = ~\OCP\Constants::PERMISSION_SHARE;
@@ -1577,79 +1582,79 @@ class View {
 					$rootEntry = $subCache->get('');
 				}
 
-				if ($rootEntry && ($rootEntry->getPermissions() & Constants::PERMISSION_READ)) {
-					$relativePath = trim(substr($mountPoint, $dirLength), '/');
-					if ($pos = strpos($relativePath, '/')) {
-						//mountpoint inside subfolder add size to the correct folder
-						$entryName = substr($relativePath, 0, $pos);
+				if (!$rootEntry || !($rootEntry->getPermissions() & Constants::PERMISSION_READ)) {
+					continue;
+				}
 
-						// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
-						if (!isset($files[$entryName])) {
-							try {
-								[$storage, ] = $this->resolvePath($path . '/' . $entryName);
-								// make sure we can create the mountpoint folder, even if the user has a quota of 0
-								if ($storage->instanceOfStorage(Quota::class)) {
-									$storage->enableQuota(false);
-								}
-
-								if ($this->mkdir($path . '/' . $entryName) !== false) {
-									$info = $this->getFileInfo($path . '/' . $entryName);
-									if ($info !== false) {
-										$files[$entryName] = $info;
-									}
-								}
-
-								if ($storage->instanceOfStorage(Quota::class)) {
-									$storage->enableQuota(true);
-								}
-							} catch (\Exception $e) {
-								// Creating the parent folder might not be possible, for example due to a lack of permissions.
-								$this->logger->debug('Failed to create non-existent parent', ['exception' => $e, 'path' => $path . '/' . $entryName]);
-							}
-						}
-
-						if (isset($files[$entryName])) {
-							$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
-						}
-					} else { //mountpoint in this folder, add an entry for it
-						$rootEntry['name'] = $relativePath;
-						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
-						$permissions = $rootEntry['permissions'];
-						// do not allow renaming/deleting the mount point if they are not shared files/folders
-						// for shared files/folders we use the permissions given by the owner
-						if ($mount instanceof MoveableMount) {
-							$rootEntry['permissions'] = $permissions | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
-						} else {
-							$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));
-						}
-
-						$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
-
-						// if sharing was disabled for the user we remove the share permissions
-						if ($sharingDisabled) {
-							$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
-						}
-
-						$ownerId = $subStorage->getOwner('');
-						if ($ownerId !== false) {
-							$owner = $this->getUserObjectForOwner($ownerId);
-						} else {
-							$owner = null;
-						}
-						$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
+				if ($mimeTypeFilter !== null) {
+					if (strpos($mimeTypeFilter, '/') !== false && $rootEntry['mimetype'] !== $mimeTypeFilter) {
+						continue;
+					} elseif (strpos($mimeTypeFilter, '/') === false && $rootEntry['mimepart'] !== $mimeTypeFilter) {
+						continue;
 					}
 				}
-			}
-		}
 
-		if ($mimetype_filter) {
-			$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
-				if (strpos($mimetype_filter, '/')) {
-					return $file->getMimetype() === $mimetype_filter;
-				} else {
-					return $file->getMimePart() === $mimetype_filter;
+				$relativePath = trim(substr($mountPoint, $dirLength), '/');
+				if ($pos = strpos($relativePath, '/')) {
+					//mountpoint inside subfolder add size to the correct folder
+					$entryName = substr($relativePath, 0, $pos);
+
+					// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
+					if (!isset($files[$entryName])) {
+						try {
+							[$storage, ] = $this->resolvePath($path . '/' . $entryName);
+							// make sure we can create the mountpoint folder, even if the user has a quota of 0
+							if ($storage->instanceOfStorage(Quota::class)) {
+								$storage->enableQuota(false);
+							}
+
+							if ($this->mkdir($path . '/' . $entryName) !== false) {
+								$info = $this->getFileInfo($path . '/' . $entryName);
+								if ($info !== false) {
+									$files[$entryName] = $info;
+								}
+							}
+
+							if ($storage->instanceOfStorage(Quota::class)) {
+								$storage->enableQuota(true);
+							}
+						} catch (\Exception $e) {
+							// Creating the parent folder might not be possible, for example due to a lack of permissions.
+							$this->logger->debug('Failed to create non-existent parent', ['exception' => $e, 'path' => $path . '/' . $entryName]);
+						}
+					}
+
+					if (isset($files[$entryName])) {
+						$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
+					}
+				} else { //mountpoint in this folder, add an entry for it
+					$rootEntry['name'] = $relativePath;
+					$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+					$permissions = $rootEntry['permissions'];
+					// do not allow renaming/deleting the mount point if they are not shared files/folders
+					// for shared files/folders we use the permissions given by the owner
+					if ($mount instanceof MoveableMount) {
+						$rootEntry['permissions'] = $permissions | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
+					} else {
+						$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));
+					}
+
+					$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
+
+					// if sharing was disabled for the user we remove the share permissions
+					if ($sharingDisabled) {
+						$rootEntry['permissions'] = $rootEntry['permissions'] & ~Constants::PERMISSION_SHARE;
+					}
+
+					$ownerId = $subStorage->getOwner('');
+					if ($ownerId !== false) {
+						$owner = $this->getUserObjectForOwner($ownerId);
+					} else {
+						$owner = null;
+					}
+					$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
 				}
-			});
+			}
 		}
 
 		return array_values($files);

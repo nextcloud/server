@@ -20,11 +20,11 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 class NullCache implements ICache {
-	public function getNumericStorageId() {
+	public function getNumericStorageId(): int {
 		return -1;
 	}
 
-	public function get($file) {
+	public function get($file): false|ICacheEntry {
 		if ($file !== '') {
 			return false;
 		}
@@ -44,23 +44,23 @@ class NullCache implements ICache {
 		]);
 	}
 
-	public function getFolderContents($folder) {
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
-	public function getFolderContentsById($fileId) {
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
-	public function put($file, array $data) {
+	public function put($file, array $data): never {
 		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function insert($file, array $data) {
+	public function insert($file, array $data): never {
 		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function update($id, array $data) {
+	public function update($id, array $data): never {
 		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
