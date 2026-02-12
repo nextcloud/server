@@ -37,7 +37,7 @@ class AdminSettings implements ISettings {
 	public function getForm(): TemplateResponse {
 		$windowSupport = $this->service->hasFilesWindowsSupport();
 		$this->initialState->provideInitialState('filesCompatibilitySettings', [
-			'docUrl' => $this->urlGenerator->linkToDocs(''),
+			'docUrl' => $this->urlGenerator->linkToDocs('admin-windows-compatible-filenames'),
 			'status' => $this->service->getSanitizationStatus(),
 			'windowsSupport' => $windowSupport,
 		]);
