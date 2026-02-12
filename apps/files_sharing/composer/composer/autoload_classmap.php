@@ -96,6 +96,7 @@ return array(
     'OCA\\Files_Sharing\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files_Sharing\\Scanner' => $baseDir . '/../lib/Scanner.php',
     'OCA\\Files_Sharing\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
+    'OCA\\Files_Sharing\\ShareRecipientUpdater' => $baseDir . '/../lib/ShareRecipientUpdater.php',
     'OCA\\Files_Sharing\\ShareTargetValidator' => $baseDir . '/../lib/ShareTargetValidator.php',
     'OCA\\Files_Sharing\\SharedMount' => $baseDir . '/../lib/SharedMount.php',
     'OCA\\Files_Sharing\\SharedStorage' => $baseDir . '/../lib/SharedStorage.php',

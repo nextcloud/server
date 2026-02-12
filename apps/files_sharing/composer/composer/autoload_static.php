@@ -111,6 +111,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files_Sharing\\Scanner' => __DIR__ . '/..' . '/../lib/Scanner.php',
         'OCA\\Files_Sharing\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
+        'OCA\\Files_Sharing\\ShareRecipientUpdater' => __DIR__ . '/..' . '/../lib/ShareRecipientUpdater.php',
         'OCA\\Files_Sharing\\ShareTargetValidator' => __DIR__ . '/..' . '/../lib/ShareTargetValidator.php',
         'OCA\\Files_Sharing\\SharedMount' => __DIR__ . '/..' . '/../lib/SharedMount.php',
         'OCA\\Files_Sharing\\SharedStorage' => __DIR__ . '/..' . '/../lib/SharedStorage.php',
