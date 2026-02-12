@@ -14,6 +14,9 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/IContainer.php',
 		$nextcloudDir . '/apps/dav/lib/Connector/Sabre/Node.php',
 		$nextcloudDir . '/apps/files_versions/lib/Versions/IMetadataVersion.php',
+		$nextcloudDir . '/lib/private/Settings/AuthorizedGroup.php',
+		$nextcloudDir . '/lib/private/Settings/AuthorizedGroupMapper.php',
+		$nextcloudDir . '/apps/settings/lib/Service/AuthorizedGroupService.php',
 	])
 	->withPreparedSets(
 		deadCode: true,

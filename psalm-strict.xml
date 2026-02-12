@@ -20,6 +20,9 @@
 		<file name="lib/public/IContainer.php"/>
 		<file name="apps/dav/lib/Connector/Sabre/Node.php"/>
 		<file name="apps/files_versions/lib/Versions/IMetadataVersion.php"/>
+		<file name="lib/private/Settings/AuthorizedGroup.php"/>
+		<file name="lib/private/Settings/AuthorizedGroupMapper.php"/>
+		<file name="apps/settings/lib/Service/AuthorizedGroupService.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
@@ -30,6 +33,7 @@
 	</projectFiles>
 	<extraFiles>
 		<directory name="apps/dav/lib"/>
+		<directory name="apps/settings/lib"/>
 		<directory name="3rdparty"/>
 	</extraFiles>
 	<stubs>
