@@ -29,4 +29,21 @@
 	<extraFiles>
 		<directory name="3rdparty"/>
 	</extraFiles>
+	<issueHandlers>
+		<InternalClass>
+			<errorLevel type="suppress">
+				<directory name="."/>
+			</errorLevel>
+		</InternalClass>
+		<InternalMethod>
+			<errorLevel type="suppress">
+				<directory name="."/>
+			</errorLevel>
+		</InternalMethod>
+		<InternalProperty>
+			<errorLevel type="suppress">
+				<directory name="."/>
+			</errorLevel>
+		</InternalProperty>
+	</issueHandlers>
 </psalm>
