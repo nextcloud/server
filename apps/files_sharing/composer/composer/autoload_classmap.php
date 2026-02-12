@@ -98,6 +98,7 @@ return array(
     'OCA\\Files_Sharing\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
     'OCA\\Files_Sharing\\ShareBackend\\File' => $baseDir . '/../lib/ShareBackend/File.php',
     'OCA\\Files_Sharing\\ShareBackend\\Folder' => $baseDir . '/../lib/ShareBackend/Folder.php',
+    'OCA\\Files_Sharing\\ShareRecipientUpdater' => $baseDir . '/../lib/ShareRecipientUpdater.php',
     'OCA\\Files_Sharing\\ShareTargetValidator' => $baseDir . '/../lib/ShareTargetValidator.php',
     'OCA\\Files_Sharing\\SharedMount' => $baseDir . '/../lib/SharedMount.php',
     'OCA\\Files_Sharing\\SharedStorage' => $baseDir . '/../lib/SharedStorage.php',
