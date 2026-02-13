@@ -401,7 +401,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.104.1
+	- version: 5.105.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
