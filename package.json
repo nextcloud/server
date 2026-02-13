@@ -57,7 +57,7 @@
     "@nextcloud/password-confirmation": "^5.3.2",
     "@nextcloud/paths": "^2.4.0",
     "@nextcloud/router": "^3.1.0",
-    "@nextcloud/sharing": "^0.3.0",
+    "@nextcloud/sharing": "^0.4.0",
     "@nextcloud/upload": "^1.11.1",
     "@nextcloud/vue": "^8.35.3",
     "@simplewebauthn/browser": "^13.2.2",
