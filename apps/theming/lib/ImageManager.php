@@ -221,8 +221,6 @@ class ImageManager {
 	}
 
 	public function updateImage(string $key, string $tmpFile): string {
-		$this->delete($key);
-
 		try {
 			$folder = $this->getRootFolder()->getFolder('images');
 		} catch (NotFoundException $e) {
@@ -235,6 +233,8 @@ class ImageManager {
 		if (!in_array($detectedMimeType, $supportedFormats, true)) {
 			throw new \Exception('Unsupported image type: ' . $detectedMimeType);
 		}
+
+		$this->delete($key);
 
 		if ($key === 'background') {
 			if ($this->shouldOptimizeBackgroundImage($detectedMimeType, filesize($tmpFile))) {
