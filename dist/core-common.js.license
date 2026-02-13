@@ -83,7 +83,6 @@ SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andrea Giammarchi
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
-SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -355,6 +354,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - extend
 	- version: 3.0.2
+	- license: MIT
+- fast-xml-parser
+	- version: 5.3.4
 	- license: MIT
 - filter-obj
 	- version: 5.1.0
@@ -758,14 +760,8 @@ This file is generated from multiple sources. Included packages:
 - web-namespaces
 	- version: 2.0.1
 	- license: MIT
-- fast-xml-parser
-	- version: 4.5.3
-	- license: MIT
-- strnum
-	- version: 1.1.2
-	- license: MIT
 - webdav
-	- version: 5.8.0
+	- version: 5.9.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19

@@ -52,7 +52,6 @@ SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
-SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
@@ -221,6 +220,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - events
 	- version: 3.3.0
+	- license: MIT
+- fast-xml-parser
+	- version: 5.3.4
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -399,14 +401,8 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
-- fast-xml-parser
-	- version: 4.5.3
-	- license: MIT
-- strnum
-	- version: 1.1.2
-	- license: MIT
 - webdav
-	- version: 5.8.0
+	- version: 5.9.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
