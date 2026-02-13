@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -29,7 +29,9 @@ const collator = Intl.Collator(
  * @param b - second view
  */
 function sortViews(a: IView, b: IView): number {
-	if (a.order !== undefined && b.order === undefined) {
+	if (a.order !== undefined && b.order !== undefined) {
+		return a.order - b.order
+	} else if (a.order !== undefined && b.order === undefined) {
 		return -1
 	} else if (a.order === undefined && b.order !== undefined) {
 		return 1
