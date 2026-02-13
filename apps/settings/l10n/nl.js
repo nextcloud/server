@@ -438,7 +438,7 @@ OC.L10N.register(
     "she/her" : "zij/haar",
     "he/him" : "hij/hem",
     "they/them" : "zij/hun",
-    "Your pronouns. E.g. {pronounsExample}" : "Je voornamen. Bijvoorbeeld ${pronounsExample}",
+    "Your pronouns. E.g. {pronounsExample}" : "Je voornamen. Bijvoorbeeld {pronounsExample}",
     "Your role" : "Jouw rol",
     "Timezone" : "Tijdzone",
     "Your X (formerly Twitter) handle" : "Je X (voorheen Twitter) handle",
