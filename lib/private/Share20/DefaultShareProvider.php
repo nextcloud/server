@@ -1096,16 +1096,10 @@ class DefaultShareProvider implements
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$share->setSharedWith($data['share_with']);
-			$displayName = $this->userManager->getDisplayName($data['share_with']);
-			if ($displayName !== null) {
-				$share->setSharedWithDisplayName($displayName);
-			}
+			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->userManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
-			$group = $this->groupManager->get($data['share_with']);
-			if ($group !== null) {
-				$share->setSharedWithDisplayName($group->getDisplayName());
-			}
+			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->groupManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
 			$share->setPassword($data['password']);
 			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
@@ -1462,6 +1456,7 @@ class DefaultShareProvider implements
 
 	/**
 	 * For each user the path with the fewest slashes is returned
+	 *
 	 * @param array $shares
 	 * @return array
 	 */
