@@ -493,7 +493,10 @@ class SetupManager implements ISetupManager {
 		$currentProviders = [];
 
 		try {
-			$cachedMount = $this->userMountCache->getMountForPath($user, $path);
+			// if the mount is already set up, get it from memory
+			$cachedMount = $this->isPathSetup($mountPointLikePath) ?
+				$this->mountManager->find($mountPointLikePath) :
+				$this->userMountCache->getMountForPath($user, $path);
 		} catch (NotFoundException $e) {
 			$this->setupForUser($user);
 			return;
