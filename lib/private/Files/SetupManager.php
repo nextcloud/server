@@ -523,6 +523,8 @@ class SetupManager implements ISetupManager {
 				return;
 			}
 
+			// mark the path as cached (without children for now...)
+			$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITHOUT_CHILDREN;
 			if (is_a($mountProvider, IPartialMountProvider::class, true)) {
 				$rootId = $cachedMount->getRootId();
 				$rootMetadata = $this->fileAccess->getByFileId($rootId);
@@ -531,8 +533,6 @@ class SetupManager implements ISetupManager {
 					return;
 				}
 				$providerArgs = new MountProviderArgs($cachedMount, $rootMetadata);
-				// mark the path as cached (without children for now...)
-				$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITHOUT_CHILDREN;
 				$authoritativeMounts[] = array_values(
 					$this->mountProviderCollection->getUserMountsFromProviderByPath(
 						$mountProvider,
@@ -594,6 +594,7 @@ class SetupManager implements ISetupManager {
 				);
 			}
 
+			$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITH_CHILDREN;
 			if (!empty($authoritativeCachedMounts)) {
 				$rootIds = array_map(
 					fn (ICachedMountInfo $mount) => $mount->getRootId(),
@@ -606,7 +607,6 @@ class SetupManager implements ISetupManager {
 						$rootsMetadata[$id] = $fileMetadata;
 					}
 				}
-				$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITH_CHILDREN;
 				foreach ($authoritativeCachedMounts as $providerClass => $cachedMounts) {
 					$providerArgs = array_values(array_filter(array_map(
 						static function (ICachedMountInfo $info) use ($rootsMetadata) {
