@@ -486,6 +486,13 @@ class SetupManager implements ISetupManager {
 			return;
 		}
 
+		$parentPath = dirname($path) . '/';
+		// avoid N+1 setups for the same parent path
+		if ($this->shouldSetupParent($parentPath)) {
+			$this->setupForPath($parentPath, true);
+			return;
+		}
+
 		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
 			$this->setupUserMountProviders[$user->getUID()] = [];
 		}
@@ -525,6 +532,11 @@ class SetupManager implements ISetupManager {
 
 			// mark the path as cached (without children for now...)
 			$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITHOUT_CHILDREN;
+
+			// track how many times we are setting up files for the same parent
+			$this->setupPaths[$parentPath] ??= 0;
+			$this->setupPaths[$parentPath]++;
+
 			if (is_a($mountProvider, IPartialMountProvider::class, true)) {
 				$rootId = $cachedMount->getRootId();
 				$rootMetadata = $this->fileAccess->getByFileId($rootId);
@@ -646,6 +658,10 @@ class SetupManager implements ISetupManager {
 			$this->oneTimeUserSetup($user);
 		}
 		$this->eventLogger->end('fs:setup:user:path');
+	}
+
+	private function shouldSetupParent(string $parentPath): bool {
+		return ($this->setupPaths[$parentPath] ?? 0) >= 10;
 	}
 
 	private function fullSetupRequired(IUser $user): bool {
