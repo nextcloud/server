@@ -130,10 +130,10 @@ class SetupManager implements ISetupManager {
 	 * Checks if a path has been cached either directly or through a full setup
 	 * of one of its parents.
 	 */
-	private function isPathSetup(string $path): bool {
+	private function isPathSetup(string $path, bool $withChildren = false): bool {
 		// if the exact path was already setup with or without children
 		if (array_key_exists($path, $this->setupMountProviderPaths)) {
-			return true;
+			return !$withChildren || $this->setupMountProviderPaths[$path] === self::SETUP_WITH_CHILDREN;
 		}
 
 		// or if any of the ancestors was fully setup
@@ -477,6 +477,12 @@ class SetupManager implements ISetupManager {
 		// for the user's home folder, and includes children we need everything always
 		if (rtrim($path) === '/' . $user->getUID() . '/files' && $includeChildren) {
 			$this->setupForUser($user);
+			return;
+		}
+
+		$mountPointLikePath = rtrim($path, '/') . '/';
+		// if we're lucky, $path is already a mount point, if so exit early
+		if ($this->isPathSetup($mountPointLikePath, $includeChildren)) {
 			return;
 		}
 
