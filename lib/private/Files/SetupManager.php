@@ -265,20 +265,23 @@ class SetupManager implements ISetupManager {
 		if ($this->isSetupComplete($user)) {
 			return;
 		}
-		$this->setupUsersComplete[] = $user->getUID();
+
+		$userId = $user->getUID();
+		
+		$this->setupUsersComplete[] = $userId;
 
 		$this->eventLogger->start('fs:setup:user:full', 'Setup full filesystem for user');
 
 		$this->dropPartialMountsForUser($user);
 
-		$this->setupUserMountProviders[$user->getUID()] ??= [];
-		$previouslySetupProviders = $this->setupUserMountProviders[$user->getUID()];
+		$this->setupUserMountProviders[$userId] ??= [];
+		$previouslySetupProviders = $this->setupUserMountProviders[$userId];
 
 		$this->setupForUserWith($user, function () use ($user): void {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
 				string $providerClass,
 			) use ($user) {
-				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()]);
+				return !in_array($providerClass, $this->setupUserMountProviders[$userId]);
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
@@ -292,7 +295,10 @@ class SetupManager implements ISetupManager {
 		if ($this->isSetupStarted($user)) {
 			return;
 		}
-		$this->setupUsers[] = $user->getUID();
+
+		$userId = $user->getUID();
+
+		$this->setupUsers[] = $userId;
 
 		$this->setupRoot();
 
@@ -303,14 +309,14 @@ class SetupManager implements ISetupManager {
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		// TODO remove hook
-		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user->getUID()]);
+		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $userId]);
 
 		$event = new BeforeFileSystemSetupEvent($user);
 		$this->eventDispatcher->dispatchTyped($event);
 
 		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
-		$userDir = '/' . $user->getUID() . '/files';
+		$userDir = '/' . $userId . '/files';
 
 		Filesystem::initInternal($userDir);
 
@@ -330,13 +336,13 @@ class SetupManager implements ISetupManager {
 		} else {
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),
-				'/' . $user->getUID()
+				'/' . $userId
 			));
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),
-				'/' . $user->getUID() . '/files'
+				'/' . $userId . '/files'
 			));
-			$this->setupUsersComplete[] = $user->getUID();
+			$this->setupUsersComplete[] = $userId;
 		}
 
 		$this->listenForNewMountProviders();
@@ -374,8 +380,9 @@ class SetupManager implements ISetupManager {
 	private function markUserMountsCached(IUser $user): void {
 		$cacheDuration = $this->config->getSystemValueInt('fs_mount_cache_duration', 5 * 60);
 		if ($cacheDuration > 0) {
-			$this->cache->set($user->getUID(), true, $cacheDuration);
-			$this->fullSetupRequired[$user->getUID()] = false;
+			$userId = $user->getUID();
+			$this->cache->set($userId, true, $cacheDuration);
+			$this->fullSetupRequired[$userId] = false;
 		}
 	}
 
@@ -393,13 +400,16 @@ class SetupManager implements ISetupManager {
 		if ($this->lockdownManager->canAccessFilesystem()) {
 			$mountCallback();
 		}
+
+		$userId = $user->getUID();
+
 		$this->eventLogger->start('fs:setup:user:post-init-mountpoint', 'post_initMountPoints legacy hook');
-		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $user->getUID()]);
+		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $userId]);
 		$this->eventLogger->end('fs:setup:user:post-init-mountpoint');
 
-		$userDir = '/' . $user->getUID() . '/files';
+		$userDir = '/' . $userId . '/files';
 		$this->eventLogger->start('fs:setup:user:setup-hook', 'setup legacy hook');
-		OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $user->getUID(), 'user_dir' => $userDir]);
+		OC_Hook::emit('OC_Filesystem', 'setup', ['user' => $userId, 'user_dir' => $userDir]);
 		$this->eventLogger->end('fs:setup:user:setup-hook');
 	}
 
@@ -407,7 +417,7 @@ class SetupManager implements ISetupManager {
 	 * Set up the root filesystem
 	 */
 	public function setupRoot(): void {
-		//setting up the filesystem twice can only lead to trouble
+		// setting up the filesystem twice can only lead to trouble
 		if ($this->rootSetup) {
 			return;
 		}
@@ -440,9 +450,8 @@ class SetupManager implements ISetupManager {
 		} elseif (substr_count($path, '/') < 2) {
 			if ($user = $this->userSession->getUser()) {
 				return $user;
-			} else {
-				return null;
 			}
+			return null;
 		} elseif (str_starts_with($path, '/appdata_' . \OC_Util::getInstanceId()) || str_starts_with($path, '/files_external/')) {
 			return null;
 		} else {
@@ -455,7 +464,7 @@ class SetupManager implements ISetupManager {
 	#[Override]
 	public function setupForPath(string $path, bool $includeChildren = false): void {
 		$user = $this->getUserForPath($path, $includeChildren);
-		if (!$user) {
+		if ($user === null) {
 			$this->setupRoot();
 			return;
 		}
@@ -474,16 +483,18 @@ class SetupManager implements ISetupManager {
 			}
 		}
 
-		// for the user's home folder, and includes children we need everything always
-		if (rtrim($path) === '/' . $user->getUID() . '/files' && $includeChildren) {
+		$userId = $user->getUID();
+
+		// For user's home folder with children, always perform full setup
+		if (rtrim($path) === '/' . $userId . '/files' && $includeChildren) {
 			$this->setupForUser($user);
 			return;
 		}
 
-		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
-			$this->setupUserMountProviders[$user->getUID()] = [];
+		if (!isset($this->setupUserMountProviders[$userId])) {
+			$this->setupUserMountProviders[$userId] = [];
 		}
-		$setupProviders = &$this->setupUserMountProviders[$user->getUID()];
+		$setupProviders = &$this->setupUserMountProviders[$userId];
 		$currentProviders = [];
 
 		try {
@@ -647,10 +658,11 @@ class SetupManager implements ISetupManager {
 		// we perform a "cached" setup only after having done the full setup recently
 		// this is also used to trigger a full setup after handling events that are likely
 		// to change the available mounts
-		if (!isset($this->fullSetupRequired[$user->getUID()])) {
-			$this->fullSetupRequired[$user->getUID()] = !$this->cache->get($user->getUID());
+		$userId = $user->getUID();
+		if (!isset($this->fullSetupRequired[$userId])) {
+			$this->fullSetupRequired[$userId] = !$this->cache->get($userId);
 		}
-		return $this->fullSetupRequired[$user->getUID()];
+		return $this->fullSetupRequired[$userId];
 	}
 
 	/**
@@ -697,7 +709,10 @@ class SetupManager implements ISetupManager {
 			$this->setupForUser($user);
 			return;
 		}
-		$setupProviders = $this->setupUserMountProviders[$user->getUID()] ?? [];
+
+		$userId = $user->getUID();
+
+		$setupProviders = $this->setupUserMountProviders[$userId] ?? [];
 
 		$providers = array_diff($providers, $setupProviders);
 		if (count($providers) === 0) {
@@ -708,7 +723,7 @@ class SetupManager implements ISetupManager {
 			return;
 		} else {
 			$this->dropPartialMountsForUser($user, $providers);
-			$this->setupUserMountProviders[$user->getUID()] = array_merge($setupProviders, $providers);
+			$this->setupUserMountProviders[$userId] = array_merge($setupProviders, $providers);
 			$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providers);
 		}
 
@@ -753,8 +768,8 @@ class SetupManager implements ISetupManager {
 	}
 
 	private function setupListeners() {
-		// note that this event handling is intentionally pessimistic
-		// clearing the cache to often is better than not enough
+		// Note that this event handling is intentionally pessimistic
+		// clearing the cache too often is better than not enough
 
 		$this->eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event): void {
 			$this->cache->remove($event->getUser()->getUID());
@@ -809,16 +824,18 @@ class SetupManager implements ISetupManager {
 	 *
 	 * @param class-string<IMountProvider>[] $providers
 	 */
-	public function dropPartialMountsForUser(IUser $user, array $providers = []): void {
+	public function dropPartialMountsForUser(IUser $user, array $providers = []): void
 		// mounts are cached by mount-point
 		$mounts = $this->mountManager->getAll();
+		$userDir = '/' . $user->getUID() . '/files';
+	
 		$partialMounts = array_filter($this->setupMountProviderPaths,
 			static function (string $mountPoint) use (
 				$providers,
 				$user,
 				$mounts
 			) {
-				$isUserMount = str_starts_with($mountPoint, '/' . $user->getUID() . '/files');
+				$isUserMount = str_starts_with($mountPoint, $userDir);
 
 				if (!$isUserMount) {
 					return false;
