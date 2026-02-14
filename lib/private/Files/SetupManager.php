@@ -266,7 +266,9 @@ class SetupManager implements ISetupManager {
 			return;
 		}
 
-		$this->setupUsersComplete[] = $user->getUID();
+		$userId = $user->getUID();
+
+		$this->setupUsersComplete[] = $userId;
 
 		$this->eventLogger->start('fs:setup:user:full', 'Setup full filesystem for user');
 
