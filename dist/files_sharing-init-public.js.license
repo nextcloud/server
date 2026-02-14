@@ -13,6 +13,7 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
@@ -132,6 +133,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue
 	- version: 2.7.16
+	- license: MIT
+- webdav
+	- version: 5.9.0
 	- license: MIT
 - webpack
 	- version: 5.105.2
