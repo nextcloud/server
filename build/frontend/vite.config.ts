@@ -7,6 +7,9 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
 const modules = {
+	appstore: {
+		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
+	},
 	dav: {
 		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
@@ -98,12 +101,10 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
 					assetFileNames({ originalFileNames }) {
-						const [name] = originalFileNames
-						if (name) {
-							const [, appId] = name.match(/apps\/([^/]+)\//)!
-							return `${appId}-[name]-[hash][extname]`
-						}
-						return '[name]-[hash][extname]'
+						const apps = originalFileNames.map((name) => name.match(/apps\/([^/]+)\//)?.[1])
+							.filter(Boolean)
+						const appId = apps.length === 1 ? apps[0] : 'common'
+						return `${appId}-[name]-[hash][extname]`
 					},
 					experimentalMinChunkSize: 100 * 1024,
 					/* // with rolldown-vite:

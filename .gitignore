@@ -17,16 +17,17 @@ node_modules/
 
 # ignore all apps except core ones
 /apps*/*
+!/apps/admin_audit
+!/apps/appstore
 !/apps/cloud_federation_api
 !/apps/comments
 !/apps/contactsinteraction
 !/apps/dashboard
 !/apps/dav
-!/apps/files
+!/apps/encryption
 !/apps/federation
 !/apps/federatedfilesharing
-!/apps/sharebymail
-!/apps/encryption
+!/apps/files
 !/apps/files_external
 !/apps/files_reminders
 !/apps/files_sharing
@@ -38,9 +39,9 @@ node_modules/
 !/apps/profile
 !/apps/provisioning_api
 !/apps/settings
+!/apps/sharebymail
 !/apps/systemtags
 !/apps/testing
-!/apps/admin_audit
 !/apps/updatenotification
 !/apps/theming
 !/apps/twofactor_backupcodes
