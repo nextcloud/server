@@ -380,7 +380,7 @@ OC.L10N.register(
     "Exclude groups from creating link shares" : "Не дозволяти користувачам таких груп створювати посилання спільного доступу",
     "Allow users to set custom share link tokens" : "Дозволити користвучам встановити власні токени спільних посилань",
     "Shares with custom tokens will continue to be accessible after this setting has been disabled" : "Частки з власними токенами залишатимуться доступними після вимкнення цього параметра",
-    "Shares with guessable tokens may be accessed easily" : "Спільні ресурси з токенами, які можна вгадати, можна легко отримати доступ",
+    "Shares with guessable tokens may be accessed easily" : "До спільних ресурсів з токенами, які можна вгадати, можна легко отримати доступ.",
     "Limit sharing based on groups" : "Обмежити надання у спільний доступ на основі груп",
     "Allow sharing for everyone (default)" : "Дозволити надання у спільний доступ для всіх (типово)",
     "Exclude some groups" : "Вилучити окремі групи",
