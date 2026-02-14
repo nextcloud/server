@@ -266,9 +266,7 @@ class SetupManager implements ISetupManager {
 			return;
 		}
 
-		$userId = $user->getUID();
-
-		$this->setupUsersComplete[] = $userId;
+		$this->setupUsersComplete[] = $user->getUID();
 
 		$this->eventLogger->start('fs:setup:user:full', 'Setup full filesystem for user');
 
@@ -281,7 +279,7 @@ class SetupManager implements ISetupManager {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
 				string $providerClass,
 			) use ($user) {
-				return !in_array($providerClass, $this->setupUserMountProviders[$userId]);
+				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()]);
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
