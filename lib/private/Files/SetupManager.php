@@ -267,7 +267,7 @@ class SetupManager implements ISetupManager {
 		}
 
 		$userId = $user->getUID();
-		
+
 		$this->setupUsersComplete[] = $userId;
 
 		$this->eventLogger->start('fs:setup:user:full', 'Setup full filesystem for user');
@@ -824,11 +824,12 @@ class SetupManager implements ISetupManager {
 	 *
 	 * @param class-string<IMountProvider>[] $providers
 	 */
-	public function dropPartialMountsForUser(IUser $user, array $providers = []): void
+	public function dropPartialMountsForUser(IUser $user, array $providers = []): void {
 		// mounts are cached by mount-point
 		$mounts = $this->mountManager->getAll();
+
 		$userDir = '/' . $user->getUID() . '/files';
-	
+
 		$partialMounts = array_filter($this->setupMountProviderPaths,
 			static function (string $mountPoint) use (
 				$providers,
