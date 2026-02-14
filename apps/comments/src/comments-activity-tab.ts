@@ -5,7 +5,6 @@
 
 import type { INode } from '@nextcloud/files'
 
-import moment from '@nextcloud/moment'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue, { type ComponentPublicInstance } from 'vue'
 import logger from './logger.js'
@@ -57,13 +56,12 @@ export function registerCommentsPlugins() {
 		)
 		logger.debug('Loaded comments', { node, comments })
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
-		// @ts-expect-error Types are broken for Vue2
 		const CommentsViewObject = Vue.extend(CommentView)
 
 		return comments.map((comment) => ({
 			_CommentsViewInstance: undefined as ComponentPublicInstance | undefined,
 
-			timestamp: moment(comment.props?.creationDateTime).toDate().getTime(),
+			timestamp: Date.parse(comment.props?.creationDateTime as string | undefined ?? ''),
 
 			mount(element: HTMLElement, { reload }) {
 				this._CommentsViewInstance = new CommentsViewObject({
