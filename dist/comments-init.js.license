@@ -9,6 +9,7 @@ SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
@@ -84,6 +85,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - typescript-event-target
 	- version: 1.1.2
+	- license: MIT
+- webdav
+	- version: 5.9.0
 	- license: MIT
 - webpack
 	- version: 5.105.2
