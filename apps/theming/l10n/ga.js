@@ -109,6 +109,7 @@ OC.L10N.register(
     "Reset primary color" : "Athshocraigh dath príomhúil",
     "Reset to default" : "Athshocraigh go réamhshocrú",
     "Non image file selected" : "Comhad nach íomhá roghnaithe",
+    "Failed to upload image" : "Theip ar an íomhá a uaslódáil",
     "Preview of the selected image" : "Réamhamharc ar an íomhá roghnaithe",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Tá rochtain uilíoch an-tábhachtach dúinne. Leanaimid caighdeáin ghréasáin agus seiceálann muid chun gach rud a dhéanamh inúsáidte freisin gan luch, agus bogearraí cúnta cosúil le léitheoirí scáileáin. Tá sé mar aidhm againn cloí leis na {linkstart}Treoirlínte um Inrochtaineacht Ábhar Gréasáin{linkend} 2.1 ar leibhéal AA, leis an téama ardchodarsnachta fiú ar leibhéal AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Má fhaigheann tú aon fhadhb, ná bíodh drogall ort iad a thuairisciú ar {issuetracker}ár lorgaire saincheisteanna{linkend}. Agus más mian leat a bheith páirteach, tar isteach i {designteam}ár bhfoireann deartha{linkend}!",
