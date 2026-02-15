@@ -5,9 +5,9 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
-import { getRootPath } from '../utils/davUtils.js'
-import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.js'
-import client from './DavClient.js'
+import { getRootPath } from '../utils/davUtils.ts'
+import { decodeHtmlEntities } from '../utils/decodeHtmlEntities.ts'
+import client from './DavClient.ts'
 
 /**
  * Retrieve the comments list

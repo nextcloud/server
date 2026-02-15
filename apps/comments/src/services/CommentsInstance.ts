@@ -8,7 +8,7 @@ import { n, t } from '@nextcloud/l10n'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 import CommentsApp from '../views/Comments.vue'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 Vue.use(PiniaVuePlugin)
 

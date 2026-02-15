@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import client from './DavClient.js'
+import client from './DavClient.ts'
 
 /**
  * Delete a comment

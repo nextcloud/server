@@ -125,8 +125,8 @@ import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
 import IconPencilOutline from 'vue-material-design-icons/PencilOutline.vue'
 import IconTrashCanOutline from 'vue-material-design-icons/TrashCanOutline.vue'
-import CommentMixin from '../mixins/CommentMixin.js'
-import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
+import CommentMixin from '../mixins/CommentMixin.ts'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.ts'
 
 // Dynamic loading
 const NcRichContenteditable = () => import('@nextcloud/vue/components/NcRichContenteditable')

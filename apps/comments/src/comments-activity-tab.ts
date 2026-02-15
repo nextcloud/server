@@ -7,8 +7,8 @@ import type { INode } from '@nextcloud/files'
 
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue, { type ComponentPublicInstance } from 'vue'
-import logger from './logger.js'
-import { getComments } from './services/GetComments.js'
+import logger from './logger.ts'
+import { getComments } from './services/GetComments.ts'
 
 Vue.use(PiniaVuePlugin)
 
