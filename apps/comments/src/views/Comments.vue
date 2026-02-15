@@ -79,11 +79,11 @@ import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline
 import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
 import IconRefresh from 'vue-material-design-icons/Refresh.vue'
 import Comment from '../components/Comment.vue'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import CommentView from '../mixins/CommentView.ts'
 import { DEFAULT_LIMIT, getComments } from '../services/GetComments.ts'
 import { markCommentsAsRead } from '../services/ReadComments.ts'
-import cancelableRequest from '../utils/cancelableRequest.js'
+import cancelableRequest from '../utils/cancelableRequest.ts'
 
 export default {
 	/* eslint vue/multi-word-component-names: "warn" */

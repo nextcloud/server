@@ -8,7 +8,7 @@ import type { DAVResult, FileStat, ResponseDataDetailed } from 'webdav'
 import { parseXML } from 'webdav'
 import { processResponsePayload } from 'webdav/dist/node/response.js'
 import { prepareFileFromProps } from 'webdav/dist/node/tools/dav.js'
-import client from './DavClient.js'
+import client from './DavClient.ts'
 
 export const DEFAULT_LIMIT = 20
 

@@ -20,8 +20,8 @@ import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import Comment from '../components/Comment.vue'
-import logger from '../logger.js'
-import CommentView from '../mixins/CommentView.js'
+import logger from '../logger.ts'
+import CommentView from '../mixins/CommentView.ts'
 
 export default defineComponent({
 	components: {
