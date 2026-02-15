@@ -109,6 +109,7 @@ OC.L10N.register(
     "Reset primary color" : "Primärfarbe zurücksetzen",
     "Reset to default" : "Auf Standard zurücksetzen ",
     "Non image file selected" : "Keine Bilddatei ausgewählt",
+    "Failed to upload image" : "Bild konnte nicht hochgeladen werden",
     "Preview of the selected image" : "Vorschau des ausgewählten Bildes",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Der barrierefreie Zugang ist für uns sehr wichtig. Wir halten uns an Webstandards und prüfen, ob alles auch ohne Maus und unterstützende Software wie Screenreader nutzbar ist. Wir streben die Einhaltung der {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 auf AA-Niveau an, mit dem kontrastreichen Design sogar auf AAA-Niveau.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Wenn du Fehler findest, melde diese bitte in {issuetracker}unserem Issue Tracker{linkend}. Und wenn du mithelfen möchtest, tritt dem {designteam}Designteam{linkend} bei!",
