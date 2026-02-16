@@ -33,11 +33,11 @@
 				<Comment
 					v-for="comment in comments"
 					:key="comment.props.id"
+					v-model="comment.props.message"
 					tag="li"
 					v-bind="comment.props"
 					:auto-complete="autoComplete"
 					:resource-type="resourceType"
-					:message.sync="comment.props.message"
 					:resource-id="currentResourceId"
 					:user-data="genMentionsData(comment.props.mentions)"
 					class="comments__list"

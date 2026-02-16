@@ -3,51 +3,45 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
 import { n, t } from '@nextcloud/l10n'
-import { createPinia, PiniaVuePlugin } from 'pinia'
-import Vue from 'vue'
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
 import CommentsApp from '../views/Comments.vue'
 import logger from '../logger.ts'
-
-Vue.use(PiniaVuePlugin)
-
-__webpack_nonce__ = getCSPNonce()
-
-// Add translates functions
-Vue.mixin({
-	data() {
-		return {
-			logger,
-		}
-	},
-	methods: {
-		t,
-		n,
-	},
-})
 
 export default class CommentInstance {
 	/**
 	 * Initialize a new Comments instance for the desired type
 	 *
 	 * @param {string} resourceType the comments endpoint type
-	 * @param  {object} options the vue options (propsData, parent, el...)
+	 * @param {object} options the vue options (propsData, parent, el...)
 	 */
 	constructor(resourceType = 'files', options = {}) {
 		const pinia = createPinia()
 
-		// Merge options and set `resourceType` property
-		options = {
-			...options,
-			propsData: {
+		const app = createApp(
+			CommentsApp,
+			{
 				...(options.propsData ?? {}),
 				resourceType,
 			},
-			pinia,
-		}
-		// Init Comments component
-		const View = Vue.extend(CommentsApp)
-		return new View(options)
+		)
+
+		// Add translates functions
+		app.mixin({
+			data() {
+				return {
+					logger,
+				}
+			},
+			methods: {
+				t,
+				n,
+			},
+		})
+
+		app.use(pinia)
+		// app.mount(options.el)
+		return app
 	}
 }
