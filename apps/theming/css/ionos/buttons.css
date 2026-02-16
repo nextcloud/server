@@ -35,11 +35,6 @@
 				}
 
 				&:hover:not(:disabled):not(.button-vue--disabled) {
-					background-color: var(--ion-button-secondary-background-hover);
-					border-color: var(--ion-button-secondary-background-hover);
-				}
-
-				#app-dashboard &:hover:not(:disabled):not(.button-vue--disabled) {
 					background-color: var(--ion-button-secondary-background-hover) !important;
 					border-color: var(--ion-button-secondary-background-hover);
 					color: var(--ion-button-secondary-text-hover);
@@ -69,18 +64,14 @@
 				}
 			}
 
+			#app-dashboard &.action-item__menutoggle:not(.unified-search-modal__header *), #app-dashboard &.files-list__header-upload-button--disabled {
+				background-color: light-dark(var(--ion-color-blue-b7), var(--ion-button-secondary-background-default));
+				border: var(--ion-button-secondary-border-default);
+			}
+
 			&.button-vue--vue-primary:not(.unified-search-modal__header *), &.button-vue--vue-error:not(.unified-search-modal__header *),
-				/* ensure primary type styling of "new" button */
 			&.action-item__menutoggle:not(.unified-search-modal__header *), &.files-list__header-upload-button--disabled {
 				background-color: var(--ion-button-primary-background-default);
-			}
-
-			#app-dashboard &.action-item__menutoggle:not(.unified-search-modal__header *), #app-dashboard &.files-list__header-upload-button--disabled {
-				background-color: var(--ion-button-primary-background-default) !important;
-			}
-
-			&.button-vue--vue-primary:not(.unified-search-modal__header *), &.button-vue--vue-error:not(.unified-search-modal__header *),
-			&.action-item__menutoggle:not(.unified-search-modal__header *), &.files-list__header-upload-button--disabled {
 				border: none;
 
 				.button-vue__text, .button-vue__icon svg {
