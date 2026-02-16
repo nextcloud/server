@@ -75,6 +75,7 @@ class PostgreSQL extends AbstractDatabase {
 				// See: https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
 				$connectionMainDatabase->executeQuery('CREATE SCHEMA IF NOT EXISTS "' . addslashes($this->dbUser) . '" AUTHORIZATION "' . addslashes($this->dbUser) . '"');
 				$connectionMainDatabase->close();
+				}
 			}
 		} catch (\Exception $e) {
 			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created', [
