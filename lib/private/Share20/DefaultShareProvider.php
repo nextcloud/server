@@ -37,6 +37,7 @@ use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
+use OCP\Share\ICreateShareProvider;
 use OCP\Share\IManager;
 use OCP\Share\IPartialShareProvider;
 use OCP\Share\IShare;
@@ -45,6 +46,7 @@ use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
 use function strlen;
@@ -59,41 +61,41 @@ class DefaultShareProvider implements
 	IShareProviderSupportsAccept,
 	IShareProviderSupportsAllSharesInFolder,
 	IShareProviderGetUsers,
-	IPartialShareProvider {
+	IPartialShareProvider,
+	ICreateShareProvider {
 	public function __construct(
-		private IDBConnection $dbConn,
-		private IUserManager $userManager,
-		private IGroupManager $groupManager,
-		private IRootFolder $rootFolder,
-		private IMailer $mailer,
-		private Defaults $defaults,
-		private IFactory $l10nFactory,
-		private IURLGenerator $urlGenerator,
-		private ITimeFactory $timeFactory,
-		private LoggerInterface $logger,
-		private IManager $shareManager,
-		private IConfig $config,
+		private readonly IDBConnection $dbConn,
+		private readonly IUserManager $userManager,
+		private readonly IGroupManager $groupManager,
+		private readonly IRootFolder $rootFolder,
+		private readonly IMailer $mailer,
+		private readonly Defaults $defaults,
+		private readonly IFactory $l10nFactory,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly ITimeFactory $timeFactory,
+		private readonly LoggerInterface $logger,
+		private readonly IManager $shareManager,
+		private readonly IConfig $config,
 	) {
 	}
 
-	/**
-	 * Return the identifier of this provider.
-	 *
-	 * @return string Containing only [a-zA-Z0-9]
-	 */
-	public function identifier() {
+	#[Override]
+	public function identifier(): string {
 		return 'ocinternal';
 	}
 
-	/**
-	 * Share a path
-	 *
-	 * @param IShare $share
-	 * @return IShare The share object
-	 * @throws ShareNotFound
-	 * @throws \Exception
-	 */
-	public function create(IShare $share) {
+	#[Override]
+	public function getShareTypes(): array {
+		return [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK];
+	}
+
+	#[Override]
+	public function getTokenShareTypes(): array {
+		return [IShare::TYPE_LINK];
+	}
+
+	#[Override]
+	public function create(IShare $share): IShare {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share');
@@ -203,16 +205,8 @@ class DefaultShareProvider implements
 		return $share;
 	}
 
-	/**
-	 * Update a share
-	 *
-	 * @param IShare $share
-	 * @return IShare The share object
-	 * @throws ShareNotFound
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function update(IShare $share) {
+	#[Override]
+	public function update(IShare $share): IShare {
 		$originalShare = $this->getShareById($share->getId());
 
 		$shareAttributes = $this->formatShareAttributes($share->getAttributes());
@@ -309,14 +303,7 @@ class DefaultShareProvider implements
 		return $share;
 	}
 
-	/**
-	 * Accept a share.
-	 *
-	 * @param IShare $share
-	 * @param string $recipient
-	 * @return IShare The share object
-	 * @since 9.0.0
-	 */
+	#[Override]
 	public function acceptShare(IShare $share, string $recipient): IShare {
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
@@ -400,11 +387,7 @@ class DefaultShareProvider implements
 		return $children;
 	}
 
-	/**
-	 * Delete a share
-	 *
-	 * @param IShare $share
-	 */
+	#[Override]
 	public function delete(IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
@@ -696,9 +679,7 @@ class DefaultShareProvider implements
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
+	#[Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
@@ -744,10 +725,8 @@ class DefaultShareProvider implements
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getShareById($id, $recipientId = null) {
+	#[Override]
+	public function getShareById(string $id, $recipientId = null): IShare {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->select('*')
@@ -790,10 +769,9 @@ class DefaultShareProvider implements
 	/**
 	 * Get shares for a given path
 	 *
-	 * @param Node $path
-	 * @return IShare[]
+	 * @return list<IShare>
 	 */
-	public function getSharesByPath(Node $path) {
+	public function getSharesByPath(Node $path): array {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$cursor = $qb->select('*')
@@ -1044,45 +1022,13 @@ class DefaultShareProvider implements
 		return $shares;
 	}
 
-	/**
-	 * Get a share by token
-	 *
-	 * @param string $token
-	 * @return IShare
-	 * @throws ShareNotFound
-	 */
-	public function getShareByToken($token) {
-		$qb = $this->dbConn->getQueryBuilder();
-
-		$cursor = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_LINK)))
-			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
-			->executeQuery();
-
-		$data = $cursor->fetch();
-
-		if ($data === false) {
-			throw new ShareNotFound();
-		}
-
-		try {
-			$share = $this->createShare($data);
-		} catch (InvalidShare $e) {
-			throw new ShareNotFound();
-		}
-
-		return $share;
+	#[Override]
+	public function getShareByToken(string $token): never {
+		throw new \LogicException('Should no longer be called directly, instead use IManager::getShareByToken');
 	}
 
-	/**
-	 * Create a share object from a database row
-	 *
-	 * @param array<string, mixed> $data
-	 * @throws InvalidShare
-	 */
-	private function createShare($data): IShare {
+	#[Override]
+	public function createShare(array $data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
@@ -1718,24 +1664,9 @@ class DefaultShareProvider implements
 		}
 	}
 
+	#[Override]
 	public function getAllShares(): iterable {
-		$qb = $this->dbConn->getQueryBuilder();
-
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK], IQueryBuilder::PARAM_INT_ARRAY)));
-
-		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
-			try {
-				$share = $this->createShare($data);
-			} catch (InvalidShare $e) {
-				continue;
-			}
-
-			yield $share;
-		}
-		$cursor->closeCursor();
+		throw new \LogicException('getAllShare in DefaultShareProvider should no longer be used');
 	}
 
 	/**

@@ -129,7 +129,7 @@ interface IShareProvider {
 	 * Get shares for a given path
 	 *
 	 * @param Node $path
-	 * @return \OCP\Share\IShare[]
+	 * @return list<\OCP\Share\IShare>
 	 * @since 9.0.0
 	 */
 	public function getSharesByPath(Node $path);
@@ -138,14 +138,14 @@ interface IShareProvider {
 	 * Get shared with the given user
 	 *
 	 * @param string $userId get shares where this user is the recipient
-	 * @param int $shareType
+	 * @param IShare::TYPE_* $shareType
 	 * @param Node|null $node
 	 * @param int $limit The max number of entries returned, -1 for all
 	 * @param int $offset
 	 * @return \OCP\Share\IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharedWith($userId, $shareType, $node, $limit, $offset);
+	public function getSharedWith(string $userId, int $shareType, ?Node $node, int $limit, int $offset);
 
 	/**
 	 * Get a share by token
@@ -206,6 +206,7 @@ interface IShareProvider {
 	 *
 	 * @return iterable<IShare>
 	 * @since 18.0.0
+	 * @deprecated 34.0.0 This is no longer needed when implementing ICreateShareProvider
 	 */
 	public function getAllShares(): iterable;
 

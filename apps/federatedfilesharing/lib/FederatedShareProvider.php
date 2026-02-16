@@ -24,48 +24,54 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\ICreateShareProvider;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use Override;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Exception\LogicException;
 
 /**
  * Class FederatedShareProvider
  *
  * @package OCA\FederatedFileSharing
  */
-class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAllSharesInFolder {
-	public const SHARE_TYPE_REMOTE = 6;
+class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAllSharesInFolder, ICreateShareProvider {
+	private string $externalShareTable = 'share_external';
 
-	/** @var string */
-	private $externalShareTable = 'share_external';
+	/** @var list<IShare::TYPE_*> list of supported share types */
+	private array $supportedShareType = [IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_CIRCLE];
 
-	/** @var array list of supported share types */
-	private $supportedShareType = [IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_CIRCLE];
-
-	/**
-	 * DefaultShareProvider constructor.
-	 */
 	public function __construct(
-		private IDBConnection $dbConnection,
-		private AddressHandler $addressHandler,
-		private Notifications $notifications,
-		private TokenHandler $tokenHandler,
-		private IL10N $l,
-		private IRootFolder $rootFolder,
-		private IConfig $config,
-		private IUserManager $userManager,
-		private ICloudIdManager $cloudIdManager,
-		private \OCP\GlobalScale\IConfig $gsConfig,
-		private ICloudFederationProviderManager $cloudFederationProviderManager,
-		private LoggerInterface $logger,
+		private readonly IDBConnection $dbConnection,
+		private readonly AddressHandler $addressHandler,
+		private readonly Notifications $notifications,
+		private readonly TokenHandler $tokenHandler,
+		private readonly IL10N $l,
+		private readonly IRootFolder $rootFolder,
+		private readonly IConfig $config,
+		private readonly IUserManager $userManager,
+		private readonly ICloudIdManager $cloudIdManager,
+		private readonly \OCP\GlobalScale\IConfig $gsConfig,
+		private readonly ICloudFederationProviderManager $cloudFederationProviderManager,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
 	#[Override]
 	public function identifier(): string {
 		return 'ocFederatedSharing';
+	}
+
+	#[Override]
+	public function getShareTypes(): array {
+		return $this->supportedShareType;
+	}
+
+	#[Override]
+	public function getTokenShareTypes(): array {
+		return $this->supportedShareType;
 	}
 
 	/**
@@ -160,7 +166,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		}
 
 		$data = $this->getRawShare($shareId);
-		return $this->createShareObject($data);
+		return $this->createShare($data);
 	}
 
 	/**
@@ -424,7 +430,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetchAssociative()) {
-			$children[] = $this->createShareObject($data);
+			$children[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
@@ -571,104 +577,25 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
-			$shares[$data['fileid']][] = $this->createShareObject($data);
+			$shares[$data['fileid']][] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
+	#[Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
-		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('*')
-			->from('share');
-
-		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType)));
-
-		/**
-		 * Reshares for this user are shares where they are the owner.
-		 */
-		if ($reshares === false) {
-			//Special case for old shares created via the web UI
-			$or1 = $qb->expr()->andX(
-				$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
-				$qb->expr()->isNull('uid_initiator')
-			);
-
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)),
-					$or1
-				)
-			);
-		} else {
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
-				)
-			);
-		}
-
-		if ($node !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
-		}
-
-		if ($limit !== -1) {
-			$qb->setMaxResults($limit);
-		}
-
-		$qb->setFirstResult($offset);
-		$qb->orderBy('id');
-
-		$cursor = $qb->executeQuery();
-		$shares = [];
-		while ($data = $cursor->fetchAssociative()) {
-			$shares[] = $this->createShareObject($data);
-		}
-		$cursor->closeCursor();
-
-		return $shares;
+		throw new LogicException('Is no longer used');
 	}
 
-	/**
-	 * @inheritdoc
-	 */
+	#[Override]
 	public function getShareById($id, $recipientId = null) {
-		$qb = $this->dbConnection->getQueryBuilder();
-
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)));
-
-		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAssociative();
-		$cursor->closeCursor();
-
-		if ($data === false) {
-			throw new ShareNotFound('Can not find share with ID: ' . $id);
-		}
-
-		try {
-			$share = $this->createShareObject($data);
-		} catch (InvalidShare $e) {
-			throw new ShareNotFound();
-		}
-
-		return $share;
+		throw new LogicException('Is no longer used');
 	}
 
-	/**
-	 * Get shares for a given path
-	 *
-	 * @param Node $path
-	 * @return IShare[]
-	 */
-	public function getSharesByPath(Node $path) {
+	#[Override]
+	public function getSharesByPath(Node $path): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 
 		// get federated user shares
@@ -680,17 +607,15 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
-			$shares[] = $this->createShareObject($data);
+			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
+	#[Override]
+	public function getSharedWith(string $userId, int $shareType, ?Node $node, int $limit, int $offset): array {
 		/** @var IShare[] $shares */
 		$shares = [];
 
@@ -719,7 +644,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$cursor = $qb->executeQuery();
 
 		while ($data = $cursor->fetchAssociative()) {
-			$shares[] = $this->createShareObject($data);
+			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
 
@@ -743,13 +668,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
 
-		try {
-			$share = $this->createShareObject($data);
-		} catch (InvalidShare $e) {
-			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
-		}
-
-		return $share;
+		return $this->createShare($data);
 	}
 
 	/**
@@ -777,15 +696,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		return $data;
 	}
 
-	/**
-	 * Create a share object from an database row
-	 *
-	 * @param array $data
-	 * @return IShare
-	 * @throws InvalidShare
-	 * @throws ShareNotFound
-	 */
-	private function createShareObject($data): IShare {
+	#[Override]
+	public function createShare(array $data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((string)$data['id'])
 			->setShareType((int)$data['share_type'])
@@ -1038,25 +950,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		return ['remote' => $remote];
 	}
 
+	#[Override]
 	public function getAllShares(): iterable {
-		$qb = $this->dbConnection->getQueryBuilder();
-
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE], IQueryBuilder::PARAM_INT_ARRAY)));
-
-		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetchAssociative()) {
-			try {
-				$share = $this->createShareObject($data);
-			} catch (InvalidShare $e) {
-				continue;
-			} catch (ShareNotFound $e) {
-				continue;
-			}
-
-			yield $share;
-		}
-		$cursor->closeCursor();
+		throw new \LogicException('getAllShare in DefaultShareProvider should no longer be used');
 	}
 }

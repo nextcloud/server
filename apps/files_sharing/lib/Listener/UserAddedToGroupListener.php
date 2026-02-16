@@ -13,6 +13,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IConfig;
+use OCP\PaginationParameters;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -39,7 +40,7 @@ class UserAddedToGroupListener implements IEventListener {
 		}
 
 		// Get all group shares this user has access to now to filter later
-		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1);
+		$shares = $this->shareManager->getAllSharedWith($user->getUID(), [IShare::TYPE_GROUP], null, new PaginationParameters());
 
 		foreach ($shares as $share) {
 			// If this is not the new group we can skip it

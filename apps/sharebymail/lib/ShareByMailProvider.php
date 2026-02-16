@@ -38,7 +38,9 @@ use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProviderWithNotification;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Exception\LogicException;
 
 /**
  * Class ShareByMail
@@ -46,41 +48,42 @@ use Psr\Log\LoggerInterface;
  * @package OCA\ShareByMail
  */
 class ShareByMailProvider extends DefaultShareProvider implements IShareProviderWithNotification {
-	/**
-	 * Return the identifier of this provider.
-	 *
-	 * @return string Containing only [a-zA-Z0-9]
-	 */
+	public function __construct(
+		private readonly IConfig $config,
+		private readonly IDBConnection $dbConnection,
+		private readonly ISecureRandom $secureRandom,
+		private readonly IUserManager $userManager,
+		private readonly IRootFolder $rootFolder,
+		private readonly IL10N $l,
+		private readonly LoggerInterface $logger,
+		private readonly IMailer $mailer,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly IManager $activityManager,
+		private readonly SettingsManager $settingsManager,
+		private readonly Defaults $defaults,
+		private readonly IHasher $hasher,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly IShareManager $shareManager,
+		private readonly IEmailValidator $emailValidator,
+	) {
+	}
+
+	#[Override]
 	public function identifier(): string {
 		return 'ocMailShare';
 	}
 
-	public function __construct(
-		private IConfig $config,
-		private IDBConnection $dbConnection,
-		private ISecureRandom $secureRandom,
-		private IUserManager $userManager,
-		private IRootFolder $rootFolder,
-		private IL10N $l,
-		private LoggerInterface $logger,
-		private IMailer $mailer,
-		private IURLGenerator $urlGenerator,
-		private IManager $activityManager,
-		private SettingsManager $settingsManager,
-		private Defaults $defaults,
-		private IHasher $hasher,
-		private IEventDispatcher $eventDispatcher,
-		private IShareManager $shareManager,
-		private IEmailValidator $emailValidator,
-	) {
+	#[Override]
+	public function getShareTypes(): array {
+		return [IShare::TYPE_EMAIL];
 	}
 
-	/**
-	 * Share a path
-	 *
-	 * @throws ShareNotFound
-	 * @throws \Exception
-	 */
+	#[Override]
+	public function getTokenShareTypes(): array {
+		return [IShare::TYPE_EMAIL];
+	}
+
+	#[Override]
 	public function create(IShare $share): IShare {
 		$shareWith = $share->getSharedWith();
 		// Check if file is not already shared with the given email,
@@ -800,97 +803,17 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		throw new GenericShareException('not implemented');
 	}
 
-	/**
-	 * @inheritdoc
-	 */
+	#[Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset): array {
-		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('*')
-			->from('share');
-
-		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
-
-		/**
-		 * Reshares for this user are shares where they are the owner.
-		 */
-		if ($reshares === false) {
-			//Special case for old shares created via the web UI
-			$or1 = $qb->expr()->andX(
-				$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
-				$qb->expr()->isNull('uid_initiator')
-			);
-
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)),
-					$or1
-				)
-			);
-		} elseif ($node === null) {
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
-				)
-			);
-		}
-
-		if ($node !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
-		}
-
-		if ($limit !== -1) {
-			$qb->setMaxResults($limit);
-		}
-
-		$qb->setFirstResult($offset);
-		$qb->orderBy('id');
-
-		$cursor = $qb->executeQuery();
-		$shares = [];
-		while ($data = $cursor->fetchAssociative()) {
-			$shares[] = $this->createShareObject($data);
-		}
-		$cursor->closeCursor();
-
-		return $shares;
+		throw new LogicException('Is no longer used');
 	}
 
-	/**
-	 * @inheritdoc
-	 */
+	#[Override]
 	public function getShareById($id, $recipientId = null): IShare {
-		$qb = $this->dbConnection->getQueryBuilder();
-
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
-
-		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAssociative();
-		$cursor->closeCursor();
-
-		if ($data === false) {
-			throw new ShareNotFound();
-		}
-
-		$data['id'] = (string)$data['id'];
-
-		try {
-			$share = $this->createShareObject($data);
-		} catch (InvalidShare $e) {
-			throw new ShareNotFound();
-		}
-
-		return $share;
+		throw new LogicException('Is no longer used');
 	}
 
-	/**
-	 * Get shares for a given path
-	 *
-	 * @return IShare[]
-	 */
+	#[Override]
 	public function getSharesByPath(Node $path): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -910,9 +833,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
+	#[Override]
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset): array {
 		/** @var IShare[] $shares */
 		$shares = [];
@@ -950,35 +871,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $shares;
 	}
 
-	/**
-	 * Get a share by token
-	 *
-	 * @throws ShareNotFound
-	 */
-	public function getShareByToken($token): IShare {
-		$qb = $this->dbConnection->getQueryBuilder();
-
-		$cursor = $qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
-			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->executeQuery();
-
-		$data = $cursor->fetchAssociative();
-
-		if ($data === false) {
-			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
-		}
-
-		$data['id'] = (string)$data['id'];
-
-		try {
-			$share = $this->createShareObject($data);
-		} catch (InvalidShare $e) {
-			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
-		}
-
-		return $share;
+	#[Override]
+	public function getShareByToken(string $token): never {
+		throw new LogicException('Is no longer used');
 	}
 
 	/**
@@ -1205,29 +1100,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	}
 
 	public function getAllShares(): iterable {
-		$qb = $this->dbConnection->getQueryBuilder();
-
-		$qb->select('*')
-			->from('share')
-			->where(
-				$qb->expr()->orX(
-					$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL))
-				)
-			);
-
-		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetchAssociative()) {
-			try {
-				$share = $this->createShareObject($data);
-			} catch (InvalidShare $e) {
-				continue;
-			} catch (ShareNotFound $e) {
-				continue;
-			}
-
-			yield $share;
-		}
-		$cursor->closeCursor();
+		throw new \LogicException('getAllShare in DefaultShareProvider should no longer be used');
 	}
 
 	/**
