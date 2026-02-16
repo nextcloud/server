@@ -17,6 +17,7 @@
 >
 	<projectFiles>
 		<file name="core/BackgroundJobs/ExpirePreviewsJob.php"/>
+		<file name="lib/public/IContainer.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>

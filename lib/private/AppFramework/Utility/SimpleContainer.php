@@ -120,7 +120,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @inheritDoc
 	 * @param list<class-string> $chain
 	 */
-	public function resolve($name, array $chain = []) {
+	public function resolve(string $name, array $chain = []): mixed {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
 			$class = new ReflectionClass($name);
@@ -140,7 +140,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @inheritDoc
 	 * @param list<class-string> $chain
 	 */
-	public function query(string $name, bool $autoload = true, array $chain = []) {
+	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		$name = $this->sanitizeName($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
@@ -161,15 +161,11 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
 	}
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	public function registerParameter($name, $value) {
+	public function registerParameter(string $name, mixed $value): void {
 		$this[$name] = $value;
 	}
 
-	public function registerService($name, Closure $closure, $shared = true) {
+	public function registerService(string $name, Closure $closure, bool $shared = true): void {
 		$wrapped = function () use ($closure) {
 			return $closure($this);
 		};
@@ -191,7 +187,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 */
-	public function registerAlias($alias, $target): void {
+	public function registerAlias(string $alias, string $target): void {
 		$this->registerService($alias, function (ContainerInterface $container) use ($target): mixed {
 			return $container->get($target);
 		}, false);
