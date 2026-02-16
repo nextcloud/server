@@ -326,7 +326,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @inheritDoc
 	 * @param list<class-string> $chain
 	 */
-	public function query(string $name, bool $autoload = true, array $chain = []) {
+	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}

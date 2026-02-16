@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,11 +9,9 @@
  */
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal Nextcloud classes
-
 namespace OCP;
 
 use Closure;
-use OC\AppFramework\Utility\SimpleContainer;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -22,51 +22,56 @@ use Psr\Container\NotFoundExceptionInterface;
  * IContainer is the basic interface to be used for any internal dependency injection mechanism
  *
  * @since 6.0.0
- * @deprecated 20.0.0 use \Psr\Container\ContainerInterface
  */
 interface IContainer extends ContainerInterface {
+	/**
+	 * Finds an entry of the container by its identifier and returns it.
+	 *
+	 * @template T
+	 * @param class-string<T>|string $id Identifier of the entry to look for.
+	 *
+	 * @throws NotFoundExceptionInterface No entry was found for **this** identifier.
+	 * @throws ContainerExceptionInterface Error while retrieving the entry.
+	 *
+	 * @return ($id is class-string<T> ? T : mixed) Entry.
+	 * @since 34.0.0
+	 */
+	public function get(string $id);
+
 	/**
 	 * @template T
 	 *
 	 * If a parameter is not registered in the container try to instantiate it
 	 * by using reflection to find out how to build the class
-	 * @param string $name the class name to resolve
-	 * @psalm-param string|class-string<T> $name
-	 * @return \stdClass
-	 * @psalm-return ($name is class-string ? T : mixed)
+	 * @param class-string<T>|string $name
+	 * @return ($name is class-string<T> ? T : mixed)
 	 * @since 8.2.0
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
+	 * @deprecated 20.0.0 use {@see self::get()}
 	 * @throws ContainerExceptionInterface if the class could not be found or instantiated
 	 */
-	public function resolve($name);
+	public function resolve(string $name): mixed;
 
 	/**
 	 * Look up a service for a given name in the container.
 	 *
 	 * @template T
-	 *
-	 * @param string $name
-	 * @psalm-param string|class-string<T> $name
+	 * @param class-string<T>|string $name
 	 * @param bool $autoload Should we try to autoload the service. If we are trying to resolve built in types this makes no sense for example
-	 * @return mixed
-	 * @psalm-return ($name is class-string ? T : mixed)
+	 * @return ($name is class-string<T> ? T : mixed)
 	 * @throws ContainerExceptionInterface if the query could not be resolved
 	 * @throws NotFoundExceptionInterface if the name could not be found within the container
 	 * @since 6.0.0
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
+	 * @deprecated 20.0.0 use {@see self::get()}
 	 */
-	public function query(string $name, bool $autoload = true);
+	public function query(string $name, bool $autoload = true): mixed;
 
 	/**
 	 * A value is stored in the container with it's corresponding name
 	 *
-	 * @param string $name
-	 * @param mixed $value
-	 * @return void
 	 * @since 6.0.0
 	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerParameter
 	 */
-	public function registerParameter($name, $value);
+	public function registerParameter(string $name, mixed $value): void;
 
 	/**
 	 * A service is registered in the container where a closure is passed in which will actually
@@ -75,14 +80,11 @@ interface IContainer extends ContainerInterface {
 	 * memory and be reused on subsequent calls.
 	 * In case the parameter is false the service will be recreated on every call.
 	 *
-	 * @param string $name
-	 * @param \Closure(SimpleContainer): mixed $closure
-	 * @param bool $shared
-	 * @return void
+	 * @param \Closure(IContainer): mixed $closure
 	 * @since 6.0.0
 	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerService
 	 */
-	public function registerService($name, Closure $closure, $shared = true);
+	public function registerService(string $name, Closure $closure, bool $shared = true): void;
 
 	/**
 	 * Shortcut for returning a service from a service under a different key,
@@ -93,5 +95,5 @@ interface IContainer extends ContainerInterface {
 	 * @since 8.2.0
 	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerServiceAlias
 	 */
-	public function registerAlias($alias, $target);
+	public function registerAlias(string $alias, string $target): void;
 }
