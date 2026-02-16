@@ -630,7 +630,7 @@ export default {
 	&:hover,
 	&:focus,
 	&:active {
-		background-color: var(--color-background-hover)!important;
+		background-color: var(--color-background-hover);
 	}
 	&:focus-visible {
 		box-shadow: 0 0 0 4px var(--color-main-background) !important;
