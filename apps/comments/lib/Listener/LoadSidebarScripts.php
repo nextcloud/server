@@ -34,7 +34,8 @@ class LoadSidebarScripts implements IEventListener {
 		$this->commentsManager->load();
 
 		$this->initialState->provideInitialState('activityEnabled', $this->appManager->isEnabledForUser('activity'));
-		// Add comments sidebar tab script
+		// Add comments sidebar tab script/style
+		Util::addStyle(Application::APP_ID, 'comments-tab');
 		Util::addScript(Application::APP_ID, 'comments-tab', 'files');
 	}
 }

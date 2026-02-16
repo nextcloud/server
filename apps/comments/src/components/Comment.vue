@@ -75,7 +75,7 @@
 						:model-value="localMessage"
 						:user-data="userData"
 						aria-describedby="tab-comments__editor-description"
-						@update:value="updateLocalMessage"
+						@update:model-value="updateLocalMessage"
 						@submit="onSubmit" />
 					<div class="comment__submit">
 						<NcButton
@@ -104,7 +104,7 @@
 				:text="richContent.message"
 				:arguments="richContent.mentions"
 				use-markdown
-				@click.native="onExpand" />
+				@click="onExpand" />
 		</div>
 	</component>
 </template>
