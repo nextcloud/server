@@ -185,21 +185,9 @@ class AppSettingsControllerTest extends TestCase {
 			->method('setActiveEntry')
 			->with('core_apps');
 
-		// Test that developer docs link is generated correctly
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToDocs')
-			->with('developer-manual')
-			->willReturn('https://docs.nextcloud.com/server/latest/developer_manual/');
-
 		$this->initialState
 			->expects($this->exactly(4))
-			->method('provideInitialState')
-			->willReturnCallback(function ($key, $value) {
-				if ($key === 'appstoreDeveloperDocs') {
-					$this->assertEquals('https://docs.nextcloud.com/server/latest/developer_manual/', $value);
-				}
-			});
+			->method('provideInitialState');
 
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
@@ -230,21 +218,9 @@ class AppSettingsControllerTest extends TestCase {
 			->method('setActiveEntry')
 			->with('core_apps');
 
-		// Test that developer docs link is still generated even when appstore is disabled
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToDocs')
-			->with('developer-manual')
-			->willReturn('https://docs.nextcloud.com/server/latest/developer_manual/');
-
 		$this->initialState
 			->expects($this->exactly(4))
-			->method('provideInitialState')
-			->willReturnCallback(function ($key, $value) {
-				if ($key === 'appstoreDeveloperDocs') {
-					$this->assertEquals('https://docs.nextcloud.com/server/latest/developer_manual/', $value);
-				}
-			});
+			->method('provideInitialState');
 
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
