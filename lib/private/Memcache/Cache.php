@@ -22,7 +22,7 @@ abstract class Cache implements \ArrayAccess, ICache {
 	 * @return string Prefix used for caching purposes
 	 */
 	public function getPrefix() {
-		return \OC::$server->getConfig()->getSystemValueString('memcache.customprefix') . $this->prefix;
+		return $this->prefix;
 	}
 
 	/**
