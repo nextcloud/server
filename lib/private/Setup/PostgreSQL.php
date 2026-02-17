@@ -21,26 +21,15 @@ class PostgreSQL extends AbstractDatabase {
 	 * @throws DatabaseSetupException
 	 */
 	public function setupDatabase(): void {
+		$canCreateRoles = false;
+
 		try {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
 			]);
-			if ($this->tryCreateDbUser) {
-				//check for roles creation rights in postgresql
-				$builder = $connection->getQueryBuilder();
-				$builder->automaticTablePrefix(false);
-				$query = $builder
-					->select('rolname')
-					->from('pg_roles')
-					->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
-					->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
 
-				try {
-					$result = $query->executeQuery();
-					$canCreateRoles = $result->rowCount() > 0;
-				} catch (DatabaseException $e) {
-					$canCreateRoles = false;
-				}
+			if ($this->tryCreateDbUser) {
+				$canCreateRoles = $this->checkCanCreateRoles($connection);
 
 				if ($canCreateRoles) {
 					$connectionMainDatabase = $this->connect();
@@ -100,6 +89,31 @@ class PostgreSQL extends AbstractDatabase {
 			]);
 			throw new DatabaseSetupException($this->trans->t('PostgreSQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
+		}
+	}
+
+	/**
+	 * Checks if the current user has CREATEROLE privilege.
+	 */
+	private function checkCanCreateRoles(Connection $connection): bool {
+		try {
+			$builder = $connection->getQueryBuilder();
+			$builder->automaticTablePrefix(false);
+
+			$query = $builder
+				->select('rolname')
+				->from('pg_roles')
+				->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
+				->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
+
+			$result = $query->executeQuery();
+			return $result->rowCount() > 0;
+		} catch (DatabaseException $e) {
+			$this->logger->debug('Could not check role creation privileges', [
+				'exception' => $e,
+				'app' => 'pgsql.setup',
+			]);
+			return false;
 		}
 	}
 
