@@ -166,9 +166,6 @@ This file is generated from multiple sources. Included packages:
 - p-queue
 	- version: 9.1.0
 	- license: MIT
-- p-timeout
-	- version: 7.0.1
-	- license: MIT
 - process
 	- version: 0.11.10
 	- license: MIT

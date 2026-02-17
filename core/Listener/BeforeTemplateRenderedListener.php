@@ -53,10 +53,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			Util::addTranslations('core');
 
 			if ($event->getResponse()->getRenderAs() !== TemplateResponse::RENDER_AS_ERROR) {
-				Util::addScript('core', 'merged-template-prepend', 'core', true);
-				Util::addScript('core', 'files_client', 'core', true);
-				Util::addScript('core', 'files_fileinfo', 'core', true);
-
+				Util::addScript('core', 'mimetypelist', 'core', true);
 
 				// If installed and background job is set to ajax, add dedicated script
 				if ($this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax') {

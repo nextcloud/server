@@ -197,12 +197,6 @@ const config = {
 		new NodePolyfillPlugin({
 			additionalAliases: ['process'],
 		}),
-		new webpack.ProvidePlugin({
-			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
-			// We need to provide the path to node_moduels as otherwise npm link will fail due
-			// to tribute.js checking for jQuery in @nextcloud/vue
-			jQuery: require.resolve('jquery'),
-		}),
 
 		new WorkboxPlugin.GenerateSW({
 			swDest: 'preview-service-worker.js',

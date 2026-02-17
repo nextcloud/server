@@ -8,7 +8,8 @@ import Vue from 'vue'
 import AppMenu from './AppMenu.vue'
 
 /**
- *
+ * Set up the main menu component ("AppMenu")
+ * This is the top left menu where users can navigate between different apps.
  */
 export function setUp() {
 	Vue.mixin({

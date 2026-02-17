@@ -5,6 +5,8 @@
 
 import type { Attribute, INode } from '@nextcloud/files'
 
+import { Permission } from '@nextcloud/files'
+
 interface RawLegacyFileInfo {
 	id: number
 	path: string
@@ -57,13 +59,31 @@ export default function(node: INode): LegacyFileInfo {
 		attributes: node.attributes,
 	}
 
-	const fileInfo = new OC.Files.FileInfo(rawFileInfo)
-
 	// TODO remove when no more legacy backbone is used
-	fileInfo.get = (key) => fileInfo[key]
-	fileInfo.isDirectory = () => fileInfo.mimetype === 'httpd/unix-directory'
-	fileInfo.canEdit = () => Boolean(fileInfo.permissions & OC.PERMISSION_UPDATE)
-	fileInfo.node = node
+	const fileInfo: LegacyFileInfo = {
+		...rawFileInfo,
+		node,
+
+		get(key) {
+			return this[key]
+		},
+		isDirectory() {
+			return this.mimetype === 'httpd/unix-directory'
+		},
+		canEdit() {
+			return Boolean(this.permissions & Permission.UPDATE)
+		},
+		canDownload() {
+			for (const i in this.shareAttributes) {
+				const attr = this.shareAttributes[i]
+				if (attr.scope === 'permissions' && attr.key === 'download') {
+					return attr.value === true
+				}
+			}
+
+			return true
+		},
+	}
 
 	return fileInfo
 }
