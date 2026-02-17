@@ -3404,6 +3404,12 @@
       <code><![CDATA[$string]]></code>
     </NullableReturnStatement>
   </file>
+  <file src="lib/private/DB/QueryBuilder/TypedQueryBuilder.php">
+    <InternalMethod>
+      <code><![CDATA[select]]></code>
+      <code><![CDATA[selectDistinct]]></code>
+    </InternalMethod>
+  </file>
   <file src="lib/private/DateTimeFormatter.php">
     <FalsableReturnStatement>
       <code><![CDATA[$l->l($type, $timestamp, [

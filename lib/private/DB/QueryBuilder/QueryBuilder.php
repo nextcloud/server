@@ -30,8 +30,9 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use Override;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
-class QueryBuilder implements IQueryBuilder {
+class QueryBuilder extends TypedQueryBuilder {
 	private \Doctrine\DBAL\Query\QueryBuilder $queryBuilder;
 	private QuoteHelper $helper;
 	private bool $automaticTablePrefix = true;
@@ -242,7 +243,7 @@ class QueryBuilder implements IQueryBuilder {
 
 	public function executeQuery(?IDBConnection $connection = null): IResult {
 		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new \RuntimeException('Invalid query type, expected SELECT query');
+			throw new RuntimeException('Invalid query type, expected SELECT query');
 		}
 
 		$this->prepareForExecute();
@@ -259,7 +260,7 @@ class QueryBuilder implements IQueryBuilder {
 
 	public function executeStatement(?IDBConnection $connection = null): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
+			throw new RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
 		$this->prepareForExecute();
@@ -476,7 +477,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function selectAlias($select, $alias) {
+	public function selectAlias($select, $alias): self {
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);

@@ -92,7 +92,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return $this;
 	}
 
-	public function selectAlias($select, $alias) {
+	public function selectAlias($select, $alias): self {
 		$this->selects[] = ['select' => $select, 'alias' => $alias];
 		return $this;
 	}

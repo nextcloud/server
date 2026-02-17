@@ -14,6 +14,8 @@ use PDO;
 
 /**
  * Wrap an array or rows into a result interface
+ *
+ * @template-implements IResult<string>
  */
 class ArrayResult implements IResult {
 	protected int $count;

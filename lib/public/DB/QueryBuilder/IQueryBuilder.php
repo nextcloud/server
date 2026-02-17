@@ -386,7 +386,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $select
 	 * @psalm-taint-sink sql $alias
 	 */
-	public function selectAlias($select, $alias);
+	public function selectAlias($select, $alias): self;
 
 	/**
 	 * Specifies an item that is to be returned uniquely in the query result.
