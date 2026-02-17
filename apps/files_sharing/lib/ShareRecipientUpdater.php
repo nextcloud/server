@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing;
 
-use OC\Files\FileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Storage\IStorageFactory;
@@ -77,10 +76,6 @@ class ShareRecipientUpdater {
 		$target = $this->shareTargetValidator->verifyMountPoint($user, $share, $mountsByPath, [$share]);
 		$mountPoint = '/' . $user->getUID() . '/files/' . trim($target, '/') . '/';
 
-		$fileInfo = $share->getNode();
-		if (!$fileInfo instanceof FileInfo) {
-			throw new \Exception('share node is the wrong fileinfo');
-		}
-		$this->userMountCache->addMount($user, $mountPoint, $fileInfo->getData(), MountProvider::class);
+		$this->userMountCache->addMount($user, $mountPoint, $share->getNode()->getData(), MountProvider::class);
 	}
 }
