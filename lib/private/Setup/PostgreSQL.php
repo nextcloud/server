@@ -77,19 +77,8 @@ class PostgreSQL extends AbstractDatabase {
 			]);
 		}
 
-		// connect to the database (dbname=$this->dbname) and check if it needs to be filled
-		$this->dbUser = $this->config->getValue('dbuser');
-		$this->dbPassword = $this->config->getValue('dbpassword');
-		$connection = $this->connect();
-		try {
-			$connection->connect();
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), [
-				'exception' => $e,
-			]);
-			throw new DatabaseSetupException($this->trans->t('PostgreSQL Login and/or password not valid'),
-				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
-		}
+		// Verify we can connect with the configured credentials
+		$this->verifyDatabaseConnection();
 	}
 
 	/**
@@ -181,5 +170,35 @@ class PostgreSQL extends AbstractDatabase {
 				'exception' => $e,
 			]);
 		}
+	}
+
+	/**
+	 * Verifies connection to the Nextcloud database with configured credentials.
+	 * 
+	 * @throws DatabaseSetupException If connection fails
+	 */
+	private function verifyDatabaseConnection(): void {
+		// Reload credentials from config (may have been updated + to verify config)
+		$this->dbUser = $this->config->getValue('dbuser');
+		$this->dbPassword = $this->config->getValue('dbpassword');
+
+		try {
+			$connection = $this->connect(); // Create new connection object with final config
+			$connection->connect(); // Actually connect to verify credentials work
+		} catch (\Exception $e) {
+			$this->logger->error('Database connection verification failed', [
+				'user' => $this->dbUser,
+				'database' => $this->dbName,
+				'exception' => $e,
+				'app' => 'pgsql.setup',
+			]);
+
+			throw new DatabaseSetupException(
+				$this->trans->t('PostgreSQL login and/or password not valid'),
+				$this->trans->t('You need to enter details of an existing account.'),
+				0,
+				$e
+			);
+    	}
 	}
 }
