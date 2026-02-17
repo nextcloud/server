@@ -54,4 +54,15 @@ class LocalOCMDiscoveryEvent extends Event {
 			->setProtocols($protocols);
 		$this->provider->addResourceType($resourceType);
 	}
+
+	/**
+	 * Returns the ocm provider.
+	 *
+	 * @return IOCMProvider
+	 *
+	 * @since 34.0.0
+	 */
+	public function getProvider(): IOCMProvider {
+		return $this->provider;
+	}
 }
