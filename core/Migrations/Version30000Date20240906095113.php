@@ -14,16 +14,12 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\Attributes\ModifyColumn;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 #[ModifyColumn(table: 'taskprocessing_tasks', name: 'error_message', description: 'Increase column length to 4000 bytes to support longer error messages')]
 class Version30000Date20240906095113 extends SimpleMigrationStep {
 
-	/**
-	 * @param IOutput $output
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 * @param array $options
-	 * @return null|ISchemaWrapper
-	 */
+	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

@@ -13,6 +13,7 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\Attributes\ModifyColumn;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 /**
  * Migrate away from auto-increment
@@ -21,9 +22,7 @@ use OCP\Migration\SimpleMigrationStep;
 #[ModifyColumn(table: 'previews', name: 'id', description: 'Remove auto-increment')]
 #[ModifyColumn(table: 'preview_versions', name: 'id', description: 'Remove auto-increment')]
 class Version33000Date20251023110529 extends SimpleMigrationStep {
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 */
+	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		$schema = $schemaClosure();
 
