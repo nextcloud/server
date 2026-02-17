@@ -40,6 +40,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class FilesPlugin extends ServerPlugin {
+
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
@@ -316,12 +317,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::PERMISSIONS_PROPERTYNAME, function () use ($node) {
-				$perms = $node->getDavPermissions();
-				if ($this->isPublic) {
-					// remove mount information
-					$perms = str_replace(['S', 'M'], '', $perms);
-				}
-				return $perms;
+				return $this->isPublic ? $node->getPublicDavPermissions() : $node->getDavPermissions();
 			});
 
 			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node, $httpRequest) {

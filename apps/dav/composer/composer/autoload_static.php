@@ -224,6 +224,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\DAV\\Connector\\LegacyDAVACL' => __DIR__ . '/..' . '/../lib/Connector/LegacyDAVACL.php',
         'OCA\\DAV\\Connector\\LegacyPublicAuth' => __DIR__ . '/..' . '/../lib/Connector/LegacyPublicAuth.php',
+        'OCA\\DAV\\Connector\\Sabre\\AddExtraHeadersPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AddExtraHeadersPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\AppleQuirksPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AppleQuirksPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\Auth' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Auth.php',
