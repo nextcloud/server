@@ -10,6 +10,7 @@ namespace OC\Files\Node;
 use OC\Files\Filesystem;
 use OC\Files\Utils\PathHelper;
 use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
@@ -561,6 +562,10 @@ class LazyFolder implements Folder {
 	 */
 	public function getMetadata(): array {
 		return $this->data['metadata'] ?? $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	public function getData(): ICacheEntry {
+		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
 	public function verifyPath($fileName, $readonly = false): void {
