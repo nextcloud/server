@@ -13,7 +13,7 @@ OC.L10N.register(
     "Back" : "Назад",
     "Loading …" : "Загрузка …",
     "Reset" : "Скінуць",
-    "Apply" : "Ужыць",
+    "Apply" : "Прымяніць",
     "Warning" : "Папярэджанне",
     "Confirm" : "Пацвердзіць",
     "Discard changes" : "Адхіліць змены",
