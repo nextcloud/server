@@ -33,17 +33,12 @@ class PostgreSQL extends AbstractDatabase {
 
 				if ($canCreateRoles) {
 					$connectionMainDatabase = $this->connect();
-					//use the admin login data for the new database user
-
-					//add prefix to the postgresql user name to prevent collisions
-					$this->dbUser = 'oc_admin';
-					//create a new password so we don't need to store the admin config in the config file
-					$this->dbPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
-
+					// Create Nextcloud-specific database user
 					$this->createDBUser($connection);
 				}
 			}
 
+			// Store new credentials in config
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
@@ -129,12 +124,12 @@ class PostgreSQL extends AbstractDatabase {
 		}
 	}
 
-	private function userExists(Connection $connection): bool {
+	private function userExists(Connection $connection, string $roleName): bool {
 		$builder = $connection->getQueryBuilder();
 		$builder->automaticTablePrefix(false);
 		$query = $builder->select('*')
 			->from('pg_roles')
-			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
+			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($roleName)));
 		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
@@ -150,21 +145,31 @@ class PostgreSQL extends AbstractDatabase {
 	}
 
 	private function createDBUser(Connection $connection): void {
-		$dbUser = $this->dbUser;
+		// Generate Nextcloud-specific credentials so we don't need to store / use the db admin credentials
+		$baseUser = 'oc_admin';
+		$newUser = $baseUser;
+		$newPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+
+		// Find/generate an available username
 		try {
 			$i = 1;
-			while ($this->userExists($connection)) {
+			while ($this->userExists($connection, $newUser)) {
 				$i++;
-				$this->dbUser = $dbUser . $i;
+				$newUser = $baseUser . $i;
 			}
 
-			// create the user
-			$query = $connection->prepare('CREATE USER "' . addslashes($this->dbUser) . "\" CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
+			// Create the new user
+			$query = $connection->prepare('CREATE USER "' . addslashes($newUser) . "\" CREATEDB PASSWORD '" . addslashes($newPassword) . "'");
 			$query->executeStatement();
+
+			// Grant database access if database already exists
 			if ($this->databaseExists($connection)) {
-				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($this->dbUser) . '"');
+				$query = $connection->prepare('GRANT CONNECT ON DATABASE ' . addslashes($this->dbName) . ' TO "' . addslashes($newUser) . '"');
 				$query->executeStatement();
 			}
+
+			$this->dbUser = $newUser;
+			$this->dbPassword = $newPassword;
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user', [
 				'exception' => $e,
