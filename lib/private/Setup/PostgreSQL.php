@@ -22,19 +22,19 @@ class PostgreSQL extends AbstractDatabase {
 	 */
 	public function setupDatabase(): void {
 		$canCreateRoles = false;
+		$adminDBConnection = null; // For admin tasks on 'postgres' DB
+		$nextcloudDBConnection = null; // For schema setup on Nextcloud DB
 
 		try {
-			$connection = $this->connect([
-				'dbname' => 'postgres'
-			]);
+			$adminDBConnection = $this->connect(['dbname' => 'postgres']);
 
 			if ($this->tryCreateDbUser) {
-				$canCreateRoles = $this->checkCanCreateRoles($connection);
+				$canCreateRoles = $this->checkCanCreateRoles($adminDBConnection);
 
 				if ($canCreateRoles) {
-					$connectionMainDatabase = $this->connect();
+					$nextcloudDBConnection = $this->connect();
 					// Create Nextcloud-specific database user
-					$this->createDBUser($connection);
+					$this->createDBUser($adminDBConnection);
 				}
 			}
 
@@ -44,10 +44,8 @@ class PostgreSQL extends AbstractDatabase {
 				'dbpassword' => $this->dbPassword,
 			]);
 
-			//create the database
-			$this->createDatabase($connection);
-			// the connection to dbname=postgres is not needed anymore
-			$connection->close();
+			$this->createDatabase($adminDBConnection);
+			$adminDBConnection->close();
 
 			if ($this->tryCreateDbUser) {
 				if ($canCreateRoles) {
@@ -58,8 +56,8 @@ class PostgreSQL extends AbstractDatabase {
 					// Therefore we assume that the database is only used by one user/service which is Nextcloud
 					// Additional services should get installed in a separate database in order to stay secure
 					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-					$connectionMainDatabase->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
-					$connectionMainDatabase->close();
+					$nextcloudDBConnection->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
+					$nextcloudDBConnection->close();
 				}
 			}
 		} catch (\Exception $e) {
