@@ -166,11 +166,6 @@ class FilesPlugin extends ServerPlugin {
 			return;
 		}
 
-		// Ensure source exists
-		$sourceNodeFileInfo = $sourceNode->getFileInfo();
-		if ($sourceNodeFileInfo === null) {
-			throw new NotFound($source . ' does not exist');
-		}
 		// Ensure the target name is valid
 		try {
 			[$targetPath, $targetName] = \Sabre\Uri\split($target);

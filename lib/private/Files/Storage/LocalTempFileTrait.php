@@ -7,7 +7,6 @@
  */
 namespace OC\Files\Storage;
 
-use OCP\Files;
 use OCP\ITempManager;
 use OCP\Server;
 
@@ -49,8 +48,12 @@ trait LocalTempFileTrait {
 		}
 		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($extension);
 		$target = fopen($tmpFile, 'w');
-		Files::streamCopy($source, $target);
+		$result = stream_copy_to_stream($source, $target);
 		fclose($target);
+		if ($result === false) {
+			return false;
+		}
+
 		return $tmpFile;
 	}
 }

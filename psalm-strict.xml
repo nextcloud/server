@@ -18,6 +18,13 @@
 	<projectFiles>
 		<file name="core/BackgroundJobs/ExpirePreviewsJob.php"/>
 		<file name="lib/public/IContainer.php"/>
+		<file name="apps/dav/lib/Connector/Sabre/Node.php"/>
+		<file name="apps/files_versions/lib/Versions/IMetadataVersion.php"/>
+		<file name="lib/private/Settings/AuthorizedGroup.php"/>
+		<file name="lib/private/Settings/AuthorizedGroupMapper.php"/>
+		<file name="apps/settings/lib/Service/AuthorizedGroupService.php"/>
+		<file name="lib/private/Files/Storage/Storage.php"/>
+		<file name="lib/private/Files/Storage/Wrapper/Wrapper.php"/>
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
@@ -27,6 +34,29 @@
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
+		<directory name="apps/dav/lib"/>
+		<directory name="apps/settings/lib"/>
 		<directory name="3rdparty"/>
 	</extraFiles>
+	<stubs>
+		<!-- Psalm does not find methods in here through <extraFiles/> 🤷‍♀️ -->
+		<file name="3rdparty/sabre/uri/lib/functions.php"/>
+	</stubs>
+	<issueHandlers>
+		<InternalClass>
+			<errorLevel type="suppress">
+				<directory name="."/>
+			</errorLevel>
+		</InternalClass>
+		<InternalMethod>
+			<errorLevel type="suppress">
+				<directory name="."/>
+			</errorLevel>
+		</InternalMethod>
+		<InternalProperty>
+			<errorLevel type="suppress">
+				<directory name="."/>
+			</errorLevel>
+		</InternalProperty>
+	</issueHandlers>
 </psalm>

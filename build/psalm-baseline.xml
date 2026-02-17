@@ -557,12 +557,6 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/File.php">
-    <DeprecatedClass>
-      <code><![CDATA[Files::streamCopy($data, $target, true)]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[Files::streamCopy($data, $target, true)]]></code>
-    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[file_exists]]></code>
       <code><![CDATA[file_exists]]></code>
@@ -616,20 +610,11 @@
       <code><![CDATA[lockFile]]></code>
       <code><![CDATA[putFileInfo]]></code>
       <code><![CDATA[putFileInfo]]></code>
-      <code><![CDATA[putFileInfo]]></code>
       <code><![CDATA[rename]]></code>
       <code><![CDATA[touch]]></code>
       <code><![CDATA[unlockFile]]></code>
       <code><![CDATA[verifyPath]]></code>
     </InternalMethod>
-    <InvalidNullableReturnType>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[integer]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->info->getId()]]></code>
-      <code><![CDATA[$this->info->getId()]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ObjectTree.php">
     <InternalMethod>
@@ -1991,14 +1976,12 @@
   </file>
   <file src="apps/files_versions/lib/Storage.php">
     <DeprecatedClass>
-      <code><![CDATA[Files::streamCopy($source, $target, true)]]></code>
       <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
     </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[$bus]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
-      <code><![CDATA[Files::streamCopy($source, $target, true)]]></code>
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
     <InternalClass>

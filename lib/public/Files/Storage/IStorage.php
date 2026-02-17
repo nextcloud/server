@@ -81,7 +81,7 @@ interface IStorage {
 	 * see https://www.php.net/manual/en/function.stat.php
 	 * only the following keys are required in the result: size and mtime
 	 *
-	 * @return array|false
+	 * @return array<int|string, mixed>|false
 	 * @since 9.0.0
 	 */
 	public function stat(string $path);

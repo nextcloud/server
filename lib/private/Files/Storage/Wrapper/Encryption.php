@@ -693,7 +693,10 @@ class Encryption extends Wrapper {
 				if ($source === false || $target === false) {
 					$result = false;
 				} else {
-					[, $result] = Files::streamCopy($source, $target, true);
+					$result = stream_copy_to_stream($source, $target);
+					if ($result !== false) {
+						$result = true;
+					}
 				}
 			} finally {
 				if ($source !== false) {
@@ -715,7 +718,7 @@ class Encryption extends Wrapper {
 				$this->getCache()->remove($targetInternalPath);
 			}
 		}
-		return (bool)$result;
+		return $result;
 	}
 
 	public function getLocalFile(string $path): string|false {
@@ -915,7 +918,13 @@ class Encryption extends Wrapper {
 		if ($target === false) {
 			throw new GenericFileException("Failed to open $path for writing");
 		}
-		[$count, $result] = Files::streamCopy($stream, $target, true);
+		$count = stream_copy_to_stream($stream, $target);
+		if ($count === false) {
+			$result = false;
+			$count = 0;
+		} else {
+			$result = true;
+		}
 		fclose($stream);
 		fclose($target);
 

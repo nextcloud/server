@@ -391,15 +391,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}, $this->getUserGroups($user));
 	}
 
-	/**
-	 * get a list of all display names in a group
-	 *
-	 * @param string $gid
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array an array of display names (value) and user ids (key)
-	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
 		if (is_null($group)) {

@@ -8,21 +8,25 @@ declare(strict_types=1);
  */
 namespace OC\Settings;
 
+use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 
 /**
  * @method setGroupId(string $groupId)
  * @method setClass(string $class)
- * @method getGroupId(): string
- * @method getClass(): string
+ * @method string getGroupId()
+ * @method string getClass()
  */
-class AuthorizedGroup extends Entity implements \JsonSerializable {
-	/** @var string $group_id */
-	protected $groupId;
+class AuthorizedGroup extends Entity implements JsonSerializable {
+	public $id;
 
-	/** @var string $class */
-	protected $class;
+	protected ?string $groupId = null;
 
+	protected ?string $class = null;
+
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),

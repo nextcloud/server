@@ -101,7 +101,7 @@ class FilesPluginTest extends TestCase {
 			->willReturn('00000123instanceid');
 		$node->expects($this->any())
 			->method('getInternalFileId')
-			->willReturn('123');
+			->willReturn(123);
 		$node->expects($this->any())
 			->method('getEtag')
 			->willReturn('"abc"');
@@ -455,7 +455,7 @@ class FilesPluginTest extends TestCase {
 		$node->expects($this->once())
 			->method('setEtag')
 			->with('newetag')
-			->willReturn(true);
+			->willReturn(123);
 
 		$node->expects($this->once())
 			->method('setCreationTime')
@@ -562,35 +562,11 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
 
-	public function testMoveSrcNotExist(): void {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
-		$this->expectExceptionMessage('FolderA/test.txt does not exist');
-
-		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn(null);
-
-		$this->tree->expects($this->atLeastOnce())
-			->method('getNodeForPath')
-			->willReturn($node);
-
-		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
-	}
-
 	public function testMoveDestinationInvalid(): void {
 		$this->expectException(InvalidPath::class);
 		$this->expectExceptionMessage('Mocked exception');
 
-		$fileInfoFolderATestTXT = $this->createMock(FileInfo::class);
-		$fileInfoFolderATestTXT->expects(self::any())
-			->method('isDeletable')
-			->willReturn(true);
-
 		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn($fileInfoFolderATestTXT);
 
 		$this->tree->expects($this->atLeastOnce())
 			->method('getNodeForPath')
@@ -604,31 +580,11 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'invalid\\path.txt');
 	}
 
-	public function testCopySrcNotExist(): void {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
-		$this->expectExceptionMessage('FolderA/test.txt does not exist');
-
-		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn(null);
-
-		$this->tree->expects($this->atLeastOnce())
-			->method('getNodeForPath')
-			->willReturn($node);
-
-		$this->plugin->checkCopy('FolderA/test.txt', 'test.txt');
-	}
-
 	public function testCopyDestinationInvalid(): void {
 		$this->expectException(InvalidPath::class);
 		$this->expectExceptionMessage('Mocked exception');
 
-		$fileInfoFolderATestTXT = $this->createMock(FileInfo::class);
 		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn($fileInfoFolderATestTXT);
 
 		$this->tree->expects($this->atLeastOnce())
 			->method('getNodeForPath')

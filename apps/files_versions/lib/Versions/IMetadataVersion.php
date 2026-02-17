@@ -16,7 +16,7 @@ interface IMetadataVersion {
 	/**
 	 * retrieves the all the metadata
 	 *
-	 * @return string[]
+	 * @return array<string, string>
 	 * @since 29.0.0
 	 */
 	public function getMetadata(): array;

@@ -57,6 +57,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->tree = $this->createMock(Tree::class);
 		$this->view = $this->createMock(View::class);
+		$this->view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$this->server = $this->getMockBuilder(Server::class)
 			->setConstructorArgs([$this->tree])
@@ -315,14 +319,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$node1->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('111');
+			->willReturn(111);
 		$node1->expects($this->any())
 			->method('getPath')
 			->willReturn('/node1');
 		$node1->method('getFileInfo')->willReturn($fileInfo);
 		$node2->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('222');
+			->willReturn(222);
 		$node2->expects($this->once())
 			->method('getSize')
 			->willReturn(1024);
