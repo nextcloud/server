@@ -68,7 +68,7 @@ class SharesUpdatedListener implements IEventListener {
 			foreach ($this->shareManager->getUsersForShare($share) as $user) {
 				if ($share->getSharedBy() !== $user->getUID()) {
 					$this->updatedCount++;
-					if ($this->updatedCount <= $this->cutOffMarkAllSingleShare) {
+					if ($this->cutOffMarkAllSingleShare === -1 || $this->updatedCount <= $this->cutOffMarkAllSingleShare) {
 						$this->shareUpdater->updateForShare($user, $share);
 						// Share target validation might have changed the target, restore it for the next user
 						$share->setTarget($shareTarget);
@@ -87,7 +87,7 @@ class SharesUpdatedListener implements IEventListener {
 
 	private function updateOrMarkUser(IUser $user, bool $verifyMountPoints, array $ignoreShares = []): void {
 		$this->updatedCount++;
-		if ($this->updatedCount <= $this->cutOffMarkAllShares) {
+		if ($this->cutOffMarkAllShares === -1 || $this->updatedCount <= $this->cutOffMarkAllShares) {
 			$this->shareUpdater->updateForUser($user, $verifyMountPoints, $ignoreShares);
 		} else {
 			$this->markUserForRefresh($user);
@@ -96,5 +96,13 @@ class SharesUpdatedListener implements IEventListener {
 
 	private function markUserForRefresh(IUser $user): void {
 		$this->userConfig->setValueBool($user->getUID(), Application::APP_ID, ConfigLexicon::USER_NEEDS_SHARE_REFRESH, true);
+	}
+
+	public function setCutOffMarkAllSingleShare(int $cutOffMarkAllSingleShare): void {
+		$this->cutOffMarkAllSingleShare = $cutOffMarkAllSingleShare;
+	}
+
+	public function setCutOffMarkAllShares(int $cutOffMarkAllShares): void {
+		$this->cutOffMarkAllShares = $cutOffMarkAllShares;
 	}
 }
