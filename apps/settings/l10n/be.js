@@ -354,7 +354,7 @@ OC.L10N.register(
     "Loading categories" : "Загрузка катэгорый",
     "Version {version}, {license}-licensed" : "Версія {version}, ліцэнзія {license}",
     "Version {version}" : "Версія {version}",
-    "Apply" : "Ужыць",
+    "Apply" : "Прымяніць",
     "All accounts" : "Усе ўліковыя запісы",
     "Admins" : "Адміністратары",
     "Account management" : "Кіраванне ўліковымі запісамі",

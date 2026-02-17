@@ -107,6 +107,7 @@
     "Reset primary color" : "Vrati primarnu boju",
     "Reset to default" : "Vrati na zadanu postavku",
     "Non image file selected" : "Odabrana je datoteka koja nije slika",
+    "Failed to upload image" : "Otpremanje slike nije uspjelo",
     "Preview of the selected image" : "Pregled odabrane slike",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Univerzalna pristupačnost nam je vrlo važna. Slijedimo web-standarde i provjeravamo da je sve upotrebljivo i bez miša te uz pomoć asistivnog softvera, poput čitača zaslona. Nastojimo biti usklađeni sa smjernicama {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 na razini AA, a s temom visokog kontrasta čak i na razini AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ako primijetite probleme, slobodno ih prijavite u {issuetracker}našem sustavu za prijavu problema{linkend}. A ako se želite uključiti, pridružite se {designteam}našem dizajnerskom timu{linkend}!",
