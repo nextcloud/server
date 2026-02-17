@@ -18,34 +18,51 @@ class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	/**
-	 * @throws DatabaseSetupException
+	 * Sets up PostgreSQL database and user for Nextcloud installation.
+	 *
+	 * This method handles two scenarios:
+	 * 1. Automatic setup: Creates user, database, and schema when connecting as superuser
+	 * 2. Manual setup: Uses pre-configured credentials when automatic setup fails
+	 * 
+	 * @throws DatabaseSetupException If database connection or setup fails
 	 */
 	public function setupDatabase(): void {
 		$canCreateRoles = false;
-		$adminDBConnection = null; // For admin tasks on 'postgres' DB
-		$nextcloudDBConnection = null; // For schema setup on Nextcloud DB
+		$connection = null;
+
+		// Save original admin credentials before createDBUser() overwrites them
+		$adminUser = $this->dbUser;
+		$adminPassword = $this->dbPassword;
 
 		try {
-			$adminDBConnection = $this->connect(['dbname' => 'postgres']);
+			// Connect to 'postgres' maintenance database for administrative tasks
+			$connection = $this->connect(['dbname' => 'postgres']);
 
 			if ($this->tryCreateDbUser) {
-				$canCreateRoles = $this->checkCanCreateRoles($adminDBConnection);
+				$canCreateRoles = $this->checkCanCreateRoles($connection);
 
 				if ($canCreateRoles) {
-					$nextcloudDBConnection = $this->connect();
-					// Create Nextcloud-specific database user
-					$this->createDBUser($adminDBConnection);
+					// Create Nextcloud-specific database user with random credentials
+					// This updates $this->dbUser and $this->dbPassword
+					$this->createDBUser($connection);
 				}
 			}
 
-			// Store new credentials in config
+			// Store generated credentials in config
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
 
-			$this->createDatabase($adminDBConnection);
-			$adminDBConnection->close();
+			// Create the Nextcloud database
+			$this->createDatabase($connection);
+
+			// Switch to Nextcloud database, still using admin credentials
+			$connection->close();
+			$connection = $this->connect([
+				'user' => $adminUser,
+				'password' => $adminPassword,
+			]);
 
 			if ($this->tryCreateDbUser) {
 				if ($canCreateRoles) {
@@ -56,8 +73,8 @@ class PostgreSQL extends AbstractDatabase {
 					// Therefore we assume that the database is only used by one user/service which is Nextcloud
 					// Additional services should get installed in a separate database in order to stay secure
 					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-					$nextcloudDBConnection->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
-					$nextcloudDBConnection->close();
+					$connection->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
+					$connection->close();
 				}
 			}
 		} catch (\Exception $e) {
