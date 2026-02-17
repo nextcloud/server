@@ -27,6 +27,26 @@ class PostgreSQL extends AbstractDatabase {
 	 * @throws DatabaseSetupException If database connection or setup fails
 	 */
 	public function setupDatabase(): void {
+		if ($this->tryCreateDbUser) {
+			// Automatic setup: create user, database, and schema
+			$this->performAutomaticSetup();
+		} else {
+			// Manual setup: just save the provided credentials
+			$this->config->setValues([
+				'dbuser' => $this->dbUser,
+				'dbpassword' => $this->dbPassword,
+			]);
+		}
+
+		// Always verify the final configuration works
+		$this->verifyDatabaseConnection();
+	}
+
+	/**
+	 * Performs automatic database setup when connecting as a superuser.
+	 * Creates a Nextcloud-specific user, database, and user-owned schema.
+	 */
+	private function performAutomaticSetup(): void {
 		$canCreateRoles = false;
 		$connection = null;
 
@@ -38,57 +58,60 @@ class PostgreSQL extends AbstractDatabase {
 			// Connect to 'postgres' maintenance database for administrative tasks
 			$connection = $this->connect(['dbname' => 'postgres']);
 
-			if ($this->tryCreateDbUser) {
-				$canCreateRoles = $this->checkCanCreateRoles($connection);
+			$canCreateRoles = $this->checkCanCreateRoles($connection);
 
-				if ($canCreateRoles) {
-					// Create Nextcloud-specific database user with random credentials
-					// This updates $this->dbUser and $this->dbPassword
-					$this->createDBUser($connection);
-				}
+			if ($canCreateRoles) {
+				// Create Nextcloud-specific database user with random credentials
+				// This updates $this->dbUser and $this->dbPassword
+				$this->createDBUser($connection);
 			}
 
-			// Store generated credentials in config
+			// Store credentials in config (generated usually - sometimes original)
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
 
-			// Create the Nextcloud database
+			// ALWAYS attempt to create database (works with or without CREATEROLE)
 			$this->createDatabase($connection);
 
-			// Switch to Nextcloud database, still using admin credentials
-			$connection->close();
-			$connection = $this->connect([
-				'user' => $adminUser,
-				'password' => $adminPassword,
+			// Create user-owned schema only if we created a new user
+			if ($canCreateRoles) {
+				// Switch to Nextcloud database, still using admin credentials
+				$connection->close();
+				$connection = $this->connect([
+					'user' => $adminUser,
+					'password' => $adminPassword,
+				]);
+
+				// Set schema permissions:
+				// Go to the main database and grant create on the public schema
+				// The code below is implemented to make installing possible with PostgreSQL version 15:
+				// https://www.postgresql.org/docs/release/15.0/
+				// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
+				// Therefore we assume that the database is only used by one user/service which is Nextcloud
+				// Additional services should get installed in a separate database in order to stay secure
+				// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
+				$connection->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
+				$connection->close();
+			}
+
+		} catch (\Exception $e) { // @todo: catch more specific DatabaseException | \PDOException $e instead?
+			// Automatic setup failed - log and continue with verification (upstream.. which will give up if if necessary)
+			$this->logger->warning('Automatic database setup failed, will attempt to verify manual configuration', [
+					'exception' => $e,
+					'app' => 'pgsql.setup',
 			]);
 
-			if ($this->tryCreateDbUser) {
-				if ($canCreateRoles) {
-					// Go to the main database and grant create on the public schema
-					// The code below is implemented to make installing possible with PostgreSQL version 15:
-					// https://www.postgresql.org/docs/release/15.0/
-					// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
-					// Therefore we assume that the database is only used by one user/service which is Nextcloud
-					// Additional services should get installed in a separate database in order to stay secure
-					// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-					$connection->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
-					$connection->close();
-				}
-			}
-		} catch (\Exception $e) {
-			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created', [
-				'exception' => $e,
-			]);
+			// Ensure credentials are saved even if automatic setup failed
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
 			]);
+		} finally {
+			// Clean up connection
+			$connection?->close();
 		}
-
-		// Verify we can connect with the configured credentials
-		$this->verifyDatabaseConnection();
 	}
 
 	/**
