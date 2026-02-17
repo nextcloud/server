@@ -44,7 +44,7 @@ class PostgreSQL extends AbstractDatabase {
 
 	/**
 	 * Performs automatic database setup when connecting as a superuser.
-	 * Creates a Nextcloud-specific user, database, and user-owned schema.
+	 * Creates a Nextcloud-specific user, database, and adjusts schema.
 	 */
 	private function performAutomaticSetup(): void {
 		$canCreateRoles = false;
@@ -88,7 +88,7 @@ class PostgreSQL extends AbstractDatabase {
 				$this->grantCreateOnPublicSchema($connection);
 			}
 
-		} catch (\Exception $e) { // @todo: catch more specific DatabaseException | \PDOException $e instead?
+		} catch (\Exception $e) { // @todo: catch more specific DatabaseException | DatabaseSetupException | \PDOException $e instead?
 			// Automatic setup failed - log and continue with verification (upstream.. which will give up if necessary)
 			$this->logger->warning('Automatic database setup failed, will attempt to verify manual configuration', [
 					'exception' => $e,
@@ -126,7 +126,7 @@ class PostgreSQL extends AbstractDatabase {
 			]);
 		} catch (DatabaseException $e) {
 			$this->logger->error('Failed to grant CREATE on public SCHEMA', [
-				'dbusr' => $this->dbUser,
+				'dbuser' => $this->dbUser,
 				'exception' => $e,
 				'app' => 'pgsql.setup',
 			]);
@@ -223,6 +223,14 @@ class PostgreSQL extends AbstractDatabase {
 				$newUser = $baseUser . $i;
 			}
 
+			if ($newUser !== $baseUser) {
+				$this->logger->info('Using alternate username for database user', [
+					'original' => $baseUser,
+					'actual' => $newUser,
+					'app' => 'pgsql.setup',
+				]);
+			}
+
 			// Create the new user
 			$query = $connection->prepare('CREATE USER "' . addslashes($newUser) . "\" CREATEDB PASSWORD '" . addslashes($newPassword) . "'");
 			$query->executeStatement();
@@ -238,6 +246,7 @@ class PostgreSQL extends AbstractDatabase {
 		} catch (DatabaseException $e) {
 			$this->logger->error('Error while trying to create database user', [
 				'exception' => $e,
+				'app' => 'pgsql.setup',
 			]);
 		}
 	}
