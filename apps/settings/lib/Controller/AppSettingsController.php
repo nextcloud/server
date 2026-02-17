@@ -35,7 +35,6 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -75,7 +74,6 @@ class AppSettingsController extends Controller {
 		private IInitialState $initialState,
 		private AppDiscoverFetcher $discoverFetcher,
 		private IClientService $clientService,
-		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 		$this->appData = $appDataFactory->get('appstore');
@@ -92,12 +90,7 @@ class AppSettingsController extends Controller {
 
 		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
-
-		// Conditionally set developer docs link based on configuration
-		$displayDocumentationLink = $this->appConfig->getValueBool('settings', 'display_documentation_link', true);
-		$developerDocsUrl = $displayDocumentationLink ? $this->urlGenerator->linkToDocs('developer-manual') : '';
-		$this->initialState->provideInitialState('appstoreDeveloperDocs', $developerDocsUrl);
-
+		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
 
 		if ($this->appManager->isInstalled('app_api')) {
