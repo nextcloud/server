@@ -3509,11 +3509,6 @@
       <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[array]]></code>
-    </LessSpecificImplementedReturnType>
-  </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
       <code><![CDATA[$user]]></code>

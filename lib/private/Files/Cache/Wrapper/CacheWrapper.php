@@ -97,14 +97,14 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
-	 * get the metadata of all files stored in $folder
+	 * Get the metadata of all files stored in given folder
 	 *
 	 * @param int $fileId the file id of the folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null) {
 		$results = $this->getCache()->getFolderContentsById($fileId, $mimeTypeFilter);
-		return array_map($this->formatCacheEntry(...), $results);
+		return array_filter(array_map($this->formatCacheEntry(...), $results));
 	}
 
 	/**
