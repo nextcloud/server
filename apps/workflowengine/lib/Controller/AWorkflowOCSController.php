@@ -11,6 +11,8 @@ namespace OCA\WorkflowEngine\Controller;
 use Doctrine\DBAL\Exception;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCA\WorkflowEngine\ResponseDefinitions;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -18,9 +20,16 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\WorkflowEngine\IEntityEvent;
+use OCP\WorkflowEngine\IOperation;
 use Psr\Log\LoggerInterface;
 
-abstract class AWorkflowController extends OCSController {
+/**
+ * @psalm-import-type WorkflowEngineOperator from ResponseDefinitions
+ * @psalm-import-type WorkflowEngineCheck from ResponseDefinitions
+ * @psalm-import-type WorkflowEngineRule from ResponseDefinitions
+ */
+abstract class AWorkflowOCSController extends OCSController {
 
 	public function __construct(
 		$appName,
@@ -37,9 +46,11 @@ abstract class AWorkflowController extends OCSController {
 	abstract protected function getScopeContext(): ScopeContext;
 
 	/**
-	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/global?format=json"
+	 * Retrieve all configured workflow rules
 	 *
-	 * @throws OCSForbiddenException
+	 * @return DataResponse<Http::STATUS_OK, array<class-string<IOperation>, list<WorkflowEngineRule>>, array{}>
+	 *
+	 * 200: List of workflows returned
 	 */
 	public function index(): DataResponse {
 		$operationsByClass = $this->manager->getAllOperations($this->getScopeContext());
@@ -54,9 +65,12 @@ abstract class AWorkflowController extends OCSController {
 	}
 
 	/**
-	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/global/OCA\\Workflow_DocToPdf\\Operation?format=json"
+	 * Retrieve a specific workflow
 	 *
-	 * @throws OCSForbiddenException
+	 * @param string $id Workflow ID to load
+	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule|list<empty>, array{}>
+	 *
+	 * 200: Workflow returned or empty array if the ID is unknown in the scope
 	 */
 	public function show(string $id): DataResponse {
 		$context = $this->getScopeContext();
@@ -72,9 +86,19 @@ abstract class AWorkflowController extends OCSController {
 	}
 
 	/**
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
-	 * @throws OCSException
+	 * Create a workflow
+	 *
+	 * @param class-string<IOperation> $class Operation class to execute
+	 * @param string $name Name of the workflow rule
+	 * @param list<WorkflowEngineCheck> $checks List of conditions that need to apply for the rule to match
+	 * @param string $operation Operation class to execute on match
+	 * @param string $entity The matched entity
+	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
+	 *
+	 * 200: Workflow created
+	 *
+	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
 	 */
 	#[PasswordConfirmationRequired]
 	public function create(
@@ -101,9 +125,20 @@ abstract class AWorkflowController extends OCSController {
 	}
 
 	/**
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
-	 * @throws OCSException
+	 * Modify a workflow
+	 *
+	 * @param int $id Workflow ID to delete
+	 * @param string $name Name of the workflow rule
+	 * @param list<WorkflowEngineCheck> $checks List of conditions that need to apply for the rule to match
+	 * @param string $operation Operation action to execute on match
+	 * @param string $entity The matched entity
+	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
+	 *
+	 * 200: Workflow updated
+	 *
+	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
+	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
 	#[PasswordConfirmationRequired]
 	public function update(
@@ -130,9 +165,14 @@ abstract class AWorkflowController extends OCSController {
 	}
 
 	/**
-	 * @throws OCSBadRequestException
-	 * @throws OCSForbiddenException
-	 * @throws OCSException
+	 * Delete a workflow
+	 *
+	 * @param int $id Workflow ID to delete
+	 * @return DataResponse<Http::STATUS_OK, bool, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
+	 *
+	 * 200: Workflow deleted
+	 *
+	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
 	#[PasswordConfirmationRequired]
 	public function destroy(int $id): DataResponse {

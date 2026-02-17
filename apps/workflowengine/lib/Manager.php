@@ -43,13 +43,14 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-type Check = array{id: int, class: class-string<ICheck>, operator: string, value: string, hash: string}
+ * @psalm-import-type WorkflowEngineCheck from ResponseDefinitions
+ * @psalm-import-type WorkflowEngineRule from ResponseDefinitions
  */
 class Manager implements IManager {
 	/** @var array[] */
 	protected array $operations = [];
 
-	/** @var array<int, Check> */
+	/** @var array<int, WorkflowEngineCheck> */
 	protected array $checks = [];
 
 	/** @var IEntity[] */
@@ -264,7 +265,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $class
 	 * @param string $name
-	 * @param list<Check> $checks
+	 * @param list<WorkflowEngineCheck> $checks
 	 * @param string $operation
 	 * @return array The added operation
 	 * @throws \UnexpectedValueException
@@ -332,7 +333,7 @@ class Manager implements IManager {
 	/**
 	 * @param int $id
 	 * @param string $name
-	 * @param array[] $checks
+	 * @param list<WorkflowEngineCheck> $checks
 	 * @param string $operation
 	 * @return array The updated operation
 	 * @throws \UnexpectedValueException
@@ -455,7 +456,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param class-string<IOperation> $class
-	 * @param list<Check> $checks
+	 * @param list<WorkflowEngineCheck> $checks
 	 * @param array $events
 	 * @throws \UnexpectedValueException
 	 */
@@ -522,7 +523,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param int[] $checkIds
-	 * @return array<int, Check>
+	 * @return array<int, WorkflowEngineCheck>
 	 */
 	public function getChecks(array $checkIds): array {
 		$checkIds = array_map('intval', $checkIds);
@@ -546,9 +547,12 @@ class Manager implements IManager {
 		$result = $query->executeQuery();
 
 		while ($row = $result->fetchAssociative()) {
-			/** @var Check $row */
-			$this->checks[(int)$row['id']] = $row;
-			$checks[(int)$row['id']] = $row;
+			$id = (int)$row['id'];
+			unset($row['id'], $row['hash']);
+
+			/** @var WorkflowEngineCheck $row */
+			$this->checks[$id] = $row;
+			$checks[$id] = $row;
 		}
 		$result->closeCursor();
 
@@ -604,20 +608,21 @@ class Manager implements IManager {
 		$insertQuery->executeStatement();
 	}
 
+
+	/**
+	 * @param array{class: class-string<\OCP\WorkflowEngine\IOperation>, entity: class-string<\OCP\WorkflowEngine\IEntity>, checks: string, events: string, id: int, name: string, operation: string} $operation
+	 * @return WorkflowEngineRule
+	 */
 	public function formatOperation(array $operation): array {
 		$checkIds = json_decode($operation['checks'], true);
+
+		/** @var list<WorkflowEngineCheck> $checks */
 		$checks = $this->getChecks($checkIds);
+		$operation['checks'] = $checks;
 
-		$operation['checks'] = [];
-		foreach ($checks as $check) {
-			// Remove internal values
-			unset($check['id']);
-			unset($check['hash']);
-
-			$operation['checks'][] = $check;
-		}
-		$operation['events'] = json_decode($operation['events'], true) ?? [];
-
+		/** @var list<class-string<IEntityEvent>> $events */
+		$events = json_decode($operation['events'], true) ?? [];
+		$operation['events'] = $events;
 
 		return $operation;
 	}
