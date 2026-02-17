@@ -66,7 +66,7 @@ class PostgreSQL extends AbstractDatabase {
 				$this->createDBUser($connection);
 			}
 
-			// Store credentials in config (generated usually - sometimes original)
+			// Store credentials in config (generated if canCreateRoles, otherwise original admin credentials)
 			$this->config->setValues([
 				'dbuser' => $this->dbUser,
 				'dbpassword' => $this->dbPassword,
@@ -84,20 +84,12 @@ class PostgreSQL extends AbstractDatabase {
 					'password' => $adminPassword,
 				]);
 
-				// Set schema permissions:
-				// Go to the main database and grant create on the public schema
-				// The code below is implemented to make installing possible with PostgreSQL version 15:
-				// https://www.postgresql.org/docs/release/15.0/
-				// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
-				// Therefore we assume that the database is only used by one user/service which is Nextcloud
-				// Additional services should get installed in a separate database in order to stay secure
-				// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
-				$connection->executeQuery('GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"');
-				$connection->close();
+				// Adjust GRANTs on public SCHEMA to Nextcloud expectations
+				$this->grantCreateOnPublicSchema($connection);
 			}
 
 		} catch (\Exception $e) { // @todo: catch more specific DatabaseException | \PDOException $e instead?
-			// Automatic setup failed - log and continue with verification (upstream.. which will give up if if necessary)
+			// Automatic setup failed - log and continue with verification (upstream.. which will give up if necessary)
 			$this->logger->warning('Automatic database setup failed, will attempt to verify manual configuration', [
 					'exception' => $e,
 					'app' => 'pgsql.setup',
@@ -111,6 +103,39 @@ class PostgreSQL extends AbstractDatabase {
 		} finally {
 			// Clean up connection
 			$connection?->close();
+		}
+	}
+
+	// @todo: replace with user-schema approach and drop public requirement entirely on new installations
+	private function grantCreateOnPublicSchema(Connection $connection): void {
+		try {
+			// Go to the main database and grant create on the public schema
+			// The code below is implemented to make installing possible with PostgreSQL version 15:
+			// https://www.postgresql.org/docs/release/15.0/
+			// From the release notes: For new databases having no need to defend against insider threats, granting CREATE permission will yield the behavior of prior releases
+			// Therefore we assume that the database is only used by one user/service which is Nextcloud
+			// Additional services should get installed in a separate database in order to stay secure
+			// Also see https://www.postgresql.org/docs/15/ddl-schemas.html#DDL-SCHEMAS-PATTERNS
+			$connection->executeQuery(
+				'GRANT CREATE ON SCHEMA public TO "' . addslashes($this->dbUser) . '"'
+			);
+
+			$this->logger->info('Granted CREATE on SCHEMA public for PostgreSQL 15+ compatibility', [
+				'dbuser' => $this->dbUser,
+				'app' => 'pgsql.setup',
+			]);
+		} catch (DatabaseException $e) {
+			$this->logger->error('Failed to grant CREATE on public SCHEMA', [
+				'dbusr' => $this->dbUser,
+				'exception' => $e,
+				'app' => 'pgsql.setup',
+			]);
+			throw new DatabaseSetupException(
+				$this->trans->t('Could not adjust database schema'),
+				$this->trans->t('Check logs for details.'),
+				0,
+				$e
+			);
 		}
 	}
 
@@ -148,6 +173,7 @@ class PostgreSQL extends AbstractDatabase {
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to create database', [
 					'exception' => $e,
+					'app' => 'pgsql.setup',
 				]);
 			}
 		} else {
@@ -157,6 +183,7 @@ class PostgreSQL extends AbstractDatabase {
 			} catch (DatabaseException $e) {
 				$this->logger->error('Error while trying to restrict database permissions', [
 					'exception' => $e,
+					'app' => 'pgsql.setup',
 				]);
 			}
 		}
@@ -242,6 +269,6 @@ class PostgreSQL extends AbstractDatabase {
 				0,
 				$e
 			);
-    	}
+		}
 	}
 }
