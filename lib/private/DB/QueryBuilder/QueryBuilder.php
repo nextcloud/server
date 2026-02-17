@@ -524,18 +524,18 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed ...$selects The selection expression.
+	 * @param mixed ...$select The selection expression.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function addSelect(...$selects) {
-		if (count($selects) === 1 && is_array($selects[0])) {
-			$selects = $selects[0];
+	public function addSelect(...$select) {
+		if (count($select) === 1 && is_array($select[0])) {
+			$select = $select[0];
 		}
-		$this->addOutputColumns($selects);
+		$this->addOutputColumns($select);
 
 		$this->queryBuilder->addSelect(
-			$this->helper->quoteColumnNames($selects)
+			$this->helper->quoteColumnNames($select)
 		);
 
 		return $this;

@@ -3395,9 +3395,6 @@
     <NullableReturnStatement>
       <code><![CDATA[$alias]]></code>
     </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$selects]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/DB/QueryBuilder/QuoteHelper.php">
     <InvalidNullableReturnType>
