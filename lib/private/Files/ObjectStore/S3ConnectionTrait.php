@@ -251,6 +251,11 @@ trait S3ConnectionTrait {
 	}
 
 	protected function getCertificateBundlePath(): ?string {
+		$customCaBundle = $this->params['ca_bundle'];
+		if (!empty($customCaBundle)) {
+			return $customCaBundle;
+		}
+
 		if ((int)($this->params['use_nextcloud_bundle'] ?? '0')) {
 			/** @var ICertificateManager $certManager */
 			$certManager = Server::get(ICertificateManager::class);
