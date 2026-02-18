@@ -366,7 +366,7 @@ class OC_Util {
 					];
 				} else {
 					fclose($handle);
-					unlink($testFile);
+					@unlink($testFile);
 				}
 			} else {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
