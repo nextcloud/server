@@ -64,6 +64,7 @@ use OCA\Settings\SetupChecks\PhpModules;
 use OCA\Settings\SetupChecks\PhpOpcacheSetup;
 use OCA\Settings\SetupChecks\PhpOutdated;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\PhpSAPI;
 use OCA\Settings\SetupChecks\PushService;
 use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
@@ -203,6 +204,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpOpcacheSetup::class);
 		$context->registerSetupCheck(PhpOutdated::class);
 		$context->registerSetupCheck(PhpOutputBuffering::class);
+		$context->registerSetupCheck(PhpSAPI::class);
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
 		$context->registerSetupCheck(SecurityHeaders::class);

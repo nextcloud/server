@@ -128,6 +128,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\PhpOpcacheSetup' => $baseDir . '/../lib/SetupChecks/PhpOpcacheSetup.php',
     'OCA\\Settings\\SetupChecks\\PhpOutdated' => $baseDir . '/../lib/SetupChecks/PhpOutdated.php',
     'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => $baseDir . '/../lib/SetupChecks/PhpOutputBuffering.php',
+    'OCA\\Settings\\SetupChecks\\PhpSAPI' => $baseDir . '/../lib/SetupChecks/PhpSAPI.php',
     'OCA\\Settings\\SetupChecks\\PushService' => $baseDir . '/../lib/SetupChecks/PushService.php',
     'OCA\\Settings\\SetupChecks\\RandomnessSecure' => $baseDir . '/../lib/SetupChecks/RandomnessSecure.php',
     'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => $baseDir . '/../lib/SetupChecks/ReadOnlyConfig.php',
