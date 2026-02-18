@@ -810,7 +810,6 @@
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "I tilfelle man har mistet enheter eller skal ut av organisasjonen, så kan dette fjernslette Nextcloud data fra alle enheter tilknyttet bruker med {userid}. Dette fungerer kun dersom enhetene er tilkoblet internett.",
     "Loading account …" : "Laster konto…",
     "Adding your device …" : "Legger til enheten...",
-    "Developer documentation ↗" : "Utviklerdokumentasjon ↗",
     "Sending…" : "Sender…",
     "Email sent" : "E-post sendt",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Denne appen er ikke merket som kompatibel med Nextcloud-versjonen. Hvis du fortsetter, vil du fortsatt kunne installere appen. Vær oppmerksom på at appen kanskje ikke fungerer som forventet.",

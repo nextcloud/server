@@ -71,7 +71,7 @@
     "last year" : "forrige år",
     "_in %n year_::_in %n years_" : ["neste år","om %n år"],
     "_%n year ago_::_%n years ago_" : ["%n år siden","%n år siden"],
-    "_in %n hour_::_in %n hours_" : ["om %n time","om én timer"],
+    "_in %n hour_::_in %n hours_" : ["om %n time","om %n timer"],
     "_%n hour ago_::_%n hours ago_" : ["for %n time siden","for %n timer siden"],
     "_in %n minute_::_in %n minutes_" : ["om ett minutt","om %n minutter"],
     "_%n minute ago_::_%n minutes ago_" : ["for %n minutt siden","for %n minutter siden"],

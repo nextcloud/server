@@ -950,7 +950,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Kunne ikke indlæse subadmin grupper med detaljer",
     "Loading account …" : "Indlæser konto ...",
     "Adding your device …" : "Tilføjer din enhed...",
-    "Developer documentation ↗" : "Udviklerdokumentation ↗",
     "Sending…" : "Sender...",
     "Email sent" : "E-mail afsendt",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Af hensyn til performancemæssige, så er det kun nye og ændrede filer, der krypteres, når du aktiverer kryptering på en Nextcloud server.",

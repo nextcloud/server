@@ -994,7 +994,6 @@
     "Failed to load subadmin groups with details" : "無法加載包含詳情的副管理員群組",
     "Loading account …" : "正在加载帳戶 ...",
     "Adding your device …" : "正在新增你的裝置…",
-    "Developer documentation ↗" : "開發人員使用手冊 ↗",
     "Sending…" : "正在傳送……",
     "Email sent" : "電子郵件已寄出",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "出於性能考慮，當您在 Nextcloud 伺服器上啟用加密時，僅會加密新檔案和已更改的檔案。",

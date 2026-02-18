@@ -755,7 +755,6 @@ OC.L10N.register(
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "기기를 분실했거나 조직에서 이탈할 경우, 이를 통해 모든 기기에 있는 {userid} 관련 Nextcloud 데이터를 원격으로 삭제할 수 있습니다. 해당 기기들이 인터넷에 연결된 경우에 한하여 작동합니다.",
     "Loading account …" : "계정 불러오는 중 ...",
     "Adding your device …" : "장치 추가 중 …",
-    "Developer documentation ↗" : "개발자 문서 ↗",
     "Sending…" : "보내는 중…",
     "Email sent" : "이메일 보냄",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "이 앱은 현재 Nextcloud 버젼과 호환되지 않습니다.  이 앱을 설치하면, 제대로 작동하지 않을 수 있습니다.",

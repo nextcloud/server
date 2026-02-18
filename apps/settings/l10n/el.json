@@ -932,7 +932,6 @@
     "Failed to load subadmin groups with details" : "Αποτυχία φόρτωσης ομάδων υποδιαχειριστών με λεπτομέρειες",
     "Loading account …" : "Φόρτωση λογαριασμού …",
     "Adding your device …" : "Προσθήκη της συσκευής σας …",
-    "Developer documentation ↗" : "Τεκμηρίωση προγραμματιστή ↗",
     "Sending…" : "Γίνεται αποστολή…",
     "Email sent" : "Το Email απεστάλη",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Για λόγους απόδοσης, όταν ενεργοποιείτε την κρυπτογράφηση σε έναν διακομιστή Nextcloud, μόνο τα νέα και τα τροποποιημένα αρχεία κρυπτογραφούνται.",
