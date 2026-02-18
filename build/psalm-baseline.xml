@@ -3221,11 +3221,6 @@
       <code><![CDATA[$this->tar->extractInString($path)]]></code>
     </UndefinedDocblockClass>
   </file>
-  <file src="lib/private/Authentication/LoginCredentials/Store.php">
-    <RedundantCondition>
-      <code><![CDATA[$trySession]]></code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/Authentication/Token/PublicKeyToken.php">
     <UndefinedMagicMethod>
       <code><![CDATA[getExpires]]></code>

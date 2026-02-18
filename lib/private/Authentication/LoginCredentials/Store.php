@@ -53,9 +53,11 @@ class Store implements IStore {
 	}
 
 	/**
-	 * @since 12
+	 * Returns login credentials for the current user.
 	 *
-	 * @return ICredentials the login credentials of the current user
+	 * Attempts to retrieve credentials using the token provider first.
+	 * If the token is invalid or passwordless, falls back to session credentials.
+	 *
 	 * @throws CredentialsUnavailableException
 	 */
 	public function getLoginCredentials(): ICredentials {
@@ -63,7 +65,6 @@ class Store implements IStore {
 			throw new CredentialsUnavailableException();
 		}
 
-		$trySession = false;
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
@@ -74,33 +75,54 @@ class Store implements IStore {
 
 			return new Credentials($uid, $user, $password);
 		} catch (SessionNotAvailableException $ex) {
-			$this->logger->debug('could not get login credentials because session is unavailable', ['app' => 'core', 'exception' => $ex]);
+			// Session backend is required for token retrieval; give up early if unavailable.
+			$this->logger->debug('Session unavailable', ['app' => 'core', 'exception' => $ex]);
+			throw new CredentialsUnavailableException('Session unavailable');
 		} catch (InvalidTokenException $ex) {
-			$this->logger->debug('could not get login credentials because the token is invalid: ' . $ex->getMessage(), ['app' => 'core']);
-			$trySession = true;
+			// e.g., expired; fallback to session credentials
+			// TODO: Figure out why exception had to be dropped in #32685
+			$this->logger->debug('Invalid token: ' . $ex->getMessage(), ['app' => 'core']);
+			return $this->getSessionCredentials();
 		} catch (PasswordlessTokenException $ex) {
-			$this->logger->debug('could not get login credentials because the token has no password', ['app' => 'core', 'exception' => $ex]);
-			$trySession = true;
+			// e.g., SSO/OAuth; fallback to session credentials
+			$this->logger->debug('Token has no password', ['app' => 'core', 'exception' => $ex]);
+			return $this->getSessionCredentials();
+		}
+	}
+
+	/**
+	 * Returns login credentials from session.
+	 *
+	 * Only called as a fallback if token credentials are invalid or passwordless.
+	 * Requires 'uid' and 'loginName' to be present in the session credentials.
+	 * Password may be null for passwordless flows.
+	 *
+	 * @throws CredentialsUnavailableException
+	 */
+	private function getSessionCredentials(): ICredentials {
+		if (!$this->session->exists('login_credentials')) {
+			throw new CredentialsUnavailableException('No valid login credentials in session');
+		}
+		$credsRaw = $this->session->get('login_credentials');
+		/** @var array $creds */
+		$creds = json_decode($credsRaw, true);
+
+		// Explicitly check for decode failure or non-array result
+		if (!is_array($creds)) {
+			throw new CredentialsUnavailableException('Session credentials could not be decoded');
 		}
 
-		if ($trySession && $this->session->exists('login_credentials')) {
-			/** @var array $creds */
-			$creds = json_decode($this->session->get('login_credentials'), true);
-			if ($creds['password'] !== null) {
-				try {
-					$creds['password'] = $this->crypto->decrypt($creds['password']);
-				} catch (Exception $e) {
-					//decryption failed, continue with old password as it is
-				}
+		if (!isset($creds['uid'], $creds['loginName'])) {
+			throw new CredentialsUnavailableException('Session credentials missing required fields');
+		}
+		if (isset($creds['password']) && $creds['password'] !== null) {
+			try {
+				$creds['password'] = $this->crypto->decrypt($creds['password']);
+			} catch (Exception $e) {
+				// Decryption failed; continue with password as stored (may be null).
 			}
-			return new Credentials(
-				$creds['uid'],
-				$creds['loginName'] ?? $this->session->get('loginname') ?? $creds['uid'], // Pre 20 didn't have a loginName property, hence fall back to the session value and then to the UID
-				$creds['password']
-			);
 		}
-
-		// If we reach this line, an exception was thrown.
-		throw new CredentialsUnavailableException();
+		// Password may be null for passwordless authentication flows
+		return new Credentials($creds['uid'], $creds['loginName'], $creds['password'] ?? null);
 	}
 }
