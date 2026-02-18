@@ -90,41 +90,99 @@ class Local extends Common {
 		return $result;
 	}
 
+	/**
+	 * Recursively deletes a directory and its contents.
+	 *
+	 * Continues deleting other items if individual deletions fail,
+	 * logging an error for each failure. Returns true only if all deletions succeed
+	 *
+	 * Certain entries (e.g., with unresolved real paths or unknown file types) are skipped 
+	 * and logged, but are not considered failures.
+	 *
+	 * TODO: Consider immediately failing (logging and returning false) upon any individual failure.
+	 *
+	 * @param string $path Path to the directory to be deleted
+	 * @return bool True on full success, false if any deletions failed
+	 */
 	public function rmdir(string $path): bool {
 		if (!$this->isDeletable($path)) {
 			return false;
 		}
+
+		$sourcePath = $this->getSourcePath($path);
+		$allSucceeded = true;
+
+		$logger = Server::get(LoggerInterface::class);
+
 		try {
-			$it = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator($this->getSourcePath($path)),
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator(
+					$sourcePath,
+					\FilesystemIterator::SKIP_DOTS
+				),
 				\RecursiveIteratorIterator::CHILD_FIRST
 			);
-			/**
-			 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
-			 * This bug is fixed in PHP 5.5.9 or before
-			 * See #8376
-			 */
-			$it->rewind();
-			while ($it->valid()) {
-				/**
-				 * @var \SplFileInfo $file
-				 */
-				$file = $it->current();
-				clearstatcache(true, $file->getRealPath());
-				if (in_array($file->getBasename(), ['.', '..'])) {
-					$it->next();
+
+			foreach ($iterator as $file) {
+				$realPath = $file->getRealPath();
+				$pathName = $file->getPathname();
+
+				// Skip if real path could not be resolved (file may have been deleted or is inaccessible)
+				if ($realPath === false) {
+					$logger->warning(
+						"Skipped entry with unresolved real path: {$pathName}",
+						[ 'app' => 'files', 'storage' => static::class, 'path' => $pathName ]
+					);
+					// considered a soft error - skipped
 					continue;
-				} elseif ($file->isFile() || $file->isLink()) {
-					unlink($file->getPathname());
-				} elseif ($file->isDir()) {
-					rmdir($file->getPathname());
 				}
-				$it->next();
+
+				clearstatcache(true, $realPath);
+
+				$success = true;
+				$operation = '';
+				if ($file->isFile() || $file->isLink()) {
+					$success = unlink($pathName);
+					$operation = 'delete file or link';
+				} elseif ($file->isDir()) {
+					$success = rmdir($pathName);
+					$operation = 'delete directory';
+				} else {
+					// Unknown type found (unexpected, but not impossible; considered a soft error - skipped)
+					$logger->debug(
+						"Encountered unknown file type: {$pathName}",
+						[ 'app' => 'files', 'storage' => static::class, 'path' => $pathName ]
+					);
+					continue;
+				}
+
+				if (!$success) {
+					$logger->error(
+						"Failed to {$operation}: {$pathName}",
+						[ 'app' => 'files', 'storage' => static::class, 'path' => $pathName ]
+					);
+					$allSucceeded = false;
+				}
 			}
-			unset($it);  // Release iterator and thereby its potential directory lock (e.g. in case of VirtualBox shared folders)
-			clearstatcache(true, $this->getSourcePath($path));
-			return rmdir($this->getSourcePath($path));
+			// Release iterator and thereby its potential directory lock (e.g. in case of VirtualBox shared folders)
+			unset($iterator);
+
+			clearstatcache(true, $sourcePath);
+			$success = rmdir($sourcePath);
+			if (!$success) {
+				$logger->error(
+					"Failed to delete root directory: {$sourcePath}",
+					[ 'app' => 'files', 'storage' => static::class, 'path' => $sourcePath ]
+				);
+				$allSucceeded = false;
+			}
+
+			return $allSucceeded;
 		} catch (\UnexpectedValueException $e) {
+			$logger->error(
+				"Recursive deletion failed: {$e->getMessage()}",
+				[ 'app' => 'files', 'storage' => static::class, 'path' => $path, 'exception' => $e ]
+			);
 			return false;
 		}
 	}
