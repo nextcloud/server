@@ -1287,7 +1287,6 @@
     </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getTemplates]]></code>
-      <code><![CDATA[open]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files/lib/Controller/ViewController.php">

@@ -62,4 +62,10 @@ interface IToken {
 	 * @return string
 	 */
 	public function getUser(): string;
+
+	/**
+	 * @since 33.0.0
+	 * @return string
+	 */
+	public function getToken(): string;
 }
