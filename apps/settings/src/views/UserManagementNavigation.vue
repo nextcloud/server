@@ -135,7 +135,13 @@ const selectedGroup = computed(() => route.params?.selectedGroup)
 const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURIComponent(selectedGroup.value) : null)
 
 /** Overall user count */
-const userCount = computed(() => store.getters.getUserCount)
+const userCount = computed(() => {
+	const count = store.getters.getUserCount
+	
+	return count >= 999 ? '999+' : 0
+})
+
+
 /** All available groups */
 const groups = computed(() => store.getters.getSortedGroups)
 const { adminGroup, recentGroup, disabledGroup } = useFormatGroups(groups)
