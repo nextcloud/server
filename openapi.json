@@ -2526,7 +2526,8 @@
                     "share_token",
                     "share_type",
                     "type",
-                    "user"
+                    "user",
+                    "item_size"
                 ],
                 "properties": {
                     "accepted": {
@@ -2587,6 +2588,19 @@
                     },
                     "user": {
                         "type": "string"
+                    },
+                    "item_size": {
+                        "nullable": true,
+                        "anyOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "number",
+                                "format": "double"
+                            }
+                        ]
                     }
                 }
             },

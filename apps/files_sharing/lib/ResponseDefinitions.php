@@ -97,6 +97,7 @@ namespace OCA\Files_Sharing;
  *     share_type: int,
  *     type: string|null,
  *     user: string,
+ *     item_size: int|float|null,
  * }
  *
  * @psalm-type Files_SharingSharee = array{
