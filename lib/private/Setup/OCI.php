@@ -10,9 +10,11 @@ namespace OC\Setup;
 use OC\DatabaseSetupException;
 
 class OCI extends AbstractDatabase {
-	public $dbprettyname = 'Oracle';
-
 	protected $dbtablespace;
+
+	protected function getDisplayName(): string {
+		return 'Oracle';
+	}
 
 	public function initialize(array $config): void {
 		parent::initialize($config);
