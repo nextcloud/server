@@ -525,35 +525,60 @@ class View {
 	 * @param int|string $mtime
 	 */
 	public function touch($path, $mtime = null): bool {
-		if (!is_null($mtime) && !is_numeric($mtime)) {
-			$mtime = strtotime($mtime);
-		}
+		$mtime = $this->normalizeMTime($mtime);
 
 		$hooks = ['touch'];
-
 		if (!$this->file_exists($path)) {
 			$hooks[] = 'create';
 			$hooks[] = 'write';
 		}
+
 		try {
 			$result = $this->basicOperation('touch', $path, $hooks, $mtime);
 		} catch (\Exception $e) {
-			$this->logger->info('Error while setting modified time', ['app' => 'core', 'exception' => $e]);
+			$this->logger->info(
+				'Error while setting modified time',
+				[ 'app' => 'core', 'exception' => $e, 'path' => $path, 'mtime' => $mtime ]
+			);
 			$result = false;
 		}
+
 		if (!$result) {
 			// If create file fails because of permissions on external storage like SMB folders,
 			// check file exists and return false if not.
 			if (!$this->file_exists($path)) {
 				return false;
 			}
-			if (is_null($mtime)) {
+			if ($mtime === null) {
 				$mtime = time();
 			}
 			//if native touch fails, we emulate it by changing the mtime in the cache
 			$this->putFileInfo($path, ['mtime' => floor($mtime)]);
 		}
 		return true;
+	}
+
+	private function normalizeMTime($mtime): int|null {
+		if ($mtime === null) {
+			return null;
+		}
+
+		if (!is_numeric($mtime)) {
+			$timestamp = strtotime($mtime);
+			if ($timestamp === false || $timestamp < 0) {
+				// Treat unparseable or negative timestamps as "now"
+				return null;
+			}
+			return $timestamp;
+		}
+
+		// Prevent implicit conversion warnings if a float
+		$intMtime = (int)$mtime;
+		if ($intMtime < 0) {
+			// Treat negative mtime as "now"
+			return null;
+		}
+		return $intMtime;
 	}
 
 	/**
