@@ -152,8 +152,10 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 	public function testShowAuthPickerValidLoginToken(): void {
 		$this->session->method('get')
-			->with('client.flow.v2.login.token')
-			->willReturn('loginToken');
+			->willReturnMap([
+				['client.flow.v2.state.token', 'random'],
+				['client.flow.v2.login.token', 'loginToken'],
+			]);
 
 		$flow = new LoginFlowV2();
 		$this->loginFlowV2Service->method('getByLoginToken')
