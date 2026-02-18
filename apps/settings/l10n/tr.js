@@ -972,7 +972,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Alt yönetici grupları ayrıntıları ile yüklenemedi",
     "Loading account …" : "Hesap yükleniyor…",
     "Adding your device …" : "Aygıtınız ekleniyor…",
-    "Developer documentation ↗" : "Geliştirici belgeleri ↗",
     "Sending…" : "Gönderiliyor …",
     "Email sent" : "E-posta gönderildi",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Bir Nextcloud sunucusunda şifrelemeyi açtığınızda, başarımı korumak için yalnızca yeni ve değiştirilen dosyalar şifrelenir.",

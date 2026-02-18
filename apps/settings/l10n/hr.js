@@ -996,7 +996,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Neuspjelo učitavanje grupa podadministratora s detaljima",
     "Loading account …" : "Učitavanje računa …",
     "Adding your device …" : "Dodavanje uređaja...",
-    "Developer documentation ↗" : "Dokumentacija za razvojne programere ↗",
     "Sending…" : "Slanje…",
     "Email sent" : "E-pošta je poslana",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Zbog performansi, kada omogućite šifriranje na Nextcloud poslužitelju, šifriraju se samo nove i izmijenjene datoteke.",

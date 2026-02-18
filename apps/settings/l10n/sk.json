@@ -994,7 +994,6 @@
     "Failed to load subadmin groups with details" : "Nepodarilo sa načítať skupiny subadministátorov s podrobnosťami",
     "Loading account …" : "Nahrávam účet ...",
     "Adding your device …" : "Pridáva sa zariadenie...",
-    "Developer documentation ↗" : "Dokumentácia vývojára ↗",
     "Sending…" : "Odosielam...",
     "Email sent" : "Email odoslaný",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Z dôvodu zachovania výkonu, keď povolíte šifrovanie na serveri Nextcloud, budú šifrované iba nové a zmenené súbory.",

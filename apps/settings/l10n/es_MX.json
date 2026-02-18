@@ -744,7 +744,6 @@
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "En caso de pérdida del dispositivo o salida de la organización, esto puede borrar de forma remota los datos de Nextcloud de todos los dispositivos asociados con {userid}. Solo funciona si los dispositivos están conectados a Internet.",
     "Loading account …" : "Cargando cuenta ...",
     "Adding your device …" : "Añadiendo su dispositivo ...",
-    "Developer documentation ↗" : "Documentación del desarrollador ↗",
     "Sending…" : "Enviando...",
     "Email sent" : "Correo electrónico enviado",
     "{progress}% Deploying …" : "{progress}% Desplegando...",

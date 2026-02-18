@@ -996,7 +996,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "載入包含詳細資訊的子管理員群組失敗",
     "Loading account …" : "正在載入帳號……",
     "Adding your device …" : "正在新增您的裝置…",
-    "Developer documentation ↗" : "開發者文件 ↗",
     "Sending…" : "正在傳送…",
     "Email sent" : "電子郵件已寄出",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "出於效能考量，當您在 Nextcloud 上啟用加密時，僅會加密新檔案與已變更的檔案。",

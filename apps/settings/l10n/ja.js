@@ -996,7 +996,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "サブ管理者グループの詳細の読み込みに失敗しました",
     "Loading account …" : "アカウントを読み込み中 ...",
     "Adding your device …" : "デバイスを追加しています...",
-    "Developer documentation ↗" : "開発者向けドキュメント ↗",
     "Sending…" : "送信中 …",
     "Email sent" : "メールを送信しました",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "パフォーマンス上の理由から、Nextcloudサーバーで暗号化を有効にすると、新規ファイルと変更されたファイルだけが暗号化されます。",
