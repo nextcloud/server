@@ -36,16 +36,24 @@ abstract class AbstractDatabase {
 
 	public function validate(array $config): array {
 		$errors = [];
-		if (empty($config['dbuser']) && empty($config['dbname'])) {
+
+		$dbUser = $config['dbuser'] ?? '';
+		$dbName = $config['dbname'] ?? '';
+
+		// Check for missing required parameters
+		if (empty($dbUser) && empty($dbName)) {
 			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
-		} elseif (empty($config['dbuser'])) {
+		} elseif (empty($dbUser)) {
 			$errors[] = $this->trans->t('Enter the database Login for %s', [$this->dbprettyname]);
-		} elseif (empty($config['dbname'])) {
+		} elseif (empty($dbName)) {
 			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
 		}
-		if (substr_count($config['dbname'], '.') >= 1) {
+
+		// Avoid downsides of supporting database names with dots (`.`)
+		if (!empty($dbName) && str_contains($dbName, '.')) {
 			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->dbprettyname]);
 		}
+
 		return $errors;
 	}
 
