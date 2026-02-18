@@ -154,9 +154,18 @@ abstract class AbstractDatabase {
 		$connectionParams['primary'] = $connectionParams;
 		$connectionParams['replica'] = [$connectionParams];
 
+		$dbType = $this->config->getValue('dbtype', 'sqlite');
+
+		$this->logger->debug('Creating database connection', [
+			'dbtype' => $dbType,
+			'host' => $connectionParams['host'] ?? 'unknown',
+			'port' => $connectionParams['port'] ?? $connectionParams['unix_socket'] ?? 'default',
+			'dbname' => $connectionParams['dbname'] ?? 'none',
+		]);
+
 		// Create and return the connection
 		$cf = new ConnectionFactory($this->config);
-		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection = $cf->getConnection($dbType, $connectionParams);
 		$connection->ensureConnectedToPrimary();
 		return $connection;
 	}
