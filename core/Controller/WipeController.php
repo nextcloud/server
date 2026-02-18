@@ -44,18 +44,20 @@ class WipeController extends Controller {
 	#[NoCSRFRequired]
 	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
-	public function checkWipe(string $token): JSONResponse {
-		try {
-			if ($this->remoteWipe->start($token)) {
-				return new JSONResponse([
-					'wipe' => true
-				]);
+	public function checkWipe(?string $token = ''): JSONResponse {
+		if (!empty($token)) {
+			try {
+				if ($this->remoteWipe->start($token)) {
+					return new JSONResponse([
+						'wipe' => true
+					]);
+				}
+			} catch (InvalidTokenException $e) {
+				// do nothing special, handled below
 			}
-
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		} catch (InvalidTokenException $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
+
+		return new JSONResponse([], Http::STATUS_NOT_FOUND);
 	}
 
 
@@ -73,15 +75,17 @@ class WipeController extends Controller {
 	#[NoCSRFRequired]
 	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
-	public function wipeDone(string $token): JSONResponse {
-		try {
-			if ($this->remoteWipe->finish($token)) {
-				return new JSONResponse([]);
+	public function wipeDone(?string $token = ''): JSONResponse {
+		if (!empty($token)) {
+			try {
+				if ($this->remoteWipe->finish($token)) {
+					return new JSONResponse([]);
+				}
+			} catch (InvalidTokenException $e) {
+				// do nothing special, handled below
 			}
-
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		} catch (InvalidTokenException $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
+		
+		return new JSONResponse([], Http::STATUS_NOT_FOUND);
 	}
 }
