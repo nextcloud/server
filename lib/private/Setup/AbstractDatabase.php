@@ -37,6 +37,15 @@ abstract class AbstractDatabase {
 	public function validate(array $config): array {
 		$errors = [];
 
+		$errors = array_merge($errors, $this->validateRequiredFields($config));
+		$errors = array_merge($errors, $this->validateDatabaseName($config));
+
+		 return $errors;
+	}
+
+	protected function validateRequiredFields(array $config): array {
+		$errors = [];
+
 		$dbUser = $config['dbuser'] ?? '';
 		$dbName = $config['dbname'] ?? '';
 
@@ -48,6 +57,14 @@ abstract class AbstractDatabase {
 		} elseif (empty($dbName)) {
 			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
 		}
+
+		return $errors;
+	}
+
+	protected function validateDatabaseName(array $config): array {
+		$errors = [];
+
+		$dbName = $config['dbname'] ?? '';
 
 		// Avoid downsides of supporting database names with dots (`.`)
 		if (!empty($dbName) && str_contains($dbName, '.')) {
