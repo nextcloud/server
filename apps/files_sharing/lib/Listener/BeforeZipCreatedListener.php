@@ -13,7 +13,7 @@ use OCA\Files_Sharing\ViewOnly;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeZipCreatedEvent;
-use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IUserSession;
 
 /**
@@ -23,7 +23,6 @@ class BeforeZipCreatedListener implements IEventListener {
 
 	public function __construct(
 		private IUserSession $userSession,
-		private IRootFolder $rootFolder,
 		private ViewOnly $viewOnly,
 	) {
 	}
@@ -38,17 +37,14 @@ class BeforeZipCreatedListener implements IEventListener {
 			return;
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		// Check whether the user can download the requested folder
-		$folder = $userFolder->get(substr($event->getDirectory(), strlen($userFolder->getPath())));
-		if (!$this->viewOnly->isNodeCanBeDownloaded($folder)) {
+		if (!$this->viewOnly->isNodeCanBeDownloaded($event->getFolder())) {
 			$event->setSuccessful(false);
 			$event->setErrorMessage('Access to this resource has been denied.');
 			return;
 		}
 
-		$nodes = array_filter($event->getNodes(), fn ($node) => $this->viewOnly->isNodeCanBeDownloaded($node));
-		$event->setNodes(array_values($nodes));
-		$event->setSuccessful(true);
+		// Check recursively whether the user can download nested nodes
+		$event->addNodeFilter(fn (Node $node) => $this->viewOnly->isNodeCanBeDownloaded($node));
 	}
 }

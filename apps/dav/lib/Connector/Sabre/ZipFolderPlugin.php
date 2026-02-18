@@ -62,7 +62,17 @@ class ZipFolderPlugin extends ServerPlugin {
 	}
 
 	/**
+	 * @return iterable<NcNode>
+	 */
+	protected function createIterator(array $rootNodes): iterable {
+		foreach ($rootNodes as $rootNode) {
+			yield from $this->iterateNodes($rootNode);
+		}
+	}
+
+	/**
 	 * Recursively iterate over all nodes in a folder.
+	 * @return iterable<NcNode>
 	 */
 	protected function iterateNodes(NcNode $node): iterable {
 		yield $node;
@@ -151,14 +161,8 @@ class ZipFolderPlugin extends ServerPlugin {
 			assert($child instanceof Node);
 			$rootNodes[] = $child->getNode();
 		}
-		$allNodes = [];
-		foreach ($rootNodes as $rootNode) {
-			foreach ($this->iterateNodes($rootNode) as $node) {
-				$allNodes[] = $node;
-			}
-		}
 
-		$event = new BeforeZipCreatedEvent($folder, $files, $allNodes);
+		$event = new BeforeZipCreatedEvent($folder, $files, $this->createIterator($rootNodes));
 		$this->eventDispatcher->dispatchTyped($event);
 		if ((!$event->isSuccessful()) || $event->getErrorMessage() !== null) {
 			$errorMessage = $event->getErrorMessage();
@@ -170,7 +174,6 @@ class ZipFolderPlugin extends ServerPlugin {
 			// Downloading was denied by an app
 			throw new Forbidden($errorMessage);
 		}
-		$allNodes = $event->getNodes();
 
 		$archiveName = $folder->getName();
 		if (count(explode('/', trim($folder->getPath(), '/'), 3)) === 2) {
@@ -190,7 +193,7 @@ class ZipFolderPlugin extends ServerPlugin {
 		if (empty($files)) {
 			$streamer->addEmptyDir($archiveName);
 		}
-		foreach ($allNodes as $node) {
+		foreach ($event->getNodes() as $node) {
 			$this->streamNode($streamer, $node, $rootPath);
 		}
 		$streamer->finalize();

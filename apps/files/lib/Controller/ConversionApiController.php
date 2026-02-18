@@ -21,9 +21,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Conversion\IConversionManager;
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
@@ -39,7 +37,6 @@ class ConversionApiController extends OCSController {
 		private IRootFolder $rootFolder,
 		private IL10N $l10n,
 		private ?string $userId,
-		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -68,13 +65,6 @@ class ConversionApiController extends OCSController {
 		// Also throw a 404 if the file is not readable to not leak information
 		if (!($file instanceof File) || $file->isReadable() === false) {
 			throw new OCSNotFoundException($this->l10n->t('The file cannot be found'));
-		}
-
-		$event = new BeforeDirectFileDownloadEvent($userFolder->getRelativePath($file->getPath()));
-		$this->eventDispatcher->dispatchTyped($event);
-
-		if ($event->isSuccessful() === false) {
-			throw new OCSForbiddenException('Permission denied to download file');
 		}
 
 		if ($destination !== null) {
