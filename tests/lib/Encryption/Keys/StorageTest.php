@@ -80,32 +80,6 @@ class StorageTest extends TestCase {
 		);
 	}
 
-	public function testSetFileOld(): void {
-		$this->config->method('getSystemValueString')
-			->with('version')
-			->willReturn('20.0.0.0');
-		$this->util->expects($this->any())
-			->method('getUidAndFilename')
-			->willReturn(['user1', '/files/foo.txt']);
-		$this->util->expects($this->any())
-			->method('stripPartialFileExtension')
-			->willReturnArgument(0);
-		$this->util->expects($this->any())
-			->method('isSystemWideMountPoint')
-			->willReturn(false);
-		$this->crypto->expects($this->never())
-			->method('encrypt');
-		$this->view->expects($this->once())
-			->method('file_put_contents')
-			->with($this->equalTo('/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'),
-				$this->equalTo('key'))
-			->willReturn(strlen('key'));
-
-		$this->assertTrue(
-			$this->storage->setFileKey('user1/files/foo.txt', 'fileKey', 'key', 'encModule')
-		);
-	}
-
 	public static function dataTestGetFileKey() {
 		return [
 			['/files/foo.txt', '/files/foo.txt', true, 'key'],

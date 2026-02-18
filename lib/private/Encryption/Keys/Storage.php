@@ -209,104 +209,98 @@ class Storage implements IStorage {
 	}
 
 	/**
-	 * read key from hard disk
+	 * Read the key from disk.
 	 *
-	 * @param string $path to key
-	 * @return array containing key as base64encoded key, and possible the uid
+	 * @param string $path Path to key file.
+	 * @return array Containing key as base64encoded key, and possibly the uid.
+	 * @throws ServerNotAvailableException
 	 */
 	private function getKey($path): array {
-		$key = [
-			'key' => '',
-		];
+		if (!$this->view->file_exists($path)) {
+			return = [
+				'key' => '',
+			];
+		}
 
-		if ($this->view->file_exists($path)) {
-			if (isset($this->keyCache[$path])) {
-				$key = $this->keyCache[$path];
-			} else {
-				$data = $this->view->file_get_contents($path);
+		if (isset($this->keyCache[$path])) {
+			return $this->keyCache[$path];
+		}
+			
+		$data = $this->view->file_get_contents($path);
+		$migrated = $this->config->getSystemValueBool('encryption.key_storage_migrated', true);
 
-				// Version <20.0.0.1 doesn't have this
-				$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
-				if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
-					$key = [
-						'key' => base64_encode($data),
-					];
-				} else {
-					if ($this->config->getSystemValueBool('encryption.key_storage_migrated', true)) {
-						try {
-							$clearData = $this->crypto->decrypt($data);
-						} catch (\Exception $e) {
-							throw new ServerNotAvailableException('Could not decrypt key', 0, $e);
-						}
-
-						$dataArray = json_decode($clearData, true);
-						if ($dataArray === null) {
-							throw new ServerNotAvailableException('Invalid encryption key');
-						}
-
-						$key = $dataArray;
-					} else {
-						/*
-						 * Even if not all keys are migrated we should still try to decrypt it (in case some have moved).
-						 * However it is only a failure now if it is an array and decryption fails
-						 */
-						$fallback = false;
-						try {
-							$clearData = $this->crypto->decrypt($data);
-						} catch (\Throwable $e) {
-							$fallback = true;
-						}
-
-						if (!$fallback) {
-							$dataArray = json_decode($clearData, true);
-							if ($dataArray === null) {
-								throw new ServerNotAvailableException('Invalid encryption key');
-							}
-							$key = $dataArray;
-						} else {
-							$key = [
-								'key' => base64_encode($data),
-							];
-						}
-					}
+		if ($migrated) {
+			try {
+				$clearData = $this->crypto->decrypt($data);
+				$dataArray = json_decode($clearData, true);
+				if ($dataArray === null) {
+					throw new ServerNotAvailableException('Invalid encryption key');
 				}
-
-				$this->keyCache[$path] = $key;
+				$key = $dataArray;
+			} catch (\Exception $e) {
+				// Config indicates migration completed, but decrypted data is invalid.
+				throw new ServerNotAvailableException('Could not decrypt key', 0, $e);
+			}
+		} else {
+			// If key storage migration isn't indicated as being complete,
+			// attempt to decrypt the key as some may have already migrated.
+			// Otherwise, fall back to returning the (non-migrated) base64-encoded key.
+			try {
+				$clearData = $this->crypto->decrypt($data);
+				$dataArray = json_decode($clearData, true);
+				if ($dataArray === null) {
+					// used only to trigger fallback
+					throw new ServerNotAvailableException('Invalid encryption key');
+				}
+				$key = $dataArray;
+			} catch (\Throwable $e) {
+				// Fallback: base64-encoded blob if decryption fails
+				$key = [
+					'key' => base64_encode($data)
+				];
 			}
 		}
 
+		$this->keyCache[$path] = $key;
 		return $key;
 	}
 
 	/**
-	 * write key to disk
+	 * Write the given key to disk.
 	 *
-	 *
-	 * @param string $path path to key directory
-	 * @param array $key key
-	 * @return bool
+	 * @param string $path Destination file path for the key
+	 * @param array $key Associative array with encryption key data (must have 'key')	 
+	 * @return bool True if key is persisted; throws on error.
+	 * @throws \UnexpectedValueException if $key structure is invalid (rare)
+	 * @throws \RuntimeException if encode, encrypt, or write fails or is incomplete
 	 */
-	private function setKey($path, $key) {
+	private function setKey(string $path, array $key): bool {
 		$this->keySetPreparation(dirname($path));
 
-		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
-		if (version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=')) {
-			// Only store old format if this happens during the migration.
-			// TODO: Remove for 21
-			$data = base64_decode($key['key']);
-		} else {
-			// Wrap the data
-			$data = $this->crypto->encrypt(json_encode($key));
+		if (!isset($key['key'])) {
+			throw new \UnexpectedValueException('Provided $key missing required "key" entry');
+		}
+
+		try {
+			$json = json_encode($key, JSON_THROW_ON_ERROR);
+			$data = $this->crypto->encrypt($json);
+		} catch (\JsonException $e) {
+			throw new \RuntimeException('Failed to JSON encode key for storage: ' . $e->getMessage(), 0, $e);
+		} catch (\Throwable $e) {
+			throw new \RuntimeException('Failed to encrypt key for storage: ' . $e->getMessage(), 0, $e);
 		}
 
 		$result = $this->view->file_put_contents($path, $data);
-
-		if (is_int($result) && $result > 0) {
-			$this->keyCache[$path] = $key;
-			return true;
+		$expected = \strlen($data);
+		if ($result === false || $result !== $expected) {
+			throw new \RuntimeException(
+				"Failed to write encryption key to {$path}: "
+				. ($result === false ? 'file_put_contents returned false' : "wrote {$result} bytes, expected ".\strlen($data))
+			);
 		}
 
-		return false;
+		$this->keyCache[$path] = $key;
+		return true;
 	}
 
 	/**
