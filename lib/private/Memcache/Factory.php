@@ -115,29 +115,24 @@ class Factory implements ICacheFactory {
 	protected function getGlobalPrefix(): string {
 		if ($this->globalPrefix === null) {
 			$config = Server::get(SystemConfig::class);
-			$customprefix = $config->getValue('memcache.customprefix', '');
-			// use the value of memcache.customprefix setting as prefix if set
-			if ($customprefix != '') {
-				$this->globalPrefix = $customprefix;
-            } else {
-				$maintenanceMode = $config->getValue('maintenance', false);
-				$versions = [];
-				if ($config->getValue('installed', false) && !$maintenanceMode) {
-					$appConfig = Server::get(IAppConfig::class);
-					// only get the enabled apps to clear the cache in case an app is enabled or disabled (e.g. clear routes)
-					$versions = $appConfig->getAppInstalledVersions(true);
-					ksort($versions);
-				} else {
-					// if not installed or in maintenance mode, we should distinguish between both states.
-					$versions['core:maintenance'] = $maintenanceMode ? '1' : '0';
-				}
-				$versions['core'] = implode('.', $this->serverVersion->getVersion());
-	
-				// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
-				$instanceid = $config->getValue('instanceid');
-				$installedApps = implode(',', array_keys($versions)) . implode(',', array_values($versions));
-				$this->globalPrefix = hash('xxh128', $instanceid . $installedApps);
+			$customprefix = $config->getValue('memcache_customprefix', '');
+			$maintenanceMode = $config->getValue('maintenance', false);
+			$versions = [];
+			if ($config->getValue('installed', false) && !$maintenanceMode) {
+				$appConfig = Server::get(IAppConfig::class);
+				// only get the enabled apps to clear the cache in case an app is enabled or disabled (e.g. clear routes)
+				$versions = $appConfig->getAppInstalledVersions(true);
+				ksort($versions);
+			} else {
+				// if not installed or in maintenance mode, we should distinguish between both states.
+				$versions['core:maintenance'] = $maintenanceMode ? '1' : '0';
 			}
+			$versions['core'] = implode('.', $this->serverVersion->getVersion());
+
+			// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
+			$instanceid = $config->getValue('instanceid');
+			$installedApps = implode(',', array_keys($versions)) . implode(',', array_values($versions));
+			$this->globalPrefix = $customprefix . ($customprefix != '' ? '/' : '') . hash('xxh128', $instanceid . $installedApps);
 		}
 		return $this->globalPrefix;
 	}
@@ -152,15 +147,10 @@ class Factory implements ICacheFactory {
 		$backupPrefix = $this->globalPrefix;
 
 		$config = Server::get(SystemConfig::class);
-		$customprefix = $config->getValue('memcache.customprefix', '');
-		// use the value of memcache.customprefix setting as prefix if set
-		if ($customprefix != '') {
-			$this->globalPrefix = $customprefix . '_v' . implode('.', $this->serverVersion->getVersion());
-        } else {
-			// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
-			$instanceid = Server::get(SystemConfig::class)->getValue('instanceid');
-			$this->globalPrefix = hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
-		}
+		$customprefix = $config->getValue('memcache_customprefix', '');	
+		// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
+		$instanceid = $config->getValue('instanceid');
+		$this->globalPrefix = $customprefix . ($customprefix != '' ? '/' : '') . hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
 		$closure($this);
 		$this->globalPrefix = $backupPrefix;
 	}
