@@ -307,115 +307,152 @@ class OwnershipTransferService {
 	}
 
 	/**
-	 * @return array<array{share: IShare, suffix: string}>
+	 * Collects all outgoing shares owned by a user, optionally filtered by a given path.
+	 *
+	 * @param string $uid The unique Nextcloud user ID.
+	 * @param OutputInterface $output Output interface for progress and messages.
+	 * @param View $view File view object for resolving paths.
+	 * @param ?string $filterPath The path to filter shares, relative to the user's files root.
+	 *        If null or the user's files root, collects all outgoing shares.
+	 *
+	 * @return array<array{share: IShare, suffix: string}>	Indexed array of arrays, each containing:
+	 *														- share: the outgoing IShare object
+	 *														- suffix: the item's subpath relative to the filter path ('' if not filtered)
 	 */
 	private function collectUsersShares(
-		string $sourceUid,
+		string $uid,
 		OutputInterface $output,
 		View $view,
-		string $path,
+		?string $filterPath,
 	): array {
-		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
+		$output->writeln("Collecting outgoing shares for user $uid...");
 
-		$shares = [];
-		$progress = new ProgressBar($output);
-
-		$normalizedPath = Filesystem::normalizePath($path);
+		$allShares = [];
+		$batchSize = 500;
+		$userRootPath = "$uid/files";
+		$shouldFilter = $filterPath !== null && $filterPath !== $userRootPath;
 
 		$supportedShareTypes = [
-			IShare::TYPE_GROUP,
-			IShare::TYPE_USER,
-			IShare::TYPE_LINK,
-			IShare::TYPE_REMOTE,
-			IShare::TYPE_ROOM,
-			IShare::TYPE_EMAIL,
-			IShare::TYPE_CIRCLE,
-			IShare::TYPE_DECK,
+			IShare::TYPE_GROUP		=> 'Group',
+			IShare::TYPE_USER		=> 'User',
+			IShare::TYPE_LINK		=> 'Public Link',
+			IShare::TYPE_REMOTE		=> 'Remote',
+			IShare::TYPE_ROOM		=> 'Room',
+			IShare::TYPE_EMAIL		=> 'Mail Link',
+			IShare::TYPE_CIRCLE		=> 'Team',
+			IShare::TYPE_DECK		=> 'Deck',
 		];
 
-		foreach ($supportedShareTypes as $shareType) {
+		$progress = new ProgressBar($output);
+
+		foreach ($supportedShareTypes as $shareType => $label) {
+			$output->writeln("Collecting outgoing shares of type: $label ...");
 			$offset = 0;
 			while (true) {
-				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset, onlyValid: false);
+				$sharePage = $this->shareManager->getSharesBy($uid, $shareType, null, true, $batchSize, $offset, onlyValid: false);
 				$progress->advance(count($sharePage));
 				if (empty($sharePage)) {
 					break;
 				}
-				if ($path !== "$sourceUid/files") {
-					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $normalizedPath) {
-						try {
-							$sourceNode = $share->getNode();
-							$relativePath = $view->getRelativePath($sourceNode->getPath());
-
-							return str_starts_with($relativePath . '/', $normalizedPath . '/');
-						} catch (Exception $e) {
-							return false;
+				foreach ($sharePage as $share) {
+					try {
+						$nodePath = $view->getRelativePath($share->getNode()->getPath());
+						// TODO: Non-filesystem shares like TYPE_DECK do not have paths and will be filtered out here for subfolders.
+						// 		This leads to inconsistent handling depending on the $filterPath argument. 
+						//		Consider revising logic if non-file shares should always be included.
+						if (!$shouldFilter || $this->isShareWithinPath($nodePath, $filterPath)) {
+							$normalizedSharePath = Filesystem::normalizePath($nodePath);
+							$normalizedFilterPath = Filesystem::normalizePath($filterPath);
+							$suffix = $shouldFilter
+								? substr($normalizedSharePath, strlen($normalizedFilterPath))
+								: '';
+							 $allShares[] = [
+								 'share' => $share,
+								 'suffix' => $suffix,
+							];
 						}
-					});
+					} catch (NotFoundException $e) {
+						$output->writeln("<error>Failed to find path for shared file {$share->getNodeId()} for user $uid, skipping</error>");
+					}
 				}
-				$shares = array_merge($shares, $sharePage);
-				$offset += 50;
+				$offset += $batchSize;
 			}
 		}
-
 		$progress->finish();
 		$output->writeln('');
-
-		return array_values(array_filter(array_map(function (IShare $share) use ($view, $normalizedPath, $output, $sourceUid) {
-			try {
-				$nodePath = $view->getRelativePath($share->getNode()->getPath());
-			} catch (NotFoundException $e) {
-				$output->writeln("<error>Failed to find path for shared file {$share->getNodeId()} for user $sourceUid, skipping</error>");
-				return null;
-			}
-
-			return [
-				'share' => $share,
-				'suffix' => substr(Filesystem::normalizePath($nodePath), strlen($normalizedPath)),
-			];
-		}, $shares)));
+		return array_values($allShares);
 	}
 
+	/**
+	 * Collect all incoming shares for a user, optionally filtered by a specific path.
+	 *
+	 * @param string $uid The unique Nextcloud user ID.
+	 * @param OutputInterface $output Output interface for progress and messages.
+	 * @param ?string $filterPath The path to filter shares, relative to the user's files root.
+	 *        If null or the user's files root, collects all incoming shares.
+	 *
+	 * @return array<string, IShare> Associative array mapping share nodeId to IShare object.
+	 */
 	private function collectIncomingShares(
-		string $sourceUid,
+		string $uid,
 		OutputInterface $output,
-		?string $path,
+		?string $filterPath,
 	): array {
-		$output->writeln("Collecting all incoming share information for files and folders of $sourceUid ...");
+		$output->writeln("Collecting incoming shares for user $uid...");
 
 		$shares = [];
+		$batchSize = 500;
+		$userRootPath = "$uid/files";
+		$shouldFilter = $filterPath !== null && $filterPath !== $userRootPath;
+
+		$supportedShareTypes = [
+			IShare::TYPE_USER		=> 'User',
+		];
+
 		$progress = new ProgressBar($output);
-		$normalizedPath = Filesystem::normalizePath($path);
 
-		$offset = 0;
-		while (true) {
-			$sharePage = $this->shareManager->getSharedWith($sourceUid, IShare::TYPE_USER, null, 50, $offset);
-			$progress->advance(count($sharePage));
-			if (empty($sharePage)) {
-				break;
-			}
-
-			if ($path !== null && $path !== "$sourceUid/files") {
-				$sharePage = array_filter($sharePage, static function (IShare $share) use ($sourceUid, $normalizedPath) {
-					try {
-						return str_starts_with(Filesystem::normalizePath($sourceUid . '/files' . $share->getTarget() . '/', false), $normalizedPath . '/');
-					} catch (Exception) {
-						return false;
+		foreach ($supportedShareTypes as $shareType => $label) {
+			$output->writeln("Collecting incoming shares of type: $label ...");
+			$offset = 0;
+			while (true) {
+				$sharePage = $this->shareManager->getSharedWith($uid, $shareType, null, $batchSize, $offset);
+				$progress->advance(count($sharePage));
+				if (empty($sharePage)) {
+					break;
+				}
+				foreach ($sharePage as $share) {
+					// For incoming: target is relative to user files root
+					$shareFullPath = rtrim($userRootPath, '/') . '/' . ltrim($share->getTarget(), '/');
+					if (!$shouldFilter || $this->isShareWithinPath($shareFullPath, $filterPath)) {
+						$shares[$share->getNodeId()] = $share;
 					}
-				});
+				}
+				$offset += $batchSize;
 			}
-
-			foreach ($sharePage as $share) {
-				$shares[$share->getNodeId()] = $share;
-			}
-
-			$offset += 50;
 		}
-
 
 		$progress->finish();
 		$output->writeln('');
 		return $shares;
+	}
+
+	/**
+	 * Determine if a share's full user-rooted path is within the given filter path
+	 * (normalizing both).
+	 * 
+	 * @param string $shareFullPath The absolute user-rooted path to the shared item, e.g. 'uid/files/foo/bar.txt'
+	 * @param ?string $filterPath The filter path or null to match all.
+	 */
+	private function isShareWithinPath(
+		string $shareFullPath,
+		?string $filterPath,
+	): bool {
+		if ($filterPath === null) {
+			return true;
+		}
+		$normalizedSharePath = Filesystem::normalizePath($shareFullPath);
+		$normalizedFilterPath = Filesystem::normalizePath($filterPath);
+		return str_starts_with($normalizedSharePath . '/', $normalizedFilterPath . '/');
 	}
 
 	/**
