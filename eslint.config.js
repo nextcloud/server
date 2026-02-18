@@ -5,7 +5,7 @@
 
 import { includeIgnoreFile } from '@eslint/compat'
 import { recommended } from '@nextcloud/eslint-config'
-import CypressEslint from 'eslint-plugin-cypress'
+import * as CypressEslint from 'eslint-plugin-cypress'
 import noOnlyTests from 'eslint-plugin-no-only-tests'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
