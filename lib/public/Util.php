@@ -525,24 +525,40 @@ class Util {
 	}
 
 	/**
-	 * calculates the maximum upload size respecting system settings, free space and user quota
+	 * Calculates the maximum allowed upload size for a directory,
+	 * considering available free space/quota and PHP upload size configuration.
 	 *
-	 * @param string $dir the current folder where the user currently operates
-	 * @param int|float|null $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
-	 * @return int|float number of bytes representing
+	 * @param string $dir Directory to check free space for.
+	 * @param int|float|null $free Optional: bytes free on storage; retrieved if not provided.
+	 * @return int|float Max upload size in bytes, or -1 if unlimited.
 	 * @since 5.0.0
 	 */
 	public static function maxUploadFilesize(string $dir, int|float|null $free = null): int|float {
 		if (is_null($free) || $free < 0) {
 			$free = self::freeSpace($dir);
 		}
-		return min($free, self::uploadLimit());
+		$limit = self::uploadLimit();
+
+		if ($free === -1 && $limit === -1) {
+			return -1;
+		}
+		
+		// If only one is unlimited, return the finite value
+		if ($free === -1) {
+			return $limit;
+		}
+		if ($limit === -1) {
+			return $free;
+		}
+		// Both finite
+		return min($free, $limit);
 	}
 
 	/**
-	 * Calculate free space left within user quota
-	 * @param string $dir the current folder where the user currently operates
-	 * @return int|float number of bytes representing
+	 * Gets the available free space (respecting user quota) for the given directory.
+	 *
+	 * @param string $dir Directory to compute free space for.
+	 * @return int|float Bytes free (0 or more), or INF for unlimited.
 	 * @since 7.0.0
 	 */
 	public static function freeSpace(string $dir): int|float {
@@ -556,22 +572,57 @@ class Util {
 	}
 
 	/**
-	 * Calculate PHP upload limit
+	 * Calculates the effective PHP upload limit in bytes, based on ini settings.
 	 *
-	 * @return int|float number of bytes representing
+	 * Returns the strictest limit from `upload_max_filesize` and `post_max_size`,
+	 * treating 0 and -1 as unlimited. Returns -1 if both limits are unlimited.
+	 *
+	 * @return int Effective upload limit in bytes, or -1 if unlimited.
+	 * @throws \InvalidArgumentException If unable to parse the ini values.
 	 * @since 7.0.0
 	 */
-	public static function uploadLimit(): int|float {
-		$ini = Server::get(IniGetWrapper::class);
-		$upload_max_filesize = self::computerFileSize($ini->get('upload_max_filesize')) ?: 0;
-		$post_max_size = self::computerFileSize($ini->get('post_max_size')) ?: 0;
-		if ($upload_max_filesize === 0 && $post_max_size === 0) {
-			return INF;
-		} elseif ($upload_max_filesize === 0 || $post_max_size === 0) {
-			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
-		} else {
-			return min($upload_max_filesize, $post_max_size);
+	public static function uploadLimit(): int {
+		$uploadMaxString = ini_get('upload_max_filesize');
+		$postMaxString = ini_get('post_max_size');
+
+		set_error_handler(function($errno, $errstr) {
+			throw new \ErrorException($errstr, 0, $errno);
+		});
+
+		try {
+			$uploadMax = ini_parse_quantity($uploadMaxString);
+			$postMax = ini_parse_quantity($postMaxString);
+		} catch (\ErrorException $e) {
+			throw new \InvalidArgumentException(
+				'Error parsing PHP upload_max_filesize or post_max_size ini directive: ' . $e->getMessage()
+			);
+		} finally {
+			restore_error_handler();
 		}
+
+		// For these config parameters, both -1 and 0 mean unlimited in modern PHP, so normalize 0 to -1.
+		$uploadMax = ($uploadMax === 0) ? -1 : $uploadMax;
+		$postMax   = ($postMax === 0) ? -1 : $postMax;
+
+		if ($uploadMax === -1 && $postMax === -1) {
+			return -1; // unlimited
+		}
+
+		if ($uploadMax > $postMax && $postMax !== -1) {
+			// Optional: Log a warning if upload_max_filesize exceeds post_max_size (or a setup check)
+			// Actual upload limit will be restricted by post_max_size
+			return $postMax;
+		}
+
+		if ($uploadMax === -1) {
+			return $postMax;
+		}
+		if ($postMax === -1) {
+			return $uploadMax;
+		}
+
+		// Normal case: return the most restrictive (lowest) finite limit
+		return min($uploadMax, $postMax);
 	}
 
 	/**
