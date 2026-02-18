@@ -30,16 +30,9 @@ class OCI extends AbstractDatabase {
 		]);
 	}
 
-	public function validate(array $config): array {
-		$errors = [];
-		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
-		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t('Enter the database Login for %s', [$this->dbprettyname]);
-		} elseif (empty($config['dbname'])) {
-			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
-		}
-		return $errors;
+	protected function validateDatabaseName(array $config): array {
+		// Override default checks; allow dots in service name for oracle autosetup
+		return [];
 	}
 
 	public function setupDatabase(): void {
