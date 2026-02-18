@@ -45,6 +45,7 @@ use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddMissingIndicesListener;
 use OCA\DAV\Listener\AddressbookListener;
+use OCA\DAV\Listener\AdminAuditListener;
 use OCA\DAV\Listener\BirthdayListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
@@ -146,6 +147,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(CalendarCreatedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarDeletedEvent::class, AdminAuditListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionDefaultUpdaterListener::class);
 		$context->registerEventListener(CalendarMovedToTrashEvent::class, ActivityUpdaterListener::class);
@@ -154,16 +156,20 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarRestoredEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarRestoredEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectCreatedEvent::class, AdminAuditListener::class);
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarContactInteractionListener::class);
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, AdminAuditListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarContactInteractionListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedEvent::class, AdminAuditListener::class);
 		$context->registerEventListener(CalendarObjectMovedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, AdminAuditListener::class);
 		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectRestoredEvent::class, CalendarObjectReminderUpdaterListener::class);

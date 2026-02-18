@@ -324,6 +324,7 @@ return array(
     'OCA\\DAV\\Listener\\ActivityUpdaterListener' => $baseDir . '/../lib/Listener/ActivityUpdaterListener.php',
     'OCA\\DAV\\Listener\\AddMissingIndicesListener' => $baseDir . '/../lib/Listener/AddMissingIndicesListener.php',
     'OCA\\DAV\\Listener\\AddressbookListener' => $baseDir . '/../lib/Listener/AddressbookListener.php',
+    'OCA\\DAV\\Listener\\AdminAuditListener' => $baseDir . '/../lib/Listener/AdminAuditListener.php',
     'OCA\\DAV\\Listener\\BirthdayListener' => $baseDir . '/../lib/Listener/BirthdayListener.php',
     'OCA\\DAV\\Listener\\CalendarContactInteractionListener' => $baseDir . '/../lib/Listener/CalendarContactInteractionListener.php',
     'OCA\\DAV\\Listener\\CalendarDeletionDefaultUpdaterListener' => $baseDir . '/../lib/Listener/CalendarDeletionDefaultUpdaterListener.php',
