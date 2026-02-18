@@ -415,8 +415,19 @@ class Session implements IUserSession, Emitter {
 			}
 
 			if ($isTokenPassword) {
-				$dbToken = $this->tokenProvider->getToken($password);
+				try {
+					$dbToken = $this->tokenProvider->getToken($password);
+				} catch (InvalidTokenException $ex) {
+					$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
+					return false;
+				}
+
 				$userFromToken = $this->manager->get($dbToken->getUID());
+				if ($userFromToken === null) {
+					$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
+					return false;
+				}
+
 				$isValidEmailLogin = $userFromToken->getEMailAddress() === $user
 					&& $this->validateTokenLoginName($userFromToken->getEMailAddress(), $dbToken);
 			} else {
