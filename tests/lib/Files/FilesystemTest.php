@@ -234,6 +234,7 @@ class FilesystemTest extends \Test\TestCase {
 	public static function isValidPathData(): array {
 		return [
 			['/', true],
+			['', true],
 			['/path', true],
 			['/foo/bar', true],
 			['/foo//bar/', true],
