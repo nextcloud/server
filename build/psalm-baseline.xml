@@ -1068,9 +1068,6 @@
     </InternalMethod>
   </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
-    <ImplementedParamTypeMismatch>
-      <code><![CDATA[$position]]></code>
-    </ImplementedParamTypeMismatch>
     <InternalClass>
       <code><![CDATA[new View()]]></code>
       <code><![CDATA[new View()]]></code>
