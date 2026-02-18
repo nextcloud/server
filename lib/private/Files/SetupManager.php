@@ -72,6 +72,8 @@ class SetupManager implements ISetupManager {
 	private array $setupUsers = [];
 	// List of users for which all mounts are setup
 	private array $setupUsersComplete = [];
+	// List of users for which we've already refreshed the non-authoritative mounts
+	private array $usersMountsUpdated = [];
 	/**
 	 * An array of provider classes that have been set up, indexed by UserUID.
 	 *
@@ -237,6 +239,10 @@ class SetupManager implements ISetupManager {
 	 * Update the cached mounts for all non-authoritative mount providers for a user.
 	 */
 	private function updateNonAuthoritativeProviders(IUser $user): void {
+		if (isset($this->usersMountsUpdated[$user->getUID()])) {
+			return;
+		}
+
 		// prevent recursion loop from when getting mounts from providers ends up setting up the filesystem
 		static $updatingProviders = false;
 		if ($updatingProviders) {
@@ -257,6 +263,7 @@ class SetupManager implements ISetupManager {
 		$mount = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providerNames);
 		$this->userMountCache->registerMounts($user, $mount, $providerNames);
 
+		$this->usersMountsUpdated[$user->getUID()] = true;
 		$updatingProviders = false;
 	}
 
@@ -680,8 +687,13 @@ class SetupManager implements ISetupManager {
 		}
 
 		if (!$providersAreAuthoritative && $this->fullSetupRequired($user)) {
-			$this->setupForUser($user);
-			return;
+			if ($this->optimizeAuthoritativeProviders) {
+				$this->updateNonAuthoritativeProviders($user);
+				$this->markUserMountsCached($user);
+			} else {
+				$this->setupForUser($user);
+				return;
+			}
 		}
 
 		$this->eventLogger->start('fs:setup:user:providers', 'Setup filesystem for ' . implode(', ', $providers));
@@ -726,6 +738,7 @@ class SetupManager implements ISetupManager {
 		$this->setupUserMountProviders = [];
 		$this->setupMountProviderPaths = [];
 		$this->fullSetupRequired = [];
+		$this->usersMountsUpdated = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
 		$this->userMountCache->clear();
