@@ -23,7 +23,7 @@ class PostgreSQL extends AbstractDatabase {
 	 * This method handles two scenarios:
 	 * 1. Automatic setup: Creates user, database, and schema when connecting as superuser
 	 * 2. Manual setup: Uses pre-configured credentials when automatic setup fails
-	 * 
+	 *
 	 * @throws DatabaseSetupException If database connection or setup fails
 	 */
 	public function setupDatabase(): void {
@@ -91,8 +91,8 @@ class PostgreSQL extends AbstractDatabase {
 		} catch (\Exception $e) { // @todo: catch more specific DatabaseException | DatabaseSetupException | \PDOException $e instead?
 			// Automatic setup failed - log and continue with verification (upstream.. which will give up if necessary)
 			$this->logger->warning('Automatic database setup failed, will attempt to verify manual configuration', [
-					'exception' => $e,
-					'app' => 'pgsql.setup',
+				'exception' => $e,
+				'app' => 'pgsql.setup',
 			]);
 
 			// Ensure credentials are saved even if automatic setup failed
@@ -253,7 +253,7 @@ class PostgreSQL extends AbstractDatabase {
 
 	/**
 	 * Verifies connection to the Nextcloud database with configured credentials.
-	 * 
+	 *
 	 * @throws DatabaseSetupException If connection fails
 	 */
 	private function verifyDatabaseConnection(): void {
