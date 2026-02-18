@@ -75,7 +75,7 @@ abstract class AbstractDatabase {
 
 		// Avoid downsides of supporting database names with dots (`.`)
 		if (str_contains($dbName, '.')) {
-			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->getDisplayName]);
+			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->getDisplayName()]);
 		}
 
 		// Note: Child classes should implement db specific name validations
@@ -124,7 +124,7 @@ abstract class AbstractDatabase {
 	protected function setInstanceProperties(array $dbParams): void {
 		$this->dbUser = $dbParams['user'];
 		$this->dbPassword = $dbParams['pass'];
-		$this->dbName = $$dbParams['name'];
+		$this->dbName = $dbParams['name'];
 		$this->dbHost = $dbParams['host'];
 		$this->dbPort = $dbParams['port'];
 		$this->tablePrefix = $dbParams['tablePrefix'];
@@ -135,6 +135,7 @@ abstract class AbstractDatabase {
 	 * @return \OC\DB\Connection
 	 */
 	protected function connect(array $configOverwrite = []): Connection {
+		// Build base connection parameters
 		$connectionParams = [
 			'host' => $this->dbHost,
 			'user' => $this->dbUser,
@@ -143,31 +144,49 @@ abstract class AbstractDatabase {
 			'dbname' => $this->dbName
 		];
 
-		// adding port support through installer
-		if (!empty($this->dbPort)) {
-			if (ctype_digit($this->dbPort)) {
-				$connectionParams['port'] = $this->dbPort;
-			} else {
-				$connectionParams['unix_socket'] = $this->dbPort;
-			}
-		} elseif (strpos($this->dbHost, ':')) {
-			// Host variable may carry a port or socket.
-			[$host, $portOrSocket] = explode(':', $this->dbHost, 2);
-			if (ctype_digit($portOrSocket)) {
-				$connectionParams['port'] = $portOrSocket;
-			} else {
-				$connectionParams['unix_socket'] = $portOrSocket;
-			}
-			$connectionParams['host'] = $host;
-		}
+		// Apply port and socket configuration
+		$connectionParams = $this->applyPortAndSocketConfig($connectionParams);
+
+		// Apply any caller-provided overrides (e.g., dbname => null)
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
-		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]]);
+
+		// Configure for primary/replica topology (both point to same server during install)
+		$connectionParams['primary'] = $connectionParams;
+		$connectionParams['replica'] = [$connectionParams];
+
+		// Create and return the connection
 		$cf = new ConnectionFactory($this->config);
 		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
 		$connection->ensureConnectedToPrimary();
 		return $connection;
 	}
 
+	protected function applyPortAndSocketConfig(array $params): array {
+		// Check if port/socket is specified in the dedicated port field (only used by installer)
+		if (!empty($this->dbPort)) {
+			if (ctype_digit($this->dbPort)) {
+				$params['port'] = $this->dbPort;
+			} else {
+				$params['unix_socket'] = $this->dbPort;
+			}
+			return $params;
+		}
+
+		// Check if port/socket is embedded in the hostname (e.g., "localhost:3306")
+		if (str_contains($this->dbHost, ':')) {
+			[$host, $portOrSocket] = explode(':', $this->dbHost, 2);
+			$params['host'] = $host;
+			// Host variable may carry a port or socket.			
+			if (ctype_digit($portOrSocket)) {
+				$params['port'] = $portOrSocket;
+			} else {
+				$params['unix_socket'] = $portOrSocket;
+			}
+			return $params;
+		}
+		// Shouldn't reach here...
+	}
+		
 	abstract public function setupDatabase();
 
 	public function runMigrations(?IOutput $output = null) {
