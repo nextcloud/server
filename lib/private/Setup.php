@@ -538,26 +538,41 @@ class Setup {
 	}
 
 	/**
-	 * Find webroot from config
+	 * Determine the canonical web base path for the installation.
 	 *
-	 * @throws InvalidArgumentException when invalid value for overwrite.cli.url
+	 * Returns '' for root installs or '/subpath' (leading slash, no trailing slash) for subdir installs.
+	 *
+	 * When running in CLI the value is derived from 'overwrite.cli.url'.
+	 *
+	 * @return string Canonical webroot ('' or '/subpath')
+	 * @throws \InvalidArgumentException If running in CLI and overwrite.cli.url is empty or invalid
 	 */
 	private static function findWebRoot(SystemConfig $config): string {
-		// For CLI read the value from overwrite.cli.url
 		if (\OC::$CLI) {
-			$webRoot = $config->getValue('overwrite.cli.url', '');
-			if ($webRoot === '') {
-				throw new InvalidArgumentException('overwrite.cli.url is empty');
-			}
-			if (!filter_var($webRoot, FILTER_VALIDATE_URL)) {
-				throw new InvalidArgumentException('invalid value for overwrite.cli.url');
-			}
-			$webRoot = rtrim((parse_url($webRoot, PHP_URL_PATH) ?? ''), '/');
+			$rawPath = self::getWebRootFromCliConfig($config);
 		} else {
-			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
+			$rawPath = (string)\OC::$WEBROOT;
 		}
 
+		// normalize to canonical form regardless of source and initial form
+		$webRoot = rtrim((string)$rawPath, '/');
+
 		return $webRoot;
+	}
+
+	private static function getWebRootFromCliConfig(SystemConfig $config): string {
+		$overwriteCliUrl = $config->getValue('overwrite.cli.url', '');
+
+		if ($overwriteCliUrl === '') {
+			throw new \InvalidArgumentException('overwrite.cli.url is empty');
+		}
+
+		if (!filter_var($overwriteCliUrl, FILTER_VALIDATE_URL)) {
+			throw new \InvalidArgumentException('overwrite.cli.url is not a valid URL');
+		}
+
+		// parse_url may return null for no path -> coalesce to ''
+		return parse_url($overwriteCliUrl, PHP_URL_PATH) ?? '';
 	}
 
 	/**
