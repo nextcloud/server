@@ -69,10 +69,18 @@ abstract class AbstractDatabase {
 
 		$dbName = $config['dbname'] ?? '';
 
+		if (empty($dbName)) {
+			return $errors;
+		}
+
 		// Avoid downsides of supporting database names with dots (`.`)
-		if (!empty($dbName) && str_contains($dbName, '.')) {
+		if (str_contains($dbName, '.')) {
 			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->getDisplayName]);
 		}
+
+		// Note: Child classes should implement db specific name validations
+		// (optionally still calling this parent for default validations)
+		// (e.g. length, characters, casing, starting character, reserved words)
 
 		return $errors;
 	}
