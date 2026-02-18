@@ -67,6 +67,7 @@ use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\PushService;
 use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\RequestBuffering;
 use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\ServerIdConfig;
@@ -205,6 +206,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(RequestBuffering::class);
 		$context->registerSetupCheck(SecurityHeaders::class);
 		$context->registerSetupCheck(ServerIdConfig::class);
 		$context->registerSetupCheck(SchedulingTableSize::class);
