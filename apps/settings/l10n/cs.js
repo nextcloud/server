@@ -996,7 +996,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Nepodařilo se načíst skupiny dílčích správců s podrobnostmi",
     "Loading account …" : "Načítání účtu …",
     "Adding your device …" : "Přidávání vašeho zařízení",
-    "Developer documentation ↗" : "Dokumentace pro vývojáře ↗",
     "Sending…" : "Odesílání …",
     "Email sent" : "E-mail odeslán",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Z výkonových důvodů, pokud zapnete šifrování na Nextcloud serveru, budou šifrovány pouze nové a změněné soubory.",

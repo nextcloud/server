@@ -685,7 +685,6 @@
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Týnist tæki eða hætti einhver hjá fyrirtæki/stofnun, þá getur þetta hreinsað fjartengt út öll Nextcloud-gögn af öllum tækjum sem tengd eru {userid}. Virkar bara ef tækin eru tengd internetinu.",
     "Loading account …" : "Hleð inn notandaaðgangi …",
     "Adding your device …" : "Bæti við tækinu þínu …",
-    "Developer documentation ↗" : "Hjálparskjöl þróunaraðila↗",
     "Sending…" : "Sendi...",
     "Email sent" : "Tölvupóstur sendur",
     "{progress}% Deploying …" : "{progress}% Sett í gang …",

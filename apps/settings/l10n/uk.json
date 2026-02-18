@@ -991,7 +991,6 @@
     "Failed to load subadmin groups with details" : "Не вдалося завантажити групи підадміністраторів з деталями",
     "Loading account …" : "Завантаження облікового запису ...",
     "Adding your device …" : "Додавання вашого пристрою...",
-    "Developer documentation ↗" : "Документація розробника ↗",
     "Sending…" : "Надсилання...",
     "Email sent" : "Лист надіслано",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "З міркувань продуктивності, коли ви вмикаєте шифрування на сервері Nextcloud, шифруються лише нові та змінені файли.",

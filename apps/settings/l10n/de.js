@@ -996,7 +996,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Unteradministrations-Gruppen mit Details konnten nicht geladen werden",
     "Loading account …" : "Lade Konto …",
     "Adding your device …" : "Dieses Gerät hinzufügen …",
-    "Developer documentation ↗" : "Entwickler-Dokumentation ↗",
     "Sending…" : "Sende…",
     "Email sent" : "E-Mail gesendet",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Beim Aktivieren der Verschlüsselung auf einem Nextcloud-Server werden aus Leistungsgründen nur neue und geänderte Dateien verschlüsselt.",

@@ -680,7 +680,6 @@ OC.L10N.register(
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "In het geval van een verloren apparaat of het verlaten van de organisatie, kan dit op afstand de Nextcloud-gegevens wissen van alle apparaten die zijn gekoppeld aan {userid}. Werkt alleen als de apparaten zijn verbonden met het internet.",
     "Loading account …" : "Account laden ...",
     "Adding your device …" : "Je apparaat toevoegen...",
-    "Developer documentation ↗" : "Ontwikkelaarsdocumentatie ↗",
     "Sending…" : "Versturen...",
     "Email sent" : "E-mail verzonden",
     "{progress}% Deploying …" : "{progress} % implementeren ...",

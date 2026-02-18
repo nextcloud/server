@@ -957,7 +957,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Не удалось загрузить группы субадминистраторов с подробностями",
     "Loading account …" : "Загрузка сведений об учётной записи…",
     "Adding your device …" : "Добавление устройства…",
-    "Developer documentation ↗" : "Документация разработчика ↗",
     "Sending…" : "Отправка…",
     "Email sent" : "Письмо отправлено",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "В целях повышения производительности при включении шифрования на сервере Nextcloud шифруются только новые и измененные файлы.",
