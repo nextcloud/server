@@ -994,7 +994,6 @@
     "Failed to load subadmin groups with details" : "Theip ar lódáil na ngrúpaí fo-riaracháin le sonraí",
     "Loading account …" : "Cuntas á lódáil…",
     "Adding your device …" : "Ag cur do ghléas leis…",
-    "Developer documentation ↗" : "Doiciméadú forbróra ↗",
     "Sending…" : "Á sheoladh…",
     "Email sent" : "Ríomhphost seolta",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Ar chúiseanna feidhmíochta, nuair a chumasaíonn tú criptiú ar fhreastalaí Nextcloud ní dhéantar ach comhaid nua agus athraithe a chriptiú.",

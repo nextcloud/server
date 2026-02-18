@@ -530,7 +530,6 @@ OC.L10N.register(
     "Loading accounts …" : "Cargando les cuentes…",
     "Loading account …" : "Cargando la cuenta…",
     "Adding your device …" : "Amestando'l preséu…",
-    "Developer documentation ↗" : "Documentación pa desendolcadores ↗",
     "Sending…" : "Unviando…",
     "Email sent" : "Unvióse'l corréu electrónicu",
     "None/STARTTLS" : "Nada/STARTTLS",

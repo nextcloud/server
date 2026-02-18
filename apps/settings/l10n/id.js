@@ -972,7 +972,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Gagal memuat grup subadmin beserta detail",
     "Loading account …" : "Memuat akun …",
     "Adding your device …" : "Menambahkan perangkat Anda …",
-    "Developer documentation ↗" : "Dokumentasi pengembang ↗",
     "Sending…" : "Mengirim…",
     "Email sent" : "Email terkirim",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Demi kinerja, saat Anda mengaktifkan enkripsi pada server Nextcloud, hanya file baru dan yang diubah yang dienkripsi.",

@@ -893,7 +893,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "Alamgruppe koos üksikasjadega ei õnnestunud laadida",
     "Loading account …" : "Laadin kasutajakontot…",
     "Adding your device …" : "Lisan sinu seadet…",
-    "Developer documentation ↗" : "Dokumentatsioon arendajatele ↗",
     "Sending…" : "Saadan...",
     "Email sent" : "E-kiri on saadetud",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Kui võtad Nextcloudi serveris krüptimise kasutsele, siis jõudlusest johtuvalt krüptitakse vaid uusi ja muudetud faile.",

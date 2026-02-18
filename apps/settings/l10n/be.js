@@ -428,7 +428,6 @@ OC.L10N.register(
     "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} уліковы запіс …","{userCount} уліковыя запісы …","{userCount} уліковых запісаў …","{userCount} уліковых запісаў …"],
     "Loading account …" : "Загрузка ўліковага запісу …",
     "Adding your device …" : "Дадаванне вашай прылады …",
-    "Developer documentation ↗" : "Дакументацыя распрацоўшчыка ↗",
     "Sending…" : "Адпраўка…",
     "SSL" : "SSL",
     "Credentials" : "Уліковыя даныя",

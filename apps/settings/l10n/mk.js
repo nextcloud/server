@@ -671,7 +671,6 @@ OC.L10N.register(
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Во случај да го изгубите уредот или да излезете од компанијата, можете далечински да ги избришете податоците од сите уреди кој се конектирани со корисникот {userid}. Ова работи само доколку уредот е поврзан на интернет.",
     "Loading account …" : "Вчитување на сметка ...",
     "Adding your device …" : "Додавање на вашиот уред ...",
-    "Developer documentation ↗" : "Документација за програмери ↗",
     "Sending…" : "Испраќа…",
     "Email sent" : "Е-порака пратена",
     "{progress}% Deploying …" : "{progress}% Распоредување …",

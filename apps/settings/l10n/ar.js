@@ -878,7 +878,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "فشل تحميل المجموعات الفرعية مع التفاصيل",
     "Loading account …" : "تحميل حسابات ...",
     "Adding your device …" : "إضافة جهازك جاريةٌ ...",
-    "Developer documentation ↗" : "توثيق المطورين ↗",
     "Sending…" : "الإرسال جارٍ …",
     "Email sent" : "تمّ إرسال الإيميل",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "لأسباب تتعلق بالأداء، عندما تقوم بتمكين التشفير على خادوم نكست كلاود، يتم تشفير الملفات الجديدة والمتغيرة فقط.",

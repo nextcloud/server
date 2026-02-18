@@ -962,7 +962,6 @@ OC.L10N.register(
     "Failed to load subadmin groups with details" : "تارماق باشقۇرغۇچى گۇرۇپپىلىرنى تەپسىلىي يۈكلەش مەغلۇپ بولدى",
     "Loading account …" : "ھېسابات يۈكلەۋاتىدۇ…",
     "Adding your device …" : "ئۈسكۈنىڭىزنى قوشۇش…",
-    "Developer documentation ↗" : "ئاچقۇچىلار ھۆججىتى ↗",
     "Sending…" : "ئەۋەتىش…",
     "Email sent" : "ئېلخەت يوللاندى",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "ئىقتىدار سەۋەبىدىن، Nextcloud مۇلازىمېتىرىدا شىفىرلاشنى قوزغاتقاندا، پەقەت يېڭى ۋە ئۆزگەرتىلگەن ھۆججەتلەرلا شىفىرلىنىدۇ.",

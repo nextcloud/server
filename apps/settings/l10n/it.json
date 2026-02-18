@@ -961,7 +961,6 @@
     "Failed to load subadmin groups with details" : "Impossibile caricare i gruppi di sotto-amministratori con i dettagli",
     "Loading account …" : "Caricamento account …",
     "Adding your device …" : "Aggiunta del tuo dispositivo …",
-    "Developer documentation ↗" : "Documentazione per sviluppatori ↗",
     "Sending…" : "Invio in corso...",
     "Email sent" : "Email inviata",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Per motivi di prestazioni, quando si abilita la crittografia su un server Nextcloud, vengono crittografati solo i file nuovi e modificati.",

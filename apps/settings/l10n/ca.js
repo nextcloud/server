@@ -868,7 +868,6 @@ OC.L10N.register(
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "En cas de perdre un dispositiu o sortir de l’organització, es pot esborrar de forma remota les dades del Nextcloud de tots els dispositius associats a {userid}. Només funciona si els dispositius estan connectats a Internet.",
     "Loading account …" : "S'està carregant el compte …",
     "Adding your device …" : "S'està afegint el vostre dispositiu …",
-    "Developer documentation ↗" : "Documentació del desenvolupador ↗",
     "Sending…" : "S'està enviant…",
     "Email sent" : "S'ha enviat el correu electrònic",
     "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Per raons de rendiment, quan s'habilita el xifratge en un servidor Nextcloud només es xifren els fitxers nous i els modificats.",
