@@ -159,6 +159,7 @@ return array(
     'OCP\\App\\Events\\AppUpdateEvent' => $baseDir . '/lib/public/App/Events/AppUpdateEvent.php',
     'OCP\\App\\IAppManager' => $baseDir . '/lib/public/App/IAppManager.php',
     'OCP\\App\\ManagerEvent' => $baseDir . '/lib/public/App/ManagerEvent.php',
+    'OCP\\Authentication\\Events\\AfterAuthTokenCreatedEvent' => $baseDir . '/lib/public/Authentication/Events/AfterAuthTokenCreatedEvent.php',
     'OCP\\Authentication\\Events\\AnyLoginFailedEvent' => $baseDir . '/lib/public/Authentication/Events/AnyLoginFailedEvent.php',
     'OCP\\Authentication\\Events\\LoginFailedEvent' => $baseDir . '/lib/public/Authentication/Events/LoginFailedEvent.php',
     'OCP\\Authentication\\Events\\TokenInvalidatedEvent' => $baseDir . '/lib/public/Authentication/Events/TokenInvalidatedEvent.php',
