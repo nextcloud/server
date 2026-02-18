@@ -592,10 +592,18 @@ class AppManager implements IAppManager {
 
 		$this->enabledAppsCache[$appId] = 'yes';
 		$this->getAppConfig()->setValue($appId, 'enabled', 'yes');
-		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
-		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
-			ManagerEvent::EVENT_APP_ENABLE, $appId
-		));
+
+		try {
+			$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
+			$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+				ManagerEvent::EVENT_APP_ENABLE, $appId
+			));
+		} catch (\Throwable $e) {
+			$this->getAppConfig()->setValue($appId, 'enabled', 'no');
+			unset($this->enabledAppsCache[$appId]);
+			throw $e;
+		}
+
 		$this->clearAppsCache();
 
 		$this->configManager->migrateConfigLexiconKeys($appId);
