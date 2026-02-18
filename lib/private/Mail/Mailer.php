@@ -295,6 +295,8 @@ class Mailer implements IMailer {
 
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
 		if (is_array($streamingOptions) && !empty($streamingOptions)) {
+			$rootCertPath = $streamingOptions['ssl']['cafile'] ?? $this->config->getValue('default_certificates_bundle_path', null) ?? '';
+			$streamingOptions['ssl']['cafile'] = $rootCertPath;
 			/** @psalm-suppress InternalMethod */
 			$currentStreamingOptions = $stream->getStreamOptions();
 
