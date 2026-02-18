@@ -125,6 +125,8 @@ class RedisFactory {
 					self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION
 				));
 			}
+			$rootCertPath = $config['ssl_context']['cafile'] ?? $this->config->getValue('default_certificates_bundle_path', null) ?? '';
+			$config['ssl_context']['cafile'] = $rootCertPath;
 			return $config['ssl_context'];
 		}
 		return null;
