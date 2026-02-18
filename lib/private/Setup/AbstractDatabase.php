@@ -86,30 +86,49 @@ abstract class AbstractDatabase {
 	}
 
 	public function initialize(array $config): void {
-		$dbUser = $config['dbuser'];
-		$dbPass = $config['dbpass'];
-		$dbName = $config['dbname'];
-		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
-		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
-		$dbTablePrefix = $config['dbtableprefix'] ?? 'oc_';
+		$dbParams = $this->extractDatabaseParameters($config);
 
-		$createUserConfig = $this->config->getValue('setup_create_db_user', true);
-		// accept `false` both as bool and string, since setting config values from env will result in a string
-		$this->tryCreateDbUser = $createUserConfig !== false && $createUserConfig !== 'false';
+		// Should a database user/credential set be created automatically?
+		$this->tryCreateDbUser = $this->shouldCreateDbUser();
 
+		// Persist database configuration to config.php
 		$this->config->setValues([
-			'dbname' => $dbName,
-			'dbhost' => $dbHost,
-			'dbtableprefix' => $dbTablePrefix,
+			'dbname' => $dbParams['name'],
+			'dbhost' => $dbParams['host'],
+			'dbtableprefix' => $dbParams['tablePrefix'],
 		]);
 
-		$this->dbUser = $dbUser;
-		$this->dbPassword = $dbPass;
-		$this->dbName = $dbName;
-		$this->dbHost = $dbHost;
-		$this->dbPort = $dbPort;
-		$this->tablePrefix = $dbTablePrefix;
+		// Set instance properties from database parameters for subsequent operations (e.g. connecting)
+		$this->setInstanceProperties($dbParams);
 	}
+
+	protected function extractDatabaseParameters(array $config): array {
+		return [
+			// Guaranteed to exist after validate() (exceptions override initialize() - i.e. SQLite)
+			'user' => $config['dbuser'] ?? throw new \InvalidArgumentException('dbuser is required'),
+			'name' => $config['dbname'] ?? throw new \InvalidArgumentException('dbname is required'),
+			// Password can be empty for some setups / code paths
+			'pass' => $config['dbpass'] ?? '',
+			'host' => !empty($config['dbhost']) ? $config['dbhost'] : 'localhost',
+			'port' => !empty($config['dbport']) ? $config['dbport'] : '',
+			'tablePrefix' => $config['dbtableprefix'] ?? 'oc_',
+		];
+	}
+
+	protected function shouldCreateDbUser(): bool {
+		$createUserConfig = $this->config->getValue('setup_create_db_user', true);
+		// Accept `false` both as bool and string, since env vars result in strings
+		return $createUserConfig !== false && $createUserConfig !== 'false';
+	}
+
+	protected function setInstanceProperties(array $dbParams): void {
+		$this->dbUser = $dbParams['user'];
+		$this->dbPassword = $dbParams['pass'];
+		$this->dbName = $$dbParams['name'];
+		$this->dbHost = $dbParams['host'];
+		$this->dbPort = $dbParams['port'];
+		$this->tablePrefix = $dbParams['tablePrefix'];
+	}		
 
 	/**
 	 * @param array $configOverwrite
