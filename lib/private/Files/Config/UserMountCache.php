@@ -7,6 +7,7 @@
  */
 namespace OC\Files\Config;
 
+use OC\DB\Exceptions\DbalException;
 use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -524,18 +525,35 @@ class UserMountCache implements IUserMountCache {
 		$query->delete('mounts')
 			->where($query->expr()->eq('mount_point_hash', $query->createNamedParameter(hash('xxh128', $mountPoint))));
 		$query->executeStatement();
+
+		$parts = explode('/', $mountPoint);
+		if (count($parts) > 3) {
+			[, $userId] = $parts;
+			unset($this->mountsForUsers[$userId]);
+		}
 	}
 
 	public function addMount(IUser $user, string $mountPoint, ICacheEntry $rootCacheEntry, string $mountProvider, ?int $mountId = null): void {
-		$this->connection->insertIgnoreConflict('mounts', [
-			'storage_id' => $rootCacheEntry->getStorageId(),
-			'root_id' => $rootCacheEntry->getId(),
-			'user_id' => $user->getUID(),
-			'mount_point' => $mountPoint,
-			'mount_point_hash' => hash('xxh128', $mountPoint),
-			'mount_id' => $mountId,
-			'mount_provider_class' => $mountProvider
-		]);
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('mounts')
+			->values([
+				'storage_id' => $query->createNamedParameter($rootCacheEntry->getStorageId()),
+				'root_id' => $query->createNamedParameter($rootCacheEntry->getId()),
+				'user_id' => $query->createNamedParameter($user->getUID()),
+				'mount_point' => $query->createNamedParameter($mountPoint),
+				'mount_point_hash' => $query->createNamedParameter(hash('xxh128', $mountPoint)),
+				'mount_id' => $query->createNamedParameter($mountId),
+				'mount_provider_class' => $query->createNamedParameter($mountProvider)
+			]);
+
+		try {
+			$query->executeStatement();
+			unset($this->mountsForUsers[$user->getUID()]);
+		} catch (DbalException $e) {
+			if ($e->getReason() !== DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+		}
 	}
 
 	/**
