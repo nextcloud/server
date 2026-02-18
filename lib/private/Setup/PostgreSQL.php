@@ -12,7 +12,6 @@ use OC\DatabaseSetupException;
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\Literal;
 use OCP\Security\ISecureRandom;
-use OCP\Server;
 
 class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
@@ -213,7 +212,7 @@ class PostgreSQL extends AbstractDatabase {
 		// Generate Nextcloud-specific credentials so we don't need to store / use the db admin credentials
 		$baseUser = 'oc_admin';
 		$newUser = $baseUser;
-		$newPassword = Server::get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
+		$newPassword = $this->random->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		// Find/generate an available username
 		try {
