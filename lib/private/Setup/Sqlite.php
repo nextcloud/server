@@ -10,7 +10,10 @@ namespace OC\Setup;
 use OC\DB\ConnectionFactory;
 
 class Sqlite extends AbstractDatabase {
-	public string $dbprettyname = 'Sqlite';
+
+	protected function getDisplayName(): string {
+		return 'SQLite';
+	}
 
 	public function validate(array $config): array {
 		return [];
