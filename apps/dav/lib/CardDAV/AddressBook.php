@@ -13,6 +13,8 @@ use OCP\IL10N;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Backend\BackendInterface;
+use Sabre\CardDAV\IAddressBookObjectContainer;
+use Sabre\CardDAV\Xml\Request\AddressBookQueryReport;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IMoveTarget;
@@ -25,7 +27,7 @@ use Sabre\DAV\PropPatch;
  * @package OCA\DAV\CardDAV
  * @property CardDavBackend $carddavBackend
  */
-class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget {
+class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget, IAddressBookObjectContainer {
 	/**
 	 * AddressBook constructor.
 	 *
@@ -257,5 +259,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 			Server::get(LoggerInterface::class)->error('Could not move calendar object: ' . $e->getMessage(), ['exception' => $e]);
 			return false;
 		}
+	}
+
+	public function addressBookQuery(AddressBookQueryReport $report): array {
+		return $this->carddavBackend->addressBookReport(
+			$this->addressBookInfo['id'],
+			$report,
+		);
 	}
 }

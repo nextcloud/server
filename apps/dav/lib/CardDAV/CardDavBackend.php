@@ -29,9 +29,12 @@ use OCP\IUserManager;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
+use Sabre\CardDAV\Xml\Request\AddressBookQueryReport;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
+use function in_array;
+use function strtoupper;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
 	use TTransactional;
@@ -1531,5 +1534,83 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		// should already be handled, but just in case
 		throw new BadRequest('vCard can not be empty');
+	}
+
+	public function addressBookReport(int $addressBookId, AddressBookQueryReport $report): array {
+		$selectQuery = $this->db->getQueryBuilder();
+		$selectQuery->select('c.uri')
+			->from($this->dbCardsPropertiesTable, 'cp')
+			->join('cp', $this->dbCardsTable, 'c', $selectQuery->expr()->eq('c.id', 'cp.cardid', IQueryBuilder::PARAM_INT))
+			->where($selectQuery->expr()->eq('c.addressbookid', $selectQuery->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
+
+		$needsPostFilter = false;
+		$dbFilters = [];
+		foreach ($report->filters as $filter) {
+			if (!in_array(strtoupper($filter['name']), self::$indexProperties, true)) {
+				// We can't push the filter down to the DB
+				$needsPostFilter = true;
+			}
+			if (!empty($filter['param-filter'])) {
+				// Parameters are not indexed
+				$needsPostFilter = true;
+			}
+			if ($filter['is-not-defined'] === true) {
+				// Can't easily look for this with a query
+				$needsPostFilter = true;
+			}
+
+			foreach ($filter['text-matches'] as $matchFilter) {
+				// TODO: handle negate-condition
+				$dbFilters[] = $selectQuery->expr()->andX(
+					$selectQuery->expr()->eq(
+						'cp.name',
+						$selectQuery->createNamedParameter($filter['name']),
+					),
+					match ($matchFilter['match-type']) {
+						'equals' => $selectQuery->expr()->eq(
+							'cp.value',
+							$selectQuery->createNamedParameter($matchFilter['value'], IQueryBuilder::PARAM_STR)
+						),
+						'contains' => $selectQuery->expr()->like(
+							'cp.value',
+							$selectQuery->createNamedParameter('%' . $matchFilter['value'] . '%', IQueryBuilder::PARAM_STR) // TODO: escaping
+						),
+						'starts-with' => $selectQuery->expr()->eq(
+							'cp.value',
+							$selectQuery->createNamedParameter($matchFilter['value'] . '%', IQueryBuilder::PARAM_STR) // TODO: escaping
+						),
+						'ends-with' => $selectQuery->expr()->eq(
+							'cp.value',
+							$selectQuery->createNamedParameter('%' . $matchFilter['value'], IQueryBuilder::PARAM_STR) // TODO: escaping
+						),
+						default => throw new \InvalidArgumentException('Invalid filter match'),
+					}
+				);
+			}
+		}
+
+		if ($dbFilters !== []) {
+			$selectQuery->andWhere(
+				match ($report->test) {
+					'allof' => $selectQuery->expr()->andX(...$dbFilters),
+					'anyof' => $selectQuery->expr()->orX(...$dbFilters),
+					default => throw new \InvalidArgumentException('Invalid filter test'),
+				}
+			);
+		}
+
+		$selectQuery->groupBy('c.uri'); // deduplicate
+		$result = $selectQuery->executeQuery();
+		$uris = [];
+		while (($uri = $result->fetchOne()) !== false) {
+			$uris[] = $uri;
+		}
+		$result->closeCursor();
+
+		if ($needsPostFilter) {
+			// TODO implement
+		}
+
+		return $uris;
 	}
 }
