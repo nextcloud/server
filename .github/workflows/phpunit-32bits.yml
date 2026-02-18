@@ -45,6 +45,24 @@ jobs:
             git config --global --add safe.directory /github/workspace &&
             composer install --no-interaction"
 
+      - name: Clean Up Disk Space
+        if: runner.os == 'Linux'
+        run: |
+          # Space usage before cleanup
+          df -h /
+
+          # Remove unused stuff
+          sudo rm -rf /usr/lib/jvm
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/local/share/powershell
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/share/swift
+          #sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
+          # Verify gains
+          df -h /
+
       - name: Set up Nextcloud
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
         with:
@@ -53,7 +71,23 @@ jobs:
             ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=autotest --database-pass=rootpassword --admin-user admin --admin-pass admin &&
             php -f tests/enable_all.php"
 
+      - name: Show disk usage before PHPUnit tests
+        run: df -h && sudo du -sh .
+
+      - name: Show disk usage inside container before tests
+        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
+        with:
+          args: /bin/sh -c "df -h && du -sh /github/workspace"
+  
       - name: PHPUnit
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
         with:
           args: /bin/sh -c "composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness"
+
+      - name: Show runner disk usage after PHPUnit tests
+        run: df -h && sudo du -sh .
+
+      - name: Show disk usage inside container after tests
+        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
+        with:
+          args: /bin/sh -c "df -h && du -sh /github/workspace"
