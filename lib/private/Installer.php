@@ -487,51 +487,125 @@ class Installer {
 	/**
 	 * Installs shipped apps
 	 *
-	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
-	 * @param bool $softErrors When updating we ignore errors and simply log them, better to have a
-	 *                         working ownCloud at the end instead of an aborted update.
-	 * @return array Array of error messages (appid => Exception)
+	 * Scans all configured app directories and installs apps that meet the criteria:
+	 * - Not already installed
+	 * - Not explicitly disabled
+	 * - Marked as default-enabled or always-enabled in core/shipped.json
+	 *
+	 * @param bool $softErrors When true (during upgrades), TableExistsException errors are
+	 *                         captured and returned rather than thrown, allowing the upgrade
+	 *                         to continue.  When false (during fresh install), all errors halt
+	 *                         the installation process.
+	 * @param IOutput|null $output Optional output handler for logging installation progress
+	 * @return array<string, \Exception> Array of error messages mapping app ID to Exception.
+	 *                                   Only populated when $softErrors is true.
 	 */
 	public function installShippedApps(bool $softErrors = false, ?IOutput $output = null): array {
 		if ($output instanceof IOutput) {
 			$output->debug('Installing shipped apps');
 		}
+
 		$errors = [];
-		foreach (\OC::$APPSROOTS as $app_dir) {
-			if ($dir = opendir($app_dir['path'])) {
-				while (false !== ($filename = readdir($dir))) {
-					if ($filename[0] !== '.' && is_dir($app_dir['path'] . "/$filename")) {
-						if (file_exists($app_dir['path'] . "/$filename/appinfo/info.xml")) {
-							if ($this->config->getAppValue($filename, 'installed_version') === '') {
-								$enabled = $this->appManager->isDefaultEnabled($filename);
-								if (($enabled || in_array($filename, $this->appManager->getAlwaysEnabledApps()))
-									  && $this->config->getAppValue($filename, 'enabled') !== 'no') {
-									if ($softErrors) {
-										try {
-											$this->installShippedApp($filename, $output);
-										} catch (HintException $e) {
-											if ($e->getPrevious() instanceof TableExistsException) {
-												$errors[$filename] = $e;
-												continue;
-											}
-											throw $e;
-										}
-									} else {
-										$this->installShippedApp($filename, $output);
-									}
-									$this->config->setAppValue($filename, 'enabled', 'yes');
-								}
-							}
+
+		// Iterate through all configured app directories
+		foreach (\OC::$APPSROOTS as $appRoot) {
+			foreach ($this->scanAppsInDirectory($appRoot['path']) as $appId) {
+				if (!$this->shouldInstallShippedApp($appId)) {
+					continue;
+				}
+
+				// Fresh install: fail immediately on any errors
+				if (!$softErrors) {
+					$this->installShippedApp($appId, $output);
+				} else {
+					// During upgrades: capture TableExistsException (duplicate database table errors)
+					// to allow the upgrade to continue even if some app tables already exist
+					try {
+						$this->installShippedApp($appId, $output);
+					} catch (HintException $e) {
+						if ($e->getPrevious() instanceof TableExistsException) {
+							$errors[$appId] = $e;
+							continue;
 						}
+						throw $e;
 					}
 				}
-				closedir($dir);
+
+				$this->config->setAppValue($appId, 'enabled', 'yes');
 			}
 		}
 
 		return $errors;
 	}
 
+	/**
+	 * Scan a directory for valid apps (directories with appinfo/info.xml)
+	 *
+	 * @param string $path Path to the app directory to scan
+	 * @return string[] App IDs found
+	 */
+	private function scanAppsInDirectory(string $path): array {
+		if (!is_dir($path)) {
+			return [];
+		}
+
+		$apps = [];
+		foreach (scandir($path) as $entry) {
+			/* valid app? */
+			if (
+				$entry[0] !== '.'
+				&& is_dir("$path/$entry")
+				&& file_exists("$path/$entry/appinfo/info.xml")
+			) {
+				$apps[] = $entry;
+			}
+		}
+		return $apps;
+	}
+
+	/**
+	 * Check if a shipped app should be installed
+	 *
+	 * @param string $appId The app ID to check
+	 * @return bool True if app should be installed
+	 */
+	private function shouldInstallShippedApp(string $appId): bool {
+		// Skip if already installed or explicitly disabled
+		$isAlreadyInstalled = $this->config->getAppValue($appId, 'installed_version') !== '';
+		$isExplicitlyDisabled = $this->config->getAppValue($appId, 'enabled') === 'no';
+
+		if ($isAlreadyInstalled || $isExplicitlyDisabled) {
+			return false;
+		}
+
+		// Install if default-enabled or always-enabled
+		$isDefaultEnabled = $this->appManager->isDefaultEnabled($appId);
+		$isAlwaysEnabled = in_array($appId, $this->appManager->getAlwaysEnabledApps(), true);
+
+		return $isDefaultEnabled || $isAlwaysEnabled;
+	}
+
+	/**
+	 * Execute the final installation steps for an app
+	 *
+	 * Performs all necessary setup after app files are in place:
+	 * - Registers autoloading
+	 * - Runs database migrations
+	 * - Executes repair steps (pre/post migration and install)
+	 * - Registers background jobs
+	 * - Runs legacy install.php script (if present, deprecated)
+	 * - Sets installed version and enabled state in config
+	 * - Registers remote/public handlers
+	 * - Sets app types
+	 *
+	 * Used by both installApp() and installShippedApp() as their final step.
+	 *
+	 * @param string $appPath Full filesystem path to the app directory
+	 * @param array $info Parsed app info from info.xml
+	 * @param IOutput|null $output Optional output handler for logging progress
+	 * @param string $enabled Initial enabled state:  'yes', 'no', or JSON-encoded group list
+	 * @return string The app ID
+	 */
 	private function installAppLastSteps(string $appPath, array $info, ?IOutput $output = null, string $enabled = 'no'): string {
 		\OC_App::registerAutoloading($info['id'], $appPath);
 
