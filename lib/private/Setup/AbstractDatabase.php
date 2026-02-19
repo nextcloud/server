@@ -39,10 +39,9 @@ abstract class AbstractDatabase {
 	 */
 	abstract protected function getDisplayName(): string;
 
-	
 	/**
 	 * Validates the database configuration
-	 * 
+	 *
 	 * @param array $config Configuration array containing database credentials and settings
 	 * @return array Array of validation error messages (empty if valid)
 	 */
@@ -52,7 +51,7 @@ abstract class AbstractDatabase {
 		$errors = array_merge($errors, $this->validateRequiredFields($config));
 		$errors = array_merge($errors, $this->validateDatabaseName($config));
 
-		 return $errors;
+		return $errors;
 	}
 
 	protected function validateRequiredFields(array $config): array {
@@ -138,7 +137,7 @@ abstract class AbstractDatabase {
 		$this->dbHost = $dbParams['host'];
 		$this->dbPort = $dbParams['port'];
 		$this->tablePrefix = $dbParams['tablePrefix'];
-	}		
+	}
 
 	/**
 	 * @param array $configOverwrite Optional parameters to override (e.g., ['dbname' => null])
@@ -194,20 +193,19 @@ abstract class AbstractDatabase {
 		if (str_contains($this->dbHost, ':')) {
 			[$host, $portOrSocket] = explode(':', $this->dbHost, 2);
 			$params['host'] = $host;
-			// Host variable may carry a port or socket.			
+			// Host variable may carry a port or socket.
 			if (ctype_digit($portOrSocket)) {
 				$params['port'] = $portOrSocket;
 			} else {
 				$params['unix_socket'] = $portOrSocket;
 			}
-			return $params;
 		}
-		// Shouldn't reach here...
+		return $params;
 	}
 
 	/**
 	 * Sets up the database (creates database, users, etc.)
-	 * 
+	 *
 	 * Must be implemented by database-specific child classes
 	 */
 	abstract public function setupDatabase(): void;
@@ -228,7 +226,7 @@ abstract class AbstractDatabase {
 		$this->logger->info('Starting core database migrations');
 
 		$migrationService = new MigrationService('core', Server::get(Connection::class), $output);
-		
+
 		// Migrate to latest version, applying schema changes only
 		// (no data migrations needed for fresh install)
 		$migrationService->migrate('latest', true);
