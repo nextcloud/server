@@ -15,6 +15,7 @@ use OC\Encryption\Manager as EncryptionManager;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files\Exception\TransferOwnershipException;
+use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
@@ -27,6 +28,7 @@ use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -155,6 +157,28 @@ class OwnershipTransferService {
 		);
 		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
 
+		// Files in Team folders are not transferred, so their size needs to be subtracted to avoid warnings about size differences
+		$mounts = Server::get(IMountManager::class)->getAll();
+		foreach ($mounts as $mount) {
+			if (!$mount instanceof GroupMountPoint || !str_starts_with($mount->getMountPoint(), '/' . $sourcePath . '/')) {
+				continue;
+			}
+
+			$storage = $mount->getStorage();
+			if ($storage === null) {
+				$output->writeln('Failed to get storage for mount: ' . $mount->getMountPoint());
+				continue;
+			}
+
+			$rootCacheEntry = $storage->getCache()->get('');
+			if ($rootCacheEntry === false) {
+				$output->writeln('Failed to get root cache entry for storage: ' . $mount->getMountPoint());
+				continue;
+			}
+
+			$sizeDifference -= $rootCacheEntry->getSize();
+		}
+
 		// transfer the incoming shares
 		$sourceShares = $this->collectIncomingShares(
 			$sourceUid,
@@ -235,7 +259,7 @@ class OwnershipTransferService {
 		$progress->start();
 
 		if ($this->encryptionManager->isEnabled()) {
-			$masterKeyEnabled = \OCP\Server::get(\OCA\Encryption\Util::class)->isMasterKeyEnabled();
+			$masterKeyEnabled = Server::get(\OCA\Encryption\Util::class)->isMasterKeyEnabled();
 		} else {
 			$masterKeyEnabled = false;
 		}
