@@ -318,6 +318,8 @@
     "Database transaction isolation level" : "Niveau d'isolement des transactions de base de données",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Votre base de données ne fonctionne pas avec le niveau d'isolation de transaction \"READ COMMITED\". Ceci peut causer des problèmes quand plusieurs actions sont exécutées en parallèle.",
     "Was not able to get transaction isolation level: %s" : "Impossible d'obtenir le niveau d'isolation de la transaction: %s",
+    "Second factor configuration" : "Configuration de l'authentification à double facteur",
+    "Second factor providers are available but two-factor authentication is not enforced." : "Des fournisseurs d'authentification à double facteur sont disponibles mais ne sont pas imposés.",
     ".well-known URLs" : "URL .well-known",
     "`check_for_working_wellknown_setup` is set to false in your configuration, so this check was skipped." : "`check_for_working_wellknown_setup` est défini à faux dans votre configuration, donc cette vérification a été passée.",
     "Could not check that your web server serves `.well-known` correctly. Please check manually." : "Impossible de vérifier que votre serveur web serve les entêtes `.well-known` correctement. Veuillez vérifier manuellement.",
