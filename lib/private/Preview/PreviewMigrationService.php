@@ -161,12 +161,16 @@ class PreviewMigrationService {
 	private function deleteFolder(string $path): void {
 		$current = $path;
 
+		$rootFolderId = $this->rootFolder->getMountPoint()->getNumericStorageId();
 		while (true) {
 			$appDataPath = $this->previewRootPath . $current;
 			$qb = $this->connection->getQueryBuilder();
 			$qb->delete('filecache')
 				->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($appDataPath))))
-				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
+				->andWhere($qb->expr()->eq(
+					'storage',
+					$qb->createNamedParameter($rootFolderId),
+				))
 				->executeStatement();
 
 			$current = dirname($current);
