@@ -3874,12 +3874,6 @@
     <TypeDoesNotContainType>
       <code><![CDATA[ctype_digit($this->dbPort)]]></code>
     </TypeDoesNotContainType>
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/Share20/ProviderFactory.php">
     <InvalidReturnStatement>
