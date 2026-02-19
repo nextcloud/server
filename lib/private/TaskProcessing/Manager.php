@@ -303,13 +303,18 @@ class Manager implements IManager {
 		$oldProviders = $this->textToImageManager->getProviders();
 		$newProviders = [];
 		foreach ($oldProviders as $oldProvider) {
-			$newProvider = new class($oldProvider, $this->appData) implements IProvider, ISynchronousProvider {
+			$newProvider = new class($oldProvider, $this->appData, $this->l10nFactory, $this->userManager) implements IProvider, ISynchronousProvider {
 				private \OCP\TextToImage\IProvider $provider;
 				private IAppData $appData;
+				private IFactory $l10nFactory;
 
-				public function __construct(\OCP\TextToImage\IProvider $provider, IAppData $appData) {
+				private IUserManager $userManager;
+
+				public function __construct(\OCP\TextToImage\IProvider $provider, IAppData $appData, IFactory $l10nFactory, IUserManager $userManager) {
 					$this->provider = $provider;
 					$this->appData = $appData;
+					$this->l10nFactory = $l10nFactory;
+					$this->userManager = $userManager;
 				}
 
 				public function getId(): string {
@@ -341,6 +346,16 @@ class Manager implements IManager {
 						$folder = $this->appData->getFolder('text2image');
 					} catch (\OCP\Files\NotFoundException) {
 						$folder = $this->appData->newFolder('text2image');
+					}
+					if ($input['numberOfImages'] > 12) {
+						throw new ProcessingException(
+							'numberOfImages cannot be greater than 12'
+						);
+					}
+					if ($input['numberOfImages'] < 1) {
+						throw new ProcessingException(
+							'numberOfImages must be greater than 0'
+						);
 					}
 					$resources = [];
 					$files = [];
