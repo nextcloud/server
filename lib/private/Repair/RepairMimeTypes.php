@@ -390,8 +390,8 @@ class RepairMimeTypes implements IRepairStep {
 	 */
 	private function getMimeTypeVersion(): string {
 		// 29.0.0.10 is the last version with a mimetype migration before tracking was moved to mimetype_version.
-		// However since it's possible that someone may have upgraded without running expensive repair steps prior 
-		// to 29.0.0.10, we assume none have been ran (once). This is acceptable since (a) only happens when expensive 
+		// However since it's possible that someone may have upgraded without running expensive repair steps prior
+		// to 29.0.0.10, we assume none have been ran (once). This is acceptable since (a) only happens when expensive
 		// repair steps are explicitly requested; (b) only happens once *ever* in a given environment.
 		return $this->appConfig->getValueString('files', 'mimetype_version', '0.0.0');
 	}
