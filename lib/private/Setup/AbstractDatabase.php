@@ -34,8 +34,18 @@ abstract class AbstractDatabase {
 	) {
 	}
 
+	/**
+	 * Returns the display name of the database system (e.g., "MySQL/MariaDB", "PostgreSQL")
+	 */
 	abstract protected function getDisplayName(): string;
 
+	
+	/**
+	 * Validates the database configuration
+	 * 
+	 * @param array $config Configuration array containing database credentials and settings
+	 * @return array Array of validation error messages (empty if valid)
+	 */
 	public function validate(array $config): array {
 		$errors = [];
 
@@ -131,8 +141,7 @@ abstract class AbstractDatabase {
 	}		
 
 	/**
-	 * @param array $configOverwrite
-	 * @return \OC\DB\Connection
+	 * @param array $configOverwrite Optional parameters to override (e.g., ['dbname' => null])
 	 */
 	protected function connect(array $configOverwrite = []): Connection {
 		// Build base connection parameters
@@ -195,14 +204,35 @@ abstract class AbstractDatabase {
 		}
 		// Shouldn't reach here...
 	}
-		
-	abstract public function setupDatabase();
 
-	public function runMigrations(?IOutput $output = null) {
-		if (!is_dir(\OC::$SERVERROOT . '/core/Migrations')) {
-			return;
+	/**
+	 * Sets up the database (creates database, users, etc.)
+	 * 
+	 * Must be implemented by database-specific child classes
+	 */
+	abstract public function setupDatabase(): void;
+
+	/**
+	 * @throws \Exception If migration fails (handled by caller)
+	 */
+	public function runMigrations(?IOutput $output = null): void {
+		$migrationsPath = \OC::$SERVERROOT . '/core/Migrations';
+
+		if (!is_dir($migrationsPath)) {
+			$this->logger->debug('Skipping migrations - directory not found: {path}', [
+				'path' => $migrationsPath,
+			]);
+			return; // @todo: should we throw an Exception here instead to let caller decide?
 		}
-		$ms = new MigrationService('core', Server::get(Connection::class), $output);
-		$ms->migrate('latest', true);
+
+		$this->logger->info('Starting core database migrations');
+
+		$migrationService = new MigrationService('core', Server::get(Connection::class), $output);
+		
+		// Migrate to latest version, applying schema changes only
+		// (no data migrations needed for fresh install)
+		$migrationService->migrate('latest', true);
+
+		$this->logger->info('Core database migrations completed successfully');
 	}
 }
