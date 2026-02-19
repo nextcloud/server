@@ -403,7 +403,7 @@
     "Back to %s" : "Назад до %s",
     "Add to your Nextcloud" : "Додати до вашої хмари Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Спільне використання %s не вдалося, оскільки бекенд не підтримує спільне використання ScienceMesh",
-    "Link copied to clipboard" : "Посилання скопійовано в буфер обміну",
+    "Link copied to clipboard" : "Посилання скопійовано до буфера обміну",
     "Copy to clipboard" : "Копіювати до буфера обміну",
     "Copy internal link to clipboard" : "Копіювати внутрішнє посилання до буфера обміну",
     "Only works for people with access to this folder" : "Доступно лише тим користувачам, які мають доступ до цього каталогу",
