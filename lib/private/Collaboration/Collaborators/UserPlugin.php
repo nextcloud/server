@@ -9,6 +9,7 @@ namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\Teams\ITeamManager;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
@@ -26,6 +27,7 @@ readonly class UserPlugin implements ISearchPlugin {
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
+		private ITeamManager $teamManager,
 		private IUserSession $userSession,
 		private IUserStatusManager $userStatusManager,
 		private IDBConnection $connection,
@@ -64,6 +66,23 @@ readonly class UserPlugin implements ISearchPlugin {
 							$user = $this->userManager->get($userId);
 							if ($user !== null && $user->isEnabled()) {
 								$users[$userId] = ['wide', $user];
+							}
+						}
+					}
+
+					// If teams are enabled, also search in them
+					if ($this->teamManager->hasTeamSupport()) {
+						$teams = $this->teamManager->getTeamsForUser($currentUser->getUID());
+						foreach ($teams as $team) {
+							$usersInTeam = $this->teamManager->getMembersOfTeam($team->getId(), $currentUser->getUID());
+							foreach ($usersInTeam as $userId => $displayName) {
+								if (!str_contains($userId, $search) && !str_contains($displayName, $search)) {
+									continue;
+								}
+								$user = $this->userManager->get($userId);
+								if ($user !== null && $user->isEnabled()) {
+									$users[$userId] = ['wide', $user];
+								}
 							}
 						}
 					}

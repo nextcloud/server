@@ -133,7 +133,9 @@ class TeamManager implements ITeamManager {
 	}
 
 	/**
-	 * @return string[]
+	 * Returns a mapping of user id to display name for all members of a given team.
+	 *
+	 * @return array<string, string> userId => displayName
 	 */
 	public function getMembersOfTeam(string $teamId, string $userId): array {
 		$team = $this->getTeam($teamId, $userId);
@@ -141,7 +143,11 @@ class TeamManager implements ITeamManager {
 			return [];
 		}
 		$members = $team->getInheritedMembers();
-		return array_map(fn ($member) => $member->getUserId(), $members);
+		$result = [];
+		foreach ($members as $member) {
+			$result[$member->getUserId()] = $member->getDisplayName();
+		}
+		return $result;
 	}
 
 	/**
