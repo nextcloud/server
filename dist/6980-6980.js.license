@@ -29,7 +29,6 @@ SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: Jerry Bendy <jerry@icewingcc.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
@@ -291,9 +290,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - unist-util-visit
 	- version: 5.1.0
-	- license: MIT
-- url-search-params-polyfill
-	- version: 8.2.5
 	- license: MIT
 - util-deprecate
 	- version: 1.0.2
