@@ -474,12 +474,6 @@
     "Generate headline" : "産生標題",
     "Summarizes text by reducing its length without losing key information." : "通過減少文字長度來總結而不丟失關鍵資訊。",
     "Extracts topics from a text and outputs them separated by commas." : "從文字中提取主題並輸出，並用逗號分隔。",
-    "Organisation" : "機構",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "不支援 Mac OS X 而且 %s 在這個平台上面無法正常運作，請自行衡量風險後使用！",
-    "Login is too long" : "帳號太長了",
-    "Cannot write into \"apps\" directory." : "無法寫入 \"apps\" 目錄",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "這通常可以通過授予網絡伺服器對應用程式目錄的寫存取權限或在配置檔案中禁用 App Store 來解決。",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> 應該要被設定成 <code>0</code> 而不是目前的設定 <code>%s</code>。",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "為了修正這個問題，請到 php.ini 將 <code>mbstring.func_overload</code> 的值改為 <code>0</code>。"
+    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk!" : "不支援 Mac OS X 而且 %s 在這個平台上面無法正常運作，請自行衡量風險後使用！"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

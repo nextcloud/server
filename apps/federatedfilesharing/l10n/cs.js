@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
     "Remote share password" : "Heslo ke vzdálenému sdílení",
     "Incoming share could not be processed" : "Příchozí sdílení se nepodařilo zpracovat",
-    "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
-    "Copy to clipboard" : "Zkopírovat do schránky",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud nebo jiný server či služby, kompatibilní se standardem Open Cloud Mesh (OCM)! Stačí do dialogu pro sdílení zadat jejich jejich identif. v rámci sdruženého cloudu. Má podobu person@cloud.example.com",
     "X (formerly Twitter)" : "X (dříve Twitter)",
     "formerly Twitter" : "dříve Twitter"
 },

@@ -130,8 +130,6 @@ OC.L10N.register(
     "Background and login image" : "Cúlra agus íomhá logáil isteach",
     "Advanced options" : "Ardroghanna",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Suiteáil an síneadh ImageMagick PHP le tacaíocht d'íomhánna SVG chun favicons a ghiniúint go huathoibríoch bunaithe ar an lógó agus an dath uaslódáilte.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Is tábhachtach go mór dúinn rochtain uilepháirtíoch a chur ar fáil. Leanaimid na caighdeáin ghréasáin agus déanaimid seiceáil chun gach rud a úsáid a dhéanamh gan luchóg, agus bogearraí chabhrach cosúil le léitheoirí scáileáin. Táimid ag tógáil leis an gcomhlíonadh {guidelines}Treoracha Rochtanaíochta Ábhar Gréasáin{linkend} 2.1 ar leibhéal AA, leis an téama ardshaincheaptha fiú ar leibhéal AAA.",
-    ". Unable to apply the setting." : ". Ní féidir an socrú a chur i bhfeidhm.",
     "No background has been selected" : "Níor roghnaíodh aon chúlra",
     "Select a custom color" : "Roghnaigh dath saincheaptha",
     "Upload" : "Uaslódáil"

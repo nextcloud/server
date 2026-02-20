@@ -169,13 +169,8 @@ OC.L10N.register(
     "Unauthorized" : "Unauthorized",
     "Network error" : "網路錯誤",
     "Grant access" : "授予存取權",
-    "Error configuring OAuth1" : "設定 OAuth1 時發生錯誤",
-    "Please provide a valid app key and secret." : "請提供有效的應用程式金鑰及密碼。",
     "Error configuring OAuth2" : "設定 OAuth2 時發生錯誤",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "應用程式金鑰",
-    "App secret" : "應用程式密鑰",
     "OAuth2" : "OAuth2",
     "Client ID" : "客戶端 ID",
     "Client secret" : "客戶端密碼",
@@ -190,7 +185,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "未知後端：{backendName}",
     "Admin defined" : "管理員自訂",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "因為組態設定的儲存空間數量過多，自動狀態檢查被停用，點擊以檢查狀態",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要中斷與這個外部儲存空間的連結嗎？這會讓該儲存空間無法在 Nextcloud 中使用，並將會在目前連線的任何同步客戶端上刪除這些檔案與資料夾，但不會刪除外部儲存空間本身的任何檔案與資料夾。",
+    "Are you sure you want to disconnect this external storage?" : "您確定要取消連結此外部儲存空間嗎？",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "這會讓 {instanceName} 無法使用該儲存空間，並將會在目前連線的任何同步客戶端上刪除這些檔案與資料夾，但不會刪除外部儲存空間本身的任何檔案與資料夾。",
     "Delete storage?" : "刪除儲存空間？",
     "Click to recheck the configuration" : "點擊以重新檢查組態設定",
     "Saving …" : "正在儲存…",
@@ -202,8 +198,6 @@ OC.L10N.register(
     "Configuration" : "組態設定",
     "Available for" : "可使用者",
     "All people" : "所有使用者",
-    "Advanced settings" : "進階設定",
-    "Are you sure you want to disconnect this external storage?" : "您確定要取消連結此外部儲存空間嗎？",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "這會讓 {instanceName} 無法使用該儲存空間，並將會在目前連線的任何同步客戶端上刪除這些檔案與資料夾，但不會刪除外部儲存空間本身的任何檔案與資料夾。"
+    "Advanced settings" : "進階設定"
 },
 "nplurals=1; plural=0;");

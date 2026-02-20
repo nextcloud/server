@@ -77,7 +77,6 @@ OC.L10N.register(
     "Upload new logo" : "Upload nieuw logo",
     "Background and login image" : "Achtergrond en aanmeld afbeelding",
     "Advanced options" : "Geavanceerde opties",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universele toegang is heel belangrijk voor ons. We volgen webstandaarden en controleren dat alles ook zonder muis en met ondersteunende software zoals schermlezers bruikbaar is. We streven om de {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 op AA-niveau te volgen, en met het hoge contrast thema zelfs op AAA-niveau.",
     "Select a custom color" : "Selecteer een aangepaste kleur",
     "Upload" : "Uploaden"
 },

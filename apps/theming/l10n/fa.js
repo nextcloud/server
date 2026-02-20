@@ -93,7 +93,6 @@ OC.L10N.register(
     "Background and login image" : "تصویر پس‌زمینه و ورود",
     "Advanced options" : "گزینه‌های پیش‌رفته",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "دسترسی جهانی برای ما بسیار مهم است. ما از استانداردهای وب پیروی می‌کنیم و دقیت می‌کنیم تا همه چیز بدون موش‌واره و نرم‌افزارهای کمکی مانند صفحه‌خوان‌ها نیز قابل استفاده باشند. هدف ما این است که مطابق با دستورالعمل {guidelines}راهنماهای دسترس‌پذیری محتوا تحت وب{linkend} نسخه 2.1 در سطح AA، و حتی با زمینه کنتراست بالا در سطح AAA باشیم.",
     "No background has been selected" : "پس‌زمینه‌ای انتخاب نشده است",
     "Select a custom color" : "گزینش رنگی شخصی",
     "Upload" : "بارگذاری"

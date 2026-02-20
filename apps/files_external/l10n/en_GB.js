@@ -169,13 +169,8 @@ OC.L10N.register(
     "Unauthorized" : "Unauthorized",
     "Network error" : "Network error",
     "Grant access" : "Grant access",
-    "Error configuring OAuth1" : "Error configuring OAuth1",
-    "Please provide a valid app key and secret." : "Please provide a valid app key and secret.",
     "Error configuring OAuth2" : "Error configuring OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "App key",
-    "App secret" : "App secret",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
@@ -190,7 +185,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Unknown backend: {backendName}",
     "Admin defined" : "Admin defined",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatic status checking is disabled due to the large number of configured storages, click to check status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
+    "Are you sure you want to disconnect this external storage?" : "Are you sure you want to disconnect this external storage?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
     "Delete storage?" : "Delete storage?",
     "Click to recheck the configuration" : "Click to recheck the configuration",
     "Saving …" : "Saving …",
@@ -202,8 +198,6 @@ OC.L10N.register(
     "Configuration" : "Configuration",
     "Available for" : "Available for",
     "All people" : "All people",
-    "Advanced settings" : "Advanced settings",
-    "Are you sure you want to disconnect this external storage?" : "Are you sure you want to disconnect this external storage?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself."
+    "Advanced settings" : "Advanced settings"
 },
 "nplurals=2; plural=(n != 1);");

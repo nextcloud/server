@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Hakuna faili zilizofutwa",
     "Files and folders you have deleted will show up here" : "Faili na folda ambazo umefuta zitaonekana hapa",
     "All files have been permanently deleted" : "Faili zote zimefutwa kabisa",
-    "Failed to empty deleted files" : "Imeshindwa kufuta faili zilizofutwa",
-    "Deletion cancelled" : "Ufutaji umesitishwa"
+    "Failed to empty deleted files" : "Imeshindwa kufuta faili zilizofutwa"
 },
 "nplurals=2; plural=(n != 1);");

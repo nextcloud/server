@@ -167,13 +167,8 @@
     "Unauthorized" : "Tidak berwenang",
     "Network error" : "Kesalahan jaringan",
     "Grant access" : "Berikan hak akses",
-    "Error configuring OAuth1" : "Kesalahan mengkonfigurasi OAuth1",
-    "Please provide a valid app key and secret." : "Silakan berikan kunci dan kerahasiaan aplikasi yang benar.",
     "Error configuring OAuth2" : "Kesalahan mengkonfigurasi OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Kunci Apl",
-    "App secret" : "Rahasia Apl",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID Klien",
     "Client secret" : "Rahasia klien",
@@ -188,7 +183,8 @@
     "Unknown backend: {backendName}" : "Backend tidak dikenal: {backendName}",
     "Admin defined" : "Terdefinisi Admin",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Pemeriksaan status otomatis dinonaktifkan karena banyaknya penyimpanan yang dikonfigurasi, klik untuk memeriksa status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Apakah Anda yakin ingin memutuskan penyimpanan eksternal ini? Ini akan membuat penyimpanan tidak tersedia di Nextcloud dan akan menyebabkan penghapusan file dan folder ini pada klien sinkronisasi mana pun yang saat ini terhubung, tetapi tidak akan menghapus file dan folder apa pun pada penyimpanan eksternal itu sendiri.",
+    "Are you sure you want to disconnect this external storage?" : "Apakah Anda yakin ingin memutuskan penyimpanan eksternal ini?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ini akan membuat penyimpanan tidak tersedia di {instanceName} dan akan menyebabkan penghapusan file dan folder ini pada klien sinkronisasi mana pun yang saat ini terhubung, tetapi tidak akan menghapus file dan folder apa pun pada penyimpanan eksternal itu sendiri.",
     "Delete storage?" : "Hapus penyimpanan?",
     "Click to recheck the configuration" : "Klik untuk memeriksa ulang konfigurasi",
     "Saving …" : "Menyimpan …",
@@ -200,8 +196,6 @@
     "Configuration" : "Konfigurasi",
     "Available for" : "Tersedia untuk",
     "All people" : "Semua orang",
-    "Advanced settings" : "Pengaturan Lanjutan",
-    "Are you sure you want to disconnect this external storage?" : "Apakah Anda yakin ingin memutuskan penyimpanan eksternal ini?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ini akan membuat penyimpanan tidak tersedia di {instanceName} dan akan menyebabkan penghapusan file dan folder ini pada klien sinkronisasi mana pun yang saat ini terhubung, tetapi tidak akan menghapus file dan folder apa pun pada penyimpanan eksternal itu sendiri."
+    "Advanced settings" : "Pengaturan Lanjutan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

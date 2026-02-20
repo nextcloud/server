@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Vybraný aktualizačný kanál nepodporuje aktualizácie servera.",
     "Changelog for app {app}" : "Zoznam zmien pre aplikáciu {app}",
     "What's new in {app} version {version}" : "Čo je nové v {app} verzie {version}",
-    "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Všetky</strong> aplikácie majú dostupnú kompatibilnú verziu s týmto Nextcloudom.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikácia nemá dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom"],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pre podnikové použitie. Poskytuje vždy najnovšiu úroveň opráv, ale neaktualizuje sa okamžite na ďalšie hlavné vydanie. K tejto aktualizácii dôjde, keď Nextcloud GmbH urobí ďalšie zodolnenie a testovanie pre veľké a kritické nasadenia. Tento kanál je k dispozícii iba  pre zákazníkov a poskytuje balík Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

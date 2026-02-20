@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nie udało się usunąć tagu z pliku",
     "Collaborative tags …" : "Etykiety wspólne…",
     "Loading …" : "Wczytywanie…",
-    "File tags modification canceled" : "Modyfikacja tagów pliku została anulowana",
-    "Select or create tags to apply to all selected files" : "Wybierz lub utwórz etykiety do zastosowania do wszystkich zaznaczonych plików",
-    "Select tags to apply to all selected files" : "Wybierz tagi do zastosowania do wszystkich zaznaczonych plików",
-    "Apply changes" : "Zastosuj zmiany",
     "Loading collaborative tags …" : "Wczytywanie wspólnych etykiet…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -243,7 +243,6 @@ OC.L10N.register(
     "Tentative" : "Tentativo",
     "Your attendance was updated successfully." : "Su asistencia se actualizó correctamente.",
     "No results." : "Sin resultados.",
-    "Start typing." : "Empezar a escribir.",
-    "Time zone:" : "Zona horaria:"
+    "Start typing." : "Empezar a escribir."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

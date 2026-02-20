@@ -219,8 +219,6 @@
     "So-so password" : "ნორმალური პაროლი",
     "Good password" : "კარგი პაროლი",
     "Strong password" : "ძლიერი პაროლ",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "ეს აპლიკაცია არ საზღვრავს Nextcloud-ის მინიმალურ ვერსიას. სამომავლოდ ეს ჩაითვლება შეცდომად.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "ეს აპლიკაცია არ საზღვრავს Nextcloud-ის მაქსიმალურ ვერსიას. სამომავლოდ ეს ჩაითვლება შეცდომად.",
     "Sending…" : "იგზავნება…",
     "Email sent" : "ელ-წერილი გაიგზავნა",
     "SSL" : "SSL",

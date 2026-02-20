@@ -129,8 +129,6 @@ OC.L10N.register(
     "Background and login image" : "Bakgrund och inloggningsbild",
     "Advanced options" : "Avancerade inställningar",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Allmän åtkomst är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 på AA-nivå, med temat hög kontrast även på AAA-nivå.",
-    ". Unable to apply the setting." : ". Det gick inte att tillämpa inställningen.",
     "No background has been selected" : "Ingen bakgrund har valts",
     "Select a custom color" : "Välj en anpassad färg",
     "Upload" : "Ladda upp"

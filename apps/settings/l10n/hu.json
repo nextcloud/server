@@ -638,25 +638,16 @@
     "Strong password" : "Erős jelszó",
     "Group list is empty" : "A csoportlista üres",
     "Unable to retrieve the group list" : "A csoportlista betöltése sikertelen",
-    "Logged in account must be a subadmin" : "A belépett felhasználónak al-adminnak kell lennie",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ennek az alkalmazásnak nincs minimum szükséges Nextcloud verziója megadva. Ez hiba lesz a jövőben.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ennek az alkalmazásnak nincs maximum szükséges Nextcloud verziója megadva. Ez hiba lesz a jövőben.",
     "Loading accounts …" : "Fiókok betöltése…",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Az eszköz elvesztése vagy a szervezetből való kilépés esetén ez távolról képes eltávolítani {userid} minden nextcloudos adatát a hozzá köthető eszközökről: {userid}. Csak akkor működik, ha az eszközök kapcsolódnak az internethez.",
     "Loading account …" : "Felhasználó betöltése...",
     "Adding your device …" : "Eszköz hozzáadása…",
     "Sending…" : "Küldés…",
     "Email sent" : "E-mail elküldve",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ez az alkalmazás nincs megjelölve, hogy kompatibilis lenne a jelenlegi Nextcloud verzióval. Ha folytatja, telepítheti az alkalmazást. Azonban az alkalmazás lehet, hogy nem fog rendeltetés szerint működni.",
     "None/STARTTLS" : "Semmi/STARTTLS",
     "SSL" : "SSL",
     "Credentials" : "Hitelesítő adatok",
     "SMTP Password" : "SMTP jelszó",
     "Save" : "Mentés",
-    "Test and verify email settings" : "E-mail beállítások tesztelése és ellenőrzése",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "A példánya biztonságához és megfelelő teljesítményéhez fontos, hogy minden beállítás helyes legyen. Ennek érdekében segítünk pár automatikus ellenőrzéssel. További információkért nézze meg a kapcsolódó dokumentációt.",
-    "Checking for system and security issues." : "Rendszer- és biztonsági problémák ellenőrzése.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Nézze meg még egyszer a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">telepítési dokumentációt ↗</a>, és keressen hibákat vagy figyelmeztetéseket a <a href=\"%2$s\">naplóban</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ellenőrizze a Nextcloud biztonságát <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">a biztonsági ellenőrzéssel ↗</a>."
+    "Test and verify email settings" : "E-mail beállítások tesztelése és ellenőrzése"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

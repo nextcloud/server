@@ -22,7 +22,6 @@
     "No deleted files" : "Žiadne zmazané súbory",
     "Files and folders you have deleted will show up here" : "Súbory a adresáre, ktoré ste vymazali, sa zobrazia tu",
     "All files have been permanently deleted" : "Všetky súbory boli trvalo vymazané",
-    "Failed to empty deleted files" : "Nepodarilo sa vyprázdniť zmazané súbory",
-    "Deletion cancelled" : "Zmazanie zrušené"
+    "Failed to empty deleted files" : "Nepodarilo sa vyprázdniť zmazané súbory"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

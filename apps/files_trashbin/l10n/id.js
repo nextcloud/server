@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Tidak ada berkas yang dihapus",
     "Files and folders you have deleted will show up here" : "File dan folder yang Anda hapus akan muncul di sini",
     "All files have been permanently deleted" : "Semua file telah dihapus secara permanen",
-    "Failed to empty deleted files" : "Gagal mengosongkan file yang dihapus",
-    "Deletion cancelled" : "Penghapusan dibatalkan"
+    "Failed to empty deleted files" : "Gagal mengosongkan file yang dihapus"
 },
 "nplurals=1; plural=0;");

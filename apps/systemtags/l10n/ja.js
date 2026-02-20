@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
     "Collaborative tags …" : "コラボレーションタグ ...",
     "Loading …" : "読み込み中…",
-    "File tags modification canceled" : "ファイルタグの変更がキャンセルされました",
-    "Select or create tags to apply to all selected files" : "選択した全てのファイルに適用するタグを選択または作成する",
-    "Select tags to apply to all selected files" : "選択した全てのファイルに適用するタグを選択",
-    "Apply changes" : "変更を適用する",
     "Loading collaborative tags …" : "コラボレーションタグを読み込み中 ..."
 },
 "nplurals=1; plural=0;");

@@ -58,9 +58,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Kituo cha sasisho kilichochaguliwa hakiauni masasisho ya seva.",
     "Changelog for app {app}" : "Changelog kwa programu {app}",
     "What's new in {app} version {version}" : "Kipya ni nini katika {app} toleo {version}",
-    "{version} is available. Get more information on how to update." : "{version} inapatikana. Pata maelezo zaidi kuhusu jinsi ya kusasisha.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Zote</strong> programu zina toleo linalooana kwa toleo hili la Nextcloud linalopatikana.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> programu hazina toleo linalooana la toleo hili la Nextcloud linalopatikana."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Kwa matumizi ya biashara. Hutoa kiwango cha hivi punde zaidi cha kiraka, lakini haitasasishwa hadi toleo kuu linalofuata mara moja. Sasisho hilo hufanyika mara tu Nextcloud GmbH imefanya ugumu zaidi na majaribio kwa uwekaji wa kiasi kikubwa na muhimu wa dhamira. Kituo hiki kinapatikana kwa wateja pekee na hutoa kifurushi cha Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} inapatikana. Pata maelezo zaidi kuhusu jinsi ya kusasisha."
 },
 "nplurals=2; plural=(n != 1);");

@@ -63,9 +63,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "هل ترغب في إضافة مُشاركة بعيدة remote ـ {name} من {owner}@{remote}؟",
     "Remote share password" : "كلمة مرور المشاركة البعيدة remote",
     "Incoming share could not be processed" : "لا يمكن معالجة المشاركة الواردة",
-    "Cloud ID copied to the clipboard" : "تمّ نسخ مُعرِّف السحابة إلى الحافظة",
-    "Copy to clipboard" : "نسخ الرابط",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "يُمكنك المشاركة مع أي شخص يستخدم خادم نكست كلاود أو خوادم وخدمات أخرى متوافقة مع بروتوكول Open Cloud Mesh (OCM)! فقط ضع مُعرّف السحابة الاتحادية في مربع حوار المُشاركة؛ و الذي سيكون شكله على هذا النسق: person@cloud.example.com",
     "X (formerly Twitter)" : "منصة X (تويتر سابقاً)",
     "formerly Twitter" : "تويتر سابقاً"
 },

@@ -65,9 +65,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалений каталог {name} з {owner}@{remote}?",
     "Remote share password" : "Пароль для віддаленого каталогу",
     "Incoming share could not be processed" : "Неможливо обробити вхідну частку",
-    "Cloud ID copied to the clipboard" : "Cloud ID скопійовано до буфера обміну",
-    "Copy to clipboard" : "Копіювати до буфера обміну",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Ви можете надати у спільним доступ ваші файли будь-кому, хто використовує сервер Nextcloud або інші сервери та служби, що є сумісні з Open Cloud Mesh (OCM). Для цього зазначте ідентифікатор об'єднаної хмари у діалоговому вікні спільного доступу у форматі person@cloud.example.com",
     "X (formerly Twitter)" : "X (раніше відома як Twitter)",
     "formerly Twitter" : "раніше відома як Twitter"
 },

@@ -114,8 +114,6 @@
     "Background and login image" : "صورة الخلفية و تسجيل الدخول",
     "Advanced options" : "الخيارات المتقدمة",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "قم بتثبيت ImageMagick و التي هي امتداد لـ PHP مع دعم صور SVG لإنشاء الرموز المفضلة تلقائيًا بناءً على الشعار واللون اللذيْن تمّ تحميلهما.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "الوصول الشامل مهم جدا بالنسبة لنا. نحن نتبع معايير ويب صارمة ونتأكد من أن كل شيء يمكن إستعماله حتى دون الحاجة للفأرة أو إلى أي برامج مساعدة مثل برامج قراءة الشاشة. هدفنا أن نكون متوافقين مع {guidelines} توجيهات تسهيل إستعمال محتوى الويب {linkend} 2.1 بمستوى AA، ومتوافقين مع مظهر تباين الألوان العالي بمستوى يصل حتى إلى AAA.",
-    ". Unable to apply the setting." : ". غير قادر على تطبيق الإعداد.",
     "No background has been selected" : "لم يتم اختيار أي خلفية بعد",
     "Select a custom color" : "إختر لوناً مُخصّصاً",
     "Upload" : "تحميل"

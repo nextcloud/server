@@ -169,13 +169,8 @@ OC.L10N.register(
     "Unauthorized" : "Nepovolené",
     "Network error" : "Chyba siete",
     "Grant access" : "Povoliť prístup",
-    "Error configuring OAuth1" : "Chyba konfigurovania OAuth1",
-    "Please provide a valid app key and secret." : "Zadajte prosím platný aplikačný kľúč a heslo (secret).",
     "Error configuring OAuth2" : "Chyba konfigurovania OAuth2",
     "%s" : "%s",
-    "OAuth1" : "OAuth1",
-    "App key" : "Kľúč aplikácie",
-    "App secret" : "Heslo aplikácie",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Heslo klienta",
@@ -190,7 +185,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Neznámy backend: {backendName}",
     "Admin defined" : "Nastavené správcom",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatická kontrola stavu je zakázaná z dôvodu veľkého počtu nakonfigurovaných úložísk, kliknutím skontrolujte stav",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Naozaj chcete odpojiť toto externé úložisko? Úložisko bude nedostupné v Nextcloud a povedie k vymazaniu súborov a priečinkov na akomkoľvek synchronizovanom klientovi, ktorý je aktuálne pripojený, ale neodstráni žiadne súbory a priečinky na samotnom externom úložisku.",
+    "Are you sure you want to disconnect this external storage?" : "Naozaj chcete odpojiť tento externý úložný priestor?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Spôsobí, že úložisko v {instanceName} bude nedostupné a vedie k vymazaniu týchto súborov a priečinkov na akomkoľvek synchronizačnom klientovi, ktorý je aktuálne pripojený, ale nevymaže žiadne súbory a priečinky na samotnom externom úložisku.",
     "Delete storage?" : "Zmazať externé úložisko?",
     "Click to recheck the configuration" : "Kliknite na opätovnú kontrolu konfigurácie",
     "Saving …" : "Ukladá sa...",
@@ -202,8 +198,6 @@ OC.L10N.register(
     "Configuration" : "Nastavenia",
     "Available for" : "K dispozícii pre",
     "All people" : "Všetci ľudia",
-    "Advanced settings" : "Rozšírené nastavenia",
-    "Are you sure you want to disconnect this external storage?" : "Naozaj chcete odpojiť tento externý úložný priestor?",
-    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Spôsobí, že úložisko v {instanceName} bude nedostupné a vedie k vymazaniu týchto súborov a priečinkov na akomkoľvek synchronizačnom klientovi, ktorý je aktuálne pripojený, ale nevymaže žiadne súbory a priečinky na samotnom externom úložisku."
+    "Advanced settings" : "Rozšírené nastavenia"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

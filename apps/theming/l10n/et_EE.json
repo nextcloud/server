@@ -128,8 +128,6 @@
     "Background and login image" : "Taustapilt ja sisselogimise pilt",
     "Advanced options" : "Täpsemad valikud",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda PHP Imagemagicku lsiamoodul SVG piltide toega, et üleslaaditud logo ja värvi põhjal luua automaatselt favikone. ",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universaalne juurdepääs on meie jaoks väga oluline. Me järgime veebistandardeid ja kontrollime, et kõik oleks kasutatav ka ilma hiireta ja abitarkvara, näiteks ekraani lugejateta. Meie eesmärk on olla vastavuses {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA-tasemel, kõrge kontrastsusega kujunduse puhull isegi AAA-tasemel. ",
-    ". Unable to apply the setting." : ". Seadistuse rakendamine pole võimalik.",
     "No background has been selected" : "Ühtegi tausta pole valitud",
     "Select a custom color" : "Vali oma eelistatud värv",
     "Upload" : "Laadi üles"

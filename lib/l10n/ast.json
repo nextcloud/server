@@ -211,7 +211,6 @@
     "Target language" : "Llingua de destín",
     "Result" : "Resultáu",
     "Summarizes text by reducing its length without losing key information." : "Resume'l testu amenorgando la so llongura ensin perder la información importante.",
-    "Extracts topics from a text and outputs them separated by commas." : "Estrái temes d'un testu y devuélvelos separtaos per comes.",
-    "Organisation" : "Organización"
+    "Extracts topics from a text and outputs them separated by commas." : "Estrái temes d'un testu y devuélvelos separtaos per comes."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
